@@ -1,0 +1,44 @@
+﻿Build started 27.08.2016 17:25:09.
+     1>Project "D:\projekty\linuch\Elten-client\core+\Launcher\Launch\Launch.vcxproj" on node 2 (Build target(s)).
+     1>PreBuildEvent:
+         makeversion.exe /inc2 mver.h
+         rc.exe /l 0x409 /fo"Release/launch.res" /d "NDEBUG" "launch.rc"
+         :VCEnd
+         Microsoft (R) Windows (R) Resource Compiler Version 6.3.9600.17298
+         
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D _MBCS /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc120.pdb" /Gd /TC /analyze- /errorReport:prompt ..\..\elten.c ..\..\main.c ..\..\minIni.c
+         elten.c
+     1>..\..\elten.c(62): warning C4133: 'function' : incompatible types - from 'LPWSTR' to 'LPCSTR'
+     1>..\..\elten.c(70): warning C4047: 'function' : 'wchar_t *' differs in levels of indirection from 'wchar_t'
+     1>..\..\elten.c(70): warning C4024: 'sayString' : different types for formal and actual parameter 1
+         main.c
+         minIni.c
+       ResourceCompile:
+         C:\Program Files (x86)\Windows Kits\8.1\bin\x86\rc.exe /l"0x0409" /nologo /fo"Release\launch.res" launch.rc 
+       PreLinkEvent:
+         makeversion.exe /inc mver.h
+         rc.exe /l 0x409 /fo"Release/launch.res" /d "NDEBUG" "launch.rc"
+         :VCEnd
+         Microsoft (R) Windows (R) Resource Compiler Version 6.3.9600.17298
+         
+         Copyright (C) Microsoft Corporation.  All rights reserved.
+         
+         
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"D:\projekty\linuch\Elten-client\core+\Launcher\Release\Launch.exe" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:\projekty\linuch\Elten-client\core+\Launcher\Release\Launch.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\projekty\linuch\Elten-client\core+\Launcher\Release\Launch.lib" /MACHINE:X86 /SAFESEH Release\launch.res
+         Release\elten.obj
+         Release\main.obj
+         Release\minIni.obj
+         Generating code
+     1>d:\projekty\linuch\elten-client\core+\elten.c(66): warning C4716: 'rbprint' : must return a value
+         Finished generating code
+         Launch.vcxproj -> D:\projekty\linuch\Elten-client\core+\Launcher\Release\Launch.exe
+     1>Done Building Project "D:\projekty\linuch\Elten-client\core+\Launcher\Launch\Launch.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.47
