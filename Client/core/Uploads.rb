@@ -76,8 +76,8 @@ class Scene_Uploads
              break
              end
            end
-           $dialogvoice.pause
-                    play("menu_close")
+                               play("menu_close")
+                               Audio.bgs_stop
          end
        case d
        when 0
@@ -94,7 +94,8 @@ class Scene_Uploads
          dialog_open
       speech("Plik: #{@filenames[@sel.index]}")
       speech_wait
-            stream = AudioFile.new($url+"uploads/"+@files[@sel.index])
+      $dialogvoice.pause      
+      stream = AudioFile.new($url+"uploads/"+@files[@sel.index])
 stream.play            
       loop do
         loop_update
@@ -125,9 +126,9 @@ stream.play
              break
              end
            end
-           $dialogvoice.pause
-                    play("menu_close")
-                case d
+                               play("menu_close")
+                Audio.bgs_stop
+                               case d
        when 0
          dir = input_text("Podaj ścieżkę, w której chcesz zapisać ten plik","ACCEPTESCAPE",getdirectory(5))
        if dir == "\004ESCAPE\004"
@@ -142,6 +143,7 @@ stream.play
          dialog_open
       speech("Plik: #{@filenames[@sel.index]}")
       speech_wait
+      $dialogvoice.pause      
             stream = AudioFile.new($url+"uploads/"+@files[@sel.index])
 stream.play            
       loop do

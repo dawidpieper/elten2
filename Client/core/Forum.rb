@@ -472,7 +472,7 @@ sel = [author,"Nowy wpis","Odpowiedz z cytatem","Edytuj wpis", "Przejdź do osta
 @menu = SelectLR.new(sel)
 @menu.disable_item(0) if $postcur >= $post.size
 @menu.disable_item(2) if $postcur >= $post.size
-@menu.disable_item(3) if ($postauthorname[$postcur] != $name and $rang_moderator != 1) or $postcur >= $post.size
+@menu.disable_item(3) if ($postauthorname[$postcur].delete("\r\n") != $name and $rang_moderator != 1) or $postcur >= $post.size
 @menu.disable_item(5) if @knownposts > $post.size - 1 or @knownposts == -1
 @menu.disable_item(7) if $postcur >= $post.size or $rang_moderator <= 0
 @menu.update

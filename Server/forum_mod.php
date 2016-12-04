@@ -57,7 +57,7 @@ die;
 }
 }
 if($_GET['edit'] == 1) {
-$zapytanie = "SELECT `id`, `author` FROM `forum_posts` WHERE `thread`=".$_GET['threadid']."`";
+$zapytanie = "SELECT `id`, `author` FROM `forum_posts` WHERE `id`=".$_GET['postid']."`";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1";

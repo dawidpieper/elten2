@@ -2043,7 +2043,7 @@ end
       def readini(file,group,key,default="\0")
         default = default.to_s if default.is_a?(Integer)
         r = "\0" * 16384
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call(group,key,default,r,r.size,file)
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call(group,key,default,r,r.size,utf8(file))
     r.delete!("\0")
     return r.to_s    
   end
@@ -2237,7 +2237,7 @@ def getdirectory(type)
   dr = "\0" * 1024
   Win32API.new("shell32","SHGetFolderPath",'iiiip','i').call(0,type,0,0,dr)
   dr.delete!("\0")
-  return (dr)
+  return futf8(dr)
 end
 
 def preproc(string,dir=".")
