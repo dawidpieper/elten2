@@ -31,7 +31,7 @@ class Scene_Loading
         $wnd = $cwnd
         end
       end
-      writefile("hwnd",$wnd.to_s)
+            writefile("hwnd",$wnd.to_s)
     $sprite = Sprite.new
     $sprite.bitmap = Bitmap.new("elten.jpg")
     Graphics.freeze
@@ -40,7 +40,7 @@ class Scene_Loading
     $token = ""
     $url = "https://elten-net.eu/"
     $srv = "elten-net.eu"
-Graphics.frame_rate = 120
+Graphics.frame_rate = 60
               $appdata = getdirectory(26)
 $userprofile = getdirectory(40)
 $eltendata = $appdata + "\\elten"
@@ -88,13 +88,17 @@ end
       end  
       version = readini(".\\elten.ini","Elten","Version",0).to_f
                 beta = readini(".\\elten.ini","Elten","Beta","0").to_i
-      isbeta = readini(".\\elten.ini","Elten","IsBeta","0").to_i
-                nversion = readini($bindata + "\\newest.ini","Elten","Version","0").to_f
+                      isbeta = readini(".\\elten.ini","Elten","IsBeta","0").to_i
+alpha = readini(".\\elten.ini","Elten","Alpha","0").to_i
+                      nversion = readini($bindata + "\\newest.ini","Elten","Version","0").to_f
                     nbeta = readini($bindata + "\\newest.ini","Elten","Beta",0).to_i
+                    nalpha = readini($bindata + "\\newest.ini","Elten","Alpha",0).to_i
         $beta = beta
+        $alpha = alpha
     $version = version
     $isbeta = isbeta
     $nbeta = nbeta
+    $nalpha = nalpha
     $nversion = nversion
         if $showm == nil and $interface_fullscreen == 1
     $showm = Win32API.new 'user32', 'keybd_event', %w(l l l l), ''
@@ -107,7 +111,8 @@ $showm.call(18,0,2,0)
     speech_stop
     startmessage = "ELTEN: " + $version.to_s
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
-$voice = 0
+startmessage += " ALFA #{$alpha.to_s}" if $isbeta == 2
+    $voice = 0
             $playlist = []
 $playlistindex = 0
 $start = Time.now.to_i
@@ -148,7 +153,8 @@ if Win32API.new($eltenlib,"KeyState",'i','i').call(0x72) > 0
   Graphics.update  
   Graphics.update
   play("login")
-  speech("ELTEN")
+    speech("ELTEN")
+    Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
 end
 if $name != "" and $name != nil and $token != nil and $token != ""
   if Win32API.new($eltenlib,"KeyState",'i','i').call(0x78) > 0
@@ -342,7 +348,7 @@ end
       end  
 loop_update
       $speech_wait = true
-        if (nversion > version) and $denyupdate != true
+        if ((nversion > version)) and $denyupdate != true
       $scene = Scene_Update_Confirmation.new
       return
     end

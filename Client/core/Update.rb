@@ -6,18 +6,25 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Update_Confirmation
+  def initialize(toscene=nil)
+    @toscene = toscene
+    end
   def main
     msg = "Dostępna jest nowa wersja programu. Czy chcesz ją pobrać i zainstalować?"
     if $nversion <= $version
+      if $nbeta > $beta
     msg = "Dostępna jest nowa wersja beta programu. Czy chcesz ją pobrać i zainstalować?"
+  elsif $nalpha > $alpha
+    msg = "Dostępna jest nowa wersja alpha programu. Czy chcesz ją pobrać i zainstalować?"
+    end
   end
                case simplequestion(msg)
         when 0
           if $preinitialized != true
           $denyupdate = true
-          $scene = Scene_Loading.new
-        else
-          $scene = Scene_Main.new
+                            else
+          $denyupdate = true
+                              $scene = Scene_Main.new
           end
           when 1
             if $nversion <= $version
@@ -26,6 +33,7 @@ class Scene_Update_Confirmation
           $denyupdate = true
           $scene = Scene_Loading.new
         else
+          $denyupdate = true
           $scene = Scene_Main.new
         end
         return

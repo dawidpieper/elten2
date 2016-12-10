@@ -67,7 +67,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
   File.delete("agent_output.tmp") if FileTest.exists?("agent_output.tmp")
   $exit = true
     exit
-        rescue Hangup
+            rescue Hangup
   Graphics.update
   $toscene = true
   retry

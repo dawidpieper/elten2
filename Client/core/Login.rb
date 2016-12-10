@@ -70,6 +70,7 @@ password = password.gsub("z`","ż")
   end
   ver = $version.to_s
   ver += " BETA" if $isbeta == 1
+  ver += " ALPHA" if $isbeta == 2
     logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password}\&version=#{ver.to_s}\&beta=#{$beta.to_s}")
     if logintemp.size > 1
   $token = logintemp[1] if logintemp.size > 1

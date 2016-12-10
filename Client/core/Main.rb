@@ -13,7 +13,7 @@ loop_update
                   t.exit
                   end
             if $preinitialized == false
-                    apps = srvproc("apps","name=#{$name}\&token=#{$token}\&list=1")
+                                  apps = srvproc("apps","name=#{$name}\&token=#{$token}\&list=1")
         appname = []
     appversion = []
     appdescription = []
@@ -62,7 +62,11 @@ loop_update
       $playlist = [] if $playlist == nil
       end
             $playlistindex = 0 if $playlistindex == nil
-whatsnew(true)
+            if (($nbeta > $beta) and $isbeta>0) and $denyupdate != true
+      $scene = Scene_Update_Confirmation.new($scene)
+      return
+    end
+            whatsnew(true)
       return
       end
     $speech_lasttext = ""

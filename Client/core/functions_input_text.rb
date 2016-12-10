@@ -883,6 +883,7 @@ elsif @index != @eindex or @line != @eline
 end
     end
     if $key[0x2E]
+      if $key[0x11] == false
       gc = getcheck
       if @index == @eindex and @line == @eline
   if @index < @text[@line].size
@@ -924,6 +925,15 @@ elsif @index != @eindex or @line != @eline
   if @text[@line] != nil
   espeech(@text[@line][@index]) if (@text[@line][@index] != nil)
   end
+end
+else
+  @text = []
+  @lines = 0
+  @text[0] = []
+  @line = 0
+  @index = 0
+  @eindex = 0
+  play("edit_delete")
 end
 end
     #*

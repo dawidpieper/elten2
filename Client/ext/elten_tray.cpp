@@ -14,12 +14,12 @@ cond++;
  cond++;
  if(GetAsyncKeyState(0x12))
  cond++;
-  if(GetAsyncKeyState(69))
+  if(GetAsyncKeyState(84))
   cond++;
   if(cond == 4) {
-  	  ShowWindow(ewnd,SW_SHOW);
-SetForegroundWindow(ewnd);
-				SetActiveWindow(ewnd);
+  	  ShowWindow(ewnd,1);
+  	  ShowWindow(ewnd,2);
+		ShowWindow(ewnd,3);
 				SetFocus(ewnd);
 NOTIFYICONDATA nid;
 nid.cbSize = sizeof( NOTIFYICONDATA );

@@ -101,6 +101,7 @@ loop_update
           when 1
             startmessage = "ELTEN: " + $version.to_s
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
+    startmessage += " ALFA #{$alpha.to_s}" if $isbeta == 2
     speech(startmessage)
             speech_wait
           close
@@ -248,7 +249,7 @@ close
         end
           def myaccount
     Graphics.transition(10)
-    @sel = SelectLR.new(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja &wizytówka","Zmień &Hasło","Zmień adres e-&mail"])
+    @sel = SelectLR.new(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja &wizytówka","Udostępnione przeze mnie &pliki","Zmień &Hasło","Zmień adres e-&mail"])
     loop do
 loop_update
       @sel.update
@@ -276,11 +277,15 @@ loop_update
             $scene = Scene_Account_VisitingCard.new
             close
             break
-              when 4
+            when 4
+              $scene = Scene_Uploads.new
+              close
+              break
+            when 5
           $scene = Scene_Account_Password.new
           close
           break
-        when 5
+        when 6
           $scene = Scene_Account_Mail.new
           close
           break

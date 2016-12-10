@@ -14,6 +14,7 @@ class Scene_Tray
   Graphics.update
   play("login")
   speech("ELTEN")
+  Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
   $scene = Scene_Main.new
   end
   end
