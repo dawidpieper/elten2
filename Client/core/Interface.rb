@@ -7,9 +7,7 @@
 
 class Scene_Interface
   def main
-                speech("Ustawienia interfejsu")
-    speech_wait
-        @field = []
+                        @field = []
     @field[0] = Select.new(["Liniowy","Kołowy"],true,0,"Sposób wyświetlania list wyboru",true)
     @field[1] = Edit.new("Czas odświerzania stanu klawiszy (ms) (Uwaga! Nie zaleca się zmiany tej wartości!)","","",true)
     @field[2] = CheckBox.new("Odtwarzaj dźwięki tematu dźwiękowego")

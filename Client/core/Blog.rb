@@ -506,7 +506,7 @@ if pc[0].to_i < 0
   end
 postname = pc[1].delete("\r\n")
 comm = pc[2].to_i
-  @fields = [Edit.new("Tytuł wpisu","",postname,true),Edit.new("Treść wpisu","MULTILINE",$posttext[0].delline(2),true),Select.new(categorynames,true,0,"Przypisz do kategorii",true,true),Button.new("Zapisz"),Button.new("Anuluj")]
+  @fields = [Edit.new("Tytuł wpisu","",postname,true),Edit.new("Treść wpisu","MULTILINE",$posttext[0].delline(1)+"\004LINE\004",true),Select.new(categorynames,true,0,"Przypisz do kategorii",true,true),Button.new("Zapisz"),Button.new("Anuluj")]
 for i in 3..comm+2
   c = pc[i].to_i
     for j in 0..categoryids.size-1

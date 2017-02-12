@@ -84,5 +84,20 @@ def rdelete!(i)
     end.tr(' ', '+')
     return r
   end
+    def urldec
+    string = self+""
+    r=string
+    o=""
+    while r != o
+      o=r
+          r = string.gsub(/%([a-fA-F0-9][a-fA-F0-9])/) do |m|
+      s="\0"
+      s[0]=m[1..2].to_i(16)
+      s
+    end.tr('+', ' ')
+string=r
+    end
+    return    r
+    end
 end
 #Copyright (C) 2014-2016 Dawid Pieper

@@ -410,11 +410,16 @@ Wersja 1.398:
 Poprawki
 
 2016-11-19
+","
+Wersja 1.399:
+Zmiany pozwalające na aktualizację do przyszłej wersji 2.0
+
+2016-12-22
 "]
 @changes.reverse!
 @selt = []
 for i in 0..@changes.size - 1
-  @selt.push(strbyline(@changes[i])[1].delete(":"))
+  @selt.push(strbyline(@changes[i])[1].delete(":").sub("Wersja ","Elten "))
   end
 @sel = Select.new(@selt,true,0,"Lista zmian")
 loop do

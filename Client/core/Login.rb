@@ -12,30 +12,22 @@ class Scene_Login
     autologin = readini($configdata + "\\login.ini","Login","AutoLogin",0).to_i
             if autologin.to_i <= 0
     while name == ""
-    name = input_text("Login:")
+    name = input_text("Login:","ACCEPTESCAPE")
   end
-    name.gsub(".") do
-    speech("Nazwa użytkownika nie może zawierać kropek. Znak zostanie pominięty.")
-    speech_wait
-  end
-    name.gsub("/") do
-    speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
-    speech_wait
-  end
-    name.gsub("\\") do
-    speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
-    speech_wait
-  end
-    name.gsub(" ") do
+            name.gsub(" ") do
     speech("Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty.")
     speech_wait
   end
-        name.gsub("-") do
-    speech("Nazwa użytkownika nie może zawierać myślników. Znak zostanie pominięty.")
+  name.gsub("/") do
+    speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
     speech_wait
   end
-  name.delete!("./ -")
+  name.delete!("/ ")
   name.delete!("\\")
+  if name == "\004ESCAPE\004"
+    $scene = Scene_Loading.new
+    return
+    end
   while password == ""
     password = input_text("Hasło:","password")
   end
@@ -71,11 +63,12 @@ password = password.gsub("z`","ż")
   ver = $version.to_s
   ver += " BETA" if $isbeta == 1
   ver += " ALPHA" if $isbeta == 2
-    logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password}\&version=#{ver.to_s}\&beta=#{$beta.to_s}")
+      logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password}\&version=#{ver.to_s}\&beta=#{$beta.to_s}")
     if logintemp.size > 1
   $token = logintemp[1] if logintemp.size > 1
   $token.delete!("\r\n")
-  $event = logintemp[2] if logintemp.size > 2
+  $event = logintemp[2]
+  $greeting = logintemp[3]
   $name = name
   end
 case logintemp[0].to_i
@@ -143,11 +136,16 @@ if $speech_wait == true
   speech_wait
   end
 play("login")
-  speech("Zalogowany jako: " + name)
+if $greeting == "" or $greeting == "\r\n" or $greeting == nil or $greeting == " "
+speech("Zalogowany jako: " + name)
+else
+  speech($greeting)
+  end
   $name = name
   $token = logintemp[1]
   $token.delete!("\r\n")
-  $event = logintemp[2] if logintemp.size > 2
+  $event = logintemp[2]
+  $greeting = logintemp[3]
   when -1
     Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","0",$configdata + "\\login.ini")
     speech("Wystąpił błąd operacji w bazie danych.")

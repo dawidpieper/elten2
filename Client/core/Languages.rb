@@ -76,13 +76,43 @@ lng = @langs_f[@sel.index - 1]
 lng = lng.sub(".elg","")
                    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('Language','Language',lng,$configdata + "\\language.ini") 
+$language = lng
+if $language.upcase != "PL_PL"
+  $lang_src = []
+      $lang_dst = []
+    if $language != "PL_PL"
+      $langwords = readlines($langdata + "\\" + $language + ".elg")
+                          for i in 0..$langwords.size - 1
+        $langwords[i].delete!("\n")
+        $langwords[i].gsub!('\r\n',"\r\n")
+        s = false
+        $lang_src[i] = ""
+        $lang_dst[i] = ""
+        for j in 0..$langwords[i].size - 1
+          if s == false
+            if $langwords[i][j..j] != "|" and $langwords[i][j..j] != "\\"
+            $lang_src[i] += $langwords[i][j..j]
+          else
+            s = true
+          end
+        else
+          if $langwords[i][j..j] != "|" and $langwords[i][j..j] != "\\"
+            $lang_dst[i] += $langwords[i][j..j]
+            end
+            end
+          end
+      end
+end
+end                
 speech("Zapisano.")
-$scene = Scene_Loading.new
 elsif @sel.index == 0
                    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('Language','Language',"PL_PL",$configdata + "\\language.ini") 
-  $scene = Scene_Loading.new
-elsif @sel.index == @selt.size - 1
+  $language = "PL_PL"
+  $lang_src = []
+  $lang_dst = []
+speech("Zapisano")
+  elsif @sel.index == @selt.size - 1
   langtemp = srvproc("languages","")
     err = langtemp[0].to_i
   case err

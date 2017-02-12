@@ -7,7 +7,7 @@
 
 class Scene_License
   def main
-    $exit = true
+        $exit = true
     license(true)
     $exit = nil
     $scene = Scene_Main.new

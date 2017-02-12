@@ -50,11 +50,11 @@ class Scene_Messages
            $message[id] = "" if $message[id] == nil
                              $message[id] += $msg[l] if $msg[l] != nil
                   elsif t == 2
-                      $subject[id] = $msg[l]
+                      $subject[id] = $msg[l].delete("\r\n")
          elsif t == 3
-           $sender[id] = $msg[l]
+           $sender[id] = $msg[l].delete("\r\n")
          elsif t == 4
-           $id[id] = $msg[l]
+           $id[id] = $msg[l].delete("\r\n")
          end
          l += 1
        end

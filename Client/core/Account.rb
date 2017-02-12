@@ -298,5 +298,66 @@ when 0
 end
 dialog_close    
 end
+end
+
+class Scene_Account_Greeting
+  def main
+    dialog_open
+            gt = srvproc("greetings","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
+        err = gt[0].to_i
+    case err
+    when -1
+      speech("Błąd połączenia się z bazą danych.")
+      speech_wait
+      $scene = Scene_Main.new
+      return
+      when -2
+        speech("Klucz sesji wygasł.")
+        speech_wait
+        $scene = Scene_Loading.new
+        return
+      end
+      text = ""
+      for i in 1..gt.size - 1
+        text += gt[i]
+      end
+@form = Form.new([Edit.new("Twoja wiadomość powitalna:","",text,true),Button.new("Zapisz"),Button.new("Anuluj")])
+greeting = ""
+loop do
+  loop_update
+  @form.update
+  if escape or ((enter or space) and @form.index == 2)
+    greeting = "\004ESCAPE\004"
+    break
+  end
+  if (enter) or ((space or enter) and @form.index == 1)
+    greeting = @form.fields[0].text_str
+    break
+    end
+  end
+      if greeting == "\004ESCAPE\004" or greeting == "\004TAB\004"
+        dialog_close
+        $scene = Scene_Main.new
+        return
+      end
+buf = buffer(greeting)
+      gt = srvproc("greetings","name=#{$name}\&token=#{$token}\&buffer=#{buf}\&set=1")
+err = gt[0].to_i
+case err
+when 0
+  speech("Zapisano.")
+  speech_wait
+  $scene = Scene_Main.new
+  when -1
+    speech("Błąd połączenia się z bazą danych.")
+    speech_wait
+    $scene = Scene_Main.new
+    when -2
+      speech("Klucz sesji wygasł.")
+      speech_wait
+      $scene = Scene_Loading.new
+end
+dialog_close    
+end
   end
 #Copyright (C) 2014-2016 Dawid Pieper

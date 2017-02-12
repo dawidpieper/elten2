@@ -86,7 +86,24 @@ speech_wait
 Audio.bgm_fade(5000)
 for i in 1..40*5
   Graphics.update
+end
+when 7
+  Audio.bgm_play("Audio/BGM/SINI.mid",80,100)
+txt = ""
+if $language == "PL_PL"
+  txt = "Drodzy użytkownicy!\r\nDziękuję wam, że dzięki waszej obecności ta społeczność żyje. Nawet, jeśli tak nas tu niewielu, coś tu się pojawia, widać tą aktywność na forach. Za to wszystko dziękuję.\r\nElten działa już od ponad dwóch lat.\r\nNie jest to może jakoś strasznie dużo, ale to i tak są ponad dwa lata, wiek, który robi wrażenie, przede wszystkim na mnie. :)\r\nChciałbym wam życzyć zdrowych, wesołych, spokojnych i rodzinnych Świąt Bożego Narodzenia.\r\nNiech narodzony Jezus zamieszka w waszych domach i sercach, daje wam dużo radości i miłości!\r\nA ten nowy rok, 2017, niech tylko będzie lepszy od wszystkiego, co was dotąd spotkało, dodanego do siebie i podniesionego do kwadratu. :)\r\nTradycją jest, by co roku na święta dawać ludziom prezenty. Dwa lata dla programu minęły i dwa lata tej tradycji przestrzegałem. Jak mógłbym więc postąpić tym razem inaczej?\r\nZajrzyjcie na forum PL_ELTEN, kto wie... Może coś tam znajdziecie na temat tegorocznego prezentu?\r\nW imieniu całej administracji Elten Network, Dawid Pieper"
+else
+  txt = "Dear users!\r\nI would like to wish you healthy, happy, peaceful and family Christmas. \r\nLet the born Jesus dwell in your homes and hearts, giving you a lot of joy and love!\r\nAnd this new year 2017, let be better than everything you've experienced, summed and squared. :)\r\nOn behalf of the entire administration Network Elten, David Pieper"
+end
+for i in 1..Graphics.frame_rate * 5
+  loop_update
   end
+speech(txt)
+speech_wait
+Audio.bgm_fade(5000)
+for i in 1..40*5
+  Graphics.update
+end
 end
     $scene = Scene_Main.new
   end

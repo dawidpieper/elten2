@@ -31,14 +31,16 @@ class Scene_Files
         end
       end
   end
-  def main
+  def main(disk="")
         if @startpath != false
       sp = @startpath
       @startpath = false      
       files(sp)
       return
       end
-        @sel = Select.new(@disks)
+      index=0
+      index= @disks.find_index(disk) if disk!=""
+      @sel = Select.new(@disks,true,index,"")
     loop do
 loop_update
       @sel.update
@@ -54,7 +56,7 @@ loop_update
       end
       if enter or Input.trigger?(Input::RIGHT)
                 if Win32API.new($eltenlib,"FilesInDir",'p','p').call(@disks[@sel.index]) != "|||"
-        @sd += 1
+        @sd = 1
         files(@disks[@sel.index])
       else
         speech("Ten dysk nie jest w tej chwili dostępny.")
@@ -88,8 +90,37 @@ loop_update
         @files.delete("..")
         for i in 0..@files.size-1
           @files[i]=utf8(@files[i])
+        end
+        @fileshorts = []
+        for fi in 0..@files.size-1
+          f = @files[fi]+""
+          b = f+""
+          for i in 0..f.size-1
+            f[i]=0 if f[i]>127
           end
-                                index = -1
+          if f == b
+            @fileshorts.push(b)
+            else
+          for i in 0..f.size-1
+            f[i]=0 if i>6
+          end
+          f.delete!("\0")
+          s = true
+          i = 0
+          while s
+            i += 1
+            if @fileshorts.include?(f+"~"+i.to_s) == false
+              a = ""
+              if FileTest.exists?(path+"\\"+f+"~"+i.to_s) == false
+                a += File.extname(b)
+                end
+              @fileshorts.push(f+"~"+i.to_s+a)
+              s = false
+              end
+          end
+        end
+        end
+                                        index = -1
         for i in 0..@pathes_a.size - 1
           if @pathes_a[i] == $path
             index = @pathes_b[i]
@@ -145,9 +176,10 @@ end
        @sel = Select.new(["..","..","..",".."]) if @sel == nil
        if @files != nil and @files[0] == nil
          @files[0] = ".."
-         end
-       if Win32API.new($eltenlib,"FilesInDir",'p','p').call(nm = @path + "\\" + @files[@sel.index]) != "|||"
-         indx = 0
+       end
+       flindex = @fileshorts[@sel.index]
+                                          if File.directory?(nm = @path + flindex) == true
+                  indx = 0
          if enter
            sel = SelectLR.new(["Otwórz ten folder","Dodaj wszystkie nagrania z tego folderu do playlisty","Anuluj"])
            loop do
@@ -177,7 +209,7 @@ end
             @pathes_b.push(@sel.index)
             end
          @sd += 1
-         files(@path + "\\" + @files[@sel.index])
+         files(@path + "\\" + flindex)
          return
          when 1
            @audiosearchresults = []
@@ -203,7 +235,7 @@ if ext == ".OGG" or ext == ".ogg" or ext == ".mp3" or ext == ".MP3" or ext == ".
   if enter
     case sel.index
     when 0
-    Audio.me_play(nm,100,100)
+    Audio.me_play(@path+@files[@sel.index],100,100)
   if (wnd = Win32API.new("user32","GetActiveWindow",'v','i').call()) != $wnd
     cls = "\0" * 256
     Win32API.new("user32","GetClassName",'ipi','i').call(wnd,cls,cls.size)
@@ -224,7 +256,21 @@ if ext.downcase == ".txt"
 text = futf8(readfile(nm))
 play("edit_space")
 speech(text)
+end
+if ext.downcase == ".eapi"
+scr=read(nm)
+if simplequestion("Czy chcesz załadować ten plik skryptu EltenAPI? Nienależy uruchamiać skryptów pochodzących z niezaufanych źródeł.") == 1
+  eval(futf8(scr))
+  speech_wait
+  speech("Interpretacja skryptu zakończona.")
+end
+end
+if ext.downcase == ".rb"
+scr=read(nm)
+if simplequestion("Czy chcesz załadować ten plik skryptu Ruby? Skrypty Ruby mogą być niekompatybilne z EltenAPI. Czy chcesz spróbować mimo to? Nienależy uruchamiać skryptów pochodzących z niezaufanych źródeł.") == 1
+  eval(scr)
   end
+end
          end
        end
        if $key[115] == true
@@ -248,7 +294,7 @@ speech(text)
             break
             end
           end
-         main
+         main(@path[0..1])
          return
          end
        end
@@ -269,7 +315,7 @@ case @menu.index
 when 0
 system(cmd = "start #{$path}#{@files[@sel.index]}")
 when 1
- cod = sendfile("#{$path}#{@files[@sel.index]}")
+ cod = sendfile(@path+futf8(@files[@sel.index]))
  if cod.is_a?(String)
    speech("Wysłano.")
    speech_wait
@@ -338,7 +384,7 @@ end
 break
 end
 end
-when 5
+when 6
   name = ""
   while name == ""
   name = input_text("Podaj nazwę tworzonego katalogu")
@@ -352,11 +398,11 @@ Win32API.new("kernel32","CreateDirectory",'pp','i').call($path + name,nil)
 speech("Wykonano.")
 speech_wait
 @reset = true
-when 6
+when 7
   $playlist = []
   $playlistindex = 0
   speech("Playlista wyczyszczona")
-when 7
+when 8
 $scene = Scene_Main.new
 end
 break

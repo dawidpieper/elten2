@@ -249,7 +249,7 @@ close
         end
           def myaccount
     Graphics.transition(10)
-    @sel = SelectLR.new(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja &wizytówka","Udostępnione przeze mnie &pliki","Zmień &Hasło","Zmień adres e-&mail"])
+    @sel = SelectLR.new(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość p&owitalna","Moja &wizytówka","Udostępnione przeze mnie &pliki","Zmień &Hasło","Zmień adres e-&mail"])
     loop do
 loop_update
       @sel.update
@@ -273,19 +273,23 @@ loop_update
           $scene = Scene_Account_Signature.new
           close
           break
-              when 3
+          when 3
+                        $scene = Scene_Account_Greeting.new
+            close
+            break
+          when 4
             $scene = Scene_Account_VisitingCard.new
             close
             break
-            when 4
+            when 5
               $scene = Scene_Uploads.new
               close
               break
-            when 5
+            when 6
           $scene = Scene_Account_Password.new
           close
           break
-        when 6
+        when 
           $scene = Scene_Account_Mail.new
           close
           break
@@ -395,7 +399,7 @@ for i in 1..Graphics.frame_rate
               if $runprogram != nil
                                             if $appstart[$runprogram] != nil
                 $scene = $appstart[$runprogram].new
-                              else
+              else
                 speech("Błąd")
                 speech_wait
                                 end

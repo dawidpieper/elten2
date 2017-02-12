@@ -7,11 +7,11 @@
 
 class Scene_Forum
   def initialize(index=0)
-    @index = index
+    @iindex = index
     end
  def main
-      $forums = srvproc("forum_posts","token=" + $token + "&name=" + $name + "&cat=0")
-                case $forums[0].to_i
+   $forums = srvproc("forum_posts","token=" + $token + "&name=" + $name + "&cat=0\&details=1")
+                      case $forums[0].to_i
 when 0
 for i in 0..$forums.size - 1
     $forums[i].delete!("\n")
@@ -21,31 +21,76 @@ for i in 0..$forums.size - 1
   forumid = 0
   $forumthreads = []
   $forumposts = []
+  $forumgroup = []
+  $forumfullnames=[]
   t = 0
-  for i in 1..$forums.size - 1
+    for i in 1..$forums.size - 1
     case t
     when 0
     forumlist[forumid] = $forums[i]
-    when 1
-      $forumthreads[forumid] = $forums[i].to_i
+        when 1
+      $forumfullnames[forumid]=$forums[i]
       when 2
+      $forumgroup[forumid] = $forums[i]
+      when 3
+      $forumthreads[forumid] = $forums[i].to_i
+      when 4
     $forumposts[forumid] = $forums[i].to_i
         forumid += 1
   end
-  t += 1  
-  t = 0 if t == 3
+  t += 1
+  t = 0 if t == 5
   end
-         @command = nil
-  $forumnames = forumlist
-          sel = []
-    sel.push("Śledzone wątki")
-  for i in 0..forumlist.size - 1
-    if $forumnames[i] != nil and $forumthreads[i] != nil
-    sel.push($forumnames[i] + " . Wątki: " + $forumthreads[i].to_s + ", WPisy: " + $forumposts[i].to_s)
+           $forumnames = forumlist
+             groups = []
+  sel = []
+ seli=[]
+  for i in 0..$forumgroup.size-1
+    if groups.include?($forumgroup[i])==false
+      groups.push($forumgroup[i]) 
+      sel.push([])
+      seli.push([])
+      end
     end
+        for i in 0..forumlist.size - 1
+    if $forumnames[i] != nil and $forumthreads[i] != nil
+    sel[groups.find_index($forumgroup[i])].push($forumfullnames[i] + " . Wątki: " + $forumthreads[i].to_s + ", WPisy: " + $forumposts[i].to_s)
+    seli[groups.find_index($forumgroup[i])].push(i)
   end
-  @forums = sel.size - 1
-      @command = Select.new(sel,true,@index,"Wybierz forum")
+    end
+  @forums = $forumnames.size
+  indexa=0
+  indexb=0
+  @cat = 0
+  if @iindex > 0
+    indexa = groups.find_index($forumgroup[@iindex-1])+1
+    indexb=seli[indexa-1].find_index(@iindex-1)
+    @cat = 1
+    end
+                @commandforums = []
+        for i in 0..groups.size-1
+          @commandforums[i] = Select.new(sel[i],true,indexb,"Wybierz Forum",true)
+        end
+        grp = []
+        for g in groups
+          t = 0
+          ps = 0
+          f = 0
+          for i in 0..$forumgroup.size-1
+            if $forumgroup[i] == g
+              f += 1
+              t += $forumthreads[i]
+              ps += $forumposts[i]
+              end
+            end
+          grp.push(g + " . Fora: #{f.to_s}, Wątki: #{t.to_s}, Wpisy: #{ps.to_s}")
+          end
+        @commandcats = Select.new(["Śledzone wątki"]+grp,true,indexa,"Forum",true)
+        if @cat == 0
+          @commandcats.focus
+        else
+          @commandforums[@commandcats.index-1].focus
+          end
   when -1
     speech("Błąd połączenia z bazą danych.")
     when -2
@@ -62,31 +107,48 @@ for i in 0..$forums.size - 1
           end
           if $forums[0].to_i < 0 and $scene == self
             $scene = Scene_Main.new
-          end
-          loop do
+                                end
+          @sels = sel
+          @seli = seli
+                    loop do
             if $scene != self
               break
             end
 loop_update
-            if @command != nil
-              @command.update
-              update
+            if @cat == 0
+              @commandcats.update
+              catupdate
+            else
+              @commandforums[@commandcats.index-1].update
+              forumupdate
               end
-            end
+                          end
           end
-          def update
+          def catupdate
             if escape
               $scene = Scene_Main.new
+              end
+              if enter or Input.trigger?(Input::RIGHT)
+                if @commandcats.index>0
+                @cat = 1
+                @commandforums[@commandcats.index-1].index=0
+                @commandforums[@commandcats.index-1].focus
+              else
+                $scene = Scene_Forum_Forum.new("",0)
+                end
+                end
+            end
+          def forumupdate
+            @index = @seli[@commandcats.index-1][@commandforums[@commandcats.index-1].index]
+                        if escape or Input.trigger?(Input::LEFT)
+              @cat=0
+              @commandcats.focus
             end
             if alt
                             menu
-              end
-            if enter or Input.trigger?(Input::RIGHT)
-              if @command.index > 0
-              $scene = Scene_Forum_Forum.new($forumnames[@command.index - 1],@command.index)
-            else
-              $scene=Scene_Forum_Forum.new("")#$scene = Scene_Forum_FT.new tutaj
-              end
+                          end
+                          if enter or Input.trigger?(Input::RIGHT)
+                                        $scene = Scene_Forum_Forum.new($forumnames[@index],@index+1)
               end
             end
             def menu
@@ -99,7 +161,7 @@ loop_update
 if enter
 case @menu.index
 when 0
-$scene = Scene_Forum_Forum.new($forumnames[@command.index - 1],@command.index)
+$scene = Scene_Forum_Forum.new($forumnames[@index - 1],@index+1)
 when 1
   $scene = Scene_Main.new
 end
@@ -386,10 +448,7 @@ when 0
           if $forums[0].to_i < 0 and $scene == self
             $scene = Scene_Forum.new
           end
-          if $forums[1].to_i == 0
-            speech("Pusta lista...")
-                        end
-          @form = Form.new(@fields)
+                    @form = Form.new(@fields)
             loop do
             @form.update
             $postcur = @form.index if @form.index < @form.fields.size - 1
@@ -403,12 +462,8 @@ loop_update
           def update
                         if escape or ((enter or space) and @form.index == @form.fields.size - 1)
                             if @returner == 0
-              if @ft == false
-              $scene = Scene_Forum_Forum.new($forumname,@forumindex,@id)
-            else
-              $scene = Scene_Forum_FT.new
-            end
-          else
+                            $scene = Scene_Forum_Forum.new($forumname,@forumindex,@id)
+                      else
             $scene = @returner
             end
             end
@@ -470,11 +525,19 @@ author = $postauthorname[$postcur]
 end
 sel = [author,"Nowy wpis","Odpowiedz z cytatem","Edytuj wpis", "Przejdź do ostatniego wpisu","Przejdź do pierwszego nowego wpisu","Anuluj","Usuń wpis"]
 @menu = SelectLR.new(sel)
+ if $postcur >= $post.size
+   @menu.disable_item(0)
+   @menu.disable_item(2)
+   @menu.disable_item(3)
+   @menu.disable_item(7)
+   @menu.disable_item(5) if @knownposts > $post.size - 1 or @knownposts == -1
+   else
 @menu.disable_item(0) if $postcur >= $post.size
 @menu.disable_item(2) if $postcur >= $post.size
 @menu.disable_item(3) if ($postauthorname[$postcur].delete("\r\n") != $name and $rang_moderator != 1) or $postcur >= $post.size
 @menu.disable_item(5) if @knownposts > $post.size - 1 or @knownposts == -1
 @menu.disable_item(7) if $postcur >= $post.size or $rang_moderator <= 0
+end
 @menu.update
 @menu.focus
 loop do
@@ -653,12 +716,8 @@ loop_update
                                       speech("Nie masz odpowiednich uprawnień, by wykonać tę operację.")
                                     end
                                     speech_wait
-                                    if @ft == false
-                                    $scene = Scene_Forum_Forum.new(forumname,@forumindex)
-                                  else
-                                    $scene = Scene_Forum_FT.new
-                                    end
-                                  end
+                                                                        $scene = Scene_Forum_Forum.new(forumname,@forumindex)
+                                                                                                        end
                                 end
                                 
                                 class Scene_Forum_Thread_Delete
