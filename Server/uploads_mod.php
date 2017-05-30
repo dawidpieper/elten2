@@ -1,7 +1,7 @@
 <?php
 require("header.php");
 if($_GET['add']==1) {
-if(strlen($_POST['data']) > 16777216*3) {
+if(strlen($_POST['data']) > 134217728*3) {
 echo "-3";
 die;
 }
@@ -14,7 +14,7 @@ if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
 else $i--;
 }
 $filename=$haslo;
-$zapytanie = "INSERT INTO `uploads` (filename,file,owner) VALUES ('".$_GET['filename']."','".$filename."','".$_GET['name']."')";
+$zapytanie = "INSERT INTO `uploads` (filename,file,owner) VALUES ('".str_replace("\'","",$_GET['filename'])."','".$filename."','".$_GET['name']."')";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n".$zapytanie;
@@ -45,7 +45,4 @@ die;
 unlink("uploads/".$_GET['file']);
 echo "0";
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

@@ -71,7 +71,4 @@ die;
 }
 echo "0\r\n" . $signature;
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

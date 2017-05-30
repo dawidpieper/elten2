@@ -22,16 +22,14 @@ loop_update
       if $scene != self
         break
       end
-      if enter or (Input.trigger?(Input::DOWN) and @sel.index != 1 and @sel.index != 2)
+      if enter or (Input.trigger?(Input::DOWN) and @sel.index != 2)
         index = @sel.index
         case @sel.index
         when 0
           community
           when 1
-            $scene = Scene_Media.new
-            close
-            break
-            when 2
+            media
+                        when 2
             $scene = Scene_Files.new
             close
             break
@@ -452,6 +450,35 @@ for i in 1..Graphics.frame_rate
       end
       
       end
-                end
+    end
+    def media
+    Graphics.transition(10)
+    @sel = SelectLR.new(["Katalog &mediów","&Youtube"])
+    loop do
+loop_update
+      @sel.update
+      if $scene != self
+        break
+      end
+      if Input.trigger?(Input::UP) or escape
+                return
+        end
+      if enter
+        case @sel.index
+        when 0
+          $scene = Scene_Media.new
+          close
+          break
+        when 1
+          $scene=Scene_Youtube.new
+          close
+          break
+            end
+          end
+          if alt
+close
+            end
+          end
+        end
   end
 #Copyright (C) 2014-2016 Dawid Pieper

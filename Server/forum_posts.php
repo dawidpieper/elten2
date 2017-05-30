@@ -1,7 +1,20 @@
 ﻿<?php
 require("header.php");
 if($_GET['cat'] == 0) {
-$zapytanie = "SELECT `name` FROM `forums`";
+$zapytanie = "SELECT `updatedate`, `expiredate`, `content` FROM `cache` WHERE id=0";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1\r\n".$zapytanie;
+die;
+}
+$tekst = "";
+$wiersz = mysql_fetch_row($idzapytania);
+if($wiersz[0] > $wiersz[1] AND $_GET['details'] == 2)
+$tekst = $wiersz[2];
+else {
+$zapytanie = "SELECT `name`, `groupid`, `fullname`, `type` FROM `forums`";
+if($_GET['details']<2)
+$zapytanie .= " WHERE `type`=0";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1";
@@ -10,6 +23,10 @@ die;
 $tekst = "";
 while($wiersz = mysql_fetch_row($idzapytania)) {
 $tekst .= "\r\n" . $wiersz[0] . "\r\n";
+if($_GET['details']>=1) {
+$tekst .= $wiersz[2] . "\r\n";
+$tekst .= mysql_fetch_row(mysql_query("SELECT `name` FROM `forum_groups` WHERE `id`=".$wiersz[1]))[0] . "\r\n";
+}
 $zapytanie2 = "SELECT `id` FROM `forum_threads` WHERE `forum`='" . $wiersz[0] . "'";
 $idzapytania2 = mysql_query($zapytanie2);
 if($idzapytania2 == false) {
@@ -35,12 +52,34 @@ die;
 $posts = $posts + mysql_num_rows($idzapytania3);
 }
 $tekst .= $posts;
+if($_GET['details']==2)
+$tekst.="\r\n".$wiersz[3];
+}
+if($_GET['details']==2) {
+$zapytanie = "UPDATE `cache` SET `updatedate`=".time().", `content`='".$tekst."' WHERE id=0";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1";
+die;
+}
+}
 }
 echo "0" . $tekst;
 }
 if($_GET['cat'] == 1) {
 $forumname = NULL;
 $forumname = $_GET['forumname'];
+$zapytanie = "SELECT `updatedate`, `expiredate`, `content` FROM `cache` WHERE `forumname`='".$forumname."'";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1\r\n".$zapytanie;
+die;
+}
+$tekst = "";
+$wiersz = mysql_fetch_row($idzapytania);
+if($wiersz[0] > $wiersz[1] AND $forumname!=NULL)
+$tekst = $wiersz[2];
+else {
 if($forumname != NULL)
 $zapytanie = "SELECT `id` FROM `forum_threads` WHERE `forum`='" . $_GET['forumname'] . "' ORDER BY `lastpostdate` DESC";
 else
@@ -60,6 +99,15 @@ echo "-1";
 die;
 }
 $tekst .= mysql_num_rows($idzapytania2);
+}
+if($forumname!=NULL) {
+$zapytanie = "UPDATE `cache` SET `updatedate`=".time().", `content`='".$tekst."' WHERE `forumname`='".$forumname."'";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1";
+die;
+}
+}
 }
 echo "0" . $tekst;
 }
@@ -86,7 +134,4 @@ die;
 }
 echo "0\r\n".mysql_num_rows($idzapytania);
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

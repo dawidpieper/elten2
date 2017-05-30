@@ -22,7 +22,7 @@ die;
 }
 $txt = "";
 while($wiersz = mysql_fetch_row($idzapytania)) {
-$wzapytanie = "SELECT `id`, `url`, `name`, `description` FROM `media_".$_GET['get']."`";
+$wzapytanie = "SELECT `id`, `url`, `name`, `description` FROM `media_data` WHERE `category`=".$_GET['get'];
 $widzapytania = mysql_query($wzapytanie);
 if($widzapytania == false) {
 echo "-1";
@@ -35,7 +35,4 @@ $txt .= $rwiersz[0] . "\r\n" . $rwiersz[1] . "\r\n" . $rwiersz[2] . "\r\n" . $rw
 }
 echo "0\r\n".$txt;
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

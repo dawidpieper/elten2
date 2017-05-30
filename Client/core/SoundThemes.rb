@@ -83,7 +83,7 @@ loop_update
                 iniw.call('SoundTheme','Path',@name,$configdata + "\\soundtheme.ini") 
                 speech("Zapisano.")
                 speech_wait
-                          $soundthemespath = readini("SoundTheme","Path","")
+                          $soundthemespath = @name
         if $soundthemespath.size > 0
     $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
   else
@@ -116,18 +116,8 @@ loop_update
    @st_path[i].delete!("\0")
    File.delete("st.ini") if $DEBUG != true
  end
- speech("Wybierz temat do pobrania.")
- speech_wait
- @sel = Select.new(@st_name)
- for i in 0..@st_name.size - 1
-   if @st_name[i] != nil
-   if @st_name[i].size > 0
-     speech(@st_name[i])
-     break
-   end
-   end
-   end
- loop do
+   @sel = Select.new(@st_name,false,0,"Wybierz temat do pobrania")
+  loop do
    loop_update
    @sel.update
    if escape
@@ -185,11 +175,11 @@ for i in 0..imax = set.size - 1
     se[c] = "" if i != imax
     end
   end
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call($soundthemesdata + "\\" + path, nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call($soundthemesdata + "\\" + path + "\\BGM",nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call($soundthemesdata + "\\" + path + "\\BGS", nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call($soundthemesdata + "\\" + path + "\\ME", nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call($soundthemesdata + "\\" + path + "\\SE", nil)
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path), nil)
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGM"),nil)
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGS"), nil)
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\ME"), nil)
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\SE"), nil)
   for i in 0..bgm.size - 1
     download(url = $url + "soundthemes/" + path + "/BGM/" + bgm[i],$soundthemesdata + "\\" + path + "\\BGM\\" + bgm[i])
     loop_update

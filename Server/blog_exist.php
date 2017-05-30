@@ -16,7 +16,4 @@ if($suc == false)
 echo "0";
 else
 echo "1";
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

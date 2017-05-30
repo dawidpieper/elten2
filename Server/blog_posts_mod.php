@@ -13,6 +13,25 @@ if($wiersz[0]>=$postid)
 $postid = $wiersz[0]+1;
 }
 $post = $_GET['post'];
+if($_GET['audio']==1) {
+if(strlen($_POST['post']) < 8) {
+echo "-1";
+die;
+}
+$min=6;
+$max=24;
+srand((double)microtime()*1000000);
+for($i=0;$i<rand($min,$max);$i++) {
+$znak=chr(rand(48,122));
+if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
+else $i--;
+}
+$filename=$haslo;
+$fp = fopen("audioblogs/posts/".$filename,"w");
+fwrite($fp,$_POST['post']);
+fclose($fp);
+$post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004\r\n";
+}
 if($_GET['buffer'] != null) {
 $zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";
 $idzapytania = mysql_query($zapytanie);
@@ -181,7 +200,4 @@ $i=$i+1;
 }
 }
 echo "0";
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

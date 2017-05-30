@@ -1,14 +1,23 @@
-﻿# Elten Agent
-#Copyright (2014-2016) Dawid Pieper
-#All Rights Reserved
-
-
-
-require("win32api")
+﻿require("win32api")
+$r=0
+begin
+Win32API.new("eltenvc","WindowsVersion",'i','i').call(0) if $r==0
+rescue Exception
+$r=1
+retry
+end
+if $r==1
+    $appdata = "\0" * 16384
+Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("appdata",$appdata,$appdata.bytesize)
+for i in 0..$appdata.bytesize - 1
+$appdata = $appdata.sub("\0","")
+end
+Win32API.new("kernel32","SetDllDirectory",'p','i').call($appdata+"\\elten\\bin\\elten")
+end
 # Audio module
 # By Darkleo
 
-$stderr.reopen("agent_err_out.txt","w")
+$stderr.reopen("agent_errout.tmp","w")
 
 module Audio
   extend self
@@ -524,27 +533,7 @@ def play(voice,volume=100,pitch=100)
                           return(true)
                         end
                       end
-def hexspecial(t)
-            t = t.gsub("ą","%C4%85")
-            t = t.gsub("ć","%C4%87")
-            t = t.gsub("ę","%C4%99")
-            t = t.gsub("ł","%C5%82")
-            t = t.gsub("ń","%C5%84")
-            t = t.gsub("ó","%C3%B3")
-            t = t.gsub("ś","%C5%9B")
-            t = t.gsub("ź","%C5%BA")
-            t = t.gsub("ż","%C5%BC")
-            t = t.gsub("Ą","%C4%84")
-            t = t.gsub("Ć","%C4%86")
-            t = t.gsub("Ę","%C4%98")
-            t = t.gsub("Ł","%C5%81")
-            t = t.gsub("Ń","%C5%83")
-            t = t.gsub("Ó","%C3%B2")
-            t = t.gsub("Ś","%C5%9A")
-            t = t.gsub("Ź","%C5%B9")
-            t = t.gsub("Ż","%C5%BB")
-            return t
-          end
+
 class String
   def delline(lines=1)
     self.gsub!("\004LINE\004","\r\n")    
@@ -618,7 +607,7 @@ def rdelete!(i)
     return o
     end
   def urlenc
-    string = self+""
+    string = (self+"")
         r = string.gsub(/([^ a-zA-Z0-9_.-]+)/) do |m|
       '%' + m.unpack('H2' * m.size).join('%').upcase
     end.tr(' ', '+')
@@ -661,7 +650,6 @@ return(b2)
 def download(source,destination)
   $downloadcount = 0 if $downloadcount == nil
   source.sub!("?","?eltc=#{$downloadcount.to_s(36)}\&")
-source = hexspecial(source)
   $downloadcount += 1
     ef = 0
   begin
@@ -671,9 +659,6 @@ rescue Exception
   retry
 end
   Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(source)
-  if FileTest.exist?(destination) == false
-    writefile(destination,-4)
-    end
 return ef
     end
 def readini(file,group,key,default="\0")
@@ -690,7 +675,7 @@ def speech(text,method=1)
   $trans2 = [] if $t2 == nil
   if $translation == true
     suc = false
-    for i in 0..$trans1.bytesize - 1
+    for i in 0..$trans1.size - 1
       if $trans1[i] == text
         suc = true
         end
@@ -704,10 +689,7 @@ def speech(text,method=1)
     end
     end
   if text == " " and $password != true
-    if $interface_soundthemeactivation != 0
-  else
     speech("Spacja")
-    end
     return
   end
   if text == "\n"
@@ -876,14 +858,14 @@ def char_dict(text)
 def dict(text)
   text = "" if text == nil
   if $lang_src != nil and $lang_dst != nil
-for i in 3..$lang_src.bytesize - 1
+for i in 3..$lang_src.size - 1
   if $lang_src[i] == text
     r = $lang_dst[i]
     return(r)
     end
   end
 end
-for i in 3..$lang_dst.bytesize - 1
+for i in 3..$lang_dst.size - 1
   suc = false
     $lang_dst[i].gsub("%%") {
   suc = true
@@ -901,16 +883,24 @@ end
 
 class Reset < Exception
 
-end
+end
+
+def run(file,hide=false)
+  params = 'LPLLLLLLPP'
+createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
+    env = 0
+           env = "Windows".split(File::PATH_SEPARATOR) << nil
+                  env = env.pack('p*').unpack('L').first
+         startinfo = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+         startinfo = [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0] if hide
+    startinfo = startinfo.pack('LLLLLLLLLLLLSSLLLL')
+    procinfo  = [0,0,0,0].pack('LLLL')
+        pr = createprocess.call(0, utf8(file), 0, 0, 0, 0, 0, 0, startinfo, procinfo)
+            procinfo[0,4].unpack('L').first # pid
+            return procinfo.unpack('llll')[0]
+          end
 
 begin
-$eltenlib = "eltenvc"
-begin
-$windowsversion = Win32API.new($eltenlib,"WindowsVersion",'v','i').call
-rescue Exception
-$eltenlib = "elten"
-retry
-end
 $speech_to_utf = true
     $appdata = "\0" * 16384
 Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("appdata",$appdata,$appdata.bytesize)
@@ -989,17 +979,45 @@ $hwnd = agenttemp[2].delete("\r\n").to_i
 $mes = 0
 $pst = 0
 $blg = 0
+$knownversion=readini(".\\elten.ini","Elten","Version","0").to_f
+$knownbeta=readini(".\\elten.ini","Elten","Beta","0").to_i
+$isbeta=readini(".\\elten.ini","Elten","IsBeta","0").to_i
 if $token != ot
-download($url+"logout.php?name=#{$name}\&token=#{ot}","logouttemp")
+download($url+"logout.php?name=#{$name.urlenc}\&token=#{ot}","logouttemp")
 File.delete("logouttemp") if FileTest.exists?("logouttemp")
 end
 end
 $omitinit = false
+tray=false
+$li=0
 loop do
 $voice = readini($configdata + "\\sapi.ini","Sapi","Voice","0").to_i
 Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
 $rate = readini($configdata + "\\sapi.ini","Sapi","Rate","50").to_i
 Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
+$hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
+$refreshtime = readini($configdata + "\\interface.ini","Interface","RefreshTime","1").to_i
+if $hidewindow == 1
+if tray == false
+if Win32API.new("user32","GetForegroundWindow",'i','i').call(0) != $hwnd
+if FileTest.exists?("bin/elten_tray.bin")
+play("minimize")
+run("bin\\elten_tray.bin")
+Win32API.new("user32","ShowWindow",'ii','i').call($hwnd,0)
+IO.write("agent_tray.tmp","")
+tray=true
+elsif FileTest.exists?("elten_tray.bin")
+play("minimize")
+run("elten_tray.bin")
+Win32API.new("user32","ShowWindow",'ii','i').call($hwnd,0)
+IO.write("agent_tray.tmp","")
+tray=true
+end
+end
+else
+tray = false if FileTest.exists?("agent_tray.tmp") == false
+end
+end
 $soundthemespath = "\0" * 64
     Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("SoundTheme","Path","",$soundthemespath,$soundthemespath.size,$configdata + "\\soundtheme.ini")
     $soundthemespath.delete!("\0")
@@ -1008,12 +1026,13 @@ $soundthemespath = "\0" * 64
   else
     $soundthemepath = "Audio"
     end
-url = $url + "active.php?name=#{$name}\&token=#{$token}"
+if $li == 0
+url = $url + "active.php?name=#{$name.urlenc}\&token=#{$token}"
 if download(url,"agentacttemp") == 0
 if FileTest.exists?("agentacttemp")
 File.delete("agentacttemp")
 end
-url = $url + "whatsnew.php?name=#{$name}\&token=#{$token}\&get=1"
+url = $url + "whatsnew.php?name=#{$name.urlenc}\&token=#{$token}\&get=1"
 if download(url,"agentwntemp") == 0
 if FileTest.exists?("agentwntemp")
 wntemp = IO.readlines("agentwntemp")
@@ -1040,8 +1059,27 @@ $blg = wntemp[3].to_i
 end
 end
 end
+if download($url+"bin/elten.ini",utf8($bindata+"\\newest.ini")) == 0
+$nversion=readini($bindata+"\\elten.ini","Elten","Version",$version.to_s).to_f
+$nbeta=readini($bindata+"\\elten.ini","Elten","Beta",$beta.to_s).to_i
+s = false
+if $nversion > $knownversion
+speech("Dostępna jest nowa wersja programu Elten.")
+s=true
+end
+if $nbeta > $knownbeta and $isbeta == 1
+speech("Dostępna jest nowa wersja beta programu Elten.")
+s=true
+end
+$knownbeta=$nbeta
+$knownversion=$nversion
+play("new") if s==true
+end
 end
-sleep(1)
+end
+sleep(0.2)
+$li+=1
+$li = 0 if $li >= $refreshtime*5
 IO.write("agent_output.tmp",$name+"\r\n"+$token+"\r\n"+$mes.to_s+"\r\n"+$pst.to_s+"\r\n"+$blg.to_s)
 if FileTest.exists?("agent_exit.tmp") or Win32API.new("user32","IsWindow",'i','i').call($hwnd) == 0
 puts("Exiting...")
@@ -1053,21 +1091,13 @@ break if FileTest.exists?("agent.tmp")
 end
 end
 if $break == true
-download($url+"logout.php?name=#{$name}\&token=#{$token}","logouttemp")
+download($url+"logout.php?name=#{$name.urlenc}\&token=#{$token}","logouttemp")
 File.delete("logouttemp") if FileTest.exists?("logouttemp")
 break
 end
-File.delete("agent_err_out.txt")
 end
 #rescue LoadError
 #retry
 #rescue RuntimeError
 #retry
 end
-
-
-
-
-# Elten Agent
-#Copyright (2014-2016) Dawid Pieper
-#All Rights Reserved

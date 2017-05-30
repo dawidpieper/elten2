@@ -19,7 +19,4 @@ echo "-1";
 die;
 }
 echo "0\r\n".mysql_fetch_row($idzapytania)[0]."\r\n".$wiersze.$tekst;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

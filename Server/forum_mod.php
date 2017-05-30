@@ -43,6 +43,12 @@ if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;
 die;
 }
+$zapytanie = "UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".$_GET['forumname']."'";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1";
+die;
+}
 }
 if($_GET['delete'] == 2) {
 if($moderator == 0) {
@@ -55,12 +61,18 @@ if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;
 die;
 }
-}
-if($_GET['edit'] == 1) {
-$zapytanie = "SELECT `id`, `author` FROM `forum_posts` WHERE `id`=".$_GET['postid']."`";
+$zapytanie = "UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".$_GET['forumname']."'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1";
+die;
+}
+}
+if($_GET['edit'] == 1) {
+$zapytanie = "SELECT `id`, `author` FROM `forum_posts` WHERE `id`=".$_GET['postid'];
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1\r\n".$zapytanie;
 die;
 }
 $suc = false;
@@ -84,7 +96,7 @@ else {
 $zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
-echo "-1";
+echo "-1\r\n".$zapytanie;
 die;
 }
 while($wiersz = mysql_fetch_row($idzapytania)) {
@@ -92,24 +104,22 @@ if($wiersz[0] == $_GET['buffer'] and $wiersz[2] == $_GET['name'])
 $post = $wiersz[1];
 }
 if($post == null) {
-echo "-1";
+echo "-1\r\n".$zapytanie;
 die;
 }
 $post = str_replace("\\","\\\\",$post);
 $post = str_replace("'","\\'",$post);
 }
 if($post == "") {
-echo "-1";
+echo "-1\r\n".$zapytanie;
 die;
 }
 $zapytanie = "UPDATE `forum_posts` SET `post`='".$post."' WHERE `thread`=".$_GET['threadid']." AND`id`='".$_GET['postid']."'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
-echo "-1";
+echo "-1\r\n".$zapytanie;
 die;
 }
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
+echo "0";
 ?>

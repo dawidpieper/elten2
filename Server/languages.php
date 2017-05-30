@@ -1,7 +1,7 @@
 <?php
-$sql = mysql_connect("localhost", "dpieper_elten", "dawidp1999")
+$sql = mysql_connect("localhost", "elten", "PPdiwaD99")
 or die("-1");
-$sql_select = @mysql_select_db('dpieper_elten')
+$sql_select = @mysql_select_db('elten')
 or die("-1");
 if(mysql_query("SET NAMES utf8") == false) {
 echo "-1";
@@ -19,7 +19,4 @@ while ($wiersz = mysql_fetch_row($idzapytania)){
 $text .= "\r\n" . $wiersz[2];
 }
 echo "0" . $text;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

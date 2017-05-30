@@ -29,7 +29,4 @@ $tekst .= "\r\n".$wiersz[0]."\r\n0\r\n".$wwiersz[0]."\r\n".$wwiersz[1];
 }
 }
 echo "0\r\n" . $ile . $tekst;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

@@ -16,7 +16,4 @@ $wiersz[5] = "0";
 $text .= $wiersz[5]."\r\n".$wiersz[2] . "\r\n" . $wiersz[1] . "\r\n" . $wiersz[0] . "\r\n" . $wiersz[3] . "\r\n" . $wiersz[4] . "\r\nEND\r\n";
 }
 echo "0\r\n" . $ile . "\r\n" . $text;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

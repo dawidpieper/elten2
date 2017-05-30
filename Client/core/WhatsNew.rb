@@ -427,7 +427,7 @@ main
                 $scene = Scene_WhatsNew.new
               end
              if enter
-               $scene = Scene_Blog_Other_Read.new(@blogcategory[@sel.index],@blogpost[@sel.index],@blogauthor[@sel.index],0,0,$scene)
+               $scene = Scene_Blog_Read.new(@blogauthor[@sel.index],@blogcategory[@sel.index],@blogpost[@sel.index],0,0,$scene)
                end
               end
           end

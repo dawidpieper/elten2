@@ -33,7 +33,4 @@ die;
 }
 }
 echo "0\r\n" . $wiersze . "\r\n" . $text;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

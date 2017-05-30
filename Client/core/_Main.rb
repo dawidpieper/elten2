@@ -34,9 +34,22 @@ $toscene = false
     break
     end
   end
-  writefile("agent_exit.tmp","\r\n")
-  play("logout")
+    writefile("agent_exit.tmp","\r\n")
+    $agentproc=nil
+        play("logout")
   speech_wait
+    for o in $procs
+Win32API.new("kernel32","TerminateProcess",'ip','i').call(o,"")
+    end
+  if $playlistbuffer != nil
+$t=false
+    begin      
+    $playlistbuffer.close if $t==false
+      rescue Exception
+    $t=true
+    retry
+    end
+    end
   $playlist = [] if $playlist == nil
   if $playlist.size > 0
     $playlistpaused = true
@@ -60,14 +73,30 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
         end
             end
   end
-            delay(1)
+  d = Dir.entries("temp")
+  d.delete("..")
+  d.delete(".")
+  for f in d
+$rescb=0
+    begin
+    File.delete("temp/"+f) if FileTest.exists?("temp/"+f) and $rescb!=1
+  rescue Exception
+    $rescb=1
+    retry
+    end
+    end
+  if $recproc!=nil
+    writefile("record_stop.tmp","")
+    $recproc=nil
+    end
+    delay(1)
   # Fade out
   Graphics.transition(120)
   File.delete("agent_exit.tmp") if FileTest.exists?("agent_exit.tmp")
   File.delete("agent_output.tmp") if FileTest.exists?("agent_output.tmp")
   $exit = true
     exit
-            rescue Hangup
+      rescue Hangup
   Graphics.update
   $toscene = true
   retry
@@ -118,9 +147,7 @@ rescue SystemExit
     $tomain = true
     retry
   elsif $updating != true and $beta_downloading != true and $start != nil
-    puts     $!
-    puts $@
-    speech("Wystąpił krytyczny błąd. Opis błędu: #{$!.message}")
+        speech("Wystąpił krytyczny błąd. Opis błędu: #{$!.message}")
     speech_wait
     sleep(0.5)
     speech("Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do twórców programu?")

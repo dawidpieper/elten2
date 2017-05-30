@@ -19,6 +19,25 @@ die;
 }
 $text = mysql_escape_string($text);
 }
+if($_GET['audio']==1) {
+if(strlen($_POST['data']) < 8) {
+echo "-1";
+die;
+}
+$min=6;
+$max=24;
+srand((double)microtime()*1000000);
+for($i=0;$i<rand($min,$max);$i++) {
+$znak=chr(rand(48,122));
+if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
+else $i--;
+}
+$filename=$haslo;
+$fp = fopen("audiomessages/".$filename,"w");
+fwrite($fp,$_POST['data']);
+fclose($fp);
+$text="\004AUDIO\004/audiomessages/".$filename."\004AUDIO\004\r\n";
+}
 $zapytanie = "INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent) VALUES ('', '" . $_GET['name'] . "', '" . $_GET['to'] . "', '" . $_GET['subject'] . "', '" . $text . "', '" . $date . "',0,0)";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
@@ -26,7 +45,4 @@ echo "-1\r\n" . $zapytanie;
 die;
 }
 echo "0";
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

@@ -7,6 +7,69 @@ echo "-1\r\n" . $zapytanie;
 die;
 }
 $suc = false;
+if($_GET['forumname']=="") {
+$suc=true;
+$zapytanie = "UPDATE `forum_threads` SET `lastpostdate` = '" . time() . "' WHERE `id`=" . $_GET['threadid'];
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1\r\n" . $zapytanie;
+die;
+}
+if($_GET['buffer'] == 0)
+if($_GET['audio']==0)
+$post = $_GET['post'];
+else {
+if(strlen($_POST['post']) < 8) {
+echo "-1";
+die;
+}
+$min=6;
+$max=24;
+srand((double)microtime()*1000000);
+for($i=0;$i<rand($min,$max);$i++) {
+$znak=chr(rand(48,122));
+if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
+else $i--;
+}
+$filename=$haslo;
+$fp = fopen("audioforums/posts/".$filename,"w");
+fwrite($fp,$_POST['post']);
+fclose($fp);
+$post="\004AUDIO\004/audioforums/posts/".$filename."\004AUDIO\004\r\n";
+}
+else {
+$zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1";
+die;
+}
+while($wiersz = mysql_fetch_row($idzapytania)) {
+if($wiersz[0] == $_GET['buffer'] and $wiersz[2] == $_GET['name'])
+$post = $wiersz[1];
+}
+if($post == null) {
+echo "-1";
+die;
+}
+$post = str_replace("\\","\\\\",$post);
+$post = str_replace("'","\\'",$post);
+}
+$zapytanie = "INSERT INTO `forum_posts` (id, thread, author, date, post) VALUES ('','" . $_GET['threadid'] . "','" . $_GET['name'] . "','" . date("d.m.Y H:i") . "','" . $post . "')";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1\r\n" . $zapytanie;
+die;
+}
+$zapytanie = "UPDATE `cache` SET `expiredate`=".time();
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1";
+die;
+}
+echo "0";
+die;
+}
 while ($wiersz = mysql_fetch_row($idzapytania)){
 if($wiersz[0] == $_GET['name']) {
 $suc = true;
@@ -66,7 +129,28 @@ if($name == null) {
 echo "-1";
 die;
 }
-$zapytanie = "INSERT INTO `forum_threads` (id, name, lastpostdate, forum) VALUES ('" . $threadid . "','" . $_GET['threadname'] . "'," . Time() . ",'".$_GET['forumname']."')";
+if($_GET['audio']==0)
+$threadname = $_GET['threadname'];
+else {
+if(strlen($_POST['threadname']) < 8) {
+echo "-1";
+die;
+}
+$min=6;
+$max=24;
+srand((double)microtime()*1000000);
+for($i=0;$i<rand($min,$max);$i++) {
+$znak=chr(rand(48,122));
+if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
+else $i--;
+}
+$filename=$haslo;
+$fp = fopen("audioforums/titles/".$filename,"w");
+fwrite($fp,$_POST['threadname']);
+fclose($fp);
+$threadname="\004AUDIO\004/audioforums/titles/".$filename."\004AUDIO\004";
+}
+$zapytanie = "INSERT INTO `forum_threads` (id, name, lastpostdate, forum) VALUES ('" . $threadid . "','" . $threadname . "'," . Time() . ",'".$_GET['forumname']."')";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;
@@ -136,7 +220,27 @@ echo "-1\r\n" . $zapytanie;
 die;
 }
 if($_GET['buffer'] == 0)
+if($_GET['audio']==0)
 $post = $_GET['post'];
+else {
+if(strlen($_POST['post']) < 8) {
+echo "-1";
+die;
+}
+$min=6;
+$max=24;
+srand((double)microtime()*1000000);
+for($i=0;$i<rand($min,$max);$i++) {
+$znak=chr(rand(48,122));
+if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
+else $i--;
+}
+$filename=$haslo;
+$fp = fopen("audioforums/posts/".$filename,"w");
+fwrite($fp,$_POST['post']);
+fclose($fp);
+$post="\004AUDIO\004/audioforums/posts/".$filename."\004AUDIO\004\r\n";
+}
 else {
 $zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";
 $idzapytania = mysql_query($zapytanie);
@@ -164,9 +268,12 @@ if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;
 die;
 }
+$zapytanie = "UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR forumname='".$_GET['forumname']."'";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1";
+die;
+}
 echo "0";
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

@@ -14,7 +14,8 @@ end
 
 class AudioFile
   attr_reader :name
-  attr_reader :sound
+  attr_reader :sound
+  attr_reader :closed
   def initialize filename, loopmode = FMod::LOOP_OFF
     @name = filename
     @sound = FMod::Sound.new filename
@@ -77,7 +78,7 @@ class AudioFile
     @channel.position= pos, unit
   end
   def close
-    fail 'File already closed' if @closed
+    return false if @closed
     @channel.stop
     @sound.release
     @closed = true

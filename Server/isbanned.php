@@ -19,7 +19,4 @@ if($isbanned == true)
 echo "0\r\n1";
 else
 echo "0\r\n0";
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

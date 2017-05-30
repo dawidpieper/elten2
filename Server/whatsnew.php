@@ -97,6 +97,10 @@ $eblogposts = $eblogposts + 1;
 $nblogposts = $eblogposts - $blogposts;
 $nposts = $eposts - $posts;
 $nmessages = $emessages - $messages;
+if($nmessages==-1) {
+$nmessages = 0;
+mysql_query("UPDATE `whatsnew` SET `messages`=0 WHERE `name`=".$_GET['name']);
+}
 echo "0\r\n" . $nmessages . "\r\n" . $nposts . "\r\n" . $nblogposts;
 }
 if($_GET['set'] == 1) {
@@ -120,7 +124,4 @@ die;
 }
 echo "0";
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

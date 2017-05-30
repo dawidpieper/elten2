@@ -23,7 +23,4 @@ $wiersze += 1;
 $text .= $wwiersz[0] . "\r\n" . $wwiersz[1] . "\r\n";
 }
 echo "0\r\n" . $wiersze . "\r\n" . $text;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

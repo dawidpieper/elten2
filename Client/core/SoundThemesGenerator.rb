@@ -7,9 +7,7 @@
 
 class Scene_SoundThemesGenerator
   def main
-    speech("Generator tematów dźwiękowych")
-    speech_wait
-    createsoundtheme
+        createsoundtheme
     $scene = Scene_Main.new if $scene == self
   end
   end

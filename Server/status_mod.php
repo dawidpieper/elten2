@@ -30,7 +30,4 @@ die;
 echo "0";
 if($suc == true)
 echo "\r\n*";
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

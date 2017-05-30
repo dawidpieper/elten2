@@ -60,8 +60,7 @@ loop_update
         files(@disks[@sel.index])
       else
         speech("Ten dysk nie jest w tej chwili dostępny.")
-        speech_wait
-        end
+                end
         end
       end
       def files(path)
@@ -235,7 +234,7 @@ if ext == ".OGG" or ext == ".ogg" or ext == ".mp3" or ext == ".MP3" or ext == ".
   if enter
     case sel.index
     when 0
-    Audio.me_play(@path+@files[@sel.index],100,100)
+    player(@path+@files[@sel.index],"Odtwarzanie: #{File.basename(@files[@sel.index])}",true)
   if (wnd = Win32API.new("user32","GetActiveWindow",'v','i').call()) != $wnd
     cls = "\0" * 256
     Win32API.new("user32","GetClassName",'ipi','i').call(wnd,cls,cls.size)
@@ -258,7 +257,7 @@ play("edit_space")
 speech(text)
 end
 if ext.downcase == ".eapi"
-scr=read(nm)
+scr=readfile(nm)
 if simplequestion("Czy chcesz załadować ten plik skryptu EltenAPI? Nienależy uruchamiać skryptów pochodzących z niezaufanych źródeł.") == 1
   eval(futf8(scr))
   speech_wait
@@ -266,7 +265,7 @@ if simplequestion("Czy chcesz załadować ten plik skryptu EltenAPI? Nienależy 
 end
 end
 if ext.downcase == ".rb"
-scr=read(nm)
+scr=readfile(nm)
 if simplequestion("Czy chcesz załadować ten plik skryptu Ruby? Skrypty Ruby mogą być niekompatybilne z EltenAPI. Czy chcesz spróbować mimo to? Nienależy uruchamiać skryptów pochodzących z niezaufanych źródeł.") == 1
   eval(scr)
   end
@@ -412,6 +411,7 @@ play("menu_close")
 Audio.bgs_stop
 end
 def audiosearcher(patch)
+  loop_update
   return if patch == nil
   nextsearchs = []
   @audiosearchresults = [] if @audiosearchresults == nil

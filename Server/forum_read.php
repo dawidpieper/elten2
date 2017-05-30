@@ -12,7 +12,4 @@ if($wiersz[1] == $_GET['threadid'])
 $posts = $wiersz[2];
 }
 echo "0\r\n" . $posts;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

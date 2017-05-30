@@ -415,6 +415,25 @@ Wersja 1.399:
 Zmiany pozwalające na aktualizację do przyszłej wersji 2.0
 
 2016-12-22
+","
+Wersja 1.3991:
+Aktualizacja protokołu buforów
+
+2017-03-24
+","
+Wersja 1.3992:
+Poprawki
+
+2017-03-26
+Wersja 1.3992:
+Poprawki
+
+2017-03-27
+","
+Wersja 1.3994:
+Poprawki
+
+2017-03-27
 "]
 @changes.reverse!
 @selt = []

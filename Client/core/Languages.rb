@@ -8,8 +8,7 @@
 class Scene_Languages
   def main
     speech("Zarządzanie językami")
-    speech_wait
-    langstm = Win32API.new($eltenlib,"FilesInDir",'p','p').call($langdata)
+        langstm = Win32API.new($eltenlib,"FilesInDir",'p','p').call($langdata)
 langst = []
 c = 0
 langst[c] = ""
@@ -47,7 +46,8 @@ for i in 0..@langs.size - 1
     @langs.delete_at(i)
     end
   end
-sel = ["POLSKI"]
+speech_wait
+  sel = ["POLSKI"]
 sel += @langs
 sel.push("Pobierz tłumaczenia z serwera")
 @selt = sel

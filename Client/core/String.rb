@@ -77,8 +77,9 @@ def rdelete!(i)
     end
     return o
     end
-  def urlenc
+  def urlenc(binary=false)
     string = self+""
+    string.gsub!("%","%25") if string.size<1048576 and binary == false
         r = string.gsub(/([^ a-zA-Z0-9_.-]+)/) do |m|
       '%' + m.unpack('H2' * m.size).join('%').upcase
     end.tr(' ', '+')
@@ -98,6 +99,23 @@ def rdelete!(i)
 string=r
     end
     return    r
+  end
+  def delspecial
+    string = self+""
+    from=["ą","ć","ę","ł","ń","ó","ś","ź","ż","Ą","Ć","Ę","Ń","Ó","Ł","Ś","Ź","Ż","-"]
+    to=["a","c","e","l","n","o","s","z","z","A","C","E","L","N","O","S","Z","Z","_"]
+    for i in 0..to.size-1
+      string.gsub!(from[i],to[i])
+      end
+    r = string.gsub(/([^ a-zA-Z0-9_.-]+)/) do |m|
+      ''
+    end.tr(' ', '_')
+    return r
+  end
+  def bigletter
+    return true if self[0]>64 and self[0]<91
+    return true if self=="Ą" or self=="Ć" or self=="Ę" or self=="Ł" or self == "Ń" or self=="Ó" or self=="Ś" or self=="Ź" or self=="Ż"
+    return false
     end
 end
 #Copyright (C) 2014-2016 Dawid Pieper

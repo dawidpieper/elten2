@@ -44,7 +44,4 @@ die;
 $knownby = 0;
 $knownby = mysql_num_rows($idzapytania);
 echo "0\r\n".$lastseen."\r\n".$hasblog."\r\n".$knows."\r\n".$knownby;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

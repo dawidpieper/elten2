@@ -3,7 +3,10 @@ require("header.php");
 $error = 0;
 if($_GET['forum'] == 0)
 {
+if($_GET['group'] != -1) {
 $zapytanie = "SELECT `name` FROM `forums`";
+if($group > 0)
+$zapytanie .= " WHERE `groupid`="+$_GET['group'];
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false)
 echo "-1";
@@ -18,6 +21,22 @@ $wiersze = $wiersze + 1;
 echo "0\r\n" . $wiersze . "\r\n" . $tekst;
 }
 }
+else {
+$zapytanie = "SELECT `id`, `lang`, `name` FROM `forum_groups`";
+$idzapytania = mysql_query($zapytanie);
+if($idzapytania == false) {
+echo "-1";
+die;
+}
+$tekst = "";
+$wiersze = 0;
+while($wiersz=mysql_fetch_row($idzapytania)) {
+$wiersze = $wiersze + 1;
+$tekst .= "\r\n".$wiersz[0]."\r\n".$wiersz[1]."\r\n".$wiersz[2];
+}
+echo "0\r\n".$wiersze.$tekst;
+}
+}
 if($_GET['forum'] == 1)
 {
 $forumname = NULL;
@@ -25,7 +44,7 @@ $forumname = $_GET['forumname'];
 if($forumname != NULL)
 $zapytanie = "SELECT `id`, `name` FROM `forum_threads` WHERE `forum`='".$_GET['forumname']."' ORDER BY `lastpostdate` DESC";
 else
-$zapytanie = "SELECT `id`, `name` FROM `forum_threads` WHERE `id` in (SELECT `thread` FROM `followedthreads` WHERE `owner`='".$_GET['name']."')";
+$zapytanie = "SELECT `id`, `name` FROM `forum_threads` WHERE `id` in (SELECT `thread` FROM `followedthreads` WHERE `owner`='".$_GET['name']."') ORDER BY `lastpostdate` DESC";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false)
 echo "-1";
@@ -111,7 +130,4 @@ $text = $wiersz[3] . "\r\n" . $wiersz[1] . "\r\n" . $wiersz[2];
 echo "0\r\n" . $text;
 }
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

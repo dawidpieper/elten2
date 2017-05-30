@@ -12,7 +12,4 @@ while ($wiersz = mysql_fetch_row($idzapytania)){
 $name = $wiersz[0];
 echo "\r\n" . $name;
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

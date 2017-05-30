@@ -23,7 +23,4 @@ echo "0\r\n0\r\n0\r\n0\r\n0\r\n0";
 die;
 }
 echo "0\r\n" . $tester . "\r\n" . $moderator . "\r\n" . $media_administrator . "\r\n" . $translator . "\r\n" . $developer;
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

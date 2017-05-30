@@ -15,7 +15,4 @@ if($date > $cdate) {
 echo "\r\n" . $name;
 }
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>
