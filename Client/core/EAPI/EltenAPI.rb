@@ -7,7 +7,7 @@
 
 module EltenAPI
     def futf8(text)
-    mw = Win32API.new("kernel32", "MultiByteToWideChar", "ilpipi", "i")
+            mw = Win32API.new("kernel32", "MultiByteToWideChar", "ilpipi", "i")
     wm = Win32API.new("kernel32", "WideCharToMultiByte", "ilpipipp", "i")
     len = mw.call(0, 0, text, -1, nil, 0)
     buf = "\0" * (len*2)
@@ -23,7 +23,7 @@ module EltenAPI
   end
 
 def utf8(text,cp=65001)
-  text = "" if text == nil or text == false
+      text = "" if text == nil or text == false
 ext = "\0" if text == nil
 to_char = Win32API.new("kernel32", "MultiByteToWideChar", 'ilpipi', 'i') 
 to_byte = Win32API.new("kernel32", "WideCharToMultiByte", 'ilpipipp', 'i')
@@ -34,7 +34,8 @@ w = to_char.call(utf8, 0, text.to_s, text.size, b, b.size/2)
 w = to_byte.call(0, 0, b, b.size/2, nil, 0, nil, nil)
 b2 = "\0" * w
 w = to_byte.call(0, 0, b, b.size/2, b2, b2.size, nil, nil)
-return(b2)
+b2.delete!("\0")
+  return(b2)
   end
 def ASCII(code)
   r="\0"
@@ -125,7 +126,7 @@ return r
 end
 
 def run(file,hide=false)
-  params = 'LPLLLLLLPP'
+  params = 'LPLLLLLPPP'
 createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
     env = 0
            env = "Windows".split(File::PATH_SEPARATOR) << nil
@@ -134,7 +135,7 @@ createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
          startinfo = [0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0] if hide
     startinfo = startinfo.pack('LLLLLLLLLLLLSSLLLL')
     procinfo  = [0,0,0,0].pack('LLLL')
-        pr = createprocess.call(0, utf8(file), 0, 0, 0, 0, 0, 0, startinfo, procinfo)
+        pr = createprocess.call(0, utf8(file), 0, 0, 0, 0, 0, ".", startinfo, procinfo)
             procinfo[0,4].unpack('L').first # pid
             $procs=[] if $procs==nil
             $procs.push(procinfo.unpack('llll')[0])
@@ -185,8 +186,8 @@ file
 sz = "\0"*8
 Win32API.new("kernel32","GetFileSizeEx",'ip','l').call(handler,sz)
 size = sz.unpack("L")[0]
-b = "\0" * (size.to_i+1)
-bp = "\0" * (size.to_i+1)
+b = "\0" * (size.to_i)
+bp = "\0" * (size.to_i)
 handleref = readfile.call(handler,b,b.size,bp,nil)
 Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
 handler = 0
@@ -224,7 +225,7 @@ end
   
   def writeini(file,group,key,value)
     iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call(group,key,value.to_s,utf8(file))
+                iniw.call(group,key,utf8(value.to_s),utf8(file))
               end
               
               def strbyline(str)
@@ -261,10 +262,11 @@ def getdirectory(type)
   dr = "\0" * 1024
   Win32API.new("shell32","SHGetFolderPath",'iiiip','i').call(0,type,0,0,dr)
   dr.delete!("\0")
-  return futf8(dr)
+  fdr=futf8(dr)
+    return fdr
 end
 def preproc(string,dir=".")
-  cdc = string.strbyline
+  cdc = strbyline(string)
 for i in 0..cdc.size - 1
   if cdc[i].size > 0
     if cdc[i][0..8] == "#include "

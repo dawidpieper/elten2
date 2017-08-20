@@ -14,14 +14,16 @@ end
 
 class AudioFile
   attr_reader :name
-  attr_reader :sound
-  attr_reader :closed
-  def initialize filename, loopmode = FMod::LOOP_OFF
-    @name = filename
+    attr_accessor :channel
+  attr_accessor :sound
+  attr_reader :closed
+  def initialize filename, loopmode = FMod::LOOP_OFF
+        @name = filename
     @sound = FMod::Sound.new filename
     @sound.loopMode = loopmode
     @channel = @sound.play true
-    @closed = false
+    @closed = false
+    @basefreq = @channel.frequency
   end
   # TODO : use method missing...
   def play
@@ -33,7 +35,7 @@ class AudioFile
     !@channel.paused?
     #@channel start paused
   end
-  def pause
+    def pause
     fail 'File closed' if @closed
     @channel.paused = true
   end
@@ -58,9 +60,14 @@ class AudioFile
     @channel.pan
   end
   def pan= pa
+    pa = -0.99 if pa == -1
+    pa = 0.99 if pa == 1
     fail 'File closed' if @closed
     @channel.pan = pa
   end
+  def pitch=(pi=@channel.frequency)
+    @channel.frequency = @basefreq * pi
+    end
   def frequency
     fail 'File closed' if @closed
     @channel.frequency
@@ -77,8 +84,9 @@ class AudioFile
     fail 'File closed' if @closed
     @channel.position= pos, unit
   end
-  def close
-    return false if @closed
+    def close
+      return if @closed
+    fail 'File already closed' if @closed
     @channel.stop
     @sound.release
     @closed = true
@@ -160,18 +168,22 @@ module FMod
       Release @@id
       @@id = nil
     end
-    def createSound filename, mode=DEFAULT_SOFTWARWE
+    def createSound filename, mode=DEFAULT_SOFTWARWE
+      #temp = '\x00'*4
+      #Create.call temp
+      #@@id = temp.unpack('i')[0]
+      #Init.call @@id, 32, INIT_NORMAL, 0
       filename.gsub("http://") do
       return createStream(filename,mode)
       end
-      temp = '\x00'*4
+            temp = '\x00'*4
       result = CreateSound.call @@id, filename, mode, 0, temp
       fail "File not found: \"#{filename}\"" if result == ERR_FILE_NOT_FOUND
       temp.unpack('i')[0]
     end
-    def createStream filename, mode=DEFAULT_SOFTWARWE
-      temp = '\x00'*4
-      result = CreateStream.call @@id, filename, mode, 0, temp
+    def createStream filename, mode=DEFAULT_SOFTWARWE
+            temp = '\x00'*4
+      result = CreateStream.call @@id, utf8(filename), mode, 0, temp
       fail "File not found: \"#{filename}\"" if result == ERR_FILE_NOT_FOUND
       temp.unpack('i')[0]
     end
@@ -196,8 +208,8 @@ module FMod
     attr_reader :id
     attr_reader :channel
     def initialize filename
-      @id = System.createStream filename
-    end
+      @id = System.createStream filename
+                end
     def release
       Release.call @id
     end

@@ -1,4 +1,4 @@
-#Elten Code
+﻿#Elten Code
 #Copyright (C) 2014-2016 Dawid Pieper
 #All rights reserved.
 
@@ -9,10 +9,15 @@ module EltenAPI
   module UI
                           def play(voice,volume=100,pitch=100)
                         if $interface_soundthemeactivation != 0
-                        volume = (volume.to_f * $volume.to_f / 100.0)
-                        volume = 1 if volume < 1
+                        if volume >= 0
+                          volume = (volume.to_f * $volume.to_f / 100.0)
                         volume = 100 if volume > 100
-                        volume = volume.to_i
+                          volume = 1 if volume < 1
+                                                volume = volume.to_i
+                                              else
+                                                volume = volume * -1
+                                                volume = 100 if volume > 100
+                                                end
                         if FileTest.exist?("#{$soundthemepath}/SE/#{voice}.wav") or FileTest.exist?("#{$soundthemepath}/SE/#{voice}.mp3") or FileTest.exist?("#{$soundthemepath}/SE/#{voice}.ogg") or FileTest.exist?("#{$soundthemepath}/SE/#{voice}.mid")
                           Audio.se_play("#{$soundthemepath}/SE/#{voice}",volume,pitch)
                           return(true)
@@ -100,23 +105,12 @@ end
       return(false)
     end
   else
-if Input.trigger?(Input::C) and $key[67] == false
-  if space == false
-    if $key[0x20] == false
+    key_update if $key==nil
       if $key[0x0d] == true
       return true
     else
       return false
       end
-    else
-      return false
-      end
-    else
-  return true
-  end
-else
-  return false
-  end
   end
     end
     
@@ -139,6 +133,7 @@ if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) != 0 and Input.t
     end
        def key_update
      $key = []
+     $keyr = []
      if $keyms == nil
      $lkey = 0 if $lkey == nil
      $keyms= []
@@ -154,13 +149,16 @@ if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) != 0 and Input.t
            $keyms[i] = 50 if $lkey == i
                       $key[i] = true
            $lkey = i
-         else
+         $keyr[i]=true
+           else
            $keyms[i] += 1
            $key[i] = false
            $key[i] = true if i >= 0x10 and i <= 0x12 or i == 0x14
+           $keyr[i]=true
          end
        else
          $key[i] = false
+         $keyr[i]=false
          $keyms[i] = $interface_keyms+5
          $keyms[i] = $interface_ackeyms + 5 if i == 0x1b
                   end
@@ -200,24 +198,24 @@ if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) != 0 and Input.t
                       end
                         end
      def loop_update
-                     tr = false
-       if FileTest.exists?("agent_tray.tmp")
+                                          tr = false
+       if FileTest.exists?("temp/agent_tray.tmp")
 Graphics.update
-         File.delete("agent_tray.tmp")
+         File.delete("temp/agent_tray.tmp")
 tr=true
 end
 if $agentbug!=true
-if FileTest.exists?("agent_errout.tmp")
-  if File.size("agent_errout.tmp")>4
+if FileTest.exists?("temp/agent_errout.tmp")
+  if File.size("temp/agent_errout.tmp")>4
     $agentbug=true
-    e=read("agent_errout.tmp")
+    e=read("temp/agent_errout.tmp")
 if simplequestion("Wystąpił nieoczekiwany błąd agenta programu Elten. Czy chcesz przesłać raport o tym zdarzeniu? Przesłanie raportu może zdecydowanie ułatwić rozwiązanie problemu.")==1
     bug(false,"Elten Agent Error:\r\n"+e)
         end
 speech("Program podejmie teraz próbę powrotu do pracy.")
         s=0
         begin
-      File.delete("agent_errout.tmp") if s==0
+      File.delete("temp/agent_errout.tmp") if s==0
     rescue Exception
       s=1
       retry
@@ -230,8 +228,8 @@ if $agentproc != nil
 Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call($agentproc,x)
 x.delete!("\0")
 if x != "\003\001"
-                                    writefile("agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
-    $agentproc = run("bin/elten_agent.bin")
+                                    writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
+    agent_start
 $agentloaded = true
 $agentfails=0 if $agentfails==nil
 $agentfails+=1
@@ -256,7 +254,11 @@ wntemp = srvproc("whatsnew","name=#{$name}\&token=#{$token}\&get=1")
 if wntemp.size > 1
   s = false
   if wntemp[1].to_i > $mes
+    if $language != "PL_PL" or $gender != 0
     speech("Otrzymałeś nową wiadomość.") if $loaded == true
+  else
+    speech("Otrzymałaś nową wiadomość.") if $loaded == true
+    end
     s = true
   end
   if wntemp[2].to_i > $pst
@@ -285,11 +287,15 @@ if x != "\003\001"
   $procs.delete(o)
   end
     end
-Graphics.update
-  Input.update
+        Graphics.update
+    Input.update
   Keyboard::key_update
     speech_stop if Input.trigger?(Input::CTRL) and $voice!=-1
-Thread::stop if $stopmainthread == true and Thread::current == $mainthread
+ if $stopmainthread == true
+   if Thread::current == $subthreads.last or Thread::current == $mainthread
+    Thread::stop
+  end
+  end
 if tr == true
   for i in 0..255
     $key[i]=0
@@ -302,10 +308,11 @@ if tr == true
   Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
   speech_wait
   end
-end
+  end
 def simplequestion(text="")
+  text.gsub!("jesteś pewien","jesteś pewna") if $language=="PL_PL" and $gender==0
   dialog_open  
-  sel = SelectLR.new(["Nie","Tak"],true,0,text)
+  sel = menulr(["Nie","Tak"],true,0,text)
     loop do
         loop_update
         sel.update
@@ -314,12 +321,22 @@ def simplequestion(text="")
           dialog_close  
           return(0)
     end
-    if enter
+        if enter
       loop_update
       dialog_close
-            return(sel.index)
+      if sel.commandoptions.size==2      
+      return(sel.index)
+    else
+ if sel.index<=5
+   return 0
+ elsif sel.index <= 9
+   return 1
+ else
+   return rand(2)
+   end
       end
-    end
+      end
+      end
   end
   def dialog_open
             play("dialog_open")
@@ -341,7 +358,7 @@ def dialog_close
   $dialogopened = false
   end
 
-def recording_start(filename="temp/record.wav",maxduration=0,driver=1,device=1)
+def recording_start(filename="temp/record.wav",maxduration=1800,driver=1,device=1)
   if $recproc!=nil
     writefile("record_stop.tmp","")
     loop_update

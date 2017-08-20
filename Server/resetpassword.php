@@ -1,7 +1,7 @@
 ﻿<?php
-$sql = mysql_connect("localhost", "dbuser", "dbpass")
+$sql = mysql_connect("localhost", "elten", "")
 or die("-1");
-$sql_select = @mysql_select_db('dbname')
+$sql_select = @mysql_select_db('elten')
 or die("-1");
 if(mysql_query("SET NAMES utf8") == false) {
 echo "-1";
@@ -26,12 +26,7 @@ if($error < 0)
 echo $error;
 else
 {
-srand((double)microtime()*1000000);
-for($i=0;$i<rand(8,60);$i++) {
-$znak=chr(rand(48,122));
-if (eregi("[0-9a-zA-Z]",$znak)) $password .= $znak;
-else $i--;
-};
+$password=random_str(60);
 $zapytanie = "UPDATE `users` SET `password`='".$password."' WHERE `name`='".$_GET['name']."'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false)
@@ -61,7 +56,4 @@ echo "0";
 }
 }
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

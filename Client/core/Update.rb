@@ -8,26 +8,24 @@
 class Scene_Update_Confirmation
   def initialize(toscene=nil)
     @toscene = toscene
+    @toscene=Scene_Loading.new if @toscene==nil
     end
   def main
     msg = "Dostępna jest nowa wersja programu. Czy chcesz ją pobrać i zainstalować?"
-    if $nversion <= $version
-      if $nbeta > $beta
+          if $nbeta > $beta
     msg = "Dostępna jest nowa wersja beta programu. Czy chcesz ją pobrać i zainstalować?"
-  elsif $nalpha > $alpha
-    msg = "Dostępna jest nowa wersja alpha programu. Czy chcesz ją pobrać i zainstalować?"
-    end
-  end
-               case simplequestion(msg)
+      end
+                 case simplequestion(msg)
         when 0
           if $preinitialized != true
           $denyupdate = true
-                            else
+          $scene                  =@toscene
+          else
           $denyupdate = true
                               $scene = Scene_Main.new
           end
           when 1
-            if $nversion <= $version
+            if $nbeta > $beta
     if simplequestion("Ostrzeżenie. Próbujesz zainstalować wersję beta. Zawiera ona nieprzetestowaną wersję programu i może działać niestabilnie lub powodować inne błędy. Czy chcesz kontynuować mimo to?") == 0
       if $preinitialized != true
           $denyupdate = true
@@ -49,7 +47,7 @@ class Scene_Update
         $updating = true
         speech("Proszę czekać, trwa pobieranie plików")
         if $downloadstarted != true
-        $downloadstarted = true
+        $started = true
     Graphics.update
   end
   speech_wait
@@ -102,10 +100,10 @@ else
         end
         end
         speech("Pobieranie instrukcji aktualizacji")
-if $nversion > $version
-download($url + "bin/download_elten.exe",$bindata + "\\download_elten.exe")
-else
-  download($url + "bin/beta.php?name=#{$name}\&token=#{$token}\&download=1\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}",$bindata + "\\download_elten.exe")
+if $nbeta > $beta
+download($url + "bin/beta.php?"+hexspecial("name=#{$name}\&token=#{$token}\&download=1\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}"),$bindata + "\\download_elten.exe",true)
+  else
+  download($url + "bin/download_elten.exe",$bindata + "\\download_elten.exe",true)
 end
     speech_wait
     speech("Aktualizacja zostanie teraz pobrana i zainstalowana. Program zostanie uruchomiony ponownie. To może potrwać kilka minut.")
@@ -146,7 +144,7 @@ for i in 1..langtemp.size - 1
 end
 for i in 0..langs.size - 1
   download($url + "lng/" + langs[i].to_s + ".elg",$langdata + "\\" + langs[i].to_s + ".elg")
-end
+  end
 speech_wait
 end  
         speech("Pobieranie instrukcji reinstalacji")

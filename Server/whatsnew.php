@@ -1,127 +1,81 @@
 <?php
 require("header.php");
-$zapytanie = "SELECT `name`, `messages`, `posts`, `blogposts` FROM `whatsnew`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
+$q = mquery("SELECT `name`, `messages`, `posts`, `blogposts`, `blogcomments` FROM `whatsnew`");
 $suc = false;
-while ($wiersz = mysql_fetch_row($idzapytania)) {
-if($wiersz[0] == $_GET['name']) {
-$name = $wiersz[0];
-$messages = $wiersz[1];
-$posts = $wiersz[2];
-$blogposts = $wiersz[3];
+while ($r = mysql_fetch_row($q)) {
+if($r[0] == $_GET['name']) {
+$name = $r[0];
+$messages = $r[1];
+$posts = $r[2];
+$blogposts = $r[3];
+$blogcomments = $r[4];
 $suc = true;
 }
 }
 if($suc == false) {
-$zapytanie = "INSERT INTO `whatsnew` (name, messages, posts, blogposts) VALUES ('" . $_GET['name'] . "',0,0,0)";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
+mquery("INSERT INTO `whatsnew` (name, messages, posts, blogposts) VALUES ('" . $_GET['name'] . "',0,0,0)");
 $name = $_GET['name'];
 $messages = 0;
 $posts = 0;
 $blogposts = 0;
+$blogcomments = 0;
 }
 if($_GET['get'] == 1) {
-$zapytanie = "SELECT * FROM `messages` WHERE `deletedfromreceived`=0 and `receiver`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
-$emessages = mysql_num_rows($idzapytania);
+$q = mquery("SELECT * FROM `messages` WHERE `deletedfromreceived`=0 and `receiver`='".$_GET['name']."'");
+$emessages = mysql_num_rows($q);
 $eposts = 0;
-$zapytanie = "SELECT `id`, `forum`, `thread` FROM `followedthreads` WHERE `owner`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
+$q = mquery("SELECT `id`, `forum`, `thread` FROM `followedthreads` WHERE `owner`='".$_GET['name']."'");
+while($r = mysql_fetch_row($q)) {
+$wq = mquery("SELECT `id` FROM `forum_posts` WHERE `thread`=".$r[2]);
+$eposts = $eposts + mysql_num_rows($wq);
+$wq = mquery("SELECT `posts` FROM `forum_read` WHERE `owner`='".$_GET['name']."' AND `thread`='".$r[2]."'");
+$wr = mysql_fetch_row($wq);
+$eposts = $eposts - $wr[0];
 }
-while($wiersz = mysql_fetch_row($idzapytania)) {
-$wzapytanie = "SELECT `id` FROM `forum_posts` WHERE `thread`=".$wiersz[2];
-$widzapytania = mysql_query($wzapytanie);
-if($widzapytania == false) {
-echo "-1\r\n".$wzapytanie;
-die;
-}
-$eposts = $eposts + mysql_num_rows($widzapytania);
-$wzapytanie = "SELECT `posts` FROM `forum_read` WHERE `owner`='".$_GET['name']."' AND `thread`='".$wiersz[2]."'";
-$widzapytania = mysql_query($wzapytanie);
-if($widzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
-$wwiersz = mysql_fetch_row($widzapytania);
-$eposts = $eposts - $wwiersz[0];
-}
-$zapytanie = "SELECT `author` FROM `followedblogs` WHERE `owner`='" . $_GET['name'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if ($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
+$q = mquery("SELECT `author` FROM `followedblogs` WHERE `owner`='" . $_GET['name'] . "'");
 $eblogposts = 0;
-while ($wiersz = mysql_fetch_row($idzapytania)) {
-$wzapytanie = "SELECT `postid` from `blog_assigning` WHERE `owner`='".$wiersz[0]."'";
-$widzapytania = mysql_query($wzapytanie);
-if($widzapytania == false) {
-echo "-1\r\n".$wzapytanie;
-die;
-}
-while($wwiersz = mysql_fetch_row($widzapytania)) {
-$wwzapytanie = "SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".$wiersz[0]."' AND `postid`=".$wwiersz[0];
-$wwidzapytania = mysql_query($wwzapytanie);
-if($wwidzapytania == false) {
-echo "-1\r\n".$wwzapytanie;
-die;
-}
-while($wwwiersz = mysql_fetch_row($wwidzapytania)) {
-$wwwwzapytanie = "SELECT `id` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$wiersz[0]."' AND `post`=".$wwwiersz[0];
-$wwwwidzapytania = mysql_query($wwwwzapytanie);
-if($wwwwidzapytania == false) {
-echo "-1";
-die;
-}
-if(mysql_num_rows($wwwwidzapytania) == 0) {
+while ($r = mysql_fetch_row($q)) {
+$wq = mquery("SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".$r[0]."' AND `posttype`=0");
+while($wr = mysql_fetch_row($wq)) {
+$wwwq = mquery("SELECT `id` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$r[0]."' AND `post`=".$wr[0]);
+if(mysql_num_rows($wwwq) == 0) {
 $eblogposts = $eblogposts + 1;
 }
 }
 }
-}
+$eblogcomments = mysql_num_rows(mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'"))-(mysql_fetch_row(mquery("SELECT SUM(`posts`) FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['name']."'"))[0]);
 $nblogposts = $eblogposts - $blogposts;
+$nblogcomments = $eblogcomments - $blogcomments;
 $nposts = $eposts - $posts;
 $nmessages = $emessages - $messages;
 if($nmessages==-1) {
 $nmessages = 0;
-mysql_query("UPDATE `whatsnew` SET `messages`=0 WHERE `name`=".$_GET['name']);
+mquery("UPDATE `whatsnew` SET `messages`=0 WHERE `name`=".$_GET['name']);
 }
-echo "0\r\n" . $nmessages . "\r\n" . $nposts . "\r\n" . $nblogposts;
+echo "0\r\n" . $nmessages . "\r\n" . $nposts . "\r\n" . $nblogposts . "\r\n" . $nblogcomments;
 }
-if($_GET['set'] == 1) {
+if($_GET['set']>0) {
 $nmessages = $_GET['messages'];
+if($_GET['set']==2)
+$nmessages=mysql_num_rows(mquery("SELECT `id` FROM `messages` WHERE `receiver`='".$_GET['name']."' AND `deletedfromreceived`=0"))-$nmessages;
 $nposts = $_GET['posts'];
 if($_GET['blogposts'] != NULL)
 $nblogposts = $_GET['blogposts'];
 else
 $nblogposts = -1;
+if($_GET['blogcomments'] != NULL)
+$nblogcomments = $_GET['blogcomments'];
+else
+$nblogcomments = -1;
 if($nposts == -1)
 $nposts = $posts;
 if($nmessages == -1)
 $nmessages = $messages;
 if($nblogposts == -1)
 $nblogposts = $blogposts;
-$zapytanie = "UPDATE `whatsnew` SET `messages`=".$nmessages.", `posts`=".$nposts.", `blogposts`=".$nblogposts." WHERE `name`='" . $_GET['name'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
+if($nblogcomments == -1)
+$nblogcomments = $blogcomments;
+mquery("UPDATE `whatsnew` SET `messages`=".$nmessages.", `posts`=".$nposts.", `blogposts`=".$nblogposts.", `blogcomments`=".$nblogcomments." WHERE `name`='" . $_GET['name'] . "'");
 echo "0";
 }
 ?>

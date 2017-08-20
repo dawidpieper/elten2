@@ -1,7 +1,7 @@
 ﻿<?php
-$sql = mysql_connect("localhost", "dbuser", "dbpass")
+$sql = mysql_connect("localhost", "elten", "")
 or die("-1");
-$sql_select = @mysql_select_db('dbname')
+$sql_select = @mysql_select_db('elten')
 or die("-1");
 if(mysql_query("SET NAMES utf8") == false) {
 echo "-1";
@@ -33,44 +33,25 @@ if($idzapytania == false)
 echo "-3";
 else
 {
-$zapytanie = "CREATE TABLE contacts_" . $_GET['name'] . " (user VARCHAR(64) NOT NULL PRIMARY KEY)";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$zapytanie = "CREATE TABLE followedthreads_" . $_GET['name'] . " (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, forum VARCHAR(128), thread VARCHAR(256))";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$zapytanie = "CREATE TABLE forum_read_" . $_GET['name'] . " (id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, forum VARCHAR(128), thread VARCHAR(256), posts INT)";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
 echo "0";
-$head =
-"MIME-Version: 1.0\r\n" .
-"Content-Type: text/plain; charset=ISO8859-2\r\n" .
-"Content-Transfer-Encoding: 8bit\r\n" . "From: dawidpieper@o2.pl\r\n";
+$head = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: Elten Support <support@elten-net.eu>\r\n";
 $body = "
-Elten
-Witamy w serwisie Elten!\r\n
-Możesz się zalogować, używając podanych danych:\r\n
-Login: " . $_GET['name'] . "\r\n
-Hasło: " . $_GET['password'] . "\r\n
-Pozdrawiamy!\r\n
-Administracja Elten
+<h1>Thank you for registration in Elten Network!</h1>
+and welcome in Elten Community!<br>
+<br>
+<h2>Your registration data</h2>
+Login: ".$_GET['name']."<br>
+Password: ".$_GET['password']."<br>
+<hr>
+If you have any questions, look for answers in help menu or contact <a href=mailto:support@elten-net.eu>Elten Support</a>.<br>
+If you want to use Elten in your browser, you can find simple Web interface <a href=https://elten-net.eu/web>here</a>.<br>
+<hr>
+Best regards,<br>
+Elten Support Team
 ";
-mail($_GET['mail'], "=?ISO8859-2?B?" . base64_encode("Elten - Witamy!") . "?=", $body, $head);
+mail($_GET['mail'], "=?ISO8859-2?B?" . base64_encode("Elten - Welcome!") . "?=", $body, $head);
 }
 }
 }
 }
-//Elten Server
-//Copyright (2014-2016) Dawid Pieper
-//All rights reserved
 ?>

@@ -5,8 +5,76 @@
 
 #Open Public License is used to licensing this app!
 
+class Object
+  def deep_dup
+    dup if self!=nil
+  end
+end
+
+class Numeric
+    def deep_dup
+    self
+  end
+end
+
+class Array
+  def find_index(str)
+        for i in 0..self.size-1
+      return i if self[i]==str
+    end
+    return 0
+    end
+      def deep_dup
+    map {|x| x.deep_dup}
+  end    
+  def count(o)
+    r=0
+    for v in self
+      r+=1 if v==o
+    end
+    return r
+    end
+    end
+
+class Fixnum
+  alias greater >
+  alias less <
+  alias greaterq >=
+  alias lessq <=
+  def >(i)
+        greater(i.to_f)
+  end
+  def <(i)
+    less(i.to_f)
+    end
+  def >=(i)
+    greaterq(i.to_f)
+  end
+  def <=(i)
+    lessq(i.to_f)
+    end
+  end
+  class Float
+  alias greater >
+  alias less <
+  alias greaterq >=
+  alias lessq <=
+  def >(i)
+        greater(i.to_f)
+  end
+  def <(i)
+    less(i.to_f)
+    end
+  def >=(i)
+    greaterq(i.to_f)
+  end
+  def <=(i)
+    lessq(i.to_f)
+    end
+    end
+
 class String
-  def delline(lines=1)
+    def delline(lines=1)
     self.gsub!("\004LINE\004","\r\n")    
     str = ""
 foundlines = 1
@@ -49,7 +117,7 @@ def rdelete!(i)
       break
     end
        end
-  for i in 1..x
+  for i in 0..x-1
     chop!
     end
   end
@@ -83,7 +151,7 @@ def rdelete!(i)
         r = string.gsub(/([^ a-zA-Z0-9_.-]+)/) do |m|
       '%' + m.unpack('H2' * m.size).join('%').upcase
     end.tr(' ', '+')
-    return r
+        return r
   end
     def urldec
     string = self+""
@@ -112,10 +180,39 @@ string=r
     end.tr(' ', '_')
     return r
   end
-  def bigletter
-    return true if self[0]>64 and self[0]<91
+  def bigletter(type=0)
+    if self.size==1
+    return true if self[0]>64 and self[0]<91 and type==0
+    elsif self.size==2
     return true if self=="Ą" or self=="Ć" or self=="Ę" or self=="Ł" or self == "Ń" or self=="Ó" or self=="Ś" or self=="Ź" or self=="Ż"
+  end
+  return true if lngkeys(1)[self]==1
     return false
     end
-end
+  alias strupcase upcase
+  def upcase
+    src=["ą","ć","ę","ł","ń","ó","ś","ź","ż"]
+    dst=["Ą","Ć","Ę","Ł","Ń","Ó","Ś","Ź","Ż"]
+    for i in 0..src.size-1
+    self.gsub!(src[i],dst[i])
+    end
+    strupcase
+    end
+        end
+  
+  class NilClass
+    def delete(s)
+      return ""
+    end
+    def +(s)
+      return s
+    end
+    def to_s
+      return ""
+    end
+    def to_i
+      return 0
+      end
+    end
+  
 #Copyright (C) 2014-2016 Dawid Pieper

@@ -7,27 +7,46 @@
 
 module EltenAPI
   module Network
-    def download(source,destination)
-  source.delete!("\r\n")
+    def download(source,destination,threading=false)
+        source.delete!("\r\n")
   destination.delete!("\r\n")
   $downloadcount = 0 if $downloadcount == nil
     source.sub!("?","?eltc=#{$downloadcount.to_s(36)}\&") if source.include?($url)
   $downloadcount += 1
-    ef = 0
-  begin
-  ef = Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,utf8(source),utf8(destination),0,nil)
+    $ef = -1
+  $downloading = true
+  ef=0
+    begin
+      if threading==true
+  Thread.new do
+    begin
+      $ef = Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,utf8(source),utf8(destination),0,nil)
+    rescue Exception
+      retry
+      end
+    end
+i=0
+    while $ef == -1
+    i+=1
+return -1 if i > 100  
+  end
+    ef=$ef
+  else
+    $ef = Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,utf8(source),utf8(destination),0,nil)
+    end
 rescue Exception
-  Graphics.update
+    Graphics.update
   retry
 end
+$downloading = false
   Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(utf8(source))
-  if FileTest.exist?(destination) == false and source.include?("php")
+  if FileTest.exist?(destination) == false and (source.include?("php"))
     writefile(destination,-4)
   else
-    if File.extname(destination).downcase == ".php"
-    des = read(destination)
+    if source.downcase.include?(".php") or source.downcase.include?(".eapi")
+          des = read(destination)
     if des[0] == 239 and des[1] == 187 and des[2] == 191
-      des = des[3..des.size-1]
+            des = des[3..des.size-1]
       File.delete(destination)
       writefile(destination,des)
             end
@@ -52,24 +71,22 @@ end
 else
   speech("Wysyłanie...")
     places = []
-  plc = (data.size / 524288).to_i
-for i in 0..plc-1
-  places.push(data[i*524288..((i+1)*524288)-1])
+until data.empty?
+  places << data.slice!(0..524287)
 end
-places.push(data[(plc)*524288..data.size-1])
-speech_wait
+  speech_wait
 sent = ""
-  for i in 0..places.size-1
-                loop_update
-        speech(((i.to_f/(plc.to_f+1.0))*100.0).to_i.to_s+"%") if speech_actived == false
-                  s = false
-  begin
-s = sock.send(places[i]) if s == false
-sent += places[i]
-rescue Exception
-  loop_update
-  retry
+begin
+for i in 0..places.size-1
+    loop_update
+        speech(((i.to_f/(places.size.to_f+1.0))*100.0).to_i.to_s+"%") if speech_actived == false
+                            s = sock.send(places[i])
 end
+rescue Exception
+loop_update
+sock = Socket.new(2,0,0)
+sock.connect(addr).to_s
+retry
 end
 end
 b = ""

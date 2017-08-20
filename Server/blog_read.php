@@ -24,13 +24,9 @@ if($wiersz[1] == $_GET['searchname'] AND $wiersz[2] == $_GET['postid']) {
 $suc = true;
 }
 }
-if($suc == false) {
-$zapytanie = "INSERT INTO `blog_read` (id, owner, author, post) VALUES ('','".$_GET['name']."','".$_GET['searchname']."',".$_GET['postid'].")";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
-}
+if($suc == true)
+mquery("UPDATE `blog_read` SET `posts`=".$wiersze." WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['searchname']."' AND `post`=".$_GET['postid']);
+else
+mquery("INSERT INTO `blog_read` (id, owner, author, post, posts) VALUES ('','".$_GET['name']."','".$_GET['searchname']."',".$_GET['postid'].",".$wiersze.")");
 echo "0\r\n" . $wiersze . "\r\n" . $text;
 ?>

@@ -47,7 +47,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = SelectLR.new(sel = [@adm[@sel.index],"Odświerz","Anuluj"])
+@menu = menulr(sel = [@adm[@sel.index],"Odświerz","Anuluj"])
 loop do
 loop_update
 @menu.update
@@ -56,7 +56,7 @@ if enter
   case @menu.index
   when 0
     if usermenu(@adm[@sel.index],true) != "ALT"
-          @menu = SelectLR.new(sel)
+          @menu = menulr(sel)
         else
           break
         end
@@ -70,7 +70,7 @@ end
 if Input.trigger?(Input::DOWN) and @menu.index == 0
     Input.update
   if usermenu(@adm[@sel.index],true) != "ALT"
-    @menu = SelectLR.new(sel)
+    @menu = menulr(sel)
   else
     break
     end

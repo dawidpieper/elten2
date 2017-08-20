@@ -209,7 +209,7 @@ if profile[0].to_i == 0
       end
       fields = []
       fields.push(Edit.new("Imię i nazwisko","",fullname,true))
-      fields.push(Select.new(["Kobieta","Mężczyzna"],false,gender,"Płeć",true))
+      fields.push(Select.new(["kobieta","mężczyzna"],false,gender,"Płeć",true))
       fields.push(Edit.new("Data urodzenia: rok","NUMBERS|LENGTH04",birthdateyear,true))
       fields.push(Edit.new("Data urodzenia: miesiąc","NUMBERS|LENGTH02",birthdatemonth,true))
       fields.push(Edit.new("Data urodzenia: dzień","NUMBERS|LENGTH02",birthdateday,true))
@@ -223,7 +223,9 @@ if profile[0].to_i == 0
         loop_update
         @form.update
         if ((space or enter) and @form.index == 7) or (enter and $key[0x11])
-pr = srvproc("profile","name=#{$name}\&token=#{$token}\&mod=1\&fullname=#{fields[0].text_str}\&gender=#{fields[1].index.to_s}\&birthdateyear=#{fields[2].text_str.to_i.to_s}\&birthdatemonth=#{fields[3].text_str.to_i.to_s}\&birthdateday=#{fields[4].text_str.to_i.to_s}\&location=#{fields[5].text_str}\&publicprofile=#{fields[6].checked}")
+$fullname=fields[0].text_str
+$gender=fields[1].index
+          pr = srvproc("profile","name=#{$name}\&token=#{$token}\&mod=1\&fullname=#{fields[0].text_str}\&gender=#{fields[1].index.to_s}\&birthdateyear=#{fields[2].text_str.to_i.to_s}\&birthdatemonth=#{fields[3].text_str.to_i.to_s}\&birthdateday=#{fields[4].text_str.to_i.to_s}\&location=#{fields[5].text_str}\&publicprofile=#{fields[6].checked}")
 if pr[0].to_i < 0
     speech("Błąd")
   speech_wait
@@ -359,5 +361,26 @@ when 0
 end
 dialog_close    
 end
+end
+
+class Scene_Account_Avatar
+  def main
+    dialog_open
+    @tree=FilesTree.new("Ustaw awatar",getdirectory(26),false,false,"Documents",[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma"])
+    loop do
+      loop_update
+      @tree.update
+      break if escape
+      if enter
+        pt=@tree.path+@tree.file
+        if File.directory?(pt)==false
+          avatar_set(pt)
+          break
+          end
+              end
+    end
+    dialog_close
+    $scene=Scene_Main.new
+    end
   end
 #Copyright (C) 2014-2016 Dawid Pieper

@@ -1,5 +1,19 @@
-﻿require("win32api")
+﻿if $*.to_s.include?("/autostart")==false
+eval(IO.read("bin/fiddle.dat"))
+else
+$LOAD_PATH << File.dirname(__FILE__)
+eval(IO.read(File.dirname(__FILE__)+"/fiddle.dat"))
+end
 $r=0
+$cmdline=$*.to_s
+if $cmdline.include?("/autostart")
+$autostart=true
+$eltenstarted=false
+Win32API.new("kernel32","SetCurrentDirectory",'p','i').call(File.dirname(File.dirname(__FILE__))) if FileTest.exists?("elten.exe")==false
+else
+$eltenstarted=true
+end
+#$stderr.reopen(File.dirname(__FILE__)+"/temp/agent_errout.tmp","w")
 begin
 Win32API.new("eltenvc","WindowsVersion",'i','i').call(0) if $r==0
 rescue Exception
@@ -17,8 +31,6 @@ end
 # Audio module
 # By Darkleo
 
-$stderr.reopen("agent_errout.tmp","w")
-
 module Audio
   extend self
 end
@@ -964,24 +976,110 @@ Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call($url + "redirect")
             end
         end
       end
-loop do
-if FileTest.exists?("agent.tmp") == false and $omitinit != true
+loop do
+if FileTest.exists?("temp/agent.tmp") == false and $omitinit != true and $eltenstarted != false
 Win32API.new("user32","MessageBox",'ippi','i').call(0,"Cannot load Elten Agent Temporary File...","Fatal Error",16)
-break
+break
 else
-if $omitinit != true
+if $omitinit != true
+if $eltenstarted != false
 ot = $token
-agenttemp = IO.readlines("agent.tmp")
-File.delete("agent.tmp")
+agenttemp = IO.readlines("temp/agent.tmp")
+File.delete("temp/agent.tmp")
 $name = agenttemp[0].delete("\r\n")
 $token = agenttemp[1].delete("\r\n")
-$hwnd = agenttemp[2].delete("\r\n").to_i
+$hwnd = agenttemp[2].delete("\r\n").to_i
+else
+run("bin/elten_tray.bin /autostart")
+autologin= "\0" * 64
+Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Login","AutoLogin","0",autologin,autologin.bytesize,$configdata + "\\login.ini")
+autologin=autologin.delete("\0").to_i
+$name = "\0" * 64
+Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Login","Name","",$name,$name.bytesize,$configdata + "\\login.ini")
+$name.delete!("\0")
+password_c = "\0" * 64
+Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Login","Password","",password_c,password_c.bytesize,$configdata + "\\login.ini")
+password_c.delete!("\0")
+    psw = password_c
+if autologin == 1
+password = ""
+l = false
+mn = psw[psw.size - 1..psw.size - 1]
+mn = mn.to_i
+mn += 1
+l = false
+for i in 0..psw.size - 1 - mn
+  if l == true
+    l = false
+  else
+    password += psw[i..i]
+    l = true
+    end
+  end
+class Cipher
+
+  def initialize(shuffled)
+    normal = ('a'..'z').to_a + ('A'..'Z').to_a + ('0'..'9').to_a + [' '] + [',','.','/',';',"\'",'[',']','<','>','?',"\:","\"",'{','}','-','=','_','+','`','!','@',"\#",'$','%','^',"\&",'*','(',')','_','+',"\\",'|']
+    @map = normal.zip(shuffled).inject(:encrypt => {} , :decrypt => {}) do |hash,(a,b)|
+      hash[:encrypt][a] = b
+      hash[:decrypt][b] = a
+      hash
+    end
+  end
+
+  def encrypt(str)
+    str.split(//).map { |char| @map[:encrypt][char] }.join
+  end
+
+  def decrypt(str)
+    str.split(//).map { |char| @map[:decrypt][char] }.join
+  end
+
+end
+def decrypt(msg)
+ cipher = Cipher.new ar = ["K","D","w","H","X","3","e","1","S","B","g","a","y","v","I","6","u","W","C","0","9","b","z","T","A","q","U","4","O","o","E","N","r","n","m","d","k","x","P","t","R","s","J","L","f","h","Z","j","Y","5","7","l","p","c","2","8","M","V","G","i"," ","Q","F","?",">","<","\"",":","/",".",",","'",":","[","]","{","}","-","=","_","+","\\","|","@","\#","!","`","$","^","\%","\&","*",")","(","\001","\002","\003","\004","\005","\006","\007","\008","\009","\0"]
+decrypted = cipher.decrypt msg
+return(decrypted)
+end
+      password = decrypt(password)
+    password = password.gsub("a`","ą")
+password = password.gsub("c`","ć")
+password = password.gsub("e`","ę")
+password = password.gsub("l`","ł")
+password = password.gsub("n`","ń")
+password = password.gsub("o`","ó")
+password = password.gsub("s`","ś")
+password = password.gsub("x`","ź")
+password = password.gsub("z`","ż")
+crp=password.crypt($name)
+else
+crp=psw
+end
+$version=readini("./elten.ini","Elten","Version","0").to_f
+$beta=readini("./elten.ini","Elten","Beta","0").to_i
+$isbeta=readini("./elten.ini","Elten","IsBeta","0").to_i
+ver = $version.to_s
+  ver += " BETA" if $isbeta == 1
+  ver += " RC" if $isbeta == 2
+ver += " AGENT"
+b=0
+  b=$beta if $isbeta==1
+  b=$alpha if $isbeta==2
+download($url+"login.php?login=1\&name=#{$name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}","temp/agent_login.tmp")
+break if FileTest.exists?("temp/agent_login.tmp")==false
+logintemp=IO.readlines("temp/agent_login.tmp")
+File.delete("temp/agent_login.tmp")
+break if logintemp[0].to_i!=0
+$token=logintemp[1].delete("\r\n")
+$hwnd=-1
+end
 $mes = 0
 $pst = 0
 $blg = 0
-$knownversion=readini(".\\elten.ini","Elten","Version","0").to_f
-$knownbeta=readini(".\\elten.ini","Elten","Beta","0").to_i
-$isbeta=readini(".\\elten.ini","Elten","IsBeta","0").to_i
+$blc = 0
+$knownversion=readini("./elten.ini","Elten","Version","0").to_f
+$knownbeta=readini("./elten.ini","Elten","Beta","0").to_i
+$isbeta=readini("./elten.ini","Elten","IsBeta","0").to_i
 if $token != ot
 download($url+"logout.php?name=#{$name.urlenc}\&token=#{ot}","logouttemp")
 File.delete("logouttemp") if FileTest.exists?("logouttemp")
@@ -997,25 +1095,28 @@ $rate = readini($configdata + "\\sapi.ini","Sapi","Rate","50").to_i
 Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
 $hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
 $refreshtime = readini($configdata + "\\interface.ini","Interface","RefreshTime","1").to_i
+if $eltenstarted == true and $hwnd != nil
 if $hidewindow == 1
 if tray == false
-if Win32API.new("user32","GetForegroundWindow",'i','i').call(0) != $hwnd
-if FileTest.exists?("bin/elten_tray.bin")
+if Win32API.new("user32","GetForegroundWindow",'i','i').call(0) != $hwnd and Win32API.new("user32","GetParent",'i','i').call(Win32API.new("user32","GetForegroundWindow",'i','i').call(0)) != $hwnd
+if FileTest.exists?("bin/elten_tray.bin") and FileTest.exists?("temp/agent_disabletray.tmp") == false
 play("minimize")
 run("bin\\elten_tray.bin")
 Win32API.new("user32","ShowWindow",'ii','i').call($hwnd,0)
-IO.write("agent_tray.tmp","")
+IO.write("temp/agent_tray.tmp","")
 tray=true
-elsif FileTest.exists?("elten_tray.bin")
+elsif FileTest.exists?("elten_tray.bin") and FileTest.exists?("temp/agent_disabletray.tmp") == false
 play("minimize")
 run("elten_tray.bin")
 Win32API.new("user32","ShowWindow",'ii','i').call($hwnd,0)
-IO.write("agent_tray.tmp","")
+IO.write("temp/agent_tray.tmp","")
 tray=true
 end
 end
+
 else
-tray = false if FileTest.exists?("agent_tray.tmp") == false
+tray = false if FileTest.exists?("temp/agent_tray.tmp") == false
+end
 end
 end
 $soundthemespath = "\0" * 64
@@ -1028,19 +1129,52 @@ $soundthemespath = "\0" * 64
     end
 if $li == 0
 url = $url + "active.php?name=#{$name.urlenc}\&token=#{$token}"
-if download(url,"agentacttemp") == 0
-if FileTest.exists?("agentacttemp")
-File.delete("agentacttemp")
+if download(url,"temp/agent_act.tmp") == 0
+if FileTest.exists?("temp/agent_act.tmp")
+File.delete("temp/agent_act.tmp")
 end
-url = $url + "whatsnew.php?name=#{$name.urlenc}\&token=#{$token}\&get=1"
-if download(url,"agentwntemp") == 0
-if FileTest.exists?("agentwntemp")
-wntemp = IO.readlines("agentwntemp")
-File.delete("agentwntemp")
+download($url+"profile.php?name=#{$name}\&token=#{$token}\&get=1\&searchname=#{$name}","temp/agent_pr.tmp")
+pr = IO.readlines("temp/agent_pr.tmp")
+$fullname = ""
+$gender = -1
+$birthdateyear = 0
+$birthdatemonth = 0
+$birthdateday = 0
+$location = ""
+if pr[0].to_i == 0
+  $fullname = pr[1].delete("\r\n")
+        $gender = pr[2].delete("\r\n").to_i
+        if pr[3].to_i>1900 and pr[4].to_i > 0 and pr[4].to_i < 13 and pr[5].to_i > 0 and pr[5].to_i < 32
+        $birthdateyear = pr[3].delete("\r\n")
+        $birthdatemonth = pr[4].delete("\r\n")
+        $birthdateday = pr[5].delete("\r\n")
+        end
+        $location = pr[6].delete("\r\n")
+                        if $birthdateyear.to_i>0
+        $age = Time.now.year-$birthdateyear.to_i
+if Time.now.month < $birthdatemonth.to_i
+  $age -= 1
+elsif Time.now.month == $birthdatemonth.to_i
+  if Time.now.day < $birthdateday.to_i
+    $age -= 1
+    end
+  end
+  $age -= 2000 if $age > 2000      
+    end
+  end
+    url = $url + "whatsnew.php?name=#{$name.urlenc}\&token=#{$token}\&get=1"
+if download(url,"temp/agentwn.tmp") == 0
+if FileTest.exists?("temp/agentwn.tmp")
+wntemp = IO.readlines("temp/agentwn.tmp")
+File.delete("temp/agentwn.tmp")
 if wntemp.size > 1
 s = false
 if wntemp[1].to_i > $mes
-speech("Otrzymałeś nową wiadomość.") if $loaded == true
+if $language != "PL_PL" or $gender != 0
+speech("Otrzymałeś nową wiadomość.") if $loaded == true
+else
+speech("Otrzymałaś nową wiadomość.") if $loaded == true
+end
 s = true
 end
 if wntemp[2].to_i > $pst
@@ -1051,19 +1185,24 @@ if wntemp[3].to_i > $blg
 speech("Na śledzonym blogu pojawił się nowy wpis.") if $loaded == true
 s = true
 end
+if wntemp[4].to_i > $blc
+speech("Na twoim blogu pojawił się nowy komentarz.") if $loaded == true
+s = true
+end
 play("new") if s == true
 $loaded = true
 $mes = wntemp[1].to_i
 $pst = wntemp[2].to_i
 $blg = wntemp[3].to_i
+$blc = wntemp[4].to_i
 end
 end
 end
-if download($url+"bin/elten.ini",utf8($bindata+"\\newest.ini")) == 0
-$nversion=readini($bindata+"\\elten.ini","Elten","Version",$version.to_s).to_f
-$nbeta=readini($bindata+"\\elten.ini","Elten","Beta",$beta.to_s).to_i
+if download($url+"bin/elten.ini",$bindata+"\\newest.ini") == 0
+$nversion=readini($bindata+"\\newest.ini","Elten","Version",$version.to_s).to_f
+$nbeta=readini($bindata+"\\newest.ini","Elten","Beta",$beta.to_s).to_i
 s = false
-if $nversion > $knownversion
+if $nversion > $knownversion+0.00001
 speech("Dostępna jest nowa wersja programu Elten.")
 s=true
 end
@@ -1077,17 +1216,37 @@ play("new") if s==true
 end
 end
 end
+if FileTest.exists?("temp/agent_chat.tmp")
+url = $url+"chat.php?name=#{$name}\&token=#{$token}\&recv=1"
+if download(url,"temp/agentchat.tmp") == 0
+if FileTest.exists?("temp/agentchat.tmp")
+chattemp=IO.readlines("temp/agentchat.tmp")
+File.delete("temp/agentchat.tmp")
+if chattemp[0].to_i==0
+$chatmsg=chattemp[1]
+if $chatmsg!=$chatlastmsg
+play("chat_message")
+speech($chatmsg)
+$chatlastmsg=$chatmsg
+end
+end
+end
+end
+end
 sleep(0.2)
 $li+=1
 $li = 0 if $li >= $refreshtime*5
-IO.write("agent_output.tmp",$name+"\r\n"+$token+"\r\n"+$mes.to_s+"\r\n"+$pst.to_s+"\r\n"+$blg.to_s)
-if FileTest.exists?("agent_exit.tmp") or Win32API.new("user32","IsWindow",'i','i').call($hwnd) == 0
+IO.write("temp/agent_output.tmp",$name+"\r\n"+$token+"\r\n"+$mes.to_s+"\r\n"+$pst.to_s+"\r\n"+$blg.to_s+"\r\n"+$blc.to_s)
+if FileTest.exists?("temp/agent_exit.tmp") or (Win32API.new("user32","IsWindow",'i','i').call($hwnd) == 0 and $eltenstarted == true)
 puts("Exiting...")
-File.delete("agent_exit.tmp") if FileTest.exists?("agent_exit.tmp")
+File.delete("temp/agent_exit.tmp") if FileTest.exists?("temp/agent_exit.tmp")
 $break = true
 break
 end
-break if FileTest.exists?("agent.tmp")
+if FileTest.exists?("temp/agent.tmp")
+$eltenstarted=true
+break
+end
 end
 end
 if $break == true

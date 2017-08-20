@@ -33,13 +33,18 @@ module EltenAPI
    
    def translate(from,to,text,quiet=false)
      text="" if text==nil
-     text=text.gsub("\004LINE\004","\r\n")
+     text=text.to_s
+          text=text.gsub("\004LINE\004","\r\n")
      text.gsub!("\r\n"," \r\n")
+     text.gsub!("\004","")
+text.gsub!("-"," ")
      text=text.urlenc
-     to = to[0..1]
-     if from == 0
+               to = to[0..1]
+               text[0]=0 if text[0..0]=="+"
+               text.delete!("\0")
+                              if from == 0
        download("https://translate.yandex.net/api/v1.5/tr.json/detect?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&text=#{text}","temp/trans")
-       a = read("temp/trans")
+               a = read("temp/trans")
 File.delete("temp/trans")
  b = a.gsub("\":","\"=>")
 c = eval(b)
@@ -55,6 +60,7 @@ download("https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.
      File.delete("temp/trans")
      b = a.gsub("\":","\"=>")
 c = eval(b)
+if c.is_a?(Hash)
 if c['code']!=200
   speech("Wystąpił błąd podczas tłumaczenia") if quiet==false
   return c['code']
@@ -64,6 +70,9 @@ for l in c['text']
   r += l
 end
 return r
+else
+  return ""
+  end
      end
    
 
@@ -145,7 +154,7 @@ if query == nil
     if FileTest.exists?(destination+"_org.tmp")
       $ytds[di]=2
       else
-    h[di] = run("bin\\youtube-dl.exe -x -o \"#{destination}_org.tmp\" https://youtube.com/watch?v=#{ids[di]}",true)
+    h[di] = run("bin\\youtube-dl.exe -f bestaudio -x -o \"#{destination}_org.tmp\" https://youtube.com/watch?v=#{ids[di]}",true)
     $ytdh=h
 $ytds[di]=1
 loop do
@@ -215,13 +224,19 @@ loop do
         break
   end
   if enter
-       destination = "temp/"+e['items'][sel.index]['snippet']['title'].delspecial+".mp3"
+    if e==nil
+      speech("Błąd")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
+    destination = "temp/"+e['items'][sel.index]['snippet']['title'].delspecial+".mp3"
           suc=false
    if FileTest.exists?(destination+"_org.tmp") and $ytds[sel.index]==2
         suc=true
      else
       $ytdh[sel.index]=1  
-   h = run("bin\\youtube-dl.exe -x -o \"#{destination}_org.tmp\" https://youtube.com/watch?v=#{ids[sel.index]}",true)
+   h = run("bin\\youtube-dl.exe -f bestaudio -x -o \"#{destination}_org.tmp\" https://youtube.com/watch?v=#{ids[sel.index]}",true)
       t = 0
       tmax = 300
       speech("Łączenie z serwerem, proszę czekać...")
@@ -298,7 +313,8 @@ when 3
   type = selector(["Pobierz jako video","Pobierz jako audio","Anuluj"],"Jak chcesz pobrać ten plik?",0,0,1)
   if type < 2
 fl = ""
-fl = input_text("Podaj ścieżkę, w której chcesz zapisać ten plik","",getdirectory(5))
+fl = getfile("Gdzie zapisać ten plik?",getdirectory(40)+"\\",true,"Documents")
+if fl!=""
 if type == 0
 fl += "\\"+e['items'][sel.index]['snippet']['title'].delspecial+".mp4"
     h = run("bin\\youtube-dl.exe -o \"#{fl}\" https://youtube.com/watch?v=#{ids[sel.index]}",true)
@@ -324,10 +340,10 @@ if t > tmax
     speech("Zapisano.")
         elsif type == 1
           fl += "\\"+e['items'][sel.index]['snippet']['title'].delspecial+".mp3"
-Win32API.new("kernel32","CopyFile",'ppi','i').call(destination,fl,0)
+                    Win32API.new("kernel32","CopyFile",'ppi','i').call(destination,fl,0)
   speech("Zapisano")      
       end
-    
+    end
     end
 when 4
   url="https://youtube.com/watch?v=#{ids[sel.index]}"

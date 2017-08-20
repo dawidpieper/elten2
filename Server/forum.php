@@ -44,7 +44,12 @@ $forumname = $_GET['forumname'];
 if($forumname != NULL)
 $zapytanie = "SELECT `id`, `name` FROM `forum_threads` WHERE `forum`='".$_GET['forumname']."' ORDER BY `lastpostdate` DESC";
 else
-$zapytanie = "SELECT `id`, `name` FROM `forum_threads` WHERE `id` in (SELECT `thread` FROM `followedthreads` WHERE `owner`='".$_GET['name']."') ORDER BY `lastpostdate` DESC";
+$zapytanie = "SELECT `id`, `name` FROM `forum_threads` WHERE `id` in (SELECT `thread` FROM `followedthreads` WHERE `owner`='".$_GET['name']."')  AND `name`!='' ORDER BY `lastpostdate` DESC";
+if($_GET['forumname'][0]=="*") {
+$f=str_replace("\\","\\\\",$_GET['forumname']);
+$f=ltrim(str_replace("'","\\'",$f),"*");
+$zapytanie="SELECT `id`, `name` FROM `forum_threads` WHERE `id` in (SELECT `thread` FROM `forum_posts` WHERE `post` LIKE '%".$f."%') ORDER BY `lastpostdate` DESC";
+}
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false)
 echo "-1";
@@ -54,6 +59,15 @@ $wiersze = 0;
 $tekst = "";
 while ($wiersz = mysql_fetch_row($idzapytania)){
 $tekst .= $wiersz[0] . "\r\n" . $wiersz[1] . "\r\n";
+if($_GET['details']==1) {
+$wzapytanie="SELECT `author` FROM `forum_posts` WHERE `thread`=".$wiersz[0];
+$widzapytania=mysql_query($wzapytanie);
+if($widzapytania==false) {
+echo "-1";
+die;
+}
+$tekst.=mysql_fetch_row($widzapytania)[0]."\r\n";
+}
 $wiersze = $wiersze + 1;
 }
 echo "0\r\n" . $wiersze . "\r\n" . $tekst;

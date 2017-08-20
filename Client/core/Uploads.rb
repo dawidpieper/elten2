@@ -63,7 +63,7 @@ class Scene_Uploads
        if n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2"
          play("menu_open")
          play("menu_background")
-         menu = SelectLR.new(["Pobierz","Odtwarzaj"])
+         menu = menulr(["Pobierz","Odtwarzaj"])
          loop do
            loop_update
            menu.update
@@ -81,37 +81,26 @@ class Scene_Uploads
          end
        case d
        when 0
-         dir = input_text("Podaj ścieżkę, w której chcesz zapisać ten plik","ACCEPTESCAPE",getdirectory(5))
-       if dir == "\004ESCAPE\004"
+         dir = getfile("Gdzie zapisać ten plik?",getdirectory(40)+"\\",true,"Documents")
+       if dir == ""
          return
        end
        dir.chop! if dir[dir.size-1] == 92
        speech("Pobieranie...")
-       download($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")))
+       download($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")),true)
        speech("Zapisano.")
        when 1
-         loop_update
-         dialog_open
-      speech("Plik: #{@filenames[@sel.index]}")
-      speech_wait
-      $dialogvoice.pause      
-      stream = AudioFile.new($url+"uploads/"+@files[@sel.index])
-stream.play            
-      loop do
-        loop_update
-        break if enter or escape
-      end
-      stream.close
-      dialog_close
-       end
-     end
+                  player($url+"uploads/"+@files[@sel.index],@filenames[@sel.index],true,true,true)
+                end
+                loop_update
+                  end
           end
      def menu
      d = 0
        n = File.extname(@filenames[@sel.index]).downcase
        play("menu_open")
          play("menu_background")
-         menu = SelectLR.new(["Pobierz","Odtwarzaj","Usuń"])
+         menu = menulr(["Pobierz","Odtwarzaj","Usuń"])
        menu.disable_item(1) unless n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2"
        menu.disable_item(2) if @name != $name
                   loop do
@@ -130,28 +119,16 @@ stream.play
                 Audio.bgs_stop
                                case d
        when 0
-         dir = input_text("Podaj ścieżkę, w której chcesz zapisać ten plik","ACCEPTESCAPE",getdirectory(5))
+dir = getfile("Gdzie zapisać ten plik?",getdirectory(40)+"\\",true,"Documents")         
        if dir == "\004ESCAPE\004"
          return
        end
        dir.chop! if dir[dir.size-1] == 92
        speech("Pobieranie...")
-       download($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")))
+       download($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")),true)
        speech("Zapisano.")
        when 1
-         loop_update
-         dialog_open
-      speech("Plik: #{@filenames[@sel.index]}")
-      speech_wait
-      $dialogvoice.pause      
-            stream = AudioFile.new($url+"uploads/"+@files[@sel.index])
-stream.play            
-      loop do
-        loop_update
-        break if enter or escape
-      end
-      stream.close
-      dialog_close
+         player($url+"uploads/"+@files[@sel.index],@filenames[@sel.index],true,true,true)
       when 2
         if simplequestion("Czy jesteś pewien, że chcesz usunąć plik #{@filenames[@sel.index]}?")
           ef = srvproc("uploads_mod","name=#{$name}\&token=#{$token}\&del=1\&file=#{@files[@sel.index]}")
@@ -165,6 +142,7 @@ stream.play
             end
           end
        end
+       loop_update
        end
      end
   

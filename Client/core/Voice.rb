@@ -32,9 +32,9 @@ loop_update
          when 2
            $scene = Scene_Voice_Volume.new
          when 3
-           $voice = -1
-                           iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Voice',-1.to_s,$configdata + "\\sapi.ini")
+                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+                iniw.call('Sapi','Voice',-1.to_s,utf8($configdata + "\\sapi.ini"))
+                                $voice = -1
                 speech("Wybrano obsługę czytnika ekranowego.")
        end
        end
@@ -88,9 +88,9 @@ loop_update
         end
       if enter or $selectedvoice == true
                 iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Voice',$curnum.to_s,$configdata + "\\sapi.ini")
+                iniw.call('Sapi','Voice',$curnum.to_s,utf8($configdata + "\\sapi.ini")) if $voice != -3 or @settings != 0
                 $voice = $curnum.to_i
-                                      mow = utf8("Wybrany głos: ") + $voicename.call($curnum)
+                                      mow = utf8("Wybrany głos: " + $voicename.call($curnum))
         speech(mow)
 speech_wait
 if @settings == 0
@@ -108,7 +108,7 @@ play("menu_open")
 play("menu_background")
 sel = ["Wybierz"]
 sel.push("Anuluj") if @settings != 0
-@menu = SelectLR.new(sel)
+@menu = menulr(sel)
 loop do
 loop_update
 @menu.update
@@ -167,7 +167,7 @@ if @rate - 1 != @sel.index
       end
       if enter
                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Rate',@rate.to_s,$configdata + "\\sapi.ini")   
+                iniw.call('Sapi','Rate',@rate.to_s,utf8($configdata + "\\sapi.ini"))
      speech("Zapisano.")
      speech_wait
      $scene = Scene_Voice.new
@@ -206,7 +206,7 @@ if @volume - 1 != @sel.index
       end
       if enter
                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Volume',@volume.to_s,$configdata + "\\sapi.ini")   
+                iniw.call('Sapi','Volume',@volume.to_s,utf8($configdata + "\\sapi.ini"))
      speech("Zapisano.")
      speech_wait
      $scene = Scene_Voice.new

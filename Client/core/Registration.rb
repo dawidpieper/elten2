@@ -13,11 +13,7 @@ class Scene_Registration
     while name == ""
     name = input_text("Podaj swój login. Będzie on używany w celu identyfikacji. Maksymalna długość loginu to 64 znaki.")
   end
-  name.gsub(".") do
-    speech("Nazwa użytkownika nie może zawierać kropek. Znak zostanie pominięty.")
-    speech_wait
-  end
-    name.gsub("/") do
+      name.gsub("/") do
     speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
     speech_wait
   end
@@ -29,11 +25,7 @@ class Scene_Registration
     speech("Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty.")
     speech_wait
   end
-      name.gsub("-") do
-    speech("Nazwa użytkownika nie może zawierać myślników. Znak zostanie pominięty.")
-    speech_wait
-  end
-    name.delete!("./ -")
+          name.delete!("/ ,;")
   name.delete!("\\")
   pswconfirm = ""
   while password == "" or password != pswconfirm
@@ -44,7 +36,7 @@ class Scene_Registration
       speech_wait
       end
   end
-  while mail == ""
+  while mail.include?("@")==false
     mail = input_text("Podaj swój adres mailowy. Będzie on używany w przypadku zapomnienia hasła i do wysyłania najważniejszych informacji.")
     end
 regtemp = srvproc("register","register=1\&name=#{name}\&password=#{password}\&mail=#{mail}")

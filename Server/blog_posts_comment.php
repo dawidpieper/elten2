@@ -37,11 +37,11 @@ if($_GET['name'] != $_GET['searchname']) {
 $msg = "User ".$_GET['name']." has commented post on your blog: ".$postname.".\r\nComment:\r\n".$post."\r\n\r\nNote, this message has been sent automatically.\r\nGreetings,\r\nElten Support";
 $date = date("d.m.Y H:i");
 $zapytanie = "INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, `deletedfromreceived`, `deletedfromsent`) VALUES ('', 'elten', '".$_GET['searchname']."', 'New comment on your blog', '" . $msg . "', '" . $date . "',0,0)";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+//$idzapytania = mysql_query($zapytanie);
+//if($idzapytania == false) {
+//echo "-1";
+//die;
+//}
 }
 echo "0";
 ?>

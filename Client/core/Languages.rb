@@ -47,7 +47,7 @@ for i in 0..@langs.size - 1
     end
   end
 speech_wait
-  sel = ["POLSKI"]
+  sel = ["POLSKI - POLSKA"]
 sel += @langs
 sel.push("Pobierz tłumaczenia z serwera")
 @selt = sel
@@ -75,7 +75,7 @@ if enter
 lng = @langs_f[@sel.index - 1]
 lng = lng.sub(".elg","")
                    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Language','Language',lng,$configdata + "\\language.ini") 
+                iniw.call('Language','Language',lng,utf8($configdata + "\\language.ini"))
 $language = lng
 if $language.upcase != "PL_PL"
   $lang_src = []
@@ -101,17 +101,17 @@ if $language.upcase != "PL_PL"
             end
             end
           end
-      end
-end
+        end
+                end
 end                
 speech("Zapisano.")
 elsif @sel.index == 0
                    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Language','Language',"PL_PL",$configdata + "\\language.ini") 
+                iniw.call('Language','Language',"PL_PL",utf8($configdata + "\\language.ini"))
   $language = "PL_PL"
   $lang_src = []
   $lang_dst = []
-speech("Zapisano")
+  speech("Zapisano")
   elsif @sel.index == @selt.size - 1
   langtemp = srvproc("languages","")
     err = langtemp[0].to_i
@@ -134,7 +134,7 @@ for i in 1..langtemp.size - 1
 end
 for i in 0..langs.size - 1
   download($url + "lng/" + langs[i].to_s + ".elg",$langdata + "\\" + langs[i].to_s + ".elg")
-end
+  end
 speech("Paczki językowe zostały zaktualizowane")
 speech_wait
 main

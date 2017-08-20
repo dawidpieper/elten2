@@ -61,12 +61,14 @@ for i in 0..$forums.size - 1
   indexa=0
   indexb=0
   @cat = 0
+  if @iindex.is_a?(Integer)
   if @iindex > 0
     indexa = groups.find_index(@forums[@iindex-1].group)+1
     indexb=seli[indexa-1].find_index(@iindex-1)
     @cat = 1
     end
-                @commandforums = []
+    end    
+    @commandforums = []
         for i in 0..groups.size-1
           @commandforums[i] = Select.new(sel[i],true,indexb,"Wybierz Forum",true)
         end
@@ -84,7 +86,10 @@ for i in 0..$forums.size - 1
             end
           grp.push(g + " . Fora: #{f.to_s}, Wątki: #{t.to_s}, Wpisy: #{ps.to_s}")
           end
-        @commandcats = Select.new(["Śledzone wątki"]+grp,true,indexa,"Forum",true)
+        if @iindex.is_a?(String)
+          indexa=grp.size+1 if @iindex[0..0]=="*"
+          end
+          @commandcats = Select.new(["Śledzone wątki"]+grp+["Szukaj"],true,indexa,"Forum",true)
         if @cat == 0
           @commandcats.focus
         else
@@ -128,12 +133,19 @@ loop_update
               $scene = Scene_Main.new
               end
               if enter or Input.trigger?(Input::RIGHT)
-                if @commandcats.index>0
+                if @commandcats.index>0 and @commandcats.index<@commandcats.commandoptions.size-1
                 @cat = 1
                 @commandforums[@commandcats.index-1].index=0
                 @commandforums[@commandcats.index-1].focus
-              else
+              elsif @commandcats.index==0
                 $scene = Scene_Forum_Forum.new("",0)
+              else
+                s=input_text("Podaj frazę do wyszukania","ACCEPTESCAPE")
+                if s == "\004ESCAPE\004"
+                  @commandcats.focus
+                else
+                  $scene = Scene_Forum_Forum.new("*"+s,"*"+s)
+                  end
                 end
                 end
             end
@@ -153,7 +165,7 @@ loop_update
             def menu
 play("menu_open")
 play("menu_background")
-@menu = SelectLR.new(["otwórz","Anuluj"])
+@menu = menulr(["otwórz","Anuluj"])
 loop do
 loop_update
 @menu.update
@@ -190,42 +202,50 @@ end
 when 0
   forumlist = []
   forumid = 0
-  for i in 0..$forums.size - 1
+    for i in 0..$forums.size - 1
     $forums[i].delete!("\n")
   end
   i = 2
   forumtitles = []
   $forumid = []
-  $threadmaxid = 0
-  loop do
-      forumlist[forumid] = $forums[i]
+    $threadmaxid = 0
+  if $forums[1].to_i>0
+    loop do
+          forumlist[forumid] = $forums[i]
       $forumid[forumid] = $forums[i].to_s
       $threadmaxid = $forumid[forumid].to_i if $forumid[forumid].to_i > $threadmaxid
       i += 1
       forumtitles[forumid] = $forums[i]
     forumid += 1
-    break if i >= ($forums[1].to_i) * 2
+        break if i >= ($forums[1].to_i) * 2
     i += 1
   end
-                    @threads=[]
-          for i in 0..forumtitles.size-1
+  end                  
+  @threads=[]
+                              for i in 0..forumtitles.size-1
             @threads[i]=Struct_Forum_Thread.new($forumid[i],forumtitles[i])
-            end
-        poststemp = srvproc("forum_posts","name=#{$name}\&token=#{$token}\&cat=1\&forumname=#{@forum}")
+                                    end
+        poststemp = srvproc("forum_posts","name=#{$name}\&token=#{$token}\&cat=1\&details=1\&forumname=#{@forum}")
         l = 1
-    id = true
+    id = 0
     ti = 0
     tt = ""
     i = 0
     loop do
-      if id == true
+      if id == 0
         ti = poststemp[l].to_i
-        id = false
-      else
+        id = 1
+      elsif id == 1
         for j in 0..$forumid.size - 1
         @threads[j].posts = poststemp[l] if ti == @threads[j].id.to_i
         end
-        id = true
+        id = 2
+      elsif id == 2
+                for j in 0..$forumid.size - 1
+        @threads[j].author = poststemp[l] if ti == @threads[j].id.to_i
+        @threads[j].author=@threads[j].author.lore if @threads[j].author.lore!=""
+        end
+        id = 0
       end
       l += 1
       break if l >= poststemp.size
@@ -256,7 +276,7 @@ when 0
       if @threads[i] != nil
         selt = ""
         selt += "Nowy: \004NEW\004" if @threads[i].posts.to_i > @threads[i].readposts.to_i
-        selt += @threads[i].name.to_s + " . Wpisy: " + @threads[i].posts.to_s
+        selt += @threads[i].name.to_s + " . Wpisy: " + @threads[i].posts.to_s + " . Autor: " + @threads[i].author
                        sel.push(selt)
         end
       end
@@ -307,7 +327,7 @@ loop_update
             if escape or Input.trigger?(Input::LEFT)
               $scene = Scene_Forum.new(@forumindex)
             end
-            if enter or Input.trigger?(Input::RIGHT)
+            if (enter or Input.trigger?(Input::RIGHT)) and @command.commandoptions.size>0
                                           $scene = Scene_Forum_Thread.new(@threads[@command.index].id,false,@forumindex,@threads[@command.index].readposts.to_i,0,@forumtype)
               end
             end
@@ -315,17 +335,23 @@ loop_update
 play("menu_open")
 play("menu_background")
 sel = ["otwórz","Zmień śledzenie wątku","Nowy temat","Anuluj"]
-sel.push("Usuń Wątek") if $rang_moderator > 0
-@menu = SelectLR.new(sel)
+sel.push("Usuń Wątek") if $rang_moderator > 0 and @command.commandoptions.size>0
+@menu = menulr(sel,true,0,"",true)
+if @command.commandoptions.size==0
+  @menu.disable_item(0)
+  @menu.disable_item(1)
+  end
 @menu.disable_item(2) if @forum == ""
+@menu.focus
 loop do
 loop_update
 @menu.update
 if enter
 case @menu.index
 when 0
-$scene = Scene_Forum_Thread.new(@threads[@command.index].id,false,@forumindex,@threads[@command.index].readposts.to_i,0,@forumtype)
+  $scene = Scene_Forum_Thread.new(@threads[@command.index].id,false,@forumindex,@threads[@command.index].readposts.to_i,0,@forumtype) if @command.commandoptions.size>0
 when 1
+  if @command.commandoptions.size>0
   fttemp = srvproc("forum_ft","name=#{$name}\&token=#{$token}\&add=1\&forum=#{$forumname}\&thread=#{@threads[@command.index].id}")
       err = fttemp[0].to_i
   case err
@@ -351,6 +377,7 @@ when 1
           end
         end
         speech_wait
+        end
 when 2
   $scene = Scene_Forum_Forum_New.new($forumname,@forumindex,@forumtype)
 when 3
@@ -383,7 +410,7 @@ end
     id = @id
     $threadid = id.to_s
    $forums = srvproc("forum","token=" + $token + "&name=" + $name + "&forum=2&forumname=" + $forumname + "&threadid=" + $threadid)
-   case $forums[0].to_i
+      case $forums[0].to_i
 when 0
   $posts = $forums[1].to_i
   $post = []
@@ -399,7 +426,16 @@ when 0
                         if $forums[l] != "\004END\004\n" and $forums[l] != nil
         if t != 2 and t != 1
       @posts[i].post += $forums[l].to_s
-    elsif t == 2
+      if @forumindex.is_a?(String)
+        if @forumindex[0..0]=="*"
+          if @prefindex == nil
+            if $forums[l].downcase.include?(@forumindex[1..@forumindex.size-1].downcase)
+      @prefindex = i
+      end
+    end
+    end
+    end
+      elsif t == 2
       @posts[i].author += $forums[l].to_s.maintext if $forums[l] != nil
       if $forums[l].to_s != nil
         if $forums[l].to_s.lore == ""
@@ -408,7 +444,9 @@ when 0
       @posts[i].authorname += $forums[l].to_s.lore if $forums[l] != nil
     end
     end
-          elsif t == 1
+    @posts[i].author.delete!("\r\n")
+    @posts[i].authorname.delete!("\r\n")
+    elsif t == 1
                   @posts[i].id = $forums[l].to_i if $forums[l] != nil
                   end
           else
@@ -457,7 +495,8 @@ when 0
           if $forums[0].to_i < 0 and $scene == self
             $scene = Scene_Forum.new
           end
-                    @form = Form.new(@fields)
+          @prefindex=0 if @prefindex==nil          
+          @form = Form.new(@fields,@prefindex)
             loop do
 loop_update
 if @forumtype == 0
@@ -493,7 +532,6 @@ end
 text = @form.fields[@form.fields.size - 3].text_str
               buf = buffer(text).to_s
 ft = srvproc("forum_edit","name=" + $name + "&token=" + $token + "&forumname=" + $forumname + "&threadid=" + $threadid + "&buffer=" + buf)
-srvproc("forum","token=" + $token + "&name=" + $name + "&forum=2&forumname=" + $forumname + "&threadid=" + $threadid)
 if ft[0].to_i == 0
   speech("Wpis został utworzony.")
 else
@@ -552,19 +590,18 @@ if t > tmax
         end
       speech("Przygotowywanie do wysłania wpisu...")
         data = ""
-            begin
-            data = read("temp/audiopost.mp3").urlenc(true) if data == ""
-          rescue Exception
-            play("right")
-            retry
-          end
-          data = "post="+data
-  host = $url.sub("https://","")
+                        fl = read("temp/audiopost.mp3")
+            host = $url.sub("https://","")
   host.delete!("/")
-  length = data.size
-srvproc("forum","token=" + $token + "&name=" + $name + "&forum=2&forumname=" + $forumname + "&threadid=" + $threadid)
-  q = "POST /forum_edit.php?name=#{$name}\&token=#{$token}\&forumname=#{$forumname.urlenc}\&threadid=#{$threadid}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
+                 boundary=""
+        while fl.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
+    length=data.size    
+      q = "POST /forum_edit.php?name=#{$name}\&token=#{$token}\&forumname=#{$forumname.urlenc}\&threadid=#{$threadid}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
 a = connect(host,80,q)
+srvproc("forum","token=" + $token + "&name=" + $name + "&forum=2&forumname=" + $forumname + "&threadid=" + $threadid)
 a.delete!("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
@@ -572,14 +609,16 @@ for i in 0..a.size - 1
     break
     end
   end
+  a
   if s == nil
     speech("Błąd")
-    return
+      return
   end
   sn = a[s..a.size - 1]
   a = nil
         ft = strbyline(sn)
-if ft[0].to_i == 0
+ft
+        if ft[0].to_i == 0
   speech("Wpis został utworzony.")
 else
   speech("Błąd tworzenia wpisu.")
@@ -611,8 +650,8 @@ if $key[0x4E] == true
 @form.index = $postcur+1
 @form.fields[$postcur+1].focus
 end
-if $key[0x46] == true
-  text = "--Cytat (#{@posts[$postcur].authorname}:\r\n#{@posts[$postcur].post.delline(3).gsub(signature(@posts[$postcur].authorname),"")}\r\n) -- Koniec Cytatu"
+if $key[0x46] == true and $postcur<@posts.size
+  text = "--Cytat (#{@posts[$postcur].authorname}:\r\n#{qpost(@posts[$postcur].post,@posts[$postcur].authorname)}\r\n--Koniec Cytatu"
     @form.fields[@form.fields.size - 3].settext(text)
   $postcur = @posts.size - 1
 @form.index = $postcur+1
@@ -629,7 +668,7 @@ if $postcur >= @posts.size
 author = @posts[$postcur].authorname
 end
 sel = [author,"Nowy wpis","Odpowiedz z cytatem","Edytuj wpis", "Przejdź do ostatniego wpisu","Przejdź do pierwszego nowego wpisu","Anuluj","Usuń wpis"]
-@menu = SelectLR.new(sel)
+@menu = menulr(sel)
  if $postcur >= @posts.size
    @menu.disable_item(0)
    @menu.disable_item(2)
@@ -653,7 +692,7 @@ case @menu.index
 when 0
   if usermenu(@posts[$postcur].author,true) != "ALT"
     if $scene == self
-    @menu = SelectLR.new(sel)
+    @menu = menulr(sel)
   else
     break
     end
@@ -665,7 +704,7 @@ when 1
 @form.index = $postcur+1
 @form.fields[$postcur+1].focus
 when 2
-  text = "--Cytat (#{@posts[$postcur].authorname}:\r\n#{@posts[$postcur].post.delline(3)}\r\n) -- Koniec Cytatu"
+  text = "--Cytat (#{@posts[$postcur].authorname}:\r\n#{@posts[$postcur].post.delline(4)}\r\n-- Koniec Cytatu"
     @form.fields[@form.fields.size - 3].settext(text)
   $postcur = @posts.size - 1
 @form.index = $postcur+1
@@ -723,6 +762,22 @@ Audio.bgs_stop
 play("menu_close")
 loop_update
 end
+def qpost(post,author)
+  t=post.reverse.delete("\005")
+  t.sub!(signature(author).reverse,"")
+t.sub!(/\d\d:\d\d \d\d\d\d.\d\d.\d\d/,"")
+t.sub!(/\d+\/\d+/,"")
+t.delete!("\r")
+t.gsub!("\004ENIL\004","\n")
+t.gsub!("\n ","\n")
+while t[0..0]=="\n"
+  t.sub!("\n","")
+  end
+    t.reverse!
+  t.gsub!("\n","\r\n")
+  t.gsub!(/\r\n\s\r\n/,"\r\n")
+  return t
+      end
           end
           
                                 
@@ -768,9 +823,7 @@ end
                                                           if @forumtype == 0            
                                                           if ($key[0x11] == true or @form.index == 2) and enter
                                                                         play("list_select")
-                                                                        @form.fields[0].finalize
-                                                                        thread = @form.fields[0].text_str
-                                                                        @form.fields[1].finalize
+                                                                                                                                                thread = @form.fields[0].text_str
                                                                         text = @form.fields[1].text_str
                                                                         break
                                                                       end
@@ -829,7 +882,7 @@ end
                                                                         end
                               end
                               if @forumtype == 0                          
-                              buf = buffer(text).to_s
+                                                              buf = buffer(text).to_s
 addtourl = ""
                             addtourl = "\&uselore=1\&lore=#{@form.fields[4].text_str}" if @form.fields[4] != nil
                             ft = srvproc("forum_edit","name=" + $name + "&token=" + $token + "&forumname=" + forum + "&threadname=" + thread + "&buffer=" + buf + "\&threadid=" + ($threadmaxid + 1).to_s+addtourl)
@@ -873,17 +926,18 @@ if t > tmax
   break
   end
         end
-      speech("Przygotowywanie do wysłania wiadomości...")
-        data = ""
-            begin
-            data = "post="+read("temp/audiothreadpost.mp3").urlenc(true) + "\&threadname="+read("temp/audiothreadtitle.mp3").urlenc(true) if data == ""
-          rescue Exception
-            retry
-          end
-  host = $url.sub("https://","")
+                          
+        flp=read("temp/audiothreadpost.mp3")
+        fln=read("temp/audiothreadtitle.mp3")
+                        boundary=""
+        while flp.include?(boundary) or fln.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{flp}\r\n--#{boundary}\r\nContent-Disposition: form-data; name=\"threadname\"\r\n\r\n#{fln}\r\n--#{boundary}--"
+    length=data.size    
+            host = $url.sub("https://","")
   host.delete!("/")
-  length = data.size
-  q = "POST /forum_edit.php?name=#{$name}\&token=#{$token}\&forumname=#{forum.urlenc}\&threadid=#{($threadmaxid+1).to_s}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
+    q = "POST /forum_edit.php?name=#{$name}\&token=#{$token}\&forumname=#{forum.urlenc}\&threadid=#{($threadmaxid+1).to_s}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
 a = connect(host,80,q)
 a.delete!("\0")
 for i in 0..a.size - 1
@@ -926,7 +980,7 @@ $scene = Scene_Forum_Forum.new(forum,@forumindex,0,@forumtype)
                             threadid = @threadid
                             speech("Czy jesteś pewien, że chcesz usunąć wątek?")
                             speech_wait
-                            @sel = SelectLR.new(["Nie","Tak"])
+                            @sel = menulr(["Nie","Tak"])
                             loop do
 loop_update
                               @sel.update
@@ -978,7 +1032,7 @@ loop_update
                             postid = @postid
                             speech("Czy jesteś pewien, że chcesz usunąć wpis #{postid} z wątku #{threadid}?")
                             speech_wait
-                            @sel = SelectLR.new(["Nie","Tak"])
+                            @sel = menulr(["Nie","Tak"])
                             loop do
 loop_update
                               @sel.update
@@ -1032,7 +1086,7 @@ loop_update
                                   attr_accessor :threads
                                   attr_accessor :posts
                                   attr_accessor :type
-                                  def initialize(name="")
+                                                                    def initialize(name="")
                                     @name=name
                                     @group=0
                                     @fullname=""
@@ -1047,11 +1101,13 @@ loop_update
                                     attr_accessor :name
                                     attr_accessor :posts
                                     attr_accessor :readposts
+                                    attr_accessor :author
                                     def initialize(id=0,name="")
                                       @id=id
                                       @name=name
                                       @posts=0
                                       @readposts=0
+                                      @author=""
                                     end\
                                   end
                                   

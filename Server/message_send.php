@@ -24,15 +24,7 @@ if(strlen($_POST['data']) < 8) {
 echo "-1";
 die;
 }
-$min=6;
-$max=24;
-srand((double)microtime()*1000000);
-for($i=0;$i<rand($min,$max);$i++) {
-$znak=chr(rand(48,122));
-if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
-else $i--;
-}
-$filename=$haslo;
+$filename=random_str(24);
 $fp = fopen("audiomessages/".$filename,"w");
 fwrite($fp,$_POST['data']);
 fclose($fp);

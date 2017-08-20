@@ -7,7 +7,8 @@
 
 class Scene_Loading
   def main
-        $preinitialized = false
+    $volume=100
+            $preinitialized = false
     $eltenlib = "eltenvc"
     begin
     $winver = Win32API.new($eltenlib,"WindowsVersion",'v','i')
@@ -43,8 +44,18 @@ class Scene_Loading
 Graphics.frame_rate = 60
               $appdata = getdirectory(26)
 $userprofile = getdirectory(40)
+$portable=readini("./elten.ini","Elten","Portable","0").to_i
+if $portable == 0
 $eltendata = $appdata + "\\elten"
-$configdata = $eltendata + "\\config"
+else
+  $eltendata = ".\\eltendata"
+end
+$commandline=Win32API.new("kernel32","GetCommandLine",'v','p').call
+          if (/\/datadir \"([a-zA-Z0-9\\:\/ ]+)\"/=~$commandline) != nil
+                $reld=$1
+        $eltendata=$reld
+            end    
+      $configdata = $eltendata + "\\config"
 $bindata = $eltendata + "\\bin"
 $appsdata = $eltendata + "\\apps"
 $soundthemesdata = $eltendata + "\\soundthemes"
@@ -92,7 +103,7 @@ end
       end  
       version = readini(".\\elten.ini","Elten","Version",0).to_f
                 beta = readini(".\\elten.ini","Elten","Beta","0").to_i
-                      isbeta = readini(".\\elten.ini","Elten","IsBeta","0").to_i
+                                isbeta = readini(".\\elten.ini","Elten","IsBeta","0").to_i
 alpha = readini(".\\elten.ini","Elten","Alpha","0").to_i
                       nversion = readini($bindata + "\\newest.ini","Elten","Version","0").to_f
                     nbeta = readini($bindata + "\\newest.ini","Elten","Beta",0).to_i
@@ -112,11 +123,11 @@ $showm.call(13,0,2,0)
 $showm.call(18,0,2,0)
     Graphics.update
     end
+    File.delete("temp/agent_tray.tmp") if FileTest.exists?("temp/agent_tray.tmp")
     speech_stop
     startmessage = "ELTEN: " + $version.to_s
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
-startmessage += " ALFA #{$alpha.to_s}" if $isbeta == 2
-    $voice = 0
+startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
             $playlist = []
 $playlistindex = 0
 $start = Time.now.to_i
@@ -125,16 +136,40 @@ $thr2=Thread.new{thr2} if $thr2==nil
 $thr3=Thread.new{thr3} if $thr3==nil
 $thr4=Thread.new{thr4} if $thr4==nil
 $thr5=Thread.new{thr5} if $thr5==nil
-$voice = readini($configdata + "\\sapi.ini","Sapi","Voice","-2").to_i
-        if $voice == -2
-      print("Nie wybrano głosu programu.\r\nPo potwierdzeniu tego komunikatu użyj strzałek góra-duł, aby wybrać głos.")
+$voice = readini($configdata + "\\sapi.ini","Sapi","Voice","-2").to_i if $voice == nil
+if $rvc==nil
+      if (/\/voice (-?)(\d+)/=~$commandline) != nil
+        $rvc=$1+$2
+        $voice=$rvc.to_i
+            end    
+    end
+          if $voice == -2 or $voice == -3
+          v=$voice
+          $voice=-1
+          speech("Nie wybrano głosu programu.\r\nPo potwierdzeniu tego komunikatu użyj strzałek góra-duł, aby wybrać głos.\r\nNaciśnij enter, aby kontynuować.")
+          until enter
+            loop_update
+          end
+          $voice=v
       $scene = Scene_Voice_Voice.new
       return
     else
-      Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
+      Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
                   $rate = readini($configdata + "\\sapi.ini","Sapi","Rate",50).to_i
-        Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
+        if $rvcr==nil
+      if (/\/voicerate (\d+)/=~$commandline) != nil
+        $rvcr=$1
+        $rate=$rvcr.to_i
+            end    
+    end
+                  Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
     $sapivolume = readini($configdata + "\\sapi.ini","Sapi","Volume",100).to_i
+    if $rvcv==nil
+      if (/\/voicevolume (\d+)/=~$commandline) != nil
+        $rvcv=$1
+        $sapivolume=$rvcv.to_i
+            end    
+    end
     Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
   end
           $soundthemespath = readini($configdata + "\\soundtheme.ini","SoundTheme","Path","")
@@ -167,9 +202,12 @@ $voice = readini($configdata + "\\sapi.ini","Sapi","Voice","-2").to_i
             end
             end
           end
-      end
+        end
 end
-speech(startmessage)
+if $silentstart==nil
+  $silentstart=true if $commandline.include?("/silentstart")
+end
+speech(startmessage) if $silentstart != true
 if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
             $neterror = true
       end
@@ -190,10 +228,15 @@ end
         end
       end  
 loop_update
-      $speech_wait = true
-        if ((nversion > version)) and $denyupdate != true
-      $scene = Scene_Update_Confirmation.new
+      $speech_wait = true if $silentstart != true
+        if ((nversion > version+0.00001 or (nalpha > alpha and isbeta==2) or (nalpha == 0 and alpha > 0 and isbeta == 2))) and $denyupdate != true
+if $portable != 1
+          $scene = Scene_Update_Confirmation.new
       return
+    else
+      speech("Dostępna jest nowa wersja programu.")
+      speech_wait
+      end
     end
     if $neterror = true
       if (download($url,"testtemp") == 0 and FileTest.exists?("testtemp"))
@@ -209,8 +252,9 @@ loop_update
       volume = readini($configdata + "\\interface.ini","Interface","MainVolume","-1").to_i
       if volume == -1
 $exit = true
-        license
-        $exit = nil
+rcwelcome
+license
+                $exit = nil
         writeini($configdata + "\\interface.ini","Interface","MainVolume","80")
         else
         $volume = volume

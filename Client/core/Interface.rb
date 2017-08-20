@@ -18,8 +18,9 @@ class Scene_Interface
     @field[7] = CheckBox.new("Przetwarzaj diakretyki heksagonalnie (zaawansowane)")
     @field[8] = Edit.new("Czas odświerzania sesji (s) (Uwaga! Nie zaleca się zmiany tej wartości!)","",$interface_refreshtime.to_i,true)
     @field[9]=CheckBox.new("Zezwalaj na automatyczne buforowanie treści z youtube (przyspiesza czas ładowania filmów, ale może dodatkowo wykorzystywać połączenie Internetowe)")
-    @field[10] = Button.new("Zapisz")
-    @field[11] = Button.new("Anuluj")
+    @field[10]=CheckBox.new("Automatycznie uruchamiaj program Elten przy starcie systemu")
+    @field[11] = Button.new("Zapisz")
+    @field[12] = Button.new("Anuluj")
     @form = Form.new(@field)
 @form.fields[0].index = readini($configdata + "\\interface.ini","Interface","ListType","0").to_i
 @form.fields[1].settext(readini($configdata + "\\interface.ini","Interface","KeyUpdateTime","75").to_s)
@@ -35,11 +36,37 @@ else
 @form.fields[7].checked = readini($configdata + "\\interface.ini","Interface","HexSpecial","1").to_i
 @form.fields[8].settext(readini($configdata + "\\interface.ini","Interface","RefreshTime","1").to_s)
 @form.fields[9].checked = readini($configdata + "\\interface.ini","Interface","YTBuffering","1").to_i
+autoportalert = false
+@runkey=Win32::Registry::HKEY_CURRENT_USER.create("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
+begin
+  @runkey['elten']
+  @form.fields[10].checked=1
+@autostart=true
+autoportalert=true
+  rescue Exception
+  @form.fields[10].checked=0
+  @autostart=false
+      end
 @field[0].focus  
 loop do
       loop_update
       @form.update
-      if ((enter or space) and @form.index == 10) or ($key[0x11] == true and enter)
+if @form.fields[10].checked==1
+  if @form.fields[6].checked==0
+  speech("Autostart programu wymaga włączenia automatycznego logowania.")
+  @form.fields[10].checked=0
+end
+if $portable == 1 and autoportalert == false
+  if simplequestion("Uwaga! Próbujesz włączyć autostart programu używając przenośnej wersji Eltena. Ta funkcja będzie działać tylko w wypadku, gdy program znajdzie się na stałym dysku komputera, a zatem będzie dostępny przy każdym starcie systemu. Nie można również zmienić jego lokalizacji. Czy chcesz kontynuować mimo to?")==0
+  @form.fields[10].checked=0
+  else
+  autoportalert = true
+end
+end
+else
+    autoportalert = false
+    end
+      if ((enter or space) and @form.index == 11) or ($key[0x11] == true and enter)
         writeini($configdata + "\\interface.ini","Interface","ListType",@form.fields[0].index.to_s)
 @form.fields[1].finalize
 writeini($configdata + "\\interface.ini","Interface","KeyUpdateTime",@form.fields[1].text_str)
@@ -65,10 +92,26 @@ autologin = readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i
 if @form.fields[6].checked == 0 and autologin >= 0
   writeini($configdata + "\\login.ini","Login","AutoLogin","-1")
 elsif @form.fields[6].checked == 1 and autologin < 0
+if readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i == 0 and @form.fields[10].checked == 0
+  Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","autologin","2",$configdata + "\\login.ini")          
+  Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","name",$name,$configdata + "\\login.ini")
+    crp = input_text("Hasło","PASSWORD").crypt($name)
+                      Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","password",crp,$configdata + "\\login.ini")
+    end
   writeini($configdata + "\\login.ini","Login","AutoLogin","0")
-end
+  end
 $interface_refreshtime = @form.fields[8].text_str.to_i
-speech("Zapisano")
+if @autostart == false and @form.fields[10].checked==1
+  path="\0"*1024
+Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,path,path.size)
+path.delete!("\0")
+dr="\""+File.dirname(path)+"\\bin\\rubyw.exe\" \""+File.dirname(path)+"\\bin\\agentc.dat\" /autostart"
+@runkey['elten']=dr
+elsif @autostart == true and @form.fields[10].checked==0
+  @runkey.delete("elten")
+  end
+@runkey.close
+  speech("Zapisano")
 speech_wait
 if $name != nil and $name != "" and $token != nil and $token != ""
 $scene = Scene_Main.new
@@ -78,7 +121,8 @@ else
   return
 break
         end
-      if escape or ((enter or space) and @form.index == 11)
+      if escape or ((enter or space) and @form.index == 12)
+        @runkey.close
         if $name != nil and $name != "" and $token != nil and $token != ""
 $scene = Scene_Main.new
 else

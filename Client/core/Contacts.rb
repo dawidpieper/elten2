@@ -76,7 +76,7 @@ loop_update
         def menu_blank
           play("menu_open")
           play("menu_background")
-          @menu = SelectLR.new(["Nowy Kontakt","Anuluj"])
+          @menu = menulr(["Nowy Kontakt","Anuluj"])
           loop do
 loop_update
             @menu.update
@@ -103,7 +103,7 @@ loop_update
                 def menu
           play("menu_open")
           play("menu_background")
-          @menu = SelectLR.new(sel = [$contact[@sel.index],"Nowy Kontakt","Anuluj"])
+          @menu = menulr(sel = [$contact[@sel.index],"Nowy Kontakt","Anuluj"])
           loop do
 loop_update
             @menu.update
@@ -117,7 +117,7 @@ loop_update
               case @menu.index
 when 0
 if usermenu($contact[@sel.index],true) != "ALT"
-@menu = SelectLR.new(sel)
+@menu = menulr(sel)
 else
 break
 end

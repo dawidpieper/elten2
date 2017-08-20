@@ -1,4 +1,4 @@
-#Elten Code
+﻿#Elten Code
 #Copyright (C) 2014-2016 Dawid Pieper
 #All rights reserved.
 
@@ -7,9 +7,9 @@
 
 module EltenAPI
   module Common
-        def quit
+        def quit(header="Zamykanie programu...")
       dialog_open
-            sel = SelectLR.new(["Anuluj","Ukryj program w zasobniku systemowym","Wyjście"],true,0,"Zamykanie programu...")
+            sel = menulr(["Anuluj","Ukryj program w zasobniku systemowym","Wyjście"],true,0,header)
       loop do
         loop_update
         sel.update
@@ -20,6 +20,7 @@ module EltenAPI
             return(false)
             end
         if enter
+          loop_update
           dialog_close
           case sel.index
           when 0
@@ -28,7 +29,7 @@ module EltenAPI
             return(false)
             when 1
               $exit = false
-              $scene = Scene_Tray.new
+              tray
               return false
             when 2
               $scene = nil
@@ -37,13 +38,14 @@ module EltenAPI
               return(true)
                 $exit = false
                 return false
+                when 3
+                                  return quit("W zasadzie, jak mam zejść z oczu osobie niewidomej? Nie rozumiem. Proszę o doprecyzowanie.")
           end
           end
         end
       end
       
-      class Scene_Console
-      def main
+def console
                         kom = ""
         while kom == "" or kom == nil
           kom = input_text("Podaj polecenia do wykonania","MULTILINE|ACCEPTESCAPE").to_s
@@ -58,10 +60,22 @@ module EltenAPI
   kom = kom.gsub("\004LINE\004","\n")
 kom.gsub!("elten.edb","elten.dat")
   $consoleused = true
-eval(kom,nil,"Console")
+r=false
+  begin
+  eval(kom,nil,"Console") if r == false
+rescue Exception
+  plc=""
+  for e in $@
+    plc+=e+"\r\n" if e[0..6]!="Section"
+  end
+  lin=$@[0].split(":")[1].to_i
+    plc+=kom.delete("\r").split("\n")[lin-1]
+  input_text("Wystąpił błąd podczas przetwarzania polecenia.","READONLY|MULTILINE",$!.to_s+"\r\n"+plc)
+  r = true
+  end
 $consoleused = false        
+speech_wait
 $scene = Scene_Main.new if $scene == self
-end
 end
 
 def error_ignore
@@ -114,7 +128,9 @@ if $rang_moderator > 0
     sel.push("Zbanuj")
   else
     sel.push("Odbanuj")
-    end
+  end
+else
+  sel.push("")
   end
   fl = srvproc("uploads","name=#{$name}\&token=#{$token}\&searchname=#{user}")
   if fl[0].to_i < 0
@@ -122,10 +138,14 @@ if $rang_moderator > 0
     speech_wait
     return
   end
-    @menu = SelectLR.new(sel)
+  if $usermenuextra.is_a?(Array)
+    sel+=$usermenuextra
+    end
+  @menu = menulr(sel)
 @menu.disable_item(2) if @hasblog == false
 @menu.disable_item(3) if fl[1].to_i==0
 @menu.disable_item(5) if @hasavatar == false
+@menu.disable_item(6) if $rang_moderator==0
 loop do
 loop_update
 @menu.update
@@ -161,7 +181,15 @@ if enter
           $scene = Scene_Ban_Ban.new(user,self)
         else
           $scene = Scene_Ban_Unban.new(user,self)
-          end
+        end
+      else
+                if $usermenuextrascenes.is_a?(Array)
+                  play("menu_close")
+                  Audio.bgs_stop
+                  $scenes.insert(0,$usermenuextrascenes[@menu.index-7].userevent(user))
+                                                                 return "ALT"
+                  break                  
+                  end
 end
 break
 end
@@ -199,7 +227,8 @@ end
 messages = wntemp[1].to_i
 posts = wntemp[2].to_i
 blogposts = wntemp[3].to_i
-                                    if messages <= 0 and posts <= 0 and blogposts <= 0
+blogcomments = wntemp[4].to_i
+                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0
   speech("Nie ma nic nowego.") if quiet != true
 else
   $scene = Scene_WhatsNew.new(true)
@@ -210,8 +239,9 @@ end
 
 def createsoundtheme(name="")
   while name == ""
-    name = input_text("Podaj nazwę tematu dźwiękowego.")
+    name = input_text("Podaj nazwę tematu dźwiękowego.","ACCEPTESCAPE")
   end
+  return if name == "\004ESCAPE\004"
   pathname = name
   pathname.gsub!(" ","_")
   pathname.gsub!("/","_")
@@ -248,7 +278,7 @@ speech("Nazwa tematu: " + name)
 speech_wait
 speech("Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład.")
 speech_wait
-sel = SelectLR.new(["Otwórz folder tematu w plikach","Otwórz folder tematu w systemowym eksploratorze plików","Zamknij"],true,0,"Co chcesz zrobić?")
+sel = menulr(["Otwórz folder tematu w plikach","Otwórz folder tematu w systemowym eksploratorze plików","Zamknij"],true,0,"Co chcesz zrobić?")
 loop do
   loop_update
   sel.update
@@ -454,10 +484,12 @@ end
 loop_update
         sel.update if $contact.size > 0
         if escape
+          loop_update
           $focus = true
                     return(nil)
         end
         if enter and $contact.size > 0
+          loop_update
           $focus = true
           play("list_select")
                     return($contact[sel.index])
@@ -510,9 +542,11 @@ location = ""
 if pr[0].to_i == 0
   fullname = pr[1].delete("\r\n")
         gender = pr[2].delete("\r\n").to_i
+        if pr[3].to_i>1900 and pr[4].to_i > 0 and pr[4].to_i < 13 and pr[5].to_i > 0 and pr[5].to_i < 32
         birthdateyear = pr[3].delete("\r\n")
         birthdatemonth = pr[4].delete("\r\n")
         birthdateday = pr[5].delete("\r\n")
+        end
         location = pr[6].delete("\r\n")
         text += fullname+"\r\n"
         text+="Płeć: "
@@ -521,6 +555,7 @@ if pr[0].to_i == 0
         else
           text += "mężczyzna\r\n"
         end
+if birthdateyear.to_i>0
         age = Time.now.year-birthdateyear.to_i
 if Time.now.month < birthdatemonth.to_i
   age -= 1
@@ -532,9 +567,10 @@ elsif Time.now.month == birthdatemonth.to_i
   age -= 2000 if age > 2000      
   text += "Wiek: #{age.to_s}\r\n"
   end
+  end
   ui = userinfo(user)
 if ui != -1
-if gender == -1
+if gender == -1 or $language!="PL_PL"
   text += "Widzian(y/a): "
 elsif gender == 0
   text += "Widziana: "
@@ -546,7 +582,7 @@ text += "Użytkownik "
 text += "nie " if ui[1] == false
 text += "posiada bloga.\r\n"
 text += "Zna użytkowników: " + ui[2].to_s + "\r\n"
-if gender == -1
+if gender == -1 or $language!="PL_PL"
 text += "Znan(y/a)"
 elsif gender == 0
   text += "Znana"
@@ -555,6 +591,9 @@ elsif gender == 1
 end
 text += " przez użytkowników: " + ui[3].to_s + "\r\n"
 text += "Wpisy na forum: " + ui[4].to_s + "\r\n"
+text += "Rozwiązane ankiety: " + ui[7].to_s + "\r\n"
+text += "Używana wersja programu: " + ui[5].to_s + "\r\n"
+text += "Konto zarejestrowane: " + ui[6].to_s.split(" ")[0] + "\r\n" if ui[6]!=""
 end
 text += "\r\n\r\n"
       for i in 1..vc.size - 1
@@ -575,7 +614,7 @@ text += "\r\n\r\n"
 
 
 def versioninfo
-  download($url + "/bin/elten.ini",$bindata + "\\newest.ini")
+    download($url + "/bin/elten.ini",$bindata + "\\newest.ini")
         nversion = "\0" * 16
     Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Version","0",nversion,nversion.size,utf8($bindata + "\\newest.ini"))
     nversion.delete!("\0")
@@ -584,9 +623,14 @@ def versioninfo
     Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Beta","0",nbeta,nbeta.size,utf8($bindata + "\\newest.ini"))
     nbeta.delete!("\0")
     nbeta = nbeta.to_i
-        $nbeta = nbeta
+    nalpha = "\0" * 16
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Alpha","0",nalpha,nalpha.size,utf8($bindata + "\\newest.ini"))
+    nalpha.delete!("\0")
+    nalpha = nalpha.to_i    
+    $nbeta = nbeta
     $nversion = nversion
-    if $nversion > $version or $nbeta > $beta
+    $nalpha = nalpha
+    if $nversion > $version or $nbeta > $beta or $nalpha > $alpha
       $scene = Scene_Update_Confirmation.new
     else
       speech("Brak dostępnych aktualizacji.")
@@ -741,46 +785,76 @@ loop do
   end
 end
 
-end
-def player(file,label="",wait=false)
+def player(file,label="",wait=false,control=true,trydownload=false)
 if label != ""
   dialog_open if wait==false
 speech(label)
-speech_wait if wait == true
 $dialogvoice.close if $dialogvoice != nil
 $dialogvoice = nil
 end
 sound = AudioFile.new(file)
     sound.play
-        loop do
+    pause=false    
+    basefrequency=sound.frequency
+    reset=0
+    loop do
           pos=sound.position
 sleep(0.05) if wait == true
           loop_update
-      if space
+      if space and control
         if sound.playing?
         sound.pause
+        pause=true
       else
         sound.play
         pos=0
+        pause=false
         end
         end
       if escape or enter
-        if wait == false
-        for i in 1..50
+                for i in 1..50
           sound.volume -= 0.02
           loop_update
-        end
         end
 sound.close
 dialog_close if label != ""          
 return
 break
-      end
-            if Input.repeat?(Input::RIGHT)
+end
+if control      
+if $key[0x10] == false
+              if Input.repeat?(Input::RIGHT)
+                        pp=sound.position
         sound.position += 5000
+        if sound.position==pp
+              v=sound.volume
+        sound.volume=0
+              f=sound.frequency
+        sound.frequency*=15
+        delay(3.0/15.0)
+        sound.frequency=f
+        sound.volume=v
+        end
       end
       if Input.repeat?(Input::LEFT)
+        pp=sound.position
         sound.position -= 5000
+        if sound.position==pp
+          pp=pp.to_i
+          v=sound.volume
+          sound.close        
+          sound = AudioFile.new(file)
+                  sound.play
+                  sound.volume=0
+              f=sound.frequency
+        sound.frequency=800000
+        w=f.to_f/800000.0*(pp-60000).to_f/1000.0
+        w=0 if w<=0
+        delay(w)
+        sound.frequency=f
+        sound.volume=v
+          end
+        sound.position = 0 if sound.position < 5000
       end
             if Input.repeat?(Input::UP)
         sound.volume += 0.05
@@ -790,20 +864,240 @@ sound.volume = 0.5 if sound.volume == 0.6
         sound.volume -= 0.05
 sound.volume = 0.01 if sound.volume == 0
 end
-if wait == true
-  if pos != 0 and sound.playing? == true
+else
+  if Input.repeat?(Input::RIGHT)
+        sound.pan += 0.1
+        sound.pan = 1 if sound.pan > 1
+      end
+      if Input.repeat?(Input::LEFT)
+        sound.pan -= 0.1
+        sound.pan = -1 if sound.pan < -1
+      end
+            if Input.repeat?(Input::UP)
+        sound.frequency += basefrequency.to_f/100.0*2.0
+      sound.frequency=basefrequency*1.5 if sound.frequency>basefrequency*1.5
+        end
+      if Input.repeat?(Input::DOWN)
+        sound.frequency -= basefrequency.to_f/100.0*2.0
+      sound.frequency=basefrequency/1.5 if sound.frequency<basefrequency/1.5
+end
+end
+if $key[0x08] == true
+  reset=10
+  sound.volume=1
+  sound.pan=0
+  sound.frequency=basefrequency
+  end
+end
+reset -= 1 if reset > 0
+  if wait == true
+  if pos != 0 and pause != true
     if pos == sound.position
-      sound.close
+      if pos > 8000000 and trydownload == true
+                        download(file,"temp/player.tmp",true)
+        sound = AudioFile.new("temp/player.tmp")
+    sound.play
+    pos = 0    
+    basefrequency=sound.frequency
+    else
+            sound.close
       return
-      break
+     break
+      end
       end
     end
   end
   pos=sound.position
 end
 end
-def thr1
-                begin
+def getkeychar(keys=[])
+  ret=""    
+  keys=$key if keys==[]
+  return "" if (keys[0x11]==true and keys[0x12]==false) or (keys[0x11]==false and keys[0x12]==true)    
+  for i in 65..90
+        if keys[i]==true
+          r=" "
+          r[0]=i
+          r=r.downcase if keys[0x10]==false
+          if keys[0x11]==true and keys[0x12]==true
+            pr=r
+                    case r
+          when "A"
+            r="Ą"
+            when "C"
+              r="Ć"
+            when "E"
+              r="Ę"
+              when "L"
+                r="Ł"
+                when "N"
+                  r="Ń"
+                  when "O"
+                    r="Ó"
+                    when "S"
+                      r="Ś"
+                      when "X"
+                        r="Ź"
+                        when "Z"
+                          r="Ż"
+                          when "a"
+                            r="ą"
+                            when "c"
+                              r="ć"
+                              when "e"
+                                r="ę"
+                                when "l"
+                                  r="ł"
+                                  when "n"
+                                    r="ń"
+                                    when "o"
+                                      r="ó"
+                                      when "s"
+                                        r="ś"
+                                        when "x"
+                                          r="ź"
+                                          when "z"
+                                            r="ż"
+          end
+          ret=nil if pr==r
+          end
+          ret=r if ret!=nil
+          ret="" if ret==nil
+          end
+      end
+      for i in 48..57
+        if keys[i] == true
+          if keys[0x10] == false
+          r=" "
+          r[0]=i
+          ret=r
+        else
+          case i-48
+          when 1
+            ret="!"
+            when 2
+              ret="@"
+              when 3
+                ret="#"
+                when 4
+                  ret="$"
+                  when 5
+                    ret="%"
+                    when 6
+                      ret="^"
+                      when 7
+                        ret="&"
+                        when 8
+                          ret="*"
+                          when 9
+                            ret="("
+                            when 0
+                              ret=")"
+          end
+            end
+          end
+      end
+      for i in 0..255
+if keys[i]==true
+case i
+when 0x20
+  ret=" "
+when 0xBA
+if $key[0x10]==false
+ret=";"
+else
+ret=":"
+end
+when 0xBB
+if $key[0x10]==false
+ret="="
+else
+ret="+"
+end
+when 0xBC
+if $key[0x10]==false
+ret=","
+else
+ret="<"
+end
+when 0xBD
+if $key[0x10]==false
+ret="-"
+else
+ret="_"
+end
+when 0xBE
+if $key[0x10]==false
+ret="."
+else
+ret=">"
+end
+when 0xBF
+if $key[0x10]==false
+ret="/"
+else
+ret="?"
+end
+when 0xC0
+if $key[0x10]==false
+ret="`"
+else
+ret="~"
+end
+when 0xDB
+if $key[0x10]==false
+ret="["
+else
+ret="{"
+end
+when 0xDC
+if $key[0x10]==false
+ret="\\"
+else
+ret="|"
+end
+when 0xDD
+if $key[0x10]==false
+ret="]"
+else
+ret="}"
+end
+when 0xDE
+if $key[0x10]==false
+ret="'"
+else
+ret="\""
+end
+when 0xE2
+  if $key[0x10]==false
+ret="\\"
+else
+ret="|"
+end
+end
+end
+end
+if ret!=""
+  if lngkeys!=nil
+    ret=lngkeys[ret] if lngkeys[ret]!=nil
+    end
+  end
+  return ret
+      end
+    def lngkeys(param=0)
+      lng = Win32API.new("user32","GetKeyboardLayout",'i','l').call(0).to_s(2)[16..31].to_i(2)
+      case lng
+      when 1031
+        return {"@"=>"\"","#"=>"§","^"=>"\&","\&"=>"/","*"=>"(","("=>")",")"=>"=","<"=>";",">"=>":","`"=>"ö","~"=>"Ö","'"=>"ä","\""=>"Ä","/"=>"#","?"=>"'",";"=>"ü",":"=>"Ü","="=>"+","+"=>"*","["=>"ß","{"=>"?","]"=>"´","}"=>"`","\\"=>"^","|"=>"°"} if param==0
+return {"Ö"=>1,"Ä"=>1,"Ü"=>1} if param==1
+when 2057
+  return {"@"=>"\"","\""=>"@"}
+end
+return lng if param==2
+      return {}
+      end
+      def thr1
+                        begin
                 loop do
                   if Win32API.new($eltenlib,"KeyState",'i','i').call(0x11) > 0 and $speech_wait == true
                     speech_stop
@@ -818,19 +1112,65 @@ else
   end
 speech(time[0])
 end
-if Win32API.new($eltenlib,"KeyState",'i','i').call(0x75) > 0 and $volume < 100
+         if Win32API.new($eltenlib,"KeyState",'i','i').call(0x76) > 0
+           if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+    $playlistindex += 1 if $playlistbuffer!=nil
+  elsif $scene.is_a?(Scene_Console)==false
+    $scenes.insert(0,Scene_Console.new)
+    end
+    sleep(0.1)    
+    end
+        if Win32API.new($eltenlib,"KeyState",'i','i').call(0x75) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0  and $volume < 100
   $volume += 5 if $volume < 100
   writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
   play("list_focus")
+else
+  $playlistvolume = 0.8 if $playlistvolume == nil
+  if $playlistvolume < 1
+  $playlistvolume += 0.1
+  play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
+  end
+  end
   sleep(0.1)
-end
-if Win32API.new($eltenlib,"KeyState",'i','i').call(0x74) > 0 and $volume > 1
+  end
+if Win32API.new($eltenlib,"KeyState",'i','i').call(0x74) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0  and $volume > 1
   $volume -= 5 if $volume > 1
   play("list_focus")
   writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
+else
+    $playlistvolume = 0.8 if $playlistvolume == nil
+  if $playlistvolume > 0.01
+    $playlistvolume -= 0.1
+  $playlistvolume=0.01 if $playlistvolume==0
+    play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
+  end
+  end
   sleep(0.1)
 end
+if Win32API.new($eltenlib,"KeyState",'i','i').call(0x73) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0 and $playlistbuffer != nil
+    if $playlistindex != 0
+    $playlistindex -= 1
+  else
+    $playlistindex=$playlist.size-1
+    end
+    end
+    sleep(0.1)
+    end
 if Win32API.new($eltenlib,"KeyState",'i','i').call(0x72) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+    if $playlist.size>0 and $playlistbuffer!=nil
+if $playlistpaused == true
+  $playlistbuffer.play
+  $playlistpaused = false
+else
+  $playlistpaused=true
+  $playlistbuffer.pause  
+end
+end
+else
   Audio.bgs_stop
   run("bin\\elten_tray.bin")
   Win32API.new("user32","SetFocus",'i','i').call($wnd)
@@ -841,6 +1181,8 @@ if Win32API.new($eltenlib,"KeyState",'i','i').call(0x72) > 0
     speech("ELTEN")
     Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
 end
+sleep(0.1)    
+end
 if $name != "" and $name != nil and $token != nil and $token != ""
   if Win32API.new($eltenlib,"KeyState",'i','i').call(0x78) > 0
     if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0 and $scene.is_a?(Scene_Contacts) == false
@@ -850,26 +1192,38 @@ if $name != "" and $name != nil and $token != nil and $token != ""
   end
   sleep(0.1)
   end
-        if Win32API.new($eltenlib,"KeyState",'i','i').call(0x79) > 0 and $scene.is_a?(Scene_WhatsNew) == false
-    $scenes.insert(0,Scene_WhatsNew.new)
-    sleep(0.1)
+        if Win32API.new($eltenlib,"KeyState",'i','i').call(0x79) > 0
+           if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) == 0 and $scene.is_a?(Scene_WhatsNew) == false
+$scenes.insert(0,Scene_WhatsNew.new)
+elsif $scene.is_a?(Scene_Messages) == false
+  $scenes.insert(0,Scene_Messages.new)
     end
+    sleep(0.1)
+  end
+end
+if Win32API.new($eltenlib,"KeyState",'i','i').call(0x7a) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10)==0
+    speech(futf8($speech_lasttext))
+  elsif $scene.is_a?(Scene_Chat)==false
+    $scenes.insert(0,Scene_Chat.new)
+    end
+    sleep(0.1)
   end
   sleep(0.1)
-end
+  end
 rescue Exception
   print $!.message
   retry
                 end
                   end
 def thr2
-          loop do
+            loop do
             begin
-            if $voice != -1
-              sleep(0.01)
-            Win32API.new("screenreaderapi","nvdaStopSpeech",'v','i').call
-            Win32API.new("screenreaderapi","jfwStopSpeech",'v','i').call
-            Win32API.new("screenreaderapi","weStopSpeech",'v','i').call
+            sleep(0.03)
+              if $voice != -1
+Win32API.new("screenreaderapi","nvdaStopSpeech",'v','i').call
+Win32API.new("screenreaderapi","jfwStopSpeech",'v','i').call
+Win32API.new("screenreaderapi","weStopSpeech",'v','i').call
                       end
               rescue Exception
         fail
@@ -877,88 +1231,239 @@ def thr2
       end
           end
 def thr3
-              $playlistlastindex = 0
-              position = -1
-              loop do
-                sleep(0.1)
-                if $playlist != nil
-              if $playlist.size > 0
-                if $playlistindex != nil
-if $playlistbuffer == nil
-                  volume = 80
-                  volume = (volume.to_f / $volume.to_f * 100.0)
-                                                                                                                        $playlistbuffer = nil
-                                                                            begin
-                          $playlistbuffer = AudioFile.new($playlist[$playlistindex])
-                        rescue Exception
-                          $playlist.delete_at($playlistindex)
-                          $playlistindex = 0
-                          retry
-                        end
-                        if $playlistbuffer != nil
-                                                                                                                          $playlistbuffer.play
-                                                $playlistbuffer.volume = volume
-                                              end                                
-                                              $playlistlastindex = $playlistindex                                                             
-                                              else
-                                                                                                                             if $playlistbuffer.position == position
-                                                                                                                               if $playlistpaused != true
-                                                                                                                                                                                                                                                                   $playlistbuffer = nil 
-                                                                 position = -1
-                                                                 if $playlistindex == $playlistlastindex
-                                                                 $playlistindex += 1
-                                              $playlistindex = 0 if $playlistindex >= $playlist.size                                              
-                                            end
-                                          else
-                                            position += 150
-                                            end
-                                                                                                                                                                                                   elsif position < $playlistbuffer.position
-                                                               position = $playlistbuffer.position                                                               
-                                                               end
-                                                                 end
-                             end
+    $playlistvolume=0.8
+  $playlistindex = 0 if $playlistindex == nil
+  $playlistlastindex = -1 if $playlistlastindex == nil
+plpos=0
+  loop do
+    if $playlist.size > 0
+    plpos=$playlistbuffer.position if $playlistbuffer!=nil and $playlistpaused != true
+    if $playlistlastindex != $playlistindex or $playlistbuffer == nil
+      $playlistbuffer.close if $playlistbuffer != nil
+      $playlistindex=0 if $playlistindex>=$playlist.size        
+      if $playlist[$playlistindex] != nil      
+        $playlistbuffer = AudioFile.new($playlist[$playlistindex])
+        else
+              $playlistindex += 1
+              $playlistindex = 0 if $playlistindex >= $playlist.size
               end
+                                      $playlistlastindex=$playlistindex
+            if $playlistbuffer != nil
+              $playlistbuffer.volume=$playlistvolume
+              $playlistbuffer.play
               end
-            end
-                        end
-def thr4
-                loop do
-                  sc = $scene
-                  if $scenes.size > 0
-                                        $subthread = Thread.new do
-                                          sleep(0.1)
-                      $scene = $scenes[0]
-                      $scenes.delete_at(0)
-                      while $scene != nil
-                        $scene.main
-                                              end
-                      end
-                                        $stopmainthread = true
-                    $subthread.value
-                    $stopmainthread = false
-$scene = sc
-$focus = true if $scene.is_a?(Scene_Main) == false                    
-$scene = Scene_Main.new if $scene.is_a?(Scene_Main)
-loop_update
-                    $mainthread.wakeup
+    end
+    sleep(0.05)
+    if $playlistbuffer != nil
+      if plpos == $playlistbuffer.position and $playlistpaused != true
+        $playlistindex += 1
+      elsif $playlistpaused == true
+        plpos=-1
+      end
+      $playlistbuffer.volume=$playlistvolume if $playlistbuffer.volume!=$playlistvolume and $playlistvolume.is_a?(Float) or $playlistvolume.is_a?(Integer)
+    end
+  else
+    sleep(0.5)
+    if $playlistbuffer != nil
+    $playlistbuffer.close
+    $playlistbuffer=nil
+  end
+  end
+  end
+end
+  def thr4
+    begin    
+    $subthreads=[] if $subthreads==nil
+                            loop do
+                                    if $scenes.size > 0
+                                      if $currentthread != nil  
+                                                                                  $subthreads.push($currentthread)
                                         end
-                  end
-                            end
+                                      $currentthread = Thread.new do
+                                        stopct=false
+                                        sc=$scene
+                                        begin
+                                          if stopct == false
+                                                                                    newsc = $scenes[0]
+                                          $scenes.delete_at(0)
+                                                                $scene = newsc
+                      $stopmainthread = true
+                                            while $scene != nil and $scene.is_a?(Scene_Main) == false
+                        $scene.main
+                      end
+                                            $stopmainthread = false
+                      $scene = sc
+$scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
+Graphics.update
+key_update
+$focus = true if $scene.is_a?(Scene_Main) == false                    
+end
+rescue Exception
+      stopct=true
+                                                  $stopmainthread = false
+                      $scene = sc
+$scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
+Graphics.update
+key_update
+$focus = true if $scene.is_a?(Scene_Main) == false                    
+  retry
+end
+end
+end
+  if $currentthread != nil    
+  if $currentthread.status==false or $currentthread.status==nil
+        if $subthreads.size > 0
+    $currentthread=$subthreads.last
+    while $subthreads.last.status==false or $subthreads.last.status==nil
+      $subthreads.delete_at($subthreads.size-1)
+      
+      end
+    $currentthread.wakeup
+      $subthreads.delete_at($subthreads.size-1)
+    else
+      $mainthread.wakeup
+      $currentthread=nil
+      end
+        end
+                                                                                                                                                              end
+         sleep(0.1)
+       end
+     rescue Exception
+       retry
+       end
+                                                                                                                                                            end
 def thr5
-                       begin
+                         begin
     loop do
+      if $mproc==true
       $messageproc = true
-@message = "\0" * 32768
-      if Win32API.new("user32","GetMessage",'piii','i').call(@message,$wnd,0,16384) != 0
-            hwnd, message, wparam, lparam, time, pt = @message.unpack('iiiii')
-                        
+@message = "\0" * 3072 if @message==nil
+      if Win32API.new("user32","PeekMessage",'piiii','i').call(@message,$wnd,0,0,0) != 0
+            hwnd, message, wparam, lparam, time, pt = @message.unpack('lllll')
+if message == 0x20a
+            $mouse_wheel=0 if $mouse_wheel==nil
+                                    $mouse_wheel+=1 if wparam>0 and $mouse_wheel<1000000
+                                    $mouse_wheel-=1 if wparam<0 and $mouse_wheel>-1000000
+            end
                                 end
       $messageproc = false
-        sleep(0.3)
-      end
+      else
+    sleep(0.5)
+  end
+  end
       rescue Exception
       fail
+    end
+  end
+  def filec(dr)
+    rdr=[]
+for f in dr
+fch=f.split("")
+if fch.size<f.size
+rf=""
+for c in fch
+if c.size==1
+rf+=c.to_s
+else
+break
+end
+end
+e=File::extname(f)
+idn=1
+while rdr.include?(rf+"~"+idn.to_s+e)
+idn+=1
+end
+rdr.push(rf+"~"+idn.to_s+e)
+else
+rdr.push(f)
+end
+end
+return rdr
+end    
+  def afilec(dr)
+        used={}        
+        for b in 0..dr.size-1               
+          d=dr[b]
+        d.gsub!("/","\\")
+        s=d.split("\\")
+        pllet=["ą","ć","ę","ł","ń","ó","ś","ź","ż","Ą","Ć","Ę","Ł","Ń","Ó","Ś","Ź","Ż"]
+        for i in 0..s.size-1
+          suc=false
+          for l in pllet
+            suc=true if s[i].include?(l)
+            end
+          if suc == true
+            for j in 0..s[i].size-2
+  for l in pllet
+  if s[i][j..j+1]==l
+        s[i][j]=0
+    s[i][j+1]=0
+          s[i][s[i].size-1]=0
+    s[i].delete!("\0")
+    used[s[i]]=0 if used[s[i]]==nil
+    used[s[i]]+=1
+    s[i]+="~"+used[s[i]].to_s
+        break
+    end
+    end
+  end
+  end                
+  end
+                                    dr[b]=s.join("\\")
+        end
+          return dr
+        end
+        
+        def rcwelcome
+          msg=""
+          if $language == "PL_PL"
+            msg="Witajcie w wersji 2.0 RC.
+Po betatestach trwających od sierpnia 2016 roku, mogę wreszcie zaprezentować efekty naszych prac.
+Ta wersja to RC, release candidate.
+Faktyczny Elten 2.0 ukaże się 24 sierpnia 2017 - tak, jak zapowiadałem na forum.
+Już dzisiaj jednak udostępniam pierwszą wersję przedpremierową. Jeśli zabraknie czasu na dodawanie kolejnych funkcji, właśnie ta wersja stanie się wersją ostateczną.
+Podobnie jak dotychczas, prosiłbym o zgłaszanie wszelkich błędów, uwag i sugestii.
+Z pozdrowieniami,
+Dawid Pieper"
+else
+msg="Welcome to Elten 2.0 RC!
+We've been developing and testing it since August 2016 and, now, I can finally present you effects of our work.
+This version is called RC, which means release candidate.
+The final version of Elten 2.0 will be released on 24th August 2017, as I've written on forum.
+I hope I'll have time to add some extra features.
+However, this version includes a most of new functions.
+As always, I'll be grateful for your bug reports and suggestions.
+Best regards,
+Dawid Pieper"
+end
+input_text("","MULTILINE|READONLY|ACCEPTESCAPE|ACCEPTTAB",msg)
+end
+def agent_start
+    $agentproc = run("bin/rubyw -Itemp bin/agentc.dat") if $silentstart!=true
+  sleep(0.1)
+end
+def deldir(dir,with=true)
+  dr=Dir.entries(dir)
+  dr.delete("..")
+  dr.delete(".")
+  for t in dr
+    f=dir+"/"+t
+    if File.directory?(f)
+      deldir(f)
+    else
+      Win32API.new("kernel32","DeleteFile",'p','i').call(f)
       end
     end
+    Win32API.new("kernel32","RemoveDirectory",'p','i').call(dir) if with == true
+  end
+  def tray
+          run("bin\\elten_tray.bin")
+  Win32API.new("user32","SetFocus",'i','i').call($wnd)
+  Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
+  Graphics.update
+  Graphics.update
+    Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
+  end
+end
 end
 #Copyright (C) 2014-2016 Dawid Pieper

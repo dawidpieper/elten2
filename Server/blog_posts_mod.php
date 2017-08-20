@@ -2,12 +2,7 @@
 require("header.php");
 if($_GET['add'] == 1){
 $postid=1;
-$zapytanie = "SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+$idzapytania = mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'");
 while($wiersz = mysql_fetch_row($idzapytania)) {
 if($wiersz[0]>=$postid)
 $postid = $wiersz[0]+1;
@@ -18,63 +13,26 @@ if(strlen($_POST['post']) < 8) {
 echo "-1";
 die;
 }
-$min=6;
-$max=24;
-srand((double)microtime()*1000000);
-for($i=0;$i<rand($min,$max);$i++) {
-$znak=chr(rand(48,122));
-if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
-else $i--;
-}
-$filename=$haslo;
+$filename=random_str(24);
 $fp = fopen("audioblogs/posts/".$filename,"w");
 fwrite($fp,$_POST['post']);
 fclose($fp);
 $post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004\r\n";
 }
 if($_GET['buffer'] != null) {
-$zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
+$post = buffer_get($_GET['buffer']);
 }
-while($wiersz = mysql_fetch_row($idzapytania)) {
-if($wiersz[0] == $_GET['buffer'] and $wiersz[2] == $_GET['name'])
-$post = $wiersz[1];
-}
-if($post == null) {
-echo "-1";
-die;
-}
-$post = str_replace("\\","\\\\",$post);
-$post = str_replace("'","\\'",$post);
-}
-$zapytanie = "INSERT INTO `blog_posts` (`id`,`owner`,`author`,`postid`,`posttype`,`name`,`post`) VALUES ('','" . $_GET['name'] . "','".$_GET['name']."'," . $postid . ",0,'".$_GET['postname']."','" . $post . "\r\n\r\n" . date("Y-m-d H:i:s") . "')";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+mquery("INSERT INTO `blog_posts` (`id`,`owner`,`author`,`postid`,`posttype`,`name`,`post`) VALUES ('','" . $_GET['name'] . "','".$_GET['name']."'," . $postid . ",0,'".$_GET['postname']."','" . $post . "\r\n\r\n" . date("Y-m-d H:i:s") . "')");
+mquery("INSERT INTO `blog_read` (`id`,`owner`,`author`,`post`,`posts`) VALUES ('','" . $_GET['name'] . "','".$_GET['name']."'," . $postid . ",1)");
 $cats = explode(",",$_GET['categoryid']);
 $i = 0;
 while($i<count($cats)) {
 if($cats[$i]>0 AND $cats[$i] != NULL) {
-$zapytanie = "INSERT INTO `blog_assigning` (id,owner,categoryid,postid) VALUES ('','".$_GET['name']."',".$cats[$i].",".$postid.")";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+mquery("INSERT INTO `blog_assigning` (id,owner,categoryid,postid) VALUES ('','".$_GET['name']."',".$cats[$i].",".$postid.")");
 }
 $i=$i+1;
 }
-$zapytanie = "UPDATE `blogs` SET `lastupdate`=".time()." WHERE `owner`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+mquery("UPDATE `blogs` SET `lastupdate`=".time()." WHERE `owner`='".$_GET['name']."'");
 }
 if($_GET['del'] == 1){
 $zapytanie = "DELETE FROM `blog_posts` WHERE `postid`=" . $_GET['postid'] . " AND `owner`='".$_GET['name']."'";

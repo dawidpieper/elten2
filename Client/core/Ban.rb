@@ -23,10 +23,8 @@ class Scene_Ban_Ban
         $scene = @scene
         end
     end
-speech("Wybierz czas trwania okresu zbanowania")
-speech_wait
 sel = ["Kwadrans","Godzina","Dwie godziny","Dzień","Dwa dni","Tydzień","Dwa tygodnie","Trzydzieści dni","Dziewięćdziesiąt dni","Sto osiemdziesiąt dni","Trzysta sześćdziesiąt dni"]
-@sel = Select.new(sel)
+@sel = Select.new(sel,true,0,"Wybierz czas trwania okresu zbanowania")
 loop do
   loop_update
   @sel.update

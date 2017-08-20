@@ -36,7 +36,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = SelectLR.new(["Anuluj"])
+@menu = menulr(["Anuluj"])
 loop do
 loop_update
 @menu.update

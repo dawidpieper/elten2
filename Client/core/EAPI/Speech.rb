@@ -8,7 +8,7 @@
 module EltenAPI
   module Speech
   def speech(text,method=1)
-        if $speech_waiter==true
+            if $speech_waiter==true
       method=0
       $speech_waiter=false
       end
@@ -77,10 +77,12 @@ prei=0
     play("edit_endofline")
     return if speechaudio==""
   end
-  if text.size == 1
-    if text[0..0].bigletter  or text[0..1].bigletter
+  if text.size!=0
+  if text.size==1 or (text.size<=2 and text[0]>100)
+    if text[0..0].bigletter or text[0..1].bigletter
       play("edit_bigletter")
       end
+    end
     end
   if $password == true
     speech_stop
@@ -96,14 +98,14 @@ prei=0
       end
           $speechaudiothread=Thread.new do
              $speechaudiofile            
-            $speechaudio=AudioFile.new($speechaudiofile)
+                         $speechaudio=AudioFile.new($speechaudiofile)
       while speech_actived(true)
         sleep(0.01)
         end
       $speechaudio.play
       loop do
         pos=$speechaudio.position
-        sleep(0.1)
+        sleep(0.3)
         if $speechaudio.position==pos and $speechaudio.playing? == true
           $speechaudio.close
           break
@@ -127,6 +129,9 @@ polecenie = "sayString" if $voice == -1
 text_d = text
 text_d = utf8(text) if $speech_to_utf == true
 $speech_lasttext = text_d
+text_d.gsub!("\r\n\r\n","\004SLINE\004")
+text_d.gsub!("\r\n"," ")
+text_d.gsub!("\004SLINE\004","\r\n\r\n")
 Win32API.new("screenreaderapi",polecenie,'pi','i').call(text_d,method) if $password != true
 if text.size>=5
   if Thread::current==$mainthread
@@ -148,25 +153,13 @@ return text_d
 end
 
 def speech_actived(ignoreaudio=false)
-  polecenie = "sapiIsSpeaking"
-    #if $voice != -1
-    return true if $speechaudio!=nil and ignoreaudio==false
+    polecenie = "sapiIsSpeaking"
+        return true if $speechaudio!=nil and ignoreaudio==false
   if Win32API.new("screenreaderapi",polecenie,'v','i').call() == 0
     return(false)
   else
     return(true)
   end
-#else
-  #i = 0
-  #loop do
-    #i += 1
-   #Graphics.update
-   #Input.update
-   #key_update
-   #break if $key[0x11] or i > $speech_lasttext.size * 5
- #end
-  #return false
-  #end
   end
   
   def speech_stop
@@ -180,13 +173,9 @@ def speech_actived(ignoreaudio=false)
     Win32API.new("screenreaderapi",polecenie,'v','i').call()
   end
       def speech_wait
-  #if $voice >= 0
-  while speech_actived == true
+    while speech_actived == true
 loop_update
 end
-#else
-  #speech_actived
-  #end
   $speech_waiter = true if $voice == -1
   return
 end
@@ -255,6 +244,22 @@ def char_dict(text)
                                                               r="lewy nawias"
                                                               when ")"
                                                                 r="prawy nawias"
+                                                                when "ü"
+                                                                  r="u umlaut" if $language=="PL_PL"
+                                                                  when "Ü"
+                                                                    r="U umlaut" if $language=="PL_PL"
+                                                                    when "ä"
+                                                                      r="a umlaut" if $language=="PL_PL"
+                                                                      when "Ä"
+                                                                 r="A umlaut" if $language=="PL_PL"       
+                                                                 when "ö"
+                                                                   r="o umlaut" if $language=="PL_PL"
+                                                                   when "Ö"
+                                                                     r="O umlaut" if $language=="PL_PL"
+when "ß"
+                                                                     r="długie s" if $language=="PL_PL"
+                                                                     when "´"
+                                                                     r="ostry akcent" if $language=="PL_PL"
                       end
                       if r==""
                         return(text)
@@ -270,12 +275,24 @@ def char_dict(text)
   end
   end
 def dict(text)
-  return text if $language == nil
+  text="" if text==nil
+  return text if $language == nil or $language == "PL_PL"
+  for i in 0..$lang_src.size-1
+    src=$lang_src[i]
+    if src==text or src.include?("%%")
+    dst=$lang_dst[i].delete("\r\n")
+    re=Regexp.new(src.gsub("%%","\w*").gsub("(","\\(").gsub(")","\\)"))
+            text=text.gsub(re,dst.gsub("%%",$1.to_s))
+          end
+          end
+return text
   text = "" if text == nil
   if $lang_src != nil and $lang_dst != nil
 for i in 3..$lang_src.size - 1
   if $lang_src[i] == text
     r = $lang_dst[i]
+    r.chop! if r[r.size-1..r.size-1]=="\n"
+    r.chop! if r[r.size-1..r.size-1]=="\r"
     return(r)
     end
   end
@@ -284,16 +301,17 @@ for i in 3..$lang_dst.size - 1
   suc = false
     $lang_dst[i].gsub("%%") {
   suc = true
-  ""
+    ""
   }
   if suc == true
     dst = $lang_dst[i].gsub("%","")
     src = $lang_src[i].gsub("%","")
   text.sub!(src,dst)
-  end
+    end
 end
 text.gsub!("\r\r","  ")
-  return(text)
+text.delete!("\r")
+return(text)
 end                   
 end
 end

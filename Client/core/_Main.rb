@@ -9,9 +9,10 @@ class Object
   include EltenAPI
   end
 begin
-    $mainthread = Thread::current
+  $volume=100
+      $mainthread = Thread::current
 $stopmainthread         = false
-#main
+  #main
     # Prepare for transition
   Graphics.freeze
   Graphics.update
@@ -34,9 +35,10 @@ $toscene = false
     break
     end
   end
-    writefile("agent_exit.tmp","\r\n")
+    writefile("temp/agent_exit.tmp","\r\n")
     $agentproc=nil
-        play("logout")
+    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=opuścił%20dyskusję") if $chat!=false
+    play("logout")
   speech_wait
     for o in $procs
 Win32API.new("kernel32","TerminateProcess",'ip','i').call(o,"")
@@ -44,8 +46,9 @@ Win32API.new("kernel32","TerminateProcess",'ip','i').call(o,"")
   if $playlistbuffer != nil
 $t=false
     begin      
-    $playlistbuffer.close if $t==false
-      rescue Exception
+      $playlistpaused=true    
+      $playlistbuffer.pause if $t==false
+          rescue Exception
     $t=true
     retry
     end
@@ -53,8 +56,7 @@ $t=false
   $playlist = [] if $playlist == nil
   if $playlist.size > 0
     $playlistpaused = true
-    $playlistbuffer.pause
-    if FileTest.exists?("#{$eltendata}\\playlist.eps")
+        if FileTest.exists?("#{$eltendata}\\playlist.eps")
       pls = load_data("#{$eltendata}\\playlist.eps")
       if pls != $playlist
         if simplequestion("Twoja playlista została zmieniona. Zapisać zmiany?") == 1
@@ -66,6 +68,9 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
           save_data($playlist,"#{$eltendata}\\playlist.eps")
           end
         end
+        $playlist=[]
+        $playlistbuffer.close if $playlistbuffer==nil
+        $playlistbuffer=nil
         else
     if FileTest.exists?("#{$eltendata}\\playlist.eps")
       if simplequestion("Czy chcesz usunąć zapisaną playlistę?") == 1
@@ -73,30 +78,19 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
         end
             end
   end
-  d = Dir.entries("temp")
-  d.delete("..")
-  d.delete(".")
-  for f in d
-$rescb=0
-    begin
-    File.delete("temp/"+f) if FileTest.exists?("temp/"+f) and $rescb!=1
-  rescue Exception
-    $rescb=1
-    retry
-    end
-    end
-  if $recproc!=nil
+  deldir("temp",false)
+    if $recproc!=nil
     writefile("record_stop.tmp","")
     $recproc=nil
     end
     delay(1)
   # Fade out
   Graphics.transition(120)
-  File.delete("agent_exit.tmp") if FileTest.exists?("agent_exit.tmp")
-  File.delete("agent_output.tmp") if FileTest.exists?("agent_output.tmp")
+  File.delete("temp/agent_exit.tmp") if FileTest.exists?("temp/agent_exit.tmp")
+  File.delete("temp/agent_output.tmp") if FileTest.exists?("temp/agent_output.tmp")
   $exit = true
     exit
-      rescue Hangup
+    rescue Hangup
   Graphics.update
   $toscene = true
   retry
@@ -121,7 +115,7 @@ rescue RuntimeError
     sleep(0.5)
     speech("Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do twórców programu?")
     speech_wait
-    @sel = SelectLR.new(["Nie","Tak"])
+    @sel = menulr(["Nie","Tak"])
     loop do
       loop_update
       @sel.update
@@ -135,7 +129,9 @@ rescue RuntimeError
         fail
   end
 rescue SystemExit
-  play("list_focus")
+  loop_update
+  quit if $keyr[0x73]
+          play("list_focus") if $exit==nil
   $toscene = true
   retry if $exit == nil
   rescue Exception
@@ -146,7 +142,7 @@ rescue SystemExit
     $console_used = false
     $tomain = true
     retry
-  elsif $updating != true and $beta_downloading != true and $start != nil
+  elsif $updating != true and $beta_downloading != true and $start != nil and $downloading != true
         speech("Wystąpił krytyczny błąd. Opis błędu: #{$!.message}")
     speech_wait
     sleep(0.5)
@@ -156,7 +152,7 @@ rescue SystemExit
       sleep(0.15)
       bug
     end
-sel = SelectLR.new(["Skopiuj treść błędu do schowka","Restart","Spróbuj ponownie","Uruchom tryb awaryjny","Przerwij działanie aplikacji"],true,0,"Co chcesz zrobić?")
+sel = menulr(["Skopiuj treść błędu do schowka","Restart","Spróbuj ponownie","Uruchom tryb awaryjny","Przerwij działanie aplikacji"],true,0,"Co chcesz zrobić?")
 loop do
   loop_update
   sel.update
@@ -182,7 +178,7 @@ loop do
       speech_wait
       @sels = ["Wyjście","Zainstaluj program ponownie"]
       @sels += ["Podejmij próbę otwarcia forum","Podejmij próbę otwarcia wiadomości"] if $name != nil and $name != ""
-      @sel = SelectLR.new(@sels)
+      @sel = menulr(@sels)
       loop do
         loop_update
         @sel.update

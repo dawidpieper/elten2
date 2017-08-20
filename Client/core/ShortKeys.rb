@@ -23,11 +23,36 @@ Shift+F8 - aktualna data
 F9 - kontakty
 Shift+F9 - lista zalogowanych osób
 F10 - co nowego
+F11 - powtórz wypowiedź
 F12 - restart
+SHIFT+F3 - play/pauza playlisty
+SHIFT+F4 - poprzedni utwór z playlisty
+SHIFT+F5 - ściszanie playlisty
+SHIFT+F6 - zgłaśnianie playlisty
+SHIFT+F7 - następny utwór z playlisty
 
+Skróty w polach tekstowych
+CTRL+Z - cofnij
+CTRL+Y - powtórz
+CTRL+X - wytnij
+CTRL+C - kopiuj
+CTRL+V - wklej
+CTRL+A - zaznacz wszystko
+CTRL+S - zapis do bufora
+CTRL+R - przywrócenie bufora
+CTRL+T - szybkie tłumaczenie
+CTRL+SHIFT+T - tłumacz
+Enter - otwórz link
+SHIFT+Strzałki - zaznaczanie
+F4 - czytaj od kursora
+CTRL+ENTER - zatwierdź
 
-Skróty w Plikach
-F4 - wyciszenie odtwarzanego pliku
+Skróty w odtwarzaczu
+Góra/dół - zgłaśnianie i ściszanie
+Lewo/prawo - przewijanie
+Shift + góra/duł - zmiana częstotliwości
+SHIFT + lewo/prawo - zmiana pozycji
+Spacja - odtwórz / pauza
 
 Skróty w wątkach
 CTRL+, - skok do pierwszego wpisu
@@ -37,7 +62,7 @@ CTRL+N - odpowiedź
 CTRL+F - odpowiedź z cytatem
     
 Inne skróty:
-CTRL+SHIFT+ALT+E - powrót z zasobnika
+CTRL+SHIFT+ALT+T - powrót z zasobnika
 "
     input_text("Lista skrótów klawiszowych","MULTILINE|READONLY|ACCEPTESCAPE",@shorts)
 speech_stop

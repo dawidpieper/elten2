@@ -138,7 +138,7 @@ $scene = Scene_Blog_Rename.new
   end
   def menu
     play("menu_open")
-    @menu = SelectLR.new(["Wybierz","Zmień nazwę","Usuń"])
+    @menu = menulr(["Wybierz","Zmień nazwę","Usuń"])
     @menu.disable_item(1) if @sel.index > $postid.size - 1 or @sel.index == 0 or @owner!=$name
     @menu.disable_item(2) if @sel.index > $postid.size - 1 or @sel.index == 0 or @owner!=$name
     loop do
@@ -302,7 +302,13 @@ for i in 0..lines - 1
   l += 1
 end
 sel = $postname+[]
-sel.push("Nowy wpis") if @owner==$name
+sel.push("Nowy wpis") if @owner==$name and @id != "NEW"
+if sel.size==0 and @id=="NEW"
+  speech("Brak nowych komentarzy na twoim blogu.")
+  speech_wait
+  $scene=Scene_WhatsNew.new
+  return
+  end
 @sel = Select.new(sel,true,@postselindex)
 loop do
   loop_update
@@ -313,7 +319,11 @@ loop do
 end
 def update
   if escape or Input.trigger?(Input::LEFT)
-        $scene = Scene_Blog_Main.new(@owner,@categoryselindex,$blogreturnscene)
+    if @id == "NEW"    
+      $scene = Scene_WhatsNew.new
+      else
+    $scene = Scene_Blog_Main.new(@owner,@categoryselindex,$blogreturnscene)
+    end
   end
   if enter or Input.trigger?(Input::RIGHT)
         if @sel.index < $postname.size
@@ -334,7 +344,7 @@ def update
   def menu
     play("menu_open")
     play("menu_background")
-    @menu = SelectLR.new(["Wybierz","Edytuj","Usuń"])
+    @menu = menulr(["Wybierz","Edytuj","Usuń"])
     @menu.disable_item(1) if @sel.index >= $postname.size-1 or $name!=@owner
     @menu.disable_item(2) if @sel.index >= $postname.size-1 or $name!=@owner
     loop do
@@ -402,7 +412,7 @@ end
 @fields = []
 @fields[0] = Edit.new("Tytuł wpisu","","",true)
 @fields[1] = Edit.new("Treść wpisu","MULTILINE","",true)
-@fields[2] = Button.new("Nagraj wpis audio")
+@fields[2] = Button.new("Utwórz wpis audio")
 @fields[3] = Select.new(categorynames,true,0,"Przypisz do kategorii",true,true)
 @fields[4] = Button.new("Wyślij")
 @fields[5] = Button.new("Anuluj")
@@ -416,25 +426,45 @@ loop do
   loop_update
         if (enter or space) and @form.index == 2
           if @recst == 0
-            play("recording_start")
+            play("menu_open")
+            play("menu_background")
+            o=selector(["Nagraj nowy wpis","Użyj istniejącego pliku","Anuluj"],"",0,2,1)
+                        play("menu_close")
+                        Audio.bgs_stop
+            case o
+                        when 0
+delay(0.2)
+                          play("recording_start")
             recording_start("temp/audioblogpost.wav")
             @recst=1
             @form.fields[2]=Button.new("Zakończ nagrywanie")
             @editpost=@form.fields[1]
             @form.fields[1]=nil
+            @recfile="temp/audioblogpost.wav"
+            when 1
+              file=getfile
+              if file!=""
+                @editpost=@form.fields[1]
+                @recfile=file
+              @recst=2
+            @form.fields[2]=Button.new("Odtwórz")
+            @form.fields[1]=Button.new("Utwórz wpis tekstowy")
+            @form.fields[2].focus
+            end
+                              end
           elsif @recst == 1
                         play("recording_stop")
             recording_stop
             @recst=2
             @form.fields[2]=Button.new("Odtwórz")
-            @form.fields[1]=Button.new("Anuluj nagrywanie")
+            @form.fields[1]=Button.new("Utwórz wpis tekstowy")
           else
-            player("temp/audioblogpost.wav","",true)
+            player(@recfile,"",true)
             end
           end
         if (enter or space) and @form.index == 1 and @recst == 2
           @recst=0
-          @form.fields[2]=Button.new("Nagraj wpis audio")
+          @form.fields[2]=Button.new("Utwórz wpis audio")
           @form.fields[1]=@editpost
           @form.index=1
           @form.fields[1].focus
@@ -468,7 +498,7 @@ bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postna
  else
                  speech("Konwertowanie pliku...")
       File.delete("temp/audioblogpost.mp3") if FileTest.exists?("temp/audioblogpost.mp3")
-      h = run("bin\\ffmpeg.exe -y -i \"temp\\audioblogpost.wav\" -b:a 128K temp/audioblogpost.mp3",true)
+      h = run("bin\\ffmpeg.exe -y -i \"#{@recfile}\" -b:a 128K temp/audioblogpost.mp3",true)
       t = 0
       tmax = 1000
       loop do
@@ -486,18 +516,16 @@ if t > tmax
   break
   end
         end
-      speech("Przygotowywanie do wysłania wiadomości...")
-        data = ""
-            begin
-            data = read("temp/audioblogpost.mp3").urlenc(true) if data == ""
-          rescue Exception
-            retry
-          end
-          data = "post="+data
-  host = $url.sub("https://","")
+        fl=read("temp/audioblogpost.mp3")
+        boundary=""
+        while fl.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
+    length=data.size    
+      host = $url.sub("https://","")
   host.delete!("/")
-  length = data.size
-  q = "POST /blog_posts_mod.php?name=#{$name}\&token=#{$token}\&categoryid=#{cat.urlenc}\&postid=#{@post}\&postname=#{postname.urlenc}\&add=1\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
+    q = "POST /blog_posts_mod.php?name=#{$name}\&token=#{$token}\&categoryid=#{cat.urlenc}\&postid=#{@post}\&postname=#{postname.urlenc}\&add=1\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
 a = connect(host,80,q)
 a.delete!("\0")
 for i in 0..a.size - 1
@@ -703,7 +731,7 @@ for i in 0..$post.size-1
 @fields[i] = Edit.new($post[i].author,"MULTILINE|READONLY",$post[i].text,true)
 end
 @fields.push(Edit.new("Twój komentarz","MULTILINE"))
-@fields.push(Button.new("Wyślij"))
+@fields.push(nil)
 if @owner==$name
 @fields.push(Button.new("Zmodyfikuj swój wpis"))
 else
@@ -715,6 +743,11 @@ loop do
   loop_update
   @form.update
   update
+  if @form.fields[@form.fields.size-4].text!=[[]] and @form.fields[@form.fields.size-3]==nil
+    @form.fields[@form.fields.size-3]=Button.new("Wyślij")
+  elsif @form.fields[@form.fields.size-4].text==[[]] and @form.fields[@form.fields.size-3]!=nil
+    @form.fields[@form.fields.size-3]=nil
+    end
   break if $scene != self
   end
 end
@@ -904,12 +937,12 @@ for u in @followedblogs
   isf = true if u == @owners[@sel.index]
 end
 if isf == true
-  sel.push("Usuń ze śledzonych blogów.")
+  sel.push("Usuń ze śledzonych blogów")
 else
-  sel.push("Dodaj do śledzonych blogów.")
+  sel.push("Dodaj do śledzonych blogów")
 end
 sel += ["Odśwież","Anuluj"]
-@menu = SelectLR.new(sel)
+@menu = menulr(sel)
 loop do
 loop_update
 @menu.update
@@ -918,7 +951,7 @@ if enter
   case @menu.index
   when 0
     if usermenu(@owner[@sel.index],true) != "ALT"
-          @menu = SelectLR.new(sel)
+          @menu = menulr(sel)
         else
           break
         end
@@ -955,7 +988,7 @@ end
 if Input.trigger?(Input::DOWN) and @menu.index == 0
     Input.update
   if usermenu(@owners[@sel.index],true) != "ALT"
-    @menu = SelectLR.new(sel)
+    @menu = menulr(sel)
   else
     break
     end

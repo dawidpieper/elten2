@@ -1,85 +1,34 @@
 <?php
 require("header.php");
-$zapytanie = "SELECT `name`, `tester`, `moderator`, `media_administrator`, `translator`, `developer` from `privileges`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$suc = false;
-while ($wiersz = mysql_fetch_row($idzapytania)){
-if($wiersz[0] == $_GET['name']) {
-$suc = true;
-$name = $wiersz[0];
-$tester = $wiersz[1];
-$moderator = $wiersz[2];
-$media_administrator = $wiersz[3];
-$translator = $wiersz[4];
-$developer = $wiersz[5];
-}
-}
-if($suc == false) {
-$name = $_GET['name'];
-$tester = 0;
-$moderator = 0;
-$media_administrator = 0;
-$translator = 0;
-$developer = 0;
-}
+$moderator=getprivileges($_GET['name'])[1];
 if($_GET['delete'] == 1) {
 if($moderator == 0) {
 echo "-3";
 die;
 }
-$zapytanie = "DELETE FROM `forum_threads` WHERE `id`=" . $_GET['threadid'] . " AND `forum`='".$_GET['forumname']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$zapytanie = "DELETE FROM `forum_posts` WHERE `thread`=" . $_GET['threadid'];
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$zapytanie = "UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".$_GET['forumname']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+mquery("DELETE FROM `forum_threads` WHERE `id`=" . $_GET['threadid'] . " AND `forum`='".$_GET['forumname']."'");
+mquery("INSERT INTO `forum_posts_deleted` SELECT * FROM `forum_posts` WHERE `thread`=" . $_GET['threadid']);
+mquery("DELETE FROM `forum_posts` WHERE `thread`=" . $_GET['threadid']);
+mquery("UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".$_GET['forumname']."'");
+mquery("DELETE FROM `followedthreads` WHERE `thread`=" . $_GET['threadid']);
 }
 if($_GET['delete'] == 2) {
 if($moderator == 0) {
 echo "-3";
 die;
 }
-$zapytanie = "DELETE FROM `forum_posts` WHERE `thread`=" . $_GET['threadid'] . " AND `id`=" . $_GET['postid'];
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$zapytanie = "UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".$_GET['forumname']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+mquery("INSERT INTO `forum_posts_deleted` SELECT * FROM `forum_posts` WHERE `thread`=" . $_GET['threadid'] . " AND `id`=" . $_GET['postid']);
+mquery("DELETE FROM `forum_posts` WHERE `thread`=" . $_GET['threadid'] . " AND `id`=" . $_GET['postid']);
+mquery("UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".$_GET['forumname']."'");
+mquery("UPDATE `forum_read` SET `posts`=`posts`-1 WHERE `thread`=" . $_GET['threadid']);
 }
 if($_GET['edit'] == 1) {
-$zapytanie = "SELECT `id`, `author` FROM `forum_posts` WHERE `id`=".$_GET['postid'];
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
+$q = mquery("SELECT `id`, `author` FROM `forum_posts` WHERE `id`=".$_GET['postid']);
 $suc = false;
-while($wiersz = mysql_fetch_row($idzapytania)) {
-if($wiersz[0] == $_GET['postid']) {
+while($r = mysql_fetch_row($q)) {
+if($r[0] == $_GET['postid']) {
 $suc = true;
-if($wiersz[1] != $_GET['name'] and $moderator == 0) {
+if($r[1] != $_GET['name'] and $moderator == 0) {
 echo "-3";
 die;
 }
@@ -93,33 +42,13 @@ $post = "";
 if($_GET['buffer'] == 0)
 $post = $_GET['post'];
 else {
-$zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
-while($wiersz = mysql_fetch_row($idzapytania)) {
-if($wiersz[0] == $_GET['buffer'] and $wiersz[2] == $_GET['name'])
-$post = $wiersz[1];
-}
-if($post == null) {
-echo "-1\r\n".$zapytanie;
-die;
-}
-$post = str_replace("\\","\\\\",$post);
-$post = str_replace("'","\\'",$post);
+$post=buffer_get($_GET['buffer']);
 }
 if($post == "") {
 echo "-1\r\n".$zapytanie;
 die;
 }
-$zapytanie = "UPDATE `forum_posts` SET `post`='".$post."' WHERE `thread`=".$_GET['threadid']." AND`id`='".$_GET['postid']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
+mquery("UPDATE `forum_posts` SET `post`='".$post."' WHERE `thread`=".$_GET['threadid']." AND`id`='".$_GET['postid']."'");
 }
 echo "0";
 ?>

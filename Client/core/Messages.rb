@@ -6,9 +6,16 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Messages
+  def initialize(wn=false)
+    @wn=wn
+    end
   def main
-        $msg = srvproc("messages_received","name=#{$name}\&token=#{$token}")
-        case $msg[0].chop!.to_i
+    if @wn == false    
+    $msg = srvproc("messages_received","name=#{$name}\&token=#{$token}\&hash=1")
+  else
+    $msg = srvproc("messages_received","name=#{$name}\&token=#{$token}\&new=1\&hash=1")
+  end
+            case $msg[0].chop!.to_i
     when -1
       speech("Błąd połączenia się z bazą danych.")
       $scene = Scene_Main.new
@@ -23,48 +30,55 @@ class Scene_Messages
           return
         end
      $messages = $msg[1].to_i
+     if @wn == false
      wterrt = srvproc("whatsnew","name=#{$name}\&token=#{$token}\&messages=#{$messages}\&posts=-1\&set=1")
           wterr = wterrt[0].to_i
-          if $messages == 0
-       speech("Nie masz żadnych wiadomości.")
-       speech_wait
+        else
+         wterrt = srvproc("whatsnew","name=#{$name}\&token=#{$token}\&messages=#{$messages}\&posts=-1\&set=2")
+          wterr = wterrt[0].to_i
+          end
+                    if $messages == 0
+if @wn == false
+            speech("Nie masz żadnych wiadomości.")
+          speech_wait
+        else
+          speech("Brak nowych wiadomości")
+          speech_wait
+          $scene=Scene_WhatsNew.new
+          return
+          end
      end
      if $messages > 0
-     $message = []
+              mes=eval($msg[2]).reverse
+       $message = []
           l = 2
-     for i in 0..$messages - 1
-       c = i
-      t = 0
-      id = $messages - 1 - i
-      $message[id] = Struct_Message.new(id)
-      while $msg[l] != "\004END\004\n"
-         t += 1
-         if t == 1
-           read = $msg[l].to_i
-           $message[id].read = $msg[l].to_i
-                           elsif t > 4
-           $message[id] = Struct_Message.new(id) if $message[id] == nil
-                             $message[id].text += $msg[l] if $msg[l] != nil
-                  elsif t == 2
-                      $message[id].subject = $msg[l].delete("\r\n")
-         elsif t == 3
-           $message[id].sender = $msg[l].delete("\r\n")
-         elsif t == 4
-           $message[id].id = $msg[l].delete("\r\n")
-         end
-         l += 1
-       end
-       l += 1
-     end
+     for m in mes
+              id,mread,subject,sender,date,text=m
+              ind=$message.size
+                     $message[ind] = Struct_Message.new(id)
+                            $message[ind].mread = mread
+                                                                   $message[ind].text = text
+                                        $message[ind].subject = subject
+                    $message[ind].sender = sender
+                    $message[ind].id = id
+                    $message[ind].text+="\r\n"+date
+                              end
      $msgsel = []
      for i in 0..$message.size - 1
        $msgsel[i] = ""
-       if $message[i].read == 0
+       if $message[i].mread == 0 and @wn == false
          $msgsel[i] += "Nowa: \004NEW\004 "
          end
        $msgsel[i] += $message[i].subject + " OD: " + $message[i].sender
-       end
-     $sel = Select.new($msgsel,true,0,"Wiadomości odebrane")
+              end
+     h=""
+     h="Wiadomości odebrane" if @wn == false
+              $sel = Select.new($msgsel,true,0,h)
+          if $msgsel.size==0 and @wn==false
+       speech("Brak nowych wiadomości")
+       speech_wait
+       $scene=Scene_WhatsNew.new
+     end
      loop do
 loop_update
        $sel.update
@@ -73,7 +87,11 @@ loop_update
                   menu
        end
        if escape
-                  $scene = Scene_Main.new
+         if @wn == false         
+         $scene = Scene_Main.new
+       else
+         $scene=Scene_WhatsNew.new
+         end
          end
        if $scene != self
          break
@@ -97,7 +115,7 @@ speech_stop
      end
      def update
          $msgcur = $sel.index
-         $scene = Scene_Messages_Delete.new($id[$msgcur]) if $key[0x2e]
+         $scene = Scene_Messages_Delete.new($message[$msgcur].id,@wn) if $key[0x2e]
          if enter
          msgtemp = srvproc("message_read","name=#{$name}\&token=#{$token}\&id=#{$message[$msgcur].id}")
                   if msgtemp[0].to_i < 0
@@ -107,7 +125,7 @@ speech_stop
            return
          end
          dialog_open
-         $message[$msgcur].read = Time.now.to_i
+         $message[$msgcur].mread = Time.now.to_i
          $msgsel[$msgcur] = $message[$msgcur].subject + " OD: " + $message[$msgcur].sender
          $sel.commandoptions = $msgsel  
                   $inpt = Edit.new($message[$msgcur].subject + " Od: " + $message[$msgcur].sender,"MULTILINE|READONLY",$message[$msgcur].text)
@@ -130,13 +148,17 @@ loop do
               end
 dialog_close
               loop_update
-     speech("Wiadomości odebrane: " + $msgsel[$sel.index])
+     if @wn == true
+              main
+              return
+  end
+              $sel.focus
       end
    end
    def menu_no_messages
 play("menu_open")
 play("menu_background")
-@sel = SelectLR.new(["Nowa wiadomość","Pokaż wiadomości wysłane","Anuluj"])
+@sel = menulr(["Nowa wiadomość","Pokaż wiadomości wysłane","Anuluj"])
 loop do
 loop_update
 @sel.update
@@ -165,7 +187,11 @@ end
 def menu
 play("menu_open")
 play("menu_background")
-@sel = SelectLR.new(["Odpowiedz","Usuń","Wyślij nową wiadomość","Przekaż dalej","Oznacz wszystkie wiadomości jako przeczytane","Pokaż wiadomości wysłane","Anuluj"])
+@sel = menulr(["Odpowiedz","Usuń","Wyślij nową wiadomość","Przekaż dalej","Oznacz wszystkie wiadomości jako przeczytane","Pokaż wiadomości wysłane","Anuluj"])
+if @wn == true
+  @sel.disable_item(2)
+  @sel.disable_item(5)
+  end
 loop do
 loop_update
 @sel.update
@@ -173,13 +199,13 @@ $msgcur = $sel.index
 if enter
 case @sel.index
 when 0
-  $scene = Scene_Messages_New.new($message[$msgcur].sender,"RE: " + $message[$msgcur].subject.sub("RE: ",""),"")
+  $scene = Scene_Messages_New.new($message[$msgcur].sender,"RE: " + $message[$msgcur].subject.sub("RE: ",""),"",@wn)
 when 1
-  $scene = Scene_Messages_Delete.new($message[$msgcur].id)
+  $scene = Scene_Messages_Delete.new($message[$msgcur].id,@wn)
 when 2
-$scene = Scene_Messages_New.new
+$scene = Scene_Messages_New.new("","","",@wn)
 when 3
-$scene = Scene_Messages_New.new("","FW: " + $message[$msgcur].subject,"Przekazana przez: #{$name} \r\n" + $message[$msgcur].text)
+$scene = Scene_Messages_New.new("","FW: " + $message[$msgcur].subject,"Przekazana przez: #{$name} \r\n" + $message[$msgcur].text,@wn)
 when 4
   msgtemp = srvproc("message_allread","name=#{$name}\&token=#{$token}")
     if msgtemp[0].to_i < 0
@@ -194,15 +220,24 @@ end
 $sel.commandoptions = $msgsel  
     speech("Wszystkie wiadomości zostały oznaczone jako przeczytane.")
 speech_wait
+if @wn == true
+  $scene = Scene_WhatsNew.new
+  return
+  end
 when 5
   $scene = Scene_Messages_Sent.new
 when 6
-$scene = Scene_Main.new
+if @wn == false
+  $scene = Scene_Main.new
+else
+  $scene=Scene_WhatsNew.new
+  end
 end
 break
 end
 if alt or escape
-break
+loop_update
+  break
 end
 end
 Audio.bgs_stop
@@ -212,7 +247,7 @@ end
      end
      
      class Scene_Messages_New
-       def initialize(receiver="",subject="",text="",scene=nil)
+       def initialize(receiver="",subject="",text="",scene=false)
          @receiver = receiver
          @subject = subject
          @text = text
@@ -228,22 +263,47 @@ end
 @fields[1] = Edit.new("Temat:","",subject,true)
            @fields[2] = Edit.new("Treść:","MULTILINE",text,true)
            @fields[3] = Button.new("Nagraj wiadomość głosową")
-           @fields[4] = Button.new("Wyślij")
+           @fields[4]=nil
            @fields[5] = Button.new("Anuluj")
-           @fields[6] = Button.new("Wyślij jako administracja") if $rang_moderator > 0 or $rang_developer > 0
-           @fields[7] = Button.new("Wyślij do wszystkich") if $rang_moderator > 0 or $rang_developer > 0
+           @fields[6]=nil
+           @fields[7]=nil
                                  @form = Form.new(@fields)
 rec=0
                                  loop do                     
              loop_update
-             @form.update
+                          if @form.fields[4]==nil
+               sc=false
+               if rec == 2
+                 sc=true
+               elsif rec == 0 and @form.fields[2].text!=[[]]
+                 sc=true
+                 end
+               if sc == true
+                 @form.fields[4] = Button.new("Wyślij")
+                      @form.fields[6] = Button.new("Wyślij jako administracja") if $rang_moderator > 0 or $rang_developer > 0
+           @form.fields[7] = Button.new("Wyślij do wszystkich") if $rang_moderator > 0 or $rang_developer > 0
+           end
+         elsif @form.fields[4]!=nil
+           sc=false
+               if rec == 1
+                 sc=true
+               elsif rec == 0 and @form.fields[2].text==[[]]
+                 sc=true
+                 end
+           if sc == true
+                 @form.fields[4]=nil
+                      @form.fields[6]=nil if $rang_moderator > 0 or $rang_developer > 0
+           @fields[7]=nil if $rang_moderator > 0 or $rang_developer > 0
+           end
+               end
              if (Input.trigger?(Input::UP) or Input.trigger?(Input::DOWN)) and @form.index == 0
                s = selectcontact
                if s != nil
                  @form.fields[0].settext(s)
                  end
                end
-           if (enter or space) and @form.index == 3
+           @form.update
+               if (enter or space) and @form.index == 3
              if rec == 0
              play("recording_start")
              recording_start("temp/audiomessage.wav")
@@ -285,10 +345,10 @@ rec=0
                        end
                      end
                      if escape or ((enter or space) and @form.index == 5)
-                                                              if @scene != nil
+                                                              if @scene != false and @scene != true
            $scene = @scene
          else
-           $scene = Scene_Messages.new
+           $scene = Scene_Messages.new(@scene)
          end
          loop_update
          dialog_close  
@@ -364,18 +424,17 @@ if t > tmax
   break
   end
         end
-      speech("Przygotowywanie do wysłania wiadomości...")
-        data = ""
-            begin
-            data = read("temp/audiomessage.mp3").urlenc(true) if data == ""
-          rescue Exception
-            retry
-          end
-          data = "data="+data
-  host = $url.sub("https://","")
+                  fl = read("temp/audiomessage.mp3")
+            host = $url.sub("https://","")
   host.delete!("/")
-  length = data.size
-  q = "POST /message_send.php?name=#{$name}\&token=#{$token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
+              boundary=""
+        while fl.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{fl}\r\n--#{boundary}--"
+    length=data.size    
+    q = "POST /message_send.php?name=#{$name}\&token=#{$token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+ 
 a = connect(host,80,q)
 a.delete!("\0")
 for i in 0..a.size - 1
@@ -397,10 +456,10 @@ msgtemp = bt[1].to_i
          when 0
            speech("Wiadomość została wysłana")
            speech_wait
-           if @scene != nil
+           if @scene != false and @scene != true
            $scene = @scene
          else
-           $scene = Scene_Messages.new
+           $scene = Scene_Messages.new(@scene)
            dialog_close
            return
            end
@@ -426,13 +485,14 @@ msgtemp = bt[1].to_i
        end
        
        class Scene_Messages_Delete
-         def initialize(id)
+         def initialize(id,wn=false)
            @id = id.to_i
-         end
+         @wn=wn
+           end
          def main
                       o=simplequestion("Czy jesteś pewien, że chcesz usunąć tę wiadomość?")
                           if o == 0
-                 $scene = Scene_Messages.new
+                 $scene = Scene_Messages.new(@wn)
                  else
                    delete
                             end
@@ -445,7 +505,7 @@ msgtemp = bt[1].to_i
                when 0
                  speech("Usunięto.")
                  speech_wait
-                 $scene = Scene_Messages.new
+                 $scene = Scene_Messages.new(@wn)
                  when -1
                    speech("Błąd połączenia się z bazą danych.")
                    speech_wait
@@ -492,8 +552,8 @@ msgtemp = bt[1].to_i
       while $msg[l] != "\004END\004\n"
          t += 1
          if t == 1
-           read = $msg[l].to_i
-           $message[id].read = $msg[l].to_i
+           mread = $msg[l].to_i
+           $message[id].mread = $msg[l].to_i
                            elsif t > 4
            $message[id].text = "" if $message[id] == nil
                              $message[id].text += $msg[l] if $msg[l] != nil
@@ -511,7 +571,7 @@ msgtemp = bt[1].to_i
      $msgsel = []
      for i in 0..$message.size - 1
        $msgsel[i] = ""
-       if $message[i].read == 0
+       if $message[i].mread == 0
          $msgsel[i] += "Nieprzeczytana: \004NEW\004 "
          end
        $msgsel[i] += $message[i].subject + " DO: " + $message[i].receiver
@@ -577,7 +637,7 @@ loop do
    def menu_no_messages
 play("menu_open")
 play("menu_background")
-@sel = SelectLR.new(["Nowa wiadomość","Anuluj"])
+@sel = menulr(["Nowa wiadomość","Anuluj"])
 loop do
 loop_update
 @sel.update
@@ -603,7 +663,7 @@ end
 def menu
 play("menu_open")
 play("menu_background")
-@sel = SelectLR.new(["Wyślij wiadomość do tego odbiorcy","Usuń","Wyślij nową wiadomość","Przekaż dalej","Anuluj"])
+@sel = menulr(["Wyślij wiadomość do tego odbiorcy","Usuń","Wyślij nową wiadomość","Przekaż dalej","Anuluj"])
 loop do
 loop_update
 @sel.update
@@ -641,7 +701,7 @@ class Scene_Messages_Sent_Delete
          def main
            speech("Czy jesteś pewien, że chcesz usunąć tę wiadomość?")
            speech_wait
-           @sel = SelectLR.new(["Nie","Tak"])
+           @sel = menulr(["Nie","Tak"])
            loop do
 loop_update
              @sel.update
@@ -685,13 +745,13 @@ loop_update
                attr_accessor :sender
                attr_accessor :subject
                attr_accessor :text
-               attr_accessor :read
+               attr_accessor :mread
                def initialize(id=0)
                  @id=id
                  @receiver=$name
                  @sender=$name
                  @subject=""
-                 @read=0
+                 @mread=0
                  @text=""
                  end
                end

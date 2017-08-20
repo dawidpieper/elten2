@@ -80,7 +80,7 @@ loop_update
             return
     end
                    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('SoundTheme','Path',@name,$configdata + "\\soundtheme.ini") 
+                iniw.call('SoundTheme','Path',@name,utf8($configdata + "\\soundtheme.ini"))
                 speech("Zapisano.")
                 speech_wait
                           $soundthemespath = @name

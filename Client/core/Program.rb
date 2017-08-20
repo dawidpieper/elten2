@@ -6,12 +6,9 @@
 #Open Public License is used to licensing this app!
 
 class Program
-  attr_reader :name
-  attr_reader :version
-  attr_reader :author
-  def finish
-    close
-    speech("program: #{@name} został zamknięty.")
+      def finish
+            close
+    speech("program \został zamknięty.")
     speech_wait
     $scene = Scene_Main.new
     return
@@ -25,5 +22,19 @@ class Program
   def self.finish
     finish
   end
+  def self.init
+    self.load
+    if @usermenuoption != nil
+      $usermenuextra=[] if $usermenuextra==nil
+      $usermenuextrascenes=[] if $usermenuextrascenes==nil
+      $usermenuextra.push(@usermenuoption)
+      $usermenuextrascenes.push(self)
+      end
+      if @menulabel==nil
+        @menulabel=@appname
+      end
+      $app=[] if $app==nil
+      $app.push([@appname,@appversion,@menulabel,self])
+              end
 end
 #Copyright (C) 2014-2016 Dawid Pieper

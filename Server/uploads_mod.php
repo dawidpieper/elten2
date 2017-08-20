@@ -5,15 +5,7 @@ if(strlen($_POST['data']) > 134217728*3) {
 echo "-3";
 die;
 }
-$min=8;
-$max=16;
-srand((double)microtime()*1000000);
-for($i=0;$i<rand($min,$max);$i++) {
-$znak=chr(rand(48,122));
-if (eregi("[0-9a-zA-Z]",$znak)) $haslo .= $znak;
-else $i--;
-}
-$filename=$haslo;
+$filename=random_str(24);
 $zapytanie = "INSERT INTO `uploads` (filename,file,owner) VALUES ('".str_replace("\'","",$_GET['filename'])."','".$filename."','".$_GET['name']."')";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

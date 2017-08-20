@@ -58,7 +58,7 @@ loop_update
           end
           play("menu_open")
           play("menu_background")
-          sel = SelectLR.new(["Odtwarzaj","Dodaj do playlisty","Anuluj"])      
+          sel = menulr(["Odtwarzaj","Dodaj do playlisty","Anuluj"])      
           loop do
             loop_update
                         sel.update
@@ -143,7 +143,7 @@ loop_update
       if enter
                 if @sel.index < @sel.commandoptions.size - 1
         url = @fileurl[@sel.index]
-                sel = SelectLR.new(["Odtwarzaj","Dodaj do playlisty","Anuluj"])      
+                sel = menulr(["Odtwarzaj","Dodaj do playlisty","Anuluj"])      
           play("menu_open")
           play("menu_background")
                 loop do

@@ -13,8 +13,8 @@ module EltenAPI
         return ["-1"] if download(url,tmpname) != 0
         case output
     when 0
-    r = IO.readlines(tmpname)
-    when 1
+          r = IO.readlines(tmpname)
+          when 1
       r = read(tmpname)
       when 2
         r = readlines(tmpname)
@@ -144,7 +144,7 @@ return buffer_post(dt)
 end
 def avatar(user)
     avatartemp = srvproc("avatar","name=#{$name}\&token=#{$token}\&searchname=#{user}\&checkonly=1",1)
-  case avatartemp.strbyline[0].to_i
+  case strbyline(avatartemp)[0].to_i
   when -4
     speech("Użytkownik nie posiada avatara.")
     speech_wait
@@ -160,7 +160,7 @@ def avatar(user)
         return
       end
       a = $url+"avatars/"+user
-            player(a,"Awatar: #{user}",true)
+            player(a,"Awatar: #{user}",true,true,true)
                           return
       end    
     def avatar_set(file)
@@ -185,20 +185,19 @@ if t > tmax
   break
   end
         end
-      speech("Przygotowywanie do wysłania pliku...",1)
-        data = ""
-            begin
-            data = read("avatartemp.mp3").urlenc(true) if data == ""
-          rescue Exception
-            retry
-          end
-          File.delete("avatartemp.mp3")              
-          data = "avatar="+data
-  host = $url.sub("https://","")
+              data=""
+                        fl = read("avatartemp.mp3")
+                    File.delete("avatartemp.mp3")              
+            host = $url.sub("https://","")
   host.delete!("/")
-  length = data.size
-  q = "POST /avatar_mod.php?name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
-a = connect(host,80,q)
+              boundary=""
+        while fl.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"avatar\"\r\n\r\n#{fl}\r\n--#{boundary}--"
+    length=data.size    
+    q = "POST /avatar_mod.php?name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+  a = connect(host,80,q)
 a.delete!("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
@@ -232,12 +231,7 @@ def buffer_post(data)
   host = $url.sub("https://","")
   host.delete!("/")
   length = data.size
-  data
-  data.size
-  length
-  gdata = Zlib::Deflate.deflate(data)
-  glength = gdata.size
-  q = "POST /buffer_post.php?name=#{$name}\&token=#{$token}&id=#{id.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
+      q = "POST /buffer_post.php?name=#{$name}\&token=#{$token}&id=#{id.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
 a = connect(host,80,q)
 a.delete!("\0")
 a
@@ -291,6 +285,18 @@ fp = srvproc("forum_posts","name=#{$name}\&token=#{$token}\&cat=3\&searchname=#{
 if fp[0].to_i == 0
 usrinf[4] = fp[1].to_i
 end
+usrinf[5] = uit[5].delete("\r\n") if uit[5]
+if uit[6].to_i == 0
+  usrinf[6]=""
+  else
+begin                  
+                    uitt = Time.at(uit[6].to_i)
+                  rescue Exception
+                    retry
+                    end
+                  usrinf[6] = sprintf("%04d-%02d-%02d %02d:%02d",uitt.year,uitt.month,uitt.day,uitt.hour,uitt.min)
+end
+usrinf[7]=uit[7]
 return usrinf
 end
 
@@ -327,17 +333,14 @@ end
 
 def speedtest
     tm = Time.now
-startms = tm.usec
-starts = tm.to_i
-  i = srvproc("active","name=#{$name}\&token=#{$token}")
+starttm = tm.to_i+tm.usec/1000000.0
+for i in 1..30
+i = srvproc("active","name=#{$name}\&token=#{$token}")
+end
   tm = Time.now
-  stopms = tm.usec
-  stops = tm.to_i
-time = -1
-    time = (stopms - startms) / 1000
-    time = 1000 - time if time < 0
-    time += (stops - starts)*1000
-  speech("Czas potwierdzenia sesji: #{time.to_s} milisekund.")
+  stoptm = tm.to_i+tm.usec/1000000.0
+    time=(((stoptm-starttm)*1000)/30).to_i
+  speech("Czas potwierdzenia sesji: #{time.to_s}ms.")
     speech_wait
 return time
 end
@@ -385,18 +388,17 @@ end
                                end
                                
                                def sendfile(file)
-      speech("Proszę czekać, to może potrwać kilka minut...")
-                              data = ""
-            begin
-            data = read(file).urlenc(true) if data == ""
-          rescue Exception
-            retry
-          end
-                        data = "data="+data
-                        length=data.size
-                          host = $url.sub("https://","")
+                                    data = ""
+                                      host = $url.sub("https://","")
   host.delete!("/")
-    q = "POST /uploads_mod.php?add=1\&filename=#{File.basename(file).urlenc}\&name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
+        fl=read(file)
+    boundary=""
+        while fl.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{fl}\r\n--#{boundary}--"
+    length=data.size    
+    q = "POST /uploads_mod.php?add=1\&filename=#{File.basename(file).urlenc}\&name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
   a = connect(host,80,q)
 a.delete!("\0")
 for i in 0..a.size - 1

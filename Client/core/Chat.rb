@@ -7,95 +7,120 @@
 
 class Scene_Chat
   def main
-    $locksyn = false
-            chat = srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1")
-    err = chat[0].to_i
-    case err
-    when -1
-      speech("Błąd połączenia się z bazą danych.")
+    writefile("temp/agent_chat.tmp","2")
+    ct=srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1")
+    if ct[0].to_i<0
+      speech("Błąd")
       speech_wait
-      $scene = Scene_Main.new
+      $scene=Scene_Main.new
       return
-      when -2
-        speech("Klucz sesji wygasł.")
-        speech_wait
-        $scene = Scene_Loading.new
-        return
-      end
-      text = ""
-      for i in 1..chat.size - 1
-        text += chat[i]
-      end
-        if @lasttext != text
-          play("chat_message")
-      @lasttext = text
-      speech("Ostatnia wiadomość: " + text)
     end
-    msg = "Dołączył do dyskusji."
-    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{msg}")
+    @msg=ct[1]
+    if $chat != true
+    play("chat_message")
+    speech("Ostatnia wiadomość: #{@msg}")
+              ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=Dołączył%20do%20dyskusji.")
+    if ct[0].to_i<0
+      speech("Błąd")
       speech_wait
-      @msg = Edit.new("Twoja wiadomość")
-      i = 0
-      loop do
-        i += 1
-        @msg.update
-        loop_update
-        update
-      if $scene != self
-        break
-      end
-      if i > 200
-                File.delete("chattemp") if FileTest.exist?("chattemp")
-                    writefile("chattemp",srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1"))
-        recv if $key[0x10] == false
-        i = 0
-        end
-      end
-      end
-      def update
-        if escape
-                    msg = "Opuścił dyskusję"
-    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{msg}")
-                    $scene = Scene_Main.new
+      $scene=Scene_Main.new
+      return
+    end   
           end
-        if enter
-                    @msg.finalize
-          str = @msg.text_str.gsub("\004LINE\004","")
-          srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{str}")
-          play("right")
-          @msg.settext("")
-          $locksyn = false
+    @lastmsg=@msg
+    speech_wait if @chatthread!=true
+        @form=Form.new([Edit.new("Twoja wiadomość","","",true),Edit.new("Historia wiadomości","MULTILINE|READONLY"," ",true),Select.new([],true,0,"Aktywne osoby",true),Button.new("Ukryj chat"),Button.new("Zamknij")])
+        @form.fields[1].silent=true
+        @form.fields[1].update
+        @form.fields[1].silent=false
+        ct=srvproc("chat","name=#{$name}\&token=#{$token}\&hst=1")
+        if ct[0].to_i<0
+          speech("Błąd")
+          speech_wait
+          $scene=Scene_Main.new
+          return
         end
-        if $key[0x09] == true
-         speech(@lasttext) if @lasttext != nil
-         end
+        hs=ct[1..ct.size-1].join
+        @form.fields[1].settext(hs)
+        @form.fields[1].line=@form.fields[1].text.size-1
+        onl=srvproc("chat_online","name=#{$name}\&token=#{$token}")
+        if onl[0].to_i<0
+          speech("Błąd.")
+          speech_wait
+          $scene=Scene_Main.new
+          return
         end
-          def recv
-    chat = IO.readlines("chattemp")
-    File.delete("chattemp") if $DEBUG != true
-    err = chat[0].to_i
-    case err
-    when -1
-      speech("Błąd połączenia się z bazą danych.")
+        @form.fields[2].commandoptions=[]
+                for o in onl[1..onl.size-1]
+          @form.fields[2].commandoptions.push(o.delete("\r\n")) if o.size>2
+          end
+        upd=0
+    loop do
+      loop_update
+      @form.update
+      if (escape and $chat!=true) or ((enter or space) and @form.index==4)
+        $chat=false
+        File.delete("temp/agent_chat.tmp") if FileTest.exists?("temp/agent_chat.tmp")
+        break
+        end
+      if (((enter or space) and @form.index == 3)) or (escape and @chatthread==true)
+                play("signal")
+                $chat=true
+                writefile("temp\\agent_chat.tmp","1")
+                                break
+        end
+      upd+=1
+      if upd > 120
+                upd=0 
+                if @form.index == 1
+                          ct=srvproc("chat","name=#{$name}\&token=#{$token}\&hst=1")
+        if ct[0].to_i<0
+          speech("Błąd")
+          speech_wait
+          $scene=Scene_Main.new
+          return
+        end
+        hs=ct[1..ct.size-1].join
+        @form.fields[1].settext(hs,false)
+                        elsif @form.index == 2
+                                onl=srvproc("chat_online","name=#{$name}\&token=#{$token}")
+        if onl[0].to_i<0
+          speech("Błąd.")
+          speech_wait
+          $scene=Scene_Main.new
+          return
+        end
+        @form.fields[2].commandoptions=[]
+        for o in onl[1..onl.size-1]
+          @form.fields[2].commandoptions.push(o.delete("\r\n")) if o.size>2
+                        end
+        end
+            end
+     if enter
+       if @form.index == 0 and @form.fields[0].text!=[[]]
+       txt=@form.fields[0].text_str
+       @form.fields[0].settext("")
+       ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{txt}")
+       if ct[0].to_i < 0
+         speech("Błąd")
+       else
+         play("signal")
+                end
+                              elsif @form.index == 2
+                usermenu(@form.fields[2].commandoptions[@form.fields[2].index])
+              end
+              end
+                end
+          if $chat!=true
+            ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=opuścił%20dyskusję")
+    if ct[0].to_i<0
+      speech("Błąd")
       speech_wait
-      $scene = Scene_Main.new
+      $scene=Scene_Main.new
       return
-      when -2
-        speech("Klucz sesji wygasł.")
-        speech_wait
-        $scene = Scene_Loading.new
-        return
-      end
-      text = ""
-      for i in 1..chat.size - 1
-        text += chat[i]
-      end
-        if @lasttext != text
-          play("chat_message")
-      @lasttext = text
-      speech_wait
-      speech(text)
+    end   
     end
-      end
+         $scene=Scene_Main.new
   end
+end
 #Copyright (C) 2014-2016 Dawid Pieper

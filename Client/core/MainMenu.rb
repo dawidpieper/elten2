@@ -13,8 +13,8 @@ def initialize
     @header = "Menu: "
   end
   def main
-        sel = ["&Społeczność","&Media","&Pliki","Pro&gramy","&Narzędzia","&Ustawienia","Pomo&c","W&yjście"]
-        @sel = SelectLR.new(sel,true,0,@header)
+        sel = ["Społe&czność","&Media","&Pliki","Pro&gramy","&Narzędzia","U&stawienia","P&omoc","W&yjście"]
+        @sel = menulr(sel,true,0,@header)
         @header = ""
     loop do
 loop_update
@@ -46,7 +46,7 @@ loop_update
           end
           if $scene == self
             loop_update
-@sel = SelectLR.new(sel)
+@sel = menulr(sel)
                   @sel.index = index
           @sel.focus
           end
@@ -58,7 +58,12 @@ close
         end
         def programs
     Graphics.transition(10)
-    @sel = SelectLR.new($app)
+    sel=[]
+    for a in $app
+      sel.push(a[2])
+    end
+    sel.push("Zainstaluj nowe programy")
+    @sel = menulr(sel)
     loop do
 loop_update
       @sel.update
@@ -69,7 +74,12 @@ loop_update
                 return
         end
       if enter
-  $runprogram = @sel.index
+  if @sel.index<@sel.commandoptions.size-1
+        $runprogram = $app[@sel.index][3]
+  $runprogram=nil if @sel.commandoptions.size==0
+else
+  $scene=Scene_Programs.new
+  end
 close
 break
           end
@@ -80,7 +90,7 @@ close
         end
                   def help
     Graphics.transition(10)
-    @sel = SelectLR.new(["Lista &zmian","&Wersja programu","&Przeczytaj mnie","Lista &skrótów klawiszowych","Zgłoś &błąd","&Licencja użytkownika"])
+    @sel = menulr(["Lista &zmian","&Wersja programu","&Przeczytaj mnie","Lista &skrótów klawiszowych","Zgłoś &błąd","&Licencja użytkownika"])
     loop do
 loop_update
       @sel.update
@@ -99,7 +109,7 @@ loop_update
           when 1
             startmessage = "ELTEN: " + $version.to_s
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
-    startmessage += " ALFA #{$alpha.to_s}" if $isbeta == 2
+    startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
     speech(startmessage)
             speech_wait
           close
@@ -129,7 +139,7 @@ close
         end
           def settings
     Graphics.transition(10)
-    @sel = SelectLR.new(["Ustawienia &interfejsu","Ustawienia &głosu","Tematy &dźwiękowe","Zarządzanie &językami"])
+    @sel = menulr(["Ustawienia &interfejsu","Ustawienia &głosu","Tematy &dźwiękowe","Zarządzanie &językami"])
     loop do
 loop_update
       @sel.update
@@ -166,7 +176,7 @@ close
         end
   def community
     Graphics.transition(10)
-    @sel = SelectLR.new(sel = ["Wiado&mości","&Blogi","&Forum","Moje &kontakty","Użytkownicy, którzy &dodali mnie do swoich kontaktów","&Chat","Kto jest &zalogowany?","Lista &użytkowników","Co &nowego?","Moje u&prawnienia","Rada &starszych","M&oje Konto"])
+    @sel = menulr(sel = ["Wiado&mości","&Blogi","&Forum","Moje &kontakty","Użytkownicy, którzy &dodali mnie do swoich kontaktów","&Chat","Kto jest &zalogowany?","Lista &użytkowników","Co &nowego?","Moje u&prawnienia","Rada &starszych","&Ankiety","M&oje Konto"])
     loop do
       loop_update
       @sel.update
@@ -222,23 +232,33 @@ close
                 $scene = Scene_Admins.new
                 close
                 break
-                when 11
+when 11
+  $scene=Scene_Polls.new
+  close
+  break
+                when 12
                 index = @sel.index
                 myaccount
                 if $scene == self
                loop_update
-                  @sel = SelectLR.new(sel)
+                                 @sel = menulr(sel)
                 @sel.index = index
                             @sel.focus
+                          else
+                            return
                             end
             end
           end
-          if Input.trigger?(Input::DOWN) and @sel.index == 11
+          if Input.trigger?(Input::DOWN) and @sel.index == 12
             index = @sel.index
             myaccount
-            @sel = SelectLR.new(sel)
+            if $scene == self
+            @sel = menulr(sel)
             @sel.index = index
             @sel.focus
+          else
+            return
+            end
                        end
           if alt
 close
@@ -247,7 +267,7 @@ close
         end
           def myaccount
     Graphics.transition(10)
-    @sel = SelectLR.new(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość p&owitalna","Moja &wizytówka","Udostępnione przeze mnie &pliki","Zmień &Hasło","Zmień adres e-&mail"])
+    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja &wizytówka","&Udostępnione przeze mnie pliki","Ustaw &awatar","Zmień &Hasło","Zmień adres e-&mail"])
     loop do
 loop_update
       @sel.update
@@ -283,11 +303,15 @@ loop_update
               $scene = Scene_Uploads.new
               close
               break
-            when 6
+              when 6
+              $scene=Scene_Account_Avatar.new
+              close
+              break
+            when 7
           $scene = Scene_Account_Password.new
           close
           break
-        when 
+        when 8
           $scene = Scene_Account_Mail.new
           close
           break
@@ -300,7 +324,7 @@ close
         end
                   def tools
     Graphics.transition(10)
-    @sel = SelectLR.new(sel=["Generator &tematów dźwiękowych","Test &prędkości łącza","Zarządzanie &programem","&Konsola","Kompilator &ELTENAPI"])
+    @sel = menulr(sel=["&Generator tematów dźwiękowych","&Test prędkości łącza","Zarządzanie &programem","&Konsola","Kompilator &ELTENAPI"])
         loop do
 loop_update
       @sel.update
@@ -322,7 +346,7 @@ loop_update
     management
         if $scene == self
                loop_update
-                  @sel = SelectLR.new(sel)
+                  @sel = menulr(sel)
                 @sel.index = index
                             @sel.focus
                           else
@@ -348,7 +372,7 @@ loop_update
         end  
         def exit
     Graphics.transition(10)
-    @sel = SelectLR.new(["&Ukryj program w zasobniku systemowym","&Wyloguj się","W&yjście","&Restart"])
+    @sel = menulr(["&Ukryj program w zasobniku systemowym","Wy&loguj się","W&yjście","&Restart"])
     loop do
 loop_update
       @sel.update
@@ -395,18 +419,22 @@ for i in 1..Graphics.frame_rate
   end
     $scene = Scene_Main.new if $scene == self
               if $runprogram != nil
-                                            if $appstart[$runprogram] != nil
-                $scene = $appstart[$runprogram].new
-              else
-                speech("Błąd")
-                speech_wait
-                                end
+                                            $scene=$runprogram.new
                 end
               end
               def management
      Graphics.transition(10)
-    @sel = SelectLR.new(sel=["Sprawdź dostępność &aktualizacji","&Reinstalacja programu","Przywróć ustawienia &domyślne"])
-    loop do
+sel=["Sprawdź dostępność &aktualizacji","&Reinstalacja programu","Utwórz wersję &przenośną","Przywróć ustawienia &domyślne"]
+if $portable == 1
+  sel=["","Za&instaluj program","Utwórz &kopię","Przywróć ustawienia &domyślne"]
+  end
+     @sel = menulr(sel)
+     if $portable == 1
+       @sel.index=1
+       @sel.focus
+       @sel.disable_item(0)
+       end
+        loop do
       loop_update
       @sel.update
       if $scene != self
@@ -423,6 +451,10 @@ for i in 1..Graphics.frame_rate
                         close
             break
             when 2
+            $scene=Scene_Portable.new
+            close
+            break
+            when 3
               if simplequestion("Czy jesteś pewien, że chcesz usunąć wszystkie ustawienia programu i przywrócić wartości domyślne? Elten zostanie uruchomiony ponownie.") == 0
                 close
                 break
@@ -453,7 +485,7 @@ for i in 1..Graphics.frame_rate
     end
     def media
     Graphics.transition(10)
-    @sel = SelectLR.new(["Katalog &mediów","&Youtube"])
+    @sel = menulr(["Katalog &mediów","&Youtube"])
     loop do
 loop_update
       @sel.update

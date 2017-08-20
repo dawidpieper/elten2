@@ -14,7 +14,7 @@ $name = $wiersz[1];
 }
 }
 if($suc == false)
-echo "-3";
+echo "-3\r\n".$_GET['threadid'];
 else
 echo "0\r\n" . $name;
 ?>

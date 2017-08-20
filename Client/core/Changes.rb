@@ -434,6 +434,39 @@ Wersja 1.3994:
 Poprawki
 
 2017-03-27
+","
+Wersja 2.0
+Dodane awatary
+Dodana obsługa youtube
+Dodane profile
+Rozszerzone wizytówki
+Modyfikacje w silniku blogów
+Dodane fora, wiadomości i blogowe wpisy głosowe
+Modyfikacja podziału forów
+Opcja przeszukiwania forów
+Dodane pliki udostępniane
+Dodane sygnatury
+Dodane wiadomości powitalne
+Rozszerzony menedżer plików
+Dodane ankiety
+Nowe ustawienia
+Nowe dźwięki
+Dodany język niemiecki
+Przepisany silnik plików
+Przepisany silnik pól tekstowych
+Przepisany silnik forów
+Nowe protokoły komunikacji z serwerem
+Nowy tłumacz
+Nowy odtwarzacz mediów
+Nowa budowa Elten core
+Nowe funkcje Elten API
+Nowy system aktualizacji
+Nowy agent
+Zmiany w interfejsie
+Ogólna poprawa wydajności
+Poprawki
+
+2017-08-24
 "]
 @changes.reverse!
 @selt = []

@@ -77,11 +77,16 @@ die;
 }
 $tekst = "";
 $wiersz = mysql_fetch_row($idzapytania);
-if($wiersz[0] > $wiersz[1] AND $forumname!=NULL)
+if($wiersz[0] > $wiersz[1] AND $forumname!=NULL and $forumname[0]!="*" and $_GET['details']==1)
 $tekst = $wiersz[2];
 else {
-if($forumname != NULL)
+if($forumname != NULL and $forumname[0]!="*")
 $zapytanie = "SELECT `id` FROM `forum_threads` WHERE `forum`='" . $_GET['forumname'] . "' ORDER BY `lastpostdate` DESC";
+elseif($forumname[0]=="*") {
+$f=str_replace("\\","\\\\",$forumname);
+$f=ltrim(str_replace("'","\\'",$f),"*");
+$zapytanie = "SELECT DISTINCT `thread` FROM `forum_posts` WHERE LOWER(`post`) LIKE LOWER('%".$f."%')";
+}
 else
 $zapytanie = "SELECT `id` FROM `forum_threads` WHERE `id` in (SELECT `thread` FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "') ORDER BY `lastpostdate` DESC";
 $idzapytania = mysql_query($zapytanie);
@@ -92,15 +97,23 @@ die;
 $tekst = "";
 while($wiersz = mysql_fetch_row($idzapytania)) {
 $tekst .= "\r\n" . $wiersz[0] . "\r\n";
-$zapytanie2 = "SELECT `id` FROM `forum_posts` WHERE `thread`=" . $wiersz[0];
+if($forumname[0]=="*") {
+$f=str_replace("\\","\\\\",$_GET['forumname']);
+$f=ltrim(str_replace("'","\\'",$f),"*");
+$zapytanie2 = "SELECT `id`,`author` FROM `forum_posts` WHERE `thread`=" . $wiersz[0]." AND `post` LIKE '%".$f."%'";
+}
+else
+$zapytanie2 = "SELECT `id`,`author` FROM `forum_posts` WHERE `thread`=" . $wiersz[0];
 $idzapytania2 = mysql_query($zapytanie2);
 if($idzapytania2 == false) {
 echo "-1";
 die;
 }
 $tekst .= mysql_num_rows($idzapytania2);
+if($_GET['details']==1)
+$tekst .= "\r\n".mysql_fetch_row($idzapytania2)[1];
 }
-if($forumname!=NULL) {
+if($forumname!=NULL and $forumname[0]!="*" and $_GET['details']==1) {
 $zapytanie = "UPDATE `cache` SET `updatedate`=".time().", `content`='".$tekst."' WHERE `forumname`='".$forumname."'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
