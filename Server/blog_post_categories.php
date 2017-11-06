@@ -1,5 +1,5 @@
 <?php
-require("header.php");
+require("init.php");
 $zapytanie = "SELECT `categoryid` FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `owner`='".$_GET['searchname']."'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

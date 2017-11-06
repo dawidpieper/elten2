@@ -1,5 +1,5 @@
 <?php
-require("header.php");
+require("init.php");
 if(file_exists("avatars/".$_GET['searchname']) == false) {
 echo "-4";
 die;

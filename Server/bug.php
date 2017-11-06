@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 $buginfo = $_GET['buginfo'];
 if($_GET['buffer'] != null) {
 $zapytanie = "SELECT `id`, `data` FROM `buffers`";

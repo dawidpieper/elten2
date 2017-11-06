@@ -1,5 +1,5 @@
 <?php
-require("header.php");
+require("init.php");
 $zapytanie = "SELECT `owner`, `name` FROM `blogs`";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

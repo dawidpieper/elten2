@@ -6,22 +6,33 @@
 #Open Public License is used to licensing this app!
 
 module EltenAPI
+  # Controls and forms related class
   module Controls
-      class Form
-        attr_accessor :index
+    # A form class  
+    class Form
+      # @return   [Numeric] a form index
+      attr_accessor :index
+      # @return [Array] an array of form fields
         attr_accessor :fields
-        def initialize(fields,index=0)
+        # Creates a form
+        #
+        # @param fields [Array] an array of form fields
+        # @param index [Numeric] the initial index
+        def initialize(fields,index=0,silent=false)
           @fields = fields
           @index = index
+          @silent=silent
           if @fields[@index].is_a?(Array)
             if @fields[@index][0] == 0
               @fields[@index] = Edit.new(@fields[@index][1],@fields[@index][2],@fields[@index][3],false,@fields[@index][4])
             end
             end
           @fields[@index].focus
-          play("form_marker")
+          play("form_marker") if @silent==false
           loop_update
         end
+        
+        # Updates a form
         def update
                             if $key[0x09] == true
             if $key[0x10] == false
@@ -52,10 +63,17 @@ ind=@index
             end
                       @fields[@index].focus
         else
-          @fields[@index].update
-end
+                    @fields[@index].update
+                  end
                   end
                 end
+                
+                # Reads a text from user and returns it
+                #
+                # @param header [String] a window caption
+                # @param type [String] the window type
+                #  @see Edit
+                # @param text [String] an initial text
   def input_text(header="",type="normaltext",text="")
   ro = false
   type.gsub("READONLY") {
@@ -105,16 +123,20 @@ loop_update
     return r
 end
 
+# An editbox class
   class Edit
+    # @return [Array] an array consited of lines and, subarrays, characters
   attr_accessor :text
+  # @return [Numeric] an index
   attr_accessor :index
+  # @return [Numeric] current line
   attr_accessor :line
-    attr_accessor :bindex
+      attr_accessor :bindex
   attr_accessor :bline
     attr_accessor :eindex
   attr_accessor :eline
   attr_accessor :textstr
-  attr_accessor :edit_clp
+    attr_accessor :edit_clp
 attr_accessor :readonly
 attr_accessor :acceptescape
 attr_accessor :accepttab
@@ -122,10 +144,21 @@ attr_accessor :multilines
 attr_accessor :word
 attr_accessor :audiotext
 attr_accessor :silent
+# Creates a editbox
+#
+# @param header [String] a window caption
+# @param type [String] a one of more (| terminated) flags:
+#  MULTILINE
+#  PASSWORD
+# READONLY
+# @param text [String] an initial text
+# @param quiet [Boolean] don't read a caption at initialization time
+# @param init [Boolean] initialize the editbox at creation
 def initialize(header="",type="NORMALTEXT",text="",quiet=false,init=false)
   @origtext=text  
   @text=text.to_s.gsub(/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/) do
-      @audiotext=$1
+          $dialogvoice.volume=0 if $dialogvoice!=nil
+          @audiotext=$1
       ""
       end
     @header = header
@@ -223,8 +256,10 @@ text = "" if text == nil
     @textstr = text
   focus if quiet != true
 end
+
+# Updates an editbox
 def update
-      if @toinit == true
+        if @toinit == true
   @toinit = false
   initialize(@header,@type,@text,false,true)
     end
@@ -242,7 +277,11 @@ end
         suc=true
       else
         if @undothread.is_a?(Thread)
-        suc=true if @undothread.status==false
+        begin
+          suc=true if @undothread.status==false
+          rescue Exception
+          suc=false
+          end
         end
         end
         if suc == true              
@@ -271,6 +310,7 @@ end
     play("edit_checked")
     end
 if $key[115] == true and $key[0x10] == false
+  if @audiotext==nil or $speechaudio==nil
   t=""
   ind = @index
   for i in @line..@lines
@@ -279,24 +319,41 @@ t+=@text[i][ind..@text[i].size-1].to_s
     t+="\r\n"
   end
   t="\004AUDIO\004#{@audiotext}\004AUDIO\004"+t if @audiotext!=nil
-      speech(t)
-  end
+      espeech(t)
+    elsif $speechaudio!=nil
+      v=0
+                               if $speechaudio != nil
+           if $speechaudio.closed==false
+v=$speechaudio.volume
+             $speechaudio.volume=0
+      $speechaudio.frequency*=15
+    end
+    end
+      delay(0.4)
+      if $speechaudio != nil
+           if $speechaudio.closed==false
+      $speechaudio.volume=v
+      $speechaudio.frequency/=15
+    end
+    end
+          end
+          end
 if escape
   Audio.bgs_stop
   end
 if $key[0x11] == true and $key[67] == true and $key[0x12] == false
   gc = getcheck
-    Win32API.new($eltenlib,"CopyToClipboard",'pp','v').call(utf8(gc.to_s),utf8(gc.to_s).size + 1)
+    Win32API.new($eltenlib,"CopyToClipboard",'pp','').call(utf8(gc.to_s),utf8(gc.to_s).size + 1)
     speech("Skopiowano")
   end
   if $key[0x11] == true and $key[88] == true and $key[0x12] == false
   gc = getcheck
-    Win32API.new($eltenlib,"CopyToClipboard",'pp','v').call(utf8(gc.to_s),utf8(gc.to_s).size + 1)
+    Win32API.new($eltenlib,"CopyToClipboard",'pp','').call(utf8(gc.to_s),utf8(gc.to_s).size + 1)
     delcheck
     speech("Wycięto")
   end
   if $key[0x11] == true and $key[86] == true and $key[0x12] == false
-    txt = futf8(Win32API.new($eltenlib,"PasteFromClipboard",'v','p').call)
+    txt = futf8(Win32API.new($eltenlib,"PasteFromClipboard",'','p').call)
     txtt = []
     txt.delete!("\r")
     txtt[0] = []
@@ -357,23 +414,84 @@ if $key[0x11] == true and $key[67] == true and $key[0x12] == false
         speech("Powtórzono")
         end
       end
-if $key[0x11] == true and $key[82] == true and $key[0x12]==false and FileTest.exists?("temp/savedtext.tmp")
+if $key[0x11] == true and $key[82] == true and $key[0x12]==false and FileTest.exists?("temp/savedtext.tmp") and @readonly!=true
   settext(read("temp/savedtext.tmp"))
   speech("Wczytano")
   end
       if $key[0x11] == true and $key[83] == true and $key[0x12]==false
+        if @audiotext==nil
         writefile("temp\\savedtext.tmp",text_str)
         speech("Zapisano")
+      else
+        dialog_open
+        form=Form.new([FilesTree.new("Miejsce docelowe",getdirectory(40)+"\\",true,true,"Music"),Edit.new("Nazwa pliku","",@header.delete("\r\n").delete("\"").delete("/").delete("\\")+".mp3"),Button.new("Zapisz"),Button.new("Anuluj")])
+        loop do
+          loop_update
+          form.update
+          break if escape or ((space or enter) and form.index==3)
+          if (space or enter) and form.index==2
+            dest=form.fields[0].selected+"\\"+form.fields[1].text_str
+            sou=@audiotext
+            sou.sub!("/",$url) if sou[0..0]=="/"
+                        downloadfile(sou,dest,"Pobieranie...","Pobieranie zakończone")
+                                    break
+            end
+          end
+          dialog_close
         end
-      if $key[0x11] == true and $key[84] == true and $key[12]==false
+        end
+      if $key[0x11] == true and $key[80] == true
               gc = getcheck
-                            gc=text_str if gc.size<=2 or gc==nil or gc=="\004LINE\004"
+                            gc=text_str.gsub("\004LINE\004"," ") if gc.size<=2 or gc==nil or gc=="\004LINE\004"
+                                                        speechtofile("",gc)
+                            end
+        if $key[0x11] == true and $key[84] == true and $key[12]==false
+              gc = getcheck
+                            gc=text_str.gsub("\004LINE\004"," ") if gc.size<=2 or gc==nil or gc=="\004LINE\004"
                                                         if $key[0x10]==false
-              speech(translate(0,$language,gc))
+              speech(translatetext(0,$language,gc),1,false)
             else
               translator(gc)
               end
     end
+if $key[0x11] == true and $key[0x46] == true
+@lastsearch="" if @lastsearch==nil
+search=input_text("Podaj tekst do wyszukania","ACCEPTESCAPE",@lastsearch)
+loop_update
+if search!="\004ESCAPE\004"
+  @lastsearch=search
+cr=[]
+for i in @line..@lines
+  cr.push(i)
+end
+for i in 0..@line
+  cr.push(i)
+  end
+  f=true
+  found=false
+  for i in cr
+l=@text[i].join
+res=l.upcase.index(search.upcase)
+if res != nil
+      ind=0
+  b=""
+   while b.size<res
+    b+=@text[i][ind]
+    ind+=1
+  end
+if f==false or ind>@index
+  found=true
+  setline(i)
+  setindex(ind)
+  espeech(@text[@line][ind..@text[@line].size-1].join)
+  break
+  end
+  end
+    f=false
+  end  
+  speech("Nie znaleziono dopasowania.")   if found==false
+  end
+  end
     if $key[0x11] == true and $key[65] == true and $key[0x12] == false
       setindex(0)
       setline(0)
@@ -546,6 +664,8 @@ end
   @bindex = @index
   @bline = @line
 end
+
+
 def input_text_multilines_push(text,line,index,char)
   if @readonly != true
   @index = index
@@ -589,6 +709,8 @@ else
   return(@text)
 end
 end
+
+
 def finalize
   @textstr = ""
 for l in @text
@@ -603,12 +725,18 @@ if @acceptescape == true and @text[0][0] == "\004"
         return("\004ESCAPE\004")
       end
           return(@textstr)
-  end
+        end
+        
+        # Gets a text
+        #
+        # @return [String] a text written in the editbox
 def text_str
 return "" if @text=="" or @line==nil
   finalize
   return @textstr
-  end
+end
+
+
 def getindex(chk=false)
   if chk == false
     return @index
@@ -616,13 +744,17 @@ def getindex(chk=false)
     return @eindex
   end
 end
+
+
 def getline(chk=false)
   if chk == false
     return @line
   else
     return @eline
   end
-  end
+end
+
+
   def setindex(setter,wordreset=true)
   @word = "" if wordreset == true
     Audio.bgs_stop
@@ -633,7 +765,9 @@ def getline(chk=false)
 else
   @eindex = setter
   end
-  end
+end
+
+
 def setline(setter)
   @word = ""
   if $key[0x10] == false
@@ -642,9 +776,11 @@ def setline(setter)
 else
   @eline=setter
   end
-  end
+end
+
+
 def curupdate(chk=false)
-    if Input.trigger?(Input::LEFT)
+    if Input.repeat?(Input::LEFT)
     if $key[0x11] == false
       if getindex(chk) > 0
       setindex(getindex(chk) - 1)
@@ -666,7 +802,7 @@ else
   espeech(t)
   end
   end
-  if Input.trigger?(Input::RIGHT)
+  if Input.repeat?(Input::RIGHT)
     if $key[0x11] == false
       if getindex(chk) < @text[getline(chk)].size - 1
       setindex(getindex(chk) + 1)
@@ -755,7 +891,7 @@ if ($key[0x0D] and $key[0x11] == false and @readonly == true) and @multilines ==
     end
   end
   if link != ""
-    system("start #{link}")
+    run("explorer \"#{link}\"")
     end
   end
       if ($key[0x0D] and $key[0x11] == false and @readonly != true) and @multilines == true
@@ -785,7 +921,7 @@ espeech("\n")
 espeech(@word) if ($interface_typingecho == 1 or $interface_typingecho == 2) and @word.size > 1
   @word = ""
 end
-  if Input.trigger?(Input::DOWN)
+  if Input.repeat?(Input::DOWN)
 if @lines > getline(chk)
     buf = ""
     @text[getline(chk) + 1] = [] if @text[getline(chk) + 1] == nil
@@ -807,7 +943,7 @@ end
       espeech(buf)
       end
   end
-  if Input.trigger?(Input::UP)
+  if Input.repeat?(Input::UP)
 if getline(chk) > 0
 setline(getline(chk) - 1)
 buf = ""
@@ -835,6 +971,8 @@ espeech(buf)
 end
 end
 end
+
+
 def getcheck
   if @text[@line] == nil or @text[@eline] == nil
     return ""
@@ -871,9 +1009,11 @@ if check.is_a?(Array)
     tc.push(check[i])
     end
   check = tc
-    end
+end
 return check
 end
+
+
 def delcheck
   @word = ""
   if @line == @eline
@@ -923,7 +1063,9 @@ else
     @eline = @line
     Audio.bgs_stop
 @changed = true#*
-    end
+end
+
+
 def settext(text,reset=true)
   if @toinit == true
   @toinit = false
@@ -977,7 +1119,9 @@ end
   break if i >= text.size - 1
   i += 1
       end
-end
+    end
+    
+    
 def findword(direction=1)
 f=0
 ch=0
@@ -1011,7 +1155,9 @@ else
 end
 t="\n" if f==@text[l].size
 return [f,l,t]
-  end
+end
+
+
 def focus
 if @toinit == true
   @toinit = false
@@ -1034,16 +1180,20 @@ if @audiotext!=nil
   if @password == true
   textstr = ""
     end
-            speech(dict(@header.to_s) + " ... " + dict(tp) + ": " + textstr.gsub("\r\n"," "))
+            speech(dict(@header.to_s) + " ... " + dict(tp) + ": " + textstr.gsub("\r\n"," "),1,false)
             end
-end    
+          end    
+          
+          
 def espeech(text)
   if @password != true
-  speech(text)
+  speech(text,1,false)
 else
   play("edit_password_char")
   end
 end
+
+
 def textcopy
   t = []
   for i in 0..@text.size - 1
@@ -1055,27 +1205,49 @@ def textcopy
     return t
     end
   end
+  
+  # A listbox class
     class Select
+      # @return [Numeric] a listbox index
 attr_accessor :index
+# @return [Array] listbox options
 attr_accessor :commandoptions    
 attr_reader :grayed
 attr_reader :selected
+attr_accessor :silent
+attr_accessor :header
+# Creates a listbox
+#
+# @param options [Array] an options list
+# @param border [Boolean] restrain the listbox
+# @param index [Numeric] an initial index
+# @param header [String] a listbox caption
+# @param quiet [Boolean] don't read a caption at creation
+# @param multi [Boolean] support multiple selection
+# @param lr [Boolean] create left-right listbox
+# @param silent [Boolean] don't play listbox sounds
 def initialize(options,border=true,index=0,header="",quiet=false,multi=false,lr=false,silent=false)
+  options=options.deep_dup
       border=false if $interface_listtype == 1
       index = 0 if index == nil
       index = 0 if index >= options.size
+      index+=options.size if index<0
       self.index = index
             @commandoptions = []
                         @hotkeys = {}
-            for i in 0..options.size - 1
+                        for i in 0..options.size - 1
               if options[i]!=nil
-for j in 0..options[i].size-1
+if lr
+                for j in 0..options[i].size-1
   @hotkeys[options[i][j+1..j+1].upcase[0]] = i if options[i][j..j] == "&"
 end
-            @commandoptions.push(options[i].delete("&")) if options[i] != nil
+end
+opt=options[i]
+opt.delete!("&") if lr
+@commandoptions.push(opt) if options[i] != nil
             end
-            end                        
-                        @grayed = []
+                        end            
+            @grayed = []
                                     @selected = []
             for i in 0..@commandoptions.size - 1
               @grayed[i] = false
@@ -1085,11 +1257,15 @@ end
             @multi = multi
 @silent=silent
             header="" if header==nil
+            index=0 if index<0
+            @index=0 if @index<0
             options[index]="" if options[index]==nil
                         @header = header
               focus if quiet == false
               @lr=lr
-    end
+            end
+            
+            # Update the listbox
     def update
       if $focus == true
     focus
@@ -1103,7 +1279,7 @@ end
       end
     oldindex = self.index
       options = @commandoptions
-if (Input.trigger?(Input::UP) and @lr==false) or (Input.trigger?(Input::LEFT) and @lr==true)
+if (($ruby != true and ((Input.repeat?(Input::UP) and @lr==false) or (Input.repeat?(Input::LEFT) and @lr==true)) or ($ruby == true and (($key[0x26] and @lr == false) or ($key[0x25] and @lr == true)) ) and $key[0x10]==false))
   @run = true
   self.index -= 1
         while @grayed[self.index] == true
@@ -1117,7 +1293,7 @@ if (Input.trigger?(Input::UP) and @lr==false) or (Input.trigger?(Input::LEFT) an
       end
 self.index = options.size - 1 if @border == false
   end  
-  elsif (Input.trigger?(Input::DOWN) and @lr==false) or (Input.trigger?(Input::RIGHT) and @lr==true)
+  elsif (($ruby != true and ((Input.repeat?(Input::DOWN) and @lr==false) or (Input.repeat?(Input::RIGHT) and @lr==true)) or ($ruby == true and (($key[0x28] and @lr == false) or ($key[0x27] and @lr == true)) ) and $key[0x10]==false))
 @run = true
     self.index += 1
     while @grayed[self.index] == true
@@ -1170,14 +1346,14 @@ self.index = 0 if @border == false
     end
         end
         suc = false
-        k=getkeychar
+        k=getkeychar($key,!@lr)
                 if k != "" and k != " "
           i=k.upcase[0]
           if @hotkeys[i]==nil
                   @run = true
         for j in self.index + 1..options.size - 1
           if suc == false              
-          if (dict(options[j])[0..0].upcase==k.upcase or dict(options[j])[0..1].upcase==k.upcase)
+          if dict(options[j])[0..k.size-1].upcase==k.upcase
           suc = true
           self.index = j
           while @grayed[self.index] == true
@@ -1189,7 +1365,7 @@ self.index = 0 if @border == false
                 for j in 0..self.index
         options[j]=" " if options[j]==nil
         if suc == false          
-        if (dict(options[j])[0..0].upcase==k.upcase or dict(options[j])[0..1].upcase==k.upcase)
+        if dict(options[j])[0..k.size-1].upcase==k.upcase
           suc = true
           self.index = j
           while @grayed[self.index] == true
@@ -1250,8 +1426,10 @@ elsif oldindex == self.index and @run == true
       speech("Odznaczono")
       end
     end
-end
-def focus
+  end
+  
+  
+def focus(header=@header)
    play("list_marker") if @lr==false
               while @grayed[self.index] == true
                             self.index += 1
@@ -1262,7 +1440,7 @@ def focus
               end
               end
             options=@commandoptions
-              sp = dict(@header) + ": " if @header!=nil and @header!=""
+              sp = dict(header) + ": " if @header!=nil and @header!=""
               sp="" if sp==nil
             if options.size>0
               sp += dict(options[self.index].delete("&"))
@@ -1274,7 +1452,11 @@ sp += "...\r\nSkrót: " + ASCII(ss) if ss.is_a?(Integer)
 end            
 sp += dict("Pusta lista") if @commandoptions.size==0
 speech(sp)
-                end
+end
+
+# Hides a specified item
+#
+# @param id [Numeric] the id of an item to hide
     def disable_item(id)
   @grayed[id] = true
   options = @commandoptions
@@ -1289,13 +1471,25 @@ speech(sp)
       end
 self.index = 0 if @border == false
   end  
+end
+def enable_item(id)
+  @grayed[id]=false
   end
-  end
+end
+
+# A button class
         class Button
-        attr_accessor :label
+        # @return [String] the label of a button
+          attr_accessor :label
+          
+          # Creates a button
+          #
+          # @param label [String] a button label
         def initialize(label="")
           @label = label
         end
+        
+        # Updates a button
         def update
           if $focus == true
     focus
@@ -1307,13 +1501,24 @@ self.index = 0 if @border == false
           speech(dict(@label) + "... " + dict("Przycisk"))
         end
       end
+      
+      # A checkbox class
       class CheckBox
+        # @return [String] a checkbox label
         attr_accessor :label
+        # @return [Numeric] 0 if non-checked, 1 if checked
         attr_accessor :checked
+        
+        # Creates a checkbox
+        #
+        # @param checked [Numeric] specifies the default state of a checkbox (0 - not checked, 1 - checked)
+        # @param label [String] a checkbox label
         def initialize(label="",checked=0)
           @label = label
           @checked = checked
         end
+        
+        # Updates a checkbox
         def update
           if $focus == true
     focus
@@ -1329,7 +1534,8 @@ self.index = 0 if @border == false
               end
             end
           end
-        def focus
+        
+                    def focus
           play("checkbox_marker")
           text = dict(@label) + " ... "
           if @checked == 0
@@ -1342,24 +1548,40 @@ self.index = 0 if @border == false
           speech(text)
         end
       end        
+      
+      # Creates a files tree
       class FilesTree
+        # @param header [String] a window caption
         attr_accessor :header
+        # @return [String] selected file name
                 attr_accessor :file
-                attr_accessor :cpath
-                attr_accessor :cfile
+                                attr_reader :cpath
+                attr_reader :cfile
+                # @return [Array] file extensions to show
                 attr_accessor :exts
-                def initialize(header="",path="",hidefiles=false,quiet=false,file=nil,exts=nil)
+                
+                # Creates a files tree
+                # @param header [String] a window caption
+                # @param path [String] an initial path
+                # @param hidefiles [Boolean] hide files
+                # @param quiet [Boolean] don't write the caption at creation
+                # @param file [String] a file to focus
+                # @param exts [Array] an array of file extensions to show
+                def initialize(header="",path="",hidefiles=false,quiet=false,file=nil,exts=nil,specialvoices=false)
         @path=path
         @cpath=path
         @file=""
                 @hidefiles=hidefiles
         @header=header
+        @specialvoices=specialvoices
         if file!=nil
           @cfile=@file=file
           end
         @exts=exts
           focus if quiet==false
-      end
+        end
+        
+        # Updates a files tree
       def update(init=false)
         if $focus
           $focus=false
@@ -1376,8 +1598,11 @@ self.index = 0 if @border == false
       end
 h=""
 h=@header if init==true
-      @sel=Select.new(@disks,true,0,h)
-@files=@disks
+@adds=["Pulpit","Dokumenty","Muzyka"]
+@addfiles=[getdirectory(16),getdirectory(5),getdirectory(13)]
+      @sel=Select.new(@disks+@adds,true,0,h)
+      @sel.silent=true if @specialvoices
+@files=@disks+@addfiles
 else
   fls=Dir.entries(@cpath)
 fls.delete("..")
@@ -1401,31 +1626,67 @@ if @exts!=nil
   fls.delete(nil)
       end
   ind=0
-ind=fls.find_index(@file)
+  ind=@sel.index if @sel!=nil
+ind-=1 if ind>fls.size-1
+  ind=fls.find_index(@file,ind)
 h=""
 h=@header if init==true
 @sel=Select.new(fls,true,ind,h,true)
+@sel.silent=true if @specialvoices
 @sel.focus if @refresh != true
-@files=filec(fls)
+@files=[]
+for f in fls
+tmp="\0"*1024
+Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(@cpath+"\\"+f),tmp,tmp.size)
+tmp.delete!("\0")
+tmp.gsub!("/","\\")
+@files.push(tmp.split("\\").last)
+end
 end
 @refresh=false
 end
 @sel.update
 @file=@sel.commandoptions[@sel.index]
 @file="" if @sel.commandoptions.size==0
+if @files[@sel.index]!=nil
+if @file!=@lastfile and @specialvoices
+  @lastfile=@file
+  if File.directory?(@cpath+@files[@sel.index])
+    play("file_dir")
+  else
+    ext=File.extname(@cpath+@files[@sel.index]).downcase
+if ext==".ogg" or ext==".wav" or ext==".mp3" or ext==".mid" or ext==".flac" or ext==".wma"
+  play("file_audio")
+elsif ext==".txt"
+  play("file_text")
+elsif ext==".zip" or ext==".rar" or ext==".7z"
+  play("file_archive")
+  end
+end
+end
+  end
+if $key[0x10]==false
 if (Input.trigger?(Input::RIGHT) or @go == true) and File.directory?(@cpath+@files[@sel.index])
+  @lastfile=nil
   @go = false
     s=true
-    begin
+        begin
     Dir.entries(@cpath+@files[@sel.index]) if s == true
   rescue Exception
     s=false
     retry
       end
   if s == true
-      @path+=@file+"\\"
+    if @path!=""
+    @path+=@file+"\\"
       @cpath+=@files[@sel.index]+"\\"
-  @sel=nil
+    else
+      @path+=@files[@sel.index]+"\\"
+      @cpath+=@files[@sel.index]+"\\"
+      end
+  @file=""
+  @cfile=""
+      @sel=nil
   end
     end
 if Input.trigger?(Input::LEFT) and @path.size>0
@@ -1438,28 +1699,50 @@ t=@cpath.split("\\")
 @cpath=t.join("\\")
 @sel=nil
 end
-        end
-      def path
-        return @path
+end
+end
+
+# An opened path
+# @return [String] an opened path
+      def path(c=false)
+        return @path if c==false
+        return @cpath if c
       end
+      
+      # Opens a specified path
+      #
+      # @param pt [String] a path to open
       def path=(pt)
         @path=pt
         @cpath=pt
         @sel=nil
-        end
+      end
+      
+      # Opens the focused path
         def go
           @go = true
           update
           end
-        def refresh
+        
+          # Refreshes the tree
+          def refresh
           @refresh=true
-          end
+        end
+        
+        # Returns the path to the selected file or directory
+        #
+        # @param c [Boolean] use diacretics shortening
+        # @return [String] the absolute path to a focused file or directory
           def selected(c=false)
           r=""
           if c == false
             r = @path + @file
           else
+            if @files[@sel.index]!=nil
             r = @cpath + @files[@sel.index]
+          else
+            return ""
+            end
           end
           return r
           end
@@ -1474,8 +1757,113 @@ end
         speech(hin)
         end
         end
+      end
+      
+      class Static
+        attr_accessor :label
+        def initialize(label="")
+          @label=label
         end
-      def selector(options,header="",index=0,escapeindex=nil,type=0,border=true)
+        def update
+        end
+        def focus
+          speech(@label)
+        end
+        end
+      
+     class Tree
+       attr_reader :sel
+       attr_accessor :options
+       attr_accessor :index
+       attr_accessor :commandoptions
+       attr_reader :opfocused
+       def initialize(options,data=0,header="",quiet=false,lr=false,silent=false)
+                index=0
+         @options=options
+         @header=header
+         @silent=silent
+         @lr=lr
+         @way=[]
+@sel=createselect([],0,true)
+focus
+end
+def update
+  @sel.update
+  @index=getwayindex(@way+[@sel.index])-1
+  @opfocused=false
+      if (Input.trigger?(Input::RIGHT) and @lr == false) or (Input.trigger?(Input::DOWN) and @lr == true) or enter
+    o=@options.deep_dup
+    for l in @way
+      o=o[l][1..o[l].size-1]
+    end
+        if o[@sel.index].is_a?(Array)
+            @way.push(@sel.index)
+            @sel=createselect(@way)
+                  elsif enter
+          @opfocused=true
+          end
+    end
+              if ((Input.trigger?(Input::LEFT) and @lr == false) or (Input.trigger?(Input::UP) and @lr == true)) and @way.size>0
+      ind=@way.last
+      @way.delete_at(@way.size-1)
+      @sel=createselect(@way,ind)
+            end
+    end
+       def createselect(way=[],selindex=0,quiet=false)
+         opt=getelements(way)
+         s=Select.new(opt,true,selindex,@header,true,false,@lr,@silent)
+         speech(s.commandoptions[s.index]) if quiet!=true
+         return s
+         end
+         def searchway(way=[],tway=[],index=0)
+                                 return [index,tway] if way==tway
+           t=@options.deep_dup
+           for l in tway
+             t=t[l][1..t[l].size-1]
+           end
+           return [index,tway] if t.is_a?(Array)==false
+                      for i in 0..t.size-1
+                          x=searchway(way,tway+[i],index+1)
+               if x[1]==way
+                                 return x
+                                 break
+               else
+                 index=x[0]
+                 end
+                                         end
+           return [index,tway]
+         end
+         def getwayindex(index)
+                      return searchway(index)[0]
+                                 end
+         def getelements(way=[])
+sou=@options.deep_dup
+         for l in way
+           sou=sou[l][1..sou[l].size-1]
+                end
+              ret=sou
+for i in 0..ret.size-1
+  while ret[i].is_a?(Array)
+    ret[i]=ret[i][0]
+    end
+  end
+return ret
+         end
+         def focus
+@sel.focus         
+         end
+       end
+      
+      
+# Creates a dialog with a listbox and returns the option selected by user
+#
+# @param options [Array] an array of option
+# @param header [String] a window caption
+# @param index [Numeric] an initial index
+# @param escapeindex [Numeric] a value to return when pressed the escape key, if nil, the escape is not supported
+# @param type [Numeric] if 1, the listbox is horizontal
+# @return [Numeric] the index of a selected option
+      def selector(options,header="",index=0,escapeindex=nil,type=0,border=true,cancelkey=nil)
         dis=[]
         for i in 0..options.size-1
           if options[i]==nil
@@ -1499,15 +1887,25 @@ lsel=""
             return lsel.index
             break
           end
-          if escape and escapeindex!=nil
+          if (escape or (cancelkey!=nil and Input.trigger?(cancelkey))) and escapeindex!=nil
             return escapeindex
             break
             end
           end
         end
+        
+        # An alias to Select.new with lr set to 1
      def menulr(options,border=true,index=0,header="",quiet=false)
        return Select.new(options,border,index,header,quiet,false,true)
      end
+     
+     # Opens a file selection window and returns a path to file selected by user
+     #
+     # @param header [String] a window caption
+     # @param path [String] an initial path
+     # @param save [Boolean] hides a files, presents only directories
+     # @param file [String] a file to focus
+     # @return [String] an absolute path to a selected file or directory
      def getfile(header="",path="",save=false,file=nil)
        dialog_open
        loop_update
@@ -1526,7 +1924,7 @@ lsel=""
            dialog_close
            f=ft.path+ft.file
            f.chop! if f[f.size-1]=="\\"
-           if save == false and File.file?(f)
+           if save == false and File.file?(ft.selected(true))
              return f
            break
          end
@@ -1551,5 +1949,5 @@ lsel=""
          end
        end  
      end
-     end
+   end
 #Copyright (C) 2014-2016 Dawid Pieper

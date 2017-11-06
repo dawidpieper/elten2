@@ -8,7 +8,7 @@
 class Scene_SoundThemes
   def main(canceled=false)
     @return = false
-stmp = Win32API.new($eltenlib,"FilesInDir",'p','p').call($soundthemesdata + "\\inis")
+stmp = Win32API.new($eltenlib,"FilesInDir",'p','p').call(utf8($soundthemesdata + "\\inis"))
 stm = []
 c = 0
 stm[c] = ""
@@ -41,7 +41,7 @@ return
   end
   @stsize = $soundtheme.size
   $soundtheme.push("Temat Domyślny")
-  Graphics.update
+  loop_update
     @selt = $soundtheme
   @selt.push("Pobierz tematy dźwiękowe")
   @sel = Select.new(@selt,false,0,"Tematy dźwiękowe")

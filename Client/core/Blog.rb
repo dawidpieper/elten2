@@ -10,8 +10,14 @@ class Scene_Blog
     @index=index
     end
   def main
-    @sel = Select.new(["Mój blog","Ostatnio aktualizowane blogi","Najczęściej aktualizowane blogi","Najczęściej komentowane blogi"],true,@index,"Blogi")
-  loop do
+    @sel = Select.new(["Mój blog","Ostatnio aktualizowane blogi","Najczęściej aktualizowane blogi","Najczęściej komentowane blogi","Śledzone blogi"],true,@index,"Blogi",true)
+  if $name=="guest"
+    @sel.disable_item(0)
+    @sel.index=1
+    @sel.disable_item(4)
+    end
+    @sel.focus
+    loop do
     loop_update
     @sel.update
     update
@@ -35,6 +41,9 @@ class Scene_Blog
         when 3
         $bloglistindex=0        
         $scene = Scene_Blog_List.new(2)
+        when 4
+          $bloglistindex=0
+        $scene = Scene_Blog_List.new(3)
    end
    end
     end
@@ -94,21 +103,22 @@ l = 2
 for i in 0..blogtemp.size - 1
   blogtemp[i].delete!("\n")
   end
-$postid = []
-$postname = []
-$postmaxid = 0
+@postid = []
+@postname = []
+@postmaxid = 0
 for i in 0..lines - 1
-  $postid[i] = blogtemp[l]
-  $postmaxid = $postid[i].to_i if $postid[i].to_i > $postmaxid
+  @postid[i] = blogtemp[l]
+  @postmaxid = @postid[i].to_i if @postid[i].to_i > @postmaxid
   l += 1
-  $postname[i] = blogtemp[l]
+  @postname[i] = blogtemp[l]
   l += 1
 end
-$postid = [0]+$postid
-$postname = ["Wszystkie wpisy"]+$postname
-sel = $postname+[]
+@postid = [0]+@postid
+@postname = ["Wszystkie wpisy"]+@postname
+sel = @postname+[]
 sel.push("Nowa kategoria") if $name==@owner
 sel.push("Zmień nazwę bloga") if @owner==$name
+sel.push("Rekategoryzacja") if @owner==$name
 @sel = Select.new(sel,true,@categoryselindex,blogname)
 loop do
   loop_update
@@ -123,15 +133,17 @@ def update
     $scene = Scene_Blog.new if $scene==nil
   end
   if enter or Input.trigger?(Input::RIGHT)
-    if @sel.index < $postname.size
-      $scene = Scene_Blog_Posts.new(@owner,$postid[@sel.index],@sel.index)
-    elsif @sel.index == $postname.size + 1
+    if @sel.index < @postname.size
+      $scene = Scene_Blog_Posts.new(@owner,@postid[@sel.index],@sel.index)
+    elsif @sel.index == @postname.size + 1
 $scene = Scene_Blog_Rename.new
+elsif @sel.index == @postname.size + 2
+$scene = Scene_Blog_Recategorize.new(@scene)
             else
-                  $scene = Scene_Blog_Category_New.new($postmaxid + 1)
+                  $scene = Scene_Blog_Category_New.new(@postmaxid + 1)
                 end
               end
-              $scene = Scene_Blog_Category_Delete.new($postid[@sel.index]) if $key[0x2e] and @sel.index < $postid.size - 1 and @sel.index != 0
+              $scene = Scene_Blog_Category_Delete.new(@postid[@sel.index]) if $key[0x2e] and @sel.index < @postid.size and @sel.index != 0
   if alt
         menu
     end
@@ -139,8 +151,8 @@ $scene = Scene_Blog_Rename.new
   def menu
     play("menu_open")
     @menu = menulr(["Wybierz","Zmień nazwę","Usuń"])
-    @menu.disable_item(1) if @sel.index > $postid.size - 1 or @sel.index == 0 or @owner!=$name
-    @menu.disable_item(2) if @sel.index > $postid.size - 1 or @sel.index == 0 or @owner!=$name
+    @menu.disable_item(1) if @sel.index > @postid.size - 1 or @sel.index == 0 or @owner!=$name
+    @menu.disable_item(2) if @sel.index > @postid.size - 1 or @sel.index == 0 or @owner!=$name
     loop do
       loop_update
       @menu.update
@@ -150,17 +162,17 @@ $scene = Scene_Blog_Rename.new
       if enter
         case @menu.index
         when 0
-          if @sel.index < $postname.size - 2
-      $scene = Scene_Blog_Posts.new($postid[@sel.index],@sel.index)
-    elsif @sel.index == $postname.size - 1
+          if @sel.index < @postname.size - 2
+      $scene = Scene_Blog_Posts.new(@postid[@sel.index],@sel.index)
+    elsif @sel.index == @postname.size - 1
 $scene = Scene_Blog_Rename.new
             else
-            $scene = Scene_Blog_Category_New.new($postmaxid + 1)
+            $scene = Scene_Blog_Category_New.new(@postmaxid + 1)
       end
     when 1
-      $scene = Scene_Blog_Category_Rename.new($postid[@sel.index],@sel.index)
+      $scene = Scene_Blog_Category_Rename.new(@postid[@sel.index],@sel.index)
       when 2
-$scene = Scene_Blog_Category_Delete.new($postid[@sel.index])      
+$scene = Scene_Blog_Category_Delete.new(@postid[@sel.index])      
     end
     break
         end
@@ -278,7 +290,7 @@ class Scene_Blog_Posts
     end
   def main
 id = @id
-blogtemp = srvproc("blog_posts","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&categoryid=#{id}")
+blogtemp = srvproc("blog_posts","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&categoryid=#{id}\&assignnew=1")
 err = blogtemp[0].to_i
 if err < 0
   speech("Błąd.")
@@ -291,17 +303,23 @@ for i in 0..blogtemp.size - 1
 end
 lines = blogtemp[1].to_i
 l = 2
-$postname = []
-$postid = []
-$postmaxid = 0
+@postname = []
+@postid = []
+@postmaxid = 0
+@postnew=[]
 for i in 0..lines - 1
-  $postid[i] = blogtemp[l].to_i
-  $postmaxid = blogtemp[l].to_i if blogtemp[l].to_i > $postmaxid
+  @postid[i] = blogtemp[l].to_i
+  @postmaxid = blogtemp[l].to_i if blogtemp[l].to_i > @postmaxid
   l += 1
-  $postname[i] = blogtemp[l]
+  @postname[i] = blogtemp[l]
+  l += 1
+    @postnew[i] = blogtemp[l].to_i
+  if @postnew[i]>0
+    @postname[i]+="\004NEW\004"
+    end
   l += 1
 end
-sel = $postname+[]
+sel = @postname+[]
 sel.push("Nowy wpis") if @owner==$name and @id != "NEW"
 if sel.size==0 and @id=="NEW"
   speech("Brak nowych komentarzy na twoim blogu.")
@@ -326,15 +344,15 @@ def update
     end
   end
   if enter or Input.trigger?(Input::RIGHT)
-        if @sel.index < $postname.size
-      $scene = Scene_Blog_Read.new(@owner,@id,$postid[@sel.index],@categoryselindex,@sel.index)
-    else
-      $scene = Scene_Blog_Post_New.new(@id.to_i,$postmaxid + 1,@categoryselindex)
+        if @sel.index < @postname.size
+      $scene = Scene_Blog_Read.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
+    elsif @sel.commandoptions.size>0
+      $scene = Scene_Blog_Post_New.new(@id.to_i,@postmaxid + 1,@categoryselindex)
       end
     end
   if $key[0x2e]
-    if @sel.index < $postname.size - 1
-      $scene = Scene_Blog_Post_Delete.new(@id,$postid[@sel.index],@categoryselindex)
+    if @sel.index < @postname.size - 1
+      $scene = Scene_Blog_Post_Delete.new(@id,@postid[@sel.index],@categoryselindex)
       end
     end
     if alt
@@ -345,8 +363,8 @@ def update
     play("menu_open")
     play("menu_background")
     @menu = menulr(["Wybierz","Edytuj","Usuń"])
-    @menu.disable_item(1) if @sel.index >= $postname.size-1 or $name!=@owner
-    @menu.disable_item(2) if @sel.index >= $postname.size-1 or $name!=@owner
+    @menu.disable_item(1) if @sel.index >= @postname.size-1 or $name!=@owner
+    @menu.disable_item(2) if @sel.index >= @postname.size-1 or $name!=@owner
     loop do
       loop_update
       @menu.update
@@ -356,18 +374,18 @@ def update
       if enter
         case @menu.index
         when 0
-              if @sel.index < $postname.size - 1
-      $scene = Scene_Blog_Read.new(@owner,@id,$postid[@sel.index],@categoryselindex,@sel.index)
-    else
-      $scene = Scene_Blog_Post_New.new(@id,$postmaxid + 1,@categoryselindex)
+              if @sel.index < @postname.size - 1
+      $scene = Scene_Blog_Read.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
+    elsif @sel.commandoptions.size>0
+      $scene = Scene_Blog_Post_New.new(@id,@postmaxid + 1,@categoryselindex)
     end
     when 1
-      if @sel.index < $postname.size - 1
-      $scene = Scene_Blog_Post_Edit.new(@id,$postid[@sel.index],@categoryselindex,@sel.index)
+      if @sel.index < @postname.size - 1
+      $scene = Scene_Blog_Post_Edit.new(@id,@postid[@sel.index],@categoryselindex,@sel.index)
       end
     when 2
-      if @sel.index < $postname.size - 1
-      $scene = Scene_Blog_Post_Delete.new(@id,$postid[@sel.index],@categoryselindex)
+      if @sel.index < @postname.size - 1
+      $scene = Scene_Blog_Post_Delete.new(@id,@postid[@sel.index],@categoryselindex)
       end
     end
             break
@@ -406,7 +424,6 @@ for i in 0..lines - 1
   categorynames[i] = blogtemp[l]
   l += 1
 end
-
   postname = ""
   text = ""
 @fields = []
@@ -450,7 +467,8 @@ delay(0.2)
             @form.fields[2]=Button.new("Odtwórz")
             @form.fields[1]=Button.new("Utwórz wpis tekstowy")
             @form.fields[2].focus
-            end
+          end
+          loop_update
                               end
           elsif @recst == 1
                         play("recording_stop")
@@ -461,7 +479,8 @@ delay(0.2)
           else
             player(@recfile,"",true)
             end
-          end
+          loop_update
+            end
         if (enter or space) and @form.index == 1 and @recst == 2
           @recst=0
           @form.fields[2]=Button.new("Utwórz wpis audio")
@@ -496,6 +515,7 @@ bufid = buffer(text)
 bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postname=#{postname}\&buffer=#{bufid}\&add=1"
    blogtemp = srvproc("blog_posts_mod",bt)
  else
+   waiting
                  speech("Konwertowanie pliku...")
       File.delete("temp/audioblogpost.mp3") if FileTest.exists?("temp/audioblogpost.mp3")
       h = run("bin\\ffmpeg.exe -y -i \"#{@recfile}\" -b:a 128K temp/audioblogpost.mp3",true)
@@ -543,6 +563,7 @@ for i in 0..a.size - 1
         blogtemp = strbyline(sn)
    end
 err = blogtemp[0].to_i
+waiting_end
 if err < 0
   speech("Błąd.")
 else
@@ -618,20 +639,20 @@ end
 lines = blogtemp[1].to_i
 l = 2
 text = ""
-$posttext = []
-$postauthor = []
-$postid = []
+@posttext = []
+@postauthor = []
+@postbid = []
 for i in 0..lines - 1
   t = 0
-  $posttext[i] = ""
+  @posttext[i] = ""
   loop do
     t += 1
     if t > 2
-  $posttext[i] += blogtemp[l].to_s + "\r\n"
+  @posttext[i] += blogtemp[l].to_s + "\r\n"
 elsif t == 1
-  $postid[i] = blogtemp[l].to_i
+  @postbid[i] = blogtemp[l].to_i
 elsif t == 2
-  $postauthor[i] = blogtemp[l]
+  @postauthor[i] = blogtemp[l]
   end
 l += 1
 break if blogtemp[l] == "\004END\004" or l >= blogtemp.size or blogtemp[l] == "\004潤\n" or blogtemp[l] == nil
@@ -647,7 +668,7 @@ if pc[0].to_i < 0
   end
 postname = pc[1].delete("\r\n")
 comm = pc[2].to_i
-  @fields = [Edit.new("Tytuł wpisu","",postname,true),Edit.new("Treść wpisu","MULTILINE",$posttext[0].delline(1)+"\004LINE\004",true),Select.new(categorynames,true,0,"Przypisz do kategorii",true,true),Button.new("Zapisz"),Button.new("Anuluj")]
+  @fields = [Edit.new("Tytuł wpisu","",postname,true),Edit.new("Treść wpisu","MULTILINE",@posttext[0].delline(1)+"\004LINE\004",true),Select.new(categorynames,true,0,"Przypisz do kategorii",true,true),Button.new("Zapisz"),Button.new("Anuluj")]
 for i in 3..comm+2
   c = pc[i].to_i
     for j in 0..categoryids.size-1
@@ -685,16 +706,16 @@ break if $scene != self
   end
   
 class Scene_Blog_Read
-  def initialize(owner,category,post,categoryselindex=0,postselindex=0,scene=nil)
+  def initialize(owner,category,postid,categoryselindex=0,postselindex=0,scene=nil)
     @owner=owner
     @category = category
-    @post = post
+    @postid = postid
     @categoryselindex = categoryselindex
     @postselindex = postselindex
     @scene=scene
       end
   def main
-blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@post}\&searchname=#{@owner}")
+blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{@owner}")
 err = blogtemp[0].to_i
 if err < 0
   speech("Błąd.")
@@ -707,30 +728,34 @@ end
 lines = blogtemp[1].to_i
 l = 2
 text = ""
-$post = []
+@post = []
 for i in 0..lines - 1
   t = 0
-  $post[i] = Struct_Blog_Post.new
+  @post[i] = Struct_Blog_Post.new
   loop do
     t += 1
     if t > 2
-  $post[i].text += blogtemp[l].to_s + "\r\n"
+  @post[i].text += blogtemp[l].to_s + "\r\n"
 elsif t == 1
-  $post[i].id = blogtemp[l].to_i
+  @post[i].id = blogtemp[l].to_i
 elsif t == 2
-  $post[i].author = blogtemp[l]
+  @post[i].author = blogtemp[l]
   end
 l += 1
 break if blogtemp[l] == "\004END\004" or l >= blogtemp.size or blogtemp[l] == "\004潤\n" or blogtemp[l] == nil
 end
 l += 1
 end
-$postcur = 0
+@postcur = 0
 @fields = []
-for i in 0..$post.size-1
-@fields[i] = Edit.new($post[i].author,"MULTILINE|READONLY",$post[i].text,true)
+for i in 0..@post.size-1
+@fields[i] = Edit.new(@post[i].author,"MULTILINE|READONLY",@post[i].text,true)
 end
+if $name!="guest"
 @fields.push(Edit.new("Twój komentarz","MULTILINE"))
+else
+  @fields.push(nil)
+  end
 @fields.push(nil)
 if @owner==$name
 @fields.push(Button.new("Zmodyfikuj swój wpis"))
@@ -743,9 +768,9 @@ loop do
   loop_update
   @form.update
   update
-  if @form.fields[@form.fields.size-4].text!=[[]] and @form.fields[@form.fields.size-3]==nil
+  if @form.fields[@form.fields.size-4]!=nil and @form.fields[@form.fields.size-4].text!=[[]] and @form.fields[@form.fields.size-3]==nil
     @form.fields[@form.fields.size-3]=Button.new("Wyślij")
-  elsif @form.fields[@form.fields.size-4].text==[[]] and @form.fields[@form.fields.size-3]!=nil
+  elsif @form.fields[@form.fields.size-4]!=nil and @form.fields[@form.fields.size-4].text==[[]] and @form.fields[@form.fields.size-3]!=nil
     @form.fields[@form.fields.size-3]=nil
     end
   break if $scene != self
@@ -760,7 +785,7 @@ def update
       return
     end
     buf = buffer(txt)
-    bt = srvproc("blog_posts_comment","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&categoryid=#{@category.to_s}\&postid=#{@post.to_s}\&buffer=#{buf.to_s}")
+    bt = srvproc("blog_posts_comment","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&categoryid=#{@category.to_s}\&postid=#{@postid.to_s}\&buffer=#{buf.to_s}")
     case bt[0].to_i
     when 0
       speech("Komentarz został dodany.")
@@ -999,9 +1024,109 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-Graphics.transition(10)
+delay(0.25)
 main if @main == true
 return
+end
+end
+
+class Scene_Blog_Recategorize
+  def initialize(scene=nil)
+    @scene=scene
+    end
+  def main
+    blogtemp = srvproc("blog_categories","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+err = blogtemp[0].to_i
+if err < 0
+  speech("Błąd.")
+  speech_wait
+  $scene = Scene_Main.new
+  return
+end
+lines = blogtemp[1].to_i
+l = 2
+for i in 0..blogtemp.size - 1
+  blogtemp[i].delete!("\n")
+  end
+categoryids = []
+categorynames = []
+for i in 0..lines - 1
+  categoryids[i] = blogtemp[l].to_i
+  l += 1
+  categorynames[i] = blogtemp[l]
+  l += 1
+end
+blogtemp = srvproc("blog_posts","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&categoryid=0\&assignnew=1\&listcategories=1\&reverse=1")
+err = blogtemp[0].to_i
+if err < 0
+  speech("Błąd.")
+  speech_wait
+  $scene = Scene_Main.new
+  return
+end
+for i in 0..blogtemp.size - 1
+  blogtemp[i].delete!("\n")
+end
+lines = blogtemp[1].to_i
+l = 2
+@postname = []
+@postid = []
+@postmaxid = 0
+@postnew=[]
+@postcategories=[]
+for i in 0..lines - 1
+  @postid[i] = blogtemp[l].to_i
+  @postmaxid = blogtemp[l].to_i if blogtemp[l].to_i > @postmaxid
+  l += 1
+  @postname[i] = blogtemp[l]
+  l += 1
+    @postnew[i] = blogtemp[l].to_i
+  if @postnew[i]>0
+    @postname[i]+="\004NEW\004"
+    end
+  l += 1
+    @postcategories[i]=[]
+  for c in blogtemp[l].split(",")
+    @postcategories[i].push(c.to_i)
+    end
+  l += 1
+end
+@fields=[]
+for i in 0..@postid.size-1
+  f=Select.new(categorynames,true,0,@postname[i],true,true)
+  for c in @postcategories[i]
+    ind=categoryids.find_index(c)
+    f.selected[ind]=true
+    end
+  @fields.push(f)
+    end
+@fields+=[Button.new("Zapisz"),Button.new("Anuluj")]
+@form=Form.new(@fields)
+loop do
+  loop_update
+  @form.update
+  break if escape or ((space or enter) and @form.index==@form.fields.size-1)
+  if (space or enter) and (@form.index==@form.fields.size-2 or $key[0x11])
+    ou=""
+for i in 0..@postid.size-1
+  ch=[]
+  for j in 0..@form.fields[i].selected.size-1
+    ch.push(categoryids[j]) if @form.fields[i].selected[j]==true
+  end
+  ou+=@postid[i].to_s+":"+ch.join(",")+"|" if ch.size>0
+end
+buf=buffer(ou)
+bt=srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&recategorize=1\&buffer=#{buf}")
+if bt[0].to_i<0
+  speech("Błąd")
+  else
+  speech("Rekategoryzacja zakończona")
+end
+speech_wait
+break
+    end
+  end
+$scene=Scene_Blog_Main.new($name,-1,@scene)
 end
 end
 

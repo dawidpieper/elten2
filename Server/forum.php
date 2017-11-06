@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 $error = 0;
 if($_GET['forum'] == 0)
 {
@@ -97,7 +97,7 @@ $tekst .= mysql_fetch_row($widzapytania)[1]."\r\n";
 $tekst .= "\r\n".$wiersz[2]."\r\n"."END\r\n";
 $wiersze = $wiersze + 1;
 }
-if($_GET['nb'] == 0) {
+if($_GET['nb'] == 0 and $_GET['name']!="guest") {
 $zapytanie = "SELECT `thread` FROM `forum_read` where `owner`='" . $_GET['name'] . "'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

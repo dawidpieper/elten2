@@ -99,18 +99,35 @@ else
                 return
         end
         end
-        speech("Pobieranie instrukcji aktualizacji")
-if $nbeta > $beta
-download($url + "bin/beta.php?"+hexspecial("name=#{$name}\&token=#{$token}\&download=1\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}"),$bindata + "\\download_elten.exe",true)
+        if $nbeta > $beta
+downloadfile($url + "bin/beta.php?"+hexspecial("name=#{$name}\&token=#{$token}\&download=2\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}"),$bindata + "\\eltenup.exe","Pobieranie aktualizacji")
   else
-  download($url + "bin/download_elten.exe",$bindata + "\\download_elten.exe",true)
+  downloadfile($url + "bin/eltenup.exe",$bindata + "\\eltenup.exe","Pobieranie aktualizacji")
 end
     speech_wait
-    speech("Aktualizacja zostanie teraz pobrana i zainstalowana. Program zostanie uruchomiony ponownie. To może potrwać kilka minut.")
-    speech_wait
-  run($bindata + "\\download_elten.exe /wait")
-  exit!
-  end
+    if $name!="" and $name!=nil
+    speech("Aktualizacja została pobrana. Aby ją zainstalować, program musi zostać uruchomiony ponownie. Naciśnij enter, aby kontynuować lub escape, aby anulować.")
+    cn=true
+    for i in 1..Graphics.frame_rate*30
+      loop_update
+      break if enter
+      if escape
+        cn=false
+        $scene=Scene_Main.new
+                break
+        end
+      end
+    else
+      cn=true
+      speech("Aktualizacja zostanie teraz zainstalowana. Program zostanie uruchomiony ponownie.")
+      speech_wait
+      end
+      if cn == true                      
+      $exit=true  
+                                        $scene=nil
+    $exitupdate=true
+    end
+    end
       end
   
   class Scene_ReInstall

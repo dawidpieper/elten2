@@ -23,7 +23,9 @@ Shift+F8 - aktualna data
 F9 - kontakty
 Shift+F9 - lista zalogowanych osób
 F10 - co nowego
+SHIFT+F10 - wiadomości
 F11 - powtórz wypowiedź
+SHIFT+F11 - chat
 F12 - restart
 SHIFT+F3 - play/pauza playlisty
 SHIFT+F4 - poprzedni utwór z playlisty
@@ -42,10 +44,16 @@ CTRL+S - zapis do bufora
 CTRL+R - przywrócenie bufora
 CTRL+T - szybkie tłumaczenie
 CTRL+SHIFT+T - tłumacz
+CTRL+F - szukaj
 Enter - otwórz link
 SHIFT+Strzałki - zaznaczanie
 F4 - czytaj od kursora
 CTRL+ENTER - zatwierdź
+
+Skróty w plikach
+Spacja - podgląd
+SHIFT+Spacja - wstrzymanie podglądu
+F4 - zatrzymanie podglądu
 
 Skróty w odtwarzaczu
 Góra/dół - zgłaśnianie i ściszanie
@@ -59,7 +67,7 @@ CTRL+, - skok do pierwszego wpisu
 CTRL+. - skok do ostatniego wpisu
 CTRL+U - skok do pierwszego nowego wpisu
 CTRL+N - odpowiedź
-CTRL+F - odpowiedź z cytatem
+CTRL+D - odpowiedź z cytatem
     
 Inne skróty:
 CTRL+SHIFT+ALT+T - powrót z zasobnika

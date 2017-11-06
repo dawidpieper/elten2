@@ -1,14 +1,14 @@
 ﻿ELTEN_LANG_FILE
 EN_US
 ENGLISH - UNITED STATES
-Wystąpił błąd podczas przetwarzania polecenia.|\|An error occuret while processing the command
+Wystąpił błąd podczas przetwarzania polecenia.|\|An error occured while processing the command
 kropka|\|dot
-przecinek|\|coma
+przecinek|\|comma
 ukośnik|\|slash
 średnik|\|semi
 apostrof|\|apostrophe
-lewy kwadratowy|\ Left bracked
-prawy kwadratowy|\|right bracked
+lewy kwadratowy|\ Left bracket
+prawy kwadratowy|\|right bracket
 bekslesz|\|backslash
 minus|\|dash
 równe|\|equals
@@ -20,7 +20,7 @@ dwukropek|\|colon
 cudzysłów|\|quote
 lewa klamra|\|left brace
 prawa klamra|\|right brace
-kreska pionowa|\ bar|
+kreska pionowa|\| bar
 podkreślnik|\|line
 plus|\|plus
 wykrzyknik|\|bang
@@ -28,8 +28,8 @@ małpa|\|at
 krzyżyk|\|hash
 dolar|\|dollar
 procent|\|percent
-daszek|\caret|
-ampersant|\|ampersant
+daszek|\|caret
+ampersant|\|ampersand
 gwiazdka|\|star
 lewy nawias|\|left paren
 prawy nawias|\|right paren
@@ -37,11 +37,11 @@ Zamknąć program?|\|Exit the program?
 Nie|\|No
 Tak|\|Yes
 Konsola|\|Console
-Napisz prywatną wiadomość|\|Write the private message
-Wizytówka|\|Visiting cart
+Napisz prywatną wiadomość|\|Write a private message
+Wizytówka|\|Visiting card
 Usuń z kontaktów|\|Remove from contacts' list
 Dodaj do kontaktów|\|Add to contacts' list
-Nie ma nic nowego.|\|There is nothink new.
+Nie ma nic nowego.|\|There is nothing new.
 Nowe wiadomości: %%|\|New messages: %%
 Otrzymałeś nową wiadomość.|\|You have received a new message.
 Nie wybrano głosu programu.\r\nPo potwierdzeniu tego komunikatu użyj strzałek góra-duł, aby wybrać głos.|\|Program voice is not selected.\r\nAfter confirming this message use up-down arrow to select a voice
@@ -52,7 +52,7 @@ Nazwa użytkownika nie może zawierać kropek. Znak zostanie pominięty.|\|User 
 Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.|\|User name can not contain slashes. Sign will be Omitted.
 Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty.|\|User name can not contain spaces. Sign will be Omitted
 Podaj swój login. Będzie on używany w celu identyfikacji. Maksymalna długość loginu to 64 znaki.|\|Enter your username. It will be used for identification.The maximum length of the username is 64 characters
-Podaj swoje hasło. Zalecane jest silne hasło. Hasło takie składa się z liter i cyfr. Długość hasła powinna być krótsza niż dwieście pięćdziesiąt sześć znaków.|\|Enter your password. It is recommended to use strong password, which consists of numbers and letters. Maximum length of the password is 256 characters.
+Podaj swoje hasło. Zalecane jest silne hasło. Hasło takie składa się z liter i cyfr. Długość hasła powinna być krótsza niż dwieście pięćdziesiąt sześć znaków.|\|Enter your password. It is recommended to use a strong password, which consists of numbers and letters. Maximum length of the password is 256 characters.
 Podaj swój adres mailowy. Będzie on używany w przypadku zapomnienia hasła i do wysyłania najważniejszych informacji.|\|Enter your e-mail address. It will be used in case you forget your password and to send important information.
 Rejestracja powiodła się, dziękujemy. Możesz teraz się zalogować, używając podanych danych.|\|Registration is successful, thank you. You can log in using your username and password.
 Wystąpił nieznany błąd bazy danych.|\|An unknown error occurred while using database
@@ -71,7 +71,7 @@ Wybierz forum.|\|Select a forum
 Błąd połączenia z bazą danych.|\|Error connecting to the database.
 Wartość tokenu wygasła. Zaloguj się ponownie|\|The value of the token has expired. Please log in again
 Błąd odczytu rekordów.|\|Error reading records.
-Nie odnaleziono listy forów.|\|List of forus wasn't found.
+Nie odnaleziono listy forów.|\|List of forums wasn't found.
 Wystąpił błąd podczas próby połączenia z serwerem.|\|An error occurred while trying to connect to the server.
 otwórz|\|open
 Anuluj|\|Cancel
@@ -97,16 +97,16 @@ Przejdź do ostatniego wpisu|\|Go to last post
 Usuń Wpis|\|Delete this post
 Tytuł wątku|\|Thread's title
 Treść pierwszego wpisu|\|Content of first post
-Wątek został utworzony.|\|Thread was been created.
+Wątek został utworzony.|\|Thread has been created.
 Błąd tworzenia wątku!|\|Error creating thread!
 Treść wpisu:|\|Message:
 Wpis został utworzony.|\|The post was created.
-Czy jesteś pewien, że chcesz usunąć wątek %%|\|Are you sure you want to delete thread %%
+Czy jesteś pewien, że chcesz usunąć wątek %%|\|Are you sure you want to delete the thread %%
 Wątek został usunięty.|\|This thread has been deleted.
 Nie masz odpowiednich uprawnień, by wykonać tę operację.|\|You do not have sufficient permissions to perform this operation.
-Czy jesteś pewien, że chcesz usunąć wpis %%|\|Are you sure, you want to delete post
+Czy jesteś pewien, że chcesz usunąć wpis %%|\|Are you sure you want to delete the post
 %% z wątku %%?|\|Czy jesteś pewien, że chcesz usunąć wpis #{postid} z wątku %%|\|%% z wątku %%?|\|%% from thread %%
-Wpis został usunięty.|\|This post was been deleted.
+Wpis został usunięty.|\|This post has been deleted.
 Brak śledzonych wątków.|\|No followed threads.
 Usuń z listy śledzonych wątków|\|Remove from list of followed threads
 Menu|\|Menu
@@ -148,11 +148,11 @@ Odpowiedz|\|Reply
 Usuń|\|Delete
 Wyślij nową wiadomość|\|Send a new message
 Przekaż dalej|\|Forward
-Odbiorca:|\|Receiver
+Odbiorca:|\|Recipient
 Temat:|\|Subject
 Treść:|\|Message:
 Wiadomość została wysłana|\|Message was sent
-Czy jesteś pewien, że chcesz usunąć tę wiadomość?|\|Are you sure, you want to delete this message
+Czy jesteś pewien, że chcesz usunąć tę wiadomość?|\|Are you sure you want to delete this message?
 Usunięto.|\|Deleted
 Ustawienia mowy|\|Voice settings
 Zmień syntezator|\|Change synthesizer
@@ -162,14 +162,14 @@ Wybierz|\|Select
 Wybierz szybkość głosu.|\|Select voice's rate
 Zapisano.|\|Saved
 Dostępna jest nowa wersja programu. Czy chcesz ją pobrać i zainstalować?|\|New version of this program is available. Do you want to download and instal it?
-Proszę czekać, trwa pobieranie plików|\|Please wait, while files are downloaded.
-Aktualizacja zostanie teraz zainstalowana. Program zostanie uruchomiony ponownie.|\|Update will be installed. Program will be restarted.
+Proszę czekać, trwa pobieranie plików|\|Please wait while files are downloaded.
+Aktualizacja zostanie teraz zainstalowana. Program zostanie uruchomiony ponownie.|\|Update will now be installed. Program will be restarted.
 program: %%|\|program: %%
 %% został zamknięty.|\|%% was closed
 Kontakty|\|Contacts
 Pusta Lista|\|Empty list
 Nowy Kontakt|\|New contact
-Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów.|\|Enter name of user, you want to add to your contacts' list.
+Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów.|\|Enter the name of the user you want to add to your contacts' list.
 Kontakt został dodany.|\|Contact was added.
 Ten użytkownik jest już dodany do twoich kontaktów.|\|This user is already added to your contacts' list.
 Użytkownik o podanej nazwie nie istnieje.|\|This user does not exist.
@@ -199,7 +199,7 @@ podaj adres URL|\|specify the URL
 Pokaż Opis|\|Show Description
 Zainstaluj|\|Install
 Pobieranie: %%|\|Downloading: %%
-Rejestracja nowego programu zakończy się po ponownym uruchomieniu Eltena.|\|New program will be registered after Elten's restart.
+Rejestracja nowego programu zakończy się po ponownym uruchomieniu Eltena.|\|The new program will be registered after Elten restarts.
 Brak tematów dźwiękowych.|\|No sound themes.
 Tematy dźwiękowe.|\|Sound themes
 Błąd.|\|Error.
@@ -211,7 +211,7 @@ Wytnij|\|Cut
 Wklej|\|Paste
 Nowy folder|\|New folder
 Skopiowano.|\|Copied
-Kopiować można tylko pliki.|\|You can copy only files.
+Kopiować można tylko pliki.|\|You can only copy files.
 Wycięto|\|Cut out
 Wycinać można tylko pliki.|\|You can only cut files.
 Wklejono.|\|Pasted.
@@ -222,7 +222,7 @@ Podaj nazwę tworzonego katalogu|\|Enter a name for the folder
 Wykonano.|\|Done.
 Uruchom wersję testową|\|Start the beta version
 Pobierz nowszą wersję testową|\|Download the newer beta version
-Na tym komputerze nie jest zainstalowana żadna wersja beta programu ELTEN.|\|This computer has not installed the beta version of Elten.
+Na tym komputerze nie jest zainstalowana żadna wersja beta programu ELTEN.|\|This computer does not have the beta version of Elten installed.
 Teraz nastąpi pobranie wersji testowej.|\|It will download the beta version.
 Wersja testowa została pobrana.|\|The beta version has been downloaded.
 Wystąpił błąd podczas pobierania wersji testowej.|\|An error occurred while downloading the beta version.
@@ -231,7 +231,7 @@ Pobierz tłumaczenia z serwera|\|Download the translation from the server
 Paczki językowe zostały zaktualizowane|\|Language packs have been updated
 Ostatnia wiadomość: |\|Last message:
 %%
-%% Dołączył do dyskusji.|\|Joined to discussion
+%% Dołączył do dyskusji.|\|Joined the discussion
 Lista użytkowników|\|List of users
 Zbanuj|\|Ban
 Odbanuj|\|Unban
@@ -259,11 +259,11 @@ Mój blog|\|My blog
 Nowa kategoria|\|New category
 Nowy wpis
 Ukryj program w zasobniku systemowym|\|Hide program in Tray
-Zmiana statusu|\|status change
+Zmiana statusu|\|Change your status
 Podaj nowy status|\|Enter new status
 Rada starszych|\|Administrators
 Narzędzia|\|Tools
-Generator tematów dźwiękowych|\|Sound themes generator
+Generator tematów dźwiękowych|\|Sound theme generator
 Nowy plik|\|New file
 Nowe wiadomości %%|\|New messages %%
 Nowe wpisy w śledzonych wątkach %%|\|New posts in followed threads %%
@@ -292,14 +292,14 @@ Czy jesteś pewien, że chcesz usunąć ten wpis?|\|Are you sure you want to del
 Odpowiedz z cytatem|\|Reply with quote
 Przejdź do pierwszego nowego wpisu|\|Go to first new post
 Blogi|\|Blogs
-Użytkownicy, którzy dodali mnie do swoich kontaktów|\|Users, who added me to their contacts list
+Użytkownicy, którzy dodali mnie do swoich kontaktów|\|Users who added me to their contacts list
 Podaj nazwę tematu dźwiękowego.|\|Enter the name of the soundtheme
 Pliki tematu dźwiękowego utworzone w: %%|\|Soundtheme files created: in: %%
 Nazwa tematu: %%|\|Soundtheme's name: %%
-Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład.|\|Replace the default soundtheme's files in the created directory by files, which should be used in new theme
+Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład.|\|Replace the default soundtheme's files in the created directory with files that should be used in the new theme
 Co chcesz zrobić?|\|What do you want to do?
-Otwórz folder tematu w plikach|\|Open the folder of soundtheme in Files
-Otwórz folder tematu w systemowym eksploratorze plików|\|Open the folder of soundtheme in system explorer
+Otwórz folder tematu w plikach|\|Open the soundtheme's folder
+Otwórz folder tematu w systemowym eksploratorze plików|\|Open the soundtheme's folder in windows explorer
 Zamknij|\|Close
 Zgłoś błąd|\|Report an error
 Opisz znaleziony błąd|\|Describe the found error
@@ -308,10 +308,10 @@ Wysłano.|\|Sent.
 Oznacz wszystkie wiadomości jako przeczytane|\|Mark all messages as read
 Lista blogów|\|List of blogs
 Podaj polecenia do wykonania|\|Enter the command to execute
-Odbiorca|\|Receiver
+Odbiorca|\|Recipient
 Wyślij|\|Send
 Brak nowych wiadomości.|\|There are no new messages.
-Brak nowych wpisów w śledzonych wątkach|\|No new posts in the followed threads
+Brak nowych wpisów w śledzonych wątkach|\|No new posts in followed threads
 Co nowego|\|What's new
 Brak nowych wiadomości|\|There are no new messages
 Powrót|\|Return
@@ -321,7 +321,7 @@ Zamykanie programu|\|Exiting
 Wystąpił krytyczny błąd. Opis błędu: %%|\|Fatal error occurred while proceeding with code. Description: %%
 Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do twórców programu?|\|The program must be closed. Do you still want to send an error report to the creators of this application?
 Spróbuj ponownie|\|Try again
-Przerwij działanie aplikacji|\|Stop the application
+Przerwij działanie aplikacji|\|Exit the application
 Uruchom tryb awaryjny|\|Start Safe Mode
 Tryb awaryjny|\|safe mode
 Zainstaluj program ponownie|\|Install again
@@ -352,9 +352,9 @@ Wyślij wiadomość do tego odbiorcy|\|Send a message to this recipient
 Plik %%|\|File %%
 został dodany do playlisty.|\|has been added to playlist.
 Playlista|\|Playlist
-Zarządzanie programem|\|Program management
+Zarządzanie programem|\|Manage programs
 Sprawdź dostępność aktualizacji|\|Check for updates
-Reinstalacja programu|\|Reinstallation of the program
+Reinstalacja programu|\|Reinstall the program
 Przywróć ustawienia domyślne|\|Restore the default settings
 Kompilator EltenAPI\|\EltenAPI compiler
 Moja sygnatura|\|My signature
@@ -381,4 +381,4 @@ Ukryj mój profil przed osobami z poza mojej listy kontaktów|\|Hide my profile 
 Twoja sygnatura:|\|Your signature:
 Wyślij na serwer|\|Upload to the server
 Otwórz ten folder|\|Open this directory
-Ustaw jako awatar|\|Set as avatar 
+Ustaw jako awatar|\|Set as avatar 

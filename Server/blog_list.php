@@ -1,5 +1,5 @@
 <?php
-require("header.php");
+require("init.php");
 $orderby = 0;
 $orderby = $_GET['orderby'];
 switch($orderby) {
@@ -11,6 +11,9 @@ $zapytanie = "SELECT b.owner, b.name, (SELECT COUNT(*) AS cnt FROM blog_posts p 
 break;
 case 2:
 $zapytanie = "SELECT b.owner, b.name, (SELECT COUNT(*) AS cnt FROM blog_posts p WHERE p.owner = b.owner AND p.posttype = 1) AS order_col FROM blogs b ORDER BY order_col DESC";
+break;
+case 3:
+$zapytanie = "SELECT `owner`, `name` FROM `blogs` WHERE `owner` IN (SELECT `author` FROM `followedblogs` WHERE `owner`='".$_GET['name']."') ORDER BY `lastupdate` DESC";
 break;
 }
 $idzapytania = mysql_query($zapytanie);

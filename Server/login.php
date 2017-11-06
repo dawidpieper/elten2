@@ -8,9 +8,9 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
     }
     return $str;
 }
-$sql = mysql_connect("localhost", "elten", "")
+$sql = mysql_connect("localhost", "dblogin", "dbpass")
 or die("-1");
-$sql_select = @mysql_select_db('elten')
+$sql_select = @mysql_select_db('dbname')
 or die("-1");
 foreach($_GET as $value) {
 $value = str_replace("\\","\\\\",$value);
@@ -23,7 +23,7 @@ die;
 $ctime = time();
 if($_GET['login'] == "1")
 {
-$zapytanie = "SELECT `name`, `password` FROM `users`";
+$zapytanie = "SELECT `name`, `password`, `resetpassword` FROM `users`";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false)
 echo "-1";
@@ -32,7 +32,11 @@ else
 $error = -2;
 while ($wiersz = mysql_fetch_row($idzapytania)){
 if($wiersz[0] == $_GET['name'])
-if($wiersz[1] == $_GET['password'] or crypt($wiersz[1],$wiersz[0])==$_GET['crp'])
+if($wiersz[1] == $_GET['password'] or crypt($wiersz[1],$wiersz[0])==$_GET['crp']) {
+$error = "0";
+mysql_query("UPDATE users SET `resetpassword`=NULL where `name`='".$wiersz[0]."'");
+}
+elseif(($wiersz[2] == $_GET['password'] or crypt($wiersz[2],$wiersz[0])==$_GET['crp']) and $wiersz[2]!=NULL)
 $error = "0";
 else
 $error = -2;
@@ -41,25 +45,6 @@ if($error < 0)
 echo $error;
 else
 {
-$zapytanie = "SELECT `name`, `totime` FROM `banned`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
-$suc = false;
-while ($wiersz = mysql_fetch_row($idzapytania)){
-if($wiersz[0] == $_GET['name']) {
-$totime = $wiersz[1];
-$suc = true;
-}
-}
-if($suc == true) {
-if($ctime < $totime) {
-echo "-3";
-die;
-}
-}
 $haslo=random_str(64);
 $zapytanie = "INSERT INTO `tokens` (`token`, `name`, `time`) VALUES ('" . $haslo . "','" . $_GET['name'] . "', '" . date("dmY") . "')";
 $idzapytania = mysql_query($zapytanie);

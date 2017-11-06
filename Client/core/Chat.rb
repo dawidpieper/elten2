@@ -7,6 +7,24 @@
 
 class Scene_Chat
   def main
+    if $name=="guest"
+      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
+    if isbanned($name)
+      speech("Jesteś zbanowany.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
+    if $ruby == true
+      speech("Ta funkcja nie jest dostępna na tej platformie.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
     writefile("temp/agent_chat.tmp","2")
     ct=srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1")
     if ct[0].to_i<0
@@ -28,7 +46,7 @@ class Scene_Chat
     end   
           end
     @lastmsg=@msg
-    speech_wait if @chatthread!=true
+    speech_wait if $chat!=true
         @form=Form.new([Edit.new("Twoja wiadomość","","",true),Edit.new("Historia wiadomości","MULTILINE|READONLY"," ",true),Select.new([],true,0,"Aktywne osoby",true),Button.new("Ukryj chat"),Button.new("Zamknij")])
         @form.fields[1].silent=true
         @form.fields[1].update
@@ -63,7 +81,7 @@ class Scene_Chat
         File.delete("temp/agent_chat.tmp") if FileTest.exists?("temp/agent_chat.tmp")
         break
         end
-      if (((enter or space) and @form.index == 3)) or (escape and @chatthread==true)
+      if (((enter or space) and @form.index == 3)) or (escape and $chat==true)
                 play("signal")
                 $chat=true
                 writefile("temp\\agent_chat.tmp","1")

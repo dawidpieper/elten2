@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 if($_GET['list'] == 1) {
 $zapytanie = "Select `name`, `version`, `description`, `file` FROM `apps`";
 $idzapytania = mysql_query($zapytanie);

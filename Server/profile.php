@@ -1,5 +1,8 @@
 <?php
+if($_GET['mod']==1)
 require("header.php");
+else
+require("init.php");
 if($_GET['mod'] == 1) {
 $zapytanie = "SELECT `name` FROM `profiles` WHERE `name`='".$_GET['name']."'";
 $idzapytania = mysql_query($zapytanie);

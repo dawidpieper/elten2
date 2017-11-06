@@ -93,7 +93,7 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-Graphics.transition(10)
+delay(0.25)
 main if @main == true
 return
 end

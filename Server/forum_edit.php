@@ -1,5 +1,7 @@
 ﻿<?php
 require("header.php");
+if(mysql_num_rows(mquery("SELECT name FROM banned WHERE name='".$_GET['name']."' AND totime<".time()))>0)
+die(-3);
 $suc = false;
 if($_GET['forumname']=="") {
 $suc=true;
@@ -29,7 +31,7 @@ die;
 }
 $moderator=getprivileges($_GET['name'])[1];
 $error = 0;
-$q = mquery("SELECT `id` FROM `forum_threads` WHERE `forum`='".$_GET['forumname']."'");
+$q = mquery("SELECT `id` FROM `forum_threads`");
 $suc = false;
 $threadid = $_GET['threadid'];
 while ($r = mysql_fetch_row($q)){
@@ -37,7 +39,7 @@ if($r[0] == $_GET['threadid'])
 $suc = true;
 }
 $error = 0;
-if($suc == false) {
+if($suc == false or $_GET['threadname']!=NULL or $_POST['threadname']!=NULL) {
 $q = mquery("SELECT `id` FROM `forum_threads` ORDER BY `id` DESC");
 $threadid = mysql_fetch_row($q)[0]+1;
 $q = mquery("SELECT `name`, `id` FROM `forums`");
@@ -68,7 +70,7 @@ mquery("INSERT INTO `forum_threads` (id, name, lastpostdate, forum) VALUES ('" .
 mquery("INSERT INTO `forum_read` (id, owner, forum, thread, posts) VALUES ('','".$_GET['name']."','" . $_GET['forumname'] . "','" . $threadid . "'," . 1 . ")");
 }
 $posts = 0;
-$q = mquery("SELECT `name`, `id` FROM `forum_threads` WHERE `forum`='" . $_GET['forumname'] . "'");
+$q = mquery("SELECT `name`, `id` FROM `forum_threads`");
 while ($r = mysql_fetch_row($q)) {
 if($r[1] == $threadid) {
 $name = $r[0];

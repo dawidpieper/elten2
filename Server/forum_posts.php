@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 if($_GET['cat'] == 0) {
 $zapytanie = "SELECT `updatedate`, `expiredate`, `content` FROM `cache` WHERE id=0";
 $idzapytania = mysql_query($zapytanie);
@@ -124,7 +124,7 @@ die;
 }
 echo "0" . $tekst;
 }
-if($_GET['cat'] == 2) {
+if($_GET['cat'] == 2 and $_GET['name']!="guest") {
 $zapytanie = "SELECT `forum`, `thread`, `posts` FROM `forum_read` WHERE `owner`='" . $_GET['name'] . "'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

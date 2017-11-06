@@ -50,5 +50,19 @@ die;
 }
 mquery("UPDATE `forum_posts` SET `post`='".$post."' WHERE `thread`=".$_GET['threadid']." AND`id`='".$_GET['postid']."'");
 }
+if($_GET['move'] == 1) {
+if($moderator==0) {
+echo "-3";
+die;
+}
+mquery("UPDATE forum_threads SET forum='".$_GET['destination']."' WHERE `id`=".$_GET['threadid']);
+}
+if($_GET['rename'] == 1) {
+if($moderator==0) {
+echo "-3";
+die;
+}
+mquery("UPDATE forum_threads SET name='".$_GET['threadname']."' WHERE `id`=".$_GET['threadid']);
+}
 echo "0";
 ?>

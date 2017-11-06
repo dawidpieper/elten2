@@ -1,5 +1,8 @@
 <?php
+if($_GET['set']==1)
 require("header.php");
+else
+require("init.php");
 if($_GET['set'] == 1) {
 $zapytanie = "SELECT `name`, `signature` FROM `signatures`";
 $idzapytania = mysql_query($zapytanie);

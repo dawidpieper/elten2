@@ -41,6 +41,7 @@ class Scene_Media
       break if l >= mediatemp.size-1
       end
     @sel = Select.new(@category + ["Nowa kategoria","Podaj adres URL"])
+    @sel.disable_item(@sel.commandoptions.size-2) if $name=="guest"
     loop do
 loop_update
       @sel.update
@@ -132,6 +133,7 @@ loop_update
       break if l >= mediatemp.size-1
       end
     @sel = Select.new(@filename + ["Nowy plik"])
+    @sel.disable_item(@sel.commandoptions.size-1) if $name=="guest"
     loop do
 loop_update
       @sel.update

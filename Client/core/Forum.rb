@@ -90,7 +90,8 @@ for i in 0..$forums.size - 1
           indexa=grp.size+1 if @iindex[0..0]=="*"
           end
           @commandcats = Select.new(["Śledzone wątki"]+grp+["Szukaj"],true,indexa,"Forum",true)
-        if @cat == 0
+        @commandcats.disable_item(0) if $name=="guest"
+          if @cat == 0
           @commandcats.focus
         else
           @commandforums[@commandcats.index-1].focus
@@ -263,8 +264,8 @@ when 0
         id = false
       else
         for j in 0..$forumid.size - 1
-        @threads[j].readposts = poststemp[l] if ti == @threads[j].id.to_i
-        end
+          @threads[j].readposts = poststemp[l] if ti == @threads[j].id.to_i
+                          end
         id = true
       end
       l += 1
@@ -275,9 +276,10 @@ when 0
     for i in 0..@threads.size - 1
       if @threads[i] != nil
         selt = ""
-        selt += "Nowy: \004NEW\004" if @threads[i].posts.to_i > @threads[i].readposts.to_i
-        selt += @threads[i].name.to_s + " . Wpisy: " + @threads[i].posts.to_s + " . Autor: " + @threads[i].author
-                       sel.push(selt)
+                  selt += "Nowy: \004NEW\004" if @threads[i].posts.to_i > @threads[i].readposts.to_i and $name!="guest"
+                    selt += @threads[i].name.to_s + " #{if @forumtype==0;".";else;"";end} Wpisy: " + @threads[i].posts.to_s + " . Autor: " + @threads[i].author
+        selt.sub!(".","") if @threads[i].name.include?("\004AUDIO\004")               
+        sel.push(selt)
         end
       end
   @command = nil
@@ -327,7 +329,7 @@ loop_update
             if escape or Input.trigger?(Input::LEFT)
               $scene = Scene_Forum.new(@forumindex)
             end
-            if (enter or Input.trigger?(Input::RIGHT)) and @command.commandoptions.size>0
+                        if (enter or Input.trigger?(Input::RIGHT)) and @command.commandoptions.size>0
                                           $scene = Scene_Forum_Thread.new(@threads[@command.index].id,false,@forumindex,@threads[@command.index].readposts.to_i,0,@forumtype)
               end
             end
@@ -335,13 +337,15 @@ loop_update
 play("menu_open")
 play("menu_background")
 sel = ["otwórz","Zmień śledzenie wątku","Nowy temat","Anuluj"]
-sel.push("Usuń Wątek") if $rang_moderator > 0 and @command.commandoptions.size>0
+sel+=["Przenieś wątek","Zmień nazwę","Usuń Wątek"] if $rang_moderator > 0 and @command.commandoptions.size>0
 @menu = menulr(sel,true,0,"",true)
+@menu.disable_item(1) if $name=="guest"
 if @command.commandoptions.size==0
   @menu.disable_item(0)
   @menu.disable_item(1)
   end
-@menu.disable_item(2) if @forum == ""
+@menu.disable_item(2) if @forum == "" or ($name=="guest" or isbanned($name))
+@menu.disable_item(5) if @menu.commandoptions.size>=5 and @forumtype==1
 @menu.focus
 loop do
 loop_update
@@ -383,6 +387,10 @@ when 2
 when 3
   $scene = Scene_Forum.new(@forumindex)
 when 4
+  $scene = Scene_Forum_Forum_Move.new($forumname, @threads[@command.index].id,0,@forumindex,@forumtype)
+  when 5
+    $scene = Scene_Forum_Forum_Rename.new($forumname, @threads[@command.index].id,0,@forumindex,@forumtype)
+  when 6
 $scene = Scene_Forum_Forum_Delete.new($forumname, @threads[@command.index].id,0,@forumindex,@forumtype)
 end
 break
@@ -468,12 +476,25 @@ when 0
           @posts[0].post.gsub("\004AUDIO\004") do
             @forumtype=2
             end
-            end
-          if @forumtype == 0
-        @fields.push(Edit.new("Twoja odpowiedź","MULTILINE","",true))
+          end
+          if $name=="guest"
+            @noteditable=true
+            else
+          @noteditable=isbanned($name)
+          end
+                      if @forumtype == 0
+        if @noteditable == false
+                        @fields.push(Edit.new("Twoja odpowiedź","MULTILINE","",true))
+                      else
+                        @fields.push(nil)
+                        end
     @fields.push(nil)
   else
+    if @noteditable == false
     @fields.push(Button.new("Nagraj nowy wpis"))
+  else
+    @fields.push(nil)
+    end
     @fields.push(nil)
     @fields.push(nil)
     end
@@ -499,7 +520,7 @@ when 0
           @form = Form.new(@fields,@prefindex)
             loop do
 loop_update
-if @forumtype == 0
+if @forumtype == 0 and @noteditable == false
       if @form.fields[@form.fields.size-3].text!=[[]]
   @form.fields[@form.fields.size-2]=Button.new("Dodaj wpis")
 else
@@ -526,6 +547,7 @@ end
             if alt
                             menu
             end
+            if @noteditable == false
             if @forumtype == 0
             if ((enter or space) and @form.index == @form.fields.size - 2) or ($key[0x11] == true and enter and @form.index == @form.fields.size - 3)
               @form.fields[@form.fields.size - 3].finalize
@@ -568,7 +590,8 @@ elsif @forumtype >= 1
       recording_stop
     end
     if @recording != 0
-                    speech("Konwertowanie...")
+      waiting              
+      speech("Konwertowanie...")
       File.delete("temp/audiopost.mp3") if FileTest.exists?("temp/audiopost.mp3")
       h = run("bin\\ffmpeg.exe -y -i \"temp\\audiopost.wav\" -b:a 128K temp/audiopost.mp3",true)
       t = 0
@@ -618,17 +641,24 @@ for i in 0..a.size - 1
   a = nil
         ft = strbyline(sn)
 ft
-        if ft[0].to_i == 0
+waiting_end        
+if ft[0].to_i == 0
   speech("Wpis został utworzony.")
 else
   speech("Błąd tworzenia wpisu.")
 end
-speech_wait
+loop_update
+if $voice!=-1
+  speech_wait
+else
+  delay(1)
+  end
 main
 return
       end
     end
-    end
+  end
+  end
               if $key[0x11] == true and $key[0x12] == false
 if $key[0xBC] == true
   $postcur = 0
@@ -645,12 +675,12 @@ if $key[0xBE] == true
 @form.index = $postcur
 @form.fields[$postcur].focus         
 end
-if $key[0x4E] == true
+if $key[0x4E] == true and @noteditable == false
   $postcur = @posts.size - 1
 @form.index = $postcur+1
 @form.fields[$postcur+1].focus
 end
-if $key[0x46] == true and $postcur<@posts.size
+if $key[0x44] == true and $postcur<@posts.size and @forumtype == 0 and @noteditable == false
   text = "--Cytat (#{@posts[$postcur].authorname}:\r\n#{qpost(@posts[$postcur].post,@posts[$postcur].authorname)}\r\n--Koniec Cytatu"
     @form.fields[@form.fields.size - 3].settext(text)
   $postcur = @posts.size - 1
@@ -682,7 +712,16 @@ sel = [author,"Nowy wpis","Odpowiedz z cytatem","Edytuj wpis", "Przejdź do osta
 @menu.disable_item(5) if @knownposts > @posts.size - 1 or @knownposts == -1
 @menu.disable_item(7) if $postcur >= @posts.size or $rang_moderator <= 0
 end
-@menu.update
+if @forumtype==1
+  @menu.disable_item(2)
+  @menu.disable_item(3)
+  end
+if @noteditable == true
+  @menu.disable_item(1)
+  @menu.disable_item(2)
+  @menu.disable_item(3)
+  end
+  @menu.update
 @menu.focus
 loop do
 loop_update
@@ -747,7 +786,12 @@ when 5
 @form.index = $postcur
 @form.fields[$postcur].focus
 when 6
-  $scene = Scene_Forum_Forum.new($forumname,@forumindex,@id,@posttype)
+                              if @returner == 0
+                            @forumtype=0 if @forumtype==2
+                              $scene = Scene_Forum_Forum.new($forumname,@forumindex,@id,@forumtype)
+                      else
+            $scene = @returner
+            end
 when 7
 @forumtype=0 if @forumtype==2
   $scene = Scene_Forum_Thread_Delete.new($forumname,@id,@posts[$postcur].id,@forumindex,@forumtype)
@@ -887,6 +931,7 @@ addtourl = ""
                             addtourl = "\&uselore=1\&lore=#{@form.fields[4].text_str}" if @form.fields[4] != nil
                             ft = srvproc("forum_edit","name=" + $name + "&token=" + $token + "&forumname=" + forum + "&threadname=" + thread + "&buffer=" + buf + "\&threadid=" + ($threadmaxid + 1).to_s+addtourl)
                           else
+                            waiting
                                           speech("Konwertowanie...")
       File.delete("temp/audiothreadtitle.mp3") if FileTest.exists?("temp/audiothreadtitle.mp3")
       h = run("bin\\ffmpeg.exe -y -i \"temp\\audiothreadtitle.wav\" -b:a 128K temp/audiothreadtitle.mp3",true)
@@ -954,6 +999,7 @@ for i in 0..a.size - 1
   a = nil
         bt = strbyline(sn)
 ft = bt[1].to_i
+waiting_end
 end
 $threadmaxid += 1
 if ft[0].to_i == 0
@@ -1015,7 +1061,8 @@ loop_update
                                     speech_wait
                                                                         $scene = Scene_Forum_Forum.new(forumname,@forumindex,0,@forumtype)
                                                                                                         end
-                                end
+                                                                                                      end
+                                                                                                                                                                                                          
                                 
                                 class Scene_Forum_Thread_Delete
                           def initialize(forumname,threadid,postid,ft=false,forumindex=0,forumtype=0)
@@ -1078,6 +1125,95 @@ loop_update
                                   end
                                 end
                                 
+                                                        class Scene_Forum_Forum_Move
+                          def initialize(forumname,threadid,ft=false,forumindex=0,forumtype=0)
+                            @forumname = forumname
+                            @threadid = threadid
+                            @ft = ft
+                            @forumindex = forumindex
+                            @forumtype=forumtype
+                          end
+                          def main
+                               $forums = srvproc("forum_posts","token=" + $token + "&name=" + $name + "&cat=0\&details=2")
+                      case $forums[0].to_i
+when 0
+for i in 0..$forums.size - 1
+    $forums[i].delete!("\n")
+    end
+  $forumtime = Time.now.to_i
+  forumlist = []
+  forumid = 0
+  @forums=[]
+    t = 0
+    for i in 1..$forums.size - 1
+    case t
+    when 0
+    forumlist[forumid] = $forums[i]
+    @forums[forumid]=Struct_Forum_Forum.new($forums[i])
+        when 1
+      @forums[forumid].fullname=$forums[i]
+      when 2
+      @forums[forumid].group=$forums[i]
+      when 3
+      @forums[forumid].threads=$forums[i].to_i
+      when 4
+    @forums[forumid].posts=$forums[i].to_i
+    when 5
+      @forums[forumid].type=$forums[i].to_i
+        forumid += 1
+  end
+  t += 1
+  t = 0 if t == 6
+end
+end
+sel=[]
+for f in @forums
+sel.push(f.fullname+" ("+f.group+")")
+end
+d=selector(sel,"Gdzie chcesz przenieść ten wątek?",0,-1)
+if d > -1
+  ft=srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=1\&threadid=#{@threadid}\&destination=#{@forums[d].name}")
+  if ft[0].to_i<0
+    speech("Błąd")
+  else
+    speech("Wątek został przeniesiony.")
+  end
+  speech_wait
+end
+$scene = Scene_Forum_Forum.new(@forumname,@forumindex,0,@forumtype)
+                          end
+                          end
+                                
+                          class Scene_Forum_Forum_Rename
+                                                      def initialize(forumname,threadid,ft=false,forumindex=0,forumtype=0)
+                            @forumname = forumname
+                            @threadid = threadid
+                            @ft = ft
+                            @forumindex = forumindex
+                            @forumtype=forumtype
+                          end
+                          def main
+                            ft=srvproc("forum_getthreadname","name=#{$name}\&token=#{$token}\&forumname=#{@forumname}\&threadid=#{@threadid}")
+                            if ft[0].to_i<0
+                              speech("Błąd")
+                              speech_wait
+                              $scene=Scene_Forum.new
+                              return
+                            end
+                            threadname=ft[1].delete("\r\n")
+                            threadname=input_text("Nowa nazwa wątku","ACCEPTESCAPE",threadname)
+                            if threadname!="\004ESCAPE\004"
+                              ft=srvproc("forum_mod","name=#{$name}\&token=#{$token}\&rename=1\&threadid=#{@threadid}\&threadname=#{threadname}")
+                              if ft[0].to_i<0
+                                speech("Błąd")
+                              else
+                                speech("Nazwa została zmieniona")
+                                end
+                            speech_wait
+                                end
+                            $scene = Scene_Forum_Forum.new(@forumname,@forumindex,0,@forumtype)
+                            end
+                          end
                                 
                                 class Struct_Forum_Forum
                                   attr_accessor :name

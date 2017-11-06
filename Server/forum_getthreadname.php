@@ -1,6 +1,6 @@
 ﻿<?php
-require("header.php");
-$zapytanie = "SELECT `id`, `name` FROM `forum_threads` WHERE `forum`='" . $_GET['forumname'] . "'";
+require("init.php");
+$zapytanie = "SELECT `id`, `name` FROM `forum_threads`";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1";

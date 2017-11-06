@@ -82,6 +82,9 @@ if $language.upcase != "PL_PL"
       $lang_dst = []
     if $language != "PL_PL"
       $langwords = readlines($langdata + "\\" + $language + ".elg")
+      $langwords.delete_at(0)
+      $langwords.delete_at(0)
+      $langwords.delete_at(0)
                           for i in 0..$langwords.size - 1
         $langwords[i].delete!("\n")
         $langwords[i].gsub!('\r\n',"\r\n")

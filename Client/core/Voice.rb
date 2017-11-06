@@ -47,7 +47,7 @@ class Scene_Voice_Voice
     end
     def main
       $selectedvoice = false
-      nv = Win32API.new("screenreaderapi", "sapiGetNumVoices", 'v', 'i')
+      nv = Win32API.new("screenreaderapi", "sapiGetNumVoices", '', 'i')
       $numvoice = nv.call() - 1
       $setvoice = Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i')
       $setvoice.call(0)
@@ -130,7 +130,7 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-Graphics.transition(10)
+delay(0.25)
 return
 end
 end
@@ -142,7 +142,7 @@ class Scene_Voice_Rate
       sel.push(i.to_s)
     end
     Graphics.update
-    @rate = Win32API.new("screenreaderapi","sapiGetRate",'v','i').call
+    @rate = Win32API.new("screenreaderapi","sapiGetRate",'','i').call
     @startrate = @rate
     @sel = Select.new(sel,true,@rate - 1,"Wybierz szybkość głosu.")
             loop do
@@ -181,7 +181,7 @@ if @rate - 1 != @sel.index
     for i in 1..100
       sel.push(i.to_s)
     end
-        @volume = Win32API.new("screenreaderapi","sapiGetVolume",'v','i').call
+        @volume = Win32API.new("screenreaderapi","sapiGetVolume",'','i').call
     @startvolume = @volume
     @sel = Select.new(sel,true,@volume - 1,"Wybierz głośność syntezy.")
             loop do

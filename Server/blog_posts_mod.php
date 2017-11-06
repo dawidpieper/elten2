@@ -157,5 +157,23 @@ die;
 $i=$i+1;
 }
 }
+if($_GET['recategorize']==1) {
+$data='';
+if($_GET['buffer'] != NULL)
+$data=buffer_get($_GET['buffer']);
+else
+$data=$_GET['data'];
+mquery("DELETE FROM `blog_assigning` WHERE `owner`='".$_GET['name']."'");
+$posts=explode('|',$data);
+foreach($posts as $post) {
+$tmp=explode(":",$post);
+$postid=$tmp[0];
+$cats=explode(",",$tmp[1]);
+foreach($cats as $cat) {
+if($cat!=NULL and $cat!="")
+mquery("INSERT INTO `blog_assigning` (id,owner,categoryid,postid) VALUES ('','".$_GET['name']."',".$cat.",".$postid.")");
+}
+}
+}
 echo "0";
 ?>

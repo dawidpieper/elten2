@@ -7,6 +7,12 @@
 
 class Scene_Programs
   def main
+    if $ruby == true
+      speech("Ta funkcja nie jest obsługiwana na tej platformie.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
     if FileTest.exists?($configdata+"\\apps.dat")==false
       save_data([],$configdata+"\\apps.dat")
     end
@@ -45,7 +51,7 @@ loop do
   if enter
     suc=false
     for a in @installed
-      suc=true if a.file==@apps[@sel.index].file
+            suc=true if a.ini==@apps[@sel.index].ini
             end
     if suc == true
       speech("Ten program jest już zainstalowany.")

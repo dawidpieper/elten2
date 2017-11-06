@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 if($_GET['get'] == NULL) {
 $zapytanie = "SELECT `id`, `name`, `description` FROM `media_categories`";
 $idzapytania = mysql_query($zapytanie);

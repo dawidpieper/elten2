@@ -7,25 +7,26 @@
 
 class Scene_Portable
   def main
-    @form=Form.new([FilesTree.new("Miejsce docelowe",getdirectory(40),true,true,"Documents"),CheckBox.new("Dodaj obsługę innych wersji językowych"),CheckBox.new("Skopiuj aktualne ustawienia programu"),CheckBox.new("Skopiuj obecnie pobrane tematy dźwiękowe"),Button.new("Kontynuuj"),Button.new("Anuluj")])    
+    @form=Form.new([FilesTree.new("Miejsce docelowe",getdirectory(40),true,true,"Documents"),CheckBox.new("Dodaj obsługę innych wersji językowych"),CheckBox.new("Skopiuj aktualne ustawienia programu"),CheckBox.new("Skopiuj obecnie pobrane tematy dźwiękowe"),CheckBox.new("Utwórz jako jeden plik exe (Uwaga! Żadne ustawienia nie będą zapamiętywane.)"),Button.new("Kontynuuj"),Button.new("Anuluj")])    
 loop do
   loop_update
   @form.update
-  if escape or ((enter or space) and @form.index==5)
+  if escape or ((enter or space) and @form.index==6)
     $scene=Scene_Main.new
     return
     break
   end
-  if (enter or space) and @form.index==4
+  if (enter or space) and @form.index==5
     break
     end
 end
+waiting
 speech("Proszę czekać, trwa przygotowywanie plików.")
 @destdir=@form.fields[0].path+"\\"+@form.fields[0].file+"\\Elten_#{$version.to_s}_#{if $alpha > 0;"_RC"+$alpha.to_s;elsif $beta > 0;"_B"+$beta.to_s;else;"";end}_portable"
 copier
     loop_update
     speech_wait
-    if @form.fields[1].checked==1 or @form.fields[2].checked==1 or @form.fields[3].checked==1
+        if @form.fields[1].checked==1 or @form.fields[2].checked==1 or @form.fields[3].checked==1
       Dir.mkdir("#{@destdir}/eltendata") if FileTest.exists?("#{@destdir}/eltendata")==false
     if @form.fields[1].checked == 1
       Dir.mkdir("#{@destdir}/eltendata/lng") if FileTest.exists?("#{@destdir}/eltendata/lng")==false
@@ -60,6 +61,8 @@ if @form.fields[2].checked == 1
   copier(".","/eltendata/config",".ini",$configdata+"/")
   speech_wait
   if $voice != -1 and $voice != -3
+    waiting_end
+    dialog_open
   v = selector(["Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu","Zresetuj syntezator","Pytaj za każdym razem","Zachowaj obecne ustawienie"],"Jeśli będziesz używał tworzonej kopii programu Elten na innym komputerze, wybrane ustawienia syntezy mowy mogą nie działać poprawnie. Zauważalne może to być szczególnie w sytuacji, gdy dany komputer będzie miał zainstalowane inne głosy. Jak chcesz skonfigurować tworzoną wersję?",0,3,1)
   value=0
   value=-1 if v==0
@@ -68,7 +71,9 @@ if @form.fields[2].checked == 1
   writeini("#{@destdir}/eltendata/config/sapi.ini","Sapi","Voice",value.to_s) if value != 0
   if @form.fields[3].checked==0
     writeini("#{@destdir}/config/soundtheme.ini","SoundTheme","Path","")
-    end
+  end
+  dialog_close
+  waiting
 end
 end
 if @form.fields[2].checked == 1
@@ -78,11 +83,27 @@ if @form.fields[2].checked == 1
   end
       end        
       writeini("#{@destdir}\\elten.ini","Elten","Portable","1")
-      speech("Przenośna wersja programu została utworzona.")
+      writeini("#{@destdir}\\elten.ini","Elten","SFX","2")
+      if @form.fields[3].checked==1
+ writefile("temp\\portxfs.tmp","sfx configuration
+Setup="+File.basename(@destdir)+"\\"+File.basename($path)+"
+TempMode
+Silent=1
+Overwrite=1
+Title=Extracting Elten Temporary Files...
+Text
+{
+Please wait while Elten files are being extracted...
+}")
+speech("Przygotowywanie pliku...")
+executeprocess("bin\\rar.exe a -r -ep1 -df -ma -sfx -z\"temp\\portxfs.tmp\" \"#{@destdir}.exe\" \"#{@destdir}\" -y",true)
+speech_wait
+        end
+      waiting_end
+        speech("Przenośna wersja programu została utworzona.")
       speech_wait
       $scene=Scene_Main.new
-  
-  end
+    end
   def copier(dir=".",dest="",incl="",start="")
 loop_update
     Dir.mkdir("#{@destdir}"+dest) if dir=="." and FileTest.exists?("#{@destdir}"+dest)==false

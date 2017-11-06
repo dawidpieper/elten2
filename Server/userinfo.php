@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 $q = mquery("SELECT `name`, `date` FROM `actived` ORDER BY `date` ASC");
 $lastseen = 0;
 while($wiersz = mysql_fetch_row($q)) {

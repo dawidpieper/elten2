@@ -7,8 +7,7 @@
 
 class Scene_Admins
   def initialize
-        Graphics.transition(10)
-    @admins = srvproc("admins","name=#{$name}\&token=#{$token}")
+            @admins = srvproc("admins","name=#{$name}\&token=#{$token}")
             for i in 0..@admins.size - 1
       @admins[i].delete!("\r")
       @admins[i].delete!("\n")
@@ -81,7 +80,7 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-Graphics.transition(10)
+delay(0.25)
 if @main == true
   initialize
   main

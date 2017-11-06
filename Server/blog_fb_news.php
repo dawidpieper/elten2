@@ -1,32 +1,11 @@
 <?php
 require("header.php");
-$zapytanie = "SELECT `author` FROM `followedblogs` WHERE `owner`='" . $_GET['name'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if ($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
-$text = "";
-$ile = 0;
-while ($wiersz = mysql_fetch_row($idzapytania)) {
-$wzapytanie = "SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".$wiersz[0]."' AND `posttype`=0";
-$widzapytania = mysql_query($wzapytanie);
-if($widzapytania == false) {
-echo "-1\r\n".$wzapytanie;
-die;
-}
-while($wwiersz = mysql_fetch_row($widzapytania)) {
-$wwwzapytanie = "SELECT `id` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$wiersz[0]."' AND `post`=".$wwiersz[0];
-$wwwidzapytania = mysql_query($wwwzapytanie);
-if($wwwidzapytania == false) {
-echo "-1\r\n".$wwwzapytanie;
-die;
-}
-if(mysql_num_rows($wwwidzapytania) == 0) {
-$ile = $ile + 1;
-$tekst .= "\r\n".$wiersz[0]."\r\n0\r\n".$wwiersz[0]."\r\n".$wwiersz[1];
-}
-}
+$ile=0;
+$tekst="";
+$q=mquery("SELECT `owner`,`postid`,`name` FROM `blog_posts` bp where `posttype`=0 and NOT EXISTS (SELECT 1 FROM `blog_read` br WHERE `owner`='".$_GET['name']."' and bp.postid = br.post and br.author=bp.owner) and author in (select `author` from `followedblogs` where owner='".$_GET['name']."') ORDER BY `id` DESC");
+while($r=mysql_fetch_row($q)) {
+++$ile;
+$tekst.="\r\n".$r[0]."\r\n0\r\n".$r[1]."\r\n".$r[2];
 }
 echo "0\r\n" . $ile . $tekst;
 ?>

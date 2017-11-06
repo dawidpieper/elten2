@@ -1,7 +1,10 @@
 ﻿<?php
+if($_GET['create']!=1 and $_GET['voted']!=1 and $_GET['del']!=1 and $_GET['answer']!=1)
+require("init.php");
+else
 require("header.php");
 if($_GET['list']==1) {
-$q=mquery("SELECT `id`,`name`,`author`,`created`,`description` FROM `polls`");
+$q=mquery("SELECT `id`,`name`,`author`,`created`,`description` FROM `polls` ORDER BY `id` DESC");
 $t='';
 while($r=mysql_fetch_row($q)) {
 $t.="\r\n".$r[0]."\r\n".$r[1]."\r\n".$r[2]."\r\n".$r[3]."\r\n".$r[4]."\r\nEND";

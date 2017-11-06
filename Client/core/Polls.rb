@@ -78,7 +78,8 @@ sel.disable_item(2)
          sel.disable_item(5)
        end
        if @sel.commandoptions.size>0
-       v=srvproc("polls","name=#{$name}\&token=#{$token}\&voted=1\&poll=#{@polls[@sel.index].id}")
+       if $name!="guest"
+         v=srvproc("polls","name=#{$name}\&token=#{$token}\&voted=1\&poll=#{@polls[@sel.index].id}")
        if v[0].to_i<0
          speech("Błąd")
          speech_wait
@@ -92,11 +93,18 @@ sel.disable_item(2)
      if @polls[@sel.index].author!=$name and $rang_moderator==0
        sel.disable_item(2)
        end
-                else
+       end         
+       else
        sel.disable_item(0)
        sel.disable_item(1)
        sel.disable_item(2)
        end
+       if $name=="guest"
+         sel.index=1
+         sel.disable_item(0)
+         sel.disable_item(2)
+         sel.disable_item(3)
+         end
        sel.focus
        loop do
          loop_update
@@ -278,7 +286,7 @@ begin
 rescue Exception
   retry
   end
-  @questions=eval(pl[5].to_s.delete("\r\n").delete(";"))
+  @questions=eval(pl[5].to_s.delete("\r\n").delete(";"),nil,"POLLS")
     @description=""
   for i in 6..pl.size-1
     @description+=pl[i]
@@ -367,7 +375,7 @@ begin
 rescue Exception
   retry
   end
-  @questions=eval(pl[5].to_s.delete("\r\n").delete(";"))
+  @questions=eval(pl[5].to_s.delete("\r\n").delete(";"),nil,"POLLS")
     @description=""
   for i in 6..pl.size-1
     @description+=pl[i]

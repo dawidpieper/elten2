@@ -1,4 +1,4 @@
-﻿#Elten Code
+#Elten Code
 #Copyright (C) 2014-2016 Dawid Pieper
 #All rights reserved.
 
@@ -6,8 +6,16 @@
 #Open Public License is used to licensing this app!
 
 module EltenAPI
+  # User interface related functions
   module UI
-                          def play(voice,volume=100,pitch=100)
+    # Plays a soundtheme sound
+    #
+    # @param voice [String] a voice name
+    # @param volume [Numeric] the volume
+    # @param pitch [Numeric] the pitch
+    # @example
+    #  play("list_focus",80,100)
+    def play(voice,volume=100,pitch=100)
                         if $interface_soundthemeactivation != 0
                         if volume >= 0
                           volume = (volume.to_f * $volume.to_f / 100.0)
@@ -36,11 +44,17 @@ module EltenAPI
                         end
                         end
                       end
+                      # The keyboard related functions                      
                       module Keyboard
+                        # @note this function is reserved
                         def GetAsyncKeyState(id)
  return(Win32API.new("user32","GetAsyncKeyState",'i','i').call(id))
 end
 
+# Determines if escape has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @return [Boolean] returns true if escape was pressed, otherwise returns false
   def escape(fromdll = false)
     if fromdll == true
     esc = Win32API.new($eltenlib,"KeyState",'i','i').call(0x1B)
@@ -56,6 +70,10 @@ end
     end
     end
     
+    # Determines if alt has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @return [Boolean] returns true if alt was pressed, otherwise returns false
     def alt(fromdll = false)
       if fromdll == true
     alt = Win32API.new($eltenlib,"KeyState",'i','i').call(0x12)
@@ -89,6 +107,11 @@ end
     end
     end
     
+    # Determines if enter has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @param space [Boolean] determines whether to accept a spacebar press
+# @return [Boolean] returns true if enter was pressed, otherwise returns false
     def enter(fromdll = false, space = false)
       if $enter.is_a?(Integer)
         if $enter > 0
@@ -114,6 +137,10 @@ end
   end
     end
     
+    # Determines if spacebar has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @return [Boolean] returns true if spacebar was pressed, otherwise returns false
         def space(fromdll=false)
           if fromdll == true
     space = Win32API.new($eltenlib,"KeyState",'i','i').call(0x20)
@@ -124,13 +151,11 @@ end
       return(false)
     end
   else
-if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) != 0 and Input.trigger?(Input::C)
-        return true
-      else
-        return false
-        end
+return $key[0x20]
     end
-    end
+  end
+  
+  # Updates the keyboard state
        def key_update
      $key = []
      $keyr = []
@@ -138,13 +163,13 @@ if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) != 0 and Input.t
      $lkey = 0 if $lkey == nil
      $keyms= []
      for i in 1..255
-       $keyms[i] = $interface_keyms+5
-       $keyms[i] = $interface_ackeyms+5 if i == 0x1b
+       $keyms[i] = $advanced_keyms+5
+       $keyms[i] = $advanced_ackeyms+5 if i == 0x1b
      end
                end
      for i in 1..255
        if Win32API.new($eltenlib,"KeyState",'i','i').call(i) != 0
-         if ($keyms[i] > $interface_keyms and i != 0x1b) or ($keyms[i] > $interface_ackeyms)
+         if ($keyms[i] > $advanced_keyms and i != 0x1b) or ($keyms[i] > $advanced_ackeyms)
            $keyms[i] = 0
            $keyms[i] = 50 if $lkey == i
                       $key[i] = true
@@ -159,13 +184,19 @@ if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) != 0 and Input.t
        else
          $key[i] = false
          $keyr[i]=false
-         $keyms[i] = $interface_keyms+5
-         $keyms[i] = $interface_ackeyms + 5 if i == 0x1b
+         $keyms[i] = $advanced_keyms+5
+         $keyms[i] = $advanced_ackeyms + 5 if i == 0x1b
                   end
        end
      end
                       
-    end
+   end
+   
+   # Plays the sound theme voice in panorama
+   #
+   # @param voice [String] the voice name
+   # @param pos [Float] the position from -1 (left) to 1 (right)
+   # @param volume (Integer) a volume from 0 to 100
                            def playpos(voice,pos,volume=100)
                         if $interface_soundthemeactivation != 0
                         volume = (volume.to_f / 100.0 * $volume.to_f)
@@ -196,11 +227,23 @@ if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) != 0 and Input.t
                         return false
                         end
                       end
-                        end
+                    end
+                    
+                    # Updates a window, speech api and keyboard state
      def loop_update
-                                          tr = false
+       exit if $exitproc==true
+        if $exitupdate==true
+       $scene=nil
+       speech_stop
+       end
+       if $ruby == true
+       while $windowminimized==true
+                  sleep(0.1)
+         end
+         end
+       tr = false
        if FileTest.exists?("temp/agent_tray.tmp")
-Graphics.update
+Graphics.update if $ruby != true
          File.delete("temp/agent_tray.tmp")
 tr=true
 end
@@ -280,17 +323,25 @@ end
 end
 $procs=[] if $procs==nil  
 for o in $procs
-            x="\0"*1024
+            x="\0"*2
 Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(o,x)
-x.delete!("\0")
 if x != "\003\001"
   $procs.delete(o)
   end
     end
-        Graphics.update
+    if $ruby != true
+    Graphics.update
     Input.update
+  else
+    sleep(0.025)
+    end
   Keyboard::key_update
+  if $ruby == true
+  speech_stop if $key[0x11]
+    else
     speech_stop if Input.trigger?(Input::CTRL) and $voice!=-1
+            
+      end
  if $stopmainthread == true
    if Thread::current == $subthreads.last or Thread::current == $mainthread
     Thread::stop
@@ -308,7 +359,27 @@ if tr == true
   Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
   speech_wait
   end
+if $key[0x11] and $keyr[0x42] and $keyr[0x4D] and $keyr[0x55] and $name!="" and $name!=nil and $oken!="" and $token!=nil and $scene.is_a?(Scene_Events) == false and $scenes[0].is_a?(Scene_Events) == false
+    $scenes.insert(0,Scene_Events.new(2))
   end
+if FileTest.exists?("temp/agent_alarm.tmp") and $alarmproc!=true
+  $alarmproc=true
+  play("dialog_open")
+  speech("Alarm!")
+    until escape or enter or space
+      loop_update
+    end
+    File.delete("temp/agent_alarm.tmp")
+    play("dialog_close")
+    loop_update
+    $alarmproc=false
+  end
+  end
+
+# Creates a simple dialog with options yes and no and returns the user's decision
+#
+# @param text [String] a question to ask
+# @return [Numeric] return 0 if user selected no or pressed escape, returns 1 if selected yes.
 def simplequestion(text="")
   text.gsub!("jesteś pewien","jesteś pewna") if $language=="PL_PL" and $gender==0
   dialog_open  
@@ -336,8 +407,41 @@ def simplequestion(text="")
    end
       end
       end
-      end
+if $keyr[0x10] and $keyr[84] and $keyr[78]
+  sel = menulr(["Hmmmm, nie, podziękuję","Coś ty, oszalałeś?","Nie ma mowy","Nigdy w życiu","Pogięło cię? Jasne, że nie","Chyba masz jakieś zwidy jeśli sądzisz, że się zgodzę","W sumie, czemu nie","HMMM, kusi, pomyślmy, no ok, zgoda","Jasne, genialny pomysł","Jestem za","A ty zdecyduj"],true,0,"Możesz się szybciej decydować? "+text)
   end
+      end
+    end
+    
+    # Opens a waiting dialog
+  def waiting
+    f=""
+    if FileTest.exist?("#{$soundthemepath}/BGS/waiting.ogg")
+                      f="#{$soundthemepath}/BGS/waiting.ogg"
+                    else
+                      f="Audio/BGS/waiting.ogg"
+                      end
+          if $waitingvoice == nil
+                          $waitingvoice = AudioFile.new(f,2)
+                          $waitingvoice.play
+                          end
+                            $waitingopened = true
+end
+
+# Closes a waiting dialog
+def waiting_end
+    if $waitingvoice != nil
+    for i in 1..10
+      $waitingvoice.volume-=0.05
+      delay(0.03)
+      end
+      $waitingvoice.close
+    $waitingvoice = nil
+    end
+    $waitingopened = false
+  end
+
+      # Opens a dialog
   def dialog_open
             play("dialog_open")
         if FileTest.exist?("#{$soundthemepath}/BGS/dialog_background.ogg")
@@ -349,15 +453,22 @@ def simplequestion(text="")
   $dialogopened = true
 end
 
+# Closes a dialog
 def dialog_close
     if $dialogvoice != nil
     $dialogvoice.close
     $dialogvoice = nil
-    end
-  play("dialog_close")
-  $dialogopened = false
   end
-
+  play("dialog_close")
+  $dialogopened=false
+  end
+  
+  # Starts the recording
+  #
+  # @param file [String] a file you wish to record to
+  # @param maxduration [Numeric] maximum duration in seconds
+  # @param driver [Numeric] driver id (1 = default)
+  # @param device [Numeric] device id (1 = default)
 def recording_start(filename="temp/record.wav",maxduration=1800,driver=1,device=1)
   if $recproc!=nil
     writefile("record_stop.tmp","")
@@ -365,6 +476,8 @@ def recording_start(filename="temp/record.wav",maxduration=1800,driver=1,device=
     end
 $recproc=run("bin/elten_recorder.bin #{driver.to_s} #{device.to_s} #{filename} #{maxduration}",true)
 end
+
+# Stops the recording
 def recording_stop
   writefile("record_stop.tmp","")
   loop_update

@@ -13,7 +13,7 @@ class Scene_Login
             if autologin.to_i <= 0
     while name == ""
     name = input_text("Login:","ACCEPTESCAPE")
-  end
+      end
             name.gsub(" ") do
     speech("Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty.")
     speech_wait
@@ -28,9 +28,17 @@ class Scene_Login
     $scene = Scene_Loading.new
     return
     end
-  while crp == ""
-    crp = input_text("Hasło:","password").crypt(name)
+  psw=""
+    while psw == ""
+    psw = input_text("Hasło:","ACCEPTESCAPE|password")
   end
+if psw=="\004ESCAPE\004"
+  $scene=Scene_Loading.new
+  return
+end
+name=finduser(name) if finduser(name).upcase==name.upcase
+crp=psw.crypt(name)
+psw[0..psw.size-1]=""
 else
       name = readini($configdata + "\\login.ini","Login","Name","")
                   password_c = readini($configdata + "\\login.ini","Login","Password","")
@@ -71,7 +79,7 @@ elsif autologin == 2
 b=0
   b=$beta if $isbeta==1
   b=$alpha if $isbeta==2
-      logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+    logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}")
     if logintemp.size > 1
   $token = logintemp[1] if logintemp.size > 1
   $token.delete!("\r\n")

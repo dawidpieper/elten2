@@ -9,16 +9,18 @@ class Object
   include EltenAPI
   end
 begin
-  $volume=100
+        $volume=100
       $mainthread = Thread::current
 $stopmainthread         = false
   #main
     # Prepare for transition
-  Graphics.freeze
+  if $ruby != true
+    Graphics.freeze
   Graphics.update
+  end
   $LOAD_PATH << "."
   # Make scene object (title screen)
-  if $toscene != true
+    if $toscene != true
     $scene = Scene_Loading.new if $tomain == nil and $updating != true and $downloading != true and $beta_downloading != true
   $scene = Scene_Main.new if $tomain == true
   $scene = Scene_Update.new if $updating == true
@@ -30,7 +32,7 @@ $toscene = false
   $dialogopened = false
   loop do
   if $scene != nil
-    $scene.main
+        $scene.main
   else
     break
     end
@@ -89,12 +91,15 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
   File.delete("temp/agent_exit.tmp") if FileTest.exists?("temp/agent_exit.tmp")
   File.delete("temp/agent_output.tmp") if FileTest.exists?("temp/agent_output.tmp")
   $exit = true
-    exit
-    rescue Hangup
-  Graphics.update
+  if $exitupdate==true
+    exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
+    end
+      exit
+          rescue Hangup
+  Graphics.update if $ruby != true
   $toscene = true
   retry
-rescue Errno::ENOENT
+  rescue Errno::ENOENT
   # Supplement Errno::ENOENT exception
   # If unable to open file, display message and end
   filename = $!.message.sub("No such file or directory - ", "")
@@ -103,6 +108,7 @@ rescue Errno::ENOENT
 rescue Reset
 retry
 rescue RuntimeError
+  if $ruby != true
   $ruer = 0 if $ruer == nil
   $ruer += 1
   if $ruer <= 10 and $DEBUG != true
@@ -127,15 +133,19 @@ rescue RuntimeError
     end
     speech_wait
         fail
-  end
-rescue SystemExit
+      end
+    else
+      fail
+end
+  rescue SystemExit
   loop_update
   quit if $keyr[0x73]
           play("list_focus") if $exit==nil
   $toscene = true
-  retry if $exit == nil
+    retry if $exit == nil
   rescue Exception
-  if $consoleused == true
+      if $ruby != true
+    if $consoleused == true
     print $!.message.to_s + "   |   " + $@.to_s if $DEBUG
     speech("Wystąpił błąd podczas przetwarzania polecenia.")
         speech_wait
@@ -216,6 +226,9 @@ loop do
   end
   if $start == nil
     retry
-    end
+  end
+else
+  fail
+  end
 end
 #Copyright (C) 2014-2016 Dawid Pieper

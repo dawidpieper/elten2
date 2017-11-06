@@ -7,6 +7,9 @@
 
 class Scene_Contacts
   def initialize
+    if $name=="guest"
+            return
+      end
         ct = srvproc("contacts","name=#{$name}\&token=#{$token}")
         err = ct[0].to_i
     case err
@@ -39,7 +42,13 @@ class Scene_Contacts
       speech_stop
     end
     def main
-                  @sel.focus
+      if $name=="guest"
+      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
+                        @sel.focus
       loop do
 loop_update
         @sel.update if $contact.size > 0
@@ -97,7 +106,7 @@ loop_update
             end
           play("menu_close")
           Audio.bgs_stop
-          Graphics.transition(5)
+          delay          
           return
         end
                 def menu
@@ -130,7 +139,7 @@ end
             end
           play("menu_close")
           Audio.bgs_stop
-          Graphics.transition(5)
+          delay
           return
           end
         end
@@ -145,7 +154,13 @@ end
             while user==""
               user = input_text("Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów.")
             end
-                        ct = srvproc("contacts_mod","name=#{$name}\&token=#{$token}\&searchname=#{user}\&insert=1")
+            ct=""
+            user=finduser(user) if user.upcase==finduser(user).upcase
+            if user_exist(user)            
+            ct = srvproc("contacts_mod","name=#{$name}\&token=#{$token}\&searchname=#{user}\&insert=1")
+          else
+            ct=[-5]
+            end
                         err = ct[0].to_i
             case err
             when 0
@@ -169,7 +184,7 @@ end
                       speech_wait
                       $scene = Scene_Contacts.new
                     end
-                    $scene = Scene_Contacts.new if $scene == nil
+                                      $scene = Scene_Contacts.new if $scene == nil
                                 end
           end
           

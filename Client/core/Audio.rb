@@ -179,8 +179,6 @@ else
   return searchaudiofileextensionrtp(file,rtp)
   end
 end
-else
-  return file
 end
   def self.searchaudiofileextensionrtp(file,rtp)
 file = rtp + "\\" + file
@@ -200,11 +198,9 @@ else
   return utf8(file)
   end
 end
-else
-  return file
   end
 end
 
-Audio_OLD = Audio
+Audio_OLD = Audio if $ruby != true
 Audio = Audio_FMOD if $ruby == true
 #Copyright (C) 2014-2016 Dawid Pieper

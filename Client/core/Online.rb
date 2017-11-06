@@ -7,7 +7,7 @@
 
 class Scene_Online
   def initialize
-        Graphics.transition(10)
+        delay(0.25)
     @online = srvproc("online","name=#{$name}\&token=#{$token}")
             for i in 0..@online.size - 1
       @online[i].delete!("\r")
@@ -19,7 +19,7 @@ class Scene_Online
     end
         selt = []
     for i in 0..onl.size - 1
-      selt[i] = onl[i] + "." + " " + getstatus(onl[i])
+      selt[i] = onl[i] + "." + " " + getstatus(onl[i],false)
       end
     @sel = Select.new(selt,true,0,"Kto jest zalogowany?",true)
     speech_stop
@@ -81,7 +81,7 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-Graphics.transition(10)
+delay(0.25)
 if @main == true
   initialize
   main

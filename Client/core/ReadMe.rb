@@ -13,7 +13,7 @@ class Scene_ReadMe
 Ten dokument zawiera kilka wskazówek i informacji dotyczących tej aplikacji.
 
 1. Wymagania systemowe
-System operacyjny: Windows XP lub nowszy
+System operacyjny: Windows 7 lub nowszy
 Pamięć RAM: 512MB
 Procesor: 800MHz
 Dysk twardy: 256MB wolnego miejsca
@@ -51,47 +51,47 @@ Mój nick na portalu Elten to pajper.
 Mail: dawidpieper@o2.pl .
 Wszelkie inne dane kontaktowe odnajdziesz w mojej wizytówce."
 else
-  text="Welcome in Elten!
+  text="Welcome to Elten!
 This document contains some tips and information related to this application.
 
 1. System requirements
-Operating system: Windows XP or newer
+Operating system: Windows 7 or newer
 RAM: 512MB
 Processor: 800MHz
 Harddrive: 256MB of free space
 Internet access
 
-2. Preliminary information
-The author of the program is Dawid Pieper. It is open-source application, which code you can find in Github repository at:
+2. Some preliminary information
+The author of the program is Dawid Pieper. It is an open-source application, which code you can find in the Github repository at:
 http://github.com/dawidpieper/elten2
-The details of licensing of this software are contained in a separated document.
-Elten is a social network developed especially for the blind. It consists of a server, Internet web page, and above all, client designed for Windows.
-In addition, it's API for developers writing programs for the blind.
+The details of licensing of this software are contained in a separate document.
+Elten is a social network developed especially for the blind. It consists of a server, Internet web page, and above all, a client designed for Windows.
+In addition, it's an API for developers writing programs for the blind.
 
 3. Registration and login
-Both registration and login menus can be accessed from the welcome window. Remember to choose an untypical password that outsiders are unable to access your account.
-It is important to type a real email address, because it can be used to recover the forgot password.
-After succesfull log in to your account you can enable automatic logon, so you will not need to enter a username and password each time you launch Elten.
+Both registration and login menus can be accessed from the welcome window. Remember to choose an untypical password so that outsiders are unable to access your account.
+It is important to type a real email address, because it can be used to recover a forgotten password.
+After a succesfull log in to your account you can enable automatic logon, so you will not need to enter a username and password each time you launch Elten.
 
 4. Basic functions
-Elten is primarily a social network. Its main functions can be accessed via menu available by pressing alt button in a main window, after login.
-Menu called community, as it name says, contains functions used to communicate with other Elten users.
-You cand find options such as forum, blogs or private messages here.
-You should consider filling in your profile in submenu my account.
-Also, you can write down something about you in your visitingcard.
-The second menu is called Media. You can find materials shared by other people here, as well, as browse Youtube.
-Files is a simple file manager. You can edit text files here, play music and, if you want, upload your avatar. Avatar is a sound record available for playing by other users in your profile menu. Also, you can upload some files to the server, so they'll be available for download by another Elten users.
-Programs menu contains outside applications written in Elten API.
-Tools is a submenu containing, as it name says, tools developed in order to manage Elten. You can test your Internet connection or access the console here, as well as generate new sound theme or update Elten to the newest version.
-Settings contain different configuration options. You can consider for example automatical hiding of Elten window in a tray, this option can be found in interface settings.
-Help menu includes documents related to the program usage. You can find changelog here, as well as keyboard shortcut list, license or this document. You can also report a bug via this menu.
+Elten is primarily a social network. Its main functions can be accessed via the menu available by pressing the alt key in a main window, after login.
+The menu called community, as its name says, contains functions used to communicate with other Elten users.
+You can find options such as forum, blogs or private messages here.
+You should consider filling in your profile in the submenu my account.
+Also, you can write down something about yourself in your visitingcard.
+The second menu is called Media. You can find materials shared by other people here, as well as browse YouTube.
+Files is a simple file manager. You can edit text files here, play music and, if you want, upload your avatar. An avatar is a sound recording available for playing by other users in your profile menu. Also, you can upload some files to the server, so they'll be available for download by other Elten users.
+The Programs menu contains outside applications written in the Elten API.
+Tools is a submenu containing, as its name says, tools developed in order to manage Elten. You can test your Internet connection or access the console here, as well as generate a new sound theme or update Elten to the newest version.
+Settings contains different configuration options. You can consider for example automatically hiding the Elten window in the system tray. This option can be found in interface settings.
+The Help menu includes documents related to the program's use. You can find the changelog here, as well as the keyboard shortcut list, license and this document. You can also report a bug via this menu.
 The last menu, quit, allows you to hide or close the application.
 
 5. Contact the author
 In case of any questions, comments or suggestions, please contact me.
 My nickname on Elten is pajper.
 Mail: dawidpieper@o2.pl .
-Any other contact information are provided in my visitingcard."
+All other contact information is provided in my visitingcard."
 end
         input_text("Przeczytaj mnie","READONLY|ACCEPTESCAPE|MULTILINE",text)
     $scene = Scene_Main.new

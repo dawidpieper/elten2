@@ -1,5 +1,5 @@
 <?php
-require("header.php");
+require("init.php");
 $error = 0;
 $zapytanie = "SELECT `name` FROM `users`";
 $idzapytania = mysql_query($zapytanie);

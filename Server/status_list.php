@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 $zapytanie = "SELECT `name`, `status` FROM `statuses`";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

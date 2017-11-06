@@ -1,5 +1,5 @@
 <?php
-require("header.php");
+require("init.php");
 $zapytanie = "SELECT `name`, `text` FROM `visitingcards`";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

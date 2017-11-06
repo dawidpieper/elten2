@@ -1,5 +1,5 @@
 <?php
-require("header.php");
+require("init.php");
 $zapytanie = "SELECT `id`, `name` FROM `blog_categories` WHERE `owner`='" . $_GET['searchname'] . "'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

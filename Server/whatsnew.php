@@ -1,4 +1,6 @@
 <?php
+if($_GET['name']=="guest")
+echo "0\r\n0\r\n0\r\n0\r\n0";
 require("header.php");
 $q = mquery("SELECT `name`, `messages`, `posts`, `blogposts`, `blogcomments` FROM `whatsnew`");
 $suc = false;
@@ -32,18 +34,8 @@ $wq = mquery("SELECT `posts` FROM `forum_read` WHERE `owner`='".$_GET['name']."'
 $wr = mysql_fetch_row($wq);
 $eposts = $eposts - $wr[0];
 }
-$q = mquery("SELECT `author` FROM `followedblogs` WHERE `owner`='" . $_GET['name'] . "'");
-$eblogposts = 0;
-while ($r = mysql_fetch_row($q)) {
-$wq = mquery("SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".$r[0]."' AND `posttype`=0");
-while($wr = mysql_fetch_row($wq)) {
-$wwwq = mquery("SELECT `id` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$r[0]."' AND `post`=".$wr[0]);
-if(mysql_num_rows($wwwq) == 0) {
-$eblogposts = $eblogposts + 1;
-}
-}
-}
-$eblogcomments = mysql_num_rows(mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'"))-(mysql_fetch_row(mquery("SELECT SUM(`posts`) FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['name']."'"))[0]);
+$eblogposts = mysql_fetch_row(mquery("SELECT COUNT(*) `postid` FROM `blog_posts` bp where `posttype`=0 and NOT EXISTS (SELECT 1 FROM `blog_read` br WHERE `owner`='".$_GET['name']."' and bp.postid = br.post and br.author=bp.owner) and author in (select `author` from `followedblogs` where owner='".$_GET['name']."')"))[0];
+$eblogcomments = mysql_num_rows(mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'"))-(mysql_fetch_row(mquery("SELECT SUM(`posts`) FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['name']."' AND `post` IN (SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."')"))[0]);
 $nblogposts = $eblogposts - $blogposts;
 $nblogcomments = $eblogcomments - $blogcomments;
 $nposts = $eposts - $posts;

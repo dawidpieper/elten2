@@ -7,6 +7,12 @@
 
 class Scene_Compiler
   def main
+    if $ruby == true
+      speech("Ta funkcja nie jest dostępna na tej platformie.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
             speech("Witaj w kreatorze kompilacji ELTEN API. Aby rozpocząć kompilację, naciśnij enter. Aby zamknąć, naciśnij escape.")
     loop do
       loop_update

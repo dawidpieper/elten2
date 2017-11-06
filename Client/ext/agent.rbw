@@ -13,7 +13,7 @@ Win32API.new("kernel32","SetCurrentDirectory",'p','i').call(File.dirname(File.di
 else
 $eltenstarted=true
 end
-#$stderr.reopen(File.dirname(__FILE__)+"/temp/agent_errout.tmp","w")
+$stderr.reopen(File.dirname(__FILE__)+"/../temp/agent_errout.tmp","w")
 begin
 Win32API.new("eltenvc","WindowsVersion",'i','i').call(0) if $r==0
 rescue Exception
@@ -665,14 +665,29 @@ def download(source,destination)
   $downloadcount += 1
     ef = 0
   begin
-  ef = Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,source,destination,0,nil)
+  ef = Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,utf8(source),utf8(destination),0,nil)
 rescue Exception
   Graphics.update
   retry
 end
-  Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(source)
+  Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(utf8(source))
 return ef
-    end
+    end
+def read(file)
+        createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
+handler = createfile.call(utf8(file),1,1|2|4,nil,4,0,0)
+readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
+sz = "\0"*8
+Win32API.new("kernel32","GetFileSizeEx",'ip','l').call(handler,sz)
+size = sz.unpack("L")[0]
+b = "\0" * (size.to_i)
+bp = "\0" * (size.to_i)
+handleref = readfile.call(handler,b,b.size,bp,nil)
+Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
+handler = 0
+bp.delete!("\0")
+return b
+end
 def readini(file,group,key,default="\0")
         r = "\0" * 16384
     Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call(group,key,default,r,r.bytesize,file)
@@ -680,7 +695,7 @@ def readini(file,group,key,default="\0")
     return r.to_s    
   end
 
-def speech(text,method=1)
+def speech(text,method=0)
   text = text.to_s
     text = text.gsub("\004LINE\004") {"\r\n"}
   $trans1 = [] if $t1 == nil
@@ -984,11 +999,11 @@ else
 if $omitinit != true
 if $eltenstarted != false
 ot = $token
-agenttemp = IO.readlines("temp/agent.tmp")
+agenttemp = read("temp/agent.tmp").split("\r\n")
 File.delete("temp/agent.tmp")
-$name = agenttemp[0].delete("\r\n")
-$token = agenttemp[1].delete("\r\n")
-$hwnd = agenttemp[2].delete("\r\n").to_i
+$name = agenttemp[0]#.delete("\r\n")
+$token = agenttemp[1]#.delete("\r\n")
+$hwnd = agenttemp[2].to_i#delete("\r\n").to_i
 else
 run("bin/elten_tray.bin /autostart")
 autologin= "\0" * 64
@@ -1080,6 +1095,7 @@ $blc = 0
 $knownversion=readini("./elten.ini","Elten","Version","0").to_f
 $knownbeta=readini("./elten.ini","Elten","Beta","0").to_i
 $isbeta=readini("./elten.ini","Elten","IsBeta","0").to_i
+$ldinit=true
 if $token != ot
 download($url+"logout.php?name=#{$name.urlenc}\&token=#{ot}","logouttemp")
 File.delete("logouttemp") if FileTest.exists?("logouttemp")
@@ -1094,7 +1110,10 @@ Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
 $rate = readini($configdata + "\\sapi.ini","Sapi","Rate","50").to_i
 Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
 $hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
-$refreshtime = readini($configdata + "\\interface.ini","Interface","RefreshTime","1").to_i
+$refreshtime = readini($configdata + "\\advanced.ini","Advanced","RefreshTime","1").to_i
+$saytimeperiod = readini($configdata + "\\interface.ini","Interface","SayTimePeriod","1").to_i
+$saytimetype = readini($configdata + "\\interface.ini","Interface","SayTimeType","1").to_i
+$synctime = readini($configdata + "\\advanced.ini","Advanced","SyncTime","1").to_i
 if $eltenstarted == true and $hwnd != nil
 if $hidewindow == 1
 if tray == false
@@ -1128,9 +1147,11 @@ $soundthemespath = "\0" * 64
     $soundthemepath = "Audio"
     end
 if $li == 0
-url = $url + "active.php?name=#{$name.urlenc}\&token=#{$token}"
+url = $url + "active.php?name=#{$name.urlenc}\&token=#{$token}"
 if download(url,"temp/agent_act.tmp") == 0
 if FileTest.exists?("temp/agent_act.tmp")
+act=IO.readlines("temp/agent_act.tmp")
+$srvtime=act[1].to_i if act[1]!=nil
 File.delete("temp/agent_act.tmp")
 end
 download($url+"profile.php?name=#{$name}\&token=#{$token}\&get=1\&searchname=#{$name}","temp/agent_pr.tmp")
@@ -1171,25 +1192,26 @@ if wntemp.size > 1
 s = false
 if wntemp[1].to_i > $mes
 if $language != "PL_PL" or $gender != 0
-speech("Otrzymałeś nową wiadomość.") if $loaded == true
+speech("Otrzymałeś nową wiadomość.") if $loaded == true and $ldinit==false
 else
-speech("Otrzymałaś nową wiadomość.") if $loaded == true
+speech("Otrzymałaś nową wiadomość.") if $loaded == true and $ldinit==false
 end
 s = true
 end
 if wntemp[2].to_i > $pst
-speech("W śledzonym wątku pojawił się nowy wpis.") if $loaded == true
+speech("W śledzonym wątku pojawił się nowy wpis.") if $loaded == true and $ldinit==false
 s = true
 end
 if wntemp[3].to_i > $blg
-speech("Na śledzonym blogu pojawił się nowy wpis.") if $loaded == true
+speech("Na śledzonym blogu pojawił się nowy wpis.") if $loaded == true and $ldinit==false
 s = true
 end
 if wntemp[4].to_i > $blc
-speech("Na twoim blogu pojawił się nowy komentarz.") if $loaded == true
+speech("Na twoim blogu pojawił się nowy komentarz.") if $loaded == true and $ldinit==false
 s = true
 end
 play("new") if s == true
+$ldinit=false if $ldinit==true
 $loaded = true
 $mes = wntemp[1].to_i
 $pst = wntemp[2].to_i
@@ -1214,7 +1236,7 @@ $knownbeta=$nbeta
 $knownversion=$nversion
 play("new") if s==true
 end
-end
+end
 end
 if FileTest.exists?("temp/agent_chat.tmp")
 url = $url+"chat.php?name=#{$name}\&token=#{$token}\&recv=1"
@@ -1233,11 +1255,51 @@ end
 end
 end
 end
+tm=$srvtime
+tm=Time.now.to_i if tm==nil or $synctime==0
+tim=Time.at(tm)
+m=tim.min
+if $timelastsay!=tim.hour*60+tim.min
+if (($saytimeperiod>0 and m==0) or ($saytimeperiod>1 and m==30) or ($saytimeperiod>=2 and (m==15 or m==45)))
+play("clock") if $saytimetype==1 or $saytimetype==3
+speech(sprintf("%02d:%02d",tim.hour,tim.min)) if $saytimetype==1 or $saytimetype==2
+end
+alarms=[]
+ if FileTest.exists?($configdata+"\\alarms.dat")
+fp=File.open($configdata+"\\alarms.dat","rb")
+alarms=Marshal.load(fp)
+fp.close
+end
+asc=nil
+for i in 0..alarms.size-1
+a=alarms[i]
+if tim.hour==a[0] and tim.min==a[1]
+asc=i
+end
+end
+if asc != nil
+a=alarms[asc]
+if a[2]==0
+alarms.delete_at(asc)
+fp=File.open($configdata+"\\alarms.dat","wb")
+Marshal.dump(alarms,fp)
+fp.close
+end
+@alarmplaying=true
+play("alarm")
+IO.write("temp/agent_alarm.tmp",asc.to_s)
+end
+$timelastsay=tim.hour*60+tim.min
+end
+if @alarmplaying == true and FileTest.exists?("temp/agent_alarm.tmp") == false
+@alarmplaying=false
+Audio.bgs_stop
+end
 sleep(0.2)
 $li+=1
 $li = 0 if $li >= $refreshtime*5
 IO.write("temp/agent_output.tmp",$name+"\r\n"+$token+"\r\n"+$mes.to_s+"\r\n"+$pst.to_s+"\r\n"+$blg.to_s+"\r\n"+$blc.to_s)
-if FileTest.exists?("temp/agent_exit.tmp") or (Win32API.new("user32","IsWindow",'i','i').call($hwnd) == 0 and $eltenstarted == true)
+if FileTest.exists?("temp/agent_exit.tmp") or (Win32API.new("user32","IsWindow",'i','i').call($hwnd) == 0 and $eltenstarted == true)
 puts("Exiting...")
 File.delete("temp/agent_exit.tmp") if FileTest.exists?("temp/agent_exit.tmp")
 $break = true

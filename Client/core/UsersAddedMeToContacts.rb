@@ -7,6 +7,12 @@
 
 class Scene_Users_AddedMeToContacts
   def main
+    if $name=="guest"
+      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
                 @usr = srvproc("contacts_addedme","name=#{$name}\&token=#{$token}")
         for i in 0..@usr.size - 1
       @usr[i].delete!("\r")
@@ -76,7 +82,7 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-Graphics.transition(10)
+delay(0.25)
 main if @main == true
 return
 end

@@ -5,15 +5,21 @@
 
 #Open Public License is used to licensing this app!
 
+# encoding: utf-8
 module EltenAPI
+  # Speech related functions
   module Speech
-  def speech(text,method=1)
+  # Says a text
+  #
+  # @param text [String] a text to speak
+  # @param method [Numeric] 0 - wait for the previous message to say, 1 - abord the previous message, 2 - use synthesizer config
+    def speech(text,method=1,usedict=true)
             if $speech_waiter==true
       method=0
       $speech_waiter=false
       end
-  Win32API.new("screenreaderAPI","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0
-  if $speech_wait == true
+        Win32API.new("screenreaderAPI","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0
+        if $speech_wait == true
     speech_wait
     $speech_wait = false
     end
@@ -22,7 +28,10 @@ module EltenAPI
   text = text.gsub("\004LINE\004") {"\r\n"}
 pre=""
 prei=0
-  text.gsub(/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/) do
+  text.encode!(Encoding::UTF_8) if $ruby == true
+  rx=/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/
+  txt=text+""  
+  txt.gsub(rx) do
   pre=""
       prei=0
       for i in 0..text.size-1
@@ -104,9 +113,9 @@ prei=0
         end
       $speechaudio.play
       loop do
-        pos=$speechaudio.position
-        sleep(0.3)
-        if $speechaudio.position==pos and $speechaudio.playing? == true
+        #pos=$speechaudio.position
+        #sleep(0.3)
+        if $speechaudio.playing? == true and $speechaudio.position>=$speechaudio.sound.lenght#==pos
           $speechaudio.close
           break
           end
@@ -117,8 +126,8 @@ prei=0
       return
     end
   if text != ""
-  text = char_dict(text)
-  text = dict(text) if $language != "PL_PL" and $language != nil
+      text = dict(char_dict(text)) if text.size==1
+  text = dict(text) if $language != "PL_PL" and $language != nil and usedict==true
   text = text.gsub("_"," ")
   text.gsub!("\004NEW\004") {
   play("list_new")
@@ -152,16 +161,21 @@ text_d = text if text_d == nil
 return text_d
 end
 
+# Determines if the speech is used
+#
+# @param ignoreaudio [Boolean] ignores the played speechaudio
+# @return [Boolean] if the speech is ued, returns true, otherwise the return value is false
 def speech_actived(ignoreaudio=false)
     polecenie = "sapiIsSpeaking"
         return true if $speechaudio!=nil and ignoreaudio==false
-  if Win32API.new("screenreaderapi",polecenie,'v','i').call() == 0
+  if Win32API.new("screenreaderapi",polecenie,'','i').call() == 0
     return(false)
   else
     return(true)
   end
   end
-  
+
+  # Stops the speech
   def speech_stop
     if $speechaudio!=nil
     $speechaudiothread.kill if $speechaudiothread!=nil
@@ -170,8 +184,10 @@ def speech_actived(ignoreaudio=false)
     end
     polecenie = "sapiStopSpeech"
     polecenie = "stopSpeech" if $voice == -1
-    Win32API.new("screenreaderapi",polecenie,'v','i').call()
+    Win32API.new("screenreaderapi",polecenie,'','i').call()
   end
+  
+  # Waits for a speech to finish reading of the previous message
       def speech_wait
     while speech_actived == true
 loop_update
@@ -179,6 +195,11 @@ end
   $speech_waiter = true if $voice == -1
   return
 end
+
+# Returns the character dictionary name
+#
+# @param text [String] a character you want to search dictionary for
+# @return [String] a dictionary name of the character
 def char_dict(text)
   r=""
   case text
@@ -193,7 +214,7 @@ def char_dict(text)
           when "'"
             r="apostrof"
             when "["
-              r="lewy kwadratowy"\
+              r="lewy kwadratowy"
               when "]"
                 r="prawy kwadratowy"
                 when "\\"
@@ -267,14 +288,21 @@ when "ß"
                         return(r)
                         end
                       end
+                      
+                      # Toggles the speech pause
      def speech_togglepause
-  if Win32API.new("screenreaderAPI","sapiIsPaused",'v','i').call==0
+  if Win32API.new("screenreaderAPI","sapiIsPaused",'','i').call==0
   Win32API.new("screenreaderAPI","sapiSetPaused",'i','i').call(1)
     else
   Win32API.new("screenreaderAPI","sapiSetPaused",'i','i').call(0)
   end
   end
-def dict(text)
+
+  # Searches the translation dictionary for a message
+  #
+  # @param text [String] a text to search for
+  # @return [String] the dictionary translation of the text, if none found, the original text is returned
+  def dict(text)
   text="" if text==nil
   return text if $language == nil or $language == "PL_PL"
   for i in 0..$lang_src.size-1

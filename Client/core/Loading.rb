@@ -7,23 +7,26 @@
 
 class Scene_Loading
   def main
-    $volume=100
+                    $volume=100
             $preinitialized = false
-    $eltenlib = "eltenvc"
+    $eltenlib = "./eltenvc"
     begin
-    $winver = Win32API.new($eltenlib,"WindowsVersion",'v','i')
+          $winver = Win32API.new($eltenlib,"WindowsVersion",'','i').call
   rescue Exception
     $eltenlib = "elten"
-    retry
-    end
-    $scenes = []
+      end
+      $scenes = []
     $volume = 80
     $speech_to_utf = true
     $instance = Win32API.new("kernel32","GetModuleHandle",'i','i').call(0)
+    $path="\0"*1024
+    Win32API.new("kernel32","GetModuleFileName",'ipi','i').call($instance,$path,$path.size)
+    $path.delete!("\0")
+    if $wnd==nil
     $wnd = Win32API.new("user32","FindWindow",'pp','i').call("RGSS Player",nil)
-    $cwnd = Win32API.new("user32","GetActiveWindow",'v','i').call
+    $cwnd = Win32API.new("user32","GetActiveWindow",'','i').call
     if $cwnd != $wnd
-      $ccwnd = Win32API.new("user32","GetForegroundWindow",'v','i').call
+      $ccwnd = Win32API.new("user32","GetForegroundWindow",'','i').call
       if $ccwnd == $wnd
         $wnd = $ccwnd
       elsif $cwnd == $wnd
@@ -32,16 +35,19 @@ class Scene_Loading
         $wnd = $cwnd
         end
       end
-            writefile("hwnd",$wnd.to_s)
-    $sprite = Sprite.new
-    $sprite.bitmap = Bitmap.new("elten.jpg")
+      end      
+      writefile("hwnd",$wnd.to_s)
+    if $ruby != true
+            $sprite = Sprite.new
+    $sprite.bitmap = Bitmap.new("elten.jpg") if FileTest.exists?("elten.jpg")
     Graphics.freeze
     Graphics.transition(0)
+    end
     $name = ""
     $token = ""
     $url = "https://elten-net.eu/"
     $srv = "elten-net.eu"
-Graphics.frame_rate = 60
+    Graphics.frame_rate = 40 if $ruby != true
               $appdata = getdirectory(26)
 $userprofile = getdirectory(40)
 $portable=readini("./elten.ini","Elten","Portable","0").to_i
@@ -50,7 +56,7 @@ $eltendata = $appdata + "\\elten"
 else
   $eltendata = ".\\eltendata"
 end
-$commandline=Win32API.new("kernel32","GetCommandLine",'v','p').call
+$commandline=Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
           if (/\/datadir \"([a-zA-Z0-9\\:\/ ]+)\"/=~$commandline) != nil
                 $reld=$1
         $eltendata=$reld
@@ -61,6 +67,32 @@ $appsdata = $eltendata + "\\apps"
 $soundthemesdata = $eltendata + "\\soundthemes"
 $langdata = $eltendata + "\\lng"
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($eltendata),nil)
+if FileTest.exists?($langdata)==false
+    Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($langdata),nil)      
+  $l = false
+  langtemp = srvproc("languages","langtemp")
+    err = langtemp[0].to_i
+  case err
+  when 0
+    $l = true
+      end
+    if $l == true
+          langs = []
+for i in 1..langtemp.size - 1    
+  langtemp[i].delete!("\n")
+  langs.push(langtemp[i]) if langtemp[i].size > 0
+end
+for i in 0..langs.size - 1
+  download($url + "lng/" + langs[i].to_s + ".elg", "#{$langdata}/"+langs[i].to_s + ".elg")
+end
+end  
+if Win32API.new("kernel32","GetUserDefaultUILanguage",'','i').call != 1045
+  Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,url = $url + "lng/EN_US.elg",$langdata + "\\EN_US.elg",0,nil)
+Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(url)
+iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+iniw.call('Language','Language',"EN_US",utf8($configdata + "\\language.ini"))
+  end
+end
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($configdata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($bindata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata),nil)
@@ -70,18 +102,32 @@ Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata +
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($langdata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call("temp",nil)
 $LOAD_PATH << $appsdata
-  $interface_listtype = readini($configdata + "\\interface.ini","Interface","ListType","0").to_i
-$interface_keyms = readini($configdata + "\\interface.ini","Interface","KeyUpdateTime","75").to_i
-$interface_ackeyms = $interface_keyms * 3
+if FileTest.exists?($configdata+"\\interface.ini") and FileTest.exists?($configdata+"\\advanced.ini") == false
+keyms=readini($configdata+"\\interface.ini","Interface","KeyUpdateTime","")  
+  hs=readini($configdata+"\\interface.ini","Interface","HexSpecial","")  
+  yf=readini($configdata+"\\interface.ini","Interface","YTFormat","")  
+  ss=readini($configdata+"\\interface.ini","Interface","SoundStreaming","")  
+  writeini($configdata+"\\advanced.ini","Advanced","KeyUpdateTime",keyms) if keyms!=""
+  writeini($configdata+"\\advanced.ini","Advanced","HexSpecial",hs) if hs!=""
+  writeini($configdata+"\\advanced.ini","Advanced","YTFormat",yf) if yf!=""
+  writeini($configdata+"\\advanced.ini","Advanced","SoundStreaming",ss) if ss!=""
+  end
+$interface_listtype = readini($configdata + "\\interface.ini","Interface","ListType","0").to_i
+$advanced_keyms = readini($configdata + "\\advanced.ini","Advanced","KeyUpdateTime","75").to_i
+$advanced_ackeyms = $advanced_keyms * 3
 $interface_soundthemeactivation = readini($configdata + "\\interface.ini","Interface","SoundThemeActivation","1").to_i
 $interface_typingecho = readini($configdata + "\\interface.ini","Interface","TypingEcho","0").to_i  
 $interface_hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
 $interface_fullscreen = readini($configdata + "\\interface.ini","Interface","FullScreen","0").to_i
-$interface_hexspecial = readini($configdata + "\\interface.ini","Interface","HexSpecial","1").to_i
-$interface_refreshtime = readini($configdata + "\\interface.ini","Interface","RefreshTime","1").to_i        
-$interface_ytbuffering = readini($configdata + "\\interface.ini","Interface","YTBuffering","1").to_i        
+$advanced_hexspecial = readini($configdata + "\\advanced.ini","Advanced","HexSpecial","1").to_i
+$advanced_refreshtime = readini($configdata + "\\advanced.ini","Advanced","RefreshTime","1").to_i        
+$advanced_ytformat = readini($configdata + "\\advanced.ini","Advanced","YTFormat","wav").to_s
+$advanced_ytformat="wav" if $advanced_ytformat!="mp3"
+$advanced_soundstreaming = readini($configdata + "\\advanced.ini","Advanced","SoundStreaming","1").to_i
+$advanced_synctime = readini($configdata + "\\advanced.ini","Advanced","SyncTime","1").to_i
 if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
       File.delete("testtemp") if FileTest.exists?("testtemp")
+      else
       $neterror = true
       end
       if $neterror == true
@@ -116,7 +162,7 @@ alpha = readini(".\\elten.ini","Elten","Alpha","0").to_i
     $nalpha = nalpha
     $nversion = nversion
         if $showm == nil and $interface_fullscreen == 1
-    $showm = Win32API.new 'user32', 'keybd_event', %w(l l l l), ''
+    $showm = Win32API.new('user32', 'keybd_event', 'LLLL', '')
 $showm.call(18,0,0,0)
 $showm.call(13,0,0,0)
 $showm.call(13,0,2,0)
@@ -238,21 +284,20 @@ if $portable != 1
       speech_wait
       end
     end
-    if $neterror = true
+        if $neterror == true
       if (download($url,"testtemp") == 0 and FileTest.exists?("testtemp"))
         File.delete("testtemp") if FileTest.exists?("testtemp")
         $neterror = false
       else
-        speech("Błąd. Nie mogę połączyć się z serwerem. Upewnij się, że komputer ma dostęp do Internetu i spróbuj jeszcze raz.")
+        speech("Błąd. Nie mogę połączyć się z serwerem.")
+        $offline=true
+        delay(3)
         speech_wait
-        $scene = nil
-        return
-      end
+                      end
       end
       volume = readini($configdata + "\\interface.ini","Interface","MainVolume","-1").to_i
       if volume == -1
 $exit = true
-rcwelcome
 license
                 $exit = nil
         writeini($configdata + "\\interface.ini","Interface","MainVolume","80")
@@ -260,11 +305,11 @@ license
         $volume = volume
         end
       autologin = readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i
-        if autologin.to_i > 0
+        if autologin.to_i > 0 and $offline!=true
             $scene = Scene_Login.new
       return
     end
-    $cw = Select.new(["Zaloguj Się","Rejestracja","Ustawienia interfejsu","Zmień syntezator mowy","Language / Język","Wymuś aktualizację lub reinstalację z serwera","Wyjście"])
+    $cw = Select.new(["Zaloguj Się","Rejestracja","Reset hasła","Otwórz na koncie gościa","Ustawienia interfejsu","Zmień syntezator mowy","Language / Język","Wymuś aktualizację lub reinstalację z serwera","Wyjście"])
     loop do
 loop_update
       $cw.update
@@ -282,14 +327,30 @@ loop_update
           when 1
             $scene = Scene_Registration.new
             when 2
-              $scene = Scene_Interface.new
+              $scene=Scene_ForgotPassword.new
               when 3
+                $name="guest"
+                $token="guest"
+                $rang_moderator=0
+                $rang_tester=0
+                $rang_developer=0
+                $rang_translator=0
+                $rang_mediaadministrator=0
+                writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
+  if $agentloaded != true
+  agent_start
+$agentloaded = true
+end
+                $scene=Scene_Main.new
+                when 4
+              $scene = Scene_Interface.new
+              when 5
                 $scene = Scene_Voice_Voice.new
-              when 4
-                $scene = Scene_Languages.new
-                when 5
-                  $scene = Scene_Update.new
               when 6
+                $scene = Scene_Languages.new
+                when 7
+                  $scene = Scene_Update.new
+              when 8
                 $scene = nil
         end
         end

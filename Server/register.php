@@ -1,5 +1,5 @@
 ﻿<?php
-$sql = mysql_connect("localhost", "elten", "")
+$sql = mysql_connect("localhost", "elten", "PPdiwaD99")
 or die("-1");
 $sql_select = @mysql_select_db('elten')
 or die("-1");
@@ -20,7 +20,7 @@ echo "-1\r\n" . $zapytanie;
 else
 {
 while ($wiersz = mysql_fetch_row($idzapytania)){
-if($wiersz[0] == $_GET['name'])
+if(strtoupper($wiersz[0]) == strtoupper($_GET['name']) or ($_GET['name']=="admin" or $_GET['name']=="support" or $_GET['name']=="administrator" or $_GET['name']=="webmaster" or $_GET['name']=="postmaster" or $_GET['name']=="elten"))
 $error = -2;
 }
 if($error < 0)

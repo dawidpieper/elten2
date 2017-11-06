@@ -1,5 +1,5 @@
 ﻿<?php
-require("header.php");
+require("init.php");
 $zapytanie = "SELECT `postid`, `author`, `post` FROM `blog_posts` WHERE `owner`='" . $_GET['searchname'] . "' AND `postid`=" . $_GET['postid'];
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
@@ -24,6 +24,7 @@ if($wiersz[1] == $_GET['searchname'] AND $wiersz[2] == $_GET['postid']) {
 $suc = true;
 }
 }
+if($_GET['name']!="guest")
 if($suc == true)
 mquery("UPDATE `blog_read` SET `posts`=".$wiersze." WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['searchname']."' AND `post`=".$_GET['postid']);
 else

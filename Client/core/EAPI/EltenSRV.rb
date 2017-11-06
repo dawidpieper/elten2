@@ -6,8 +6,14 @@
 #Open Public License is used to licensing this app!
 
 module EltenAPI
+  # Elten Server related functions
   module EltenSRV
-      def srvproc(mod,param,output=0)
+    # Makes a request to the Elten server
+    #
+    # @param mod [String] server module to request
+    # @param param [String] & terminated parameters
+    # @param output [Numeric] output type: 0 - Array of lines, 1 - string
+        def srvproc(mod,param,output=0)
     url = $url + mod + ".php?" + hexspecial(param)
     tmpname = "temp/eas#{(rand(36**2).to_s(36))}.tmp"
         return ["-1"] if download(url,tmpname) != 0
@@ -22,9 +28,14 @@ module EltenAPI
     File.delete(tmpname) if $DEBUG==false
             return r
           end
-    def getstatus(name)
+          
+          # Gets the status of specified user
+          #
+          # @param name [String] username
+          # @return [String] the status of the specified user, if user has no status, the return value is an empty string
+    def getstatus(name,onl=true)
   $statuslisttime = 0 if $statuslisttime == nil
-  if Time.now.to_i - 45 > $statuslisttime
+  if Time.now.to_i - 15 > $statuslisttime
     $statuslisttime = Time.now.to_i
   statustemp = srvproc("status_list","name=#{$name}\&token=#{$token}")
     err = statustemp[0].to_i
@@ -42,7 +53,16 @@ module EltenAPI
   usr = true
   $statususers = []
   $statustexts = []
-  loop do
+      tonline = srvproc("online","name=#{$name}\&token=#{$token}")
+            for i in 0..tonline.size - 1
+      tonline[i].delete!("\r")
+      tonline[i].delete!("\n")
+    end
+        $statusonline = []
+    for i in 1..tonline.size - 1
+      $statusonline.push(tonline[i]) if tonline[i].size > 0
+    end
+          loop do
     if usr == true
       $statususers[i] = statustemp[l]
       usr = false
@@ -65,9 +85,13 @@ module EltenAPI
       st = $statustexts[i]
       end
     end
+    st="(Online) "+st if onl == true and $statusonline.include?(name)
     return st
 end
 
+# Sets the status of the user
+#
+# @param text [String] the status to set
 def setstatus(text)
   statustemp = srvproc("status_mod","name=#{$name}\&token=#{$token}\&text=#{text}")
     if statustemp[0].to_i != 0
@@ -77,6 +101,10 @@ def setstatus(text)
     end
   end
   
+  # Creates a server buffer
+  #
+  # @param data [String] buffer input
+  # @return [Numeric] a buffer id
   def buffer(data)
                 dt = data.gsub("\\","%5c")
                 dt = dt.gsub("+","%2b")
@@ -142,6 +170,11 @@ return buffer_post(dt)
       end
   return bufid    
 end
+
+
+# Opens a player with an avatar of specified user
+#
+# @param user [String] username
 def avatar(user)
     avatartemp = srvproc("avatar","name=#{$name}\&token=#{$token}\&searchname=#{user}\&checkonly=1",1)
   case strbyline(avatartemp)[0].to_i
@@ -162,8 +195,13 @@ def avatar(user)
       a = $url+"avatars/"+user
             player(a,"Awatar: #{user}",true,true,true)
                           return
-      end    
+                        end    
+                        
+                        # Sets the specified file as an avatar
+                        #
+                        # @param file [String] a file location
     def avatar_set(file)
+      waiting
       speech("Proszę czekać, to może potrwać kilka minut...")
       speech("Konwertowanie pliku...",0)
       File.delete("avatartemp.mp3") if FileTest.exists?("avatartemp.mp3")
@@ -207,6 +245,7 @@ for i in 0..a.size - 1
   end
   if s == nil
     speech("Błąd")
+    waiting_end
     return
   end
   sn = a[s..a.size - 1]
@@ -214,6 +253,7 @@ for i in 0..a.size - 1
         bt = strbyline(sn)
 avt = bt[1].to_i
             speech_wait
+            waiting_end
             if avt < 0
       speech("Błąd")
     else
@@ -224,7 +264,7 @@ avt = bt[1].to_i
   end
   
 
-
+# @note this function is reserved
 def buffer_post(data)
   data = "data="+data
   id = rand(2000000000)
@@ -257,6 +297,19 @@ if bt[1].to_i < 0
 end
 return id
 end
+
+# Returns the information about specified user
+#
+# @param user [String] username
+# @return [Array] return information indexed like:
+#  0: name
+#  1: last seen
+# 1: determines if user has a blog
+#  2: determines a count of contacts
+#  3: Users known by
+#  4: the amount of forum posts
+#  5: used Elten version
+#  6: registration date
                 def userinfo(user)
                   usrinf = []
                                                       uit = srvproc("userinfo","name=#{$name}\&token=#{$token}\&searchname=#{user}")
@@ -300,6 +353,7 @@ usrinf[7]=uit[7]
 return usrinf
 end
 
+# @note this function is reserved
 def bufferer(data)
   msg = ""
   msg += $name
@@ -317,7 +371,7 @@ def bufferer(data)
 end
 
 
-              
+        # @deprecated use {#sendfile} instead.      
     def asendfile(file)
       fl = read(file)
       msg = "#{$name}\r\n#{$token}\r\n#{fl.size.to_s}\r\n#{fl}"
@@ -331,15 +385,17 @@ end
 return filedir
 end
 
+# @note this function is reserved.
 def speedtest
     tm = Time.now
 starttm = tm.to_i+tm.usec/1000000.0
+i=[]
 for i in 1..30
 i = srvproc("active","name=#{$name}\&token=#{$token}")
 end
   tm = Time.now
   stoptm = tm.to_i+tm.usec/1000000.0
-    time=(((stoptm-starttm)*1000)/30).to_i
+  time=(((stoptm-starttm)*1000)/30).to_i
   speech("Czas potwierdzenia sesji: #{time.to_s}ms.")
     speech_wait
 return time
@@ -347,7 +403,10 @@ end
 
 
 
-
+# Checks if the specified user exists
+#
+# @param usr [String] user name
+# @return [Boolean] if the user with specified login exists, the return value is true. Otherwise, the return value is false.
 def user_exist(usr)
   ut = srvproc("user_exist","name=#{$name}\&token=#{$token}\&searchname=#{usr}")
     if ut[0].to_i < 0
@@ -360,7 +419,7 @@ def user_exist(usr)
   return ret
 end
 
-
+# @deprecated use {#sendfile} instead.
           def hexsendfile(file)
             str = read(file)
             play("list_focus")
@@ -371,7 +430,10 @@ end
                                                 return buffer_post(s)
                                               end
                                             
-                                              
+                                   # Returns the signature of a specified user
+                                   #
+                                   # @param user [String] a name of the user
+                                   # @return [String] the signature of the specified user, if the user doesn't have a signature, the return value is an empty String.
                                def signature(user)
                                  sg = srvproc("signature","name=#{$name}\&token=#{$token}\&get=1\&searchname=#{user}")
                                  if sg[0].to_i < 0
@@ -386,8 +448,13 @@ end
                                  return "" if text.size < 4                                 
                                  return text.gsub("\004LINE\004","\r\n").chop.chop
                                end
+                            
                                
-                               def sendfile(file)
+                               # Sends the specified file to the server and adds it to the shared files of an user
+                               #
+                               # @param file [String] the location of a file to send
+                               # @return [String] the id of a file
+                               def sendfile(file,msg=false)
                                     data = ""
                                       host = $url.sub("https://","")
   host.delete!("/")
@@ -420,12 +487,49 @@ err = bt[0].to_i
       speech("Błąd")
     speech_wait
       else
-      return bt[1].delete("\r\n")
+speech("Wysłano") if msg==true
+        return bt[1].delete("\r\n")
     end
         return nil
       end
-  
-      
+  def isbanned(user=$name)
+    bt=srvproc("isbanned","name=#{$name}\&token=#{$token}\&searchname=#{user}")
+    return false if bt[0].to_i<0
+    return true if bt[1].to_i==1
+    return false
   end
+  
+  def finduser(usr,type=0)
+usf=srvproc("user_search","name=#{$name}\&token=#{$token}\&search=#{usr}")    
+if usf[0].to_i<0
+  speech("Błąd")
+  speech_wait
+  if type<2
+  return ""
+else
+  return []
+  end
+  end
+results=[]
+if usf[1].to_i==0
+  if type<=2
+    return ""
+  else
+    return []
+    end
+end
+for u in usf[2..1+usf[1].to_i]
+  results.push(u.delete("\r\n"))
+end
+return results[0] if type==0 or (type == 1 and results.size == 1)
+return results if type==2
+index=selector(results,"Wybierz użytkownika",0,-1)
+if index == -1
+  return ""
+else
+  return results[index]
+  end
+    end
+        end
   end
 #Copyright (C) 2014-2016 Dawid Pieper

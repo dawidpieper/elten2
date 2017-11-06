@@ -15,6 +15,12 @@ class Scene_Uploads
     @toscene = toscene
   end
   def main
+    if $name=="guest"
+      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
     fl = srvproc("uploads","name=#{$name}\&token=#{$token}\&searchname=#{@name}")
     if fl[0].to_i < 0
       speech("Błąd")
@@ -86,8 +92,7 @@ class Scene_Uploads
          return
        end
        dir.chop! if dir[dir.size-1] == 92
-       speech("Pobieranie...")
-       download($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")),true)
+              downloadfile($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")))
        speech("Zapisano.")
        when 1
                   player($url+"uploads/"+@files[@sel.index],@filenames[@sel.index],true,true,true)
@@ -100,9 +105,9 @@ class Scene_Uploads
        n = File.extname(@filenames[@sel.index]).downcase
        play("menu_open")
          play("menu_background")
-         menu = menulr(["Pobierz","Odtwarzaj","Usuń"])
+         menu = menulr(["Pobierz","Odtwarzaj","Skopiuj link","Usuń"])
        menu.disable_item(1) unless n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2"
-       menu.disable_item(2) if @name != $name
+       menu.disable_item(3) if @name != $name
                   loop do
            loop_update
            menu.update
@@ -111,7 +116,7 @@ class Scene_Uploads
              break
            end
            if escape or alt
-             d=3
+             d=4
              break
              end
            end
@@ -124,13 +129,17 @@ dir = getfile("Gdzie zapisać ten plik?",getdirectory(40)+"\\",true,"Documents")
          return
        end
        dir.chop! if dir[dir.size-1] == 92
-       speech("Pobieranie...")
-       download($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")),true)
+              downloadfile($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")))
        speech("Zapisano.")
        when 1
          player($url+"uploads/"+@files[@sel.index],@filenames[@sel.index],true,true,true)
       when 2
-        if simplequestion("Czy jesteś pewien, że chcesz usunąć plik #{@filenames[@sel.index]}?")
+        u=$url+"downloadfile.php\?fileid="+@files[@sel.index]
+        Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(u,u.size+1)
+        speech("Skopiowano do schowka.")
+        speech_wait
+        when 3
+        if simplequestion("Czy jesteś pewien, że chcesz usunąć plik #{@filenames[@sel.index]}?") == 1
           ef = srvproc("uploads_mod","name=#{$name}\&token=#{$token}\&del=1\&file=#{@files[@sel.index]}")
           if ef[0].to_i < 0
             speech("Błąd")

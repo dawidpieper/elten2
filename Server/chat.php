@@ -1,5 +1,7 @@
 ﻿<?php
 require("header.php");
+if(mysql_num_rows(mquery("SELECT name FROM banned WHERE name='".$_GET['name']."' AND totime<".time()))>0)
+die(-3);
 if($_GET['recv'] == 1) {
 $q = mquery("SELECT `name`, `date` FROM `chat_actived`");
 $suc = false;

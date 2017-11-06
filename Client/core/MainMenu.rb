@@ -14,7 +14,7 @@ def initialize
   end
   def main
         sel = ["Społe&czność","&Media","&Pliki","Pro&gramy","&Narzędzia","U&stawienia","P&omoc","W&yjście"]
-        @sel = menulr(sel,true,0,@header)
+                @sel = menulr(sel,true,0,@header)
         @header = ""
     loop do
 loop_update
@@ -57,8 +57,9 @@ close
           end
         end
         def programs
-    Graphics.transition(10)
+    Graphics.transition(10)  if $ruby != true
     sel=[]
+    $app=[] if $app==nil
     for a in $app
       sel.push(a[2])
     end
@@ -89,7 +90,7 @@ close
           end
         end
                   def help
-    Graphics.transition(10)
+    Graphics.transition(10)  if $ruby != true
     @sel = menulr(["Lista &zmian","&Wersja programu","&Przeczytaj mnie","Lista &skrótów klawiszowych","Zgłoś &błąd","&Licencja użytkownika"])
     loop do
 loop_update
@@ -138,8 +139,8 @@ close
           end
         end
           def settings
-    Graphics.transition(10)
-    @sel = menulr(["Ustawienia &interfejsu","Ustawienia &głosu","Tematy &dźwiękowe","Zarządzanie &językami"])
+    Graphics.transition(10)  if $ruby != true
+    @sel = menulr(["Ustawienia &interfejsu","Ustawienia &głosu","&Zegar","Tematy &dźwiękowe","Zarządzanie &językami","Ustawienia z&aawansowane"])
     loop do
 loop_update
       @sel.update
@@ -160,14 +161,22 @@ loop_update
           close
           break
           when 2
+                  $scene=Scene_Clock.new
+                  close
+                  break
+          when 3
             $scene = Scene_SoundThemes.new
             close 
             break
-            when 3
+            when 4
               $scene = Scene_Languages.new
               close
               break
-            end
+              when 5
+                $scene=Scene_Advanced.new
+                close
+                break
+                            end
           end
           if alt
 close
@@ -175,8 +184,9 @@ close
           end
         end
   def community
-    Graphics.transition(10)
-    @sel = menulr(sel = ["Wiado&mości","&Blogi","&Forum","Moje &kontakty","Użytkownicy, którzy &dodali mnie do swoich kontaktów","&Chat","Kto jest &zalogowany?","Lista &użytkowników","Co &nowego?","Moje u&prawnienia","Rada &starszych","&Ankiety","M&oje Konto"])
+    Graphics.transition(10)  if $ruby != true
+    @sel = menulr(sel = ["Wiado&mości","&Blogi","&Forum","&Chat","No&tatki","Co &nowego?","&Ankiety","&Użytkownicy","M&oje Konto"])
+    @sel.disable_item(8) if $name=="guest"
     loop do
       loop_update
       @sel.update
@@ -201,42 +211,33 @@ close
           close
           break
           when 3
-            $scene = Scene_Contacts.new
-            close
-            break
-            when 4
-              $scene = Scene_Users_AddedMeToContacts.new
+                          $scene = Scene_Chat.new
               close
               break
+          when 4
+                            $scene=Scene_Notes.new
+                close
+                break
             when 5
-              $scene = Scene_Chat.new
-              close
-              break
-          when 6
-            $scene = Scene_Online.new
-            close
-            break
-            when 7
-              $scene = Scene_Users.new
-              close
-              break
-            when 8
               whatsnew
               close
               break
-            when 9
-              $scene = Scene_MyPermissions.new
-              close
-              break
-              when 10
-                $scene = Scene_Admins.new
-                close
-                break
-when 11
-  $scene=Scene_Polls.new
+                          when 6
+                  $scene=Scene_Polls.new
   close
   break
-                when 12
+  when 7
+    index = @sel.index
+                users
+                if $scene == self
+               loop_update
+                                 @sel = menulr(sel)
+                @sel.index = index
+                            @sel.focus
+                          else
+                            return
+                            end
+  when 8
                 index = @sel.index
                 myaccount
                 if $scene == self
@@ -249,7 +250,18 @@ when 11
                             end
             end
           end
-          if Input.trigger?(Input::DOWN) and @sel.index == 12
+                    if Input.trigger?(Input::DOWN) and @sel.index == 7
+            index = @sel.index
+            users
+            if $scene == self
+            @sel = menulr(sel)
+            @sel.index = index
+            @sel.focus
+          else
+            return
+            end
+                       end
+          if Input.trigger?(Input::DOWN) and @sel.index == 8
             index = @sel.index
             myaccount
             if $scene == self
@@ -266,8 +278,8 @@ close
           end
         end
           def myaccount
-    Graphics.transition(10)
-    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja &wizytówka","&Udostępnione przeze mnie pliki","Ustaw &awatar","Zmień &Hasło","Zmień adres e-&mail"])
+    Graphics.transition(10)  if $ruby != true
+    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja w&izytówka","Moje &odznaczenia","U&dostępnione przeze mnie pliki","Ustaw &awatar","Moje &uprawnienia","Zmień &Hasło","Zmień adres e-&mail"])
     loop do
 loop_update
       @sel.update
@@ -300,18 +312,26 @@ loop_update
             close
             break
             when 5
+              $scene=Scene_Honors.new($name)
+              close
+              break
+            when 6
               $scene = Scene_Uploads.new
               close
               break
-              when 6
+              when 7
               $scene=Scene_Account_Avatar.new
               close
               break
-            when 7
+            when 8
+              $scene=Scene_MyPermissions.new
+              close
+              break
+              when 9
           $scene = Scene_Account_Password.new
           close
           break
-        when 8
+        when 10
           $scene = Scene_Account_Mail.new
           close
           break
@@ -323,8 +343,8 @@ close
           end
         end
                   def tools
-    Graphics.transition(10)
-    @sel = menulr(sel=["&Generator tematów dźwiękowych","&Test prędkości łącza","Zarządzanie &programem","&Konsola","Kompilator &ELTENAPI"])
+    Graphics.transition(10)  if $ruby != true
+    @sel = menulr(sel=["&Generator tematów dźwiękowych","&Test prędkości łącza","Zarządzanie &programem","Czytanie do &pliku","&Konsola","Kompilator &ELTENAPI"])
         loop do
 loop_update
       @sel.update
@@ -351,12 +371,16 @@ loop_update
                             @sel.focus
                           else
                             return
-                            end
-       when 3
+                          end
+                          when 3
+                            $scene=Scene_SpeechToFile.new
+                            close
+                            break
+       when 4
      $scene = Scene_Console.new
      close
      break
-     when 4
+     when 5
        $scene = Scene_Compiler.new
        close
        break
@@ -371,7 +395,7 @@ loop_update
           end
         end  
         def exit
-    Graphics.transition(10)
+    Graphics.transition(10)  if $ruby != true
     @sel = menulr(["&Ukryj program w zasobniku systemowym","Wy&loguj się","W&yjście","&Restart"])
     loop do
 loop_update
@@ -382,8 +406,9 @@ loop_update
       if enter
         case @sel.index
         when 0
-  $scene = Scene_Tray.new
-  close
+    close
+    delay(0.5)
+    tray
   break
           when 1
             Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","0",$configdata + "\\login.ini")
@@ -415,7 +440,7 @@ loop_update
     play("menu_close")
 Audio.bgs_fade(2000)
 for i in 1..Graphics.frame_rate
-  Graphics.update
+  loop_update
   end
     $scene = Scene_Main.new if $scene == self
               if $runprogram != nil
@@ -423,7 +448,7 @@ for i in 1..Graphics.frame_rate
                 end
               end
               def management
-     Graphics.transition(10)
+     Graphics.transition(10)  if $ruby != true
 sel=["Sprawdź dostępność &aktualizacji","&Reinstalacja programu","Utwórz wersję &przenośną","Przywróć ustawienia &domyślne"]
 if $portable == 1
   sel=["","Za&instaluj program","Utwórz &kopię","Przywróć ustawienia &domyślne"]
@@ -484,7 +509,7 @@ if $portable == 1
       end
     end
     def media
-    Graphics.transition(10)
+    Graphics.transition(10)  if $ruby != true
     @sel = menulr(["Katalog &mediów","&Youtube"])
     loop do
 loop_update
@@ -505,6 +530,59 @@ loop_update
           $scene=Scene_Youtube.new
           close
           break
+            end
+          end
+          if alt
+close
+            end
+          end
+        end
+        def users
+    Graphics.transition(10)  if $ruby != true
+    @sel = menulr(["Moje &kontakty","Użytkownicy, którzy &dodali mnie do swoich kontaktów","Kto jest zal&ogowany?","Lista &użytkowników","Rada &starszych","S&zukanie użytkowników","Ostatnio &aktywni użytkownicy","Ostatnio za&rejestrowani użytkownicy"])
+    loop do
+loop_update
+      @sel.update
+      if $scene != self
+        break
+      end
+      if Input.trigger?(Input::UP) or escape
+                return
+        end
+      if enter
+        case @sel.index
+        when 0
+          $scene=Scene_Contacts.new
+          close
+          break
+          when 1
+            $scene=Scene_Users_AddedMeToContacts.new
+            close
+            break
+            when 2
+              $scene=Scene_Online.new
+              close
+              break
+              when 3
+                $scene=Scene_Users.new
+                close
+                break
+                when 4
+                                      $scene=Scene_Admins.new
+                    close
+                    break
+                    when 5
+                      $scene=Scene_UserSearch.new
+                      close
+                      break
+                      when 6
+                        $scene=Scene_Users_RecentlyActived.new
+                        close
+                        break
+                        when 7
+                          $scene=Scene_Users_RecentlyRegistered.new
+                          close
+                          break
             end
           end
           if alt

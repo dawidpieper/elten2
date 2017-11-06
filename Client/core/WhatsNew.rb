@@ -6,27 +6,57 @@
 #Open Public License is used to licensing this app!
 
 class Scene_WhatsNew
-  def initialize(init=false)
+  def initialize(init=false,wntemp=nil)
     @init = init
+    @wntemp=wntemp
     end
-  def main
-        wntemp = srvproc("whatsnew","name=#{$name}\&token=#{$token}\&get=1")
-                  err = wntemp[0]
+      def main
+        if $name=="guest"
+      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
+      wntemp=@wntemp
+              wntemp = srvproc("whatsnew","name=#{$name}\&token=#{$token}\&get=1") if wntemp == nil
+                      err = wntemp[0]
 messages = wntemp[1].to_i
 posts = wntemp[2].to_i
 blogposts = wntemp[3].to_i
 blogcomments = wntemp[4].to_i
+nversion = "\0" * 16
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Version","0",nversion,nversion.size,utf8($bindata + "\\newest.ini"))
+    nversion.delete!("\0")
+    nversion = nversion.to_f
+            nbeta = "\0" * 16
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Beta","0",nbeta,nbeta.size,utf8($bindata + "\\newest.ini"))
+    nbeta.delete!("\0")
+    nbeta = nbeta.to_i
+    nalpha = "\0" * 16
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Alpha","0",nalpha,nalpha.size,utf8($bindata + "\\newest.ini"))
+    nalpha.delete!("\0")
+    nalpha = nalpha.to_i    
+    $nbeta = nbeta
+    $nversion = nversion
+    $nalpha = nalpha
                                                                                             if @init == true     and (posts > 0 or messages > 0)
 header = "Co nowego"
 else
   header=""
         end
-    @sel = Select.new(["Nowe wiadomości (#{messages.to_s})","Nowe wpisy w śledzonych wątkach (#{posts.to_s})","Nowe wpisy na śledzonych blogach (#{blogposts.to_s})","Nowe komentarze na twoim blogu: #{blogcomments.to_s}"],true,0,header,true)
+        nv=""
+        if $nbeta>$beta and $isbeta==1
+          nv=" BETA "+$nbeta.to_s
+        elsif $isbeta==2
+          nv=" RC "+$nalpha.to_s
+          end
+        @sel = Select.new(["Nowe wiadomości (#{messages.to_s})","Nowe wpisy w śledzonych wątkach (#{posts.to_s})","Nowe wpisy na śledzonych blogach (#{blogposts.to_s})","Nowe komentarze na twoim blogu (#{blogcomments.to_s})","Dostępna aktualizacja (Elten #{$nversion.to_s} #{nv})"],true,0,header,true)
     @sel.disable_item(0) if messages <= 0
     @sel.disable_item(1) if posts <= 0
     @sel.disable_item(2) if blogposts <= 0
     @sel.disable_item(3) if blogcomments <= 0
-    if posts <= 0 and messages <= 0 and blogposts <= 0 and blogcomments <= 0
+    @sel.disable_item(4) if !($nversion>$version+0.00001 or ($nbeta>$beta and $isbeta==1) or ($nalpha > $alpha and $isbeta==2) or ($nalpha == 0 and $alpha != 0))
+    if posts <= 0 and messages <= 0 and blogposts <= 0 and blogcomments <= 0 and !($nversion>$version+0.000001 or ($nbeta>$beta and $isbeta==1) or ($nalpha > $alpha and $isbeta==2) or ($nalpha == 0 and $alpha != 0))
       speech("Nie ma nic nowego.")
       speech_wait
       $scene = Scene_Main.new
@@ -49,6 +79,8 @@ else
               $scene = Scene_WhatsNew_BlogPosts.new
               when 3
                 $scene = Scene_Blog_Posts.new($name,"NEW")
+                when 4
+                  $scene=Scene_Update_Confirmation.new
         end
         end
       break if $scene != self
@@ -193,64 +225,63 @@ else
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-        class Scene_WhatsNew_BlogPosts
-          def main
-            bt = srvproc("blog_fb_news","name=#{$name}\&token=#{$token}")
-            if bt[0].to_i < 0
-              speech("Błąd")
-              speech_wait
-              $scene = Scene_WhatsNew.new
-              return
-            end
-            if bt[1].to_i == 0
-              speech("Brak nowych wpisów na śledzonych blogach.")
-              speech_wait
-              $scene = Scene_WhatsNew.new
-              return
-              end
-                         @blogauthor = []
-           @blogcategory = []
-           @blogpost = []
-           @blogpostname = []
-           t = 0
-           id = 0
-           for i in 2..bt.size-1
-                          case t
-             when 0
-                              @blogauthor[id] = bt[i]
-               when 1
-                 @blogcategory[id] = bt[i]
-                 when 2
-                   @blogpost[id] = bt[i]
-                   when 3
-                     @blogpostname[id] = bt[i]
-             end
-             t+=1
-            if t == 4
-              t = 0
-              id += 1
-              end
-             end
-            sel = []
-            for i in 0..@blogpostname.size-1
-              sel.push(@blogpostname[i] + "\r\nAutor " + @blogauthor[i])
-            end
-            @sel = Select.new(sel)
-            loop do
-              loop_update
-              @sel.update
-              update
-              break if $scene != self
-              end
-            end
-            def update
-              if escape or Input.trigger?(Input::LEFT)
-                $scene = Scene_WhatsNew.new
-              end
-             if enter or Input.trigger?(Input::RIGHT)
-               $scene = Scene_Blog_Read.new(@blogauthor[@sel.index],@blogcategory[@sel.index],@blogpost[@sel.index],0,0,$scene)
-               end
-              end
-          end
-#Copyright (C) 2014-2016 Dawid Pieper
+        class Scene_WhatsNew_BlogPosts
+                    def main
+            bt = srvproc("blog_fb_news","name=#{$name}\&token=#{$token}")
+            if bt[0].to_i < 0
+              speech("Błąd")
+              speech_wait
+              $scene = Scene_WhatsNew.new
+              return
+            end
+            if bt[1].to_i == 0
+              speech("Brak nowych wpisów na śledzonych blogach.")
+              speech_wait
+              $scene = Scene_WhatsNew.new
+              return
+              end
+                         @blogauthor = []
+           @blogcategory = []
+           @blogpost = []
+           @blogpostname = []
+           t = 0
+           id = 0
+           for i in 2..bt.size-1
+                          case t
+             when 0
+                              @blogauthor[id] = bt[i]
+               when 1
+                 @blogcategory[id] = bt[i]
+                 when 2
+                   @blogpost[id] = bt[i]
+                   when 3
+                     @blogpostname[id] = bt[i]
+             end
+             t+=1
+            if t == 4
+              t = 0
+              id += 1
+              end
+             end
+            sel = []
+            for i in 0..@blogpostname.size-1
+              sel.push(@blogpostname[i] + "\r\nAutor " + @blogauthor[i])
+            end
+            @sel = Select.new(sel)
+            loop do
+              loop_update
+              @sel.update
+              update
+              break if $scene != self
+              end
+            end
+            def update
+              if escape or Input.trigger?(Input::LEFT)
+                $scene = Scene_WhatsNew.new
+              end
+             if enter or Input.trigger?(Input::RIGHT)
+               $scene = Scene_Blog_Read.new(@blogauthor[@sel.index],@blogcategory[@sel.index],@blogpost[@sel.index],0,0,$scene)
+               end
+              end
+          end
 #Copyright (C) 2014-2016 Dawid Pieper
