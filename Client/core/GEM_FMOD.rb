@@ -89,9 +89,10 @@ FMod::System.dispose(v)
   end
   def position unit=FMod::DEFAULT_UNIT
     fail 'File closed' if @closed
-    @channel.position unit
+    @channel.position unit/1000.0
   end
-  def position=(pos, unit=FMod::DEFAULT_UNIT)
+  def position=(pos, unit=FMod::DEFAULT_UNIT)
+    pos*=1000
     fail 'File closed' if @closed
     @channel.position= pos, unit
   end
@@ -189,7 +190,7 @@ $fmodid=@@id
       #@@id = temp.unpack('i')[0]
       #Init.call @@id, 32, INIT_NORMAL, 0
       filename.gsub("http://") do
-      return createStream(filename,mode)
+              return createStream(filename,mode)
       end
             temp = '\x00'*4
       result = CreateSound.call @@id, filename, mode, 0, temp
@@ -197,6 +198,7 @@ $fmodid=@@id
       temp.unpack('i')[0]
     end
     def createStream filename, mode=DEFAULT_SOFTWARWE
+      play("signal") if $netsignal==true and filename[0..3].downcase=="http"
       $fmodsounds[@@id]+=1
             temp = '\x00'*4
       result=0

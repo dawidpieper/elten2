@@ -62,11 +62,11 @@ class Scene_Uploads
         $scene = @toscene
         end
       end
-     if enter
+     if enter and @sel.commandoptions.size>0
        loop_update
        d = 0
        n = File.extname(@filenames[@sel.index]).downcase
-       if n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2"
+       if n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2" or n==".opus" or n==".aac" or n==".wma"
          play("menu_open")
          play("menu_background")
          menu = menulr(["Pobierz","Odtwarzaj"])
@@ -102,12 +102,17 @@ class Scene_Uploads
           end
      def menu
      d = 0
-       n = File.extname(@filenames[@sel.index]).downcase
+     if   @filenames.size>0
+     n = File.extname(@filenames[@sel.index]).downcase
+   else
+     n=""
+     end
        play("menu_open")
          play("menu_background")
-         menu = menulr(["Pobierz","Odtwarzaj","Skopiuj link","Usuń"])
-       menu.disable_item(1) unless n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2"
+         menu = menulr(["Pobierz","Odtwarzaj","Skopiuj link","Usuń","Dodaj"])
+       menu.disable_item(1) unless n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2" or n==".opus" or n==".aac" or n==".wma"
        menu.disable_item(3) if @name != $name
+       menu.disable_item(4) if @name != $name
                   loop do
            loop_update
            menu.update
@@ -116,7 +121,7 @@ class Scene_Uploads
              break
            end
            if escape or alt
-             d=4
+             d=5
              break
              end
            end
@@ -150,7 +155,14 @@ dir = getfile("Gdzie zapisać ten plik?",getdirectory(40)+"\\",true,"Documents")
             @sel.disable_item(@sel.index)
             end
           end
-       end
+       when 4
+         f=getfile("Wybierz plik do wysłania na serwer",getdirectory(5)+"\\",false)
+         if f!="" and f!=nil
+           sendfile(f,true)
+           main
+           return
+           end
+          end
        loop_update
        end
      end

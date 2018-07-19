@@ -7,54 +7,44 @@
 
 class Scene_Login
   def main
-        name = ""
+    token=""
+    name = ""
+    password = ""
     crp = ""
-    autologin = readini($configdata + "\\login.ini","Login","AutoLogin",0).to_i
+    autologin = readini($configdata + "\\login.ini","Login","AutoLogin","-1").to_i
             if autologin.to_i <= 0
     while name == ""
     name = input_text("Login:","ACCEPTESCAPE")
       end
-            name.gsub(" ") do
-    speech("Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty.")
-    speech_wait
-  end
-  name.gsub("/") do
-    speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
-    speech_wait
-  end
-  name.delete!("/ ")
-  name.delete!("\\")
-  if name == "\004ESCAPE\004"
+              if name == "\004ESCAPE\004"
     $scene = Scene_Loading.new
     return
     end
-  psw=""
-    while psw == ""
-    psw = input_text("Hasło:","ACCEPTESCAPE|password")
+  password=""
+    while password == ""
+    password = input_text("Hasło:","ACCEPTESCAPE|password")
   end
-if psw=="\004ESCAPE\004"
+if password=="\004ESCAPE\004"
   $scene=Scene_Loading.new
   return
 end
 name=finduser(name) if finduser(name).upcase==name.upcase
-crp=psw.crypt(name)
-psw[0..psw.size-1]=""
 else
       name = readini($configdata + "\\login.ini","Login","Name","")
-                  password_c = readini($configdata + "\\login.ini","Login","Password","")
-    psw = password_c
-if autologin.to_i == 1
-    password = ""
+                  if autologin.to_i == 1
+    password_c = readini($configdata + "\\login.ini","Login","Password","")
+    password = password_c
+                    password = ""
 l = false
-mn = psw[psw.size - 1..psw.size - 1]
+mn = password[password.size - 1..password.size - 1]
 mn = mn.to_i
 mn += 1
 l = false
-for i in 0..psw.size - 1 - mn
+for i in 0..password.size - 1 - mn
   if l == true
     l = false
   else
-    password += psw[i..i]
+    password += password[i..i]
     l = true
     end
   end
@@ -68,9 +58,12 @@ password = password.gsub("o`","ó")
 password = password.gsub("s`","ś")
 password = password.gsub("x`","ź")
 password = password.gsub("z`","ż")
-crp=password.crypt(name)
 elsif autologin == 2
-  crp=psw
+  password_c = readini($configdata + "\\login.ini","Login","Password","")
+    password = password_c
+  crp=password
+elsif autologin == 3
+  token=readini($configdata + "\\login.ini","Login","Token","")
   end
   end
   ver = $version.to_s
@@ -79,7 +72,14 @@ elsif autologin == 2
 b=0
   b=$beta if $isbeta==1
   b=$alpha if $isbeta==2
-    logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+  password="" if autologin.to_i==2
+  if token=="" and crp!=""
+  logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+elsif token!=""
+    logintemp = srvproc("login","login=1\&name=#{name}\&token=#{token}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+else
+  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+  end
     if logintemp.size > 1
   $token = logintemp[1] if logintemp.size > 1
   $token.delete!("\r\n")
@@ -96,12 +96,12 @@ $rang_moderator = prtemp[2].to_i
 $rang_media_administrator = prtemp[3].to_i
 $rang_translator = prtemp[4].to_i
 $rang_developer = prtemp[5].to_i
-if autologin.to_i == 0 or autologin.to_i == 1
+if autologin.to_i == -1 or autologin.to_i == 1 or autologin.to_i == 2
   dialog_open  
-  if autologin.to_i == 0
+  if autologin.to_i == -1
   @sel = menulr(["Nie","Tak","Nie zadawaj więcej tego pytania"],true,0,"Czy chcesz włączyć automatyczne logowanie dla konta #{name}?")
 else
-  @sel=menulr(["Nie","Tak"],true,0,"Zapisane informacje logowania wykorzystują stary algorytm szyfrowania. W Eltenie 2.0 wprowadzone zostały nowe, bezpieczniejsze algorytmy kryptograficzne do szyfrowania hasła. Zalecana jest konwersja zapisanych informacji do nowego systemu w celu poprawienia bezpieczeństwa konta. Czy chcesz zaktualizować zapisane informacje?")
+  @sel=menulr(["Nie","Tak"],true,0,"Zapisane informacje logowania wykorzystują starą metodę uwierzytelniania konta, w której wykryte zostały podatności na ataki hakerskie. W Eltenie 2.2 wprowadzone zostały nowe, bezpieczniejsze algorytmy automatycznego logowania. Zalecana jest konwersja zapisanych informacji do nowego systemu w celu poprawienia bezpieczeństwa konta. Czy chcesz zaktualizować zapisane informacje?")
     end
   loop do
 loop_update
@@ -110,18 +110,33 @@ loop_update
             case @sel.index
       when 0
         when 1
-          crp=input_text("Hasło:","PASSWORD").crypt(name) if autologin.to_i==1
-          Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","2",$configdata + "\\login.ini")
-          Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","name",name,$configdata + "\\login.ini")
-              Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","password",crp,$configdata + "\\login.ini")
-              if autologin.to_i==0     
-              speech("Automatyczne logowanie będzie ważne do wylogowania się lub do momentu, kiedy zapisane dane stracą ważność, na przykład po zmianie hasła.")
+          loop do
+          password=input_text("Hasło:","ACCEPTESCAPE|PASSWORD") if password=="" or password==nil
+          if password=="\004ESCAPE\004"
+            break
+          else
+            lt=srvproc("login","login=2\&name=#{name}\&password=#{password}\&computer=#{$computer.urlenc}")
+            if lt[0].to_i<0
+              speech("Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane zostało błędne hasło.")
+              speech_wait
+              password = ""
             else
-              speech("Dane logowania zostały zaktualizowane.")
+writeini($configdata+"\\login.ini","Login","AutoLogin","3")
+              writeini($configdata+"\\login.ini","Login","Name",name)
+              writeini($configdata+"\\login.ini","Login","Token",lt[1].delete("\r\n"))
+              writeini($configdata+"\\login.ini","Login","password",nil)
+                            if autologin.to_i==-1
+              speech("Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w menu Społeczność.")
+            else
+              speech("Dane logowania zostały zaktualizowane. Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w menu Społeczność.")
               end
          speech_wait
+         break   
+         end
+                        end
+          end
        when 2
-         Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","-1",$configdata + "\\login.ini")
+         writeini($configdata+"\\login.ini","Login","AutoLogin","0")
          speech("Aby włączyć ponownie pytanie o automatyczne logowanie, wybierz odpowiednią opcję z menu ustawień interfejsu.")
          speech_wait
          end
@@ -130,7 +145,8 @@ loop_update
       end
       dialog_close
  end
-  writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
+ File.delete("temp\\agent.tmp") if FileTest.exists?("temp\\agent.tmp") 
+ writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
   if $agentloaded != true
   agent_start
 $agentloaded = true
@@ -183,13 +199,13 @@ elsif Time.now.month == $birthdatemonth.to_i
     $token = nil
     speech_wait
     when -2
-      Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","0",$configdata + "\\login.ini")
-      speech("Błędny login lub hasło.")
+      writeini($configdata+"\\login.ini","Login","AutoLogin","0")
+      speech("Błędny login lub hasło.") if autologin.to_i==0
       $token = nil
       speech_wait
       when -3
-        Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","0",$configdata + "\\login.ini")
-        speech("Błąd logowania. Zostałeś zbanowany.")
+        writeini($configdata+"\\login.ini","Login","AutoLogin","0")
+        speech("Błąd logowania.")
         $token = nil
         speech_wait
         when -4

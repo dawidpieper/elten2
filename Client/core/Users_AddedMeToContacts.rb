@@ -6,21 +6,8 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Users_AddedMeToContacts
-  def initialize(new=false)
-    @new=new
-    end
   def main
-    if $name=="guest"
-      speech("Ta funkcja nie jest dostępna na koncie gościa.")
-      speech_wait
-      $scene=Scene_Main.new
-      return
-      end
-      if @new==false          
-      @usr = srvproc("contacts_addedme","name=#{$name}\&token=#{$token}")
-    else
-      @usr = srvproc("contacts_addedme","name=#{$name}\&token=#{$token}\&new=1")
-      end
+                @usr = srvproc("contacts_addedme","name=#{$name}\&token=#{$token}")
         for i in 0..@usr.size - 1
       @usr[i].delete!("\r")
       @usr[i].delete!("\n")
@@ -33,20 +20,13 @@ class Scene_Users_AddedMeToContacts
     for i in 0..usr.size - 1
       selt[i] = usr[i] + "." + " " + getstatus(usr[i])
       end
-    header="Użytkownicy, którzy dodali mnie do swoich kontaktów"
-    header="" if @new==true
-      @sel = Select.new(selt,true,0,header)
+    @sel = Select.new(selt,true,0,"Użytkownicy, którzy dodali mnie do swoich kontaktów")
     @user = usr
     loop do
 loop_update
       @sel.update
       if escape
-        srvproc("contacts_addedme","name=#{$name}\&token=#{$token}\&new=2")
-        if @new==false
         $scene = Scene_Main.new
-      else
-        $scene=Scene_WhatsNew.new
-        end
         break
       end
       if alt
@@ -62,7 +42,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(sel = [@user[@sel.index],"Odświerz","Anuluj"])
+@menu = SelectLR.new(sel = [@user[@sel.index],"Odświerz","Anuluj"])
 loop do
 loop_update
 @menu.update
@@ -71,7 +51,7 @@ if enter
   case @menu.index
   when 0
     if usermenu(@user[@sel.index],true) != "ALT"
-          @menu = menulr(sel)
+          @menu = SelectLR.new(sel)
         else
           break
         end
@@ -85,7 +65,7 @@ end
 if Input.trigger?(Input::DOWN) and @menu.index == 0
     Input.update
   if usermenu(@user[@sel.index],true) != "ALT"
-    @menu = menulr(sel)
+    @menu = SelectLR.new(sel)
   else
     break
     end
@@ -96,7 +76,7 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-delay(0.25)
+Graphics.transition(10)
 main if @main == true
 return
 end

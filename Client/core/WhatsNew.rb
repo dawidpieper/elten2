@@ -6,9 +6,9 @@
 #Open Public License is used to licensing this app!
 
 class Scene_WhatsNew
-  def initialize(init=false,wntemp=nil)
+  def initialize(init=false,agtemp=nil)
     @init = init
-    @wntemp=wntemp
+    @agtemp=agtemp
     end
       def main
         if $name=="guest"
@@ -17,25 +17,21 @@ class Scene_WhatsNew
       $scene=Scene_Main.new
       return
       end
-      wntemp=@wntemp
-              wntemp = srvproc("whatsnew","name=#{$name}\&token=#{$token}\&get=1") if wntemp == nil
-                      err = wntemp[0]
-messages = wntemp[1].to_i
-posts = wntemp[2].to_i
-blogposts = wntemp[3].to_i
-blogcomments = wntemp[4].to_i
-nversion = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Version","0",nversion,nversion.size,utf8($bindata + "\\newest.ini"))
-    nversion.delete!("\0")
-    nversion = nversion.to_f
-            nbeta = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Beta","0",nbeta,nbeta.size,utf8($bindata + "\\newest.ini"))
-    nbeta.delete!("\0")
-    nbeta = nbeta.to_i
-    nalpha = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Alpha","0",nalpha,nalpha.size,utf8($bindata + "\\newest.ini"))
-    nalpha.delete!("\0")
-    nalpha = nalpha.to_i    
+      agtemp=@agtemp
+              agtemp = srvproc("agent","name=#{$name}\&token=#{$token}\&client=1") if agtemp == nil
+                      err = agtemp[0]
+messages = agtemp[8].to_i
+posts = agtemp[9].to_i
+blogposts = agtemp[10].to_i
+blogcomments = agtemp[11].to_i
+forums=agtemp[12].to_i
+forumsposts=agtemp[13].to_i
+friends=agtemp[14].to_i
+birthday=agtemp[15].to_i
+mentions=agtemp[16].to_i
+nversion=agtemp[2].to_f
+            nbeta=agtemp[3].to_i
+            nalpha=agtemp[4].to_i
     $nbeta = nbeta
     $nversion = nversion
     $nalpha = nalpha
@@ -44,19 +40,24 @@ header = "Co nowego"
 else
   header=""
         end
-        nv=""
+        nv=$nversion.to_s
         if $nbeta>$beta and $isbeta==1
-          nv=" BETA "+$nbeta.to_s
+          nv=$version.to_s+" BETA "+$nbeta.to_s
         elsif $isbeta==2
-          nv=" RC "+$nalpha.to_s
+          nv=$version.to_s+" RC "+$nalpha.to_s
           end
-        @sel = Select.new(["Nowe wiadomości (#{messages.to_s})","Nowe wpisy w śledzonych wątkach (#{posts.to_s})","Nowe wpisy na śledzonych blogach (#{blogposts.to_s})","Nowe komentarze na twoim blogu (#{blogcomments.to_s})","Dostępna aktualizacja (Elten #{$nversion.to_s} #{nv})"],true,0,header,true)
+        @sel = Select.new(["Nowe wiadomości (#{messages.to_s})","Nowe wpisy w śledzonych wątkach (#{posts.to_s})","Nowe wpisy na śledzonych blogach (#{blogposts.to_s})","Nowe komentarze na twoim blogu (#{blogcomments.to_s})","Nowe wątki na śledzonych forach (#{forums.to_s})","Nowe wpisy na śledzonych forach (#{forumsposts.to_s})","Nowi znajomi (#{friends.to_s})","Urodziny znajomych (#{birthday.to_s})","Wzmianki (#{mentions.to_s})","Dostępna aktualizacja (Elten #{nv})"],true,0,header,true)
     @sel.disable_item(0) if messages <= 0
     @sel.disable_item(1) if posts <= 0
     @sel.disable_item(2) if blogposts <= 0
     @sel.disable_item(3) if blogcomments <= 0
-    @sel.disable_item(4) if !($nversion>$version+0.00001 or ($nbeta>$beta and $isbeta==1) or ($nalpha > $alpha and $isbeta==2) or ($nalpha == 0 and $alpha != 0))
-    if posts <= 0 and messages <= 0 and blogposts <= 0 and blogcomments <= 0 and !($nversion>$version+0.000001 or ($nbeta>$beta and $isbeta==1) or ($nalpha > $alpha and $isbeta==2) or ($nalpha == 0 and $alpha != 0))
+    @sel.disable_item(4) if forums<= 0
+    @sel.disable_item(5) if forumsposts<= 0
+    @sel.disable_item(6) if friends<= 0
+    @sel.disable_item(7) if birthday<= 0
+    @sel.disable_item(8) if mentions<= 0
+    @sel.disable_item(9) if !($nversion>$version+0.00001 or ($nbeta>$beta and $isbeta==1) or ($nalpha > $alpha and $isbeta==2) or ($nalpha == 0 and $alpha != 0) or ($nversion==$version and $isbeta==1))
+        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and ($nversion<$version or ($nversion==$version and $isbeta!=1)) and ($nbeta<=$beta and $nisbeta!=1)
       speech("Nie ma nic nowego.")
       speech_wait
       $scene = Scene_Main.new
@@ -74,12 +75,22 @@ else
         when 0
           $scene = Scene_Messages.new(true)
           when 1
-            $scene = Scene_WhatsNew_Forum.new
+            $scene = Scene_Forum.new(0,-2)
             when 2
               $scene = Scene_WhatsNew_BlogPosts.new
               when 3
                 $scene = Scene_Blog_Posts.new($name,"NEW")
                 when 4
+                  $scene = Scene_Forum.new(0,-4)
+                  when 5
+                    $scene = Scene_Forum.new(0,-6)
+                when 6
+                  $scene=Scene_Users_AddedMeToContacts.new(true)
+                  when 7
+                    $scene=Scene_Contacts.new(1)
+                    when 8
+                      $scene=Scene_Forum.new(0,-7)
+                  when 9
                   $scene=Scene_Update_Confirmation.new
         end
         end

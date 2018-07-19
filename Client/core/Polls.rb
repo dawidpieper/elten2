@@ -330,7 +330,7 @@ for j in 0..@form.fields[i].commandoptions.size-1
     ans+=(i-1).to_s+":"+j.to_s+"\r\n" if @form.fields[i].selected[j]==true
   end
   when 2
-    ans+=(i-1).to_s+":"+@form.fields[i].text_str.gsub(";"," ").gsub(":"," ").delete("\r\n")+"\r\n" if @form.fields[i].text!=[[]]
+    ans+=(i-1).to_s+":"+@form.fields[i].text_str.gsub(";"," ").gsub(":"," ").delete("\r\n")+"\r\n" if @form.fields[i].text!=""
 end
     end
     ans.chop!
@@ -416,7 +416,7 @@ end
 end
 txt+="\r\n\r\n"
   end
-input_text("Wyniki ankiety: #{@name}","MULTILINE|READONLY",txt)
+input_text("Wyniki ankiety: #{@name}","READONLY",txt)
 $scene=Scene_Polls.new(@id)
     end
     end

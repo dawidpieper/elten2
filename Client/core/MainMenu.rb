@@ -232,6 +232,7 @@ close
                 if $scene == self
                loop_update
                                  @sel = menulr(sel)
+                                 @sel.disable_item(8) if $name=="guest"                                 
                 @sel.index = index
                             @sel.focus
                           else
@@ -255,6 +256,7 @@ close
             users
             if $scene == self
             @sel = menulr(sel)
+            @sel.disable_item(8) if $name=="guest"
             @sel.index = index
             @sel.focus
           else
@@ -279,7 +281,7 @@ close
         end
           def myaccount
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja w&izytówka","Moje &odznaczenia","U&dostępnione przeze mnie pliki","Ustaw &awatar","Moje &uprawnienia","Zmień &Hasło","Zmień adres e-&mail"])
+    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja w&izytówka","Moje &odznaczenia","U&dostępnione przeze mnie pliki","Ustaw &awatar","Ustawienia co &nowego","Moje &uprawnienia","Cza&rna lista","Klucze automatycznego &logowania","Zmień &Hasło","Zmień adres e-&mail"])
     loop do
 loop_update
       @sel.update
@@ -324,14 +326,26 @@ loop_update
               close
               break
             when 8
-              $scene=Scene_MyPermissions.new
+              $scene=Scene_Account_WhatsNew.new
               close
               break
               when 9
+              $scene=Scene_MyPermissions.new
+              close
+              break
+              when 10
+                $scene=Scene_Account_BlackList.new
+                close
+                break
+              when 11
+                $scene=Scene_Account_AutoLogins.new
+                close
+                break
+              when 12
           $scene = Scene_Account_Password.new
           close
           break
-        when 10
+        when 13
           $scene = Scene_Account_Mail.new
           close
           break
@@ -344,7 +358,8 @@ close
         end
                   def tools
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(sel=["&Generator tematów dźwiękowych","&Test prędkości łącza","Zarządzanie &programem","Czytanie do &pliku","&Konsola","Kompilator &ELTENAPI"])
+    @sel = menulr(sel=["&Generator tematów dźwiękowych","&Test prędkości łącza","Zarządzanie p&rogramem","Czytanie do &pliku","&Konsola","Kompilator &ELTENAPI","De&bugowanie"])
+    @sel.disable_item(6) if $DEBUG!=true
         loop do
 loop_update
       @sel.update
@@ -384,6 +399,10 @@ loop_update
        $scene = Scene_Compiler.new
        close
        break
+       when 6
+         $scene=Scene_Debug.new
+         close
+         break
                end
           end
           if Input.trigger?(Input::UP) or escape
@@ -396,7 +415,7 @@ loop_update
         end  
         def exit
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["&Ukryj program w zasobniku systemowym","Wy&loguj się","W&yjście","&Restart"])
+    @sel = menulr(["&Ukryj program w zasobniku systemowym","Wy&loguj się","W&yjście","&Restart","Restart do trybu de&bugowania"])
     loop do
 loop_update
       @sel.update
@@ -411,7 +430,16 @@ loop_update
     tray
   break
           when 1
-            Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","0",$configdata + "\\login.ini")
+autologin=readini($configdata+"\\login.ini","Login","AutoLogin","0").to_i
+if autologin==3
+  srvproc("logout","name=#{$name}\&token=#{$token}\&autologin=1\&autotoken=#{readini($configdata+"\\login.ini","Login","Token","")}")
+end
+if autologin.to_i>0
+  writeini($configdata+"\\login.ini","Login","AutoLogin","-1")
+  writeini($configdata+"\\login.ini","Login","Name",nil)
+  writeini($configdata+"\\login.ini","Login","Password",nil)
+  writeini($configdata+"\\login.ini","Login","Token",nil)
+  end
                         play("logout")
             $scene = Scene_Loading.new
             close
@@ -423,6 +451,13 @@ loop_update
               when 3
                               play("logout")
               Graphics.transition(120)
+              $scene = Scene_Loading.new
+              close
+              break
+              when 4
+                play("logout")
+              Graphics.transition(120)
+              $DEBUG=true
               $scene = Scene_Loading.new
               close
               break
@@ -539,7 +574,7 @@ close
         end
         def users
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Moje &kontakty","Użytkownicy, którzy &dodali mnie do swoich kontaktów","Kto jest zal&ogowany?","Lista &użytkowników","Rada &starszych","S&zukanie użytkowników","Ostatnio &aktywni użytkownicy","Ostatnio za&rejestrowani użytkownicy"])
+    @sel = menulr(["Moje &kontakty","Użytkownicy, którzy &dodali mnie do swoich kontaktów","Kto jest zal&ogowany?","Lista &użytkowników","Rada &starszych","S&zukanie użytkowników","Ostatnio &aktywni użytkownicy","Ostatnio za&rejestrowani użytkownicy","Ostatnio zmienione awa&tary"])
     loop do
 loop_update
       @sel.update
@@ -583,6 +618,10 @@ loop_update
                           $scene=Scene_Users_RecentlyRegistered.new
                           close
                           break
+                          when 8
+                            $scene=Scene_Users_LastAvatars.new
+                            close
+                            break
             end
           end
           if alt

@@ -131,7 +131,7 @@ sharest.push("Dodaj") if note.author==$name
 @fields=[Edit.new(note.name,"MULTILINE|READONLY",note.text,true),Button.new("Edytuj"),Select.new(sharest,true,0,"Notatka współdzielona z",true),nil,Button.new("Anuluj")]
 @form=Form.new(@fields)
 if edit == true
-@form.fields[0].readonly=false
+@form.fields[0].flags=Edit::Flags::MultiLine
 @form.fields[1]=Button.new("Zapisz")
 end
 @form.fields[3]=Button.new("Usuń") if note.author==$name
@@ -145,7 +145,7 @@ return
   if ((enter or space) and @form.index==1)
     if edit == false
     edit=true
-    @form.fields[0].readonly=false
+    @form.fields[0].flags=Edit::Flags::MultiLine
     @form.index=0
     @form.fields[0].focus
     @form.fields[1]=Button.new("Zapisz")
@@ -253,10 +253,10 @@ class Scene_Notes_New
     btn=@form.fields[2]
     loop do
       loop_update
-      if (@form.fields[0].text==[[]] or @form.fields[1].text==[[]]) and @form.fields[2]!=nil
+      if (@form.fields[0].text=="" or @form.fields[1].text=="") and @form.fields[2]!=nil
         btn=@form.fields[2]
         @form.fields[2]=nil
-      elsif (@form.fields[0].text!=[[]] and @form.fields[1].text!=[[]]) and @form.fields[2]==nil
+      elsif (@form.fields[0].text!="" and @form.fields[1].text!="") and @form.fields[2]==nil
         @form.fields[2]=btn
         end
       @form.update

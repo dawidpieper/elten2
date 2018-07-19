@@ -117,15 +117,27 @@ rescue Exception
 end
 if @autostart == false 
   if simplequestion("Elten może być skonfigurowany tak, by uruchamiał się wraz ze startem systemu. W takim wypadku startował będzie do zasobnika systemowego, a więc okno będzie ukryte. Pokaże się dopiero po wywołaniu Eltena z zasobnika lub po użyciu skrótu klawiszowego CTRL + ALT + SHIFT + T, jak Tadeusz. Czy chcesz włączyć autostart Eltena?") == 1
-if readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i == 0
-  Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","autologin","2",$configdata + "\\login.ini")          
-  Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","name",$name,$configdata + "\\login.ini")
-    crp=input_text("Podaj hasło konta Elten. Hasło to zostanie zapisane, aby Elten nie pytał ciebie o nie przy każdym starcie systemu.","password")
-                      Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","password",crp,$configdata + "\\login.ini")
+if readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i <= 0
+password=nil
+  loop do
+          password=input_text("Hasło:","PASSWORD") if password=="" or password==nil
+                    if password!=""
+            lt=srvproc("login","login=2\&name=#{$name}\&password=#{password}\&computer=#{$computer.urlenc}")
+            if lt[0].to_i<0
+              speech("Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane zostało błędne hasło.")
+              speech_wait
+              password = ""
+            else
+writeini($configdata+"\\login.ini","Login","AutoLogin","3")
+              writeini($configdata+"\\login.ini","Login","Name",$name)
+              writeini($configdata+"\\login.ini","Login","Token",lt[1].delete("\r\n"))
+              writeini($configdata+"\\login.ini","Login","password",nil)
+                                                   break   
+         end
+                        end
+          end                      
     end
-           path="\0"*1024
-Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,path,path.size)
-path.delete!("\0")
+    path=Elten::Engine::Kernel.getmodulefilename.delete!("\0")
 dr="\""+File.dirname(path)+"\\bin\\rubyw.exe\" \""+File.dirname(path)+"\\bin\\agentc.dat\" /autostart"
 @runkey['elten']=dr
     end

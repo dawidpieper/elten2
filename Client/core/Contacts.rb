@@ -6,11 +6,23 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Contacts
-  def initialize
-    if $name=="guest"
-            return
+  def initialize(type=0)
+    @type=type
+  end
+  def main
+          if $name=="guest"
+      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
       end
-        ct = srvproc("contacts","name=#{$name}\&token=#{$token}")
+          ct=["-4"]
+      case @type
+      when 0
+      ct = srvproc("contacts","name=#{$name}\&token=#{$token}")
+      when 1
+        ct = srvproc("contacts","name=#{$name}\&token=#{$token}\&birthday=1")
+      end
         err = ct[0].to_i
     case err
     when -1
@@ -24,62 +36,62 @@ class Scene_Contacts
         $scene = Scene_Loading.new
         return
       end
-      $contact = []
+      @contact = []
       for i in 1..ct.size - 1
         ct[i].delete!("\n")
       end
             for i in 1..ct.size - 1
-        $contact.push(ct[i]) if ct[i].size > 1
+        @contact.push(ct[i]) if ct[i].size > 1
       end
-      if $contact.size < 1
+      if @contact.size < 1
         speech("Pusta Lista")
               end
       selt = []
-      for i in 0..$contact.size - 1
-        selt[i] = $contact[i] + ". " + getstatus($contact[i])
+      for i in 0..@contact.size - 1
+        selt[i] = @contact[i] + ". " + getstatus(@contact[i])
         end
-      @sel = Select.new(selt,true,0,"Kontakty",true)
+      header="Kontakty"
+      header="" if @type>0
+              @sel = Select.new(selt,true,0,header,true)
       speech_stop
-    end
-    def main
-      if $name=="guest"
-      speech("Ta funkcja nie jest dostępna na koncie gościa.")
-      speech_wait
-      $scene=Scene_Main.new
-      return
-      end
-                        @sel.focus
+                            @sel.focus
       loop do
 loop_update
-        @sel.update if $contact.size > 0
+        @sel.update if @contact.size > 0
         update
         if $scene != self
-          break
+                    break
           end
                   end
       end
       def update
-        if escape
+        if escape or (Input.trigger?(Input::LEFT) and @type==1)
+          case @type
+          when 0
           $scene = Scene_Main.new
+          when 1
+            ct = srvproc("contacts","name=#{$name}\&token=#{$token}\&birthday=2")
+            $scene=Scene_WhatsNew.new
+            end
         end
-        if $key[0x2e]
-          if $contact.size >= 1
+        if $key[0x2e] and @type==0
+          if @contact.size >= 1
           if simplequestion("Czy na pewno chcesz usunąć ten kontakt?") == 1
-            $scene = Scene_Contacts_Delete.new($contact[@sel.index],self)
+            $scene = Scene_Contacts_Delete.new(@contact[@sel.index],self)
             @sel.disable_item(@sel.index)
 loop_update            
             end
           end
           end
         if alt
-                    if $contact.size < 1
+                    if @contact.size < 1
           menu_blank
         else
           menu
           end
         end
-        if enter and $contact.size > 0
-                    usermenu($contact[@sel.index],false)
+        if enter and @contact.size > 0
+                    usermenu(@contact[@sel.index],false)
           end
         end
         def menu_blank
@@ -112,7 +124,8 @@ loop_update
                 def menu
           play("menu_open")
           play("menu_background")
-          @menu = menulr(sel = [$contact[@sel.index],"Nowy Kontakt","Anuluj"])
+          @menu = menulr(sel = [@contact[@sel.index],"Nowy Kontakt","Anuluj"])
+          @menu.disable_item(1) if @type>0
           loop do
 loop_update
             @menu.update
@@ -125,7 +138,7 @@ loop_update
             if enter or (Input.trigger?(Input::DOWN) and @menu.index == 0)
               case @menu.index
 when 0
-if usermenu($contact[@sel.index],true) != "ALT"
+if usermenu(@contact[@sel.index],true) != "ALT"
 @menu = menulr(sel)
 else
 break
@@ -149,8 +162,8 @@ end
             @user = user
             @scene = scene
           end
-          def main
-                        user = @user
+          def main                        
+          user = @user
             while user==""
               user = input_text("Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów.")
             end

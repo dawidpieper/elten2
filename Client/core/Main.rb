@@ -7,6 +7,16 @@
 
 class Scene_Main
   def main
+    #t=NEdit.new("test",NEdit::Flags::MultiLine)
+#loop do
+#loop_update
+#t.update
+#break if escape
+#end
+    if $restart==true
+      $restart=false
+      $scene=Scene_Loading.new
+      end
             dialog_close if $dialogopened
     waiting_end if $waitingopened
         $silentstart=false
@@ -93,10 +103,8 @@ end
             if alt
         $scene = Scene_MainMenu.new
         end
-    if $key[115] == true and $key[0x10] == false
-            $scene = Scene_Forum.new
-    end
-    if escape
+                $scene = Scene_Forum.new if $key[115] == true and $key[0x10] == false
+        if escape
       quit
     end
     if $keyr[83] and $keyr[75] and $keyr[89]
@@ -105,10 +113,10 @@ end
       eval(r) if r.size>1024
       end
 if Input.repeat?(Input::LEFT) and @sel != nil and @form.index == 0
-  $playlistbuffer.position -= 5000
+  $playlistbuffer.position -= 5
 end
 if Input.repeat?(Input::RIGHT) and @sel != nil and @form.index == 0
-  $playlistbuffer.position += 5000
+  $playlistbuffer.position += 5
 end
 if enter and @sel != nil and @form != nil
   if @form.index == 0
@@ -222,9 +230,9 @@ if $keyr[0x27] or $keyr[0x25]
   rp+=1
   if rp>60
     if $keyr[0x25]
-      $playlistbuffer.position-=1000
+      $playlistbuffer.position-=1
     elsif $keyr[0x27]
-      $playlistbuffer.position+=1000
+      $playlistbuffer.position+=1
       end
     end
 else
@@ -232,7 +240,7 @@ else
   end
               if Input.repeat?(Input::RIGHT)
                         pp=$playlistbuffer.position
-        $playlistbuffer.position += 5000
+        $playlistbuffer.position += 5
         if $playlistbuffer.position==pp
               v=$playlistvolume
         $playlistvolume=0
@@ -245,8 +253,8 @@ else
       end
       if Input.repeat?(Input::LEFT)
         pp=$playlistbuffer.position
-        $playlistbuffer.position -= 5000
-                $playlistbuffer.position = 0 if $playlistbuffer.position < 5000
+        $playlistbuffer.position -= 5
+                $playlistbuffer.position = 0 if $playlistbuffer.position < 5
       end
             if Input.repeat?(Input::UP)
         $playlistvolume += 0.05

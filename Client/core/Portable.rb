@@ -76,7 +76,7 @@ if @form.fields[2].checked == 1
   waiting
 end
 end
-if @form.fields[2].checked == 1
+if @form.fields[3].checked == 1
   speech("Kopiowanie tematów dźwiękowych")
   copier(".","/eltendata/soundthemes","",$soundthemesdata+"/")
   speech_wait
@@ -84,7 +84,7 @@ if @form.fields[2].checked == 1
       end        
       writeini("#{@destdir}\\elten.ini","Elten","Portable","1")
       writeini("#{@destdir}\\elten.ini","Elten","SFX","2")
-      if @form.fields[3].checked==1
+      if @form.fields[4].checked==1
  writefile("temp\\portxfs.tmp","sfx configuration
 Setup="+File.basename(@destdir)+"\\"+File.basename($path)+"
 TempMode
@@ -115,7 +115,7 @@ loop_update
       f=dir+"/"+t
       f=t if dir=="."
       if File.file?(start+f)
-      Win32API.new("kernel32","CopyFile",'ppi','i').call(start+f,"#{@destdir}"+dest+"/"+f,0) if f.include?("tmp")==false and f.include?("temp") == false and t.include?(incl)
+      ELten::Engine::Kernel.copyfile(start+f,"#{@destdir}"+dest+"/"+f,0) if f.include?("tmp")==false and f.include?("temp") == false and t.include?(incl)
     elsif File.directory?(start+f)
       if f!="temp" and f.downcase.include?("kopia")==false
       copier(f,dest,incl,start)

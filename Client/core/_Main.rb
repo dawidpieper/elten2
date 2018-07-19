@@ -7,9 +7,29 @@
 
 class Object
   include EltenAPI
+end
+module Elten
+Version=2.26
+Beta=0
+Alpha=0
+IsBeta=0
+class <<self
+def version
+  return Version
+end
+def beta
+  return Beta
+end
+def alpha
+  return Alpha
+end
+def isbeta
+  return IsBeta
   end
-begin
-        $volume=100
+end
+end
+  begin
+  $volume=100 if $volume==nil
       $mainthread = Thread::current
 $stopmainthread         = false
   #main
@@ -31,7 +51,8 @@ $toscene = false
   # Call main method as long as $scene is effective
   $dialogopened = false
   loop do
-  if $scene != nil
+  $scene=Scene_Loading.new if $restart==true
+          if $scene != nil
         $scene.main
   else
     break
@@ -39,18 +60,21 @@ $toscene = false
   end
     writefile("temp/agent_exit.tmp","\r\n")
     $agentproc=nil
-    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=opuścił%20dyskusję") if $chat!=false
+    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=opuścił%20dyskusję") if $chat==true
     play("logout")
   speech_wait
-    for o in $procs
+  if $procs!=nil  
+  for o in $procs
 Win32API.new("kernel32","TerminateProcess",'ip','i').call(o,"")
     end
-  if $playlistbuffer != nil
+  end
+    if $playlistbuffer != nil
 $t=false
     begin      
       $playlistpaused=true    
       $playlistbuffer.pause if $t==false
-          rescue Exception
+    
+      rescue Exception
     $t=true
     retry
     end
@@ -99,14 +123,17 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
   Graphics.update if $ruby != true
   $toscene = true
   retry
-  rescue Errno::ENOENT
+  #rescue Errno::ENOENT
   # Supplement Errno::ENOENT exception
   # If unable to open file, display message and end
-  filename = $!.message.sub("No such file or directory - ", "")
-  print("Unable to find file #{filename}.")
-  retry
+  #filename = $!.message.sub("No such file or directory - ", "")
+  #print("Unable to find file #{filename}.")
+  #retry
 rescue Reset
-retry
+key_update
+  $DEBUG=true if $key[0x10]
+  play("signal") if $key[0x10]
+  retry
 rescue RuntimeError
   if $ruby != true
   $ruer = 0 if $ruer == nil
@@ -158,7 +185,7 @@ end
     sleep(0.5)
     speech("Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do twórców programu?")
     speech_wait
-    if simplequestion == 1
+    if confirm == 1
       sleep(0.15)
       bug
     end

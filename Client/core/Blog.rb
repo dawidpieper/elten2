@@ -89,7 +89,8 @@ if err < 0
     $blogreturnscene = nil
     end
 end
-blogname = blogtemp[1]
+blogname = blogtemp[1].delete("\r\n")
+@blogname=blogname
 blogtemp = srvproc("blog_categories","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
 err = blogtemp[0].to_i
 if err < 0
@@ -136,19 +137,56 @@ def update
     if @sel.index < @postname.size
       $scene = Scene_Blog_Posts.new(@owner,@postid[@sel.index],@sel.index)
     elsif @sel.index == @postname.size + 1
-$scene = Scene_Blog_Rename.new
-elsif @sel.index == @postname.size + 2
+blogrename
+    elsif @sel.index == @postname.size + 2
 $scene = Scene_Blog_Recategorize.new(@scene)
             else
-                  $scene = Scene_Blog_Category_New.new(@postmaxid + 1)
+categorynew
                 end
               end
-              $scene = Scene_Blog_Category_Delete.new(@postid[@sel.index]) if $key[0x2e] and @sel.index < @postid.size and @sel.index != 0
+              $scene = Scene_Blog_Category_Delete.new(@postid[@sel.index]) if $key[0x2e] and @sel.index < @postid.size and @sel.index != 0 and $name == @owner
   if alt
         menu
     end
   end
-  def menu
+  def categorynew
+                          name = ""
+        while name == ""
+      name = input_text("Nazwa kategorii","ACCEPTESCAPE")
+    end
+    if name != "\004ESCAPE\004" or name == "\004TAB\004"
+            blogtemp = srvproc("blog_categories_mod","name=#{$name}\&token=#{$token}\&add=1\&categoryid=#{@id.to_s}\&categoryname=#{name}")
+err = blogtemp[0].to_i
+if err < 0
+  speech("Błąd.")
+else
+  speech("Kategoria została utworzona.")
+  @sel.commandoptions.insert(-4,name)
+  @postname.push(name)
+    @postid.push(blogtemp[1].to_i)
+end
+speech_wait
+end
+@sel.focus
+end
+def blogrename
+          blogname = ""
+    while blogname == ""
+      blogname = input_text("Nowa nazwa bloga","ACCEPTESCAPE",@blogname)
+    end
+    if blogname != "\004ESCAPE\004"
+      bt = srvproc("blog_rename","name=#{$name}\&token=#{$token}\&blogname=#{blogname}")
+      if bt[0].to_i == 0
+        @sel.header=@blogname=blogname
+        speech("Nazwa bloga została zmieniona")
+      else
+        speech("Błąd")
+      end
+      speech_wait
+    end
+    @sel.focus
+    end
+def menu
     play("menu_open")
     @menu = menulr(["Wybierz","Zmień nazwę","Usuń"])
     @menu.disable_item(1) if @sel.index > @postid.size - 1 or @sel.index == 0 or @owner!=$name
@@ -162,13 +200,17 @@ $scene = Scene_Blog_Recategorize.new(@scene)
       if enter
         case @menu.index
         when 0
-          if @sel.index < @postname.size - 2
-      $scene = Scene_Blog_Posts.new(@postid[@sel.index],@sel.index)
-    elsif @sel.index == @postname.size - 1
-$scene = Scene_Blog_Rename.new
+          if @sel.index < @postname.size
+      $scene = Scene_Blog_Posts.new(@owner,@postid[@sel.index],@sel.index)
+    elsif @sel.index == @postname.size + 1
+Audio.bgs_stop
+      blogrename
+elsif @sel.index == @postname.size + 2
+$scene = Scene_Blog_Recategorize.new(@scene)
             else
-            $scene = Scene_Blog_Category_New.new(@postmaxid + 1)
-      end
+              Audio.bgs_stop    
+              categorynew
+                end
     when 1
       $scene = Scene_Blog_Category_Rename.new(@postid[@sel.index],@sel.index)
       when 2
@@ -350,8 +392,8 @@ def update
       $scene = Scene_Blog_Post_New.new(@id.to_i,@postmaxid + 1,@categoryselindex)
       end
     end
-  if $key[0x2e]
-    if @sel.index < @postname.size - 1
+  if $key[0x2e] and @owner==$name
+    if @sel.index < @postname.size
       $scene = Scene_Blog_Post_Delete.new(@id,@postid[@sel.index],@categoryselindex)
       end
     end
@@ -363,8 +405,8 @@ def update
     play("menu_open")
     play("menu_background")
     @menu = menulr(["Wybierz","Edytuj","Usuń"])
-    @menu.disable_item(1) if @sel.index >= @postname.size-1 or $name!=@owner
-    @menu.disable_item(2) if @sel.index >= @postname.size-1 or $name!=@owner
+    @menu.disable_item(1) if @sel.index >= @postname.size or $name!=@owner
+    @menu.disable_item(2) if @sel.index >= @postname.size or $name!=@owner
     loop do
       loop_update
       @menu.update
@@ -374,17 +416,17 @@ def update
       if enter
         case @menu.index
         when 0
-              if @sel.index < @postname.size - 1
+              if @sel.index < @postname.size
       $scene = Scene_Blog_Read.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
     elsif @sel.commandoptions.size>0
       $scene = Scene_Blog_Post_New.new(@id,@postmaxid + 1,@categoryselindex)
     end
     when 1
-      if @sel.index < @postname.size - 1
+      if @sel.index < @postname.size
       $scene = Scene_Blog_Post_Edit.new(@id,@postid[@sel.index],@categoryselindex,@sel.index)
       end
     when 2
-      if @sel.index < @postname.size - 1
+      if @sel.index < @postname.size
       $scene = Scene_Blog_Post_Delete.new(@id,@postid[@sel.index],@categoryselindex)
       end
     end
@@ -431,8 +473,9 @@ end
 @fields[1] = Edit.new("Treść wpisu","MULTILINE","",true)
 @fields[2] = Button.new("Utwórz wpis audio")
 @fields[3] = Select.new(categorynames,true,0,"Przypisz do kategorii",true,true)
-@fields[4] = Button.new("Wyślij")
-@fields[5] = Button.new("Anuluj")
+@fields[4] = Select.new(["Pokaż wszystkim","Ukryj przed niezalogowanymi użytkownikami"],true,0,"Widoczność",true)
+@fields[5] = Button.new("Wyślij")
+@fields[6] = Button.new("Anuluj")
 for i in 0..categoryids.size-1
   @fields[3].selected[i] = true if categoryids[i] == @category
   end
@@ -452,7 +495,7 @@ loop do
                         when 0
 delay(0.2)
                           play("recording_start")
-            recording_start("temp/audioblogpost.wav")
+            recording_start("temp/audioblogpost.wav",3600)
             @recst=1
             @form.fields[2]=Button.new("Zakończ nagrywanie")
             @editpost=@form.fields[1]
@@ -489,7 +532,7 @@ delay(0.2)
           @form.fields[1].focus
           loop_update
           end
-  if (@form.index == 4 or $key[0x11] == true) and enter
+  if ((@form.index == 5 or $key[0x11] == true) and enter) or (@form.index==5 and space)
           @form.fields[0].finalize
                     @form.fields[1].finalize if @recst == 0
                     recording_stop if @recst == 1
@@ -498,7 +541,7 @@ delay(0.2)
           play("list_select")
           break
           end
-if escape or ((enter or space) and @form.index == 5)
+if escape or ((enter or space) and @form.index == 6)
     $scene = Scene_Blog_Posts.new($name,@category,@categoryselindex,@postselindex)
   return
 end
@@ -512,20 +555,18 @@ if @recst == 0
 speech("Proszę czekać...")
 speech_wait
 bufid = buffer(text)
-bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postname=#{postname}\&buffer=#{bufid}\&add=1"
+bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postname=#{postname}\&buffer=#{bufid}\&add=1\&privacy=#{@form.fields[4].index.to_s}"
    blogtemp = srvproc("blog_posts_mod",bt)
  else
    waiting
                  speech("Konwertowanie pliku...")
-      File.delete("temp/audioblogpost.mp3") if FileTest.exists?("temp/audioblogpost.mp3")
-      h = run("bin\\ffmpeg.exe -y -i \"#{@recfile}\" -b:a 128K temp/audioblogpost.mp3",true)
+      File.delete("temp/audioblogpost.opus") if FileTest.exists?("temp/audioblogpost.opus")
+      h = run("bin\\ffmpeg.exe -y -i \"#{@recfile}\" -b:a 128K temp/audioblogpost.opus",true)
       t = 0
-      tmax = 1000
+      tmax = 20000
       loop do
         loop_update
-        x="\0"*1024
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
-x.delete!("\0")
+x=Elten::Engine::Kernel.getexitcodeprocess(h).delete!("\0")
 if x != "\003\001"
   break
   end
@@ -536,16 +577,16 @@ if t > tmax
   break
   end
         end
-        fl=read("temp/audioblogpost.mp3")
+        fl=read("temp/audioblogpost.opus")
         boundary=""
         while fl.include?(boundary)
         boundary="----EltBoundary"+rand(36**32).to_s(36)
         end
     data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
     length=data.size    
-      host = $url.sub("https://","")
+      host = $srv
   host.delete!("/")
-    q = "POST /blog_posts_mod.php?name=#{$name}\&token=#{$token}\&categoryid=#{cat.urlenc}\&postid=#{@post}\&postname=#{postname.urlenc}\&add=1\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+    q = "POST /srv/blog_posts_mod.php?name=#{$name}\&token=#{$token}\&categoryid=#{cat.urlenc}\&postid=#{@post}\&postname=#{postname.urlenc}\&privacy=#{@form.fields[4].index.to_s}\&add=1\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
 a = connect(host,80,q)
 a.delete!("\0")
 for i in 0..a.size - 1
@@ -599,15 +640,14 @@ class Scene_Blog_Post_Delete
 
   class Scene_Blog_Post_Edit
   def initialize(category,post,categoryselindex=0,postselindex=0)
-    @category = category
+        @category = category
     @postid = post
     @categoryselindex = categoryselindex
     @postselindex = postselindex
   end
   def main
     blogtemp = srvproc("blog_categories","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
-err = blogtemp[0].to_i
-if err < 0
+if blogtemp[0].to_i < 0
   speech("Błąd.")
   speech_wait
   $scene = Scene_Main.new
@@ -626,7 +666,7 @@ for i in 0..lines - 1
   categorynames[i] = blogtemp[l]
   l += 1
 end
-    blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{$name}")
+    blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{$name}\&details=3")
 err = blogtemp[0].to_i
 if err < 0
   speech("Błąd.")
@@ -642,17 +682,20 @@ text = ""
 @posttext = []
 @postauthor = []
 @postbid = []
+@postprivacy=[]
 for i in 0..lines - 1
   t = 0
   @posttext[i] = ""
   loop do
     t += 1
-    if t > 2
+    if t > 5
   @posttext[i] += blogtemp[l].to_s + "\r\n"
 elsif t == 1
   @postbid[i] = blogtemp[l].to_i
 elsif t == 2
   @postauthor[i] = blogtemp[l]
+  elsif t == 5
+  @postprivacy[i] = blogtemp[l].to_i
   end
 l += 1
 break if blogtemp[l] == "\004END\004" or l >= blogtemp.size or blogtemp[l] == "\004潤\n" or blogtemp[l] == nil
@@ -668,7 +711,12 @@ if pc[0].to_i < 0
   end
 postname = pc[1].delete("\r\n")
 comm = pc[2].to_i
-  @fields = [Edit.new("Tytuł wpisu","",postname,true),Edit.new("Treść wpisu","MULTILINE",@posttext[0].delline(1)+"\004LINE\004",true),Select.new(categorynames,true,0,"Przypisz do kategorii",true,true),Button.new("Zapisz"),Button.new("Anuluj")]
+  @fields = [Edit.new("Tytuł wpisu","",postname,true),Edit.new("Treść wpisu","MULTILINE",@posttext[0].delline(1)+"\004LINE\004",true),Select.new(categorynames,true,0,"Przypisz do kategorii",true,true),Select.new(["Pokaż wszystkim","Ukryj przed niezalogowanymi użytkownikami"],true,@postprivacy[0].to_i,"Widoczność",true),Button.new("Zapisz"),Button.new("Anuluj")]
+    if (/\004AUDIO\004([a-zA-Z0-9\\:\/\-_ ]+)\004AUDIO\004/=~@posttext[0]) != nil
+                @postaudio=$1
+        @postaudio.sub!("/",$url) if @postaudio[0..0]=="/"
+        @fields[1]=Button.new("Wpis audio")    
+        end    
 for i in 3..comm+2
   c = pc[i].to_i
     for j in 0..categoryids.size-1
@@ -679,19 +727,62 @@ for i in 3..comm+2
 loop do
   loop_update
   @form.update
-  if escape or ((enter or space) and @form.index == 4)
+  if escape or ((enter or space) and @form.index == 5)
     $scene = Scene_Blog_Posts.new($name,@category,@categoryselindex,@postselindex)
   end
-  if (enter and $key[0x12]) or ((enter or space) and @form.index == 3)
+  if (enter or space) and @form.index==1 and @postaudio!=nil
+    case menuselector(["Odtwarzaj","Użyj innego pliku","Anuluj"])
+        when 0
+                    player(@postaudio,postname)
+          when 1
+            fl=getfile("Wybierz plik audio",getdirectory(5)+"\\")
+            @postaudio=fl if fl!="" and fl!=nil
+      end
+    @form.focus
+      end
+  if (enter and $key[0x12]) or ((enter or space) and @form.index == 4)
 @form.fields[0].finalize
-@form.fields[1].finalize
-    post = @form.fields[1].text_str
-    buf = buffer(post)
-cat = ""
+    cat = ""
 for i in 0..categoryids.size-1
   cat += categoryids[i].to_s + "," if @form.fields[2].selected[i] == true
 end
-    bt = srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str}\&buffer=#{buf.to_s}\&edit=1")
+bt=[]
+if @postaudio==nil
+post = @form.fields[1].text_str
+    buf = buffer(post)    
+bt = srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str.urlenc}\&buffer=#{buf.to_s}\&edit=1\&privacy=#{@form.fields[3].index.to_i}")
+elsif @postaudio.include?($url)
+    bt = srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str.urlenc}\&edit=1\&privacy=#{@form.fields[3].index.to_s}")
+else
+  waiting
+                 speech("Konwertowanie pliku...")
+      File.delete("temp/audioblogpost.opus") if FileTest.exists?("temp/audioblogpost.opus")
+      executeprocess("bin\\ffmpeg.exe -y -i \"#{@postaudio}\" -b:a 128K \"temp/audioblogpost.opus\"",true)
+              fl=read("temp/audioblogpost.opus")
+        boundary=""
+        while fl.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
+    length=data.size    
+      host = $srv.delete("/")
+      q = "POST /srv/blog_posts_mod.php?name=#{$name}\&token=#{$token}\&categoryid=#{cat.urlenc}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str.urlenc}\&edit=1\&privacy=#{@form.fields[3].index.to_s}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+a = connect(host,80,q).delete("\0")
+for i in 0..a.size - 1
+  if a[i..i+3] == "\r\n\r\n"
+    s = i+4
+    break
+    end
+  end
+  if s == nil
+    speech("Błąd")
+    return
+  end
+  sn = a[s..a.size - 1]
+  a = nil
+        bt = strbyline(sn)
+waiting_end
+        end
 if bt[0].to_i < 0
   speech("Błąd")
 else
@@ -715,7 +806,7 @@ class Scene_Blog_Read
     @scene=scene
       end
   def main
-blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{@owner}")
+blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{@owner}&details=1")
 err = blogtemp[0].to_i
 if err < 0
   speech("Błąd.")
@@ -726,7 +817,8 @@ for i in 0..blogtemp.size - 1
   blogtemp[i].delete!("\n")
 end
 lines = blogtemp[1].to_i
-l = 2
+@knownposts=blogtemp[2].to_i
+l = 3
 text = ""
 @post = []
 for i in 0..lines - 1
@@ -768,15 +860,30 @@ loop do
   loop_update
   @form.update
   update
-  if @form.fields[@form.fields.size-4]!=nil and @form.fields[@form.fields.size-4].text!=[[]] and @form.fields[@form.fields.size-3]==nil
+  if @form.fields[@form.fields.size-4]!=nil and @form.fields[@form.fields.size-4].text!="" and @form.fields[@form.fields.size-3]==nil
     @form.fields[@form.fields.size-3]=Button.new("Wyślij")
-  elsif @form.fields[@form.fields.size-4]!=nil and @form.fields[@form.fields.size-4].text==[[]] and @form.fields[@form.fields.size-3]!=nil
+  elsif @form.fields[@form.fields.size-4]!=nil and @form.fields[@form.fields.size-4].text=="" and @form.fields[@form.fields.size-3]!=nil
     @form.fields[@form.fields.size-3]=nil
     end
   break if $scene != self
   end
 end
 def update
+  if $key[0x11] and !$key[0x12]
+    if $key[0xBC]
+      @form.index=@postcur=0
+      @form.focus
+    elsif $key[0xBE]
+      @form.index=@postcur=@form.fields.size-5
+      @form.focus
+    elsif $key[0x4E]
+      @form.index=@postcur=@form.fields.size-4
+    @form.focus
+      elsif $key[0x55] and @knownposts<@post.size
+      @form.index=@postcur=@knownposts
+      @form.focus
+    end
+    end
   if (enter or space) and @form.index == @form.fields.size - 3
     @form.fields[@form.fields.size - 4].finalize
     txt = @form.fields[@form.fields.size - 4].text_str
@@ -805,8 +912,8 @@ if (enter or space) and @form.index == @form.fields.size - 2
   @form.fields[0].finalize
   txt = @form.fields[0].text_str
   txt += "\r\nZmodyfikowany\r\n"
-  $scene = Scene_Blog_Post_Modify.new(@category,@post,txt,@categoryselindex,@postselindex)
-  end
+  $scene = Scene_Blog_Post_Edit.new(@category,@postid,@categoryselindex,@postselindex)
+    end
   if escape or ((enter or space) and @form.index == @form.fields.size - 1)
 if @scene == nil
     $scene = Scene_Blog_Posts.new(@owner,@category,@categoryselindex,@postselindex)
@@ -966,7 +1073,7 @@ if isf == true
 else
   sel.push("Dodaj do śledzonych blogów")
 end
-sel += ["Odśwież","Anuluj"]
+sel += ["Oznacz wszystkie wpisy na tym blogu jako przeczytane","Odśwież","Anuluj"]
 @menu = menulr(sel)
 loop do
 loop_update
@@ -975,14 +1082,14 @@ break if $scene != self
 if enter
   case @menu.index
   when 0
-    if usermenu(@owner[@sel.index],true) != "ALT"
+    if usermenu(@owners[@sel.index],true) != "ALT"
           @menu = menulr(sel)
         else
           break
         end
 when 1
   $bloglistindex = @sel.index
-        $scene = Scene_Blog_Other.new(@owners[@sel.index],$scene)
+        $scene = Scene_Blog_Main.new(@owners[@sel.index],0,$scene)
   when 2
    if isf == false
 err = srvproc("blog_fb","name=#{$name}\&token=#{$token}\&add=1\&searchname=#{@owners[@sel.index]}")[0].to_i
@@ -1003,9 +1110,18 @@ else
 end
 speech_wait
 end
-        when 3
+when 3
+  confirm("Wszystkie wpisy na tym blogu zostaną oznaczone jako przeczytane. Czy jesteś pewien, że chcesz kontynuować?") do
+    if srvproc("blog_markasread","name=#{$name}\&token=#{$token}\&user=#{@owners[@sel.index]}")[0].to_i==0
+      speech("Wszystkie wpisy na tym blogu zostały oznaczone jako przeczytane.")
+    else
+      speech("Błąd.")
+    end
+    speech_wait
+    end
+        when 4
           @main = true
-  when 4
+  when 5
 $scene = Scene_Main.new
 end
 break

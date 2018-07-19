@@ -60,7 +60,7 @@ class Scene_Chat
         end
         hs=ct[1..ct.size-1].join
         @form.fields[1].settext(hs)
-        @form.fields[1].line=@form.fields[1].text.size-1
+        @form.fields[1].index=@form.fields[1].text.size
         onl=srvproc("chat_online","name=#{$name}\&token=#{$token}")
         if onl[0].to_i<0
           speech("Błąd.")
@@ -115,7 +115,7 @@ class Scene_Chat
         end
             end
      if enter
-       if @form.index == 0 and @form.fields[0].text!=[[]]
+       if @form.index == 0 and @form.fields[0].text!=""
        txt=@form.fields[0].text_str
        @form.fields[0].settext("")
        ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{txt}")

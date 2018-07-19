@@ -27,17 +27,17 @@ update
        end
       end
     def update
-                 
+                
       $scene=Scene_Main.new if escape
      menu if alt
      if $key[0x10] and @played!=nil
        if Input.repeat?(Input::RIGHT)
-         @played.position+=5000
+         @played.position+=5
        elsif Input.repeat?(Input::LEFT)
-                  if @played.position<5000
+                  if @played.position<5
          @played.position=0
        else
-         @played.position-=5000
+         @played.position-=5
        end
      elsif Input.repeat?(Input::UP)
        @played.volume+=0.05 if @played.volume<1
@@ -49,21 +49,43 @@ update
        if $key[0x10]==false
        file=@tree.selected(true)
        ext=File.extname(file).downcase
-       if ext==".mp3" or ext==".wav" or ext==".ogg" or ext==".flac" or ext==".mid" or ext==".wma"
+       if @tree.filetype==1
                   if @played!=nil
                            @played.close
        @played=nil
                  end
      if @playedfile != @tree.selected
-       @playedfile=@tree.selected
-     @played=AudioFile.new(@tree.selected)
-     @played.play
+            begin
+                     @played=Bass::Sound.new(@tree.selected(true),1)
+                     if @played.cls!=nil
+                     @playedfile=@tree.selected
+       @played.play
+     @playedpause=false
    else
+     @played=nil
+     end
+     rescue Exception
+       begin
+                  @played=Bass::Sound.new(@tree.selected(true),0)
+         @playedfile=@tree.selected
+         @played.play
+     @playedpause=false
+       rescue Exception
+         speech("Nie można odtworzyć tego pliku.")
+         end
+       end
+        else
      @playedfile=nil
    end
                  end
                                 elsif @played!=nil
-                 @played.paused=@played.playing?
+                 if @playedpause==false
+                                  @played.pause
+                                  @playedpause=true
+                                else @playedpause==true
+                                  @played.play
+                                  @playedpause=false
+                                  end
                  end
      end
                  if $key[115] and @played!=nil
@@ -92,9 +114,24 @@ speech("Usunięto.")
 @clp_name = @tree.file
 speech("Skopiowano")
 end
-if $key[0x11] and $key[0x44] and File.directory?(@tree.selected(false))
+if $key[0x11] and $key[0x44]
+  if File.directory?(@tree.selected(false))
   o=countsub(@tree.selected(false))
   speech("#{o[1]} plików, #{o[0]} folderów")
+else
+  ext=File.extname(@tree.selected)
+  if @tree.filetype==1
+    t=AudioFile.new(@tree.selected)
+    d=t.sound.lenght/1000
+    t.close
+    if d<360000
+        h=d/3600
+        m=(d-d/3600*3600)/60
+  s=d-d/60*60
+  speech(sprintf("%02d:%02d:%02d",h,m,s))
+  end          
+  end
+  end
   end
 if $key[0x11] and $key[0x49]
   size=getsize(@tree.selected(false))
@@ -143,8 +180,11 @@ dialog_open
          if ind == 0
            @tree.go
          elsif ind == 1
-           $playlist+=audiosearcher(file)
-           speech("Pliki dodane do playlisty.")
+           waiting
+           aus=audiosearcher(file)
+           waiting_end
+                      speech("Pliki dodane do playlisty: #{aus.size.to_s}.")
+                      $playlist+=aus
            speech_wait
            end
                   else
@@ -153,11 +193,18 @@ if @played!=nil
        @played=nil
                  end
                     ext=File.extname(file).downcase
-if ext==".ogg" or ext==".mp3" or ext==".wav" or ext==".mid" or ext==".flac" or ext==".mod" or ext==".wma"
+if @tree.filetype==1
 audiomenu
-  elsif ext == ".txt"
+  elsif @tree.filetype==2
 textmenu
-            elsif ext==".7z" or ext==".zip" or ext==".rar" or ext==".tar" or ext==".bz" or ext==".bz2"
+elsif @tree.filetype==4
+documentmenu            
+elsif @tree.filetype==5
+  confirm("Czy chcesz uruchomić ten plik skryptu Elten API? Skrypty pochodzące z niezaufanych źródeł mogą być niebezpieczne i spowodować uszkodzenie komputera lub uzyskanie dostępu do konta przez osoby niepowołane. Kontynuuj tylko wtedy, gdy ufasz pochodzeniu tego pliku.") do
+    eval(read(@tree.selected),nil,@tree.file)
+    @tree.focus
+    end
+elsif @tree.filetype==3
             dialog_open
             ind=selector(["Rozpakuj","Anuluj"],"",0,1,1)
             dialog_close
@@ -167,34 +214,42 @@ textmenu
               @tree.refresh
               speech_wait
               end
-            end
+                                        end
 end
 speech(@tree.file)
        end
      end 
      def audiosearcher(path)
+       @audiosearcherlastupdate=0 if @audiosearcherlastupdate==nil
+       if @audiosearcherlastupdate<Time.now.to_i-5
        loop_update
+       @audiosearcherlastupdate=Time.now.to_i
+       end
            return if path == nil
   nextsearchs = []
   results = []
+  begin      
   files=Dir.entries(path)
+rescue Exception
+  return []
+  end
   files.delete("..")
   files.delete(".")
-  tfiles=filesindir(path)
-  exts = [".mp3",".ogg",".wav",".mid"]
-        for i in 0..tfiles.size - 1
-   if tfiles[i] != nil
-          for j in 0..exts.size - 1
-     if File.extname(tfiles[i].downcase) == exts[j]
-       results.push(path + "\\" + files[i])
+    exts = [".mp3",".ogg",".wav",".mid"]
+        for f in files
+          d=path+"\\"+f
+          if Win32API.new("shlwapi","PathIsDirectory",'p','i').call(utf8(d))>0
+            pth="\0"*2048
+            Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(d),pth,pth.size)
+            pth.delete!("\0")
+            nextsearchs.push(pth)
+            else
+                 if exts.include?(File.extname(f.downcase))
+              results.push(d)
      end
-     end
-     if File.directory?(path + "\\" + tfiles[i]) and tfiles[i] != "." and tfiles[i] != ".."
-       nextsearchs.push(path + "\\" + tfiles[i])
-            end
+             end
    end
- end
-  for i in 0..nextsearchs.size-1
+        for i in 0..nextsearchs.size-1
     ns = nextsearchs[i]
     nextsearchs[i] = nil
     results+=audiosearcher(ns)
@@ -224,7 +279,9 @@ def countsub(dir)
   return [0,0] if dir==nil
   ds=0
   fs=0
-  fl=filesindir(dir)
+  fl=Dir.entries(dir)
+  fl.delete(".")
+  fl.delete("..")
   for f in fl
     if f!=nil
     if File.file?(dir+"\\"+f)
@@ -240,27 +297,31 @@ def countsub(dir)
   return [ds,fs]
   end
 def menu
-  if @played!=nil
+    if @played!=nil
        @played.close
        @played=nil
-       end
-  afile=@tree.path+@tree.file
+     end
+     ext=""
+if @tree.file!=nil
+       afile=@tree.path+@tree.file
   file=@tree.selected(true)
   ext=File.extname(file).downcase
+  end
   play("menu_open")
   play("menu_background")
   sel = [["Plik","Otwórz w skojarzonej aplikacji","Wyślij na serwer","Spakuj","Zmień nazwę","Usuń"],["Schowek","Kopiuj","Wytnij","Wklej"],["Utwórz","Nowy folder","Nowy dokument tekstowy","Nowe nagranie"],"Wyczyść playlistę"]
-  sel[0][3]="Rozpakuj" if ext==".rar" or ext==".zip" or ext==".7z"
-  sel.push("Audio") if ext==".mp3" or ext==".wav" or ext==".ogg" or ext==".flac" or ext==".mid" or ext==".wma"
-  sel.push("Tekst") if ext == ".txt"
+    sel[0][3]="Rozpakuj" if ext==".rar" or ext==".zip" or ext==".7z"
+      sel.push("Audio") if @tree.filetype==1
+  sel.push("Tekst") if @tree.filetype==2
+  sel.push("Dokument") if @tree.filetype==4
   if File.directory?(@tree.selected(true))
     sel[0][0]="Folder"
-    sel[0][2]="Dodaj wszystkie nagrania z tego folderu do playlisty"
-    end
-  @menu=Tree.new(sel,0,"",false,true)
+sel[0][2]="Dodaj wszystkie nagrania z tego folderu do playlisty"
+end
+@menu=Tree.new(sel,0,"",false,true)
   loop do
     loop_update
-    @menu.update
+        @menu.update
     if alt or escape
       break
     end
@@ -270,6 +331,8 @@ def menu
       d=audiomenu(true)
       elsif ext == ".txt"
       d=textmenu(true)
+      elsif ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf"
+d=documentmenu(true)
       end
       if d!=-1
         break
@@ -285,8 +348,11 @@ when 1
       run("explorer \"#{afile}\"")
       when 2
         if File.directory?(@tree.selected(true))
-          $playlist+=audiosearcher(file)
-           speech("Pliki dodane do playlisty.")
+          waiting
+          aus=audiosearcher(file)
+          waiting_end
+           speech("Pliki dodane do playlisty: #{aus.size.to_s}.")
+           $playlist+=aus
            speech_wait
            else
         if $name!="guest"
@@ -360,7 +426,7 @@ speech_wait
 when 11
   name=""
 while name==""
-      name=input_text("Podaj nazwę folderu","ACCEPTESCAPE","folder")
+      name=input_text("Podaj nazwę folderu","ACCEPTESCAPE","")
       end
     if name != "\004ESCAPE\004"
       Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(@tree.path+name),nil)
@@ -368,7 +434,7 @@ while name==""
       speech_wait
     end
           when 12
-  pr="text.txt"
+  pr=".txt"
   name=""
     while name == ""
     name=input_text("Podaj nazwę pliku","ACCEPTESCAPE",pr)
@@ -379,7 +445,7 @@ while name==""
       speech_wait
   end
       when 13
-        pr="wave.wav"
+        pr=".wav"
         name=""
     while name == ""
     name=input_text("Podaj nazwę pliku","ACCEPTESCAPE",pr)
@@ -446,19 +512,19 @@ dialog_close if submenu==false
 Audio.bgs_stop if submenu and ind!=-1
 case ind
 when 0
-  player(@tree.selected,"Odtwarzanie: #{File.basename(@tree.path+@tree.file)}",true)
+  player(@tree.selected(true),"Odtwarzanie: #{File.basename(@tree.path+@tree.file)}",true)
   when 1
     $playlist.push(@tree.path+@tree.file)
     when 2
       avatar_set(@tree.path+@tree.file)
       speech_wait
       when 3
-formats=[".mp3",".ogg",".wav"]
+formats=[".mp3",".ogg",".wav",".flac",".wma",".aac",".m4a",".opus"]
 f=selector(formats,"Do jakiego formatu chcesz przekonwertować ten plik?",0,-1)
 if f!=-1
 format=formats[f]
 extra=""
-if format!=".wav"
+if format!=".wav" and format!=".flac"
   bts=[48,64,96,128,160,192,224,256,320]
   btrs=[]
   for b in bts
@@ -481,6 +547,7 @@ end
 return ind
 end
 def textmenu(submenu=false)
+  file=@tree.selected
       dialog_open if submenu==false
       sl=["Edytuj","Czytaj do pliku"]
       sl.push("Anuluj") if submenu==false
@@ -491,7 +558,7 @@ def textmenu(submenu=false)
     Audio.bgs_stop if submenu and ind != -1
     case ind
     when 0
-    form=Form.new([Edit.new(@tree.file,"MULTILINE",read(file)),Button.new("Zapisz"),Button.new("Anuluj")])
+    form=Form.new([Edit.new(@tree.file,"MULTILINE",read(file,false,true)),Button.new("Zapisz"),Button.new("Anuluj")])
     loop do
       loop_update
       form.update
@@ -507,6 +574,41 @@ def textmenu(submenu=false)
             end
             return -1
             end
+          def documentmenu(submenu=false)
+      dialog_open if submenu==false
+      sl=["Czytaj","Czytaj do pliku"]
+      sl.push("Anuluj") if submenu==false
+   ck=nil
+   ck=Input::UP if submenu
+          ind=selector(sl,"",0,-1,1,true,ck)
+    dialog_close if submenu==false
+    Audio.bgs_stop if submenu and ind != -1
+    text=""
+    fid=0
+    fid="tx"+rand(36**8).to_s(36)+""
+    if ind<2 and ind>-1
+      speech("Przetwarzanie...")
+      waiting
+      executeprocess("bin\\blb2txt.exe -f \"#{@tree.selected}\" -v \"temp\\\" -p \"#{fid}\" -e \"utf8\"",true)
+            text=read("temp\\"+fid+".txt")
+            waiting_end
+      end
+    case ind
+    when 0
+          File.delete("temp\\"+fid+".txt")
+          form=Form.new([Edit.new(@tree.file,"MULTILINE|READONLY",text),Button.new("Zamknij")])
+    loop do
+      loop_update
+      form.update
+      break if escape or ((space or enter) and form.index == 1)
+                  end
+            when 1
+              speechtofile("temp\\#{fid}.txt","",File.basename(@tree.file).gsub(File.extname(@tree.file),""))
+                          end
+            File.delete("temp\\"+fid+".txt") if FileTest.exists?("temp\\"+fid+".txt")
+                          return -1
+            end
           
+
 end
 #Copyright (C) 2014-2016 Dawid Pieper

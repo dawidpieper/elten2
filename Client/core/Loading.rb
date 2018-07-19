@@ -7,18 +7,25 @@
 
 class Scene_Loading
   def main
-                    $volume=100
+        $restart=false
+                                $volume=100
             $preinitialized = false
     $eltenlib = "./eltenvc"
     begin
-          $winver = Win32API.new($eltenlib,"WindowsVersion",'','i').call
+          $hook = Win32API.new($eltenlib,"hook",'','i').call
   rescue Exception
     $eltenlib = "elten"
+    begin
+      $hook = Win32API.new($eltenlib,"hook",'','i').call
+    rescue Exception
+      $hook=0
+      end
       end
       $scenes = []
     $volume = 80
     $speech_to_utf = true
     $instance = Win32API.new("kernel32","GetModuleHandle",'i','i').call(0)
+    $process = Win32API.new("kernel32","GetCurrentProcess",'','i').call
     $path="\0"*1024
     Win32API.new("kernel32","GetModuleFileName",'ipi','i').call($instance,$path,$path.size)
     $path.delete!("\0")
@@ -36,18 +43,23 @@ class Scene_Loading
         end
       end
       end      
+      $computer="\0"*128
+      siz=[$computer.size].pack("i")
+      Win32API.new("kernel32","GetComputerName",'pp','i').call($computer,siz)
+      $computer.delete!("\0")
+      Bass.init($wnd) if $usebass==true
       writefile("hwnd",$wnd.to_s)
-    if $ruby != true
+      if $ruby != true
             $sprite = Sprite.new
     $sprite.bitmap = Bitmap.new("elten.jpg") if FileTest.exists?("elten.jpg")
     Graphics.freeze
     Graphics.transition(0)
     end
-    $name = ""
+        $name = ""
     $token = ""
-    $url = "https://elten-net.eu/"
+    $url = "https://elten-net.eu/srv/"
     $srv = "elten-net.eu"
-    Graphics.frame_rate = 40 if $ruby != true
+    Graphics.frame_rate = 60 if $ruby != true
               $appdata = getdirectory(26)
 $userprofile = getdirectory(40)
 $portable=readini("./elten.ini","Elten","Portable","0").to_i
@@ -64,6 +76,7 @@ $commandline=Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
       $configdata = $eltendata + "\\config"
 $bindata = $eltendata + "\\bin"
 $appsdata = $eltendata + "\\apps"
+$extrasdata = $eltendata + "\\extras"
 $soundthemesdata = $eltendata + "\\soundthemes"
 $langdata = $eltendata + "\\lng"
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($eltendata),nil)
@@ -96,6 +109,7 @@ end
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($configdata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($bindata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($extrasdata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata + "\\inis"),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\inis"),nil)
@@ -112,30 +126,42 @@ keyms=readini($configdata+"\\interface.ini","Interface","KeyUpdateTime","")
   writeini($configdata+"\\advanced.ini","Advanced","YTFormat",yf) if yf!=""
   writeini($configdata+"\\advanced.ini","Advanced","SoundStreaming",ss) if ss!=""
   end
-$interface_listtype = readini($configdata + "\\interface.ini","Interface","ListType","0").to_i
+  $interface_listtype = readini($configdata + "\\interface.ini","Interface","ListType","0").to_i
 $advanced_keyms = readini($configdata + "\\advanced.ini","Advanced","KeyUpdateTime","75").to_i
 $advanced_ackeyms = $advanced_keyms * 3
 $interface_soundthemeactivation = readini($configdata + "\\interface.ini","Interface","SoundThemeActivation","1").to_i
 $interface_typingecho = readini($configdata + "\\interface.ini","Interface","TypingEcho","0").to_i  
+$interface_linewrapping = readini($configdata + "\\interface.ini","Interface","LineWrapping","1").to_i
 $interface_hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
-$interface_fullscreen = readini($configdata + "\\interface.ini","Interface","FullScreen","0").to_i
+$interface_fullscreen = readini($configdata + "\\interface.ini","Interface","StartFullScreen","0").to_i
 $advanced_hexspecial = readini($configdata + "\\advanced.ini","Advanced","HexSpecial","1").to_i
-$advanced_refreshtime = readini($configdata + "\\advanced.ini","Advanced","RefreshTime","1").to_i        
+$advanced_refreshtime = readini($configdata + "\\advanced.ini","Advanced","RefreshTime","5").to_i        
+if $advanced_refreshtime==1
+writeini($configdata + "\\advanced.ini","Advanced","RefreshTime","5")
+$advanced_refreshtime=5
+end
 $advanced_ytformat = readini($configdata + "\\advanced.ini","Advanced","YTFormat","wav").to_s
 $advanced_ytformat="wav" if $advanced_ytformat!="mp3"
 $advanced_soundstreaming = readini($configdata + "\\advanced.ini","Advanced","SoundStreaming","1").to_i
 $advanced_synctime = readini($configdata + "\\advanced.ini","Advanced","SyncTime","1").to_i
 if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
+    File.delete("testtemp") if FileTest.exists?("testtemp")
+      $url = "http://elten-net.eu/srv/"
+      if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
       File.delete("testtemp") if FileTest.exists?("testtemp")
-      else
-      $neterror = true
-      end
+    $neterror=true
+  else
+    #sslerror
+            end
+    else
+      $neterror=true
+            end
       if $neterror == true
       download($url + "redirect","redirect")
     if FileTest.exist?("redirect")
       $neterror = false
       rdr = IO.readlines("redirect")
-      File.delete("redirect") if $DEBUG != true and FileTest.exists?
+            File.delete("redirect") if $DEBUG != true and FileTest.exists?
       ("redirect") if $DEBUG != true
       if rdr.size > 0
           if rdr[0].size > 0
@@ -147,6 +173,7 @@ $neterror = true
 end
         end
       end  
+Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,utf8($extrasdata+"\\soundfont.sf2")) if FileTest.exists?($extrasdata+"\\soundfont.sf2")
       version = readini(".\\elten.ini","Elten","Version",0).to_f
                 beta = readini(".\\elten.ini","Elten","Beta","0").to_i
                                 isbeta = readini(".\\elten.ini","Elten","IsBeta","0").to_i
@@ -154,10 +181,10 @@ alpha = readini(".\\elten.ini","Elten","Alpha","0").to_i
                       nversion = readini($bindata + "\\newest.ini","Elten","Version","0").to_f
                     nbeta = readini($bindata + "\\newest.ini","Elten","Beta",0).to_i
                     nalpha = readini($bindata + "\\newest.ini","Elten","Alpha",0).to_i
-        $beta = beta
-        $alpha = alpha
-    $version = version
-    $isbeta = isbeta
+        $beta = Elten.beta
+        $alpha = Elten.alpha
+    $version = Elten.version
+    $isbeta = Elten.isbeta
     $nbeta = nbeta
     $nalpha = nalpha
     $nversion = nversion
@@ -192,15 +219,20 @@ if $rvc==nil
           if $voice == -2 or $voice == -3
           v=$voice
           $voice=-1
-          speech("Nie wybrano głosu programu.\r\nPo potwierdzeniu tego komunikatu użyj strzałek góra-duł, aby wybrać głos.\r\nNaciśnij enter, aby kontynuować.")
-          until enter
+          speech("Nie wybrano głosu programu. Naciśnij enter, aby wybrać głos SAPI lub escape, aby użyć głosu domyślnego lub aktywnego czytnika ekranu.")
+          until enter or escape
             loop_update
           end
+if enter
           $voice=v
       $scene = Scene_Voice_Voice.new
+    else
+      $voice=-1
+            writeini($configdata + "\\sapi.ini","Sapi","Voice","-1") if $voice != -3
+      end
       return
     else
-      Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
+      Elten::Engine::Speech.setvoice($voice) if $voice != -3
                   $rate = readini($configdata + "\\sapi.ini","Sapi","Rate",50).to_i
         if $rvcr==nil
       if (/\/voicerate (\d+)/=~$commandline) != nil
@@ -208,7 +240,7 @@ if $rvc==nil
         $rate=$rvcr.to_i
             end    
     end
-                  Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
+                  Elten::Engine::Speech.setrate($rate)
     $sapivolume = readini($configdata + "\\sapi.ini","Sapi","Volume",100).to_i
     if $rvcv==nil
       if (/\/voicevolume (\d+)/=~$commandline) != nil
@@ -216,7 +248,7 @@ if $rvc==nil
         $sapivolume=$rvcv.to_i
             end    
     end
-    Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
+    Elten::Engine::Speech.setvolume($sapivolume)
   end
           $soundthemespath = readini($configdata + "\\soundtheme.ini","SoundTheme","Path","")
             if $soundthemespath.size > 0
@@ -228,7 +260,10 @@ if $rvc==nil
                   $lang_src = []
       $lang_dst = []
     if $language != "PL_PL"
-      $langwords = readlines($langdata + "\\" + $language + ".elg")
+      $langwords = read($langdata + "\\" + $language + ".elg",false,true).split("\n")
+            $langwords.delete_at(0)
+      $langwords.delete_at(0)
+      $langwords.delete_at(0)
                           for i in 0..$langwords.size - 1
         $langwords[i].delete!("\n")
         $langwords[i].gsub!('\r\n',"\r\n")
@@ -273,9 +308,9 @@ $neterror = true
 end
         end
       end  
-loop_update
+      loop_update
       $speech_wait = true if $silentstart != true
-        if ((nversion > version+0.00001 or (nalpha > alpha and isbeta==2) or (nalpha == 0 and alpha > 0 and isbeta == 2))) and $denyupdate != true
+        if (((nversion > version+0.00001 or (nalpha > alpha and isbeta==2) or (nalpha == 0 and alpha > 0 and isbeta == 2))) or (isbeta==1 and nversion==version)) and $denyupdate != true
 if $portable != 1
           $scene = Scene_Update_Confirmation.new
       return
@@ -284,7 +319,7 @@ if $portable != 1
       speech_wait
       end
     end
-        if $neterror == true
+            if $neterror == true
       if (download($url,"testtemp") == 0 and FileTest.exists?("testtemp"))
         File.delete("testtemp") if FileTest.exists?("testtemp")
         $neterror = false
@@ -294,8 +329,8 @@ if $portable != 1
         delay(3)
         speech_wait
                       end
-      end
-      volume = readini($configdata + "\\interface.ini","Interface","MainVolume","-1").to_i
+                    end
+                          volume = readini($configdata + "\\interface.ini","Interface","MainVolume","-1").to_i
       if volume == -1
 $exit = true
 license
@@ -304,7 +339,7 @@ license
         else
         $volume = volume
         end
-      autologin = readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i
+        autologin = readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i
         if autologin.to_i > 0 and $offline!=true
             $scene = Scene_Login.new
       return

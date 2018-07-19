@@ -7,34 +7,13 @@
 
 class Scene_Languages
   def main
-    speech("Zarządzanie językami")
-        langstm = Win32API.new($eltenlib,"FilesInDir",'p','p').call($langdata)
-langst = []
-c = 0
-langst[c] = ""
-for i in 0..imax = langstm.size - 1
-  langst[c] += langstm[i..i]
-  if langstm[i..i] == "\n"
-    c += 1
-    langst[c] = "" if imax != i
-    end
-  end
-  langs = []
-  for i in 0..langst.size - 1
-    langst[i].delete!("\n")
-    langs.push(langst[i]) if langst[i] != "." and langst[i] != ".."
-    end
-@langs_f = []
-for i in 0..langs.size - 1
-if File.extname($langdata + "\\" + langs[i]) == ".elg" or File.extname($langdata + "\\" + langs[i]) == ".ELG" or File.extname($langdata + "\\" + langs[i]) == ".ELg" or File.extname($langdata + "\\" + langs[i]) == ".Elg" or File.extname($langdata + "\\" + langs[i]) == ".ElG"
-  @langs_f.push(langs[i])
-  end
-end
+            @langs_f = Dir.entries($langdata)
+        @langs_f.delete(".")
+        @langs_f.delete("..")
 @langs = []
 for i in 0..@langs_f.size - 1
-  tmp = readlines($langdata + "\\" + @langs_f[i])
-  tmp = [] if tmp == nil
-  tmp[2] = "" if tmp[2] == nil
+  tmp = read($langdata + "\\" + @langs_f[i],false,true).split("\n")
+      tmp[2] = "" if tmp[2] == nil
   @langs[i] = tmp[2].sub("(UTF)","")
     @langs[i] = "" if @langs[i] == nil
   @langs[i].delete!("\n")
@@ -46,12 +25,11 @@ for i in 0..@langs.size - 1
     @langs.delete_at(i)
     end
   end
-speech_wait
   sel = ["POLSKI - POLSKA"]
 sel += @langs
 sel.push("Pobierz tłumaczenia z serwera")
 @selt = sel
-@sel = Select.new(sel)
+@sel = Select.new(sel,true,0,"Zarządzanie językami")
 loop do
   loop_update
   @sel.update
@@ -81,8 +59,8 @@ if $language.upcase != "PL_PL"
   $lang_src = []
       $lang_dst = []
     if $language != "PL_PL"
-      $langwords = readlines($langdata + "\\" + $language + ".elg")
-      $langwords.delete_at(0)
+      $langwords = read($langdata + "\\" + $language + ".elg",false,true).split("\n")
+            $langwords.delete_at(0)
       $langwords.delete_at(0)
       $langwords.delete_at(0)
                           for i in 0..$langwords.size - 1

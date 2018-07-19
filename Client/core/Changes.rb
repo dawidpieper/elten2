@@ -522,6 +522,190 @@ Wersja 2.13:
 - Poprawiono: zamknięcie menu w plikach udostępnionych otwierało dialog usuwania pliku
 
 2017-11-05
+","
+Wersja 2.14:
+- Dodano: możliwość przeglądania oraz czytania do pliku dokumentów w formatach doc, pdf, epub, mobi, html, rtf
+- Dodano: tryb debugowania
+- Dodano: lista skrótów klawiszowych pod klawiszem F1
+- Dodano: możliwość szybkiego przełączenia wyjścia mowy na czytnik ekranu skrótem SHIFT+F1
+- Dodano: nowe dźwięki
+- Zmieniono: zaktualizowana biblioteka Elten API (elten.dll)
+- Zmieniono: menu w plikach udostępnionych
+- Usunięto: nieużywane biblioteki i zależności
+- Poprawiono: błąd uniemożliwiający edycję niektórych plików txt
+- Poprawiono: menu w plikach udostępnionych otwiera się już normalnie
+- Poprawiono: problem uniemożliwiający połączenie z serwerem na niektórych konfiguracjach
+- Poprawiono: błąd pozwalający na otwarcie menu w menu
+- Poprawiono: optymalizacja kodu
+
+2017-11-10
+","
+Wersja 2.15:
+- Dodano: skrót CTRL+D na pliku dźwiękowy podaje jego długość
+- Dodano: Spacja na wyniku wyszukiwania w Youtube podaje jego długość
+- Zmieniono: nowa, szybsza procedura wyszukiwania plików audio
+- Poprawiono: czytanie do pliku z poziomu menedżera plików działa już poprawnie
+- Poprawiono: możliwe jest wybranie obsługi czytnika ekranu z poziomu głównego okna
+- Poprawiono: menedżer plików nie wysypuje się już przy folderach zawierających wiele plików
+- Poprawiono: drobne poprawki przy odczytywanych komunikatach na forum
+
+2017-11-11
+","
+Wersja 2.16:
+Poprawiono: stabilność
+Zaktualizowano: protokół połączenia z serwerem
+
+2017-11-26
+","
+Wersja 2.17:
+- Poprawiono: obsługa przekierowań
+
+2017-12-06
+","
+Wersja 2.18:
+- Poprawiono: protokół połączenia z serwerem
+- Poprawiono: zmiany pozwalające na zwiększenie płynności działania
+- Zmieniono: system logowania zaktualizowany do wersji z gałęzi beta Eltena 2.2
+- Zmieniono: agent zaktualizowany do wersji z gałęzi beta Eltena 2.2 (wyłączywszy nowe powiadomienia)
+- Zmieniono: aktualizacja zewnętrznych bibliotek do wersji najnowszych na dzień 1 stycznia 2018
+
+2018-01-03
+","
+Wersja 2.181:
+- Poprawiono: system logowania
+- Poprawiono: błąd powodujący krytyczne przerwanie pracy agenta przy przerwaniu połączenia z serwerem
+
+2018-01-06
+","
+Wersja 2.2:
+- Zmieniono: zupełnie nowy silnik audio obsługujący więcej formatów
+- Zmieniono: przepisane interfejsy przetwarzania forum i wiadomości
+- Zmieniono: przepisany system obsługi klawiatury
+- Zmieniono: interfejs menu
+- Dodano: wzmianki
+- Dodano: ustawienia co nowego
+- Dodano: nowe elementy co nowego: nowe wpisy i wątki na śledzonych forach, urodziny znajomych, wzmianki oraz znajomości
+- Dodano: śledzone fora
+- Dodano: możliwość ukrywania wpisów na blogach przed niezalogowanymi użytkownikami oraz edycji wpisów audio
+- Zmieniono: aktualizacja systemu logowania
+- Dodano: zarządzanie utworzonymi kluczami automatycznego logowania
+- Dodano: nowe skróty w odtwarzaczu plików
+- Poprawiono: błąd z wyświetlaniem niektórych folderów w plikach i odtwarzaniem niektórych plików
+- Dodano: szczegóły na Youtube pod klawiszem tab
+- Dodano: czarna lista
+- Poprawiono: problem z odtwarzaniem niektórych formatów plików
+- Poprawiono: problemy ze stabilnością programu
+- Poprawiono: długi czas ładowania paczek językowych
+- Zmieniono: nowa procedura resetowania hasła
+
+2018-02-24
+","
+Wersja 2.21:
+- Poprawiono: problem z otwieraniem menu w wiadomościach przy pustej skrzynce odbiorczej
+- Poprawiono: problem uniemożliwiający edycję pierwszego wpisu na blogu
+- Poprawiono: problem z wyłączającym się automatycznym logowaniem
+- Poprawiono: problem z wczytywaniem kursora w polach edycji
+- Poprawiono: dokumenty w menu pomoc powinny już wyświetlać się poprawnie
+
+2018-02-26
+","
+Wersja 2.22:
+- Zmieniono: przepisanie systemu pól tekstowych od podstaw
+- Zmieniono: obsługa odtwarzania plików midi
+- Poprawiono: błąd uniemożliwiający ustawienie prywatności podczas tworzenia wpisów audio na blogu
+- Poprawiono: błąd powodujący wysyłanie powiadomień o wylogowaniu na czacie nawet, gdy czat nie był otwarty
+- Dodano: oznaczenie dźwiękowe forów zawierających nieprzeczytane wpisy
+- Dodano: możliwość oznaczenia forum jako przeczytane
+
+2018-03-24
+","
+Wersja 2.221:
+- Poprawiono: menu na pustej liście śledzonych forów działa już poprawnie
+- Poprawiono: przy wciśnięciu ALT+F4 nie resetuje się już głośność tematu dźwiękowego
+- Poprawiono: od teraz wciśnięcie litery na liście plików pustego folderu nie powoduje błędu
+- Zmieniono: przy tworzeniu nowych plików i folderów nie jest wpisana w polu nazwy domyślna nazwa
+
+2018-03-28
+","
+Wersja 2.222:
+- Poprawiono: w jednoliniowych polach tekstowych długie wiersze nie są już zawijane
+- Poprawiono: w polach numerycznych nie można wprowadzać już liter
+- Poprawiono: skrypty Elten API działają poprawnie
+- Dodano: możliwość wyłączenia zawijania wierszy
+- Dodano: możliwość oznaczania wszystkich wpisów na blogu jako przeczytane
+
+2018-03-31
+","
+Wersja 2.223:
+- Poprawiono: pobieranie uprzednio zbuforowanych filmów na Youtube nie powoduje już krytycznego wyjątku
+- Zmieniono: sposób zapisywania informacji o wersji
+
+2018-04-11
+","
+Wersja 2.224:
+- Poprawiono: otwarcie menu na pozycji \"załaduj więcej wiadomości\" nie powoduje już krytycznego błędu
+- Poprawiono: tło w oknach dialogowych respektuje głośność tematu dźwiękowego
+
+2018-04-16
+","
+Wersja 2.23:
+- Dodano: nowy format do konwersji audio - opus
+- Dodano: przy odtwarzaniu plików udostępnianych obsługiwane jest teraz strumieniowanie formatów OPUS, AAC oraz WMA
+- Zmieniono: od teraz wątki głosowe mają tytuły tekstowe
+- Zmieniono: przy przeszukiwaniu pól tekstowych nie jest brana pod uwagę wielkość liter
+- Zmieniono: przy odtwarzaniu mediów zwiększono zakres zmian częstotliwości
+- Poprawiono: otwarcie menu użytkownika z listy blogów nie powoduje już krytycznego błędu
+- Poprawiono: zamknięcie okna dialogowego zapisu strumienia nie zamyka całego kontekstu
+- Poprawiono: przy odtwarzaniu wpisów głosowych klawiszem F4 jest już poprawnie przetwarzana treść tekstowa
+- Poprawiono: menu na liście blogów nie powinno już powodować krytycznych wyjątków przy otwieraniu danego bloga
+- Poprawiono: wciśnięcie klawisza enter na pustej liście udostępnionych plików nie powoduje już błędu
+- Poprawiono: po wciśnięciu klawisza delete na blogu innego użytkownika pojawiało się pytanie o usunięcie wpisu, po potwierdzeniu Elten wywoływał krytyczny wyjątek
+
+2018-04-23
+","
+Wersja 2.24:
+- ZMieniono: od tej pory audio na serwerze zapisywane jest w formacie OPUS
+- Zmieniono: maksymalna długość wpisów na blogach od tej pory wynosi jedną godzinę
+- Zmieniono: aktualizacja biblioteki kodeków do wersji najnowszej na dzień 29 kwietnia 2018
+- Poprawiono: przewijanie tekstu poprzez przytrzymywanie strzałki w lewo już działa poprawnie
+- Poprawiono: lepsze wsparcie dla strumieniowania kodeka OPUS
+
+2018-04-29
+","
+Wersja 2.241:
+- Poprawiono: lepsza obsługa strumieniowania audio
+
+2018-04-30
+","
+Wersja 2.242:
+- Poprawiono: do poprzedniej kompilacji przypadkowo dołączone zostały 64-bitowe wersje kodeków, co uniemożliwiło wysyłanie audio na serwer z komputerów z zainstalowanymi 32-bitowymi systemami operacyjnymi
+
+2018-04-30","
+Wersja 2.243:
+- Poprawiono: lepsza obsługa strumieniowania audio przy wolniejszym łączu Internetowym
+
+2018-05-03
+","
+Wersja 2.25:
+- Dodano: możliwość przesuwania wpisów przez moderatorów
+- Poprawiono: wiersze są już poprawnie zawijane w dłuższych polach tekstowych
+- Poprawiono: edycja notatek już działa poprawnie
+- Zmieniono: biblioteka kodeka opus zaktualizowana do najnowszej wersji
+
+2018-06-17
+","
+Wersja 2.26:
+- Poprawiono: klawisze page up i page down w polach tekstowych działają już poprawnie
+- Poprawiono: podczas wyszukiwania tekstów w polach tekstowych działa już klawisz escape
+- Poprawiono: na zakładce głównej forum menu już działa poprawnie
+- Poprawiono: polskie diakretyki są już poprawnie odczytywane na liście wyboru syntezatora mowy
+
+2018-06-17
+","
+Wersja 2.3:
+- Zmieniono: od tej pory przetwarzanie globalnych skrótów klawiszowych odbywa się w głównym wątku podczas odświeżania stanu klawiszy
+- Zmieniono: zaktualizowane pobieranie danych przy liście kontaktów i zalogowanych użytkowników
+
 "]
 @changes.reverse!
 @selt = []
@@ -542,7 +726,7 @@ def update
     $scene = Scene_Main.new
   end
   if enter
-    input_text(@selt[@sel.index],"MULTILINE|READONLY|ACCEPTESCAPE",@changes[@sel.index][1..@changes[@sel.index].size-1])
+    input_text(@selt[@sel.index],"READONLY|ACCEPTESCAPE",@changes[@sel.index][1..@changes[@sel.index].size-1])
     @sel.focus
     end
     end
