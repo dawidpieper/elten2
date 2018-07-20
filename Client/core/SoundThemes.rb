@@ -79,8 +79,7 @@ loop_update
             @return = true
             return
     end
-                   iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('SoundTheme','Path',@name,utf8($configdata + "\\soundtheme.ini"))
+                                   writeini($configdata + "\\soundtheme.ini",'SoundTheme','Path',@name)
                 speech("Zapisano.")
                 speech_wait
                           $soundthemespath = @name
@@ -175,11 +174,11 @@ for i in 0..imax = set.size - 1
     se[c] = "" if i != imax
     end
   end
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path), nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGM"),nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGS"), nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\ME"), nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\SE"), nil)
+  Dir.mkdir($soundthemesdata + "\\" + path)
+  Dir.mkdir($soundthemesdata + "\\" + path + "\\BGM")
+  Dir.mkdir($soundthemesdata + "\\" + path + "\\BGS")
+  Dir.mkdir($soundthemesdata + "\\" + path + "\\ME")
+  Dir.mkdir($soundthemesdata + "\\" + path + "\\SE")
   for i in 0..bgm.size - 1
     download(url = $url + "soundthemes/" + path + "/BGM/" + bgm[i],$soundthemesdata + "\\" + path + "\\BGM\\" + bgm[i])
     loop_update

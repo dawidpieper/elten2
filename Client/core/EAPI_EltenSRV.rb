@@ -212,9 +212,7 @@ def avatar(user)
       tmax = File.size(file)/10000.0
       loop do
         loop_update
-        x="\0"*1024
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
-x.delete!("\0")
+        x=Elten::Engine::Kernel.getexitcodeprocess(h).delete("\0")
 if x != "\003\001"
   break
   end

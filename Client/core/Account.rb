@@ -42,7 +42,7 @@ class Scene_Account_Password
   when 0
     speech("Hasło zostało zmienione.")
     speech_wait
-    Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","-1",$configdata + "\\login.ini")
+    writeini($configdata + "\\login.ini","Login","AutoLogin","-1")
     $scene = Scene_Loading.new
     when -1
       speech("Błąd połączenia z bazą danych.")

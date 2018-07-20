@@ -32,8 +32,7 @@ loop_update
          when 2
            $scene = Scene_Voice_Volume.new
          when 3
-                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Voice',-1.to_s,utf8($configdata + "\\sapi.ini"))
+                                      writeini($configdata + "\\sapi.ini",'Sapi','Voice',-1.to_s)
                                 $voice = -1
                 speech("Wybrano obsługę czytnika ekranowego.")
        end
@@ -84,8 +83,7 @@ loop_update
                 menu
         end
       if enter or $selectedvoice == true
-                iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Voice',$curnum.to_s,utf8($configdata + "\\sapi.ini")) if $voice != -3 or @settings != 0
+                                writeini($configdata + "\\sapi.ini",'Sapi','Voice',$curnum.to_s) if $voice != -3 or @settings != 0
                 $voice = $curnum.to_i
                                       mow = "Wybrany głos: " + Elten::Engine::Speech.getvoicename($curnum)
         speech(mow)
@@ -163,8 +161,7 @@ if @rate - 1 != @sel.index
         $scene = Scene_Voice.new
       end
       if enter
-                     iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Rate',@rate.to_s,utf8($configdata + "\\sapi.ini"))
+                                     writeini($configdata + "\\sapi.ini",'Sapi','Rate',@rate.to_s)
      speech("Zapisano.")
      speech_wait
      $scene = Scene_Voice.new
@@ -202,8 +199,7 @@ if @volume - 1 != @sel.index
         $scene = Scene_Voice.new
       end
       if enter
-                     iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Volume',@volume.to_s,utf8($configdata + "\\sapi.ini"))
+                                     writeini($configdata + "\\sapi.ini",'Sapi','Volume',@volume.to_s)
      speech("Zapisano.")
      speech_wait
      $scene = Scene_Voice.new

@@ -329,6 +329,12 @@ end
 Win32API.new("kernel32","FindClose",'i','i').call(handle)
 return size
 end
+def self.mkdir(dirname)
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(dirname),nil)
+end
+def self.rmdir(dirname)
+  Win32API.new("kernel32","DeleteDirectory",'pp','i').call(utf8(dirname))
+  end
 end
 
 module FileTest

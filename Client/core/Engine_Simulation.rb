@@ -94,6 +94,36 @@ def deletefile(source)
 end
 
 
+
+def getmodulehandle(mod)
+Win32API.new("kernel32","GetModuleHandle",'i','i').call(mod)
+end
+
+def getcurrentprocess
+    Win32API.new("kernel32","GetCurrentProcess",'','i').call
+    end
+
+    def getcomputername
+      computer="\0"*128
+      siz=[computer.size].pack("i")
+      Win32API.new("kernel32","GetComputerName",'pp','i').call(computer,siz)
+      return computer
+      end
+    
+      def getcommandline
+        Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
+        end
+      
+        def getuserdefaultuilanguage
+          Win32API.new("kernel32","GetUserDefaultUILanguage",'','i').call
+          end
+        
+          def getphysicallyinstalledsystemmemory
+            ramt=[0].pack("l")
+Win32API.new("kernel32","GetPhysicallyInstalledSystemMemory",'p','i').call(ramt)
+return ramt.unpack("l")[0]
+end
+          
   end
 end
 

@@ -238,11 +238,8 @@ rescue Exception
     exts = [".mp3",".ogg",".wav",".mid"]
         for f in files
           d=path+"\\"+f
-          if Win32API.new("shlwapi","PathIsDirectory",'p','i').call(utf8(d))>0
-            pth="\0"*2048
-            Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(d),pth,pth.size)
-            pth.delete!("\0")
-            nextsearchs.push(pth)
+          if File.directory?(d)
+                        nextsearchs.push(d)
             else
                  if exts.include?(File.extname(f.downcase))
               results.push(d)
@@ -260,9 +257,9 @@ def paste
   if @clp_type>0
   if File.file?(@clp_file)
   if @clp_type==1
-Win32API.new("kernel32","CopyFile",'ppi','i').call(utf8(@clp_file),utf8(@tree.path + @clp_name),0)
+ELten::Engine::Kernel.copyfile(@clp_file,@tree.path + @clp_name,0)
 elsif @clp_type==2
-Win32API.new("kernel32","MoveFile",'pp','i').call(utf8(@clp_file),utf8(@tree.path + @clp_name))
+Elten::Engine::Kernel.movefile(@clp_file,@tree.path + @clp_name)
 end
 else
   copydir(@clp_file,@tree.path + @clp_name)
@@ -394,7 +391,7 @@ when 4
     name=input_text("Nowa nazwa","ACCEPTESCAPE",@tree.file)
     end
     if name != "\004ESCAPE\004"
-    Win32API.new("kernel32","MoveFile",'pp','i').call(utf8(file),utf8(@tree.path+name))
+    Elten::Engine::Kernel.movefile(file,@tree.path+name)
     speech("Nazwa została zmieniona.")
     speech_wait
   end
@@ -429,7 +426,7 @@ while name==""
       name=input_text("Podaj nazwę folderu","ACCEPTESCAPE","")
       end
     if name != "\004ESCAPE\004"
-      Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(@tree.path+name),nil)
+      Dir.mkdir(@tree.path+name)
       speech("Folder został utworzony.")
       speech_wait
     end

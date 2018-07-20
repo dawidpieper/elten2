@@ -316,21 +316,21 @@ def createsoundtheme(name="")
   pathname.gsub!(">","")
   pathname.gsub!("\"","'")
   stp = $soundthemesdata + "\\" + pathname
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp,nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp + "\\SE",nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp + "\\BGS",nil)
+  Dir.mkdir(stp)
+Dir.mkdir(stp + "\\SE")
+Dir.mkdir(stp + "\\BGS")
 dir = Dir.entries("Audio/BGS")
 dir.delete("..")
 dir.delete(".")
 for i in 0..dir.size - 1
-Win32API.new("kernel32","CopyFile",'ppi','i').call(".\\Audio\\BGS\\" + dir[i],stp + "\\BGS\\" + dir[i],0)
+Elten::Engine::Kernel.copyfile(".\\Audio\\BGS\\" + dir[i],stp + "\\BGS\\" + dir[i],0)
 end
 Graphics.update
 dir = Dir.entries("Audio/SE")
 dir.delete("..")
 dir.delete(".")
 for i in 0..dir.size - 1
-Win32API.new("kernel32","CopyFile",'ppi','i').call(".\\Audio\\SE\\" + dir[i],stp + "\\SE\\" + dir[i],0)
+Elten::Engine::Kernel.copyfile(".\\Audio\\SE\\" + dir[i],stp + "\\SE\\" + dir[i],0)
 end
 Graphics.update
 writeini($soundthemesdata + "\\inis\\" + pathname + ".ini","SoundTheme","Name","#{name} by #{$name}")
@@ -379,26 +379,17 @@ end
             di +="\r\n[Computer]\r\n"
             di += "OS version: " + Win32API.new($eltenlib,"WindowsVersion",'','i').call.to_s + "\r\n"
                         di += "Elten data path: " + $eltendata.to_s + "\r\n"
-                procid = "\0" * 16384
-Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("PROCESSOR_IDENTIFIER",procid,procid.size)
-procid.delete!("\0")
+                procid=ENV["PROCESSOR_IDENTIFIER"]
 di += "Processor Identifier: " + procid.to_s + "\r\n"
-                procnum = "\0" * 16384
-Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("NUMBER_OF_PROCESSORS",procnum,procnum.size)
-procnum.delete!("\0")
+                procnum = ENV["NUMBER_OF_PROCESSORS"]
 di += "Number of processors: " + procnum.to_s + "\r\n"
-ramt=[0].pack("l")
-Win32API.new("kernel32","GetPhysicallyInstalledSystemMemory",'p','i').call(ramt)
-ram=ramt.unpack("l")[0]/1024
-
+ram=Elten::Engine::Kernel.getphysicallyinstalledsystemmemory/1024
 di += "RAM Memory: "+ram.to_s+"MB\r\n"
 memt=[0,0,0,0,0,0,0,0,0,0].pack('iiiiiiiiii')
 Win32API.new("psapi","GetProcessMemoryInfo",'ipi','i').call($process,memt,memt.size)
 di += "Memory usage: "+(memt.unpack('i'*9)[3]/1048576).to_s+"MB\r\n"
 di += "Peak memory usage: "+(memt.unpack('i'*9)[2]/1048576).to_s+"MB\r\n"
-cusername = "\0" * 16384
-Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("USERNAME",cusername,cusername.size)
-cusername.delete!("\0")
+cusername = ENV["USERNAME"]
 di += "User name: " + cusername.to_s + "\r\n"
 di += "\r\n[Elten]\r\n"
 di += "User: " + $name.to_s + "\r\n"
@@ -477,10 +468,8 @@ def main
     if al == false
     password = input_text("Podaj hasło dla użytkownika #{$name}","password")
 else
-            password_c = "\0" * 128
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Login","password","0",password_c,password_c.size,$configdata + "\\login.ini")
-    password_c.delete!("\0")
-psw = password_c
+            password_c =readini($configdata + "\\login.ini","Login","password","0")
+    psw = password_c
 password = ""
 l = false
 mn = psw[psw.size - 1..psw.size - 1]
@@ -702,18 +691,9 @@ text += "\r\n\r\n"
 # Checks for possible updates
 def versioninfo
     download($url + "/bin/elten.ini",$bindata + "\\newest.ini")
-        nversion = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Version","0",nversion,nversion.size,utf8($bindata + "\\newest.ini"))
-    nversion.delete!("\0")
-    nversion = nversion.to_f
-            nbeta = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Beta","0",nbeta,nbeta.size,utf8($bindata + "\\newest.ini"))
-    nbeta.delete!("\0")
-    nbeta = nbeta.to_i
-    nalpha = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Alpha","0",nalpha,nalpha.size,utf8($bindata + "\\newest.ini"))
-    nalpha.delete!("\0")
-    nalpha = nalpha.to_i    
+        nversion = readini($bindata + "\\newest.ini","Elten","Version","0").to_f
+                nbeta = readini($bindata + "\\newest.ini","Elten","Beta","0").to_i
+    nalpha = readini($bindata + "\\newest.ini","Elten","Alpha","0").to_f
     $nbeta = nbeta
     $nversion = nversion
     $nalpha = nalpha
@@ -1682,10 +1662,10 @@ def deldir(dir,with=true)
     if File.directory?(f)
       deldir(f)
     else
-      Win32API.new("kernel32","DeleteFile",'p','i').call(utf8(f))
+      File.delete(f)
       end
     end
-    Win32API.new("kernel32","RemoveDirectory",'p','i').call(utf8(dir)) if with == true
+    Dir.rmdir(dir) if with == true
   end
   
   # Copies a directory with all files and subdirectories
@@ -1698,7 +1678,7 @@ def deldir(dir,with=true)
       edestionation=destination
       end
   loop_update
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(destination),nil)
+  Dir.mkdir(destination)
   e=Dir.entries(esource)
   e.delete("..")
   e.delete(".")
@@ -1710,7 +1690,7 @@ def deldir(dir,with=true)
       copydir(source+"\\"+e[i],destination+"\\"+e[i],esource+"\\"+ec[i],edestination+"\\"+ec[i])
     else
       begin
-      Win32API.new("kernel32","CopyFile",'ppi','i').call(utf8(source+"\\"+e[i]),utf8(destination+"\\"+e[i]),0)
+      Elten::Engine::Kernel.copyfile(source+"\\"+e[i],destination+"\\"+e[i],0)
     rescue Exception
       end
       end
@@ -1762,11 +1742,7 @@ def deldir(dir,with=true)
 dr.delete("..")
 o=[]
 for f in dr
-tmp="\0"*1024
-Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(dir+"\\"+f),tmp,tmp.size)
-tmp.delete!("\0")
-tmp.gsub!("/","\\")
-o.push(tmp.split("\\").last)
+o.push(d.split("\\").last)
 end
 return o
 end
@@ -1877,7 +1853,7 @@ if fields[5]!=nil
     if fields[5]!=nil
     if fields[5].index>0
       outd+="\\#{cname}"
-      Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(outd),nil)
+      Dir.mkdir(outd)
     end
     end
     outd+="\\#{cname}.wav"
@@ -1935,7 +1911,7 @@ th=Thread.new do
     if FileTest.exists?(b)
       c="bin\\ffmpeg -y -i \"#{b}\" \"#{b.gsub(".wav",fr)}\""
       executeprocess(c,true,0,false)
-      Win32API.new("kernel32","DeleteFile",'p','i').call(utf8(b))
+      File.delete(b)
     end
     rf+=1
   else
@@ -1957,8 +1933,7 @@ loop do
           end
         end
         edt.update
-        x="\0"*1024
-        Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
+                x=ELten::Engine::Kernel.getexitcodeprocess(h)
 x.delete!("\0")
 if x != "\003\001"
   $voice=$ovoice

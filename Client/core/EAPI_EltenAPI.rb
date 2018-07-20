@@ -309,10 +309,14 @@ end
 # @return [String] the ini value of a specified key
             def readini(file,group,key,default="\0")
         default = default.to_s if default.is_a?(Integer)
-        r = "\0" * 16384
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call(group,key,default,r,r.size,utf8(file))
-    r.delete!("\0")
-    return futf8(r.to_s    )
+        begin
+        myini = IniFile.load(file)
+        r=myini[group][key]
+        r=default if r==nil
+        return r
+      rescue Exception
+        return default
+end
   end
   
   # Writes a specified value to an INI file
@@ -322,12 +326,11 @@ end
   # @param key [String] an INI key to write
   # @param value [String] a value to write
   def writeini(file,group,key,value)
+myini = IniFile.load(file)
     if value != nil
-    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call(group,key,utf8(value.to_s),utf8(file))
+    myini[group][key]=value
               else
-                iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call(group,key,nil,utf8(file))
+                myini[group].delete(key)
                 end
               end
               

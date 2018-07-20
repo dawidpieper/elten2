@@ -24,12 +24,10 @@ class Scene_Loading
       $scenes = []
     $volume = 80
     $speech_to_utf = true
-    $instance = Win32API.new("kernel32","GetModuleHandle",'i','i').call(0)
-    $process = Win32API.new("kernel32","GetCurrentProcess",'','i').call
-    $path="\0"*1024
-    Win32API.new("kernel32","GetModuleFileName",'ipi','i').call($instance,$path,$path.size)
-    $path.delete!("\0")
-    if $wnd==nil
+    $instance = Elten::Engine::Kernel.getmodulehandle(0)
+    $process = Elten::Engine::Kernel.getcurrentprocess
+    $path=Elten::Engine::Kernel.getmodulefilename.delete("\0")
+            if $wnd==nil
     $wnd = Win32API.new("user32","FindWindow",'pp','i').call("RGSS Player",nil)
     $cwnd = Win32API.new("user32","GetActiveWindow",'','i').call
     if $cwnd != $wnd
@@ -43,11 +41,8 @@ class Scene_Loading
         end
       end
       end      
-      $computer="\0"*128
-      siz=[$computer.size].pack("i")
-      Win32API.new("kernel32","GetComputerName",'pp','i').call($computer,siz)
-      $computer.delete!("\0")
-      Bass.init($wnd) if $usebass==true
+      $computer=Elten::Engine::Kernel.getcomputername.delete("\0")
+            Bass.init($wnd) if $usebass==true
       writefile("hwnd",$wnd.to_s)
       if $ruby != true
             $sprite = Sprite.new
@@ -68,7 +63,7 @@ $eltendata = $appdata + "\\elten"
 else
   $eltendata = ".\\eltendata"
 end
-$commandline=Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
+$commandline=Elten::Engine::Kernel.getcommandline
           if (/\/datadir \"([a-zA-Z0-9\\:\/ ]+)\"/=~$commandline) != nil
                 $reld=$1
         $eltendata=$reld
@@ -79,9 +74,9 @@ $appsdata = $eltendata + "\\apps"
 $extrasdata = $eltendata + "\\extras"
 $soundthemesdata = $eltendata + "\\soundthemes"
 $langdata = $eltendata + "\\lng"
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($eltendata),nil)
+Dir.mkdir($eltendata)
 if FileTest.exists?($langdata)==false
-    Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($langdata),nil)      
+    Dir.mkdir($langdata)
   $l = false
   langtemp = srvproc("languages","langtemp")
     err = langtemp[0].to_i
@@ -99,22 +94,20 @@ for i in 0..langs.size - 1
   download($url + "lng/" + langs[i].to_s + ".elg", "#{$langdata}/"+langs[i].to_s + ".elg")
 end
 end  
-if Win32API.new("kernel32","GetUserDefaultUILanguage",'','i').call != 1045
-  Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,url = $url + "lng/EN_US.elg",$langdata + "\\EN_US.elg",0,nil)
-Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(url)
-iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-iniw.call('Language','Language',"EN_US",utf8($configdata + "\\language.ini"))
+if Elten::Engine::Kernel.getuserdefaultuilanguage != 1045
+  download(url = $url + "lng/EN_US.elg",$langdata + "\\EN_US.elg")
+writeini($configdata + "\\language.ini",'Language','Language',"EN_US")
   end
 end
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($configdata),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($bindata),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($extrasdata),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata + "\\inis"),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\inis"),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($langdata),nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call("temp",nil)
+Dir.mkdir($configdata)
+Dir.mkdir($bindata)
+Dir.mkdir($appsdata)
+Dir.mkdir($extrasdata)
+Dir.mkdir($appsdata + "\\inis")
+Dir.mkdir($soundthemesdata)
+Dir.mkdir($soundthemesdata + "\\inis")
+Dir.mkdir($langdata)
+Dir.mkdir("temp")
 $LOAD_PATH << $appsdata
 if FileTest.exists?($configdata+"\\interface.ini") and FileTest.exists?($configdata+"\\advanced.ini") == false
 keyms=readini($configdata+"\\interface.ini","Interface","KeyUpdateTime","")  

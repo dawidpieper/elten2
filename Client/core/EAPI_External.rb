@@ -314,8 +314,7 @@ speech(sprintf("%02d:%02d:%02d",h,m,s))
       yst=""
       loop do
         loop_update
-        x="\0"*1024
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
+        x=ELten::Engine::Kernel.getexitcodeprocess(h)
 x.delete!("\0")
 yst=IO.readlines(statustempfile) if FileTest.exists?(statustempfile)
               if x != "\003\001"
@@ -380,7 +379,7 @@ else
           end
           end
         x="\0"*1024
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
+x=Elten::Engine::Kernel.getexitcodeprocess(h)
 x.delete!("\0")
 yst=read(statustempfile)
 if yst != nil and yst != ""
@@ -441,7 +440,7 @@ fl += "\\"+e['items'][sel.index]['snippet']['title'].delspecial+".mp4"
       loop do
         loop_update
         x="\0"*1024
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
+x=Elten::Engine::Kernel.getexitcodeprocess(h)
 x.delete!("\0")
 if x != "\003\001"
   break
@@ -463,7 +462,7 @@ if t > tmax
           dialog_close
           if format!=-1
             if format==0        
-            Win32API.new("kernel32","CopyFile",'ppi','i').call(destination,fl,0)
+            Elten::Engine::Kernel.copyfile(destination,fl,0)
           else
             fl.gsub!(File.extname(fl),"."+formats[format])
             waiting
