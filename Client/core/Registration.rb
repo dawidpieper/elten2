@@ -13,7 +13,11 @@ class Scene_Registration
     while name == ""
     name = input_text("Podaj swój login. Będzie on używany w celu identyfikacji. Maksymalna długość loginu to 64 znaki.")
   end
-      name.gsub("/") do
+  name.gsub("@") do
+    speech("Nazwa użytkownika nie może zawierać małp. Znak zostanie pominięty.")
+    speech_wait
+  end    
+  name.gsub("/") do
     speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
     speech_wait
   end
@@ -25,7 +29,7 @@ class Scene_Registration
     speech("Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty.")
     speech_wait
   end
-          name.delete!("/ ,;")
+          name.delete!("/ ,;@")
   name.delete!("\\")
   pswconfirm = ""
   while password == "" or password != pswconfirm

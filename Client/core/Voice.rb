@@ -32,7 +32,8 @@ loop_update
          when 2
            $scene = Scene_Voice_Volume.new
          when 3
-                                      writeini($configdata + "\\sapi.ini",'Sapi','Voice',-1.to_s)
+                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+                iniw.call('Sapi','Voice',-1.to_s,utf8($configdata + "\\sapi.ini"))
                                 $voice = -1
                 speech("Wybrano obsługę czytnika ekranowego.")
        end
@@ -46,9 +47,12 @@ class Scene_Voice_Voice
     end
     def main
       $selectedvoice = false
-            $numvoice=Elten::Engine::Speech.getnumvoices-1
-            Elten::Engine::Speech.setvoice(0)
-                  speech(Elten::Engine::Speech.getvoicename(0))
+      nv = Win32API.new("screenreaderapi", "sapiGetNumVoices", '', 'i')
+      $numvoice = nv.call() - 1
+      $setvoice = Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i')
+      $setvoice.call(0)
+      $voicename = Win32API.new("screenreaderapi", "sapiGetVoiceName", 'i', 'p')
+            speech(futf8($voicename.call(0)))
       $curnum = 0
       loop do
 loop_update
@@ -66,8 +70,8 @@ loop_update
         else
           $curnum = 0
         end
-        Elten::Engine::Speech.setvoice($curnum)
-        speech(Elten::Engine::Speech.getvoicename($curnum))
+        $setvoice.call($curnum)
+        speech(futf8($voicename.call($curnum)))
       end
             if Input.trigger?(Input::UP)
         speech_stop
@@ -76,16 +80,17 @@ loop_update
         else
           $curnum = $numvoice
         end
-        Elten::Engine::Speech.setvoice($curnum)
-        speech(Elten::Engine::Speech.getvoicename($curnum))
+        $setvoice.call($curnum)
+        speech(futf8($voicename.call($curnum)))
       end
       if alt
                 menu
         end
       if enter or $selectedvoice == true
-                                writeini($configdata + "\\sapi.ini",'Sapi','Voice',$curnum.to_s) if $voice != -3 or @settings != 0
+                iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+                iniw.call('Sapi','Voice',$curnum.to_s,utf8($configdata + "\\sapi.ini")) if $voice != -3 or @settings != 0
                 $voice = $curnum.to_i
-                                      mow = "Wybrany głos: " + Elten::Engine::Speech.getvoicename($curnum)
+                                      mow = "Wybrany głos: " + futf8($voicename.call($curnum))
         speech(mow)
 speech_wait
 if @settings == 0
@@ -137,7 +142,7 @@ class Scene_Voice_Rate
       sel.push(i.to_s)
     end
     Graphics.update
-    @rate = Elten::Engine::Speech.getrate
+    @rate = Win32API.new("screenreaderapi","sapiGetRate",'','i').call
     @startrate = @rate
     @sel = Select.new(sel,true,@rate - 1,"Wybierz szybkość głosu.")
             loop do
@@ -152,16 +157,17 @@ loop_update
     def update
 if @rate - 1 != @sel.index
   @rate = @sel.index + 1
-  Elten::Engine::Speech.setrate(@rate)
+  Win32API.new("screenreaderapi","sapiSetRate",'i','i').call(@rate)
   end
       @rate = @sel.index + 1
       if escape
                 @rate = @startrate
-        Elten::Engine::Speech.setrate(@rate)
+        Win32API.new("screenreaderapi","sapiSetRate",'i','i').call(@rate)
         $scene = Scene_Voice.new
       end
       if enter
-                                     writeini($configdata + "\\sapi.ini",'Sapi','Rate',@rate.to_s)
+                     iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+                iniw.call('Sapi','Rate',@rate.to_s,utf8($configdata + "\\sapi.ini"))
      speech("Zapisano.")
      speech_wait
      $scene = Scene_Voice.new
@@ -175,7 +181,7 @@ if @rate - 1 != @sel.index
     for i in 1..100
       sel.push(i.to_s)
     end
-        @volume = Elten::Engine::Speech.getvolume
+        @volume = Win32API.new("screenreaderapi","sapiGetVolume",'','i').call
     @startvolume = @volume
     @sel = Select.new(sel,true,@volume - 1,"Wybierz głośność syntezy.")
             loop do
@@ -190,16 +196,17 @@ loop_update
     def update
 if @volume - 1 != @sel.index
   @volume = @sel.index + 1
-  Elten::Engine::Speech.setvolume(@volume)
+  Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call(@volume)
   end
       @volume = @sel.index + 1
       if escape
                 @volume = @startvolume
-        Elten::Engine::Speech.setvolume(@volume)
+        Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call(@volume)
         $scene = Scene_Voice.new
       end
       if enter
-                                     writeini($configdata + "\\sapi.ini",'Sapi','Volume',@volume.to_s)
+                     iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+                iniw.call('Sapi','Volume',@volume.to_s,utf8($configdata + "\\sapi.ini"))
      speech("Zapisano.")
      speech_wait
      $scene = Scene_Voice.new

@@ -115,7 +115,7 @@ loop_update
       f=dir+"/"+t
       f=t if dir=="."
       if File.file?(start+f)
-      ELten::Engine::Kernel.copyfile(start+f,"#{@destdir}"+dest+"/"+f,0) if f.include?("tmp")==false and f.include?("temp") == false and t.include?(incl)
+      Win32API.new("kernel32","CopyFile",'ppi','i').call(start+f,"#{@destdir}"+dest+"/"+f,0) if f.include?("tmp")==false and f.include?("temp") == false and t.include?(incl)
     elsif File.directory?(start+f)
       if f!="temp" and f.downcase.include?("kopia")==false
       copier(f,dest,incl,start)

@@ -122,7 +122,7 @@ password=nil
   loop do
           password=input_text("Hasło:","PASSWORD") if password=="" or password==nil
                     if password!=""
-            lt=srvproc("login","login=2\&name=#{$name}\&password=#{password}\&computer=#{$computer.urlenc}")
+            lt=srvproc("login","login=2\&name=#{$name}\&password=#{password}\&computer=#{$computer.urlenc}\&appid=#{$appid}")
             if lt[0].to_i<0
               speech("Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane zostało błędne hasło.")
               speech_wait
@@ -137,7 +137,9 @@ writeini($configdata+"\\login.ini","Login","AutoLogin","3")
                         end
           end                      
     end
-    path=Elten::Engine::Kernel.getmodulefilename.delete!("\0")
+           path="\0"*1024
+Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,path,path.size)
+path.delete!("\0")
 dr="\""+File.dirname(path)+"\\bin\\rubyw.exe\" \""+File.dirname(path)+"\\bin\\agentc.dat\" /autostart"
 @runkey['elten']=dr
     end

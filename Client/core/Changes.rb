@@ -702,10 +702,26 @@ Wersja 2.26:
 
 2018-06-17
 ","
-Wersja 2.3:
-- Zmieniono: od tej pory przetwarzanie globalnych skrótów klawiszowych odbywa się w głównym wątku podczas odświeżania stanu klawiszy
-- Zmieniono: zaktualizowane pobieranie danych przy liście kontaktów i zalogowanych użytkowników
+Wersja 2.27:
+- Poprawiono: problem z pustym \"co nowego\", gdy dostępna jest aktualizacja w gałęzi beta
+- Poprawiono: agent poprawnie odczytuje konfigurację w wersjach beta
+- Zmieniono: aktualizacja bibliotek do najnowszych na dzień 24.07.2018
+- Zmieniono: usunięto zbędne już biblioteki
+- Dodano: ignorowanie nowych znaczników w polach tekstowych w celu zgodności z przyszłymi wersjami Eltena
+- Poprawiono: podczas rejestracji dodano informację przy nieobsługiwanych znakach
 
+2018-07-26
+","
+Wersja 2.271:
+- Poprawiono: do poprzedniego wydania dołączona została omyłkowo stara wersja agenta
+- Poprawiono: system aktualizacji poprawnie rozpoznaje już nowe wydania stabilne, gdy dostępna jest gałąź beta
+
+2018-07-26
+","
+Wersja 2.28:
+- Dodano: obsługa uwierzytelniania dwuetapowego (SMS)
+
+2018-07-30
 "]
 @changes.reverse!
 @selt = []

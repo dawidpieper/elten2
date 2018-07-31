@@ -1197,7 +1197,7 @@ when                        13
                                   cur=@form.index-1
                                   while cur<@posts.size
                                     loop_update
-                                    if speech_actived==false and Elten::Engine::Speech.ispaused==0
+                                    if speech_actived==false and Win32API.new("screenreaderapi","sapiIsPaused",'','i').call==0
                                       cur+=1
                                     play("signal")
                                     pst=@posts[cur]
@@ -1213,10 +1213,10 @@ when                        13
                                       cur=-1 if cur<-1
                                       end
                                                                      if space
-                                    if Elten::Engine::Speech.ispaused==0
-                                      Elten::Engine::Speech.setpaused(1)
+                                    if Win32API.new("screenreaderapi","sapiIsPaused",'','i').call==0
+                                      Win32API.new("screenreaderapi","sapiSetPaused",'i','i').call(1)
                                     else
-                                      Elten::Engine::Speech.setpaused(0)
+                                      Win32API.new("screenreaderapi","sapiSetPaused",'i','i').call(0)
                                       end
                                     end
                                     if escape

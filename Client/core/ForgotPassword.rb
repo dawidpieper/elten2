@@ -9,7 +9,7 @@ class Scene_ForgotPassword
   def main
     @user=""
     loop do    
-    @user=input_text("W wypadku utraty hasła nadal istnieje możliwość jego zresetowania poprzez weryfikację konta za pośrednictwem podanego adresu E-mail. Możesz wygenerować w ten sposób kod, dzięki któremu możliwa będzie zmiana hasła. Kod zostanie wysłany na twój adres E-mail. Aby kontynuować, wprowadź swój login:","ACCEPTESCAPE")
+    @user=input_text("W wypadku utraty hasła nadal istnieje możliwość jego zresetowania poprzez weryfikację konta za pośrednictwem podanego adresu E-mail. Możesz wygenerować w ten sposób kod, dzięki któremu możliwa będzie zmiana hasła. Kod zostanie wysłany na twój adres E-mail. Uwaga! Jeśli używane, dwuetapowe uwierzytelnianie zostanie wyłączone. Aby kontynuować, wprowadź swój login:","ACCEPTESCAPE")
     return $scene=Scene_Loading.new if @user=="\004ESCAPE\004"
     @user=finduser(@user) if finduser(@user).downcase==@user.downcase
           break

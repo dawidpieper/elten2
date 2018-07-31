@@ -7,17 +7,11 @@
 
 class Scene_Contacts
   def initialize(type=0)
-    @type=type
-  end
-  def main
-          if $name=="guest"
-      speech("Ta funkcja nie jest dostępna na koncie gościa.")
-      speech_wait
-      $scene=Scene_Main.new
-      return
+    if $name=="guest"
+            return
       end
-          ct=["-4"]
-      case @type
+      ct=["-4"]
+      case type
       when 0
       ct = srvproc("contacts","name=#{$name}\&token=#{$token}")
       when 1
@@ -51,21 +45,30 @@ class Scene_Contacts
         selt[i] = @contact[i] + ". " + getstatus(@contact[i])
         end
       header="Kontakty"
-      header="" if @type>0
-              @sel = Select.new(selt,true,0,header,true)
+      header="" if type>0
+      @type=type
+        @sel = Select.new(selt,true,0,header,true)
       speech_stop
-                            @sel.focus
+    end
+    def main
+      if $name=="guest"
+      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
+                        @sel.focus
       loop do
 loop_update
         @sel.update if @contact.size > 0
         update
         if $scene != self
-                    break
+          break
           end
                   end
       end
       def update
-        if escape or (Input.trigger?(Input::LEFT) and @type==1)
+        if escape
           case @type
           when 0
           $scene = Scene_Main.new
@@ -162,8 +165,8 @@ end
             @user = user
             @scene = scene
           end
-          def main                        
-          user = @user
+          def main
+                        user = @user
             while user==""
               user = input_text("Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów.")
             end

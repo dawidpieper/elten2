@@ -139,14 +139,15 @@ text=($1+" "+text).gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/,"\004NEW\00
   play("list_attachment")
   ""
   }
-  outputtype=1
-outputtype = 0 if $voice == -1
+  polecenie = "sapiSayString"
+polecenie = "sayString" if $voice == -1
 text_d = text
+text_d = utf8(text) if $speech_to_utf == true
 $speech_lasttext = text_d
 text_d.gsub!("\r\n\r\n","\004SLINE\004")
 text_d.gsub!("\r\n"," ")
 text_d.gsub!("\004SLINE\004","\r\n\r\n")
-Elten::Engine::Speech.say(text_d,outputtype,method) if $password != true
+Win32API.new("screenreaderapi",polecenie,'pi','i').call(text_d,method) if $password != true
 if text.size>=5
   if Thread::current==$mainthread
 if $speechaudiothread!=nil
@@ -159,7 +160,7 @@ end
 end
 end
   sleep(0.02)
-Elten::Engine::Speech.say(" ",1,1) if $voice == -1
+Win32API.new("screenreaderapi","sapiSayString",'pi','i').call(" ",1) if $voice == -1
 end
 end
 text_d = text if text_d == nil
@@ -171,8 +172,9 @@ end
 # @param ignoreaudio [Boolean] ignores the played speechaudio
 # @return [Boolean] if the speech is ued, returns true, otherwise the return value is false
 def speech_actived(ignoreaudio=false)
-            return true if $speechaudio!=nil and ignoreaudio==false
-  if Elten::Engine::Speech.isspeaking == 0
+    polecenie = "sapiIsSpeaking"
+        return true if $speechaudio!=nil and ignoreaudio==false
+  if Win32API.new("screenreaderapi",polecenie,'','i').call() == 0
     return(false)
   else
     return(true)
@@ -186,9 +188,9 @@ def speech_actived(ignoreaudio=false)
     $speechaudio.close
     $speechaudio=nil
     end
-    outputtype=1
-    outputtype = 0 if $voice == -1
-    Elten::Engine::Speech.stop(outputtype)
+    polecenie = "sapiStopSpeech"
+    polecenie = "stopSpeech" if $voice == -1
+    Win32API.new("screenreaderapi",polecenie,'','i').call()
   end
   
   # Waits for a speech to finish reading of the previous message

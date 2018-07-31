@@ -15,7 +15,7 @@ module EltenAPI
     # @param output [Numeric] output type: 0 - Array of lines, 1 - string
         def srvproc(mod,param,output=0)
     url = $url + mod + ".php?" + hexspecial(param)
-        tmpname = "temp/eas#{(rand(36**2).to_s(36))}.tmp"
+    tmpname = "temp/eas#{(rand(36**2).to_s(36))}.tmp"
 #tm=Time.now.to_i*1000000+Time.now.usec
     return ["-1"] if download(url,tmpname) != 0
         #speech("#{read(tmpname,true)}B pobrano w "+((Time.now.to_i*1000000+Time.now.usec-tm)/1000).to_s+"ms (#{mod})");speech_wait
@@ -212,7 +212,9 @@ def avatar(user)
       tmax = File.size(file)/10000.0
       loop do
         loop_update
-        x=Elten::Engine::Kernel.getexitcodeprocess(h).delete("\0")
+        x="\0"*1024
+Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
+x.delete!("\0")
 if x != "\003\001"
   break
   end

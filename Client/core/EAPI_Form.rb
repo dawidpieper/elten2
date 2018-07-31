@@ -1233,12 +1233,14 @@ def textcopy
     attr_accessor :audiotext
     attr_accessor :check
     def initialize(header="",type="",text="",quiet=false,init=false,silent=false)
+      
       @header=header
         @text=text.delete("\r").gsub("\004LINE\004","\n").gsub(/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/) do
           $dialogvoice.volume=0 if $dialogvoice!=nil
           @audiotext=$1
       ""
     end
+    @text.gsub!(/\004ATTACH\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004ATTACH\004/,"")
     @text.chop! while @text[@text.size-1..@text.size-1]=="\n"
                 @origtext=text
       @index=@check=0
@@ -1669,6 +1671,7 @@ def esay
 end
 end
 def settext(text,reset=true)
+  text.gsub!(/\004ATTACH\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004ATTACH\004/,"")
   @text=text.gsub("\004LINE\004","\n").delete("\r")
   @index=0 if reset==true
   @index=@text.size if @index>@text.size

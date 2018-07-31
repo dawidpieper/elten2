@@ -6,9 +6,11 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Online
-  def main
-                    @online = srvproc("online","name=#{$name}\&token=#{$token}")
-                   for i in 0..@online.size - 1
+  def initialize
+        delay(0.25)
+            @online = srvproc("online","name=#{$name}\&token=#{$token}")
+       
+            for i in 0..@online.size - 1
       @online[i].delete!("\r")
       @online[i].delete!("\n")
     end
@@ -23,7 +25,9 @@ class Scene_Online
     @sel = Select.new(selt,true,0,"Kto jest zalogowany?",true)
     speech_stop
     @onl = onl
-                          @sel.focus
+    end
+    def main
+                  @sel.focus
     loop do
 loop_update
       @sel.update

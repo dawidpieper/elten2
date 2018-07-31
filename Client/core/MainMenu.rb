@@ -281,7 +281,7 @@ close
         end
           def myaccount
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja w&izytówka","Moje &odznaczenia","U&dostępnione przeze mnie pliki","Ustaw &awatar","Ustawienia co &nowego","Moje &uprawnienia","Cza&rna lista","Klucze automatycznego &logowania","Zmień &Hasło","Zmień adres e-&mail"])
+    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja w&izytówka","Moje &odznaczenia","U&dostępnione przeze mnie pliki","Ustaw &awatar","Ustawienia co &nowego","Moje &uprawnienia","Cza&rna lista","Klucze automatycznego &logowania","Zmień &Hasło","Zmień adres e-&mail","Ustawienia uwierzytelniania dwu&etapowego"])
     loop do
 loop_update
       @sel.update
@@ -347,6 +347,10 @@ loop_update
           break
         when 13
           $scene = Scene_Account_Mail.new
+          close
+          break
+          when 14
+            $scene = Scene_Authentication.new
           close
           break
             end

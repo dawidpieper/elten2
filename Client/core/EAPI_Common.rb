@@ -190,18 +190,13 @@ menu.disable_item(4) if @hashonors==false
 menu.disable_item(6) if @hasavatar == false
 menu.disable_item(7) if $rang_moderator==0
 menu.focus
-brk=false
 loop do
 loop_update
 menu.update
 if enter
-  brk=true
-    play("menu_close")
-  Audio.bgs_stop
-  delay(0.05)
   case menu.index
   when 0
-    $scenes.insert(0,Scene_Messages_New.new(user,"","",Scene_Main))
+    $scene = Scene_Messages_New.new(user,"","",self)
     when 1
       play("menu_close")
       Audio.bgs_stop
@@ -209,16 +204,16 @@ if enter
             return("ALT")
       break
             when 2
-        $scenes.insert(0,Scene_Blog_Main.new(user,0,Scene_Main))
+        $scene = Scene_Blog_Main.new(user,0,self)
         when 3
-          $scenes.insert(0,Scene_Uploads.new(user,Scene_Main))
+          $scene = Scene_Uploads.new(user,self)
     when 4
-        $scenes.insert(0,Scene_Honors.new(user,Scene_Main))
+        $scene=Scene_Honors.new(user,self)
           when 5
       if @incontacts == true
-        $scenes.insert(0,Scene_Contacts_Delete.new(user,Scene_Main))
+        $scene = Scene_Contacts_Delete.new(user,self)
       else
-        $scenes.insert(0,Scene_Contacts_Insert.new(user,Scene_Main))
+        $scene = Scene_Contacts_Insert.new(user,self)
       end
             when 6
         play("menu_close")
@@ -229,9 +224,9 @@ if enter
       break        
       when 7
         if @isbanned == false
-          $scenes.insert(0,Scene_Ban_Ban.new(user,self))
+          $scene = Scene_Ban_Ban.new(user,self)
         else
-          $scenes.insert(0,Scene_Ban_Unban.new(user,self))
+          $scene = Scene_Ban_Unban.new(user,self)
         end
       else
                 if $usermenuextrascenes.is_a?(Array)
@@ -242,7 +237,7 @@ if enter
                   break                  
                   end
 end
-break if !brk
+break
 end
 if alt
   if submenu != true
@@ -265,8 +260,7 @@ if escape
     return
     break
     end
-return "ALT" if brk
-    end
+end
 Audio.bgs_stop if submenu != true
 play("menu_close") if submenu != true
 delay(0.15) if submenu != true
@@ -289,7 +283,7 @@ birthday=agtemp[15].to_i
 mentions=agtemp[16].to_i
 $nversion=agtemp[2].to_f
 $nbeta=agtemp[3].to_i
-                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and ($nversion<$version or ($nversion==$version and $isbeta!=1)) and ($nbeta<=$beta and $nisbeta!=1)
+                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and ($nversion<$version or ($nversion==$version and $isbeta!=1))
   speech("Nie ma nic nowego.") if quiet != true
 else
     $scene = Scene_WhatsNew.new(true,agtemp)
@@ -316,21 +310,21 @@ def createsoundtheme(name="")
   pathname.gsub!(">","")
   pathname.gsub!("\"","'")
   stp = $soundthemesdata + "\\" + pathname
-  Dir.mkdir(stp)
-Dir.mkdir(stp + "\\SE")
-Dir.mkdir(stp + "\\BGS")
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp,nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp + "\\SE",nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp + "\\BGS",nil)
 dir = Dir.entries("Audio/BGS")
 dir.delete("..")
 dir.delete(".")
 for i in 0..dir.size - 1
-Elten::Engine::Kernel.copyfile(".\\Audio\\BGS\\" + dir[i],stp + "\\BGS\\" + dir[i],0)
+Win32API.new("kernel32","CopyFile",'ppi','i').call(".\\Audio\\BGS\\" + dir[i],stp + "\\BGS\\" + dir[i],0)
 end
 Graphics.update
 dir = Dir.entries("Audio/SE")
 dir.delete("..")
 dir.delete(".")
 for i in 0..dir.size - 1
-Elten::Engine::Kernel.copyfile(".\\Audio\\SE\\" + dir[i],stp + "\\SE\\" + dir[i],0)
+Win32API.new("kernel32","CopyFile",'ppi','i').call(".\\Audio\\SE\\" + dir[i],stp + "\\SE\\" + dir[i],0)
 end
 Graphics.update
 writeini($soundthemesdata + "\\inis\\" + pathname + ".ini","SoundTheme","Name","#{name} by #{$name}")
@@ -379,17 +373,26 @@ end
             di +="\r\n[Computer]\r\n"
             di += "OS version: " + Win32API.new($eltenlib,"WindowsVersion",'','i').call.to_s + "\r\n"
                         di += "Elten data path: " + $eltendata.to_s + "\r\n"
-                procid=ENV["PROCESSOR_IDENTIFIER"]
+                procid = "\0" * 16384
+Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("PROCESSOR_IDENTIFIER",procid,procid.size)
+procid.delete!("\0")
 di += "Processor Identifier: " + procid.to_s + "\r\n"
-                procnum = ENV["NUMBER_OF_PROCESSORS"]
+                procnum = "\0" * 16384
+Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("NUMBER_OF_PROCESSORS",procnum,procnum.size)
+procnum.delete!("\0")
 di += "Number of processors: " + procnum.to_s + "\r\n"
-ram=Elten::Engine::Kernel.getphysicallyinstalledsystemmemory/1024
+ramt=[0].pack("l")
+Win32API.new("kernel32","GetPhysicallyInstalledSystemMemory",'p','i').call(ramt)
+ram=ramt.unpack("l")[0]/1024
+
 di += "RAM Memory: "+ram.to_s+"MB\r\n"
 memt=[0,0,0,0,0,0,0,0,0,0].pack('iiiiiiiiii')
 Win32API.new("psapi","GetProcessMemoryInfo",'ipi','i').call($process,memt,memt.size)
 di += "Memory usage: "+(memt.unpack('i'*9)[3]/1048576).to_s+"MB\r\n"
 di += "Peak memory usage: "+(memt.unpack('i'*9)[2]/1048576).to_s+"MB\r\n"
-cusername = ENV["USERNAME"]
+cusername = "\0" * 16384
+Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("USERNAME",cusername,cusername.size)
+cusername.delete!("\0")
 di += "User name: " + cusername.to_s + "\r\n"
 di += "\r\n[Elten]\r\n"
 di += "User: " + $name.to_s + "\r\n"
@@ -413,7 +416,7 @@ di += "\r\n[Configuration]\r\n"
 di += "Language: " + $language + "\r\n"
 di += "Sound theme's path: " + $soundthemespath + "\r\n"
 if $voice >= 0
-voice = Elten::Engine::Speech.getvoicename($voice)
+voice = futf8(Win32API.new("screenreaderapi","sapiGetVoiceName",'i','p').call($voice.to_i))
 di += "Voice name: " + voice.to_s + "\r\n"
 end
 di += "Voice id: " + $voice.to_s + "\r\n"
@@ -468,8 +471,10 @@ def main
     if al == false
     password = input_text("Podaj hasło dla użytkownika #{$name}","password")
 else
-            password_c =readini($configdata + "\\login.ini","Login","password","0")
-    psw = password_c
+            password_c = "\0" * 128
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Login","password","0",password_c,password_c.size,$configdata + "\\login.ini")
+    password_c.delete!("\0")
+psw = password_c
 password = ""
 l = false
 mn = psw[psw.size - 1..psw.size - 1]
@@ -495,7 +500,7 @@ password = password.gsub("s`","ś")
 password = password.gsub("x`","ź")
 password = password.gsub("z`","ż")
 end
-    logintemp = srvproc("login","login=1\&name=#{$name}\&password=#{password}\&version=#{$version.to_s}\&beta=#{$beta.to_s}\&relogin=1")
+    logintemp = srvproc("login","login=1\&name=#{$name}\&password=#{password}\&version=#{$version.to_s}\&beta=#{$beta.to_s}\&relogin=1\&appid=#{$appid}")
       $token = logintemp[1]
   $token.delete!("\r\n")
   $name = name
@@ -691,9 +696,18 @@ text += "\r\n\r\n"
 # Checks for possible updates
 def versioninfo
     download($url + "/bin/elten.ini",$bindata + "\\newest.ini")
-        nversion = readini($bindata + "\\newest.ini","Elten","Version","0").to_f
-                nbeta = readini($bindata + "\\newest.ini","Elten","Beta","0").to_i
-    nalpha = readini($bindata + "\\newest.ini","Elten","Alpha","0").to_f
+        nversion = "\0" * 16
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Version","0",nversion,nversion.size,utf8($bindata + "\\newest.ini"))
+    nversion.delete!("\0")
+    nversion = nversion.to_f
+            nbeta = "\0" * 16
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Beta","0",nbeta,nbeta.size,utf8($bindata + "\\newest.ini"))
+    nbeta.delete!("\0")
+    nbeta = nbeta.to_i
+    nalpha = "\0" * 16
+    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Alpha","0",nalpha,nalpha.size,utf8($bindata + "\\newest.ini"))
+    nalpha.delete!("\0")
+    nalpha = nalpha.to_i    
     $nbeta = nbeta
     $nversion = nversion
     $nalpha = nalpha
@@ -1377,17 +1391,170 @@ return lng if param==2
     
       # @note this function is reserved for Elten usage
       def thr1
-        sleep
+                        begin
+                loop do
+                  if $ruby != true or $windowminimized != true
+                  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x11) > 0 and $speech_wait == true
+                    speech_stop
+                    $speech_wait = false
+                    end
+                  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x77) > 0
+                    time = ""
+                    if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+if $advanced_synctime == 1
+                      time = srvproc("time","dateformat=Y-m-d")
+                    else
+                                            time = [sprintf("%04d-%02d-%02d",Time.now.year,Time.now.month,Time.now.day)]
+                                                                                     end
+else
+  if $advanced_synctime == 1
+  time = srvproc("time","dateformat=H:i:s")
+  else
+                      time = [sprintf("%02d:%02d:%02d",Time.now.hour,Time.now.min,Time.now.sec)]
+                      end
+  end
+speech(time[0])
+end
+         if Win32API.new($eltenlib,"KeyState",'i','i').call(0x76) > 0
+           if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+    $playlistindex += 1 if $playlistbuffer!=nil
+  elsif $scene.is_a?(Scene_Console)==false
+    $scenes.insert(0,Scene_Console.new)
+    end
+    sleep(0.1)    
+    end
+        if Win32API.new($eltenlib,"KeyState",'i','i').call(0x75) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0  and $volume < 100
+  $volume += 5 if $volume < 100
+  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
+  play("list_focus")
+elsif Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+  $playlistvolume = 0.8 if $playlistvolume == nil
+  if $playlistvolume < 1
+  $playlistvolume += 0.1
+  play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
+  end
+  end
+  sleep(0.1)
+  end
+if Win32API.new($eltenlib,"KeyState",'i','i').call(0x74) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0  and $volume > 5
+  $volume -= 5 if $volume > 5
+  play("list_focus")
+  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
+elsif Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+    $playlistvolume = 0.8 if $playlistvolume == nil
+  if $playlistvolume > 0.01
+    $playlistvolume -= 0.1
+  $playlistvolume=0.01 if $playlistvolume==0
+    play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
+  end
+  end
+  sleep(0.1)
+end
+if Win32API.new($eltenlib,"KeyState",'i','i').call(0x73) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0 and $playlistbuffer != nil
+    if $playlistindex != 0
+    $playlistindex -= 1
+  else
+    $playlistindex=$playlist.size-1
+    end
+    end
+    sleep(0.1)
+  end
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x70) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+        if $voice==-1
+      $voice=readini($configdata+"\\sapi.ini","Sapi","Voice","-1").to_i
+          elsif Win32API.new("screenreaderapi","getCurrentScreenReader",'','i').call>0
+      $voice=-1
       end
-                        
-      # @note this function is reserved for Elten usage
-def thr2
+  if $voice==-1
+        speech("Używanie czytnika ekranu")
+    else
+    speech("Używanie wybranej syntezy SAPI")
+  end
+else
+  $scenes.insert(0,Scene_ShortKeys.new) if $scene.is_a?(Scene_ShortKeys)==false
+      end
+  sleep(0.1)  
+  end
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x71) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+    if $scene.is_a?(Scene_Main)
+      $scene=Scene_MainMenu.new
+      else
+    $scenes.insert(0,Scene_MainMenu.new) if $scene.is_a?(Scene_MainMenu)==false
+    end
+  end
+  sleep(0.1)
+  end
+if Win32API.new($eltenlib,"KeyState",'i','i').call(0x72) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
+    if $playlist.size>0 and $playlistbuffer!=nil
+if $playlistpaused == true
+  $playlistbuffer.play
+  $playlistpaused = false
+else
+  $playlistpaused=true
+  $playlistbuffer.pause  
+end
+end
+else
+  Audio.bgs_stop
+  run("bin\\elten_tray.bin")
+  Win32API.new("user32","SetFocus",'i','i').call($wnd)
+  Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
+  Graphics.update  
+  Graphics.update
+  play("login")
+    speech("ELTEN")
+    Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
+end
+sleep(0.1)    
+end
+if $name != "" and $name != nil and $token != nil and $token != ""
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x78) > 0
+    if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0 and $scene.is_a?(Scene_Contacts) == false
+    $scenes.insert(0,Scene_Contacts.new)
+      elsif $scene.is_a?(Scene_Online) == false and Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x10) > 0
+        $scenes.insert(0,Scene_Online.new)
+  end
+  sleep(0.1)
+  end
+        if Win32API.new($eltenlib,"KeyState",'i','i').call(0x79) > 0
+           if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) == 0 and $scene.is_a?(Scene_WhatsNew) == false
+$scenes.insert(0,Scene_WhatsNew.new)
+elsif $scene.is_a?(Scene_Messages) == false and Win32API.new($eltenlib,"KeyState",'i','i').call(0x10)!=0
+  $scenes.insert(0,Scene_Messages.new)
+    end
+    sleep(0.1)
+  end
+end
+if Win32API.new($eltenlib,"KeyState",'i','i').call(0x7a) > 0
+  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10)==0
+    speech(futf8($speech_lasttext))
+  elsif $scene.is_a?(Scene_Chat)==false
+    $scenes.insert(0,Scene_Chat.new)
+    end
+    sleep(0.1)
+  end
+  end
+  sleep(0.05)
+  end
+rescue Exception
+    retry
+                end
+              end
+              
+# @note this function is reserved for Elten usage
+                  def thr2
                                         loop do
             begin
             sleep(0.1)
               if $voice != -1 and ($ruby != true or $windowminimized != true)
-                if Elten::Engine::Speech.getoutputmethod>0
-Elten::Engine::Speech.stop(0)
+                if Win32API.new("screenreaderapi","getCurrentScreenReader",'','i').call>0
+Win32API.new("screenreaderapi","stopSpeech",'','i').call
 end
                       end
               rescue Exception
@@ -1398,7 +1565,7 @@ end
     
     # @note this function is reserved for Elten usage
 def thr3
-    $playlistvolume=0.8
+  $playlistvolume=0.8
   $playlistindex = 0 if $playlistindex == nil
   $playlistlastindex = -1 if $playlistlastindex == nil
 plpos=0
@@ -1442,7 +1609,7 @@ end
 
 # @note this function is reserved for Elten usage
   def thr4
-        begin    
+    begin    
     $subthreads=[] if $subthreads==nil
                             loop do
                               sleep(0.04)
@@ -1510,7 +1677,7 @@ end
      
      # @note this function is reserved for Elten usage
 def thr5
-                           begin
+                         begin
     loop do
       if $mproc==true
       $messageproc = true
@@ -1662,10 +1829,10 @@ def deldir(dir,with=true)
     if File.directory?(f)
       deldir(f)
     else
-      File.delete(f)
+      Win32API.new("kernel32","DeleteFile",'p','i').call(utf8(f))
       end
     end
-    Dir.rmdir(dir) if with == true
+    Win32API.new("kernel32","RemoveDirectory",'p','i').call(utf8(dir)) if with == true
   end
   
   # Copies a directory with all files and subdirectories
@@ -1678,7 +1845,7 @@ def deldir(dir,with=true)
       edestionation=destination
       end
   loop_update
-  Dir.mkdir(destination)
+  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(destination),nil)
   e=Dir.entries(esource)
   e.delete("..")
   e.delete(".")
@@ -1690,7 +1857,7 @@ def deldir(dir,with=true)
       copydir(source+"\\"+e[i],destination+"\\"+e[i],esource+"\\"+ec[i],edestination+"\\"+ec[i])
     else
       begin
-      Elten::Engine::Kernel.copyfile(source+"\\"+e[i],destination+"\\"+e[i],0)
+      Win32API.new("kernel32","CopyFile",'ppi','i').call(utf8(source+"\\"+e[i]),utf8(destination+"\\"+e[i]),0)
     rescue Exception
       end
       end
@@ -1742,7 +1909,11 @@ def deldir(dir,with=true)
 dr.delete("..")
 o=[]
 for f in dr
-o.push(d.split("\\").last)
+tmp="\0"*1024
+Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(dir+"\\"+f),tmp,tmp.size)
+tmp.delete!("\0")
+tmp.gsub!("/","\\")
+o.push(tmp.split("\\").last)
 end
 return o
 end
@@ -1751,8 +1922,8 @@ def speechtofile(file="",text="",name="")
   text = text[3..text.size-1] if text[0] == 239 and text[1] == 187 and text[2] == 191
               name=File.basename(file).gsub(File.extname(file),"") if file!="" and name==""
   voices=[]
-  for i in 0..Elten::Engine::Speech.getnumvoices-1
-    voices.push(Elten::Engine::Speech.getvoicename(i))
+  for i in 0..Win32API.new("screenreaderapi","sapiGetNumVoices",'','i').call-1
+    voices.push(futf8(Win32API.new("screenreaderapi","sapiGetVoiceName",'i','p').call(i)))
     end
   scl=[]
   for i in 0..100
@@ -1805,8 +1976,8 @@ if (enter or space)
     r=$rate
     $voice=fields[1].index
     $rate=fields[2].index
-    Elten::Engine::Speech.setvoice($voice)
-    ELten::Engine::Speech.setrate($rate)
+    Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
+    Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
     t=ttext[0..9999]
     speech(t)
     while speech_actived
@@ -1816,8 +1987,8 @@ if (enter or space)
     loop_update
     $voice=v
     $rate=r
-    Elten::Engine::Speech.setvoice($voice)
-    Elten::Engine::Speech.setrate($rate)
+    Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
+    Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
   else
     speech("Nie wybrano pliku do przeczytania")
   end
@@ -1853,7 +2024,7 @@ if fields[5]!=nil
     if fields[5]!=nil
     if fields[5].index>0
       outd+="\\#{cname}"
-      Dir.mkdir(outd)
+      Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(outd),nil)
     end
     end
     outd+="\\#{cname}.wav"
@@ -1911,7 +2082,7 @@ th=Thread.new do
     if FileTest.exists?(b)
       c="bin\\ffmpeg -y -i \"#{b}\" \"#{b.gsub(".wav",fr)}\""
       executeprocess(c,true,0,false)
-      File.delete(b)
+      Win32API.new("kernel32","DeleteFile",'p','i').call(utf8(b))
     end
     rf+=1
   else
@@ -1933,7 +2104,8 @@ loop do
           end
         end
         edt.update
-                x=ELten::Engine::Kernel.getexitcodeprocess(h)
+        x="\0"*1024
+        Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
 x.delete!("\0")
 if x != "\003\001"
   $voice=$ovoice

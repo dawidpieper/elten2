@@ -73,13 +73,45 @@ b=0
   b=$beta if $isbeta==1
   b=$alpha if $isbeta==2
   password="" if autologin.to_i==2
+  suc=false
+  while suc==false
   if token=="" and crp!=""
-  logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+  logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}&lang=#{$language}")
 elsif token!=""
-    logintemp = srvproc("login","login=1\&name=#{name}\&token=#{token}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+    logintemp = srvproc("login","login=1\&name=#{name}\&token=#{token}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}")
 else
-  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password}\&version=#{ver.to_s}\&beta=#{b.to_s}")
+  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}")
+end
+suc=true
+if logintemp[0].to_i==-5
+  suc=false
+tries=0
+label="Na tym koncie włączone jest logowanie dwuetapowe. Wprowadź kod wysłany na twój numer wiadomością SMS, aby zezwolić temu urządzeniu na zalogowanie. Jeśli nie masz dostępu do użytego numeru telefonu, wybierz opcję resetowania hasła w celu wyłączenia logowania dwuetapowego."
+while tries<3
+  code=input_text(label,"ACCEPTESCAPE").delete("\r\n")
+  if code=="\004ESCAPE\004"
+    writeini($configdata+"\\login.ini","Login","AutoLogin","0")
+    return $scene=Scene_Loading.new
+    break
   end
+  ath=srvproc("authentication","authenticate=1\&appid=#{$appid}\&name=#{name}\&code=#{code}")[0].to_i
+  if ath<0
+    tries+=1
+    if tries>=3
+      speech("Błąd weryfikacji.")
+      speech_wait
+      writeini($configdata+"\\login.ini","Login","AutoLogin","0")
+    return $scene=Scene_Loading.new
+    break
+    else
+      label="Wprowadzony kod nie jest poprawny, spróbuj jeszcze raz"
+    end
+  else
+        break
+    end
+  end
+  end
+end
     if logintemp.size > 1
   $token = logintemp[1] if logintemp.size > 1
   $token.delete!("\r\n")
@@ -115,7 +147,7 @@ loop_update
           if password=="\004ESCAPE\004"
             break
           else
-            lt=srvproc("login","login=2\&name=#{name}\&password=#{password}\&computer=#{$computer.urlenc}")
+            lt=srvproc("login","login=2\&name=#{name}\&password=#{password}\&computer=#{$computer.urlenc}\&appid=#{$appid}")
             if lt[0].to_i<0
               speech("Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane zostało błędne hasło.")
               speech_wait

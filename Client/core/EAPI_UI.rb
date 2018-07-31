@@ -91,14 +91,13 @@ end
   else
     if $key[0x11] == false
       if $key[0xA4]
-        t=Time.now.to_i*1000000+Time.now.usec
-        ret=true
-        while $keyr[0xA4]
-                    ret=false if $key[0x09] or $key[0x10] or $key[0x20]
-                    loop_update
-          end
-        ret=false if Time.now.to_i*1000000+Time.now.usec-t>1000000
-          return ret
+        t = Time.now.to_i
+        delay
+                        if Time.now.to_i <= t+1
+        return true
+      else
+        return false
+        end
               else
                 return false
         end
@@ -179,8 +178,7 @@ return $key[0x20]
          if ($keyms[i] > $advanced_keyms and i != 0x1b) or ($keyms[i] > $advanced_ackeyms)
            $keyms[i] = 0
                       $keyms[i] = 50 if $lkey == i
-                      $keyms[i]=60 if i==0x08 or (i>=0x70 and i<=0x7b)
-                                            $key[i] = true
+                      $key[i] = true
                        if keys[i]==-127 or keys[i]==-128#$keyrls[i]==0
                                                   $keypr[i]=true
                        $keyrls[i]=1
@@ -246,146 +244,6 @@ return $key[0x20]
                         end
                       end
                     end
-
-                    def loop_update_ctrl
-                                                          if $ruby != true or $windowminimized != true
-                  if $keyr[0x11] and $speech_wait == true
-                    speech_stop
-                    $speech_wait = false
-                    end
-                  if $key[0x77]
-                    time = ""
-                    if $key[0x10]
-if $advanced_synctime == 1
-                      time = srvproc("time","dateformat=Y-m-d")
-                    else
-                                            time = [sprintf("%04d-%02d-%02d",Time.now.year,Time.now.month,Time.now.day)]
-                                                                                     end
-else
-  if $advanced_synctime == 1
-  time = srvproc("time","dateformat=H:i:s")
-  else
-                      time = [sprintf("%02d:%02d:%02d",Time.now.hour,Time.now.min,Time.now.sec)]
-                      end
-  end
-speech(time[0])
-end
-         if $key[0x76]
-           if $key[0x10]
-    $playlistindex += 1 if $playlistbuffer!=nil
-  elsif $scene.is_a?(Scene_Console)==false
-    $scenes.insert(0,Scene_Console.new)
-    end
-        end
-        if $key[0x75]
-  if !$key[0x10] and $volume < 100
-  $volume += 5 if $volume < 100
-  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
-  play("list_focus")
-elsif $key[0x10]
-  $playlistvolume = 0.8 if $playlistvolume == nil
-  if $playlistvolume < 1
-  $playlistvolume += 0.1
-  play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
-  end
-end
-    end
-if $key[0x74]
-  if !$key[0x10]  and $volume > 5
-  $volume -= 5 if $volume > 5
-  play("list_focus")
-  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
-elsif $key[0x10]
-    $playlistvolume = 0.8 if $playlistvolume == nil
-  if $playlistvolume > 0.01
-    $playlistvolume -= 0.1
-  $playlistvolume=0.01 if $playlistvolume==0
-    play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
-  end
-  end
-  end
-if $key[0x73]
-  if $key[0x10] and $playlistbuffer != nil
-    if $playlistindex != 0
-    $playlistindex -= 1
-  else
-    $playlistindex=$playlist.size-1
-    end
-    end
-      end
-  if $key[0x70]
-  if $key[0x10]
-        if $voice==-1
-      $voice=readini($configdata+"\\sapi.ini","Sapi","Voice","-1").to_i
-          elsif Elten::Engine::Speech.getoutpumethod>0
-      $voice=-1
-      end
-  if $voice==-1
-        speech("Używanie czytnika ekranu")
-    else
-    speech("Używanie wybranej syntezy SAPI")
-  end
-else
-  $scenes.insert(0,Scene_ShortKeys.new) if $scene.is_a?(Scene_ShortKeys)==false
-      end
-    end
-  if $key[0x71]
-  if $key[0x10]
-    if $scene.is_a?(Scene_Main)
-      $scene=Scene_MainMenu.new
-      else
-    $scenes.insert(0,Scene_MainMenu.new) if $scene.is_a?(Scene_MainMenu)==false
-    end
-  end
-  end
-if $key[0x72]
-  if $key[0x10]
-    if $playlist.size>0 and $playlistbuffer!=nil
-if $playlistpaused == true
-  $playlistbuffer.play
-  $playlistpaused = false
-else
-  $playlistpaused=true
-  $playlistbuffer.pause  
-end
-end
-else
-  Audio.bgs_stop
-  run("bin\\elten_tray.bin")
-  Win32API.new("user32","SetFocus",'i','i').call($wnd)
-  Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
-  Graphics.update  
-  Graphics.update
-  play("login")
-    speech("ELTEN")
-    Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
-end
-end
-if $name != "" and $name != nil and $token != nil and $token != ""
-  if $key[0x78]
-    if !$key[0x10] and $scene.is_a?(Scene_Contacts) == false
-    $scenes.insert(0,Scene_Contacts.new)
-      elsif $scene.is_a?(Scene_Online) == false and $key[0x10]
-        $scenes.insert(0,Scene_Online.new)
-  end
-    end
-        if $key[0x79]
-           if !$key[0x10] and $scene.is_a?(Scene_WhatsNew) == false
-$scenes.insert(0,Scene_WhatsNew.new)
-elsif $scene.is_a?(Scene_Messages) == false and $key[0x10]
-  $scenes.insert(0,Scene_Messages.new)
-    end
-      end
-end
-if $key[0x7A]
-  if !$key[0x10]
-    speech(futf8($speech_lasttext))
-  elsif $scene.is_a?(Scene_Chat)==false
-    $scenes.insert(0,Scene_Chat.new)
-    end
-  end
-  end
-                  end
                     
                     # Updates a window, speech api and keyboard state
      def loop_update
@@ -505,9 +363,7 @@ if $ruby != true and $grphpd<=1
     sleep(1.0/(Graphics.frame_rate*1.5))
       end
 Input.update
-     
-Keyboard::key_update
-loop_update_ctrl
+      Keyboard::key_update
              if $ruby == true
   speech_stop if $keypr[0x11]
     else

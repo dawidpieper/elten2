@@ -24,10 +24,12 @@ class Scene_Loading
       $scenes = []
     $volume = 80
     $speech_to_utf = true
-    $instance = Elten::Engine::Kernel.getmodulehandle(0)
-    $process = Elten::Engine::Kernel.getcurrentprocess
-    $path=Elten::Engine::Kernel.getmodulefilename.delete("\0")
-            if $wnd==nil
+    $instance = Win32API.new("kernel32","GetModuleHandle",'i','i').call(0)
+    $process = Win32API.new("kernel32","GetCurrentProcess",'','i').call
+    $path="\0"*1024
+    Win32API.new("kernel32","GetModuleFileName",'ipi','i').call($instance,$path,$path.size)
+    $path.delete!("\0")
+    if $wnd==nil
     $wnd = Win32API.new("user32","FindWindow",'pp','i').call("RGSS Player",nil)
     $cwnd = Win32API.new("user32","GetActiveWindow",'','i').call
     if $cwnd != $wnd
@@ -41,8 +43,11 @@ class Scene_Loading
         end
       end
       end      
-      $computer=Elten::Engine::Kernel.getcomputername.delete("\0")
-            Bass.init($wnd) if $usebass==true
+      $computer="\0"*128
+      siz=[$computer.size].pack("i")
+      Win32API.new("kernel32","GetComputerName",'pp','i').call($computer,siz)
+      $computer.delete!("\0")
+      Bass.init($wnd) if $usebass==true
       writefile("hwnd",$wnd.to_s)
       if $ruby != true
             $sprite = Sprite.new
@@ -63,7 +68,7 @@ $eltendata = $appdata + "\\elten"
 else
   $eltendata = ".\\eltendata"
 end
-$commandline=Elten::Engine::Kernel.getcommandline
+$commandline=Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
           if (/\/datadir \"([a-zA-Z0-9\\:\/ ]+)\"/=~$commandline) != nil
                 $reld=$1
         $eltendata=$reld
@@ -74,9 +79,9 @@ $appsdata = $eltendata + "\\apps"
 $extrasdata = $eltendata + "\\extras"
 $soundthemesdata = $eltendata + "\\soundthemes"
 $langdata = $eltendata + "\\lng"
-Dir.mkdir($eltendata)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($eltendata),nil)
 if FileTest.exists?($langdata)==false
-    Dir.mkdir($langdata)
+    Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($langdata),nil)      
   $l = false
   langtemp = srvproc("languages","langtemp")
     err = langtemp[0].to_i
@@ -94,21 +99,33 @@ for i in 0..langs.size - 1
   download($url + "lng/" + langs[i].to_s + ".elg", "#{$langdata}/"+langs[i].to_s + ".elg")
 end
 end  
-if Elten::Engine::Kernel.getuserdefaultuilanguage != 1045
-  download(url = $url + "lng/EN_US.elg",$langdata + "\\EN_US.elg")
-writeini($configdata + "\\language.ini",'Language','Language',"EN_US")
+if Win32API.new("kernel32","GetUserDefaultUILanguage",'','i').call != 1045
+  Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,url = $url + "lng/EN_US.elg",$langdata + "\\EN_US.elg",0,nil)
+Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(url)
+iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+iniw.call('Language','Language',"EN_US",utf8($configdata + "\\language.ini"))
   end
 end
-Dir.mkdir($configdata)
-Dir.mkdir($bindata)
-Dir.mkdir($appsdata)
-Dir.mkdir($extrasdata)
-Dir.mkdir($appsdata + "\\inis")
-Dir.mkdir($soundthemesdata)
-Dir.mkdir($soundthemesdata + "\\inis")
-Dir.mkdir($langdata)
-Dir.mkdir("temp")
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($configdata),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($bindata),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($extrasdata),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata + "\\inis"),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\inis"),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($langdata),nil)
+Win32API.new("kernel32","CreateDirectory",'pp','i').call("temp",nil)
 $LOAD_PATH << $appsdata
+if FileTest.exists?($configdata+"\\appid.dat")
+$appid=read($configdata+"\\appid.dat")
+else
+  $appid = ""
+  chars = ("A".."Z").to_a+("a".."z").to_a+("0".."9").to_a
+  64.times do
+    $appid << chars[rand(chars.length-1)]
+  end
+    writefile($configdata+"\\appid.dat",$appid)
+  end
 if FileTest.exists?($configdata+"\\interface.ini") and FileTest.exists?($configdata+"\\advanced.ini") == false
 keyms=readini($configdata+"\\interface.ini","Interface","KeyUpdateTime","")  
   hs=readini($configdata+"\\interface.ini","Interface","HexSpecial","")  
@@ -225,7 +242,7 @@ if enter
       end
       return
     else
-      Elten::Engine::Speech.setvoice($voice) if $voice != -3
+      Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
                   $rate = readini($configdata + "\\sapi.ini","Sapi","Rate",50).to_i
         if $rvcr==nil
       if (/\/voicerate (\d+)/=~$commandline) != nil
@@ -233,7 +250,7 @@ if enter
         $rate=$rvcr.to_i
             end    
     end
-                  Elten::Engine::Speech.setrate($rate)
+                  Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
     $sapivolume = readini($configdata + "\\sapi.ini","Sapi","Volume",100).to_i
     if $rvcv==nil
       if (/\/voicevolume (\d+)/=~$commandline) != nil
@@ -241,7 +258,7 @@ if enter
         $sapivolume=$rvcv.to_i
             end    
     end
-    Elten::Engine::Speech.setvolume($sapivolume)
+    Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
   end
           $soundthemespath = readini($configdata + "\\soundtheme.ini","SoundTheme","Path","")
             if $soundthemespath.size > 0

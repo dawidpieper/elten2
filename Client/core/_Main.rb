@@ -9,7 +9,7 @@ class Object
   include EltenAPI
 end
 module Elten
-Version=2.26
+Version=2.28
 Beta=0
 Alpha=0
 IsBeta=0
@@ -27,6 +27,8 @@ def isbeta
   return IsBeta
   end
 end
+end
+  begin
   $volume=100 if $volume==nil
       $mainthread = Thread::current
 $stopmainthread         = false
@@ -117,9 +119,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
     exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
     end
       exit
-    end
-    begin
-          rescue Hangup
+            rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true
   retry
@@ -139,7 +139,7 @@ rescue RuntimeError
   $ruer = 0 if $ruer == nil
   $ruer += 1
   if $ruer <= 10 and $DEBUG != true
-play("signal")
+    Win32API.new("kernel32","Beep",'ii','i').call(440,100)
     Graphics.update
     retry
   else

@@ -566,7 +566,9 @@ bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postna
       tmax = 20000
       loop do
         loop_update
-x=Elten::Engine::Kernel.getexitcodeprocess(h).delete!("\0")
+        x="\0"*1024
+Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
+x.delete!("\0")
 if x != "\003\001"
   break
   end

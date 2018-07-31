@@ -52,7 +52,8 @@ if enter
   if @sel.index < @selt.size - 1 and @sel.index > 0
 lng = @langs_f[@sel.index - 1]
 lng = lng.sub(".elg","")
-                                   writeini($configdata + "\\language.ini",'Language','Language',lng)
+                   iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+                iniw.call('Language','Language',lng,utf8($configdata + "\\language.ini"))
 $language = lng
 if $language.upcase != "PL_PL"
   $lang_src = []
@@ -86,7 +87,8 @@ if $language.upcase != "PL_PL"
 end                
 speech("Zapisano.")
 elsif @sel.index == 0
-                                   writeini($configdata + "\\language.ini",'Language','Language',"PL_PL")
+                   iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
+                iniw.call('Language','Language',"PL_PL",utf8($configdata + "\\language.ini"))
   $language = "PL_PL"
   $lang_src = []
   $lang_dst = []

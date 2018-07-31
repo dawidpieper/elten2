@@ -82,7 +82,9 @@ if readini($configdata + "\\login.ini","Login","AutoLogin","-1").to_i <= 0 and @
                               end
     end
 if @autostart == false and @form.fields[7].checked==1
-  path=Elten::Engine::Kernel.getmodulefilename.delete!("\0")
+  path="\0"*1025
+Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,path,path.size)
+path.delete!("\0")
 dr="\""+File.dirname(path)+"\\bin\\rubyw.exe\" \""+File.dirname(path)+"\\bin\\agentc.dat\" /autostart"
 @runkey['elten']=dr
 elsif @autostart == true and @form.fields[7].checked==0

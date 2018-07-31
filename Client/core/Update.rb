@@ -12,7 +12,7 @@ class Scene_Update_Confirmation
     end
   def main
     msg = "Dostępna jest nowa wersja programu. Czy chcesz ją pobrać i zainstalować?"
-          if $nbeta > $beta
+          if $nbeta > $beta and $isbeta==1
     msg = "Dostępna jest nowa wersja beta programu. Czy chcesz ją pobrać i zainstalować?"
       end
                  case simplequestion(msg)
@@ -25,7 +25,7 @@ class Scene_Update_Confirmation
                               $scene = Scene_Main.new
           end
           when 1
-            if $nbeta > $beta
+            if $nbeta > $beta and $isbeta==1
     if simplequestion("Ostrzeżenie. Próbujesz zainstalować wersję beta. Zawiera ona nieprzetestowaną wersję programu i może działać niestabilnie lub powodować inne błędy. Czy chcesz kontynuować mimo to?") == 0
       if $preinitialized != true
           $denyupdate = true
@@ -77,7 +77,7 @@ end
 speech_wait
 end  
 er = false
-if $nbeta > $beta
+if $nbeta > $beta and $isbeta==1
 if (m = srvproc("bin/beta","name=#{$name}\&token=#{$token}\&get=1"))[0].to_i == 0
     if m.size > 1
       if m[1].to_i == 0
@@ -99,7 +99,7 @@ else
                 return
         end
         end
-        if $nbeta > $beta
+        if $nbeta > $beta and $isbeta==1
 downloadfile($url + "bin/beta.php?"+hexspecial("name=#{$name}\&token=#{$token}\&download=2\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}"),$bindata + "\\eltenup.exe","Pobieranie aktualizacji")
   else
   downloadfile($url + "bin/eltenup.exe",$bindata + "\\eltenup.exe","Pobieranie aktualizacji")

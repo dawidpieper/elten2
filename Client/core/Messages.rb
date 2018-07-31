@@ -685,8 +685,9 @@ err = bt[0].to_i
       tmax = 1000
       loop do
         loop_update
-x=Elten::Engine::Kernel.getexitcodeprocess(h)
-        x.delete!("\0")
+        x="\0"*1024
+Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
+x.delete!("\0")
 if x != "\003\001"
   break
   end
