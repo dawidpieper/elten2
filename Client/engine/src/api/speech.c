@@ -1,12 +1,22 @@
 #ifndef ELTEN_ENGINE_VERSION
 #include <emain.h>
 #endif
+#include <espeech.h>
+#ifdef __linux__
+void eos(size_t msgid, size_t cid, SPDNotificationType t)
+{
+sem_post(&sem);
+}
+#endif
 VALUE EltenEngineSpeech_say(VALUE self, VALUE saytext, VALUE outputtype, VALUE alter) {
 				 		#ifdef _WIN32
 	if(outputtype==0)
 sayString(StringValuePtr(saytext),alter);
 	else
 	sapiSayString(StringValuePtr(saytext),alter);
+#endif
+#ifdef __linux__
+spd_sayf(sp, SPD_IMPORTANT, StringValuePtr(saytext));
 #endif
 }
 
@@ -106,6 +116,13 @@ rb_define_module_function(mEltenEngineSpeech, "getvoicename",EltenEngineSpeech_g
 rb_define_module_function(mEltenEngineSpeech, "getoutputmethod",EltenEngineSpeech_getoutputmethod,0);
 rb_define_module_function(mEltenEngineSpeech, "ispaused",EltenEngineSpeech_ispaused,0);
 rb_define_module_function(mEltenEngineSpeech, "setpaused",EltenEngineSpeech_setpaused,1);
+#ifdef __linux__
+sp = spd_open("Elten", "Main", NULL, SPD_MODE_THREADED);
+sem_init(&sem, 0, 0);
+sp->callback_end = sp->callback_cancel = eos;
+spd_set_notification_on(sp, SPD_END);
+spd_set_notification_on(sp, SPD_CANCEL);
+#endif
 }
 
 
