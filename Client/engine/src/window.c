@@ -1,8 +1,7 @@
 #ifndef ELTEN_ENGINE_VERSION
-#include "main.c"
+#include <emain.h>
 #endif
-#ifndef ELTEN_FILE_WINDOW
-#ifdef WIN32
+#ifdef _WIN32
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 switch(Message) {
 case WM_KEYDOWN: {
@@ -20,7 +19,7 @@ return 0;
 }
 #endif
 int ELTEN_WINDOW_InitThr() {
-#ifdef WIN32
+#ifdef _WIN32
 void __cdecl ThreadProc( void * Args ) {
 MSG msg;
 WNDCLASSEX wc;
@@ -49,7 +48,7 @@ DispatchMessage(&msg);
 }
 _endthread();
 }
-#endif
 return (int) _beginthread( ThreadProc, 0, NULL );
-}
 #endif
+
+}
