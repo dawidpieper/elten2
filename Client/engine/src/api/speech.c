@@ -17,6 +17,10 @@ sayString(StringValuePtr(saytext),alter);
 #endif
 #ifdef __linux__
 spd_sayf(sp, SPD_IMPORTANT, StringValuePtr(saytext));
+if(alter == true)
+{
+sem_wait(&sem);
+}
 #endif
 }
 
@@ -27,6 +31,9 @@ VALUE EltenEngineSpeech_stop(VALUE self, VALUE outputtype) {
 	else
 	sapiStopSpeech();
 	#endif
+#ifdef __linux__
+spd_stop(sp);
+#endif
 }
 
 VALUE EltenEngineSpeech_isspeaking(VALUE self) {
@@ -45,6 +52,9 @@ VALUE EltenEngineSpeech_getvoice(VALUE self) {
 #ifdef _WIN32
 return sapiGetVoice();
 #endif
+#ifdef __linux__
+return rb_str_new_cstr(spd_get_output_module(sp));
+#endif
 }
 
 VALUE EltenEngineSpeech_setvoice(VALUE self, VALUE voiceid) {
@@ -57,22 +67,34 @@ VALUE EltenEngineSpeech_getrate(VALUE self) {
 #ifdef _WIN32
 return sapiGetRate();
 #endif
+#ifdef __linux__
+return INT2NUM(spd_get_voice_rate(sp));
+#endif
 }
 
 VALUE EltenEngineSpeech_setrate(VALUE self, VALUE vol) {
 #ifdef _WIN32
 return sapiSetRate(vol);
 #endif
+#ifdef __linux__
+return spd_set_voice_rate(sp, NUM2INT(vol));
+#endif
 }
 VALUE EltenEngineSpeech_getvolume(VALUE self) {
 #ifdef _WIN32
 return sapiGetVolume();
+#endif
+#ifdef __linux__
+return INT2NUM(spd_get_volume(sp));
 #endif
 }
 
 VALUE EltenEngineSpeech_setvolume(VALUE self, VALUE vol) {
 #ifdef _WIN32
 return sapiSetVolume(vol);
+#endif
+#ifdef __linux__
+return spd_set_volume(sp, NUM2INT(vol));
 #endif
 }
 
