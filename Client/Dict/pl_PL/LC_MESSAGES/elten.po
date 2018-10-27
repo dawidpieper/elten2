@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-10-26 10:45+0200\n"
+"PO-Revision-Date: 2018-10-27 10:30+0200\n"
 "Last-Translator: Dawid Pieper <dawidpieper@o2.pl>\n"
 "Language: pl_PL\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -1457,7 +1457,7 @@ msgid "EAPI_Common:type_soundthemename"
 msgstr "Podaj nazwę tematu dźwiękowego."
 
 msgid "EAPI_Common:info_soundthemecreation"
-msgstr "Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład."
+msgstr "Pliki tematu dźwiękowego utworzone w %{dir}. Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład."
 
 msgid "EAPI_Common:head_whattodo"
 msgstr "Co chcesz zrobić?"
@@ -1736,169 +1736,16 @@ msgid "_Main:opt_copyreport"
 msgstr "Skopiuj treść błędu do schowka"
 
 msgid "Notes:opt_phr_author"
-msgstr "Autor: %%"
-
-msgid "Notes:alert_phr_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %%"
+msgstr "Autor"
 
 msgid "Notes:opt_phr_modified"
-msgstr "%%Zmodyfikowana:%%"
-
-msgid "Honors:head_phr_user"
-msgstr "Odznaczenia użytkownika %%"
-
-msgid "Programs:alert_phr_installprogram"
-msgstr "Czy chcesz zainstalować program %%"
+msgstr "Zmodyfikowana"
 
 msgid "Polls:opt_phr_author"
-msgstr "Autor: %%"
+msgstr "Autor"
 
 msgid "Polls:txt_phr_votes"
-msgstr "Liczba głosów: %%"
-
-msgid "Polls:read_phr_results"
-msgstr "Wyniki ankiety: %%"
-
-msgid "Polls:alert_phr_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %%"
-
-msgid "Uploads:head_phr_filesofuser"
-msgstr "Pliki użytkownika %%"
-
-msgid "Uploads:alert_phr_deletefile"
-msgstr "Czy jesteś pewien, że chcesz usunąć plik %%"
-
-msgid "WhatsNew:opt_phr_posts"
-msgstr "%% . Wpisy: %%"
-
-msgid "WhatsNew:opt_phr_messages"
-msgstr "Nowe wiadomości %%"
-
-msgid "WhatsNew:opt_phr_followedthreads"
-msgstr "Nowe wpisy w śledzonych wątkach %%"
-
-msgid "Events:opt_phr_year"
-msgstr "%% rok"
-
-msgid "Blog:opt_phr_author"
-msgstr "Autor: %%"
-
-msgid "Blog:alert_phr_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %%"
-
-msgid "Ban:opt_phr_day"
-msgstr "%% dzień"
-
-msgid "Chat:info_phr_lastmessage"
-msgstr "Ostatnia wiadomość: %%"
-
-msgid "Files:opt_phr_file"
-msgstr "Plik %%"
-
-msgid "Files:alert_phr_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %%"
-
-msgid "Account:type_phr_birthdate"
-msgstr "Data urodzenia: %%"
-
-msgid "Account:opt_phr_female"
-msgstr "%%kobieta"
-
-msgid "Account:opt_phr_male"
-msgstr "%%mężczyzna"
-
-msgid "Account:info_phr_addedtoblacklist"
-msgstr "%% został dodany do twojej czarnej listy"
-
-msgid "Voice:info_phr_selectedvoice"
-msgstr "Wybrany głos: %%"
-
-msgid "Messages:opt_phr_from"
-msgstr "%% Od: %%"
-
-msgid "Messages:opt_phr_file"
-msgstr "Plik %%"
-
-msgid "Messages:opt_phr_to"
-msgstr "%%Do:"
-
-msgid "Messages:opt_phr_new"
-msgstr "Nowa: %%"
-
-msgid "MainMenu:opt_phr_version"
-msgstr "Wersja %%"
-
-msgid "MainMenu:alert_phr_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %%"
-
-msgid "Forum:opt_phr_threads"
-msgstr "%% wątki: %%"
-
-msgid "Forum:opt_phr_new"
-msgstr "Nowe: %%"
-
-msgid "Forum:alert_phr_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć wątek %%"
-
-msgid "Forum:opt_phr_author"
-msgstr "Autor: %%"
-
-msgid "Login:alert_phr_autologin"
-msgstr "Czy chcesz włączyć automatyczne logowanie dla konta %%"
-
-msgid "Login:info_phr_logged"
-msgstr "Zalogowany jako: %%"
-
-msgid "EAPI_Common:read_phr_visitingcard"
-msgstr "Wizytówka: %%"
-
-msgid "EAPI_Common:info_phr_soundthemecreated"
-msgstr "Pliki tematu dźwiękowego utworzone w: %%"
-
-msgid "EAPI_Common:info_phr_themename"
-msgstr "Nazwa tematu: %%"
-
-msgid "EAPI_Common:info_phr_file"
-msgstr "Plik %%"
-
-msgid "EAPI_Common:opt_phr_year"
-msgstr "%% rok"
-
-msgid "EAPI_Common:txt_phr_gender"
-msgstr "Płeć: %%"
-
-msgid "EAPI_Common:txt_phr_female"
-msgstr "%%kobieta"
-
-msgid "EAPI_Common:txt_phr_male"
-msgstr "%%mężczyzna"
-
-msgid "EAPI_Common:txt_phr_age"
-msgstr "Wiek: %%"
-
-msgid "EAPI_Common:txt_phr_knows"
-msgstr "Zna użytkowników: %%"
-
-msgid "EAPI_Common:txt_phr_forumposts"
-msgstr "Wpisy na forum: %%"
-
-msgid "EAPI_Common:txt_phr_pollsanswered"
-msgstr "Rozwiązane ankiety: %%"
-
-msgid "EAPI_Common:txt_phr_usedversion"
-msgstr "Używana wersja programu: %%"
-
-msgid "EAPI_Common:txt_phr_registered"
-msgstr "Konto zarejestrowane: %%"
-
-msgid "EAPI_EltenSRV:info_phr_sessconftime"
-msgstr "Czas potwierdzenia sesji: %%"
-
-msgid "EAPI_Form:opt_phr_shortkey"
-msgstr "%%Skrót: %%"
-
-msgid "_Main:info_phr_errorcritical"
-msgstr "Wystąpił krytyczny błąd. Opis błędu: %%"
+msgstr "Liczba głosów"
 
 msgid "General:error"
 msgstr "Błąd"
@@ -2493,4 +2340,178 @@ msgstr "Wybierz, z którym innym wpisem zamienić ten wpis."
 
 msgid "Files:head_convertto"
 msgstr "Do jakiego formatu chcesz przekonwertować ten plik?"
+
+msgid "Honors:head"
+msgstr "Odznaczenia"
+
+msgid "Honors:head_user"
+msgstr "Odznaczenia użytkownika %{user}"
+
+msgid "Polls:read_results"
+msgstr "Wyniki ankiety: #{%name%}"
+
+msgid "Programs:alert_installprogram"
+msgstr "Czy chcesz zainstalować program %{name}?"
+
+msgid "Notes:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+
+msgid "Polls:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+
+msgid "Uploads:head_filesofuser"
+msgstr "Pliki użytkownika %{user}"
+
+msgid "Uploads:alert_deletefile"
+msgstr "Czy jesteś pewien, że chcesz usunąć plik %{filename}?"
+
+msgid "Blog:opt_phr_author"
+msgstr "Autor"
+
+msgid "Ban:opt_day"
+msgstr "Dzień"
+
+msgid "Ban:opt_threedays"
+msgstr "Trzy dni"
+
+msgid "Ban:opt_year"
+msgstr "Rok"
+
+msgid "Chat:info_phr_lastmessage"
+msgstr "Ostatnia wiadomość"
+
+msgid "Files:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{filename}?"
+
+msgid "General:female"
+msgstr "Kobieta"
+
+msgid "General:male"
+msgstr "mężczyzna"
+
+msgid "Account:info_phr_addedtoblacklist"
+msgstr "Użytkownik %{user} został dodany do twojej czarnej listy"
+
+msgid "Voice:info_phr_selectedvoice"
+msgstr "Wybrany głos"
+
+msgid "Messages:opt_phr_from"
+msgstr "Od"
+
+msgid "Messages:opt_phr_to"
+msgstr "%%Do:"
+
+msgid "Messages:opt_phr_new"
+msgstr "Nowa"
+
+msgid "Messages:wait_sendingfile"
+msgstr "Przesyłanie: %{file}"
+
+msgid "_Main:info_errorcritical"
+msgstr "Wystąpił krytyczny błąd. Opis błędu: %{description}"
+
+msgid "EAPI_Form:opt_phr_shortkey"
+msgstr "Skrót: "
+
+msgid "EAPI_EltenSRV:info_phr_sessconftime"
+msgstr "Czas potwierdzenia sesji:"
+
+msgid "EAPI_Common:txt_phr_gender"
+msgstr "Płeć"
+
+msgid "EAPI_Common:txt_phr_age"
+msgstr "Wiek"
+
+msgid "EAPI_Common:txt_phr_knows"
+msgstr "Zna użytkowników"
+
+msgid "EAPI_Common:txt_phr_forumposts"
+msgstr "Wpisy na forum"
+
+msgid "EAPI_Common:txt_phr_pollsanswered"
+msgstr "Wypełnione ankiety"
+
+msgid "EAPI_Common:txt_phr_usedversion"
+msgstr "Używana wersja programu"
+
+msgid "EAPI_Common:txt_phr_registered"
+msgstr "Konto zarejestrowane"
+
+msgid "EAPI_Common:error_nofiletoread"
+msgstr "Nie wybrano pliku do przeczytania"
+
+msgid "EAPI_Common:error_nofilename"
+msgstr "Podaj tytuł tworzonego pliku"
+
+msgid "EAPI_Common:error_seldestination"
+msgstr "Wybierz miejsce zapisu pliku"
+
+msgid "EAPI_Common:error_selsource"
+msgstr "Wybierz plik źródłowy"
+
+msgid "EAPI_Common:txt_phr_readtofilenum"
+msgstr "Czytanie do pliku numer"
+
+msgid "EAPI_Common:txt_phr_sentencenumber"
+msgstr "Zdanie %{cursentence} z %{sentences}"
+
+msgid "EAPI_Common:txt_phr_readtime"
+msgstr "Przeczytano"
+
+msgid "EAPI_Common:txt_phr_timeremaining"
+msgstr "Szacowany pozostały czas"
+
+msgid "EAPI_Common:read_visitingcardofuser"
+msgstr "Wizytówka: %{user}"
+
+msgid "Login:info_loggedinas"
+msgstr "Zalogowany jako: %{user}"
+
+msgid "Login:alert_autologin"
+msgstr "Czy chcesz włączyć automatyczne logowanie dla konta %{user}?"
+
+msgid "Forum:opt_phr_author"
+msgstr "Autor"
+
+msgid "Forum:alert_thrdelete"
+msgstr "Czy jesteś pewien, że chcesz usunąć wątek %{thrname}?"
+
+msgid "Forum:opt_phr_thrisnew"
+msgstr "Nowy"
+
+msgid "Forum:opt_phr_threads"
+msgstr "wątki"
+
+msgid "Forum:opt_phr_posts"
+msgstr "wpisy"
+
+msgid "WhatsNew:messages"
+msgstr "Nowe wiadomości"
+
+msgid "WhatsNew:followedthreads"
+msgstr "Nowe wpisy w śledzonych wątkach"
+
+msgid "WhatsNew:followedblogs"
+msgstr "Nowe wpisy na śledzonych blogach"
+
+msgid "WhatsNew:blogcomments"
+msgstr "Nwe komentarze na twoim blogu"
+
+msgid "WhatsNew:followedforums"
+msgstr "Nowe wątki na śledzonych forach"
+
+msgid "WhatsNew:followedforumsposts"
+msgstr "Nowe wpisy na śledzonych forach"
+
+msgid "WhatsNew:contacts"
+msgstr "Nowi znajomi"
+
+msgid "WhatsNew:birthday"
+msgstr "Urodziny znajomych"
+
+msgid "WhatsNew:mentions"
+msgstr "Urodziny znajomych"
+
+msgid "WhatsNew:update"
+msgstr "Dostępna aktualizacja (%version)"
 
