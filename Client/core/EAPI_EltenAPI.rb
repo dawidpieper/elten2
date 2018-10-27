@@ -103,7 +103,7 @@ end
     createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
 handler = createfile.call(file,1,1|2|4,nil,4,0,0)
 if handler < 64
-  speech("Błąd.")
+  speech(_("General:error"))
   speech_wait
   end
 readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
@@ -215,7 +215,7 @@ return x
     createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
 handler = createfile.call(file,1,1|2|4,nil,4,0,0)
 if handler < 64
-  speech("Błąd.")
+  speech(_("General:error"))
   speech_wait
   end
 readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
@@ -251,7 +251,7 @@ end
         createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
 handler = createfile.call(utf8(file),1,1|2|4,nil,4,0,0)
 if handler < 64
-  speech("Błąd.")
+  speech(_("General:error"))
   speech_wait
   end
 readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
@@ -441,6 +441,7 @@ end
   include EltenSRV
   include Common
   include External
+  include Dictionary
 end
 class Reset < Exception
 end

@@ -11,51 +11,51 @@ class Scene_Registration
     password = ""
     mail = ""
     while name == ""
-    name = input_text("Podaj swój login. Będzie on używany w celu identyfikacji. Maksymalna długość loginu to 64 znaki.")
+    name = input_text(_("Registration:type_login"))
   end
   name.gsub("@") do
-    speech("Nazwa użytkownika nie może zawierać małp. Znak zostanie pominięty.")
+    speech(_("Registration:info_namenoats"))
     speech_wait
   end    
   name.gsub("/") do
-    speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
+    speech(_("Registration:info_slashes"))
     speech_wait
   end
     name.gsub("\\") do
-    speech("Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty.")
+    speech(_("Registration:info_slashes"))
     speech_wait
   end
     name.gsub(" ") do
-    speech("Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty.")
+    speech(_("Registration:info_spaces"))
     speech_wait
   end
           name.delete!("/ ,;@")
   name.delete!("\\")
   pswconfirm = ""
   while password == "" or password != pswconfirm
-    password = input_text("Podaj swoje hasło. Zalecane jest silne hasło. Hasło takie składa się z liter i cyfr. Długość hasła powinna być krótsza niż dwieście pięćdziesiąt sześć znaków.","password")
-    pswconfirm = input_text("Powtórz hasło","password")
+    password = input_text(_("Registration:type_pass"),"password")
+    pswconfirm = input_text(_("Registration:type_passagain"),"password")
     if pswconfirm != password
-      speech("Podane hasła są różne.")
+      speech(_("Registration:error_difpass"))
       speech_wait
       end
   end
   while mail.include?("@")==false
-    mail = input_text("Podaj swój adres mailowy. Będzie on używany w przypadku zapomnienia hasła i do wysyłania najważniejszych informacji.")
+    mail = input_text(_("Registration:type_mail"))
     end
 regtemp = srvproc("register","register=1\&name=#{name}\&password=#{password}\&mail=#{mail}")
 id = regtemp[0].to_i
 case id
 when 0
-  speech("Rejestracja powiodła się, dziękujemy. Możesz teraz się zalogować, używając podanych danych.")
+  speech(_("Registration:info_registered"))
   when -1
-    speech("Wystąpił nieznany błąd bazy danych.")
+    speech(_("Registration:error_unknown"))
     when -2
-      speech("Konto o podanym loginie już istnieje.")
+      speech(_("Registration:error_accountexists"))
       when -3
-        speech("Wystąpił błąd zapisu danych.")
+        speech(_("Registration:error_save"))
         when -4
-          speech("Wystąpił błąd połączenia z serwerem.")
+          speech(_("Registration:error_connection"))
         end
         speech_wait
       $scene = Scene_Loading.new

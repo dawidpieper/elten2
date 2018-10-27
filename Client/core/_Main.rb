@@ -29,6 +29,7 @@ def isbeta
 end
 end
   begin
+    _("")
   $volume=100 if $volume==nil
       $mainthread = Thread::current
 $stopmainthread         = false
@@ -60,7 +61,7 @@ $toscene = false
   end
     writefile("temp/agent_exit.tmp","\r\n")
     $agentproc=nil
-    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=opuścił%20dyskusję") if $chat==true
+    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:left").urlenc}") if $chat==true
     play("logout")
   speech_wait
   if $procs!=nil  
@@ -85,12 +86,12 @@ $t=false
         if FileTest.exists?("#{$eltendata}\\playlist.eps")
       pls = load_data("#{$eltendata}\\playlist.eps")
       if pls != $playlist
-        if simplequestion("Twoja playlista została zmieniona. Zapisać zmiany?") == 1
+        if simplequestion(_("*Main:alert_changepls")) == 1
 save_data($playlist,"#{$eltendata}\\playlist.eps")
           end
         end
       else
-        if simplequestion("Czy chcesz zapisać swoją playlistę?") == 1
+        if simplequestion(_("*Main:alert_savepls")) == 1
           save_data($playlist,"#{$eltendata}\\playlist.eps")
           end
         end
@@ -99,7 +100,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
         $playlistbuffer=nil
         else
     if FileTest.exists?("#{$eltendata}\\playlist.eps")
-      if simplequestion("Czy chcesz usunąć zapisaną playlistę?") == 1
+      if simplequestion(_("*Main:alert_deletepls")) == 1
         File.delete("#{$eltendata}\\playlist.eps")
         end
             end
@@ -143,12 +144,12 @@ rescue RuntimeError
     Graphics.update
     retry
   else
-    speech("Wystąpił krytyczny błąd. Opis błędu: #{$!.message}")
+    speech(s_("_Main:error_critical",{'description'=>$1.message}))
     speech_wait
     sleep(0.5)
-    speech("Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do twórców programu?")
+    speech(_("_Main:alert_errorreport"))
     speech_wait
-    @sel = menulr(["Nie","Tak"])
+    @sel = menulr([_("General:str_no"),_("General:str_yes")])
     loop do
       loop_update
       @sel.update
@@ -174,22 +175,22 @@ end
       if $ruby != true
     if $consoleused == true
     print $!.message.to_s + "   |   " + $@.to_s if $DEBUG
-    speech("Wystąpił błąd podczas przetwarzania polecenia.")
+    speech(_("General:error_console"))
         speech_wait
     $console_used = false
     $tomain = true
     retry
   elsif $updating != true and $beta_downloading != true and $start != nil and $downloading != true
-        speech("Wystąpił krytyczny błąd. Opis błędu: #{$!.message}")
+        speech(s_("_Main:info_errorcritical",{'description'=>$!.message}))
     speech_wait
     sleep(0.5)
-    speech("Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do twórców programu?")
+    speech(_("_Main:alert_errorreport"))
     speech_wait
     if confirm == 1
       sleep(0.15)
       bug
     end
-sel = menulr(["Skopiuj treść błędu do schowka","Restart","Spróbuj ponownie","Uruchom tryb awaryjny","Przerwij działanie aplikacji"],true,0,"Co chcesz zrobić?")
+sel = menulr([_("_Main:opt_copyreport"),_("_Main:opt_restart"),_("_Main:opt_tryagain"),_("_Main:opt_rescuemode"),_("_Main:opt_abort")],true,0,_("_Main:head_whattodo"))
 loop do
   loop_update
   sel.update
@@ -199,7 +200,7 @@ loop do
   else
     msg = $!.to_s+"\r\n"+$@.to_s
     Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(msg,msg.size+1)
-    speech("Skopiowano")
+    speech(_("_Main:info_copied"))
     end
   end
   end
@@ -211,10 +212,10 @@ loop do
         $toscene = true
         retry
     when 3
-      speech("Tryb awaryjny")
+      speech(_("_Main:head_rescuemode"))
       speech_wait
-      @sels = ["Wyjście","Zainstaluj program ponownie"]
-      @sels += ["Podejmij próbę otwarcia forum","Podejmij próbę otwarcia wiadomości"] if $name != nil and $name != ""
+      @sels = [_("General:str_quit"),_("_Main:opt_reinstall")]
+      @sels += [_("_Main:opt_rescueforum"),_("_Main:opt_rescuemessages")] if $name != nil and $name != ""
       @sel = menulr(@sels)
       loop do
         loop_update

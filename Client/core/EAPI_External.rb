@@ -105,7 +105,7 @@ File.delete("temp/trans")
 c = eval(b,nil,"trns")
 return "" if c==nil
 if c['code']!=200
-  speech("Wystąpił błąd podczas tłumaczenia") if quiet==false
+  speech(_("EAPI_External:error_translation")) if quiet==false
   return c['code']
 end
 from = c['lang']       
@@ -118,7 +118,7 @@ download("https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.
 c = eval(b,nil,"trns")
 if c.is_a?(Hash)
 if c['code']!=200
-  speech("Wystąpił błąd podczas tłumaczenia") if quiet==false
+  speech(_("EAPI_External:error_translation")) if quiet==false
   return c['code']
 end
 r = ""
@@ -161,14 +161,14 @@ def translatetext(from,to,text,api=0)
  b = a.gsub("\":","\"=>")
  c = eval(b,nil,"trns")
  langs=c['langs']
-  from=Select.new(["Wykryj język automatycznie"]+langs.values,true,0,"Język źródłowy",true)
+  from=Select.new([_("EAPI_External:opt_langdetection")]+langs.values,true,0,_("EAPI_External:head_langsrc"),true)
  ind=0
  for i in 0..langs.keys.size-1
    ind=i if $language[0..1].downcase==langs.keys[i].downcase
    end
- to=Select.new(langs.values,true,ind,"Język docelowy",true)
- submit=Button.new("Tłumacz")
- cancel=Button.new("Anuluj")
+ to=Select.new(langs.values,true,ind,_("EAPI_External:head_langdst"),true)
+ submit=Button.new(_("EAPI_External:btn_translate"))
+ cancel=Button.new(_("General:str_cancel"))
  form=Form.new([from,to,submit,cancel])
 loop do
   loop_update
@@ -205,7 +205,7 @@ end
 def youtubesearch(query=nil)
   h=nil
 if query == nil
-  query = input_text("Przeszukaj Youtube","ACCEPTESCAPE")
+  query = input_text(_("EAPI_External:type_ytsearch"),"ACCEPTESCAPE")
   return -1 if query == "\004ESCAPE\004"
   end
   download("https://www.googleapis.com/youtube/v3/search?part=snippet&q=#{(query).urlenc}&type=video&maxResults=50&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
@@ -213,7 +213,7 @@ if query == nil
   File.delete("temp/yttemp")
   e = eval(x.gsub("\#","\\\#").gsub("\#\$","\#\\\$").gsub("\": ","\"=>"),nil,"YT")
       if e['error'] != nil or e['errors'] != nil
-    speech("Błąd")
+    speech(_("General:error"))
     speech_wait
     return
   end
@@ -227,8 +227,8 @@ if query == nil
   $ytdh=[]
   $ytds=[]
       dialog_open
-  sel = Select.new(o,true,0,"Wyniki wyszukiwania",true)
-  dete=Edit.new("Szczegóły","READONLY|MULTILINE","",true)
+  sel = Select.new(o,true,0,_("EAPI_External:head_ytsearchresults"),true)
+  dete=Edit.new(_("EAPI_External:read_Details"),"READONLY|MULTILINE","",true)
   form=Form.new([sel,dete])
 details=[]
 previewed=false
@@ -300,7 +300,7 @@ speech(sprintf("%02d:%02d:%02d",h,m,s))
     if urls[sel.index]==nil
         waiting
     if e==nil
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -339,7 +339,7 @@ end
     preview.close if preview!=nil
     waiting
     if e==nil
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -362,7 +362,7 @@ else
       $ytdh[sel.index]=1  
       statustempfile="temp/yts"+rand(36**2).to_s(36)+".tmp"
             h = run("cmd /c bin\\youtube-dl.exe --no-check-certificate -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{ids[sel.index]}\" 1> #{statustempfile} 2>\&1",true)
-            speech("Łączenie z serwerem, proszę czekać...")
+            speech(_("EAPI_External:wait_connecting"))
       prc=0
       starttm=Time.now.to_i
       lastcheck=Time.now.to_i
@@ -373,10 +373,10 @@ else
         if space
           if sil==false
             sil=true
-            speech("Nie odczytuj zmian na pasku postępu.")
+            speech(_("EAPI_External:info_donotreadprogress"))
           else
             sil=false
-            speech("Odczytuj zmiany na pasku postępu.")
+            speech(_("EAPI_External:info_readprogress"))
           end
           end
         x="\0"*1024
@@ -417,27 +417,27 @@ suc=false
 end
 waiting_end
 if suc == true
-        ind=selector(["Odtwarzaj","Dodaj do playlisty","Ustaw jako awatar","Pobierz","Skopiuj adres URL do schowka","Anuluj"],e['items'][sel.index]['snippet']['title'],0,5,1)
+        ind=selector([_("EAPI_External:btn_play"),_("EAPI_External:opt_addtopls"),_("EAPI_External:opt_avatar"),_("EAPI_External:opt_download"),_("EAPI_External:opt_copyurl"),_("General:str_cancel")],e['items'][sel.index]['snippet']['title'],0,5,1)
         case ind
     when 0
       player(destination,e['items'][sel.index]['snippet']['title'],false,true,false)
 when 1
   $playlist.push(destination)
-speech("Dodano do playlisty")
+speech(_("EAPI_External:info_addedtopls"))
 when 2
   avatar_set(destination)
 when 3
-  type = selector(["Pobierz jako video","Pobierz jako audio","Anuluj"],"Jak chcesz pobrać ten plik?",0,0,1)
+  type = selector([_("EAPI_External:opt_downloadvideo"),_("EAPI_External:opt_downloadaudio"),_("General:str_cancel")],_("EAPI_External:head_downloadtype"),0,0,1)
   if type < 2
 fl = ""
-fl = getfile("Gdzie zapisać ten plik?",getdirectory(40)+"\\",true,"Documents")
+fl = getfile(_("EAPI_External:head_dst"),getdirectory(40)+"\\",true,"Documents")
 if fl!=""
 if type == 0
 fl += "\\"+e['items'][sel.index]['snippet']['title'].delspecial+".mp4"
     h = run("bin\\youtube-dl.exe -o \"#{fl}\" \"https://youtube.com/watch?v=#{ids[sel.index]}\"",true)
       t = 0
       tmax = 600
-      speech("Pobieranie, proszę czekać...")
+      speech(_("EAPI_External:wait_downloading"))
       loop do
         loop_update
         x="\0"*1024
@@ -448,18 +448,18 @@ if x != "\003\001"
   end
 t += 10.0/Graphics.frame_rate
 if t > tmax
-  speech("błąd")
+  speech(_("General:error"))
   speech_wait
   return -1
   break
   end
         end
-    speech("Zapisano.")
+    speech(_("General:info_saved"))
         elsif type == 1
           fl += "\\"+destination.sub("temp\\","")
           formats=[File.extname(destination).delete("."),"mp3","wav","ogg"]
           dialog_open
-          format=selector(formats,"Wybierz format zapisu",0,-1,1)
+          format=selector(formats,_("EAPI_External:head_saveformat"),0,-1,1)
           dialog_close
           if format!=-1
             if format==0        
@@ -467,11 +467,11 @@ if t > tmax
           else
             fl.gsub!(File.extname(fl),"."+formats[format])
             waiting
-            speech("Proszę czekać...")
+            speech(_("EAPI_External:wait"))
             executeprocess("bin/ffmpeg -y -i \"#{destination}\" \"#{fl}\"",true)
             waiting_end
             end
-  speech("Zapisano")      
+  speech(_("General:info_saved"))      
   end
       end
     end
@@ -479,18 +479,18 @@ if t > tmax
 when 4
   url="https://youtube.com/watch?v=#{ids[sel.index]}"
   Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(url,url.size+1)
-  speech("Skopiowano do schowka.")
+  speech(_("EAPI_External:info_copiedtoclip"))
   speech_wait
     when 5
 end
 else
  
   if FileTest.exists?(destination.gsub($advanced_ytformat,"mp4"))
-       if simplequestion("Wystąpił błąd podczas przechwytywania ścieżki audio. Czy chcesz wysłać raport o błędzie? Może on pomóc rozwiązać problem ") == 1
+       if simplequestion(_("EAPI_External:alert_audioreport")) == 1
          bug(true,yst)
          end
     else
-  if simplequestion("Nie można odtworzyć tego pliku. Czy chcesz wysłać raport o tym błędzie? Może to pomóc naprawić napotkany problem.") == 1
+  if simplequestion(_("EAPI_External:alert_ytreport")) == 1
     bug(true,yst)
     end
   end

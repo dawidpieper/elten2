@@ -8,19 +8,19 @@
 class Scene_Chat
   def main
     if $name=="guest"
-      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech(_("General:error_guest"))
       speech_wait
       $scene=Scene_Main.new
       return
       end
     if isbanned($name)
-      speech("Jesteś zbanowany.")
+      speech(_("Chat:error_banned"))
       speech_wait
       $scene=Scene_Main.new
       return
       end
     if $ruby == true
-      speech("Ta funkcja nie jest dostępna na tej platformie.")
+      speech(_("General:error_platform"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -28,7 +28,7 @@ class Scene_Chat
     writefile("temp/agent_chat.tmp","2")
     ct=srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1")
     if ct[0].to_i<0
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -36,10 +36,10 @@ class Scene_Chat
     @msg=ct[1]
     if $chat != true
     play("chat_message")
-    speech("Ostatnia wiadomość: #{@msg}")
-              ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=Dołączył%20do%20dyskusji.")
+    speech("#{_("Chat:info_phr_lastmessage")}: #{@msg}")
+              ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:joined").urlenc}")
     if ct[0].to_i<0
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -47,13 +47,13 @@ class Scene_Chat
           end
     @lastmsg=@msg
     speech_wait if $chat!=true
-        @form=Form.new([Edit.new("Twoja wiadomość","","",true),Edit.new("Historia wiadomości","MULTILINE|READONLY"," ",true),Select.new([],true,0,"Aktywne osoby",true),Button.new("Ukryj chat"),Button.new("Zamknij")])
+        @form=Form.new([Edit.new(_("Chat:type_message"),"","",true),Edit.new(_("Chat:read_history"),"MULTILINE|READONLY"," ",true),Select.new([],true,0,_("Chat:opt_users"),true),Button.new(_("Chat:btn_hide")),Button.new(_("General:str_quit"))])
         @form.fields[1].silent=true
         @form.fields[1].update
         @form.fields[1].silent=false
         ct=srvproc("chat","name=#{$name}\&token=#{$token}\&hst=1")
         if ct[0].to_i<0
-          speech("Błąd")
+          speech(_("General:error"))
           speech_wait
           $scene=Scene_Main.new
           return
@@ -63,7 +63,7 @@ class Scene_Chat
         @form.fields[1].index=@form.fields[1].text.size
         onl=srvproc("chat_online","name=#{$name}\&token=#{$token}")
         if onl[0].to_i<0
-          speech("Błąd.")
+          speech(_("General:error"))
           speech_wait
           $scene=Scene_Main.new
           return
@@ -93,7 +93,7 @@ class Scene_Chat
                 if @form.index == 1
                           ct=srvproc("chat","name=#{$name}\&token=#{$token}\&hst=1")
         if ct[0].to_i<0
-          speech("Błąd")
+          speech(_("General:error"))
           speech_wait
           $scene=Scene_Main.new
           return
@@ -103,7 +103,7 @@ class Scene_Chat
                         elsif @form.index == 2
                                 onl=srvproc("chat_online","name=#{$name}\&token=#{$token}")
         if onl[0].to_i<0
-          speech("Błąd.")
+          speech(_("General:error"))
           speech_wait
           $scene=Scene_Main.new
           return
@@ -120,7 +120,7 @@ class Scene_Chat
        @form.fields[0].settext("")
        ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{txt}")
        if ct[0].to_i < 0
-         speech("Błąd")
+         speech(_("General:error"))
        else
          play("signal")
                 end
@@ -130,9 +130,9 @@ class Scene_Chat
               end
                 end
           if $chat!=true
-            ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=opuścił%20dyskusję")
+            ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:left").urlenc}")
     if ct[0].to_i<0
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       $scene=Scene_Main.new
       return

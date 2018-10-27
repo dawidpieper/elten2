@@ -78,7 +78,7 @@ prei=0
     if $interface_soundthemeactivation != 0
     play("edit_space")
   else
-    speech("Spacja")
+    speech(_("EAPI_Speech:chr_space"))
     end
     return if speechaudio==""
   end
@@ -125,9 +125,8 @@ prei=0
       return
     end
   if text != ""
-        text = dict(char_dict(text)) if text.split("").size==1
-  text = dict(text) if $language != "PL_PL" and $language != nil and usedict==true
-  text = text.gsub("_"," ")
+        text = char_dict(text) if text.split("").size==1
+    text = text.gsub("_"," ")
 text.gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/) {
 text=($1+" "+text).gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/,"\004NEW\004")
 }
@@ -210,67 +209,67 @@ def char_dict(text)
   r=""
   case text
   when "."
-    r="kropka"
+    r=_("EAPI_Speech:chr_dot")
     when ","
-      r="przecinek"
+      r=_("EAPI_Speech:chr_comma")
       when "/"
-        r="ukośnik"
+        r=_("EAPI_Speech:chr_slash")
         when ";"
-          r="średnik"
+          r=_("EAPI_Speech:chr_semi")
           when "'"
-            r="apostrof"
+            r=_("EAPI_Speech:chr_tick")
             when "["
               r="lewy kwadratowy"
               when "]"
-                r="prawy kwadratowy"
+                r=_("EAPI_Speech:chr_rightbracket")
                 when "\\"
-                  r="bekslesz"
+                  r=_("EAPI_Speech:chr_backslash")
                   when "-"
-                    r="minus"
+                    r=_("EAPI_Speech:chr_minus")
                     when "="
-                      r="równe"
+                      r=_("EAPI_Speech:chr_equals")
                       when "`"
-                        r="akcent"
+                        r=_("EAPI_Speech:chr_accent")
                         when "<"
-                          r="mniejsze"
+                          r=_("EAPI_Speech:chr_less")
                           when ">"
-                            r="większe"
+                            r=_("EAPI_Speech:chr_greater")
                             when "?"
-                              r="pytajnik"
+                              r=_("EAPI_Speech:chr_question")
                               when ":"
-                                r="dwukropek"
+                                r=_("EAPI_Speech:chr_colon")
                                 when "\""
-                                  r="cudzysłów"
+                                  r=_("EAPI_Speech:chr_quote")
                                   when "{"
-                                    r="lewa klamra"
+                                    r=_("EAPI_Speech:chr_leftbrace")
                                     when "}"
-                                      r="prawa klamra"
+                                      r=_("EAPI_Speech:chr_rightbrace")
                                       when "|"
-                                        r="kreska pionowa"
+                                        r=_("EAPI_Speech:chr_bar")
                                         when "_"
-                                          r="podkreślnik"
+                                          r=_("EAPI_Speech:chr_underline")
                                           when "+"
-                                            r="plus"
+                                            r=_("EAPI_Speech:chr_plus")
                                             when "!"
-                                              r="wykrzyknik"
+                                              r=_("EAPI_Speech:chr_exclamation")
                                               when "@"
-                                                r="małpa"
+                                                r=_("EAPI_Speech:chr_at")
                                                 when "#"
-                                                  r="krzyżyk"
+                                                  r=_("EAPI_Speech:chr_hash")
                                                   when "$"
-                                                    r="dolar"
+                                                    r=_("EAPI_Speech:chr_dollar")
                                                     when "%"
-                                                      r="procent"
+                                                      r=_("EAPI_Speech:chr_percent")
                                                       when "^"
-                                                        r="daszek"
+                                                        r=_("EAPI_Speech:chr_caret")
                                                         when "\&"
-                                                          r="ampersant"
+                                                          r=_("EAPI_Speech:chr_and")
                                                           when "*"
-                                                            r="gwiazdka"
+                                                            r=_("EAPI_Speech:chr_star")
                                                             when "("
-                                                              r="lewy nawias"
+                                                              r=_("EAPI_Speech:chr_leftparen")
                                                               when ")"
-                                                                r="prawy nawias"
+                                                                r=_("EAPI_Speech:chr_rightparen")
                                                                 when "ü"
                                                                                                                                     r="u umlaut" if $language=="PL_PL"
                                                                   when "Ü"
@@ -304,49 +303,6 @@ when "ß"
   end
   end
 
-  # Searches the translation dictionary for a message
-  #
-  # @param text [String] a text to search for
-  # @return [String] the dictionary translation of the text, if none found, the original text is returned
-  def dict(text)
-  text="" if text==nil
-  return text if $language == nil or $language == "PL_PL"
-  for i in 0..$lang_src.size-1
-    src=$lang_src[i]
-    if src==text or src.include?("%%")
-    dst=$lang_dst[i].delete("\r\n")
-    re=Regexp.new(src.gsub("(","\\(").gsub(")","\\)").gsub("%%",""))
-                text=text.gsub(re,dst.sub("%%",$1.to_s).sub("%%",$2.to_s).sub("%%",$3.to_s).sub("%%",$4.to_s).sub("%%",$5.to_s))
-          end
-          end
-return text
-  text = "" if text == nil
-  if $lang_src != nil and $lang_dst != nil
-for i in 3..$lang_src.size - 1
-  if $lang_src[i] == text
-    r = $lang_dst[i]
-    r.chop! if r[r.size-1..r.size-1]=="\n"
-    r.chop! if r[r.size-1..r.size-1]=="\r"
-    return(r)
-    end
   end
-end
-for i in 3..$lang_dst.size - 1
-  suc = false
-    $lang_dst[i].gsub("%%") {
-  suc = true
-    ""
-  }
-  if suc == true
-    dst = $lang_dst[i].gsub("%","")
-    src = $lang_src[i].gsub("%","")
-  text.sub!(src,dst)
-    end
-end
-text.gsub!("\r\r","  ")
-text.delete!("\r")
-return(text)
-end                   
-end
 end
 #Copyright (C) 2014-2016 Dawid Pieper

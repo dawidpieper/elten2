@@ -14,7 +14,7 @@ class Scene_Files
     @clp_type=0
         end
   def main
-            @tree=FilesTree.new("Pliki",@startpath,false,false,nil,nil,true)
+            @tree=FilesTree.new(_("Files:head"),@startpath,false,false,nil,nil,true)
     loop do
       loop_update
       @tree.update
@@ -71,7 +71,7 @@ update
          @played.play
      @playedpause=false
        rescue Exception
-         speech("Nie można odtworzyć tego pliku.")
+         speech(_("Files:error_play"))
          end
        end
         else
@@ -93,15 +93,15 @@ update
        @played=nil
      end
      if $key[0x2e]
-         if simplequestion("Czy jesteś pewien, że chcesz usunąć #{@tree.file}?") == 1
+         if simplequestion(s_("Files:alert_delete", {'filename'=>@tree.file})) == 1
     if File.directory?(@tree.selected(false))
       deldir(@tree.selected(false))
-speech("Usunięto.")
+speech(_("Files:info_deleted"))
       else
       begin
       File.delete(@tree.selected(false))
     rescue Exception
-      speech("Nie można usunąć tego pliku, odmowa dostępu.")
+      speech(_("Files:error_deletefile"))
       end
     end
         @tree.refresh
@@ -112,7 +112,7 @@ speech("Usunięto.")
               @clp_type = 1
 @clp_file = @tree.selected
 @clp_name = @tree.file
-speech("Skopiowano")
+speech(_("Files:opt_copied"))
 end
 if $key[0x11] and $key[0x44]
   if File.directory?(@tree.selected(false))
@@ -169,13 +169,13 @@ end
                      @clp_type = 2
 @clp_file = @tree.selected
 @clp_name = @tree.file
-speech("Wycięto")
+speech(_("Files:info_cut"))
 end
        if enter
        file=@tree.selected(true)
               if File.directory?(file)
 dialog_open
-         ind=selector(["Otwórz ten folder","Dodaj wszystkie nagrania z tego folderu do playlisty","Anuluj"],"",0,2,1)
+         ind=selector([_("Files:opt_opendir"),_("Files:opt_adddirtopls"),_("General:str_cancel")],"",0,2,1)
          dialog_close
          if ind == 0
            @tree.go
@@ -183,7 +183,7 @@ dialog_open
            waiting
            aus=audiosearcher(file)
            waiting_end
-                      speech("Pliki dodane do playlisty: #{aus.size.to_s}.")
+                      speech(s_("Files:info_addedtoplscount",{'count'=>aus.size.to_s}))
                       $playlist+=aus
            speech_wait
            end
@@ -200,17 +200,17 @@ textmenu
 elsif @tree.filetype==4
 documentmenu            
 elsif @tree.filetype==5
-  confirm("Czy chcesz uruchomić ten plik skryptu Elten API? Skrypty pochodzące z niezaufanych źródeł mogą być niebezpieczne i spowodować uszkodzenie komputera lub uzyskanie dostępu do konta przez osoby niepowołane. Kontynuuj tylko wtedy, gdy ufasz pochodzeniu tego pliku.") do
+  confirm(_("Files:alert_eltenapi")) do
     eval(read(@tree.selected),nil,@tree.file)
     @tree.focus
     end
 elsif @tree.filetype==3
             dialog_open
-            ind=selector(["Rozpakuj","Anuluj"],"",0,1,1)
+            ind=selector([_("Files:opt_unpack"),_("General:str_cancel")],"",0,1,1)
             dialog_close
             if ind == 0
                             decompress("#{@tree.selected}","#{@tree.path}*")
-              speech("Rozpakowano.")
+              speech(_("Files:info_unpacked"))
               @tree.refresh
               speech_wait
               end
@@ -270,9 +270,9 @@ if @clp_type==2
   deldir(@clp_file)
   end
 end
-speech("Wklejono")
+speech(_("Files:info_pasted"))
 else
-  speech("Schowek jest pusty")
+  speech(_("Files:error_clipboardempty"))
 end
 end
 def countsub(dir)
@@ -309,14 +309,14 @@ if @tree.file!=nil
   end
   play("menu_open")
   play("menu_background")
-  sel = [["Plik","Otwórz w skojarzonej aplikacji","Wyślij na serwer","Spakuj","Zmień nazwę","Usuń"],["Schowek","Kopiuj","Wytnij","Wklej"],["Utwórz","Nowy folder","Nowy dokument tekstowy","Nowe nagranie"],"Wyczyść playlistę"]
-    sel[0][3]="Rozpakuj" if ext==".rar" or ext==".zip" or ext==".7z"
-      sel.push("Audio") if @tree.filetype==1
-  sel.push("Tekst") if @tree.filetype==2
+  sel = [[_("Files:opt_file"),_("Files:opt_openassociated"),_("Files:opt_send"),_("Files:opt_pack"),_("Files:opt_rename"),_("General:str_delete")],[_("Files:opt_clipboard"),_("Files:opt_copy"),_("Files:opt_cut"),_("Files:opt_paste")],[_("Files:opt_create"),_("Files:opt_newdir"),_("Files:opt_newdoc"),_("Files:opt_newrec")],_("Files:opt_erasepls")]
+    sel[0][3]=_("Files:opt_unpack") if ext==".rar" or ext==".zip" or ext==".7z"
+      sel.push(_("Files:opt_audio")) if @tree.filetype==1
+  sel.push(_("Files:opt_text")) if @tree.filetype==2
   sel.push("Dokument") if @tree.filetype==4
   if File.directory?(@tree.selected(true))
-    sel[0][0]="Folder"
-sel[0][2]="Dodaj wszystkie nagrania z tego folderu do playlisty"
+    sel[0][0]=_("Files:opt_dir")
+sel[0][2]=_("Files:opt_adddirtopls")
 end
 @menu=Tree.new(sel,0,"",false,true)
   loop do
@@ -351,24 +351,24 @@ when 1
           waiting
           aus=audiosearcher(file)
           waiting_end
-           speech("Pliki dodane do playlisty: #{aus.size.to_s}.")
+           speech(s_("Files:info_addedtoplscount",{'count'=>aus.size.to_s}))
            $playlist+=aus
            speech_wait
            else
         if $name!="guest"
              if sendfile(afile).is_a?(String)
-          speech("Wysłano")
+          speech(_("Files:info_sent"))
         else
-          speech("Błąd")
+          speech(_("General:error"))
         end
       else
-        speech("Ta funkcja nie jest dostępna na koncie gościa.")
+        speech(_("General:error_guest"))
         end
         speech_wait
         end
         when 3
       if ext != ".rar" and ext != ".zip" and ext != ".7z"
-          f=selector(["zip","rar","7zip"],"Wybierz format archiwum",0,-1,1)
+          f=selector(["zip","rar","7zip"],_("Files:head_archiveformat"),0,-1,1)
       if f>=0
         dest=file
         case f
@@ -380,44 +380,44 @@ when 1
               dest+=".7z"
         end
         compress(file,dest)
-        speech("Spakowano")
+        speech(_("Files:info_packed"))
         speech_wait
       end
     else
       decompress(@tree.selected,@tree.path+"*")
-              speech("Rozpakowano.")
+              speech(_("Files:info_unpacked"))
                             speech_wait
       end
 when 4
     name=""
     while name==""
-    name=input_text("Nowa nazwa","ACCEPTESCAPE",@tree.file)
+    name=input_text(_("Files:type_newname"),"ACCEPTESCAPE",@tree.file)
     end
     if name != "\004ESCAPE\004"
     Win32API.new("kernel32","MoveFile",'pp','i').call(utf8(file),utf8(@tree.path+name))
-    speech("Nazwa została zmieniona.")
+    speech(_("Files:info_renamed"))
     speech_wait
   end
 when 5
-  if simplequestion("Czy jesteś pewien, że chcesz usunąć #{@tree.file}?") == 1
+  if simplequestion(s_("Files:alert_delete", {'filename'=>@tree.file})) == 1
     if File.directory?(afile)
       deldir(afile)
     else
       File.delete(afile)
     end
-    speech("Usunięto.")
+    speech(_("Files:info_deleted"))
     speech_wait
   end
           when 7
 @clp_type = 1
 @clp_file = afile
 @clp_name = @tree.file
-speech("Skopiowano.")
+speech(_("Files:info_copied"))
 when 8
               @clp_type = 2
 @clp_file = afile
 @clp_name = @tree.file
-speech("Wycięto.")
+speech(_("Files:info_cut"))
 speech_wait
 when 9
   paste
@@ -426,32 +426,32 @@ speech_wait
 when 11
   name=""
 while name==""
-      name=input_text("Podaj nazwę folderu","ACCEPTESCAPE","")
+      name=input_text(_("Files:type_dirname"),"ACCEPTESCAPE","")
       end
     if name != "\004ESCAPE\004"
       Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(@tree.path+name),nil)
-      speech("Folder został utworzony.")
+      speech(_("Files:info_dircreated"))
       speech_wait
     end
           when 12
   pr=".txt"
   name=""
     while name == ""
-    name=input_text("Podaj nazwę pliku","ACCEPTESCAPE",pr)
+    name=input_text(_("Files:type_filename"),"ACCEPTESCAPE",pr)
   end
   if name!="\004ESCAPE\004"            
   writefile(@tree.path+name,"")
-        speech("Plik został utworzony.")
+        speech(_("Files:info_filecreated"))
       speech_wait
   end
       when 13
         pr=".wav"
         name=""
     while name == ""
-    name=input_text("Podaj nazwę pliku","ACCEPTESCAPE",pr)
+    name=input_text(_("Files:type_filename"),"ACCEPTESCAPE",pr)
     end
     if name != "\004ESCAPE\004"
-            form=Form.new([Button.new("Nagraj"),Button.new("Anuluj")])
+            form=Form.new([Button.new(_("Files:btn_record")),Button.new(_("General:str_cancel"))])
      rec=0
      loop do
        loop_update
@@ -461,11 +461,11 @@ while name==""
            rec = 1
            play("recording_start")
            recording_start(@tree.path+name)
-         form.fields[0]=Button.new("Zapisz")
+         form.fields[0]=Button.new(_("General:str_save"))
            elsif rec == 1
            recording_stop
            play("recording_stop")
-           speech("Zapisano")
+           speech(_("General:info_saved"))
            break
                       end
          end
@@ -474,13 +474,13 @@ while name==""
          break
          end
        end
-            speech("Plik został utworzony.")
+            speech(_("Files:info_filecreated"))
       speech_wait
         end
         when 14
       $playlist=[]
       $playlistindex = 0
-      speech("Playlista wyczyszczona")
+      speech(_("Files:info_plserased"))
       speech_wait
       when 15
         d=-1
@@ -505,8 +505,8 @@ def audiomenu(submenu=false)
   dialog_open if submenu==false
   ck=nil
   ck=Input::UP if submenu
-  sl=["Odtwarzaj","Dodaj do playlisty","Ustaw jako awatar","Konwertuj"]
-  sl.push("Anuluj") if submenu==false
+  sl=[_("Files:opt_play"),_("Files:opt_addtopls"),_("Files:opt_avatar"),_("Files:opt_convert")]
+  sl.push(_("General:str_cancel")) if submenu==false
     ind = selector(sl,"",0,-1,1,true,ck)
 dialog_close if submenu==false
 Audio.bgs_stop if submenu and ind!=-1
@@ -520,7 +520,7 @@ when 0
       speech_wait
       when 3
 formats=[".mp3",".ogg",".wav",".flac",".wma",".aac",".m4a",".opus"]
-f=selector(formats,"Do jakiego formatu chcesz przekonwertować ten plik?",0,-1)
+f=selector(formats,_("Files:head_convertto"),0,-1)
 if f!=-1
 format=formats[f]
 extra=""
@@ -530,16 +530,16 @@ if format!=".wav" and format!=".flac"
   for b in bts
     btrs.push(b.to_s+"KBPS")
   end
-  bt=selector(btrs,"Wybierz jakość dźwięku",5)
+  bt=selector(btrs,_("Files:head_soundquality"),5)
   extra="-b:a #{bts[bt]}K "
     end
-speech("Proszę czekać, trwa konwertowanie pliku.")
+speech(_("Files:wait_converting"))
 waiting
 c="bin/ffmpeg -y -i \"#{@tree.selected}\" #{extra}\"#{@tree.selected.gsub(File.extname(@tree.selected),format)}\""
 executeprocess(c,true)
 speech_wait
 waiting_end
-speech("Konwersja zakończona.")
+speech(_("Files:info_converted"))
 speech_wait
 @tree.refresh
 end
@@ -549,8 +549,8 @@ end
 def textmenu(submenu=false)
   file=@tree.selected
       dialog_open if submenu==false
-      sl=["Edytuj","Czytaj do pliku"]
-      sl.push("Anuluj") if submenu==false
+      sl=[_("Files:opt_edit"),_("Files:opt_readtofile")]
+      sl.push(_("General:str_cancel")) if submenu==false
    ck=nil
    ck=Input::UP if submenu
           ind=selector(sl,"",0,-1,1,true,ck)
@@ -558,14 +558,14 @@ def textmenu(submenu=false)
     Audio.bgs_stop if submenu and ind != -1
     case ind
     when 0
-    form=Form.new([Edit.new(@tree.file,"MULTILINE",read(file,false,true)),Button.new("Zapisz"),Button.new("Anuluj")])
+    form=Form.new([Edit.new(@tree.file,"MULTILINE",read(file,false,true)),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
     loop do
       loop_update
       form.update
       break if escape or ((space or enter) and form.index == 2)
       if ((space or enter) and form.index == 1) or (enter and $key[0x11])
         writefile(@tree.path+@tree.file,form.fields[0].text_str.gsub("\004LINE\004","\r\n"))
-        speech("Zapisano")
+        speech(_("General:info_saved"))
         break
               end
             end
@@ -576,8 +576,8 @@ def textmenu(submenu=false)
             end
           def documentmenu(submenu=false)
       dialog_open if submenu==false
-      sl=["Czytaj","Czytaj do pliku"]
-      sl.push("Anuluj") if submenu==false
+      sl=[_("Files:opt_read"),_("Files:opt_readtofile")]
+      sl.push(_("General:str_cancel")) if submenu==false
    ck=nil
    ck=Input::UP if submenu
           ind=selector(sl,"",0,-1,1,true,ck)
@@ -587,7 +587,7 @@ def textmenu(submenu=false)
     fid=0
     fid="tx"+rand(36**8).to_s(36)+""
     if ind<2 and ind>-1
-      speech("Przetwarzanie...")
+      speech(_("Files:wait_processing"))
       waiting
       executeprocess("bin\\blb2txt.exe -f \"#{@tree.selected}\" -v \"temp\\\" -p \"#{fid}\" -e \"utf8\"",true)
             text=read("temp\\"+fid+".txt")
@@ -596,7 +596,7 @@ def textmenu(submenu=false)
     case ind
     when 0
           File.delete("temp\\"+fid+".txt")
-          form=Form.new([Edit.new(@tree.file,"MULTILINE|READONLY",text),Button.new("Zamknij")])
+          form=Form.new([Edit.new(@tree.file,"MULTILINE|READONLY",text),Button.new(_("General:str_quit"))])
     loop do
       loop_update
       form.update

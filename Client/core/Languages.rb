@@ -27,9 +27,9 @@ for i in 0..@langs.size - 1
   end
   sel = ["POLSKI - POLSKA"]
 sel += @langs
-sel.push("Pobierz tłumaczenia z serwera")
+sel.push(_("Languages:opt_download"))
 @selt = sel
-@sel = Select.new(sel,true,0,"Zarządzanie językami")
+@sel = Select.new(sel,true,0,_("Languages:head"))
 loop do
   loop_update
   @sel.update
@@ -85,25 +85,25 @@ if $language.upcase != "PL_PL"
         end
                 end
 end                
-speech("Zapisano.")
+speech(_("General:info_saved"))
 elsif @sel.index == 0
                    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('Language','Language',"PL_PL",utf8($configdata + "\\language.ini"))
   $language = "PL_PL"
   $lang_src = []
   $lang_dst = []
-  speech("Zapisano")
+  speech(_("General:info_saved"))
   elsif @sel.index == @selt.size - 1
   langtemp = srvproc("languages","")
     err = langtemp[0].to_i
   case err
   when -1
-    speech("Błąd połączenia się z bazą danych.")
+    speech(_("General:error_db"))
     speech_wait
     $scene = Scene_Main.new
     return
     when -2
-      speech("Klucz sesji wygasł.")
+      speech(_("General:error_tokenexpired"))
       speech_wait
       $scene = Scene_Loading.new
       return
@@ -116,7 +116,7 @@ end
 for i in 0..langs.size - 1
   download($url + "lng/" + langs[i].to_s + ".elg",$langdata + "\\" + langs[i].to_s + ".elg")
   end
-speech("Paczki językowe zostały zaktualizowane")
+speech(_("Languages:info_downloaded"))
 speech_wait
 main
 return

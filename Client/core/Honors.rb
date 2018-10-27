@@ -17,7 +17,7 @@ class Scene_Honors
     hn=srvproc("honors","name=#{$name}\&token=#{$token}\&list=1\&user=#{@user}")
     end
     if hn[0].to_i<0
-      speech("Błąd!")
+      speech(_("General:error"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -55,15 +55,15 @@ class Scene_Honors
                 selt.push(h.enname+":\r\n"+h.endescription)
         end
     end
-    selt.push("Nowe odznaczenie")
+    selt.push(_("Honors:new"))
     header=""
     if @user==nil
-      header="Odznaczenia"
+      header=_("Honors:head")
     else
-      header="Odznaczenia użytkownika #{@user}"
+      header=s_("Honors:head_user",{'user'=>@user})
     end
     if @user!=nil and @honors==[]
-      speech("Użytkownik nie otrzymał żadnych odznaczeń.")
+      speech(_("Honors:info_nobadges"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -76,12 +76,12 @@ class Scene_Honors
       if enter and @sel.index==@sel.commandoptions.size-1
                 $scene=Scene_Honors_New.new
               elsif enter and @user==$name
-                if simplequestion("Czy chcesz ustawić to odznaczenie jako główne? Główne odznaczenie pokaże się w twojej wizytówce.")==1
+                if simplequestion(_("Honors:alert_mainhonor"))==1
                   hn=srvproc("honors","name=#{$name}\&token=#{$token}\&setmain=1\&honor=#{@honors[@sel.index].id}")
                   if hn[0].to_i<0
-                    speech("Błąd")
+                    speech(_("General:error"))
                   else
-                    speech("Odznaczenie ustawiono jako domyślne.")
+                    speech(_("Honors:info_defaulted"))
                   end
                                     end
               end
@@ -99,7 +99,7 @@ class Scene_Honors
   def menu
     play("menu_open")
     play("menu_background")
-   menu=menulr(["Odśwież","Nadaj odznaczenie","Anuluj"])
+   menu=menulr([_("General:str_refresh"),_("Honors:opt_honor"),_("General:str_cancel")])
     menu.disable_item(1) if $rang_moderator==0
     loop do
       loop_update
@@ -111,17 +111,17 @@ class Scene_Honors
           when 0
             $scene=Scene_Honors.new(@user)
                         when 1
-                          user=input_text("Komu nadać to odznaczenie?","ACCEPTESCAPE")
+                          user=input_text(_("Honors:type_honoruser"),"ACCEPTESCAPE")
                           if user!="\004ESCAPE\004"
                             if user_exist(user)==false
-                              speech("Użytkownik nie istnieje")
+                              speech(_("Honors:error_usernotfound"))
                               speech_wait
                             else
                               hn=srvproc("honors","name=#{$name}\&token=#{$token}\&user=#{user}\&award=1\&honor=#{@honors[@sel.index].id}")
                               if hn[0].to_i<0
-                                speech("Błąd")
+                                speech(_("General:error"))
                               else
-                                speech("Odznaczenie nadane")
+                                speech(_("Honors:info_honored"))
                                                             speech_wait
                               end
                               end
@@ -138,7 +138,7 @@ class Scene_Honors
 
   class Scene_Honors_New
     def main
-      @form=Form.new([Edit.new("Nazwa odznaczenia","","",true),Edit.new("Opis odznaczenia","","",true),Edit.new("Angielska nazwa odznaczenia","","",true),Edit.new("Angielski opis odznaczenia","","",true),Button.new("Dodaj"),Button.new("Anuluj")])
+      @form=Form.new([Edit.new(_("Honors:type_name"),"","",true),Edit.new(_("Honors:type_description"),"","",true),Edit.new(_("Honors:type_enname"),"","",true),Edit.new(_("Honors:type_endescription"),"","",true),Button.new(_("Honors:opt_add")),Button.new(_("General:str_cancel"))])
       loop do
         loop_update
         @form.update
@@ -150,9 +150,9 @@ class Scene_Honors
             honorendescription=@form.fields[3].text_str
             hn=srvproc("honors","name=#{$name}\&token=#{$token}\&addhonor=1\&honorname=#{honorname}\&honordescription=#{honordescription}\&honorenname=#{honorenname}\&honorendescription=#{honorendescription}")
                         if hn[0].to_i<0
-                            speech("Błąd")
+                            speech(_("General:error"))
             else
-              speech("Odznaczenie zostało dodane")
+              speech(_("Honors:info_honorcreated"))
             end
             speech_wait
             break

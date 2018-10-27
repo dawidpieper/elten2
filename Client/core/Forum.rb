@@ -54,7 +54,7 @@ else
     @results=[]    
     sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
     if sr[0].to_i<0
-            speech("Błąd.")
+            speech(_("General:error"))
           else
             t=0
             for l in sr[2..sr.size-1]
@@ -74,7 +74,7 @@ else
   def groupsmain
     grpselt=[]
     for group in @groups
-      grpselt.push(group.name+" . Fora: #{group.forums.to_s}, Wątki: #{group.threads.to_s}, Wpisy: #{group.posts.to_s}, nowe: #{(group.posts-group.readposts).to_s}")
+      grpselt.push(group.name+" . Fora: #{group.forums.to_s}, #{_("Forum:opt_phr_threads")}: #{group.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{group.posts.to_s}, nowe: #{(group.posts-group.readposts).to_s}")
     end
     @grpindex=0 if @grpindex==nil
     forfol=[]
@@ -97,7 +97,7 @@ else
       flr+=thread.readposts
       end
     end
-        @grpsel=Select.new(["Śledzone wątki . Wątki: #{ft.to_s}, wpisy: #{fp.to_s}, nowe: #{(fp-fr).to_s}.","Śledzone fora: . Fora: #{forfol.size}, wątki: #{flt.to_s}, wpisy: #{flp.to_s}, nowe: #{(flp-flr).to_s}."]+grpselt+["Szukaj"],true,@grpindex,"Forum")
+        @grpsel=Select.new(["Śledzone wątki . #{_("Forum:opt_phr_threads")}: #{ft.to_s}, #{_("Forum:opt_phr_posts")}: #{fp.to_s}, nowe: #{(fp-fr).to_s}.","Śledzone fora: . Fora: #{forfol.size}, #{_("Forum:opt_phr_threads")}: #{flt.to_s}, #{_("Forum:opt_phr_posts")}: #{flp.to_s}, nowe: #{(flp-flr).to_s}."]+grpselt+[_("Forum:opt_search")],true,@grpindex,_("Forum:head"))
     loop do
       loop_update
       @grpsel.update
@@ -108,13 +108,13 @@ else
         elsif @grpsel.index==1
           return forumsmain(-5)
           elsif @grpsel.index==@grpsel.commandoptions.size-1
-          @query=input_text("Podaj tekst do wyszukania","ACCEPTESCAPE")
+          @query=input_text(_("Forum:type_searchphrase"),"ACCEPTESCAPE")
           loop_update
           if @query!="\004ESCAPE\004"
           @results=[]
           sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
           if sr[0].to_i<0
-            speech("Błąd.")
+            speech(_("General:error"))
           else
             t=0
             for l in sr[2..sr.size-1]
@@ -133,7 +133,7 @@ else
         end
         end
       if alt
-                case menuselector(["Otwórz","Odśwież","Anuluj"])
+                case menuselector([_("Forum:opt_open"),_("General:str_refresh"),_("General:str_cancel")])
         when 0
                         @grpindex=@grpsel.index
         if @grpsel.index==0
@@ -141,13 +141,13 @@ else
         elsif @grpsel.index==1
           return forumsmain(-5)
           elsif @grpsel.index==@grpsel.commandoptions.size-1
-          @query=input_text("Podaj tekst do wyszukania","ACCEPTESCAPE")
+          @query=input_text(_("Forum:type_searchphrase"),"ACCEPTESCAPE")
           loop_update
           if @query!="\004ESCAPE\004"
           @results=[]
           sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
           if sr[0].to_i<0
-            speech("Błąd.")
+            speech(_("General:error"))
           else
             t=0
             for l in sr[2..sr.size-1]
@@ -202,12 +202,12 @@ for g in @groups
     ftm+="(#{g.name}) " if g.id==forum.group
   end
   end
-    ftm+=". Wątki: #{forum.threads.to_s}, wpisy: #{forum.posts.to_s}, Nowe: #{(forum.posts-forum.readposts).to_s}"
+    ftm+=". #{_("Forum:opt_phr_threads")}: #{forum.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{forum.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(forum.posts-forum.readposts).to_s}"
     ftm+="\004NEW\004" if forum.posts-forum.readposts>0
                   frmselt.push(ftm)
               end
       @frmindex=0 if @frmindex==nil
-      @frmsel=Select.new(frmselt,true,@frmindex,"Wybierz forum")
+      @frmsel=Select.new(frmselt,true,@frmindex,_("Forum:head_selforum"))
       loop do
         loop_update
         @frmsel.update
@@ -216,9 +216,9 @@ for g in @groups
           return groupsmain
         end
         if alt
-          mns=["Otwórz","Śledź to forum","Oznacz to forum jako przeczytane","Odśwież","Anuluj"]
-          mns[1]="Usuń ze śledzonych forów" if sforums.size>0 and sforums[@frmsel.index].followed==true
-          mns=[nil,nil,nil,"Odśwież","Anuluj"] if @frmsel.commandoptions.size==0
+          mns=[_("Forum:opt_open"),_("Forum:opt_followforum"),_("Forum:opt_markforumasread"),_("General:str_refresh"),_("General:str_cancel")]
+          mns[1]=_("Forum:opt_unfollowforum") if sforums.size>0 and sforums[@frmsel.index].followed==true
+          mns=[nil,nil,nil,_("General:str_refresh"),_("General:str_cancel")] if @frmsel.commandoptions.size==0
           case menuselector(mns)
           when 0
             @frmindex=@frmsel.index
@@ -226,16 +226,16 @@ for g in @groups
           when 1
             if sforums[@frmsel.index].followed==false
                 if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&add=2\\&forum=#{sforums[@frmsel.index].name}")[0].to_i<0
-  speech("Błąd.")
+  speech(_("General:error"))
 else
-  speech("Dodano do śledzonych forów.")
+  speech(_("Forum:info_forumfollowed"))
   sforums[@frmsel.index].followed=true
   end
 else
   if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&remove=2\\&forum=#{sforums[@frmsel.index].name}")[0].to_i<0
-    speech("Błąd.")
+    speech(_("General:error"))
   else
-    speech("Usunięto ze śledzonych forów.")
+    speech(_("Forum:info_forumunfollowed"))
         sforums[@frmsel.index].followed=false
         if id==-1
           speech_wait
@@ -248,18 +248,18 @@ else
         return forumsmain(group)
       end
       when 2
-        confirm("Wszystkie wpisy na tym forum zostaną oznaczone jako przeczytane. Czy jesteś pewien, że chcesz kontynuować?") do
+        confirm(_("Forum:alert_markforumasread")) do
           if srvproc("forum_markasread","name=#{$name}\&token=#{$token}\&forum=#{sforums[@frmsel.index].name}")[0].to_i==0
             for t in @threads
               t.readposts=t.posts if t.forum==sforums[@frmsel.index].name
             end
             sforums[@frmsel.index].readposts=sforums[@frmsel.index].posts
             @frmsel.commandoptions[@frmsel.index].gsub!("\004NEW\004","")
-            @frmsel.commandoptions[@frmsel.index].gsub!(/Nowe\: (\d+)/,"Nowe: 0")
-                        speech("Forum zostało oznaczone jako przeczytane.")
+            @frmsel.commandoptions[@frmsel.index].gsub!(/#{_("Forum:opt_phr_unreads")}\: (\d+)/,"#{_("Forum:opt_phr_unreads")}: 0")
+                        speech(_("Forum:info_forummarkedasread"))
                         speech_wait
           else
-            speech("Błąd")
+            speech(_("General:error"))
             speech_wait
             end
           end
@@ -347,22 +347,22 @@ end
       end
     end
         if id==-2 and sthreads.size==0
-      speech("Brak nowych wpisów w śledzonych wątkach")
+      speech(_("Forum:info_nonewfollowedthr"))
       speech_wait
       return $scene=Scene_WhatsNew.new
       end
       if id==-4 and sthreads.size==0
-      speech("Brak nowych wątków na śledzonych forach")
+      speech(_("Forum:info_nonewfollowedforumsthreads"))
       speech_wait
       return $scene=Scene_WhatsNew.new
       end
       if id==-6 and sthreads.size==0
-      speech("Brak nowych wpisów na śledzonych forach")
+      speech(_("Forum:info_nonewfollowedforumsposts"))
       speech_wait
       return $scene=Scene_WhatsNew.new
     end
     if id==-7 and sthreads.size==0
-      speech("Brak nowych wzmianek")
+      speech(_("Forum:info_nonewmentions"))
       speech_wait
       return $scene=Scene_WhatsNew.new
     end  
@@ -373,16 +373,16 @@ end
         index=i if thread.id==@pre
         tmp=""
         tmp+=thread.name
-        tmp+="\004INFNEW{Nowy: }\004" if thread.readposts<thread.posts and (id!=-2 and id!=-4 and id!=-6 and id!=-7)
+        tmp+="\004INFNEW{#{_("Forum:opt_phr_thrisnew")}: }\004" if thread.readposts<thread.posts and (id!=-2 and id!=-4 and id!=-6 and id!=-7)
         if id==-7
           tmp+=" . Wzmiankujący: #{thread.mention.author} (#{thread.mention.message})"
           end
-                tmp+=" . Autor: #{thread.author.lore}, wpisy: #{thread.posts.to_s}, nieprzeczytane: #{(thread.posts-thread.readposts).to_s}"
+                tmp+=" . #{_("Forum:opt_phr_author")}: #{thread.author.lore}, #{_("Forum:opt_phr_posts")}: #{thread.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(thread.posts-thread.readposts).to_s}"
       thrselt.push(tmp)
         end
       @pre=nil
       @preparam=nil
-            header="Wybierz temat"
+            header=_("Forum:head_selthr")
       header="" if id==-2 or id==-4 or id==-6 or id==-7
       @thrsel=Select.new(thrselt,true,index,header)
       loop do
@@ -411,14 +411,14 @@ break
 return
           end
         if alt
-          mselt=["Otwórz","Śledź ten wątek","Nowy temat","Odśwież","Anuluj"]
+          mselt=[_("Forum:opt_open"),_("Forum:opt_followthr"),_("Forum:opt_newthr"),_("General:str_refresh"),_("General:str_cancel")]
           mselt[2]=nil if @noteditable or id.is_a?(String)==false
           if sthreads.size==0
             mselt[0]=nil
             mselt[1]=nil
           else
-            mselt[1]="Usuń ze śledzonych wątków" if sthreads[@thrsel.index].followed==true
-            mselt+=["Przenieś wątek","Zmień nazwę","Usuń wątek"] if $rang_moderator==1
+            mselt[1]=_("Forum:opt_unfollowthr") if sthreads[@thrsel.index].followed==true
+            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr")] if $rang_moderator==1
                           end
           case menuselector(mselt)
           when 0
@@ -428,16 +428,16 @@ return
             when 1
               if sthreads[@thrsel.index].followed==false
                 if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&add=1\\&thread=#{sthreads[@thrsel.index].id}")[0].to_i<0
-  speech("Błąd.")
+  speech(_("General:error"))
 else
-  speech("Dodano do śledzonych wątków.")
+  speech(_("Forum:info_thrfollowed"))
   sthreads[@thrsel.index].followed=true
   end
 else
   if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&remove=1\\&thread=#{sthreads[@thrsel.index].id}")[0].to_i<0
-    speech("Błąd.")
+    speech(_("General:error"))
   else
-    speech("Usunięto ze śledzonych wątków.")
+    speech(_("Forum:info_thrunfollowed"))
         sthreads[@thrsel.index].followed=false
         if id==-1
           speech_wait
@@ -468,12 +468,12 @@ ind=0
   selt.push(forum.fullname+" ("+groups[forum.group]+")")
   ind=i if forum.name==sthreads[@thrsel.index].forum
   end
-destination=selector(selt,"Gdzie chcesz przenieść ten wątek",ind,-1)
+destination=selector(selt,_("Forum:head_movethrlocation"),ind,-1)
 if destination!=-1
   if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=1\&threadid=#{sthreads[@thrsel.index].id}\&destination=#{@forums[destination].name}")[0].to_i<0
-    speech("Błąd")
+    speech(_("General:error"))
   else
-        speech("Wątek został przeniesiony.")
+        speech(_("Forum:info_threadmoved"))
 getcache  
 @lastthreadindex=@thrsel.index
         speech_wait
@@ -481,12 +481,12 @@ getcache
       end
         end
                       when 6
-                        name=input_text("Podaj nową nazwę wątku","ACCEPTESCAPE",sthreads[@thrsel.index].name)
+                        name=input_text(_("Forum:type_thrnewname"),"ACCEPTESCAPE",sthreads[@thrsel.index].name)
                         if name!="\004ESCAPE\004"
                           if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&rename=1\&threadid=#{sthreads[@thrsel.index].id}\&threadname=#{name.urlenc}")[0].to_i<0
-                            speech("Błąd")
+                            speech(_("General:error"))
                           else
-                            speech("Nazwa została zmieniona.")
+                            speech(_("Forum:info_renamed"))
 getcache  
 @lastthreadindex=@thrsel.index
                             speech_wait
@@ -494,11 +494,11 @@ getcache
                                                         end
                           end
                         when 7
-                          confirm("Czy jesteś pewien, że chcesz usunąć wątek #{sthreads[@thrsel.index].name}?") do
+                          confirm(S_("Forum:alert_thrdelete", {'thrname'=>sthreads[@thrsel.index].name})) do
                           if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&delete=1\&threadid=#{sthreads[@thrsel.index].id}")[0].to_i<0
-                            speech("Błąd")
+                            speech(_("General:error"))
                           else
-                            speech("Wątek został usunięty.")
+                            speech(_("Forum:info_thrdeleted"))
 getcache  
 @lastthreadindex=@thrsel.index
                             speech_wait
@@ -528,16 +528,16 @@ forumindex=0
                                 end
                               end
                             if @forumtype == 0                            
-                                                          fields = [Edit.new("Tytuł wątku","","",true), Edit.new("Treść wpisu","MULTILINE","",true), CheckBox.new("Dodaj do śledzonych wątków"), Select.new(forums,true,forumindex,"Forum"), nil, Button.new("Anuluj")]
-                                                         fields[6] = Edit.new("Pseudonim:","","",true) if $rang_moderator == 1 or $rang_developer == 1
+                                                          fields = [Edit.new(_("Forum:type_thrname"),"","",true), Edit.new(_("Forum:type_postcontent"),"MULTILINE","",true), CheckBox.new(_("Forum:opt_followthr")), Select.new(forums,true,forumindex,_("Forum:head")), nil, Button.new(_("General:str_cancel"))]
+                                                         fields[6] = Edit.new(_("Forum:type_nick"),"","",true) if $rang_moderator == 1 or $rang_developer == 1
                                                        else
-                                                         fields = [Edit.new("Tytuł wątku","","",true), Button.new("Nagraj wpis"), nil, CheckBox.new("Dodaj do śledzonych wątków"), Select.new(forums,true,forumindex,"Forum"), nil, Button.new("Anuluj")]
+                                                         fields = [Edit.new(_("Forum:type_thrname"),"","",true), Button.new(_("Forum:btn_recpost")), nil, CheckBox.new(_("Forum:opt_followthr")), Select.new(forums,true,forumindex,_("Forum:head")), nil, Button.new(_("General:str_cancel"))]
                                                        end
                                                                                                                form = Form.new(fields)
                                                          loop do
                                                           loop_update
                                                           if @forumtype == 0 and (form.fields[0].text!="" and form.fields[1].text!="")
-                                                            form.fields[4]=Button.new("Wyślij")
+                                                            form.fields[4]=Button.new(_("Forum:btn_send"))
                                                           elsif @forumtype == 0
                                                             form.fields[4]=nil
                                                           end
@@ -554,16 +554,16 @@ forumindex=0
                                                        if recpostst == 0 or recpostst == 2
                                                                           play("recording_start")
                                                                           recording_start("temp/audiothreadpost.wav")
-                                                                          form.fields[1]=Button.new("Zatrzymaj nagrywanie wpisu")
+                                                                          form.fields[1]=Button.new(_("Forum:btn_recpoststop"))
                                                                           recpostst=1
                                                                           form.fields[2]=nil
                                                                         elsif recpostst == 1
                                                                           recording_stop
                                                                             play("recording_stop")
                                                                             recpostst=2
-                                                                            form.fields[1]=Button.new("Nagraj wpis ponownie")
-                                                                            form.fields[2]=Button.new("Odtwórz wpis")
-fields[5]=Button.new("Wyślij")
+                                                                            form.fields[1]=Button.new(_("Forum:btn_recagain"))
+                                                                            form.fields[2]=Button.new(_("Forum:btn_playpost"))
+fields[5]=Button.new(_("Forum:btn_send"))
                                                                             end                                                                            
                                                                       end
                                                        player("temp/audiothreadpost.wav","",true) if (enter or space) and form.index == 2 and recpostst == 2
@@ -590,7 +590,7 @@ fields[5]=Button.new("Wyślij")
                             ft = srvproc("forum_edit","name=" + $name + "&token=" + $token + "&forumname=" + forumclasses[form.fields[3].index].name + "&threadname=" + thread.urlenc + "&buffer=" + buf + addtourl)
                           else
                             waiting
-                                          speech("Konwertowanie...")
+                                          speech(_("Forum:wait_converting"))
             File.delete("temp/audiothreadpost.opus") if FileTest.exists?("temp/audiothreadpost.opus")
       executeprocess("bin\\ffmpeg.exe -y -i \"temp\\audiothreadpost.wav\" -b:a 96K temp/audiothreadpost.opus",true)
         flp=read("temp/audiothreadpost.opus")
@@ -608,7 +608,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech("Błąd")
+    speech(_("General:error"))
     return
   end
   sn = a[s..a.size - 1]
@@ -618,9 +618,9 @@ ft = bt[1].to_i
 waiting_end
 end
 if ft[0].to_i == 0
-  speech("Wątek został utworzony.")
+  speech(_("Forum:info_thrcreated"))
 else
-  speech("Błąd tworzenia wątku!")
+  speech(_("General:error_thrcreation"))
 end
 speech_wait
 end
@@ -758,14 +758,14 @@ class Scene_Forum_Thread
     if @noteditable==false
     case @type
     when 0
-      @fields+=[Edit.new("Twoja odpowiedź","MULTILINE","",true),nil,nil]
+      @fields+=[Edit.new(_("Forum:type_reply"),"MULTILINE","",true),nil,nil]
     else
-      @fields+=[Button.new("Nagraj nowy wpis"),nil,nil]
+      @fields+=[Button.new(_("Forum:btn_recnewpost")),nil,nil]
     end
   else
     @fields+=[nil,nil,nil]
     end
-    @fields.push(Button.new("Powrót"))
+    @fields.push(Button.new(_("Forum:btn_back")))
     @form=Form.new(@fields,index)
     loop do
       loop_update
@@ -806,7 +806,7 @@ class Scene_Forum_Thread
     selt.push((i+1).to_s+" z "+@postscount.to_s+": "+@posts[i].author)
     end
   dialog_open
-    @form.index=selector(selt,"Wybierz wpis",@form.index,@form.index)
+    @form.index=selector(selt,_("Forum:head_selpost"),@form.index,@form.index)
     dialog_close
   @form.focus         
         elsif $key[0x4e] and @noteditable==false
@@ -822,14 +822,14 @@ class Scene_Forum_Thread
                     if @form.fields[@postscount].text=="" and @form.fields[@postscount+2]!=nil
                         @form.fields[@postscount+2]=nil
           elsif @form.fields[@postscount].text!="" and @form.fields[@postscount+2]==nil
-            @form.fields[@postscount+2]=Button.new("Wyślij")
+            @form.fields[@postscount+2]=Button.new(_("Forum:btn_send"))
           end
           if ((enter or space) and @form.index==@postscount+2) or (enter and $key[0x11] and @form.index==@postscount)
             buf = buffer(@form.fields[@postscount].text_str).to_s
 if srvproc("forum_edit","name=#{$name}&token=#{$token}\&threadid=#{@thread.to_s}\&buffer=#{buf}")[0].to_i<0
-  speech("Błąd.")
+  speech(_("General:error"))
 else
-  speech("Wpis został utworzony.")
+  speech(_("Forum:info_postcreated"))
 end
 speech_wait
 return main
@@ -842,14 +842,14 @@ return main
                  @recording=1
     recording_start("temp/audiopost.wav")
     play("recording_start")
-    @form.fields[@form.fields.size-4]=Button.new("Zakończ nagrywanie")
+    @form.fields[@form.fields.size-4]=Button.new(_("Forum:btn_recstop"))
     @form.fields[@form.fields.size-3]=nil
       elsif @recording == 1
     recording_stop
     play("recording_stop")
-    @form.fields[@form.fields.size-4]=Button.new("Nagraj ponownie")
-    @form.fields[@form.fields.size-3]=Button.new("Odtwórz")
-    @form.fields[@form.fields.size-2]=Button.new("Dodaj wpis")
+    @form.fields[@form.fields.size-4]=Button.new(_("Forum:btn_recagain"))
+    @form.fields[@form.fields.size-3]=Button.new(_("Forum:btn_play"))
+    @form.fields[@form.fields.size-2]=Button.new(_("Forum:btn_sendaudio"))
     @recording = 2
              end
            end
@@ -860,10 +860,10 @@ return main
       recording_stop
     end
 waiting
-speech("Konwertowanie...")
+speech(_("Forum:wait_converting"))
       File.delete("temp/audiopost.opus") if FileTest.exists?("temp/audiopost.opus")
-      executeprocess("bin\\ffmpeg.exe -y -i \"temp\\audiopost.wav\" -b:a 128K temp/audiopost.opus",true)
-      speech("Przygotowywanie do wysłania wpisu...")
+      executeprocess("bin\\ffmpeg.exe -y -i \"temp\\audiopost.wav\" -b:a 96K temp/audiopost.opus",true)
+      speech(_("Forum:wait_postsendpreparation"))
         data = ""
                         fl = read("temp/audiopost.opus")
             host = $srv
@@ -879,14 +879,14 @@ for i in 0..a.size - 1
     break
     end
   end
-return speech("Błąd") if s==nil
+return speech(_("General:error")) if s==nil
   sn = a[s..a.size - 1]
           ft = strbyline(sn)
                 waiting_end
                 if ft[0].to_i == 0
-  speech("Wpis został utworzony.")
+  speech(_("Forum:info_postcreated"))
 else
-  speech("Błąd tworzenia wpisu.")
+  speech(_("Forum:error_postcreation"))
 end
 speech_wait
 return main
@@ -896,9 +896,9 @@ def menu
   play("menu_open")
   play("menu_background")
   cat=0
-  sel=["Autor","Odpowiedz","Nawigacja","Wzmiankuj wpis","Odsłuchaj wątek","Śledź ten wątek","Odśwież","Anuluj"]
-  sel.push("Moderacja") if @form.index<@postscount and ($rang_moderator==1 or (@posts[@form.index].author==$name and @type==0))
-  sel[5]="Usuń ze śledzonych wątków" if @followed==true
+  sel=["#{_("Forum:opt_phr_author")}",_("Forum:opt_reply"),_("Forum:opt_navigation"),_("Forum:opt_mention"),_("Forum:opt_listen"),_("Forum:opt_followthr"),_("General:str_refresh"),_("General:str_cancel")]
+  sel.push(_("Forum:opt_moderation")) if @form.index<@postscount and ($rang_moderator==1 or (@posts[@form.index].author==$name and @type==0))
+  sel[5]=_("Forum:opt_unfollowthr") if @followed==true
   sel[0]=@posts[@form.index].authorname if @form.index<@postscount
   index=0
   index=1 if @form.index>=@postscount
@@ -932,12 +932,12 @@ def menu
         break
         else
         cat=1
-        @menu=menulr(["Odpowiedz","Odpowiedz z cytatem"])
+        @menu=menulr([_("Forum:opt_reply"),_("Forum:opt_quote")])
         @menu.disable_item(1) if @type==1
       end
       when 2
-        ls=["Przejdź do wpisu","Przeszukaj wątek","Przejdź do pierwszego wpisu","Przejdź do ostatniego wpisu"]
-        ls.push("Przejdź do pierwszego nowego wpisu") if @readposts<@postscount
+        ls=[_("Forum:opt_gotopost"),_("Forum:opt_searchthr"),_("Forum:opt_gotofirst"),_("Forum:opt_gotolast")]
+        ls.push(_("Forum:opt_gotounread")) if @readposts<@postscount
         cat=2
         @menu=menulr(ls)
         @menu.disable_item(1) if @type==1
@@ -958,8 +958,8 @@ when 4
         break
           when 8
           cat=3
-          ls=["Edytuj wpis"]
-          ls+=["Przenieś wpis","Usuń wpis","Zmień pozycję wpisu"] if $rang_moderator==1
+          ls=[_("Forum:opt_edit")]
+          ls+=[_("Forum:opt_movepost"),_("Forum:opt_deletepost"),"Zmień pozycję wpisu"] if $rang_moderator==1
           @menu=menulr(ls,true,0,"",false)
           @menu.disable_item(0) if @type==1
           @menu.focus
@@ -990,16 +990,16 @@ break
   when 1
                   if @followed==false
                 if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&add=1\\&thread=#{@thread}")[0].to_i<0
-  speech("Błąd.")
+  speech(_("General:error"))
 else
-  speech("Dodano do śledzonych wątków.")
+  speech(_("Forum:info_thrfollowed"))
   @followed=true
   end
 else
   if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&remove=1\\&thread=#{@thread}")[0].to_i<0
-    speech("Błąd.")
+    speech(_("General:error"))
   else
-    speech("Usunięto ze śledzonych wątków.")
+    speech(_("Forum:info_thrunfollowed"))
         @followed=false
     end
   end
@@ -1021,11 +1021,11 @@ else
     selt.push((i+1).to_s+" z "+@postscount.to_s+": "+@posts[i].author)
     end
   dialog_open
-    @form.index=selector(selt,"Wybierz wpis",@form.index,@form.index)
+    @form.index=selector(selt,_("Forum:head_selpost"),@form.index,@form.index)
     dialog_close
   @form.focus         
             when 7
-                           search=input_text("Podaj tekst do wyszukania","ACCEPTESCAPE")
+                           search=input_text(_("Forum:type_searchphrase"),"ACCEPTESCAPE")
                            if search!="\004ESCAPE\004"
               selt=[]
           sr=[]
@@ -1040,12 +1040,12 @@ else
   ind=0 if ind==-1
     if selt.size>0
     dialog_open
-    ind=selector(selt,"Wybierz wpis",ind,-1)
+    ind=selector(selt,_("Forum:head_selpost"),ind,-1)
     @form.index=sr[ind] if ind!=-1
         dialog_close
   @form.focus         
 else
-  speech("Nie znaleziono podanej frazy.")
+  speech(_("Forum:error_phrasenotfound"))
     end
   end
     when 8
@@ -1059,16 +1059,16 @@ else
                     @form.focus
                     when 11
 dialog_open
-                      form=Form.new([Edit.new("Edycja wpisu","MULTILINE",@posts[@form.index].post),Button.new("Zapisz"),Button.new("Anuluj")])
+                      form=Form.new([Edit.new(_("Forum:type_editpost"),"MULTILINE",@posts[@form.index].post),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
                       loop do
                         loop_update
                         form.update
                         if form.fields[0].text_str.size>1 and (((enter or space) and form.index==1) or (enter and $key[0x11] and form.index<2))
                           buf=buffer(form.fields[0].text_str)
 if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&edit=1\&postid=#{@posts[@form.index].id.to_s}\&threadid=#{@thread.to_s}\&buffer=#{buf}")[0].to_i<0
-  speech("Błąd.")
+  speech(_("General:error"))
 else
-  speech("Wpis został zmodyfikowany.")
+  speech(_("Forum:info_postmodified"))
   speech_wait
   dialog_close
   @lastpostindex=@form.index
@@ -1099,19 +1099,19 @@ for thread in @threads
   selt.push(thread.name+" ("+forums[thread.forum]+" ("+groups[forumsgroups[thread.forum]]+")"+")")
   curr=selt.size-1 if thread.id==@thread
 end
-destination=selector(selt,"Gdzie chcesz przenieść ten wpis?",curr,-1)
+destination=selector(selt,_("Forum:head_movepostlocation"),curr,-1)
 if destination!=-1
     if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=2\&postid=#{@posts[@form.index].id}\&destination=#{@threads[destination].id}\&threadid=#{@thread}")[0].to_i<0
-    speech("Błąd.")
+    speech(_("General:error"))
   else
-    speech("Wpis został przeniesiony.")
+    speech(_("Forum:info_postmoved"))
         @lastpostindex=@form.index
     speech_wait
     return main
     end
   end
 when                        13
-                                                    confirm("Czy na pewno chcesz usunąć ten wpis?") do
+                                                    confirm(_("Forum:alert_Deletepost")) do
                                                       prm=""
                                                       if @posts.size==1
                                                       prm="name=#{$name}\&token=#{$token}\&threadid=#{@thread}\&delete=1"
@@ -1119,9 +1119,9 @@ when                        13
                                                       prm="name=#{$name}\&token=#{$token}\&postid=#{@posts[@form.index].id}\&threadid=#{@thread}\&delete=2"
                                                     end
                                                     if srvproc("forum_mod",prm)[0].to_i<0
-                                                      speech("Błąd.")
+                                                      speech(_("General:error"))
                                                     else
-                                                      speech("Wpis został usunięty.")
+                                                      speech(_("Forum:info_postdeleted"))
                                                       speech_wait
                                                       if @posts.size==1
                                                         $scene=Scene_Forum.new(@thread,@param,@query)
@@ -1136,12 +1136,12 @@ when                        13
                                                       for post in @posts
                                                         sels.push((sels.size+1).to_s+": "+post.author+": "+post.date)
                                                                                                               end
-                                                      dest=selector(sels,"Wybierz, z którym innym wpisem zamienić ten wpis.",@form.index,-1)
+                                                      dest=selector(sels,_("Forum:head_postslidewith"),@form.index,-1)
                                                       if dest!=-1
                                                         if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=3\&source=#{@posts[@form.index].id.to_s}\&destination=#{@posts[dest].id.to_s}")[0].to_i==0
-                                                          speech("Wpis został przesunięty.")
+                                                          speech(_("Forum:info_postslided"))
                                                         else
-                                                          speech("Błąd.")
+                                                          speech(_("General:error"))
                                                         end
                                                         speech_wait
                                                         @posts[@form.index],@posts[dest]=@posts[dest],@posts[@form.index]
@@ -1152,7 +1152,7 @@ when                        13
                                                         users=[]
                                                         us=srvproc("contacts_addedme","name=#{$name}\&token=#{$token}")
                                                         if us[0].to_i<0
-                                                          speech("Błąd.")
+                                                          speech(_("General:error"))
                                                           speech_wait
                                                           return
                                                         end
@@ -1160,11 +1160,11 @@ when                        13
                                                           users.push(u.delete("\r\n"))
                                                         end
                                                         if users.size==0
-                                                          speech("Nikt nie dodał Ciebie do swoich kontaktów.")
+                                                          speech(_("Forum:info_noonecontactedyou"))
                                                           speech_wait
                                                           return
                                                         end
-                                                        form=Form.new([Select.new(users,true,0,"Użytkownik"),Edit.new("Wiadomość","","",true),Button.new("Wzmiankuj wpis"),Button.new("Anuluj")])
+                                                        form=Form.new([Select.new(users,true,0,"Użytkownik"),Edit.new(_("Forum:info_message"),"","",true),Button.new(_("Forum:opt_mention")),Button.new(_("General:str_cancel"))])
                                                         loop do
                                                           loop_update
                                                           form.update
@@ -1176,9 +1176,9 @@ when                        13
                                                           if (enter or space) and form.index==2
                                                             mt=srvproc("mentions","name=#{$name}\&token=#{$token}\&add=1\&user=#{users[form.fields[0].index]}\&message=#{form.fields[1].text_str}\&thread=#{@thread}\&post=#{@posts[@form.index].id}")
                                                             if mt[0].to_i<0
-                                                              speech("Błąd.")
+                                                              speech(_("General:error"))
                                                             else
-                                                              speech("Wzmianka została wysłana.")
+                                                              speech(_("Forum:info_mentionsent"))
                                                               speech_wait
                                                               @form.focus
                                                               break

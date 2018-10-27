@@ -21,7 +21,7 @@ class Scene_Users_RecentlyRegistered
     for i in 0..onl.size - 1
       selt[i] = onl[i] + "." + " " + getstatus(onl[i])
       end
-    @sel = Select.new(selt,true,0,"Ostatnio zarejestrowani użytkownicy",true)
+    @sel = Select.new(selt,true,0,_("Users_RecentlyRegistered:head"),true)
     speech_stop
     @onl = onl
     end
@@ -47,7 +47,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(sel = [@onl[@sel.index],"Odświerz","Anuluj"])
+@menu = menulr(sel = [@onl[@sel.index],_("General:str_refresh"),_("General:str_cancel")])
 loop do
 loop_update
 @menu.update

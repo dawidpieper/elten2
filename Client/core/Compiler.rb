@@ -19,7 +19,7 @@ class Scene_Compiler
       @fields=[]
       case step
   when 1
-    @fields=[FilesTree.new("Lokalizacja docelowa",getdirectory(40)+"\\",true,true,"Documents"),Edit.new("Nazwa folderu projektu","","myeapiapp"),Edit.new("Nazwa projektu","","My Elten API Application")]
+    @fields=[FilesTree.new(_("Compiler:head_dest"),getdirectory(40)+"\\",true,true,"Documents"),Edit.new("Nazwa folderu projektu","","myeapiapp"),Edit.new("Nazwa projektu","","My Elten API Application")]
     when 2
 @fields=[CheckBox.new("Automatycznie załącz moduły Elten API",1),CheckBOX.new("Wyeksportuj z zewnętrznymi bibliotekami rozszerzeń",1)]
               when 3

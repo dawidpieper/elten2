@@ -11,7 +11,7 @@ class Scene_Messages
     end
   def main
     if $name=="guest"
-      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech(_("General:error_guest"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -19,15 +19,15 @@ class Scene_Messages
           @msg = srvproc("messages","name=#{$name}\&token=#{$token}\&list=1#{if @wn==true;"\&unread=1";elsif @wn==0;"";else;"\&limit=#{@wn}";end}")
             case @msg[0].to_i
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_token"))
         $scene = Scene_Loading.new
         return
         when -3
-          speech("Nieznany błąd.")
+          speech(_("General:error_unknown"))
           $scene = Scene_Main.new
           return
         end
@@ -59,10 +59,10 @@ class Scene_Messages
        t=0 if t==8
        end
      if @wn != true and @messages==0
-            speech("Nie masz żadnych wiadomości.")
+            speech(_("Messages:info_nomessages"))
           speech_wait
         elsif @wn==true and @unread==0
-          speech("Brak nowych wiadomości")
+          speech(_("Messages:info_nonewmessages"))
           speech_wait
           $scene=Scene_WhatsNew.new
           return
@@ -71,15 +71,15 @@ class Scene_Messages
      for i in 0..@message.size - 1
        @msgsel[i] = ""
        if @message[i].receiver==$name                         
-       @msgsel[i] += @message[i].subject + " Od: " + @message[i].sender
+       @msgsel[i] += @message[i].subject + " #{_("Messages:opt_phr_from")}: " + @message[i].sender
      else
-       @msgsel[i] += @message[i].subject + " Do: " + @message[i].receiver
+       @msgsel[i] += @message[i].subject + " #{_("Messages:opt_phr_to")}: " + @message[i].receiver
        end
-                         @msgsel[i] += "\004INFNEW{Nowa: }\004 " if @message[i].mread == 0 and @wn != true       
+                         @msgsel[i] += "\004INFNEW{#{_("Messages:opt_phr_new")}: }\004 " if @message[i].mread == 0 and @wn != true       
                          @msgsel[i] += "\004ATTACHMENT\004 " if @message[i].attachments != "" and @message[i].attachments!=[]
               end
      h=""
-     h="Wiadomości odebrane" if @wn != true
+     h=_("Messages:head_received") if @wn != true
               @sel = Select.new(@msgsel,true,0,h,true)
               @recv=0
               for i in 0..@message.size-1
@@ -90,7 +90,7 @@ class Scene_Messages
                 end
 @sel.disable_item(i) if @message[i].mread>0 and @wn==true
                 end
-@sel.commandoptions.push("Załaduj więcej wiadomości") if @wn.is_a?(Integer) and @wn<@messages
+@sel.commandoptions.push(_("Messages:opt_loadmore")) if @wn.is_a?(Integer) and @wn<@messages
                 @sel.focus
                 loop do
 loop_update
@@ -105,7 +105,7 @@ loop_update
              @sel.enable_item(i)
              @sel.disable_item(i) if @message[i].receiver!=$name
            end
-           @sel.header="Wiadomości odebrane"
+           @sel.header=_("Messages:head_received")
            @sel.index=@lastindex
            @sel.focus
            @search=false
@@ -135,7 +135,7 @@ loop_update
                     if @message[@msgcur].text==""
            msgtemp = srvproc("messages","name=#{$name}\&token=#{$token}\&id=#{@message[@msgcur].id}\&read=1")
                   if msgtemp[0].to_i < 0
-           speech("Błąd")
+           speech(_("General:error"))
            speech_wait
            $scene = Scene_Main.new
            return
@@ -159,19 +159,19 @@ loop_update
            ri+=1
              retry if ri<10
            end
-                               fields = [Edit.new(@message[@msgcur].subject + " Od: " + @message[@msgcur].sender,"MULTILINE|READONLY",@message[@msgcur].text+"\r\n"+date,true)]
+                               fields = [Edit.new(@message[@msgcur].subject + " #{_("Messages:opt_phr_from")}: " + @message[@msgcur].sender,"MULTILINE|READONLY",@message[@msgcur].text+"\r\n"+date,true)]
                   if @message[@msgcur].attachments.size>0
                     att=[]
                     for at in @message[@msgcur].attachments
                       ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
                       if ati[0].to_i<0
-                        speech("Błąd")
+                        speech(_("General:error"))
                         $scene=Scene_Main.new
                         return
                       end
                       att.push(ati[2])  
                     end
-                    fields[1]=Select.new(att,true,0,"Załączniki",true)
+                    fields[1]=Select.new(att,true,0,_("Messages:head_attachments"),true)
                     end
                   form=Form.new(fields)
          play("list_select")
@@ -182,19 +182,19 @@ loop do
     at=@message[@msgcur].attachments[form.fields[1].index]
     ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
                       if ati[0].to_i<0
-                        speech("Błąd")
+                        speech(_("General:error"))
                         $scene=Scene_Main.new
                         return
                       end
     id=at
     name=ati[2].delete("\r\n")
-        loc=getfile("Gdzie chcesz zapisać ten plik?",getdirectory(40)+"\\",true,"Documents")
+        loc=getfile(_("Messages:head_savelocation"),getdirectory(40)+"\\",true,"Documents")
     if loc!=""
       waiting
       downloadfile($url+"attachments/"+id.to_s,loc+"\\"+name)
       speech_wait
       waiting_end
-      speech("Załącznik został pobrany.")
+      speech(_("Messages:info_attachmentdownloaded"))
     else
       loop_update
     end
@@ -225,7 +225,7 @@ dialog_close
    def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(["Odpowiedz","Oznacz","Usuń","Wyślij nową wiadomość","Przekaż dalej","Oznacz wszystkie wiadomości jako przeczytane","Szukaj","Pokaż oznaczone wiadomości","Odśwież","Pokaż wiadomości wysłane","Anuluj"],true,0,"",true)
+@menu = menulr([_("Messages:opt_answer"),_("Messages:opt_flag"),_("General:str_delete"),_("Messages:opt_compose"),_("Messages:opt_forward"),_("Messages:opt_markallasread"),_("Messages:opt_search"),_("Messages:opt_showflagged"),_("General:str_refresh"),_("Messages:opt_showsent"),_("General:str_cancel")],true,0,"",true)
 if @recv ==0
   @menu.disable_item(0)
   @menu.disable_item(1)
@@ -236,7 +236,7 @@ if @recv ==0
 else
   @menu.disable_item(1) if @message[@sel.index]==nil or @message[@sel.index].receiver!=$name
   @msgcur = @sel.index
-  @menu.commandoptions[1]="Usuń oznaczenie" if @message[@msgcur]!=nil and @message[@msgcur].marked>0
+  @menu.commandoptions[1]=_("Messages:opt_removeflag") if @message[@msgcur]!=nil and @message[@msgcur].marked>0
   end
 if @wn == true
   @menu.disable_item(3)
@@ -261,19 +261,19 @@ when 0
 when 1
   if @message[@msgcur].marked==0
     if srvproc("messages","name=#{$name}\&token=#{$token}\&mark=1\&id=#{@message[@msgcur].id}")[0].to_i<0
-      speech("Błąd.")
+      speech(_("General:error"))
       speech_wait
     else
-      speech("Wiadomość została oznaczona.")
+      speech(_("Messages:info_flagged"))
       speech_wait
       @message[@msgcur].marked=1
       end
     else
 if srvproc("messages","name=#{$name}\&token=#{$token}\&unmark=1\&id=#{@message[@msgcur].id}")[0].to_i<0
-      speech("Błąd.")
+      speech(_("General:error"))
       speech_wait
     else
-      speech("Wiadomość nie jest już oznaczona.")
+      speech(_("Messages:info_glagremoved"))
       speech_wait
       @sel.disable_item(@msgcur) if @markedsearch==true and @search==true
       @message[@msgcur].marked=0
@@ -288,23 +288,23 @@ when 4
          if @message[@msgcur].text==""
            msgtemp = srvproc("messages","name=#{$name}\&token=#{$token}\&id=#{@message[@msgcur].id}\&read=1")
                   if msgtemp[0].to_i < 0
-           speech("Błąd")
+           speech(_("General:error"))
            speech_wait
            $scene = Scene_Main.new
            return
          end
          @message[@msgcur].text=msgtemp[9..msgtemp.size-1].join
          end
-  $scene = Scene_Messages_New.new("","FW: " + @message[@msgcur].subject,"Przekazana od: #{@message[@msgcur].sender} \r\n" + @message[@msgcur].text,@wn)
+  $scene = Scene_Messages_New.new("","FW: " + @message[@msgcur].subject,"#{@message[@msgcur].sender}: \r\n" + @message[@msgcur].text,@wn)
 when 5
   msgtemp = srvproc("message_allread","name=#{$name}\&token=#{$token}")
     if msgtemp[0].to_i < 0
-    speech("Błąd")
+    speech(_("General:error"))
     speech_wait
     $scene = Scene_Main.new
     return 
     end
-    speech("Wszystkie wiadomości zostały oznaczone jako przeczytane.")
+    speech(_("Messages:info_allmarkedasread"))
 speech_wait
 if @wn == true
   $scene = Scene_WhatsNew.new
@@ -314,13 +314,13 @@ else
   return
   end
   when 6
-  sr=input_text("Podaj tekst do wyszukania","ACCEPTESCAPE")
+  sr=input_text(_("Messages:type_searchphrase"),"ACCEPTESCAPE")
   if sr!="\004ESCAPE\004"
   @search=true
   @lastindex=@sel.index
 msgtemp=srvproc("messages","name=#{$name}\&token=#{$token}\&search=1\&query=#{sr}")
 if msgtemp[0].to_i<0
-  speech("Błąd.")
+  speech(_("General:error"))
   speech_wait
   return
   end
@@ -333,7 +333,7 @@ for i in 1..msgtemp.size-1
     @sel.disable_item(i)
       end
 end
-@sel.header="Wyniki wyszukiwania"
+@sel.header=_("Messages:head_searchresults")
 @sel.focus
   end
   loop_update
@@ -352,7 +352,7 @@ when 7
     end
       end
 end
-@sel.header="Wiadomości oznaczone"
+@sel.header=_("Messages:head_flagged")
 @sel.index=0
 @sel.focus
   when 8
@@ -370,7 +370,7 @@ end
     @sel.enable_item(i)
       end
 end
-@sel.header="Wiadomości wysłane"
+@sel.header=_("Messages:head_sent")
 @sel.index=0
 @sel.focus
   when 10
@@ -392,14 +392,14 @@ play("menu_close")
 delay
 end
 def deletemessage
-  confirm("Czy jesteś pewien, że chcesz usunąć tę wiadomość?") do
+  confirm(_("Messages:alert_delete")) do
     if srvproc("messages","name=#{$name}\&token=#{$token}\&delete=1\&id=#{@message[@sel.index].id.to_s}")[0].to_i<0
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       @sel.focus
       return
     end
-    speech("Wiadomość została usunięta.")
+    speech(_("Messages:info_messagedeleted"))
     speech_wait
     return $scene=Scene_Messages.new(true) if @wn==true
                 ind=@sel.index
@@ -423,16 +423,16 @@ def deletemessage
          subject=@subject
          text=@text
          @fields = []
-           @fields[0] = Edit.new("Odbiorca","",receiver,true)
-@fields[1] = Edit.new("Temat:","",subject,true)
-           @fields[2] = Edit.new("Treść:","MULTILINE",text,true)
-           @fields[3] = Button.new("Nagraj wiadomość głosową")
+           @fields[0] = Edit.new(_("Messages:type_receiver"),"",receiver,true)
+@fields[1] = Edit.new(_("Messages:type_subject"),"",subject,true)
+           @fields[2] = Edit.new(_("Messages:type_content"),"MULTILINE",text,true)
+           @fields[3] = Button.new(_("Messages:btn_recmessage"))
            @fields[4]=nil
            @fields[5]=nil
-           @fields[6] = Button.new("Anuluj")
+           @fields[6] = Button.new(_("General:str_cancel"))
            @fields[7]=nil
            @fields[8]=nil
-           @fields[9]=Button.new("Załącz plik")                      
+           @fields[9]=Button.new(_("Messages:btn_attach"))                      
                       ind=0
            ind=1 if receiver!=""
            ind=2 if receiver!="" and subject!=""
@@ -448,7 +448,7 @@ rec=0
                                        fl.push(File.basename(a))
                                        end
                                      if @form.fields[5]==nil
-                                       @form.fields[5]=Select.new(fl,true,0,"Załączniki",true)
+                                       @form.fields[5]=Select.new(fl,true,0,_("Messages:head_attachments"),true)
                                      else
                                        @form.fields[5].commandoptions=fl
                                        @form.fields[5].index-=1 if @form.fields[5].index>@form.fields[5].commandoptions.size-1
@@ -463,9 +463,9 @@ rec=0
                  sc=true
                  end
                if sc == true
-                 @form.fields[4] = Button.new("Wyślij")
-                      @form.fields[7] = Button.new("Wyślij jako administracja") if $rang_moderator > 0 or $rang_developer > 0
-           @form.fields[8] = Button.new("Wyślij do wszystkich") if $rang_moderator > 0 or $rang_developer > 0
+                 @form.fields[4] = Button.new(_("Messages:btn_send"))
+                      @form.fields[7] = Button.new(_("Messages:btn_sendasadmin")) if $rang_moderator > 0 or $rang_developer > 0
+           @form.fields[8] = Button.new(_("Messages:btn_sendtoall")) if $rang_moderator > 0 or $rang_developer > 0
            end
          elsif @form.fields[4]!=nil
            sc=false
@@ -492,16 +492,16 @@ rec=0
              play("recording_start")
              recording_start("temp/audiomessage.wav")
              @msgedit=@form.fields[2]
-             @form.fields[2]=Button.new("Wiadomość głosowa")
-             @form.fields[3]=Button.new("Zakończ nagrywanie")
+             @form.fields[2]=Button.new(_("Messages:btn_audiomessage"))
+             @form.fields[3]=Button.new(_("Messages:btn_stoprec"))
            @form.fields[7]=nil
              @form.fields[8]=nil
              rec = 1
          elsif rec == 1
            play("recording_stop")
            recording_stop
-           @form.fields[3]=Button.new("Odtwórz")
-           @form.fields[2] = Button.new("Anuluj nagrywanie")
+           @form.fields[3]=Button.new(_("Messages:btn_play"))
+           @form.fields[2] = Button.new(_("General:str_cancelrec"))
            rec = 2
          elsif rec == 2
                       player("temp/audiomessage.wav","",true)
@@ -510,22 +510,22 @@ rec=0
                                  if (enter or space) and @form.index == 2 and rec > 1
                                    @form.fields[2] = @msgedit
                                    rec = 0
-                                   @form.fields[3] = Button.new("Nagraj wiadomość głosową")
+                                   @form.fields[3] = Button.new(_("Messages:btn_recmessage"))
                                    @form.index=2
                                    @form.fields[2].focus
                                    end
                if (enter or space) and @form.index==9
                  if @attachments.size>=3
-                   speech("Nie można dodać więcej załączników.")
+                   speech(_("Messages:info_nomoreattachments"))
                    else
-                 loc=getfile("Wybierz plik do załączenia",getdirectory(5)+"\\",false)
+                 loc=getfile(_("Messages:head_selattachment"),getdirectory(5)+"\\",false)
                  if loc!=""
                    size=read(loc,true)
                                       if size>16777215
-                     speech("Plik jest zbyt duży.")
+                     speech(_("Messages:info_filetoolarge"))
                      else
                    @attachments.push(loc)
-                   speech("Załącznik dodany.")
+                   speech(_("Messages:info_attached"))
                  end
                else
                  loop_update
@@ -552,9 +552,9 @@ rec=0
                        receiver.sub!("@elten-net.eu","")
                        receiver=finduser(receiver) if receiver.include?("@")==false and finduser(receiver).upcase==receiver.upcase
                        if user_exist(receiver) == false or @form.index == 8 and (/^[a-zA-Z0-9.\-_]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)==nil
-                         speech("Odbiorca wiadomości nie istnieje")
+                         speech(_("Messages:info_receivernotfound"))
                        elsif (/^[a-zA-Z0-9.\-_]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)!=nil
-                         if simplequestion("Czy chcesz wysłać tą wiadomość jako E-mail?") == 1
+                         if simplequestion(_("Messages:alert_mail")) == 1
                            subject = @form.fields[1].text_str
                        text = @form.fields[2].text_str if rec == 0
                        play("list_select")
@@ -593,7 +593,7 @@ rec=0
     data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{fl}\r\n--#{boundary}--"
     length=data.size    
     q = "POST /srv/attachments.php?add=1\&filename=#{File.basename(a).urlenc}\&name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-  a = connect(host,80,q,2048,"Przesyłanie: #{File.basename(a)}")
+  a = connect(host,80,q,2048,S_("Messages:wait_sendingfile",{'file'=>File.basename(a)}))
 a.delete!("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
@@ -602,7 +602,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech("Błąd")
+    speech(_("General:error"))
     return nil
   end
   sn = a[s..a.size - 1]
@@ -611,7 +611,7 @@ for i in 0..a.size - 1
 err = bt[0].to_i
             speech_wait
                         if err < 0
-      speech("Błąd")
+      speech(_("General:error"))
     speech_wait
       else
       @att+=bt[1].delete("\r\n")+","
@@ -637,19 +637,19 @@ err = bt[0].to_i
         err = @users[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       dialog_close
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_token"))
         speech_wait
         $scene = Scene_Main.new
         dialog_close
         return
         when -3
-          speech("Nie masz odpowiednich uprawnień, by wykonać tę operację.")
+          speech(_("General:error_permissions"))
           $scene = Scene_Main.new
           dialog_close
           return
@@ -678,7 +678,7 @@ err = bt[0].to_i
     play("recording_stop")
   end
   waiting            
-  speech("Konwertowanie pliku...")
+  speech(_("Messages:wait_converting"))
       File.delete("temp/audiomessage.opus") if FileTest.exists?("temp/audiomessage.opus")
       h = run("bin\\ffmpeg.exe -y -i \"temp\\audiomessage.wav\" -b:a 96K temp/audiomessage.opus",true)
       t = 0
@@ -693,7 +693,7 @@ if x != "\003\001"
   end
 t += 10.0/Graphics.frame_rate
 if t > tmax
-  speech("błąd")
+  speech(_("General:error"))
   return -1
   break
   end
@@ -722,7 +722,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech("Błąd")
+    speech(_("General:error"))
     return
   end
   sn = a[s..a.size - 1]
@@ -733,7 +733,7 @@ waiting_end
                                       end
          case msgtemp[0].to_i
          when 0
-           speech("Wiadomość została wysłana")
+           speech(_("Messages:info_sent"))
            speech_wait
            if @scene != false and @scene != true and @scene.is_a?(Integer) == false
            $scene = @scene
@@ -743,22 +743,22 @@ waiting_end
            return
            end
            when -1
-             speech("Błąd połączenia się z bazą danych.")
+             speech(_("General:error_db"))
              speech_wait
              $scene = Scene_Main.new
              dialog_close
              return
              when -2
-               speech("Klucz sesji wygasł.")
+               speech(_("General:error_token"))
                speech_wait
                $scene = Scene_Loading.new
                dialog_close
                return
                when -3
-                 speech("Nie posiadasz uprawnień do wykonania tej operacji. Prawdopodobnie znajdujesz się na czarnej liście odbiorcy wiadomości.")
+                 speech(_("General:error_permissions"))
                  speech_wait
                                   when -4
-                 speech("Odbiorca wiadomości nie istnieje.")  
+                 speech(_("Messages:info_receivernotfound"))  
                end
                dialog_close
          end

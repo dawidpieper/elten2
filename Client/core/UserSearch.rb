@@ -9,7 +9,7 @@ class Scene_UserSearch
   def main
     usr=""
     while usr==""
-      usr=input_text("Szukanie użytkowników","ACCEPTESCAPE")
+      usr=input_text(_("UserSearch:head"),"ACCEPTESCAPE")
     end
     if usr=="\004ESCAPE\004"
       $scene=Scene_Main.new
@@ -17,14 +17,14 @@ class Scene_UserSearch
       end
     usf=srvproc("user_search","name=#{$name}\&token=#{$token}\&search=#{usr}")    
 if usf[0].to_i<0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
     $scene=Scene_Main.new
     return
   end
 @results=[]
 if usf[1].to_i==0
-  speech("Nie znaleziono dopasowania.")
+  speech(_("UserSearch:error_noresults"))
   speech_wait
   $scene=Scene_Main.new
   return
@@ -36,7 +36,7 @@ selt=[]
 for r in @results
   selt.push(r+".\r\n"+getstatus(r))
   end
-@sel=Select.new(selt,true,0,"Wyniki wyszukiwania")
+@sel=Select.new(selt,true,0,_("UserSearch:head_results"))
 loop do
   loop_update
   @sel.update
@@ -49,7 +49,7 @@ end
 def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(sel = [@results[@sel.index],"Wyszukaj ponownie","Anuluj"])
+@menu = menulr(sel = [@results[@sel.index],_("UserSearch:opt_searchagain"),_("General:str_cancel")])
 loop do
 loop_update
 @menu.update

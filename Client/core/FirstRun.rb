@@ -99,7 +99,7 @@ if a == 1
   end
 end
 if $interface_typingecho==0 
-e=selector(["Znaki","Wyrazy","Znaki i wyrazy","Brak"],"Jak łatwo zauważyć, domyślnie Elten informuje o każdym wpisanym w pola tekstowe znaku. Zachowanie to można zmienić. Wybierz ustawienie echa klawiszy:",0,0,1)
+e=selector([_("FirstRun:opt_chars"),_("FirstRun:opt_words"),_("FirstRun:opt_charsandwords"),_("FirstRun:opt_none")],"Jak łatwo zauważyć, domyślnie Elten informuje o każdym wpisanym w pola tekstowe znaku. Zachowanie to można zmienić. Wybierz ustawienie echa klawiszy:",0,0,1)
 writeini($configdata + "\\interface.ini","Interface","TypingEcho",e.to_s)
 $interface_typingecho=e
 end
@@ -120,7 +120,7 @@ if @autostart == false
 if readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i <= 0
 password=nil
   loop do
-          password=input_text("Hasło:","PASSWORD") if password=="" or password==nil
+          password=input_text(_("FirstRun:type_pass"),"PASSWORD") if password=="" or password==nil
                     if password!=""
             lt=srvproc("login","login=2\&name=#{$name}\&password=#{password}\&computer=#{$computer.urlenc}\&appid=#{$appid}")
             if lt[0].to_i<0

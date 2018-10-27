@@ -7,8 +7,8 @@
 
 class Scene_Voice
   def main
-        sel = ["Zmień syntezator","Zmień szybkość syntezatora","Zmień głośność syntezy","Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"]
-    @sel = Select.new(sel,true,0,"Ustawienia mowy")
+        sel = [_("Voice:opt_changesynth"),_("Voice:opt_changerate"),_("Voice:opt_changevol"),_("Voice:opt_usedefault")]
+    @sel = Select.new(sel,true,0,_("Voice:head"))
     loop do
 loop_update
      @sel.update
@@ -35,7 +35,7 @@ loop_update
                       iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('Sapi','Voice',-1.to_s,utf8($configdata + "\\sapi.ini"))
                                 $voice = -1
-                speech("Wybrano obsługę czytnika ekranowego.")
+                speech(_("Voice:info_useddefault"))
        end
        end
      end
@@ -90,7 +90,7 @@ loop_update
                 iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('Sapi','Voice',$curnum.to_s,utf8($configdata + "\\sapi.ini")) if $voice != -3 or @settings != 0
                 $voice = $curnum.to_i
-                                      mow = "Wybrany głos: " + futf8($voicename.call($curnum))
+                                      mow = "#{_("Voice:info_phr_selectedvoice")}: " + futf8($voicename.call($curnum))
         speech(mow)
 speech_wait
 if @settings == 0
@@ -106,8 +106,8 @@ if escape and @settings != 0
           def menu
 play("menu_open")
 play("menu_background")
-sel = ["Wybierz"]
-sel.push("Anuluj") if @settings != 0
+sel = [_("Voice:opt_select")]
+sel.push(_("General:str_cancel")) if @settings != 0
 @menu = menulr(sel)
 loop do
 loop_update
@@ -144,7 +144,7 @@ class Scene_Voice_Rate
     Graphics.update
     @rate = Win32API.new("screenreaderapi","sapiGetRate",'','i').call
     @startrate = @rate
-    @sel = Select.new(sel,true,@rate - 1,"Wybierz szybkość głosu.")
+    @sel = Select.new(sel,true,@rate - 1,_("Voice:head_changerate"))
             loop do
 loop_update
       @sel.update
@@ -168,7 +168,7 @@ if @rate - 1 != @sel.index
       if enter
                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('Sapi','Rate',@rate.to_s,utf8($configdata + "\\sapi.ini"))
-     speech("Zapisano.")
+     speech(_("General:info_saved"))
      speech_wait
      $scene = Scene_Voice.new
         end
@@ -183,7 +183,7 @@ if @rate - 1 != @sel.index
     end
         @volume = Win32API.new("screenreaderapi","sapiGetVolume",'','i').call
     @startvolume = @volume
-    @sel = Select.new(sel,true,@volume - 1,"Wybierz głośność syntezy.")
+    @sel = Select.new(sel,true,@volume - 1,_("Voice:head_changevol"))
             loop do
 loop_update
       @sel.update
@@ -207,7 +207,7 @@ if @volume - 1 != @sel.index
       if enter
                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('Sapi','Volume',@volume.to_s,utf8($configdata + "\\sapi.ini"))
-     speech("Zapisano.")
+     speech(_("General:info_saved"))
      speech_wait
      $scene = Scene_Voice.new
         end

@@ -20,12 +20,12 @@ class Scene_Contacts
         err = ct[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Loading.new
         return
@@ -38,13 +38,13 @@ class Scene_Contacts
         @contact.push(ct[i]) if ct[i].size > 1
       end
       if @contact.size < 1
-        speech("Pusta Lista")
+        speech(_("Contacts:info_empty"))
               end
       selt = []
       for i in 0..@contact.size - 1
         selt[i] = @contact[i] + ". " + getstatus(@contact[i])
         end
-      header="Kontakty"
+      header=_("Contacts:head")
       header="" if type>0
       @type=type
         @sel = Select.new(selt,true,0,header,true)
@@ -52,7 +52,7 @@ class Scene_Contacts
     end
     def main
       if $name=="guest"
-      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech(_("General:error_guest"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -79,7 +79,7 @@ loop_update
         end
         if $key[0x2e] and @type==0
           if @contact.size >= 1
-          if simplequestion("Czy na pewno chcesz usunąć ten kontakt?") == 1
+          if simplequestion(_("Contacts:alert_delcontact")) == 1
             $scene = Scene_Contacts_Delete.new(@contact[@sel.index],self)
             @sel.disable_item(@sel.index)
 loop_update            
@@ -100,7 +100,7 @@ loop_update
         def menu_blank
           play("menu_open")
           play("menu_background")
-          @menu = menulr(["Nowy Kontakt","Anuluj"])
+          @menu = menulr([_("Contacts:opt_newcontact"),_("General:str_cancel")])
           loop do
 loop_update
             @menu.update
@@ -127,7 +127,7 @@ loop_update
                 def menu
           play("menu_open")
           play("menu_background")
-          @menu = menulr(sel = [@contact[@sel.index],"Nowy Kontakt","Anuluj"])
+          @menu = menulr(sel = [@contact[@sel.index],_("Contacts:opt_newcontact"),_("General:str_cancel")])
           @menu.disable_item(1) if @type>0
           loop do
 loop_update
@@ -168,7 +168,7 @@ end
           def main
                         user = @user
             while user==""
-              user = input_text("Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów.")
+              user = input_text(_("Contacts:type_username"))
             end
             ct=""
             user=finduser(user) if user.upcase==finduser(user).upcase
@@ -180,23 +180,23 @@ end
                         err = ct[0].to_i
             case err
             when 0
-              speech("Kontakt został dodany.")
+              speech(_("Contacts:info_contactadded"))
               speech_wait
               $scene = @scene
               when -1
-                speech("Błąd połączenia się z bazą danych.")
+                speech(_("General:error_db"))
                 speech_wait
                 $scene = Scene_Main.new
                 when -2
-                  speech("Klucz sesji wygasł.")
+                  speech(_("General:error_tokenexpired"))
                   speech_wait
                   $scene = Scene_Loading.new
                   when -3
-                    speech("Ten użytkownik jest już dodany do twoich kontaktów.")
+                    speech(_("Contacts:error_contactalreadyadded"))
                     speech_wait
                     $scene = @scene
                     when -5
-                      speech("Użytkownik o podanej nazwie nie istnieje.")
+                      speech(_("Contacts:error_usernotfound"))
                       speech_wait
                       $scene = Scene_Contacts.new
                     end
@@ -212,29 +212,29 @@ end
           def main
             user = @user
             while user==""
-              user = input_text("Podaj nazwę użytkownika, którego chcesz usunąć ze swoich kontaktów.")
+              user = input_text(_("Contacts:type_blacklistremoveusername"))
             end
                         ct = srvproc("contacts_mod","name=#{$name}\&token=#{$token}\&searchname=#{user}\&delete=1")
                         err = ct[0].to_i
             case err
             when 0
-              speech("Kontakt został usunięty.")
+              speech(_("Contacts:info_contactdeleted"))
               speech_wait
               $scene = @scene
               when -1
-                speech("Błąd połączenia się z bazą danych.")
+                speech(_("General:error_db"))
                 speech_wait
                 $scene = Scene_Main.new
                 when -2
-                  speech("Klucz sesji wygasł.")
+                  speech(_("General:error_tokenexpired"))
                   speech_wait
                   $scene = Scene_Loading.new
                   when -3
-                    speech("Ten użytkownik nie jest dodany do twoich kontaktów.")
+                    speech(_("Contacts:error_usernotadded"))
                     speech_wait
                     $scene = @scene
                     when -5
-                      speech("Użytkownik o podanej nazwie nie istnieje.")
+                      speech(_("Contacts:error_usernotfound"))
                       speech_wait
                       $scene = Scene_Contacts.new
                     end

@@ -65,7 +65,7 @@ end
       end
       
       # @deprecated use WinSock interface instead
-      def connect(ip,port,data,len=2048,msg="Wysyłanie...")
+      def connect(ip,port,data,len=2048,msg=_("EAPI_Network:wait_sending"))
             addr = Socket.sockaddr_in(port.to_i, ip)
           sock = Socket.new(2,0,0)
 sock.connect(addr).to_s
@@ -224,10 +224,10 @@ while i<l
     if space
     if sil==false
       sil=true
-      speech("Nie odczytuj zmian na pasku postępu.")
+      speech(_("EAPI_Network:info_progressdonotread"))
     else
       sil=false
-      speech("Odczytuj zmiany na pasku postępu.")
+      speech(_("EAPI_Network:info_readprogress"))
     end
     end
     if sptm+3<Time.now.to_i

@@ -14,7 +14,7 @@ class Scene_Login
     autologin = readini($configdata + "\\login.ini","Login","AutoLogin","-1").to_i
             if autologin.to_i <= 0
     while name == ""
-    name = input_text("Login:","ACCEPTESCAPE")
+    name = input_text(_("Login:type_login"),"ACCEPTESCAPE")
       end
               if name == "\004ESCAPE\004"
     $scene = Scene_Loading.new
@@ -22,7 +22,7 @@ class Scene_Login
     end
   password=""
     while password == ""
-    password = input_text("Hasło:","ACCEPTESCAPE|password")
+    password = input_text(_("Login:type_pass"),"ACCEPTESCAPE|password")
   end
 if password=="\004ESCAPE\004"
   $scene=Scene_Loading.new
@@ -86,7 +86,7 @@ suc=true
 if logintemp[0].to_i==-5
   suc=false
 tries=0
-label="Na tym koncie włączone jest logowanie dwuetapowe. Wprowadź kod wysłany na twój numer wiadomością SMS, aby zezwolić temu urządzeniu na zalogowanie. Jeśli nie masz dostępu do użytego numeru telefonu, wybierz opcję resetowania hasła w celu wyłączenia logowania dwuetapowego."
+label=_("Login:type_authcode")
 while tries<3
   code=input_text(label,"ACCEPTESCAPE").delete("\r\n")
   if code=="\004ESCAPE\004"
@@ -98,13 +98,13 @@ while tries<3
   if ath<0
     tries+=1
     if tries>=3
-      speech("Błąd weryfikacji.")
+      speech(_("Login:error_verification"))
       speech_wait
       writeini($configdata+"\\login.ini","Login","AutoLogin","0")
     return $scene=Scene_Loading.new
     break
     else
-      label="Wprowadzony kod nie jest poprawny, spróbuj jeszcze raz"
+      label=_("Login:type_authcodeagain")
     end
   else
         break
@@ -131,9 +131,9 @@ $rang_developer = prtemp[5].to_i
 if autologin.to_i == -1 or autologin.to_i == 1 or autologin.to_i == 2
   dialog_open  
   if autologin.to_i == -1
-  @sel = menulr(["Nie","Tak","Nie zadawaj więcej tego pytania"],true,0,"Czy chcesz włączyć automatyczne logowanie dla konta #{name}?")
+  @sel = menulr([_("General:str_no"),_("General:str_yes"),_("Login:opt_asknomore")],true,0,s_("Login:alert_autologin", {'user'=>name}))
 else
-  @sel=menulr(["Nie","Tak"],true,0,"Zapisane informacje logowania wykorzystują starą metodę uwierzytelniania konta, w której wykryte zostały podatności na ataki hakerskie. W Eltenie 2.2 wprowadzone zostały nowe, bezpieczniejsze algorytmy automatycznego logowania. Zalecana jest konwersja zapisanych informacji do nowego systemu w celu poprawienia bezpieczeństwa konta. Czy chcesz zaktualizować zapisane informacje?")
+  @sel=menulr([_("General:str_no"),_("General:str_yes")],true,0,_("Login:alert_crpdeprecated"))
     end
   loop do
 loop_update
@@ -143,13 +143,13 @@ loop_update
       when 0
         when 1
           loop do
-          password=input_text("Hasło:","ACCEPTESCAPE|PASSWORD") if password=="" or password==nil
+          password=input_text(_("Login:type_pass"),"ACCEPTESCAPE|PASSWORD") if password=="" or password==nil
           if password=="\004ESCAPE\004"
             break
           else
             lt=srvproc("login","login=2\&name=#{name}\&password=#{password}\&computer=#{$computer.urlenc}\&appid=#{$appid}")
             if lt[0].to_i<0
-              speech("Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane zostało błędne hasło.")
+              speech(_("Login:error_identity"))
               speech_wait
               password = ""
             else
@@ -158,9 +158,9 @@ writeini($configdata+"\\login.ini","Login","AutoLogin","3")
               writeini($configdata+"\\login.ini","Login","Token",lt[1].delete("\r\n"))
               writeini($configdata+"\\login.ini","Login","password",nil)
                             if autologin.to_i==-1
-              speech("Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w menu Społeczność.")
+              speech(_("Login:info_autologin"))
             else
-              speech("Dane logowania zostały zaktualizowane. Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w menu Społeczność.")
+              speech(_("Login:info_crpupdated"))
               end
          speech_wait
          break   
@@ -169,7 +169,7 @@ writeini($configdata+"\\login.ini","Login","AutoLogin","3")
           end
        when 2
          writeini($configdata+"\\login.ini","Login","AutoLogin","0")
-         speech("Aby włączyć ponownie pytanie o automatyczne logowanie, wybierz odpowiednią opcję z menu ustawień interfejsu.")
+         speech(_("Login:info_asknomore"))
          speech_wait
          end
        break
@@ -189,7 +189,7 @@ if $speech_wait == true
   end
 play("login")
 if $greeting == "" or $greeting == "\r\n" or $greeting == nil or $greeting == " "
-speech("Zalogowany jako: " + name) if $silentstart != true
+speech(s_("Login:info_loggedinas", {'user'=>name})) if $silentstart != true
 else
   speech($greeting) if $silentstart != true
   end
@@ -227,21 +227,21 @@ elsif Time.now.month == $birthdatemonth.to_i
     end
   end
     when -1
-        speech("Wystąpił błąd operacji w bazie danych.")
+        speech(_("General:error_db"))
     $token = nil
     speech_wait
     when -2
       writeini($configdata+"\\login.ini","Login","AutoLogin","0")
-      speech("Błędny login lub hasło.") if autologin.to_i==0
+      speech(_("Login:error_wrongdata")) if autologin.to_i==0
       $token = nil
       speech_wait
       when -3
         writeini($configdata+"\\login.ini","Login","AutoLogin","0")
-        speech("Błąd logowania.")
+        speech(_("Login:error_logon"))
         $token = nil
         speech_wait
         when -4
-          speech("Błąd połączenia z serwerem.")
+          speech(_("Login:error_srv"))
           $token = nil
           speech_wait
         end

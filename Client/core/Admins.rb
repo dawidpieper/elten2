@@ -20,7 +20,7 @@ class Scene_Admins
     for i in 0..adm.size - 1
       selt[i] = adm[i] + "." + " " + getstatus(adm[i])
       end
-    @sel = Select.new(selt,true,0,"Rada starszych",true)
+    @sel = Select.new(selt,true,0,_("Admins:head"),true)
     speech_stop
     @adm = adm
     end
@@ -46,7 +46,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(sel = [@adm[@sel.index],"Odświerz","Anuluj"])
+@menu = menulr(sel = [@adm[@sel.index],_("General:str_refresh"),_("General:str_cancel")])
 loop do
 loop_update
 @menu.update

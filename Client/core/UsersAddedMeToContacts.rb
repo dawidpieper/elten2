@@ -11,7 +11,7 @@ class Scene_Users_AddedMeToContacts
     end
   def main
     if $name=="guest"
-      speech("Ta funkcja nie jest dostępna na koncie gościa.")
+      speech(_("UsersAddedMeToGeneral:error_guest"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -33,7 +33,7 @@ class Scene_Users_AddedMeToContacts
     for i in 0..usr.size - 1
       selt[i] = usr[i] + "." + " " + getstatus(usr[i])
       end
-    header="Użytkownicy, którzy dodali mnie do swoich kontaktów"
+    header=_("UsersAddedMeToContacts:head")
     header="" if @new==true
       @sel = Select.new(selt,true,0,header)
     @user = usr
@@ -62,7 +62,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(sel = [@user[@sel.index],"Odświerz","Anuluj"])
+@menu = menulr(sel = [@user[@sel.index],_("General:str_refresh"),_("General:str_cancel")])
 loop do
 loop_update
 @menu.update

@@ -8,13 +8,13 @@
 class Scene_Advanced
   def main
     @field=[]
-    @field[0] = Edit.new("Czas odświerzania stanu klawiszy (ms) (Uwaga! Nie zaleca się zmiany tej wartości!)","",$advanced_keyms.to_s,true)
-    @field[1] = CheckBox.new("Przetwarzaj diakretyki heksagonalnie (zaawansowane)")
-    @field[2] = Edit.new("Czas odświerzania sesji (s) (Uwaga! Nie zaleca się zmiany tej wartości!)","",$advanced_refreshtime.to_s,true)
-            @field[3]=CheckBox.new("Wykorzystuj streaming audio, jeśli obsługiwany")
-        @field[4]=CheckBox.new("Synchronizuj czas z serwerem")
-    @field[5] = Button.new("Zapisz")
-    @field[6] = Button.new("Anuluj")
+    @field[0] = Edit.new(_("Advanced:head_keyreftime"),"",$advanced_keyms.to_s,true)
+    @field[1] = CheckBox.new(_("Advanced:chk_hexparsing"))
+    @field[2] = Edit.new(_("Advanced:head_sesreftime"),"",$advanced_refreshtime.to_s,true)
+            @field[3]=CheckBox.new(_("Advanced:chk_audiostreaming"))
+        @field[4]=CheckBox.new(_("Advanced:chk_timesyncing"))
+    @field[5] = Button.new(_("General:str_save"))
+    @field[6] = Button.new(_("General:str_cancel"))
     @form = Form.new(@field)
 @form.fields[0].settext(readini($configdata + "\\advanced.ini","Advanced","KeyUpdateTime","75").to_s)
 @form.fields[1].checked = readini($configdata + "\\advanced.ini","Advanced","HexSpecial","1").to_i
@@ -38,7 +38,7 @@ $advanced_hexspecial = @form.fields[1].checked.to_i
 $advanced_refreshtime = @form.fields[2].text_str.to_i
 $advanced_soundstreaming = @form.fields[3].checked.to_i  
 $advanced_synctime = @form.fields[4].checked.to_i  
-speech("Zapisano")
+speech(_("General:info_saved"))
 speech_wait
 if $name != nil and $name != "" and $token != nil and $token != ""
 $scene = Scene_Main.new

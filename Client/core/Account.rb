@@ -11,28 +11,28 @@ class Scene_Account_Password
   password = ""
   repeatpassword = ""
   while oldpassword == ""
-    oldpassword = input_text("Podaj stare hasło","password|ACCEPTESCAPE")
+    oldpassword = input_text(_("Account:type_oldpass"),"password|ACCEPTESCAPE")
   end
   if oldpassword == "\004ESCAPE\004"
         $scene = Scene_Main.new
     return
   end
     while password == ""
-    password = input_text("Podaj nowe hasło","password|ACCEPTESCAPE")
+    password = input_text(_("Account:type_newpass"),"password|ACCEPTESCAPE")
   end
   if oldpassword == "\004ESCAPE\004"
     $scene = Scene_Main.new
     return
   end
     while repeatpassword == ""
-    repeatpassword = input_text("Powtórz nowe hasło","password|ACCEPTESCAPE")
+    repeatpassword = input_text(_("Account:type_newpassagain"),"password|ACCEPTESCAPE")
   end
   if repeatpassword == "\004ESCAPE\004"
         $scene = Scene_Main.new
     return
   end
   if password != repeatpassword
-    speech("Pola: Nowe Hasło i Powtórz Nowe Hasło mają różne wartości.")
+    speech(_("General:error_difpass"))
     speech_wait
     main
   end
@@ -40,20 +40,20 @@ class Scene_Account_Password
     err = act[0].to_i
   case err
   when 0
-    speech("Hasło zostało zmienione.")
+    speech(_("Account:info_passchanged"))
     speech_wait
     Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","-1",$configdata + "\\login.ini")
     $scene = Scene_Loading.new
     when -1
-      speech("Błąd połączenia z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Loading.new
         when -6
-          speech("Podano błędne stare hasło.")
+          speech(_("General:error_wrongoldpass"))
           speech_wait
           $scene = Scene_Main.new
   end
@@ -65,14 +65,14 @@ class Scene_Account_Mail
       password = ""
   mail = ""
   while password == ""
-    password = input_text("Podaj hasło","password|ACCEPTESCAPE")
+    password = input_text(_("Account:type_pass"),"password|ACCEPTESCAPE")
   end
   if password == "\004ESCAPE\004"
     $scene = Scene_Main.new
     return
   end
     while mail == ""
-    mail = input_text("Podaj nowy adres e-mail","ACCEPTESCAPE")
+    mail = input_text(_("Account:type_newmail"),"ACCEPTESCAPE")
   end
   if mail == "\004ESCAPE\004"
         $scene = Scene_Main.new
@@ -82,19 +82,19 @@ class Scene_Account_Mail
     err = act[0].to_i
   case err
   when 0
-    speech("Adres e-mail został zmieniony.")
+    speech(_("Account:info_mailchanged"))
     speech_wait
     $scene = Scene_Main.new
     when -1
-      speech("Błąd połączenia z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Loading.new
         when -6
-          speech("Podano błędne stare hasło.")
+          speech(_("General:error_wrongoldpass"))
           speech_wait
           $scene = Scene_Main.new
   end
@@ -108,12 +108,12 @@ class Scene_Account_VisitingCard
         err = vc[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Loading.new
         return
@@ -122,7 +122,7 @@ class Scene_Account_VisitingCard
       for i in 1..vc.size - 1
         text += vc[i]
       end
-@form = Form.new([Edit.new("Twoja wizytówka:","MULTILINE",text,true),Button.new("Zapisz"),Button.new("Anuluj")])
+@form = Form.new([Edit.new(_("Account:type_visitingcard"),"MULTILINE",text,true),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
 visitingcard = ""
 loop do
   loop_update
@@ -146,15 +146,15 @@ buf = buffer(visitingcard)
 err = vc[0].to_i
 case err
 when 0
-  speech("Zapisano.")
+  speech(_("General:info_saved"))
   speech_wait
   $scene = Scene_Main.new
   when -1
-    speech("Błąd połączenia się z bazą danych.")
+    speech(_("General:error_db"))
     speech_wait
     $scene = Scene_Main.new
     when -2
-      speech("Klucz sesji wygasł.")
+      speech(_("General:error_tokenexpired"))
       speech_wait
       $scene = Scene_Loading.new
 end
@@ -164,11 +164,11 @@ end
   
   class Scene_Account_Status
     def main
-            speech("Zmiana statusu")
+            speech(_("Account:head_status"))
       speech_wait
       text = ""
       while text == ""
-      text = input_text("Podaj nowy status","ACCEPTESCAPE")
+      text = input_text(_("Account:type_status"),"ACCEPTESCAPE")
     end
     if text == "\004ESCAPE\004"
       $scene = Scene_Main.new
@@ -176,9 +176,9 @@ end
     end
     ef = setstatus(text)
     if ef != 0
-      speech("Błąd!")
+      speech(_("General:error"))
     else
-      speech("Status został zmieniony.")
+      speech(_("Account:info_statuschanged"))
     end
     speech_wait
     $scene = Scene_Main.new
@@ -187,7 +187,7 @@ end
   
   class Scene_Account_Profile
     def main
-            speech("Edycja profilu")
+            speech(_("Account:head_profile"))
       profile = srvproc("profile","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
                     fullname = ""
         gender = 0
@@ -208,15 +208,15 @@ if profile[0].to_i == 0
         publicmail = profile[8].to_i
       end
       fields = []
-      fields.push(Edit.new("Imię i nazwisko","",fullname,true))
-      fields.push(Select.new(["kobieta","mężczyzna"],false,gender,"Płeć",true))
-      fields.push(Edit.new("Data urodzenia: rok","NUMBERS|LENGTH04",birthdateyear,true))
-      fields.push(Edit.new("Data urodzenia: miesiąc","NUMBERS|LENGTH02",birthdatemonth,true))
-      fields.push(Edit.new("Data urodzenia: dzień","NUMBERS|LENGTH02",birthdateday,true))
-      fields.push(Edit.new("Lokalizacja","",location,true))
-      fields.push(CheckBox.new("Ukryj mój profil przed osobami z poza mojej listy kontaktów",publicprofile))
-      fields.push(Button.new("Zapisz"))
-      fields.push(Button.new("Anuluj"))
+      fields.push(Edit.new(_("Account:type_fullname"),"",fullname,true))
+      fields.push(Select.new([_("General:female"),_("General:male")],false,gender,_("Account:head_gender"),true))
+      fields.push(Edit.new(_("Account:type_birthdateyear"),"NUMBERS|LENGTH04",birthdateyear,true))
+      fields.push(Edit.new(_("Account:type_birthdatemonth"),"NUMBERS|LENGTH02",birthdatemonth,true))
+      fields.push(Edit.new(_("Account:type_birthdateday"),"NUMBERS|LENGTH02",birthdateday,true))
+      fields.push(Edit.new(_("Account:type_location"),"",location,true))
+      fields.push(CheckBox.new(_("Account:chk_hideprofile"),publicprofile))
+      fields.push(Button.new(_("General:str_save")))
+      fields.push(Button.new(_("General:str_cancel")))
       speech_wait
       @form = Form.new(fields)
       loop do
@@ -227,10 +227,10 @@ $fullname=fields[0].text_str
 $gender=fields[1].index
           pr = srvproc("profile","name=#{$name}\&token=#{$token}\&mod=1\&fullname=#{fields[0].text_str}\&gender=#{fields[1].index.to_s}\&birthdateyear=#{fields[2].text_str.to_i.to_s}\&birthdatemonth=#{fields[3].text_str.to_i.to_s}\&birthdateday=#{fields[4].text_str.to_i.to_s}\&location=#{fields[5].text_str}\&publicprofile=#{fields[6].checked}")
 if pr[0].to_i < 0
-    speech("Błąd")
+    speech(_("General:error"))
   speech_wait
 else
-  speech("Zapisano")
+  speech(_("General:info_saved"))
   speech_wait
 end
 $scene = Scene_Main.new
@@ -248,12 +248,12 @@ $scene = Scene_Main.new
         err = sg[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Loading.new
         return
@@ -262,7 +262,7 @@ $scene = Scene_Main.new
       for i in 1..sg.size - 1
         text += sg[i]
       end
-@form = Form.new([Edit.new("Twoja sygnatura:","MULTILINE",text,true),Button.new("Zapisz"),Button.new("Anuluj")])
+@form = Form.new([Edit.new(_("Account:type_signature"),"MULTILINE",text,true),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
 signature = ""
 loop do
   loop_update
@@ -286,15 +286,15 @@ buf = buffer(signature)
 err = sg[0].to_i
 case err
 when 0
-  speech("Zapisano.")
+  speech(_("General:info_saved"))
   speech_wait
   $scene = Scene_Main.new
   when -1
-    speech("Błąd połączenia się z bazą danych.")
+    speech(_("General:error_db"))
     speech_wait
     $scene = Scene_Main.new
     when -2
-      speech("Klucz sesji wygasł.")
+      speech(_("General:error_tokenexpired"))
       speech_wait
       $scene = Scene_Loading.new
 end
@@ -309,12 +309,12 @@ class Scene_Account_Greeting
         err = gt[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Loading.new
         return
@@ -323,7 +323,7 @@ class Scene_Account_Greeting
       for i in 1..gt.size - 1
         text += gt[i]
       end
-@form = Form.new([Edit.new("Twoja wiadomość powitalna:","",text,true),Button.new("Zapisz"),Button.new("Anuluj")])
+@form = Form.new([Edit.new(_("Account:type_greeting"),"",text,true),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
 greeting = ""
 loop do
   loop_update
@@ -347,15 +347,15 @@ buf = buffer(greeting)
 err = gt[0].to_i
 case err
 when 0
-  speech("Zapisano.")
+  speech(_("General:info_saved"))
   speech_wait
   $scene = Scene_Main.new
   when -1
-    speech("Błąd połączenia się z bazą danych.")
+    speech(_("General:error_db"))
     speech_wait
     $scene = Scene_Main.new
     when -2
-      speech("Klucz sesji wygasł.")
+      speech(_("General:error_tokenexpired"))
       speech_wait
       $scene = Scene_Loading.new
 end
@@ -366,7 +366,7 @@ end
 class Scene_Account_Avatar
   def main
     dialog_open
-    @tree=FilesTree.new("Ustaw awatar",getdirectory(26),false,false,"Documents",[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma"])
+    @tree=FilesTree.new(_("Account:head_avatar"),getdirectory(26),false,false,"Documents",[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma"])
     loop do
       loop_update
       @tree.update
@@ -388,17 +388,17 @@ class Scene_Account_Avatar
     def main
       wnc=srvproc("whatsnew_config","name=#{$name}\&token=#{$token}\&get=1")
       if wnc[0].to_i<0
-        speech("Błąd.")
+        speech(_("General:error"))
         speech_wait
         return $scene=Scene_Main.new
       end
-      options=["Powiadom i pokaż w co nowego","Tylko powiadom","Zignoruj"]
-      cats=["Nowe wiadomości","Nowe wpisy w śledzonych wątkach","Nowe wpisy na śledzonych blogach","Nowe komentarze na twoim blogu","Nowe wątki na śledzonych forach","Nowe wpisy na śledzonych forach","Nowi znajomi","Urodziny znajomych","Wzmianki"]
+      options=[_("Account:opt_notifyandshow"),_("Account:opt_notify"),_("Account:opt_ignore")]
+      cats=[_("Account:head_messages"),_("Account:head_followedthreads"),_("Account:head_followedblogs"),_("Account:head_blogcomments"),_("Account:head_followedforums"),_("Account:head_followedforumsposts"),_("Account:head_contacts"),_("Account:head_birthday"),_("Account:head_mentions")]
       @fields=[]
       for i in 0..cats.size-1
         @fields.push(Select.new(options,true,wnc[i+1].to_i,cats[i],true))
       end
-@fields+=[Button.new("Zapisz"),Button.new("Anuluj")]
+@fields+=[Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))]
       @form=Form.new(@fields)
             loop do
         loop_update
@@ -411,9 +411,9 @@ class Scene_Account_Avatar
           end
           prm="name=#{$name}\&token=#{$token}\&set=1"+t
                     if srvproc("whatsnew_config",prm)[0].to_i<0
-            speech("Błąd.")
+            speech(_("General:error"))
           else
-            speech("Zapisano.")
+            speech(_("General:info_saved"))
             speech_wait
             break
             end
@@ -429,14 +429,14 @@ $scene=Scene_Main.new
   def main
         al=[]
     loop do
-      password=input_text("Podaj hasło","PASSWORD|ACCEPTESCAPE")
+      password=input_text(_("Account:type_pass"),"PASSWORD|ACCEPTESCAPE")
       if password=="\004ESCAPE\004"
         return $scene=Scene_Main.new
         break
       else
         al=srvproc("autologins","name=#{$name}\&token=#{$token}\&password=#{password}")
         if al[0].to_i<0
-          speech("Wystąpił błąd podczas próby uwierzytelnienia konta. Prawdopodobnie podano błędne hasło.")
+          speech(_("Account:error_identity"))
           speech_wait
         else
           break
@@ -473,7 +473,7 @@ selt=[]
 for s in als
   selt.push("Komputer: #{s[2]}, adres IP utworzenia: #{s[1]}, data wygenerowania: #{s[0]}")
 end
-@sel=Select.new(selt,true,0,"Klucze automatycznego logowania")
+@sel=Select.new(selt,true,0,_("Account:head_autologintokens"))
 loop do
   loop_update
   @sel.update
@@ -481,7 +481,7 @@ loop do
   break if $scene!=self
   globallogout if $key[0x2e] or enter
   if alt
-    case menuselector(["Wyloguj wszystkie sesje","Odśwież","anuluj"])
+    case menuselector([_("Account:opt_logoutallsessions"),_("General:str_refresh"),_("General:opt_cancel")])
     when 0
       globallogout
       when 1
@@ -495,9 +495,9 @@ loop do
 $scene=Scene_Main.new
   end
 def globallogout
-  confirm("Czy chcesz usunąć wszystkie klucze automatycznego logowania i wylogować wszystkie zalogowane sesje? Wymagane będzie ponowne zalogowanie się do Eltena.") do
+  confirm(_("Account:alert_logoutall")) do
         loop do
-      password=input_text("Podaj hasło","PASSWORD|ACCEPTESCAPE")
+      password=input_text(_("Account:type_pass"),"PASSWORD|ACCEPTESCAPE")
       if password=="\004ESCAPE\004"
         @sel.focus
         return
@@ -505,7 +505,7 @@ def globallogout
       else
         lg=srvproc("logout","global=1\&name=#{$name}\&token=#{$token}\&password=#{password}")
         if lg[0].to_i<0
-          speech("Wystąpił błąd podczas próby uwierzytelnienia konta. Prawdopodobnie podano błędne hasło.")
+          speech(_("Account:error_identity"))
           speech_wait
         else
           $name=""
@@ -525,7 +525,7 @@ class Scene_Account_BlackList
   def main
             bt = srvproc("blacklist","name=#{$name}\&token=#{$token}\&get=1")
             if bt[0].to_i<00
-          speech("Błąd.")
+          speech(_("General:error"))
       speech_wait
       $scene = Scene_Main.new
       return
@@ -538,7 +538,7 @@ class Scene_Account_BlackList
               selt.push(u + ". " + getstatus(u))
         end
 end
-        header="Czarna lista"
+        header=_("Account:head_blacklist")
               @sel = Select.new(selt,true,0,header)
                               loop do
 loop_update
@@ -553,12 +553,12 @@ loop_update
         $scene = Scene_Main.new if escape
                             if $key[0x2e]
           if @blacklist.size >= 1
-          if simplequestion("Czy na pewno chcesz usunąć tego użytkownika z czarnej listy?") == 1
+          if simplequestion(_("Account:alert_deletefromblacklist")) == 1
             if srvproc("blacklist","name=#{$name}\&token=#{$token}\&del=1\&user=#{@blacklist[@sel.index]}")[0].to_i<0
-              speech("Błąd")
+              speech(_("General:error"))
             else
               play("edit_delete")
-              speech("Użytkownik został usunięty z czarnej listy.")
+              speech(_("Account:info_deletedfromblacklist"))
             end
             speech_wait
             @blacklist.delete_at(@sel.index)
@@ -573,7 +573,7 @@ loop_update
         def menu
           play("menu_open")
           play("menu_background")
-          @menu=menulr(["","Dodaj","Usuń","Odśwież","Anuluj"],true,0,"",true)
+          @menu=menulr(["",_("Account:opt_add"),_("General:str_delete"),_("General:str_refresh"),_("General:str_cancel")],true,0,"",true)
           @menu.commandoptions[0]=@blacklist[@sel.index] if @blacklist.size>0
           if @blacklist.size==0
           @menu.disable_item(2)
@@ -594,45 +594,45 @@ loop_update
                                 @menu.focus
                               end
                 when 1
-                  user=input_text("Podaj nazwę użytkownika, którego chcesz dodać do czarnej listy","ACCEPTESCAPE")
+                  user=input_text(_("Account:type_blacklistaddusername"),"ACCEPTESCAPE")
                   user=finduser(user) if user!="\004ESCAPE\004" and finduser(user).downcase==user.downcase
                   if user=="\004ESCAPE\004"
                                       elsif user_exist(user)==false
-                    speech("Użytkownik nie istnieje")
+                    speech(_("Account:error_usernotfound"))
                     speech_wait
                                       else
-                  confirm("Użytkownik po dodaniu do twojej czarnej listy nie będzie mógł wysyłać do ciebie wiadomości prywatnych. Czy jesteś pewien, że chcesz kontynuować?") do
+                  confirm(_("Account:alert_addtoblacklist")) do
                     bl=srvproc("blacklist","name=#{$name}\&token=#{$token}\&add=1\&user=#{user}")
                     case bl[0].to_i
                     when 0
-                      speech("Użytkownik #{user} został dodany do twojej czarnej listy")
+                      speech(s_("Account:info_phr_addedtoblacklist",{'user'=>user}))
                       @sel.commandoptions.push(user)
                       @blacklist.push(user)
                       when -1
-                        speech("Błąd połączenia się z bazą danych.")
+                        speech(_("General:error_db"))
                         when -2
-                          speech("Klucz sesji wygasł.")
+                          speech(_("General:error_tokenexpired"))
                           speech_wait
                           $scene=Scene_Loading.new
                           return
                           when -3
-                            speech("Do czarnej listy nie można dodawać członków administracji.")
+                            speech(_("General:error_blacklistadmin"))
                             when -4
-                              speech("Ten użytkownik jest już dodany do twojej czarnej listy.")
+                              speech(_("General:error_blacklistalreadyadded"))
                               when -5
-                                speech("Użytkownik nie istnieje.")
+                                speech(_("Account:error_usernotfound"))
                     end
                   speech_wait
                     end
                   end
                   break
                   when 2
-                                        confirm("Czy na pewno chcesz usunąć tego użytkownika z czarnej listy?") do
+                                        confirm(_("Account:alert_deletefromblacklist")) do
             if srvproc("blacklist","name=#{$name}\&token=#{$token}\&del=1\&user=#{@blacklist[@sel.index]}")[0].to_i<0
-              speech("Błąd")
+              speech(_("General:error"))
             else
               play("edit_delete")
-              speech("Użytkownik został usunięty z czarnej listy.")
+              speech(_("Account:info_deletedfromblacklist"))
             end
             speech_wait
             @blacklist.delete_at(@sel.index)
