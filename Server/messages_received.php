@@ -14,11 +14,11 @@ $ile = $ile + 1;
 if($wiersz[5] == NULL)
 $wiersz[5] = "0";
 if($_GET['hash']==1)
-$text .= "[".$wiersz[0].",".$wiersz[5].",\"".str_replace('$','',str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[2]))) . "\",\"" . $wiersz[1] . "\",\"" . $wiersz[4] . "\",\"" . str_replace("\$","",str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[3])))."\"],";
+$text .= "[".$wiersz[0].",".$wiersz[5].",\"".str_replace('#','\#',str_replace('$','',str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[2])))) . "\",\"" . $wiersz[1] . "\",\"" . date("Y-m-d H:i",$wiersz[4]) . "\",\"" . str_replace('#','\#',str_replace("\$","",str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[3]))))."\"],";
 elseif($_GET['hash']==2)
-$text .= "[".$wiersz[0].",".$wiersz[5].",\"".str_replace('#$','\#\$',str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[2]))) . "\",\"" . $wiersz[1] . "\",\"" . $wiersz[4] . "\",\"" . str_replace('#$','\#\$',str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[3])))."\",\"".$wiersz[6]."\"],";
+$text .= "[".$wiersz[0].",".$wiersz[5].",\"".str_replace('#','\#',str_replace('#$','\#\$',str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[2])))) . "\",\"" . $wiersz[1] . "\",\"" . date("Y-m-d H:i",$wiersz[4]) . "\",\"" . str_replace('#','\#',str_replace('#$','\#\$',str_replace("\"","\\\"",str_replace("\\","\\\\",$wiersz[3]))))."\",\"".$wiersz[6]."\"],";
 else
-$text .= $wiersz[5]."\r\n".$wiersz[2] . "\r\n" . $wiersz[1] . "\r\n" . $wiersz[0] . "\r\n" . $wiersz[3] . "\r\n" . $wiersz[4] . "\r\nEND\r\n";
+$text .= $wiersz[5]."\r\n".$wiersz[2] . "\r\n" . $wiersz[1] . "\r\n" . $wiersz[0] . "\r\n" . $wiersz[3] . "\r\n" . date("Y-m-d H:i",$wiersz[4]) . "\r\nEND\r\n";
 }
 if($_GET['hash']>=1) {
 $text.="]";

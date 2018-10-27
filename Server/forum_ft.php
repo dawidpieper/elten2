@@ -1,51 +1,59 @@
 <?php
 require("header.php");
 if($_GET['get'] == 1) {
-$zapytanie = "SELECT `forum`, `thread` FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if ($idzapytania == false) {
-echo "-1";
-die;
-}
+$q = mquery("SELECT `forum`, `thread` FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "'");
 $text = "";
 $ile = 0;
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($r = mysql_fetch_row($q)){
 $ile = $ile + 1;
-$text .= $wiersz[0] . "\r\n" . $wiersz[1] . "\r\n";
+$text .= $r[0] . "\r\n" . $r[1] . "\r\n";
 }
 echo "0\r\n" . $ile . "\r\n" . $text;
 }
 if($_GET['add'] == 1) {
-$zapytanie = "SELECT `forum`, `thread` FROM `followedthreads` where `owner`='" . $_GET['name'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if ($idzapytania == false) {
-echo "-1";
-die;
-}
+$q = mquery("SELECT `forum`, `thread` FROM `followedthreads` where `owner`='" . $_GET['name'] . "'");
 $suc = false;
-while ($wiersz = mysql_fetch_row($idzapytania)){
-if($wiersz[1] == $_GET['thread'])
+while ($r = mysql_fetch_row($q)){
+if($r[1] == $_GET['thread'])
 $suc = true;
 }
 if($suc == true) {
 echo "-3";
 die;
 }
-$zapytanie = "INSERT INTO `followedthreads` (id, owner, forum, thread) VALUES ('','".$_GET['name']."','" . $_GET['forum'] . "','" . $_GET['thread'] . "')";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+mquery("INSERT INTO `followedthreads` (id, owner, forum, thread) VALUES ('','".$_GET['name']."','" . $_GET['forum'] . "','" . $_GET['thread'] . "')");
 echo "0";
 }
 if($_GET['remove'] == 1) {
-$zapytanie = "DELETE FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "' AND `thread`='" . $_GET['thread'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
+mquery("DELETE FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "' AND `thread`='" . $_GET['thread'] . "'");
+echo "0";
+}
+if($_GET['get'] == 2) {
+$q = mquery("SELECT `forum` FROM `followedforums` WHERE `owner`='" . $_GET['name'] . "'");
+$text = "";
+$ile = 0;
+while ($r = mysql_fetch_row($q)){
+$ile = $ile + 1;
+$text .= $r[0] . "\r\n";
+}
+echo "0\r\n" . $ile . "\r\n" . $text;
+}
+if($_GET['add'] == 2) {
+$q = mquery("SELECT `forum` FROM `followedforums` where `owner`='" . $_GET['name'] . "'");
+$suc = false;
+while ($r = mysql_fetch_row($q)){
+if($r[0] == $_GET['forum'])
+$suc = true;
+}
+if($suc == true) {
+echo "-3";
 die;
 }
+mquery("INSERT INTO `followedforums` (id, owner, forum) VALUES ('','".$_GET['name']."','" . $_GET['forum'] . "')");
+echo "0";
+}
+if($_GET['remove'] == 2) {
+mquery("DELETE FROM `followedforums` WHERE `owner`='" . $_GET['name'] . "' AND `forum`='" . $_GET['forum'] . "'");
 echo "0";
 }
 ?>

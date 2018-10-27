@@ -13,7 +13,7 @@ while ($wiersz = mysql_fetch_row($idzapytania)){
 $ile = $ile + 1;
 if($wiersz[5] == NULL)
 $wiersz[5] = "0";
-$text .= $wiersz[5]."\r\n".$wiersz[2] . "\r\n" . $wiersz[1] . "\r\n" . $wiersz[0] . "\r\n" . $wiersz[3] . "\r\n" . $wiersz[4] . "\r\nEND\r\n";
+$text .= $wiersz[5]."\r\n".$wiersz[2] . "\r\n" . $wiersz[1] . "\r\n" . $wiersz[0] . "\r\n" . $wiersz[3] . "\r\n" . date("Y-m-d H:i",$wiersz[4]) . "\r\nEND\r\n";
 }
 echo "0\r\n" . $ile . "\r\n" . $text;
 ?>

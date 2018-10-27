@@ -58,10 +58,10 @@ $r=mysql_fetch_row($q);
 echo "0\r\n".$r[0]."\r\n".$r[1]."\r\n".$r[2]."\r\n".$r[3]."\r\n".$r[4]."\r\n".$r[5];
 }
 if($_GET['del']==1) {
-$qs="DELETE FROM `polls` WHERE `id`=".$_GET['id'];
-if(getprivileges($_GET['name'])[0]==0)
-$qs.=" AND `author`='".$_GET['name']."'";
-$q=mquery($qs);
+if(getprivileges($_GET['name'])[0]==1 or $_GET['name']==mysql_fetch_row(mquery("select author from polls where id=".(int)$_GET['id']))[0]) {
+mquery("DELETE FROM `polls` WHERE `id`=".(int)$_GET['id']);
+mquery("DELETE FROM `polls_answers` WHERE `poll`=".(int)$_GET['id']);
+}
 echo "0";
 }
 ?>

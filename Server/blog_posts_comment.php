@@ -15,7 +15,7 @@ $post = str_replace("\\","\\\\",$post);
 $post = str_replace("'","\\'",$post);
 }
 $postid=$_GET['postid'];
-mquery("INSERT INTO `blog_posts` (`id`, `owner`, `author`, `postid`, `posttype`, `post`) VALUES ('','".$_GET['searchname']."','".$_GET['name']."',".$postid.",1,'" . $post . "\r\n\r\n" . date("Y-m-d H:i:s") . "')");
+mquery("INSERT INTO `blog_posts` (`id`, `owner`, `author`, `postid`, `posttype`, `post`, `date`) VALUES ('','".$_GET['searchname']."','".$_GET['name']."',".$postid.",1,'" . $post . "',".time().")");
 $idzapytania = mquery("SELECT `name` FROM `blog_posts` WHERE `owner`='".$_GET['searchname']."' AND `postid`=".$postid." AND `posttype`=0");
 $postname = mysql_fetch_row($idzapytania)[0];
 if($_GET['name'] != $_GET['searchname']) {

@@ -2096,19 +2096,18 @@ end
           end
         if @sel == nil or @refresh == true
               if @path == ""
-          @disks = []
-    @letters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-    for i in 0..@letters.size - 1
-      if FileTest.exist?(@letters[i] + ":")
-        @disks.push(@letters[i] + ":")
-        end
-      end
-h=""
-h=@header if init==true
+                              buf = "\0" * 1024
+          len = Win32API.new("kernel32", "GetLogicalDriveStrings", ['L', 'P'], 'L').call(buf.length, buf)
+          @disks=buf.split("\0")
+          for i in 0..@disks.size-1
+            @disks[i].chop! if @disks[i][-1..-1]=="\\"
+            end
 @adds=["Pulpit","Dokumenty","Muzyka"]
 @addfiles=[getdirectory(16),getdirectory(5),getdirectory(13)]
 ind=@disks.find_index(@file)      
 ind=0 if ind==nil
+                h=""
+h=@header if init==true
 @sel=Select.new(@disks+@adds,true,ind,h)
       @sel.silent=true if @specialvoices
       @files=@disks+@addfiles

@@ -1,5 +1,5 @@
 ﻿<?php
-$sql = mysql_connect("localhost", "elten", "PPdiwaD99")
+$sql = mysql_connect("localhost", "elten", "")
 or die("-1");
 $sql_select = @mysql_select_db('elten')
 or die("-1");

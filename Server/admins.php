@@ -1,7 +1,7 @@
 <?php
 require("init.php");
 $error = 0;
-$zapytanie = "SELECT `name` FROM `privileges`";
+$zapytanie = "SELECT `name` FROM `privileges` where moderator=1";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;

@@ -1,19 +1,27 @@
 <?php
 require("header.php");
-$date = date("d.m.Y H:i");
+if(file_exists("cache/messages_".$_GET['name'].".dat")) unlink("cache/messages_".$_GET['name'].".dat");
+if(file_exists("cache/messages_".$_GET['to'].".dat")) unlink("cache/messages_".$_GET['to'].".dat");
 $text = $_GET['text'];
-if($_GET['buffer'] != null) {
+if($_GET['buffer'] != null)
 $text=buffer_get($_GET['buffer']);
-}
 if($_GET['audio']==1) {
 if(strlen($_POST['data']) < 8) {
-echo "-1";
-die;
+die("-1");
 }
 $filename=random_str(24);
+if(substr($_POST['data'],0,4)=="OggS") {
 $fp = fopen("audiomessages/".$filename,"w");
 fwrite($fp,$_POST['data']);
 fclose($fp);
+}
+else {
+$fp = fopen("audiomessages/tmp_".$filename,"w");
+fwrite($fp,$_POST['data']);
+fclose($fp);
+shell_exec("/usr/bin/ffmpeg -i \"audiomessages/tmp_".$filename."\" -f opus -b:a 96k \"audiomessages/{$filename}\" 2>&1");
+unlink("audiomessages/tmp_".$filename);
+}
 $text="\004AUDIO\004/audiomessages/".$filename."\004AUDIO\004\r\n";
 }
 $attachments=$_GET['attachments'];
@@ -26,7 +34,8 @@ $q=mquery("SELECT `fullname` FROM `profiles` WHERE `name`='".$_GET['name']."'");
 if(mysql_num_rows($q)>0)
 $fromname=mysql_fetch_row($q)[0];
 $uid = md5(uniqid(time()));
-$head = "MIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"".$uid."\"\r\nFrom: ".$fromname." <".$_GET['name']."@elten-net.eu>\r\n\r\n";
+$version=mysql_fetch_row(mquery("select version from tokens where token='".$_GET['token']."'"))[0];
+$head = "MIME-Version: 1.0\r\nContent-Type: multipart/mixed; boundary=\"".$uid."\"\r\nFrom: {$fromname} <{$_GET['name']}@elten-net.eu>\r\nUser-Agent: Elten {$version}\r\n\r\n";
 $body = "--".$uid."\r\nContent-type:text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: 8bit\r\n\r\n".str_replace("\004LINE\004","\r\n",$text)."\r\n\r\n";
 $att=explode(",",$attachments);
 foreach($att as $attach) {
@@ -38,11 +47,15 @@ $body.=chunk_split(base64_encode($content))."\r\n\r\n";
 }
 }
 $body .= "--".$uid."--";
-mail($_GET['to'], "=?UTF-8?B?" . base64_encode($_GET['subject']) . "?=", $body, $head);
-mquery("INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent,`read`,attachments) VALUES ('', '" . $_GET['name'] . "', '" . $_GET['to'] . "', '" . $_GET['subject'] . "', '" . $text . "', '" . $date . "',0,0,".time().",'".$attachments."')");
+mail($_GET['to'], "=?UTF-8?B?" . base64_encode($_GET['subject']) . "?=", $body, $head,"-f{$_GET['name']}@elten-net.eu");
+mquery("INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent,`read`,attachments) VALUES ('', '" . $_GET['name'] . "', '" . $_GET['to'] . "', '" . $_GET['subject'] . "', '" . $text . "', '" . time() . "',0,0,".time().",'".$attachments."')");
 }
 else {
-mquery("INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent, attachments) VALUES ('', '" . $_GET['name'] . "', '" . $_GET['to'] . "', '" . $_GET['subject'] . "', '" . $text . "', '" . $date . "',0,0,'".$attachments."')");
+if(mysql_num_rows(mquery("select user from blacklist where owner='".$_GET['to']."' and user='".$_GET['name']."'"))>0)
+die("-3");
+if(mysql_num_rows(mquery("select name from users where name='".$_GET['to']."'"))==0)
+die("-4");
+mquery("INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent, attachments) VALUES ('', '" . $_GET['name'] . "', '" . $_GET['to'] . "', '" . $_GET['subject'] . "', '" . $text . "', '" . time() . "',0,0,'".$attachments."')");
 }
 echo "0";
 ?>

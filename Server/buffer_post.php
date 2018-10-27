@@ -21,7 +21,7 @@ echo "-1\r\n" . $zapytanie;
 die;
 }
 }
-$zapytanie = "INSERT INTO `buffers` (id, data, owner) VALUES ('" . $_GET['id'] . "', '" . mysql_escape_string($_POST['data']) . "','" . $_GET['name'] . "')";
+$zapytanie = "INSERT INTO `buffers` (id, data, owner, date) VALUES ('" . $_GET['id'] . "', '" . mysql_escape_string($_POST['data']) . "','" . $_GET['name'] . "',".time().")";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;

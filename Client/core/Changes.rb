@@ -722,6 +722,22 @@ Wersja 2.28:
 - Dodano: obsługa uwierzytelniania dwuetapowego (SMS)
 
 2018-07-30
+","
+Wersja 2.281:
+- Zmieniono: aktualizacja obsługi Youtube
+
+2018-09-08
+","
+Wersja 2.282:
+- Poprawiono: problem w wyniku którego Elten nie zamykał uchwytów plików przy ich analizie, co uniemożliwiało edycję plików na przykład załączanych dowiadomości do momentu zamknięcia programu
+
+2018-09-25
+","
+Wersja 2.283:
+- Poprawiono: system detekcji woluminów przy menu wyboru plików
+- ZMieniono: drobne zmiany w domyślnym temacie dźwiękowym
+
+2018-10-21
 "]
 @changes.reverse!
 @selt = []

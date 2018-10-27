@@ -1,15 +1,15 @@
 <?php
 require("header.php");
-$error = 0;
-$zapytanie = "SELECT `user` FROM `contacts` WHERE `owner`='".$_GET['name']."' ORDER BY `user` ASC";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+$qr="SELECT `user` FROM `contacts` WHERE `owner`='".$_GET['name']."' ";
+if($_GET['birthday']>=1)
+$qr.="and user in (select name from profiles where birthdateday=".(int) date("d")." and birthdatemonth=".date("m").")";
+$qr.=" ORDER BY `user` ASC";
+$q=mquery($qr);
 echo "0";
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 $name = $wiersz[0];
 echo "\r\n" . $name;
 }
+if($_GET['birthday']==2)
+mquery("update contacts set birthdaynotice=".date("Ymd")." where owner='".$_GET['name']."'");
 ?>

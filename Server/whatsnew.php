@@ -15,7 +15,7 @@ $suc = true;
 }
 }
 if($suc == false) {
-mquery("INSERT INTO `whatsnew` (name, messages, posts, blogposts) VALUES ('" . $_GET['name'] . "',0,0,0)");
+mquery("INSERT INTO `whatsnew` (name, messages, posts, blogposts, blogcomments) VALUES ('" . $_GET['name'] . "',0,0,0,0)");
 $name = $_GET['name'];
 $messages = 0;
 $posts = 0;

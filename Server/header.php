@@ -1,6 +1,6 @@
 <?php
 require("init.php");
-$q=mquery("SELECT `token`, `name`, `time` FROM `tokens`");
+$q=mquery("SELECT `token`, `name`, `time` FROM `tokens` where token='".$_GET['token']."' and name='".$_GET['name']."'");
 $error = -1;
 $suc = false;
 while ($wiersz = mysql_fetch_row($q)){
@@ -12,7 +12,7 @@ $suc = true;
 }
 else {
 $error = -2;
-if($wiersz[2] == date("dmY",time()-3600)) {
+if($wiersz[2] == date("dmY",time()-86400)) {
 mquery("UPDATE `tokens` SET `time`='".date("dmY")."' WHERE `token`='".$_GET['token']."'");
 $error = 0;
 $suc = true;

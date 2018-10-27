@@ -29,7 +29,7 @@ if($moderator == 0 and $developer == 0) {
 echo "-3";
 die;
 }
-$date = date("d.m.Y H:i");
+$date = time();
 $text = $_GET['text'];
 if($_GET['buffer'] != null) {
 $zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";

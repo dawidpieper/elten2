@@ -1,7 +1,7 @@
 <?php
-$sql = mysql_connect("localhost", "dbuser", "dbpass")
+$sql = mysql_connect("localhost", "elten", "")
 or die("-1\r\nsql");
-$sql_select = @mysql_select_db('dbname')
+$sql_select = @mysql_select_db('elten')
 or die("-1\r\nsql");
 if(mysql_query("SET NAMES utf8") == false) {
 echo "-1\r\nutf";
@@ -10,6 +10,7 @@ die;
 $cdate = time();
 foreach($_GET as $key => $value) {
 $v = str_replace("\\","\\\\",$value);
+$v = str_replace("+","\\+",$v);
 $g[$key] = str_replace("'","\\'",$v);
 }
 $_GET=$g;
@@ -33,7 +34,7 @@ if($r[0] == $bufid and $r[2] == $_GET['name'])
 $ret = $r[1];
 }
 if($ret == null) {
-echo "-1";
+echo "-1\r\nbuf";
 die;
 }
 $ret = str_replace("\\","\\\\",$ret);

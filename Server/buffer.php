@@ -22,7 +22,7 @@ echo "-1\r\n" . $zapytanie;
 die;
 }
 }
-$zapytanie = "INSERT INTO `buffers` (id, data, owner) VALUES ('" . $_GET['id'] . "', '" . $_GET['data'] . "','" . $_GET['name'] . "')";
+$zapytanie = "INSERT INTO `buffers` (id, data, owner, date) VALUES ('" . $_GET['id'] . "', '" . $_GET['data'] . "','" . $_GET['name'] . "',".time().")";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;
@@ -56,7 +56,7 @@ if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;
 die;
 }
-$zapytanie = "INSERT INTO `buffers` (id, data, owner) VALUES ('" . $_GET['id'] . "', '" . $data . $_GET['data'] . "','" . $_GET['name'] . "')";
+$zapytanie = "INSERT INTO `buffers` (id, data, owner, date) VALUES ('" . $_GET['id'] . "', '" . $data . $_GET['data'] . "','" . $_GET['name'] . "',".time().")";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;

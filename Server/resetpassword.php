@@ -1,51 +1,21 @@
 ﻿<?php
+require("init.php");
+if(isset($_GET['step'])==false) {
+$error=-2;
 $mail="";
-function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-{
-    $str = '';
-    $max = mb_strlen($keyspace, '8bit') - 1;
-    for ($i = 0; $i < $length; ++$i) {
-        $str .= $keyspace[random_int(0, $max)];
-    }
-    return $str;
-}
-$sql = mysql_connect("localhost", "dbuser", "dbpass")
-or die("-1");
-$sql_select = @mysql_select_db('dbname')
-or die("-1");
-if(mysql_query("SET NAMES utf8") == false) {
-echo "-1";
-die;
-}
-foreach($_GET as $value) {
-$value = str_replace("\\","\\\\",$value);
-$value = str_replace("\'","\\\'",$value);
-}
-$zapytanie = "SELECT `name`, `mail` FROM `users`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false)
-echo "-1\r\n" . $zapytanie;
-else
-$error = -2;
+$q = mquery("SELECT `name`, `mail` FROM `users`");
 $mail=$_GET['mail'];
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)) {
 if($wiersz[0] == $_GET['name'] and $wiersz[1] == $_GET['mail']) {
 $name=$wiersz[0];
 $mail=$wiersz[1];
 $error = 0;
 }
 }
-if($error < 0)
-echo $error;
-else
-{
+if($error!=0)
+die($error);
 $password=random_str(64);
-$zapytanie = "UPDATE `users` SET `resetpassword`='".$password."' WHERE `name`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false)
-echo "-3\r\n".$zapytanie;
-else
-{
+mquery("UPDATE `users` SET `resetpassword`='".$password."' WHERE `name`='".$_GET['name']."'");
 $head = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: Elten Support <support@elten-net.eu>\r\n";
 $body = "
 You receive this e-mail, because the password reset has been requested.
@@ -66,5 +36,49 @@ Administracja Elten / Elten Support
 mail($mail, "=?ISO8859-2?B?" . base64_encode("Elten - Forgot Password!") . "?=", $body, $head);
 echo "0\r\n".$name."\r\n".$mail;
 }
+if($_GET['step']==1) {
+$q = mquery("SELECT `name`, `mail` FROM `users`");
+$suc=false;
+while ($r = mysql_fetch_row($q)){
+if($r[0] == $_GET['name'] and $r[1] == $_GET['mail']) {
+$name=$wiersz[0];
+$mail=$wiersz[1];
+$suc=true;
+}
+}
+if($suc==false)
+die("-2");
+$password=random_str(64);
+mquery("UPDATE `users` SET `resetpassword`='".$password."' WHERE `name`='".$_GET['name']."'");
+$head = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: Elten Support <support@elten-net.eu>\r\n";
+$body = "
+You receive this e-mail, because the password reset has been requested.<br>
+TO proceed, please go to the Password Reset Menu and paste the following code.<br>
+Code: <br>" . $password . "<br>
+<br><br>
+Otrzymujesz tą wiadomość, ponieważ zarządano zresetowania hasła do tego konta.<br>
+Aby kontynuować, wprowadź poniższy kod w menu resetowania hasła.<br>
+Kod:<br>" . $password . "<br>
+<br><br>
+Pozdrawiamy / Best Regards !<br>
+Administracja Elten / Elten Support
+";
+mail($_GET['mail'], "=?ISO8859-2?B?" . base64_encode("Elten - Password Reset!") . "?=", $body, $head);
+echo "0";
+}
+if($_GET['step']==2) {
+$q=mquery("select name,mail,resetpassword from users");
+$suc=false;
+while($r=mysql_fetch_row($q)) {
+if($r[0]==$_GET['name'] and $r[1]==$_GET['mail'] and $r[2]==$_GET['key'] and $_GET['key']!=null and $_GET['key']!="")
+$suc=true;
+}
+if($suc==false)
+die("-2");
+if($_GET['change']==1) {
+mquery("update authentications set actived=0 where name='{$_GET['name']}'");
+mquery("update users set password='".$_GET['newpassword']."', resetpassword=null where name='".$_GET['name']."' and mail='".$_GET['mail']."' and resetpassword='".$_GET['key']."'");
+}
+echo "0";
 }
 ?>

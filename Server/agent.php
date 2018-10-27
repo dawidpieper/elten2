@@ -1,0 +1,64 @@
+<?php
+require("header.php");
+mquery("INSERT INTO `actived` (name, date) VALUES ('" . $_GET['name'] . "','" . time() . "') ON DUPLICATE KEY UPDATE name=VALUES(name),date=VALUES(DATE)");
+$ret="0\r\n";
+$ret.=time()."\r\n";
+$versionini=parse_ini_file("/var/www/html/srv/bin/elten.ini");
+$ret.=$versionini['Version']."\r\n".$versionini['Beta']."\r\n".$versionini['Alpha']."\r\n";
+$q=mquery("select fullname, gender from profiles where name='".$_GET['name']."'");
+if(mysql_num_rows($q)>0) {
+$r=mysql_fetch_row($q);
+$ret.=$r[0]."\r\n".$r[1]."\r\n";
+}
+else
+$ret.="\r\n-1\r\n";
+if($_GET['chat']==1) {
+mquery("INSERT INTO `chat_actived` (name, date) VALUES ('" . $_GET['name'] . "','".time()."') ON DUPLICATE KEY UPDATE name=VALUES(name),date=VALUES(DATE)");
+$q=mquery("SELECT sender,message from chat order by id desc limit 0,1");
+$r=mysql_fetch_row($q);
+$ret.=$r[0].": ".$r[1]."\r\n";
+}
+else
+$ret.="\r\n";
+$wq=mquery("select owner,messages,followedthreads,followedblogs,blogcomments,followedforums,followedforumsthreads,friends,birthday,mentions from whatsnew_config where owner='".$_GET['name']."'");
+$wnc=[$_GET['name'],0,0,0,0,0,2,0,0,0];
+if(mysql_num_rows($wq)>0)
+$wnc=mysql_fetch_row($wq);
+if(($_GET['client']==1 and $wnc[1]==0) or ($_GET['client']!=1 and $wnc[1]<2))
+$ret.=mysql_fetch_row(mquery("select count(*) from messages where deletedfromreceived!=1 and receiver='".$_GET['name']."' and `read` is null and noticed is null"))[0]."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[2]==0) or ($_GET['client']!=1 and $wnc[2]<2))
+$ret.=mysql_fetch_row(mquery("select (select count(*) from forum_posts where thread in (select thread from followedthreads where owner='{$_GET['name']}'))-(select sum(posts) from forum_read where thread in (select thread from followedthreads where owner='{$_GET['name']}') and owner='{$_GET['name']}')"))[0]."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[3]==0) or ($_GET['client']!=1 and $wnc[3]<2))
+$ret.=mysql_fetch_row(mquery("SELECT COUNT(*) `postid` FROM `blog_posts` bp where `posttype`=0 and NOT EXISTS (SELECT 1 FROM `blog_read` br WHERE `owner`='".$_GET['name']."' and bp.postid = br.post and br.author=bp.owner) and author in (select `author` from `followedblogs` where owner='".$_GET['name']."')"))[0]."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[4]==0) or ($_GET['client']!=1 and $wnc[4]<2))
+$ret.=mysql_fetch_row(mquery("select (SELECT count(*) FROM `blog_posts` WHERE `owner`='".$_GET['name']."')-(SELECT SUM(`posts`) FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['name']."' AND `post` IN (SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'))"))[0]."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[5]==0) or ($_GET['client']!=1 and $wnc[5]<2))
+$ret.=mysql_num_rows(mquery("select id from forum_threads where forum in (select forum from followedforums where owner='".$_GET['name']."') and id not in (select thread from forum_read where owner='".$_GET['name']."')"))."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[6]==0) or ($_GET['client']!=1 and $wnc[6]<2))
+$ret.=mysql_fetch_row(mquery("select (select count(*) from forum_posts where thread in (select id from forum_threads where forum in (select forum from followedforums where owner='{$_GET['name']}')))-(select sum(posts) from forum_read where thread in (select id from forum_threads where forum in (select forum from followedforums where owner='{$_GET['name']}')) and owner='{$_GET['name']}')"))[0]."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[7]==0) or ($_GET['client']!=1 and $wnc[7]<2))
+$ret.=mysql_num_rows(mquery("select owner from contacts where user='".$_GET['name']."' and noticed is null"))."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[8]==0) or ($_GET['client']!=1 and $wnc[8]<2))
+$ret.=mysql_num_rows(mquery("select name from profiles where name in (select user from contacts where (birthdaynotice is null or birthdaynotice!=".date("Ymd").") and owner='".$_GET['name']."') and birthdatemonth=".(int) date("m")." and birthdateday=".(int) date("d")))."\r\n";
+else
+$ret.="0\r\n";
+if(($_GET['client']==1 and $wnc[9]==0) or ($_GET['client']!=1 and $wnc[9]<2))
+$ret.=mysql_num_rows(mquery("select id from mentions where noticed is null and user='".$_GET['name']."'"));
+else
+$ret.="0\r\n";
+echo $ret;
+?>

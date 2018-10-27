@@ -1,5 +1,6 @@
 <?php
 require("header.php");
+if(file_exists("cache/messages_".$_GET['name'].".dat")) unlink("cache/messages_".$_GET['name'].".dat");
 $date = date("d.m.Y H:i");
 $zapytanie = "SELECT `id`, `sender`, `receiver`, `subject`, `message`, `date` FROM `messages` where `sender`='" . $_GET['name'] . "'";
 $idzapytania = mysql_query($zapytanie);

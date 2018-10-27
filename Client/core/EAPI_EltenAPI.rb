@@ -259,7 +259,10 @@ file
 sz = "\0"*8
 Win32API.new("kernel32","GetFileSizeEx",'ip','l').call(handler,sz)
 size = sz.unpack("L")[0]
-return size if sizeonly
+if sizeonly
+  Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
+  return size
+  end
 b = "\0" * (size.to_i)
 bp = "\0" * (size.to_i)
 handleref = readfile.call(handler,b,b.size,bp,nil)

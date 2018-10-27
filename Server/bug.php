@@ -29,10 +29,10 @@ IP: " . $_SERVER['REMOTE_ADDR'] . "
 
 Użytkownik: " . $_GET['name'] . "
 " . $buginfo;
-mail("support@elten-net.eu", "=?UTF-8?B?" . base64_encode("Elten - Bug!") . "?=", $body, $head);
+//mail("support@elten-net.eu", "=?UTF-8?B?" . base64_encode("Elten - Bug!") . "?=", $body, $head);
 $body = str_replace("\\","\\\\",$body);
 $body = str_replace("'","",$body);
-$zapytanie = "INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent) VALUES ('', 'elten', 'pajper', 'Zgłoszenie błędu', '" . $body . "', '" . date("d.m.Y H:i") . "',0,0)";
+$zapytanie = "INSERT INTO `messages` (`id`, `sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent) VALUES ('', 'elten', 'pajper', 'Zgłoszenie błędu', '" . $body . "', '" . time() . "',0,0)";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n".$zapytanie;

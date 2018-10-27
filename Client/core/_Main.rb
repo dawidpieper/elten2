@@ -9,7 +9,7 @@ class Object
   include EltenAPI
 end
 module Elten
-Version=2.28
+Version=2.283
 Beta=0
 Alpha=0
 IsBeta=0

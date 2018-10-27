@@ -1,95 +1,87 @@
 <?php
-function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-{
-    $str = '';
-    $max = mb_strlen($keyspace, '8bit') - 1;
-    for ($i = 0; $i < $length; ++$i) {
-        $str .= $keyspace[random_int(0, $max)];
-    }
-    return $str;
+require("init.php");
+$q=mquery("select name,phone,actived,code from authentications where name='{$_GET['name']}'");
+if(mysql_num_rows($q)==1) {
+$r=mysql_fetch_row($q);
+$phone=$r[1];
+if($r[2]==1 and mysql_num_rows(mquery("select appid from authenticated where name='{$_GET['name']}' and appid='{$_GET['appid']}'"))==0) {
+$code="";
+while(strlen($code)<6)
+$code.=rand(0,9);
+$params = array(
+'credentials' => array(
+'key' => 'AKIAJFWNRJW4DC7GLJ6Q',
+'secret' => '/Z2+cB6gBANuDNFIcgSuUQP3Ao/adWo8qmZ+0UHD',
+),
+'region' => 'eu-west-1', // < your aws from SNS Topic region
+'version' => 'latest'
+);
+$message="Kod logowania do Eltena: ".$code;
+if($_GET['lang']!="PL_PL")
+$message="Elten Two-factor authentication code: ".$code;
+$sns = new \Aws\Sns\SnsClient($params);
+$result = $sns->publish([
+'Message' => $message,
+'PhoneNumber' => $phone,
+'MessageAttributes' => [
+'AWS.SNS.SMS.SenderID' => [
+'DataType' => 'String',
+'StringValue' => 'ELTEN'],
+'AWS.SNS.SMS.SMSType' => [
+'DataType' => 'String',
+'StringValue' => 'Transactional']
+]
+]);
+mquery("delete from authcodes where name='{$_GET['name']}'");
+mquery("insert into authcodes (name,code) VALUES ('{$_GET['name']}','{$code}')");
+die("-5");
 }
-$sql = mysql_connect("localhost", "dblogin", "dbpass")
-or die("-1");
-$sql_select = @mysql_select_db('dbname')
-or die("-1");
-foreach($_GET as $value) {
-$value = str_replace("\\","\\\\",$value);
-$value = str_replace("\'","\\\'",$value);
-}
-if(mysql_query("SET NAMES utf8") == false) {
-echo "-1";
-die;
 }
 $ctime = time();
-if($_GET['login'] == "1")
-{
-$zapytanie = "SELECT `name`, `password`, `resetpassword` FROM `users`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false)
-echo "-1";
-else
-{
-$error = -2;
-while ($wiersz = mysql_fetch_row($idzapytania)){
-if($wiersz[0] == $_GET['name'])
-if($wiersz[1] == $_GET['password'] or crypt($wiersz[1],$wiersz[0])==$_GET['crp']) {
-$error = "0";
-mysql_query("UPDATE users SET `resetpassword`=NULL where `name`='".$wiersz[0]."'");
+if($_GET['login'] == "1") {
+$idzapytania = mquery("SELECT `name`, `password`, `resetpassword` FROM `users`");
+$suc=false;
+while ($wiersz = mysql_fetch_row($idzapytania)) {
+if($wiersz[0] == $_GET['name'] and (($wiersz[1] == $_GET['password'] or crypt($wiersz[1],$wiersz[0])==$_GET['crp']) or ($wiersz[2]!=null and ($wiersz[2] == $_GET['password'] or crypt($wiersz[2],$wiersz[0])==$_GET['crp'])))) {
+mquery("UPDATE users SET `resetpassword`=NULL where `name`='".$wiersz[0]."'");
+$suc=true;
 }
-elseif(($wiersz[2] == $_GET['password'] or crypt($wiersz[2],$wiersz[0])==$_GET['crp']) and $wiersz[2]!=NULL)
-$error = "0";
-else
-$error = -2;
+if($wiersz[0]==$_GET['name'] and (($_GET['password'] != NULL and ($wiersz[1]==$_GET['password'] or $wiersz[2]==$_GET['password']))  or mysql_num_rows(mquery("select name from autologins where token='".$_GET['token']."' and name='".$_GET['name']."'"))>0)) {
+if($wiersz[1]==$_GET['password'])
+mquery("UPDATE users SET `resetpassword`=NULL where `name`='".$wiersz[0]."'");
+$suc=true;
 }
-if($error < 0)
-echo $error;
-else
-{
-$haslo=random_str(64);
-$zapytanie = "INSERT INTO `tokens` (`token`, `name`, `time`) VALUES ('" . $haslo . "','" . $_GET['name'] . "', '" . date("dmY") . "')";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false)
-echo "-1";
-else
-{
+}
+if($suc==false) {
+mquery("insert into failedlogins (id,login,password,crp,token,ip,date) values ('','".$_GET['name']."','".$_GET['password']."','".$_GET['crp']."','".$_GET['token']."','".$_SERVER['REMOTE_ADDR']."',".time().")");
+die("-2");
+}
+$token=random_str(96);
+mquery("INSERT INTO `tokens` (`token`, `name`, `time`, `version`) VALUES ('" . $token . "','" . $_GET['name'] . "', '" . date("dmY") . "','".$_GET['version']."')");
 $loginsp = "\r\n" . $_GET['name'] . "|" . $_SERVER['REMOTE_ADDR'] . "|" . date("d.m.Y H:i:s") . "|" . $_GET['version'] . "|" . $_GET['beta'];
 $fp = fopen("logins.txt","a");
 fwrite($fp,$loginsp);
 fclose($fp);
-$zapytanie = "INSERT INTO `logins` (`id`,`name`,`ip`,`time`,`version`,`versiontype`,`beta`) VALUES ('','".$_GET['name']."','".$_SERVER['REMOTE_ADDR']."','".time()."','".explode(" ",$_GET['version'])[0]."','".explode(" ",$_GET['version'])[1]."','".$_GET['beta']."')";
-$idzapytania=mysql_query($zapytanie);
-if($idzapytania==false) {
-echo "-1";
-die;
+mquery("INSERT INTO `logins` (`id`,`name`,`ip`,`time`,`version`,`versiontype`,`beta`,`appid`) VALUES ('','".$_GET['name']."','".$_SERVER['REMOTE_ADDR']."','".time()."','".explode(" ",$_GET['version'])[0]."','".explode(" ",$_GET['version'])[1]."','".$_GET['beta']."','".$_GET['appid']."')");
+$event = (int) mysql_fetch_row(mquery("SELECT `id`,`fromtime`,`totime` FROM `events` where fromtime<".time()." and totime>".time()))[0];
+$mes = str_replace("\r\n","",mysql_fetch_row(mquery("SELECT `text` FROM `greetings` WHERE `name`='".$_GET['name']."'"))[0]);
+$autotoken="";
+if($_GET['submitautologin']==1 and $_GET['token']==null) {
+$autotoken=random_str(128);
+mquery("insert into autologins (token,name,date,ip,computer) values ('".$autotoken."','".$_GET['name']."',".time().",'".$_SERVER['REMOTE_ADDR']."','".$_GET['computer']."')");
 }
-$zapytanie = "SELECT `id`,`fromtime`,`totime` FROM `events`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
+echo "0\r\n" . $token . "\r\n" . $event."\r\n".$mes."\r\n".$autotoken;
 }
-$event = 0;
-while($wiersz = mysql_fetch_row($idzapytania)) {
-if($wiersz[1] < time() and $wiersz[2] > time()) {
-$event = $wiersz[0];
-}
-}
-$zapytanie = "SELECT `text` FROM `greetings` WHERE `name`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
-if(mysql_num_rows($idzapytania) > 0)
-$mes = mysql_fetch_row($idzapytania)[0];
-else
-$mes = "";
-if($event > 0)
-echo "0\r\n" . $haslo . "\r\n" . $event."\r\n".$mes;
-else
-echo "0\r\n" . $haslo."\r\n0\r\n".$mes;
-}
-}
-}
+if($_GET['login']==2) {
+$q=mquery("select name,password from users");
+$suc=false;
+while($r=mysql_fetch_row($q))
+if($r[0]==$_GET['name'] and $r[1]==$_GET['password'])
+$suc=true;
+if($suc==false)
+die("-2");
+$autotoken=random_str(128);
+mquery("insert into autologins (token,name,date,ip,computer) values ('".$autotoken."','".$_GET['name']."',".time().",'".$_SERVER['REMOTE_ADDR']."','".$_GET['computer']."')");
+echo "0\r\n".$autotoken;
 }
 ?>

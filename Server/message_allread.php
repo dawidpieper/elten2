@@ -1,5 +1,6 @@
 <?php
 require("header.php");
+if(file_exists("cache/messages_".$_GET['name'].".dat")) unlink("cache/messages_".$_GET['name'].".dat");
 $zapytanie = "SELECT `id`, `read`, `receiver` FROM `messages` where `receiver`='".$_GET['name']."'";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {

@@ -5,35 +5,49 @@ $text="";
 $ordertype="DESC";
 if($_GET['reverse']==1)
 $ordertype="ASC";
-if($_GET['categoryid']=="NEW")
-$zapytanie = "SELECT `post` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['name']."' AND `posts`<(SELECT COUNT(*) FROM `blog_posts` WHERE blog_posts.owner=blog_read.author AND blog_posts.postid=blog_read.post) ORDER BY `post` ".$ordertype;
+if($_GET['categoryid']=="NEW") {
+$reads=array();
+$posts=array();
+$q=mquery("select post,posts from blog_read where owner='{$_GET['name']}' and author='{$_GET['name']}'");
+while($r=mysql_fetch_row($q))
+$reads[$r[0]]=$r[1];
+$q=mquery("select postid,count(postid) as cnt from blog_posts where owner='{$_GET['name']}' group by postid");
+while($r=mysql_fetch_row($q))
+$posts[$r[0]]=$r[1];
+$qr = "SELECT `postid`, `name` FROM blog_posts WHERE owner='".$_GET['name']."' and posttype=0 AND postid in (";
+$counter=0;
+foreach($posts as $post =>$count)
+if($count>$reads[$post]) {
+if($counter>0)
+$qr.=",";
+++$counter;
+$qr.=$post;
+}
+if($counter==0)
+$qr.="null";
+$qr.=") ORDER BY `postid` ".$ordertype;
+}
 elseif($_GET['categoryid']>0)
-$zapytanie = "SELECT `postid` FROM `blog_assigning` WHERE `categoryid`=".$_GET['categoryid']." AND `owner`='".$_GET['searchname']."' ORDER BY `postid` ".$ordertype;
+$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE posttype=0 AND owner='".$_GET['searchname']."' AND postid in (SELECT `postid` FROM `blog_assigning` WHERE `categoryid`=".$_GET['categoryid']." AND `owner`='".$_GET['searchname']."') ORDER BY `postid` ".$ordertype;
 else
-$zapytanie = "SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['searchname']."' AND `posttype`=0 ORDER BY `postid` ".$ordertype;
-$idzapytania = mquery($zapytanie);
+$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".$_GET['searchname']."' AND `posttype`=0 ORDER BY `postid` ".$ordertype;
+$qi = mquery($qr);
 $cposts[]=0;
 $nposts[]=0;
 if($_GET['categoryid']!="NEW") {
-$q=mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['searchname']."'");
-while($r=mysql_fetch_row($q)) {
-if($cposts[$r[0]] == NULL)
-$cposts[$r[0]]=0;
-++$cposts[$r[0]];
-}
+$q=mquery("SELECT `postid`, count(postid) as cnt FROM `blog_posts` WHERE `owner`='".$_GET['searchname']."' group by postid");
+while($r=mysql_fetch_row($q))
+$cposts[$r[0]]=$r[1];
 $q=mquery("SELECT `post`,`posts` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['searchname']."'");
-while($r=mysql_fetch_row($q)) {
+while($r=mysql_fetch_row($q))
 $nposts[$r[0]]=$r[1];
 }
-}
-while($wiersz = mysql_fetch_row($idzapytania)) {
-$widzapytania = mquery("SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='" . $_GET['searchname'] . "' AND `postid`=" . $wiersz[0]);
-$wwiersz = mysql_fetch_row($widzapytania);
+while($wiersz = mysql_fetch_row($qi)) {
 $wiersze += 1;
-$text .= $wwiersz[0] . $addtmp . "\r\n" . $wwiersz[1] . "\r\n";
+$text .= $wiersz[0] . $addtmp . "\r\n" . $wiersz[1] . "\r\n";
 if($_GET['assignnew']==1) {
 if($_GET['categoryid']!="NEW") {
-if($cposts[$wwiersz[0]]>$nposts[$wwiersz[0]]) {
+if($cposts[$wiersz[0]]>$nposts[$wiersz[0]]) {
 $text.="1\r\n";
 }
 else
@@ -43,7 +57,7 @@ else
 $text.="0\r\n";
 }
 if($_GET['listcategories']==1) {
-$cq=mquery("SELECT `categoryid` FROM `blog_assigning` WHERE `owner`='".$_GET['searchname']."' AND `postid`=".$wwiersz[0]);
+$cq=mquery("SELECT `categoryid` FROM `blog_assigning` WHERE `owner`='".$_GET['searchname']."' AND `postid`=".$wiersz[0]);
 while($cr=mysql_fetch_row($cq))
 $text.=$cr[0].",";
 $text.="\r\n";

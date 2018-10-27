@@ -1,33 +1,32 @@
 ﻿<?php
 require("init.php");
-$zapytanie = "SELECT `postid`, `author`, `post` FROM `blog_posts` WHERE `owner`='" . $_GET['searchname'] . "' AND `postid`=" . $_GET['postid'];
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$wiersze = 0;
+$q = mquery("SELECT `postid`, `author`, `post`, `date`, `moddate`, `privacy` FROM `blog_posts` WHERE `owner`='" . $_GET['searchname'] . "' AND `postid`=" . $_GET['postid']);
+$re = 0;
 $text = "";
-while ($wiersz = mysql_fetch_row($idzapytania)){
-$wiersze += 1;
-$text .= $wiersz[0] . "\r\n" . $wiersz[1] . "\r\n" . $wiersz[2] . "\r\nEND\r\n";
-}
-$zapytanie = "SELECT `id`, `author`, `post` FROM `blog_read` WHERE `owner`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n".$zapytanie;
-die;
-}
+$rq = mquery("SELECT `id`, `author`, `post`, `posts` FROM `blog_read` WHERE `owner`='".$_GET['name']."'");
 $suc = false;
-while($wiersz = mysql_fetch_row($idzapytania)) {
-if($wiersz[1] == $_GET['searchname'] AND $wiersz[2] == $_GET['postid']) {
+$knownposts=0;
+while($rr = mysql_fetch_row($rq)) {
+if($rr[1] == $_GET['searchname'] AND $rr[2] == $_GET['postid']) {
 $suc = true;
+$knownposts=$rr[3];
 }
 }
 if($_GET['name']!="guest")
 if($suc == true)
-mquery("UPDATE `blog_read` SET `posts`=".$wiersze." WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['searchname']."' AND `post`=".$_GET['postid']);
+mquery("UPDATE `blog_read` SET `posts`=".mysql_num_rows($q)." WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['searchname']."' AND `post`=".$_GET['postid']);
 else
-mquery("INSERT INTO `blog_read` (id, owner, author, post, posts) VALUES ('','".$_GET['name']."','".$_GET['searchname']."',".$_GET['postid'].",".$wiersze.")");
-echo "0\r\n" . $wiersze . "\r\n" . $text;
+mquery("INSERT INTO `blog_read` (id, owner, author, post, posts) VALUES ('','".$_GET['name']."','".$_GET['searchname']."',".$_GET['postid'].",".mysql_num_rows($q).")");
+if($_GET['details']==1)
+$text=$knownposts."\r\n";
+while ($r = mysql_fetch_row($q)){
+$re += 1;
+if($_GET['details']==3)
+$text .= $r[0] . "\r\n" . $r[1] . "\r\n" . $r[3] . "\r\n" . $r[4] . "\r\n" . $r[5] . "\r\n" . $r[2] . "\r\nEND\r\n";
+elseif($_GET['details']==2)
+$text .= $r[0] . "\r\n" . $r[1] . "\r\n" . $r[3] . "\r\n" . $r[4] . "\r\n" . $r[2] . "\r\nEND\r\n";
+else
+$text .= $r[0] . "\r\n" . $r[1] . "\r\n" . $r[2] . "\r\n" . date("Y-m-d H:i:s",$r[3]) . "\r\n" . "\r\n" . "\r\nEND\r\n";
+}
+echo "0\r\n" . $re . "\r\n" . $text;
 ?>
