@@ -11,9 +11,9 @@ module EltenAPI
     # Opens the quit menu
     #
     # @param header [String] a message to read, header of the menu
-        def quit(header="Zamykanie programu...")
+        def quit(header=_("EAPI_Common:head_exiting"))
          dialog_open
-            sel = menulr(["Anuluj","Ukryj program w zasobniku systemowym","Wyjście"],true,0,header)
+            sel = menulr([_("General:str_cancel"),_("EAPI_Common:opt_tray"),_("General:str_quit")],true,0,header)
       loop do
         loop_update
         sel.update
@@ -57,7 +57,7 @@ sel.commandoptions=["Zabieraj mi to okno","Spadaj z mojego pulpitu","Mam ciebie 
 def console
                         kom = ""
         while kom == "" or kom == nil
-          kom = input_text("Podaj polecenia do wykonania","MULTILINE|ACCEPTESCAPE").to_s
+          kom = input_text(_("EAPI_Common:type_console"),"MULTILINE|ACCEPTESCAPE").to_s
           if kom == "\004ESCAPE\004"
             $scene = Scene_Main.new
             return
@@ -81,7 +81,7 @@ rescue Exception
   end
   lin=$@[0].split(":")[1].to_i
     plc+=kom.delete("\r").split("\n")[lin-1]
-  input_text("Wystąpił błąd podczas przetwarzania polecenia.","READONLY|MULTILINE",$!.to_s+"\r\n"+plc)
+  input_text(_("General:error_console"),"READONLY|MULTILINE",$!.to_s+"\r\n"+plc)
   r = true
   end
 $consoleused = false        
@@ -146,22 +146,22 @@ if bt[0].to_i == 0
     end
     play("menu_open") if submenu != true
 play("menu_background") if submenu != true
-sel = ["Napisz prywatną wiadomość","Wizytówka","Otwórz blog tego użytkownika","Pliki udostępniane przez tego użytkownika","Odznaczenia tego użytkownika"]
+sel = [_("EAPI_Common:opt_message"),_("EAPI_Common:opt_visitingcard"),_("EAPI_Common:opt_blog"),_("EAPI_Common:opt_sharedfiles"),_("EAPI_Common:opt_honors")]
 if $name!="guest"
 if @incontacts == true
-  sel.push("Usuń z kontaktów")
+  sel.push(_("EAPI_Common:opt_delcontact"))
 else
-  sel.push("Dodaj do kontaktów")
+  sel.push(_("EAPI_Common:opt_addcontact"))
 end
 else
   sel.push("")
   end
-sel.push("Odtwórz awatar")
+sel.push(_("EAPI_Common:opt_playavatar"))
 if $rang_moderator > 0
   if @isbanned == false
-    sel.push("Zbanuj")
+    sel.push(_("EAPI_Common:opt_ban"))
   else
-    sel.push("Odbanuj")
+    sel.push(_("EAPI_Common:opt_unban"))
   end
 else
   sel.push("")
@@ -169,7 +169,7 @@ else
   if $name!="guest"
   fl = srvproc("uploads","name=#{$name}\&token=#{$token}\&searchname=#{user}")
   if fl[0].to_i < 0
-    speech("Błąd")
+    speech(_("General:error"))
     speech_wait
     return
   end
@@ -218,7 +218,7 @@ if enter
             when 6
         play("menu_close")
       Audio.bgs_stop
-      speech("Pobieranie...")
+      speech(_("EAPI_Common:wait_downloading"))
       avatar(user)
             return("ALT")
       break        
@@ -284,7 +284,7 @@ mentions=agtemp[16].to_i
 $nversion=agtemp[2].to_f
 $nbeta=agtemp[3].to_i
                                     if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and ($nversion<$version or ($nversion==$version and $isbeta!=1))
-  speech("Nie ma nic nowego.") if quiet != true
+  speech(_("EAPI_Common:info_nothingnew")) if quiet != true
 else
     $scene = Scene_WhatsNew.new(true,agtemp)
 end
@@ -296,7 +296,7 @@ end
 # @param name [String] a soundtheme name
 def createsoundtheme(name="")
   while name == ""
-    name = input_text("Podaj nazwę tematu dźwiękowego.","ACCEPTESCAPE")
+    name = input_text(_("EAPI_Common:type_soundthemename"),"ACCEPTESCAPE")
   end
   return if name == "\004ESCAPE\004"
   pathname = name
@@ -329,13 +329,9 @@ end
 Graphics.update
 writeini($soundthemesdata + "\\inis\\" + pathname + ".ini","SoundTheme","Name","#{name} by #{$name}")
 writeini($soundthemesdata + "\\inis\\" + pathname + ".ini","SoundTheme","Path",pathname)
-speech("Pliki tematu dźwiękowego utworzone w: " + stp)
+speech(s_("EAPI_Common:info_soundthemecreation",{'dir'=>stp}))
 speech_wait
-speech("Nazwa tematu: " + name)
-speech_wait
-speech("Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład.")
-speech_wait
-sel = menulr(["Otwórz folder tematu w plikach","Otwórz folder tematu w systemowym eksploratorze plików","Zamknij"],true,0,"Co chcesz zrobić?")
+sel = menulr([_("EAPI_Common:opt_openthemedir"),_("EAPI_Common:opt_openthemedirinexplorer"),_("General:str_quit")],true,0,_("EAPI_Common:head_whattodo"))
 loop do
   loop_update
   sel.update
@@ -433,7 +429,7 @@ end
 def bug(getinfo=true,info="")
   loop_update
   if getinfo == true
-    info = prompt("Opisz znaleziony błąd","Wyślij")
+    info = prompt(_("EAPI_Common:type_errordsc"),_("EAPI_Common:btn_send"))
     if info == ""
     return 1
   end
@@ -446,77 +442,14 @@ def bug(getinfo=true,info="")
   bugtemp = srvproc("bug","name=#{$name}\&token=#{$token}\&buffer=#{buf}")
       err = bugtemp[0].to_i
   if err != 0
-    speech("Błąd.")
+    speech(_("General:error"))
     r = err
   else
-    speech("Wysłano.")
+    speech(_("EAPI_Common:info_sent"))
     r = 0
   end
   speech_wait
   return r
-end
-
-
-
-
-# @note this class is deprecated
-class Scene_Relogin
-def main
-  speech("Klucz sesji wygasł. Czy chcesz zalogować się ponownie jako #{$name} ?")
-  speech_wait
-      autologin = readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i
-                  name = readini($configdata + "\\login.ini","Login","Name")
-            al = true if autologin.to_i != 0 and name == $name
-  if simplequestion == 1
-    if al == false
-    password = input_text("Podaj hasło dla użytkownika #{$name}","password")
-else
-            password_c = "\0" * 128
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Login","password","0",password_c,password_c.size,$configdata + "\\login.ini")
-    password_c.delete!("\0")
-psw = password_c
-password = ""
-l = false
-mn = psw[psw.size - 1..psw.size - 1]
-mn = mn.to_i
-mn += 1
-l = false
-for i in 0..psw.size - 1 - mn
-  if l == true
-    l = false
-  else
-    password += psw[i..i]
-    l = true
-    end
-  end
-      password = decrypt(password)
-    password = password.gsub("a`","ą")
-password = password.gsub("c`","ć")
-password = password.gsub("e`","ę")
-password = password.gsub("l`","ł")
-password = password.gsub("n`","ń")
-password = password.gsub("o`","ó")
-password = password.gsub("s`","ś")
-password = password.gsub("x`","ź")
-password = password.gsub("z`","ż")
-end
-    logintemp = srvproc("login","login=1\&name=#{$name}\&password=#{password}\&version=#{$version.to_s}\&beta=#{$beta.to_s}\&relogin=1\&appid=#{$appid}")
-      $token = logintemp[1]
-  $token.delete!("\r\n")
-  $name = name
-if logintemp[0].to_i < 0
-  speech("Błąd, nie mogę się zalogować. Prawdopodobnie podano błędne hasło lub jesteś zbanowany.")
-  speech_wait
- $token = nil
- $scene = Scene_Main.new
-else
-  speech("Operacja zakończona powodzeniem")
-  $scene = Scene_Main.new
-  end
-else
-  $scene = Scene_Lodaing.new
-end
-end
 end
 
 
@@ -529,12 +462,12 @@ end
         err = ct[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Loading.new
         return
@@ -548,7 +481,7 @@ end
         $contact.push(ct[i]) if ct[i].size > 1
       end
       if $contact.size < 1
-        speech("Pusta Lista")
+        speech(_("EAPI_Common:info_listempty"))
         speech_wait
       end
       selt = []
@@ -582,11 +515,11 @@ loop_update
     err = vc[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       return -1
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         return -2
       end
@@ -628,11 +561,11 @@ if pr[0].to_i == 0
         end
         location = pr[6].delete("\r\n")
         text += fullname+"\r\n"
-        text+="Płeć: "
+        text+="#{_("EAPI_Common:txt_phr_gender")}: "
         if gender == 0
-          text += "kobieta\r\n"
+          text += "#{_("General:female")}\r\n"
         else
-          text += "mężczyzna\r\n"
+          text += "#{_("General:male")}\r\n"
         end
 if birthdateyear.to_i>0
         age = Time.now.year-birthdateyear.to_i
@@ -644,7 +577,7 @@ elsif Time.now.month == birthdatemonth.to_i
     end
   end
   age -= 2000 if age > 2000      
-  text += "Wiek: #{age.to_s}\r\n"
+  text += "#{_(EAPI_Common:txt_phr_age)}: #{age.to_s}\r\n"
   end
   end
   ui = userinfo(user)
@@ -660,7 +593,7 @@ text+= ui[0] + "\r\n"
 text += "Użytkownik "
 text += "nie " if ui[1] == false
 text += "posiada bloga.\r\n"
-text += "Zna użytkowników: " + ui[2].to_s + "\r\n"
+text += "#{_("EAPI_Common:txt_phr_knows")}: " + ui[2].to_s + "\r\n"
 if gender == -1 or $language!="PL_PL"
 text += "Znan(y/a)"
 elsif gender == 0
@@ -669,10 +602,10 @@ elsif gender == 1
   text += "Znany"
 end
 text += " przez użytkowników: " + ui[3].to_s + "\r\n"
-text += "Wpisy na forum: " + ui[4].to_s + "\r\n"
-text += "Rozwiązane ankiety: " + ui[7].to_s + "\r\n"
-text += "Używana wersja programu: " + ui[5].to_s + "\r\n"
-text += "Konto zarejestrowane: " + ui[6].to_s.split(" ")[0] + "\r\n" if ui[6]!=""
+text += "#{_("EAPI_Common:txt_phr_forumposts")}: " + ui[4].to_s + "\r\n"
+text += "#{_("EAPI_Common:txt_phr_pollsanswered")}: " + ui[7].to_s + "\r\n"
+text += "#{_("EAPI_Common:txt_phr_usedversion")}: " + ui[5].to_s + "\r\n"
+text += "#{_("EAPI_Common:txt_phr_registered")}: " + ui[6].to_s.split(" ")[0] + "\r\n" if ui[6]!=""
 end
 if vc[1]!="     " and vc.size!=1
 text += "\r\n\r\n"
@@ -680,7 +613,7 @@ text += "\r\n\r\n"
         text += vc[i]
       end
       end
-      inptr = Edit.new("Wizytówka: #{user}","READONLY|MULTILINE",text)
+      inptr = Edit.new(s_("Wizytówka: %{user}", {'user'=>user}),"READONLY|MULTILINE",text)
       loop do
         loop_update
         inptr.update
@@ -714,7 +647,7 @@ def versioninfo
     if $nversion > $version or $nbeta > $beta or $nalpha > $alpha or ($nalpha == 0 and $alpha != 0)
       $scene = Scene_Update_Confirmation.new
     else
-      speech("Brak dostępnych aktualizacji.")
+      speech(_("EAPI_Common:info_noupdates"))
       speech_wait
     end
   end
@@ -944,7 +877,7 @@ VII. Other
 3. Any user may report ambiguity or doubt as to the correctness of any point in these regulations.
 4. The author has the right to change or cancel the regulations at any time."
 end
-form = Form.new([Edit.new("Umowa licencyjna oraz regulamin użytkowania programu Elten oraz sieci Elten Network","MULTILINE|READONLY",@license,true),Button.new("Akceptuję"),Button.new("Nie akceptuję, zamknij program")])
+form = Form.new([Edit.new(_("EAPI_Common:read_useragreement"),"MULTILINE|READONLY",@license,true),Button.new(_("EAPI_Common:btn_agree")),Button.new(_("EAPI_Common:btn_disagree"))])
 loop do
   loop_update
   form.update
@@ -958,7 +891,7 @@ loop do
     if omit == true
       break
       else
-    q = simplequestion("Czy akceptujesz umowę licencyjną oprogramowania Elten?")
+    q = simplequestion(_("EAPI_Common:alert_useragreement"))
     if q == 0
       exit
     else
@@ -978,7 +911,7 @@ end
 # @param trydownload [Boolean] download a file if the codec doesn't support streaming
 def player(file,label="",wait=false,control=true,trydownload=false,stream=false)
   if File.extname(file).downcase==".mid" and FileTest.exists?($extrasdata+"\\soundfont.sf2") == false
-    if confirm("Próbujesz odtworzyć plik typu midi. Aby poprawnie odtwarzać pliki tego typu, program Elten wymaga zewnętrznej bazy brzmień instrumentów. Czy chcesz ją teraz pobrać z serwera? To może potrwać kilka minut.")==1
+    if confirm(_("EAPI_Common:alert_mididownloadsf"))==1
     downloadfile($url+"extras/soundfont.sf2",$extrasdata+"\\soundfont.sf2","Proszę czekać, trwa pobieranie bazy brzmień midi... To może potrwać kilka minut...","Baza brzmień została pobrana.")
     speech_wait
     Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,utf8($extrasdata+"\\soundfont.sf2"))
@@ -1006,7 +939,7 @@ else
 end
 sound.play
 rescue Exception
-  speech("Nie można odtworzyć tego pliku.")
+  speech(_("General:error_playing"))
   speech_wait
   return
 end   
@@ -1062,7 +995,7 @@ h=d/3600
     if $key[74]
       ppos=sound.position.to_i
       sound.pause
-      dpos=input_text("Podaj sekundę, do której chcesz przeskoczyć","ACCEPTESCAPE",ppos.to_s)
+      dpos=input_text(_("EAPI_Common:type_movetosec"),"ACCEPTESCAPE",ppos.to_s)
       dpos=ppos if dpos=="\004ESCAPE\004"
       dpos=dpos.to_i
       dpos=sound.length if dpos>sound.length
@@ -1088,13 +1021,13 @@ h=d/3600
         nm+=".opus"
         end
       end
-    loc=getfile("Gdzie chcesz zapisać ten plik?",getdirectory(40)+"\\",true,"Music")
+    loc=getfile(_("EAPI_Common:head_savelocation"),getdirectory(40)+"\\",true,"Music")
     if loc!=nil
-            speech("Pobieranie...")
+            speech(_("EAPI_Common:wait_downloading"))
                         waiting
                         executeprocess("bin\\ffmpeg -y -i \"#{file}\" \"#{loc}\\#{nm}\"",true)
                         waiting_end
-                                    speech("Zapisano")
+                                    speech(_("General:info_saved"))
       end
     end
     if $key[0x10]              ==false
@@ -1470,9 +1403,9 @@ if Win32API.new($eltenlib,"KeyState",'i','i').call(0x73) > 0
       $voice=-1
       end
   if $voice==-1
-        speech("Używanie czytnika ekranu")
+        speech(_("EAPI_Common:info_usingscreenreader"))
     else
-    speech("Używanie wybranej syntezy SAPI")
+    speech(_("EAPI_Common:info_usingsapi"))
   end
 else
   $scenes.insert(0,Scene_ShortKeys.new) if $scene.is_a?(Scene_ShortKeys)==false
@@ -1867,7 +1800,7 @@ def deldir(dir,with=true)
   # @note this function is reserved for Elten usage
   def tray
     if $ruby==true
-      speech("Ta funkcja nie jest dostępna na tej platformie.")
+      speech(_("General:error_platform"))
       speech_wait
       return
       end
@@ -1929,7 +1862,7 @@ def speechtofile(file="",text="",name="")
   for i in 0..100
     scl.push(i.to_s+"%")
     end
-    fields=[Edit.new("Tytuł","",name,true),Select.new(voices,true,$voice.abs,"Głos",true),Select.new(scl,true,$rate,"Szybkość",true),FilesTree.new("Lokalizacja docelowa",getdirectory(40)+"\\",true,true,"Music"),FilesTree.new("Plik do przeczytania",getdirectory(40)+"\\",false,true,"Documents"),Select.new(["Utwórz jeden plik","Dziel akapitami","Dziel co"],true,0,"Podział tekstu",true),Edit.new("Długość fragmentu (minuty)","","15",true),CheckBox.new("Odczytaj numer pliku"),Select.new(["mp3","ogg","wav"],true,0,"Format wyjściowy",true),Button.new("Podgląd"),Button.new("Potwierdź"),Button.new("Anuluj")]
+    fields=[Edit.new(_("EAPI_Common:type_title"),"",name,true),Select.new(voices,true,$voice.abs,_("EAPI_Common:head_voice"),true),Select.new(scl,true,$rate,_("EAPI_Common:head_rate"),true),FilesTree.new(_("EAPI_Common:head_dst"),getdirectory(40)+"\\",true,true,"Music"),FilesTree.new("Plik do przeczytania",getdirectory(40)+"\\",false,true,"Documents"),Select.new([_("EAPI_Common:opt_onefile"),_("EAPI_Common:opt_splitbyparagraphs"),_("EAPI_Common:opt_splitevery")],true,0,_("EAPI_Common:head_textsplit"),true),Edit.new(_("EAPI_Common:type_splitevery"),"","15",true),CheckBox.new(_("EAPI_Common:chk_readfilenum")),Select.new(["mp3","ogg","wav"],true,0,"Format wyjściowy",true),Button.new(_("EAPI_Common:btn_preview")),Button.new(_("EAPI_Common:btn_confirm")),Button.new(_("General:str_cancel"))]
     fields[4]=nil if file!="" or text!=""
     splittime=fields[6]
     splitinform=fields[7]
@@ -1990,7 +1923,7 @@ if (enter or space)
     Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
     Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
   else
-    speech("Nie wybrano pliku do przeczytania")
+    speech(_("EAPI_Common:error_nofiletoread"))
   end
 end
 if form.index==10
@@ -2002,11 +1935,11 @@ if form.index==10
       ttext=read(fields[4].selected) if File.file?(fields[4].selected(false))
     end
   if fields[0].text==""
-    speech("Podaj tytuł tworzonego pliku")
+    speech(_("EAPI_Common:error_nofilename"))
   elsif File.directory?(fields[3].selected(false))==false
-    speech("Wybierz miejsce zapisu pliku")
+    speech(_("EAPI_Common:error_seldestination"))
   elsif ttext==""
-    speech("Wybierz plik źródłowy")
+    speech(_("EAPI_Common:error_selsource"))
   else
     cmd="bin\\rubyw bin/sapi.dat "
     cmd+="/v #{fields[1].index} "
@@ -2055,7 +1988,7 @@ if fields[5]!=nil
       h=run(cmd,true)
       play("waiting")
       starttm=Time.now.to_i
-edt=Edit.new("Czytanie do pliku, proszę czekać...","READONLY|MULTILINE","",true)
+edt=Edit.new(_("EAPI_Common:read_readingtofile"),"READONLY|MULTILINE","",true)
 f=false            
 t = 0
 file=0
@@ -2095,7 +2028,7 @@ loop do
         tx=read(outfl)
                 if /(\d+):(\d+)\/(\d+):(\d+)\/(\d+):(\d+)\/(\d+)/=~tx
                   if $4.to_i>0 and $5.to_i>0
-                  edt.settext("#{($4.to_f/($5.to_f+1.0)*100.0).to_i}%\r\nCzytanie do pliku numer #{$1}#{if maxd==0;"";else;" ("+(($6.to_f/maxd.to_f*100.0).to_i%101).to_s+"%)";end}\r\nZdanie #{$2} z #{$3}\r\nOdczytano #{sprintf("%02d:%02d:%02d",$7.to_i/3600,($7.to_i/60)%60,$7.to_i%60)}#{if Time.now.to_i>starttm;"\r\nSzacowany pozostały czas "+sprintf("%02d:%02d:%02d",((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/3600,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/60%60,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i%60);else;"";end}",false)
+                  edt.settext("#{($4.to_f/($5.to_f+1.0)*100.0).to_i}%\r\n#{_("EAPI_Common:txt_phr_readtofilenum")} #{$1}#{if maxd==0;"";else;" ("+(($6.to_f/maxd.to_f*100.0).to_i%101).to_s+"%)";end}\r\n#{s_("EAPI_Common:txt_phr_sentencenumber",{'cursentence'=>$2,'sentences'=>$3})}\r\n#{_("EAPI_Common:txt_phr_readtime")} #{sprintf("%02d:%02d:%02d",$7.to_i/3600,($7.to_i/60)%60,$7.to_i%60)}#{if Time.now.to_i>starttm;"\r\n#{_("EAPI_Common:txt_phr_timeremaining")}"+sprintf("%02d:%02d:%02d",((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/3600,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/60%60,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i%60);else;"";end}",false)
           file=$1.to_i
           if f == false
           edt.focus
@@ -2110,7 +2043,7 @@ x.delete!("\0")
 if x != "\003\001"
   $voice=$ovoice
     file+=1
-    edt.settext("Proszę czekać, trwa przetwarzanie plików...")
+    edt.settext(_("EAPI_Common:read_waitprocessingfiles"))
     edt.focus
  fn=true
    while th.status!=false and th.status!=nil
@@ -2121,8 +2054,8 @@ if x != "\003\001"
    edt.update
    end
   waiting_end
-   speech("Czytanie do pliku zakończone.")
-  speech_wait
+   speech(_("EAPI_Common:info_readtofilefinished"))
+  speech_wasp
   break
   end
 end
@@ -2142,7 +2075,7 @@ break
          executeprocess("bin\\7z x \"#{source}\" -y -o\"#{destination}\"",true)
          waiting_end
        end
-       def compress(source,destination,msg="Pakowanie...")
+       def compress(source,destination,msg=_("EAPI_Common:wait_packing"))
          speech(msg)
          waiting
 ext=File.extname(destination).downcase

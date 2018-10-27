@@ -744,7 +744,7 @@ Wersja 2.283:
 for i in 0..@changes.size - 1
   @selt.push(strbyline(@changes[i])[1].delete(":").sub("Wersja ",""))
   end
-@sel = Select.new(@selt,true,0,"Lista zmian")
+@sel = Select.new(@selt,true,0,_("Changes:head"))
 loop do
   loop_update
   @sel.update

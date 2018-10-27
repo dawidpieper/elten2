@@ -229,7 +229,7 @@ if $rvc==nil
           if $voice == -2 or $voice == -3
           v=$voice
           $voice=-1
-          speech("Nie wybrano głosu programu. Naciśnij enter, aby wybrać głos SAPI lub escape, aby użyć głosu domyślnego lub aktywnego czytnika ekranu.")
+          speech(_("Loading:info_novoice"))
           until enter or escape
             loop_update
           end
@@ -325,7 +325,7 @@ if $portable != 1
           $scene = Scene_Update_Confirmation.new
       return
     else
-      speech("Dostępna jest nowa wersja programu.")
+      speech(_("Loading:alert_newversion"))
       speech_wait
       end
     end
@@ -334,7 +334,7 @@ if $portable != 1
         File.delete("testtemp") if FileTest.exists?("testtemp")
         $neterror = false
       else
-        speech("Błąd. Nie mogę połączyć się z serwerem.")
+        speech(_("General:error"))
         $offline=true
         delay(3)
         speech_wait
@@ -354,7 +354,7 @@ license
             $scene = Scene_Login.new
       return
     end
-    $cw = Select.new(["Zaloguj Się","Rejestracja","Reset hasła","Otwórz na koncie gościa","Ustawienia interfejsu","Zmień syntezator mowy","Language / Język","Wymuś aktualizację lub reinstalację z serwera","Wyjście"])
+    $cw = Select.new([_("Loading:opt_login"),_("Loading:opt_register"),_("Loading:opt_forgottenpass"),_("Loading:opt_guest"),_("Loading:opt_interfacesettings"),_("Loading:opt_changesynth"),"Language / Język",_("Loading:opt_reinstall"),_("General:str_quit")])
     loop do
 loop_update
       $cw.update

@@ -7,7 +7,7 @@
 
 class Scene_Main
   def main
-    #t=NEdit.new("test",NEdit::Flags::MultiLine)
+    #t=NEdit.new(_("Main:type_test"),NEdit::Flags::MultiLine)
 #loop do
 #loop_update
 #t.update
@@ -74,14 +74,14 @@ end
       #$scene = Scene_Update_Confirmation.new($scene)
       #return
     else
-      speech("Dostępna jest nowa wersja beta programu.")
+      speech(_("Main:alert_newbeta"))
       speech_wait
       end
     end                                                                                                              
               $speech_lasttext = ""
         $ctrldisable = false
         key_update
-        speech("Naciśnij klawisz ALT, aby otworzyć menu")
+        speech(_("Main:info_pressalt"))
         ci = 0
 plsinfo = false
     loop do
@@ -93,8 +93,8 @@ selt = []
 for i in 0..$playlist.size - 1
   selt.push(File.basename($playlist[i]))
 end
-@sel = Select.new(selt,true,$playlistindex,"Playlista",true)
-@form=Form.new([@sel,Static.new("Odtwarzacz"),Button.new("Ustaw jako awatar"),Button.new("Wyślij na serwer"),Button.new("Mieszaj"),Button.new("Wyczyść playlistę")],0,true)
+@sel = Select.new(selt,true,$playlistindex,_("Main:head_pls"),true)
+@form=Form.new([@sel,Static.new(_("Main:head_player")),Button.new(_("Main:btn_avatar")),Button.new(_("Main:btn_send")),Button.new(_("Main:btn_shuffle")),Button.new(_("Main:btn_erasepls"))],0,true)
 @form.fields[2..3]=[nil,nil] if $name=="guest"
     end
   end
@@ -137,8 +137,8 @@ ind=$playlistindex
 for i in 0..$playlist.size - 1
   selt.push(File.basename($playlist[i]))
 end
-@form.fields[0]=@sel=Select.new(selt,true,$playlistindex,"Playlista",true)
-speech("Playlista wymieszana")
+@form.fields[0]=@sel=Select.new(selt,true,$playlistindex,_("Main:head_pls"),true)
+speech(_("Main:info_shuffled"))
   elsif @form.index == 5
   $playlist=[]
   $scene=Scene_Main.new
@@ -168,8 +168,8 @@ elsif @form.index == 3
 for i in 0..$playlist.size - 1
   selt.push(File.basename($playlist[i]))
 end
-@form.fields[0]=@sel=Select.new(selt,true,$playlistindex,"Playlista",true)
-speech("Playlista wymieszana")
+@form.fields[0]=@sel=Select.new(selt,true,$playlistindex,_("Main:head_pls"),true)
+speech(_("Main:info_shuffled"))
   elsif @form.index==5
   $playlist=[]
   $scene=Scene_Main.new
@@ -185,14 +185,14 @@ end
 for i in 0..$playlist.size - 1
   selt.push(File.basename($playlist[i]))
 end
-@form.fields[0]=@sel=Select.new(selt,true,$playlistindex,"Playlista",true)
+@form.fields[0]=@sel=Select.new(selt,true,$playlistindex,_("Main:head_pls"),true)
 if selt.size > 0
 speech(@sel.commandoptions[@sel.index])
 else
   $playlistbuffer.pause
   $playlistbuffer = nil
   @sel = nil
-  speech("Playlista usunięta.")
+  speech(_("Main:info_plserased"))
   end
   end
   if @form != nil and @form.index == 0 and $key[0x10]==true

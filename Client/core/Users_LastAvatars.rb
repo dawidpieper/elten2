@@ -9,7 +9,7 @@ class Scene_Users_LastAvatars
   def main
     avt=srvproc("lastavatars","name=#{$name}\&token=#{$token}")
     if avt[0].to_i<0
-      speech("Błąd.")
+      speech(_("General:error"))
       speech_wait
       return $scene=Scene_Main.new
     end
@@ -34,7 +34,7 @@ class Scene_Users_LastAvatars
     for i in 0..29
       selt.push(@users[i]+" ("+@times[i]+")"+".\r\n"+getstatus(@users[i]))
     end
-    @sel=Select.new(selt,true,0,"Ostatnio zmienione awatary")
+    @sel=Select.new(selt,true,0,_("Users_LastAvatars:head"))
     loop do
       loop_update
       @sel.update

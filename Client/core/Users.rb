@@ -11,17 +11,17 @@ class Scene_Users
         err = @users[0].to_i
     case err
     when -1
-      speech("Błąd połączenia się z bazą danych.")
+      speech(_("General:error_db"))
       speech_wait
       $scene = Scene_Main.new
       return
       when -2
-        speech("Klucz sesji wygasł.")
+        speech(_("General:error_tokenexpired"))
         speech_wait
         $scene = Scene_Main.new
         return
         when -3
-          speech("Nie masz odpowiednich uprawnień, by wykonać tę operację.")
+          speech(_("General:error_permissions"))
           $scene = Scene_Main.new
           return
     end
@@ -37,7 +37,7 @@ class Scene_Users
     for i in 0..usr.size - 1
       selt[i] = usr[i] + ". " + getstatus(usr[i])
       end
-    @sel = Select.new(selt,false,0,"Lista użytkowników")
+    @sel = Select.new(selt,false,0,_("Users:head"))
     @usr = usr
     loop do
 loop_update
@@ -59,7 +59,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(sel = [@usr[@sel.index],"Odświerz","Anuluj"])
+@menu = menulr(sel = [@usr[@sel.index],_("General:str_refresh"),_("General:str_cancel")])
 loop do
 loop_update
 @menu.update

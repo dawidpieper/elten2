@@ -298,7 +298,7 @@ CTRL + J - go to post
 Other shortcuts:
 CTRL + SHIFT + ALT + T - return from the tray"
 end
-    input_text("Lista skrótów klawiszowych","MULTILINE|READONLY|ACCEPTESCAPE",@shorts)
+    input_text(_("ShortKeys:head"),"MULTILINE|READONLY|ACCEPTESCAPE",@shorts)
 speech_stop
 $scene = Scene_Main.new
 end

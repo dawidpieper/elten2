@@ -10,7 +10,7 @@ class Scene_Media
     $rec=Bass::Record.new("tojesttest.opus")
     mediatemp = srvproc("media","name=#{$name}\&token=#{$token}")
         if mediatemp[0].to_i < 0
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       $sene = Scene_Main.new
       return
@@ -41,7 +41,7 @@ class Scene_Media
       l += 1
       break if l >= mediatemp.size-1
       end
-    @sel = Select.new(@category + ["Nowa kategoria","Podaj adres URL"])
+    @sel = Select.new(@category + [_("Media:opt_newcat"),_("Media:opt_url")])
     @sel.disable_item(@sel.commandoptions.size-2) if $name=="guest"
     loop do
 loop_update
@@ -53,14 +53,14 @@ loop_update
     def update
       if enter
                 if @sel.index == @sel.commandoptions.size - 1
-        url = input_text("podaj adres URL","ACCEPTESCAPE")
+        url = input_text(_("Media:type_url"),"ACCEPTESCAPE")
         if url == "\004ESCAPE\004"
           main
           return
           end
           play("menu_open")
           play("menu_background")
-          sel = menulr(["Odtwarzaj","Dodaj do playlisty","Anuluj"])      
+          sel = menulr([_("Media:opt_play"),_("Media:opt_addtopls"),_("General:str_cancel")])      
           loop do
             loop_update
                         sel.update
@@ -98,7 +98,7 @@ loop_update
   def main
         mediatemp = srvproc("media","name=#{$name}\&token=#{$token}\&get=#{@id}")
         if mediatemp[0].to_i < 0
-      speech("Błąd")
+      speech(_("General:error"))
       speech_wait
       $scene = Scene_Main.new
       return
@@ -133,7 +133,7 @@ loop_update
       l += 1
       break if l >= mediatemp.size-1
       end
-    @sel = Select.new(@filename + ["Nowy plik"])
+    @sel = Select.new(@filename + [_("Media:opt_newfile")])
     @sel.disable_item(@sel.commandoptions.size-1) if $name=="guest"
     loop do
 loop_update
@@ -146,7 +146,7 @@ loop_update
       if enter
                 if @sel.index < @sel.commandoptions.size - 1
         url = @fileurl[@sel.index]
-                sel = menulr(["Odtwarzaj","Dodaj do playlisty","Anuluj"])      
+                sel = menulr([_("Media:opt_play"),_("Media:opt_addtopls"),_("General:str_cancel")])      
           play("menu_open")
           play("menu_background")
                 loop do
@@ -180,10 +180,10 @@ loop_update
 class Scene_Media_New
   def main
     @fields = []
-    @fields[0] = Edit.new("Nazwa kategorii","","",true)
-    @fields[1] = Edit.new("Opis kategorii","MULTILINE","",true)
-    @fields[2] = Button.new("Dodaj")
-    @fields[3] = Button.new("Anuluj")
+    @fields[0] = Edit.new(_("Media:type_catname"),"","",true)
+    @fields[1] = Edit.new(_("Media:type_categorydescription"),"MULTILINE","",true)
+    @fields[2] = Button.new(_("Media:btn_add"))
+    @fields[3] = Button.new(_("General:str_cancel"))
     @form = Form.new(@fields)
     loop do
       loop_update
@@ -203,12 +203,12 @@ if (enter or space) and (@form.index == 2 or $key[0x11] == true)
   categorydescription = @form.fields[1].text_str
     mt = srvproc("media_mod","name=#{$name}\&token=#{$token}\&categoryname=#{categoryname}\&categorydescription=#{categorydescription}")
     if mt[0].to_i < 0
-    speech("Błąd")
+    speech(_("General:error"))
     speech_wait
     $scene = Scene_Media.new
     return
   end
-  speech("Kategoria została dodana!")
+  speech(_("Media:info_categorycreated"))
   speech_wait
   $scene = Scene_Media.new
   return
@@ -222,11 +222,11 @@ if (enter or space) and (@form.index == 2 or $key[0x11] == true)
       end
       def main
                 @fields = []
-        @fields[0] = Edit.new("Tytuł","","",true)
-        @fields[1] = Edit.new("Adres URL","","",true)
-        @fields[2] = Edit.new("Opis","MULTILINE","",true)
-        @fields[3] = Button.new("Dodaj")
-        @fields[4] = Button.new("Anuluj")
+        @fields[0] = Edit.new(_("Media:type_name"),"","",true)
+        @fields[1] = Edit.new(_("Media:type_url"),"","",true)
+        @fields[2] = Edit.new(_("Media:type_dsc"),"MULTILINE","",true)
+        @fields[3] = Button.new(_("Media:btn_add"))
+        @fields[4] = Button.new(_("General:str_cancel"))
         @form = Form.new(@fields)
         loop do
           loop_update
@@ -249,12 +249,12 @@ if (enter or space) and (@form.index == 2 or $key[0x11] == true)
 s = false
     mt = srvproc("media_mod","name=#{$name}\&token=#{$token}\&set=#{@id.to_s}\&filename=#{filename}\&fileurl=#{fileurl}\&filedescription=#{filedescription}")
 if mt[0].to_i < 0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
   $scene = Scene_Media_Category.new(@id)
   return
 end
-speech("Dodano.")
+speech(_("Media:info_added"))
 speech_wait
 $scene = Scene_Media_Category.new(@id)
             end

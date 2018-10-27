@@ -42,7 +42,7 @@ module EltenAPI
   statustemp = srvproc("status_list","name=#{$name}\&token=#{$token}")
     err = statustemp[0].to_i
   if err != 0
-    speech("Błąd.")
+    speech(_("General:error"))
     speech_wait
     $scene = Scene_Main.new
     return
@@ -156,7 +156,7 @@ return buffer_post(dt)
     end
       buft = srvproc("buffer","name=#{$name}\&token=#{$token}\&ac=1\&id=#{bufid}\&data=#{bufdt[0]}")
             if buft[0].to_i < 0
-        speech("Błąd")
+        speech(_("General:error"))
         speech_wait
         $scene = Scene_Main.new
         return -1
@@ -164,7 +164,7 @@ return buffer_post(dt)
       for i in 1..bufdt.size - 1
               buft = srvproc("buffer","name=#{$name}\&token=#{$token}\&ac=2\&id=#{bufid}\&data=#{bufdt[i]}")
                           if buft[0].to_i < 0
-        speech("Błąd")
+        speech(_("General:error"))
         speech_wait
         $scene = Scene_Main.new
         return -1
@@ -181,16 +181,16 @@ def avatar(user)
     avatartemp = srvproc("avatar","name=#{$name}\&token=#{$token}\&searchname=#{user}\&checkonly=1",1)
   case strbyline(avatartemp)[0].to_i
   when -4
-    speech("Użytkownik nie posiada avatara.")
+    speech(_("EAPI_EltenSRV:error_noavatar"))
     speech_wait
     return
     when -2
-      speech("Klucz sesji wygasł.")
+      speech(_("General:error_tokenexpired"))
       speech_wait
       $scene = Scene_Loading.new
       return
       when -1
-        speech("Błąd połączenia się z bazą danych.")
+        speech(_("General:error_db"))
         speech_wait
         return
       end
@@ -204,8 +204,8 @@ def avatar(user)
                         # @param file [String] a file location
     def avatar_set(file)
       waiting
-      speech("Proszę czekać, to może potrwać kilka minut...")
-      speech("Konwertowanie pliku...",0)
+      speech(_("EAPI_EltenSRV:wait_severalminutes"))
+      speech(_("EAPI_EltenSRV:wait_converting"),0)
       File.delete("temp\\avatartemp.opus") if FileTest.exists?("temp\\avatartemp.opus")
       h = run("bin\\ffmpeg.exe -y -i \"#{file}\" -b:a 96K temp\\avatartemp.opus",true)
       t = 0
@@ -220,7 +220,7 @@ if x != "\003\001"
   end
 t += 10.0/Graphics.frame_rate
 if t > tmax
-  speech("błąd")
+  speech(_("General:error"))
   return -1
   break
   end
@@ -246,7 +246,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech("Błąd")
+    speech(_("General:error"))
     waiting_end
     return
   end
@@ -257,9 +257,9 @@ avt = bt[1].to_i
             speech_wait
             waiting_end
             if avt < 0
-      speech("Błąd")
+      speech(_("General:error"))
     else
-      speech("Zapisano")
+      speech(_("General:info_saved"))
     end
     speech_wait
     return
@@ -284,7 +284,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech("Błąd")
+    speech(_("General:error"))
     return
   end
   sn = a[s..a.size - 1]
@@ -293,7 +293,7 @@ for i in 0..a.size - 1
   a = nil
         bt = strbyline(sn)
 if bt[1].to_i < 0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
   return
 end
@@ -316,7 +316,7 @@ end
                   usrinf = []
                                                       uit = srvproc("userinfo","name=#{$name}\&token=#{$token}\&searchname=#{user}")
                                     if uit[0].to_i < 0
-                    speech("Błąd")
+                    speech(_("General:error"))
                     return -1
                   end
                   if uit[1].to_i > 1000000000 and uit[1].to_i < 2000000000
@@ -398,7 +398,7 @@ end
   tm = Time.now
   stoptm = tm.to_i+tm.usec/1000000.0
   time=(((stoptm-starttm)*1000)/30).to_i
-  speech("Czas potwierdzenia sesji: #{time.to_s}ms.")
+  speech("#{_("EAPI_EltenSRV:info_phr_sessconftime")}: #{time.to_s}ms.")
     speech_wait
 return time
 end
@@ -412,7 +412,7 @@ end
 def user_exist(usr)
   ut = srvproc("user_exist","name=#{$name}\&token=#{$token}\&searchname=#{usr}")
     if ut[0].to_i < 0
-    speech("Błąd")
+    speech(_("General:error"))
     speech_wait
     return false
   end
@@ -439,7 +439,7 @@ end
                                def signature(user)
                                  sg = srvproc("signature","name=#{$name}\&token=#{$token}\&get=1\&searchname=#{user}")
                                  if sg[0].to_i < 0
-                                   speech("Błąd")
+                                   speech(_("General:error"))
                                    speech_wait
                                    return ""
                                  end
@@ -477,7 +477,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech("Błąd")
+    speech(_("General:error"))
     return nil
   end
   sn = a[s..a.size - 1]
@@ -486,10 +486,10 @@ for i in 0..a.size - 1
 err = bt[0].to_i
             speech_wait
                         if err < 0
-      speech("Błąd")
+      speech(_("General:error"))
     speech_wait
       else
-speech("Wysłano") if msg==true
+speech(_("EAPI_EltenSRV:info_sent")) if msg==true
         return bt[1].delete("\r\n")
     end
         return nil
@@ -504,7 +504,7 @@ speech("Wysłano") if msg==true
   def finduser(usr,type=0)
 usf=srvproc("user_search","name=#{$name}\&token=#{$token}\&search=#{usr}")    
 if usf[0].to_i<0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
   if type<2
   return ""
@@ -525,7 +525,7 @@ for u in usf[2..1+usf[1].to_i]
 end
 return results[0] if type==0 or (type == 1 and results.size == 1)
 return results if type==2
-index=selector(results,"Wybierz użytkownika",0,-1)
+index=selector(results,_("EAPI_EltenSRV:head_seluser"),0,-1)
 if index == -1
   return ""
 else

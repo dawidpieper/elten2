@@ -10,11 +10,11 @@ class Scene_MyPermissions
     if $rang_moderator != 0 or $rang_media_administrator != 0 or $rang_translator != 0 or $rang_developer != 0 or $rang_tester != 0
             sel = []
       sel.push("Betatesterzy") if $rang_tester > 0
-      sel.push("Moderatorzy") if $rang_moderator > 0
-      sel.push("Administratorzy mediów") if $rang_media_administrator > 0
-      sel.push("Tłumacze") if $rang_translator > 0
-      sel.push("Programiści") if $rang_developer > 0
-      @sel = Select.new(sel,true,0,"Należysz do następujących grup")
+      sel.push(_("MyPermissions:opt_moderators")) if $rang_moderator > 0
+      sel.push(_("MyPermissions:opt_mediaadministrators")) if $rang_media_administrator > 0
+      sel.push(_("MyPermissions:opt_translators")) if $rang_translator > 0
+      sel.push(_("MyPermissions:opt_developers")) if $rang_developer > 0
+      @sel = Select.new(sel,true,0,_("Permissions:head"))
       loop do
 loop_update
         @sel.update
@@ -28,7 +28,7 @@ loop_update
         break if $scene != self
         end
     else
-      speech("Nie posiadasz żadnych specjalnych uprawnień.")
+      speech(_("MyPermissions:info_nopermissions"))
       speech_wait
       $scene = Scene_Main.new
       end
@@ -36,7 +36,7 @@ loop_update
     def menu
 play("menu_open")
 play("menu_background")
-@menu = menulr(["Anuluj"])
+@menu = menulr([_("General:str_cancel")])
 loop do
 loop_update
 @menu.update

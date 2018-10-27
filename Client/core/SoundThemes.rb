@@ -30,7 +30,7 @@ for i in 0..st.size - 1
       $soundtheme[i] = readini($soundthemesdata + "\\inis\\" + st[i],"SoundTheme","Name")
       end
   if st.size <= 0
-    speech("Brak tematów dźwiękowych.")
+    speech(_("SoundThemes:info_nothemes"))
     speech_wait
     if canceled == false
     stdownload
@@ -40,11 +40,11 @@ for i in 0..st.size - 1
 return
   end
   @stsize = $soundtheme.size
-  $soundtheme.push("Temat Domyślny")
+  $soundtheme.push(_("SoundThemes:opt_default"))
   loop_update
     @selt = $soundtheme
-  @selt.push("Pobierz tematy dźwiękowe")
-  @sel = Select.new(@selt,false,0,"Tematy dźwiękowe")
+  @selt.push(_("SoundThemes:opt_download"))
+  @sel = Select.new(@selt,false,0,_("SoundThemes:head"))
   loop do
 loop_update
     @sel.update
@@ -66,7 +66,7 @@ loop_update
     if $soundthemepath.size < 1
       $soundthemepath = ""
       @name = ""
-      speech("Błąd.")
+      speech(_("General:error"))
       speech_wait
           else
       $soundthemepath = tmp
@@ -81,7 +81,7 @@ loop_update
     end
                    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
                 iniw.call('SoundTheme','Path',@name,utf8($configdata + "\\soundtheme.ini"))
-                speech("Zapisano.")
+                speech(_("General:info_saved"))
                 speech_wait
                           $soundthemespath = @name
         if $soundthemespath.size > 0
@@ -96,7 +96,7 @@ loop_update
       sttemp = srvproc("soundthemes","name=#{$name}\&token=#{$token}")
             err = sttemp[0].to_i
       if err < 0
-        speech("Błąd.")
+        speech(_("General:error"))
         speech_wait
         $scene = Scene_Main.new
         return
@@ -197,7 +197,7 @@ for i in 0..imax = set.size - 1
     loop_update
   end
   download(url = $url + ini,$eltendata + "/" + ini)
-  speech("Zapisano")
+  speech(_("General:info_saved"))
   speech_wait
   main
   return

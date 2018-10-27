@@ -7,7 +7,7 @@
 
 class Scene_Debug
   def main
-    @form=Form.new([Edit.new("Raport","MULTILINE|READONLY",createdebuginfo),CheckBox.new("Sygnalizuj połączenia z serwerem",$netsignal.to_i),Button.new("OK")])
+    @form=Form.new([Edit.new(_("Debug:read_report"),"MULTILINE|READONLY",createdebuginfo),CheckBox.new(_("Debug:chk_srvconnectionsignal"),$netsignal.to_i),Button.new(_("Debug:btn_ok"))])
     loop do
       loop_update
       @form.update

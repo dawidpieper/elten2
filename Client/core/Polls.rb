@@ -12,7 +12,7 @@ class Scene_Polls
   def main
     polls=srvproc("polls","name=#{$name}\&token=#{$token}\&list=1")
 if polls[0].to_i<0
-  speech("Błąd")
+  speech(_("General:error"))
   $scene=Scene_Main.new
   return
 end
@@ -47,7 +47,7 @@ end
 selt=[]
 for poll in @polls
 if poll != nil
-  selt.push("#{poll.name}\r\nAutor: #{poll.author}\r\n#{poll.description}")
+  selt.push("#{poll.name}\r\n#{_("Polls:opt_phr_author")}: #{poll.author}\r\n#{poll.description}")
   end
 end
 index=0
@@ -56,7 +56,7 @@ for i in 0..@polls.size-1
   index=i if @polls[i].id==@lastpoll
       end
   end
-@sel=Select.new(selt,true,index,"Ankiety")
+@sel=Select.new(selt,true,index,_("Polls:head"))
 loop do
   loop_update
   @sel.update
@@ -70,7 +70,7 @@ def menu(kenter=false)
   play("menu_open")
          play("menu_background")
          loop_update
-         sel=menulr(["Głosuj","Pokaż wyniki","Usuń","Nowa ankieta","Odśwież","Anuluj"],true,0,"",true)
+         sel=menulr([_("Polls:btn_vote"),_("Polls:opt_results"),_("General:str_delete"),_("Polls:opt_new"),_("General:str_refresh"),_("General:str_cancel")],true,0,"",true)
                   if kenter == true
 sel.disable_item(2)
                     sel.disable_item(3)
@@ -81,7 +81,7 @@ sel.disable_item(2)
        if $name!="guest"
          v=srvproc("polls","name=#{$name}\&token=#{$token}\&voted=1\&poll=#{@polls[@sel.index].id}")
        if v[0].to_i<0
-         speech("Błąd")
+         speech(_("General:error"))
          speech_wait
          $scene=Scene_Main.new
          return
@@ -125,12 +125,12 @@ sel.disable_item(2)
            when 1
              $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
              when 2
-               if simplequestion("Czy jesteś pewien, że chcesz usunąć tą ankietę: #{@polls[@sel.index].name}?") == 1
+               if simplequestion(s_("Polls:alert_delete", {'name'=>@polls[@sel.index].name})) == 1
                  pl=srvproc("polls","name=#{$name}\&token=#{$token}\&del=1\&id=#{@polls[@sel.index].id}")
                  if pl[0].to_i<0
-                   speech("Błąd")
+                   speech(_("General:error"))
                  else
-                   speech("Usunięto")
+                   speech(_("Polls:info_deleted"))
                    @sel.disable_item(@sel.index)
                    @sel.focus
                  end
@@ -150,7 +150,7 @@ end
 
 class Scene_Polls_Create
   def main
-  @fields=[Edit.new("Nazwa ankiety","","",true),Edit.new("Opis","MULTILINE","",true),Select.new(["Dodaj nowe pytanie"],true,0,"Pytania",true),Button.new("Utwórz"),Button.new("Anuluj")]
+  @fields=[Edit.new(_("Polls:type_pollname"),"","",true),Edit.new(_("Polls:type_description"),"MULTILINE","",true),Select.new([_("Polls:opt_newquestion")],true,0,_("Polls:head_questions"),true),Button.new(_("Polls:btn_create")),Button.new(_("General:str_cancel"))]
   @form=Form.new(@fields)
   @questions=[]
   loop do
@@ -175,13 +175,13 @@ loop_update
        q=@fields[2].index
        qs=@questions[q]
        @questions[q]=["",0] if @questions[q]==nil
-       @qfields=[Edit.new("Pytanie","",@questions[q][0],true),Select.new(["Jednokrotnego wyboru","Wielokrotnego wyboru","Pole tekstowe"],true,@questions[q][1],"Metoda odpowiadania",true),Select.new(@questions[q][2..@questions[q].size-1]+["Dodaj nową odpowiedź"],true,0,"Odpowiedzi"),Button.new("Zapisz"),Button.new("Anuluj")]
+       @qfields=[Edit.new(_("Polls:head_question"),"",@questions[q][0],true),Select.new([_("Polls:opt_singlechoice"),_("Polls:opt_multiplechoice"),_("Polls:opt_textfield")],true,@questions[q][1],_("Polls:head_answertype"),true),Select.new(@questions[q][2..@questions[q].size-1]+[_("Polls:opt_newanswer")],true,0,_("Polls:head_answers")),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))]
        @qform=Form.new(@qfields)
               loop do
          loop_update
          @qform.update
          if @qfields[1].index<2 and @qfields[2]==nil
-           @qfields[2]=Select.new(@questions[q][2..@questions[q].size-1]+["Dodaj nową odpowiedź"],true,0,"Odpowiedzi",true)
+           @qfields[2]=Select.new(@questions[q][2..@questions[q].size-1]+[_("Polls:opt_newanswer")],true,0,_("Polls:head_answers"),true)
          elsif @qfields[1].index==2 and @qfields[2]!=nil
            @qfields[2]=nil
            end
@@ -201,8 +201,8 @@ loop_update
     case @qform.index
     when 2
             @questions[q][2+@qfields[2].index]="" if @questions[q][2+@qfields[2].index]==nil
-      @questions[q][2+@qfields[2].index]=input_text("Odpowiedź","",@questions[q][2+@qfields[2].index])
-      @qfields[2].commandoptions=@questions[q][2..@questions[q].size-1]+["Dodaj nową odpowiedź"]
+      @questions[q][2+@qfields[2].index]=input_text(_("Polls:type_answer"),"",@questions[q][2+@qfields[2].index])
+      @qfields[2].commandoptions=@questions[q][2..@questions[q].size-1]+[_("Polls:opt_newanswer")]
 @qfields[2].focus      
 when 3
   if @questions[q].size>3 or @qfields[1].index==2
@@ -210,9 +210,9 @@ when 3
   @questions[q][1]=@qfields[1].index
   break
 elsif @questions[q].size==2
-  speech("Pytanie nie ma odpowiedzi")
+  speech(_("Polls:error_noanswer"))
 else
-  speech("Pytanie ma tylko jedną odpowiedź")
+  speech(_("Polls:error_questiononeanswer"))
   end
         when 4
           @questions[q]=qs
@@ -225,7 +225,7 @@ qu=[]
            for q in @questions
   qu.push(q[0]) if q!=nil
   end
-  @fields[2].commandoptions = qu+["Nowe pytanie"]
+  @fields[2].commandoptions = qu+[_("Polls:opt_newquestion")]
   @fields[2].focus
            when 3
 qus="["
@@ -248,10 +248,10 @@ dbuffer=buffer(@fields[1].text_str)
 qbuffer=buffer(qus)
 pl=srvproc("polls","name=#{$name}\&token=#{$token}\&create=1\&qbuffer=#{qbuffer.to_s}\&dbuffer=#{dbuffer.to_s}\&pollname=#{@fields[0].text_str}")
 if pl[0].to_i<0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
 else
-  speech("Ankieta została utworzona.")
+  speech(_("Polls:info_pollcreated"))
   speech_wait
   $scene=Scene_Polls.new
   return
@@ -274,7 +274,7 @@ else
   def main
 pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{@id.to_s}")
 if pl[0].to_i<0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
   $scene=Scene_Polls.new
   return
@@ -291,7 +291,7 @@ rescue Exception
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\nAutor: #{@author}\r\nUtworzona: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}"
+  txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\nUtworzona: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}"
 qs=[]
 for q in @questions
   if q[1]==2
@@ -308,7 +308,7 @@ for q in @questions
         qs.push(Select.new(q[2..q.size-1],true,0,q[0]+" (#{comment}): ",true,multi))
     end
 end
-@fields=[Edit.new("Ankieta","MULTILINE|READONLY",txt,true)]+qs+[Button.new("Głosuj"),Button.new("Anuluj")]
+@fields=[Edit.new(_("Polls:read_poll"),"MULTILINE|READONLY",txt,true)]+qs+[Button.new(_("Polls:btn_vote")),Button.new(_("General:str_cancel"))]
 @form=Form.new(@fields)
 loop do
   loop_update
@@ -337,9 +337,9 @@ end
     buf=buffer(ans)    
     pl=srvproc("polls","name=#{$name}\&token=#{$token}\&answer=1\&poll=#{@id.to_s}\&buffer=#{buf.to_s}")
     if pl[0].to_i<0
-      speech("Błąd")
+      speech(_("General:error"))
     else
-      speech("Twój głos został zapisany.")
+      speech(_("Polls:info_voted"))
       speech_wait
       $scene=Scene_Polls.new(@id)
     return
@@ -363,7 +363,7 @@ end
     def main
       pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{@id.to_s}")
 if pl[0].to_i<0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
   $scene=Scene_Polls.new
   return
@@ -380,15 +380,15 @@ rescue Exception
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\nAutor: #{@author}\r\nUtworzona: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}\r\n"
+  txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\nUtworzona: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}\r\n"
      pl=srvproc("polls","name=#{$name}\&token=#{$token}\&results=1\&poll=#{@id.to_s}") 
 if pl[0].to_i<0
-  speech("Błąd")
+  speech(_("General:error"))
   speech_wait
   $scene=Scene_Polls.new(@id)
   return
 end
-txt+="Liczba głosów: #{pl[1]}\r\n"
+txt+="#{_("Polls:txt_phr_votes")}: #{pl[1]}\r\n"
 @votes=pl[1].to_i
 @answers=[]
 for i in 2..pl.size-1
@@ -416,7 +416,7 @@ end
 end
 txt+="\r\n\r\n"
   end
-input_text("Wyniki ankiety: #{@name}","READONLY",txt)
+input_text(s_("Polls:read_results",{'name' => @name}),"READONLY",txt)
 $scene=Scene_Polls.new(@id)
     end
     end

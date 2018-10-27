@@ -63,7 +63,7 @@ close
     for a in $app
       sel.push(a[2])
     end
-    sel.push("Zainstaluj nowe programy")
+    sel.push(_("MainMenu:opt_installnewprograms"))
     @sel = menulr(sel)
     loop do
 loop_update
@@ -511,7 +511,7 @@ if $portable == 1
           close
           break
           when 1
-            $scene = Scene_ReInstall.new if simplequestion("Czy chcesz przywrócić ostatnią stabilną wersję programu? Wszystkie ustawienia zostaną zachowane.") == 1
+            $scene = Scene_ReInstall.new if simplequestion(_("MainMenu:alert_reinstall")) == 1
                         close
             break
             when 2
@@ -519,7 +519,7 @@ if $portable == 1
             close
             break
             when 3
-              if simplequestion("Czy jesteś pewien, że chcesz usunąć wszystkie ustawienia programu i przywrócić wartości domyślne? Elten zostanie uruchomiony ponownie.") == 0
+              if simplequestion(_("MainMenu:alert_resetsettings")) == 0
                 close
                 break
                 else

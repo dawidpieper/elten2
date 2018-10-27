@@ -175,7 +175,6 @@ def initialize(header="",type="NORMALTEXT",text="",quiet=false,init=false)
     @undo = []
 @toundo = [[],0,0]
 @changed = false    
-header = dict(header)
   @word = ""
   @readonly = false
   @acceptescape = false
@@ -250,7 +249,7 @@ text = "" if text == nil
     tm=text.split("\n")
     @text=[]
     for l in tm
-      @text.push(dict(l).split(""))
+      @text.push(l.split(""))
     end
     @lines=@text.size-1
     setline(0)
@@ -349,13 +348,13 @@ if $speechaudio!=nil
 if $key[0x11] == true and $key[67] == true and $key[0x12] == false
   gc = getcheck
     Win32API.new($eltenlib,"CopyToClipboard",'pp','').call(utf8(gc.to_s),utf8(gc.to_s).size + 1)
-    speech("Skopiowano")
+    speech(_("EAPI_Form:info_copied"))
   end
   if $key[0x11] == true and $key[88] == true and $key[0x12] == false
   gc = getcheck
     Win32API.new($eltenlib,"CopyToClipboard",'pp','').call(utf8(gc.to_s),utf8(gc.to_s).size + 1)
     delcheck
-    speech("Wycięto")
+    speech(_("EAPI_Form:info_cut"))
   end
   if $key[0x11] == true and $key[86] == true and $key[0x12] == false
     txt = futf8(Win32API.new($eltenlib,"PasteFromClipboard",'','p').call)
@@ -395,7 +394,7 @@ if $key[0x11] == true and $key[67] == true and $key[0x12] == false
       setline(max + 1)
       end
       setindex(@index + txtt[txtt.size - 1].size)
-      speech("Wklejono")
+      speech(_("EAPI_Form:info_pasted"))
     end
     if $key[0x11] == true and $key[90] == true and $key[0x12] == false and @undo.size>0
       if @undo[0][0]!=nil and @undo[0][0]!=[]
@@ -408,7 +407,7 @@ if $key[0x11] == true and $key[67] == true and $key[0x12] == false
       @undo.delete_at(0)
       @toundo = [textcopy,@index,@line]
       end
-      speech("Cofnięto")
+      speech(_("EAPI_Form:info_undone"))
       end
     if $key[0x11] == true and $key[89] == true
       if @repeat != nil
@@ -416,20 +415,20 @@ if $key[0x11] == true and $key[67] == true and $key[0x12] == false
         @index = @repeat[1]
         @line = @repeat[2]
         @repeat = nil
-        speech("Powtórzono")
+        speech(_("EAPI_Form:info_repeated"))
         end
       end
 if $key[0x11] == true and $key[82] == true and $key[0x12]==false and FileTest.exists?("temp/savedtext.tmp") and @readonly!=true
   settext(read("temp/savedtext.tmp"))
-  speech("Wczytano")
+  speech(_("EAPI_Form:info_loaded"))
   end
       if $key[0x11] == true and $key[83] == true and $key[0x12]==false
         if @audiotext==nil or (@flags&Flags::ReadOnly)==0
         writefile("temp\\savedtext.tmp",text_str)
-        speech("Zapisano")
+        speech(_("General:info_saved"))
       else
         dialog_open
-        form=Form.new([FilesTree.new("Miejsce docelowe",getdirectory(40)+"\\",true,true,"Music"),Edit.new("Nazwa pliku","",@header.delete("\r\n").delete("\"").delete("/").delete("\\")+".mp3"),Button.new("Zapisz"),Button.new("Anuluj")])
+        form=Form.new([FilesTree.new(_("EAPI_Form:head_dst"),getdirectory(40)+"\\",true,true,"Music"),Edit.new(_("EAPI_Form:type_Filename"),"",@header.delete("\r\n").delete("\"").delete("/").delete("\\")+".mp3"),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
         loop do
           loop_update
           form.update
@@ -465,7 +464,7 @@ if $key[0x11] == true and $key[82] == true and $key[0x12]==false and FileTest.ex
     end
 if $key[0x11] == true and $key[0x46] == true
 @lastsearch="" if @lastsearch==nil
-search=input_text("Podaj tekst do wyszukania","ACCEPTESCAPE",@lastsearch)
+search=input_text(_("EAPI_Form:type_searchphrase"),"ACCEPTESCAPE",@lastsearch)
 loop_update
 if search!="\004ESCAPE\004"
   @lastsearch=search
@@ -498,7 +497,7 @@ if f==false or ind>@index
   end
     f=false
   end  
-  speech("Nie znaleziono dopasowania.")   if found==false
+  speech(_("EAPI_Form:info_nomatch"))   if found==false
   end
   end
     if $key[0x11] == true and $key[65] == true and $key[0x12] == false
@@ -1186,19 +1185,19 @@ if @toinit == true
     @textstr = "" if @textstr == nil
     if @silent != true        
     play("edit_marker")
-            tp = "Edycja"
+            tp = _("EAPI_Form:fld_edit")
             if @readonly == true
-              tp = "Tekst"
+              tp = _("EAPI_Form:fld_text")
               end
                           textstr = @textstr
 if @audiotext!=nil
-  tp="Media"
+  tp=_("EAPI_Form:fld_media")
   textstr="\004AUDIO\004#{@audiotext}\004AUDIO\004"+textstr
   end
   if @password == true
   textstr = ""
     end
-            speech(dict(@header.to_s) + " ... " + dict(tp) + ": " + textstr.gsub("\r\n"," "),1,false)
+            speech(@header.to_s + " ... " + tp + ": " + textstr.gsub("\r\n"," "),1,false)
             end
           end    
           
@@ -1467,42 +1466,42 @@ def ctrlupdate
 if $key[0x11]   and $key[0x12]==false
   if $key[67]
     Clipboard.text=getcheck.gsub("\n","\r\n")
-    speech("Skopiowano")
+    speech(_("EAPI_Form:info_copied"))
   end
   if $key[88] and (@flags&Flags::ReadOnly)==0
     Clipboard.text=getcheck.gsub("\n","\r\n")
     c=[@index,@check].sort
     edelete(c[0],c[1])
-    speech("Wycięto")
+    speech(_("EAPI_Form:info_cut"))
   end
   if $key[86]
     einsert(Clipboard.text.delete("\r"))
-    speech("Wklejono")
+    speech(_("EAPI_Form:info_pasted"))
   end
     if $key[90] and @undo.size>0
       u=@undo.last
         @undo.delete_at(@undo.size-1)
 u[0]==1?edelete(u[1],u[1]+u[2].size,false):einsert(u[2],u[1],false)
                     @redo.push(u)
-          speech("Cofnięto")
+          speech(_("EAPI_Form:info_undone"))
     end
       if $key[89] and @redo.size>0
       r=@redo.last
         @redo.delete_at(@redo.size-1)
                 r[0]==2?edelete(r[1],r[1]+r[2].size,false):einsert(r[2],r[1],false)
                     @undo.push(r)          
-          speech("Powtórzono")
+          speech(_("EAPI_Form:info_repeated"))
     end
         $key[0x10]?translator(getcheck):espeech(translatetext(0,$language,getcheck)) if $key[84]
     if $key[70]
-      search=input_text("Podaj tekst do wyszukania","ACCEPTESCAPE",@lastsearch||"")
+      search=input_text(_("EAPI_Form:type_searchphrase"),"ACCEPTESCAPE",@lastsearch||"")
       if search!="\004ESCAPE\004"
         @lastsearch=search
             ind=@index<@text.size-1?@text[@index+1..@text.size-1].downcase.index(search.downcase):0
       ind+=@index+1 if ind!=nil
   ind=@text[0..@index].downcase.index(search.downcase) if ind==nil
     if ind==nil
-  speech("Nie znaleziono dopasowania.")
+  speech(_("EAPI_Form:info_nomatch"))
 else
   @index=ind
   espeech(@text[@index..@text.size-1])
@@ -1514,16 +1513,16 @@ else
     if $key[82] and FileTest.exists?("temp/savedtext.tmp") and @readonly!=true and (@flags&Flags::ReadOnly)==0 and @audiotext==nil
       @undo=[]  
       settext(read("temp/savedtext.tmp"))
-  speech("Wczytano")
+  speech(_("EAPI_Form:info_loaded"))
   end
       if $key[83]
                 writefile("temp\\savedtext.tmp",@text)
-        speech("Zapisano")
+        speech(_("General:info_saved"))
         end
   end
   espeech(@text[@index..@text.size-1].gsub("\n","\r\n")) if @index<@text.size and $key[115] and (@audiotext==nil or @index>0)
       if enter and (@flags&Flags::ReadOnly)>0 and (/(http(s?)\:\/\/([a-zA-Z0-9:\/,.\?\-\\=\_\+!%\&\(\)]+))/=~@text[linebeginning..lineending-1]) != nil
-        espeech("Otwieranie łącza...")
+        espeech(_("EAPI_Form:wait_link"))
         run("explorer \"#{$1}\"") 
         end
   esay
@@ -1532,7 +1531,7 @@ def mediaupdate
   return if @audiotext==nil or @audiotext=="" 
   if $key[0x11] and $key[83]
             dialog_open
-        form=Form.new([FilesTree.new("Miejsce docelowe",getdirectory(40)+"\\",true,true,"Music"),Edit.new("Nazwa pliku","",@header.delete("\r\n").delete("\"").delete("/").delete("\\")+".mp3"),Button.new("Zapisz"),Button.new("Anuluj")])
+        form=Form.new([FilesTree.new(_("EAPI_Form:head_dst"),getdirectory(40)+"\\",true,true,"Music"),Edit.new(_("EAPI_Form:type_Filename"),"",@header.delete("\r\n").delete("\"").delete("/").delete("\\")+".mp3"),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
         loop do
           loop_update
           form.update
@@ -1541,11 +1540,11 @@ def mediaupdate
             dest=form.fields[0].selected+"\\"+form.fields[1].text_str
             sou=@audiotext
             sou.sub!("/",$url) if sou[0..0]=="/"
-                        speech("Pobieranie...")
+                        speech(_("EAPI_Form:wait_downloading"))
                         waiting
                         executeprocess("bin\\ffmpeg -y -i \"#{sou}\" \"#{dest}\"",true)
                         waiting_end
-                        speech("Pobieranie zakończone")
+                        speech(_("EAPI_Form:info_downloaded"))
                         speech_wait
                                     break
             end
@@ -1684,10 +1683,10 @@ def finalize
   end
   def focus
       play("edit_marker")
-      tp="Edycja"
-      tp="Tekst" if (@flags&Flags::ReadOnly)>0
-      tp="Media" if @audiotext!=nil
-      speech(dict(@header.to_s) + " ... " + dict(tp) + ": " + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false)
+      tp=_("EAPI_Form:fld_edit")
+      tp=_("EAPI_Form:fld_text") if (@flags&Flags::ReadOnly)>0
+      tp=_("EAPI_Form:fld_media") if @audiotext!=nil
+      speech(@header.to_s + " ... " + tp + ": " + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false)
     end
     class Flags
 MultiLine=1
@@ -1854,7 +1853,7 @@ self.index = 0 if @border == false
                   @run = true
         for j in self.index + 1..options.size - 1
           if suc == false              
-          if dict(options[j])[0..k.size-1].upcase==k.upcase and @grayed[j]!=true
+          if options[j][0..k.size-1].upcase==k.upcase and @grayed[j]!=true
           suc = true
           self.index = j
           while @grayed[self.index] == true
@@ -1866,7 +1865,7 @@ self.index = 0 if @border == false
                 for j in 0..self.index
         options[j]=" " if options[j]==nil
         if suc == false          
-        if dict(options[j])[0..k.size-1].upcase==k.upcase and @grayed[j]!=true
+        if options[j][0..k.size-1].upcase==k.upcase and @grayed[j]!=true
           suc = true
           self.index = j
           while @grayed[self.index] == true
@@ -1899,11 +1898,11 @@ if self.index >= @commandoptions.size
   end
   if @run == true
   speech_stop
-o = dict(options[self.index])
+o = options[self.index]
 for k in @hotkeys.keys
   ss = k if @hotkeys[k] == self.index
   end
-o += "...\r\nSkrót: " + ASCII(ss) if ss.is_a?(Integer)
+o += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}: " + ASCII(ss) if ss.is_a?(Integer)
 o += "\r\n\r\n(Zaznaczono)" if @selected[self.index] == true
 o.gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/) {
 o=("\004NEW\004"+" "+$1+" "+o).gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/,"")
@@ -1923,11 +1922,11 @@ elsif oldindex == self.index and @run == true
     if @selected[@index] == false
       @selected[@index] = true
       play("list_checked")
-      speech("Zaznaczono")
+      speech(_("EAPI_Form:info_checked"))
     else
       @selected[@index] = false
       play("list_unchecked")
-      speech("Odznaczono")
+      speech(_("EAPI_Form:info_unchecked"))
       end
     end
   end
@@ -1944,10 +1943,10 @@ def focus(header=@header)
               end
               end
             options=@commandoptions
-              sp = dict(header) + ": " if @header!=nil and @header!=""
+              sp = header + ": " if @header!=nil and @header!=""
               sp="" if sp==nil
             if options.size>0
-              o = dict(options[self.index].delete("&"))
+              o = options[self.index].delete("&")
               o.gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/) {
 o=("\004NEW\004"+" "+$1+" "+o).gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/,"")
 }
@@ -1956,9 +1955,9 @@ ss = false
 for k in @hotkeys.keys
   ss = k if @hotkeys[k] == self.index
   end
-sp += "...\r\nSkrót: " + ASCII(ss) if ss.is_a?(Integer)
+sp += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}: " + ASCII(ss) if ss.is_a?(Integer)
 end            
-sp += dict("Pusta lista") if @commandoptions.size==0
+sp += _("EAPI_Form:info_listempty") if @commandoptions.size==0
 speech(sp)
 end
 
@@ -2006,7 +2005,7 @@ end
           end
         def focus
           play("button_marker")
-          speech(dict(@label) + "... " + dict("Przycisk"))
+          speech(@label + "... " + _("EAPI_Form:fld_button"))
         end
       end
       
@@ -2035,24 +2034,24 @@ end
           if space or enter
             if @checked == 1
               @checked = 0
-              speech("Nieoznaczone")
+              speech(_("EAPI_Form:st_unchecked"))
             else
               @checked = 1
-              speech("Oznaczone")
+              speech(_("EAPI_Form:st_checked"))
               end
             end
           end
         
                     def focus
           play("checkbox_marker")
-          text = dict(@label) + " ... "
+          text = @label + " ... "
           if @checked == 0
-            text += dict("Nieoznaczone")
+            text += _("EAPI_Form:st_unchecked")
           else
-            text += dict("Oznaczone")
+            text += _("EAPI_Form:st_checked")
           end
           text += " "
-          text += dict("pole wyboru")
+          text += _("EAPI_Form:fld_checkbox")
           speech(text)
         end
       end        
@@ -2102,7 +2101,7 @@ end
           for i in 0..@disks.size-1
             @disks[i].chop! if @disks[i][-1..-1]=="\\"
             end
-@adds=["Pulpit","Dokumenty","Muzyka"]
+@adds=[_("EAPI_Form:opt_desktop"),_("EAPI_Form:opt_documents"),_("EAPI_Form:opt_music")]
 @addfiles=[getdirectory(16),getdirectory(5),getdirectory(13)]
 ind=@disks.find_index(@file)      
 ind=0 if ind==nil
@@ -2291,7 +2290,7 @@ end
             update(true)
           else
                     hin=""
-          hin=dict(@header)+": \r\n" if @header!=""
+          hin=@header+": \r\n" if @header!=""
                   hin += @file
         speech(hin)
         end
@@ -2516,7 +2515,7 @@ lsel = menulr(options,true,0,"")
          end
          if space
            pt=ft.path
-           ftp=input_text("Podaj ścieżkę","ACCEPTESCAPE",ft.path)
+           ftp=input_text(_("EAPI_Form:type_location"),"ACCEPTESCAPE",ft.path)
            ft.path=ftp if ftp!="\004ESCAPE\004" and File.directory?(ftp)
            end
          end

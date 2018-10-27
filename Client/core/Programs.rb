@@ -8,7 +8,7 @@
 class Scene_Programs
   def main
     if $ruby == true
-      speech("Ta funkcja nie jest obsługiwana na tej platformie.")
+      speech(_("General:error_platform"))
       speech_wait
       $scene=Scene_Main.new
       return
@@ -43,7 +43,7 @@ sel=[]
 for a in @apps
   sel.push(a.name+".\r\n"+a.description)
 end
-@sel=Select.new(sel,true,0,"Instalacja programów")
+@sel=Select.new(sel,true,0,_("Programs:head"))
 loop do
   loop_update
   @sel.update
@@ -54,8 +54,8 @@ loop do
             suc=true if a.ini==@apps[@sel.index].ini
             end
     if suc == true
-      speech("Ten program jest już zainstalowany.")
-    elsif simplequestion("Czy chcesz zainstalować program #{@apps[@sel.index].name}?") == 1
+      speech(_("Programs:info_alreadyinstalled"))
+    elsif simplequestion(s_("Programs:alert_installprogram",{'name'=>@apps[@sel.index].name})) == 1
       install(@apps[@sel.index])
       speech_wait
       @sel.focus
@@ -76,7 +76,7 @@ end
         eval(a.class+".init")
         @installed.push(app)
     save_data(@installed,$configdata+"\\apps.dat")
-    speech("Instalacja zakończona.")
+    speech(_("Programs:info_installed"))
     end
   end
   

@@ -14,7 +14,7 @@ class Scene_Ban_Ban
     user = ""
     user = @user if @user != nil
     while user == ""
-      user = input_text("Podaj nazwę użytkownika do zbanowania.","ACCEPTESCAPE")
+      user = input_text(_("Ban:type_banusername"),"ACCEPTESCAPE")
     end
     if user == "\004ESCAPE\004"
       if @scene == nil
@@ -23,8 +23,8 @@ class Scene_Ban_Ban
         $scene = @scene
         end
     end
-sel = ["Jeden dzień","Trzy dni","Tydzień","Dwa tygodnie","Trzydzieści dni","Dziewięćdziesiąt dni","Rok"]
-@form=Form.new([Select.new(sel,true,0,"Czas trwania okresu zbanowania",true),Edit.new("Przyczyna"),Edit.new("Dodatkowa wiadomość dla użytkownika","MULTILINE"),Button.new("Zbanuj"),Button.new("Anuluj")])
+sel = [_("Ban:opt_day"),_("Ban:opt_threedays"),_("Ban:opt_week"),_("Ban:opt_twoweeks"),_("Ban:opt_month"),_("Ban:opt_yrquarter"),_("Ban:opt_year")]
+@form=Form.new([Select.new(sel,true,0,"Czas trwania okresu zbanowania",true),Edit.new(_("Ban:type_reason")),Edit.new(_("Ban:type_additionalmsg"),"MULTILINE"),Button.new(_("Ban:btn_ban")),Button.new(_("General:str_cancel"))])
 loop do
   loop_update
   @form.update
@@ -63,9 +63,9 @@ def update
       err = bantemp[0]
 err = err.to_i
 if err == 0
-  speech("Zbanowano.")
+  speech(_("Ban:info_banned"))
 else
-  speech("Błąd.")
+  speech(_("General:error"))
 end
 speech_wait
 if @scene == nil
@@ -86,7 +86,7 @@ class Scene_Ban_Unban
     user = ""
     user = @user if @user != nil
     while user == ""
-      user = input_text("Podaj nazwę użytkownika do odbanowania.","ACCEPTESCAPE")
+      user = input_text(_("Ban:type_unbanusername"),"ACCEPTESCAPE")
     end
     if user == "\004ESCAPE\004"
       if @scene == nil
@@ -97,7 +97,7 @@ class Scene_Ban_Unban
     end
                   bantemp = srvproc("isbanned","name=#{$name}\&token=#{$token}\&searchname=#{@user}")
                   if bantemp[0].to_i<0
-                    speech("Błąd")
+                    speech(_("General:error"))
                     speech_wait
                     $scene=Scene_Main.new
                     return
@@ -111,7 +111,7 @@ class Scene_Ban_Unban
                   rescue Exception
                     retry
                     end
-                    @form=Form.new([Edit.new("Przyczyna zbanowania","READONLY",bantemp[3],true),Edit.new("Ban ważny do","READONLY",bantotime,true),Edit.new("Przyczyna anulowania bana","","",true),Button.new("Odbanuj"),Button.new("Anuluj")])
+                    @form=Form.new([Edit.new(_("Ban:read_reason"),"READONLY",bantemp[3],true),Edit.new(_("Ban:read_validuntil"),"READONLY",bantotime,true),Edit.new(_("Ban:type_cancelreason"),"","",true),Button.new(_("Ban:btn_unban")),Button.new(_("General:str_cancel"))])
     loop do
       loop_update
       @form.update
@@ -121,11 +121,11 @@ class Scene_Ban_Unban
       err = bantemp[0]
 err = err.to_i
 if err == 0
-  speech("Odbanowano.")
+  speech(_("Ban:info_unbanned"))
 speech_wait
 break
   else
-  speech("Błąd.")
+  speech(_("General:error"))
 end
 end
 end

@@ -268,10 +268,10 @@ if FileTest.exists?("temp/agent_errout.tmp")
   if File.size("temp/agent_errout.tmp")>4
     $agentbug=true
     e=read("temp/agent_errout.tmp")
-if simplequestion("Wystąpił nieoczekiwany błąd agenta programu Elten. Czy chcesz przesłać raport o tym zdarzeniu? Przesłanie raportu może zdecydowanie ułatwić rozwiązanie problemu.")==1
+if simplequestion(_("EAPI_UI:alert_agentreport"))==1
     bug(false,"Elten Agent Error:\r\n"+e)
         end
-speech("Program podejmie teraz próbę powrotu do pracy.")
+speech(_("EAPI_UI:info_retry"))
         s=0
         begin
       File.delete("temp/agent_errout.tmp") if s==0
@@ -321,18 +321,18 @@ if wntemp.size > 1
   s = false
   if wntemp[1].to_i > $mes
     if $language != "PL_PL" or $gender != 0
-    speech("Otrzymałeś nową wiadomość.") if $loaded == true
+    speech(_("EAPI_UI:info_newmessage")) if $loaded == true
   else
-    speech("Otrzymałaś nową wiadomość.") if $loaded == true
+    speech(_("EAPI_UI:info_newmessagefemale")) if $loaded == true
     end
     s = true
   end
   if wntemp[2].to_i > $pst
-    speech("W śledzonym wątku pojawił się nowy wpis.") if $loaded == true
+    speech(_("EAPI_UI:info_newfollowedthread")) if $loaded == true
     s = true
   end
   if wntemp[3].to_i > $blg
-    speech("Na śledzonym blogu pojawił się nowy wpis.") if $loaded == true
+    speech(_("EAPI_UI:info_newfollowedblog")) if $loaded == true
     s = true
   end
     play("new") if s == true
@@ -393,7 +393,7 @@ if $key[0x11] and $keyr[0x42] and $keyr[0x4D] and $keyr[0x55] and $name!="" and 
 if FileTest.exists?("temp/agent_alarm.tmp") and $alarmproc!=true
   $alarmproc=true
   play("dialog_open")
-  speech("Alarm!")
+  speech(_("EAPI_UI:info_alarm"))
     until escape or enter or space
       loop_update
     end
@@ -415,7 +415,7 @@ if FileTest.exists?("temp/agent_alarm.tmp") and $alarmproc!=true
 def confirm(text="")
   text.gsub!("jesteś pewien","jesteś pewna") if $language=="PL_PL" and $gender==0
   dialog_open  
-  sel = menulr(["Nie","Tak"],true,0,text)
+  sel = menulr([_("General:str_no"),_("General:str_yes")],true,0,text)
     loop do
         loop_update
         sel.update
@@ -447,7 +447,7 @@ if $keyr[0x10] and $keyr[84] and $keyr[78]
       end
     end
     
-    def prompt(header="",confirmation="Ok",cancellation="Anuluj")
+    def prompt(header="",confirmation="Ok",cancellation=_("General:str_cancel"))
       form=Form.new([Edit.new(header,"MULTILINE"),Button.new(confirmation),Button.new(cancellation)])
       snd=form.fields[1]
       dialog_open

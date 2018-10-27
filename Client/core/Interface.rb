@@ -8,16 +8,16 @@
 class Scene_Interface
   def main
                         @field = []
-    @field[0] = Select.new(["Liniowy","Kołowy"],true,0,"Sposób wyświetlania list wyboru",true)
-    @field[1] = CheckBox.new("Odtwarzaj dźwięki tematu dźwiękowego")
-        @field[2] = Select.new(["Znaki","Wyrazy","Znaki i wyrazy","Brak"],true,0,"Echo pisania",true)
-        @field[3] = CheckBox.new("Zawijaj długie wiersze w polach tekstowych")
-    @field[4] = CheckBox.new("Automatycznie minimalizuj okno programu do zasobnika systemowego")
-        @field[5] = CheckBox.new("Uruchamiaj program w trybie pełnoekranowym")
-    @field[6] = CheckBox.new("Włącz automatyczne logowanie")
-        @field[7]=CheckBox.new("Automatycznie uruchamiaj program Elten przy starcie systemu")
-    @field[8] = Button.new("Zapisz")
-    @field[9] = Button.new("Anuluj")
+    @field[0] = Select.new([_("Interface:opt_linear"),_("Interface:opt_circular")],true,0,_("Interface:head_listspresentation"),true)
+    @field[1] = CheckBox.new(_("Interface:chk_soundtheme"))
+        @field[2] = Select.new([_("Interface:opt_chars"),_("Interface:opt_words"),_("Interface:opt_charsandwords"),_("Interface:opt_none")],true,0,_("Interface:head_typingecho"),true)
+        @field[3] = CheckBox.new(_("Interface:chk_linewrapping"))
+    @field[4] = CheckBox.new(_("Interface:chk_tray"))
+        @field[5] = CheckBox.new(_("Interface:chk_fullscreen"))
+    @field[6] = CheckBox.new(_("Interface:chk_autologin"))
+        @field[7]=CheckBox.new(_("Interface:chk_autostart"))
+    @field[8] = Button.new(_("General:str_save"))
+    @field[9] = Button.new(_("General:str_cancel"))
     @form = Form.new(@field)
 @form.fields[0].index = readini($configdata + "\\interface.ini","Interface","ListType","0").to_i
 @form.fields[1].checked = readini($configdata + "\\interface.ini","Interface","SoundThemeActivation","1").to_i
@@ -47,11 +47,11 @@ loop do
       @form.update
 if @form.fields[7].checked==1
   if @form.fields[6].checked==0
-  speech("Autostart programu wymaga włączenia automatycznego logowania.")
+  speech(_("Interface:error_autologinrequired"))
   @form.fields[7].checked=0
 end
 if $portable == 1 and autoportalert == false
-  if simplequestion("Uwaga! Próbujesz włączyć autostart programu używając przenośnej wersji Eltena. Ta funkcja będzie działać tylko w wypadku, gdy program znajdzie się na stałym dysku komputera, a zatem będzie dostępny przy każdym starcie systemu. Nie można również zmienić jego lokalizacji. Czy chcesz kontynuować mimo to?")==0
+  if simplequestion(_("Interface:alert_guestautostart"))==0
   @form.fields[7].checked=0
   else
   autoportalert = true
@@ -91,7 +91,7 @@ elsif @autostart == true and @form.fields[7].checked==0
   @runkey.delete("elten")
   end
 @runkey.close
-speech("Zapisano")
+speech(_("General:info_saved"))
 speech_wait
 if $name != nil and $name != "" and $token != nil and $token != ""
 $scene = Scene_Main.new

@@ -148,7 +148,7 @@ My nickname on Elten is pajper.
 Mail: dawidpieper@o2.pl .
 All other contact information is provided in my visitingcard."
 end
-        input_text("Przeczytaj mnie","READONLY|ACCEPTESCAPE|MULTILINE",text)
+        input_text(_("ReadMe:head"),"READONLY|ACCEPTESCAPE|MULTILINE",text)
     $scene = Scene_Main.new
   end
   end
