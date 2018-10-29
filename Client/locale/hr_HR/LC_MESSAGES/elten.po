@@ -1,0 +1,3564 @@
+# Polish (Poland) translations for Elten.
+# Copyright (C) (2014-2018) Dawid Pieper
+# This file is distributed under Open Public License, detailed in the repository of ELten project.
+# FIRST AUTHOR <dawidpieper@o2.pl>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Elten 2.3\n"
+"Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
+"POT-Creation-Date: 2018-10-24 10:00+0200\n"
+"PO-Revision-Date: 2018-10-29 21:46+0100\n"
+"Last-Translator: Dawid Pieper <dawidpieper@o2.pl>\n"
+"Language: hr_HR\n"
+"Language-Team: hr <zvonimirek222@yandex.com>\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Elten 2.3B1\n"
+"X-Generator: Poedit 1.6.10\n"
+
+#, fuzzy
+msgid "Authentication:type_pass"
+msgstr "Podaj swoje hasło"
+
+#, fuzzy
+msgid "Authentication:head_enabled"
+msgstr ""
+"Dwuetapowe uwierzytelnianie pozwala na lepsze zabezpieczenie konta poprzez "
+"potwierdzanie każdego logowania numerem telefonu. Gdy ta opcja jest "
+"włączona, przy każdorazowym logowaniu do portalu Elten z nowego urządzenia "
+"wysyłana będzie wiadomość SMS z kodem weryfikującym. Wpisanie tego kodu "
+"będzie wymagane, aby zalogować się do programu."
+
+#, fuzzy
+msgid "Authentication:head_disabled"
+msgstr "Dwuetapowe uwierzytelnianie jest włączone dla tego konta."
+
+#, fuzzy
+msgid "Authentication:type_phone"
+msgstr ""
+"Podaj swój numer telefonu, który będzie używany podczas weryfikacji. "
+"Pamiętaj o wpisaniu numeru kierunkowego, na przykład +48 dla polski"
+
+#, fuzzy
+msgid "Authentication:alert_support"
+msgstr ""
+"Uwierzytelnianie dwuetapowe zostało wprowadzone w Eltenie 2.28. Po "
+"aktywowaniu go, zalogowanie się ze starszych wersji programu nie będzie "
+"możliwe. Czy kontynuować mimo to?"
+
+#, fuzzy
+msgid "Authentication:alert_checkphone"
+msgstr ""
+"Czy ten numer telefonu jest poprawny? Wciśnij enter aby kontynuować lub "
+"escape aby anulować."
+
+#, fuzzy
+msgid "Authentication:wait"
+msgstr "Proszę czekać, trwa łączenie z serwerem..."
+
+#, fuzzy
+msgid "Authentication:type_code"
+msgstr ""
+"Na wskazany numer telefonu otrzymasz wiadomość SMS z kodem aktywującym "
+"uwierzytelnianie dwuetapowe. Wprowadź ten kod"
+
+#, fuzzy
+msgid "Authentication:type_wrongcode"
+msgstr "Wprowadzony kod nie jest poprawny. Spróbuj jeszcze raz."
+
+#, fuzzy
+msgid "Authentication:error_wrongcode"
+msgstr "Wprowadzony kod nie jest poprawny."
+
+#, fuzzy
+msgid "Authentication:info_enabled"
+msgstr "Uwierzytelnianie dwuetapowe zostało aktywowane dla tego konta."
+
+#, fuzzy
+msgid "Authentication:alert_disable"
+msgstr "Czy jesteś pewien, że chcesz wyłączyć uwierzytelnianie dwuetapowe?"
+
+#, fuzzy
+msgid "Authentication:info_disabled"
+msgstr "Uwierzytelnianie dwuetapowe zostało wyłączone."
+
+#, fuzzy
+msgid "Users_LastAvatars:head"
+msgstr "Ostatnio zmienione awatary"
+
+#, fuzzy
+msgid "Users_RecentlyRegistered:head"
+msgstr "Ostatnio zarejestrowani użytkownicy"
+
+#, fuzzy
+msgid "Users_RecentlyActived:head"
+msgstr "Ostatnio aktywni użytkownicy"
+
+#, fuzzy
+msgid "UserSearch:head_results"
+msgstr "Wyniki wyszukiwania"
+
+#, fuzzy
+msgid "UserSearch:head"
+msgstr "Szukanie użytkowników"
+
+#, fuzzy
+msgid "UserSearch:error_noresults"
+msgstr "Nie znaleziono dopasowania."
+
+#, fuzzy
+msgid "Clock:head_hour"
+msgstr "Godzina"
+
+#, fuzzy
+msgid "Clock:opt_none"
+msgstr "Brak"
+
+#, fuzzy
+msgid "Clock:btn_add"
+msgstr "Dodaj"
+
+#, fuzzy
+msgid "Clock:chk_notify"
+msgstr "Automatyczny odczyt czasu"
+
+#, fuzzy
+msgid "Clock:opt_voiceandsound"
+msgstr "Głos i dźwięk"
+
+#, fuzzy
+msgid "Clock:opt_voice"
+msgstr "Tylko głos"
+
+#, fuzzy
+msgid "Clock:opt_sound"
+msgstr "Tylko dźwięk"
+
+#, fuzzy
+msgid "Clock:head_readevery"
+msgstr "Odczytuj co"
+
+#, fuzzy
+msgid "Clock:opt_hour"
+msgstr "godzinę"
+
+#, fuzzy
+msgid "Clock:opt_halfanhour"
+msgstr "pół godziny"
+
+#, fuzzy
+msgid "Clock:opt_quarter"
+msgstr "kwadrans"
+
+#, fuzzy
+msgid "Clock:head_alarms"
+msgstr "Alarmy"
+
+#, fuzzy
+msgid "Clock:head_minute"
+msgstr "Minuta"
+
+#, fuzzy
+msgid "Clock:head_type"
+msgstr "Rodzaj"
+
+#, fuzzy
+msgid "Clock:opt_single"
+msgstr "Jednorazowy"
+
+#, fuzzy
+msgid "Clock:opt_multiple"
+msgstr "Cykliczny"
+
+#, fuzzy
+msgid "Advanced:head_keyreftime"
+msgstr ""
+"Czas odświerzania stanu klawiszy (ms) (Uwaga! Nie zaleca się zmiany tej "
+"wartości!)"
+
+#, fuzzy
+msgid "Advanced:chk_hexparsing"
+msgstr "Przetwarzaj diakretyki heksagonalnie (zaawansowane)"
+
+#, fuzzy
+msgid "Advanced:head_sesreftime"
+msgstr ""
+"Czas odświerzania sesji (s) (Uwaga! Nie zaleca się zmiany tej wartości!)"
+
+#, fuzzy
+msgid "Advanced:chk_audiostreaming"
+msgstr "Wykorzystuj streaming audio, jeśli obsługiwany"
+
+#, fuzzy
+msgid "Advanced:chk_timesyncing"
+msgstr "Synchronizuj czas z serwerem"
+
+#, fuzzy
+msgid "Notes:btn_add"
+msgstr "Dodaj"
+
+#, fuzzy
+msgid "Notes:opt_edit"
+msgstr "Edytuj"
+
+#, fuzzy
+msgid "Notes:head"
+msgstr "Notatki"
+
+#, fuzzy
+msgid "Notes:opt_new"
+msgstr "Nowa notatka"
+
+#, fuzzy
+msgid "Notes:head_sharedwith"
+msgstr "Notatka współdzielona z"
+
+#, fuzzy
+msgid "Notes:opt_read"
+msgstr "Czytaj"
+
+#, fuzzy
+msgid "FirstRun:type_pass"
+msgstr "Hasło:"
+
+#, fuzzy
+msgid "FirstRun:opt_chars"
+msgstr "Znaki"
+
+#, fuzzy
+msgid "FirstRun:opt_words"
+msgstr "Wyrazy"
+
+#, fuzzy
+msgid "FirstRun:opt_charsandwords"
+msgstr "Znaki i wyrazy"
+
+#, fuzzy
+msgid "FirstRun:opt_none"
+msgstr "Brak"
+
+#, fuzzy
+msgid "FirstRun:opt_audio"
+msgstr "Audio"
+
+#, fuzzy
+msgid "ForgotPassword:head"
+msgstr "Reset hasła"
+
+#, fuzzy
+msgid "ForgotPassword:type_mail"
+msgstr "Podaj adres E-mail użyty podczas rejestracji"
+
+#, fuzzy
+msgid "ForgotPassword:error_match"
+msgstr "Podany adres E-mail nie jest skojarzony z podaną nazwą użytkownika."
+
+#, fuzzy
+msgid "ForgotPassword:opt_genkey"
+msgstr "Wygeneruj klucz resetowania hasła"
+
+#, fuzzy
+msgid "ForgotPassword:opt_typekey"
+msgstr "Wprowadź klucz resetowania hasła"
+
+#, fuzzy
+msgid "ForgotPassword:wait"
+msgstr "Proszę czekać, trwa generowanie klucza resetowania hasła."
+
+#, fuzzy
+msgid "ForgotPassword:type_key"
+msgstr "Wprowadź wygenerowany klucz resetowania hasła."
+
+#, fuzzy
+msgid "ForgotPassword:error_wrongkey"
+msgstr "Wprowadzony klucz jest nieprawidłowy."
+
+#, fuzzy
+msgid "ForgotPassword:type_newpass"
+msgstr "Wprowadź nowe hasło"
+
+#, fuzzy
+msgid "ForgotPassword:type_newpassagain"
+msgstr "Wprowadź ponownie nowe hasło"
+
+#, fuzzy
+msgid "ForgotPassword:error_difpass"
+msgstr "Wprowadzone hasła są różne."
+
+#, fuzzy
+msgid "ForgotPassword:error_emptypass"
+msgstr "Podano puste hasło."
+
+#, fuzzy
+msgid "ForgotPassword:wait_changing"
+msgstr "Proszę czekać, trwa zmiana hasła..."
+
+#, fuzzy
+msgid "ForgotPassword:info_changed"
+msgstr ""
+"Hasło zostało zmienione. Możesz się teraz zalogować przy użyciu nowych "
+"danych."
+
+#, fuzzy
+msgid "ForgotPassword:head_reset"
+msgstr ""
+"W wypadku utraty hasła nadal istnieje możliwość jego zresetowania poprzez "
+"weryfikację konta za pośrednictwem podanego adresu E-mail. Możesz "
+"wygenerować w ten sposób kod, dzięki któremu możliwa będzie zmiana hasła. "
+"Kod zostanie wysłany na twój adres E-mail. Uwaga! Jeśli używane, dwuetapowe "
+"uwierzytelnianie zostanie wyłączone. Aby kontynuować, wprowadź swój login:"
+
+#, fuzzy
+msgid "Honors:opt_add"
+msgstr "Dodaj"
+
+#, fuzzy
+msgid "Programs:head"
+msgstr "Instalacja programów"
+
+#, fuzzy
+msgid "Portable:head_dest"
+msgstr "Miejsce docelowe"
+
+#, fuzzy
+msgid "Portable:chk_langs"
+msgstr "Dodaj obsługę innych wersji językowych"
+
+#, fuzzy
+msgid "Portable:chk_settings"
+msgstr "Skopiuj aktualne ustawienia programu"
+
+#, fuzzy
+msgid "Portable:chk_soundthemes"
+msgstr "Skopiuj obecnie pobrane tematy dźwiękowe"
+
+#, fuzzy
+msgid "Portable:wait"
+msgstr "Proszę czekać, trwa przygotowywanie plików."
+
+#, fuzzy
+msgid "Portable:wait_settings"
+msgstr "Kopiowanie konfiguracji"
+
+#, fuzzy
+msgid "Portable:wait_soundthemes"
+msgstr "Kopiowanie tematów dźwiękowych"
+
+#, fuzzy
+msgid "Portable:opt_synthreset"
+msgstr "Zresetuj syntezator"
+
+#, fuzzy
+msgid "Portable:opt_askeverytime"
+msgstr "Pytaj za każdym razem"
+
+#, fuzzy
+msgid "Portable:opt_usecurrent"
+msgstr "Zachowaj obecne ustawienie"
+
+#, fuzzy
+msgid "Portable:head_synth"
+msgstr ""
+"Jeśli będziesz używał tworzonej kopii programu Elten na innym komputerze, "
+"wybrane ustawienia syntezy mowy mogą nie działać poprawnie. Zauważalne może "
+"to być szczególnie w sytuacji, gdy dany komputer będzie miał zainstalowane "
+"inne głosy. Jak chcesz skonfigurować tworzoną wersję?"
+
+#, fuzzy
+msgid "Portable:info_created"
+msgstr "Przenośna wersja programu została utworzona."
+
+#, fuzzy
+msgid "Portable:opt_usedefault"
+msgstr ""
+"Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"
+
+#, fuzzy
+msgid "Portable:btn_continue"
+msgstr "Kontynuuj"
+
+#, fuzzy
+msgid "Polls:type_description"
+msgstr "Opis"
+
+#, fuzzy
+msgid "Polls:head"
+msgstr "Ankiety"
+
+#, fuzzy
+msgid "Polls:btn_vote"
+msgstr "Głosuj"
+
+#, fuzzy
+msgid "Polls:opt_results"
+msgstr "Pokaż wyniki"
+
+#, fuzzy
+msgid "Polls:opt_new"
+msgstr "Nowa ankieta"
+
+#, fuzzy
+msgid "Polls:type_pollname"
+msgstr "Nazwa ankiety"
+
+#, fuzzy
+msgid "Polls:head_questions"
+msgstr "Pytania"
+
+#, fuzzy
+msgid "Polls:opt_newquestion"
+msgstr "Dodaj nowe pytanie"
+
+#, fuzzy
+msgid "Polls:head_answers"
+msgstr "Odpowiedzi"
+
+#, fuzzy
+msgid "Polls:opt_newanswer"
+msgstr "Dodaj nową odpowiedź"
+
+#, fuzzy
+msgid "Polls:btn_create"
+msgstr "Utwórz"
+
+#, fuzzy
+msgid "Polls:head_question"
+msgstr "Pytanie"
+
+#, fuzzy
+msgid "Polls:opt_singlechoice"
+msgstr "Jednokrotnego wyboru"
+
+#, fuzzy
+msgid "Polls:opt_multiplechoice"
+msgstr "Wielokrotnego wyboru"
+
+#, fuzzy
+msgid "Polls:opt_textfield"
+msgstr "Pole tekstowe"
+
+#, fuzzy
+msgid "Polls:head_answertype"
+msgstr "Metoda odpowiadania"
+
+#, fuzzy
+msgid "Polls:info_deleted"
+msgstr "Usunięto"
+
+#, fuzzy
+msgid "Uploads:info_saved"
+msgstr "Zapisano."
+
+#, fuzzy
+msgid "Uploads:opt_add"
+msgstr "Dodaj"
+
+#, fuzzy
+msgid "Uploads:opt_play"
+msgstr "Odtwarzaj"
+
+#, fuzzy
+msgid "Uploads:opt_download"
+msgstr "Pobierz"
+
+#, fuzzy
+msgid "Uploads:head_dest"
+msgstr "Gdzie zapisać ten plik?"
+
+#, fuzzy
+msgid "Uploads:info_deleted"
+msgstr "Usunięto"
+
+#, fuzzy
+msgid "Compiler:head_dest"
+msgstr "Lokalizacja docelowa"
+
+#, fuzzy
+msgid "Admins:head"
+msgstr "Rada starszych"
+
+#, fuzzy
+msgid "WhatsNew:info_nonew"
+msgstr "Nie ma nic nowego."
+
+#, fuzzy
+msgid "WhatsNew:opt_open"
+msgstr "otwórz"
+
+#, fuzzy
+msgid "WhatsNew:opt_deletethread"
+msgstr "Usuń Wątek"
+
+#, fuzzy
+msgid "WhatsNew:info_followedel"
+msgstr "Usunięto z listy śledzonych wątków"
+
+#, fuzzy
+msgid "WhatsNew:opt_deletefollowed"
+msgstr "Usuń z listy śledzonych wątków"
+
+#, fuzzy
+msgid "WhatsNew:info_nonewfollowedposts"
+msgstr "Brak nowych wpisów w śledzonych wątkach"
+
+#, fuzzy
+msgid "WhatsNew:head"
+msgstr "Co nowego"
+
+#, fuzzy
+msgid "ShortKeys:head"
+msgstr "Lista skrótów klawiszowych"
+
+#, fuzzy
+msgid "Interface:opt_linear"
+msgstr "Liniowy"
+
+#, fuzzy
+msgid "Interface:opt_circular"
+msgstr "Kołowy"
+
+#, fuzzy
+msgid "Interface:head_listspresentation"
+msgstr "Sposób wyświetlania list wyboru"
+
+#, fuzzy
+msgid "Interface:chk_soundtheme"
+msgstr "Odtwarzaj dźwięki tematu dźwiękowego"
+
+#, fuzzy
+msgid "Interface:opt_chars"
+msgstr "Znaki"
+
+#, fuzzy
+msgid "Interface:opt_words"
+msgstr "Wyrazy"
+
+#, fuzzy
+msgid "Interface:opt_charsandwords"
+msgstr "Znaki i wyrazy"
+
+#, fuzzy
+msgid "Interface:opt_none"
+msgstr "Brak"
+
+#, fuzzy
+msgid "Interface:head_typingecho"
+msgstr "Echo pisania"
+
+#, fuzzy
+msgid "Interface:chk_fullscreen"
+msgstr "Uruchamiaj program w trybie pełnoekranowym"
+
+#, fuzzy
+msgid "Interface:chk_autologin"
+msgstr "Włącz automatyczne logowanie"
+
+#, fuzzy
+msgid "Interface:chk_tray"
+msgstr "Automatycznie minimalizuj okno programu do zasobnika systemowego"
+
+#, fuzzy
+msgid "Interface:chk_autostart"
+msgstr "Automatycznie uruchamiaj program Elten przy starcie systemu"
+
+#, fuzzy
+msgid "Interface:error_autologinrequired"
+msgstr "Autostart programu wymaga włączenia automatycznego logowania."
+
+#, fuzzy
+msgid "Interface:alert_portableautostart"
+msgstr ""
+"Uwaga! Próbujesz włączyć autostart programu używając przenośnej wersji "
+"Eltena. Ta funkcja będzie działać tylko w wypadku, gdy program znajdzie się "
+"na stałym dysku komputera, a zatem będzie dostępny przy każdym starcie "
+"systemu. Nie można również zmienić jego lokalizacji. Czy chcesz kontynuować "
+"mimo to?"
+
+#, fuzzy
+msgid "UsersAddedMeToContacts:head"
+msgstr "Użytkownicy, którzy dodali mnie do swoich kontaktów"
+
+#, fuzzy
+msgid "ReadMe:head"
+msgstr "Przeczytaj mnie"
+
+#, fuzzy
+msgid "Blog:opt_newpost"
+msgstr "Nowy wpis"
+
+#, fuzzy
+msgid "Blog:info_deleted"
+msgstr "Usunięto."
+
+#, fuzzy
+msgid "Blog:opt_select"
+msgstr "Wybierz"
+
+#, fuzzy
+msgid "Blog:opt_myblog"
+msgstr "Mój blog"
+
+#, fuzzy
+msgid "Blog:opt_newcat"
+msgstr "Nowa kategoria"
+
+#, fuzzy
+msgid "Blog:alert_deletepost"
+msgstr "Czy jesteś pewien, że chcesz usunąć ten wpis?"
+
+#, fuzzy
+msgid "Blog:head"
+msgstr "Blogi"
+
+#, fuzzy
+msgid "Blog:head_list"
+msgstr "Lista blogów"
+
+#, fuzzy
+msgid "Blog:btn_send"
+msgstr "Wyślij"
+
+#, fuzzy
+msgid "Blog:btn_back"
+msgstr "Powrót"
+
+#, fuzzy
+msgid "Blog:opt_renameblog"
+msgstr "Zmień nazwę bloga"
+
+#, fuzzy
+msgid "Blog:type_comment"
+msgstr "Twój komentarz"
+
+#, fuzzy
+msgid "Blog:btn_modifypost"
+msgstr "Zmodyfikuj swój wpis"
+
+#, fuzzy
+msgid "Blog:btn_play"
+msgstr "Odtwórz"
+
+#, fuzzy
+msgid "Blog:opt_allposts"
+msgstr "Wszystkie wpisy"
+
+#, fuzzy
+msgid "Blog:btn_recpost"
+msgstr "Nagraj nowy wpis"
+
+#, fuzzy
+msgid "Blog:btn_stoprec"
+msgstr "Zakończ nagrywanie"
+
+#, fuzzy
+msgid "Blog:opt_recentlyupdatedblogs"
+msgstr "Ostatnio aktualizowane blogi"
+
+#, fuzzy
+msgid "Blog:opt_frequentlyupdatedblogs"
+msgstr "Najczęściej aktualizowane blogi"
+
+#, fuzzy
+msgid "Blog:opt_frequentlycommentedblogs"
+msgstr "Najczęściej komentowane blogi"
+
+#, fuzzy
+msgid "Blog:type_posttitle"
+msgstr "Tytuł wpisu"
+
+#, fuzzy
+msgid "Blog:type_post"
+msgstr "Treść wpisu"
+
+#, fuzzy
+msgid "Blog:head_postcategories"
+msgstr "Przypisz do kategorii"
+
+#, fuzzy
+msgid "Blog:type_catname"
+msgstr "Nazwa kategorii"
+
+#, fuzzy
+msgid "Blog:type_newblogname"
+msgstr "Nowa nazwa bloga"
+
+#, fuzzy
+msgid "Blog:wait_converting"
+msgstr "Konwertowanie pliku..."
+
+#, fuzzy
+msgid "Blog:opt_rename"
+msgstr "Zmień nazwę"
+
+#, fuzzy
+msgid "Blog:opt_edit"
+msgstr "Edytuj"
+
+#, fuzzy
+msgid "Blog:opt_open"
+msgstr "Otwórz"
+
+#, fuzzy
+msgid "Blog:opt_followblog"
+msgstr "Dodaj do śledzonych blogów"
+
+#, fuzzy
+msgid "Blog:opt_unfollowblog"
+msgstr "Usuń ze śledzonych blogów"
+
+#, fuzzy
+msgid "Blog:opt_followedblogs"
+msgstr "Śledzone blogi"
+
+#, fuzzy
+msgid "Blog:btn_createaudiopost"
+msgstr "Utwórz wpis audio"
+
+#, fuzzy
+msgid "Blog:opt_useexistingfile"
+msgstr "Użyj istniejącego pliku"
+
+#, fuzzy
+msgid "Blog:info_modified"
+msgstr "Wpis został zmodyfikowany."
+
+#, fuzzy
+msgid "Blog:head_visibility"
+msgstr "Widoczność"
+
+#, fuzzy
+msgid "Blog:opt_viseveryone"
+msgstr "Pokaż wszystkim"
+
+#, fuzzy
+msgid "Blog:opt_vislogged"
+msgstr "Ukryj przed niezalogowanymi użytkownikami"
+
+#, fuzzy
+msgid "Blog:btn_audiopost"
+msgstr "Wpis audio"
+
+#, fuzzy
+msgid "Blog:opt_changeaudiofile"
+msgstr "Użyj innego pliku"
+
+#, fuzzy
+msgid "Blog:head_selaudiofile"
+msgstr "Wybierz plik audio"
+
+#, fuzzy
+msgid "Ban:btn_ban"
+msgstr "Zbanuj"
+
+#, fuzzy
+msgid "Ban:btn_unban"
+msgstr "Odbanuj"
+
+#, fuzzy
+msgid "Ban:type_banusername"
+msgstr "Podaj nazwę użytkownika do zbanowania."
+
+#, fuzzy
+msgid "Ban:opt_week"
+msgstr "Tydzień"
+
+#, fuzzy
+msgid "Ban:opt_twoweeks"
+msgstr "Dwa tygodnie"
+
+#, fuzzy
+msgid "Ban:opt_month"
+msgstr "Trzydzieści dni"
+
+#, fuzzy
+msgid "Ban:opt_yrquarter"
+msgstr "Dziewięćdziesiąt dni"
+
+#, fuzzy
+msgid "Ban:info_banned"
+msgstr "Zbanowano."
+
+#, fuzzy
+msgid "Ban:type_unbanusername"
+msgstr "Podaj nazwę użytkownika do odbanowania."
+
+#, fuzzy
+msgid "Ban:info_unbanned"
+msgstr "Odbanowano."
+
+#, fuzzy
+msgid "Users:head"
+msgstr "Lista użytkowników"
+
+#, fuzzy
+msgid "Chat:type_message"
+msgstr "Twoja wiadomość"
+
+#, fuzzy
+msgid "Chat:read_history"
+msgstr "Historia wiadomości"
+
+#, fuzzy
+msgid "Chat:opt_users"
+msgstr "Aktywne osoby"
+
+#, fuzzy
+msgid "Chat:btn_hide"
+msgstr "Ukryj chat"
+
+#, fuzzy
+msgid "Languages:head"
+msgstr "Zarządzanie językami"
+
+#, fuzzy
+msgid "Languages:opt_download"
+msgstr "Pobierz tłumaczenia z serwera"
+
+#, fuzzy
+msgid "Languages:info_downloaded"
+msgstr "Paczki językowe zostały zaktualizowane"
+
+#, fuzzy
+msgid "Files:head"
+msgstr "Pliki"
+
+#, fuzzy
+msgid "Files:info_deleted"
+msgstr "Usunięto."
+
+#, fuzzy
+msgid "Files:opt_openassociated"
+msgstr "Otwórz w skojarzonej aplikacji"
+
+#, fuzzy
+msgid "Files:opt_copy"
+msgstr "Kopiuj"
+
+#, fuzzy
+msgid "Files:opt_cut"
+msgstr "Wytnij"
+
+#, fuzzy
+msgid "Files:opt_paste"
+msgstr "Wklej"
+
+#, fuzzy
+msgid "Files:opt_newdir"
+msgstr "Nowy folder"
+
+#, fuzzy
+msgid "Files:info_copied"
+msgstr "Skopiowano."
+
+#, fuzzy
+msgid "Files:info_cut"
+msgstr "Wycięto"
+
+#, fuzzy
+msgid "Files:opt_copied"
+msgstr "Skopiowano"
+
+#, fuzzy
+msgid "Files:opt_text"
+msgstr "Tekst"
+
+#, fuzzy
+msgid "Files:opt_erasepls"
+msgstr "Wyczyść playlistę"
+
+#, fuzzy
+msgid "Files:opt_adddirtopls"
+msgstr "Dodaj wszystkie nagrania z tego folderu do playlisty"
+
+#, fuzzy
+msgid "Files:opt_play"
+msgstr "Odtwarzaj"
+
+#, fuzzy
+msgid "Files:opt_addtopls"
+msgstr "Dodaj do playlisty"
+
+#, fuzzy
+msgid "Files:opt_send"
+msgstr "Wyślij na serwer"
+
+#, fuzzy
+msgid "Files:opt_opendir"
+msgstr "Otwórz ten folder"
+
+#, fuzzy
+msgid "Files:opt_avatar"
+msgstr "Ustaw jako awatar"
+
+#, fuzzy
+msgid "Files:opt_create"
+msgstr "Utwórz"
+
+#, fuzzy
+msgid "Files:opt_rename"
+msgstr "Zmień nazwę"
+
+#, fuzzy
+msgid "Files:opt_edit"
+msgstr "Edytuj"
+
+#, fuzzy
+msgid "Files:info_pasted"
+msgstr "Wklejono"
+
+#, fuzzy
+msgid "Files:opt_convert"
+msgstr "Konwertuj"
+
+#, fuzzy
+msgid "Files:info_sent"
+msgstr "Wysłano"
+
+#, fuzzy
+msgid "Files:error_play"
+msgstr "Nie można odtworzyć tego pliku."
+
+#, fuzzy
+msgid "Files:opt_read"
+msgstr "Czytaj"
+
+#, fuzzy
+msgid "Files:opt_pack"
+msgstr "Spakuj"
+
+#, fuzzy
+msgid "Files:opt_unpack"
+msgstr "Rozpakuj"
+
+#, fuzzy
+msgid "Files:head_archiveformat"
+msgstr "Wybierz format archiwum"
+
+#, fuzzy
+msgid "Files:info_packed"
+msgstr "Spakowano"
+
+#, fuzzy
+msgid "Files:opt_readtofile"
+msgstr "Czytaj do pliku"
+
+#, fuzzy
+msgid "Files:opt_file"
+msgstr "Plik"
+
+#, fuzzy
+msgid "Files:opt_dir"
+msgstr "Folder"
+
+#, fuzzy
+msgid "Files:opt_clipboard"
+msgstr "Schowek"
+
+#, fuzzy
+msgid "Files:opt_newdoc"
+msgstr "Nowy dokument tekstowy"
+
+#, fuzzy
+msgid "Files:opt_newrec"
+msgstr "Nowe nagranie"
+
+#, fuzzy
+msgid "Files:opt_audio"
+msgstr "Audio"
+
+#, fuzzy
+msgid "Files:type_dirname"
+msgstr "Podaj nazwę folderu"
+
+#, fuzzy
+msgid "Files:type_filename"
+msgstr "Podaj nazwę pliku"
+
+#, fuzzy
+msgid "Files:btn_record"
+msgstr "Nagraj"
+
+#, fuzzy
+msgid "SoundThemes:head"
+msgstr "Tematy dźwiękowe"
+
+#, fuzzy
+msgid "SoundThemes:info_nothemes"
+msgstr "Brak tematów dźwiękowych."
+
+#, fuzzy
+msgid "SoundThemes:opt_download"
+msgstr "Pobierz tematy dźwiękowe"
+
+#, fuzzy
+msgid "SoundThemes:opt_default"
+msgstr "Temat Domyślny"
+
+#, fuzzy
+msgid "SoundThemes:opt_audio"
+msgstr "Audio"
+
+#, fuzzy
+msgid "Changes:head"
+msgstr "Lista zmian"
+
+#, fuzzy
+msgid "Media:opt_url"
+msgstr "Podaj adres URL"
+
+#, fuzzy
+msgid "Media:type_url"
+msgstr "Adres URL"
+
+#, fuzzy
+msgid "Media:opt_newcat"
+msgstr "Nowa kategoria"
+
+#, fuzzy
+msgid "Media:opt_newfile"
+msgstr "Nowy plik"
+
+#, fuzzy
+msgid "Media:btn_add"
+msgstr "Dodaj"
+
+#, fuzzy
+msgid "Media:type_dsc"
+msgstr "Opis"
+
+#, fuzzy
+msgid "Media:type_name"
+msgstr "Tytuł"
+
+#, fuzzy
+msgid "Media:opt_play"
+msgstr "Odtwarzaj"
+
+#, fuzzy
+msgid "Media:opt_addtopls"
+msgstr "Dodaj do playlisty"
+
+#, fuzzy
+msgid "Media:type_catname"
+msgstr "Nazwa kategorii"
+
+#, fuzzy
+msgid "Account:type_oldpass"
+msgstr "Podaj stare hasło"
+
+#, fuzzy
+msgid "Account:type_newpass"
+msgstr "Podaj nowe hasło"
+
+#, fuzzy
+msgid "Account:type_newpassagain"
+msgstr "Powtórz nowe hasło"
+
+#, fuzzy
+msgid "Account:error_difpass"
+msgstr "Pola: Nowe Hasło i Powtórz Nowe Hasło mają różne wartości."
+
+#, fuzzy
+msgid "Account:info_passchanged"
+msgstr "Hasło zostało zmienione."
+
+#, fuzzy
+msgid "Account:error_wrongoldpass"
+msgstr "Podano błędne stare hasło."
+
+#, fuzzy
+msgid "Account:type_pass"
+msgstr "Podaj hasło"
+
+#, fuzzy
+msgid "Account:type_newmail"
+msgstr "Podaj nowy adres e-mail"
+
+#, fuzzy
+msgid "Account:info_mailchanged"
+msgstr "Adres e-mail został zmieniony."
+
+#, fuzzy
+msgid "Account:type_visitingcard"
+msgstr "Twoja wizytówka:"
+
+#, fuzzy
+msgid "Account:head_status"
+msgstr "Zmiana statusu"
+
+#, fuzzy
+msgid "Account:type_status"
+msgstr "Podaj nowy status"
+
+#, fuzzy
+msgid "Account:opt_add"
+msgstr "Dodaj"
+
+#, fuzzy
+msgid "Account:head_profile"
+msgstr "Edycja profilu"
+
+#, fuzzy
+msgid "Account:type_fullname"
+msgstr "Imię i nazwisko"
+
+#, fuzzy
+msgid "Account:head_gender"
+msgstr "Płeć"
+
+#, fuzzy
+msgid "Account:chk_hideprofile"
+msgstr "Ukryj mój profil przed osobami z poza mojej listy kontaktów"
+
+#, fuzzy
+msgid "Account:type_signature"
+msgstr "Twoja sygnatura:"
+
+#, fuzzy
+msgid "Account:head_avatar"
+msgstr "Ustaw awatar"
+
+#, fuzzy
+msgid "Account:head_autologintokens"
+msgstr "Klucze automatycznego logowania"
+
+#, fuzzy
+msgid "Account:opt_logoutallsessions"
+msgstr "Wyloguj wszystkie sesje"
+
+#, fuzzy
+msgid "Account:head_messages"
+msgstr "Nowe wiadomości"
+
+#, fuzzy
+msgid "Account:head_followedthreads"
+msgstr "Nowe wpisy w śledzonych wątkach"
+
+#, fuzzy
+msgid "Account:head_followedblogs"
+msgstr "Nowe wpisy na śledzonych blogach"
+
+#, fuzzy
+msgid "Account:head_blogcomments"
+msgstr "Nowe komentarze na twoim blogu"
+
+#, fuzzy
+msgid "Account:head_followedforums"
+msgstr "Nowe wątki na śledzonych forach"
+
+#, fuzzy
+msgid "Account:head_followedforumsposts"
+msgstr "Nowe wpisy na śledzonych forach"
+
+#, fuzzy
+msgid "Account:head_contacts"
+msgstr "Nowi znajomi"
+
+#, fuzzy
+msgid "Account:head_birthday"
+msgstr "Urodziny znajomych"
+
+#, fuzzy
+msgid "Account:head_mentions"
+msgstr "Wzmianki"
+
+#, fuzzy
+msgid "Account:opt_notifyandshow"
+msgstr "Powiadom i pokaż w co nowego"
+
+#, fuzzy
+msgid "Account:opt_notify"
+msgstr "Tylko powiadom"
+
+#, fuzzy
+msgid "Account:opt_ignore"
+msgstr "Zignoruj"
+
+#, fuzzy
+msgid "Account:head_blacklist"
+msgstr "Czarna lista"
+
+#, fuzzy
+msgid "Account:alert_deletefromblacklist"
+msgstr "Czy na pewno chcesz usunąć tego użytkownika z czarnej listy?"
+
+#, fuzzy
+msgid "Account:info_deletedfromblacklist"
+msgstr "Użytkownik został usunięty z czarnej listy."
+
+#, fuzzy
+msgid "Account:alert_addtoblacklist"
+msgstr ""
+"Użytkownik po dodaniu do twojej czarnej listy nie będzie mógł wysyłać do "
+"ciebie wiadomości prywatnych. Czy jesteś pewien, że chcesz kontynuować?"
+
+#, fuzzy
+msgid "Account:error_blacklistadmin"
+msgstr "Do czarnej listy nie można dodawać członków administracji."
+
+#, fuzzy
+msgid "Account:error_blacklistalreadyadded"
+msgstr "Ten użytkownik jest już dodany do twojej czarnej listy."
+
+#, fuzzy
+msgid "Account:alert_logoutall"
+msgstr ""
+"Czy chcesz usunąć wszystkie klucze automatycznego logowania i wylogować "
+"wszystkie zalogowane sesje? Wymagane będzie ponowne zalogowanie się do "
+"Eltena."
+
+#, fuzzy
+msgid "Contacts:head"
+msgstr "Kontakty"
+
+#, fuzzy
+msgid "Contacts:info_empty"
+msgstr "Pusta Lista"
+
+#, fuzzy
+msgid "Contacts:opt_newcontact"
+msgstr "Nowy Kontakt"
+
+#, fuzzy
+msgid "Contacts:type_username"
+msgstr "Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów."
+
+#, fuzzy
+msgid "Contacts:info_contactadded"
+msgstr "Kontakt został dodany."
+
+#, fuzzy
+msgid "Contacts:error_contactalreadyadded"
+msgstr "Ten użytkownik jest już dodany do twoich kontaktów."
+
+#, fuzzy
+msgid "Contacts:error_usernotfound"
+msgstr "Użytkownik o podanej nazwie nie istnieje."
+
+#, fuzzy
+msgid "Contacts:info_contactdeleted"
+msgstr "Kontakt został usunięty."
+
+#, fuzzy
+msgid "Contacts:error_usernotadded"
+msgstr "Ten użytkownik nie jest dodany do twoich kontaktów."
+
+#, fuzzy
+msgid "Update:alert_newversion"
+msgstr ""
+"Dostępna jest nowa wersja programu. Czy chcesz ją pobrać i zainstalować?"
+
+#, fuzzy
+msgid "Update:alert_newbeta"
+msgstr ""
+"Dostępna jest nowa wersja beta programu. Czy chcesz ją pobrać i zainstalować?"
+
+#, fuzzy
+msgid "Update:wait"
+msgstr "Proszę czekać, trwa pobieranie plików"
+
+#, fuzzy
+msgid "Update:wait_languages"
+msgstr "Aktualizowanie pakietów językowych"
+
+#, fuzzy
+msgid "Update:alert_betawarning"
+msgstr ""
+"Ostrzeżenie. Próbujesz zainstalować wersję beta. Zawiera ona "
+"nieprzetestowaną wersję programu i może działać niestabilnie lub powodować "
+"inne błędy. Czy chcesz kontynuować mimo to?"
+
+#, fuzzy
+msgid "Update:info_downloaded"
+msgstr ""
+"Aktualizacja została pobrana. Aby ją zainstalować, program musi zostać "
+"uruchomiony ponownie. Naciśnij enter, aby kontynuować lub escape, aby "
+"anulować."
+
+#, fuzzy
+msgid "Update:wait_downloading"
+msgstr "Pobieranie aktualizacji"
+
+#, fuzzy
+msgid "Voice:head"
+msgstr "Ustawienia mowy"
+
+#, fuzzy
+msgid "Voice:opt_changesynth"
+msgstr "Zmień syntezator"
+
+#, fuzzy
+msgid "Voice:opt_changerate"
+msgstr "Zmień szybkość syntezatora"
+
+#, fuzzy
+msgid "Voice:opt_select"
+msgstr "Wybierz"
+
+#, fuzzy
+msgid "Voice:head_changerate"
+msgstr "Wybierz szybkość głosu."
+
+#, fuzzy
+msgid "Voice:info_saved"
+msgstr "Zapisano."
+
+#, fuzzy
+msgid "Voice:opt_changevol"
+msgstr "Zmień głośność syntezy"
+
+#, fuzzy
+msgid "Voice:opt_usedefault"
+msgstr ""
+"Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"
+
+#, fuzzy
+msgid "Voice:head_changevol"
+msgstr "Wybierz głośność syntezy."
+
+#, fuzzy
+msgid "Voice:info_useddefault"
+msgstr "Wybrano obsługę czytnika ekranowego."
+
+#, fuzzy
+msgid "Messages:error_unknown"
+msgstr "Nieznany błąd."
+
+#, fuzzy
+msgid "Messages:info_nomessages"
+msgstr "Nie masz żadnych wiadomości."
+
+#, fuzzy
+msgid "Messages:opt_answer"
+msgstr "Odpowiedz"
+
+#, fuzzy
+msgid "Messages:opt_compose"
+msgstr "Wyślij nową wiadomość"
+
+#, fuzzy
+msgid "Messages:opt_forward"
+msgstr "Przekaż dalej"
+
+#, fuzzy
+msgid "Messages:type_subject"
+msgstr "Temat:"
+
+#, fuzzy
+msgid "Messages:type_content"
+msgstr "Treść:"
+
+#, fuzzy
+msgid "Messages:info_sent"
+msgstr "Wiadomość została wysłana"
+
+#, fuzzy
+msgid "Messages:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć tę wiadomość?"
+
+#, fuzzy
+msgid "Messages:opt_markallasread"
+msgstr "Oznacz wszystkie wiadomości jako przeczytane"
+
+#, fuzzy
+msgid "Messages:type_receiver"
+msgstr "Odbiorca"
+
+#, fuzzy
+msgid "Messages:btn_send"
+msgstr "Wyślij"
+
+#, fuzzy
+msgid "Messages:info_nonewmessages"
+msgstr "Brak nowych wiadomości"
+
+#, fuzzy
+msgid "Messages:head_received"
+msgstr "Wiadomości odebrane"
+
+#, fuzzy
+msgid "Messages:head_sent"
+msgstr "Wiadomości wysłane"
+
+#, fuzzy
+msgid "Messages:opt_showsent"
+msgstr "Pokaż wiadomości wysłane"
+
+#, fuzzy
+msgid "Messages:btn_stoprec"
+msgstr "Zakończ nagrywanie"
+
+#, fuzzy
+msgid "Messages:btn_play"
+msgstr "Odtwórz"
+
+#, fuzzy
+msgid "Messages:btn_cancelrec"
+msgstr "Anuluj nagrywanie"
+
+#, fuzzy
+msgid "Messages:head_searchresults"
+msgstr "Wyniki wyszukiwania"
+
+#, fuzzy
+msgid "Messages:wait_converting"
+msgstr "Konwertowanie pliku..."
+
+#, fuzzy
+msgid "Messages:opt_search"
+msgstr "Szukaj"
+
+#, fuzzy
+msgid "Messages:btn_recmessage"
+msgstr "Nagraj wiadomość głosową"
+
+#, fuzzy
+msgid "Messages:btn_attach"
+msgstr "Załącz plik"
+
+#, fuzzy
+msgid "Messages:head_selattachment"
+msgstr "Wybierz plik do załączenia"
+
+#, fuzzy
+msgid "Messages:info_attached"
+msgstr "Załącznik dodany."
+
+#, fuzzy
+msgid "Messages:info_nomoreattachments"
+msgstr "Nie można dodać więcej załączników."
+
+#, fuzzy
+msgid "Messages:head_attachments"
+msgstr "Załączniki"
+
+#, fuzzy
+msgid "Messages:type_searchphrase"
+msgstr "Podaj tekst do wyszukania"
+
+#, fuzzy
+msgid "Messages:alert_mail"
+msgstr "Czy chcesz wysłać tą wiadomość jako E-mail?"
+
+#, fuzzy
+msgid "Messages:opt_flag"
+msgstr "Oznacz"
+
+#, fuzzy
+msgid "Messages:opt_removeflag"
+msgstr "Usuń oznaczenie"
+
+#, fuzzy
+msgid "Messages:opt_showflagged"
+msgstr "Pokaż oznaczone wiadomości"
+
+#, fuzzy
+msgid "Messages:info_flagged"
+msgstr "Wiadomość została oznaczona."
+
+#, fuzzy
+msgid "Messages:info_glagremoved"
+msgstr "Wiadomość nie jest już oznaczona."
+
+#, fuzzy
+msgid "Messages:head_flagged"
+msgstr "Wiadomości oznaczone"
+
+#, fuzzy
+msgid "Messages:opt_loadmore"
+msgstr "Załaduj więcej wiadomości"
+
+#, fuzzy
+msgid "MyPermissions:opt_moderators"
+msgstr "Moderatorzy"
+
+#, fuzzy
+msgid "MyPermissions:opt_mediaadministrators"
+msgstr "Administratorzy mediów"
+
+#, fuzzy
+msgid "MyPermissions:opt_translators"
+msgstr "Tłumacze"
+
+#, fuzzy
+msgid "MyPermissions:opt_developers"
+msgstr "Programiści"
+
+#, fuzzy
+msgid "Online:head"
+msgstr "Kto jest zalogowany?"
+
+#, fuzzy
+msgid "MainMenu:opt_installnewprograms"
+msgstr "Zainstaluj nowe programy"
+
+#, fuzzy
+msgid "MainMenu:alert_reinstall"
+msgstr ""
+"Czy chcesz przywrócić ostatnią stabilną wersję programu? Wszystkie "
+"ustawienia zostaną zachowane."
+
+#, fuzzy
+msgid "Forum:opt_newthr"
+msgstr "Nowy temat"
+
+#, fuzzy
+msgid "Forum:info_thrfollowed"
+msgstr "Dodano do śledzonych wątków."
+
+#, fuzzy
+msgid "Forum:opt_gotolast"
+msgstr "Przejdź do ostatniego wpisu"
+
+#, fuzzy
+msgid "Forum:type_thrname"
+msgstr "Tytuł wątku"
+
+#, fuzzy
+msgid "Forum:info_thrcreated"
+msgstr "Wątek został utworzony."
+
+#, fuzzy
+msgid "Forum:error_thrcreation"
+msgstr "Błąd tworzenia wątku!"
+
+#, fuzzy
+msgid "Forum:info_postcreated"
+msgstr "Wpis został utworzony."
+
+#, fuzzy
+msgid "Forum:info_thrdeleted"
+msgstr "Wątek został usunięty."
+
+#, fuzzy
+msgid "Forum:info_postdeleted"
+msgstr "Wpis został usunięty."
+
+#, fuzzy
+msgid "Forum:head"
+msgstr "Forum"
+
+#, fuzzy
+msgid "Forum:opt_reply"
+msgstr "Odpowiedz"
+
+#, fuzzy
+msgid "Forum:opt_quote"
+msgstr "Odpowiedz z cytatem"
+
+#, fuzzy
+msgid "Forum:opt_gotounread"
+msgstr "Przejdź do pierwszego nowego wpisu"
+
+#, fuzzy
+msgid "Forum:btn_send"
+msgstr "Wyślij"
+
+#, fuzzy
+msgid "Forum:info_nonewfollowedthr"
+msgstr "Brak nowych wpisów w śledzonych wątkach"
+
+#, fuzzy
+msgid "Forum:btn_back"
+msgstr "Powrót"
+
+#, fuzzy
+msgid "Forum:btn_sendaudio"
+msgstr "Dodaj wpis"
+
+#, fuzzy
+msgid "Forum:type_reply"
+msgstr "Twoja odpowiedź"
+
+#, fuzzy
+msgid "Forum:head_selforum"
+msgstr "Wybierz forum"
+
+#, fuzzy
+msgid "Forum:head_selthr"
+msgstr "Wybierz temat"
+
+#, fuzzy
+msgid "Forum:btn_recnewpost"
+msgstr "Nagraj nowy wpis"
+
+#, fuzzy
+msgid "Forum:btn_recstop"
+msgstr "Zakończ nagrywanie"
+
+#, fuzzy
+msgid "Forum:btn_recagain"
+msgstr "Nagraj wpis ponownie"
+
+#, fuzzy
+msgid "Forum:btn_play"
+msgstr "Odtwórz"
+
+#, fuzzy
+msgid "Forum:type_postcontent"
+msgstr "Treść wpisu"
+
+#, fuzzy
+msgid "Forum:wait_converting"
+msgstr "Konwertowanie..."
+
+#, fuzzy
+msgid "Forum:btn_recpost"
+msgstr "Nagraj wpis"
+
+#, fuzzy
+msgid "Forum:btn_playpost"
+msgstr "Odtwórz wpis"
+
+#, fuzzy
+msgid "Forum:opt_search"
+msgstr "Szukaj"
+
+#, fuzzy
+msgid "Forum:opt_rename"
+msgstr "Zmień nazwę"
+
+#, fuzzy
+msgid "Forum:opt_edit"
+msgstr "Edytuj wpis"
+
+#, fuzzy
+msgid "Forum:opt_deletepost"
+msgstr "Usuń wpis"
+
+#, fuzzy
+msgid "Forum:opt_open"
+msgstr "Otwórz"
+
+#, fuzzy
+msgid "Forum:opt_movethr"
+msgstr "Przenieś wątek"
+
+#, fuzzy
+msgid "Forum:type_searchphrase"
+msgstr "Podaj tekst do wyszukania"
+
+#, fuzzy
+msgid "Forum:opt_followthr"
+msgstr "Dodaj do śledzonych wątków"
+
+#, fuzzy
+msgid "Forum:opt_unfollowthr"
+msgstr "Usuń ze śledzonych wątków"
+
+#, fuzzy
+msgid "Forum:opt_deletethr"
+msgstr "Usuń wątek"
+
+#, fuzzy
+msgid "Forum:opt_navigation"
+msgstr "Nawigacja"
+
+#, fuzzy
+msgid "Forum:opt_gotopost"
+msgstr "Przejdź do wpisu"
+
+#, fuzzy
+msgid "Forum:opt_searchthr"
+msgstr "Przeszukaj wątek"
+
+#, fuzzy
+msgid "Forum:opt_gotofirst"
+msgstr "Przejdź do pierwszego wpisu"
+
+#, fuzzy
+msgid "Forum:opt_moderation"
+msgstr "Moderacja"
+
+#, fuzzy
+msgid "Forum:opt_movepost"
+msgstr "Przenieś wpis"
+
+#, fuzzy
+msgid "Forum:type_editpost"
+msgstr "Edycja wpisu"
+
+#, fuzzy
+msgid "Forum:info_postmodified"
+msgstr "Wpis został zmodyfikowany."
+
+#, fuzzy
+msgid "Forum:opt_mention"
+msgstr "Wzmiankuj wpis"
+
+#, fuzzy
+msgid "Forum:opt_listen"
+msgstr "Odsłuchaj wątek"
+
+#, fuzzy
+msgid "Forum:opt_followforum"
+msgstr "Śledź to forum"
+
+#, fuzzy
+msgid "Forum:opt_unfollowforum"
+msgstr "Usuń ze śledzonych forów"
+
+#, fuzzy
+msgid "Forum:info_forumfollowed"
+msgstr "Dodano do śledzonych forów."
+
+#, fuzzy
+msgid "Forum:info_forumunfollowed"
+msgstr "Usunięto ze śledzonych forów."
+
+#, fuzzy
+msgid "Forum:info_thrunfollowed"
+msgstr "Usunięto ze śledzonych wątków."
+
+#, fuzzy
+msgid "Forum:info_message"
+msgstr "Wiadomość"
+
+#, fuzzy
+msgid "Forum:opt_markforumasread"
+msgstr "Oznacz to forum jako przeczytane"
+
+#, fuzzy
+msgid "Forum:alert_markforumasread"
+msgstr ""
+"Wszystkie wpisy na tym forum zostaną oznaczone jako przeczytane. Czy jesteś "
+"pewien, że chcesz kontynuować?"
+
+#, fuzzy
+msgid "Main:info_pressalt"
+msgstr "Naciśnij klawisz ALT, aby otworzyć menu"
+
+#, fuzzy
+msgid "Main:btn_erasepls"
+msgstr "Wyczyść playlistę"
+
+#, fuzzy
+msgid "Main:head_pls"
+msgstr "Playlista"
+
+#, fuzzy
+msgid "Main:btn_send"
+msgstr "Wyślij na serwer"
+
+#, fuzzy
+msgid "Main:btn_avatar"
+msgstr "Ustaw jako awatar"
+
+#, fuzzy
+msgid "Main:head_player"
+msgstr "Odtwarzacz"
+
+#, fuzzy
+msgid "Main:btn_shuffle"
+msgstr "Mieszaj"
+
+#, fuzzy
+msgid "Main:info_shuffled"
+msgstr "Playlista wymieszana"
+
+#, fuzzy
+msgid "Login:type_login"
+msgstr "Login:"
+
+#, fuzzy
+msgid "Login:type_pass"
+msgstr "Hasło:"
+
+#, fuzzy
+msgid "Login:opt_asknomore"
+msgstr "Nie zadawaj więcej tego pytania"
+
+#, fuzzy
+msgid "Login:info_asknomore"
+msgstr ""
+"Aby włączyć ponownie pytanie o automatyczne logowanie, wybierz odpowiednią "
+"opcję z menu ustawień interfejsu."
+
+#, fuzzy
+msgid "Login:alert_crpdeprecated"
+msgstr ""
+"Zapisane informacje logowania wykorzystują starą metodę uwierzytelniania "
+"konta, w której wykryte zostały podatności na ataki hakerskie. W Eltenie 2.2 "
+"wprowadzone zostały nowe, bezpieczniejsze algorytmy automatycznego "
+"logowania. Zalecana jest konwersja zapisanych informacji do nowego systemu w "
+"celu poprawienia bezpieczeństwa konta. Czy chcesz zaktualizować zapisane "
+"informacje?"
+
+#, fuzzy
+msgid "Login:info_autologin"
+msgstr ""
+"Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami "
+"automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w "
+"menu Społeczność."
+
+#, fuzzy
+msgid "Login:info_crpupdated"
+msgstr ""
+"Dane logowania zostały zaktualizowane. Automatyczne logowanie będzie ważne "
+"do momentu wylogowania się. Kluczami automatycznego logowania można "
+"zarządzać z poziomu zakładki Moje Konto w menu Społeczność."
+
+#, fuzzy
+msgid "Login:type_authcode"
+msgstr ""
+"Na tym koncie włączone jest logowanie dwuetapowe. Wprowadź kod wysłany na "
+"twój numer wiadomością SMS, aby zezwolić temu urządzeniu na zalogowanie. "
+"Jeśli nie masz dostępu do użytego numeru telefonu, wybierz opcję resetowania "
+"hasła w celu wyłączenia logowania dwuetapowego."
+
+#, fuzzy
+msgid "Login:error_verification"
+msgstr "Błąd weryfikacji."
+
+#, fuzzy
+msgid "Login:type_authcodeagain"
+msgstr "Wprowadzony kod nie jest poprawny, spróbuj jeszcze raz"
+
+#, fuzzy
+msgid "Registration:info_slashes"
+msgstr ""
+"Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty."
+
+#, fuzzy
+msgid "Registration:info_spaces"
+msgstr "Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty."
+
+#, fuzzy
+msgid "Registration:type_login"
+msgstr ""
+"Podaj swój login. Będzie on używany w celu identyfikacji. Maksymalna długość "
+"loginu to 64 znaki."
+
+#, fuzzy
+msgid "Registration:type_pass"
+msgstr ""
+"Podaj swoje hasło. Zalecane jest silne hasło. Hasło takie składa się z liter "
+"i cyfr. Długość hasła powinna być krótsza niż dwieście pięćdziesiąt sześć "
+"znaków."
+
+#, fuzzy
+msgid "Registration:type_mail"
+msgstr ""
+"Podaj swój adres mailowy. Będzie on używany w przypadku zapomnienia hasła i "
+"do wysyłania najważniejszych informacji."
+
+#, fuzzy
+msgid "Registration:info_registered"
+msgstr ""
+"Rejestracja powiodła się, dziękujemy. Możesz teraz się zalogować, używając "
+"podanych danych."
+
+#, fuzzy
+msgid "Registration:error_unknown"
+msgstr "Wystąpił nieznany błąd bazy danych."
+
+#, fuzzy
+msgid "Registration:error_accountexists"
+msgstr "Konto o podanym loginie już istnieje."
+
+#, fuzzy
+msgid "Registration:error_save"
+msgstr "Wystąpił błąd zapisu danych."
+
+#, fuzzy
+msgid "Registration:error_connection"
+msgstr "Wystąpił błąd połączenia z serwerem."
+
+#, fuzzy
+msgid "Loading:opt_login"
+msgstr "Zaloguj Się"
+
+#, fuzzy
+msgid "Loading:opt_register"
+msgstr "Rejestracja"
+
+#, fuzzy
+msgid "Loading:opt_quit"
+msgstr "Wyjście"
+
+#, fuzzy
+msgid "Loading:opt_interfacesettings"
+msgstr "Ustawienia interfejsu"
+
+#, fuzzy
+msgid "Loading:opt_forgottenpass"
+msgstr "Reset hasła"
+
+#, fuzzy
+msgid "Loading:opt_guest"
+msgstr "Otwórz na koncie gościa"
+
+#, fuzzy
+msgid "Loading:opt_changesynth"
+msgstr "Zmień syntezator mowy"
+
+#, fuzzy
+msgid "Loading:opt_reinstall"
+msgstr "Wymuś aktualizację lub reinstalację z serwera"
+
+#, fuzzy
+msgid "Loading:info_novoice"
+msgstr ""
+"Nie wybrano głosu programu. Naciśnij enter, aby wybrać głos SAPI lub escape, "
+"aby użyć głosu domyślnego lub aktywnego czytnika ekranu."
+
+#, fuzzy
+msgid "EAPI_External:btn_play"
+msgstr "Odtwarzaj"
+
+#, fuzzy
+msgid "EAPI_External:opt_addtopls"
+msgstr "Dodaj do playlisty"
+
+#, fuzzy
+msgid "EAPI_External:opt_avatar"
+msgstr "Ustaw jako awatar"
+
+#, fuzzy
+msgid "EAPI_External:type_ytsearch"
+msgstr "Przeszukaj Youtube"
+
+#, fuzzy
+msgid "EAPI_External:head_ytsearchresults"
+msgstr "Wyniki wyszukiwania"
+
+#, fuzzy
+msgid "EAPI_External:wait_connecting"
+msgstr "Łączenie z serwerem, proszę czekać..."
+
+#, fuzzy
+msgid "EAPI_External:opt_download"
+msgstr "Pobierz"
+
+#, fuzzy
+msgid "EAPI_External:opt_copyurl"
+msgstr "Skopiuj adres URL do schowka"
+
+#, fuzzy
+msgid "EAPI_External:head_downloadtype"
+msgstr "Jak chcesz pobrać ten plik?"
+
+#, fuzzy
+msgid "EAPI_External:opt_downloadvideo"
+msgstr "Pobierz jako video"
+
+#, fuzzy
+msgid "EAPI_External:opt_downloadaudio"
+msgstr "Pobierz jako audio"
+
+#, fuzzy
+msgid "EAPI_External:wait_downloading"
+msgstr "Pobieranie, proszę czekać..."
+
+#, fuzzy
+msgid "EAPI_External:head_dst"
+msgstr "Gdzie zapisać ten plik?"
+
+#, fuzzy
+msgid "EAPI_External:head_langdst"
+msgstr "Język docelowy"
+
+#, fuzzy
+msgid "EAPI_External:head_langsrc"
+msgstr "Język źródłowy"
+
+#, fuzzy
+msgid "EAPI_External:opt_langdetection"
+msgstr "Wykryj język automatycznie"
+
+#, fuzzy
+msgid "EAPI_External:head_saveformat"
+msgstr "Wybierz format zapisu"
+
+#, fuzzy
+msgid "EAPI_External:btn_translate"
+msgstr "Tłumacz"
+
+#, fuzzy
+msgid "EAPI_Common:error_console"
+msgstr "Wystąpił błąd podczas przetwarzania polecenia."
+
+#, fuzzy
+msgid "EAPI_Common:opt_message"
+msgstr "Napisz prywatną wiadomość"
+
+#, fuzzy
+msgid "EAPI_Common:opt_visitingcard"
+msgstr "Wizytówka"
+
+#, fuzzy
+msgid "EAPI_Common:opt_delcontact"
+msgstr "Usuń z kontaktów"
+
+#, fuzzy
+msgid "EAPI_Common:opt_addcontact"
+msgstr "Dodaj do kontaktów"
+
+#, fuzzy
+msgid "EAPI_Common:info_nothingnew"
+msgstr "Nie ma nic nowego."
+
+#, fuzzy
+msgid "EAPI_Common:opt_quit"
+msgstr "Wyjście"
+
+#, fuzzy
+msgid "EAPI_Common:info_listempty"
+msgstr "Pusta Lista"
+
+#, fuzzy
+msgid "EAPI_Common:opt_ban"
+msgstr "Zbanuj"
+
+#, fuzzy
+msgid "EAPI_Common:opt_unban"
+msgstr "Odbanuj"
+
+#, fuzzy
+msgid "EAPI_Common:opt_blog"
+msgstr "Otwórz blog tego użytkownika"
+
+#, fuzzy
+msgid "EAPI_Common:opt_tray"
+msgstr "Ukryj program w zasobniku systemowym"
+
+#, fuzzy
+msgid "EAPI_Common:type_soundthemename"
+msgstr "Podaj nazwę tematu dźwiękowego."
+
+#, fuzzy
+msgid "EAPI_Common:info_soundthemecreation"
+msgstr ""
+"Pliki tematu dźwiękowego utworzone w %{dir}. Podmień pliki domyślnego tematu "
+"dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład."
+
+#, fuzzy
+msgid "EAPI_Common:head_whattodo"
+msgstr "Co chcesz zrobić?"
+
+#, fuzzy
+msgid "EAPI_Common:opt_openthemedir"
+msgstr "Otwórz folder tematu w plikach"
+
+#, fuzzy
+msgid "EAPI_Common:opt_openthemedirinexplorer"
+msgstr "Otwórz folder tematu w systemowym eksploratorze plików"
+
+#, fuzzy
+msgid "EAPI_Common:type_errordsc"
+msgstr "Opisz znaleziony błąd"
+
+#, fuzzy
+msgid "EAPI_Common:info_sent"
+msgstr "Wysłano."
+
+#, fuzzy
+msgid "EAPI_Common:type_console"
+msgstr "Podaj polecenia do wykonania"
+
+#, fuzzy
+msgid "EAPI_Common:btn_send"
+msgstr "Wyślij"
+
+#, fuzzy
+msgid "EAPI_Common:type_title"
+msgstr "Tytuł"
+
+#, fuzzy
+msgid "EAPI_Common:head_exiting"
+msgstr "Zamykanie programu..."
+
+#, fuzzy
+msgid "EAPI_Common:opt_playavatar"
+msgstr "Odtwórz awatar"
+
+#, fuzzy
+msgid "EAPI_Common:opt_sharedfiles"
+msgstr "Pliki udostępniane przez tego użytkownika"
+
+#, fuzzy
+msgid "EAPI_Common:info_noupdates"
+msgstr "Brak dostępnych aktualizacji."
+
+#, fuzzy
+msgid "EAPI_Common:opt_honors"
+msgstr "Odznaczenia tego użytkownika"
+
+#, fuzzy
+msgid "EAPI_Common:head_voice"
+msgstr "Głos"
+
+#, fuzzy
+msgid "EAPI_Common:head_rate"
+msgstr "Szybkość"
+
+#, fuzzy
+msgid "EAPI_Common:head_dst"
+msgstr "Lokalizacja docelowa"
+
+#, fuzzy
+msgid "EAPI_Common:btn_preview"
+msgstr "Podgląd"
+
+#, fuzzy
+msgid "EAPI_Common:btn_confirm"
+msgstr "Potwierdź"
+
+#, fuzzy
+msgid "EAPI_Common:error_playing"
+msgstr "Nie można odtworzyć tego pliku."
+
+#, fuzzy
+msgid "EAPI_Common:wait_packing"
+msgstr "Pakowanie..."
+
+#, fuzzy
+msgid "EAPI_Common:head_textsplit"
+msgstr "Podział tekstu"
+
+#, fuzzy
+msgid "EAPI_Common:opt_onefile"
+msgstr "Utwórz jeden plik"
+
+#, fuzzy
+msgid "EAPI_Common:opt_splitbyparagraphs"
+msgstr "Dziel akapitami"
+
+#, fuzzy
+msgid "EAPI_Common:opt_splitevery"
+msgstr "Dziel co"
+
+#, fuzzy
+msgid "EAPI_Common:type_splitevery"
+msgstr "Długość fragmentu (minuty)"
+
+#, fuzzy
+msgid "EAPI_Common:chk_readfilenum"
+msgstr "Odczytaj numer pliku"
+
+#, fuzzy
+msgid "EAPI_EltenSRV:wait_converting"
+msgstr "Konwertowanie pliku..."
+
+#, fuzzy
+msgid "EAPI_EltenSRV:info_sent"
+msgstr "Wysłano"
+
+#, fuzzy
+msgid "EAPI_Network:wait_sending"
+msgstr "Wysyłanie..."
+
+#, fuzzy
+msgid "EAPI_UI:info_newmessage"
+msgstr "Otrzymałeś nową wiadomość."
+
+#, fuzzy
+msgid "EAPI_Speech:chr_dot"
+msgstr "kropka"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_comma"
+msgstr "przecinek"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_slash"
+msgstr "ukośnik"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_semi"
+msgstr "średnik"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_tick"
+msgstr "apostrof"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_rightbracket"
+msgstr "prawy kwadratowy"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_backslash"
+msgstr "bekslesz"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_minus"
+msgstr "minus"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_equals"
+msgstr "równe"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_accent"
+msgstr "akcent"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_less"
+msgstr "mniejsze"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_greater"
+msgstr "większe"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_question"
+msgstr "pytajnik"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_colon"
+msgstr "dwukropek"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_quote"
+msgstr "cudzysłów"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_leftbrace"
+msgstr "lewa klamra"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_rightbrace"
+msgstr "prawa klamra"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_bar"
+msgstr "kreska pionowa"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_underline"
+msgstr "podkreślnik"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_plus"
+msgstr "plus"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_exclamation"
+msgstr "wykrzyknik"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_at"
+msgstr "małpa"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_hash"
+msgstr "krzyżyk"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_dollar"
+msgstr "dolar"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_percent"
+msgstr "procent"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_caret"
+msgstr "daszek"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_and"
+msgstr "ampersant"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_star"
+msgstr "gwiazdka"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_leftparen"
+msgstr "lewy nawias"
+
+#, fuzzy
+msgid "EAPI_Speech:chr_rightparen"
+msgstr "prawy nawias"
+
+#, fuzzy
+msgid "EAPI_Form:fld_media"
+msgstr "Media"
+
+#, fuzzy
+msgid "EAPI_Form:info_cut"
+msgstr "Wycięto"
+
+#, fuzzy
+msgid "EAPI_Form:info_copied"
+msgstr "Skopiowano"
+
+#, fuzzy
+msgid "EAPI_Form:st_checked"
+msgstr "Oznaczone"
+
+#, fuzzy
+msgid "EAPI_Form:st_unchecked"
+msgstr "Nieoznaczone"
+
+#, fuzzy
+msgid "EAPI_Form:fld_checkbox"
+msgstr "pole wyboru"
+
+#, fuzzy
+msgid "EAPI_Form:fld_edit"
+msgstr "Edycja"
+
+#, fuzzy
+msgid "EAPI_Form:fld_text"
+msgstr "Tekst"
+
+#, fuzzy
+msgid "EAPI_Form:fld_button"
+msgstr "Przycisk"
+
+#, fuzzy
+msgid "EAPI_Form:head_dst"
+msgstr "Miejsce docelowe"
+
+#, fuzzy
+msgid "EAPI_Form:info_pasted"
+msgstr "Wklejono"
+
+#, fuzzy
+msgid "EAPI_Form:opt_desktop"
+msgstr "Pulpit"
+
+#, fuzzy
+msgid "EAPI_Form:opt_documents"
+msgstr "Dokumenty"
+
+#, fuzzy
+msgid "EAPI_Form:opt_music"
+msgstr "Muzyka"
+
+#, fuzzy
+msgid "EAPI_Form:type_searchphrase"
+msgstr "Podaj tekst do wyszukania"
+
+#, fuzzy
+msgid "EAPI_Form:info_undone"
+msgstr "Cofnięto"
+
+#, fuzzy
+msgid "EAPI_Form:info_listempty"
+msgstr "Pusta lista"
+
+#, fuzzy
+msgid "EAPI_Form:info_nomatch"
+msgstr "Nie znaleziono dopasowania."
+
+#, fuzzy
+msgid "_Main:error_console"
+msgstr "Wystąpił błąd podczas przetwarzania polecenia."
+
+#, fuzzy
+msgid "_Main:opt_quit"
+msgstr "Wyjście"
+
+#, fuzzy
+msgid "_Main:opt_restart"
+msgstr "Restart"
+
+#, fuzzy
+msgid "_Main:info_copied"
+msgstr "Skopiowano"
+
+#, fuzzy
+msgid "_Main:head_whattodo"
+msgstr "Co chcesz zrobić?"
+
+#, fuzzy
+msgid "_Main:alert_errorreport"
+msgstr ""
+"Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do "
+"twórców programu?"
+
+#, fuzzy
+msgid "_Main:opt_tryagain"
+msgstr "Spróbuj ponownie"
+
+#, fuzzy
+msgid "_Main:opt_abort"
+msgstr "Przerwij działanie aplikacji"
+
+#, fuzzy
+msgid "_Main:opt_rescuemode"
+msgstr "Uruchom tryb awaryjny"
+
+#, fuzzy
+msgid "_Main:head_rescuemode"
+msgstr "Tryb awaryjny"
+
+#, fuzzy
+msgid "_Main:opt_reinstall"
+msgstr "Zainstaluj program ponownie"
+
+#, fuzzy
+msgid "_Main:opt_rescueforum"
+msgstr "Podejmij próbę otwarcia forum"
+
+#, fuzzy
+msgid "_Main:opt_rescuemessages"
+msgstr "Podejmij próbę otwarcia wiadomości"
+
+#, fuzzy
+msgid "_Main:opt_copyreport"
+msgstr "Skopiuj treść błędu do schowka"
+
+#, fuzzy
+msgid "Notes:opt_phr_author"
+msgstr "Autor"
+
+#, fuzzy
+msgid "Notes:opt_phr_modified"
+msgstr "Zmodyfikowana"
+
+#, fuzzy
+msgid "Polls:opt_phr_author"
+msgstr "Autor"
+
+#, fuzzy
+msgid "Polls:txt_phr_votes"
+msgstr "Liczba głosów"
+
+#, fuzzy
+msgid "General:error"
+msgstr "Błąd"
+
+#, fuzzy
+msgid "General:str_quit"
+msgstr "Wyjście"
+
+#, fuzzy
+msgid "General:str_enable"
+msgstr "Włącz"
+
+#, fuzzy
+msgid "General:str_disable"
+msgstr "Wyłącz"
+
+#, fuzzy
+msgid "General:str_cancel"
+msgstr "Anuluj"
+
+#, fuzzy
+msgid "General:str_refresh"
+msgstr "Odśwież"
+
+#, fuzzy
+msgid "General:str_save"
+msgstr "Zapisz"
+
+#, fuzzy
+msgid "General:info_saved"
+msgstr "Zapisano"
+
+#, fuzzy
+msgid "General:str_delete"
+msgstr "Usuń"
+
+#, fuzzy
+msgid "General:error_guest"
+msgstr "Ta funkcja nie jest dostępna na koncie gościa."
+
+#, fuzzy
+msgid "General:error_tokenexpired"
+msgstr "Klucz sesji wygasł."
+
+#, fuzzy
+msgid "General:error_db"
+msgstr "Błąd połączenia się z bazą danych."
+
+#, fuzzy
+msgid "General:error_permissions"
+msgstr "Nie masz odpowiednich uprawnień, by wykonać tę operację."
+
+#, fuzzy
+msgid "General:str_no"
+msgstr "Nie"
+
+#, fuzzy
+msgid "General:str_yes"
+msgstr "Tak"
+
+#, fuzzy
+msgid "Authentication:error_wrongpass"
+msgstr "Podano nieprawidłowe hasło."
+
+#, fuzzy
+msgid "ForgotPassword:error_unexpected"
+msgstr "Wystąpił nieoczekiwany błąd."
+
+#, fuzzy
+msgid "Portable:wait_languages"
+msgstr "Pobieranie pakietów językowych..."
+
+#, fuzzy
+msgid "Notes:info_notemodified"
+msgstr "Notatka została zmodyfikowana"
+
+#, fuzzy
+msgid "ForgotPassword:info_keysent"
+msgstr ""
+"Klucz resetowania hasła został wysłany na podany adres E-mail. Wybierz opcję "
+"wprowadzenia klucza, aby kontynuować"
+
+#, fuzzy
+msgid "Honors:info_nobadges"
+msgstr "Użytkownik nie otrzymał żadnych odznaczeń."
+
+#, fuzzy
+msgid "Programs:info_alreadyinstalled"
+msgstr "Ten program jest już zainstalowany."
+
+#, fuzzy
+msgid "Portable:wait_preparingfile"
+msgstr "Przygotowywanie pliku..."
+
+#, fuzzy
+msgid "Polls:error_noanswer"
+msgstr "Pytanie nie ma odpowiedzi"
+
+#, fuzzy
+msgid "Uploads:info_copiedtoclip"
+msgstr "Skopiowano do schowka."
+
+#, fuzzy
+msgid "Bug:head"
+msgstr "Zgłaszanie błędu"
+
+#, fuzzy
+msgid "Blog:error_blognotfound"
+msgstr "Blog nie istnieje."
+
+#, fuzzy
+msgid "Chat:error_banned"
+msgstr "Jesteś zbanowany."
+
+#, fuzzy
+msgid "Files:error_deletefile"
+msgstr "Nie można usunąć tego pliku, odmowa dostępu."
+
+#, fuzzy
+msgid "Program:info_exited"
+msgstr "program został zamknięty."
+
+#, fuzzy
+msgid "Update:info_updatewillinstall"
+msgstr ""
+"Aktualizacja zostanie teraz zainstalowana. Program zostanie uruchomiony "
+"ponownie."
+
+#, fuzzy
+msgid "MyPermissions:info_nopermissions"
+msgstr "Nie posiadasz żadnych specjalnych uprawnień."
+
+#, fuzzy
+msgid "Forum:info_forummarkedasread"
+msgstr "Forum zostało oznaczone jako przeczytane."
+
+#, fuzzy
+msgid "Main:alert_newbeta"
+msgstr "Dostępna jest nowa wersja beta programu."
+
+#, fuzzy
+msgid "Login:error_identity"
+msgstr ""
+"Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane "
+"zostało błędne hasło."
+
+#, fuzzy
+msgid "Registration:info_namenoats"
+msgstr "Nazwa użytkownika nie może zawierać małp. Znak zostanie pominięty."
+
+#, fuzzy
+msgid "Loading:alert_newversion"
+msgstr "Dostępna jest nowa wersja programu."
+
+#, fuzzy
+msgid "EAPI_External:error_translation"
+msgstr "Wystąpił błąd podczas tłumaczenia"
+
+#, fuzzy
+msgid "EAPI_Network:info_progressdonotread"
+msgstr "Nie odczytuj zmian na pasku postępu."
+
+#, fuzzy
+msgid "EAPI_UI:info_retry"
+msgstr "Program podejmie teraz próbę powrotu do pracy."
+
+#, fuzzy
+msgid "EAPI_Speech:chr_space"
+msgstr "Spacja"
+
+#, fuzzy
+msgid "EAPI_Form:info_repeated"
+msgstr "Powtórzono"
+
+#, fuzzy
+msgid "Notes:error_usernotfound"
+msgstr "Użytkownik nie istnieje"
+
+#, fuzzy
+msgid "Programs:info_installed"
+msgstr "Instalacja zakończona."
+
+#, fuzzy
+msgid "Polls:error_questiononeanswer"
+msgstr "Pytanie ma tylko jedną odpowiedź"
+
+#, fuzzy
+msgid "WhatsNew:info_nonewonfollowedblogs"
+msgstr "Brak nowych wpisów na śledzonych blogach."
+
+#, fuzzy
+msgid "Blog:info_categorycreated"
+msgstr "Kategoria została utworzona."
+
+#, fuzzy
+msgid "Files:info_unpacked"
+msgstr "Rozpakowano."
+
+#, fuzzy
+msgid "Media:info_categorycreated"
+msgstr "Kategoria została dodana!"
+
+#, fuzzy
+msgid "Account:info_statuschanged"
+msgstr "Status został zmieniony."
+
+#, fuzzy
+msgid "Update:wait_reinstallationdownloading"
+msgstr "Pobieranie instrukcji reinstalacji"
+
+#, fuzzy
+msgid "Messages:info_attachmentdownloaded"
+msgstr "Załącznik został pobrany."
+
+#, fuzzy
+msgid "Main:info_plserased"
+msgstr "Playlista usunięta."
+
+#, fuzzy
+msgid "Registration:error_difpass"
+msgstr "Podane hasła są różne."
+
+#, fuzzy
+msgid "EAPI_Common:wait_downloading"
+msgstr "Pobieranie..."
+
+#, fuzzy
+msgid "EAPI_EltenSRV:error_noavatar"
+msgstr "Użytkownik nie posiada avatara."
+
+#, fuzzy
+msgid "EAPI_Network:info_readprogress"
+msgstr "Odczytuj zmiany na pasku postępu."
+
+#, fuzzy
+msgid "EAPI_Form:info_loaded"
+msgstr "Wczytano"
+
+#, fuzzy
+msgid "Notes:info_notedeleted"
+msgstr "Notatka została usunięta."
+
+#, fuzzy
+msgid "Honors:info_defaulted"
+msgstr "Odznaczenie ustawiono jako domyślne."
+
+#, fuzzy
+msgid "Notes:info_notecreated"
+msgstr "Notatka została utworzona"
+
+#, fuzzy
+msgid "Honors:error_usernotfound"
+msgstr "Użytkownik nie istnieje"
+
+#, fuzzy
+msgid "Honors:info_honored"
+msgstr "Odznaczenie nadane"
+
+#, fuzzy
+msgid "Honors:info_honorcreated"
+msgstr "Odznaczenie zostało dodane"
+
+#, fuzzy
+msgid "Polls:info_pollcreated"
+msgstr "Ankieta została utworzona."
+
+#, fuzzy
+msgid "Polls:info_voted"
+msgstr "Twój głos został zapisany."
+
+#, fuzzy
+msgid "Blog:info_blogrenamed"
+msgstr "Nazwa bloga została zmieniona"
+
+#, fuzzy
+msgid "Blog:alert_noblog"
+msgstr "Nie posiadasz bloga. Czy chcesz go założyć?"
+
+#, fuzzy
+msgid "Blog:wait"
+msgstr "Proszę czekać..."
+
+#, fuzzy
+msgid "Blog:info_blogcreated"
+msgstr "Blog został utworzony."
+
+#, fuzzy
+msgid "Blog:info_renamed"
+msgstr "Nazwa została zmieniona."
+
+#, fuzzy
+msgid "Blog:info_nonewcommentsonyourblog"
+msgstr "Brak nowych komentarzy na twoim blogu."
+
+#, fuzzy
+msgid "Blog:info_postcreated"
+msgstr "Wpis został dodany."
+
+#, fuzzy
+msgid "Blog:info_commentcreated"
+msgstr "Komentarz został dodany."
+
+#, fuzzy
+msgid "Blog:info_blogfollowed"
+msgstr "Dodano do śledzonych blogów."
+
+#, fuzzy
+msgid "Blog:info_blogunfollowed"
+msgstr "Usunięto z listy śledzonych blogów."
+
+#, fuzzy
+msgid "Blog:info_blogmarkedasread"
+msgstr "Wszystkie wpisy na tym blogu zostały oznaczone jako przeczytane."
+
+#, fuzzy
+msgid "Blog:info_recategorized"
+msgstr "Rekategoryzacja zakończona"
+
+#, fuzzy
+msgid "Files:error_clipboardempty"
+msgstr "Schowek jest pusty"
+
+#, fuzzy
+msgid "Files:info_renamed"
+msgstr "Nazwa została zmieniona."
+
+#, fuzzy
+msgid "Files:info_dircreated"
+msgstr "Folder został utworzony."
+
+#, fuzzy
+msgid "Files:info_filecreated"
+msgstr "Plik został utworzony."
+
+#, fuzzy
+msgid "Files:info_plserased"
+msgstr "Playlista wyczyszczona"
+
+#, fuzzy
+msgid "Files:wait_converting"
+msgstr "Proszę czekać, trwa konwertowanie pliku."
+
+#, fuzzy
+msgid "Files:info_converted"
+msgstr "Konwersja zakończona."
+
+#, fuzzy
+msgid "Files:wait_processing"
+msgstr "Przetwarzanie..."
+
+#, fuzzy
+msgid "Media:info_added"
+msgstr "Dodano."
+
+#, fuzzy
+msgid "Account:error_identity"
+msgstr ""
+"Wystąpił błąd podczas próby uwierzytelnienia konta. Prawdopodobnie podano "
+"błędne hasło."
+
+#, fuzzy
+msgid "Account:error_usernotfound"
+msgstr "Użytkownik nie istnieje."
+
+#, fuzzy
+msgid "Update:info_reinstall"
+msgstr ""
+"Program zostanie teraz przywrócony do ostatniej stabilnej wersji. Elten "
+"zostanie uruchomiony ponownie. To może potrwać kilka minut."
+
+#, fuzzy
+msgid "Messages:info_allmarkedasread"
+msgstr "Wszystkie wiadomości zostały oznaczone jako przeczytane."
+
+#, fuzzy
+msgid "Messages:info_messagedeleted"
+msgstr "Wiadomość została usunięta."
+
+#, fuzzy
+msgid "Messages:info_filetoolarge"
+msgstr "Plik jest zbyt duży."
+
+#, fuzzy
+msgid "Messages:info_receivernotfound"
+msgstr "Odbiorca wiadomości nie istnieje."
+
+#, fuzzy
+msgid "Forum:info_nonewfollowedforumsthreads"
+msgstr "Brak nowych wątków na śledzonych forach"
+
+#, fuzzy
+msgid "Forum:info_nonewfollowedforumsposts"
+msgstr "Brak nowych wpisów na śledzonych forach"
+
+#, fuzzy
+msgid "Forum:info_nonewmentions"
+msgstr "Brak nowych wzmianek"
+
+#, fuzzy
+msgid "Forum:info_threadmoved"
+msgstr "Wątek został przeniesiony."
+
+#, fuzzy
+msgid "Forum:info_renamed"
+msgstr "Nazwa została zmieniona."
+
+#, fuzzy
+msgid "Forum:wait_postsendpreparation"
+msgstr "Przygotowywanie do wysłania wpisu..."
+
+#, fuzzy
+msgid "Forum:error_postcreation"
+msgstr "Błąd tworzenia wpisu."
+
+#, fuzzy
+msgid "Forum:error_phrasenotfound"
+msgstr "Nie znaleziono podanej frazy."
+
+#, fuzzy
+msgid "Forum:info_postmoved"
+msgstr "Wpis został przeniesiony."
+
+#, fuzzy
+msgid "Forum:info_postslided"
+msgstr "Wpis został przesunięty."
+
+#, fuzzy
+msgid "Forum:info_noonecontactedyou"
+msgstr "Nikt nie dodał Ciebie do swoich kontaktów."
+
+#, fuzzy
+msgid "Forum:info_mentionsent"
+msgstr "Wzmianka została wysłana."
+
+#, fuzzy
+msgid "Login:error_wrongdata"
+msgstr "Błędny login lub hasło."
+
+#, fuzzy
+msgid "Login:error_logon"
+msgstr "Błąd logowania."
+
+#, fuzzy
+msgid "Login:error_srv"
+msgstr "Błąd połączenia z serwerem."
+
+#, fuzzy
+msgid "EAPI_External:info_donotreadprogress"
+msgstr "Nie odczytuj zmian na pasku postępu."
+
+#, fuzzy
+msgid "EAPI_External:info_readprogress"
+msgstr "Odczytuj zmiany na pasku postępu."
+
+#, fuzzy
+msgid "EAPI_External:info_addedtopls"
+msgstr "Dodano do playlisty"
+
+#, fuzzy
+msgid "EAPI_External:wait"
+msgstr "Proszę czekać..."
+
+#, fuzzy
+msgid "EAPI_External:info_copiedtoclip"
+msgstr "Skopiowano do schowka."
+
+#, fuzzy
+msgid "EAPI_Common:error_logon"
+msgstr ""
+"Błąd, nie mogę się zalogować. Prawdopodobnie podano błędne hasło lub jesteś "
+"zbanowany."
+
+#, fuzzy
+msgid "EAPI_Common:info_finished"
+msgstr "Operacja zakończona powodzeniem"
+
+#, fuzzy
+msgid "EAPI_Common:info_usingscreenreader"
+msgstr "Używanie czytnika ekranu"
+
+#, fuzzy
+msgid "EAPI_Common:info_usingsapi"
+msgstr "Używanie wybranej syntezy SAPI"
+
+#, fuzzy
+msgid "EAPI_EltenSRV:wait_severalminutes"
+msgstr "Proszę czekać, to może potrwać kilka minut..."
+
+#, fuzzy
+msgid "EAPI_UI:info_newmessagefemale"
+msgstr "Otrzymałaś nową wiadomość."
+
+#, fuzzy
+msgid "EAPI_UI:info_newfollowedthread"
+msgstr "W śledzonym wątku pojawił się nowy wpis."
+
+#, fuzzy
+msgid "EAPI_UI:info_newfollowedblog"
+msgstr "Na śledzonym blogu pojawił się nowy wpis."
+
+#, fuzzy
+msgid "Honors:alert_mainhonor"
+msgstr ""
+"Czy chcesz ustawić to odznaczenie jako główne? Główne odznaczenie pokaże się "
+"w twojej wizytówce."
+
+#, fuzzy
+msgid "Blog:alert_deletecategory"
+msgstr "Czy jesteś pewien, że chcesz usunąć tą kategorię?"
+
+#, fuzzy
+msgid "Contacts:alert_delcontact"
+msgstr "Czy na pewno chcesz usunąć ten kontakt?"
+
+#, fuzzy
+msgid "Update:alert_joinbeta"
+msgstr ""
+"Nie należysz do otwartego programu testów Elten. Czy chcesz do niego "
+"przystąpić teraz, by pobrać wersję beta?"
+
+#, fuzzy
+msgid "MainMenu:alert_resetsettings"
+msgstr ""
+"Czy jesteś pewien, że chcesz usunąć wszystkie ustawienia programu i "
+"przywrócić wartości domyślne? Elten zostanie uruchomiony ponownie."
+
+#, fuzzy
+msgid "EAPI_External:alert_audioreport"
+msgstr ""
+"Wystąpił błąd podczas przechwytywania ścieżki audio. Czy chcesz wysłać "
+"raport o błędzie? Może on pomóc rozwiązać problem "
+
+#, fuzzy
+msgid "EAPI_External:alert_ytreport"
+msgstr ""
+"Nie można odtworzyć tego pliku. Czy chcesz wysłać raport o tym błędzie? Może "
+"to pomóc naprawić napotkany problem."
+
+#, fuzzy
+msgid "EAPI_Common:alert_useragreement"
+msgstr "Czy akceptujesz umowę licencyjną oprogramowania Elten?"
+
+#, fuzzy
+msgid "EAPI_UI:alert_agentreport"
+msgstr ""
+"Wystąpił nieoczekiwany błąd agenta programu Elten. Czy chcesz przesłać "
+"raport o tym zdarzeniu? Przesłanie raportu może zdecydowanie ułatwić "
+"rozwiązanie problemu."
+
+#, fuzzy
+msgid "*Main:alert_changepls"
+msgstr "Twoja playlista została zmieniona. Zapisać zmiany?"
+
+#, fuzzy
+msgid "*Main:alert_savepls"
+msgstr "Czy chcesz zapisać swoją playlistę?"
+
+#, fuzzy
+msgid "*Main:alert_deletepls"
+msgstr "Czy chcesz usunąć zapisaną playlistę?"
+
+#, fuzzy
+msgid "Debug:read_report"
+msgstr "Raport"
+
+#, fuzzy
+msgid "Notes:type_sharenotewith"
+msgstr "Z kim chcesz współdzielić tą notatkę?"
+
+#, fuzzy
+msgid "Notes:type_title"
+msgstr "Tytuł notatki"
+
+#, fuzzy
+msgid "Notes:type_content"
+msgstr "Treść notatki"
+
+#, fuzzy
+msgid "Honors:type_name"
+msgstr "Nazwa odznaczenia"
+
+#, fuzzy
+msgid "Honors:type_description"
+msgstr "Opis odznaczenia"
+
+#, fuzzy
+msgid "Honors:type_enname"
+msgstr "Angielska nazwa odznaczenia"
+
+#, fuzzy
+msgid "Honors:type_endescription"
+msgstr "Angielski opis odznaczenia"
+
+#, fuzzy
+msgid "Polls:read_poll"
+msgstr "Ankieta"
+
+#, fuzzy
+msgid "Ban:type_reason"
+msgstr "Przyczyna"
+
+#, fuzzy
+msgid "Ban:type_additionalmsg"
+msgstr "Dodatkowa wiadomość dla użytkownika"
+
+#, fuzzy
+msgid "Ban:read_reason"
+msgstr "Przyczyna zbanowania"
+
+#, fuzzy
+msgid "Ban:read_validuntil"
+msgstr "Ban ważny do"
+
+#, fuzzy
+msgid "Ban:type_cancelreason"
+msgstr "Przyczyna anulowania bana"
+
+#, fuzzy
+msgid "Media:type_categorydescription"
+msgstr "Opis kategorii"
+
+#, fuzzy
+msgid "Account:type_birthdateyear"
+msgstr "Data urodzenia: rok"
+
+#, fuzzy
+msgid "Account:type_birthdatemonth"
+msgstr "Data urodzenia: miesiąc"
+
+#, fuzzy
+msgid "Account:type_birthdateday"
+msgstr "Data urodzenia: dzień"
+
+#, fuzzy
+msgid "Account:type_location"
+msgstr "Lokalizacja"
+
+#, fuzzy
+msgid "Account:type_greeting"
+msgstr "Twoja wiadomość powitalna:"
+
+#, fuzzy
+msgid "Forum:type_nick"
+msgstr "Pseudonim:"
+
+#, fuzzy
+msgid "Main:type_test"
+msgstr "test"
+
+#, fuzzy
+msgid "EAPI_External:read_Details"
+msgstr "Szczegóły"
+
+#, fuzzy
+msgid "EAPI_Common:read_useragreement"
+msgstr ""
+"Umowa licencyjna oraz regulamin użytkowania programu Elten oraz sieci Elten "
+"Network"
+
+#, fuzzy
+msgid "EAPI_Common:read_readingtofile"
+msgstr "Czytanie do pliku, proszę czekać..."
+
+#, fuzzy
+msgid "EAPI_Form:type_Filename"
+msgstr "Nazwa pliku"
+
+#, fuzzy
+msgid "Honors:type_honoruser"
+msgstr "Komu nadać to odznaczenie?"
+
+#, fuzzy
+msgid "Polls:type_answer"
+msgstr "Odpowiedź"
+
+#, fuzzy
+msgid "Blog:type_blogname"
+msgstr "Podaj nazwę tworzonego bloga."
+
+#, fuzzy
+msgid "Blog:type_newcatname"
+msgstr "Podaj nową nazwę dla tej kategorii"
+
+#, fuzzy
+msgid "Files:type_newname"
+msgstr "Nowa nazwa"
+
+#, fuzzy
+msgid "Account:type_blacklistaddusername"
+msgstr "Podaj nazwę użytkownika, którego chcesz dodać do czarnej listy"
+
+#, fuzzy
+msgid "Contacts:type_blacklistremoveusername"
+msgstr "Podaj nazwę użytkownika, którego chcesz usunąć ze swoich kontaktów."
+
+#, fuzzy
+msgid "Forum:type_thrnewname"
+msgstr "Podaj nową nazwę wątku"
+
+#, fuzzy
+msgid "Registration:type_passagain"
+msgstr "Powtórz hasło"
+
+#, fuzzy
+msgid "EAPI_Common:type_movetosec"
+msgstr "Podaj sekundę, do której chcesz przeskoczyć"
+
+#, fuzzy
+msgid "EAPI_Form:type_location"
+msgstr "Podaj ścieżkę"
+
+#, fuzzy
+msgid "Debug:chk_srvconnectionsignal"
+msgstr "Sygnalizuj połączenia z serwerem"
+
+#, fuzzy
+msgid "Portable:chk_sfx"
+msgstr ""
+"Utwórz jako jeden plik exe (Uwaga! Żadne ustawienia nie będą zapamiętywane.)"
+
+#, fuzzy
+msgid "Interface:chk_linewrapping"
+msgstr "Zawijaj długie wiersze w polach tekstowych"
+
+#, fuzzy
+msgid "Debug:btn_ok"
+msgstr "OK"
+
+#, fuzzy
+msgid "Blog:btn_createtextpost"
+msgstr "Utwórz wpis tekstowy"
+
+#, fuzzy
+msgid "Messages:btn_sendasadmin"
+msgstr "Wyślij jako administracja"
+
+#, fuzzy
+msgid "Messages:btn_sendtoall"
+msgstr "Wyślij do wszystkich"
+
+#, fuzzy
+msgid "Messages:btn_audiomessage"
+msgstr "Wiadomość głosowa"
+
+#, fuzzy
+msgid "Forum:btn_recpoststop"
+msgstr "Zatrzymaj nagrywanie wpisu"
+
+#, fuzzy
+msgid "EAPI_Common:btn_agree"
+msgstr "Akceptuję"
+
+#, fuzzy
+msgid "EAPI_Common:btn_disagree"
+msgstr "Nie akceptuję, zamknij program"
+
+#, fuzzy
+msgid "EAPI_Common:read_waitprocessingfiles"
+msgstr "Proszę czekać, trwa przetwarzanie plików..."
+
+#, fuzzy
+msgid "Blog:alert_markblogasread"
+msgstr ""
+"Wszystkie wpisy na tym blogu zostaną oznaczone jako przeczytane. Czy jesteś "
+"pewien, że chcesz kontynuować?"
+
+#, fuzzy
+msgid "Files:alert_eltenapi"
+msgstr ""
+"Czy chcesz uruchomić ten plik skryptu Elten API? Skrypty pochodzące z "
+"niezaufanych źródeł mogą być niebezpieczne i spowodować uszkodzenie "
+"komputera lub uzyskanie dostępu do konta przez osoby niepowołane. Kontynuuj "
+"tylko wtedy, gdy ufasz pochodzeniu tego pliku."
+
+#, fuzzy
+msgid "Forum:alert_Deletepost"
+msgstr "Czy na pewno chcesz usunąć ten wpis?"
+
+#, fuzzy
+msgid "EAPI_Common:alert_mididownloadsf"
+msgstr ""
+"Próbujesz odtworzyć plik typu midi. Aby poprawnie odtwarzać pliki tego typu, "
+"program Elten wymaga zewnętrznej bazy brzmień instrumentów. Czy chcesz ją "
+"teraz pobrać z serwera? To może potrwać kilka minut."
+
+#, fuzzy
+msgid "Uploads:head_filetosend"
+msgstr "Wybierz plik do wysłania na serwer"
+
+#, fuzzy
+msgid "Messages:head_savelocation"
+msgstr "Gdzie chcesz zapisać ten plik?"
+
+#, fuzzy
+msgid "EAPI_Common:head_savelocation"
+msgstr "Gdzie chcesz zapisać ten plik?"
+
+#, fuzzy
+msgid "Forum:head_movethrlocation"
+msgstr "Gdzie chcesz przenieść ten wątek"
+
+#, fuzzy
+msgid "EAPI_EltenSRV:head_seluser"
+msgstr "Wybierz użytkownika"
+
+#, fuzzy
+msgid "Forum:head_selpost"
+msgstr "Wybierz wpis"
+
+#, fuzzy
+msgid "Forum:head_movepostlocation"
+msgstr "Gdzie chcesz przenieść ten wpis?"
+
+#, fuzzy
+msgid "Forum:head_postslidewith"
+msgstr "Wybierz, z którym innym wpisem zamienić ten wpis."
+
+#, fuzzy
+msgid "Files:head_convertto"
+msgstr "Do jakiego formatu chcesz przekonwertować ten plik?"
+
+#, fuzzy
+msgid "Honors:head"
+msgstr "Odznaczenia"
+
+#, fuzzy
+msgid "Honors:head_user"
+msgstr "Odznaczenia użytkownika %{user}"
+
+#, fuzzy
+msgid "Polls:read_results"
+msgstr "Wyniki ankiety: #{%name%}"
+
+#, fuzzy
+msgid "Programs:alert_installprogram"
+msgstr "Czy chcesz zainstalować program %{name}?"
+
+#, fuzzy
+msgid "Notes:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+
+#, fuzzy
+msgid "Polls:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+
+#, fuzzy
+msgid "Uploads:head_filesofuser"
+msgstr "Pliki użytkownika %{user}"
+
+#, fuzzy
+msgid "Uploads:alert_deletefile"
+msgstr "Czy jesteś pewien, że chcesz usunąć plik %{filename}?"
+
+#, fuzzy
+msgid "Blog:opt_phr_author"
+msgstr "Autor"
+
+#, fuzzy
+msgid "Ban:opt_day"
+msgstr "Dzień"
+
+#, fuzzy
+msgid "Ban:opt_threedays"
+msgstr "Trzy dni"
+
+#, fuzzy
+msgid "Ban:opt_year"
+msgstr "Rok"
+
+#, fuzzy
+msgid "Chat:info_phr_lastmessage"
+msgstr "Ostatnia wiadomość"
+
+#, fuzzy
+msgid "Files:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{filename}?"
+
+#, fuzzy
+msgid "General:female"
+msgstr "Kobieta"
+
+#, fuzzy
+msgid "General:male"
+msgstr "mężczyzna"
+
+#, fuzzy
+msgid "Account:info_phr_addedtoblacklist"
+msgstr "Użytkownik %{user} został dodany do twojej czarnej listy"
+
+#, fuzzy
+msgid "Voice:info_phr_selectedvoice"
+msgstr "Wybrany głos"
+
+#, fuzzy
+msgid "Messages:opt_phr_from"
+msgstr "Od"
+
+#, fuzzy
+msgid "Messages:opt_phr_to"
+msgstr "Do:"
+
+#, fuzzy
+msgid "Messages:opt_phr_new"
+msgstr "Nowa"
+
+#, fuzzy
+msgid "Messages:wait_sendingfile"
+msgstr "Przesyłanie: %{file}"
+
+#, fuzzy
+msgid "_Main:info_errorcritical"
+msgstr "Wystąpił krytyczny błąd. Opis błędu: %{description}"
+
+#, fuzzy
+msgid "EAPI_Form:opt_phr_shortkey"
+msgstr "Skrót: "
+
+#, fuzzy
+msgid "EAPI_EltenSRV:info_phr_sessconftime"
+msgstr "Czas potwierdzenia sesji:"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_gender"
+msgstr "Płeć"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_age"
+msgstr "Wiek"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_knows"
+msgstr "Zna użytkowników"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_forumposts"
+msgstr "Wpisy na forum"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_pollsanswered"
+msgstr "Wypełnione ankiety"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_usedversion"
+msgstr "Używana wersja programu"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_registered"
+msgstr "Konto zarejestrowane"
+
+#, fuzzy
+msgid "EAPI_Common:error_nofiletoread"
+msgstr "Nie wybrano pliku do przeczytania"
+
+#, fuzzy
+msgid "EAPI_Common:error_nofilename"
+msgstr "Podaj tytuł tworzonego pliku"
+
+#, fuzzy
+msgid "EAPI_Common:error_seldestination"
+msgstr "Wybierz miejsce zapisu pliku"
+
+#, fuzzy
+msgid "EAPI_Common:error_selsource"
+msgstr "Wybierz plik źródłowy"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_readtofilenum"
+msgstr "Czytanie do pliku numer"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_sentencenumber"
+msgstr "Zdanie %{cursentence} z %{sentences}"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_readtime"
+msgstr "Przeczytano"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_timeremaining"
+msgstr "Szacowany pozostały czas"
+
+#, fuzzy
+msgid "EAPI_Common:read_visitingcardofuser"
+msgstr "Wizytówka: %{user}"
+
+#, fuzzy
+msgid "Login:info_loggedinas"
+msgstr "Zalogowany jako: %{user}"
+
+#, fuzzy
+msgid "Login:alert_autologin"
+msgstr "Czy chcesz włączyć automatyczne logowanie dla konta %{user}?"
+
+#, fuzzy
+msgid "Forum:opt_phr_author"
+msgstr "Autor"
+
+#, fuzzy
+msgid "Forum:alert_thrdelete"
+msgstr "Czy jesteś pewien, że chcesz usunąć wątek %{thrname}?"
+
+#, fuzzy
+msgid "Forum:opt_phr_thrisnew"
+msgstr "Nowy"
+
+#, fuzzy
+msgid "Forum:opt_phr_threads"
+msgstr "wątki"
+
+#, fuzzy
+msgid "Forum:opt_phr_posts"
+msgstr "wpisy"
+
+#, fuzzy
+msgid "WhatsNew:opt_messages"
+msgstr "Nowe wiadomości"
+
+#, fuzzy
+msgid "WhatsNew:opt_followedthreads"
+msgstr "Nowe wpisy w śledzonych wątkach"
+
+#, fuzzy
+msgid "WhatsNew:opt_followedblogs"
+msgstr "Nowe wpisy na śledzonych blogach"
+
+#, fuzzy
+msgid "WhatsNew:opt_blogcomments"
+msgstr "Nowe komentarze na twoim blogu"
+
+#, fuzzy
+msgid "WhatsNew:opt_followedforums"
+msgstr "Nowe wątki na śledzonych forach"
+
+#, fuzzy
+msgid "WhatsNew:opt_followedforumsposts"
+msgstr "Nowe wpisy na śledzonych forach"
+
+#, fuzzy
+msgid "WhatsNew:opt_contacts"
+msgstr "Nowi znajomi"
+
+#, fuzzy
+msgid "WhatsNew:opt_birthday"
+msgstr "Urodziny znajomych"
+
+#, fuzzy
+msgid "WhatsNew:opt_mentions"
+msgstr "Urodziny znajomych"
+
+#, fuzzy
+msgid "WhatsNew:opt_update"
+msgstr "Dostępna aktualizacja (%version)"
+
+#, fuzzy
+msgid "_Main:error_critical"
+msgstr "Wystąpił krytyczny błąd. Opis błędu: %{description}"
+
+#, fuzzy
+msgid "Chat:joined"
+msgstr "Dołączył do dyskusji."
+
+#, fuzzy
+msgid "Chat:left"
+msgstr "Opuścił dyskusję."
+
+#, fuzzy
+msgid "Notes:info_sharedwith"
+msgstr "Od teraz współdzielisz tę notatkę z %{user}"
+
+#, fuzzy
+msgid "Notes:info_unsharedwith"
+msgstr "Nie współdzielisz już tej notatki z %{user}"
+
+#, fuzzy
+msgid "Notes:alert_unshare"
+msgstr "Czy chcesz przestać współdzielić tę notatkę z %{user}?"
+
+#, fuzzy
+msgid "Files:head_soundquality"
+msgstr "Wybierz jakość dźwięku"
+
+#, fuzzy
+msgid "Files:info_addedtoplscount"
+msgstr "Pliki dodane do playlisty: %{count}."
+
+#, fuzzy
+msgid "General:error_platform"
+msgstr "Ta funkcja nie jest dostępna na tej platformie."
+
+#, fuzzy
+msgid "EAPI_Common:info_readtofilefinished"
+msgstr "Czytanie do pliku zakończono."
+
+#, fuzzy
+msgid "EAPI_UI:info_alarm"
+msgstr "Alarm!"
+
+#, fuzzy
+msgid "EAPI_Form:wait_link"
+msgstr "Otwieranie łącza..."
+
+#, fuzzy
+msgid "EAPI_Form:wait_downloading"
+msgstr "Pobieranie..."
+
+#, fuzzy
+msgid "EAPI_Form:info_downloaded"
+msgstr "Pobieranie zakończone"
+
+#, fuzzy
+msgid "EAPI_Form:info_checked"
+msgstr "Zaznaczono"
+
+#, fuzzy
+msgid "EAPI_Form:info_unchecked"
+msgstr "Odznaczono"
+
+#, fuzzy
+msgid "UserSearch:opt_searchagain"
+msgstr "Wyszukaj ponownie"
+
+#, fuzzy
+msgid "Permissions:head"
+msgstr "Należysz do następujących grup"
+
+#, fuzzy
+msgid "Honors:opt_honor"
+msgstr "Nadaj odznaczenie"
+
+#, fuzzy
+msgid "Honors:opt_new"
+msgstr "Nowe odznaczenie"
+
+#, fuzzy
+msgid "Blog:opt_markallasread"
+msgstr "Oznacz wszystkie wpisy na tym blogu jako przeczytane"
+
+#, fuzzy
+msgid "Forum:opt_phr_unreads"
+msgstr "Nowe"
