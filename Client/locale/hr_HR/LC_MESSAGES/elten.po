@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-10-29 21:46+0100\n"
+"PO-Revision-Date: 2018-10-30 09:00+0100\n"
 "Last-Translator: Dawid Pieper <dawidpieper@o2.pl>\n"
 "Language: hr_HR\n"
 "Language-Team: hr <zvonimirek222@yandex.com>\n"
@@ -20,282 +20,218 @@ msgstr ""
 "Generated-By: Elten 2.3B1\n"
 "X-Generator: Poedit 1.6.10\n"
 
-#, fuzzy
 msgid "Authentication:type_pass"
-msgstr "Podaj swoje hasło"
+msgstr "Upiši svoju lozinku"
 
-#, fuzzy
 msgid "Authentication:head_enabled"
 msgstr ""
-"Dwuetapowe uwierzytelnianie pozwala na lepsze zabezpieczenie konta poprzez "
-"potwierdzanie każdego logowania numerem telefonu. Gdy ta opcja jest "
-"włączona, przy każdorazowym logowaniu do portalu Elten z nowego urządzenia "
-"wysyłana będzie wiadomość SMS z kodem weryfikującym. Wpisanie tego kodu "
-"będzie wymagane, aby zalogować się do programu."
+"Dvofaktorna autentifikacija omogućava bolju zaštitu naloga putem potvrde "
+"svake prijave brojem telefona. Kada je ova opcija uključena, pri svakoj "
+"prijavi na Elten sa novog uređaja biti će poslana SMS poruka sa kodom, kojim "
+"potvrđujete svoju prijavu. Biti će potrebno upisati taj kod, da biste se "
+"mogli prijaviti u program."
 
-#, fuzzy
 msgid "Authentication:head_disabled"
-msgstr "Dwuetapowe uwierzytelnianie jest włączone dla tego konta."
+msgstr "dvofaktorna autentifikacija je uključena za ovaj nalog"
 
-#, fuzzy
 msgid "Authentication:type_phone"
 msgstr ""
-"Podaj swój numer telefonu, który będzie używany podczas weryfikacji. "
-"Pamiętaj o wpisaniu numeru kierunkowego, na przykład +48 dla polski"
+"Unesi svoj broj telefona, koji će se koristiti za verifikaciju. Nemoj "
+"zaboraviti pozivni broj države, na primjer +385 za hrvatsku"
 
-#, fuzzy
 msgid "Authentication:alert_support"
 msgstr ""
-"Uwierzytelnianie dwuetapowe zostało wprowadzone w Eltenie 2.28. Po "
-"aktywowaniu go, zalogowanie się ze starszych wersji programu nie będzie "
-"możliwe. Czy kontynuować mimo to?"
+"Dvofaktorna autentifikacija uvedena je u inačici  Eltena 2.28. poslije "
+"uključenja iste, prijava iz starijih inačica programa neće biti moguće. "
+"Želite li nastaviti?"
 
-#, fuzzy
 msgid "Authentication:alert_checkphone"
 msgstr ""
-"Czy ten numer telefonu jest poprawny? Wciśnij enter aby kontynuować lub "
-"escape aby anulować."
+"Je li ovaj broj telefona ispravan? Da nastaviš, pritisni enter ili escape "
+"kako bi odustao."
 
-#, fuzzy
 msgid "Authentication:wait"
-msgstr "Proszę czekać, trwa łączenie z serwerem..."
+msgstr "Pričekaj, traje povezivanje na poslužitelj..."
 
-#, fuzzy
 msgid "Authentication:type_code"
 msgstr ""
-"Na wskazany numer telefonu otrzymasz wiadomość SMS z kodem aktywującym "
-"uwierzytelnianie dwuetapowe. Wprowadź ten kod"
+"Na upisani broj telefona dobiti ćeš SMS poruku sa kodom, kojeg ćeš "
+"iskoristiti kako bi aktivirao dvofaktornu autentifikaciju. Upiši taj kod"
 
-#, fuzzy
 msgid "Authentication:type_wrongcode"
-msgstr "Wprowadzony kod nie jest poprawny. Spróbuj jeszcze raz."
+msgstr "Nepravilan upisani kod. Pokušaj ponovo još jednom."
 
-#, fuzzy
 msgid "Authentication:error_wrongcode"
-msgstr "Wprowadzony kod nie jest poprawny."
+msgstr "Upisani kod je neispravan."
 
-#, fuzzy
 msgid "Authentication:info_enabled"
-msgstr "Uwierzytelnianie dwuetapowe zostało aktywowane dla tego konta."
+msgstr "Dvofaktorna autentifikacija je aktivirana za ovaj nalog."
 
-#, fuzzy
 msgid "Authentication:alert_disable"
-msgstr "Czy jesteś pewien, że chcesz wyłączyć uwierzytelnianie dwuetapowe?"
+msgstr "Jesi li suguran da želiš isključiti dvofaktornu autentifikaciju?"
 
-#, fuzzy
 msgid "Authentication:info_disabled"
-msgstr "Uwierzytelnianie dwuetapowe zostało wyłączone."
+msgstr "Dvofaktorna autentifikacija je isključena."
 
-#, fuzzy
 msgid "Users_LastAvatars:head"
-msgstr "Ostatnio zmienione awatary"
+msgstr "Posljednje promijenjeni avatari"
 
-#, fuzzy
 msgid "Users_RecentlyRegistered:head"
-msgstr "Ostatnio zarejestrowani użytkownicy"
+msgstr "Zadnji zaregistrirani korisnici"
 
-#, fuzzy
 msgid "Users_RecentlyActived:head"
-msgstr "Ostatnio aktywni użytkownicy"
+msgstr "Zadnje aktivni korisnici"
 
-#, fuzzy
 msgid "UserSearch:head_results"
-msgstr "Wyniki wyszukiwania"
+msgstr "Rezultati pretrage"
 
-#, fuzzy
 msgid "UserSearch:head"
-msgstr "Szukanie użytkowników"
+msgstr "Pretraga korisnika"
 
-#, fuzzy
 msgid "UserSearch:error_noresults"
-msgstr "Nie znaleziono dopasowania."
+msgstr "Poklapanje nije pronađeno."
 
-#, fuzzy
 msgid "Clock:head_hour"
-msgstr "Godzina"
+msgstr "sat"
 
-#, fuzzy
 msgid "Clock:opt_none"
-msgstr "Brak"
+msgstr "ništa"
 
-#, fuzzy
 msgid "Clock:btn_add"
 msgstr "Dodaj"
 
-#, fuzzy
 msgid "Clock:chk_notify"
-msgstr "Automatyczny odczyt czasu"
+msgstr "Automatsko izgovaranje vremena"
 
-#, fuzzy
 msgid "Clock:opt_voiceandsound"
-msgstr "Głos i dźwięk"
+msgstr "govor i zvuk"
 
-#, fuzzy
 msgid "Clock:opt_voice"
-msgstr "Tylko głos"
+msgstr "samo govor"
 
-#, fuzzy
 msgid "Clock:opt_sound"
-msgstr "Tylko dźwięk"
+msgstr "samo zvuk"
 
-#, fuzzy
 msgid "Clock:head_readevery"
-msgstr "Odczytuj co"
+msgstr "Izgovaraj svakih"
 
-#, fuzzy
 msgid "Clock:opt_hour"
-msgstr "godzinę"
+msgstr "sat"
 
-#, fuzzy
 msgid "Clock:opt_halfanhour"
-msgstr "pół godziny"
+msgstr "pola sata"
 
-#, fuzzy
 msgid "Clock:opt_quarter"
-msgstr "kwadrans"
+msgstr "svakih 45 minuta"
 
-#, fuzzy
 msgid "Clock:head_alarms"
-msgstr "Alarmy"
+msgstr "Alarmi"
 
-#, fuzzy
 msgid "Clock:head_minute"
 msgstr "Minuta"
 
-#, fuzzy
 msgid "Clock:head_type"
-msgstr "Rodzaj"
+msgstr "tip"
 
-#, fuzzy
 msgid "Clock:opt_single"
-msgstr "Jednorazowy"
+msgstr "jednokratan"
 
-#, fuzzy
 msgid "Clock:opt_multiple"
-msgstr "Cykliczny"
+msgstr "cikličan"
 
-#, fuzzy
 msgid "Advanced:head_keyreftime"
 msgstr ""
-"Czas odświerzania stanu klawiszy (ms) (Uwaga! Nie zaleca się zmiany tej "
-"wartości!)"
+"Vrijeme osvježavanja statusa tipaka (ms) (Upozorenje: ne preporuča se "
+"izmjena te vrijednosti!)"
 
-#, fuzzy
 msgid "Advanced:chk_hexparsing"
-msgstr "Przetwarzaj diakretyki heksagonalnie (zaawansowane)"
+msgstr "Procesiraj diakritičke znakove heksagonalno (napredno)"
 
-#, fuzzy
 msgid "Advanced:head_sesreftime"
 msgstr ""
-"Czas odświerzania sesji (s) (Uwaga! Nie zaleca się zmiany tej wartości!)"
+"Vrijeme osvježavanja sesije (s) (Upozorenje! izmjena ove vrijednosti ne "
+"preporučuje se!)"
 
-#, fuzzy
 msgid "Advanced:chk_audiostreaming"
-msgstr "Wykorzystuj streaming audio, jeśli obsługiwany"
+msgstr "Koristi audio streaming, ako je podržan"
 
-#, fuzzy
 msgid "Advanced:chk_timesyncing"
-msgstr "Synchronizuj czas z serwerem"
+msgstr "Sinkroniziraj vrijeme sa serverom"
 
-#, fuzzy
 msgid "Notes:btn_add"
 msgstr "Dodaj"
 
-#, fuzzy
 msgid "Notes:opt_edit"
-msgstr "Edytuj"
+msgstr "Uredi"
 
-#, fuzzy
 msgid "Notes:head"
-msgstr "Notatki"
+msgstr "Bilješke"
 
-#, fuzzy
 msgid "Notes:opt_new"
-msgstr "Nowa notatka"
+msgstr "Nova bilješka"
 
-#, fuzzy
 msgid "Notes:head_sharedwith"
-msgstr "Notatka współdzielona z"
+msgstr "Bilješka podijeljena sa"
 
-#, fuzzy
 msgid "Notes:opt_read"
-msgstr "Czytaj"
+msgstr "čitaj"
 
-#, fuzzy
 msgid "FirstRun:type_pass"
-msgstr "Hasło:"
+msgstr "loyinka:"
 
-#, fuzzy
 msgid "FirstRun:opt_chars"
-msgstr "Znaki"
+msgstr "znakovi"
 
-#, fuzzy
 msgid "FirstRun:opt_words"
-msgstr "Wyrazy"
+msgstr "riječi"
 
-#, fuzzy
 msgid "FirstRun:opt_charsandwords"
-msgstr "Znaki i wyrazy"
+msgstr "znakovi i riječi"
 
-#, fuzzy
 msgid "FirstRun:opt_none"
-msgstr "Brak"
+msgstr "ništa"
 
-#, fuzzy
 msgid "FirstRun:opt_audio"
 msgstr "Audio"
 
-#, fuzzy
 msgid "ForgotPassword:head"
-msgstr "Reset hasła"
+msgstr "Povrat lozinke"
 
-#, fuzzy
 msgid "ForgotPassword:type_mail"
-msgstr "Podaj adres E-mail użyty podczas rejestracji"
+msgstr "Upiši e-mail adresu, koju si koristio prilikom procesa registracije."
 
-#, fuzzy
 msgid "ForgotPassword:error_match"
-msgstr "Podany adres E-mail nie jest skojarzony z podaną nazwą użytkownika."
+msgstr "Upisana e-mail adresa ne poklapa se sa korisničkim imenom."
 
-#, fuzzy
 msgid "ForgotPassword:opt_genkey"
-msgstr "Wygeneruj klucz resetowania hasła"
+msgstr "Generiraj ključ povrata lozinke"
 
-#, fuzzy
 msgid "ForgotPassword:opt_typekey"
-msgstr "Wprowadź klucz resetowania hasła"
+msgstr "Upiši ključ povrata lozinke"
 
-#, fuzzy
 msgid "ForgotPassword:wait"
-msgstr "Proszę czekać, trwa generowanie klucza resetowania hasła."
+msgstr "Molim pričekaj, traje stvaranje ključa za povrat lozinke..."
 
-#, fuzzy
 msgid "ForgotPassword:type_key"
-msgstr "Wprowadź wygenerowany klucz resetowania hasła."
+msgstr "Upiši generirani ključ povrata lozinke."
 
-#, fuzzy
 msgid "ForgotPassword:error_wrongkey"
-msgstr "Wprowadzony klucz jest nieprawidłowy."
+msgstr "Upisani ključ je nepravilan."
 
-#, fuzzy
 msgid "ForgotPassword:type_newpass"
-msgstr "Wprowadź nowe hasło"
+msgstr "Upiši novu lozinku"
 
-#, fuzzy
 msgid "ForgotPassword:type_newpassagain"
-msgstr "Wprowadź ponownie nowe hasło"
+msgstr "Upiši novu lozinku ponovo"
 
-#, fuzzy
 msgid "ForgotPassword:error_difpass"
-msgstr "Wprowadzone hasła są różne."
+msgstr "Upisane lzinke se ne poklapaju."
 
-#, fuzzy
 msgid "ForgotPassword:error_emptypass"
-msgstr "Podano puste hasło."
+msgstr "Upisana je prazna lozinka."
 
-#, fuzzy
 msgid "ForgotPassword:wait_changing"
-msgstr "Proszę czekać, trwa zmiana hasła..."
+msgstr "Molim pričekaj, traje izmjena lozinke..."
 
 #, fuzzy
 msgid "ForgotPassword:info_changed"
@@ -312,53 +248,41 @@ msgstr ""
 "Kod zostanie wysłany na twój adres E-mail. Uwaga! Jeśli używane, dwuetapowe "
 "uwierzytelnianie zostanie wyłączone. Aby kontynuować, wprowadź swój login:"
 
-#, fuzzy
 msgid "Honors:opt_add"
 msgstr "Dodaj"
 
-#, fuzzy
 msgid "Programs:head"
-msgstr "Instalacja programów"
+msgstr "Instalacija programa"
 
-#, fuzzy
 msgid "Portable:head_dest"
-msgstr "Miejsce docelowe"
+msgstr "ciljna mapa"
 
-#, fuzzy
 msgid "Portable:chk_langs"
-msgstr "Dodaj obsługę innych wersji językowych"
+msgstr "Dodaj podršku za druge jezike"
 
-#, fuzzy
 msgid "Portable:chk_settings"
-msgstr "Skopiuj aktualne ustawienia programu"
+msgstr "Kopiraj trenutne postavke programa"
 
-#, fuzzy
 msgid "Portable:chk_soundthemes"
-msgstr "Skopiuj obecnie pobrane tematy dźwiękowe"
+msgstr "Kopiraj trenutno preuzete zvučne teme"
 
-#, fuzzy
 msgid "Portable:wait"
-msgstr "Proszę czekać, trwa przygotowywanie plików."
+msgstr "Molimo pričekajte, traje priprema datoteka."
 
-#, fuzzy
 msgid "Portable:wait_settings"
-msgstr "Kopiowanie konfiguracji"
+msgstr "Kopiranje konfiguracije"
 
-#, fuzzy
 msgid "Portable:wait_soundthemes"
-msgstr "Kopiowanie tematów dźwiękowych"
+msgstr "Kopiranje zvučnih tema"
 
-#, fuzzy
 msgid "Portable:opt_synthreset"
-msgstr "Zresetuj syntezator"
+msgstr "Resetiraj govornu jedinicu"
 
-#, fuzzy
 msgid "Portable:opt_askeverytime"
-msgstr "Pytaj za każdym razem"
+msgstr "Svaki put pitaj"
 
-#, fuzzy
 msgid "Portable:opt_usecurrent"
-msgstr "Zachowaj obecne ustawienie"
+msgstr "Spremi trenutnu postavku"
 
 #, fuzzy
 msgid "Portable:head_synth"
@@ -368,20 +292,17 @@ msgstr ""
 "to być szczególnie w sytuacji, gdy dany komputer będzie miał zainstalowane "
 "inne głosy. Jak chcesz skonfigurować tworzoną wersję?"
 
-#, fuzzy
 msgid "Portable:info_created"
-msgstr "Przenośna wersja programu została utworzona."
+msgstr "Prijenosna inačica programa je stvorena."
 
 #, fuzzy
 msgid "Portable:opt_usedefault"
 msgstr ""
 "Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"
 
-#, fuzzy
 msgid "Portable:btn_continue"
-msgstr "Kontynuuj"
+msgstr "Nastavi"
 
-#, fuzzy
 msgid "Polls:type_description"
 msgstr "Opis"
 
