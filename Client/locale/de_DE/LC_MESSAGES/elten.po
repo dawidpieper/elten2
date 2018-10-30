@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-10-29 21:03+0100\n"
+"PO-Revision-Date: 2018-10-30 21:06+0100\n"
 "Last-Translator: Karl Eick <hozosch@web.de>\n"
 "Language: de_DE\n"
 "Language-Team: pl <dawidpieper@o2.pl>\n"
@@ -1265,7 +1265,7 @@ msgid "Main:info_pressalt"
 msgstr "Die Alt-Taste öffnet ein Menue."
 
 msgid "Main:btn_erasepls"
-msgstr "die Playlist löschen"
+msgstr "Wiedergabeliste löschen"
 
 msgid "Main:head_pls"
 msgstr "Playlist"
@@ -1283,7 +1283,7 @@ msgid "Main:btn_shuffle"
 msgstr "zufällig"
 
 msgid "Main:info_shuffled"
-msgstr "Die playlist wird nun in einer zufälligen Reihenfolge abgespielt."
+msgstr "Die Wiedergabeliste wird nun in einer zufälligen Reihenfolge abgespielt."
 
 msgid "Login:type_login"
 msgstr "Benutzername:"
@@ -1298,52 +1298,52 @@ msgid "Login:info_asknomore"
 msgstr "Um die Auto-Anmeldung zu reaktivieren, gehen sie zu den Interface-Einstellungen"
 
 msgid "Login:alert_crpdeprecated"
-msgstr "Zapisane informacje logowania wykorzystują starą metodę uwierzytelniania konta, w której wykryte zostały podatności na ataki hakerskie. W Eltenie 2.2 wprowadzone zostały nowe, bezpieczniejsze algorytmy automatycznego logowania. Zalecana jest konwersja zapisanych informacji do nowego systemu w celu poprawienia bezpieczeństwa konta. Czy chcesz zaktualizować zapisane informacje?"
+msgstr "Ihre gespeicherten Anmeldeinformationen verwenden die alte Methode zur Kontoauthentifizierung, bei der die Anfälligkeit für Hackerangriffe erkannt wurde. Neue, sicherere automatische Login-Algorithmen wurden in Elten 2.2 eingeführt. Es wird empfohlen, die gespeicherten Informationen in ein neues System zu konvertieren, um die Sicherheit Ihres Kontos zu verbessern. Möchten Sie die gespeicherten Informationen aktualisieren?"
 
 msgid "Login:info_autologin"
 msgstr "Die Auto-Anmeldung ist aktiv, bis sie sich abmelden. Die Auto-Anmeldeschlüssel können über die entsprechende Option im Menü Community\\Mein Konto verwaltet werden."
 
 msgid "Login:info_crpupdated"
-msgstr "Dane logowania zostały zaktualizowane. Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w menu Społeczność."
+msgstr "Anmeldedaten wurden aktualisiert. Die Auto-Anmeldung ist aktiv, bis sie sich abmelden. Die Auto-Anmeldeschlüssel können über die entsprechende Option im Menü Community\\Mein Konto verwaltet werden."
 
 msgid "Login:type_authcode"
-msgstr "Na tym koncie włączone jest logowanie dwuetapowe. Wprowadź kod wysłany na twój numer wiadomością SMS, aby zezwolić temu urządzeniu na zalogowanie. Jeśli nie masz dostępu do użytego numeru telefonu, wybierz opcję resetowania hasła w celu wyłączenia logowania dwuetapowego."
+msgstr "Die Zwei-Faktor-Autentifizierung ist für dieses Konto aktiviert. Geben Sie den an Ihre Nummer gesendeten Code per SMS ein, damit sich dieses Gerät anmelden kann. Wenn Sie keinen Zugriff auf die verwendete Telefonnummer haben, wählen Sie die Option zum Zurücksetzen des Kennworts, um die Zwei-Faktor-Autentifizierung zu deaktivieren."
 
 msgid "Login:error_verification"
-msgstr "Błąd weryfikacji."
+msgstr "Verifizierungsfehler"
 
 msgid "Login:type_authcodeagain"
 msgstr "Wprowadzony kod nie jest poprawny, spróbuj jeszcze raz"
 
 msgid "Registration:info_slashes"
-msgstr "User name can not contain slashes. Sign will be Omitted."
+msgstr "Der Nutzername darf keine Schrägstriche enthalten. Dieses Zeichen wird weggelassen"
 
 msgid "Registration:info_spaces"
 msgstr "User name can not contain spaces. Sign will be Omitted"
 
 msgid "Registration:type_login"
-msgstr "Geben sie iren benutzernamen ein. Er wird verwendet, um sie zu identifizieren. Der Benutzername darf bis zu 64 Buchstaben lang sein."
+msgstr "Geben Sie Ihren benutzernamen ein. Er wird verwendet, um Sie zu identifizieren. Der Benutzername darf bis zu 64 zeichen betragen."
 
 msgid "Registration:type_pass"
-msgstr "Bitte geben sie ir Passwort ein. Es wird empfolen, ein langes Passwort zu verwenden, das aus Zahlen und Buchstaben besteht. Das Passwort darf mindestens 256 Zeichen lang sein."
+msgstr "Bitte geben sie Ihr Passwort ein. Es wird empfolen, ein langes Passwort zu verwenden, das aus Zahlen und Buchstaben besteht. Das Passwort darf mindestens 256 Zeichen lang sein."
 
 msgid "Registration:type_mail"
-msgstr "Bitte geben sie ire email adresse ein. Sie wird benutzt, um ihnen wichtige informationen zu senden, fals sie ir Passwort vergessen."
+msgstr "Bitte geben Sie Ihre Email-Adresse ein. Sie wird benutzt, um Ihnen wichtige informationen zu senden, falls sie Ihr Passwort vergessen."
 
 msgid "Registration:info_registered"
-msgstr "Die Registrierung war erfolgreich, danke! Sie können sich mit irem Benutzernamen und Passwort anmelden."
+msgstr "Die Registrierung war erfolgreich, vielen Dank! Sie können sich nun mit Ihrem Benutzernamen und Passwort anmelden."
 
 msgid "Registration:error_unknown"
 msgstr "An unknown error occurred while using database"
 
 msgid "Registration:error_accountexists"
-msgstr "Ein Konto mit diesem Benutzernamen gibt es schon."
+msgstr "Ein konto mit diesem Nutzernamen existiert bereits."
 
 msgid "Registration:error_save"
-msgstr "An error occurred while trying to write data."
+msgstr "Ein Fehler trat beim Schreiben der Daten auf."
 
 msgid "Registration:error_connection"
-msgstr "An error occurred while connecting to the server."
+msgstr "Ein Fehler ist bei der Verbindung zum Server aufgetreten."
 
 msgid "Loading:opt_login"
 msgstr "Anmelden"
@@ -1376,16 +1376,16 @@ msgid "EAPI_External:btn_play"
 msgstr "wiedergabe"
 
 msgid "EAPI_External:opt_addtopls"
-msgstr "zur Playlist hinzufügen"
+msgstr "zur Wiedergabeliste hinzufügen"
 
 msgid "EAPI_External:opt_avatar"
 msgstr "Als awatar festlegen"
 
 msgid "EAPI_External:type_ytsearch"
-msgstr "auf youtube suchen"
+msgstr "auf Youtube suchen"
 
 msgid "EAPI_External:head_ytsearchresults"
-msgstr "gefundene elemente"
+msgstr "gefunden"
 
 msgid "EAPI_External:wait_connecting"
 msgstr "Verbindung zum server wird aufgebaut, bitte warten..."
@@ -1397,19 +1397,19 @@ msgid "EAPI_External:opt_copyurl"
 msgstr "Die URL in die Zwischenablage kopieren"
 
 msgid "EAPI_External:head_downloadtype"
-msgstr "Wie wollen sie diese Datei herunterladen?"
+msgstr "Wie möchten Sie diese Datei herunterladen?"
 
 msgid "EAPI_External:opt_downloadvideo"
 msgstr "Als eine video datei herunterladen"
 
 msgid "EAPI_External:opt_downloadaudio"
-msgstr "als eine Audio Datei herunterladen"
+msgstr "als Audiodatei herunterladen"
 
 msgid "EAPI_External:wait_downloading"
 msgstr "die Datei wird heruntergeladen, bitte warten..."
 
 msgid "EAPI_External:head_dst"
-msgstr "Wo möchten sie diese Datei speichern?"
+msgstr "Wo möchten Sie diese Datei speichern?"
 
 msgid "EAPI_External:head_langdst"
 msgstr "Zielsprache"
@@ -1427,7 +1427,7 @@ msgid "EAPI_External:btn_translate"
 msgstr "Übersetzen"
 
 msgid "EAPI_Common:error_console"
-msgstr "Ein Fehler ist beim bearbeiten dieses Befehls aufgetreten."
+msgstr "Ein Fehler ist beim verarbeiten dieses Befehls aufgetreten."
 
 msgid "EAPI_Common:opt_message"
 msgstr "eine private nachricht schreiben"
@@ -1436,10 +1436,10 @@ msgid "EAPI_Common:opt_visitingcard"
 msgstr "Visitenkarte"
 
 msgid "EAPI_Common:opt_delcontact"
-msgstr "aus den Kontackten entfernen"
+msgstr "aus Kontackten entfernen"
 
 msgid "EAPI_Common:opt_addcontact"
-msgstr "zu den Kontackten hinzufügen"
+msgstr "zu Kontackten hinzufügen"
 
 msgid "EAPI_Common:info_nothingnew"
 msgstr "Nichts Neues."
@@ -1448,7 +1448,7 @@ msgid "EAPI_Common:opt_quit"
 msgstr "beenden"
 
 msgid "EAPI_Common:info_listempty"
-msgstr "lehre liste"
+msgstr "Leere Liste"
 
 msgid "EAPI_Common:opt_ban"
 msgstr "Sperren"
@@ -1460,31 +1460,31 @@ msgid "EAPI_Common:opt_blog"
 msgstr "Den blog dieses Benutzers besuchen"
 
 msgid "EAPI_Common:opt_tray"
-msgstr "das Programm in den Infobereich minimieren"
+msgstr "Programm in den Infobereich minimieren"
 
 msgid "EAPI_Common:type_soundthemename"
-msgstr "Geben sie den Name des soundthemes ein."
+msgstr "Geben Sie den Namen des Audiothemas ein."
 
 msgid "EAPI_Common:info_soundthemecreation"
-msgstr "Pliki tematu dźwiękowego utworzone w %{dir}. Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład."
+msgstr "Das Audiothema wurde in %{dir} erstellt. Der Ordner enthält die Standard-Sounds. Ersetzen Sie diese Dateien mit denen, die Sie für dieses Audiothema verwenden möchten."
 
 msgid "EAPI_Common:head_whattodo"
 msgstr "Was möchten sie tun?"
 
 msgid "EAPI_Common:opt_openthemedir"
-msgstr "den Ortner des soundthemes öffnen"
+msgstr "ordner öffnen"
 
 msgid "EAPI_Common:opt_openthemedirinexplorer"
-msgstr "den Ortner des Soundthemes im Windows Explorer öffnen"
+msgstr "Ordner im Windows-explorer öffnen"
 
 msgid "EAPI_Common:type_errordsc"
-msgstr "Beschreiben sie den gefundenen fehler."
+msgstr "Schildern Sie den gefundenen fehler."
 
 msgid "EAPI_Common:info_sent"
-msgstr "Senten."
+msgstr "Senden."
 
 msgid "EAPI_Common:type_console"
-msgstr "geben sie iren Kommentar ein"
+msgstr "Geben Sie einen Befehl ein."
 
 msgid "EAPI_Common:btn_send"
 msgstr "senden"
@@ -1526,7 +1526,7 @@ msgid "EAPI_Common:error_playing"
 msgstr "Diese Datei kann nicht wiedergegeben werden."
 
 msgid "EAPI_Common:wait_packing"
-msgstr "kompremieren..."
+msgstr "Wird komprimiert..."
 
 msgid "EAPI_Common:head_textsplit"
 msgstr "Dateiaufteilung"
@@ -1547,7 +1547,7 @@ msgid "EAPI_Common:chk_readfilenum"
 msgstr "Dateinummer lesen"
 
 msgid "EAPI_EltenSRV:wait_converting"
-msgstr "Die Datei wird konwertiert..."
+msgstr "Datei wird konwertiert..."
 
 msgid "EAPI_EltenSRV:info_sent"
 msgstr "Wysłano"
@@ -1556,7 +1556,7 @@ msgid "EAPI_Network:wait_sending"
 msgstr "wird gesendet..."
 
 msgid "EAPI_UI:info_newmessage"
-msgstr "Sie haben eine neue Nachricht."
+msgstr "Sie haben eine neue private Nachricht."
 
 msgid "EAPI_Speech:chr_dot"
 msgstr "Punkt"
@@ -1571,13 +1571,13 @@ msgid "EAPI_Speech:chr_semi"
 msgstr "semikolon"
 
 msgid "EAPI_Speech:chr_tick"
-msgstr "apostroff"
+msgstr "apostroph"
 
 msgid "EAPI_Speech:chr_rightbracket"
-msgstr "rechte eckige Klammer"
+msgstr "eckige Klammer zu"
 
 msgid "EAPI_Speech:chr_backslash"
-msgstr "beckslesch"
+msgstr "Backslash"
 
 msgid "EAPI_Speech:chr_minus"
 msgstr "bindestrich"
@@ -1604,28 +1604,28 @@ msgid "EAPI_Speech:chr_quote"
 msgstr "Anführungszeichen"
 
 msgid "EAPI_Speech:chr_leftbrace"
-msgstr "linke geschweifte Klammer"
+msgstr "geschweifte Klammer auf"
 
 msgid "EAPI_Speech:chr_rightbrace"
-msgstr "rechte geschweifte Klammer"
+msgstr "geschweifte Klammer zu"
 
 msgid "EAPI_Speech:chr_bar"
-msgstr "bar"
+msgstr "Senkrechter Strich"
 
 msgid "EAPI_Speech:chr_underline"
-msgstr "line"
+msgstr "Unterstrich"
 
 msgid "EAPI_Speech:chr_plus"
 msgstr "Pluss"
 
 msgid "EAPI_Speech:chr_exclamation"
-msgstr "bang"
+msgstr "Ausrufezeichen"
 
 msgid "EAPI_Speech:chr_at"
 msgstr "at"
 
 msgid "EAPI_Speech:chr_hash"
-msgstr "hash"
+msgstr "Nummernzeichen"
 
 msgid "EAPI_Speech:chr_dollar"
 msgstr "Dollar"
@@ -1637,16 +1637,16 @@ msgid "EAPI_Speech:chr_caret"
 msgstr "Karitt"
 
 msgid "EAPI_Speech:chr_and"
-msgstr "ampersand"
+msgstr "Und"
 
 msgid "EAPI_Speech:chr_star"
 msgstr "Stern"
 
 msgid "EAPI_Speech:chr_leftparen"
-msgstr "linke Klammer"
+msgstr "Runde Klammer auf"
 
 msgid "EAPI_Speech:chr_rightparen"
-msgstr "rechte Klammer"
+msgstr "Runde Klammer zu"
 
 msgid "EAPI_Form:fld_media"
 msgstr "Medien"
@@ -1661,7 +1661,7 @@ msgid "EAPI_Form:st_checked"
 msgstr "Aktiviert"
 
 msgid "EAPI_Form:st_unchecked"
-msgstr "nicht Ausgewählt"
+msgstr "deaktiviert"
 
 msgid "EAPI_Form:fld_checkbox"
 msgstr "Kontrollfeld"
@@ -1691,40 +1691,40 @@ msgid "EAPI_Form:opt_music"
 msgstr "Musik"
 
 msgid "EAPI_Form:type_searchphrase"
-msgstr "Geben sie etwas ein, nach dem sie suchen möchten."
+msgstr "Geben sie ein, wonach sie suchen."
 
 msgid "EAPI_Form:info_undone"
 msgstr "rückgängig"
 
 msgid "EAPI_Form:info_listempty"
-msgstr "Pusta lista"
+msgstr "Leere Liste"
 
 msgid "EAPI_Form:info_nomatch"
 msgstr "Keine Übereinstimmung gefunden."
 
 msgid "_Main:error_console"
-msgstr "Ein Fehler ist beim bearbeiten dieses Befehls aufgetreten."
+msgstr "Ein Fehler trat beim verarbeiten dieses Befehls auf."
 
 msgid "_Main:opt_quit"
 msgstr "beenden"
 
 msgid "_Main:opt_restart"
-msgstr "neustarten"
+msgstr "Neu starten"
 
 msgid "_Main:info_copied"
-msgstr "Skopiowano"
+msgstr "Kopiert"
 
 msgid "_Main:head_whattodo"
 msgstr "Was möchten sie tun?"
 
 msgid "_Main:alert_errorreport"
-msgstr "Das Programm muß geschlossen werden. Möchten sie die entwickler dieses Programms über den fehler informieren?"
+msgstr "Das Programm muss geschlossen werden. Möchten sie die entwickler dieses Programms über den fehler informieren?"
 
 msgid "_Main:opt_tryagain"
 msgstr "erneut versuchen"
 
 msgid "_Main:opt_abort"
-msgstr "das Programm beenden"
+msgstr "Programm beenden"
 
 msgid "_Main:opt_rescuemode"
 msgstr "Den abgesicherten Modus starten"
@@ -1748,25 +1748,25 @@ msgid "Notes:opt_phr_author"
 msgstr "Autor"
 
 msgid "Notes:opt_phr_modified"
-msgstr "Zmodyfikowana"
+msgstr "Letzte Änderung"
 
 msgid "Polls:opt_phr_author"
 msgstr "Autor"
 
 msgid "Polls:txt_phr_votes"
-msgstr "Liczba głosów"
+msgstr "Anzahl der Stimmen"
 
 msgid "General:error"
-msgstr "Błąd"
+msgstr "Fehler"
 
 msgid "General:str_quit"
 msgstr "beenden"
 
 msgid "General:str_enable"
-msgstr "Włącz"
+msgstr "Aktivieren"
 
 msgid "General:str_disable"
-msgstr "Wyłącz"
+msgstr "Deaktivieren"
 
 msgid "General:str_cancel"
 msgstr "abbrechen"
@@ -1787,13 +1787,13 @@ msgid "General:error_guest"
 msgstr "Diese Funktion ist im Gastkonto nicht verfügbar"
 
 msgid "General:error_tokenexpired"
-msgstr "The session key has expired."
+msgstr "der Sitzungsschlüssel ist abgelaufen."
 
 msgid "General:error_db"
-msgstr "Error connecting to the database."
+msgstr "Fehler beim Verbinden zur Datenbank."
 
 msgid "General:error_permissions"
-msgstr "Sie haben nicht genügent Rechte, um diese aktion durchzufüren."
+msgstr "Sie haben nicht genügend Rechte, um diese aktion durchzufüren."
 
 msgid "General:str_no"
 msgstr "Nein"
@@ -1802,13 +1802,13 @@ msgid "General:str_yes"
 msgstr "Ja"
 
 msgid "Authentication:error_wrongpass"
-msgstr "Podano nieprawidłowe hasło."
+msgstr "Ungültiges Passwort eingegeben."
 
 msgid "ForgotPassword:error_unexpected"
-msgstr "Wystąpił nieoczekiwany błąd."
+msgstr "Ein unerwarteter Fehler ist aufgetreten."
 
 msgid "Portable:wait_languages"
-msgstr "Pobieranie pakietów językowych..."
+msgstr "Sprachpakete werden heruntergeladen..."
 
 msgid "Notes:info_notemodified"
 msgstr "Notatka została zmodyfikowana"
@@ -1817,64 +1817,64 @@ msgid "ForgotPassword:info_keysent"
 msgstr "Klucz resetowania hasła został wysłany na podany adres E-mail. Wybierz opcję wprowadzenia klucza, aby kontynuować"
 
 msgid "Honors:info_nobadges"
-msgstr "Użytkownik nie otrzymał żadnych odznaczeń."
+msgstr "Diesem Nutzer wurden keine Auszeichnungen verliehen."
 
 msgid "Programs:info_alreadyinstalled"
-msgstr "Ten program jest już zainstalowany."
+msgstr "dieses Programm ist bereits installiert."
 
 msgid "Portable:wait_preparingfile"
-msgstr "Przygotowywanie pliku..."
+msgstr "Datei wird vorbereitet..."
 
 msgid "Polls:error_noanswer"
 msgstr "Pytanie nie ma odpowiedzi"
 
 msgid "Uploads:info_copiedtoclip"
-msgstr "Skopiowano do schowka."
+msgstr "in die Zwischenablage kopiert."
 
 msgid "Bug:head"
 msgstr "Zgłaszanie błędu"
 
 msgid "Blog:error_blognotfound"
-msgstr "Blog nie istnieje."
+msgstr "Blog existiert nicht."
 
 msgid "Chat:error_banned"
-msgstr "Jesteś zbanowany."
+msgstr "Ist verbannt."
 
 msgid "Files:error_deletefile"
-msgstr "Nie można usunąć tego pliku, odmowa dostępu."
+msgstr "Sie können diese Datei nicht löschen, Zugriff verweigert."
 
 msgid "Program:info_exited"
-msgstr "program został zamknięty."
+msgstr "Programm wurde beendet."
 
 msgid "Update:info_updatewillinstall"
 msgstr "Update wird nun instaliert. Das Programm wird neugestartet."
 
 msgid "MyPermissions:info_nopermissions"
-msgstr "Nie posiadasz żadnych specjalnych uprawnień."
+msgstr "Sie haben keine besonderen Rechte."
 
 msgid "Forum:info_forummarkedasread"
 msgstr "Forum wurde als gelesen markiert."
 
 msgid "Main:alert_newbeta"
-msgstr "Dostępna jest nowa wersja beta programu."
+msgstr "Eine neue Beta-Version dieses Programms ist verfügbar."
 
 msgid "Login:error_identity"
-msgstr "Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane zostało błędne hasło."
+msgstr "Bei der Identitätsauthentifizierung ist ein Fehler aufgetreten. Es ist möglich, dass ein falsches Passwort eingegeben wurde."
 
 msgid "Registration:info_namenoats"
-msgstr "Nazwa użytkownika nie może zawierać małp. Znak zostanie pominięty."
+msgstr "Der Nutzername darf keineAt-Zeichen enthalten. Dieses Zeichen wird weggelassen."
 
 msgid "Loading:alert_newversion"
-msgstr "Dostępna jest nowa wersja programu."
+msgstr "Eine neue Version dieses Programms ist verfügbar."
 
 msgid "EAPI_External:error_translation"
 msgstr "Wystąpił błąd podczas tłumaczenia"
 
 msgid "EAPI_Network:info_progressdonotread"
-msgstr "Nie odczytuj zmian na pasku postępu."
+msgstr "Keine Änderungen bei Fortschrittsbalken lesen."
 
 msgid "EAPI_UI:info_retry"
-msgstr "Program podejmie teraz próbę powrotu do pracy."
+msgstr "Das Programm wird nun versuchen, zur Arbeit zurückzukehren."
 
 msgid "EAPI_Speech:chr_space"
 msgstr "Spacja"
@@ -1886,55 +1886,55 @@ msgid "Notes:error_usernotfound"
 msgstr "Użytkownik nie istnieje"
 
 msgid "Programs:info_installed"
-msgstr "Instalacja zakończona."
+msgstr "Installation abgeschlossen."
 
 msgid "Polls:error_questiononeanswer"
 msgstr "Pytanie ma tylko jedną odpowiedź"
 
 msgid "WhatsNew:info_nonewonfollowedblogs"
-msgstr "Brak nowych wpisów na śledzonych blogach."
+msgstr "Keine neuen Einträge in verfolgten Blogs."
 
 msgid "Blog:info_categorycreated"
-msgstr "Kategoria została utworzona."
+msgstr "Kategorie wurde erstellt."
 
 msgid "Files:info_unpacked"
-msgstr "Rozpakowano."
+msgstr "Entpackt."
 
 msgid "Media:info_categorycreated"
-msgstr "Kategoria została dodana!"
+msgstr "Kategorie wurde hinzugefügt!"
 
 msgid "Account:info_statuschanged"
-msgstr "Status został zmieniony."
+msgstr "Ihr Status wurde geändert."
 
 msgid "Update:wait_reinstallationdownloading"
 msgstr "Pobieranie instrukcji reinstalacji"
 
 msgid "Messages:info_attachmentdownloaded"
-msgstr "Załącznik został pobrany."
+msgstr "Anhang wurde heruntergeladen."
 
 msgid "Main:info_plserased"
-msgstr "Playlista usunięta."
+msgstr "Wiedergabeliste gelöscht."
 
 msgid "Registration:error_difpass"
-msgstr "Podane hasła są różne."
+msgstr "Die beiden passwörter stimmen nicht überein."
 
 msgid "EAPI_Common:wait_downloading"
-msgstr "Pobieranie..."
+msgstr "Wird heruntergeladen..."
 
 msgid "EAPI_EltenSRV:error_noavatar"
-msgstr "Użytkownik nie posiada avatara."
+msgstr "Dieser Nutzer hat kein Avatar."
 
 msgid "EAPI_Network:info_readprogress"
-msgstr "Odczytuj zmiany na pasku postępu."
+msgstr "Änderungen bei Fortschrittsbalken lesen."
 
 msgid "EAPI_Form:info_loaded"
 msgstr "Wczytano"
 
 msgid "Notes:info_notedeleted"
-msgstr "Notatka została usunięta."
+msgstr "Notiz gelöscht."
 
 msgid "Honors:info_defaulted"
-msgstr "Odznaczenie ustawiono jako domyślne."
+msgstr "Auszeichnung wurde als Standard festgelegt."
 
 msgid "Notes:info_notecreated"
 msgstr "Notatka została utworzona"
@@ -1949,43 +1949,43 @@ msgid "Honors:info_honorcreated"
 msgstr "Odznaczenie zostało dodane"
 
 msgid "Polls:info_pollcreated"
-msgstr "Ankieta została utworzona."
+msgstr "Umfrage wurde erstellt."
 
 msgid "Polls:info_voted"
-msgstr "Twój głos został zapisany."
+msgstr "ihre Stimme wurde gespeichert"
 
 msgid "Blog:info_blogrenamed"
 msgstr "Nazwa bloga została zmieniona"
 
 msgid "Blog:alert_noblog"
-msgstr "Nie posiadasz bloga. Czy chcesz go założyć?"
+msgstr "Sie haben noch keinen Blog. Möchten Sie einen erstellen?"
 
 msgid "Blog:wait"
-msgstr "Proszę czekać..."
+msgstr "Bitte warten..."
 
 msgid "Blog:info_blogcreated"
-msgstr "Blog został utworzony."
+msgstr "Der Blog wurde erstellt."
 
 msgid "Blog:info_renamed"
-msgstr "Nazwa została zmieniona."
+msgstr "Der Blog wurde umbenannt."
 
 msgid "Blog:info_nonewcommentsonyourblog"
-msgstr "Brak nowych komentarzy na twoim blogu."
+msgstr "Keine neuen Kommentare in Ihrem Blog."
 
 msgid "Blog:info_postcreated"
-msgstr "Wpis został dodany."
+msgstr "Eintrag wurde hinzugefügt."
 
 msgid "Blog:info_commentcreated"
-msgstr "Komentarz został dodany."
+msgstr "Kommentar wurde hinzugefügt."
 
 msgid "Blog:info_blogfollowed"
-msgstr "Dodano do śledzonych blogów."
+msgstr "Sie verfolgen von jetzt an diesen Blog."
 
 msgid "Blog:info_blogunfollowed"
-msgstr "Usunięto z listy śledzonych blogów."
+msgstr "Dieser Blog wird nicht mehr verfolgt."
 
 msgid "Blog:info_blogmarkedasread"
-msgstr "Wszystkie wpisy na tym blogu zostały oznaczone jako przeczytane."
+msgstr "Alle Einträge in diesem Blog wurden als gelesen markiert."
 
 msgid "Blog:info_recategorized"
 msgstr "Rekategoryzacja zakończona"
@@ -1994,13 +1994,13 @@ msgid "Files:error_clipboardempty"
 msgstr "Schowek jest pusty"
 
 msgid "Files:info_renamed"
-msgstr "Nazwa została zmieniona."
+msgstr "Datei wurde umbenannt."
 
 msgid "Files:info_dircreated"
-msgstr "Folder został utworzony."
+msgstr "Ordner wurde erstellt."
 
 msgid "Files:info_filecreated"
-msgstr "Plik został utworzony."
+msgstr "Datei wurde erstellt."
 
 msgid "Files:info_plserased"
 msgstr "Playlista wyczyszczona"
@@ -2012,31 +2012,31 @@ msgid "Files:info_converted"
 msgstr "Konvertierung abgeschlossen."
 
 msgid "Files:wait_processing"
-msgstr "Przetwarzanie..."
+msgstr "Wird verarbeitet..."
 
 msgid "Media:info_added"
-msgstr "Dodano."
+msgstr "Hinzugefügt"
 
 msgid "Account:error_identity"
-msgstr "Wystąpił błąd podczas próby uwierzytelnienia konta. Prawdopodobnie podano błędne hasło."
+msgstr "Beim Versuch, das Konto zu authentifizieren, ist ein Fehler aufgetreten. Das falsche Passwort wurde wahrscheinlich vergeben."
 
 msgid "Account:error_usernotfound"
-msgstr "Użytkownik nie istnieje."
+msgstr "Nutzer existiert nicht."
 
 msgid "Update:info_reinstall"
-msgstr "Program zostanie teraz przywrócony do ostatniej stabilnej wersji. Elten zostanie uruchomiony ponownie. To może potrwać kilka minut."
+msgstr "Das Programm wird nun auf die letzte stabile Version zurückgesetzt. Elten wird neu gestartet. Dies kann einige Minuten dauern."
 
 msgid "Messages:info_allmarkedasread"
-msgstr "Wszystkie wiadomości zostały oznaczone jako przeczytane."
+msgstr "Alle Nachrichten wurden als gelesen markiert."
 
 msgid "Messages:info_messagedeleted"
-msgstr "Wiadomość została usunięta."
+msgstr "Nachricht wurde gelöscht"
 
 msgid "Messages:info_filetoolarge"
-msgstr "Plik jest zbyt duży."
+msgstr "Datei ist zu groß."
 
 msgid "Messages:info_receivernotfound"
-msgstr "Odbiorca wiadomości nie istnieje."
+msgstr "Empfänger wurde nicht gefunden."
 
 msgid "Forum:info_nonewfollowedforumsthreads"
 msgstr "Brak nowych wątków na śledzonych forach"
@@ -2048,58 +2048,58 @@ msgid "Forum:info_nonewmentions"
 msgstr "Brak nowych wzmianek"
 
 msgid "Forum:info_threadmoved"
-msgstr "Wątek został przeniesiony."
+msgstr "Das Thema wurde verschoben."
 
 msgid "Forum:info_renamed"
-msgstr "Nazwa została zmieniona."
+msgstr "Umbenennung erfolgreich."
 
 msgid "Forum:wait_postsendpreparation"
-msgstr "Przygotowywanie do wysłania wpisu..."
+msgstr "Senden des Beitrags wird vorbereitet..."
 
 msgid "Forum:error_postcreation"
-msgstr "Błąd tworzenia wpisu."
+msgstr "Fehler beim Erstellen des Beitrags"
 
 msgid "Forum:error_phrasenotfound"
-msgstr "Nie znaleziono podanej frazy."
+msgstr "Die angegebene Phrase wurde nicht gefunden."
 
 msgid "Forum:info_postmoved"
-msgstr "Wpis został przeniesiony."
+msgstr "Der Beitrag wurde verschoben"
 
 msgid "Forum:info_postslided"
-msgstr "Wpis został przesunięty."
+msgstr "Der Beitrag wurde verschoben"
 
 msgid "Forum:info_noonecontactedyou"
-msgstr "Nikt nie dodał Ciebie do swoich kontaktów."
+msgstr "Niemand hat Sie zu Ihren Kontakten hinzugefügt."
 
 msgid "Forum:info_mentionsent"
-msgstr "Wzmianka została wysłana."
+msgstr "Erwähnung wurde gesendet."
 
 msgid "Login:error_wrongdata"
-msgstr "Błędny login lub hasło."
+msgstr "Fehler im Benutzernamen oder Passwort"
 
 msgid "Login:error_logon"
-msgstr "Błąd logowania."
+msgstr "Anmeldungsfehler"
 
 msgid "Login:error_srv"
-msgstr "Błąd połączenia z serwerem."
+msgstr "Verbindungsfehler"
 
 msgid "EAPI_External:info_donotreadprogress"
-msgstr "Nie odczytuj zmian na pasku postępu."
+msgstr "Keine Änderungen bei Fortschrittsbalken lesen"
 
 msgid "EAPI_External:info_readprogress"
-msgstr "Odczytuj zmiany na pasku postępu."
+msgstr "Änderungen bei Fortschrittsbalken lesen"
 
 msgid "EAPI_External:info_addedtopls"
 msgstr "Dodano do playlisty"
 
 msgid "EAPI_External:wait"
-msgstr "Proszę czekać..."
+msgstr "Bitte warten..."
 
 msgid "EAPI_External:info_copiedtoclip"
-msgstr "Skopiowano do schowka."
+msgstr "In die zwischenablage kopiert"
 
 msgid "EAPI_Common:error_logon"
-msgstr "Błąd, nie mogę się zalogować. Prawdopodobnie podano błędne hasło lub jesteś zbanowany."
+msgstr "Fehler bei der Anmeldung. Sie haben wahrscheinlich das falsche Passwort eingegeben oder Sie sind gesperrt."
 
 msgid "EAPI_Common:info_finished"
 msgstr "Operacja zakończona powodzeniem"
@@ -2111,178 +2111,178 @@ msgid "EAPI_Common:info_usingsapi"
 msgstr "Używanie wybranej syntezy SAPI"
 
 msgid "EAPI_EltenSRV:wait_severalminutes"
-msgstr "Proszę czekać, to może potrwać kilka minut..."
+msgstr "Bitte warten. Dies kann einige Minuten dauern"
 
 msgid "EAPI_UI:info_newmessagefemale"
-msgstr "Otrzymałaś nową wiadomość."
+msgstr "Sie haben eine neue private Nachricht"
 
 msgid "EAPI_UI:info_newfollowedthread"
-msgstr "W śledzonym wątku pojawił się nowy wpis."
+msgstr "Es gibt neue Beiträge in verfolgten Themen"
 
 msgid "EAPI_UI:info_newfollowedblog"
-msgstr "Na śledzonym blogu pojawił się nowy wpis."
+msgstr "Es gibt neue Einträge in Ihren verfolgten blogs"
 
 msgid "Honors:alert_mainhonor"
-msgstr "Czy chcesz ustawić to odznaczenie jako główne? Główne odznaczenie pokaże się w twojej wizytówce."
+msgstr "Möchten Sie diese Auszeichnung als Hauptauszeichnung verwenden? Die Hauptauszeichnung wird in Ihrer Visitenkarte angezeigt."
 
 msgid "Blog:alert_deletecategory"
-msgstr "Czy jesteś pewien, że chcesz usunąć tą kategorię?"
+msgstr "Sind Sie sicher, dass Sie diese Kategorie löschen möchten?"
 
 msgid "Contacts:alert_delcontact"
-msgstr "Czy na pewno chcesz usunąć ten kontakt?"
+msgstr "Möchten Sie diesen Kontakt wirklich löschen?"
 
 msgid "Update:alert_joinbeta"
-msgstr "Nie należysz do otwartego programu testów Elten. Czy chcesz do niego przystąpić teraz, by pobrać wersję beta?"
+msgstr "Sie sind nicht Teil von Eltens offenem Testprogramm. Möchten Sie jetzt beitreten, um die Beta-Version herunterzuladen?"
 
 msgid "MainMenu:alert_resetsettings"
-msgstr "Czy jesteś pewien, że chcesz usunąć wszystkie ustawienia programu i przywrócić wartości domyślne? Elten zostanie uruchomiony ponownie."
+msgstr "Möchten Sie wirklich alle Programmeinstellungen löschen und Standardwerte wiederherstellen? Elten wird neu gestartet."
 
 msgid "EAPI_External:alert_audioreport"
-msgstr "Wystąpił błąd podczas przechwytywania ścieżki audio. Czy chcesz wysłać raport o błędzie? Może on pomóc rozwiązać problem "
+msgstr "Beim Aufnehmen der Audiodatei ist ein Fehler aufgetreten. Möchten Sie einen Fehlerbericht senden? Es kann helfen, das Problem zu lösen"
 
 msgid "EAPI_External:alert_ytreport"
-msgstr "Nie można odtworzyć tego pliku. Czy chcesz wysłać raport o tym błędzie? Może to pomóc naprawić napotkany problem."
+msgstr "Diese Datei kann nicht wiedergegeben werden. Möchten Sie einen Bericht über diesen Fehler senden? Dies kann helfen, das aufgetretene Problem zu beheben."
 
 msgid "EAPI_Common:alert_useragreement"
-msgstr "Czy akceptujesz umowę licencyjną oprogramowania Elten?"
+msgstr "Akzeptieren Sie die Elten-Lizenzbedingungen?"
 
 msgid "EAPI_UI:alert_agentreport"
-msgstr "Wystąpił nieoczekiwany błąd agenta programu Elten. Czy chcesz przesłać raport o tym zdarzeniu? Przesłanie raportu może zdecydowanie ułatwić rozwiązanie problemu."
+msgstr "Ein unerwarteter Fehler ist im Elten-Agenten aufgetreten. Möchten Sie einen Bericht über dieses Ereignis senden? Senden eines Berichts kann definitiv helfen, das Problem zu lösen."
 
 msgid "*Main:alert_changepls"
-msgstr "Twoja playlista została zmieniona. Zapisać zmiany?"
+msgstr "Ihre Wiedergabeliste wurde geändert. Sollen die Änderungen gespeichert werden?"
 
 msgid "*Main:alert_savepls"
-msgstr "Czy chcesz zapisać swoją playlistę?"
+msgstr "Möchten Sie Ihre Wiedergabeliste speichern?"
 
 msgid "*Main:alert_deletepls"
-msgstr "Czy chcesz usunąć zapisaną playlistę?"
+msgstr "Möchten Sie die gespeicherte Wiedergabeliste löschen?"
 
 msgid "Debug:read_report"
-msgstr "Raport"
+msgstr "Bericht"
 
 msgid "Notes:type_sharenotewith"
-msgstr "Z kim chcesz współdzielić tą notatkę?"
+msgstr "Mit wem möchten Sie diese Notiz teilen?"
 
 msgid "Notes:type_title"
-msgstr "Tytuł notatki"
+msgstr "Notiztitel"
 
 msgid "Notes:type_content"
-msgstr "Treść notatki"
+msgstr "Notizinhalt"
 
 msgid "Honors:type_name"
-msgstr "Nazwa odznaczenia"
+msgstr "Name der Auszeichnung"
 
 msgid "Honors:type_description"
-msgstr "Opis odznaczenia"
+msgstr "Beschreibung der Auszeichnung"
 
 msgid "Honors:type_enname"
-msgstr "Angielska nazwa odznaczenia"
+msgstr "Name der Auszeichnung (englisch)"
 
 msgid "Honors:type_endescription"
-msgstr "Angielski opis odznaczenia"
+msgstr "Beschreibung der Auszeichnung (Englisch)"
 
 msgid "Polls:read_poll"
-msgstr "Ankieta"
+msgstr "Umfrage"
 
 msgid "Ban:type_reason"
-msgstr "Przyczyna"
+msgstr "Ursache"
 
 msgid "Ban:type_additionalmsg"
-msgstr "Dodatkowa wiadomość dla użytkownika"
+msgstr "Zusätzliche Nachricht für den Benutzer"
 
 msgid "Ban:read_reason"
-msgstr "Przyczyna zbanowania"
+msgstr "Grund der Verbannung"
 
 msgid "Ban:read_validuntil"
-msgstr "Ban ważny do"
+msgstr "Bann gültig für"
 
 msgid "Ban:type_cancelreason"
-msgstr "Przyczyna anulowania bana"
+msgstr "Grund für die Aufhebung der Verbannung"
 
 msgid "Media:type_categorydescription"
-msgstr "Opis kategorii"
+msgstr "Beschreibung der Kategorie"
 
 msgid "Account:type_birthdateyear"
-msgstr "Data urodzenia: rok"
+msgstr "Geburtsjahr"
 
 msgid "Account:type_birthdatemonth"
-msgstr "Data urodzenia: miesiąc"
+msgstr "Geburtsmonat"
 
 msgid "Account:type_birthdateday"
-msgstr "Data urodzenia: dzień"
+msgstr "Geburtstag"
 
 msgid "Account:type_location"
-msgstr "Lokalizacja"
+msgstr "Standort"
 
 msgid "Account:type_greeting"
-msgstr "Twoja wiadomość powitalna:"
+msgstr "Ihre Begrüßungsnachricht"
 
 msgid "Forum:type_nick"
-msgstr "Pseudonim:"
+msgstr "Pseudonym:"
 
 msgid "Main:type_test"
 msgstr "test"
 
 msgid "EAPI_External:read_Details"
-msgstr "Szczegóły"
+msgstr "Details"
 
 msgid "EAPI_Common:read_useragreement"
-msgstr "Umowa licencyjna oraz regulamin użytkowania programu Elten oraz sieci Elten Network"
+msgstr "Lizenzvereinbarung und Regelungen zur Nutzung des Elten-Programms und des Elten-Netzwerks"
 
 msgid "EAPI_Common:read_readingtofile"
-msgstr "Czytanie do pliku, proszę czekać..."
+msgstr "Textdatei wird in Audio konvertiert, bitte warten..."
 
 msgid "EAPI_Form:type_Filename"
-msgstr "Nazwa pliku"
+msgstr "Dateiname"
 
 msgid "Honors:type_honoruser"
-msgstr "Komu nadać to odznaczenie?"
+msgstr "Wem verleihen Sie diese Auszeichnung?"
 
 msgid "Polls:type_answer"
-msgstr "Odpowiedź"
+msgstr "Antwort"
 
 msgid "Blog:type_blogname"
-msgstr "Podaj nazwę tworzonego bloga."
+msgstr "Geben Sie einen Namen für den zu erstellenden Blog ein"
 
 msgid "Blog:type_newcatname"
-msgstr "Podaj nową nazwę dla tej kategorii"
+msgstr "Geben Sie einen neuen Namen für diese Kategorie ein"
 
 msgid "Files:type_newname"
-msgstr "Nowa nazwa"
+msgstr "Neuer Name"
 
 msgid "Account:type_blacklistaddusername"
 msgstr "Geben sie den Nutzernamen der Person ein, die zur schwarzen Liste hinzugefügt werden soll"
 
 msgid "Contacts:type_blacklistremoveusername"
-msgstr "Podaj nazwę użytkownika, którego chcesz usunąć ze swoich kontaktów."
+msgstr "Geben Sie den Namen des Benutzers ein, den Sie aus Ihren Kontakten löschen möchten."
 
 msgid "Forum:type_thrnewname"
-msgstr "Podaj nową nazwę wątku"
+msgstr "Geben Sie einen neuen Themennamen ein"
 
 msgid "Registration:type_passagain"
-msgstr "Powtórz hasło"
+msgstr "Wiederholen Sie Ihr Passwort"
 
 msgid "EAPI_Common:type_movetosec"
-msgstr "Podaj sekundę, do której chcesz przeskoczyć"
+msgstr "Geben Sie die Sekundenzahl an, zu der Sie springen möchten"
 
 msgid "EAPI_Form:type_location"
-msgstr "Podaj ścieżkę"
+msgstr "Geben Sie den Standord an"
 
 msgid "Debug:chk_srvconnectionsignal"
-msgstr "Sygnalizuj połączenia z serwerem"
+msgstr "Verbindungen zum Server signalisieren"
 
 msgid "Portable:chk_sfx"
-msgstr "Utwórz jako jeden plik exe (Uwaga! Żadne ustawienia nie będą zapamiętywane.)"
+msgstr "Portable Version als nur eine ausführbare EXE-Datei speichern (Einstellungen können nicht dauerhaft gespeichert werden)"
 
 msgid "Interface:chk_linewrapping"
-msgstr "Zawijaj długie wiersze w polach tekstowych"
+msgstr "Lange Zeilen in Eingabefeldern automatisch umbrechen"
 
 msgid "Debug:btn_ok"
 msgstr "OK"
 
 msgid "Blog:btn_createtextpost"
-msgstr "Utwórz wpis tekstowy"
+msgstr "Textbeitrag erstellen"
 
 msgid "Messages:btn_sendasadmin"
 msgstr "Als Administrator senden"
@@ -2513,10 +2513,10 @@ msgid "WhatsNew:opt_birthday"
 msgstr "Geburtstag eines Freundes"
 
 msgid "WhatsNew:opt_mentions"
-msgstr "Geburtstag eines Freundes"
+msgstr "Erwähnungen"
 
 msgid "WhatsNew:opt_update"
-msgstr "Verfügbares Update (%version)"
+msgstr "Verfügbares Update: (%version)"
 
 msgid "_Main:error_critical"
 msgstr "Ein fataler Fehler ist aufgetreten. Beschreibung: %{description}"
@@ -2573,7 +2573,7 @@ msgid "Permissions:head"
 msgstr "Sie gehören zu folgenden Gruppen"
 
 msgid "Honors:opt_honor"
-msgstr "Nadaj odznaczenie"
+msgstr "Nutzer auszeichnen"
 
 msgid "Honors:opt_new"
 msgstr "neue Auszeichnungen"
