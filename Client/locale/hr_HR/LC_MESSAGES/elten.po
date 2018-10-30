@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-10-30 09:00+0100\n"
+"PO-Revision-Date: 2018-10-30 16:50+0100\n"
 "Last-Translator: Dawid Pieper <dawidpieper@o2.pl>\n"
 "Language: hr_HR\n"
 "Language-Team: hr <zvonimirek222@yandex.com>\n"
@@ -233,20 +233,18 @@ msgstr "Upisana je prazna lozinka."
 msgid "ForgotPassword:wait_changing"
 msgstr "Molim pričekaj, traje izmjena lozinke..."
 
-#, fuzzy
 msgid "ForgotPassword:info_changed"
 msgstr ""
-"Hasło zostało zmienione. Możesz się teraz zalogować przy użyciu nowych "
-"danych."
+"Lozinka je promijenjena. Sada se možeš prijaviti koristeći nove podatke za "
+"prijavu."
 
-#, fuzzy
 msgid "ForgotPassword:head_reset"
 msgstr ""
-"W wypadku utraty hasła nadal istnieje możliwość jego zresetowania poprzez "
-"weryfikację konta za pośrednictwem podanego adresu E-mail. Możesz "
-"wygenerować w ten sposób kod, dzięki któremu możliwa będzie zmiana hasła. "
-"Kod zostanie wysłany na twój adres E-mail. Uwaga! Jeśli używane, dwuetapowe "
-"uwierzytelnianie zostanie wyłączone. Aby kontynuować, wprowadź swój login:"
+"U slučaju gubitka lozinke i dalje postoji mogučnost povrata iste putem "
+"verifikacije naloga uz pomoć e-mail adrese. Na takav način možeš generirati "
+"kod, uz pomoć kojeg ćeš moći generirati novu lozinku. Kod će ti biti poslan "
+"na e-mail. Upozorenje! Ako se koristi dvofaktorna autentifikacija, ista će "
+"biti isključena. kako bi nastavio, upiši korisničko ime:"
 
 msgid "Honors:opt_add"
 msgstr "Dodaj"
@@ -284,21 +282,18 @@ msgstr "Svaki put pitaj"
 msgid "Portable:opt_usecurrent"
 msgstr "Spremi trenutnu postavku"
 
-#, fuzzy
 msgid "Portable:head_synth"
 msgstr ""
-"Jeśli będziesz używał tworzonej kopii programu Elten na innym komputerze, "
-"wybrane ustawienia syntezy mowy mogą nie działać poprawnie. Zauważalne może "
-"to być szczególnie w sytuacji, gdy dany komputer będzie miał zainstalowane "
-"inne głosy. Jak chcesz skonfigurować tworzoną wersję?"
+"Ako ćeš koristiti stvaranu kopiju na drugom računalu, Izabrane postavke "
+"govorne jedinice mogu raditi onako, kako nije očekivano. To može biti "
+"primjetno u situaciji, kada su na računalu instalirani drugi glasovi. Kako "
+"želiš konfigurirati stvaranu kopiju?"
 
 msgid "Portable:info_created"
 msgstr "Prijenosna inačica programa je stvorena."
 
-#, fuzzy
 msgid "Portable:opt_usedefault"
-msgstr ""
-"Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"
+msgstr "Koristi glas aktivnog čitača ekrana ili podrazumjevani glas sustava"
 
 msgid "Portable:btn_continue"
 msgstr "Nastavi"
@@ -306,1408 +301,1060 @@ msgstr "Nastavi"
 msgid "Polls:type_description"
 msgstr "Opis"
 
-#, fuzzy
 msgid "Polls:head"
-msgstr "Ankiety"
+msgstr "Ankete"
 
-#, fuzzy
 msgid "Polls:btn_vote"
-msgstr "Głosuj"
+msgstr "Glasaj"
 
-#, fuzzy
 msgid "Polls:opt_results"
-msgstr "Pokaż wyniki"
+msgstr "Pokaži rezultate"
 
-#, fuzzy
 msgid "Polls:opt_new"
-msgstr "Nowa ankieta"
+msgstr "Nowa anketa"
 
-#, fuzzy
 msgid "Polls:type_pollname"
-msgstr "Nazwa ankiety"
+msgstr "Naziv ankete"
 
-#, fuzzy
 msgid "Polls:head_questions"
-msgstr "Pytania"
+msgstr "Pitanja"
 
-#, fuzzy
 msgid "Polls:opt_newquestion"
-msgstr "Dodaj nowe pytanie"
+msgstr "Dodaj novo pitanje"
 
-#, fuzzy
 msgid "Polls:head_answers"
-msgstr "Odpowiedzi"
+msgstr "Odgovori"
 
-#, fuzzy
 msgid "Polls:opt_newanswer"
-msgstr "Dodaj nową odpowiedź"
+msgstr "Dodaj novi odgovor"
 
-#, fuzzy
 msgid "Polls:btn_create"
-msgstr "Utwórz"
+msgstr "Stvori"
 
-#, fuzzy
 msgid "Polls:head_question"
-msgstr "Pytanie"
+msgstr "Pitanje"
 
-#, fuzzy
 msgid "Polls:opt_singlechoice"
-msgstr "Jednokrotnego wyboru"
+msgstr "Jednostrukog odabira"
 
-#, fuzzy
 msgid "Polls:opt_multiplechoice"
-msgstr "Wielokrotnego wyboru"
+msgstr "Višestrukog izbora"
 
-#, fuzzy
 msgid "Polls:opt_textfield"
-msgstr "Pole tekstowe"
+msgstr "Polje za uređivanje"
 
-#, fuzzy
 msgid "Polls:head_answertype"
-msgstr "Metoda odpowiadania"
+msgstr "Način odgovora"
 
-#, fuzzy
 msgid "Polls:info_deleted"
-msgstr "Usunięto"
+msgstr "Izbrisano"
 
-#, fuzzy
 msgid "Uploads:info_saved"
-msgstr "Zapisano."
+msgstr "Spremljeno"
 
-#, fuzzy
 msgid "Uploads:opt_add"
 msgstr "Dodaj"
 
-#, fuzzy
 msgid "Uploads:opt_play"
-msgstr "Odtwarzaj"
+msgstr "Reproduciraj"
 
-#, fuzzy
 msgid "Uploads:opt_download"
-msgstr "Pobierz"
+msgstr "Preuzmi"
 
-#, fuzzy
 msgid "Uploads:head_dest"
-msgstr "Gdzie zapisać ten plik?"
+msgstr "Gdje da pospremim ovu datoteku?"
 
-#, fuzzy
 msgid "Uploads:info_deleted"
-msgstr "Usunięto"
+msgstr "Izbrisano"
 
-#, fuzzy
 msgid "Compiler:head_dest"
-msgstr "Lokalizacja docelowa"
+msgstr "Ciljno odredište"
 
-#, fuzzy
 msgid "Admins:head"
-msgstr "Rada starszych"
+msgstr "Vijeće starijih"
 
-#, fuzzy
 msgid "WhatsNew:info_nonew"
-msgstr "Nie ma nic nowego."
+msgstr "Nema ničeg novog"
 
-#, fuzzy
 msgid "WhatsNew:opt_open"
-msgstr "otwórz"
+msgstr "Otvori"
 
-#, fuzzy
 msgid "WhatsNew:opt_deletethread"
-msgstr "Usuń Wątek"
+msgstr "Izbriši temu"
 
-#, fuzzy
 msgid "WhatsNew:info_followedel"
-msgstr "Usunięto z listy śledzonych wątków"
+msgstr "Izbrisano sa spiska sljeđenih tema"
 
-#, fuzzy
 msgid "WhatsNew:opt_deletefollowed"
-msgstr "Usuń z listy śledzonych wątków"
+msgstr "Izbriši sa spiska sljeđenih tema"
 
-#, fuzzy
 msgid "WhatsNew:info_nonewfollowedposts"
-msgstr "Brak nowych wpisów w śledzonych wątkach"
+msgstr "Nema novih zapisa u sljeđenim temama"
 
-#, fuzzy
 msgid "WhatsNew:head"
-msgstr "Co nowego"
+msgstr "Što je novo"
 
-#, fuzzy
 msgid "ShortKeys:head"
-msgstr "Lista skrótów klawiszowych"
+msgstr "Popis tipkovničkih prečaca"
 
-#, fuzzy
 msgid "Interface:opt_linear"
-msgstr "Liniowy"
+msgstr "Linearan"
 
-#, fuzzy
 msgid "Interface:opt_circular"
-msgstr "Kołowy"
+msgstr "Kružni"
 
-#, fuzzy
 msgid "Interface:head_listspresentation"
-msgstr "Sposób wyświetlania list wyboru"
+msgstr "Način prikaza popisa za odabire"
 
-#, fuzzy
 msgid "Interface:chk_soundtheme"
-msgstr "Odtwarzaj dźwięki tematu dźwiękowego"
+msgstr "Reproduciraj zvukove događaja"
 
-#, fuzzy
 msgid "Interface:opt_chars"
-msgstr "Znaki"
+msgstr "znakovi"
 
-#, fuzzy
 msgid "Interface:opt_words"
-msgstr "Wyrazy"
+msgstr "riječi"
 
-#, fuzzy
 msgid "Interface:opt_charsandwords"
-msgstr "Znaki i wyrazy"
+msgstr "znakovi i riječi"
 
-#, fuzzy
 msgid "Interface:opt_none"
-msgstr "Brak"
+msgstr "Ništa"
 
-#, fuzzy
 msgid "Interface:head_typingecho"
-msgstr "Echo pisania"
+msgstr "odziv tipkovnice"
 
-#, fuzzy
 msgid "Interface:chk_fullscreen"
-msgstr "Uruchamiaj program w trybie pełnoekranowym"
+msgstr "Pokreći program u načinu punog zaslona"
 
-#, fuzzy
 msgid "Interface:chk_autologin"
-msgstr "Włącz automatyczne logowanie"
+msgstr "Uključi automatsku prijavu"
 
-#, fuzzy
 msgid "Interface:chk_tray"
-msgstr "Automatycznie minimalizuj okno programu do zasobnika systemowego"
+msgstr "Automatski minimiziraj program u System tray"
 
-#, fuzzy
 msgid "Interface:chk_autostart"
-msgstr "Automatycznie uruchamiaj program Elten przy starcie systemu"
+msgstr "Automatski pokreći program sa sustavom"
 
-#, fuzzy
 msgid "Interface:error_autologinrequired"
-msgstr "Autostart programu wymaga włączenia automatycznego logowania."
+msgstr "Automatsko pokretanje programa zahtjeva uključenu automatsku prijavu."
 
-#, fuzzy
 msgid "Interface:alert_portableautostart"
 msgstr ""
-"Uwaga! Próbujesz włączyć autostart programu używając przenośnej wersji "
-"Eltena. Ta funkcja będzie działać tylko w wypadku, gdy program znajdzie się "
-"na stałym dysku komputera, a zatem będzie dostępny przy każdym starcie "
-"systemu. Nie można również zmienić jego lokalizacji. Czy chcesz kontynuować "
-"mimo to?"
+"Upozorenje! Pokušavaš uključiti automatsko pokretanje eltena sa Windowsima "
+"koristeći prijenosnu inačicu. a će opcija raditi samo u slučaju, kada "
+"program bude na tvrdom disku, a potom dostupan pri svakom pokretanju "
+"sustava. Također, nije moguća izmjena lokacije. Želiš li i pored ovoga "
+"nastaviti?"
 
-#, fuzzy
 msgid "UsersAddedMeToContacts:head"
-msgstr "Użytkownicy, którzy dodali mnie do swoich kontaktów"
+msgstr "Korisnici koji su me dodali u svoje kontakte"
 
-#, fuzzy
 msgid "ReadMe:head"
-msgstr "Przeczytaj mnie"
+msgstr "Čitaj me"
 
-#, fuzzy
 msgid "Blog:opt_newpost"
-msgstr "Nowy wpis"
+msgstr "Novi zapis"
 
-#, fuzzy
 msgid "Blog:info_deleted"
-msgstr "Usunięto."
+msgstr "Izbrisano"
 
-#, fuzzy
 msgid "Blog:opt_select"
-msgstr "Wybierz"
+msgstr "Izaberi"
 
-#, fuzzy
 msgid "Blog:opt_myblog"
-msgstr "Mój blog"
+msgstr "Moj blog"
 
-#, fuzzy
 msgid "Blog:opt_newcat"
-msgstr "Nowa kategoria"
+msgstr "Nova kategorija"
 
-#, fuzzy
 msgid "Blog:alert_deletepost"
-msgstr "Czy jesteś pewien, że chcesz usunąć ten wpis?"
+msgstr "Jesi li siguran da želiš izbrisati ovaj zapis?"
 
-#, fuzzy
 msgid "Blog:head"
-msgstr "Blogi"
+msgstr "Blogovi"
 
-#, fuzzy
 msgid "Blog:head_list"
-msgstr "Lista blogów"
+msgstr "Spisak blogova"
 
-#, fuzzy
 msgid "Blog:btn_send"
-msgstr "Wyślij"
+msgstr "Pošalji"
 
-#, fuzzy
 msgid "Blog:btn_back"
-msgstr "Powrót"
+msgstr "Nazad"
 
-#, fuzzy
 msgid "Blog:opt_renameblog"
-msgstr "Zmień nazwę bloga"
+msgstr "Promjeni naziv bloga"
 
-#, fuzzy
 msgid "Blog:type_comment"
-msgstr "Twój komentarz"
+msgstr "Tvoj komentar"
 
-#, fuzzy
 msgid "Blog:btn_modifypost"
-msgstr "Zmodyfikuj swój wpis"
+msgstr "Modificiraj svoj zapis"
 
-#, fuzzy
 msgid "Blog:btn_play"
-msgstr "Odtwórz"
+msgstr "Reproduciraj"
 
-#, fuzzy
 msgid "Blog:opt_allposts"
-msgstr "Wszystkie wpisy"
+msgstr "svi zapisi"
 
-#, fuzzy
 msgid "Blog:btn_recpost"
-msgstr "Nagraj nowy wpis"
+msgstr "Snimi novi zapis"
 
-#, fuzzy
 msgid "Blog:btn_stoprec"
-msgstr "Zakończ nagrywanie"
+msgstr "Završi snimanje"
 
-#, fuzzy
 msgid "Blog:opt_recentlyupdatedblogs"
-msgstr "Ostatnio aktualizowane blogi"
+msgstr "Zadnje ažurirani blogovi"
 
-#, fuzzy
 msgid "Blog:opt_frequentlyupdatedblogs"
-msgstr "Najczęściej aktualizowane blogi"
+msgstr "Najčešće ažurirani blogovi"
 
-#, fuzzy
 msgid "Blog:opt_frequentlycommentedblogs"
-msgstr "Najczęściej komentowane blogi"
+msgstr "Najčešće komentirani blogovi"
 
-#, fuzzy
 msgid "Blog:type_posttitle"
-msgstr "Tytuł wpisu"
+msgstr "Naslov zapisa"
 
-#, fuzzy
 msgid "Blog:type_post"
-msgstr "Treść wpisu"
+msgstr "Sadržaj zapisa"
 
-#, fuzzy
 msgid "Blog:head_postcategories"
-msgstr "Przypisz do kategorii"
+msgstr "Pridjeli u kategoriju"
 
-#, fuzzy
 msgid "Blog:type_catname"
-msgstr "Nazwa kategorii"
+msgstr "Naziv kategorije"
 
-#, fuzzy
 msgid "Blog:type_newblogname"
-msgstr "Nowa nazwa bloga"
+msgstr "Novi naziv bloga"
 
-#, fuzzy
 msgid "Blog:wait_converting"
-msgstr "Konwertowanie pliku..."
+msgstr "Konvertiranje datoteke"
 
-#, fuzzy
 msgid "Blog:opt_rename"
-msgstr "Zmień nazwę"
+msgstr "Promjeni naziv"
 
-#, fuzzy
 msgid "Blog:opt_edit"
-msgstr "Edytuj"
+msgstr "Uredi"
 
-#, fuzzy
 msgid "Blog:opt_open"
-msgstr "Otwórz"
+msgstr "otvori"
 
-#, fuzzy
 msgid "Blog:opt_followblog"
-msgstr "Dodaj do śledzonych blogów"
+msgstr "Dodaj u sljeđene blogove"
 
-#, fuzzy
 msgid "Blog:opt_unfollowblog"
-msgstr "Usuń ze śledzonych blogów"
+msgstr "Izbriši iz sljeđenih blogova"
 
-#, fuzzy
 msgid "Blog:opt_followedblogs"
-msgstr "Śledzone blogi"
+msgstr "Sljeđeni blogovi"
 
-#, fuzzy
 msgid "Blog:btn_createaudiopost"
-msgstr "Utwórz wpis audio"
+msgstr "Stvori audiozapis"
 
-#, fuzzy
 msgid "Blog:opt_useexistingfile"
-msgstr "Użyj istniejącego pliku"
+msgstr "Koristi postojeću datoteku"
 
-#, fuzzy
 msgid "Blog:info_modified"
-msgstr "Wpis został zmodyfikowany."
+msgstr "Zapis je modificiran"
 
-#, fuzzy
 msgid "Blog:head_visibility"
-msgstr "Widoczność"
+msgstr "Vidljivost"
 
-#, fuzzy
 msgid "Blog:opt_viseveryone"
-msgstr "Pokaż wszystkim"
+msgstr "Pokaži svima"
 
-#, fuzzy
 msgid "Blog:opt_vislogged"
-msgstr "Ukryj przed niezalogowanymi użytkownikami"
+msgstr "Sakrij pred neprijavljenim korisnicima"
 
-#, fuzzy
 msgid "Blog:btn_audiopost"
-msgstr "Wpis audio"
+msgstr "Audiozapis"
 
-#, fuzzy
 msgid "Blog:opt_changeaudiofile"
-msgstr "Użyj innego pliku"
+msgstr "Koristi drugu datoteku"
 
-#, fuzzy
 msgid "Blog:head_selaudiofile"
-msgstr "Wybierz plik audio"
+msgstr "Izaberi audiozapis"
 
-#, fuzzy
 msgid "Ban:btn_ban"
-msgstr "Zbanuj"
+msgstr "baniraj"
 
-#, fuzzy
 msgid "Ban:btn_unban"
-msgstr "Odbanuj"
+msgstr "makni ban"
 
-#, fuzzy
 msgid "Ban:type_banusername"
-msgstr "Podaj nazwę użytkownika do zbanowania."
+msgstr "Upiši korisničko ime kojeg treba banirati."
 
-#, fuzzy
 msgid "Ban:opt_week"
-msgstr "Tydzień"
+msgstr "tjedan"
 
-#, fuzzy
 msgid "Ban:opt_twoweeks"
-msgstr "Dwa tygodnie"
+msgstr "dva tjedna"
 
-#, fuzzy
 msgid "Ban:opt_month"
-msgstr "Trzydzieści dni"
+msgstr "trideset dana"
 
-#, fuzzy
 msgid "Ban:opt_yrquarter"
-msgstr "Dziewięćdziesiąt dni"
+msgstr "devedeset dana"
 
-#, fuzzy
 msgid "Ban:info_banned"
-msgstr "Zbanowano."
+msgstr "banirano"
 
-#, fuzzy
 msgid "Ban:type_unbanusername"
-msgstr "Podaj nazwę użytkownika do odbanowania."
+msgstr "Upiši korisničko ime, koje treba odbanirati"
 
-#, fuzzy
 msgid "Ban:info_unbanned"
-msgstr "Odbanowano."
+msgstr "Odbanirano"
 
-#, fuzzy
 msgid "Users:head"
-msgstr "Lista użytkowników"
+msgstr "Popis korisnika"
 
-#, fuzzy
 msgid "Chat:type_message"
-msgstr "Twoja wiadomość"
+msgstr "Tvoja poruka"
 
-#, fuzzy
 msgid "Chat:read_history"
-msgstr "Historia wiadomości"
+msgstr "Povijest poruka"
 
-#, fuzzy
 msgid "Chat:opt_users"
-msgstr "Aktywne osoby"
+msgstr "Aktivni korisnici"
 
-#, fuzzy
 msgid "Chat:btn_hide"
-msgstr "Ukryj chat"
+msgstr "Sakrij čavrljanje"
 
-#, fuzzy
 msgid "Languages:head"
-msgstr "Zarządzanie językami"
+msgstr "Upravljanje jezicima"
 
-#, fuzzy
 msgid "Languages:opt_download"
-msgstr "Pobierz tłumaczenia z serwera"
+msgstr "Preuzmi prijevode sa servera"
 
-#, fuzzy
 msgid "Languages:info_downloaded"
-msgstr "Paczki językowe zostały zaktualizowane"
+msgstr "Jezični paketi su ažurirani."
 
-#, fuzzy
 msgid "Files:head"
-msgstr "Pliki"
+msgstr "Datoteke"
 
-#, fuzzy
 msgid "Files:info_deleted"
-msgstr "Usunięto."
+msgstr "Izbrisano"
 
-#, fuzzy
 msgid "Files:opt_openassociated"
-msgstr "Otwórz w skojarzonej aplikacji"
+msgstr "Otvori u pridjeljenom programu"
 
-#, fuzzy
 msgid "Files:opt_copy"
-msgstr "Kopiuj"
+msgstr "kopiraj"
 
-#, fuzzy
 msgid "Files:opt_cut"
-msgstr "Wytnij"
+msgstr "izreži"
 
-#, fuzzy
 msgid "Files:opt_paste"
-msgstr "Wklej"
+msgstr "zalijepi"
 
-#, fuzzy
 msgid "Files:opt_newdir"
-msgstr "Nowy folder"
+msgstr "Nova mapa"
 
-#, fuzzy
 msgid "Files:info_copied"
-msgstr "Skopiowano."
+msgstr "Kopirano"
 
-#, fuzzy
 msgid "Files:info_cut"
-msgstr "Wycięto"
+msgstr "izrezano"
 
-#, fuzzy
 msgid "Files:opt_copied"
-msgstr "Skopiowano"
+msgstr "kopirano"
 
-#, fuzzy
 msgid "Files:opt_text"
 msgstr "Tekst"
 
-#, fuzzy
 msgid "Files:opt_erasepls"
-msgstr "Wyczyść playlistę"
+msgstr "Izbriši popis za reprodukciju"
 
-#, fuzzy
 msgid "Files:opt_adddirtopls"
-msgstr "Dodaj wszystkie nagrania z tego folderu do playlisty"
+msgstr "Dodaj sve snimke iz ove mape u popis za reprodukciju"
 
-#, fuzzy
 msgid "Files:opt_play"
-msgstr "Odtwarzaj"
+msgstr "Reproduciraj"
 
-#, fuzzy
 msgid "Files:opt_addtopls"
-msgstr "Dodaj do playlisty"
+msgstr "Dodaj na popis za reprodukciju"
 
-#, fuzzy
 msgid "Files:opt_send"
-msgstr "Wyślij na serwer"
+msgstr "Pošalji na poslužitelj"
 
-#, fuzzy
 msgid "Files:opt_opendir"
-msgstr "Otwórz ten folder"
+msgstr "Otvori ovu mapu"
 
-#, fuzzy
 msgid "Files:opt_avatar"
-msgstr "Ustaw jako awatar"
+msgstr "Postavi kao avatar"
 
-#, fuzzy
 msgid "Files:opt_create"
-msgstr "Utwórz"
+msgstr "stvori"
 
-#, fuzzy
 msgid "Files:opt_rename"
-msgstr "Zmień nazwę"
+msgstr "Promjeni naziv"
 
-#, fuzzy
 msgid "Files:opt_edit"
-msgstr "Edytuj"
+msgstr "Uredi"
 
-#, fuzzy
 msgid "Files:info_pasted"
-msgstr "Wklejono"
+msgstr "Zaljepljeno"
 
-#, fuzzy
 msgid "Files:opt_convert"
-msgstr "Konwertuj"
+msgstr "Konvertiraj"
 
-#, fuzzy
 msgid "Files:info_sent"
-msgstr "Wysłano"
+msgstr "Poslano"
 
-#, fuzzy
 msgid "Files:error_play"
-msgstr "Nie można odtworzyć tego pliku."
+msgstr "Nemoguće otvoriti ovu datoteku"
 
-#, fuzzy
 msgid "Files:opt_read"
-msgstr "Czytaj"
+msgstr "Čitaj"
 
-#, fuzzy
 msgid "Files:opt_pack"
-msgstr "Spakuj"
+msgstr "Zapakiraj"
 
-#, fuzzy
 msgid "Files:opt_unpack"
-msgstr "Rozpakuj"
+msgstr "raspakiraj"
 
-#, fuzzy
 msgid "Files:head_archiveformat"
-msgstr "Wybierz format archiwum"
+msgstr "Izaberi format arhive"
 
-#, fuzzy
 msgid "Files:info_packed"
-msgstr "Spakowano"
+msgstr "Zapakirano"
 
-#, fuzzy
 msgid "Files:opt_readtofile"
-msgstr "Czytaj do pliku"
+msgstr "Učitaj u datoteku"
 
-#, fuzzy
 msgid "Files:opt_file"
-msgstr "Plik"
+msgstr "Datoteka"
 
-#, fuzzy
 msgid "Files:opt_dir"
-msgstr "Folder"
+msgstr "Mapa"
 
-#, fuzzy
 msgid "Files:opt_clipboard"
-msgstr "Schowek"
+msgstr "međuspremnik"
 
-#, fuzzy
 msgid "Files:opt_newdoc"
-msgstr "Nowy dokument tekstowy"
+msgstr "Novi tekstualni dokument"
 
-#, fuzzy
 msgid "Files:opt_newrec"
-msgstr "Nowe nagranie"
+msgstr "Nova snimka"
 
-#, fuzzy
 msgid "Files:opt_audio"
 msgstr "Audio"
 
-#, fuzzy
 msgid "Files:type_dirname"
-msgstr "Podaj nazwę folderu"
+msgstr "upiši naziv mape"
 
-#, fuzzy
 msgid "Files:type_filename"
-msgstr "Podaj nazwę pliku"
+msgstr "Upiši naziv datoteke"
 
-#, fuzzy
 msgid "Files:btn_record"
-msgstr "Nagraj"
+msgstr "snimi"
 
-#, fuzzy
 msgid "SoundThemes:head"
-msgstr "Tematy dźwiękowe"
+msgstr "Zvučne teme"
 
-#, fuzzy
 msgid "SoundThemes:info_nothemes"
-msgstr "Brak tematów dźwiękowych."
+msgstr "Nema zvučnih tema."
 
-#, fuzzy
 msgid "SoundThemes:opt_download"
-msgstr "Pobierz tematy dźwiękowe"
+msgstr "Preuzmi zvučne teme"
 
-#, fuzzy
 msgid "SoundThemes:opt_default"
-msgstr "Temat Domyślny"
+msgstr "Podrazumjevana tema"
 
-#, fuzzy
 msgid "SoundThemes:opt_audio"
 msgstr "Audio"
 
-#, fuzzy
 msgid "Changes:head"
-msgstr "Lista zmian"
+msgstr "Popis izmjena"
 
-#, fuzzy
 msgid "Media:opt_url"
-msgstr "Podaj adres URL"
+msgstr "Upiši URL"
 
-#, fuzzy
 msgid "Media:type_url"
-msgstr "Adres URL"
+msgstr "URL"
 
-#, fuzzy
 msgid "Media:opt_newcat"
-msgstr "Nowa kategoria"
+msgstr "Nova kategorija"
 
-#, fuzzy
 msgid "Media:opt_newfile"
-msgstr "Nowy plik"
+msgstr "Nova datoteka"
 
-#, fuzzy
 msgid "Media:btn_add"
 msgstr "Dodaj"
 
-#, fuzzy
 msgid "Media:type_dsc"
 msgstr "Opis"
 
-#, fuzzy
 msgid "Media:type_name"
-msgstr "Tytuł"
+msgstr "Naslov"
 
-#, fuzzy
 msgid "Media:opt_play"
-msgstr "Odtwarzaj"
+msgstr "Reproduciraj"
 
-#, fuzzy
 msgid "Media:opt_addtopls"
-msgstr "Dodaj do playlisty"
+msgstr "Dodaj na popis za reprodukciju"
 
-#, fuzzy
 msgid "Media:type_catname"
-msgstr "Nazwa kategorii"
+msgstr "Naziv kategorije"
 
-#, fuzzy
 msgid "Account:type_oldpass"
-msgstr "Podaj stare hasło"
+msgstr "Upiši staru lozinku"
 
-#, fuzzy
 msgid "Account:type_newpass"
-msgstr "Podaj nowe hasło"
+msgstr "Upiši novu lozinku"
 
-#, fuzzy
 msgid "Account:type_newpassagain"
-msgstr "Powtórz nowe hasło"
+msgstr "Ponovi novu lozinku"
 
-#, fuzzy
 msgid "Account:error_difpass"
-msgstr "Pola: Nowe Hasło i Powtórz Nowe Hasło mają różne wartości."
+msgstr "Polja: Nova lozinka i ponovi novu lozinku ne poklapaju se."
 
-#, fuzzy
 msgid "Account:info_passchanged"
-msgstr "Hasło zostało zmienione."
+msgstr "Lozinka je promijenjena."
 
-#, fuzzy
 msgid "Account:error_wrongoldpass"
-msgstr "Podano błędne stare hasło."
+msgstr "Upisana je pogrešna stara lozinka."
 
-#, fuzzy
 msgid "Account:type_pass"
-msgstr "Podaj hasło"
+msgstr "Upiši lozinku"
 
-#, fuzzy
 msgid "Account:type_newmail"
-msgstr "Podaj nowy adres e-mail"
+msgstr "Upiši novi e-mail"
 
-#, fuzzy
 msgid "Account:info_mailchanged"
-msgstr "Adres e-mail został zmieniony."
+msgstr "E-mail je promijenjen."
 
-#, fuzzy
 msgid "Account:type_visitingcard"
-msgstr "Twoja wizytówka:"
+msgstr "Tvoja vizitka:"
 
-#, fuzzy
 msgid "Account:head_status"
-msgstr "Zmiana statusu"
+msgstr "Izmjena statusa"
 
-#, fuzzy
 msgid "Account:type_status"
-msgstr "Podaj nowy status"
+msgstr "Upiši novi status"
 
-#, fuzzy
 msgid "Account:opt_add"
 msgstr "Dodaj"
 
-#, fuzzy
 msgid "Account:head_profile"
-msgstr "Edycja profilu"
+msgstr "Uređivanje profila"
 
-#, fuzzy
 msgid "Account:type_fullname"
-msgstr "Imię i nazwisko"
+msgstr "Ime i prezime"
 
-#, fuzzy
 msgid "Account:head_gender"
-msgstr "Płeć"
+msgstr "Spol"
 
-#, fuzzy
 msgid "Account:chk_hideprofile"
-msgstr "Ukryj mój profil przed osobami z poza mojej listy kontaktów"
+msgstr "Sakrij moj profil pred osobama koje nisu u mojem spisku kontakata"
 
-#, fuzzy
 msgid "Account:type_signature"
-msgstr "Twoja sygnatura:"
+msgstr "Tvoj potpis:"
 
-#, fuzzy
 msgid "Account:head_avatar"
-msgstr "Ustaw awatar"
+msgstr "Postavi avatar"
 
-#, fuzzy
 msgid "Account:head_autologintokens"
-msgstr "Klucze automatycznego logowania"
+msgstr "Ključevi automatske prijave"
 
-#, fuzzy
 msgid "Account:opt_logoutallsessions"
-msgstr "Wyloguj wszystkie sesje"
+msgstr "Odjavi sve sesije"
 
-#, fuzzy
 msgid "Account:head_messages"
-msgstr "Nowe wiadomości"
+msgstr "Nove poruke"
 
-#, fuzzy
 msgid "Account:head_followedthreads"
-msgstr "Nowe wpisy w śledzonych wątkach"
+msgstr "Novi zapisi u sljedećim temama"
 
-#, fuzzy
 msgid "Account:head_followedblogs"
-msgstr "Nowe wpisy na śledzonych blogach"
+msgstr "Novi zapisi na sljeđenim blogovima"
 
-#, fuzzy
 msgid "Account:head_blogcomments"
-msgstr "Nowe komentarze na twoim blogu"
+msgstr "Novi komentari na tvojem blogu"
 
-#, fuzzy
 msgid "Account:head_followedforums"
-msgstr "Nowe wątki na śledzonych forach"
+msgstr "Nove teme na sljeđenim forumima"
 
-#, fuzzy
 msgid "Account:head_followedforumsposts"
-msgstr "Nowe wpisy na śledzonych forach"
+msgstr "Novi zapisi na sljeđenim forumima"
 
-#, fuzzy
 msgid "Account:head_contacts"
-msgstr "Nowi znajomi"
+msgstr "Novi prijatelji"
 
-#, fuzzy
 msgid "Account:head_birthday"
-msgstr "Urodziny znajomych"
+msgstr "Rođendani prijatelja"
 
-#, fuzzy
 msgid "Account:head_mentions"
-msgstr "Wzmianki"
+msgstr "Spominjanja"
 
-#, fuzzy
 msgid "Account:opt_notifyandshow"
-msgstr "Powiadom i pokaż w co nowego"
+msgstr "Obavjesti i pokaži u rubrici \"što je novo\""
 
-#, fuzzy
 msgid "Account:opt_notify"
-msgstr "Tylko powiadom"
+msgstr "Samo obavjesti"
 
-#, fuzzy
 msgid "Account:opt_ignore"
-msgstr "Zignoruj"
+msgstr "ignoriraj"
 
-#, fuzzy
 msgid "Account:head_blacklist"
-msgstr "Czarna lista"
+msgstr "Crna lista"
 
-#, fuzzy
 msgid "Account:alert_deletefromblacklist"
-msgstr "Czy na pewno chcesz usunąć tego użytkownika z czarnej listy?"
+msgstr "Jesi li siguran da želiš ukloniti ovog korisnika s crne liste?"
 
-#, fuzzy
 msgid "Account:info_deletedfromblacklist"
-msgstr "Użytkownik został usunięty z czarnej listy."
+msgstr "Korisnik je uklonjen s crne liste."
 
-#, fuzzy
 msgid "Account:alert_addtoblacklist"
 msgstr ""
-"Użytkownik po dodaniu do twojej czarnej listy nie będzie mógł wysyłać do "
-"ciebie wiadomości prywatnych. Czy jesteś pewien, że chcesz kontynuować?"
+"Poslije dodavanja na crnu listu, korisnik ti neće moći slati privatne "
+"poruke. Jesi li siguran da želiš nastaviti?"
 
-#, fuzzy
 msgid "Account:error_blacklistadmin"
-msgstr "Do czarnej listy nie można dodawać członków administracji."
+msgstr "Na crnu listu ne možeš dodavati članove administracije."
 
-#, fuzzy
 msgid "Account:error_blacklistalreadyadded"
-msgstr "Ten użytkownik jest już dodany do twojej czarnej listy."
+msgstr "Ovaj korisnik je dodan na crnu listu."
 
-#, fuzzy
 msgid "Account:alert_logoutall"
 msgstr ""
-"Czy chcesz usunąć wszystkie klucze automatycznego logowania i wylogować "
-"wszystkie zalogowane sesje? Wymagane będzie ponowne zalogowanie się do "
-"Eltena."
+"Želiš li izbrisati sve ključeve automatskog prijavljivanja te odjaviti sve "
+"prijavljene sesije? Biti će potrebno ponovo prijaviti se u Elten."
 
-#, fuzzy
 msgid "Contacts:head"
-msgstr "Kontakty"
+msgstr "Kontakti"
 
-#, fuzzy
 msgid "Contacts:info_empty"
-msgstr "Pusta Lista"
+msgstr "Prazan spisak"
 
-#, fuzzy
 msgid "Contacts:opt_newcontact"
-msgstr "Nowy Kontakt"
+msgstr "Nowi Kontakt"
 
-#, fuzzy
 msgid "Contacts:type_username"
-msgstr "Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów."
+msgstr "Upiši korisničko ime kontakta, kojeg želiš dodati."
 
-#, fuzzy
 msgid "Contacts:info_contactadded"
-msgstr "Kontakt został dodany."
+msgstr "Kontakt je dodan."
 
-#, fuzzy
 msgid "Contacts:error_contactalreadyadded"
-msgstr "Ten użytkownik jest już dodany do twoich kontaktów."
+msgstr "Ovaj se korisnik već nalazi u tvojim kontaktima."
 
-#, fuzzy
 msgid "Contacts:error_usernotfound"
-msgstr "Użytkownik o podanej nazwie nie istnieje."
+msgstr "Korisničko ime ne postoji."
 
-#, fuzzy
 msgid "Contacts:info_contactdeleted"
-msgstr "Kontakt został usunięty."
+msgstr "Kontakt je izbrisan."
 
-#, fuzzy
 msgid "Contacts:error_usernotadded"
-msgstr "Ten użytkownik nie jest dodany do twoich kontaktów."
+msgstr "Ovaj korisnik nije u tvojim kontaktima."
 
-#, fuzzy
 msgid "Update:alert_newversion"
-msgstr ""
-"Dostępna jest nowa wersja programu. Czy chcesz ją pobrać i zainstalować?"
+msgstr "Dostupna je nova inačica programa. Želiš je preuzeti i instalirati?"
 
-#, fuzzy
 msgid "Update:alert_newbeta"
 msgstr ""
-"Dostępna jest nowa wersja beta programu. Czy chcesz ją pobrać i zainstalować?"
+"Dostupna je nova beta inačica programa. Želiš li ju preuzeti i instalirati?"
 
-#, fuzzy
 msgid "Update:wait"
-msgstr "Proszę czekać, trwa pobieranie plików"
+msgstr "Molim pričekati... traje preuzimanje datoteka"
 
-#, fuzzy
 msgid "Update:wait_languages"
-msgstr "Aktualizowanie pakietów językowych"
+msgstr "Ažuriranje jezičkih paketa"
 
-#, fuzzy
 msgid "Update:alert_betawarning"
 msgstr ""
-"Ostrzeżenie. Próbujesz zainstalować wersję beta. Zawiera ona "
-"nieprzetestowaną wersję programu i może działać niestabilnie lub powodować "
-"inne błędy. Czy chcesz kontynuować mimo to?"
+"Pažnja! Pokušavaš instalirati beta inačicu. Ista sadrži nestabilne i "
+"netestirane elemente te ista može raditi nestabilno, pa čak izazivati "
+"greške. Žeiš li svejedno nastaviti?"
 
-#, fuzzy
 msgid "Update:info_downloaded"
 msgstr ""
-"Aktualizacja została pobrana. Aby ją zainstalować, program musi zostać "
-"uruchomiony ponownie. Naciśnij enter, aby kontynuować lub escape, aby "
-"anulować."
+"Ažuriranje je preuzeto. Da ga instaliraš, program treba ponovno biti "
+"pokrenut. Pritisni enter za nastavak ili eskejp za odustajanje."
 
-#, fuzzy
 msgid "Update:wait_downloading"
-msgstr "Pobieranie aktualizacji"
+msgstr "Preuzimanje nadogradnje"
 
-#, fuzzy
 msgid "Voice:head"
-msgstr "Ustawienia mowy"
+msgstr "Postavke govora"
 
-#, fuzzy
 msgid "Voice:opt_changesynth"
-msgstr "Zmień syntezator"
+msgstr "Promjeni govornu jedinicu"
 
-#, fuzzy
 msgid "Voice:opt_changerate"
-msgstr "Zmień szybkość syntezatora"
+msgstr "Promjeni brzinu govorne jedinice"
 
-#, fuzzy
 msgid "Voice:opt_select"
-msgstr "Wybierz"
+msgstr "odaberi"
 
-#, fuzzy
 msgid "Voice:head_changerate"
-msgstr "Wybierz szybkość głosu."
+msgstr "Odaberi brzinu glasa."
 
-#, fuzzy
 msgid "Voice:info_saved"
-msgstr "Zapisano."
+msgstr "spremljeno"
 
-#, fuzzy
 msgid "Voice:opt_changevol"
-msgstr "Zmień głośność syntezy"
+msgstr "Promjeni glasnoću govorne jedinice"
 
-#, fuzzy
 msgid "Voice:opt_usedefault"
-msgstr ""
-"Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"
+msgstr "Koristi glas aktivnog čitača ekrana ili podrazumjevani glas sustava"
 
-#, fuzzy
 msgid "Voice:head_changevol"
-msgstr "Wybierz głośność syntezy."
+msgstr "Odaberi glasnoću govorne jedinice."
 
-#, fuzzy
 msgid "Voice:info_useddefault"
-msgstr "Wybrano obsługę czytnika ekranowego."
+msgstr "Podrška čitača ekrana je odabrana."
 
-#, fuzzy
 msgid "Messages:error_unknown"
-msgstr "Nieznany błąd."
+msgstr "Nepoznata pogreška."
 
-#, fuzzy
 msgid "Messages:info_nomessages"
-msgstr "Nie masz żadnych wiadomości."
+msgstr "Nema poruka."
 
-#, fuzzy
 msgid "Messages:opt_answer"
-msgstr "Odpowiedz"
+msgstr "odgovori"
 
-#, fuzzy
 msgid "Messages:opt_compose"
-msgstr "Wyślij nową wiadomość"
+msgstr "Pošalji novu poruku"
 
-#, fuzzy
 msgid "Messages:opt_forward"
-msgstr "Przekaż dalej"
+msgstr "proslijedi"
 
-#, fuzzy
 msgid "Messages:type_subject"
-msgstr "Temat:"
+msgstr "tema:"
 
-#, fuzzy
 msgid "Messages:type_content"
-msgstr "Treść:"
+msgstr "sadržaj:"
 
-#, fuzzy
 msgid "Messages:info_sent"
-msgstr "Wiadomość została wysłana"
+msgstr "Poruka je poslana"
 
-#, fuzzy
 msgid "Messages:alert_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć tę wiadomość?"
+msgstr "Jesi li siguran da želiš izbrisati ovu poruku?"
 
-#, fuzzy
 msgid "Messages:opt_markallasread"
-msgstr "Oznacz wszystkie wiadomości jako przeczytane"
+msgstr "Označi sve poruke kao pročitane"
 
-#, fuzzy
 msgid "Messages:type_receiver"
-msgstr "Odbiorca"
+msgstr "Primatelj"
 
-#, fuzzy
 msgid "Messages:btn_send"
-msgstr "Wyślij"
+msgstr "pošalji"
 
-#, fuzzy
 msgid "Messages:info_nonewmessages"
-msgstr "Brak nowych wiadomości"
+msgstr "Nema novih poruka"
 
-#, fuzzy
 msgid "Messages:head_received"
-msgstr "Wiadomości odebrane"
+msgstr "Primljene poruke"
 
-#, fuzzy
 msgid "Messages:head_sent"
-msgstr "Wiadomości wysłane"
+msgstr "Poslane poruke"
 
-#, fuzzy
 msgid "Messages:opt_showsent"
-msgstr "Pokaż wiadomości wysłane"
+msgstr "Prikaži poslane poruke"
 
-#, fuzzy
 msgid "Messages:btn_stoprec"
-msgstr "Zakończ nagrywanie"
+msgstr "Završi snimanje"
 
-#, fuzzy
 msgid "Messages:btn_play"
-msgstr "Odtwórz"
+msgstr "Reproduciraj"
 
-#, fuzzy
 msgid "Messages:btn_cancelrec"
-msgstr "Anuluj nagrywanie"
+msgstr "Poništi snimanje"
 
-#, fuzzy
 msgid "Messages:head_searchresults"
-msgstr "Wyniki wyszukiwania"
+msgstr "Rezultati pretrage"
 
-#, fuzzy
 msgid "Messages:wait_converting"
-msgstr "Konwertowanie pliku..."
+msgstr "konvertiranje datoteke..."
 
-#, fuzzy
 msgid "Messages:opt_search"
-msgstr "Szukaj"
+msgstr "Traži"
 
-#, fuzzy
 msgid "Messages:btn_recmessage"
-msgstr "Nagraj wiadomość głosową"
+msgstr "Snimi glasovnu poruku"
 
-#, fuzzy
 msgid "Messages:btn_attach"
-msgstr "Załącz plik"
+msgstr "Dodaj privitak"
 
-#, fuzzy
 msgid "Messages:head_selattachment"
-msgstr "Wybierz plik do załączenia"
+msgstr "Odaberi privitak"
 
-#, fuzzy
 msgid "Messages:info_attached"
-msgstr "Załącznik dodany."
+msgstr "Privitak je dodan."
 
-#, fuzzy
 msgid "Messages:info_nomoreattachments"
-msgstr "Nie można dodać więcej załączników."
+msgstr "Nije više moguće dodavati privitke."
 
-#, fuzzy
 msgid "Messages:head_attachments"
-msgstr "Załączniki"
+msgstr "Privitci"
 
-#, fuzzy
 msgid "Messages:type_searchphrase"
-msgstr "Podaj tekst do wyszukania"
+msgstr "Upiši tekst za pretragu"
 
-#, fuzzy
 msgid "Messages:alert_mail"
-msgstr "Czy chcesz wysłać tą wiadomość jako E-mail?"
+msgstr "Želiš li poslati ovu poruku kao e-mail?"
 
-#, fuzzy
 msgid "Messages:opt_flag"
-msgstr "Oznacz"
+msgstr "Označi"
 
-#, fuzzy
 msgid "Messages:opt_removeflag"
-msgstr "Usuń oznaczenie"
+msgstr "Izbriši odabir"
 
-#, fuzzy
 msgid "Messages:opt_showflagged"
-msgstr "Pokaż oznaczone wiadomości"
+msgstr "Pokaži označene poruke"
 
-#, fuzzy
 msgid "Messages:info_flagged"
-msgstr "Wiadomość została oznaczona."
+msgstr "Poruka je odabrana."
 
-#, fuzzy
 msgid "Messages:info_glagremoved"
-msgstr "Wiadomość nie jest już oznaczona."
+msgstr "Poruka nije više odabrana."
 
-#, fuzzy
 msgid "Messages:head_flagged"
-msgstr "Wiadomości oznaczone"
+msgstr "Označene poruke"
 
-#, fuzzy
 msgid "Messages:opt_loadmore"
-msgstr "Załaduj więcej wiadomości"
+msgstr "Učitaj više poruka"
 
-#, fuzzy
 msgid "MyPermissions:opt_moderators"
-msgstr "Moderatorzy"
+msgstr "Moderatori"
 
-#, fuzzy
 msgid "MyPermissions:opt_mediaadministrators"
-msgstr "Administratorzy mediów"
+msgstr "Administratori medijskog sadržaja"
 
-#, fuzzy
 msgid "MyPermissions:opt_translators"
-msgstr "Tłumacze"
+msgstr "Prevoditelji"
 
-#, fuzzy
 msgid "MyPermissions:opt_developers"
-msgstr "Programiści"
+msgstr "Programeri"
 
-#, fuzzy
 msgid "Online:head"
-msgstr "Kto jest zalogowany?"
+msgstr "Tko je prijavljen?"
 
-#, fuzzy
 msgid "MainMenu:opt_installnewprograms"
-msgstr "Zainstaluj nowe programy"
+msgstr "Instaliraj nove programe"
 
-#, fuzzy
 msgid "MainMenu:alert_reinstall"
 msgstr ""
-"Czy chcesz przywrócić ostatnią stabilną wersję programu? Wszystkie "
-"ustawienia zostaną zachowane."
+"Želiš li se vratiti na zadnju stabilnu inačicu programa? Sve će postavke "
+"ostati netaknute."
 
-#, fuzzy
 msgid "Forum:opt_newthr"
-msgstr "Nowy temat"
+msgstr "Nova tema"
 
-#, fuzzy
 msgid "Forum:info_thrfollowed"
-msgstr "Dodano do śledzonych wątków."
+msgstr "Dodano do sljeđenih tema."
 
-#, fuzzy
 msgid "Forum:opt_gotolast"
-msgstr "Przejdź do ostatniego wpisu"
+msgstr "Skoči na posljednji zapis"
 
-#, fuzzy
 msgid "Forum:type_thrname"
-msgstr "Tytuł wątku"
+msgstr "Naslov teme"
 
-#, fuzzy
 msgid "Forum:info_thrcreated"
-msgstr "Wątek został utworzony."
+msgstr "Tema je stvorena."
 
-#, fuzzy
 msgid "Forum:error_thrcreation"
-msgstr "Błąd tworzenia wątku!"
+msgstr "Greška pri stvaranju teme!"
 
-#, fuzzy
 msgid "Forum:info_postcreated"
-msgstr "Wpis został utworzony."
+msgstr "Zapis je stvoren."
 
-#, fuzzy
 msgid "Forum:info_thrdeleted"
-msgstr "Wątek został usunięty."
+msgstr "Tema je izbrisana."
 
-#, fuzzy
 msgid "Forum:info_postdeleted"
-msgstr "Wpis został usunięty."
+msgstr "Zapis je izbrisan."
 
-#, fuzzy
 msgid "Forum:head"
 msgstr "Forum"
 
-#, fuzzy
 msgid "Forum:opt_reply"
-msgstr "Odpowiedz"
+msgstr "odgovori"
 
-#, fuzzy
 msgid "Forum:opt_quote"
-msgstr "Odpowiedz z cytatem"
+msgstr "odgovori s citatom"
 
-#, fuzzy
 msgid "Forum:opt_gotounread"
-msgstr "Przejdź do pierwszego nowego wpisu"
+msgstr "Skoči na prvi novi zapis"
 
-#, fuzzy
 msgid "Forum:btn_send"
-msgstr "Wyślij"
+msgstr "Pošalji"
 
-#, fuzzy
 msgid "Forum:info_nonewfollowedthr"
-msgstr "Brak nowych wpisów w śledzonych wątkach"
+msgstr "Nema novih zapisa u sljeđenim temama"
 
-#, fuzzy
 msgid "Forum:btn_back"
-msgstr "Powrót"
+msgstr "Nazad"
 
-#, fuzzy
 msgid "Forum:btn_sendaudio"
-msgstr "Dodaj wpis"
+msgstr "Dodaj zapis"
 
-#, fuzzy
 msgid "Forum:type_reply"
-msgstr "Twoja odpowiedź"
+msgstr "Tvoj odgovor"
 
-#, fuzzy
 msgid "Forum:head_selforum"
-msgstr "Wybierz forum"
+msgstr "Izaberi forum"
 
-#, fuzzy
 msgid "Forum:head_selthr"
-msgstr "Wybierz temat"
+msgstr "Izaberi temu"
 
-#, fuzzy
 msgid "Forum:btn_recnewpost"
-msgstr "Nagraj nowy wpis"
+msgstr "Snimi novi zapis"
 
-#, fuzzy
 msgid "Forum:btn_recstop"
-msgstr "Zakończ nagrywanie"
+msgstr "Završi snimanje"
 
-#, fuzzy
 msgid "Forum:btn_recagain"
-msgstr "Nagraj wpis ponownie"
+msgstr "Ponovno snimi"
 
-#, fuzzy
 msgid "Forum:btn_play"
-msgstr "Odtwórz"
+msgstr "Reproduciraj"
 
-#, fuzzy
 msgid "Forum:type_postcontent"
-msgstr "Treść wpisu"
+msgstr "Sadržaj zapisa"
 
-#, fuzzy
 msgid "Forum:wait_converting"
-msgstr "Konwertowanie..."
+msgstr "Konvertiranje..."
 
-#, fuzzy
 msgid "Forum:btn_recpost"
-msgstr "Nagraj wpis"
+msgstr "Snimi zapis"
 
-#, fuzzy
 msgid "Forum:btn_playpost"
-msgstr "Odtwórz wpis"
+msgstr "Reproduciraj zapis"
 
-#, fuzzy
 msgid "Forum:opt_search"
-msgstr "Szukaj"
+msgstr "Traži"
 
-#, fuzzy
 msgid "Forum:opt_rename"
-msgstr "Zmień nazwę"
+msgstr "Promjeni naziv"
 
-#, fuzzy
 msgid "Forum:opt_edit"
-msgstr "Edytuj wpis"
+msgstr "Uredi zapis"
 
-#, fuzzy
 msgid "Forum:opt_deletepost"
-msgstr "Usuń wpis"
+msgstr "Izbriši zapis"
 
-#, fuzzy
 msgid "Forum:opt_open"
-msgstr "Otwórz"
+msgstr "Otvori"
 
-#, fuzzy
 msgid "Forum:opt_movethr"
-msgstr "Przenieś wątek"
+msgstr "Prenesi temu"
 
-#, fuzzy
 msgid "Forum:type_searchphrase"
-msgstr "Podaj tekst do wyszukania"
+msgstr "Upiši tekst pretrage"
 
-#, fuzzy
 msgid "Forum:opt_followthr"
-msgstr "Dodaj do śledzonych wątków"
+msgstr "Dodaj u sljeđene postove"
 
-#, fuzzy
 msgid "Forum:opt_unfollowthr"
-msgstr "Usuń ze śledzonych wątków"
+msgstr "Ukloni iz sljeđenih postova"
 
-#, fuzzy
 msgid "Forum:opt_deletethr"
-msgstr "Usuń wątek"
+msgstr "Ukloni temu"
 
-#, fuzzy
 msgid "Forum:opt_navigation"
-msgstr "Nawigacja"
+msgstr "kretanje"
 
-#, fuzzy
 msgid "Forum:opt_gotopost"
-msgstr "Przejdź do wpisu"
+msgstr "Skoči na zapis"
 
-#, fuzzy
 msgid "Forum:opt_searchthr"
-msgstr "Przeszukaj wątek"
+msgstr "pretraži temu"
 
-#, fuzzy
 msgid "Forum:opt_gotofirst"
-msgstr "Przejdź do pierwszego wpisu"
+msgstr "Skoči na prvi zapis"
 
-#, fuzzy
 msgid "Forum:opt_moderation"
-msgstr "Moderacja"
+msgstr "Moderacija"
 
-#, fuzzy
 msgid "Forum:opt_movepost"
-msgstr "Przenieś wpis"
+msgstr "Prenesi zapis"
 
-#, fuzzy
 msgid "Forum:type_editpost"
-msgstr "Edycja wpisu"
+msgstr "Uređivanje zapisa"
 
-#, fuzzy
 msgid "Forum:info_postmodified"
-msgstr "Wpis został zmodyfikowany."
+msgstr "Zapis je izmijenjen."
 
-#, fuzzy
 msgid "Forum:opt_mention"
-msgstr "Wzmiankuj wpis"
+msgstr "Osvrni se na zapis"
 
-#, fuzzy
 msgid "Forum:opt_listen"
-msgstr "Odsłuchaj wątek"
+msgstr "Preslušaj temu"
 
-#, fuzzy
 msgid "Forum:opt_followforum"
-msgstr "Śledź to forum"
+msgstr "Počni pratiti ovaj forum"
 
-#, fuzzy
 msgid "Forum:opt_unfollowforum"
-msgstr "Usuń ze śledzonych forów"
+msgstr "Ukloni sljeđene forume"
 
-#, fuzzy
 msgid "Forum:info_forumfollowed"
-msgstr "Dodano do śledzonych forów."
+msgstr "Dodano u sljeđene forume."
 
-#, fuzzy
 msgid "Forum:info_forumunfollowed"
-msgstr "Usunięto ze śledzonych forów."
+msgstr "Izbrisano iz sljeđenih foruma."
 
-#, fuzzy
 msgid "Forum:info_thrunfollowed"
-msgstr "Usunięto ze śledzonych wątków."
+msgstr "Izbrisano iz sljeđenih tema."
 
-#, fuzzy
 msgid "Forum:info_message"
-msgstr "Wiadomość"
+msgstr "Poruka"
 
-#, fuzzy
 msgid "Forum:opt_markforumasread"
-msgstr "Oznacz to forum jako przeczytane"
+msgstr "Označi ovaj forum kao pročitan"
 
-#, fuzzy
 msgid "Forum:alert_markforumasread"
 msgstr ""
-"Wszystkie wpisy na tym forum zostaną oznaczone jako przeczytane. Czy jesteś "
-"pewien, że chcesz kontynuować?"
+"Svi će zapisi na ovom forumu biti označeni kao pročitani. Jesi li siguran da "
+"želiš nastaviti?"
 
-#, fuzzy
 msgid "Main:info_pressalt"
-msgstr "Naciśnij klawisz ALT, aby otworzyć menu"
+msgstr "Pritisni tipku alt za otvaranje izbornika"
 
-#, fuzzy
 msgid "Main:btn_erasepls"
-msgstr "Wyczyść playlistę"
+msgstr "Izbriši popis za reprodukciju"
 
-#, fuzzy
 msgid "Main:head_pls"
-msgstr "Playlista"
+msgstr "Popis za reprodukciju"
 
-#, fuzzy
 msgid "Main:btn_send"
-msgstr "Wyślij na serwer"
+msgstr "Pošalji na server"
 
-#, fuzzy
 msgid "Main:btn_avatar"
-msgstr "Ustaw jako awatar"
+msgstr "Postavi kao avatar"
 
-#, fuzzy
 msgid "Main:head_player"
-msgstr "Odtwarzacz"
+msgstr "Reproduktor"
 
-#, fuzzy
 msgid "Main:btn_shuffle"
-msgstr "Mieszaj"
+msgstr "mješaj"
 
-#, fuzzy
 msgid "Main:info_shuffled"
-msgstr "Playlista wymieszana"
+msgstr "Popis za reprodukciju je izmiješan"
 
-#, fuzzy
 msgid "Login:type_login"
-msgstr "Login:"
+msgstr "Korisničko ime:"
 
-#, fuzzy
 msgid "Login:type_pass"
-msgstr "Hasło:"
+msgstr "Lozinka:"
 
-#, fuzzy
 msgid "Login:opt_asknomore"
-msgstr "Nie zadawaj więcej tego pytania"
+msgstr "Ne pitaj me ponovno"
 
-#, fuzzy
 msgid "Login:info_asknomore"
 msgstr ""
-"Aby włączyć ponownie pytanie o automatyczne logowanie, wybierz odpowiednią "
-"opcję z menu ustawień interfejsu."
+"Kako bi uključio pitanje o automatskoj prijavi, izaberi odgovarajuću opciju "
+"i izborniku sučelja."
 
-#, fuzzy
 msgid "Login:alert_crpdeprecated"
 msgstr ""
-"Zapisane informacje logowania wykorzystują starą metodę uwierzytelniania "
-"konta, w której wykryte zostały podatności na ataki hakerskie. W Eltenie 2.2 "
-"wprowadzone zostały nowe, bezpieczniejsze algorytmy automatycznego "
-"logowania. Zalecana jest konwersja zapisanych informacji do nowego systemu w "
-"celu poprawienia bezpieczeństwa konta. Czy chcesz zaktualizować zapisane "
-"informacje?"
+"Spremljene informacije za prijavu koriste staru metodu provjere naloga, u "
+"kojoj su otkrivene ranjivosti na hakerske napade. U Eltenu 2.2 uvedeni su "
+"novi i sigurniji algoritmi automatske prijave. U cilju zaštite naloga, "
+"Preporuča se konverzija starih informacija na novi sustav. Želiš li "
+"ažurirati spremljene informacije?"
 
 #, fuzzy
 msgid "Login:info_autologin"
@@ -1789,37 +1436,29 @@ msgstr "Wystąpił błąd zapisu danych."
 msgid "Registration:error_connection"
 msgstr "Wystąpił błąd połączenia z serwerem."
 
-#, fuzzy
 msgid "Loading:opt_login"
-msgstr "Zaloguj Się"
+msgstr "Prijavi se"
 
-#, fuzzy
 msgid "Loading:opt_register"
-msgstr "Rejestracja"
+msgstr "Registracija"
 
-#, fuzzy
 msgid "Loading:opt_quit"
-msgstr "Wyjście"
+msgstr "Izlaz"
 
-#, fuzzy
 msgid "Loading:opt_interfacesettings"
-msgstr "Ustawienia interfejsu"
+msgstr "Postavke sučelja"
 
-#, fuzzy
 msgid "Loading:opt_forgottenpass"
-msgstr "Reset hasła"
+msgstr "Povrat lozinke"
 
-#, fuzzy
 msgid "Loading:opt_guest"
-msgstr "Otwórz na koncie gościa"
+msgstr "Otvori kao gost"
 
-#, fuzzy
 msgid "Loading:opt_changesynth"
-msgstr "Zmień syntezator mowy"
+msgstr "Promijeni govornu jedinicu"
 
-#, fuzzy
 msgid "Loading:opt_reinstall"
-msgstr "Wymuś aktualizację lub reinstalację z serwera"
+msgstr "Prisilno ažuriraj ili reinstaliraj sa poslužitelja"
 
 #, fuzzy
 msgid "Loading:info_novoice"
@@ -1827,885 +1466,666 @@ msgstr ""
 "Nie wybrano głosu programu. Naciśnij enter, aby wybrać głos SAPI lub escape, "
 "aby użyć głosu domyślnego lub aktywnego czytnika ekranu."
 
-#, fuzzy
 msgid "EAPI_External:btn_play"
-msgstr "Odtwarzaj"
+msgstr "reproduciraj"
 
-#, fuzzy
 msgid "EAPI_External:opt_addtopls"
-msgstr "Dodaj do playlisty"
+msgstr "Dodaj na popis za reprodukciju"
 
-#, fuzzy
 msgid "EAPI_External:opt_avatar"
-msgstr "Ustaw jako awatar"
+msgstr "Postavi kao avatar"
 
-#, fuzzy
 msgid "EAPI_External:type_ytsearch"
-msgstr "Przeszukaj Youtube"
+msgstr "Pretraži Youtube"
 
-#, fuzzy
 msgid "EAPI_External:head_ytsearchresults"
-msgstr "Wyniki wyszukiwania"
+msgstr "Rezultati pretrage"
 
-#, fuzzy
 msgid "EAPI_External:wait_connecting"
-msgstr "Łączenie z serwerem, proszę czekać..."
+msgstr "Spajanje na poslužitelj... molim pričekati..."
 
-#, fuzzy
 msgid "EAPI_External:opt_download"
-msgstr "Pobierz"
+msgstr "Preuzmi"
 
-#, fuzzy
 msgid "EAPI_External:opt_copyurl"
-msgstr "Skopiuj adres URL do schowka"
+msgstr "Kopiraj URL u međuspremnik"
 
-#, fuzzy
 msgid "EAPI_External:head_downloadtype"
-msgstr "Jak chcesz pobrać ten plik?"
+msgstr "Kako želiš preuzeti tu datoteku?"
 
-#, fuzzy
 msgid "EAPI_External:opt_downloadvideo"
-msgstr "Pobierz jako video"
+msgstr "Preuzmi kao video"
 
-#, fuzzy
 msgid "EAPI_External:opt_downloadaudio"
-msgstr "Pobierz jako audio"
+msgstr "Preuzmi kao audio"
 
-#, fuzzy
 msgid "EAPI_External:wait_downloading"
-msgstr "Pobieranie, proszę czekać..."
+msgstr "Preuzimanje... molim pričekati..."
 
-#, fuzzy
 msgid "EAPI_External:head_dst"
-msgstr "Gdzie zapisać ten plik?"
+msgstr "Gdje želiš spremiti datoteku?"
 
-#, fuzzy
 msgid "EAPI_External:head_langdst"
-msgstr "Język docelowy"
+msgstr "Ciljni jezik"
 
-#, fuzzy
 msgid "EAPI_External:head_langsrc"
-msgstr "Język źródłowy"
+msgstr "Izvorni jezik"
 
-#, fuzzy
 msgid "EAPI_External:opt_langdetection"
-msgstr "Wykryj język automatycznie"
+msgstr "Automatski otkrij jezik"
 
-#, fuzzy
 msgid "EAPI_External:head_saveformat"
-msgstr "Wybierz format zapisu"
+msgstr "Izaberi zvučni format"
 
-#, fuzzy
 msgid "EAPI_External:btn_translate"
-msgstr "Tłumacz"
+msgstr "Prevoditelj"
 
-#, fuzzy
 msgid "EAPI_Common:error_console"
-msgstr "Wystąpił błąd podczas przetwarzania polecenia."
+msgstr "Dogodila se greška prilikom procesiranja komande."
 
-#, fuzzy
 msgid "EAPI_Common:opt_message"
-msgstr "Napisz prywatną wiadomość"
+msgstr "Napiši privatnu poruku"
 
-#, fuzzy
 msgid "EAPI_Common:opt_visitingcard"
-msgstr "Wizytówka"
+msgstr "Vizitka"
 
-#, fuzzy
 msgid "EAPI_Common:opt_delcontact"
-msgstr "Usuń z kontaktów"
+msgstr "Izbriši iz kontakata"
 
-#, fuzzy
 msgid "EAPI_Common:opt_addcontact"
-msgstr "Dodaj do kontaktów"
+msgstr "Dodaj u kontakte"
 
-#, fuzzy
 msgid "EAPI_Common:info_nothingnew"
-msgstr "Nie ma nic nowego."
+msgstr "Nema ničeg novog"
 
-#, fuzzy
 msgid "EAPI_Common:opt_quit"
-msgstr "Wyjście"
+msgstr "Izlaz"
 
-#, fuzzy
 msgid "EAPI_Common:info_listempty"
-msgstr "Pusta Lista"
+msgstr "Prazan popis"
 
-#, fuzzy
 msgid "EAPI_Common:opt_ban"
-msgstr "Zbanuj"
+msgstr "Baniraj"
 
-#, fuzzy
 msgid "EAPI_Common:opt_unban"
-msgstr "Odbanuj"
+msgstr "Ukloni ban"
 
-#, fuzzy
 msgid "EAPI_Common:opt_blog"
-msgstr "Otwórz blog tego użytkownika"
+msgstr "Otvori blog ovog korisnika"
 
-#, fuzzy
 msgid "EAPI_Common:opt_tray"
-msgstr "Ukryj program w zasobniku systemowym"
+msgstr "Sakrij program u system tray"
 
-#, fuzzy
 msgid "EAPI_Common:type_soundthemename"
-msgstr "Podaj nazwę tematu dźwiękowego."
+msgstr "Upiši naziv zvučne teme."
 
-#, fuzzy
 msgid "EAPI_Common:info_soundthemecreation"
 msgstr ""
-"Pliki tematu dźwiękowego utworzone w %{dir}. Podmień pliki domyślnego tematu "
-"dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład."
+"Datoteke zvučne teme su stvorene u mapi %{dir}. zamijeni datoteke u toj mapi "
+"datotekama, koje će biti dio te teme."
 
-#, fuzzy
 msgid "EAPI_Common:head_whattodo"
-msgstr "Co chcesz zrobić?"
+msgstr "Što želiš učiniti?"
 
-#, fuzzy
 msgid "EAPI_Common:opt_openthemedir"
-msgstr "Otwórz folder tematu w plikach"
+msgstr "Otvori mapu teme u datotekama"
 
-#, fuzzy
 msgid "EAPI_Common:opt_openthemedirinexplorer"
-msgstr "Otwórz folder tematu w systemowym eksploratorze plików"
+msgstr "Otvori mapu teme u Windows exploreru"
 
-#, fuzzy
 msgid "EAPI_Common:type_errordsc"
-msgstr "Opisz znaleziony błąd"
+msgstr "Opiši nađenu grešku"
 
-#, fuzzy
 msgid "EAPI_Common:info_sent"
-msgstr "Wysłano."
+msgstr "Poslano"
 
-#, fuzzy
 msgid "EAPI_Common:type_console"
-msgstr "Podaj polecenia do wykonania"
+msgstr "Upiši komande, koje se trebaju izvršiti"
 
-#, fuzzy
 msgid "EAPI_Common:btn_send"
-msgstr "Wyślij"
+msgstr "pošalji"
 
-#, fuzzy
 msgid "EAPI_Common:type_title"
-msgstr "Tytuł"
+msgstr "naslov"
 
-#, fuzzy
 msgid "EAPI_Common:head_exiting"
-msgstr "Zamykanie programu..."
+msgstr "zatvaram program..."
 
-#, fuzzy
 msgid "EAPI_Common:opt_playavatar"
-msgstr "Odtwórz awatar"
+msgstr "reproduciraj avatar"
 
-#, fuzzy
 msgid "EAPI_Common:opt_sharedfiles"
-msgstr "Pliki udostępniane przez tego użytkownika"
+msgstr "Datoteke koje dijeli ovaj korisnik"
 
-#, fuzzy
 msgid "EAPI_Common:info_noupdates"
-msgstr "Brak dostępnych aktualizacji."
+msgstr "Nema dostupnih nadogradnji."
 
-#, fuzzy
 msgid "EAPI_Common:opt_honors"
-msgstr "Odznaczenia tego użytkownika"
+msgstr "Uloge ovog korisnika"
 
-#, fuzzy
 msgid "EAPI_Common:head_voice"
-msgstr "Głos"
+msgstr "glas"
 
-#, fuzzy
 msgid "EAPI_Common:head_rate"
-msgstr "Szybkość"
+msgstr "Brzina"
 
-#, fuzzy
 msgid "EAPI_Common:head_dst"
-msgstr "Lokalizacja docelowa"
+msgstr "Ciljno odredište"
 
-#, fuzzy
 msgid "EAPI_Common:btn_preview"
-msgstr "Podgląd"
+msgstr "redpregled"
 
-#, fuzzy
 msgid "EAPI_Common:btn_confirm"
-msgstr "Potwierdź"
+msgstr "potvrdi"
 
-#, fuzzy
 msgid "EAPI_Common:error_playing"
-msgstr "Nie można odtworzyć tego pliku."
+msgstr "Nije moguće otvoriti ovu datoteku."
 
-#, fuzzy
 msgid "EAPI_Common:wait_packing"
-msgstr "Pakowanie..."
+msgstr "pakiranje..."
 
-#, fuzzy
 msgid "EAPI_Common:head_textsplit"
-msgstr "Podział tekstu"
+msgstr "Podjela teksta"
 
-#, fuzzy
 msgid "EAPI_Common:opt_onefile"
-msgstr "Utwórz jeden plik"
+msgstr "Stvori jednu datoteku"
 
-#, fuzzy
 msgid "EAPI_Common:opt_splitbyparagraphs"
-msgstr "Dziel akapitami"
+msgstr "Podjela po odlomcima"
 
-#, fuzzy
 msgid "EAPI_Common:opt_splitevery"
-msgstr "Dziel co"
+msgstr "podjeli svakih"
 
-#, fuzzy
 msgid "EAPI_Common:type_splitevery"
-msgstr "Długość fragmentu (minuty)"
+msgstr "dužina fragmenta (minute)"
 
-#, fuzzy
 msgid "EAPI_Common:chk_readfilenum"
-msgstr "Odczytaj numer pliku"
+msgstr "Pročitaj broj redka"
 
-#, fuzzy
 msgid "EAPI_EltenSRV:wait_converting"
-msgstr "Konwertowanie pliku..."
+msgstr "Konverzija datoteke..."
 
-#, fuzzy
 msgid "EAPI_EltenSRV:info_sent"
-msgstr "Wysłano"
+msgstr "poslano"
 
-#, fuzzy
 msgid "EAPI_Network:wait_sending"
-msgstr "Wysyłanie..."
+msgstr "slanje"
 
-#, fuzzy
 msgid "EAPI_UI:info_newmessage"
-msgstr "Otrzymałeś nową wiadomość."
+msgstr "Dobio si onovu poruku."
 
-#, fuzzy
 msgid "EAPI_Speech:chr_dot"
-msgstr "kropka"
+msgstr "točka"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_comma"
-msgstr "przecinek"
+msgstr "zarez"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_slash"
-msgstr "ukośnik"
+msgstr "sleš"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_semi"
-msgstr "średnik"
+msgstr "točkazarez"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_tick"
-msgstr "apostrof"
+msgstr "izostavnik"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_rightbracket"
-msgstr "prawy kwadratowy"
+msgstr "desna uglata"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_backslash"
-msgstr "bekslesz"
+msgstr "beksleš"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_minus"
-msgstr "minus"
+msgstr "crtica"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_equals"
-msgstr "równe"
+msgstr "jednako"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_accent"
-msgstr "akcent"
+msgstr "naglasak"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_less"
-msgstr "mniejsze"
+msgstr "manji"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_greater"
-msgstr "większe"
+msgstr "veći"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_question"
-msgstr "pytajnik"
+msgstr "upitnik"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_colon"
-msgstr "dwukropek"
+msgstr "dvotočka"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_quote"
-msgstr "cudzysłów"
+msgstr "navodnik"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_leftbrace"
-msgstr "lewa klamra"
+msgstr "vitičasta"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_rightbrace"
-msgstr "prawa klamra"
+msgstr "vitičaste"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_bar"
-msgstr "kreska pionowa"
+msgstr "okomito"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_underline"
-msgstr "podkreślnik"
+msgstr "podcrtano"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_plus"
 msgstr "plus"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_exclamation"
-msgstr "wykrzyknik"
+msgstr "uskličnik"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_at"
-msgstr "małpa"
+msgstr "et"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_hash"
-msgstr "krzyżyk"
+msgstr "broj"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_dollar"
 msgstr "dolar"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_percent"
-msgstr "procent"
+msgstr "posto"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_caret"
-msgstr "daszek"
+msgstr "zavijana crta"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_and"
-msgstr "ampersant"
+msgstr "and"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_star"
-msgstr "gwiazdka"
+msgstr "zvjezdica"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_leftparen"
-msgstr "lewy nawias"
+msgstr "Otvorena zagrada"
 
-#, fuzzy
 msgid "EAPI_Speech:chr_rightparen"
-msgstr "prawy nawias"
+msgstr "zatvorena zagradanawias"
 
-#, fuzzy
 msgid "EAPI_Form:fld_media"
 msgstr "Media"
 
-#, fuzzy
 msgid "EAPI_Form:info_cut"
-msgstr "Wycięto"
+msgstr "izrezano"
 
-#, fuzzy
 msgid "EAPI_Form:info_copied"
-msgstr "Skopiowano"
+msgstr "kopirano"
 
-#, fuzzy
 msgid "EAPI_Form:st_checked"
-msgstr "Oznaczone"
+msgstr "označeno"
 
-#, fuzzy
 msgid "EAPI_Form:st_unchecked"
-msgstr "Nieoznaczone"
+msgstr "nije označeno"
 
-#, fuzzy
 msgid "EAPI_Form:fld_checkbox"
-msgstr "pole wyboru"
+msgstr "potvrdni okvir"
 
-#, fuzzy
 msgid "EAPI_Form:fld_edit"
-msgstr "Edycja"
+msgstr "polje za uređivanje"
 
-#, fuzzy
 msgid "EAPI_Form:fld_text"
 msgstr "Tekst"
 
-#, fuzzy
 msgid "EAPI_Form:fld_button"
-msgstr "Przycisk"
+msgstr "gumb"
 
-#, fuzzy
 msgid "EAPI_Form:head_dst"
-msgstr "Miejsce docelowe"
+msgstr "ciljno mjesto"
 
-#, fuzzy
 msgid "EAPI_Form:info_pasted"
-msgstr "Wklejono"
+msgstr "zaljepljeno"
 
-#, fuzzy
 msgid "EAPI_Form:opt_desktop"
-msgstr "Pulpit"
+msgstr "radna površina"
 
-#, fuzzy
 msgid "EAPI_Form:opt_documents"
-msgstr "Dokumenty"
+msgstr "Dokumenti"
 
-#, fuzzy
 msgid "EAPI_Form:opt_music"
-msgstr "Muzyka"
+msgstr "Muzika"
 
-#, fuzzy
 msgid "EAPI_Form:type_searchphrase"
-msgstr "Podaj tekst do wyszukania"
+msgstr "Upiši tekst za pretragu"
 
-#, fuzzy
 msgid "EAPI_Form:info_undone"
-msgstr "Cofnięto"
+msgstr "ponovljeno"
 
-#, fuzzy
 msgid "EAPI_Form:info_listempty"
-msgstr "Pusta lista"
+msgstr "prazan popis"
 
-#, fuzzy
 msgid "EAPI_Form:info_nomatch"
-msgstr "Nie znaleziono dopasowania."
+msgstr "Nije nađeno poklapanje."
 
-#, fuzzy
 msgid "_Main:error_console"
-msgstr "Wystąpił błąd podczas przetwarzania polecenia."
+msgstr "Dogodila se greška prilikom procesiranja komande."
 
-#, fuzzy
 msgid "_Main:opt_quit"
-msgstr "Wyjście"
+msgstr "Izlaz"
 
-#, fuzzy
 msgid "_Main:opt_restart"
-msgstr "Restart"
+msgstr "ponovno pokreni"
 
-#, fuzzy
 msgid "_Main:info_copied"
-msgstr "Skopiowano"
+msgstr "kopirano"
 
-#, fuzzy
 msgid "_Main:head_whattodo"
-msgstr "Co chcesz zrobić?"
+msgstr "Što želiš učiniti?"
 
-#, fuzzy
 msgid "_Main:alert_errorreport"
 msgstr ""
-"Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do "
-"twórców programu?"
+"Program mora biti zatvoren. Želiš li ipak poslati opis greške autoru "
+"programa?"
 
-#, fuzzy
 msgid "_Main:opt_tryagain"
-msgstr "Spróbuj ponownie"
+msgstr "Pokušaj ponovo"
 
-#, fuzzy
 msgid "_Main:opt_abort"
-msgstr "Przerwij działanie aplikacji"
+msgstr "Prekini rad programa"
 
-#, fuzzy
 msgid "_Main:opt_rescuemode"
-msgstr "Uruchom tryb awaryjny"
+msgstr "Pokreni siguran način"
 
-#, fuzzy
 msgid "_Main:head_rescuemode"
-msgstr "Tryb awaryjny"
+msgstr "Siguran način"
 
-#, fuzzy
 msgid "_Main:opt_reinstall"
-msgstr "Zainstaluj program ponownie"
+msgstr "Instaliraj program ponovno"
 
-#, fuzzy
 msgid "_Main:opt_rescueforum"
-msgstr "Podejmij próbę otwarcia forum"
+msgstr "Pokušaj otvoriti forum"
 
-#, fuzzy
 msgid "_Main:opt_rescuemessages"
-msgstr "Podejmij próbę otwarcia wiadomości"
+msgstr "Pokušaj otvoriti poruke"
 
-#, fuzzy
 msgid "_Main:opt_copyreport"
-msgstr "Skopiuj treść błędu do schowka"
+msgstr "Iskopiraj sadržaj greške du međuspremnik"
 
-#, fuzzy
 msgid "Notes:opt_phr_author"
 msgstr "Autor"
 
-#, fuzzy
 msgid "Notes:opt_phr_modified"
-msgstr "Zmodyfikowana"
+msgstr "izmijenjena"
 
-#, fuzzy
 msgid "Polls:opt_phr_author"
 msgstr "Autor"
 
-#, fuzzy
 msgid "Polls:txt_phr_votes"
-msgstr "Liczba głosów"
+msgstr "broj glasova"
 
-#, fuzzy
 msgid "General:error"
-msgstr "Błąd"
+msgstr "Greška"
 
-#, fuzzy
 msgid "General:str_quit"
-msgstr "Wyjście"
+msgstr "Izlaz"
 
-#, fuzzy
 msgid "General:str_enable"
-msgstr "Włącz"
+msgstr "Uključi"
 
-#, fuzzy
 msgid "General:str_disable"
-msgstr "Wyłącz"
+msgstr "Isključi"
 
-#, fuzzy
 msgid "General:str_cancel"
-msgstr "Anuluj"
+msgstr "Odustani"
 
-#, fuzzy
 msgid "General:str_refresh"
-msgstr "Odśwież"
+msgstr "Osvježi"
 
-#, fuzzy
 msgid "General:str_save"
-msgstr "Zapisz"
+msgstr "Spremi"
 
-#, fuzzy
 msgid "General:info_saved"
-msgstr "Zapisano"
+msgstr "Spremljeno"
 
-#, fuzzy
 msgid "General:str_delete"
-msgstr "Usuń"
+msgstr "Izbriši"
 
-#, fuzzy
 msgid "General:error_guest"
-msgstr "Ta funkcja nie jest dostępna na koncie gościa."
+msgstr "Ova funkcija nije dostupna nalogu gost."
 
-#, fuzzy
 msgid "General:error_tokenexpired"
-msgstr "Klucz sesji wygasł."
+msgstr "Istekao je ključ sesije."
 
-#, fuzzy
 msgid "General:error_db"
-msgstr "Błąd połączenia się z bazą danych."
+msgstr "Greška pri povezivanju s bazom podataka."
 
-#, fuzzy
 msgid "General:error_permissions"
-msgstr "Nie masz odpowiednich uprawnień, by wykonać tę operację."
+msgstr "Nemaš odgovarajuća prava za izvršenje te operacije."
 
-#, fuzzy
 msgid "General:str_no"
-msgstr "Nie"
+msgstr "ne"
 
-#, fuzzy
 msgid "General:str_yes"
-msgstr "Tak"
+msgstr "da"
 
-#, fuzzy
 msgid "Authentication:error_wrongpass"
-msgstr "Podano nieprawidłowe hasło."
+msgstr "Upisana je nepravilna lozinka."
 
-#, fuzzy
 msgid "ForgotPassword:error_unexpected"
-msgstr "Wystąpił nieoczekiwany błąd."
+msgstr "Dogodila se neočekivana greška."
 
-#, fuzzy
 msgid "Portable:wait_languages"
-msgstr "Pobieranie pakietów językowych..."
+msgstr "Preuzimanje jezičnih paketa..."
 
-#, fuzzy
 msgid "Notes:info_notemodified"
-msgstr "Notatka została zmodyfikowana"
+msgstr "Bilješka je izmjenjena"
 
-#, fuzzy
 msgid "ForgotPassword:info_keysent"
 msgstr ""
-"Klucz resetowania hasła został wysłany na podany adres E-mail. Wybierz opcję "
-"wprowadzenia klucza, aby kontynuować"
+"Ključ za resetiranje lozinke poslan je na e-mail. Izaberi opciju upisivanja "
+"ključa, kako bi nastavio"
 
-#, fuzzy
 msgid "Honors:info_nobadges"
-msgstr "Użytkownik nie otrzymał żadnych odznaczeń."
+msgstr "Korisnik nije dobio niti jednu zaslugu."
 
-#, fuzzy
 msgid "Programs:info_alreadyinstalled"
-msgstr "Ten program jest już zainstalowany."
+msgstr "Taj ej program već instaliran."
 
-#, fuzzy
 msgid "Portable:wait_preparingfile"
-msgstr "Przygotowywanie pliku..."
+msgstr "Priprema datoteke..."
 
-#, fuzzy
 msgid "Polls:error_noanswer"
-msgstr "Pytanie nie ma odpowiedzi"
+msgstr "Pitanje nema odgovora"
 
-#, fuzzy
 msgid "Uploads:info_copiedtoclip"
-msgstr "Skopiowano do schowka."
+msgstr "Kopirano u međuspremnik."
 
-#, fuzzy
 msgid "Bug:head"
-msgstr "Zgłaszanie błędu"
+msgstr "Prijava greške"
 
-#, fuzzy
 msgid "Blog:error_blognotfound"
-msgstr "Blog nie istnieje."
+msgstr "Blog ne postoji."
 
-#, fuzzy
 msgid "Chat:error_banned"
-msgstr "Jesteś zbanowany."
+msgstr "Baniran si."
 
-#, fuzzy
 msgid "Files:error_deletefile"
-msgstr "Nie można usunąć tego pliku, odmowa dostępu."
+msgstr "Nije moguće izbrisati tu datoteku, Pristup odbijen."
 
-#, fuzzy
 msgid "Program:info_exited"
-msgstr "program został zamknięty."
+msgstr "Program je zatvoren."
 
-#, fuzzy
 msgid "Update:info_updatewillinstall"
 msgstr ""
-"Aktualizacja zostanie teraz zainstalowana. Program zostanie uruchomiony "
-"ponownie."
+"Nadogradnja će sada biti instalirana. Program će ponovno biti pokrenut."
 
-#, fuzzy
 msgid "MyPermissions:info_nopermissions"
-msgstr "Nie posiadasz żadnych specjalnych uprawnień."
+msgstr "Nemaš niti jedno specijalno pravo."
 
-#, fuzzy
 msgid "Forum:info_forummarkedasread"
-msgstr "Forum zostało oznaczone jako przeczytane."
+msgstr "Forum je označen kao pročitan."
 
-#, fuzzy
 msgid "Main:alert_newbeta"
-msgstr "Dostępna jest nowa wersja beta programu."
+msgstr "Dostupna je nova beta inačica programa."
 
-#, fuzzy
 msgid "Login:error_identity"
 msgstr ""
-"Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane "
-"zostało błędne hasło."
+"Dogodila se greška prilikom provjere identiteta. Moguće je, da je upisana "
+"pogrešna lozinka."
 
-#, fuzzy
 msgid "Registration:info_namenoats"
-msgstr "Nazwa użytkownika nie może zawierać małp. Znak zostanie pominięty."
+msgstr "Korisničko ime ne može sadržavati znak et,. Znak će biti zaobiđen."
 
-#, fuzzy
 msgid "Loading:alert_newversion"
-msgstr "Dostępna jest nowa wersja programu."
+msgstr "Nova inačica programa je dostupna."
 
-#, fuzzy
 msgid "EAPI_External:error_translation"
-msgstr "Wystąpił błąd podczas tłumaczenia"
+msgstr "Dogodila se greška prilikom prevođenja"
 
-#, fuzzy
 msgid "EAPI_Network:info_progressdonotread"
-msgstr "Nie odczytuj zmian na pasku postępu."
+msgstr "Ne čitaj promjene trake napredovanja."
 
-#, fuzzy
 msgid "EAPI_UI:info_retry"
-msgstr "Program podejmie teraz próbę powrotu do pracy."
+msgstr "Program će se pokušati vratiti u normalu."
 
-#, fuzzy
 msgid "EAPI_Speech:chr_space"
-msgstr "Spacja"
+msgstr "razmak"
 
-#, fuzzy
 msgid "EAPI_Form:info_repeated"
-msgstr "Powtórzono"
+msgstr "Ponovljeno"
 
-#, fuzzy
 msgid "Notes:error_usernotfound"
-msgstr "Użytkownik nie istnieje"
+msgstr "Korisnik ne postoji"
 
-#, fuzzy
 msgid "Programs:info_installed"
-msgstr "Instalacja zakończona."
+msgstr "Instalacija je završena."
 
-#, fuzzy
 msgid "Polls:error_questiononeanswer"
-msgstr "Pytanie ma tylko jedną odpowiedź"
+msgstr "Pitanje ima samo jedan odgovor"
 
-#, fuzzy
 msgid "WhatsNew:info_nonewonfollowedblogs"
-msgstr "Brak nowych wpisów na śledzonych blogach."
+msgstr "Nema novih zapisa na sljeđenim blogovima."
 
-#, fuzzy
 msgid "Blog:info_categorycreated"
-msgstr "Kategoria została utworzona."
+msgstr "Kategorija je stvorena."
 
-#, fuzzy
 msgid "Files:info_unpacked"
-msgstr "Rozpakowano."
+msgstr "Raspakirano."
 
-#, fuzzy
 msgid "Media:info_categorycreated"
-msgstr "Kategoria została dodana!"
+msgstr "Kategorija je dodana!"
 
-#, fuzzy
 msgid "Account:info_statuschanged"
-msgstr "Status został zmieniony."
+msgstr "Status je promijenjen."
 
-#, fuzzy
 msgid "Update:wait_reinstallationdownloading"
-msgstr "Pobieranie instrukcji reinstalacji"
+msgstr "Preuzimanje uputa za reinstalaciju"
 
-#, fuzzy
 msgid "Messages:info_attachmentdownloaded"
-msgstr "Załącznik został pobrany."
+msgstr "Privitak je preuzet."
 
-#, fuzzy
 msgid "Main:info_plserased"
-msgstr "Playlista usunięta."
+msgstr "Popis za reprodukciju je uklonjen."
 
-#, fuzzy
 msgid "Registration:error_difpass"
-msgstr "Podane hasła są różne."
+msgstr "Upisane lozinke se razlikuju."
 
-#, fuzzy
 msgid "EAPI_Common:wait_downloading"
-msgstr "Pobieranie..."
+msgstr "Preuzimanje..."
 
-#, fuzzy
 msgid "EAPI_EltenSRV:error_noavatar"
-msgstr "Użytkownik nie posiada avatara."
+msgstr "Korisnik nema avatar."
 
-#, fuzzy
 msgid "EAPI_Network:info_readprogress"
-msgstr "Odczytuj zmiany na pasku postępu."
+msgstr "Čitaj izmjene trake napredovanja."
 
-#, fuzzy
 msgid "EAPI_Form:info_loaded"
-msgstr "Wczytano"
+msgstr "Učitano"
 
-#, fuzzy
 msgid "Notes:info_notedeleted"
-msgstr "Notatka została usunięta."
+msgstr "Bilješa je izbrisana."
 
-#, fuzzy
 msgid "Honors:info_defaulted"
-msgstr "Odznaczenie ustawiono jako domyślne."
+msgstr "Znača je postavljena kao podrazumjevana."
 
-#, fuzzy
 msgid "Notes:info_notecreated"
-msgstr "Notatka została utworzona"
+msgstr "Bilješka je stvorena"
 
-#, fuzzy
 msgid "Honors:error_usernotfound"
-msgstr "Użytkownik nie istnieje"
+msgstr "Korisnik ne postoji"
 
-#, fuzzy
 msgid "Honors:info_honored"
-msgstr "Odznaczenie nadane"
+msgstr "Značka je pridjeljena"
 
-#, fuzzy
 msgid "Honors:info_honorcreated"
-msgstr "Odznaczenie zostało dodane"
+msgstr "Značka je dodana"
 
-#, fuzzy
 msgid "Polls:info_pollcreated"
-msgstr "Ankieta została utworzona."
+msgstr "Anketa je dodana."
 
-#, fuzzy
 msgid "Polls:info_voted"
-msgstr "Twój głos został zapisany."
+msgstr "Tvoj glas je zapisan."
 
-#, fuzzy
 msgid "Blog:info_blogrenamed"
-msgstr "Nazwa bloga została zmieniona"
+msgstr "Naziv bloga je promijenjen"
 
-#, fuzzy
 msgid "Blog:alert_noblog"
-msgstr "Nie posiadasz bloga. Czy chcesz go założyć?"
+msgstr "Nemaš blog. Želiš li ga stvoriti?"
 
-#, fuzzy
 msgid "Blog:wait"
-msgstr "Proszę czekać..."
+msgstr "čekaj..."
 
-#, fuzzy
 msgid "Blog:info_blogcreated"
-msgstr "Blog został utworzony."
+msgstr "Blog je stvoren."
 
-#, fuzzy
 msgid "Blog:info_renamed"
-msgstr "Nazwa została zmieniona."
+msgstr "Naziv je stvoren."
 
-#, fuzzy
 msgid "Blog:info_nonewcommentsonyourblog"
-msgstr "Brak nowych komentarzy na twoim blogu."
+msgstr "Nema novih komentara na tvojem blogu."
 
-#, fuzzy
 msgid "Blog:info_postcreated"
-msgstr "Wpis został dodany."
+msgstr "Zapis je dodan."
 
-#, fuzzy
 msgid "Blog:info_commentcreated"
-msgstr "Komentarz został dodany."
+msgstr "Komentar je dodan."
 
-#, fuzzy
 msgid "Blog:info_blogfollowed"
-msgstr "Dodano do śledzonych blogów."
+msgstr "Dodano u sljeđene blogove."
 
-#, fuzzy
 msgid "Blog:info_blogunfollowed"
-msgstr "Usunięto z listy śledzonych blogów."
+msgstr "Izbrisano s popisa sljeđenih blogova."
 
-#, fuzzy
 msgid "Blog:info_blogmarkedasread"
-msgstr "Wszystkie wpisy na tym blogu zostały oznaczone jako przeczytane."
+msgstr "Svi su zapisi na ovom blogu označeni kao pročitani."
 
-#, fuzzy
 msgid "Blog:info_recategorized"
-msgstr "Rekategoryzacja zakończona"
+msgstr "Rekategoriziranje je gotovo"
 
-#, fuzzy
 msgid "Files:error_clipboardempty"
-msgstr "Schowek jest pusty"
+msgstr "međuspremnik prazan"
 
-#, fuzzy
 msgid "Files:info_renamed"
-msgstr "Nazwa została zmieniona."
+msgstr "Naziv je promijenjen."
 
-#, fuzzy
 msgid "Files:info_dircreated"
-msgstr "Folder został utworzony."
+msgstr "Mapa je stvorena."
 
-#, fuzzy
 msgid "Files:info_filecreated"
-msgstr "Plik został utworzony."
+msgstr "Datoteka je stvorena."
 
-#, fuzzy
 msgid "Files:info_plserased"
-msgstr "Playlista wyczyszczona"
+msgstr "Popis za reprodukciju je izbrisa"
 
-#, fuzzy
 msgid "Files:wait_converting"
-msgstr "Proszę czekać, trwa konwertowanie pliku."
+msgstr "Molim pričekaj... traje konverzija datoteke"
 
-#, fuzzy
 msgid "Files:info_converted"
-msgstr "Konwersja zakończona."
+msgstr "Konverzija je gotova."
 
-#, fuzzy
 msgid "Files:wait_processing"
-msgstr "Przetwarzanie..."
+msgstr "Procesiranje..."
 
-#, fuzzy
 msgid "Media:info_added"
 msgstr "Dodano."
 
-#, fuzzy
 msgid "Account:error_identity"
 msgstr ""
-"Wystąpił błąd podczas próby uwierzytelnienia konta. Prawdopodobnie podano "
-"błędne hasło."
+"Nastala je greška prilikom autentifikacije. Možda je upisana kriva lozinka."
 
-#, fuzzy
 msgid "Account:error_usernotfound"
-msgstr "Użytkownik nie istnieje."
+msgstr "Korisnik ne postoji."
 
 #, fuzzy
 msgid "Update:info_reinstall"
@@ -2713,155 +2133,118 @@ msgstr ""
 "Program zostanie teraz przywrócony do ostatniej stabilnej wersji. Elten "
 "zostanie uruchomiony ponownie. To może potrwać kilka minut."
 
-#, fuzzy
 msgid "Messages:info_allmarkedasread"
-msgstr "Wszystkie wiadomości zostały oznaczone jako przeczytane."
+msgstr "Sve su poruke označene kao pročitane."
 
-#, fuzzy
 msgid "Messages:info_messagedeleted"
-msgstr "Wiadomość została usunięta."
+msgstr "Poruka je izbrisana."
 
-#, fuzzy
 msgid "Messages:info_filetoolarge"
-msgstr "Plik jest zbyt duży."
+msgstr "Datoteka je prevelika."
 
-#, fuzzy
 msgid "Messages:info_receivernotfound"
-msgstr "Odbiorca wiadomości nie istnieje."
+msgstr "Primatelj poruke ne postoji."
 
-#, fuzzy
 msgid "Forum:info_nonewfollowedforumsthreads"
-msgstr "Brak nowych wątków na śledzonych forach"
+msgstr "Nema novih tema na sljeđenim forumima"
 
-#, fuzzy
 msgid "Forum:info_nonewfollowedforumsposts"
-msgstr "Brak nowych wpisów na śledzonych forach"
+msgstr "Nema novih zapisa na sljeđenom forumu"
 
-#, fuzzy
 msgid "Forum:info_nonewmentions"
-msgstr "Brak nowych wzmianek"
+msgstr "Nema novih osvrta"
 
-#, fuzzy
 msgid "Forum:info_threadmoved"
-msgstr "Wątek został przeniesiony."
+msgstr "Tema je prenesena."
 
-#, fuzzy
 msgid "Forum:info_renamed"
-msgstr "Nazwa została zmieniona."
+msgstr "Naziv je izmijenjen."
 
-#, fuzzy
 msgid "Forum:wait_postsendpreparation"
-msgstr "Przygotowywanie do wysłania wpisu..."
+msgstr "Priprema za slanje zapisa..."
 
-#, fuzzy
 msgid "Forum:error_postcreation"
-msgstr "Błąd tworzenia wpisu."
+msgstr "Greška pri stvaranju zapisa."
 
-#, fuzzy
 msgid "Forum:error_phrasenotfound"
-msgstr "Nie znaleziono podanej frazy."
+msgstr "Upisana fraza nije nađena."
 
-#, fuzzy
 msgid "Forum:info_postmoved"
-msgstr "Wpis został przeniesiony."
+msgstr "Zapis je prenesen."
 
-#, fuzzy
 msgid "Forum:info_postslided"
-msgstr "Wpis został przesunięty."
+msgstr "Zapis je prebačen."
 
-#, fuzzy
 msgid "Forum:info_noonecontactedyou"
-msgstr "Nikt nie dodał Ciebie do swoich kontaktów."
+msgstr "Nitko te nije dodao u kontakte."
 
-#, fuzzy
 msgid "Forum:info_mentionsent"
-msgstr "Wzmianka została wysłana."
+msgstr "Osvrt je poslan."
 
-#, fuzzy
 msgid "Login:error_wrongdata"
-msgstr "Błędny login lub hasło."
+msgstr "Krivo korisničko ime ili lozinka."
 
-#, fuzzy
 msgid "Login:error_logon"
-msgstr "Błąd logowania."
+msgstr "Greška prijave."
 
-#, fuzzy
 msgid "Login:error_srv"
-msgstr "Błąd połączenia z serwerem."
+msgstr "Greška veze sa serverom."
 
-#, fuzzy
 msgid "EAPI_External:info_donotreadprogress"
-msgstr "Nie odczytuj zmian na pasku postępu."
+msgstr "Ne čitaj izmjene trake napredovanja."
 
-#, fuzzy
 msgid "EAPI_External:info_readprogress"
-msgstr "Odczytuj zmiany na pasku postępu."
+msgstr "Čitaj izmjene trake napredovanja."
 
-#, fuzzy
 msgid "EAPI_External:info_addedtopls"
-msgstr "Dodano do playlisty"
+msgstr "Dodano na spisak za reprodukciju"
 
-#, fuzzy
 msgid "EAPI_External:wait"
-msgstr "Proszę czekać..."
+msgstr "Čekaj..."
 
-#, fuzzy
 msgid "EAPI_External:info_copiedtoclip"
-msgstr "Skopiowano do schowka."
+msgstr "Kopiraj u međuspremnik."
 
-#, fuzzy
 msgid "EAPI_Common:error_logon"
 msgstr ""
-"Błąd, nie mogę się zalogować. Prawdopodobnie podano błędne hasło lub jesteś "
-"zbanowany."
+"Greška. ne mogu se prijaviti, sigurno si napisao pogrešnu lozinku ili si "
+"baniran."
 
-#, fuzzy
 msgid "EAPI_Common:info_finished"
-msgstr "Operacja zakończona powodzeniem"
+msgstr "Operacija je uspješno završena"
 
-#, fuzzy
 msgid "EAPI_Common:info_usingscreenreader"
-msgstr "Używanie czytnika ekranu"
+msgstr "Korištenje čitača zaslona"
 
-#, fuzzy
 msgid "EAPI_Common:info_usingsapi"
-msgstr "Używanie wybranej syntezy SAPI"
+msgstr "Korištenje izabrane sapi govorne jedinice"
 
-#, fuzzy
 msgid "EAPI_EltenSRV:wait_severalminutes"
-msgstr "Proszę czekać, to może potrwać kilka minut..."
+msgstr "Molimo pričekajte, Ovo može potrajati nekoliko minuta.."
 
-#, fuzzy
 msgid "EAPI_UI:info_newmessagefemale"
-msgstr "Otrzymałaś nową wiadomość."
+msgstr "Dobila si novu poruku."
 
-#, fuzzy
 msgid "EAPI_UI:info_newfollowedthread"
-msgstr "W śledzonym wątku pojawił się nowy wpis."
+msgstr "U sljeđenoj temi pojavio se novi zapis."
 
-#, fuzzy
 msgid "EAPI_UI:info_newfollowedblog"
-msgstr "Na śledzonym blogu pojawił się nowy wpis."
+msgstr "U sljeđenom blogu pojavio se novi zapis."
 
-#, fuzzy
 msgid "Honors:alert_mainhonor"
 msgstr ""
-"Czy chcesz ustawić to odznaczenie jako główne? Główne odznaczenie pokaże się "
-"w twojej wizytówce."
+"Želiš li postaviti ovu značku kao glavnu? Ista će se pokazati u vizitci."
 
-#, fuzzy
 msgid "Blog:alert_deletecategory"
-msgstr "Czy jesteś pewien, że chcesz usunąć tą kategorię?"
+msgstr "Jesi li siguran da želiš izbrisati ovu kategoriju?"
 
-#, fuzzy
 msgid "Contacts:alert_delcontact"
-msgstr "Czy na pewno chcesz usunąć ten kontakt?"
+msgstr "Želiš li sigurno izbrisati ovaj kontakt?"
 
-#, fuzzy
 msgid "Update:alert_joinbeta"
 msgstr ""
-"Nie należysz do otwartego programu testów Elten. Czy chcesz do niego "
-"przystąpić teraz, by pobrać wersję beta?"
+"Nisi član programa otvorenih testova programa Elten. Želiš li uči u program "
+"sada, kako bi mogao preuzeti beta inačicu?"
 
 #, fuzzy
 msgid "MainMenu:alert_resetsettings"
@@ -2964,99 +2347,77 @@ msgstr "Przyczyna anulowania bana"
 msgid "Media:type_categorydescription"
 msgstr "Opis kategorii"
 
-#, fuzzy
 msgid "Account:type_birthdateyear"
-msgstr "Data urodzenia: rok"
+msgstr "datum rođenja: godina"
 
-#, fuzzy
 msgid "Account:type_birthdatemonth"
-msgstr "Data urodzenia: miesiąc"
+msgstr "Datum rođenja: mjesec"
 
-#, fuzzy
 msgid "Account:type_birthdateday"
-msgstr "Data urodzenia: dzień"
+msgstr "Datum rođenja: dan"
 
-#, fuzzy
 msgid "Account:type_location"
-msgstr "Lokalizacja"
+msgstr "Mjesto"
 
-#, fuzzy
 msgid "Account:type_greeting"
-msgstr "Twoja wiadomość powitalna:"
+msgstr "Tvoja poruka dobrodošlice:"
 
-#, fuzzy
 msgid "Forum:type_nick"
 msgstr "Pseudonim:"
 
-#, fuzzy
 msgid "Main:type_test"
 msgstr "test"
 
-#, fuzzy
 msgid "EAPI_External:read_Details"
-msgstr "Szczegóły"
+msgstr "Detalji"
 
-#, fuzzy
 msgid "EAPI_Common:read_useragreement"
 msgstr ""
-"Umowa licencyjna oraz regulamin użytkowania programu Elten oraz sieci Elten "
-"Network"
+"Licenca i pravila za korištenje programa i društvene mreže Elten Network"
 
-#, fuzzy
 msgid "EAPI_Common:read_readingtofile"
-msgstr "Czytanie do pliku, proszę czekać..."
+msgstr "Čitanje datoteke, molim pričekah..."
 
-#, fuzzy
 msgid "EAPI_Form:type_Filename"
-msgstr "Nazwa pliku"
+msgstr "Ime datoteke"
 
-#, fuzzy
 msgid "Honors:type_honoruser"
-msgstr "Komu nadać to odznaczenie?"
+msgstr "Kome dati ovu značku?"
 
-#, fuzzy
 msgid "Polls:type_answer"
-msgstr "Odpowiedź"
+msgstr "odgovor"
 
-#, fuzzy
 msgid "Blog:type_blogname"
-msgstr "Podaj nazwę tworzonego bloga."
+msgstr "Upiši naziv stvorenog bloga."
 
 #, fuzzy
 msgid "Blog:type_newcatname"
 msgstr "Podaj nową nazwę dla tej kategorii"
 
-#, fuzzy
 msgid "Files:type_newname"
-msgstr "Nowa nazwa"
+msgstr "Novi naziv"
 
-#, fuzzy
 msgid "Account:type_blacklistaddusername"
-msgstr "Podaj nazwę użytkownika, którego chcesz dodać do czarnej listy"
+msgstr "Upiši korisničko ime korisnika, kojeg želiš dodati na crnu listu"
 
 #, fuzzy
 msgid "Contacts:type_blacklistremoveusername"
 msgstr "Podaj nazwę użytkownika, którego chcesz usunąć ze swoich kontaktów."
 
-#, fuzzy
 msgid "Forum:type_thrnewname"
-msgstr "Podaj nową nazwę wątku"
+msgstr "Upiši nuvi naziv teme"
 
-#, fuzzy
 msgid "Registration:type_passagain"
-msgstr "Powtórz hasło"
+msgstr "Ponovi lozinku"
 
-#, fuzzy
 msgid "EAPI_Common:type_movetosec"
-msgstr "Podaj sekundę, do której chcesz przeskoczyć"
+msgstr "Upiši sekundu na koju želiš preskoćiti"
 
-#, fuzzy
 msgid "EAPI_Form:type_location"
-msgstr "Podaj ścieżkę"
+msgstr "Upiši stazu"
 
-#, fuzzy
 msgid "Debug:chk_srvconnectionsignal"
-msgstr "Sygnalizuj połączenia z serwerem"
+msgstr "Signaliziraj svako povezivanje na server"
 
 #, fuzzy
 msgid "Portable:chk_sfx"
@@ -3067,41 +2428,33 @@ msgstr ""
 msgid "Interface:chk_linewrapping"
 msgstr "Zawijaj długie wiersze w polach tekstowych"
 
-#, fuzzy
 msgid "Debug:btn_ok"
-msgstr "OK"
+msgstr "U redu"
 
 #, fuzzy
 msgid "Blog:btn_createtextpost"
 msgstr "Utwórz wpis tekstowy"
 
-#, fuzzy
 msgid "Messages:btn_sendasadmin"
-msgstr "Wyślij jako administracja"
+msgstr "Pošalji kao administracija"
 
-#, fuzzy
 msgid "Messages:btn_sendtoall"
-msgstr "Wyślij do wszystkich"
+msgstr "Pošalji svima"
 
-#, fuzzy
 msgid "Messages:btn_audiomessage"
-msgstr "Wiadomość głosowa"
+msgstr "Glasovna poruka"
 
-#, fuzzy
 msgid "Forum:btn_recpoststop"
-msgstr "Zatrzymaj nagrywanie wpisu"
+msgstr "Zaustavi snimanje zapisa"
 
-#, fuzzy
 msgid "EAPI_Common:btn_agree"
-msgstr "Akceptuję"
+msgstr "Prihvaćam"
 
-#, fuzzy
 msgid "EAPI_Common:btn_disagree"
-msgstr "Nie akceptuję, zamknij program"
+msgstr "Ne prihvaćam, Zatvori program"
 
-#, fuzzy
 msgid "EAPI_Common:read_waitprocessingfiles"
-msgstr "Proszę czekać, trwa przetwarzanie plików..."
+msgstr "Molim pričekati... traje procesiranje datoteka..."
 
 #, fuzzy
 msgid "Blog:alert_markblogasread"
@@ -3117,9 +2470,8 @@ msgstr ""
 "komputera lub uzyskanie dostępu do konta przez osoby niepowołane. Kontynuuj "
 "tylko wtedy, gdy ufasz pochodzeniu tego pliku."
 
-#, fuzzy
 msgid "Forum:alert_Deletepost"
-msgstr "Czy na pewno chcesz usunąć ten wpis?"
+msgstr "Želiš li doista izbrisati ovaj zapis?"
 
 #, fuzzy
 msgid "EAPI_Common:alert_mididownloadsf"
@@ -3164,322 +2516,242 @@ msgstr "Wybierz, z którym innym wpisem zamienić ten wpis."
 msgid "Files:head_convertto"
 msgstr "Do jakiego formatu chcesz przekonwertować ten plik?"
 
-#, fuzzy
 msgid "Honors:head"
-msgstr "Odznaczenia"
+msgstr "Značke"
 
-#, fuzzy
 msgid "Honors:head_user"
-msgstr "Odznaczenia użytkownika %{user}"
+msgstr "Značke korisnika %{user}"
 
-#, fuzzy
 msgid "Polls:read_results"
-msgstr "Wyniki ankiety: #{%name%}"
+msgstr "Rezultati ankete: #{%name%}"
 
-#, fuzzy
 msgid "Programs:alert_installprogram"
-msgstr "Czy chcesz zainstalować program %{name}?"
+msgstr "Želiš li instalirati program %{name}?"
 
-#, fuzzy
 msgid "Notes:alert_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+msgstr "Jesi li siguran da  želiš ukloniti %{name}?"
 
-#, fuzzy
 msgid "Polls:alert_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+msgstr "Jesi li siguran da želiš ukloniti %{name}?"
 
-#, fuzzy
 msgid "Uploads:head_filesofuser"
-msgstr "Pliki użytkownika %{user}"
+msgstr "Datoteke korisnika %{user}"
 
-#, fuzzy
 msgid "Uploads:alert_deletefile"
-msgstr "Czy jesteś pewien, że chcesz usunąć plik %{filename}?"
+msgstr "Jesi li siguran da želiš izbrisati datoteku %{filename}?"
 
-#, fuzzy
 msgid "Blog:opt_phr_author"
 msgstr "Autor"
 
-#, fuzzy
 msgid "Ban:opt_day"
-msgstr "Dzień"
+msgstr "dan"
 
-#, fuzzy
 msgid "Ban:opt_threedays"
-msgstr "Trzy dni"
+msgstr "tri dana"
 
-#, fuzzy
 msgid "Ban:opt_year"
-msgstr "Rok"
+msgstr "godina"
 
-#, fuzzy
 msgid "Chat:info_phr_lastmessage"
-msgstr "Ostatnia wiadomość"
+msgstr "zadnja poruka"
 
-#, fuzzy
 msgid "Files:alert_delete"
-msgstr "Czy jesteś pewien, że chcesz usunąć %{filename}?"
+msgstr "Jesi li siguran da želiš izbrisati %{filename}?"
 
-#, fuzzy
 msgid "General:female"
-msgstr "Kobieta"
+msgstr "žensko"
 
-#, fuzzy
 msgid "General:male"
-msgstr "mężczyzna"
+msgstr "Muško"
 
-#, fuzzy
 msgid "Account:info_phr_addedtoblacklist"
-msgstr "Użytkownik %{user} został dodany do twojej czarnej listy"
+msgstr "Korisnik %{user} dodan je na tvoju crnu listu"
 
-#, fuzzy
 msgid "Voice:info_phr_selectedvoice"
-msgstr "Wybrany głos"
+msgstr "Izabrani glas"
 
-#, fuzzy
 msgid "Messages:opt_phr_from"
 msgstr "Od"
 
-#, fuzzy
 msgid "Messages:opt_phr_to"
 msgstr "Do:"
 
-#, fuzzy
 msgid "Messages:opt_phr_new"
-msgstr "Nowa"
+msgstr "Nova"
 
-#, fuzzy
 msgid "Messages:wait_sendingfile"
-msgstr "Przesyłanie: %{file}"
+msgstr "slanje: %{file}"
 
-#, fuzzy
 msgid "_Main:info_errorcritical"
-msgstr "Wystąpił krytyczny błąd. Opis błędu: %{description}"
+msgstr "Dogodila se kritična pogreška. Opis pogreške: %{description}"
 
-#, fuzzy
 msgid "EAPI_Form:opt_phr_shortkey"
-msgstr "Skrót: "
+msgstr "Prečac: "
 
-#, fuzzy
 msgid "EAPI_EltenSRV:info_phr_sessconftime"
-msgstr "Czas potwierdzenia sesji:"
+msgstr "Vrijeme potvrđenosti sesije:"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_gender"
-msgstr "Płeć"
+msgstr "spol"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_age"
-msgstr "Wiek"
+msgstr "dob"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_knows"
-msgstr "Zna użytkowników"
+msgstr "Zna sljedeći broj korisnika"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_forumposts"
-msgstr "Wpisy na forum"
+msgstr "Tema na forumu"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_pollsanswered"
-msgstr "Wypełnione ankiety"
+msgstr "Ispunjenih anketa"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_usedversion"
-msgstr "Używana wersja programu"
+msgstr "Korištena inačica programa"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_registered"
-msgstr "Konto zarejestrowane"
+msgstr "Nalog je registriran"
 
-#, fuzzy
 msgid "EAPI_Common:error_nofiletoread"
-msgstr "Nie wybrano pliku do przeczytania"
+msgstr "Datoteka za čitanje nije izabrana"
 
-#, fuzzy
 msgid "EAPI_Common:error_nofilename"
-msgstr "Podaj tytuł tworzonego pliku"
+msgstr "Napiši naslov datoteke koju želiš stvoriti"
 
-#, fuzzy
 msgid "EAPI_Common:error_seldestination"
-msgstr "Wybierz miejsce zapisu pliku"
+msgstr "Izzaberi lokaciju na kojoj datoteka mora biti spremljena"
 
-#, fuzzy
 msgid "EAPI_Common:error_selsource"
-msgstr "Wybierz plik źródłowy"
+msgstr "Izaberi izvornu datoteku"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_readtofilenum"
-msgstr "Czytanie do pliku numer"
+msgstr "Čitanje u datoteku broj"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_sentencenumber"
-msgstr "Zdanie %{cursentence} z %{sentences}"
+msgstr "rečenica %{cursentence} od %{sentences}"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_readtime"
-msgstr "Przeczytano"
+msgstr "pročitano"
 
-#, fuzzy
 msgid "EAPI_Common:txt_phr_timeremaining"
-msgstr "Szacowany pozostały czas"
+msgstr "Preostalo vrijeme"
 
-#, fuzzy
 msgid "EAPI_Common:read_visitingcardofuser"
-msgstr "Wizytówka: %{user}"
+msgstr "vizitka: %{user}"
 
-#, fuzzy
 msgid "Login:info_loggedinas"
-msgstr "Zalogowany jako: %{user}"
+msgstr "Prijavljen kao: %{user}"
 
-#, fuzzy
 msgid "Login:alert_autologin"
-msgstr "Czy chcesz włączyć automatyczne logowanie dla konta %{user}?"
+msgstr "Želiš li uključiti automatsku prijavu za nalog %{user}?"
 
-#, fuzzy
 msgid "Forum:opt_phr_author"
 msgstr "Autor"
 
-#, fuzzy
 msgid "Forum:alert_thrdelete"
-msgstr "Czy jesteś pewien, że chcesz usunąć wątek %{thrname}?"
+msgstr "Jesi li suguran da želiš ukloniti temu pod nazivom %{thrname}?"
 
-#, fuzzy
 msgid "Forum:opt_phr_thrisnew"
-msgstr "Nowy"
+msgstr "Nowi"
 
-#, fuzzy
 msgid "Forum:opt_phr_threads"
-msgstr "wątki"
+msgstr "teme"
 
-#, fuzzy
 msgid "Forum:opt_phr_posts"
-msgstr "wpisy"
+msgstr "zapisi"
 
-#, fuzzy
 msgid "WhatsNew:opt_messages"
-msgstr "Nowe wiadomości"
+msgstr "nove poruke"
 
-#, fuzzy
 msgid "WhatsNew:opt_followedthreads"
-msgstr "Nowe wpisy w śledzonych wątkach"
+msgstr "Novi zapisi u sljeđenim temama"
 
-#, fuzzy
 msgid "WhatsNew:opt_followedblogs"
-msgstr "Nowe wpisy na śledzonych blogach"
+msgstr "Novi zapisi na sljeđenim blogovima"
 
-#, fuzzy
 msgid "WhatsNew:opt_blogcomments"
-msgstr "Nowe komentarze na twoim blogu"
+msgstr "Novi komentari  na tvojem blogu"
 
-#, fuzzy
 msgid "WhatsNew:opt_followedforums"
-msgstr "Nowe wątki na śledzonych forach"
+msgstr "Nove teme na sljeđenim forumima"
 
-#, fuzzy
 msgid "WhatsNew:opt_followedforumsposts"
-msgstr "Nowe wpisy na śledzonych forach"
+msgstr "Novi zapisi na sljeđenim forumima"
 
-#, fuzzy
 msgid "WhatsNew:opt_contacts"
-msgstr "Nowi znajomi"
+msgstr "Novi prijatelji"
 
-#, fuzzy
 msgid "WhatsNew:opt_birthday"
-msgstr "Urodziny znajomych"
+msgstr "Rođendani prijatelja"
 
-#, fuzzy
 msgid "WhatsNew:opt_mentions"
-msgstr "Urodziny znajomych"
+msgstr "Rođendani prijatelja"
 
-#, fuzzy
 msgid "WhatsNew:opt_update"
-msgstr "Dostępna aktualizacja (%version)"
+msgstr "Nadogradnja (%version) je dostupna"
 
-#, fuzzy
 msgid "_Main:error_critical"
-msgstr "Wystąpił krytyczny błąd. Opis błędu: %{description}"
+msgstr "Dogodila se kritična pogreška. Opis pogreške: %{description}"
 
-#, fuzzy
 msgid "Chat:joined"
-msgstr "Dołączył do dyskusji."
+msgstr "Uključio se u razgovor."
 
-#, fuzzy
 msgid "Chat:left"
-msgstr "Opuścił dyskusję."
+msgstr "Napustio je razgovor."
 
-#, fuzzy
 msgid "Notes:info_sharedwith"
-msgstr "Od teraz współdzielisz tę notatkę z %{user}"
+msgstr "Od sada dijeliš bilješku s %{user}"
 
-#, fuzzy
 msgid "Notes:info_unsharedwith"
-msgstr "Nie współdzielisz już tej notatki z %{user}"
+msgstr "Više ne dijeliš ovu bilješku s %{user}"
 
-#, fuzzy
 msgid "Notes:alert_unshare"
-msgstr "Czy chcesz przestać współdzielić tę notatkę z %{user}?"
+msgstr "Želiš li prestati dijeliti tu bilješku s %{user}?"
 
-#, fuzzy
 msgid "Files:head_soundquality"
-msgstr "Wybierz jakość dźwięku"
+msgstr "Izaberi kvalitetu zvuka"
 
-#, fuzzy
 msgid "Files:info_addedtoplscount"
-msgstr "Pliki dodane do playlisty: %{count}."
+msgstr "%{count} datoteka dodano na popis za reprodukciju-"
 
-#, fuzzy
 msgid "General:error_platform"
-msgstr "Ta funkcja nie jest dostępna na tej platformie."
+msgstr "Ta pnačajka nije dostupna na ovoj platformi."
 
-#, fuzzy
 msgid "EAPI_Common:info_readtofilefinished"
-msgstr "Czytanie do pliku zakończono."
+msgstr "Čitanje u datoteku je završeno."
 
-#, fuzzy
 msgid "EAPI_UI:info_alarm"
 msgstr "Alarm!"
 
-#, fuzzy
 msgid "EAPI_Form:wait_link"
-msgstr "Otwieranie łącza..."
+msgstr "Otvaranje poveznice..."
 
-#, fuzzy
 msgid "EAPI_Form:wait_downloading"
-msgstr "Pobieranie..."
+msgstr "preuzimanje..."
 
-#, fuzzy
 msgid "EAPI_Form:info_downloaded"
-msgstr "Pobieranie zakończone"
+msgstr "Preuzimanje je gotovo"
 
-#, fuzzy
 msgid "EAPI_Form:info_checked"
-msgstr "Zaznaczono"
+msgstr "odabrano"
 
-#, fuzzy
 msgid "EAPI_Form:info_unchecked"
-msgstr "Odznaczono"
+msgstr "nije odabrano"
 
-#, fuzzy
 msgid "UserSearch:opt_searchagain"
-msgstr "Wyszukaj ponownie"
+msgstr "Pretraži ponovo"
 
-#, fuzzy
 msgid "Permissions:head"
-msgstr "Należysz do następujących grup"
+msgstr "Pripadaš sljedećim grupama"
 
-#, fuzzy
 msgid "Honors:opt_honor"
-msgstr "Nadaj odznaczenie"
+msgstr "Daj značku"
 
-#, fuzzy
 msgid "Honors:opt_new"
-msgstr "Nowe odznaczenie"
+msgstr "Nova značka"
 
-#, fuzzy
 msgid "Blog:opt_markallasread"
-msgstr "Oznacz wszystkie wpisy na tym blogu jako przeczytane"
+msgstr "Označi sve zapise na ovom blogu kao pročitane"
 
-#, fuzzy
 msgid "Forum:opt_phr_unreads"
-msgstr "Nowe"
+msgstr "Novo"
