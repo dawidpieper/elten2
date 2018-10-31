@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-10-30 21:06+0100\n"
+"PO-Revision-Date: 2018-10-31 21:00+0100\n"
 "Last-Translator: Karl Eick <hozosch@web.de>\n"
 "Language: de_DE\n"
 "Language-Team: pl <dawidpieper@o2.pl>\n"
@@ -371,13 +371,13 @@ msgid "Interface:opt_linear"
 msgstr "Linear"
 
 msgid "Interface:opt_circular"
-msgstr "Circular"
+msgstr "Kreisförmig"
 
 msgid "Interface:head_listspresentation"
-msgstr "The display method of selection lists"
+msgstr "Art der Anzeige von Listen"
 
 msgid "Interface:chk_soundtheme"
-msgstr "Sound von soundthemes abspielen"
+msgstr "Audiothemen benutzen"
 
 msgid "Interface:opt_chars"
 msgstr "Zeichen"
@@ -392,13 +392,13 @@ msgid "Interface:opt_none"
 msgstr "Nichts"
 
 msgid "Interface:head_typingecho"
-msgstr "Tastatur Echo"
+msgstr "Tastaturecho"
 
 msgid "Interface:chk_fullscreen"
 msgstr "Programm im Vollbildmodus ausführen"
 
 msgid "Interface:chk_autologin"
-msgstr "Auto anmeldung aktiwieren"
+msgstr "Auto-Anmeldung aktivieren"
 
 msgid "Interface:chk_tray"
 msgstr "Elten automatisch in den Infobereich minimieren"
@@ -413,13 +413,13 @@ msgid "Interface:alert_portableautostart"
 msgstr "Achtung! Sie sind im Begriff, die Autostartfunktion in einer portablen Version von elten zu aktivieren. Wenn dieses Programm für windows nicht zugänglich ist oder das Verzeichnis geändert wurde, kann Ihr System Elten nicht automatisch starten. Möchten Sie diese Funktion dennoch aktivieren?"
 
 msgid "UsersAddedMeToContacts:head"
-msgstr "Benutzer, die mich zu iren Kontackten hinzugefügt haben"
+msgstr "Benutzer, die mich zu ihren Kontackten hinzugefügt haben"
 
 msgid "ReadMe:head"
 msgstr "Lies mich"
 
 msgid "Blog:opt_newpost"
-msgstr "neuer Beitrag"
+msgstr "neuer Eintrag"
 
 msgid "Blog:info_deleted"
 msgstr "gelöscht"
@@ -431,16 +431,16 @@ msgid "Blog:opt_myblog"
 msgstr "mein Blog"
 
 msgid "Blog:opt_newcat"
-msgstr "Neue Katigori"
+msgstr "Neue Kategorie"
 
 msgid "Blog:alert_deletepost"
-msgstr "Sind sie sicher, dass sie diesen Beitrag löschen möchten?"
+msgstr "Sind sie sicher, dass sie diesen Eintrag löschen möchten?"
 
 msgid "Blog:head"
-msgstr "Bloggs"
+msgstr "Blogs"
 
 msgid "Blog:head_list"
-msgstr "liste der Blogs"
+msgstr "Blogliste"
 
 msgid "Blog:btn_send"
 msgstr "senden"
@@ -455,40 +455,40 @@ msgid "Blog:type_comment"
 msgstr "Ihr Kommentar"
 
 msgid "Blog:btn_modifypost"
-msgstr "bearbeiten sie ihren Beitrag"
+msgstr "bearbeiten sie ihren Eintrag"
 
 msgid "Blog:btn_play"
 msgstr "wiedergabe"
 
 msgid "Blog:opt_allposts"
-msgstr "alle Beiträge"
+msgstr "alle Einträge"
 
 msgid "Blog:btn_recpost"
-msgstr "Einen neuen Beitrag aufnemen"
+msgstr "Einen neuen Eintrag aufnemen"
 
 msgid "Blog:btn_stoprec"
 msgstr "Aufname stoppen"
 
 msgid "Blog:opt_recentlyupdatedblogs"
-msgstr "Zuletzt aktualisierte bloggs"
+msgstr "Zuletzt aktualisierte Blogs"
 
 msgid "Blog:opt_frequentlyupdatedblogs"
-msgstr "Am öftesten aktualisierte bloggs"
+msgstr "Am öftesten aktualisierte Blogs"
 
 msgid "Blog:opt_frequentlycommentedblogs"
 msgstr "am meisten kommentierte Blogs"
 
 msgid "Blog:type_posttitle"
-msgstr "Tietel des Beitrags"
+msgstr "Tietel des Eintrags"
 
 msgid "Blog:type_post"
-msgstr "Beitrag"
+msgstr "Eintrag"
 
 msgid "Blog:head_postcategories"
-msgstr "Zu katigori hinzufügen"
+msgstr "Zu Kategorie hinzufügen"
 
 msgid "Blog:type_catname"
-msgstr "Name der katigori"
+msgstr "Name der Kategorie"
 
 msgid "Blog:type_newblogname"
 msgstr "neuer Blogname"
@@ -521,7 +521,7 @@ msgid "Blog:opt_useexistingfile"
 msgstr "Eine vorhandene datei verwenden"
 
 msgid "Blog:info_modified"
-msgstr "der beitrag wurde bearbeitet"
+msgstr "der Eintrag wurde bearbeitet"
 
 msgid "Blog:head_visibility"
 msgstr "Sichtbarkeit"
@@ -614,7 +614,7 @@ msgid "Files:opt_paste"
 msgstr "Einfügen"
 
 msgid "Files:opt_newdir"
-msgstr "Neuer Ortner"
+msgstr "Neuer Ordner"
 
 msgid "Files:info_copied"
 msgstr "Kopiert."
@@ -629,16 +629,16 @@ msgid "Files:opt_text"
 msgstr "Text"
 
 msgid "Files:opt_erasepls"
-msgstr "Playlist löschen"
+msgstr "Wiedergabeliste löschen"
 
 msgid "Files:opt_adddirtopls"
-msgstr "Add alle Audio dateien in diesem Ortner zur Playlist hinzufügen"
+msgstr "Alle Audiodateien dieses Ordners der Wiedergabeliste hinzufügen"
 
 msgid "Files:opt_play"
 msgstr "wiedergabe"
 
 msgid "Files:opt_addtopls"
-msgstr "zur Playlist hinzufügen"
+msgstr "zur Wiedergabeliste hinzufügen"
 
 msgid "Files:opt_send"
 msgstr "Auf den Server hochladen"
@@ -647,7 +647,7 @@ msgid "Files:opt_opendir"
 msgstr "einfach öffnen"
 
 msgid "Files:opt_avatar"
-msgstr "Als awatar festlegen"
+msgstr "Als Avatar festlegen"
 
 msgid "Files:opt_create"
 msgstr "erstellen"
@@ -686,7 +686,7 @@ msgid "Files:info_packed"
 msgstr "Komprimiert"
 
 msgid "Files:opt_readtofile"
-msgstr "Read to file"
+msgstr "in audio konvertieren"
 
 msgid "Files:opt_file"
 msgstr "Datei"
