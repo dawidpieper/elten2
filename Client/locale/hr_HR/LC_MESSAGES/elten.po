@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-10-30 16:50+0100\n"
+"PO-Revision-Date: 2018-10-31 09:56+0100\n"
 "Last-Translator: Dawid Pieper <dawidpieper@o2.pl>\n"
 "Language: hr_HR\n"
 "Language-Team: hr <zvonimirek222@yandex.com>\n"
@@ -1356,85 +1356,69 @@ msgstr ""
 "Preporuča se konverzija starih informacija na novi sustav. Želiš li "
 "ažurirati spremljene informacije?"
 
-#, fuzzy
 msgid "Login:info_autologin"
 msgstr ""
-"Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami "
-"automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w "
-"menu Społeczność."
+"Automatska prijava trajati će sve dok se ne odjaviš. Ključevima automatske "
+"prijave možeš upravljati na kartici moj nalog u izborniku programa."
 
-#, fuzzy
 msgid "Login:info_crpupdated"
 msgstr ""
-"Dane logowania zostały zaktualizowane. Automatyczne logowanie będzie ważne "
-"do momentu wylogowania się. Kluczami automatycznego logowania można "
-"zarządzać z poziomu zakładki Moje Konto w menu Społeczność."
+"Podaci za prijavu su ažurirani. Automatska prijava će trajati sve dok se ne "
+"odjaviš. Ključevima automatske prijave možeš upravljati s kartice moj nalog "
+"u izborniku zajednica."
 
-#, fuzzy
 msgid "Login:type_authcode"
 msgstr ""
-"Na tym koncie włączone jest logowanie dwuetapowe. Wprowadź kod wysłany na "
-"twój numer wiadomością SMS, aby zezwolić temu urządzeniu na zalogowanie. "
-"Jeśli nie masz dostępu do użytego numeru telefonu, wybierz opcję resetowania "
-"hasła w celu wyłączenia logowania dwuetapowego."
+"Na ovom nalogu uključena je dvofaktorna autentifikacija. Upiši kod, koji ti "
+"je poslan u SMS poruci, kako bi dozvolio ovom uređaju da se prijavi. Ako "
+"nemaš pristup tom broju telefona, Izaberi opciju resetiranja lozinke, kako "
+"bi resetirao lozinku i isključio dvofaktornu autentifikaciju."
 
-#, fuzzy
 msgid "Login:error_verification"
-msgstr "Błąd weryfikacji."
+msgstr "Greška verifikacije."
 
-#, fuzzy
 msgid "Login:type_authcodeagain"
-msgstr "Wprowadzony kod nie jest poprawny, spróbuj jeszcze raz"
+msgstr "Upisani kod je netočan, Pokušaj ponovo još jednom"
 
-#, fuzzy
 msgid "Registration:info_slashes"
 msgstr ""
-"Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty."
+"Korisničko ime ne može sadržavati znak kosa crta. Znak će biti zaobiđen."
 
-#, fuzzy
 msgid "Registration:info_spaces"
-msgstr "Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty."
+msgstr "Korisničko ime ne može sadržavati razmake. Znak će biti izbjegnut."
 
-#, fuzzy
 msgid "Registration:type_login"
 msgstr ""
-"Podaj swój login. Będzie on używany w celu identyfikacji. Maksymalna długość "
-"loginu to 64 znaki."
+"Upiši svoje korisničko ime. Ono će se koristiti u cilju identifikacije. "
+"Dužina znakova je 64 znakova."
 
-#, fuzzy
 msgid "Registration:type_pass"
 msgstr ""
-"Podaj swoje hasło. Zalecane jest silne hasło. Hasło takie składa się z liter "
-"i cyfr. Długość hasła powinna być krótsza niż dwieście pięćdziesiąt sześć "
-"znaków."
+"Upiši svoju lozinku. Preporučena je jaka lozinka. Takva se lozinka sastoji "
+"od brojeva i slova. Dužina znakova bi trebala biti kraća od dvjesto pedeset "
+"šest znakova."
 
-#, fuzzy
 msgid "Registration:type_mail"
 msgstr ""
-"Podaj swój adres mailowy. Będzie on używany w przypadku zapomnienia hasła i "
-"do wysyłania najważniejszych informacji."
+"Upiši svoju e-mail adresu. Ona će se koristiti u slučaju zaborava lozinke za "
+"slanje najvažnijih informacija."
 
-#, fuzzy
 msgid "Registration:info_registered"
 msgstr ""
-"Rejestracja powiodła się, dziękujemy. Możesz teraz się zalogować, używając "
-"podanych danych."
+"Registracija je uspješna, hvala. Sada se možeš prijaviti, koristeći upisane "
+"podatke."
 
-#, fuzzy
 msgid "Registration:error_unknown"
-msgstr "Wystąpił nieznany błąd bazy danych."
+msgstr "Dogodio se nepoznati problem baze podataka."
 
-#, fuzzy
 msgid "Registration:error_accountexists"
-msgstr "Konto o podanym loginie już istnieje."
+msgstr "Korisničko ime već postoji."
 
-#, fuzzy
 msgid "Registration:error_save"
-msgstr "Wystąpił błąd zapisu danych."
+msgstr "Dogodila se greška pri spremanju podataka."
 
-#, fuzzy
 msgid "Registration:error_connection"
-msgstr "Wystąpił błąd połączenia z serwerem."
+msgstr "Dogodila se pogreška pri povezivanju na server."
 
 msgid "Loading:opt_login"
 msgstr "Prijavi se"
@@ -1460,11 +1444,10 @@ msgstr "Promijeni govornu jedinicu"
 msgid "Loading:opt_reinstall"
 msgstr "Prisilno ažuriraj ili reinstaliraj sa poslužitelja"
 
-#, fuzzy
 msgid "Loading:info_novoice"
 msgstr ""
-"Nie wybrano głosu programu. Naciśnij enter, aby wybrać głos SAPI lub escape, "
-"aby użyć głosu domyślnego lub aktywnego czytnika ekranu."
+"Glas programa nije izabran. Pritisni enter, kako bi izabrao glas Sapi ili "
+"eskejp, kako bi koristio podrazumjevani glas ili glas aktivnog čitača ekrana."
 
 msgid "EAPI_External:btn_play"
 msgstr "reproduciraj"
@@ -2127,11 +2110,10 @@ msgstr ""
 msgid "Account:error_usernotfound"
 msgstr "Korisnik ne postoji."
 
-#, fuzzy
 msgid "Update:info_reinstall"
 msgstr ""
-"Program zostanie teraz przywrócony do ostatniej stabilnej wersji. Elten "
-"zostanie uruchomiony ponownie. To może potrwać kilka minut."
+"Program će se vratiti na stanje prethodne stabilne inačice. Elten će se "
+"ponovno pokrenuti. Ovo može potrajati nekoliko minuta."
 
 msgid "Messages:info_allmarkedasread"
 msgstr "Sve su poruke označene kao pročitane."
@@ -2246,106 +2228,82 @@ msgstr ""
 "Nisi član programa otvorenih testova programa Elten. Želiš li uči u program "
 "sada, kako bi mogao preuzeti beta inačicu?"
 
-#, fuzzy
 msgid "MainMenu:alert_resetsettings"
 msgstr ""
-"Czy jesteś pewien, że chcesz usunąć wszystkie ustawienia programu i "
-"przywrócić wartości domyślne? Elten zostanie uruchomiony ponownie."
+"Jesi li siguran, da želiš vratiti sve postavke na zadane vrijednosti? Elten "
+"će ponovno biti pokrenut."
 
-#, fuzzy
 msgid "EAPI_External:alert_audioreport"
 msgstr ""
-"Wystąpił błąd podczas przechwytywania ścieżki audio. Czy chcesz wysłać "
-"raport o błędzie? Może on pomóc rozwiązać problem "
+"Dogodila se greška prilikom dohvaćanja audio trake. Želiš li poslati raport "
+"o grešci? On može biti koristan pri rješavanju problema"
 
-#, fuzzy
 msgid "EAPI_External:alert_ytreport"
 msgstr ""
-"Nie można odtworzyć tego pliku. Czy chcesz wysłać raport o tym błędzie? Może "
-"to pomóc naprawić napotkany problem."
+"Nije moguće otvoriti ovu datoteku. Želiš li poslati raport o toj pogrešci? "
+"To može pomoći pri rješavanju otkrivenog problema."
 
-#, fuzzy
 msgid "EAPI_Common:alert_useragreement"
-msgstr "Czy akceptujesz umowę licencyjną oprogramowania Elten?"
+msgstr "Prihvaćaš li licenčni ugovor programa Elten?"
 
-#, fuzzy
 msgid "EAPI_UI:alert_agentreport"
 msgstr ""
-"Wystąpił nieoczekiwany błąd agenta programu Elten. Czy chcesz przesłać "
-"raport o tym zdarzeniu? Przesłanie raportu może zdecydowanie ułatwić "
-"rozwiązanie problemu."
+"Dogodila se neočekivana pogreška anketa eltena. Želiš li poslati raport o "
+"ovom događaju? Slanje raporta sigurno može olakšati rješavanje ovog problema."
 
-#, fuzzy
 msgid "*Main:alert_changepls"
-msgstr "Twoja playlista została zmieniona. Zapisać zmiany?"
+msgstr "Tvoj popis za reprodukciju je izmijenjen. Želite li spremiti promjene?"
 
-#, fuzzy
 msgid "*Main:alert_savepls"
-msgstr "Czy chcesz zapisać swoją playlistę?"
+msgstr "Želiš li spremiti popis za reprodukciju?"
 
-#, fuzzy
 msgid "*Main:alert_deletepls"
-msgstr "Czy chcesz usunąć zapisaną playlistę?"
+msgstr "Želiš li izbrisati premljeni popis za reprodukciju?"
 
-#, fuzzy
 msgid "Debug:read_report"
 msgstr "Raport"
 
-#, fuzzy
 msgid "Notes:type_sharenotewith"
-msgstr "Z kim chcesz współdzielić tą notatkę?"
+msgstr "S kim želiš podjeliti ovu bilješku?"
 
-#, fuzzy
 msgid "Notes:type_title"
-msgstr "Tytuł notatki"
+msgstr "Naslov bilješke"
 
-#, fuzzy
 msgid "Notes:type_content"
-msgstr "Treść notatki"
+msgstr "Sadržaj bilješke"
 
-#, fuzzy
 msgid "Honors:type_name"
-msgstr "Nazwa odznaczenia"
+msgstr "Naziv značke"
 
-#, fuzzy
 msgid "Honors:type_description"
-msgstr "Opis odznaczenia"
+msgstr "Opis značke"
 
-#, fuzzy
 msgid "Honors:type_enname"
-msgstr "Angielska nazwa odznaczenia"
+msgstr "Engleski naziv značke"
 
-#, fuzzy
 msgid "Honors:type_endescription"
-msgstr "Angielski opis odznaczenia"
+msgstr "Engleski opis značke"
 
-#, fuzzy
 msgid "Polls:read_poll"
-msgstr "Ankieta"
+msgstr "Anketa"
 
-#, fuzzy
 msgid "Ban:type_reason"
-msgstr "Przyczyna"
+msgstr "Razlog"
 
-#, fuzzy
 msgid "Ban:type_additionalmsg"
-msgstr "Dodatkowa wiadomość dla użytkownika"
+msgstr "Dodatna poruka za korisnika"
 
-#, fuzzy
 msgid "Ban:read_reason"
-msgstr "Przyczyna zbanowania"
+msgstr "Razlog bananja"
 
-#, fuzzy
 msgid "Ban:read_validuntil"
-msgstr "Ban ważny do"
+msgstr "Ban traje do"
 
-#, fuzzy
 msgid "Ban:type_cancelreason"
-msgstr "Przyczyna anulowania bana"
+msgstr "Razlog odbaniravanja"
 
-#, fuzzy
 msgid "Media:type_categorydescription"
-msgstr "Opis kategorii"
+msgstr "Opis kategorije"
 
 msgid "Account:type_birthdateyear"
 msgstr "datum rođenja: godina"
@@ -2390,9 +2348,8 @@ msgstr "odgovor"
 msgid "Blog:type_blogname"
 msgstr "Upiši naziv stvorenog bloga."
 
-#, fuzzy
 msgid "Blog:type_newcatname"
-msgstr "Podaj nową nazwę dla tej kategorii"
+msgstr "Upiši novi naziv ove kategorije"
 
 msgid "Files:type_newname"
 msgstr "Novi naziv"
@@ -2400,9 +2357,8 @@ msgstr "Novi naziv"
 msgid "Account:type_blacklistaddusername"
 msgstr "Upiši korisničko ime korisnika, kojeg želiš dodati na crnu listu"
 
-#, fuzzy
 msgid "Contacts:type_blacklistremoveusername"
-msgstr "Podaj nazwę użytkownika, którego chcesz usunąć ze swoich kontaktów."
+msgstr "Upiši korisničko ime, kojeg želiš ukloniti iz kontakata."
 
 msgid "Forum:type_thrnewname"
 msgstr "Upiši nuvi naziv teme"
@@ -2419,21 +2375,18 @@ msgstr "Upiši stazu"
 msgid "Debug:chk_srvconnectionsignal"
 msgstr "Signaliziraj svako povezivanje na server"
 
-#, fuzzy
 msgid "Portable:chk_sfx"
 msgstr ""
-"Utwórz jako jeden plik exe (Uwaga! Żadne ustawienia nie będą zapamiętywane.)"
+"Stvori kao jednu datoteku .exe (Pozor! nikakve postavke neće biti zapamćene.)"
 
-#, fuzzy
 msgid "Interface:chk_linewrapping"
-msgstr "Zawijaj długie wiersze w polach tekstowych"
+msgstr "Prelamaj retke u dugim tekstualnim poljima"
 
 msgid "Debug:btn_ok"
 msgstr "U redu"
 
-#, fuzzy
 msgid "Blog:btn_createtextpost"
-msgstr "Utwórz wpis tekstowy"
+msgstr "Stvori tekstualni zapis"
 
 msgid "Messages:btn_sendasadmin"
 msgstr "Pošalji kao administracija"
@@ -2456,65 +2409,53 @@ msgstr "Ne prihvaćam, Zatvori program"
 msgid "EAPI_Common:read_waitprocessingfiles"
 msgstr "Molim pričekati... traje procesiranje datoteka..."
 
-#, fuzzy
 msgid "Blog:alert_markblogasread"
 msgstr ""
-"Wszystkie wpisy na tym blogu zostaną oznaczone jako przeczytane. Czy jesteś "
-"pewien, że chcesz kontynuować?"
+"Svi će zapisi na ovom blogu biti označeni kao pročitani. Jesi li siguran da "
+"želiš nastaviti?"
 
-#, fuzzy
 msgid "Files:alert_eltenapi"
 msgstr ""
-"Czy chcesz uruchomić ten plik skryptu Elten API? Skrypty pochodzące z "
-"niezaufanych źródeł mogą być niebezpieczne i spowodować uszkodzenie "
-"komputera lub uzyskanie dostępu do konta przez osoby niepowołane. Kontynuuj "
-"tylko wtedy, gdy ufasz pochodzeniu tego pliku."
+"Želiš li pokrenuti ovu datoteku skripte Elten API? Skriptee koje potječu iz "
+"nepovjerljivih izvora mogu biti nesigurne i oštetiti računalo ili dati "
+"neželjenim osobama pristup do tvojeg naloga. Nastavljaj samo ako vjeruješ "
+"izdavaču ove datoteke."
 
 msgid "Forum:alert_Deletepost"
 msgstr "Želiš li doista izbrisati ovaj zapis?"
 
-#, fuzzy
 msgid "EAPI_Common:alert_mididownloadsf"
 msgstr ""
-"Próbujesz odtworzyć plik typu midi. Aby poprawnie odtwarzać pliki tego typu, "
-"program Elten wymaga zewnętrznej bazy brzmień instrumentów. Czy chcesz ją "
-"teraz pobrać z serwera? To może potrwać kilka minut."
+"Pokušavaš reproducirati datoteku tipa midi. Kako bi se takve datoteke mogle "
+"reproducirati, program elten treba vanjsku bazu instrumenata. Želiš li ju "
+"preuzeti sa servera? To može potrajati nekoliko minuta."
 
-#, fuzzy
 msgid "Uploads:head_filetosend"
-msgstr "Wybierz plik do wysłania na serwer"
+msgstr "Izaberi datoteku koju želiš poslati na poslužitelj"
 
-#, fuzzy
 msgid "Messages:head_savelocation"
-msgstr "Gdzie chcesz zapisać ten plik?"
+msgstr "Gdje želiš spremiti ovu datoteku?"
 
-#, fuzzy
 msgid "EAPI_Common:head_savelocation"
-msgstr "Gdzie chcesz zapisać ten plik?"
+msgstr "Gdje želiš spremiti ovu datoteku?"
 
-#, fuzzy
 msgid "Forum:head_movethrlocation"
-msgstr "Gdzie chcesz przenieść ten wątek"
+msgstr "Gdje želiš prenijeti tu temu"
 
-#, fuzzy
 msgid "EAPI_EltenSRV:head_seluser"
-msgstr "Wybierz użytkownika"
+msgstr "Izaberi korisnika"
 
-#, fuzzy
 msgid "Forum:head_selpost"
-msgstr "Wybierz wpis"
+msgstr "Izaberi zapis"
 
-#, fuzzy
 msgid "Forum:head_movepostlocation"
-msgstr "Gdzie chcesz przenieść ten wpis?"
+msgstr "Gdje želiš prenijeti ovaj zapis?"
 
-#, fuzzy
 msgid "Forum:head_postslidewith"
-msgstr "Wybierz, z którym innym wpisem zamienić ten wpis."
+msgstr "Izaberi zapis, sa kojim želiš zamijeniti postojeći zapis."
 
-#, fuzzy
 msgid "Files:head_convertto"
-msgstr "Do jakiego formatu chcesz przekonwertować ten plik?"
+msgstr "U koji format želiš konvertirati ovu datoteku?"
 
 msgid "Honors:head"
 msgstr "Značke"
