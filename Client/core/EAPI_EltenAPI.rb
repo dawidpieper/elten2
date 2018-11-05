@@ -14,6 +14,14 @@ Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str
 return buf    <<"\0"
 end
   
+  def deunicode(str)
+    buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)
+Win32API.new("kernel32","WideCharToMultiByte",'iipipi','i').call(65001,0,str,str.bytesize,buf,buf.bytesize/2)
+buf=buf<<0
+buf.delete!("\0")
+return buf
+end
+
   # Converts a text from UTF8 to CP852
   #
   # @param text [String] a text to convert
@@ -450,7 +458,7 @@ end
 end
 class Reset < Exception
 end
-class Clipboard
+class OClipboard
   def self.text
     futf8(Win32API.new($eltenlib,"PasteFromClipboard",'','p').call)
   end
