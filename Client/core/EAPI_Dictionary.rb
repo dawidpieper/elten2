@@ -7,7 +7,20 @@
 
 module EltenAPI
   module Dictionary
-def update_dicts
+def load_locale(file,lang='en_GB')
+      $locales=load_data(file)
+    set_locale(lang)
+  end
+    
+  def set_locale(lang)
+  if $locales!=nil
+    for locale in $locales.keys
+      $dict=$locales[locale] if locale[0..1].downcase==lang[0..1].downcase
+      end
+    end
+    end
+  
+    def update_dicts
   
   end
     
@@ -26,8 +39,8 @@ end
 end  
 
   def _(msg)
-  load_dict if $dict==nil
-return $dict[msg]||msg
+  $dict={} if $dict==nil
+    return $dict[msg]||msg
 end
 
 def s_(msg, params)
