@@ -1465,17 +1465,17 @@ end
 def ctrlupdate
 if $key[0x11]   and $key[0x12]==false
   if $key[67]
-    Clipboard.text=getcheck.gsub("\n","\r\n")
+    Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
     speech(_("EAPI_Form:info_copied"))
   end
   if $key[88] and (@flags&Flags::ReadOnly)==0
-    Clipboard.text=getcheck.gsub("\n","\r\n")
+    Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
     c=[@index,@check].sort
     edelete(c[0],c[1])
     speech(_("EAPI_Form:info_cut"))
   end
   if $key[86]
-    einsert(Clipboard.text.delete("\r"))
+    einsert(Clipboard.get_unic.delete("\r"))
     speech(_("EAPI_Form:info_pasted"))
   end
     if $key[90] and @undo.size>0
