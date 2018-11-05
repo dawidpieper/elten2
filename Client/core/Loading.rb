@@ -80,32 +80,6 @@ $extrasdata = $eltendata + "\\extras"
 $soundthemesdata = $eltendata + "\\soundthemes"
 $langdata = $eltendata + "\\lng"
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($eltendata),nil)
-if FileTest.exists?($langdata)==false
-    Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($langdata),nil)      
-  $l = false
-  langtemp = srvproc("languages","langtemp")
-    err = langtemp[0].to_i
-  case err
-  when 0
-    $l = true
-      end
-    if $l == true
-          langs = []
-for i in 1..langtemp.size - 1    
-  langtemp[i].delete!("\n")
-  langs.push(langtemp[i]) if langtemp[i].size > 0
-end
-for i in 0..langs.size - 1
-  download($url + "lng/" + langs[i].to_s + ".elg", "#{$langdata}/"+langs[i].to_s + ".elg")
-end
-end  
-if Win32API.new("kernel32","GetUserDefaultUILanguage",'','i').call != 1045
-  Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,url = $url + "lng/EN_US.elg",$langdata + "\\EN_US.elg",0,nil)
-Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(url)
-iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-iniw.call('Language','Language',"EN_US",utf8($configdata + "\\language.ini"))
-  end
-end
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($configdata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($bindata),nil)
 Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($appsdata),nil)
@@ -266,35 +240,10 @@ if enter
   else
     $soundthemepath = "Audio"
     end
-                    $language = readini($configdata + "\\language.ini","Language","Language","PL_PL")
-                  $lang_src = []
-      $lang_dst = []
-    if $language != "PL_PL"
-      $langwords = read($langdata + "\\" + $language + ".elg",false,true).split("\n")
-            $langwords.delete_at(0)
-      $langwords.delete_at(0)
-      $langwords.delete_at(0)
-                          for i in 0..$langwords.size - 1
-        $langwords[i].delete!("\n")
-        $langwords[i].gsub!('\r\n',"\r\n")
-        s = false
-        $lang_src[i] = ""
-        $lang_dst[i] = ""
-        for j in 0..$langwords[i].size - 1
-          if s == false
-            if $langwords[i][j..j] != "|" and $langwords[i][j..j] != "\\"
-            $lang_src[i] += $langwords[i][j..j]
-          else
-            s = true
-          end
-        else
-          if $langwords[i][j..j] != "|" and $langwords[i][j..j] != "\\"
-            $lang_dst[i] += $langwords[i][j..j]
-            end
-            end
-          end
-        end
-end
+                    $language = readini($configdata + "\\language.ini","Language","Language","en_GB")
+                  localefile="locale.dat"
+                  localefile=$langdata+"\\locale.dat" if FileTest.exists?($langdata+"\\locale.dat")
+                  load_locale(localefile,$language)
 if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end

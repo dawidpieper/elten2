@@ -593,7 +593,7 @@ rec=0
     data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{fl}\r\n--#{boundary}--"
     length=data.size    
     q = "POST /srv/attachments.php?add=1\&filename=#{File.basename(a).urlenc}\&name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-  a = connect(host,80,q,2048,S_("Messages:wait_sendingfile",{'file'=>File.basename(a)}))
+  a = connect(host,80,q,2048,s_("Messages:wait_sendingfile",{'file'=>File.basename(a)}))
 a.delete!("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
