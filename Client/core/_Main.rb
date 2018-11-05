@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
 #All rights reserved.
 
 
@@ -120,7 +120,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
     exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
     end
       exit
-            rescue Hangup
+      rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true
   retry
@@ -144,7 +144,7 @@ rescue RuntimeError
     Graphics.update
     retry
   else
-    speech(s_("_Main:error_critical",{'description'=>$1.message}))
+    speech(s_("_Main:error_critical",{'description'=>$!.message}))
     speech_wait
     sleep(0.5)
     speech(_("_Main:alert_errorreport"))
@@ -175,7 +175,7 @@ end
       if $ruby != true
     if $consoleused == true
     print $!.message.to_s + "   |   " + $@.to_s if $DEBUG
-    speech(_("General:error_console"))
+    speech(_("_Main:error_console"))
         speech_wait
     $console_used = false
     $tomain = true
@@ -259,4 +259,4 @@ else
   fail
   end
 end
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper

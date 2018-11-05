@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
 #All rights reserved.
 
 
@@ -141,12 +141,12 @@ text=($1+" "+text).gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/,"\004NEW\00
   polecenie = "sapiSayString"
 polecenie = "sayString" if $voice == -1
 text_d = text
-text_d = utf8(text) if $speech_to_utf == true
-$speech_lasttext = text_d
 text_d.gsub!("\r\n\r\n","\004SLINE\004")
 text_d.gsub!("\r\n"," ")
 text_d.gsub!("\004SLINE\004","\r\n\r\n")
-Win32API.new("screenreaderapi",polecenie,'pi','i').call(text_d,method) if $password != true
+buf=unicode(text_d)
+Win32API.new("screenreaderapi",polecenie+"W",'pi','i').call(buf,method) if $password != true
+$speech_lasttext = text_d
 if text.size>=5
   if Thread::current==$mainthread
 if $speechaudiothread!=nil
@@ -305,4 +305,4 @@ when "ß"
 
   end
 end
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
