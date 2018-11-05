@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
 #All rights reserved.
 
 
@@ -81,7 +81,7 @@ rescue Exception
   end
   lin=$@[0].split(":")[1].to_i
     plc+=kom.delete("\r").split("\n")[lin-1]
-  input_text(_("General:error_console"),"READONLY|MULTILINE",$!.to_s+"\r\n"+plc)
+  input_text(_("EAPI_Common:error_console"),"READONLY|MULTILINE",$!.to_s+"\r\n"+plc)
   r = true
   end
 $consoleused = false        
@@ -577,7 +577,7 @@ elsif Time.now.month == birthdatemonth.to_i
     end
   end
   age -= 2000 if age > 2000      
-  text += "#{_(EAPI_Common:txt_phr_age)}: #{age.to_s}\r\n"
+  text += "#{_("EAPI_Common:txt_phr_age")}: #{age.to_s}\r\n"
   end
   end
   ui = userinfo(user)
@@ -939,7 +939,7 @@ else
 end
 sound.play
 rescue Exception
-  speech(_("General:error_playing"))
+  speech(_("EAPI_Common:error_playing"))
   speech_wait
   return
 end   
@@ -1101,12 +1101,14 @@ def getkeychar(keys=[],multi=false)
   lng=Win32API.new("user32","GetKeyboardLayout",'i','l').call(0).to_s(2)[16..31].to_i(2)
   for i in 32..255
   if $key[i]
-    c="\0"*4
-  Win32API.new("user32","ToAscii",'iippi','i').call(i,0,$keys.pack("c"*256),c,0)
+    c="\0"*8
+  Win32API.new("user32","ToUnicode",'iippii','i').call(i,0,$keys.pack("c"*256),c,c.bytesize,0)
                           re=c.delete("\0")
 re.delete!(" ") if i!=32
-re=futf8(re)# if re!="" and lng==1045
-#p re if re!="" and $key[i]
+buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,nil,0,nil,nil)
+useddef="\0"
+Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,buf,buf.size,nil,useddef)
+re=buf.delete("\0")
 ret=re.split("").last if re!="" and $key[i] and re[0]>=32
 end
 end
@@ -2090,4 +2092,4 @@ executeprocess(cmd,true)
        end
       end
     end
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper

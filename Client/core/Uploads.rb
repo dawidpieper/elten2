@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
 #All rights reserved.
 
 
@@ -167,4 +167,4 @@ dir = getfile(_("Uploads:head_dest"),getdirectory(40)+"\\",true,"Documents")
        end
      end
   
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper

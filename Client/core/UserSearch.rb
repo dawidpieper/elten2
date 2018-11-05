@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
 #All rights reserved.
 
 
@@ -91,4 +91,4 @@ if @main == true
 return
 end
 end
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper

@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
 #All rights reserved.
 
 
@@ -7,6 +7,13 @@
 
 # EltenAPI functions
 module EltenAPI
+
+  def unicode(str)
+    buf="\0"*Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)*2
+Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.size,buf,buf.bytesize/2)
+return buf    <<"\0"
+end
+  
   # Converts a text from UTF8 to CP852
   #
   # @param text [String] a text to convert
@@ -17,7 +24,7 @@ module EltenAPI
     len = mw.call(0, 0, text, -1, nil, 0)
     buf = "\0" * (len*2)
     mw.call(0, 0, text, -1, buf, buf.size/2)
-    len = wm.call(65001, 0, buf, -1, nil, 0, nil, nil)
+        len = wm.call(65001, 0, buf, -1, nil, 0, nil, nil)
     ret = "\0" * len
     wm.call(65001, 0, buf, -1, ret, ret.size, nil, nil)
     for i in 0..ret.size - 1
@@ -31,20 +38,18 @@ module EltenAPI
   #
   # @param text [String] a text to convert
   # @return [String] a converted text
-def utf8(text,cp=65001)
-      text = "" if text == nil or text == false
+def utf8(text)
+    text = "" if text == nil or text == false
 ext = "\0" if text == nil
 to_char = Win32API.new("kernel32", "MultiByteToWideChar", 'ilpipi', 'i') 
 to_byte = Win32API.new("kernel32", "WideCharToMultiByte", 'ilpipipp', 'i')
-utf8 = cp
-w = to_char.call(utf8, 0, text.to_s, text.bytesize, nil, 0)
-b = "\0" * (w*2)
-w = to_char.call(utf8, 0, text.to_s, text.bytesize, b, b.bytesize/2)
-w = to_byte.call(0, 0, b, b.bytesize/2, nil, 0, nil, nil)
+w = to_char.call(65001, 0, text.to_s, text.bytesize, nil, 0)
+b = "\0" * w*2
+w = to_char.call(65001, 0, text.to_s, text.bytesize, b, b.bytesize/2)
+w = to_byte.call(0, 0, b, b.bytesize, nil, 0, nil, nil)
 b2 = "\0" * w
 w = to_byte.call(0, 0, b, b.bytesize/2, b2, b2.bytesize, nil, nil)
-b2.delete!("\0") if $ruby != true
-  return(b2)
+  return(b2).delete("\0")
 end
 
 # Returns an ASCII character of a specified code
@@ -488,4 +493,4 @@ if $ruby == true
 
     end
   end
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper

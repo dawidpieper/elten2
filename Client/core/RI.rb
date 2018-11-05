@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
 #All rights reserved.
 
 
@@ -390,4 +390,4 @@ Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
 return size = sz.unpack("L")[0]
   end
 end
-#Copyright (C) 2014-2016 Dawid Pieper
+#Copyright (C) 2014-2018 Dawid Pieper
