@@ -667,7 +667,7 @@ return(b2)
   end
 def unicode(str)
     buf="\0"*Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)*2
-Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.size,buf,buf.bytesize/2)
+Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.bytesize,buf,buf.bytesize/2)
 return buf    <<"\0"
 end
   def deunicode(str)
