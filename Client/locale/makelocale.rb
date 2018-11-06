@@ -12,7 +12,10 @@ locale=locales[dir]
 if File.directory?(dir) and FileTest.exists?(dir+"/LC_MESSAGES/elten.po")
 puts("Exporting: #{dir}")
 file=dir+"/LC_MESSAGES/elten.po"
-    li=IO.readlines(file)
+    r=IO.read(file)
+    r.gsub!("\"\r\n\"","\r\n")
+    r.gsub!("\"\n\"","\n")
+    li = r.split("\n")
 dict={}
 dict['_name']=locale['name']
 dict['_authors']=locale['authors']
@@ -20,6 +23,7 @@ dict['_enname']=locale['enname']
 dict['_lcid']=locale['lcid']
 last=''
 for l in li
+l.chop! if l[-1..-1]=="\r"
 if (/msgid "([^"]+)"/=~l)!=nil
   last=$1.delete("\r\n")
 end
