@@ -241,9 +241,7 @@ if enter
     $soundthemepath = "Audio"
     end
                     $language = readini($configdata + "\\language.ini","Language","Language","en_GB")
-                  localefile="locale.dat"
-                  localefile=$langdata+"\\locale.dat" if FileTest.exists?($langdata+"\\locale.dat")
-                  load_locale(localefile,$language)
+                  load_locale("Data/locale.dat",$language)
 if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
