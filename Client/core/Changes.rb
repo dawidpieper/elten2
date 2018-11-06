@@ -738,6 +738,9 @@ Wersja 2.283:
 - ZMieniono: drobne zmiany w domyślnym temacie dźwiękowym
 
 2018-10-21
+","
+Wersja 2.3:
+Praca w toku
 "]
 @changes.reverse!
 @selt = []

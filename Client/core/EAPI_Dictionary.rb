@@ -8,14 +8,16 @@
 module EltenAPI
   module Dictionary
 def load_locale(file,lang='en_GB')
-      $locales=load_data(file)
-    set_locale(lang)
+  fp=File.open(file,"rb")
+  $locales=Marshal.load(Zlib::Inflate.inflate(fp.read))
+  fp.close
+            set_locale(lang)
   end
     
   def set_locale(lang)
   if $locales!=nil
-    for locale in $locales.keys
-      $dict=$locales[locale] if locale[0..1].downcase==lang[0..1].downcase
+    for locale in $locales
+      $dict=locale if locale['_code'][0..1].downcase==lang[0..1].downcase
       end
     end
     end
@@ -40,7 +42,7 @@ end
 
   def _(msg)
   $dict={} if $dict==nil
-    return $dict[msg]||msg
+    return (($dict!=nil)?$dict[msg]:nil)||(($locales.is_a?(Array) and $locales.size>0)?$locales[0][msg]:nil)||msg
 end
 
 def s_(msg, params)

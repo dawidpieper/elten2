@@ -590,9 +590,7 @@ elsif gender == 1
   text += "Widziany: "
   end
 text+= ui[0] + "\r\n"
-text += "Użytkownik "
-text += "nie " if ui[1] == false
-text += "posiada bloga.\r\n"
+ text += _("EAPI_Common:txt_phr_userhasblog") if ui[1] == true
 text += "#{_("EAPI_Common:txt_phr_knows")}: " + ui[2].to_s + "\r\n"
 if gender == -1 or $language!="PL_PL"
 text += "Znan(y/a)"
