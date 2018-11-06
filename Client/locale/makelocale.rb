@@ -4,8 +4,9 @@
 # This simple script is used in order to create Elten 2.3X translation files using PO GetText sources
 
 require 'json'
+require 'zlib'
 begin
-$dicts={}
+$dicts=[]
 locales=JSON.parse(IO.read("locale.list"))
 for dir in locales.keys
 locale=locales[dir]
@@ -17,6 +18,7 @@ file=dir+"/LC_MESSAGES/elten.po"
     r.gsub!("\"\n\"","\n")
     li = r.split("\n")
 dict={}
+dict['_code']=dir
 dict['_name']=locale['name']
 dict['_authors']=locale['authors']
 dict['_enname']=locale['enname']
@@ -34,11 +36,11 @@ end
 dict['_doc_readme']=IO.read(FileTest.exists?(dir+"/readme.txt")?(dir+"/readme.txt"):(locales.keys[0]+"/readme.txt"))
 dict['_doc_license']=IO.read(FileTest.exists?(dir+"/license.txt")?(dir+"/license.txt"):(locales.keys[0]+"/license.txt"))
 dict['_doc_shortkeys']=IO.read(FileTest.exists?(dir+"/shortkeys.txt")?(dir+"/shortkeys.txt"):(locales.keys[0]+"/shortkeys.txt"))
-$dicts.store(dir,dict)
+$dicts.push(dict)
 end
 end
-fp=File.open("locale.dat","w")
-Marshal.dump($dicts,fp)
+fp=File.open("locale.dat","wb")
+fp.write(Zlib::deflate(Marshal.dump($dicts)))
 fp.close
 puts("Dictionaries exported")
 end

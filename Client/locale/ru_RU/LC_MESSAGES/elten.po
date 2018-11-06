@@ -8,37 +8,52 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-10-28 15:45+0300\n"
+"PO-Revision-Date: 2018-11-06 17:24+0300\n"
 "Last-Translator: Dawid Pieper <dawidpieper@o2.pl>\n"
 "Language: ru_RU\n"
 "Language-Team: Ru <A.jaszyn@ya.ru>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Elten 2.3B1\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 1.6.10\n"
 
 msgid "Authentication:type_pass"
 msgstr "Введите ваш пароль"
 
 msgid "Authentication:head_enabled"
-msgstr "Двухфакторная аутентификация  необходима для лучшей защиты вашей учётной записи. Когда вы включите эту опцию, ваш аккаунт будет защищён, а при входе с любого нового устройства, на указанный вами телефон придёт смс с кодом. Этот код будет нужно ввести в момент входа. Если код будет введён верно, вы получите доступ к своей учётной записи. "
+msgstr ""
+"Двухфакторная аутентификация  необходима для лучшей защиты вашей учётной "
+"записи. Когда вы включите эту опцию, ваш аккаунт будет защищён, а при входе "
+"с любого нового устройства, на указанный вами телефон придёт смс с кодом. "
+"Этот код будет нужно ввести в момент входа. Если код будет введён верно, вы "
+"получите доступ к своей учётной записи. "
 
 msgid "Authentication:head_disabled"
 msgstr "Двухфакторная аутентификация включена"
 
 msgid "Authentication:type_phone"
-msgstr "Введите номер телефона в формате плюс, код страны, код города или мобильного оператора, номер абонента.   Важно вводить существующий номер, который доступен только вам, поскольку он  будет использован для входа в систему. "
+msgstr ""
+"Введите номер телефона в формате плюс, код страны, код города или мобильного "
+"оператора, номер абонента.   Важно вводить существующий номер, который "
+"доступен только вам, поскольку он  будет использован для входа в систему. "
 
 msgid "Authentication:alert_support"
-msgstr "Двухфакторная аутентификация доступна в элтене начиная с версии   2.28. Если включить её, доступ к учётной записи с использованием старых версий программы будет невозможен. Вы хотите продолжить?"
+msgstr ""
+"Двухфакторная аутентификация доступна в элтене начиная с версии   2.28. Если "
+"включить её, доступ к учётной записи с использованием старых версий "
+"программы будет невозможен. Вы хотите продолжить?"
 
 msgid "Authentication:alert_checkphone"
-msgstr "Проверьте введённый номер телефона. Если всё  верно, нажмите enter для продолжения. Если вы ошиблись, нажмите escape и отредактируйте введённую информацию."
+msgstr ""
+"Проверьте введённый номер телефона. Если всё  верно, нажмите enter для "
+"продолжения. Если вы ошиблись, нажмите escape и отредактируйте введённую "
+"информацию."
 
 msgid "Authentication:wait"
-msgstr "Пожалуйста подождите, идёт соединение с сервером."
+msgstr "Пожалуйста, подождите, идёт соединение с сервером."
 
 msgid "Authentication:type_code"
 msgstr "Сейчас вы получите смс с кодом активации. Введите его здесь."
@@ -56,7 +71,7 @@ msgid "Authentication:alert_disable"
 msgstr "Вы действительно хотите отключить двухфакторную аутентификацию? "
 
 msgid "Authentication:info_disabled"
-msgstr "Uwierzytelnianie dwuetapowe zostało wyłączone."
+msgstr "Двухфакторная аутентификация выключена"
 
 msgid "Users_LastAvatars:head"
 msgstr "Новые звуковые аватары"
@@ -95,7 +110,7 @@ msgid "Clock:opt_voice"
 msgstr "только голос"
 
 msgid "Clock:opt_sound"
-msgstr "Tylko dźwięk"
+msgstr "Только звук"
 
 msgid "Clock:head_readevery"
 msgstr "Сообщать о времени"
@@ -125,13 +140,17 @@ msgid "Clock:opt_multiple"
 msgstr "Циклический"
 
 msgid "Advanced:head_keyreftime"
-msgstr "Время обновления клавиш в милисекундах. Внимание! Изменение этого параметра является нежелательным."
+msgstr ""
+"Время обновления клавиш в милисекундах. Внимание! Изменение этого параметра "
+"является нежелательным."
 
 msgid "Advanced:chk_hexparsing"
 msgstr "Гексагональное  отображение диакритики (продвинутая настройка)"
 
 msgid "Advanced:head_sesreftime"
-msgstr "Время обновления сессии. Внимание. Изменение параметра является нежелательным."
+msgstr ""
+"Время обновления сессии. Внимание. Изменение параметра является "
+"нежелательным."
 
 msgid "Advanced:chk_audiostreaming"
 msgstr "Использовать аудиостриминг, если он поддерживается"
@@ -182,7 +201,9 @@ msgid "ForgotPassword:type_mail"
 msgstr "Введите адрес электронной почты, который использовался при регистрации"
 
 msgid "ForgotPassword:error_match"
-msgstr "Введённый адрес электронной почты не совпадает с введённым именем  пользователя"
+msgstr ""
+"Введённый адрес электронной почты не совпадает с введённым именем  "
+"пользователя"
 
 msgid "ForgotPassword:opt_genkey"
 msgstr "Создать ключ восстановления пароля"
@@ -191,10 +212,10 @@ msgid "ForgotPassword:opt_typekey"
 msgstr "Введите ключ восстановления пароля"
 
 msgid "ForgotPassword:wait"
-msgstr "Подождите, идёт создание ключа для  сброса пароля."
+msgstr "Подождите, идёт создание ключа для  восстановления пароля."
 
 msgid "ForgotPassword:type_key"
-msgstr "Введите ключ восстановленияпароля"
+msgstr "Введите ключ восстановления пароля"
 
 msgid "ForgotPassword:error_wrongkey"
 msgstr "Введённый ключ неверен."
@@ -218,7 +239,12 @@ msgid "ForgotPassword:info_changed"
 msgstr "Пароль изменён. Войдите, используя новые данные."
 
 msgid "ForgotPassword:head_reset"
-msgstr "Сбросить пароль очень просто.  Сейчас мы создадим ключ сброса пароля и отправим его на адрес электронной почты, к которому привязана ваша учётная запись.  Получив ключ, вы введёте его в поле, после чего сможете придумать новый пароль.  Внимание! Если используется двухэтапная аутентификация, она  будет отключена. Чтобы продолжить, введите свой логин:"
+msgstr ""
+"Сбросить пароль очень просто.  Сейчас мы создадим ключ сброса пароля и "
+"отправим его на адрес электронной почты, к которому привязана ваша учётная "
+"запись.  Получив ключ, вы введёте его в поле, после чего сможете придумать "
+"новый пароль.  Внимание! Если используется двухэтапная аутентификация, она  "
+"будет отключена. Чтобы продолжить, введите свой логин:"
 
 msgid "Honors:opt_add"
 msgstr "Добавить"
@@ -257,7 +283,10 @@ msgid "Portable:opt_usecurrent"
 msgstr "Сохранить текущие настройки"
 
 msgid "Portable:head_synth"
-msgstr "При использовании элтена на другом компьютере,  могут возникнуть проблемы с синтезатором речи, особенно в случае, если на нём установлены иные синтезаторы. Помните об этом. Выберите способ речевого вывода"
+msgstr ""
+"При использовании элтена на другом компьютере,  могут возникнуть проблемы с "
+"синтезатором речи, особенно в случае, если на нём установлены иные "
+"синтезаторы. Помните об этом. Выберите способ речевого вывода"
 
 msgid "Portable:info_created"
 msgstr "Портабельная версия программы создана."
@@ -341,7 +370,7 @@ msgid "Compiler:head_dest"
 msgstr "Путь размещения"
 
 msgid "Admins:head"
-msgstr "Совет Элтена"
+msgstr "Совет старейшин"
 
 msgid "WhatsNew:info_nonew"
 msgstr "Новых событий нет."
@@ -374,7 +403,7 @@ msgid "Interface:opt_circular"
 msgstr "Кольцевой"
 
 msgid "Interface:head_listspresentation"
-msgstr "Способ отображения комбинированных списков"
+msgstr "Способ отображения списков"
 
 msgid "Interface:chk_soundtheme"
 msgstr "Использовать звуковую схему"
@@ -407,10 +436,14 @@ msgid "Interface:chk_autostart"
 msgstr "Автозагрузка программы при входе в систему"
 
 msgid "Interface:error_autologinrequired"
-msgstr "Для автозагрузки элтена, необходимо включить функцию  автоматического входа."
+msgstr ""
+"Для автозагрузки элтена, необходимо включить функцию  автоматического входа."
 
 msgid "Interface:alert_portableautostart"
-msgstr "Внимание! Вы хотите включить автозагрузку элтена, но используете его портабельную версию. Помните, что программа должна находиться на жёстком диске компьютера и её нельзя перемещать в другое место. Хотите продолжить?"
+msgstr ""
+"Внимание! Вы хотите включить автозагрузку элтена, но используете его "
+"портабельную версию. Помните, что программа должна находиться на жёстком "
+"диске компьютера и её нельзя перемещать в другое место. Хотите продолжить?"
 
 msgid "UsersAddedMeToContacts:head"
 msgstr "Пользователи, добавившие меня в контакты"
@@ -629,7 +662,7 @@ msgid "Files:opt_text"
 msgstr "Текст"
 
 msgid "Files:opt_erasepls"
-msgstr "Очистить плей-лист"
+msgstr "Очистить плейлист"
 
 msgid "Files:opt_adddirtopls"
 msgstr "Добавить все аудиозаписи из этой папки в плейлист"
@@ -641,7 +674,7 @@ msgid "Files:opt_addtopls"
 msgstr "Добавить в плейлист"
 
 msgid "Files:opt_send"
-msgstr "Отправить на сервер"
+msgstr "Отправить в облако"
 
 msgid "Files:opt_opendir"
 msgstr "Открыть папку"
@@ -737,13 +770,13 @@ msgid "Media:opt_url"
 msgstr "Ввести адрес вручную"
 
 msgid "Media:type_url"
-msgstr "Url"
+msgstr "Введите адрес потока"
 
 msgid "Media:opt_newcat"
 msgstr "Новая категория"
 
 msgid "Media:opt_newfile"
-msgstr "Новый файл"
+msgstr "Новый элемент"
 
 msgid "Media:btn_add"
 msgstr "Добавить"
@@ -791,7 +824,7 @@ msgid "Account:info_mailchanged"
 msgstr "Адрес электронной почты изменён."
 
 msgid "Account:type_visitingcard"
-msgstr "Расскажите о себе"
+msgstr "Напишите всё, что хотите рассказать о себе"
 
 msgid "Account:head_status"
 msgstr "Изменить статус"
@@ -827,25 +860,25 @@ msgid "Account:opt_logoutallsessions"
 msgstr "Выйти со всех устройств"
 
 msgid "Account:head_messages"
-msgstr "Новых сообщений"
+msgstr "Новые сообщения"
 
 msgid "Account:head_followedthreads"
-msgstr "Новых постов в избранных темах"
+msgstr "Новые посты в избранных темах"
 
 msgid "Account:head_followedblogs"
-msgstr "Новых постов в избранных блогах"
+msgstr "Новые посты в избранных блогах"
 
 msgid "Account:head_blogcomments"
-msgstr "Новых комментариев на вашем блоге"
+msgstr "Новые комментарии на вашем блоге"
 
 msgid "Account:head_followedforums"
-msgstr "Новых тем на избранных форумах"
+msgstr "Новые темы на избранных форумах"
 
 msgid "Account:head_followedforumsposts"
-msgstr "Новых постов на избранных форумах"
+msgstr "Новые посты на избранных форумах"
 
 msgid "Account:head_contacts"
-msgstr "Новых знакомых"
+msgstr "Новые знакомые"
 
 msgid "Account:head_birthday"
 msgstr "Дни рождения"
@@ -872,7 +905,9 @@ msgid "Account:info_deletedfromblacklist"
 msgstr "Пользователь удалён из чёрного списка."
 
 msgid "Account:alert_addtoblacklist"
-msgstr "Если вы добавите пользователя в чёрный список, то он не сможет отправлять вам приватные сообщения. Продолжить?"
+msgstr ""
+"Если вы добавите пользователя в чёрный список, то он не сможет отправлять "
+"вам приватные сообщения. Продолжить?"
 
 msgid "Account:error_blacklistadmin"
 msgstr "Администратора невозможно добавить в чёрный список."
@@ -881,7 +916,10 @@ msgid "Account:error_blacklistalreadyadded"
 msgstr "Пользователь уже добавлен в чёрный список."
 
 msgid "Account:alert_logoutall"
-msgstr "Вы действительно хотите удалить все ключи автоматического входа? Помните, что  в этом случае  будет необходимо снова войти в программу на всех ваших устройствах."
+msgstr ""
+"Вы действительно хотите удалить все ключи автоматического входа? Помните, "
+"что  в этом случае  будет необходимо снова войти в программу на всех ваших "
+"устройствах."
 
 msgid "Contacts:head"
 msgstr "Список контактов"
@@ -893,7 +931,8 @@ msgid "Contacts:opt_newcontact"
 msgstr "Добавить контакт"
 
 msgid "Contacts:type_username"
-msgstr "Введите логин пользователя, которого хотите добавить в список контактов"
+msgstr ""
+"Введите логин пользователя, которого хотите добавить в список контактов"
 
 msgid "Contacts:info_contactadded"
 msgstr "Контакт добавлен"
@@ -914,7 +953,8 @@ msgid "Update:alert_newversion"
 msgstr "Доступна новая версия программы. Хотите загрузить и установить её?"
 
 msgid "Update:alert_newbeta"
-msgstr "Доступна новая бета-версия программы. Хотите загрузить и установить её?"
+msgstr ""
+"Доступна новая бета-версия программы. Хотите загрузить и установить её?"
 
 msgid "Update:wait"
 msgstr "Пожалуйста, подождите, обновления загружаются."
@@ -923,10 +963,14 @@ msgid "Update:wait_languages"
 msgstr "Идёт обновление переводов. Ожидайте."
 
 msgid "Update:alert_betawarning"
-msgstr "Внимание! Вы пробуете установить бета-версию. Такие версии являются тестовыми, поэтому могут содержать ошибки и недоработки. Хотите продолжить?"
+msgstr ""
+"Внимание! Вы пробуете установить бета-версию. Такие версии являются "
+"тестовыми, поэтому могут содержать ошибки и недоработки. Хотите продолжить?"
 
 msgid "Update:info_downloaded"
-msgstr "Обновление успешно загружено. Для установки нажмите Enter. Для отмены escape."
+msgstr ""
+"Обновление успешно загружено. Для установки нажмите Enter. Для отмены - "
+"escape."
 
 msgid "Update:wait_downloading"
 msgstr "Загрузка обновления"
@@ -1091,7 +1135,9 @@ msgid "MainMenu:opt_installnewprograms"
 msgstr "Установить программы"
 
 msgid "MainMenu:alert_reinstall"
-msgstr "Хотите вернуться к стобильной версии программы? Все ваши настройки будут сохранены."
+msgstr ""
+"Хотите вернуться к стобильной версии программы? Все ваши настройки будут "
+"сохранены."
 
 msgid "Forum:opt_newthr"
 msgstr "Новая тема"
@@ -1259,7 +1305,8 @@ msgid "Forum:opt_markforumasread"
 msgstr "Отметить форум как прочитанный"
 
 msgid "Forum:alert_markforumasread"
-msgstr "Все посты на этом форуме будут отмечены как прочитанные. Хотите продолжить?"
+msgstr ""
+"Все посты на этом форуме будут отмечены как прочитанные. Хотите продолжить?"
 
 msgid "Main:info_pressalt"
 msgstr "Нажмите клавишу альт, чтобы войти в меню."
@@ -1295,19 +1342,39 @@ msgid "Login:opt_asknomore"
 msgstr "Больше не спрашивать"
 
 msgid "Login:info_asknomore"
-msgstr "Если вы в будущем  захотите изменить настройку автоматического входа, откройте настройки и найдите там соответствующую опцию."
+msgstr ""
+"Если вы в будущем  захотите изменить настройку автоматического входа, "
+"откройте настройки и найдите там соответствующую опцию."
 
 msgid "Login:alert_crpdeprecated"
-msgstr "Текущие параметры входа устарели.  Старый метод аутентификации учетной записи содержит уязвимость для хакерских атак. Новые, более безопасные алгоритмы автоматического входа в систему были введены в Элтене  2.2. Рекомендуется конвертировать сохраненную информацию в новый формат, чтобы повысить безопасность вашей учетной записи. Вы хотите обновить сохраненную информацию?"
+msgstr ""
+"Текущие параметры входа устарели.  Старый метод аутентификации учетной "
+"записи содержит уязвимость для хакерских атак. Новые, более безопасные "
+"алгоритмы автоматического входа в систему были введены в Элтене  2.2. "
+"Рекомендуется конвертировать сохраненную информацию в новый формат, чтобы "
+"повысить безопасность вашей учетной записи. Вы хотите обновить сохраненную "
+"информацию?"
 
 msgid "Login:info_autologin"
-msgstr "Автоматический вход будет доступен до ручного  выхода из системы. Параметры ключей входа можно найти в разделе «Моя учетная запись» в меню «Сообщество»."
+msgstr ""
+"Автоматический вход будет доступен до ручного  выхода из системы. Параметры "
+"ключей входа можно найти в разделе «Моя учетная запись» в меню «Сообщество»."
 
 msgid "Login:info_crpupdated"
-msgstr "Данные изменены. Автоматический вход будет доступен до ручного  выхода из системы. Параметры ключей входа можно найти в разделе «Моя учетная запись» в меню «Сообщество». Настройки автоматического входа расположены в настройках программы."
+msgstr ""
+"Данные изменены. Автоматический вход будет доступен до ручного  выхода из "
+"системы. Параметры ключей входа можно найти в разделе «Моя учетная запись» в "
+"меню «Сообщество». Настройки автоматического входа расположены в настройках "
+"программы."
 
 msgid "Login:type_authcode"
-msgstr "В параметрах этой учётной записи включена двухфакторная аутентификация. Введите, пожалуйста, код, который вы получите по смс на указанный номер телефона. Если код не пришёл или у вас нет доступа к телефону, вы можете сбросить пароль средствами программы. Помните, что для сброса пароля вам необходим адрес электронной почты, на который вы регистрировали свою учётную запись. "
+msgstr ""
+"В параметрах этой учётной записи включена двухфакторная аутентификация. "
+"Введите, пожалуйста, код, который вы получите по смс на указанный номер "
+"телефона. Если код не пришёл или у вас нет доступа к телефону, вы можете "
+"сбросить пароль средствами программы. Помните, что для сброса пароля вам "
+"необходим адрес электронной почты, на который вы регистрировали свою учётную "
+"запись. "
 
 msgid "Login:error_verification"
 msgstr "Ошибка аутентификации."
@@ -1316,22 +1383,35 @@ msgid "Login:type_authcodeagain"
 msgstr "Код неверен, Попробуйте ещё раз."
 
 msgid "Registration:info_slashes"
-msgstr "Имя пользователя не может содержать символ  косой черты. Он будет пропущен."
+msgstr ""
+"Имя пользователя не может содержать символ  косой черты. Он будет пропущен."
 
 msgid "Registration:info_spaces"
 msgstr "Имя пользователя не может содержать пробел. Знак будет пропущен."
 
 msgid "Registration:type_login"
-msgstr "Придумайте и введите ваше имя пользователя. Вы будете использовать его для входа в систему, а другие пользователи смогут находить вас, введя его в поиске. Имя пользователя должно быть написано латиницей и содержать от одного  до шестидесяти четырёх символов."
+msgstr ""
+"Придумайте и введите ваше имя пользователя. Вы будете использовать его для "
+"входа в систему, а другие пользователи смогут находить вас, введя его в "
+"поиске. Имя пользователя должно быть написано латиницей и содержать от "
+"одного  до шестидесяти четырёх символов."
 
 msgid "Registration:type_pass"
-msgstr "Придумайте и введите пароль. Помните, что лучше использовать сложные пароли, в которых есть буквы и цифры.  Максимальная длина  пароля - 256 символов."
+msgstr ""
+"Придумайте и введите пароль. Помните, что лучше использовать сложные пароли, "
+"в которых есть буквы и цифры.  Максимальная длина  пароля - 256 символов."
 
 msgid "Registration:type_mail"
-msgstr "Введите ваш актуальный адрес электронной почты. Его можно будет использовать, если вы забудите пароль, а также для активации сервиса и получения полезной информации. "
+msgstr ""
+"Введите ваш актуальный адрес электронной почты. Его можно будет "
+"использовать, если вы забудите пароль, а также для активации сервиса и "
+"получения полезной информации. "
 
 msgid "Registration:info_registered"
-msgstr "Поздравляем! Регистрация завершена. Добро пожаловать в наше сообщество! Теперь, пожалуйста, войдите в систему, используя ваши имя пользователя и пароль."
+msgstr ""
+"Поздравляем! Регистрация завершена. Добро пожаловать в наше сообщество! "
+"Теперь, пожалуйста, войдите в систему, используя ваши имя пользователя и "
+"пароль."
 
 msgid "Registration:error_unknown"
 msgstr "Ошибка в базе данных.."
@@ -1370,7 +1450,10 @@ msgid "Loading:opt_reinstall"
 msgstr "Переустановить или обновить программу"
 
 msgid "Loading:info_novoice"
-msgstr "Голос программы ещё не выбран. Нажмите enter, чтобы выбрать голос sapi-5, либо escape, если хотите использовать голос вашей текущей программы экранного доступа."
+msgstr ""
+"Голос программы ещё не выбран. Нажмите enter, чтобы выбрать голос sapi-5, "
+"либо escape, если хотите использовать голос вашей текущей программы "
+"экранного доступа."
 
 msgid "EAPI_External:btn_play"
 msgstr "Воспроизвести"
@@ -1466,7 +1549,9 @@ msgid "EAPI_Common:type_soundthemename"
 msgstr "Введите название звуковой схемы."
 
 msgid "EAPI_Common:info_soundthemecreation"
-msgstr "Файлы звуковой схемы размещены в папке  %{dir}.  Замените файлы на те, которые вам необходимы."
+msgstr ""
+"Файлы звуковой схемы размещены в папке  %{dir}.  Замените файлы на те, "
+"которые вам необходимы."
 
 msgid "EAPI_Common:head_whattodo"
 msgstr "Что необходимо сделать?"
@@ -1718,7 +1803,8 @@ msgid "_Main:head_whattodo"
 msgstr "Что необходимо сделать?"
 
 msgid "_Main:alert_errorreport"
-msgstr "Программа будет закрыта. Хотите отправить сообщение об ошибке разработчикам?"
+msgstr ""
+"Программа будет закрыта. Хотите отправить сообщение об ошибке разработчикам?"
 
 msgid "_Main:opt_tryagain"
 msgstr "Попробуйте ещё раз."
@@ -1814,7 +1900,9 @@ msgid "Notes:info_notemodified"
 msgstr "Заметка отредактирована"
 
 msgid "ForgotPassword:info_keysent"
-msgstr "Ключ для восстановления пароля отправлен на электронный адрес, который вы указали при регистрации. "
+msgstr ""
+"Ключ для восстановления пароля отправлен на электронный адрес, который вы "
+"указали при регистрации. "
 
 msgid "Honors:info_nobadges"
 msgstr "У пользователя нет значков"
@@ -1847,7 +1935,8 @@ msgid "Program:info_exited"
 msgstr "Программа закрыта"
 
 msgid "Update:info_updatewillinstall"
-msgstr "Сейчас будет установлено обновление. Программа запустится автоматически."
+msgstr ""
+"Сейчас будет установлено обновление. Программа запустится автоматически."
 
 msgid "MyPermissions:info_nopermissions"
 msgstr "У вас нет дополнительных возможностей."
@@ -1862,7 +1951,8 @@ msgid "Login:error_identity"
 msgstr "Ошибка во время входа. Возможно, введён неверный пароль."
 
 msgid "Registration:info_namenoats"
-msgstr "В имени пользователя не может быть использована собачка. Знак будет пропущен."
+msgstr ""
+"В имени пользователя не может быть использована собачка. Знак будет пропущен."
 
 msgid "Loading:alert_newversion"
 msgstr "Доступно обновление"
@@ -1958,7 +2048,10 @@ msgid "Blog:info_blogrenamed"
 msgstr "Блог переименован."
 
 msgid "Blog:alert_noblog"
-msgstr "У вас ещё нет блога. С его помощью вы сможете размещать своё творчество, делиться с участниками мыслями и идеями, рассказывать о себе и многое другое. Хотите создать блог?"
+msgstr ""
+"У вас ещё нет блога. С его помощью вы сможете размещать своё творчество, "
+"делиться с участниками мыслями и идеями, рассказывать о себе и многое "
+"другое. Хотите создать блог?"
 
 msgid "Blog:wait"
 msgstr "Пожалуйста, подождите."
@@ -2024,7 +2117,9 @@ msgid "Account:error_usernotfound"
 msgstr "Пользователь не существует."
 
 msgid "Update:info_reinstall"
-msgstr "Программа будет переустановлена. Вы вернётесь на последнюю стабильную версию. Пожалуйста, подождите. Процесс может занять несколько минут. "
+msgstr ""
+"Программа будет переустановлена. Вы вернётесь на последнюю стабильную "
+"версию. Пожалуйста, подождите. Процесс может занять несколько минут. "
 
 msgid "Messages:info_allmarkedasread"
 msgstr "Все сообщения будут отмечены как прочитанные."
@@ -2099,7 +2194,9 @@ msgid "EAPI_External:info_copiedtoclip"
 msgstr "Скопировано в буфер обмена."
 
 msgid "EAPI_Common:error_logon"
-msgstr "Ошибка входа. Вы ввели неправильный пароль, либо были заблокированы администратором."
+msgstr ""
+"Ошибка входа. Вы ввели неправильный пароль, либо были заблокированы "
+"администратором."
 
 msgid "EAPI_Common:info_finished"
 msgstr "Операция завершена успешно."
@@ -2123,7 +2220,9 @@ msgid "EAPI_UI:info_newfollowedblog"
 msgstr "На избранном блоге появился новый пост."
 
 msgid "Honors:alert_mainhonor"
-msgstr "Хотите установить этот значок в качестве основного? Он будет показан в вашем профиле."
+msgstr ""
+"Хотите установить этот значок в качестве основного? Он будет показан в вашем "
+"профиле."
 
 msgid "Blog:alert_deletecategory"
 msgstr "Вы хотите удалить эту категорию?"
@@ -2132,22 +2231,32 @@ msgid "Contacts:alert_delcontact"
 msgstr "Вы действительно хотите удалить этот контакт?"
 
 msgid "Update:alert_joinbeta"
-msgstr "Вы ещё не зарегистрированы в программе открытых бета-тестов. Хотите зарегистрироваться и скачатьбета-версию?"
+msgstr ""
+"Вы ещё не зарегистрированы в программе открытых бета-тестов. Хотите "
+"зарегистрироваться и скачатьбета-версию?"
 
 msgid "MainMenu:alert_resetsettings"
-msgstr "Вы действительно хотите вернуть элтен  к заводским настройкам? Будет необходима перезагрузка программы."
+msgstr ""
+"Вы действительно хотите вернуть элтен  к заводским настройкам? Будет "
+"необходима перезагрузка программы."
 
 msgid "EAPI_External:alert_audioreport"
-msgstr "Произошла ошибка при захвате аудиодорожки. Вы хотите отправить отчет об ошибке? Это может помочь решить проблему"
+msgstr ""
+"Произошла ошибка при захвате аудиодорожки. Вы хотите отправить отчет об "
+"ошибке? Это может помочь решить проблему"
 
 msgid "EAPI_External:alert_ytreport"
-msgstr "Этот файл нельзя воспроизвести. Вы хотите отправить отчет об ошибке? Это может помочь устранить проблему, с которой вы столкнулись."
+msgstr ""
+"Этот файл нельзя воспроизвести. Вы хотите отправить отчет об ошибке? Это "
+"может помочь устранить проблему, с которой вы столкнулись."
 
 msgid "EAPI_Common:alert_useragreement"
 msgstr "Вы принимаете условия лицензионного соглашения?"
 
 msgid "EAPI_UI:alert_agentreport"
-msgstr "Произошла ошибка агента программы Элтен. Вы хотите отправить рапорт об ошибке? Это может помочь избежать её в будущем."
+msgstr ""
+"Произошла ошибка агента программы Элтен. Вы хотите отправить рапорт об "
+"ошибке? Это может помочь избежать её в будущем."
 
 msgid "*Main:alert_changepls"
 msgstr "Плейлист изменён. Сохранить изменения?"
@@ -2255,7 +2364,8 @@ msgid "Account:type_blacklistaddusername"
 msgstr "Введите имя пользователя, которого хотите заблокировать"
 
 msgid "Contacts:type_blacklistremoveusername"
-msgstr "Введите имя пользователя, которого хотите удалить из контактовчёрного списка"
+msgstr ""
+"Введите имя пользователя, которого хотите удалить из контактовчёрного списка"
 
 msgid "Forum:type_thrnewname"
 msgstr "Введите новое название темы"
@@ -2306,16 +2416,24 @@ msgid "EAPI_Common:read_waitprocessingfiles"
 msgstr "Подождите, идёт преобразование файлов."
 
 msgid "Blog:alert_markblogasread"
-msgstr "Все посты на этом блоге будут отмечены как прочитанные. Хотите продолжить?"
+msgstr ""
+"Все посты на этом блоге будут отмечены как прочитанные. Хотите продолжить?"
 
 msgid "Files:alert_eltenapi"
-msgstr "Вы хотите запустить этот скрипт Elten API? Скрипты из ненадежных источников могут быть опасны и нанести ущерб вашему компьютеру или привести к  несанкционированному доступу к вашей учетной записи. Продолжайте, только если вы доверяете источнику этого файла."
+msgstr ""
+"Вы хотите запустить этот скрипт Elten API? Скрипты из ненадежных источников "
+"могут быть опасны и нанести ущерб вашему компьютеру или привести к  "
+"несанкционированному доступу к вашей учетной записи. Продолжайте, только "
+"если вы доверяете источнику этого файла."
 
 msgid "Forum:alert_Deletepost"
 msgstr "Вы действительно хотите удалить этот пост?"
 
 msgid "EAPI_Common:alert_mididownloadsf"
-msgstr "Вы пытаетесь воспроизвести  в midi-файл. Чтобы правильно воспроизводить файлы этого типа, программе Elten требуется внешний синтезатор миди. Вы хотите загрузить его с сервера? Это может занять несколько минут."
+msgstr ""
+"Вы пытаетесь воспроизвести  в midi-файл. Чтобы правильно воспроизводить "
+"файлы этого типа, программе Elten требуется внешний синтезатор миди. Вы "
+"хотите загрузить его с сервера? Это может занять несколько минут."
 
 msgid "Uploads:head_filetosend"
 msgstr "Выберите файл, который хотите отправить на сервер"
@@ -2585,218 +2703,263 @@ msgid "Forum:opt_phr_unreads"
 msgstr "Не прочитано"
 
 msgid "MainMenu:opt_community"
-msgstr "&Community"
+msgstr "Сообщество"
 
 msgid "MainMenu:opt_media"
-msgstr "&media"
+msgstr "Медиа"
 
 msgid "MainMenu:opt_files"
-msgstr "&Files"
+msgstr "Файлы"
 
 msgid "MainMenu:opt_programs"
-msgstr "Pro&grams"
+msgstr "Программы"
 
 msgid "MainMenu:opt_tools"
-msgstr "&Tools"
+msgstr "Инструменты"
 
 msgid "MainMenu:opt_settings"
-msgstr "&Settings"
+msgstr "Настройки"
 
 msgid "MainMenu:opt_help"
-msgstr "&Help"
+msgstr "Помощь"
 
 msgid "MainMenu:opt_quit"
-msgstr "&Quit"
+msgstr "Выход"
 
 msgid "MainMenu:opt_changelog"
-msgstr "&Changelog"
+msgstr "Список изменений"
 
 msgid "MainMenu:opt_version"
-msgstr "Program &version"
+msgstr "Версия приложения"
 
 msgid "MainMenu:opt_readme"
-msgstr "&Read me"
+msgstr "О проекте"
 
 msgid "MainMenu:opt_shortkeys"
-msgstr "&Shortkeys"
+msgstr "Список горячих клавиш"
 
 msgid "MainMenu:opt_report"
-msgstr "Report a &bug"
+msgstr "Сообщить о проблеме"
 
 msgid "MainMenu:opt_license"
-msgstr "User &agreement"
+msgstr "Правила сообщества и лицензионное соглашение"
 
 msgid "MainMenu:opt_interface"
-msgstr "&Interface settings"
+msgstr "Параметры интерфейса"
 
 msgid "MainMenu:opt_voice"
-msgstr "&Voice settings"
+msgstr "Параметры речи"
 
 msgid "MainMenu:opt_clock"
-msgstr "Cloc&k"
+msgstr "Часы"
 
 msgid "MainMenu:opt_soundthemes"
-msgstr "SOun&dthemes"
+msgstr "Звуковые схемы"
 
 msgid "MainMenu:opt_languages"
-msgstr "Manage &languages"
+msgstr "Язык"
 
 msgid "MainMenu:opt_advanced"
-msgstr "&Advanced settings"
+msgstr "Дополнительно"
 
 msgid "MainMenu:opt_messages"
-msgstr "&Messages"
+msgstr "Сообщения"
 
 msgid "MainMenu:opt_blogs"
-msgstr "&Blogs"
+msgstr "Блоги"
 
 msgid "MainMenu:opt_forum"
-msgstr "&Forum"
+msgstr "Форум"
 
 msgid "MainMenu:opt_chat"
-msgstr "&Chat"
+msgstr "Чат"
 
 msgid "MainMenu:opt_notes"
-msgstr "No&tes"
+msgstr "Заметки"
 
 msgid "MainMenu:opt_whatsnew"
-msgstr "What's &new?"
+msgstr "Новые события"
 
 msgid "MainMenu:opt_polls"
-msgstr "Po&lls"
+msgstr "Анкеты"
 
 msgid "MainMenu:opt_users"
-msgstr "&Users"
+msgstr "Пользователи"
 
 msgid "MainMenu:opt_account"
-msgstr "My &account"
+msgstr "Моя учётная запись"
 
 msgid "MainMenu:opt_profile"
-msgstr "Edit &profile"
+msgstr "Редактировать профиль"
 
 msgid "MainMenu:opt_status"
-msgstr "CHange &status"
+msgstr "Изменить статус"
 
 msgid "MainMenu:opt_signature"
-msgstr "My si&gnature"
+msgstr "Изменить подпись под постами на форуме"
 
 msgid "MainMenu:opt_greeting"
-msgstr "My &welcome message"
+msgstr "Изменить приветственное сообщение"
 
 msgid "MainMenu:opt_visitingcard"
-msgstr "My &visitingcard"
+msgstr "Рассказать о себе"
 
 msgid "MainMenu:opt_honors"
-msgstr "My &badges"
+msgstr "Мои значки"
 
 msgid "MainMenu:opt_sharedfiles"
-msgstr "My share&d files"
+msgstr "Моё облако"
 
 msgid "MainMenu:opt_avatar"
-msgstr "Set &avatar"
+msgstr "Установить звуковой аватар"
 
 msgid "MainMenu:opt_whatsnewconfig"
-msgstr "WHat's &new configuration"
+msgstr "Настройки получения уведомлений"
 
 msgid "MainMenu:opt_mypermissions"
-msgstr "My p&ermissions"
+msgstr "Мои разрешения"
 
 msgid "MainMenu:opt_blacklist"
-msgstr "Black l&ist"
+msgstr "Чёрный список"
 
 msgid "MainMenu:opt_autologintokens"
-msgstr "Auto&login tokens"
+msgstr "Ключи автовхода"
 
 msgid "MainMenu:opt_changepassword"
-msgstr "Change passw&ord"
+msgstr "Изменить пароль"
 
 msgid "MainMenu:opt_changemail"
-msgstr "CHange e-&mail"
+msgstr "Изменить адрес электронной почты"
 
 msgid "MainMenu:opt_twofactor"
-msgstr "Two-factor a&uthentication settings"
+msgstr "Настройки двухфакторной аутентификации"
 
 msgid "MainMenu:opt_soundthemesgenerator"
-msgstr "Soundthemes &generator"
+msgstr "Создание звуковых схем"
 
 msgid "MainMenu:opt_speedtest"
-msgstr "Speed&test"
+msgstr "Тест скорости интернета"
 
 msgid "MainMenu:opt_programmanagement"
-msgstr "P&rogram management"
+msgstr "Управление программой"
 
 msgid "MainMenu:opt_readtofile"
-msgstr "Read to &file"
+msgstr "Преобразование текста в речь"
 
 msgid "MainMenu:opt_console"
-msgstr "&Console"
+msgstr "Консоль"
 
 msgid "MainMenu:opt_compiler"
-msgstr "&Elten API compiler"
+msgstr "Компилятор elten api"
 
 msgid "MainMenu:opt_debug"
-msgstr "De&bugging"
+msgstr "Отладка"
 
 msgid "MainMenu:opt_tray"
-msgstr "Hide in &tray"
+msgstr "Скрыть в трей"
 
 msgid "MainMenu:opt_logout"
-msgstr "&Logout"
+msgstr "Выход из учётной записи"
 
 msgid "MainMenu:opt_exit"
-msgstr "E&xit"
+msgstr "Выход из программы"
 
 msgid "MainMenu:opt_restart"
-msgstr "&Restart"
+msgstr "Перезагрузка"
 
 msgid "MainMenu:opt_restarttodebug"
-msgstr "Restart in de&bug mode"
+msgstr "Перезагрузка в режиме отладки"
 
 msgid "MainMenu:opt_update"
-msgstr "Search for &updates"
+msgstr "Проверка обновлений"
 
 msgid "MainMenu:opt_reinstall"
-msgstr "&Reinstall"
+msgstr "Переустановить elten"
 
 msgid "MainMenu:opt_portable"
-msgstr "Create &portable version"
+msgstr "Создать переносную версию"
 
 msgid "MainMenu:opt_resetsettings"
-msgstr "Restore &default settings"
+msgstr "Вернуться к исходным настройкам"
 
 msgid "MainMenu:opt_install"
-msgstr "&Install"
+msgstr "Установить"
 
 msgid "MainMenu:opt_mediacatalog"
-msgstr "&Media catalog"
+msgstr "Каталог медиа"
 
 msgid "MainMenu:opt_youtube"
 msgstr "&Youtube"
 
 msgid "MainMenu:opt_contacts"
-msgstr "My &contacts"
+msgstr "Список контактов"
 
 msgid "MainMenu:opt_useraddedmetocontacts"
-msgstr "Users who a&dded me to contacts"
+msgstr "Пользователи, добавившие меня в контакты"
 
 msgid "MainMenu:opt_online"
-msgstr "WHo is &online?"
+msgstr "Кто онлайн?"
 
 msgid "MainMenu:opt_userslist"
-msgstr "&Users list"
+msgstr "Список пользователей"
 
 msgid "MainMenu:opt_admins"
-msgstr "Ad&mins"
+msgstr "Совет старейшен"
 
 msgid "MainMenu:opt_usersearch"
-msgstr "User searc&h"
+msgstr "Поиск пользователей"
 
 msgid "MainMenu:opt_recentlyactived"
-msgstr "Recently &actived users"
+msgstr "Пользователи, входившие недавно"
 
 msgid "MainMenu:opt_recentlyregistered"
-msgstr "Recently &registered users"
+msgstr "новые пользователи"
 
 msgid "MainMenu:opt_lastavatars"
-msgstr "Recently changed a&vatars"
+msgstr "Недавно изменнённые аватары"
+
+msgid "Eapi-common:txt_phr_userhasblog"
+msgstr "User has a blog"
+
+msgid "_Agent:info_message_male"
+msgstr "You've received a new message"
+
+msgid "_Agent:info_message_female"
+msgstr "You've received a new message"
+
+msgid "_Agent:info_followedthread"
+msgstr "A new post appeared in the followed thread"
+
+msgid "_Agent:info_followedblog"
+msgstr "A new post appeared on the followed blog"
+
+msgid "_Agent:info_blogcomment"
+msgstr "A new comment appeared on your blog"
+
+msgid "_Agent:info_followedforum"
+msgstr "A new thread appeared on the followed forum"
+
+msgid "_Agent:info_followedforumpost"
+msgstr "A new post appeared on the followed forum"
+
+msgstr "_Agent:info_mention"
+msgstr "A new post has been mentioned to you"
+
+msgid "_Agent:info_contact"
+msgstr "You have a new friend"
+
+msgid "_Agent:info_newversion"
+msgstr "A new vesion of Elten is available"
+
+msgid "_Agent:info_newbeta"
+msgstr "A new beta version of Elten is available"
+
+msgid "Forum:opt_followedthreads"
+msgstr "Followed threads"
+
+msgid "Forum:opt_followedforums"
+msgstr "Followed forums"
+
+msgid "Forum:opt_phr_forums"
+msgstr "Forums"
 
