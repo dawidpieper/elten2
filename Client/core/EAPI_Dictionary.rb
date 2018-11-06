@@ -20,16 +20,16 @@ def load_locale(file,lang='en_GB')
     end
     end
   
-    def update_dicts
-  
-  end
-    
-    def load_dict(file="locale/pl_PL/LC_MESSAGES/elten.po")
-    li=IO.readlines(file)
-$dict={}
+    def load_dict(file,reset=false)
+    r=IO.read(file)
+    r.gsub!("\"\r\n\"","\r\n")
+    r.gsub!("\"\n\"","\n")
+    li = r.split("\n")
+$dict={} if $dict==nil or reset==true
 last=''
 for l in li
-if (/msgid "([^"]+)"/=~l)!=nil
+r.chop! if r[-1..-1]=="\r"
+  if (/msgid "([^"]+)"/=~l)!=nil
   last=$1.delete("\r\n")
 end
 if (/msgstr "([^"]+)"/=~l)!=nil

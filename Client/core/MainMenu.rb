@@ -13,7 +13,7 @@ def initialize
     @header = "Menu: "
   end
   def main
-        sel = ["Społe&czność","&Media","&Pliki","Pro&gramy","&Narzędzia","U&stawienia","P&omoc","W&yjście"]
+        sel = [_("MainMenu:opt_community"),_("MainMenu:opt_media"),_("MainMenu:opt_files"),_("MainMenu:opt_programs"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
                 @sel = menulr(sel,true,0,@header)
         @header = ""
     loop do
@@ -91,7 +91,7 @@ close
         end
                   def help
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Lista &zmian","&Wersja programu","&Przeczytaj mnie","Lista &skrótów klawiszowych","Zgłoś &błąd","&Licencja użytkownika"])
+    @sel = menulr([_("MainMenu:opt_changelog"),_("MainMenu:opt_version"),_("MainMenu:opt_readme"),_("MainMenu:opt_shortkeys"),_("MainMenu:opt_report"),_("MainMenu:opt_license")])
     loop do
 loop_update
       @sel.update
@@ -140,7 +140,7 @@ close
         end
           def settings
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Ustawienia &interfejsu","Ustawienia &głosu","&Zegar","Tematy &dźwiękowe","Zarządzanie &językami","Ustawienia z&aawansowane"])
+    @sel = menulr([_("MainMenu:opt_interface"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
     loop do
 loop_update
       @sel.update
@@ -185,7 +185,7 @@ close
         end
   def community
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(sel = ["Wiado&mości","&Blogi","&Forum","&Chat","No&tatki","Co &nowego?","&Ankiety","&Użytkownicy","M&oje Konto"])
+    @sel = menulr(sel = [_("MainMenu:opt_messages"),_("MainMenu:opt_blogs"),_("MainMenu:opt_forum"),_("MainMenu:opt_chat"),_("MainMenu:opt_notes"),_("MainMenu:opt_whatsnew"),_("MainMenu:opt_polls"),_("MainMenu:opt_users"),_("MainMenu:opt_account")])
     @sel.disable_item(8) if $name=="guest"
     loop do
       loop_update
@@ -281,7 +281,7 @@ close
         end
           def myaccount
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Edytuj &profil","Zmiana &statusu","Moja sy&gnatura","Moja wiadomość po&witalna","Moja w&izytówka","Moje &odznaczenia","U&dostępnione przeze mnie pliki","Ustaw &awatar","Ustawienia co &nowego","Moje &uprawnienia","Cza&rna lista","Klucze automatycznego &logowania","Zmień &Hasło","Zmień adres e-&mail","Ustawienia uwierzytelniania dwu&etapowego"])
+    @sel = menulr([_("MainMenu:opt_profile"),_("MainMenu:opt_status"),_("MainMenu:opt_signature"),_("MainMenu:opt_greeting"),_("MainMenu:opt_visitingcard"),_("MainMenu:opt_honors"),_("MainMenu:opt_sharedfiles"),_("MainMenu:opt_avatar"),_("MainMenu:opt_whatsnewconfig"),_("MainMenu:opt_mypermissions"),_("MainMenu:opt_blacklist"),_("MainMenu:opt_autologintokens"),_("MainMenu:opt_changepassword"),_("MainMenu:opt_changemail"),_("MainMenu:opt_twofactor")])
     loop do
 loop_update
       @sel.update
@@ -362,7 +362,7 @@ close
         end
                   def tools
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(sel=["&Generator tematów dźwiękowych","&Test prędkości łącza","Zarządzanie p&rogramem","Czytanie do &pliku","&Konsola","Kompilator &ELTENAPI","De&bugowanie"])
+    @sel = menulr(sel=[_("MainMenu:opt_soundthemesgenerator"),_("MainMenu:opt_speedtest"),_("MainMenu:opt_programmanagement"),_("MainMenu:opt_readtofile"),_("MainMenu:opt_console"),_("MainMenu:opt_compiler"),_("MainMenu:opt_debug")])
     @sel.disable_item(6) if $DEBUG!=true
         loop do
 loop_update
@@ -419,7 +419,7 @@ loop_update
         end  
         def exit
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["&Ukryj program w zasobniku systemowym","Wy&loguj się","W&yjście","&Restart","Restart do trybu de&bugowania"])
+    @sel = menulr([_("MainMenu:opt_tray"),_("MainMenu:opt_logout"),_("MainMenu:opt_exit"),_("MainMenu:opt_restart"),_("MainMenu:opt_restarttodebug")])
     loop do
 loop_update
       @sel.update
@@ -488,9 +488,9 @@ for i in 1..Graphics.frame_rate
               end
               def management
      Graphics.transition(10)  if $ruby != true
-sel=["Sprawdź dostępność &aktualizacji","&Reinstalacja programu","Utwórz wersję &przenośną","Przywróć ustawienia &domyślne"]
+sel=[_("MainMenu:opt_update"),_("MainMenu:opt_reinstall"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
 if $portable == 1
-  sel=["","Za&instaluj program","Utwórz &kopię","Przywróć ustawienia &domyślne"]
+  sel=["",_("MainMenu:opt_install"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
   end
      @sel = menulr(sel)
      if $portable == 1
@@ -549,7 +549,7 @@ if $portable == 1
     end
     def media
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Katalog &mediów","&Youtube"])
+    @sel = menulr([_("MainMenu:opt_mediacatalog"),_("MainMenu:opt_youtube")])
     loop do
 loop_update
       @sel.update
@@ -578,7 +578,7 @@ close
         end
         def users
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr(["Moje &kontakty","Użytkownicy, którzy &dodali mnie do swoich kontaktów","Kto jest zal&ogowany?","Lista &użytkowników","Rada &starszych","S&zukanie użytkowników","Ostatnio &aktywni użytkownicy","Ostatnio za&rejestrowani użytkownicy","Ostatnio zmienione awa&tary"])
+    @sel = menulr([_("MainMenu:opt_contacts"),_("MainMenu:opt_useraddedmetocontacts"),_("MainMenu:opt_online"),_("MainMenu:opt_userslist"),_("MainMenu:opt_admins"),_("MainMenu:opt_usersearch"),_("MainMenu:opt_recentlyactived"),_("MainMenu:opt_recentlyregistered"),_("MainMenu:opt_lastavatars")])
     loop do
 loop_update
       @sel.update
