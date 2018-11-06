@@ -54,8 +54,10 @@ class Scene_Update
   speech(_("Update:wait_languages"))  
   downloadfile($url+"locale.dat","temp/locale_new.dat")
   begin
-    loc=load_data("temp/locale_new.dat")
-if loc.is_a?(Hash) and loc.keys.size>0
+    fp=File.open("temp/locale_new.dat","rb")
+  loc =Marshal.load(Zlib::Inflate.inflate(fp.read))
+  fp.close
+if loc.is_a?(Array) and loc.size>0
   $locales=loc
   set_locale($language)
   writefile("Data/locale.dat",read("temp/locale_new.dat"))

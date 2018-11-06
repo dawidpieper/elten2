@@ -74,7 +74,7 @@ else
   def groupsmain
     grpselt=[]
     for group in @groups
-      grpselt.push(group.name+" . Fora: #{group.forums.to_s}, #{_("Forum:opt_phr_threads")}: #{group.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{group.posts.to_s}, nowe: #{(group.posts-group.readposts).to_s}")
+      grpselt.push(group.name+" . Fora: #{group.forums.to_s}, #{_("Forum:opt_phr_threads")}: #{group.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{group.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(group.posts-group.readposts).to_s}")
     end
     @grpindex=0 if @grpindex==nil
     forfol=[]
@@ -97,7 +97,7 @@ else
       flr+=thread.readposts
       end
     end
-        @grpsel=Select.new(["Śledzone wątki . #{_("Forum:opt_phr_threads")}: #{ft.to_s}, #{_("Forum:opt_phr_posts")}: #{fp.to_s}, nowe: #{(fp-fr).to_s}.","Śledzone fora: . Fora: #{forfol.size}, #{_("Forum:opt_phr_threads")}: #{flt.to_s}, #{_("Forum:opt_phr_posts")}: #{flp.to_s}, nowe: #{(flp-flr).to_s}."]+grpselt+[_("Forum:opt_search")],true,@grpindex,_("Forum:head"))
+        @grpsel=Select.new(["#{_("Forum:opt_followedthreads")}. #{_("Forum:opt_phr_threads")}: #{ft.to_s}, #{_("Forum:opt_phr_posts")}: #{fp.to_s}, #{_("Forum:opt_phr_unreads")}: #{(fp-fr).to_s}.","#{_("Forum:opt_followedforums")}. #{_("Forum:opt_phr_forums")}: #{forfol.size}, #{_("Forum:opt_phr_threads")}: #{flt.to_s}, #{_("Forum:opt_phr_posts")}: #{flp.to_s}, #{_("Forum:opt_phr_unreads")}: #{(flp-flr).to_s}."]+grpselt+[_("Forum:opt_search")],true,@grpindex,_("Forum:head"))
     loop do
       loop_update
       @grpsel.update
