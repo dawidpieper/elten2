@@ -116,7 +116,7 @@ loop_update
    @st_path[i].delete!("\0")
    File.delete("st.ini") if $DEBUG != true
  end
-   @sel = Select.new(@st_name,false,0,"Wybierz temat do pobrania")
+   @sel = Select.new(@st_name,false,0,_("Soundthemes:head_themetodownload"))
   loop do
    loop_update
    @sel.update

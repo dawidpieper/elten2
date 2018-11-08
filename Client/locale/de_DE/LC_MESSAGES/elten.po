@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-11-06 14:58+0100\n"
+"PO-Revision-Date: 2018-11-08 06:43+0100\n"
 "Last-Translator: Karl Eick <hozosch@web.de>\n"
 "Language: de_DE\n"
 "Language-Team: pl <dawidpieper@o2.pl>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "X-Generator: Poedit 2.2\n"
 
 msgid "Authentication:type_pass"
-msgstr "Geben Sie ihr Password ein"
+msgstr "Geben Sie ihr Passwort ein"
 
 msgid "Authentication:head_enabled"
 msgstr "Die Zwei-Faktor-Authentifizierung ermöglicht eine bessere Kontosicherheit, da jede Anmeldung mit Ihrem Telefon bestätigt werden muss. Wenn diese Option aktiviert ist, wird bei jeder Anmeldung von einem neuen Gerät eine SMS mit einem Bestätigungscode an Sie gesendet. Die Eingabe dieses Codes ist für die Anmeldung im Programm erforderlich."
@@ -833,16 +833,16 @@ msgid "Account:head_followedthreads"
 msgstr "Neue Beiträge in verfolgten Themen:"
 
 msgid "Account:head_followedblogs"
-msgstr "Nowe wpisy na śledzonych blogach"
+msgstr "Neue Beiträge in verfolgten Blogs"
 
 msgid "Account:head_blogcomments"
-msgstr "Nowe komentarze na twoim blogu"
+msgstr "Neue Kommentare in Ihrem Blog"
 
 msgid "Account:head_followedforums"
-msgstr "neue them in verfolgtem forum"
+msgstr "Neue Themen in verfolgten foren"
 
 msgid "Account:head_followedforumsposts"
-msgstr "neue beiträge in verfolgtem forum"
+msgstr "neue beiträge in verfolgten foren"
 
 msgid "Account:head_contacts"
 msgstr "neue Freunde"
@@ -884,31 +884,31 @@ msgid "Account:alert_logoutall"
 msgstr "Möchten Sie wirklich alle Auto-Anmeldeschlüssel entfernen und alle Sitzungen abmelden? Sie werden in Kürze  abgemeldet."
 
 msgid "Contacts:head"
-msgstr "Konntackte"
+msgstr "Kontakte"
 
 msgid "Contacts:info_empty"
-msgstr "lehre liste"
+msgstr "Leere Liste"
 
 msgid "Contacts:opt_newcontact"
-msgstr "neuer Konntackt"
+msgstr "neuer Kontakt"
 
 msgid "Contacts:type_username"
-msgstr "Geben Sie den Namen des Benutzers ein, der zu Ihren Konntackten hinzugefügt werden soll."
+msgstr "Geben Sie den Namen des Benutzers ein, der zu Ihren Kontakten hinzugefügt werden soll."
 
 msgid "Contacts:info_contactadded"
-msgstr "Konntackt wurde hinzugefügt"
+msgstr "Kontakt wurde hinzugefügt."
 
 msgid "Contacts:error_contactalreadyadded"
-msgstr "Diesen Benutzer haben Sie bereits zu Ihren Konntackten hinzugefügt."
+msgstr "Diesen Benutzer haben Sie bereits zu Ihren Kontakten hinzugefügt."
 
 msgid "Contacts:error_usernotfound"
 msgstr "Diesen Benutzer gibt es nicht. Bitte überprüfen Sie den Benutzernamen und versuchen sie es erneut."
 
 msgid "Contacts:info_contactdeleted"
-msgstr "Der Konntackt wurde gelöscht."
+msgstr "Kontakt wurde gelöscht."
 
 msgid "Contacts:error_usernotadded"
-msgstr "Dieser Benutzer ist nicht in Ihren Konntackten."
+msgstr "Dieser Benutzer ist nicht in Ihren Kontakten."
 
 msgid "Update:alert_newversion"
 msgstr "Eine neue Version dieses Programms ist verfügbar. Möchten Sie diese herunterladen und instalieren?"
@@ -1334,7 +1334,7 @@ msgid "Registration:info_registered"
 msgstr "Die Registrierung war erfolgreich, vielen Dank! Sie können sich nun mit Ihrem Benutzernamen und Passwort anmelden."
 
 msgid "Registration:error_unknown"
-msgstr "An unknown error occurred while using database"
+msgstr "Ein unbekannter Fehler trat beim Nutzen der Datenbank auf"
 
 msgid "Registration:error_accountexists"
 msgstr "Ein konto mit diesem Nutzernamen existiert bereits."
@@ -1358,16 +1358,16 @@ msgid "Loading:opt_interfacesettings"
 msgstr "Interface  Einstellungen"
 
 msgid "Loading:opt_forgottenpass"
-msgstr "Reset hasła"
+msgstr "Passwort zurücksetzen"
 
 msgid "Loading:opt_guest"
-msgstr "Otwórz na koncie gościa"
+msgstr "Als Gast anmelden"
 
 msgid "Loading:opt_changesynth"
-msgstr "Zmień syntezator mowy"
+msgstr "Stimme ändern"
 
 msgid "Loading:opt_reinstall"
-msgstr "Wymuś aktualizację lub reinstalację z serwera"
+msgstr "Update oder Neuinstallation vom Server erzwingen"
 
 msgid "Loading:info_novoice"
 msgstr "Es wurde noch keine Stimme festgelegt. \\ Drücken sie Eingabe, um eine SAPI5-Stimme auszuwählen, oder escape, um den installierten Screenreader bzw. die Standardstimme ihres Systems zu verwenden."
@@ -1436,10 +1436,10 @@ msgid "EAPI_Common:opt_visitingcard"
 msgstr "Visitenkarte"
 
 msgid "EAPI_Common:opt_delcontact"
-msgstr "aus Kontackten entfernen"
+msgstr "aus Kontakten entfernen"
 
 msgid "EAPI_Common:opt_addcontact"
-msgstr "zu Kontackten hinzufügen"
+msgstr "zu Kontakten hinzufügen"
 
 msgid "EAPI_Common:info_nothingnew"
 msgstr "Nichts Neues."
@@ -1460,7 +1460,7 @@ msgid "EAPI_Common:opt_blog"
 msgstr "Den blog dieses Benutzers besuchen"
 
 msgid "EAPI_Common:opt_tray"
-msgstr "Programm in den Infobereich minimieren"
+msgstr "In den Infobereich minimieren"
 
 msgid "EAPI_Common:type_soundthemename"
 msgstr "Geben Sie den Namen des Audiothemas ein."
@@ -1499,13 +1499,13 @@ msgid "EAPI_Common:opt_playavatar"
 msgstr "Awatar abspielen"
 
 msgid "EAPI_Common:opt_sharedfiles"
-msgstr "Dateien, die dieser nutzer geteilt hat."
+msgstr "Von diesem Nutzer geteilte Dateien"
 
 msgid "EAPI_Common:info_noupdates"
 msgstr "Sie sind bereits auf dem neuesten Stand"
 
 msgid "EAPI_Common:opt_honors"
-msgstr "Abzeichen dieses Nutzers"
+msgstr "Auszeichnungen dieses Nutzers"
 
 msgid "EAPI_Common:head_voice"
 msgstr "Stimme"
@@ -1550,7 +1550,7 @@ msgid "EAPI_EltenSRV:wait_converting"
 msgstr "Datei wird konwertiert..."
 
 msgid "EAPI_EltenSRV:info_sent"
-msgstr "Wysłano"
+msgstr "Gesendet"
 
 msgid "EAPI_Network:wait_sending"
 msgstr "wird gesendet..."
@@ -1586,7 +1586,7 @@ msgid "EAPI_Speech:chr_equals"
 msgstr "ist gleich"
 
 msgid "EAPI_Speech:chr_accent"
-msgstr "Akzent"
+msgstr "Gravis"
 
 msgid "EAPI_Speech:chr_less"
 msgstr "kleiner als"
@@ -1634,7 +1634,7 @@ msgid "EAPI_Speech:chr_percent"
 msgstr "Prozent"
 
 msgid "EAPI_Speech:chr_caret"
-msgstr "Karitt"
+msgstr "Dach"
 
 msgid "EAPI_Speech:chr_and"
 msgstr "Und"
@@ -1814,7 +1814,7 @@ msgid "Notes:info_notemodified"
 msgstr "Notatka została zmodyfikowana"
 
 msgid "ForgotPassword:info_keysent"
-msgstr "Klucz resetowania hasła został wysłany na podany adres E-mail. Wybierz opcję wprowadzenia klucza, aby kontynuować"
+msgstr "Der Passwort-Zurücksetzungscode wurde an die angegebene E-Mail-Adresse gesendet. Wählen Sie die Option \"Passwort-Zurücksetzungscode eingeben\", um fortzufahren"
 
 msgid "Honors:info_nobadges"
 msgstr "Diesem Nutzer wurden keine Auszeichnungen verliehen."
@@ -1826,13 +1826,13 @@ msgid "Portable:wait_preparingfile"
 msgstr "Datei wird vorbereitet..."
 
 msgid "Polls:error_noanswer"
-msgstr "Pytanie nie ma odpowiedzi"
+msgstr "Diese Frage hat keine Antworten"
 
 msgid "Uploads:info_copiedtoclip"
 msgstr "in die Zwischenablage kopiert."
 
 msgid "Bug:head"
-msgstr "Zgłaszanie błędu"
+msgstr "Fehlerberichterstattung"
 
 msgid "Blog:error_blognotfound"
 msgstr "Blog existiert nicht."
@@ -1868,7 +1868,7 @@ msgid "Loading:alert_newversion"
 msgstr "Eine neue Version dieses Programms ist verfügbar."
 
 msgid "EAPI_External:error_translation"
-msgstr "Wystąpił błąd podczas tłumaczenia"
+msgstr "Beim Übersetzen ist ein Fehler aufgetreten"
 
 msgid "EAPI_Network:info_progressdonotread"
 msgstr "Keine Änderungen bei Fortschrittsbalken lesen."
@@ -1877,19 +1877,19 @@ msgid "EAPI_UI:info_retry"
 msgstr "Das Programm wird nun versuchen, zur Arbeit zurückzukehren."
 
 msgid "EAPI_Speech:chr_space"
-msgstr "Spacja"
+msgstr "Leertaste"
 
 msgid "EAPI_Form:info_repeated"
-msgstr "Powtórzono"
+msgstr "wiederholt"
 
 msgid "Notes:error_usernotfound"
-msgstr "Użytkownik nie istnieje"
+msgstr "nutzer existiert nicht."
 
 msgid "Programs:info_installed"
 msgstr "Installation abgeschlossen."
 
 msgid "Polls:error_questiononeanswer"
-msgstr "Pytanie ma tylko jedną odpowiedź"
+msgstr "Die Frage hat nur eine Antwort"
 
 msgid "WhatsNew:info_nonewonfollowedblogs"
 msgstr "Keine neuen Einträge in verfolgten Blogs."
@@ -1907,7 +1907,7 @@ msgid "Account:info_statuschanged"
 msgstr "Ihr Status wurde geändert."
 
 msgid "Update:wait_reinstallationdownloading"
-msgstr "Pobieranie instrukcji reinstalacji"
+msgstr "Reparatur wird vorbereitet."
 
 msgid "Messages:info_attachmentdownloaded"
 msgstr "Anhang wurde heruntergeladen."
@@ -1928,7 +1928,7 @@ msgid "EAPI_Network:info_readprogress"
 msgstr "Änderungen bei Fortschrittsbalken lesen."
 
 msgid "EAPI_Form:info_loaded"
-msgstr "Wczytano"
+msgstr "geladen"
 
 msgid "Notes:info_notedeleted"
 msgstr "Notiz gelöscht."
@@ -1937,16 +1937,16 @@ msgid "Honors:info_defaulted"
 msgstr "Auszeichnung wurde als Standard festgelegt."
 
 msgid "Notes:info_notecreated"
-msgstr "Notatka została utworzona"
+msgstr "Notiz wurde erstellt."
 
 msgid "Honors:error_usernotfound"
-msgstr "Użytkownik nie istnieje"
+msgstr "Nutzer existiert nicht."
 
 msgid "Honors:info_honored"
-msgstr "Odznaczenie nadane"
+msgstr "Auszeichnung verliehen."
 
 msgid "Honors:info_honorcreated"
-msgstr "Odznaczenie zostało dodane"
+msgstr "Auszeichnung wurde hinzugefügt."
 
 msgid "Polls:info_pollcreated"
 msgstr "Umfrage wurde erstellt."
@@ -1955,7 +1955,7 @@ msgid "Polls:info_voted"
 msgstr "ihre Stimme wurde gespeichert"
 
 msgid "Blog:info_blogrenamed"
-msgstr "Nazwa bloga została zmieniona"
+msgstr "Der Blog wurde umbenannt."
 
 msgid "Blog:alert_noblog"
 msgstr "Sie haben noch keinen Blog. Möchten Sie einen erstellen?"
@@ -1988,10 +1988,10 @@ msgid "Blog:info_blogmarkedasread"
 msgstr "Alle Einträge in diesem Blog wurden als gelesen markiert."
 
 msgid "Blog:info_recategorized"
-msgstr "Rekategoryzacja zakończona"
+msgstr "Neukategorisierung abgeschlossen"
 
 msgid "Files:error_clipboardempty"
-msgstr "Schowek jest pusty"
+msgstr "Die Zwischenablage ist leer."
 
 msgid "Files:info_renamed"
 msgstr "Datei wurde umbenannt."
@@ -2003,7 +2003,7 @@ msgid "Files:info_filecreated"
 msgstr "Datei wurde erstellt."
 
 msgid "Files:info_plserased"
-msgstr "Playlista wyczyszczona"
+msgstr "Wiedergabeliste gelöscht"
 
 msgid "Files:wait_converting"
 msgstr "Bitte warten sie, während die Datei konvertiert wird."
@@ -2039,13 +2039,13 @@ msgid "Messages:info_receivernotfound"
 msgstr "Empfänger wurde nicht gefunden."
 
 msgid "Forum:info_nonewfollowedforumsthreads"
-msgstr "Brak nowych wątków na śledzonych forach"
+msgstr "Keine neuen Themen in verfolgten Foren"
 
 msgid "Forum:info_nonewfollowedforumsposts"
-msgstr "Brak nowych wpisów na śledzonych forach"
+msgstr "Keine neuen Beiträge in verfolgten Foren"
 
 msgid "Forum:info_nonewmentions"
-msgstr "Brak nowych wzmianek"
+msgstr "Keine neuen Erwähnungen"
 
 msgid "Forum:info_threadmoved"
 msgstr "Das Thema wurde verschoben."
@@ -2425,20 +2425,17 @@ msgstr "Geschlecht"
 msgid "EAPI_Common:txt_phr_age"
 msgstr "Alter"
 
-msgid "EAPI_Common:txt_phr_knows"
-msgstr "Er kennt"
-
 msgid "EAPI_Common:txt_phr_forumposts"
 msgstr "Beiträge im Forum"
 
 msgid "EAPI_Common:txt_phr_pollsanswered"
-msgstr "AusgefüllteUmfragen"
+msgstr "Ausgefüllte Umfragen"
 
 msgid "EAPI_Common:txt_phr_usedversion"
 msgstr "Verwendete Programmversion"
 
 msgid "EAPI_Common:txt_phr_registered"
-msgstr "Comunity-Mitglied seit"
+msgstr "Community-Mitglied seit"
 
 msgid "EAPI_Common:error_nofiletoread"
 msgstr "Es wurde keine Datei ausgewählt"
@@ -2594,7 +2591,7 @@ msgid "MainMenu:opt_files"
 msgstr "&Dateien"
 
 msgid "MainMenu:opt_programs"
-msgstr "Pro&gramme"
+msgstr "&Programme"
 
 msgid "MainMenu:opt_tools"
 msgstr "&Tools"
@@ -2630,7 +2627,7 @@ msgid "MainMenu:opt_interface"
 msgstr "&Interface-Einstellungen"
 
 msgid "MainMenu:opt_voice"
-msgstr "&Voice settings"
+msgstr "&Stimmeneinstellungen"
 
 msgid "MainMenu:opt_clock"
 msgstr "&Uhr"
@@ -2642,7 +2639,7 @@ msgid "MainMenu:opt_languages"
 msgstr "&Sprachenverwaltung"
 
 msgid "MainMenu:opt_advanced"
-msgstr "&erweiterte Einstellungen"
+msgstr "&Erweiterte Einstellungen"
 
 msgid "MainMenu:opt_messages"
 msgstr "Nach&richten"
@@ -2803,47 +2800,93 @@ msgstr "Kürzlich geänderte a&vatare"
 msgid "EAPI_Common:txt_phr_userhasblog"
 msgstr "Dieser Benutzer hat einen blog."
 
-
-
 msgid "_Agent:info_message_male"
-msgstr "You've received a new message"
+msgstr "Sie haben eine neue private Nachricht"
 
 msgid "_Agent:info_message_female"
-msgstr "You've received a new message"
+msgstr "Sie haben eine neue private Nachricht"
 
 msgid "_Agent:info_followedthread"
-msgstr "A new post appeared in the followed thread"
+msgstr "Neue Beiträge in verfolgten Themen"
 
 msgid "_Agent:info_followedblog"
-msgstr "A new post appeared on the followed blog"
+msgstr "Neue Einträge in verfolgten Blogs"
 
 msgid "_Agent:info_blogcomment"
-msgstr "A new comment appeared on your blog"
+msgstr "Neue Kommentare in Ihrem Blog"
 
 msgid "_Agent:info_followedforum"
-msgstr "A new thread appeared on the followed forum"
+msgstr "Es gibt neue Themen in verfolgten Foren"
 
 msgid "_Agent:info_followedforumpost"
-msgstr "A new post appeared on the followed forum"
+msgstr "Es gibt neue Beiträge in verfolgten Foren"
 
 msgid "_Agent:info_mention"
-msgstr "A new post has been mentioned to you"
+msgstr "Ein Beitrag wurde Ihnen gegenüber erwähnt"
 
 msgid "_Agent:info_contact"
-msgstr "You have a new friend"
+msgstr "Sie haben einen neuen Freund"
 
 msgid "_Agent:info_newversion"
-msgstr "A new vesion of Elten is available"
+msgstr "Eine neue Elten-Version ist verfügbar"
 
 msgid "_Agent:info_newbeta"
-msgstr "A new beta version of Elten is available"
+msgstr "Eine neue Elten-Beta ist verfügbar."
 
 msgid "Forum:opt_followedthreads"
-msgstr "Followed threads"
+msgstr "Verfolgte Themen"
 
 msgid "Forum:opt_followedforums"
-msgstr "Followed forums"
+msgstr "Verfolgte Foren"
 
 msgid "Forum:opt_phr_forums"
-msgstr "Forums"
+msgstr "Foren"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_lastseen"
+msgstr "Last seen"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_lastseen_female"
+msgstr "Last seen"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_lastseen_male"
+msgstr "Last seen"
+
+#, fuzzy
+msgid "EAPI_Common:head_filetoread"
+msgstr "File to read"
+
+#, fuzzy
+msgid "EAPI_Common:head_outputformat"
+msgstr "Output format"
+
+#, fuzzy
+msgid "Soundthemes:head_themetodownload"
+msgstr "Select theme to download"
+
+#, fuzzy
+msgid "EAPI_Common:head_selcontact"
+msgstr "Select contact"
+
+#, fuzzy
+msgid "Forum:opt_phr_mentionedby"
+msgstr "Montioned by"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_knownby"
+msgstr "Known by %{count} users"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_knownby_female"
+msgstr "Known by %{count} users"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_knownby_male"
+msgstr "Known by %{count} users"
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_knows"
+msgstr "Knows %{count} users"
 

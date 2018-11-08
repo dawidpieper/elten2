@@ -739,6 +739,12 @@ Wersja 2.283:
 
 2018-10-21
 ","
+Wersja 2.284:
+- Zmieniono: aktualizacja Youtube-DL
+- Poprawiono: obsługa aktualizacji do wersji beta
+
+2018-11-08
+","
 Wersja 2.3:
 Praca w toku
 "]

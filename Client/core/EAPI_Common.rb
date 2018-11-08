@@ -488,7 +488,7 @@ end
       for i in 0..$contact.size - 1
         selt[i] = $contact[i] + ". " + getstatus($contact[i])
         end
-      sel = Select.new(selt,true,0,"Wybierz kontakt")
+      sel = Select.new(selt,true,0,_("EAPI_Common:head_selcontact"))
       loop do
 loop_update
         sel.update if $contact.size > 0
@@ -582,24 +582,24 @@ elsif Time.now.month == birthdatemonth.to_i
   end
   ui = userinfo(user)
 if ui != -1
-if gender == -1 or $language!="PL_PL"
-  text += "Widzian(y/a): "
-elsif gender == 0
-  text += "Widziana: "
+if gender == 0
+  text += _("EAPI_Common:txt_phr_lastseen_female")
 elsif gender == 1
-  text += "Widziany: "
+  text += _("EAPI_Common:txt_phr_lastseen_male")
+  else
+  text += _("EAPI_Common:txt_phr_lastseen")
   end
 text+= ui[0] + "\r\n"
  text += _("EAPI_Common:txt_phr_userhasblog") if ui[1] == true
-text += "#{_("EAPI_Common:txt_phr_knows")}: " + ui[2].to_s + "\r\n"
-if gender == -1 or $language!="PL_PL"
-text += "Znan(y/a)"
+text += "#{s_("EAPI_Common:txt_phr_knows", {'count'=>ui[2].to_s})}\r\n"
+if gender == -1
+text += s_("EAPI_Common:txt_phr_knownby",{'count'=>ui[3].to_s})
 elsif gender == 0
-  text += "Znana"
+  text += s_("EAPI_Common:txt_phr_knownby_female",{'count'=>ui[3].to_s})
 elsif gender == 1
-  text += "Znany"
+  text += s_("EAPI_Common:txt_phr_knownby_male",{'count'=>ui[3].to_s})
 end
-text += " przez użytkowników: " + ui[3].to_s + "\r\n"
+text += "\r\n"
 text += "#{_("EAPI_Common:txt_phr_forumposts")}: " + ui[4].to_s + "\r\n"
 text += "#{_("EAPI_Common:txt_phr_pollsanswered")}: " + ui[7].to_s + "\r\n"
 text += "#{_("EAPI_Common:txt_phr_usedversion")}: " + ui[5].to_s + "\r\n"
@@ -882,205 +882,21 @@ def getkeychar(keys=[],multi=false)
   ret=""
   lng=Win32API.new("user32","GetKeyboardLayout",'i','l').call(0).to_s(2)[16..31].to_i(2)
   for i in 32..255
-  if $key[i]
-    c="\0"*8
-  Win32API.new("user32","ToUnicode",'iippii','i').call(i,0,$keys.pack("c"*256),c,c.bytesize,0)
-                          re=c.delete("\0")
-re.delete!(" ") if i!=32
+    if $key[i]
+      c="\0"*8
+  Win32API.new("user32","ToUnicode",'iippii','i').call(i,0,$keybd,c,c.bytesize,0)
+  if c!="\0"*8
+                                      re=c.delete("\0")
+                                  re<<0 if (re.bytesize/2!=(re.bytesize.to_f/2.0))
+                                  re.delete!(" ") if i!=32
 buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,nil,0,nil,nil)
 useddef="\0"
 Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,buf,buf.size,nil,useddef)
 re=buf.delete("\0")
-ret=re.split("").last if re!="" and $key[i] and re[0]>=32
-end
-end
-if false
-  ret=""    
-  keys=$key if keys==[]
-  return "" if (keys[0x11]==true and keys[0x12]==false) or (keys[0x11]==false and keys[0x12]==true)    
-  caps=(Win32API.new("user32","GetKeyState",'i','i').call(0x14) & 0x0001)!=0
-  bigl=false
-  bigl=!bigl if caps
-  bigl=!bigl if $key[0x10]
-  for i in 65..90
-        if keys[i]==true
-          r=" "
-          if $ruby != true
-          r[0]=i
-        else
-          r.setbyte(0,i)
-          end
-          r=r.downcase if bigl==false
-          if keys[0x11]==true and keys[0x12]==true
-            pr=r
-                    case r
-          when "A"
-            r="Ą"
-            when "C"
-              r="Ć"
-            when "E"
-              r="Ę"
-              when "L"
-                r="Ł"
-                when "N"
-                  r="Ń"
-                  when "O"
-                    r="Ó"
-                    when "S"
-                      r="Ś"
-                      when "X"
-                        r="Ź"
-                        when "Z"
-                          r="Ż"
-                          when "a"
-                            r="ą"
-                            when "c"
-                              r="ć"
-                              when "e"
-                                r="ę"
-                                when "l"
-                                  r="ł"
-                                  when "n"
-                                    r="ń"
-                                    when "o"
-                                      r="ó"
-                                      when "s"
-                                        r="ś"
-                                        when "x"
-                                          r="ź"
-                                          when "z"
-                                            r="ż"
-          end
-          ret=nil if pr==r
-          end
-          ret=r if ret!=nil
-          ret="" if ret==nil
-          end
-      end
-      for i in [0x30,0x31,0x32,0x33,0x34,0x35,0x36,0x37,0x38,0x39,0x60,0x61,0x62,0x63,0x64,0x65,0x66,0x67,0x68,0x69]
-        if keys[i] == true
-          if $key[0x10] == false
-          r=" "
-          r[0]=i
-          ret=r
-        else
-          o=0
-          if i<58
-            o=i-0x30
-          else
-            o=i-0x60
-            end
-          case o
-          when 1
-            ret="!"
-            when 2
-              ret="@"
-              when 3
-                ret="#"
-                when 4
-                  ret="$"
-                  when 5
-                    ret="%"
-                    when 6
-                      ret="^"
-                      when 7
-                        ret="&"
-                        when 8
-                          ret="*"
-                          when 9
-                            ret="("
-                            when 0
-                              ret=")"
-          end
-            end
-          end
-      end
-      for i in 0..255
-if keys[i]==true
-case i
-when 0x20
-  ret=" "
-when 0xBA
-if $key[0x10]==false
-ret=";"
-else
-ret=":"
-end
-when 0xBB
-if $key[0x10]==false
-ret="="
-else
-ret="+"
-end
-when 0xBC
-if $key[0x10]==false
-ret=","
-else
-ret="<"
-end
-when 0xBD
-if $key[0x10]==false
-ret="-"
-else
-ret="_"
-end
-when 0xBE
-if $key[0x10]==false
-ret="."
-else
-ret=">"
-end
-when 0xBF
-if $key[0x10]==false
-ret="/"
-else
-ret="?"
-end
-when 0xC0
-if $key[0x10]==false
-ret="`"
-else
-ret="~"
-end
-when 0xDB
-if $key[0x10]==false
-ret="["
-else
-ret="{"
-end
-when 0xDC
-if $key[0x10]==false
-ret="\\"
-else
-ret="|"
-end
-when 0xDD
-if $key[0x10]==false
-ret="]"
-else
-ret="}"
-end
-when 0xDE
-if $key[0x10]==false
-ret="'"
-else
-ret="\""
-end
-when 0xE2
-  if $key[0x10]==false
-ret="\\"
-else
-ret="|"
+ret=re.split("").last if re!="" and re[0]>=32
 end
 end
 end
-end
-if ret!=""
-  if lngkeys!=nil
-    ret=lngkeys[ret] if lngkeys[ret]!=nil
-    end
-  end
-  end
 if multi == true
   if $lastkeychar!=nil and ret!=""
     if $lastkeychar[1]>Time.now.to_i*1000000+Time.now.usec.to_i-200000 and ret!=$lastkeychar[0]
@@ -1646,7 +1462,7 @@ def speechtofile(file="",text="",name="")
   for i in 0..100
     scl.push(i.to_s+"%")
     end
-    fields=[Edit.new(_("EAPI_Common:type_title"),"",name,true),Select.new(voices,true,$voice.abs,_("EAPI_Common:head_voice"),true),Select.new(scl,true,$rate,_("EAPI_Common:head_rate"),true),FilesTree.new(_("EAPI_Common:head_dst"),getdirectory(40)+"\\",true,true,"Music"),FilesTree.new("Plik do przeczytania",getdirectory(40)+"\\",false,true,"Documents"),Select.new([_("EAPI_Common:opt_onefile"),_("EAPI_Common:opt_splitbyparagraphs"),_("EAPI_Common:opt_splitevery")],true,0,_("EAPI_Common:head_textsplit"),true),Edit.new(_("EAPI_Common:type_splitevery"),"","15",true),CheckBox.new(_("EAPI_Common:chk_readfilenum")),Select.new(["mp3","ogg","wav"],true,0,"Format wyjściowy",true),Button.new(_("EAPI_Common:btn_preview")),Button.new(_("EAPI_Common:btn_confirm")),Button.new(_("General:str_cancel"))]
+    fields=[Edit.new(_("EAPI_Common:type_title"),"",name,true),Select.new(voices,true,$voice.abs,_("EAPI_Common:head_voice"),true),Select.new(scl,true,$rate,_("EAPI_Common:head_rate"),true),FilesTree.new(_("EAPI_Common:head_dst"),getdirectory(40)+"\\",true,true,"Music"),FilesTree.new(_("EAPI_Common:head_filetoread"),getdirectory(40)+"\\",false,true,"Documents"),Select.new([_("EAPI_Common:opt_onefile"),_("EAPI_Common:opt_splitbyparagraphs"),_("EAPI_Common:opt_splitevery")],true,0,_("EAPI_Common:head_textsplit"),true),Edit.new(_("EAPI_Common:type_splitevery"),"","15",true),CheckBox.new(_("EAPI_Common:chk_readfilenum")),Select.new(["mp3","ogg","wav"],true,0,_("EAPI_Common:head_outputformat"),true),Button.new(_("EAPI_Common:btn_preview")),Button.new(_("EAPI_Common:btn_confirm")),Button.new(_("General:str_cancel"))]
     fields[4]=nil if file!="" or text!=""
     splittime=fields[6]
     splitinform=fields[7]
