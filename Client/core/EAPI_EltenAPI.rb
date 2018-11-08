@@ -11,15 +11,18 @@ module EltenAPI
   def unicode(str)
     buf="\0"*Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)*2
 Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.size,buf,buf.bytesize/2)
-return buf    <<"\0"
+return buf<<0
 end
   
-  def deunicode(str)
-    buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)
-Win32API.new("kernel32","WideCharToMultiByte",'iipipi','i').call(65001,0,str,str.bytesize,buf,buf.bytesize/2)
-buf=buf<<0
-buf.delete!("\0")
-return buf
+  def deunicode(str,nulled=false)
+    str.chop! if str[-1..-1]=="\0" and (str.bytesize.to_i/2!=str.bytesize.to_f/2.0)
+        str<<"\0\0" if nulled and str[-2..-1]!="\0\0"
+    sz=str.bytesize
+    sz=-1 if nulled
+    buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipi','i').call(65001,0,str,sz,nil,0)
+    useddef="\0"
+    Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,buf,buf.bytesize,nil,useddef)
+    return buf[0..buf.index("\0")-1]
 end
 
   # Converts a text from UTF8 to CP852

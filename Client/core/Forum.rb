@@ -375,7 +375,7 @@ end
         tmp+=thread.name
         tmp+="\004INFNEW{#{_("Forum:opt_phr_thrisnew")}: }\004" if thread.readposts<thread.posts and (id!=-2 and id!=-4 and id!=-6 and id!=-7)
         if id==-7
-          tmp+=" . Wzmiankujący: #{thread.mention.author} (#{thread.mention.message})"
+          tmp+=" . #{_("Forum:opt_phr_mentionedby")}: #{thread.mention.author} (#{thread.mention.message})"
           end
                 tmp+=" . #{_("Forum:opt_phr_author")}: #{thread.author.lore}, #{_("Forum:opt_phr_posts")}: #{thread.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(thread.posts-thread.readposts).to_s}"
       thrselt.push(tmp)
@@ -494,7 +494,7 @@ getcache
                                                         end
                           end
                         when 7
-                          confirm(S_("Forum:alert_thrdelete", {'thrname'=>sthreads[@thrsel.index].name})) do
+                          confirm(s_("Forum:alert_thrdelete", {'thrname'=>sthreads[@thrsel.index].name})) do
                           if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&delete=1\&threadid=#{sthreads[@thrsel.index].id}")[0].to_i<0
                             speech(_("General:error"))
                           else

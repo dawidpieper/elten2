@@ -164,17 +164,15 @@ return $key[0x20]
      $lkey = 0 if $lkey == nil
      $keyms= []
      $keyrls=[]
-     for i in 1..255
-       $keyms[i] = $advanced_keyms+5
-       $keyms[i] = $advanced_ackeyms+5 if i == 0x1b
-       $keyrls[i]=0
-     end
+            $keyms = [$advanced_keyms+5]*256
+       $keyms[0x1b] = $advanced_ackeyms+5
+       $keyrls=[0]*256
                end
-     keyb="\0"*256
-     Win32API.new("user32","GetKeyboardState",'p','i').call(keyb)
-          $keys=keys=keyb.unpack('c'*256)
+     $keybd="\0"*256
+     Win32API.new("user32","GetKeyboardState",'p','i').call($keybd)
+          $keys=keys=$keybd.unpack('c'*256)
                     for i in 1..255
-                        if keys[i]<0#Win32API.new("user32","GetAsyncKeyState",'i','i').call(i) != 0
+                        if keys[i]<0
          if ($keyms[i] > $advanced_keyms and i != 0x1b) or ($keyms[i] > $advanced_ackeyms)
            $keyms[i] = 0
                       $keyms[i] = 50 if $lkey == i
@@ -376,11 +374,9 @@ Input.update
   end
   end
 if tr == true
-  for i in 0..255
-    $key[i]=0
-    $keyms[i]=0
-  end
-      Graphics.update
+      $key=[0]*256
+    $keyms=[0]*256
+        Graphics.update
   Graphics.update
   play("login")
   speech("ELTEN")

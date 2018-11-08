@@ -501,7 +501,7 @@ rec=0
            play("recording_stop")
            recording_stop
            @form.fields[3]=Button.new(_("Messages:btn_play"))
-           @form.fields[2] = Button.new(_("General:str_cancelrec"))
+           @form.fields[2] = Button.new(_("Messages:btn_cancelrec"))
            rec = 2
          elsif rec == 2
                       player("temp/audiomessage.wav","",true)
