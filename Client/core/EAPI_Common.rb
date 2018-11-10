@@ -589,7 +589,7 @@ elsif gender == 1
   else
   text += _("EAPI_Common:txt_phr_lastseen")
   end
-text+= ui[0] + "\r\n"
+text+= ": " + ui[0] + "\r\n"
  text += _("EAPI_Common:txt_phr_userhasblog") if ui[1] == true
 text += "#{s_("EAPI_Common:txt_phr_knows", {'count'=>ui[2].to_s})}\r\n"
 if gender == -1
@@ -890,8 +890,7 @@ def getkeychar(keys=[],multi=false)
                                   re<<0 if (re.bytesize/2!=(re.bytesize.to_f/2.0))
                                   re.delete!(" ") if i!=32
 buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,nil,0,nil,nil)
-useddef="\0"
-Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,buf,buf.size,nil,useddef)
+Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,buf,buf.size,nil,nil)
 re=buf.delete("\0")
 ret=re.split("").last if re!="" and re[0]>=32
 end

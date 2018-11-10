@@ -20,8 +20,7 @@ end
     sz=str.bytesize
     sz=-1 if nulled
     buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipi','i').call(65001,0,str,sz,nil,0)
-    useddef="\0"
-    Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,buf,buf.bytesize,nil,useddef)
+        Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,buf,buf.bytesize,nil,nil)
     return buf[0..buf.index("\0")-1]
 end
 

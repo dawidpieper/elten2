@@ -1904,6 +1904,7 @@ for k in @hotkeys.keys
   end
 o += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}: " + ASCII(ss) if ss.is_a?(Integer)
 o += "\r\n\r\n(Zaznaczono)" if @selected[self.index] == true
+o||=""
 o.gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/) {
 o=("\004NEW\004"+" "+$1+" "+o).gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/,"")
 }
