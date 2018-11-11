@@ -884,13 +884,9 @@ def getkeychar(keys=[],multi=false)
   for i in 32..255
     if $key[i]
       c="\0"*8
-  Win32API.new("user32","ToUnicode",'iippii','i').call(i,0,$keybd,c,c.bytesize,0)
-  if c!="\0"*8
-                                      re=c.delete("\0")
-                                  re<<0 if (re.bytesize/2!=(re.bytesize.to_f/2.0))
-                                  re.delete!(" ") if i!=32
-buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,nil,0,nil,nil)
-Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,re,re.size,buf,buf.size,nil,nil)
+  if Win32API.new("user32","ToUnicode",'iippii','i').call(i,0,$keybd,c,c.bytesize,0) > 0
+                                                                            buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,nil,0,nil,nil)
+Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,buf,buf.size,nil,nil)
 re=buf.delete("\0")
 ret=re.split("").last if re!="" and re[0]>=32
 end

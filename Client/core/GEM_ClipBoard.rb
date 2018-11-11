@@ -113,7 +113,7 @@ end
      self.open
      i=Win32API.new(     'user32', 'GetClipboardData', ['I'], 'L'  ).call(UNICODETEXT)
           buf="\0"*(Win32API.new("kernel32","WideCharToMultiByte",'iilipi','i').call(65001,0,i,-1,nil,0))
-Win32API.new("kernel32","WideCharToMultiByte",'iilipi','i').call(65001,0,i,-1,buf,buf.bytesize-1)
+Win32API.new("kernel32","WideCharToMultiByte",'iilipipp','i').call(65001,0,i,-1,buf,buf.bytesize-1,nil,nil)
 buf=buf<<0
 buf=buf.delete("\0")
 return buf
