@@ -197,7 +197,7 @@ def speech_actived(ignoreaudio=false)
     while speech_actived == true
 loop_update
 end
-  $speech_waiter = true if $voice == -1
+  $speech_waiter = true if $voice == -1 and $speechaudio==nil
   return
 end
 

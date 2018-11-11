@@ -192,7 +192,6 @@ $thr1=Thread.new{thr1} if $thr1==nil
 $thr2=Thread.new{thr2} if $thr2==nil
 $thr3=Thread.new{thr3} if $thr3==nil
 $thr4=Thread.new{thr4} if $thr4==nil
-$thr5=Thread.new{thr5} if $thr5==nil
 $voice = readini($configdata + "\\sapi.ini","Sapi","Voice","-2").to_i if $voice == nil
 if $rvc==nil
       if (/\/voice (-?)(\d+)/=~$commandline) != nil
