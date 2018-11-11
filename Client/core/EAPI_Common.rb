@@ -590,7 +590,7 @@ elsif gender == 1
   text += _("EAPI_Common:txt_phr_lastseen")
   end
 text+= ": " + ui[0] + "\r\n"
- text += _("EAPI_Common:txt_phr_userhasblog") if ui[1] == true
+ text += _("EAPI_Common:txt_phr_userhasblog")+"\r\n" if ui[1] == true
 text += "#{s_("EAPI_Common:txt_phr_knows", {'count'=>ui[2].to_s})}\r\n"
 if gender == -1
 text += s_("EAPI_Common:txt_phr_knownby",{'count'=>ui[3].to_s})
@@ -918,165 +918,7 @@ return lng if param==2
     end
     
       # @note this function is reserved for Elten usage
-      def thr1
-                        begin
-                loop do
-                  if $ruby != true or $windowminimized != true
-                  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x11) > 0 and $speech_wait == true
-                    speech_stop
-                    $speech_wait = false
-                    end
-                  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x77) > 0
-                    time = ""
-                    if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
-if $advanced_synctime == 1
-                      time = srvproc("time","dateformat=Y-m-d")
-                    else
-                                            time = [sprintf("%04d-%02d-%02d",Time.now.year,Time.now.month,Time.now.day)]
-                                                                                     end
-else
-  if $advanced_synctime == 1
-  time = srvproc("time","dateformat=H:i:s")
-  else
-                      time = [sprintf("%02d:%02d:%02d",Time.now.hour,Time.now.min,Time.now.sec)]
-                      end
-  end
-speech(time[0])
-end
-         if Win32API.new($eltenlib,"KeyState",'i','i').call(0x76) > 0
-           if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
-    $playlistindex += 1 if $playlistbuffer!=nil
-  elsif $scene.is_a?(Scene_Console)==false
-    $scenes.insert(0,Scene_Console.new)
-    end
-    sleep(0.1)    
-    end
-        if Win32API.new($eltenlib,"KeyState",'i','i').call(0x75) > 0
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0  and $volume < 100
-  $volume += 5 if $volume < 100
-  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
-  play("list_focus")
-elsif Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
-  $playlistvolume = 0.8 if $playlistvolume == nil
-  if $playlistvolume < 1
-  $playlistvolume += 0.1
-  play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
-  end
-  end
-  sleep(0.1)
-  end
-if Win32API.new($eltenlib,"KeyState",'i','i').call(0x74) > 0
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0  and $volume > 5
-  $volume -= 5 if $volume > 5
-  play("list_focus")
-  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
-elsif Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
-    $playlistvolume = 0.8 if $playlistvolume == nil
-  if $playlistvolume > 0.01
-    $playlistvolume -= 0.1
-  $playlistvolume=0.01 if $playlistvolume==0
-    play("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
-  end
-  end
-  sleep(0.1)
-end
-if Win32API.new($eltenlib,"KeyState",'i','i').call(0x73) > 0
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0 and $playlistbuffer != nil
-    if $playlistindex != 0
-    $playlistindex -= 1
-  else
-    $playlistindex=$playlist.size-1
-    end
-    end
-    sleep(0.1)
-  end
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x70) > 0
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
-        if $voice==-1
-      $voice=readini($configdata+"\\sapi.ini","Sapi","Voice","-1").to_i
-          elsif Win32API.new("screenreaderapi","getCurrentScreenReader",'','i').call>0
-      $voice=-1
-      end
-  if $voice==-1
-        speech(_("EAPI_Common:info_usingscreenreader"))
-    else
-    speech(_("EAPI_Common:info_usingsapi"))
-  end
-else
-  $scenes.insert(0,Scene_ShortKeys.new) if $scene.is_a?(Scene_ShortKeys)==false
-      end
-  sleep(0.1)  
-  end
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x71) > 0
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
-    if $scene.is_a?(Scene_Main)
-      $scene=Scene_MainMenu.new
-      else
-    $scenes.insert(0,Scene_MainMenu.new) if $scene.is_a?(Scene_MainMenu)==false
-    end
-  end
-  sleep(0.1)
-  end
-if Win32API.new($eltenlib,"KeyState",'i','i').call(0x72) > 0
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) > 0
-    if $playlist.size>0 and $playlistbuffer!=nil
-if $playlistpaused == true
-  $playlistbuffer.play
-  $playlistpaused = false
-else
-  $playlistpaused=true
-  $playlistbuffer.pause  
-end
-end
-else
-  Audio.bgs_stop
-  run("bin\\elten_tray.bin")
-  Win32API.new("user32","SetFocus",'i','i').call($wnd)
-  Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
-  Graphics.update  
-  Graphics.update
-  play("login")
-    speech("ELTEN")
-    Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
-end
-sleep(0.1)    
-end
-if $name != "" and $name != nil and $token != nil and $token != ""
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x78) > 0
-    if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) <= 0 and $scene.is_a?(Scene_Contacts) == false
-    $scenes.insert(0,Scene_Contacts.new)
-      elsif $scene.is_a?(Scene_Online) == false and Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x10) > 0
-        $scenes.insert(0,Scene_Online.new)
-  end
-  sleep(0.1)
-  end
-        if Win32API.new($eltenlib,"KeyState",'i','i').call(0x79) > 0
-           if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10) == 0 and $scene.is_a?(Scene_WhatsNew) == false
-$scenes.insert(0,Scene_WhatsNew.new)
-elsif $scene.is_a?(Scene_Messages) == false and Win32API.new($eltenlib,"KeyState",'i','i').call(0x10)!=0
-  $scenes.insert(0,Scene_Messages.new)
-    end
-    sleep(0.1)
-  end
-end
-if Win32API.new($eltenlib,"KeyState",'i','i').call(0x7a) > 0
-  if Win32API.new($eltenlib,"KeyState",'i','i').call(0x10)==0
-    speech(futf8($speech_lasttext))
-  elsif $scene.is_a?(Scene_Chat)==false
-    $scenes.insert(0,Scene_Chat.new)
-    end
-    sleep(0.1)
-  end
-  end
-  sleep(0.05)
-  end
-rescue Exception
-    retry
-                end
-              end
-              
-# @note this function is reserved for Elten usage
-                  def thr2
+                  def thr1
                                         loop do
             begin
             sleep(0.1)
@@ -1092,7 +934,7 @@ end
     end
     
     # @note this function is reserved for Elten usage
-def thr3
+def thr2
   $playlistvolume=0.8
   $playlistindex = 0 if $playlistindex == nil
   $playlistlastindex = -1 if $playlistlastindex == nil
@@ -1136,7 +978,7 @@ plpos=0
 end
 
 # @note this function is reserved for Elten usage
-  def thr4
+  def thr3
     begin    
     $subthreads=[] if $subthreads==nil
                             loop do
@@ -1204,7 +1046,7 @@ end
      end
      
      # @note this function is reserved for Elten usage
-def thr5
+def thr4
                          begin
     loop do
       if $mproc==true

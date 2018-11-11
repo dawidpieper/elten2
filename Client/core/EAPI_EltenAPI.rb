@@ -305,7 +305,7 @@ else
   end
   for i in 1..sec.to_f*0.75
     Graphics.update
-    break if Win32API.new("user32","GetAsyncKeyState",'i','i').call(0xd) == 0 and Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20) == 0 and i > 10
+    break if !$key[0xd] and !$key[0x20] and i > 10
   end
   for i in 1..255
     $keyms[i] = 70

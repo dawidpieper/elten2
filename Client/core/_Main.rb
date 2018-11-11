@@ -10,7 +10,7 @@ class Object
 end
 module Elten
 Version=2.3
-Beta=5
+Beta=7
 Alpha=0
 IsBeta=1
 class <<self

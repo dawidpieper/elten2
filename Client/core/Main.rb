@@ -68,8 +68,7 @@ end
                                     $thr2=Thread.new{thr2} if $thr2.alive? == false
                                     $thr3=Thread.new{thr3} if $thr3.alive? == false
                                     $thr4=Thread.new{thr4} if $thr4.alive? == false
-                                    $thr5=Thread.new{thr5} if $thr5.alive? == false
-                                                              if (($nbeta > $beta) and $isbeta==1) and $denyupdate != true
+                                                                                                  if (($nbeta > $beta) and $isbeta==1) and $denyupdate != true
                             if $portable != 1
       #$scene = Scene_Update_Confirmation.new($scene)
       #return
