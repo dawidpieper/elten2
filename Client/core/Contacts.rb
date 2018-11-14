@@ -121,8 +121,7 @@ loop_update
             end
           play("menu_close")
           Audio.bgs_stop
-          delay          
-          return
+                    return
         end
                 def menu
           play("menu_open")
@@ -155,8 +154,7 @@ end
             end
           play("menu_close")
           Audio.bgs_stop
-          delay
-          return
+                    return
           end
         end
         

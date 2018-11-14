@@ -763,8 +763,7 @@ loop do
 end
 def update
   if escape
-    delay
-    $scene = Scene_Main.new
+        $scene = Scene_Main.new
   end
   if enter
     input_text(@selt[@sel.index],"READONLY|ACCEPTESCAPE",@changes[@sel.index][1..@changes[@sel.index].size-1])

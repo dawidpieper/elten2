@@ -129,16 +129,14 @@ $advanced_ytformat="wav" if $advanced_ytformat!="mp3"
 $advanced_soundstreaming = readini($configdata + "\\advanced.ini","Advanced","SoundStreaming","1").to_i
 $advanced_synctime = readini($configdata + "\\advanced.ini","Advanced","SyncTime","1").to_i
 if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
-    File.delete("testtemp") if FileTest.exists?("testtemp")
-      $url = "http://elten-net.eu/srv/"
+          $url = "http://elten-net.eu/srv/"
       if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
-      File.delete("testtemp") if FileTest.exists?("testtemp")
-    $neterror=true
+          $neterror=true
   else
     #sslerror
             end
     else
-      $neterror=true
+      $neterror=false
             end
       if $neterror == true
       download($url + "redirect","redirect")
@@ -245,27 +243,7 @@ if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
 speech(startmessage) if $silentstart != true
-if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
-            $neterror = true
-      end
-      if $neterror == true
-      download($url + "redirect","redirect")
-    if FileTest.exist?("redirect")
-      $neterror = false
-      rdr = IO.readlines("redirect")
-      File.delete("redirect") if $DEBUG != true
-      if rdr.size > 0
-          if rdr[0].size > 0
-            $url = rdr[0].delete("\r\n")
-            end
-        end
-if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
-$neterror = true
-end
-        end
-      end  
-      loop_update
-      $speech_wait = true if $silentstart != true
+            $speech_wait = true if $silentstart != true
         if (((nversion > version+0.00001 or (nalpha > alpha and isbeta==2) or (nalpha == 0 and alpha > 0 and isbeta == 2))) or (isbeta==1 and nversion==version)) and $denyupdate != true
 if $portable != 1
           $scene = Scene_Update_Confirmation.new

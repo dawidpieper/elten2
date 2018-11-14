@@ -493,7 +493,6 @@ loop do
                         Audio.bgs_stop
             case o
                         when 0
-delay(0.2)
                           play("recording_start")
             recording_start("temp/audioblogpost.wav",3600)
             @recst=1
@@ -1142,7 +1141,6 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-delay(0.25)
 main if @main == true
 return
 end

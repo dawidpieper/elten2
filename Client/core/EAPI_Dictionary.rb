@@ -42,7 +42,7 @@ end
 
   def _(msg)
   $dict={} if $dict==nil
-    return (($dict!=nil)?$dict[msg]:nil)||(($locales.is_a?(Array) and $locales.size>0)?$locales[0][msg]:nil)||msg
+    return (($dict!=nil)?($dict[msg]+""):nil)||(($locales.is_a?(Array) and $locales.size>0)?($locales[0][msg]+""):nil)||msg
 end
 
 def s_(msg, params)

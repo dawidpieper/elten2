@@ -17,7 +17,7 @@ module EltenAPI
     # @example Downloading Onet main page with threading enabled
     #  download("http://onet.pl","onet.html",true)
     def download(source,destination,threading=false)
-                    source.delete!("\r\n")
+                          source.delete!("\r\n")
   destination.delete!("\r\n")
   $downloadcount = 0 if $downloadcount == nil
     source.sub!("?","?eltc=#{$downloadcount.to_s(36)}\&") if source.include?($url)

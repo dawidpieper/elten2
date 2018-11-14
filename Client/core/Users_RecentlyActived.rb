@@ -7,8 +7,7 @@
 
 class Scene_Users_RecentlyActived
   def initialize
-        delay(0.25)
-    @users = srvproc("online","name=#{$name}\&token=#{$token}\&period=86400")
+            @users = srvproc("online","name=#{$name}\&token=#{$token}\&period=86400")
             for i in 0..@users.size - 1
       @users[i].delete!("\r")
       @users[i].delete!("\n")
@@ -81,7 +80,6 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-delay(0.25)
 if @main == true
   initialize
   main

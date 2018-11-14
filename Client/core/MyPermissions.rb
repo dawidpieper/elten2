@@ -50,7 +50,6 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-delay(0.25)
 return
 end
   end

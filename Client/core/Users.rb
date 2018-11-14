@@ -93,7 +93,6 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-delay(0.25)
 main if @main == true
 return
 end

@@ -389,7 +389,6 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-delay
 end
 def deletemessage
   confirm(_("Messages:alert_delete")) do

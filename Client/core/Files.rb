@@ -159,8 +159,7 @@ if $key[0x11] and $key[0x49]
   end
      if $key[0x11] and $key[0x4f]
        run("explorer #{@tree.selected}")
-       delay(0.1)
-     end
+            end
           if $key[0x11] and $key[0x56] and @clp_type>0
                 paste
 @tree.refresh

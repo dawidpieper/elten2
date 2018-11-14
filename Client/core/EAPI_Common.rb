@@ -263,7 +263,6 @@ if escape
 end
 Audio.bgs_stop if submenu != true
 play("menu_close") if submenu != true
-delay(0.15) if submenu != true
 end
 
 # Opens a what's new menu

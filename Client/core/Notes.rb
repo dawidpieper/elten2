@@ -108,8 +108,7 @@ class Scene_Notes
       end
     play("menu_close")
       Audio.bgs_stop
-      delay
-      end
+            end
   def show(note,edit=false)
     id=note.id
     shares=[]

@@ -174,15 +174,15 @@ return $key[0x20]
                     for i in 1..255
                         if keys[i]<0
          if ($keyms[i] > $advanced_keyms and i != 0x1b) or ($keyms[i] > $advanced_ackeyms)
-           $keyms[i] = 0
-                      $keyms[i] = 50 if $lkey == i
-                      $key[i] = true
-                       if keys[i]==-127 or keys[i]==-128#$keyrls[i]==0
+                                  if $keyms[i]==$advanced_keyms+5
                                                   $keypr[i]=true
                        $keyrls[i]=1
                          else
                          $keypr[i]=false
-                                                  end
+                       end
+                       $keyms[i] = 0
+                      $keyms[i] = 50 if $lkey == i
+                      $key[i] = true
            $lkey = i
          $keyr[i]=true
        else

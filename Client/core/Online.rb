@@ -7,8 +7,7 @@
 
 class Scene_Online
   def initialize
-        delay(0.25)
-            @online = srvproc("online","name=#{$name}\&token=#{$token}")
+                    @online = srvproc("online","name=#{$name}\&token=#{$token}")
        
             for i in 0..@online.size - 1
       @online[i].delete!("\r")
@@ -82,7 +81,6 @@ end
 end
 Audio.bgs_stop
 play("menu_close")
-delay(0.25)
 if @main == true
   initialize
   main
