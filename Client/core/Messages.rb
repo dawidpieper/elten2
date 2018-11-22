@@ -40,10 +40,10 @@ else
      end
  end
 def export
-  return [@wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages]
+  return [@wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages,@form_messages]
 end
 def import(arr)
-    @wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages=arr
+    @wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages,@form_messages=arr
   end
  def load_users(limit=@users_limit||20)
    @lastuser=nil
@@ -355,7 +355,7 @@ when 2
   File.delete("temp/agent_wn.tmp")
   end
 @form_messages.update
-deletemessage if $key[0x2e] and @sel_messages.index<@messages.size
+deletemessage if $key[0x2e] and @sel_messages.index<@messages.size and @form_messages.index==0
       if enter or Input.trigger?(Input::RIGHT)and @form_messages.index==0
       if @sel_messages.index<@messages.size
       show_message(@messages[@sel_messages.index])
