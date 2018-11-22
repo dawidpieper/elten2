@@ -116,6 +116,7 @@ end
 Win32API.new("kernel32","WideCharToMultiByte",'iiiipipp','i').call(65001,0,i,-1,buf,buf.bytesize-1,nil,nil)
 buf=buf<<0
 buf=buf.delete("\0")
+self.close
 return buf
      end
    

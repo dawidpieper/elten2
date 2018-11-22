@@ -1111,6 +1111,7 @@ speech($chatmsg)
 $chatlastmsg=$chatmsg
 end
 end
+IO.write("temp/agent_wn.tmp",sess[8..16].join("\r\n"))
 end
 end
 end

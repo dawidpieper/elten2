@@ -175,14 +175,25 @@ end
 # @param file [String] a file to run
 # @param hide [Boolean] if true, the new process's window is hidden
 # @return [Numeric] the pid of a created process
-def run(file,hide=false)
-  params = 'LPLLLLLPPP'
+def  run(file,hide=false,stdinrd=nil,stdinwr=nil,stdoutrd=nil,stdoutwr=nil)
+  cp=Win32API.new("kernel32","CreatePipe",'pppi','i')
+  shi=Win32API.new("kernel32","SetHandleInformation",'iii','i')
+   if stdoutrd!=nil and stdoutwr!=nil
+  cp.call(stdoutrd,stdoutwr,nil,16384)
+  shi.call(stdoutrd.unpack("I")[0],1,0)
+  end
+   if stdinrd!=nil and stdinwr!=nil
+  cp.call(stdinrd,stdinwr,nil,16384)
+  shi.call(stdinrd.unpack("I")[0],1,0)
+  end
+    params = 'LPLLLLLPPP'
 createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
     env = 0
            env = "Windows".split(File::PATH_SEPARATOR) << nil
                   env = env.pack('p*').unpack('L').first
-         startinfo = [0,0,0,0,0,0,0,0,0,0,0,0x100,0,0,0,0,0,0]
-         startinfo = [0,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,0,0,0] if hide
+         flags=0
+                           startinfo = [0,0,0,0,0,0,0,0,0,0,0,0x100,0,0,0,(stdinrd||"").unpack("i")[0],(stdoutwr||"").unpack("I")[0],0]
+         startinfo = [0,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,(stdinwr||"").unpack("i")[0],(stdoutwr||"").unpack("i")[0],0] if hide
     startinfo = startinfo.pack('LLLLLLLLLLLLSSLLLL')
     procinfo  = [0,0,0,0].pack('LLLL')
         pr = createprocess.call(0, utf8(file), 0, 0, 0, 0, 0, ".", startinfo, procinfo)

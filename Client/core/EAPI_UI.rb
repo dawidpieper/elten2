@@ -89,22 +89,25 @@ end
       return(false)
     end
   else
-    if $key[0x11] == false
-      if $key[0xA4]
-        t = Time.now.to_i
-        delay
-                        if Time.now.to_i <= t+1
-        return true
-      else
-        return false
-        end
-              else
+                        if $keypr[0xA4] or ($keyr[0xA4] and $altsta)
+                      $altsta=true
+        t=Time.now
+        $altstt =t.to_i*1000000+t.usec
+        $altsta,$altstt=false,0 if $keyr[0x09] or $keyr[0x11]
                 return false
-        end
+      elsif !$keyr[0xA4] and $altsta
+        $altsta=false
+        t=Time.now
+        if (t.to_i*1000000+t.usec)-($altstt||0)<30000 and Win32API.new("user32","GetFocus",'','i').call==$wnd
+                      $altst=0
+                    return true
           else
-      return(false)
-      end
-    end
+                      return false
+                    end
+                  else
+                    return false
+        end
+              end
     end
     
     # Determines if enter has been pressed

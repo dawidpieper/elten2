@@ -6,7 +6,546 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Messages
+    def initialize(wn=2000)
+          if wn==true or wn==false or wn.is_a?(Integer)
+      @wn=wn
+    elsif wn.is_a?(Array)
+            import(wn)
+      @imported=true
+      end
+    end
+  def main()
+   if @imported!=true
+    if @wn!=true
+    @cat=0
+    load_users
+  else
+    @cat=1
+    load_conversations("","new")
+  end
+else
+  @imported=false
+  end
+   loop do
+     loop_update
+     case @cat
+     when 0
+       update_users
+       when 1
+         update_conversations
+         when 2
+           update_messages
+     end
+     break if $scene!=self
+     end
+ end
+def export
+  return [@wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages]
+end
+def import(arr)
+    @wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages=arr
+  end
+ def load_users(limit=@users_limit||20)
+   @lastuser=nil
+   @lastuser=@users[@sel_users.index] if @users.is_a?(Array) and @sel_users.is_a?(Select)
+   @users=[]
+   @users_limit=limit
+    msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&limit=#{@users_limit}")
+File.delete("temp/agent_wn.tmp") if FileTest.exists?("temp/agent_wn.tmp")
+    if msg[0].to_i<0
+      speech(_("General:error"))
+      speech_wait
+      return $scene=Scene_Main.new
+      end
+l=0
+@users_more=(msg[2].to_i==1)?true:false
+for i in 3..msg.size-1
+  line=msg[i].delete("\r\n")
+  case l
+  when 0
+    @users.push(Struct_Messages_User.new(line))
+    when 1
+    @users[-1].lastuser=line
+    when 2
+        @users[-1].lastdate=Time.at(line.to_i)
+        when 3
+          @users[-1].lastsubject=line
+      when 4
+        @users[-1].read=line.to_i
+        when 5
+          @users[-1].lastid=line.to_i
+              end
+      l+=1
+      l=0 if l==6
+    end
+    selt=[]
+    ind=0
+    for u in @users
+            selt.push(u.user+":\r\n"+_("Messages:opt_phr_lastmsg")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+sprintf("%04d-%02d %02d:%02d:%02d",u.lastdate.year,u.lastdate.month,u.lastdate.day,u.lastdate.hour,u.lastdate.min)+"\r\n")
+      selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if u.read==0 and u.lastuser==u.user
+      ind=selt.size-1 if u.user==@lastuser.user if @lastuser!=nil
+    end
+selt.push(_("Messages:opt_showmore")) if @users_more
+    @sel_users=Select.new(selt,true,ind,_("Messages:head"))
+end
+def update_users
+  @sel_users.update
+  if enter or Input.trigger?(Input::RIGHT)
+    if @sel_users.index<@users.size
+    load_conversations(@users[@sel_users.index].user)
+    @cat=1
+  else
+    @sel_users.index-=1
+    load_users(@users_limit+20)
+    speech @sel_users.commandoptions[@sel_users.index]
+    end
+  end
+  menu_users if alt
+  $scene=Scene_Main.new if escape
+end
+def menu_users
+play("menu_open")
+play("menu_background")
+@menu = menulr([_("Messages:opt_answer"),_("Messages:opt_compose"),_("Messages:opt_markallasread"),_("Messages:opt_search"),_("Messages:opt_showflagged"),_("General:str_refresh")],true,0,"",true)
+@menu.disable_item(0) if @users.size ==0 or @sel_users.index>=@users.size
+@menu.focus
+loop do
+loop_update
+@menu.update
+if enter
+case @menu.index
+when 0
+  $scene = Scene_Messages_New.new(@users[@sel_users.index].user,"","",export)
+when 1
+$scene = Scene_Messages_New.new("","","",export)
+when 2
+  msgtemp = srvproc("message_allread","name=#{$name}\&token=#{$token}")
+    if msgtemp[0].to_i < 0
+    speech(_("General:error"))
+    speech_wait
+    $scene = Scene_Main.new
+    return 
+    end
+    speech(_("Messages:info_allmarkedasread"))
+speech_wait
+if @wn == true
+  $scene = Scene_WhatsNew.new
+  return
+else
+  return main
+  end
+  when 3
+    load_messages("","","search")
+@cat=2
+    when 4
+load_messages("","","flagged")
+@cat=2
+when 5
+    play("menu_close")
+  Audio.bgs_stop
+  return main
+end
+break
+end
+if alt or escape
+loop_update
+  break
+end
+end
+Audio.bgs_stop
+play("menu_close")
+end
+  def load_conversations(user,sp=nil,limit=@conversations_limit||20)
+    msg=""
+    if sp==nil
+    @user=user
+   @lastconversation=nil
+   @lastconversation=@conversations[@sel_conversations.index] if @conversations.is_a?(Array) and @sel_conversations.is_a?(Select)
+   @lastconversation_user=user
+   @conversations=[]
+   @conversations_user=user
+   @conversations_limit=limit
+msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&user=#{user.urlenc}\&limit=#{@conversations_limit.to_i}")
+   else
+   @conversations_sp=sp
+   @conversations=[]
+   msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&sp=#{sp}")
+ end
+ File.delete("temp/agent_wn.tmp") if FileTest.exists?("temp/agent_wn.tmp")
+       if msg[0].to_i<0
+      speech(_("General:error"))
+      speech_wait
+      return $scene=Scene_WhatsNew.new
+      end
+@conversations_more=(msg[2].to_i==1)?true:false
+      l=0
+for i in 4..msg.size-1
+  line=msg[i].delete("\r\n")
+  case l
+  when 0
+    @conversations.push(Struct_Messages_Conversation.new(line))
+    when 1
+    @conversations[-1].lastuser=line
+    when 2
+        @conversations[-1].lastdate=Time.at(line.to_i)
+      when 3
+        @conversations[-1].read=line.to_i
+        when 4
+          @conversations[-1].lastid=line.to_i
+              end
+      l+=1
+      l=0 if l==5
+    end
+        selt=[]
+        ind=0
+    for c in @conversations
+      selt.push(((c.subject!="")?(c.subject):_("Messages:opt_phr_nosubj"))+":\r\n"+((sp==nil)?_("Messages:opt_phr_lastmsg"):_("Messages:opt_phr_from"))+": "+c.lastuser+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",c.lastdate.year,c.lastdate.month,c.lastdate.day,c.lastdate.hour,c.lastdate.min)+"\r\n")
+      selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if c.read==0 and c.lastuser==user
+      ind=selt.size-1 if c.subject==@lastconversation.subject and user==@lastconversation_user if @lastconversation!=nil and @lastconversation_user!=nil
+    end
+    selt.push(_("Messages:opt_showmore")) if @conversations_more
+    @sel_conversations=Select.new(selt,true,ind,((sp==nil)?s_("Messages:head_conversations",{'user'=>user}):""))
+  end
+  def update_conversations
+    @sel_conversations.update
+    if enter or Input.trigger?(Input::RIGHT)
+      if @sel_conversations.index<@conversations.size
+      load_messages(@conversations_user||@conversations[@sel_conversations.index].lastuser,@conversations[@sel_conversations.index].subject,@conversations_sp)
+      @cat=2
+    else
+      @sel_conversations.index-=1
+      load_conversations(@conversations_user,nil,@conversations_limit+20)
+speech @sel_conversations.commandoptions[@sel_conversations.index]
+      end
+      end
+    if escape or Input.trigger?(Input::LEFT)
+      if @conversations_sp!="new"
+      load_users
+      @cat=0
+      @sel_conversations=nil
+    else
+      return $scene=Scene_WhatsNew.new
+      end
+    end
+    menu_conversations if alt
+    end
+def menu_conversations
+play("menu_open")
+play("menu_background")
+@menu = menulr([_("Messages:opt_answer"),_("Messages:opt_compose"),_("General:str_refresh")],true,0,"",true)
+@menu.disable_item(0) if @conversations.size ==0 or @sel_conversations.index>=@conversations.size
+@menu.disable_item(1) if @conversations_sp=="new"
+@menu.focus
+loop do
+loop_update
+@menu.update
+if enter
+case @menu.index
+when 0
+  $scene = Scene_Messages_New.new(@user,"RE: "+@conversations[@sel_conversations.index].subject,"",export)
+when 1
+$scene = Scene_Messages_New.new("","","",export)
+when 2
+    play("menu_close")
+  Audio.bgs_stop
+  return main
+end
+break
+end
+if alt or escape
+loop_update
+  break
+end
+end
+Audio.bgs_stop
+play("menu_close")
+end
+    def load_messages(user,subject,sp=nil,limit=@messages_limit||50,complete=false)
+               @messages=[] if !complete
+   @messages_user=user
+   @messages_subject=subject
+   @messages_sp=sp
+   @messages_limit=limit if !complete
+   msg=""
+   if sp=="flagged"
+     msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&sp=flagged")
+   elsif sp=="search"
+     term=input_text(_("Messages:type_searchphrase"),"ACCEPTESCAPE",@lastsearch||"")
+     if term=="\004ESCAPE\004"
+       @cat=0
+       return
+       end
+                   @lastsearch=term
+     msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&sp=search&search=#{term.urlenc}")
+     else
+   msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&user=#{user.urlenc}\&subj=#{subject.urlenc}&limit=#{@messages_limit.to_s}")
+   end
+@messages_wn=0
+   if FileTest.exists?("temp/agent_wn.tmp")
+     @messages_wn=read("temp/agent_wn.tmp").split("\r\n")[0].to_i
+  File.delete("temp/agent_wn.tmp")
+  end
+   if msg[0].to_i<0
+            speech(_("General:error"))
+      speech_wait
+      return $scene=Scene_Main.new
+      end
+@messages_more=(msg[2].to_i==1)?true:false if !complete
+      l=0
+      o=-1
+      curid=0
+      curid=@messages[0].id if complete
+for i in 4..msg.size-1
+  line=msg[i].delete("\r\n")
+  case l
+  when 0
+    break if complete and line.to_i<=curid
+    o=(complete)?0:(@messages.size)
+    @messages.insert(o,Struct_Message.new(line.to_i))
+        when 1
+    @messages[o].sender=line
+    @messages[o].receiver=((line==$name)?user:$name)
+when 2
+  @messages[o].subject=line
+    when 3
+            @messages[o].date=Time.at(line.to_i)
+    when 4
+                @messages[o].mread=line.to_i
+        when 5
+          @messages[o].marked=line.to_i
+          when 6
+            @messages[o].attachments=line
+            when 7
+              if line.include?("\004END\004")==false
+        @messages[o].text+=line+"\n"
+        l-=1
+      else
+        @messages[o].text.chop!
+        end
+            end
+      l+=1
+      l=0 if l==8
+    end
+         selt=[]
+    for m in @messages
+      break if m.id<=curid
+      play "messages_complete" if complete
+            selt.push(m.sender+":\r\n"+((sp!=nil and sp!="new")?(m.subject+":\r\n"):"")+m.text.gsub("\004LINE\004","\r\n").split("")[0...5000].join+((m.text.size>5000)?"... #{_("Messages:opt_phr_readmore")}":"")+"\r\n"+sprintf("%04d-%02d %02d:%02d:%02d",m.date.year,m.date.month,m.date.day,m.date.hour,m.date.min)+"\r\n")
+      selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if m.mread==0
+      selt[-1]+="\004ATTACHMENT\004" if m.attachments!=""
+    end
+    selt.push(_("Messages:opt_showmore")) if @messages_more and !complete
+    if !complete
+    head=s_("Messages:head_messages",{'subject'=>subject,'user'=>user})
+    head=_("Messages:head_flagged") if sp=='flagged'
+    head=_("Messages:head_searchresults") if sp=='search'
+    @sel_messages=Select.new(selt,true,0,head)
+      @form_messages=Form.new([@sel_messages,Edit.new(_("Messages:type_reply"),"MULTILINE","",true)],0,true)
+  @form_messages.fields[1]=nil if msg[3].to_i==0 or @messages_sp=='flagged' or @messages_sp=='search'
+  else
+    @sel_messages.commandoptions=selt+@sel_messages.commandoptions
+    @sel_messages.index+=selt.size
+  end
+    end
+  def update_messages
+   if FileTest.exists?("temp/agent_wn.tmp") and (@messages_sp==nil or @messages_sp == "new")
+     mwn=read("temp/agent_wn.tmp").split("\r\n")[0].to_i
+     load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true) if mwn>@messages_wn
+     @messages_wn=mwn
+  File.delete("temp/agent_wn.tmp")
+  end
+@form_messages.update
+deletemessage if $key[0x2e] and @sel_messages.index<@messages.size
+      if enter or Input.trigger?(Input::RIGHT)and @form_messages.index==0
+      if @sel_messages.index<@messages.size
+      show_message(@messages[@sel_messages.index])
+      loop_update
+      return if $scene!=self
+      @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"") if @messages[@sel_messages.index].mread==0
+    else
+      @sel_messages.index-=1
+      load_messages(@messages_user,@messages_subject,@messages_sp,@messages_limit+50)
+      speech @sel_messages.commandoptions[@sel_messages.index]
+      end
+    end
+      if @form_messages.fields[1]!=nil
+  if @form_messages.fields[1].text=="" and @form_messages.fields[2]!=nil
+@form_messages.fields[2]=nil
+elsif @form_messages.fields[1].text!="" and @form_messages.fields[2]==nil
+  @form_messages.fields[2]=Button.new(_"Messages:btn_send")
+  end
+    if ((enter or space) and @form_messages.index==2) or ((enter and $key[0x11]) and @form_messages.index==1)
+      bufid=buffer(@form_messages.fields[1].text)
+      msgtemp = srvproc("message_send","name=#{$name}\&token=#{$token}\&to=#{@messages_user}\&subject=#{("RE: "+@messages_subject).urlenc}\&buffer=#{bufid}")
+if msgtemp[0].to_i<0
+      speech(_("General:error"))
+    else
+      @form_messages.index=1
+      @form_messages.fields[1].settext("")
+      speech(_("Messages:info_sent"))
+      end
+          end
+    end
+    if escape or (Input.trigger?(Input::LEFT) and @form_messages.index==0)
+      if @messages_sp!="flagged" and @messages_sp!="search"
+      load_conversations(@messages_user,@messages_sp)
+      @cat=1
+      @sel_messages=nil
+    else
+      load_users
+      @cat=0
+      end
+    end
+    menu_messages if alt
+  end
+  def menu_messages
+play("menu_open")
+play("menu_background")
+@menu = menulr([_("Messages:opt_answer"),_("Messages:opt_flag"),_("General:str_delete"),_("Messages:opt_compose"),_("Messages:opt_forward"),_("General:str_refresh")],true,0,"",true)
+@menu.commandoptions[1]=_("Messages:opt_removeflag") if @messages[@sel_messages.index].marked==1
+@menu.disable_item(1) if @messages[@sel_messages.index].receiver!=$name
+@menu.disable_item(3) if @messages_sp=="new"
+if @messages.size==0 or @sel_messages.index>=@messages.size
+@menu.disable_item(0)
+@menu.disable_item(1)
+@menu.disable_item(2)
+@menu.disable_item(4)
+end
+@menu.focus
+loop do
+loop_update
+@menu.update
+if enter
+case @menu.index
+when 0
+  rec=@messages[@sel_messages.index].sender
+  rec=@messages[@sel_messages.index].receiver if rec==$name
+  $scene = Scene_Messages_New.new(rec,"RE: " + @messages[@sel_messages.index].subject.sub("RE: ",""),"",export)
+when 1
+  if @messages[@sel_messages.index].marked==0
+    if srvproc("messages","name=#{$name}\&token=#{$token}\&mark=1\&id=#{@messages[@sel_messages.index].id}")[0].to_i<0
+      speech(_("General:error"))
+      speech_wait
+    else
+      speech(_("Messages:info_flagged"))
+      speech_wait
+      @messages[@sel_messages.index].marked=1
+      end
+    else
+if srvproc("messages","name=#{$name}\&token=#{$token}\&unmark=1\&id=#{@messages[@sel_messages.index].id}")[0].to_i<0
+      speech(_("General:error"))
+      speech_wait
+    else
+      speech(_("Messages:info_glagremoved"))
+      speech_wait
+      @messages[@sel_messages.index].marked=0
+      end
+      end
+  @sel_messages.focus
+    when 2
+  deletemessage
+when 3
+$scene = Scene_Messages_New.new("","","",export)
+when 4
+  $scene = Scene_Messages_New.new("","FW: " + @messages[@sel_messages.index].subject,"#{@messages[@sel_messages.index].sender}: \r\n" + @messages[@sel_messages.index].text,export)
+when 5
+    play("menu_close")
+  Audio.bgs_stop
+  return main
+end
+break
+end
+if alt or escape
+loop_update
+  break
+end
+end
+Audio.bgs_stop
+play("menu_close")
+end
+  def show_message(message)
+         dialog_open
+         message.mread = 1 if message.receiver==$name
+         date=sprintf("%04d-%02d-%02d %02d:%02d",message.date.year,message.date.month,message.date.day,message.date.hour,message.date.min)
+                                        fields = [Edit.new(message.subject + " #{_("Messages:opt_phr_from")}: " + message.sender,"MULTILINE|READONLY",message.text+"\r\n"+date,true)]
+                  if message.attachments.size>0
+                    att=[]
+                    for at in message.attachments
+                      ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+                      if ati[0].to_i<0
+                        speech(_("General:error"))
+                        $scene=Scene_Main.new
+                        return
+                      end
+                      att.push(ati[2])  
+                    end
+                    fields[1]=Select.new(att,true,0,_("Messages:head_attachments"),true)
+                    end
+                  form=Form.new(fields)
+         play("list_select")
+loop do
+  loop_update
+  form.update
+  if enter and form.index==1
+    at=message.attachments[form.fields[1].index]
+    ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+                      if ati[0].to_i<0
+                        speech(_("General:error"))
+                        $scene=Scene_Main.new
+                        return
+                      end
+    id=at
+    name=ati[2].delete("\r\n")
+        loc=getfile(_("Messages:head_savelocation"),getdirectory(40)+"\\",true,"Documents")
+    if loc!=""
+      waiting
+      downloadfile($url+"attachments/"+id.to_s,loc+"\\"+name)
+      speech_wait
+      waiting_end
+      speech(_("Messages:info_attachmentdownloaded"))
+    else
+      loop_update
+    end
+                              end
+  if escape
+                  speech_stop
+         break
+       end
+       end
+                         dialog_close
+                       end
+                       def deletemessage
+  confirm(_("Messages:alert_delete")) do
+    if srvproc("messages","name=#{$name}\&token=#{$token}\&delete=1\&id=#{@messages[@sel_messages.index].id.to_s}")[0].to_i<0
+      speech(_("General:error"))
+      speech_wait
+            return
+    end
+    speech(_("Messages:info_messagedeleted"))
+    speech_wait
+                        @sel_messages.disable_item(@sel_messages.index)
+                        @sel_messages.focus
+      end
+    end
+  end
+
+  class Struct_Messages_User
+    attr_accessor :user, :read, :lastdate, :lastuser, :lastsubject, :lastid
+    def initialize(user="")
+      @user=user
+      end
+    end
+  
+    class Struct_Messages_Conversation
+    attr_accessor :subject, :read, :lastdate, :lastuser,  :lastid
+    def initialize(subj="")
+      @subject=subj
+    end
+    end
+    
+class Scene_MessagesO
   def initialize(wn=2000)
+    wn=2000 if wn.is_a?(Array)
     @wn=wn
     end
   def main
@@ -257,7 +796,7 @@ case @menu.index
 when 0
   rec=@message[@msgcur].sender
   rec=@message[@msgcur].receiver if @message[@msgcur].sender==$name
-  $scene = Scene_Messages_New.new(rec,"RE: " + @message[@msgcur].subject.sub("RE: ",""),"",@wn)
+  $scene = Scene_Messages_New.new(rec,"RE: " + @message[@msgcur].subject.sub("RE: ",""),"",export)
 when 1
   if @message[@msgcur].marked==0
     if srvproc("messages","name=#{$name}\&token=#{$token}\&mark=1\&id=#{@message[@msgcur].id}")[0].to_i<0
@@ -567,7 +1106,7 @@ rec=0
                        end
                      end
                      if escape or ((enter or space) and @form.index == 6)
-                                                              if @scene != false and @scene != true and @scene.is_a?(Integer)==false
+                                                              if @scene != false and @scene != true and @scene.is_a?(Integer)==false and @scene.is_a?(Array)==false
            $scene = @scene
          else
            $scene = Scene_Messages.new(@scene)
@@ -734,7 +1273,7 @@ waiting_end
          when 0
            speech(_("Messages:info_sent"))
            speech_wait
-           if @scene != false and @scene != true and @scene.is_a?(Integer) == false
+           if @scene != false and @scene != true and @scene.is_a?(Integer) == false and @scene.is_a?(Array)==false
            $scene = @scene
          else
            $scene = Scene_Messages.new(@scene)
@@ -764,15 +1303,7 @@ waiting_end
        end
        
 class Struct_Message
-               attr_accessor :id
-               attr_accessor :receiver
-               attr_accessor :sender
-               attr_accessor :subject
-                              attr_accessor :mread
-                                             attr_accessor :marked
-               attr_accessor :date
-                              attr_accessor :attachments
-                              attr_accessor :text
+attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attachments, :text
                def initialize(id=0)
                  @id=id
                  @receiver=$name

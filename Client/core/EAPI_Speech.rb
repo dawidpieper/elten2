@@ -127,8 +127,8 @@ prei=0
   if text != ""
         text = char_dict(text) if text.split("").size==1
     text = text.gsub("_"," ")
-text.gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/) {
-text=($1+" "+text).gsub(/\004INFNEW\{([a-zA-Z0-9 \-\/:_=.,]+)\}\004/,"\004NEW\004")
+text.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
+text=($1+" "+text).gsub(/\004INFNEW\{([^\}]+)\}\004/,"\004NEW\004")
 }
   text.gsub!("\004NEW\004") {
   play("list_new")

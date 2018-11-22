@@ -134,7 +134,7 @@ msgid "Clock:opt_single"
 msgstr "One time"
 
 msgid "Clock:opt_multiple"
-msgstr "Repeatable"
+msgstr "Repeaarr"
 
 msgid "Advanced:head_keyreftime"
 msgstr ""
@@ -249,50 +249,50 @@ msgstr "Add"
 msgid "Programs:head"
 msgstr "Programs installation"
 
-msgid "Portable:head_dest"
+msgid "Porarr:head_dest"
 msgstr "Destination"
 
-msgid "Portable:chk_langs"
+msgid "Porarr:chk_langs"
 msgstr "Include another languages"
 
-msgid "Portable:chk_settings"
+msgid "Porarr:chk_settings"
 msgstr "Copy current settings"
 
-msgid "Portable:chk_soundthemes"
+msgid "Porarr:chk_soundthemes"
 msgstr "Copy downloaded soundthemes"
 
-msgid "Portable:wait"
+msgid "Porarr:wait"
 msgstr "Please wait while files are being prepared"
 
-msgid "Portable:wait_settings"
+msgid "Porarr:wait_settings"
 msgstr "Copying configuration"
 
-msgid "Portable:wait_soundthemes"
+msgid "Porarr:wait_soundthemes"
 msgstr "Copying soundthemes"
 
-msgid "Portable:opt_synthreset"
+msgid "Porarr:opt_synthreset"
 msgstr "Reset synthesizer settings"
 
-msgid "Portable:opt_askeverytime"
+msgid "Porarr:opt_askeverytime"
 msgstr "Ask each time"
 
-msgid "Portable:opt_usecurrent"
+msgid "Porarr:opt_usecurrent"
 msgstr "Use current setting"
 
-msgid "Portable:head_synth"
+msgid "Porarr:head_synth"
 msgstr ""
 "If you use a created copy of Elten on another computer, the voice settings "
 "may not work properly. This is especially noticeable in a situation when "
 "another computer has other voices installed. How do you want to configure "
 "the generated version?"
 
-msgid "Portable:info_created"
-msgstr "Elten portable version created successfully."
+msgid "Porarr:info_created"
+msgstr "Elten porarr version created successfully."
 
-msgid "Portable:opt_usedefault"
+msgid "Porarr:opt_usedefault"
 msgstr "Use a screenreader or a system default voice"
 
-msgid "Portable:btn_continue"
+msgid "Porarr:btn_continue"
 msgstr "continue"
 
 msgid "Polls:type_description"
@@ -436,9 +436,9 @@ msgstr "Automatically start Elten after I log on to Windows"
 msgid "Interface:error_autologinrequired"
 msgstr "Autologin is required when using autostart"
 
-msgid "Interface:alert_portableautostart"
+msgid "Interface:alert_porarrautostart"
 msgstr ""
-"Attention! You're trying to enable autostart function using Portable version "
+"Attention! You're trying to enable autostart function using Porarr version "
 "of Elten. When this program is inaccessible for Windows or it's location is "
 "changed, system will not be able to start it. Are you sure you want to "
 "continue?"
@@ -964,7 +964,7 @@ msgstr "updating language packs"
 msgid "Update:alert_betawarning"
 msgstr ""
 "Warning! You are about to install a beta version of elten. Such a version "
-"can be unstable or other errors can occur. Do you really wish to continue?"
+"can be unsarr or other errors can occur. Do you really wish to continue?"
 
 msgid "Update:info_downloaded"
 msgstr ""
@@ -1135,7 +1135,7 @@ msgstr "Programs installation"
 
 msgid "MainMenu:alert_reinstall"
 msgstr ""
-"Do you want to restore the last stable version of this program? All settings "
+"Do you want to restore the last sarr version of this program? All settings "
 "stay as they are."
 
 msgid "Forum:opt_newthr"
@@ -1884,7 +1884,7 @@ msgstr "Invalid password"
 msgid "ForgotPassword:error_unexpected"
 msgstr "An unexpected error"
 
-msgid "Portable:wait_languages"
+msgid "Porarr:wait_languages"
 msgstr "Downloading of the language packs..."
 
 msgid "Notes:info_notemodified"
@@ -1901,7 +1901,7 @@ msgstr "The user has been given no badges."
 msgid "Programs:info_alreadyinstalled"
 msgstr "The program has already been installed."
 
-msgid "Portable:wait_preparingfile"
+msgid "Porarr:wait_preparingfile"
 msgstr "Processing the file..."
 
 msgid "Polls:error_noanswer"
@@ -2108,7 +2108,7 @@ msgstr "The user cannot be found."
 
 msgid "Update:info_reinstall"
 msgstr ""
-"The program will be now reverted to the latest stable version. Elten will "
+"The program will be now reverted to the latest sarr version. Elten will "
 "restart. It may take several minutes."
 
 msgid "Messages:info_allmarkedasread"
@@ -2372,7 +2372,7 @@ msgstr "Choose a path"
 msgid "Debug:chk_srvconnectionsignal"
 msgstr "Report connections to the server"
 
-msgid "Portable:chk_sfx"
+msgid "Porarr:chk_sfx"
 msgstr "Create as a single exe file. (No settings will be saved."
 
 msgid "Interface:chk_linewrapping"
@@ -2862,8 +2862,8 @@ msgstr "Search for &updates"
 msgid "MainMenu:opt_reinstall"
 msgstr "&Reinstall"
 
-msgid "MainMenu:opt_portable"
-msgstr "Create &portable version"
+msgid "MainMenu:opt_porarr"
+msgstr "Create &porarr version"
 
 msgid "MainMenu:opt_resetsettings"
 msgstr "Restore &default settings"
@@ -2984,4 +2984,28 @@ msgstr "Known by %{count} users"
 
 msgid "EAPI_Common:txt_phr_knows"
 msgstr "Knows %{count} users"
+
+msgid "Messages:head"
+msgstr "Messages"
+
+msgid "Messages:opt_phr_lastmsg"
+msgstr "Last message"
+
+msgid "Messages:opt_phr_nosubj"
+msgstr "No subject"
+
+msgid "Messages:opt_phr_readmore"
+msgstr "Read more"
+
+msgid "Messages:head_conversations"
+msgstr "Conversations with %{user}"
+
+msgid "Messages:head_messages"
+msgstr "Messages in topic %{subject} with %{user}"
+
+msgid "Messages:opt_showmore"
+msgstr "Show older"
+
+msgid "Messages:type_reply"
+msgstr "Your reply"
 

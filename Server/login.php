@@ -10,8 +10,8 @@ while(strlen($code)<6)
 $code.=rand(0,9);
 $params = array(
 'credentials' => array(
-'key' => 'AKIAJFWNRJW4DC7GLJ6Q',
-'secret' => '/Z2+cB6gBANuDNFIcgSuUQP3Ao/adWo8qmZ+0UHD',
+'key' => '',
+'secret' => '',
 ),
 'region' => 'eu-west-1', // < your aws from SNS Topic region
 'version' => 'latest'

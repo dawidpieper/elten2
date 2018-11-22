@@ -1167,7 +1167,11 @@ end
 def agent_start
     #return if $ruby
     File.delete("temp/agent_exit.tmp") if FileTest.exists?("temp/agent_exit.tmp")  
-            $agentproc = run("bin\\rubyw -Itemp bin/agentc.dat") if $silentstart!=true
+    $agstdinrd=[0].pack("I")
+$agstdinwr=[0].pack("I")
+$agstdoutrd=[0].pack("I")
+$agstdoutwr=[0].pack("I")
+    $agentproc = run("bin\\rubyw -Itemp bin/agentc.dat",$agstdinrd,$agstdinwr,$agstdoutrd,$agstdoutwr) if $silentstart!=true
     sleep(0.1)
 end
 
