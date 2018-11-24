@@ -471,7 +471,7 @@ $scene=Scene_Main.new
 end
 selt=[]
 for s in als
-  selt.push("Komputer: #{s[2]}, adres IP utworzenia: #{s[1]}, data wygenerowania: #{s[0]}")
+  selt.push("#{_("Account:opt_phr_computer")}: #{s[2]}, #{_("Account:opt_phr_creationip")}: #{s[1]}, #{_("Account:opt_phr_generationdate")}: #{s[0]}")
 end
 @sel=Select.new(selt,true,0,_("Account:head_autologintokens"))
 loop do

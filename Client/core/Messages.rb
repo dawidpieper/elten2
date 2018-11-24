@@ -24,6 +24,14 @@ class Scene_Messages
     load_conversations("","new")
   end
 else
+case @cat
+when 0
+  @sel_users.focus
+  when 1
+    @sel_conversations.focus
+    when 2
+      @form_messages.fields[@form_messages.index].focus
+end
   @imported=false
   end
    loop do
@@ -37,7 +45,8 @@ else
            update_messages
      end
      break if $scene!=self
-     end
+   end
+   loop_update
  end
 def export
   return [@wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages,@form_messages]
@@ -81,7 +90,7 @@ for i in 3..msg.size-1
     selt=[]
     ind=0
     for u in @users
-            selt.push(u.user+":\r\n"+_("Messages:opt_phr_lastmsg")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+sprintf("%04d-%02d %02d:%02d:%02d",u.lastdate.year,u.lastdate.month,u.lastdate.day,u.lastdate.hour,u.lastdate.min)+"\r\n")
+            selt.push(u.user+":\r\n"+_("Messages:opt_phr_lastmsg")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",u.lastdate.year,u.lastdate.month,u.lastdate.day,u.lastdate.hour,u.lastdate.min)+"\r\n")
       selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if u.read==0 and u.lastuser==u.user
       ind=selt.size-1 if u.user==@lastuser.user if @lastuser!=nil
     end
@@ -221,11 +230,12 @@ speech @sel_conversations.commandoptions[@sel_conversations.index]
     if escape or Input.trigger?(Input::LEFT)
       if @conversations_sp!="new"
       load_users
+      loop_update
       @cat=0
       @sel_conversations=nil
     else
       return $scene=Scene_WhatsNew.new
-      end
+    end
     end
     menu_conversations if alt
     end
@@ -314,7 +324,8 @@ when 2
         when 5
           @messages[o].marked=line.to_i
           when 6
-            @messages[o].attachments=line
+            @messages[o].attachments=line.split(",")
+            name_attachments(@messages[o]) if @messages[o].attachments.size>0
             when 7
               if line.include?("\004END\004")==false
         @messages[o].text+=line+"\n"
@@ -329,10 +340,10 @@ when 2
          selt=[]
     for m in @messages
       break if m.id<=curid
-      play "messages_complete" if complete
-            selt.push(m.sender+":\r\n"+((sp!=nil and sp!="new")?(m.subject+":\r\n"):"")+m.text.gsub("\004LINE\004","\r\n").split("")[0...5000].join+((m.text.size>5000)?"... #{_("Messages:opt_phr_readmore")}":"")+"\r\n"+sprintf("%04d-%02d %02d:%02d:%02d",m.date.year,m.date.month,m.date.day,m.date.hour,m.date.min)+"\r\n")
+      play "messages_update" if complete
+            selt.push(m.sender+":\r\n"+((sp!=nil and sp!="new")?(m.subject+":\r\n"):"")+m.text.gsub("\004LINE\004","\r\n").split("")[0...5000].join+((m.text.size>5000)?"... #{_("Messages:opt_phr_readmore")}":"")+"\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",m.date.year,m.date.month,m.date.day,m.date.hour,m.date.min)+"\r\n")
       selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if m.mread==0
-      selt[-1]+="\004ATTACHMENT\004" if m.attachments!=""
+      selt[-1]+="\004ATTACHMENT\004" if m.attachments.size>0
     end
     selt.push(_("Messages:opt_showmore")) if @messages_more and !complete
     if !complete
@@ -340,8 +351,8 @@ when 2
     head=_("Messages:head_flagged") if sp=='flagged'
     head=_("Messages:head_searchresults") if sp=='search'
     @sel_messages=Select.new(selt,true,0,head)
-      @form_messages=Form.new([@sel_messages,Edit.new(_("Messages:type_reply"),"MULTILINE","",true)],0,true)
-  @form_messages.fields[1]=nil if msg[3].to_i==0 or @messages_sp=='flagged' or @messages_sp=='search'
+      @form_messages=Form.new([@sel_messages,nil,Edit.new(_("Messages:type_reply"),"MULTILINE","",true),nil,Button.new(_("Messages:btn_compose"))],0,true)
+  @form_messages.fields[2..4]=[nil,nil,nil] if msg[3].to_i==0 or @messages_sp=='flagged' or @messages_sp=='search'
   else
     @sel_messages.commandoptions=selt+@sel_messages.commandoptions
     @sel_messages.index+=selt.size
@@ -355,37 +366,6 @@ when 2
   File.delete("temp/agent_wn.tmp")
   end
 @form_messages.update
-deletemessage if $key[0x2e] and @sel_messages.index<@messages.size and @form_messages.index==0
-      if enter or Input.trigger?(Input::RIGHT)and @form_messages.index==0
-      if @sel_messages.index<@messages.size
-      show_message(@messages[@sel_messages.index])
-      loop_update
-      return if $scene!=self
-      @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"") if @messages[@sel_messages.index].mread==0
-    else
-      @sel_messages.index-=1
-      load_messages(@messages_user,@messages_subject,@messages_sp,@messages_limit+50)
-      speech @sel_messages.commandoptions[@sel_messages.index]
-      end
-    end
-      if @form_messages.fields[1]!=nil
-  if @form_messages.fields[1].text=="" and @form_messages.fields[2]!=nil
-@form_messages.fields[2]=nil
-elsif @form_messages.fields[1].text!="" and @form_messages.fields[2]==nil
-  @form_messages.fields[2]=Button.new(_"Messages:btn_send")
-  end
-    if ((enter or space) and @form_messages.index==2) or ((enter and $key[0x11]) and @form_messages.index==1)
-      bufid=buffer(@form_messages.fields[1].text)
-      msgtemp = srvproc("message_send","name=#{$name}\&token=#{$token}\&to=#{@messages_user}\&subject=#{("RE: "+@messages_subject).urlenc}\&buffer=#{bufid}")
-if msgtemp[0].to_i<0
-      speech(_("General:error"))
-    else
-      @form_messages.index=1
-      @form_messages.fields[1].settext("")
-      speech(_("Messages:info_sent"))
-      end
-          end
-    end
     if escape or (Input.trigger?(Input::LEFT) and @form_messages.index==0)
       if @messages_sp!="flagged" and @messages_sp!="search"
       load_conversations(@messages_user,@messages_sp)
@@ -394,16 +374,64 @@ if msgtemp[0].to_i<0
     else
       load_users
       @cat=0
-      end
+    end
+    loop_update
     end
     menu_messages if alt
+    return if @messages.size==0 or @sel_messages==nil
+if @messages[@sel_messages.index].attachments.size>0
+  @form_messages.fields[1]=Select.new(name_attachments(@messages[@sel_messages.index]),true,0,_("Messages:head_attachments"),true)
+else
+  @form_messages.fields[1]=nil
+  @form_messages.index=0 if @form_messages.index==1
   end
+deletemessage if $key[0x2e] and @sel_messages.index<@messages.size and @form_messages.index==0
+      if enter or Input.trigger?(Input::RIGHT)and @form_messages.index==0
+      if @sel_messages.index<@messages.size
+      show_message(@messages[@sel_messages.index])
+      loop_update
+      return if $scene!=self
+      @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"") if @messages[@sel_messages.index].receiver==$name
+    else
+      @sel_messages.index-=1
+      load_messages(@messages_user,@messages_subject,@messages_sp,@messages_limit+50)
+      speech @sel_messages.commandoptions[@sel_messages.index]
+      end
+    end
+      if @form_messages.fields[2]!=nil
+  if @form_messages.fields[2].text=="" and @form_messages.fields[3]!=nil
+@form_messages.fields[3]=nil
+elsif @form_messages.fields[2].text!="" and @form_messages.fields[3]==nil
+  @form_messages.fields[3]=Button.new(_"Messages:btn_send")
+  end
+    if ((enter or space) and @form_messages.index==3) or ((enter and $key[0x11]) and @form_messages.index==2)
+      bufid=buffer(@form_messages.fields[2].text)
+      msgtemp = srvproc("message_send","name=#{$name}\&token=#{$token}\&to=#{@messages_user}\&subject=#{("RE: "+@messages_subject).urlenc}\&buffer=#{bufid}")
+if msgtemp[0].to_i<0
+      speech(_("General:error"))
+    else
+      @form_messages.index=2
+      @form_messages.fields[2].settext("")
+      speech(_("Messages:info_sent"))
+      end
+load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true)
+      end
+if (enter or space) and @form_messages.index==4
+  rec=@messages[@sel_messages.index].sender
+  rec=@messages[@sel_messages.index].receiver if rec==$name
+  $scene = Scene_Messages_New.new(rec,"RE: " + @messages[@sel_messages.index].subject.sub("RE: ",""),@form_messages.fields[2].text,export)
+  end
+          end
+        if enter and @form_messages.index==1
+          download_attachment(@messages[@sel_messages.index].attachments[@form_messages.fields[1].index])
+          end
+      end
   def menu_messages
 play("menu_open")
 play("menu_background")
 @menu = menulr([_("Messages:opt_answer"),_("Messages:opt_flag"),_("General:str_delete"),_("Messages:opt_compose"),_("Messages:opt_forward"),_("General:str_refresh")],true,0,"",true)
-@menu.commandoptions[1]=_("Messages:opt_removeflag") if @messages[@sel_messages.index].marked==1
-@menu.disable_item(1) if @messages[@sel_messages.index].receiver!=$name
+@menu.commandoptions[1]=_("Messages:opt_removeflag") if @sel_messages.index<@messages.size and @messages[@sel_messages.index].marked==1
+@menu.disable_item(1) if @sel_messages.index<@messages.size and @messages[@sel_messages.index].receiver!=$name
 @menu.disable_item(3) if @messages_sp=="new"
 if @messages.size==0 or @sel_messages.index>=@messages.size
 @menu.disable_item(0)
@@ -469,7 +497,28 @@ end
          date=sprintf("%04d-%02d-%02d %02d:%02d",message.date.year,message.date.month,message.date.day,message.date.hour,message.date.min)
                                         fields = [Edit.new(message.subject + " #{_("Messages:opt_phr_from")}: " + message.sender,"MULTILINE|READONLY",message.text+"\r\n"+date,true)]
                   if message.attachments.size>0
-                    att=[]
+                    fields[1]=Select.new(name_attachments(message),true,0,_("Messages:head_attachments"),true)
+                    end
+                  form=Form.new(fields)
+         play("list_select")
+loop do
+  loop_update
+  form.update
+  menu_messages if alt
+  if enter and form.index==1
+download_attachment(message.attachments[form.fields[1].index])
+                              end
+  if escape
+                  speech_stop
+         break
+       end
+       break if $scene!=self
+       end
+                         dialog_close
+                       end
+def name_attachments(message)
+  return message.attachments_names if message.attachments_names!=nil
+  att=[]
                     for at in message.attachments
                       ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
                       if ati[0].to_i<0
@@ -479,16 +528,10 @@ end
                       end
                       att.push(ati[2])  
                     end
-                    fields[1]=Select.new(att,true,0,_("Messages:head_attachments"),true)
-                    end
-                  form=Form.new(fields)
-         play("list_select")
-loop do
-  loop_update
-  form.update
-  if enter and form.index==1
-    at=message.attachments[form.fields[1].index]
-    ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+                    return message.attachments_names=att
+  end
+                       def download_attachment(at)
+                                 ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
                       if ati[0].to_i<0
                         speech(_("General:error"))
                         $scene=Scene_Main.new
@@ -506,14 +549,7 @@ loop do
     else
       loop_update
     end
-                              end
-  if escape
-                  speech_stop
-         break
-       end
-       end
-                         dialog_close
-                       end
+                         end
                        def deletemessage
   confirm(_("Messages:alert_delete")) do
     if srvproc("messages","name=#{$name}\&token=#{$token}\&delete=1\&id=#{@messages[@sel_messages.index].id.to_s}")[0].to_i<0
@@ -1303,17 +1339,18 @@ waiting_end
        end
        
 class Struct_Message
-attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attachments, :text
+attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attachments, :text, :attachments_names
                def initialize(id=0)
                  @id=id
                  @receiver=$name
-                 @sender=$name
+                                  @sender=$name
                  @subject=""
                  @mread=0
                  @text=""
                  @attachments=[]
                  @date=0
                                                    @marked=0
-                 end
+@attachments_names=nil
+                                                   end
                end
 #Copyright (C) 2014-2018 Dawid Pieper

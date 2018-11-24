@@ -9,7 +9,7 @@ class Scene_MyPermissions
   def main
     if $rang_moderator != 0 or $rang_media_administrator != 0 or $rang_translator != 0 or $rang_developer != 0 or $rang_tester != 0
             sel = []
-      sel.push("Betatesterzy") if $rang_tester > 0
+      sel.push(_("MyPermissions:opt_betatesters")) if $rang_tester > 0
       sel.push(_("MyPermissions:opt_moderators")) if $rang_moderator > 0
       sel.push(_("MyPermissions:opt_mediaadministrators")) if $rang_media_administrator > 0
       sel.push(_("MyPermissions:opt_translators")) if $rang_translator > 0

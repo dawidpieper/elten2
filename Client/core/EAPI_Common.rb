@@ -693,7 +693,7 @@ end
 def player(file,label="",wait=false,control=true,trydownload=false,stream=false)
   if File.extname(file).downcase==".mid" and FileTest.exists?($extrasdata+"\\soundfont.sf2") == false
     if confirm(_("EAPI_Common:alert_mididownloadsf"))==1
-    downloadfile($url+"extras/soundfont.sf2",$extrasdata+"\\soundfont.sf2","Proszę czekać, trwa pobieranie bazy brzmień midi... To może potrwać kilka minut...","Baza brzmień została pobrana.")
+    downloadfile($url+"extras/soundfont.sf2",$extrasdata+"\\soundfont.sf2",_("EAPI_Common:wait_soundfont"),_("EAPI_Common:info_soundfontdownloaded"))
     speech_wait
     Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,utf8($extrasdata+"\\soundfont.sf2"))
   else
@@ -1489,7 +1489,7 @@ if x != "\003\001"
    while th.status!=false and th.status!=nil
    loop_update
    if file!=1
-   edt.settext("Przetwarzanie... #{(rf.to_f/(file-1).to_f*100.0).to_i}%",false)
+   edt.settext("#{_("EAPI_Common:txt_phr_processing")}... #{(rf.to_f/(file-1).to_f*100.0).to_i}%",false)
    end
    edt.update
    end

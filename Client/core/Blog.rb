@@ -119,7 +119,7 @@ end
 sel = @postname+[]
 sel.push(_("Blog:opt_newcat")) if $name==@owner
 sel.push(_("Blog:opt_renameblog")) if @owner==$name
-sel.push("Rekategoryzacja") if @owner==$name
+sel.push(_("Blog:opt_recategorize")) if @owner==$name
 @sel = Select.new(sel,true,@categoryselindex,blogname)
 loop do
   loop_update

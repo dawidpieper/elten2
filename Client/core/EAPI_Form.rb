@@ -1721,7 +1721,7 @@ def initialize(options,border=true,index=0,header="",quiet=false,multi=false,lr=
   options=options.deep_dup
       border=false if $interface_listtype == 1
       index = 0 if index == nil
-      index = 0 if index >= options.size
+     index = 0 if index >= options.size
       index+=options.size if index<0
       self.index = index
             @commandoptions = []

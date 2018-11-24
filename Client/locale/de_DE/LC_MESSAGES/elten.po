@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.3\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-11-22 23:37+0100\n"
+"PO-Revision-Date: 2018-11-23 09:37+0100\n"
 "Last-Translator: Karl Eick <hozosch@web.de>\n"
 "Language: de_DE\n"
 "Language-Team: pl <dawidpieper@o2.pl>\n"
@@ -19,7 +19,6 @@ msgstr ""
 "Generated-By: Elten 2.3B1\n"
 "X-Generator: Poedit 2.2\n"
 
-#, fuzzy
 msgid "Authentication:type_pass"
 msgstr "Geben Sie ihr Passwort ein"
 
@@ -69,7 +68,7 @@ msgid "Users_RecentlyActived:head"
 msgstr "Kürzlich aktive Benutzer"
 
 msgid "UserSearch:head_results"
-msgstr "gefundene elemente"
+msgstr "gefunden"
 
 msgid "UserSearch:head"
 msgstr "Benutzersuche"
@@ -2736,7 +2735,7 @@ msgid "MainMenu:opt_debug"
 msgstr "De&bugging"
 
 msgid "MainMenu:opt_tray"
-msgstr "In den infobereich &minimieren"
+msgstr "In den Infobereich &minimieren"
 
 msgid "MainMenu:opt_logout"
 msgstr "&Abmelden"
@@ -2879,34 +2878,75 @@ msgstr "Er Ist %{count} Benutzern bekannt"
 msgid "EAPI_Common:txt_phr_knows"
 msgstr "Kennt%{count} Benutzer"
 
-#, fuzzy
 msgid "Messages:head"
-msgstr "Messages"
+msgstr "Nachrichten"
 
-#, fuzzy
 msgid "Messages:opt_phr_lastmsg"
-msgstr "Last message"
+msgstr "Letzte Nachricht"
 
-#, fuzzy
 msgid "Messages:opt_phr_nosubj"
-msgstr "No subject"
+msgstr "Kein Betreff"
 
-#, fuzzy
 msgid "Messages:opt_phr_readmore"
-msgstr "Read more"
+msgstr "Mehr lesen"
 
-#, fuzzy
 msgid "Messages:head_conversations"
-msgstr "Conversations with %{user}"
+msgstr "Konversationen mit %{user}"
 
-#, fuzzy
 msgid "Messages:head_messages"
-msgstr "Messages in topic %{subject} with %{user}"
+msgstr "Nachrichten in Thema %{subject} mit %{user}"
 
-#, fuzzy
 msgid "Messages:opt_showmore"
-msgstr "Show older"
+msgstr "Älteres zeigen"
+
+msgid "Messages:type_reply"
+msgstr "Ihre Antwort"
 
 #, fuzzy
-msgid "Messages:type_reply"
-msgstr "Your reply"
+msgid "Messages:btn_compose"
+msgstr "Compose"
+
+#, fuzzy
+msgid "Blog:opt_recategorize"
+msgstr "Recategorize"
+
+#, fuzzy
+msgid "Forum:opt_slidepost"
+msgstr "Change post position"
+
+#, fuzzy
+msgid "Polls:txt_phr_created"
+msgstr "Created"
+
+#, fuzzy
+msgid "Files:head_player"
+msgstr "Playing: %{file}"
+
+#, fuzzy
+msgid "Account:opt_phr_computer"
+msgstr "Computer"
+
+#, fuzzy
+msgid "Account:opt_phr_creationip"
+msgstr "Creation IP Address"
+
+#, fuzzy
+msgid "Account:opt_phr_generationdate"
+msgstr "Generation date"
+
+#, fuzzy
+msgid "MyPermissions:opt_betatesters"
+msgstr "Betatesters"
+
+#, fuzzy
+msgid "EAPI_Common:wait_soundfont"
+msgstr "Please wait, the soundfont is being downloaded. It may take a while."
+
+#, fuzzy
+msgid "EAPI_Common:info_soundfontdownloaded"
+msgstr "Soundfont downloaded succesfully."
+
+#, fuzzy
+msgid "EAPI_Common:txt_phr_processing"
+msgstr "Processing"
+

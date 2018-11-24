@@ -511,7 +511,7 @@ dialog_close if submenu==false
 Audio.bgs_stop if submenu and ind!=-1
 case ind
 when 0
-  player(@tree.selected(true),"Odtwarzanie: #{File.basename(@tree.path+@tree.file)}",true)
+  player(@tree.selected(true),s_("Files:head_player",{'file'=>File.basename(@tree.path+@tree.file)}),true)
   when 1
     $playlist.push(@tree.path+@tree.file)
     when 2

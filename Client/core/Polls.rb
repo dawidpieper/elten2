@@ -291,7 +291,7 @@ rescue Exception
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\nUtworzona: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}"
+  txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\n#{_("Polls:txt_phr_created")}: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}"
 qs=[]
 for q in @questions
   if q[1]==2
@@ -380,7 +380,7 @@ rescue Exception
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\nUtworzona: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}\r\n"
+  txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\n#{_("Polls:txt_phr_created")}: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}\r\n"
      pl=srvproc("polls","name=#{$name}\&token=#{$token}\&results=1\&poll=#{@id.to_s}") 
 if pl[0].to_i<0
   speech(_("General:error"))

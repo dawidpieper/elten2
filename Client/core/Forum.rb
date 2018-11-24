@@ -74,7 +74,7 @@ else
   def groupsmain
     grpselt=[]
     for group in @groups
-      grpselt.push(group.name+" . Fora: #{group.forums.to_s}, #{_("Forum:opt_phr_threads")}: #{group.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{group.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(group.posts-group.readposts).to_s}")
+      grpselt.push(group.name+" . #{_("Forum:opt_phr_forums")}: #{group.forums.to_s}, #{_("Forum:opt_phr_threads")}: #{group.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{group.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(group.posts-group.readposts).to_s}")
     end
     @grpindex=0 if @grpindex==nil
     forfol=[]
@@ -959,7 +959,7 @@ when 4
           when 8
           cat=3
           ls=[_("Forum:opt_edit")]
-          ls+=[_("Forum:opt_movepost"),_("Forum:opt_deletepost"),"Zmień pozycję wpisu"] if $rang_moderator==1
+          ls+=[_("Forum:opt_movepost"),_("Forum:opt_deletepost"),_("Forum:opt_slidepost")] if $rang_moderator==1
           @menu=menulr(ls,true,0,"",false)
           @menu.disable_item(0) if @type==1
           @menu.focus
