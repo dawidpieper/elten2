@@ -7,7 +7,7 @@
 
 class Scene_Loading
   def main
-        $restart=false
+            $restart=false
                                 $volume=100
             $preinitialized = false
     $eltenlib = "./eltenvc"
@@ -238,7 +238,14 @@ if enter
     $soundthemepath = "Audio"
     end
                     $language = readini($configdata + "\\language.ini","Language","Language","en_GB")
-                  load_locale("Data/locale.dat",$language)
+                    if !FileTest.exists?("Data/locale.dat")
+                    mod="\0"*1024
+Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,mod,mod.size)
+ind=(0...mod.size).find_all {|c| mod[c..c]=="\\" or mod[c..c]=="/"}.last
+fol=mod[0...ind]
+Win32API.new("kernel32","SetCurrentDirectory",'p','i').call(fol)
+end
+                    load_locale("Data/locale.dat",$language)
 if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end

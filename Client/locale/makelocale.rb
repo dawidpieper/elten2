@@ -14,8 +14,8 @@ if File.directory?(dir) and FileTest.exists?(dir+"/LC_MESSAGES/elten.po")
 puts("Exporting: #{dir}")
 file=dir+"/LC_MESSAGES/elten.po"
     r=IO.read(file)
-    r.gsub!("\"\r\n\"","\r\n")
-    r.gsub!("\"\n\"","\n")
+    r.gsub!("\"\r\n\""," ")
+    r.gsub!("\"\n\""," ")
     li = r.split("\n")
 dict={}
 dict['_code']=dir

@@ -378,8 +378,14 @@ when 2
     loop_update
     end
     menu_messages if alt
-    return if @messages.size==0 or @sel_messages==nil
-if @messages[@sel_messages.index].attachments.size>0
+     return if @messages.size==0 or @sel_messages==nil
+     if @message_display==nil or @message_display[0]!=@messages[@sel_messages.index].id
+@message_display=[@messages[@sel_messages.index].id,Time.now]
+elsif @message_display[0]==@messages[@sel_messages.index].id and ((t=Time.now).to_i*1000000+t.usec)-(@message_display[1].to_i*1000000+@message_display[1].usec)>3000000 and @messages[@sel_messages.index].receiver==$name and @messages[@sel_messages.index].mread==0
+  @messages[@sel_messages.index].mread=Time.now.to_i
+  @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"")
+end
+if @sel_messages.index<@messages.size and @messages[@sel_messages.index].attachments.size>0
   @form_messages.fields[1]=Select.new(name_attachments(@messages[@sel_messages.index]),true,0,_("Messages:head_attachments"),true)
 else
   @form_messages.fields[1]=nil

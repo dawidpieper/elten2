@@ -610,7 +610,7 @@ text += "\r\n\r\n"
         text += vc[i]
       end
       end
-      inptr = Edit.new(s_("Wizytówka: %{user}", {'user'=>user}),"READONLY|MULTILINE",text)
+      inptr = Edit.new(s_("EAPI_Common:read_visitingcardofuser", {'user'=>user}),"READONLY|MULTILINE",text)
       loop do
         loop_update
         inptr.update
@@ -1166,12 +1166,9 @@ end
 # @note this function is reserved for Elten usage
 def agent_start
     #return if $ruby
-    File.delete("temp/agent_exit.tmp") if FileTest.exists?("temp/agent_exit.tmp")  
-    $agstdinrd=[0].pack("I")
-$agstdinwr=[0].pack("I")
-$agstdoutrd=[0].pack("I")
-$agstdoutwr=[0].pack("I")
-    $agentproc = run("bin\\rubyw -Itemp bin/agentc.dat",$agstdinrd,$agstdinwr,$agstdoutrd,$agstdoutwr) if $silentstart!=true
+    path=$path[0...$path.size-$path.reverse.index("\\")]   
+    File.delete(path+"/temp/agent_exit.tmp") if FileTest.exists?(path+"/temp/agent_exit.tmp")  
+        $agentproc = run("bin\\rubyw -I\"#{path}\\temp\" \"#{path.gsub("\\","/")}/bin/agentc.dat\"") if $silentstart!=true
     sleep(0.1)
 end
 
