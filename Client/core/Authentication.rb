@@ -33,7 +33,7 @@ return main if confirm(_("Authentication:alert_support"))==0
 return main if input_text(_("Authentication:alert_checkphone"),"ACCEPTESCAPE|READONLY",phone)=="\004ESCAPE\004"
 if suc==true
 speech(_("Authentication:wait"))
-enb=srvproc("authentication","name=#{$name}\&token=#{$token}\&password=#{password}\&phone=#{phone}\&enable=1&lang=#{$language}")
+enb=srvproc("authentication","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}\&phone=#{phone}\&enable=1&lang=#{$language}")
 speech_wait
 if enb[0].to_i<0
   speech(_("General:error"))
@@ -67,7 +67,7 @@ elsif state==1
   password=""
   password=input_text(_("Authentication:type_pass"),"PASSWORD|ACCEPTESCAPE") while password==""
   if password!="\004ESCAPE\004" and confirm(_("Authentication:alert_disable"))==1
-    dsb=srvproc("authentication","name=#{$name}\&token=#{$token}\&disable=1\&password=#{password}")
+    dsb=srvproc("authentication","name=#{$name}\&token=#{$token}\&disable=1\&password=#{password.urlenc}")
     if dsb[0].to_i==0
       speech(_("Authentication:info_disabled"))
     elsif dsb[0].to_i==-2

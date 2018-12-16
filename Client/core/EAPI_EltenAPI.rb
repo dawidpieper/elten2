@@ -196,7 +196,7 @@ createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
          startinfo = [0,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,(stdinwr||"").unpack("i")[0],(stdoutwr||"").unpack("i")[0],0] if hide
     startinfo = startinfo.pack('LLLLLLLLLLLLSSLLLL')
     procinfo  = [0,0,0,0].pack('LLLL')
-        pr = createprocess.call(0, utf8(file), 0, 0, 0, 0, 0, ".", startinfo, procinfo)
+        pr = createprocess.call(0, utf8(file), 0, 0, 0, 0, 0, $path[0...$path.size-($path.reverse.index("\\"))], startinfo, procinfo)
             procinfo[0,4].unpack('L').first # pid
             $procs=[] if $procs==nil
             $procs.push(procinfo.unpack('llll')[0])

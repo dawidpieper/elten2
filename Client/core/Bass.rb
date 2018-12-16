@@ -65,17 +65,16 @@ return if @init==true
     if BASS_Init.call(-1, samplerate, 4, hWnd, nil) == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-  if BASS_RecordInit.call(-1) == 0 then
-      raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-    end
-    if BASS_PluginLoad.call("bassopus.dll") == 0 then
+      if BASS_PluginLoad.call("bassopus.dll") == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
 if BASS_PluginLoad.call("bassmidi.dll") == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-   
     if BASS_PluginLoad.call("basswma.dll") == 0 then
+      raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+      end
+    if BASS_RecordInit.call(-1) == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
         BASS_SetConfig.call(0, 1000)

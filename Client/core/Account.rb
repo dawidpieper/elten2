@@ -36,7 +36,7 @@ class Scene_Account_Password
     speech_wait
     main
   end
-    act = srvproc("account_mod","changepassword=1\&name=#{$name}\&token=#{$token}\&oldpassword=#{oldpassword}\&password=#{password}")
+    act = srvproc("account_mod","changepassword=1\&name=#{$name}\&token=#{$token}\&oldpassword=#{oldpassword.urlenc}\&password=#{password.urlenc}")
     err = act[0].to_i
   case err
   when 0
@@ -78,7 +78,7 @@ class Scene_Account_Mail
         $scene = Scene_Main.new
     return
   end
-    act = srvproc("account_mod","changemail=1\&name=#{$name}\&token=#{$token}\&oldpassword=#{password}\&mail=#{mail}")
+    act = srvproc("account_mod","changemail=1\&name=#{$name}\&token=#{$token}\&oldpassword=#{password.urlenc}\&mail=#{mail.urlenc}")
     err = act[0].to_i
   case err
   when 0
@@ -434,7 +434,7 @@ $scene=Scene_Main.new
         return $scene=Scene_Main.new
         break
       else
-        al=srvproc("autologins","name=#{$name}\&token=#{$token}\&password=#{password}")
+        al=srvproc("autologins","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
         if al[0].to_i<0
           speech(_("Account:error_identity"))
           speech_wait
@@ -503,7 +503,7 @@ def globallogout
         return
         break
       else
-        lg=srvproc("logout","global=1\&name=#{$name}\&token=#{$token}\&password=#{password}")
+        lg=srvproc("logout","global=1\&name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
         if lg[0].to_i<0
           speech(_("Account:error_identity"))
           speech_wait

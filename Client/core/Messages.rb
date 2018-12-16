@@ -36,6 +36,7 @@ end
   end
    loop do
      loop_update
+     break if $scene!=self
      case @cat
      when 0
        update_users
@@ -44,8 +45,7 @@ end
          when 2
            update_messages
      end
-     break if $scene!=self
-   end
+        end
    loop_update
  end
 def export
@@ -186,7 +186,12 @@ msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&user=#{use
       speech_wait
       return $scene=Scene_WhatsNew.new
       end
-@conversations_more=(msg[2].to_i==1)?true:false
+if msg[1].to_i==0 and sp=='new'
+  speech(_("Messages:info_nonewmessages"))
+  speech_wait
+  return $scene=Scene_WhatsNew.new
+  end
+      @conversations_more=(msg[2].to_i==1)?true:false
       l=0
 for i in 4..msg.size-1
   line=msg[i].delete("\r\n")
@@ -351,7 +356,7 @@ when 2
     head=_("Messages:head_flagged") if sp=='flagged'
     head=_("Messages:head_searchresults") if sp=='search'
     @sel_messages=Select.new(selt,true,0,head)
-      @form_messages=Form.new([@sel_messages,nil,Edit.new(_("Messages:type_reply"),"MULTILINE","",true),nil,Button.new(_("Messages:btn_compose"))],0,true)
+        @form_messages=Form.new([@sel_messages,nil,Edit.new(_("Messages:type_reply"),"MULTILINE","",true),nil,Button.new(_("Messages:btn_compose"))],0,true)
   @form_messages.fields[2..4]=[nil,nil,nil] if msg[3].to_i==0 or @messages_sp=='flagged' or @messages_sp=='search'
   else
     @sel_messages.commandoptions=selt+@sel_messages.commandoptions
@@ -366,7 +371,8 @@ when 2
   File.delete("temp/agent_wn.tmp")
   end
 @form_messages.update
-    if escape or (Input.trigger?(Input::LEFT) and @form_messages.index==0)
+    if escape or ((Input.trigger?(Input::LEFT) and @form_messages.index==0) and @form_messages.fields[0]==@sel_messages)
+      if @form_messages.fields[0]==@sel_messages
       if @messages_sp!="flagged" and @messages_sp!="search"
       load_conversations(@messages_user,@messages_sp)
       @cat=1
@@ -376,23 +382,27 @@ when 2
       @cat=0
     end
     loop_update
+  else
+    hide_message
+    end
     end
     menu_messages if alt
-     return if @messages.size==0 or @sel_messages==nil
+                      download_attachment(@messages[@sel_messages.index].attachments[@form_messages.fields[1].index]) if enter and @form_messages.index==1 and @form_messages.fields[1]!=nil
+              return if @messages.size==0 or @sel_messages==nil
      if @message_display==nil or @message_display[0]!=@messages[@sel_messages.index].id
 @message_display=[@messages[@sel_messages.index].id,Time.now]
 elsif @message_display[0]==@messages[@sel_messages.index].id and ((t=Time.now).to_i*1000000+t.usec)-(@message_display[1].to_i*1000000+@message_display[1].usec)>3000000 and @messages[@sel_messages.index].receiver==$name and @messages[@sel_messages.index].mread==0
   @messages[@sel_messages.index].mread=Time.now.to_i
   @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"")
 end
-if @sel_messages.index<@messages.size and @messages[@sel_messages.index].attachments.size>0
+if @sel_messages.index<@messages.size and @messages[@sel_messages.index].attachments.size>0 and (@form_messages.fields[1]==nil or @form_messages.fields[1].commandoptions!=name_attachments(@messages[@sel_messages.index]))
   @form_messages.fields[1]=Select.new(name_attachments(@messages[@sel_messages.index]),true,0,_("Messages:head_attachments"),true)
-else
+elsif @sel_messages.index>=@messages.size or @messages[@sel_messages.index].attachments.size==0 and @form_messages.fields[1]!=nil
   @form_messages.fields[1]=nil
   @form_messages.index=0 if @form_messages.index==1
   end
 deletemessage if $key[0x2e] and @sel_messages.index<@messages.size and @form_messages.index==0
-      if enter or Input.trigger?(Input::RIGHT)and @form_messages.index==0
+      if enter or Input.trigger?(Input::RIGHT)and @form_messages.index==0 and @form_messages.fields[0]==@sel_messages
       if @sel_messages.index<@messages.size
       show_message(@messages[@sel_messages.index])
       loop_update
@@ -425,11 +435,8 @@ load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, 
 if (enter or space) and @form_messages.index==4
   rec=@messages[@sel_messages.index].sender
   rec=@messages[@sel_messages.index].receiver if rec==$name
-  $scene = Scene_Messages_New.new(rec,"RE: " + @messages[@sel_messages.index].subject.sub("RE: ",""),@form_messages.fields[2].text,export)
+    $scene = Scene_Messages_New.new(rec,"RE: " + @messages[@sel_messages.index].subject.sub("RE: ",""),@form_messages.fields[2],export)  
   end
-          end
-        if enter and @form_messages.index==1
-          download_attachment(@messages[@sel_messages.index].attachments[@form_messages.fields[1].index])
           end
       end
   def menu_messages
@@ -498,30 +505,17 @@ Audio.bgs_stop
 play("menu_close")
 end
   def show_message(message)
-         dialog_open
+             dialog_open
          message.mread = 1 if message.receiver==$name
          date=sprintf("%04d-%02d-%02d %02d:%02d",message.date.year,message.date.month,message.date.day,message.date.hour,message.date.min)
-                                        fields = [Edit.new(message.subject + " #{_("Messages:opt_phr_from")}: " + message.sender,"MULTILINE|READONLY",message.text+"\r\n"+date,true)]
-                  if message.attachments.size>0
-                    fields[1]=Select.new(name_attachments(message),true,0,_("Messages:head_attachments"),true)
-                    end
-                  form=Form.new(fields)
-         play("list_select")
-loop do
-  loop_update
-  form.update
-  menu_messages if alt
-  if enter and form.index==1
-download_attachment(message.attachments[form.fields[1].index])
-                              end
-  if escape
-                  speech_stop
-         break
-       end
-       break if $scene!=self
-       end
-                         dialog_close
-                       end
+                                        @form_messages.fields[0]=Edit.new(message.subject + " #{_("Messages:opt_phr_from")}: " + message.sender,"MULTILINE|READONLY",message.text+"\r\n"+date)
+                                      end
+                                      def hide_message
+                                                                                @form_messages.fields[0]=@sel_messages
+                                        @form_messages.index=0
+                                        @sel_messages.focus
+                                        dialog_close
+                                        end
 def name_attachments(message)
   return message.attachments_names if message.attachments_names!=nil
   att=[]
@@ -1002,10 +996,11 @@ def deletemessage
          receiver=@receiver
          subject=@subject
          text=@text
+         text=@text.text_str if @text.is_a?(Edit)
          @fields = []
            @fields[0] = Edit.new(_("Messages:type_receiver"),"",receiver,true)
 @fields[1] = Edit.new(_("Messages:type_subject"),"",subject,true)
-           @fields[2] = Edit.new(_("Messages:type_content"),"MULTILINE",text,true)
+           @fields[2] = ((@text.is_a?(Edit))?@text:Edit.new(_("Messages:type_content"),"MULTILINE",text,true))
            @fields[3] = Button.new(_("Messages:btn_recmessage"))
            @fields[4]=nil
            @fields[5]=nil
@@ -1151,7 +1146,7 @@ rec=0
                                                               if @scene != false and @scene != true and @scene.is_a?(Integer)==false and @scene.is_a?(Array)==false
            $scene = @scene
          else
-           $scene = Scene_Messages.new(@scene)
+                      $scene = Scene_Messages.new(@scene)
          end
          loop_update
          dialog_close  
@@ -1318,6 +1313,7 @@ waiting_end
            if @scene != false and @scene != true and @scene.is_a?(Integer) == false and @scene.is_a?(Array)==false
            $scene = @scene
          else
+           @text.settext("") if @text.is_a?(Edit)
            $scene = Scene_Messages.new(@scene)
            dialog_close
            return

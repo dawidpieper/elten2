@@ -80,7 +80,7 @@ b=0
 elsif token!=""
     logintemp = srvproc("login","login=1\&name=#{name}\&token=#{token}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}")
 else
-  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}")
+  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password.urlenc}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}")
 end
 suc=true
 if logintemp[0].to_i==-5
@@ -147,7 +147,7 @@ loop_update
           if password=="\004ESCAPE\004"
             break
           else
-            lt=srvproc("login","login=2\&name=#{name}\&password=#{password}\&computer=#{$computer.urlenc}\&appid=#{$appid}")
+            lt=srvproc("login","login=2\&name=#{name}\&password=#{password.urlenc}\&computer=#{$computer.urlenc}\&appid=#{$appid}")
             if lt[0].to_i<0
               speech(_("Login:error_identity"))
               speech_wait

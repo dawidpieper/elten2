@@ -43,7 +43,7 @@ class Scene_Registration
   while mail.include?("@")==false
     mail = input_text(_("Registration:type_mail"))
     end
-regtemp = srvproc("register","register=1\&name=#{name}\&password=#{password}\&mail=#{mail}")
+regtemp = srvproc("register","register=1\&name=#{name}\&password=#{password.urlenc}\&mail=#{mail.urlenc}")
 id = regtemp[0].to_i
 case id
 when 0

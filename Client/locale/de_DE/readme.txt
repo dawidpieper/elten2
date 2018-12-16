@@ -1,5 +1,5 @@
-Willkommen bei Elten! 
-Dieses Dokument enthält einige Tipps und Informationen zu dieser Anwendung. 
+ï»¿Willkommen bei Elten! 
+Dieses Dokument enthÃ¤lt einige Tipps und Informationen zu dieser Anwendung. 
 
 1. Systemanforderungen
 Betriebssystem: Windows 7 oder neuer
@@ -8,44 +8,44 @@ Prozessor: 800MHz
 Festplatte: 256MB freier Speicherplatz
 Internetzugang
 
-2. Einige vorläufige Informationen
+2. Einige vorlÃ¤ufige Informationen
 Der Autor des Programms ist Dawid Pieper. 
 Elten ist eine Open-Source-Anwendung, deren Code Sie im Github-Repository unter folgender Adresse finden:
 http://github.com/dawidpieper/elten2
 Die Einzelheiten zur Lizenzierung dieser Software sind in einem separaten Dokument enthalten. 
-Elten ist ein soziales Netzwerk, das speziell für Blinde entwickelt wurde. 
-Es besteht aus einem Server, einer Internet-Webseite und vor allem einem für Windows entwickelten Client. 
-Außerdem ist es eine API für Entwickler, die Programme für Blinde schreiben. 
+Elten ist ein soziales Netzwerk, das speziell fÃ¼r Blinde entwickelt wurde. 
+Es besteht aus einem Server, einer Internet-Webseite und vor allem einem fÃ¼r Windows entwickelten Client. 
+AuÃŸerdem ist es eine API fÃ¼r Entwickler, die Programme fÃ¼r Blinde schreiben. 
 
 3. Registrierung und Login
-Sowohl das Registrierungs- als auch das Login-Menü können über das Begrüßungsfenster aufgerufen werden. 
-Denken Sie daran, ein untypisches Passwort zu wählen, damit Außenstehende nicht auf Ihr Konto zugreifen können. 
+Sowohl das Registrierungs- als auch das Login-MenÃ¼ kÃ¶nnen Ã¼ber das BegrÃ¼ÃŸungsfenster aufgerufen werden. 
+Denken Sie daran, ein untypisches Passwort zu wÃ¤hlen, damit AuÃŸenstehende nicht auf Ihr Konto zugreifen kÃ¶nnen. 
 Es ist wichtig, eine echte E-Mail-Adresse einzugeben, da damit ein vergessenes Passwort wiederhergestellt werden kann. 
-Nach einer erfolgreichen Anmeldung bei Ihrem Konto können Sie die automatische Anmeldung aktivieren, so dass Sie nicht mehr bei jedem Start von Elten einen Benutzernamen und ein Passwort eingeben müssen. 
+Nach einer erfolgreichen Anmeldung bei Ihrem Konto kÃ¶nnen Sie die automatische Anmeldung aktivieren, so dass Sie nicht mehr bei jedem Start von Elten einen Benutzernamen und ein Passwort eingeben mÃ¼ssen. 
 
 4. Grundfunktionen 
-Elten ist primär ein soziales Netzwerk. 
-Die Hauptfunktionen können über das Menü aufgerufen werden, das durch Drücken der Alt-Taste in einem Hauptfenster nach der Anmeldung verfügbar ist. 
-Das Menü namens community enthält, wie der Name sagt, Funktionen, die für die Kommunikation mit anderen Elten-Benutzern verwendet werden. 
+Elten ist primÃ¤r ein soziales Netzwerk. 
+Die Hauptfunktionen kÃ¶nnen Ã¼ber das MenÃ¼ aufgerufen werden, das durch DrÃ¼cken der Alt-Taste in einem Hauptfenster nach der Anmeldung verfÃ¼gbar ist. 
+Das MenÃ¼ namens community enthÃ¤lt, wie der Name sagt, Funktionen, die fÃ¼r die Kommunikation mit anderen Elten-Benutzern verwendet werden. 
 Hier finden Sie Optionen wie Forum, Blogs oder private Nachrichten. 
-Sie sollten in Erwägung ziehen, Ihr Profil im Untermenü "Mein Konto" zu vervollständigen.
+Sie sollten in ErwÃ¤gung ziehen, Ihr Profil im UntermenÃ¼ "Mein Konto" zu vervollstÃ¤ndigen.
 Hier sind Sie auch in der Lage, etwas in Ihrer Visitenkarte aufzuschreiben.
-Das zweite Menü heißt Medien. 
-Sie können hier Materialien finden, die von anderen geteilt werden, und YouTube durchsuchen. 
+Das zweite MenÃ¼ heiÃŸt Medien. 
+Sie kÃ¶nnen hier Materialien finden, die von anderen geteilt werden, und YouTube durchsuchen. 
 Dateien ist ein einfacher Dateimanager. 
-Hier befinden sich Dateiverwaltungsoptionen wie das bearbeiten von Textdateien, Abspielen von Musik, und, falls erwünscht, kann hier auch Ihr Avatar hochgeladen werden. 
-Ein Avatar ist eine Tonaufnahme, die anderen Benutzern in Ihrem Profilmenü zur Verfügung steht. 
-Außerdem können Sie einige Dateien auf den Server hochladen, damit sie von anderen Elten-Benutzern heruntergeladen werden können. 
-Das Menü Programme enthält externe Anwendungen, die in der Elten-API geschrieben wurden. 
-Tools ist ein Untermenü, das, wie sein Name sagt, Werkzeuge enthält, um Elten zu verwalten.
-Hier finden Sie Optionen wie einen Geschwindigkeitstest für Ihre Internetverbindung, die Konsole, die Aktualisierung auf eine neue Version des Programms oder die Erstellung eines neuen Audiothemas
-Einstellungen enthält verschiedene Konfigurationsoptionen. 
-Sie können zum Beispiel das Elten-Fenster in der Taskleiste automatisch ausblenden. 
+Hier befinden sich Dateiverwaltungsoptionen wie das bearbeiten von Textdateien, Abspielen von Musik, und, falls erwÃ¼nscht, kann hier auch Ihr Avatar hochgeladen werden. 
+Ein Avatar ist eine Tonaufnahme, die anderen Benutzern in Ihrem ProfilmenÃ¼ zur VerfÃ¼gung steht. 
+AuÃŸerdem kÃ¶nnen Sie einige Dateien auf den Server hochladen, damit sie von anderen Elten-Benutzern heruntergeladen werden kÃ¶nnen. 
+Das MenÃ¼ Programme enthÃ¤lt externe Anwendungen, die in der Elten-API geschrieben wurden. 
+Tools ist ein UntermenÃ¼, das, wie sein Name sagt, Werkzeuge enthÃ¤lt, um Elten zu verwalten.
+Hier finden Sie Optionen wie einen Geschwindigkeitstest fÃ¼r Ihre Internetverbindung, die Konsole, die Aktualisierung auf eine neue Version des Programms oder die Erstellung eines neuen Audiothemas
+Einstellungen enthÃ¤lt verschiedene Konfigurationsoptionen. 
+Sie kÃ¶nnen zum Beispiel das Elten-Fenster in der Taskleiste automatisch ausblenden. 
 Diese Option kann in den Interface-Einstellungen gefunden werden. 
-Das Hilfe-Menü enthält Dokumente, die sich auf die Verwendung des Programms beziehen. 
-Hier finden Sie den Änderungsverlauf sowie die Kurztastenliste, Lizenz und dieses Dokument. 
-Sie können einen Fehler auch über dieses Menü melden. 
-Das letzte Menü, beenden, ermöglicht es Ihnen, die Anwendung zu verbergen oder zu schließen. 
+Das Hilfe-MenÃ¼ enthÃ¤lt Dokumente, die sich auf die Verwendung des Programms beziehen. 
+Hier finden Sie den Ã„nderungsverlauf sowie die Kurztastenliste, Lizenz und dieses Dokument. 
+Sie kÃ¶nnen einen Fehler auch Ã¼ber dieses MenÃ¼ melden. 
+Das letzte MenÃ¼, beenden, ermÃ¶glicht es Ihnen, die Anwendung zu verbergen oder zu schlieÃŸen. 
 5. Autor kontaktieren
 Bei Fragen, Kommentaren oder Anregungen, kontaktieren Sie den Autor bitte in englischer oder polnischer Sprache
 Elten-Spitzname: pajper. 

@@ -234,7 +234,7 @@ rescue Exception
   end
   files.delete("..")
   files.delete(".")
-    exts = [".mp3",".ogg",".wav",".mid"]
+    exts = [".mp3",".ogg",".wav",".mid",".wma",".opus",".m4a",".aac",".flac"]
         for f in files
           d=path+"\\"+f
           if Win32API.new("shlwapi","PathIsDirectory",'p','i').call(utf8(d))>0
