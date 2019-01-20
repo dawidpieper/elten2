@@ -24,6 +24,11 @@ module EltenAPI
         if $speech_wait == true
     speech_wait
     $speech_wait = false
+  end
+  if $speechaudio!=nil
+    $speechaudiothread.kill if $speechaudiothread!=nil
+    $speechaudio.close
+    $speechaudio=nil
     end
   text = text.to_s
   speechaudio  =""

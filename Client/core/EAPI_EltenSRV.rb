@@ -108,14 +108,7 @@ def setstatus(text)
   # @param data [String] buffer input
   # @return [Numeric] a buffer id
   def buffer(data)
-                dt = data.gsub("\\","%5c")
-                dt = dt.gsub("+","%2b")
-                dt = dt.gsub("#","%23")
-                dt = dt.gsub("'","%27")
-    dt = dt.gsub("&","%26")
-dt = hexspecial(dt)
-dt = hexspecial(dt)                
-return buffer_post(dt)
+                                return buffer_post(data)
         s=false
     while s==false
       s=true
@@ -268,12 +261,16 @@ avt = bt[1].to_i
 
 # @note this function is reserved
 def buffer_post(data)
-  data = "data="+data
-  id = rand(2000000000)
+    id = rand(2000000000)
   host = $srv
   host.delete!("/")
   length = data.size
-      q = "POST /srv/buffer_post.php?name=#{$name}\&token=#{$token}&id=#{id.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: #{length}\r\n\r\n#{data}"
+  boundary=""
+  while data.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+      end    
+      data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{data}\r\n--#{boundary}--"
+  q = "POST /srv/buffer_post.php?name=#{$name}\&token=#{$token}&id=#{id.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{data.size}\r\n\r\n#{data}"
 a = connect(host,80,q)
 a.delete!("\0")
 a
