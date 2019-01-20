@@ -658,7 +658,7 @@ def versioninfo
 # @param omit [Boolean] determines whether to allow user to close the window without accepting
     def license(omit=false)
     @license = $dict['_doc_license']||""
-form = Form.new([Edit.new(_("EAPI_Common:read_useragreement"),"MULTILINE|READONLY",@license,true),Button.new(_("EAPI_Common:btn_agree")),Button.new(_("EAPI_Common:btn_disagree"))])
+form = Form.new([Edit.new(_("EAPI_Common:read_useragreement"),Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@license,true),Button.new(_("EAPI_Common:btn_agree")),Button.new(_("EAPI_Common:btn_disagree"))])
 loop do
   loop_update
   form.update

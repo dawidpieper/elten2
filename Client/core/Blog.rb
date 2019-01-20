@@ -842,7 +842,7 @@ end
 @postcur = 0
 @fields = []
 for i in 0..@post.size-1
-@fields[i] = Edit.new(@post[i].author,"MULTILINE|READONLY",@post[i].text,true)
+@fields[i] = Edit.new(@post[i].author,Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@post[i].text,true)
 end
 if $name!="guest"
 @fields.push(Edit.new(_("Blog:type_comment"),"MULTILINE"))

@@ -505,7 +505,7 @@ Audio.bgs_stop
 play("menu_close")
 end
   def show_message(message)
-             dialog_open
+                 dialog_open
          message.mread = 1 if message.receiver==$name
          date=sprintf("%04d-%02d-%02d %02d:%02d",message.date.year,message.date.month,message.date.day,message.date.hour,message.date.min)
                                         @form_messages.fields[0]=Edit.new(message.subject + " #{_("Messages:opt_phr_from")}: " + message.sender,"MULTILINE|READONLY",message.text+"\r\n"+date)

@@ -13,8 +13,10 @@ module EltenAPI
   #
   # @param text [String] a text to speak
   # @param method [Numeric] 0 - wait for the previous message to say, 1 - abord the previous message, 2 - use synthesizer config
-    def speech(text,method=1,usedict=true)
-            if $speech_waiter==true
+    def speech(text,method=1,usedict=true,id=nil)
+      id=rand(2**32) if id==nil
+      $speechid=id
+                  if $speech_waiter==true
       method=0
       $speech_waiter=false
       end
@@ -181,8 +183,8 @@ def speech_actived(ignoreaudio=false)
   end
 
   # Stops the speech
-  def speech_stop
-    if $speechaudio!=nil
+  def speech_stop(audio=true)
+    if $speechaudio!=nil and audio
     $speechaudiothread.kill if $speechaudiothread!=nil
     $speechaudio.close
     $speechaudio=nil

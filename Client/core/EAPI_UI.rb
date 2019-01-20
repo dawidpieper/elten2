@@ -249,7 +249,7 @@ return $key[0x20]
                     def keyprocs
                   if $ruby != true or $windowminimized != true
                   if $keypr[0x11]
-                    speech_stop
+                    speech_stop(false)
                     $speech_wait = false
                     end
                   if $key[0x77]

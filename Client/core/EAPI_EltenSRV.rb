@@ -28,7 +28,7 @@ module EltenAPI
         r = readlines(tmpname)
       end
     File.delete(tmpname) if $DEBUG==false
-            return r
+        return r
           end
           
           # Gets the status of specified user

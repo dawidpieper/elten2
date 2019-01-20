@@ -8,7 +8,7 @@
 class Scene_ShortKeys
   def main
     @shorts=$dict['_doc_shortkeys']||""
-    input_text(_("ShortKeys:head"),"MULTILINE|READONLY|ACCEPTESCAPE",@shorts)
+    input_text(_("ShortKeys:head"),Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@shorts)
 speech_stop
 $scene = Scene_Main.new
 end

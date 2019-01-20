@@ -8,7 +8,7 @@
 class Scene_ReadMe
   def main
     text=$dict['_doc_readme']||""
-        input_text(_("ReadMe:head"),"READONLY|ACCEPTESCAPE|MULTILINE",text)
+        input_text(_("ReadMe:head"),Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,text)
     $scene = Scene_Main.new
   end
   end

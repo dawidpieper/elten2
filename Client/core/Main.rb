@@ -7,7 +7,7 @@
 
 class Scene_Main
   def main
-    #t=NEdit.new(_("Main:type_test"),NEdit::Flags::MultiLine)
+        #t=NEdit.new(_("Main:type_test"),NEdit::Flags::MultiLine)
 #loop do
 #loop_update
 #t.update

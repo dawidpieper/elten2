@@ -5,7 +5,7 @@
 
 #Open Public License is used to licensing this app!
 
-module EltenAPI
+      module EltenAPI
   # Controls and forms related class
   module Controls
     # A form class  
@@ -79,6 +79,7 @@ ind=@index
                 # @param text [String] an initial text
   def input_text(header="",type="normaltext",text="")
   ro = false
+  if type.is_a?(String)
   type.gsub("READONLY") {
   ro = true
   }
@@ -93,6 +94,7 @@ ind=@index
         type.gsub("MULTILINES") {
   ml = true
   }
+  end
   dialog_open
   inp = Edit.new(header,type,text)
   loop do
@@ -101,7 +103,7 @@ loop_update
     rtmp = false
     rtmp = true if ml == false or $key[0x11] == true
     break if enter and rtmp == true
-    if ro == true and (escape or alt or enter)
+    if (ro == true or (type.is_a?(Numeric) and (type&Edit::Flags::ReadOnly)>0)) and (escape or alt or enter)
       r = ""
   r = "\004ALT\004" if alt
     r = "\004TAB\004" if $key[0x09] == true and $key[0x10] == false
@@ -1234,15 +1236,6 @@ def textcopy
     def initialize(header="",type="",text="",quiet=false,init=false,silent=false)
       
       @header=header
-        @text=text.delete("\r").gsub("\004LINE\004","\n").gsub(/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/) do
-          $dialogvoice.volume=0 if $dialogvoice!=nil
-          @audiotext=$1
-      ""
-    end
-    @text.gsub!(/\004ATTACH\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004ATTACH\004/,"")
-    @text.chop! while @text[@text.size-1..@text.size-1]=="\n"
-                @origtext=text
-      @index=@check=0
 @flags=0
 @flags=type if type.is_a?(Integer)
 @silent=silent
@@ -1252,6 +1245,9 @@ if type.is_a?(String)
   @flags=@flags|Flags::Password if type.downcase.include?("password")
   @flags=@flags|Flags::Numbers if type.downcase.include?("numbers")
 end
+        settext(text)
+                @origtext=text
+      @index=@check=0
 @redo=@undo=[]
 focus if quiet==false
     end
@@ -1267,6 +1263,7 @@ navupdate
             esay
         end
 def editupdate
+  return readupdate if (@flags&Flags::ReadOnly)!=0
       if (c=getkeychar)!="" and (c.to_i.to_s==c or (@flags&Flags::Numbers)==0) and (@flags&Flags::ReadOnly)==0
                 speech_stop
         einsert(c)
@@ -1318,7 +1315,37 @@ else
             edelete(c[0],c[1])                                    
                                                 end
                     end
-        def navupdate
+def readupdate
+            if enter 
+url=nil
+@elements.each {|e| url=e.param[1] if (e.bindex<=@index and e.eindex>=@index) and e.type==Element::Link}
+@elements.each {|e| url=e.param[1] if (e.bindex>=linebeginning and e.eindex<=lineending) and e.type==Element::Link} if url==nil
+              if url!=nil
+                                      espeech(_("EAPI_Form:wait_link"))
+        run("explorer \"#{url}\"")
+        loop_update
+        end
+      end
+              e=nil
+      if $key[72]
+      e=find_element(Element::Header,nil,$keyr[0x10],@index)
+    elsif $key[0x31..0x36].include?(true)
+      k=1
+      (1..6).each {|i| k=i if $key[0x30+i]}
+        e=find_element(Element::Header,k,$keyr[0x10],@index)
+      elsif $key[75]
+        e=find_element(Element::Link,nil,$keyr[0x10],@index)
+        elsif $key[73]
+        e=find_element(Element::ListItem,nil,$keyr[0x10],@index)
+        end
+  if e!=nil
+    @index=e.bindex
+    espeech(@text[e.bindex..e.eindex])
+    elsif getkeychar!=""
+    play("border")
+    end
+  end
+                    def navupdate
             @vindex=$key[0x10]?@check:@index
             @ch=false
           if Input.repeat?(Input::RIGHT) and ($key[0x10]==false or $speechaudio==nil)
@@ -1521,10 +1548,6 @@ else
         end
   end
   espeech(@text[@index..@text.size-1].gsub("\n","\r\n")) if @index<@text.size and $key[115] and (@audiotext==nil or @index>0)
-      if enter and (@flags&Flags::ReadOnly)>0 and (/(http(s?)\:\/\/([a-zA-Z0-9:\/,.\?\-\\=\_\+!%\&\(\)]+))/=~@text[linebeginning..lineending-1]) != nil
-        espeech(_("EAPI_Form:wait_link"))
-        run("explorer \"#{$1}\"") 
-        end
   esay
 end
 def mediaupdate
@@ -1670,11 +1693,82 @@ def esay
 end
 end
 def settext(text,reset=true)
-  text.gsub!(/\004ATTACH\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004ATTACH\004/,"")
-  @text=text.gsub("\004LINE\004","\n").delete("\r")
-  @index=0 if reset==true
+          @text=text.delete("\r").gsub("\004LINE\004","\n").gsub(/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/) do
+          $dialogvoice.volume=0 if $dialogvoice!=nil
+          @audiotext=$1
+      ""
+    end
+    @text.gsub!(/\004ATTACH\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004ATTACH\004/,"")
+    @text.chop! while @text[@text.size-1..@text.size-1]=="\n"
+    @elements=[]    
+    if (@flags&Flags::MarkDown)!=0
+          @text.gsub!(/(^http(s?)\:\/\/([^\n]+)$)/) {"[#{$1}](#{$1})"}
+      md_proceed
+    else
+          @text.indices(/http(s?)\:\/\/([^ \n]+)/).each {|ind| @elements.push(Element.new(ind,ind+(@text[ind..-1].index(/[ \n]/)||@text.size)-1,Element::Link,[0,@text[ind...ind+(@text[ind..-1].index(/[ \n]/)||@text.size-ind)]]))}
+    end
+    @index=0 if reset==true
   @index=@text.size if @index>@text.size
-  end
+end
+def md_proceed
+  @elements=[]
+  ind=0
+            @text.gsub!(/(\[[^\]]+\])(\[[^\]]+\])/) do
+                            a=$1
+              b=$2
+              if ( (/^[\t ]*#{Regexp.escape($2)}\:[\t ]*([^\n]+\n?)/)=~@text)!=nil
+                                a+"(#{$1})"
+                else
+              a+b
+              end
+            end
+            @text.gsub!(/(^[\t ]*(\[[^\]]+\])\:[ %t]*([^\n]+)$)/) do
+              if @text.indices($3).size>1
+                ""
+              else
+                $1
+              end
+            end
+            @text.gsub!(/\[\:(\d+)\]/) {"["+$1+"]"}
+      ind=0  
+      while (m=@text[ind..-1].match(/(^[ \t]*([\#]+)[ \t]*([^\n]*)$)|(^([^\n]+)\n[ \t]*([\=\-]+)$)|(\[([^\]]+)\]\(([^[ \)]]+)([ ]*)((\"[^\"]*\")?)\))|(^([*-])([^\n]+)$)/))!=nil
+                                    b=ind+m.begin(0)
+    e=ind+m.end(0)
+    if m.values_at(1)[0]!=nil
+                          cnt=@text[b..e-2].strip
+        level=0
+            level=cnt.count("#")
+              while " \t\#=-".include?(@text[b..b])
+                @text[b..b]=""
+                e-=1
+                end
+              @elements.push(Element.new(b,e-1,Element::Header,level))
+            elsif m.values_at(4)[0]!=nil
+                            @text[m.begin(6)..m.end(6)]=""
+              e-=(m.values_at(6)[0].size+1)
+              level=1
+              level=2 if m.values_at(6)[0..0]=="-"
+              @elements.push(Element.new(b,e,Element::Header,level))
+              elsif m.values_at(7)[0]!=nil
+                                  label=m.values_at(8)[0]
+    url=m.values_at(9)[0]
+        @text[b..e-1]=label
+    e=b+label.size
+                        @elements.push(Element.new(b,e-1,Element::Link,[0,url]))
+                      elsif m.values_at(13)!=nil
+                        @elements.push(Element.new(b,e,Element::ListItem))
+                                            end
+                      ind=b+1
+                    end
+                                                        end
+                def find_element(type=0,flags=nil,revdir=false,index=@index)
+                  e=Element.new(@text.size,-1,0)
+                  for el in @elements
+                    e=el if (el.type==type and (flags==nil or el.param==flags)) and (((revdir==false and el.bindex>index and el.bindex<e.bindex) or (revdir==true and el.eindex<index and el.eindex>e.eindex)))
+                  end
+                  return nil if e.type==0
+                  return e
+                  end
 def finalize
   text_str
   end
@@ -1694,9 +1788,20 @@ ReadOnly=2
 Password=4
   Numbers=8
   DisableLineWrapping=16
+  MarkDown=32
+end
+    class Element
+    attr_accessor :bindex, :eindex, :type, :param
+    Header=1
+    Link=2
+        ListItem=3
+    Quote=5
+    def initialize(bindex=0,eindex=0,type=0,param=nil)
+      @bindex,@eindex,@type,@param=bindex,eindex,type,param
+    end
   end
         end
-  
+      
     # A listbox class
     class Select
       # @return [Numeric] a listbox index
