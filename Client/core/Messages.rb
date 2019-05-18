@@ -7,6 +7,14 @@
 
 class Scene_Messages
     def initialize(wn=2000)
+      $notifications_callback = Proc.new {|notif|
+if notif['cat']==1
+  play(notif['sound']) if notif['sound']!=nil
+else
+  speech(notif['alert']) if notif['alert']!=nil
+  play(notif['sound']) if notif['sound']!=nil
+  end
+      }
           if wn==true or wn==false or wn.is_a?(Integer)
       @wn=wn
     elsif wn.is_a?(Array)
@@ -60,7 +68,6 @@ def import(arr)
    @users=[]
    @users_limit=limit
     msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&limit=#{@users_limit}")
-File.delete("temp/agent_wn.tmp") if FileTest.exists?("temp/agent_wn.tmp")
     if msg[0].to_i<0
       speech(_("General:error"))
       speech_wait
@@ -180,8 +187,7 @@ msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&user=#{use
    @conversations=[]
    msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&sp=#{sp}")
  end
- File.delete("temp/agent_wn.tmp") if FileTest.exists?("temp/agent_wn.tmp")
-       if msg[0].to_i<0
+        if msg[0].to_i<0
       speech(_("General:error"))
       speech_wait
       return $scene=Scene_WhatsNew.new
@@ -296,10 +302,9 @@ end
    msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&user=#{user.urlenc}\&subj=#{subject.urlenc}&limit=#{@messages_limit.to_s}")
    end
 @messages_wn=0
-   if FileTest.exists?("temp/agent_wn.tmp")
-     @messages_wn=read("temp/agent_wn.tmp").split("\r\n")[0].to_i
-  File.delete("temp/agent_wn.tmp")
-  end
+   if $agent_msg!=nil
+     @messages_wn=$agent_msg
+       end
    if msg[0].to_i<0
             speech(_("General:error"))
       speech_wait
@@ -345,7 +350,9 @@ when 2
          selt=[]
     for m in @messages
       break if m.id<=curid
-      play "messages_update" if complete
+      if complete
+      play "messages_update"
+                        end
             selt.push(m.sender+":\r\n"+((sp!=nil and sp!="new")?(m.subject+":\r\n"):"")+m.text.gsub("\004LINE\004","\r\n").split("")[0...5000].join+((m.text.size>5000)?"... #{_("Messages:opt_phr_readmore")}":"")+"\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",m.date.year,m.date.month,m.date.day,m.date.hour,m.date.min)+"\r\n")
       selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if m.mread==0
       selt[-1]+="\004ATTACHMENT\004" if m.attachments.size>0
@@ -364,12 +371,11 @@ when 2
   end
     end
   def update_messages
-   if FileTest.exists?("temp/agent_wn.tmp") and (@messages_sp==nil or @messages_sp == "new")
-     mwn=read("temp/agent_wn.tmp").split("\r\n")[0].to_i
-     load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true) if mwn>@messages_wn
+   if $agent_msg != nil
+     mwn=$agent_msg
+          load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true) if mwn>@messages_wn
      @messages_wn=mwn
-  File.delete("temp/agent_wn.tmp")
-  end
+    end
 @form_messages.update
     if escape or ((Input.trigger?(Input::LEFT) and @form_messages.index==0) and @form_messages.fields[0]==@sel_messages)
       if @form_messages.fields[0]==@sel_messages
@@ -1126,9 +1132,9 @@ rec=0
                        receiver = @form.fields[0].text_str
                        receiver.sub!("@elten-net.eu","")
                        receiver=finduser(receiver) if receiver.include?("@")==false and finduser(receiver).upcase==receiver.upcase
-                       if user_exist(receiver) == false or @form.index == 8 and (/^[a-zA-Z0-9.\-_]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)==nil
+                       if user_exist(receiver) == false or @form.index == 8 and (/^[a-zA-Z0-9.\-_\+]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)==nil
                          speech(_("Messages:info_receivernotfound"))
-                       elsif (/^[a-zA-Z0-9.\-_]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)!=nil
+                       elsif (/^[a-zA-Z0-9.\-_\+]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)!=nil
                          if simplequestion(_("Messages:alert_mail")) == 1
                            subject = @form.fields[1].text_str
                        text = @form.fields[2].text_str if rec == 0
@@ -1206,7 +1212,7 @@ err = bt[0].to_i
                     bufatt=buffer(@att)
       ex="\&bufatt="+bufatt.to_s
               end         
-           msgtemp = srvproc("message_#{tmp}send","name=#{$name}\&token=#{$token}\&to=#{receiver}\&subject=#{subject}\&buffer=#{bufid}#{ex}")
+           msgtemp = srvproc("message_#{tmp}send","name=#{$name}\&token=#{$token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&buffer=#{bufid}#{ex}")
        else
              @users = srvproc("users","name=#{$name}\&token=#{$token}")
         err = @users[0].to_i

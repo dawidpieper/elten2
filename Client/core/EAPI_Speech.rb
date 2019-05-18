@@ -135,7 +135,7 @@ prei=0
         text = char_dict(text) if text.split("").size==1
     text = text.gsub("_"," ")
 text.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
-text=($1+" "+text).gsub(/\004INFNEW\{([^\}]+)\}\004/,"\004NEW\004")
+text=((($interface_soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\{([^\}]+)\}\004/,"\004NEW\004")
 }
   text.gsub!("\004NEW\004") {
   play("list_new")

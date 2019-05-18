@@ -67,8 +67,8 @@ return res
                       r += tt[i..i]
             end
      null=nil
-     begin
-       e=eval(r)
+          begin
+       e=JSON.load(r)
        t=""
               for l in e[0]
                   t+=l[0]+"\r\n"
@@ -101,8 +101,7 @@ text.gsub!("-"," ")
        download("https://translate.yandex.net/api/v1.5/tr.json/detect?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&text=#{text}","temp/trans")
                a = read("temp/trans")
 File.delete("temp/trans")
- b = a.gsub("\":","\"=>")
-c = eval(b,nil,"trns")
+ c = JSON.load(a)
 return "" if c==nil
 if c['code']!=200
   speech(_("EAPI_External:error_translation")) if quiet==false
@@ -114,8 +113,7 @@ to=to.downcase
 download("https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&text=#{text}\&lang=#{from}-#{to}","temp/trans")
           a =  read("temp/trans")
      File.delete("temp/trans")
-     b = a.gsub("\":","\"=>")
-c = eval(b,nil,"trns")
+     c = JSON.load(a)
 if c.is_a?(Hash)
 if c['code']!=200
   speech(_("EAPI_External:error_translation")) if quiet==false
@@ -158,8 +156,7 @@ def translatetext(from,to,text,api=0)
   download("https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&ui=#{$language[0..1]}","temp/trans")
   a = read("temp/trans")
  File.delete("temp/trans")
- b = a.gsub("\":","\"=>")
- c = eval(b,nil,"trns")
+  c = JSON.load(a)
  langs=c['langs']
   from=Select.new([_("EAPI_External:opt_langdetection")]+langs.values,true,0,_("EAPI_External:head_langsrc"),true)
  ind=0
@@ -211,7 +208,7 @@ if query == nil
   download("https://www.googleapis.com/youtube/v3/search?part=snippet&q=#{(query).urlenc}&type=video&maxResults=50&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
     x=read("temp/yttemp")
   File.delete("temp/yttemp")
-  e = eval(x.gsub("\#","\\\#").gsub("\#\$","\#\\\$").gsub("\": ","\"=>"),nil,"YT")
+  e = JSON.load(x)
       if e['error'] != nil or e['errors'] != nil
     speech(_("General:error"))
     speech_wait
@@ -242,7 +239,7 @@ loop do
     download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
     vx=read("temp/yttemp")
   File.delete("temp/yttemp")
-  details[sel.index]=ve = eval(vx.gsub("\#","\\\#").gsub("\#\$","\#\\\$").gsub("\": ","\"=>"),nil,"YT")
+  details[sel.index]=ve = JSON.load(vx)
   end
   di=details[sel.index]['items'][0]['contentDetails']['duration']
 h=0
@@ -266,9 +263,10 @@ dete.settext(text)
     if details[sel.index]==nil
     vid=ids[sel.index]
     download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
+    download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
     vx=read("temp/yttemp")
   File.delete("temp/yttemp")
-  details[sel.index]=ve = eval(vx.gsub("\#","\\\#").gsub("\#\$","\#\\\$").gsub("\": ","\"=>"),nil,"YT")
+  details[sel.index]=ve = JSON.load(vx)
   end
 di=details[sel.index]['items'][0]['contentDetails']['duration']
 h=0
@@ -344,7 +342,7 @@ end
       $scene=Scene_Main.new
       return
       end
-    destination = "temp/"+e['items'][sel.index]['snippet']['title'].delspecial+".tmp"
+    destination = "temp/"+e['items'][sel.index]['snippet']['title'].delspecial+"_"+e['items'][sel.index]['snippet']['channelTitle'].delspecial+".tmp"
           suc=false
           d=Dir.entries("temp")
   for f in d

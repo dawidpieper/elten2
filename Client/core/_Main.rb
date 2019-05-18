@@ -10,7 +10,7 @@ class Object
 end
 module Elten
 Version=2.3
-Beta=26
+Beta=28
 Alpha=0
 IsBeta=1
 class <<self
@@ -54,13 +54,14 @@ $toscene = false
   loop do
   $scene=Scene_Loading.new if $restart==true
           if $scene != nil
-        $scene.main
+        $notifications_callback = nil
+                              $scene.main
   else
     break
     end
   end
-    writefile("temp/agent_exit.tmp","\r\n")
-    $agentproc=nil
+    Win32API.new("kernel32","TerminateProcess",'ip','i').call($agent.pid,"")
+    $agent=nil
     srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:left").urlenc}") if $chat==true
     play("logout")
   speech_wait
@@ -113,13 +114,13 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
     delay(1)
   # Fade out
   Graphics.transition(120)
-  File.delete("temp/agent_exit.tmp") if FileTest.exists?("temp/agent_exit.tmp")
-  File.delete("temp/agent_output.tmp") if FileTest.exists?("temp/agent_output.tmp")
-  $exit = true
+    $exit = true
   if $exitupdate==true
     exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
     end
       exit
+    end
+    begin
       rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true

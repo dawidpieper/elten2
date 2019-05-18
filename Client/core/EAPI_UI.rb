@@ -399,29 +399,34 @@ end
          end
          end
        tr = false
-       if FileTest.exists?("temp/agent_tray.tmp")
+       if $trayreturn==true
 Graphics.update if $ruby != true
-         File.delete("temp/agent_tray.tmp")
-tr=true
+         tr=true
 end
-if $agentbug!=true
-if FileTest.exists?("temp/agent_errout.tmp")
-  if File.size("temp/agent_errout.tmp")>4
-    $agentbug=true
-    e=read("temp/agent_errout.tmp")
+if $agent!=nil and $agent.avail>0
+    str=$agent.read
+    for l in str.split("\r\n")
+                d=JSON    .load(l)
+                if d['func']=="notif"
+                                    if $notifications_callback!=nil
+                    $notifications_callback.call(d)
+                  else
+                    process_notification(d)
+                    end
+                elsif d['func']=='srvproc'
+          $eresps[d['id']]=d
+        elsif d['func']=='tray'
+                    $trayreturn=true
+        elsif d['func']=='msg'
+                    $agent_msg=d['msgs'].to_i
+                  elsif d['func']=='error'
+                            e=d['msg']+"\r\n"+d['loc']
 if simplequestion(_("EAPI_UI:alert_agentreport"))==1
     bug(false,"Elten Agent Error:\r\n"+e)
         end
 speech(_("EAPI_UI:info_retry"))
-        s=0
-        begin
-      File.delete("temp/agent_errout.tmp") if s==0
-    rescue Exception
-      s=1
-      retry
-    end
+                                      end
         end
-    end
   end
  $agentupst=0 if $agentupst==nil
  $agentupst+=1
@@ -430,9 +435,9 @@ speech(_("EAPI_UI:info_retry"))
  if $agentupst>200 and suc==true
   $agentthr=Thread.new do
      $agentupst=0
-  if $agentproc != nil
+  if $agent != nil
   x="\0"*1024
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call($agentproc,x)
+Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call($agent.pid,x)
 x.delete!("\0")
 if x != "\003\001"
                                     writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
@@ -446,44 +451,7 @@ play("right")
 $wnup=0
 end
 $agentfaillasttime=Time.now.to_i
-$wnup = 0 if $wnup == nil
-$wnup += 1
-$lastrefresh=0 if $lastrefresh==nil
-if Time.now.to_i-30>$lastrefresh
-  $lastrefresh=Time.now.to_i
-  play("list_focus")
-$wnup=0
-  $mes = 0 if $mes == nil
-  $pst = 0 if $pst == nil
-  $blg = 0 if $blg == nil
-srvproc("active","name=#{$name}\&token=#{$token}")
-wntemp = srvproc("whatsnew","name=#{$name}\&token=#{$token}\&get=1")
-if wntemp.size > 1
-  s = false
-  if wntemp[1].to_i > $mes
-    if $language != "PL_PL" or $gender != 0
-    speech(_("EAPI_UI:info_newmessage")) if $loaded == true
-  else
-    speech(_("EAPI_UI:info_newmessagefemale")) if $loaded == true
-    end
-    s = true
   end
-  if wntemp[2].to_i > $pst
-    speech(_("EAPI_UI:info_newfollowedthread")) if $loaded == true
-    s = true
-  end
-  if wntemp[3].to_i > $blg
-    speech(_("EAPI_UI:info_newfollowedblog")) if $loaded == true
-    s = true
-  end
-    play("new") if s == true
-$loaded = true
-$mes = wntemp[1].to_i
-$pst = wntemp[2].to_i
-$blg = wntemp[3].to_i
-end
-  end
-end
 end
 $procs=[] if $procs==nil  
 for o in $procs
@@ -512,6 +480,7 @@ Input.update
   end
   end
 if tr == true
+  $trayreturn=false
       $key=[0]*256
     $keyms=[0]*256
         Graphics.update

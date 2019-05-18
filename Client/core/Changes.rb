@@ -745,6 +745,11 @@ Wersja 2.284:
 
 2018-11-08
 ","
+Wersja 2.285:
+- Zmieniono: aktualizacja protokołów połączeń z serwerem
+
+2019-03-09
+","
 Wersja 2.3:
 Praca w toku
 "]

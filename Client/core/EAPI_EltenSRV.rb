@@ -528,7 +528,14 @@ if index == -1
 else
   return results[index]
   end
+end
+
+def srvstate
+  st=srvproc("state","")
+  if st[0].to_i==0
+    $eltsuspend=(st[1].to_i==1)?true:false
     end
+  end
         end
   end
 #Copyright (C) 2014-2018 Dawid Pieper

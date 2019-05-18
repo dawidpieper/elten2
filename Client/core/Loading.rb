@@ -7,6 +7,7 @@
 
 class Scene_Loading
   def main
+    $eresps={}
             $restart=false
                                 $volume=100
             $preinitialized = false
@@ -29,8 +30,10 @@ class Scene_Loading
     $path="\0"*1024
     Win32API.new("kernel32","GetModuleFileName",'ipi','i').call($instance,$path,$path.size)
     $path.delete!("\0")
+  
     if $wnd==nil
     $wnd = Win32API.new("user32","FindWindow",'pp','i').call("RGSS Player",nil)
+  
     $cwnd = Win32API.new("user32","GetActiveWindow",'','i').call
     if $cwnd != $wnd
       $ccwnd = Win32API.new("user32","GetForegroundWindow",'','i').call
@@ -119,9 +122,9 @@ $interface_linewrapping = readini($configdata + "\\interface.ini","Interface","L
 $interface_hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
 $interface_fullscreen = readini($configdata + "\\interface.ini","Interface","StartFullScreen","0").to_i
 $advanced_hexspecial = readini($configdata + "\\advanced.ini","Advanced","HexSpecial","1").to_i
-$advanced_refreshtime = readini($configdata + "\\advanced.ini","Advanced","RefreshTime","5").to_i        
+$advanced_refreshtime = readini($configdata + "\\advanced.ini","Advanced","AgentRefreshTime","1").to_i        
 if $advanced_refreshtime==1
-writeini($configdata + "\\advanced.ini","Advanced","RefreshTime","5")
+writeini($configdata + "\\advanced.ini","Advanced","AgentRefreshTime","1")
 $advanced_refreshtime=5
 end
 $advanced_ytformat = readini($configdata + "\\advanced.ini","Advanced","YTFormat","wav").to_s
@@ -178,8 +181,7 @@ $showm.call(13,0,2,0)
 $showm.call(18,0,2,0)
     Graphics.update
     end
-    File.delete("temp/agent_tray.tmp") if FileTest.exists?("temp/agent_tray.tmp")
-    speech_stop
+        speech_stop
     startmessage = "ELTEN: " + $version.to_s
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
 startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
@@ -285,7 +287,9 @@ license
             $scene = Scene_Login.new
       return
     end
+    srvstate
     $cw = Select.new([_("Loading:opt_login"),_("Loading:opt_register"),_("Loading:opt_forgottenpass"),_("Loading:opt_guest"),_("Loading:opt_interfacesettings"),_("Loading:opt_changesynth"),"Language / Język",_("Loading:opt_reinstall"),_("General:str_quit")])
+    $cw.disable_item(1) if $eltsuspend
     loop do
 loop_update
       $cw.update
@@ -312,11 +316,6 @@ loop_update
                 $rang_developer=0
                 $rang_translator=0
                 $rang_mediaadministrator=0
-                writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
-  if $agentloaded != true
-  agent_start
-$agentloaded = true
-end
                 $scene=Scene_Main.new
                 when 4
               $scene = Scene_Interface.new

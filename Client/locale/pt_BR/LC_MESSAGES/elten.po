@@ -1,9 +1,3 @@
-# Portuguese (Brazil) translations for Elten.
-# Copyright (C) (2014-2018) Dawid Pieper
-# This file is distributed under Open Public License, detailed in the repository of ELten project.
-# FIRST AUTHOR <dawidpieper@o2.pl>, 2014.
-#
-
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
@@ -15,42 +9,41 @@ msgstr ""
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: pt\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 
 msgid "Authentication:type_pass"
 msgstr "Digite sua senha"
 
 msgid "Authentication:head_enabled"
 msgstr ""
-"A autenticação de duas etapas permite uma melhor segurança da conta, exigindo a confirmação "
-"de cada login com o seu telefone. Quando ativado, uma mensagem de texto com um código de "
-"verificação será enviada a você sempre que você fizer login em um novo dispositivo. Digitar "
-"este código será necessário para entrar no programa."
+"A autenticação de duas etapas permite uma melhor segurança da conta, exigindo a confirmação de cada login "
+"com o seu telefone. Quando ativado, uma mensagem de texto com um código de verificação será enviada a "
+"você sempre que você fizer login em um novo dispositivo. Digitar este código será necessário para entrar "
+"no programa."
 
 msgid "Authentication:head_disabled"
 msgstr "A altenticação de duas etapas está ativada nesta conta"
 
 msgid "Authentication:type_phone"
 msgstr ""
-"Digite seu número de telefone que será usado durante a verificação. Lembre-se de inserir o "
-"código do país, por exemplo, +48 no caso da Polônia"
+"Digite seu número de telefone que será usado durante a verificação. Lembre-se de inserir o código do paí"
+"s, por exemplo, +48 no caso da Polónia"
 
 msgid "Authentication:alert_support"
 msgstr ""
-"A autenticação de duas etapas foi introduzida apartir do Elten 2.28. Depois de ativá-lo, não "
-"será possível fazer o login a partir das versões mais antigas do programa. Você deseja "
-"continuar mesmo assim?"
+"A autenticação de duas etapas foi introduzida apartir do Elten 2.28. Depois de ativá-lo, não será possí"
+"vel fazer o login a partir das versões mais antigas do programa. Você deseja continuar mesmo assim?"
 
 msgid "Authentication:alert_checkphone"
-msgstr "Este número de telefone está correto, pressione enter para continuar ou escape para sair"
+msgstr "Este número de telefone está correto, pressione enter para continuar ou Escape para sair"
 
 msgid "Authentication:wait"
 msgstr "Por favor, aguarde, conectando-se ao servidor ..."
 
 msgid "Authentication:type_code"
 msgstr ""
-"No número de telefone indicado, você receberá uma mensagem de texto com o código ativando a "
-"autenticação de duas etapas. Digite este código"
+"No número de telefone indicado, você receberá uma mensagem de texto com o código ativando a autenticação "
+"de duas etapas. Digite o código"
 
 msgid "Authentication:type_wrongcode"
 msgstr "O código digitado não está correto, tente novamente"
@@ -128,20 +121,19 @@ msgid "Clock:head_type"
 msgstr "Tipo"
 
 msgid "Clock:opt_single"
-msgstr "Um tempo"
+msgstr "Não repetir"
 
 msgid "Clock:opt_multiple"
-msgstr "Mais de um tempo"
+msgstr "Repetir"
 
 msgid "Advanced:head_keyreftime"
-msgstr ""
-"Tempo de atualização do estado da chave (ms) (Nota: não é recomendado alterar este valor!)"
+msgstr "Tempo de atualização do estado da chave (ms) (Nota: não é recomendado alterar este valor!)"
 
 msgid "Advanced:chk_hexparsing"
 msgstr "Processamento hexagonal de diacréticos (avançado)"
 
 msgid "Advanced:head_sesreftime"
-msgstr "Tempo (s) de atualização da sessão (Atençã! Não é recomendado alterar este valor!)"
+msgstr "Tempo (s) de atualização da sessão (Atenção! Não é recomendado alterar este valor!)"
 
 msgid "Advanced:chk_audiostreaming"
 msgstr "Usar audiostreaming se suportado"
@@ -183,7 +175,7 @@ msgid "FirstRun:opt_none"
 msgstr "Nenhum"
 
 msgid "FirstRun:opt_audio"
-msgstr "Áudio"
+msgstr "áudio"
 
 msgid "ForgotPassword:head"
 msgstr "Redefinir a senha"
@@ -225,15 +217,14 @@ msgid "ForgotPassword:wait_changing"
 msgstr "Por favor aguarde enquanto a senha está sendo alterada."
 
 msgid "ForgotPassword:info_changed"
-msgstr "A senha foi alterada. Você pode fazer login na sua conta usando os novos dados."
+msgstr "A senha foi alterada com sucesso! Você pode fazer login na sua conta usando os novos dados."
 
 msgid "ForgotPassword:head_reset"
 msgstr ""
-"Se você perder sua senha, ainda poderá redefini-la por meio do endereço de e-mail fornecido "
-"durante o processo de registro. Desta forma, você deve gerar o código de redefinição de "
-"senha que será usado para verificar sua identidade. O código será enviado para o seu "
-"endereço de e-mail. Aviso! A autenticaÃ§Ã£o de duas etapas serÃ¡ desativada na sua conta. "
-"Para continuar, digite seu nome de usuÃ¡rio:"
+"Se você perder sua senha, ainda poderá redefini-la por meio do endereço de e-mail fornecido durante o "
+"processo de registro. Desta forma, você deve gerar o código de redefinição de senha que será usado para "
+"verificar sua identidade. O código será enviado para o seu endereço de e-mail. Aviso! A autenticação de "
+"duas etapas será desativada na sua conta. Para continuar, digite seu nome de usuário:"
 
 msgid "Honors:opt_add"
 msgstr "Adicionar"
@@ -241,49 +232,49 @@ msgstr "Adicionar"
 msgid "Programs:head"
 msgstr "Instalação de programas"
 
-msgid "Portable:head_dest"
+msgid "Porarr:head_dest"
 msgstr "Destino"
 
-msgid "Portable:chk_langs"
+msgid "Porarr:chk_langs"
 msgstr "Incluir outros idiomas"
 
-msgid "Portable:chk_settings"
-msgstr "Copiar configuraÃ§Ãµes atuais"
+msgid "Porarr:chk_settings"
+msgstr "Copiar configurações atuais"
 
-msgid "Portable:chk_soundthemes"
-msgstr "Copiar temas sonoros transferidos"
+msgid "Porarr:chk_soundthemes"
+msgstr "Copiar temas sonoros baixados"
 
-msgid "Portable:wait"
+msgid "Porarr:wait"
 msgstr "Por favor, aguarde enquanto os arquivos estão sendo preparados"
 
-msgid "Portable:wait_settings"
+msgid "Porarr:wait_settings"
 msgstr "Copiando configuração"
 
-msgid "Portable:wait_soundthemes"
+msgid "Porarr:wait_soundthemes"
 msgstr "Copiando temas sonoros"
 
-msgid "Portable:opt_synthreset"
+msgid "Porarr:opt_synthreset"
 msgstr "Redefinir configurações do sintetizador"
 
-msgid "Portable:opt_askeverytime"
+msgid "Porarr:opt_askeverytime"
 msgstr "Pergunte cada vez"
 
-msgid "Portable:opt_usecurrent"
+msgid "Porarr:opt_usecurrent"
 msgstr "Use a configuração atual"
 
-msgid "Portable:head_synth"
+msgid "Porarr:head_synth"
 msgstr ""
-"Se você usar uma cópia criada do Elten em outro computador, as configurações de voz podem n"
-"o funcionar corretamente. Isso é especialmente perceptível em uma situação em que outro "
-"computador tem outras vozes instaladas. Como você deseja configurar a versão gerada?"
+"Se você usar uma cópia criada do Elten em outro computador, as configurações de voz podem não funcionar "
+"corretamente. Isso é especialmente perceptível em uma situação em que outro computador tem outras vozes "
+"instaladas. Como você deseja configurar a versão gerada?"
 
-msgid "Portable:info_created"
+msgid "Porarr:info_created"
 msgstr "Elten portátio criada com sucesso."
 
-msgid "Portable::opt_usedefault"
+msgid "Porarr:opt_usedefault"
 msgstr "Use um leitor de tela ou uma voz padrão do sistema"
 
-msgid "Portable::btn_continue"
+msgid "Porarr:btn_continue"
 msgstr "continuar"
 
 msgid "Polls:type_description"
@@ -293,7 +284,7 @@ msgid "Polls:head"
 msgstr "Pesquisas"
 
 msgid "Polls:btn_vote"
-msgstr "Voto"
+msgstr "Votar"
 
 msgid "Polls:opt_results"
 msgstr "Mostrar resultados"
@@ -362,7 +353,7 @@ msgid "Admins:head"
 msgstr "Administradores"
 
 msgid "WhatsNew:info_nonew"
-msgstr "Não há nada de novo."
+msgstr "Não tem nada de novo."
 
 msgid "WhatsNew:opt_open"
 msgstr "abrir"
@@ -427,11 +418,11 @@ msgstr "Iniciar automaticamente Elten depois de fazer logon no Windows"
 msgid "Interface:error_autologinrequired"
 msgstr "Para ativar o loguim altomático, é necessário reiniciar o elten"
 
-msgid "Interface:alert_Portable:autostart"
+msgid "Interface:alert_porarrautostart"
 msgstr ""
-"Atenção! Você está tentando ativar a função de iniciar automáticamente usando a versão "
-"portátio do Elten. Quando este programa estiver inacessível para o Windows ou sua localização "
-"for alterada, o sistema não poderá iniciá-lo. Você tem certeza que quer continuar?"
+"Atenção! Você está tentando ativar a função de iniciar automáticamente usando a versão portátio do "
+"Elten. Quando este programa estiver inacessível para o Windows ou sua localização for alterada, o sistema n�"
+"�o poderá iniciá-lo. Você tem certeza que quer continuar?"
 
 msgid "UsersAddedMeToContacts:head"
 msgstr "Usuários que me adicionaram ao seus contatos"
@@ -734,7 +725,7 @@ msgid "Files:type_filename"
 msgstr "Digite um nome para o arquivo"
 
 msgid "Files:btn_record"
-msgstr "Registro"
+msgstr "Gravar"
 
 msgid "SoundThemes:head"
 msgstr "temas sonoros"
@@ -894,8 +885,8 @@ msgstr "Um usuário foi removido da lista negra."
 
 msgid "Account:alert_addtoblacklist"
 msgstr ""
-"Os usuários adicionados à sua lista negra não podem enviar mensagens particulares. Você tem "
-"certeza que quer continuar?"
+"Os usuários adicionados à sua lista negra não podem enviar mensagens particulares. Você tem certeza que "
+"quer continuar?"
 
 msgid "Account:error_blacklistadmin"
 msgstr "Você não pode adicionar um administrador à lista negra."
@@ -905,8 +896,8 @@ msgstr "Este usuário já está na sua lista negra."
 
 msgid "Account:alert_logoutall"
 msgstr ""
-"Tem sertesa de que deseja remover a confirmação de loguim altomático e desconectar de todas "
-"as ceções? Você será desconectado altomaticamente."
+"Tem sertesa de que deseja remover a confirmação de loguim altomático e desconectar de todas as ceções? "
+"Você será desconectado altomaticamente."
 
 msgid "Contacts:head"
 msgstr "Contatos"
@@ -933,7 +924,7 @@ msgid "Contacts:info_contactdeleted"
 msgstr "O contato foi excluído."
 
 msgid "Contacts:error_usernotadded"
-msgstr "Este usuário não foi adicionado à lista do seus contatos."
+msgstr "Este usuário não foi adicionado à lista de contatos."
 
 msgid "Update:alert_newversion"
 msgstr "Uma nova versão deste programa está disponível. Você deseja baixar e instalar?"
@@ -942,20 +933,20 @@ msgid "Update:alert_newbeta"
 msgstr "Uma nova versão beta deste programa está disponível. Você deseja baixar e instalar?"
 
 msgid "Update:wait"
-msgstr "Por favor, aguarde enquanto os arquivos são baixados."
+msgstr "Por favor, aguarde enquanto os arquivos estão sendo baixados."
 
 msgid "Update:wait_languages"
 msgstr "atualizando pacotes de idiomas"
 
 msgid "Update:alert_betawarning"
 msgstr ""
-"Aviso! Você está prestes a instalar uma versão beta do elten. Tal versão pode conter "
-"travamentos ou outros erros podem ocorrer. Você realmente deseja continuar?"
+"Aviso! Você está prestes a instalar uma versão beta do elten. Tal versão pode conter travamentos ou outros "
+"erros podem ocorrer. Você realmente deseja continuar?"
 
 msgid "Update:info_downloaded"
 msgstr ""
-"A atualização foi baixada. Para instalá-lo, o programa deve ser reiniciado. Pressione enter "
-"para continuar ou escape para cancelar."
+"A atualização foi baixada. Para instalá-lo, o programa deve ser reiniciado. Pressione enter para continuar "
+"ou escape para cancelar."
 
 msgid "Update:wait_downloading"
 msgstr "Download da atualização"
@@ -1003,7 +994,7 @@ msgid "Messages:opt_compose"
 msgstr "Envie uma nova mensagem"
 
 msgid "Messages:opt_forward"
-msgstr "frente"
+msgstr "Compartilhar"
 
 msgid "Messages:type_subject"
 msgstr "Tema da mensagem:"
@@ -1051,7 +1042,7 @@ msgid "Messages:head_searchresults"
 msgstr "Itens encontrados"
 
 msgid "Messages:wait_converting"
-msgstr "O arquivo está sendo convertido ..."
+msgstr "O arquivo está sendo convertido"
 
 msgid "Messages:opt_search"
 msgstr "Procurar"
@@ -1081,22 +1072,22 @@ msgid "Messages:alert_mail"
 msgstr "Você quer enviar esta mensagem como e-mail?"
 
 msgid "Messages:opt_flag"
-msgstr "Bandeira"
+msgstr "Marcar como lida"
 
 msgid "Messages:opt_removeflag"
-msgstr "Remover bandeira"
+msgstr "Desmarcar como lida"
 
 msgid "Messages:opt_showflagged"
-msgstr "Mostrar mensagens sinalizadas"
+msgstr "Mostrar mensagens marcadas"
 
 msgid "Messages:info_flagged"
-msgstr "A mensagem foi sinalizada."
+msgstr "A mensagem foi marcada."
 
 msgid "Messages:info_glagremoved"
-msgstr "A mensagem não está mais sinalizada."
+msgstr "A mensagem não está mais marcada."
 
 msgid "Messages:head_flagged"
-msgstr "Mensagens sinalizadas"
+msgstr "Mensagens marcadas"
 
 msgid "Messages:opt_loadmore"
 msgstr "Carregar mais mensagens"
@@ -1121,8 +1112,8 @@ msgstr "Instalação de programas"
 
 msgid "MainMenu:alert_reinstall"
 msgstr ""
-"Você quer restaurar a última versão estável deste programa? Todas as configurações "
-"permanecem como estão."
+"Você quer restaurar a última versão estável deste programa? Todas as configurações permanecem como est�"
+"�o."
 
 msgid "Forum:opt_newthr"
 msgstr "Novo tópico"
@@ -1131,10 +1122,10 @@ msgid "Forum:info_thrfollowed"
 msgstr "Adicionado à lista de tópicos seguidos."
 
 msgid "Forum:opt_gotolast"
-msgstr "Ir para o último post"
+msgstr "Ir para a última postagem"
 
 msgid "Forum:type_thrname"
-msgstr "Ir para o último post"
+msgstr "Ir para a última postagem"
 
 msgid "Forum:info_thrcreated"
 msgstr "o tópico foi criado."
@@ -1161,7 +1152,7 @@ msgid "Forum:opt_quote"
 msgstr "Responder com citação"
 
 msgid "Forum:opt_gotounread"
-msgstr "Ir para o primeiro novo post"
+msgstr "Ir para a primeira nova postagem"
 
 msgid "Forum:btn_send"
 msgstr "Enviar"
@@ -1173,7 +1164,7 @@ msgid "Forum:btn_back"
 msgstr "Retornar"
 
 msgid "Forum:btn_sendaudio"
-msgstr "Adicione o post"
+msgstr "Adicione a postagem"
 
 msgid "Forum:type_reply"
 msgstr "Sua resposta"
@@ -1224,7 +1215,7 @@ msgid "Forum:opt_open"
 msgstr "Abrir"
 
 msgid "Forum:opt_movethr"
-msgstr "Mover discussão"
+msgstr "Mover tópico"
 
 msgid "Forum:type_searchphrase"
 msgstr "Digite uma frase para procurar"
@@ -1281,17 +1272,16 @@ msgid "Forum:info_forumunfollowed"
 msgstr "Removido da lista de fóruns seguidos."
 
 msgid "Forum:info_thrunfollowed"
-msgstr "Removido da lista de encadeamentos seguidos."
+msgstr "Removido da lista de tópicos seguidos."
 
 msgid "Forum:info_message"
 msgstr "mensagem"
 
 msgid "Forum:opt_markforumasread"
-msgstr "Marque este fórum como lido"
+msgstr "Marcar este fórum como lido"
 
 msgid "Forum:alert_markforumasread"
-msgstr ""
-"Todas as postagens neste fórum serão marcadas como lidas. Você tem certeza que quer continuar?"
+msgstr "Todas as postagens neste fórum serão marcadas como lidas. Você tem certeza que quer continuar?"
 
 msgid "Main:info_pressalt"
 msgstr "Pressione a tecla alt para abrir o menu."
@@ -1327,32 +1317,30 @@ msgid "Login:opt_asknomore"
 msgstr "Não perguntar novamente"
 
 msgid "Login:info_asknomore"
-msgstr "Para reativar o recurso loguim altomático, prossiga para as configurações da interface."
+msgstr "Para reativar o recurso loguim altomático, prociga para as configurações da interface."
 
 msgid "Login:alert_crpdeprecated"
 msgstr ""
-"Os dados de login salvos usam o método de autenticação de conta antigo, no qual a "
-"suscetibilidade a ataques de hackers foi detectada. Novos e mais seguros algoritmos de login "
-"automáticos foram introduzidos no Elten 2.2. É recomendável que você converta as "
-"informações salvas em um novo sistema para melhorar a segurança de sua conta. Deseja "
-"atualizar as informações salvas agora?"
+"Os dados de login salvos usam o método de autenticação de conta antigo, no qual a suscetibilidade a ataques "
+"de hackers foi detectada. Novos e mais seguros algoritmos de login automáticos foram introduzidos no Elten "
+"2.2. é recomendável que você converta as informaçoes salvas em um novo sistema para melhorar a segurança "
+"de sua conta. Deseja atualizar as informações salvas agora?"
 
 msgid "Login:info_autologin"
 msgstr ""
-"O login automático continuará até que você efetue o logout. As chaves de login automáticas "
-"podem ser gerenciadas na guia Minha conta no menu Comunidade."
+"O login automático continuará até que você efetue o logout. As chaves de login automáticas podem ser "
+"gerenciadas na guia Minha conta no menu Comunidade."
 
 msgid "Login:info_crpupdated"
 msgstr ""
-"Os dados de login foram atualizados. O login automático continuará até você efetuar logout. "
-"As chaves de login automáticas podem ser gerenciadas na guia Minha conta no menu Comunidade."
+"Os dados de login foram atualizados. O login automático continuará até você efetuar logout. As chaves de "
+"login automáticas podem ser gerenciadas na guia Minha conta no menu Comunidade."
 
 msgid "Login:type_authcode"
 msgstr ""
-"A autenticação de duas etapas está ativada nesta conta. Digite o código enviado a você por "
-"mensagem de texto para permitir que este dispositivo faça o login. Se você não tiver acesso "
-"ao número de telefone usado, selecione a opção de redefinição de senha para desativar a "
-"autenticação de duas etapas."
+"A autenticação de duas etapas está ativada nesta conta. Digite o código enviado a você por mensagem de "
+"texto para permitir que este dispositivo faça o login. Se você não tiver acesso ao número de telefone "
+"usado, selecione a opção de redefinição de senha para desativar a autenticação de duas etapas."
 
 msgid "Login:error_verification"
 msgstr "Falha na verificação."
@@ -1368,22 +1356,21 @@ msgstr "O nome do usuário não pode conter espaços. Sinal será Omitido"
 
 msgid "Registration:type_login"
 msgstr ""
-"Entre com seu nome de usuário. Ele será usado para identificação. O comprimento máximo do "
-"nome de usuário é de 64 caracteres"
+"Entre com seu nome de usuário. Ele será usado para identificação. O comprimento máximo do nome de "
+"usuário é de 64 caracteres"
 
 msgid "Registration:type_pass"
 msgstr ""
-"Coloque sua senha. Recomenda-se usar uma senha forte, que consiste em números e letras. O "
-"comprimento máximo da senha é de 256 caracteres."
+"Coloque sua senha. Recomenda-se usar uma senha forte, que consiste em números e letras. O comprimento máximo "
+"da senha é de 256 caracteres."
 
 msgid "Registration:type_mail"
 msgstr ""
-"Insira o seu endereço de email. Ele será usado caso você esqueça sua senha e envie "
-"informações importantes."
+"Insira o seu endereço de email. Ele será usado caso você esquêça sua senha e envie informações "
+"importantes."
 
 msgid "Registration:info_registered"
-msgstr ""
-"O registro foi bem sucedido, obrigado. Você pode entrar usando seu nome de usuário e senha."
+msgstr "O registro foi bem sucedido, obrigado. Você pode entrar usando seu nome de usuário e senha."
 
 msgid "Registration:error_unknown"
 msgstr "Ocorreu um erro desconhecido ao usar o banco de dados"
@@ -1423,8 +1410,8 @@ msgstr "Reinstalar"
 
 msgid "Loading:info_novoice"
 msgstr ""
-"Nenhuma saída de fala selecionada. Pressione enter para selecionar o sintetizador SAPI ou escape "
-"para usar o leitor de tela instalado."
+"Nenhuma saída de fala selecionada. Pressione enter para selecionar o sintetizador SAPI ou escape para usar o "
+"leitor de tela instalado."
 
 msgid "EAPI_External:btn_play"
 msgstr "Reprodusir"
@@ -1521,8 +1508,8 @@ msgstr "Digite o nome do tema sonoro"
 
 msgid "EAPI_Common:info_soundthemecreation"
 msgstr ""
-"Arquivos do temas sonoros criados em% {dir}. Substitua os arquivos do tema sonoro padrão na "
-"pasta criada pelos arquivos apropriados, que constituem o tema sonoro"
+"Arquivos do temas sonoros criados em% {dir}. Substitua os arquivos do tema sonoro padrÃ£o na pasta criada "
+"pelos arquivos apropriados, que constituem o tema sonoro"
 
 msgid "EAPI_Common:head_whattodo"
 msgstr "O que você deseja fazer?"
@@ -1573,10 +1560,10 @@ msgid "EAPI_Common:head_dst"
 msgstr "localização do destino"
 
 msgid "EAPI_Common:btn_preview"
-msgstr "preview"
+msgstr "Visualizar"
 
 msgid "EAPI_Common:btn_confirm"
-msgstr "confirme"
+msgstr "confirmar"
 
 msgid "EAPI_Common:error_playing"
 msgstr "Este arquivo não pode ser reproduzido."
@@ -1594,7 +1581,7 @@ msgid "EAPI_Common:opt_splitbyparagraphs"
 msgstr "Divida por parágrafos"
 
 msgid "EAPI_Common:opt_splitevery"
-msgstr "Divida cada"
+msgstr "Divida por linha"
 
 msgid "EAPI_Common:type_splitevery"
 msgstr "Duração do arquivo (minutos)"
@@ -1636,10 +1623,10 @@ msgid "EAPI_Speech:chr_backslash"
 msgstr "barra invertida"
 
 msgid "EAPI_Speech:chr_minus"
-msgstr "igual"
+msgstr "Ifem"
 
 msgid "EAPI_Speech:chr_equals"
-msgstr "ifem"
+msgstr "Igual"
 
 msgid "EAPI_Speech:chr_accent"
 msgstr "Crase"
@@ -1738,7 +1725,7 @@ msgid "EAPI_Form:info_pasted"
 msgstr "colado"
 
 msgid "EAPI_Form:opt_desktop"
-msgstr "área de Trabalho"
+msgstr "Área de Trabalho"
 
 msgid "EAPI_Form:opt_documents"
 msgstr "Documentos"
@@ -1775,8 +1762,8 @@ msgstr "O que você deseja fazer?"
 
 msgid "_Main:alert_errorreport"
 msgstr ""
-"O programa deve estar fechado. Você ainda deseja enviar um relatório de erros para os "
-"criadores deste aplicativo?"
+"O programa deve estar fechado. Você ainda deseja enviar um relatório de erros para os criadores deste "
+"aplicativo?"
 
 msgid "_Main:opt_tryagain"
 msgstr "Tente novamente"
@@ -1865,16 +1852,16 @@ msgstr "Senha inválida"
 msgid "ForgotPassword:error_unexpected"
 msgstr "Um erro inesperado"
 
-msgid "Portable::wait_languages"
-msgstr "Download dos pacotes de idiomas ..."
+msgid "Porarr:wait_languages"
+msgstr "Download dos pacotes de idiomas"
 
 msgid "Notes:info_notemodified"
 msgstr "A nota foi modificada."
 
 msgid "ForgotPassword:info_keysent"
 msgstr ""
-"A chave de redefinição de senha foi enviada para o seu endereço de e-mail especificado. Para "
-"continuar, selecione a opção para inserir a chave."
+"A chave de redefinição de senha foi enviada para o seu endereço de e-mail especificado. Para continuar, "
+"selecione a opção para inserir a chave."
 
 msgid "Honors:info_nobadges"
 msgstr "O usuário não recebeu nenhum crachá."
@@ -1882,8 +1869,8 @@ msgstr "O usuário não recebeu nenhum crachá."
 msgid "Programs:info_alreadyinstalled"
 msgstr "O programa já foi instalado."
 
-msgid "Portable::wait_preparingfile"
-msgstr "Processando o arquivo ..."
+msgid "Porarr:wait_preparingfile"
+msgstr "Processando o arquivo"
 
 msgid "Polls:error_noanswer"
 msgstr "Não há respostas para esta pergunta"
@@ -1922,7 +1909,7 @@ msgid "Login:error_identity"
 msgstr "Ocorreu um erro ao autenticar a identidade. Você pode ter fornecido uma senha incorreta."
 
 msgid "Registration:info_namenoats"
-msgstr "Um nome de usuário não pode conter címbolos e nem espaços. O personagem será ignorado."
+msgstr "Um nome de usuário não pode conter címbolos e nem espaços. A conta será ignorada."
 
 msgid "Loading:alert_newversion"
 msgstr "Uma nova versão do programa está disponível."
@@ -2085,8 +2072,8 @@ msgstr "O usuário não pode ser encontrado."
 
 msgid "Update:info_reinstall"
 msgstr ""
-"O programa será agora revertido para a versão mais recente estável. Elten irá reiniciar. "
-"Isso pode levar vários minutos."
+"O programa será agora revertido para a versão mais recente estável. Elten irá reiniciar. Isso pode levar "
+"vários minutos."
 
 msgid "Messages:info_allmarkedasread"
 msgstr "Todas as mensagens foram marcadas como lidas."
@@ -2182,12 +2169,12 @@ msgid "EAPI_UI:info_newfollowedthread"
 msgstr "Uma nova postagem em um tópico seguido."
 
 msgid "EAPI_UI:info_newfollowedblog"
-msgstr "Um novo post em um blog seguido."
+msgstr "Uma nova postagem nos blogs seguidos."
 
 msgid "Honors:alert_mainhonor"
 msgstr ""
-"Deseja definir esse emblema como seu emblema principal? O emblema principal serÃ¡ exibido no "
-"seu cartÃ£o de visita."
+"Deseja definir esse emblema como seu emblema principal? O emblema principal será exibido no seu cartão de "
+"visita."
 
 msgid "Blog:alert_deletecategory"
 msgstr "Tem certeza de que deseja excluir esta categoria?"
@@ -2197,8 +2184,8 @@ msgstr "Tem certeza de que deseja excluir este contato?"
 
 msgid "Update:alert_joinbeta"
 msgstr ""
-"Você não está participando do programa Elten open insider. Você quer participar agora, para "
-"baixar a versão beta?"
+"Você não está participando do programa Elten open insider. Você quer participar agora, para baixar a vers�"
+"�o beta?"
 
 msgid "MainMenu:alert_resetsettings"
 msgstr ""
@@ -2207,21 +2194,20 @@ msgstr ""
 
 msgid "EAPI_External:alert_audioreport"
 msgstr ""
-"Ocorreu um erro durante a captura do audiotrack. VocÃª quer enviar um relatÃ³rio de bug? Isso "
-"pode nos ajudar a resolver o problema."
+"Ocorreu um erro durante a captura do audiotrack. Você quer enviar um relatório de bug? Isso pode nos ajudar "
+"a resolver o problema."
 
 msgid "EAPI_External:alert_ytreport"
 msgstr ""
-"O arquivo não pode ser reproduzido. Você quer denunciar este bug? Isso pode nos ajudar a "
-"resolver o problema."
+"O arquivo não pode ser reproduzido. Você quer denunciar este bug? Isso pode nos ajudar a resolver o problema."
 
 msgid "EAPI_Common:alert_useragreement"
 msgstr "Você aceita o acordo de usuário do software Elten?"
 
 msgid "EAPI_UI:alert_agentreport"
 msgstr ""
-"Ocorreu um erro inesperado do agente Elten. Quer denunciar este evento? Isso pode "
-"definitivamente nos ajudar a resolver o problema."
+"Ocorreu um erro inesperado do agente Elten. Quer denunciar este evento? Isso pode definitivamente nos ajudar a "
+"resolver o problema."
 
 msgid "*Main:alert_changepls"
 msgstr "Sua playlist foi alterada. Você deseja salvar as alterações atuais?"
@@ -2239,7 +2225,7 @@ msgid "Notes:type_sharenotewith"
 msgstr "Com quem você deseja compartilhar esta nota?"
 
 msgid "Notes:type_title"
-msgstr "Titulo da nota"
+msgstr "Título da nota"
 
 msgid "Notes:type_content"
 msgstr "Conteúdo da nota"
@@ -2260,19 +2246,19 @@ msgid "Polls:read_poll"
 msgstr "Votação"
 
 msgid "Ban:type_reason"
-msgstr "O motivo"
+msgstr "Motivo"
 
 msgid "Ban:type_additionalmsg"
 msgstr "Uma mensagem adicional para o usuário"
 
 msgid "Ban:read_reason"
-msgstr "O motivo da proibição"
+msgstr "Motivo da proibição"
 
 msgid "Ban:read_validuntil"
 msgstr "Banimento válido até"
 
 msgid "Ban:type_cancelreason"
-msgstr "O motivo do cancelamento da proibição"
+msgstr "Motivo do cancelamento da proibição"
 
 msgid "Media:type_categorydescription"
 msgstr "Descrição da categoria"
@@ -2302,7 +2288,7 @@ msgid "EAPI_External:read_Details"
 msgstr "Detalhes"
 
 msgid "EAPI_Common:read_useragreement"
-msgstr "O contrato de usuário, bem como os termos de serviços da Elten e da Elten Network"
+msgstr "O contrato de usuário, bem como os termos de serviços do Elten e do Elten Network"
 
 msgid "EAPI_Common:read_readingtofile"
 msgstr "Por favor, aguarde, lendo o o arquivo"
@@ -2344,10 +2330,10 @@ msgid "EAPI_Form:type_location"
 msgstr "Escolha um caminho"
 
 msgid "Debug:chk_srvconnectionsignal"
-msgstr "Comunicar conexões ao servidor"
+msgstr "Verificar conexões ao servidor"
 
-msgid "Portable::chk_sfx"
-msgstr "Crie como um único arquivo exe. (Nenhuma configuração será salva)."
+msgid "Porarr:chk_sfx"
+msgstr "Crie como um único arquivo exe. (Nenhuma configuração será salva)"
 
 msgid "Interface:chk_linewrapping"
 msgstr "Quebra de linhas longas em campos de texto"
@@ -2384,30 +2370,29 @@ msgstr "Todas as postagens neste blog serão marcadas como lidas. Você quer con
 
 msgid "Files:alert_eltenapi"
 msgstr ""
-"Você quer executar este script de API Elten? Os scripts provenientes de fontes desconhecidas "
-"podem danificar o seu computador ou permitir o acesso à sua conta a pessoas não autorizadas. "
-"Continue se você confiar na fonte desse script."
+"Você quer executar este script de API Elten? Os scripts provenientes de fontes desconhecidas podem danificar "
+"o seu computador ou permitir o acesso à sua conta a pessoas não autorizadas. Continue se você confiar na "
+"fonte desse script."
 
 msgid "Forum:alert_Deletepost"
 msgstr "Tem certeza de que deseja excluir esta postagem?"
 
 msgid "EAPI_Common:alert_mididownloadsf"
 msgstr ""
-"Você está tentando reproduzir um arquivo midi. Para reproduzir esses arquivos, Elten precisa "
-"de uma base externa de instrumentos. Você quer baixar a base do servidor agora? Isso pode levar "
-"alguns minutos."
+"Você está tentando reproduzir um arquivo midi. Para reproduzir esses arquivos, Elten precisa de uma base "
+"externa de instrumentos. Você quer baixar a base do servidor agora? Isso pode levar alguns minutos."
 
 msgid "Uploads:head_filetosend"
 msgstr "Escolha um arquivo para ser enviado ao servidor"
 
 msgid "Messages:head_savelocation"
-msgstr "Onde você deseja salvar este arquivo?"
+msgstr "Onde vocÃª deseja salvar este arquivo?"
 
 msgid "EAPI_Common:head_savelocation"
 msgstr "Onde você deseja salvar este arquivo?"
 
 msgid "Forum:head_movethrlocation"
-msgstr "Para onde você quer mover este tópico"
+msgstr "Para onde você quer mover este tópico?"
 
 msgid "EAPI_EltenSRV:head_seluser"
 msgstr "Selecione um usuário"
@@ -2461,7 +2446,7 @@ msgid "Ban:opt_year"
 msgstr "Ano"
 
 msgid "Chat:info_phr_lastmessage"
-msgstr "Última mensagem"
+msgstr "última mensagem"
 
 msgid "Files:alert_delete"
 msgstr "Você realmente deseja excluir %{filename}?"
@@ -2473,7 +2458,7 @@ msgid "General:male"
 msgstr "masculino"
 
 msgid "Account:info_phr_addedtoblacklist"
-msgstr "Usuário %{user} foi adicionado à sua lista negra"
+msgstr "O usuário %{user} foi adicionado à sua lista negra"
 
 msgid "Voice:info_phr_selectedvoice"
 msgstr "Voz selecionada"
@@ -2533,7 +2518,7 @@ msgid "EAPI_Common:txt_phr_readtofilenum"
 msgstr "Lendo o número do arquivo"
 
 msgid "EAPI_Common:txt_phr_sentencenumber"
-msgstr "Sentença %{cursentence} z% {sentences}"
+msgstr "Sentença %{cursentence} z %{sentences}"
 
 msgid "EAPI_Common:txt_phr_readtime"
 msgstr "Ler"
@@ -2593,7 +2578,7 @@ msgid "WhatsNew:opt_mentions"
 msgstr "Aniversário dos amigos"
 
 msgid "WhatsNew:opt_update"
-msgstr "Atualização disponível (versão%)"
+msgstr "Atualização disponível (versão)"
 
 msgid "_Main:error_critical"
 msgstr "Um erro fatal ocorreu. Descrição do erro: %{description}"
@@ -2623,7 +2608,7 @@ msgid "General:error_platform"
 msgstr "Este recurso não está disponível nesta plataforma."
 
 msgid "EAPI_Common:info_readtofilefinished"
-msgstr "Leitura do arquivo terminado"
+msgstr "converção do arquivo terminado"
 
 msgid "EAPI_UI:info_alarm"
 msgstr "Alerta!"
@@ -2662,220 +2647,220 @@ msgid "Forum:opt_phr_unreads"
 msgstr "Novo"
 
 msgid "MainMenu:opt_community"
-msgstr "Comunidade"
+msgstr "Comunidade... Atalho: : G"
 
 msgid "MainMenu:opt_media"
-msgstr "Mídia"
+msgstr "Mídia... Atalho: : M"
 
 msgid "MainMenu:opt_files"
-msgstr "Arquivos"
+msgstr "Arquivos... Atalho: : Q"
 
 msgid "MainMenu:opt_programs"
-msgstr "Programas"
+msgstr "Programas... Atalho: : P"
 
 msgid "MainMenu:opt_tools"
-msgstr "Ferramentas"
+msgstr "Ferramentas... Atalho: : F"
 
 msgid "MainMenu:opt_settings"
-msgstr "configurações"
+msgstr "configurações... Atalho: : C"
 
 msgid "MainMenu:opt_help"
-msgstr "Ajuda"
+msgstr "Ajuda... Atalho: : A"
 
 msgid "MainMenu:opt_quit"
-msgstr "Sair"
+msgstr "Sair... Atalho: : S"
 
 msgid "MainMenu:opt_changelog"
-msgstr "Changelog"
+msgstr "Changelog... Atalho: : C"
 
 msgid "MainMenu:opt_version"
-msgstr "Verção do programa"
+msgstr "Verção do programa... Atalho: : V"
 
 msgid "MainMenu:opt_readme"
-msgstr "Leia-me"
+msgstr "Leia-me... Atalho: : L"
 
 msgid "MainMenu:opt_shortkeys"
-msgstr "Atalhos"
+msgstr "Atalhos... Atalho: : A"
 
 msgid "MainMenu:opt_report"
-msgstr "Reportar um erro"
+msgstr "Reportar um erro... Atalho: : R"
 
 msgid "MainMenu:opt_license"
-msgstr "Termo de Acordo do Usuário"
+msgstr "Termo de Acordo do Usuário... Atalho: : T"
 
 msgid "MainMenu:opt_interface"
-msgstr "Configurações de interface"
+msgstr "Configurações de interface... Atalho: : C"
 
 msgid "MainMenu:opt_voice"
-msgstr "Configurações de voz"
+msgstr "Configurações de voz... Atalho: : v"
 
 msgid "MainMenu:opt_clock"
-msgstr "Relógio"
+msgstr "Relógio... Atalho: : R"
 
 msgid "MainMenu:opt_soundthemes"
-msgstr "Temas sonoros"
+msgstr "Temas sonoros... Atalho: : S"
 
 msgid "MainMenu:opt_languages"
-msgstr "Gerenciar e idiomas"
+msgstr "Gerenciar e idiomas... Atalho: : L"
 
 msgid "MainMenu:opt_advanced"
-msgstr "Configuração avansada"
+msgstr "Configuração avançada... Atalho: : A"
 
 msgid "MainMenu:opt_messages"
-msgstr "Mensagens"
+msgstr "Mensagens... Atalho: : M"
 
 msgid "MainMenu:opt_blogs"
-msgstr "Blogs"
+msgstr "Blogs... Atalho: : B"
 
 msgid "MainMenu:opt_forum"
-msgstr "Fóruns"
+msgstr "Fóruns... Atalho: : F"
 
 msgid "MainMenu:opt_chat"
-msgstr "Chat"
+msgstr "Chat... Atalho: : T"
 
 msgid "MainMenu:opt_notes"
-msgstr "Notas"
+msgstr "Notas... Atalho: : N"
 
 msgid "MainMenu:opt_whatsnew"
-msgstr "O que há de novo?"
+msgstr "O que há de novo?... Atalho: : O"
 
 msgid "MainMenu:opt_polls"
-msgstr "Pesquisas"
+msgstr "Pesquisas... Atalho: : P"
 
 msgid "MainMenu:opt_users"
-msgstr "Usuários"
+msgstr "Usuários... Atalho: : U"
 
 msgid "MainMenu:opt_account"
-msgstr "Minha conta"
+msgstr "Minha conta... Atalho: : H"
 
 msgid "MainMenu:opt_profile"
-msgstr "Editar Perfil"
+msgstr "Editar Perfil... Atalho: : E"
 
 msgid "MainMenu:opt_status"
-msgstr "Alterar status"
+msgstr "Alterar status... Atalho: : S"
 
 msgid "MainMenu:opt_signature"
-msgstr "Minha assinatura"
+msgstr "Minha assinatura... Atalho: : A"
 
 msgid "MainMenu:opt_greeting"
-msgstr "Minha mensagem de boas vindas"
+msgstr "Minha mensagem de boas vindas... Atalho: : M"
 
 msgid "MainMenu:opt_visitingcard"
-msgstr "Meu cartão de visitas"
+msgstr "Meu cartão de visitas... Atalho: : C"
 
 msgid "MainMenu:opt_honors"
-msgstr "Meus emblemas"
+msgstr "Meus emblemas... Atalho: : B"
 
 msgid "MainMenu:opt_sharedfiles"
-msgstr "Meus arquivos compartilhados"
+msgstr "Meus arquivos compartilhados... Atalho: : R"
 
 msgid "MainMenu:opt_avatar"
-msgstr "Definir avatar"
+msgstr "Definir avatar... Atalho: : D"
 
 msgid "MainMenu:opt_whatsnewconfig"
-msgstr "Nova configuração do WHat"
+msgstr "Nova configuração do WHat... Atalho: : N"
 
 msgid "MainMenu:opt_mypermissions"
-msgstr "Minhas permissões"
+msgstr "Minhas permissões... Atalho: : I"
 
 msgid "MainMenu:opt_blacklist"
-msgstr "Lista negra"
+msgstr "Lista negra... Atalho: : L"
 
 msgid "MainMenu:opt_autologintokens"
-msgstr "Fichas de loguim altomático"
+msgstr "Fichas de loguim altomático... Atalho: : F"
 
 msgid "MainMenu:opt_changepassword"
-msgstr "Alterar senha"
+msgstr "Alterar senha... Atalho: : T"
 
 msgid "MainMenu:opt_changemail"
-msgstr "Alterar e-mail"
+msgstr "Alterar e-mail... Atalho: : x"
 
 msgid "MainMenu:opt_twofactor"
-msgstr "Configurações de autenticação de duas etapas"
+msgstr "Configurações de autenticação de duas etapas... Atalho: : U"
 
 msgid "MainMenu:opt_soundthemesgenerator"
-msgstr "Gerador de temas sonoros"
+msgstr "Gerador de temas sonoros... Atalho: : G"
 
 msgid "MainMenu:opt_speedtest"
-msgstr "Teste de velocidade"
+msgstr "Teste de velocidade... Atalho: : T"
 
 msgid "MainMenu:opt_programmanagement"
-msgstr "Gerenciar o programa"
+msgstr "Gerenciar o programa... Atalho: : P"
 
 msgid "MainMenu:opt_readtofile"
-msgstr "Leitura do arquivo"
+msgstr "Converter arquivos de texto em áudio... Atalho: : C"
 
 msgid "MainMenu:opt_console"
-msgstr "Console"
+msgstr "Console... Atalho: : S"
 
 msgid "MainMenu:opt_compiler"
-msgstr "Elten API conpilador"
+msgstr "Elten API conpilador... Atalho: : E"
 
 msgid "MainMenu:opt_debug"
-msgstr "Depuração"
+msgstr "Depuração... Atalho: : D"
 
 msgid "MainMenu:opt_tray"
-msgstr "Esconder na bandeja"
+msgstr "Esconder na bandeja... Atalho: : E"
 
 msgid "MainMenu:opt_logout"
-msgstr "Sair"
+msgstr "Desconectar... Atalho: : L"
 
 msgid "MainMenu:opt_exit"
-msgstr "Sair"
+msgstr "Sair... Atalho: : S"
 
 msgid "MainMenu:opt_restart"
-msgstr "Reiniciar"
+msgstr "Reiniciar... Atalho: : R"
 
 msgid "MainMenu:opt_restarttodebug"
-msgstr "Reinicie no modo de depuração"
+msgstr "Reinicie no modo de depuração... Atalho: : M"
 
 msgid "MainMenu:opt_update"
-msgstr "Procurar por atualizações"
+msgstr "Procurar por atualizações... Atalho: : P"
 
 msgid "MainMenu:opt_reinstall"
-msgstr "Reinstalar"
+msgstr "Reinstalar... Atalho: : E"
 
-msgid "MainMenu:opt_Portable:"
-msgstr "Criar verção portátio"
+msgid "MainMenu:opt_porarr"
+msgstr "Criar verção portátio... Atalho: : C"
 
 msgid "MainMenu:opt_resetsettings"
-msgstr "Restaurar a configuração original"
+msgstr "Restaurar a configuração original... Atalho: : R"
 
 msgid "MainMenu:opt_install"
-msgstr "Instalar"
+msgstr "Instalar... Atalho: : I"
 
 msgid "MainMenu:opt_mediacatalog"
-msgstr "Catálogo de mídia"
+msgstr "Catálogo de mídia... Atalho: : C"
 
 msgid "MainMenu:opt_youtube"
-msgstr "Youtube"
+msgstr "Youtube... Atalho: : Y"
 
 msgid "MainMenu:opt_contacts"
-msgstr "Meus contatos"
+msgstr "Meus contatos... Atalho: : M"
 
 msgid "MainMenu:opt_useraddedmetocontacts"
-msgstr "Usuários que me adicionaram aos contatos"
+msgstr "Usuários que me adicionaram aos contatos... Atalho: : U"
 
 msgid "MainMenu:opt_online"
-msgstr "Quem está online?"
+msgstr "Quem está online?... Atalho: : Q"
 
 msgid "MainMenu:opt_userslist"
-msgstr "Lista de usuários"
+msgstr "Lista de usuários... Atalho: : L"
 
 msgid "MainMenu:opt_admins"
-msgstr "Administradores"
+msgstr "Administradores... Atalho: : A"
 
 msgid "MainMenu:opt_usersearch"
-msgstr "Pesquisar por usuários"
+msgstr "Pesquisar por usuários... Atalho: : P"
 
 msgid "MainMenu:opt_recentlyactived"
-msgstr "Usuários que estiveram online recentemente"
+msgstr "Usuários que estiveram online recentemente... Atalho: : O"
 
 msgid "MainMenu:opt_recentlyregistered"
-msgstr "Usuários registrados recentemente"
+msgstr "Usuários registrados recentemente... Atalho: : R"
 
 msgid "MainMenu:opt_lastavatars"
-msgstr "Avatares alterados recentemente"
+msgstr "Avatares alterados recentemente... Atalho: : V"
 
 msgid "EAPI_Common:txt_phr_userhasblog"
 msgstr "O usuário tem um blog"
@@ -2947,16 +2932,16 @@ msgid "Forum:opt_phr_mentionedby"
 msgstr "Montado por"
 
 msgid "EAPI_Common:txt_phr_knownby"
-msgstr "Conhecido por %{count} usuários"
+msgstr "Conhecido por %{count} usuÃ¡rios"
 
 msgid "EAPI_Common:txt_phr_knownby_female"
-msgstr "Conhecido por %{count} usuários"
+msgstr "Conhecido por %{count} usuÃ¡rios"
 
 msgid "EAPI_Common:txt_phr_knownby_male"
-msgstr "Conhecido por %{count} usuários"
+msgstr "Conhecido por %{count} usuÃ¡rios"
 
 msgid "EAPI_Common:txt_phr_knows"
-msgstr "Conhece %{count} usuários"
+msgstr "Conhece %{count} usuÃ¡rios"
 
 msgid "Messages:head"
 msgstr "Mensagens"
@@ -2983,7 +2968,7 @@ msgid "Messages:type_reply"
 msgstr "Sua resposta"
 
 msgid "Messages:btn_compose"
-msgstr "Compor"
+msgstr "Mais"
 
 msgid "Blog:opt_recategorize"
 msgstr "Recategorize"
@@ -3010,10 +2995,10 @@ msgid "MyPermissions:opt_betatesters"
 msgstr "Testadores beta"
 
 msgid "EAPI_Common:wait_soundfont"
-msgstr "Por favor, aguarde, a Fonte de som está sendo baixado. Pode demorar um pouco."
+msgstr "Por favor, aguarde, a Fonte de som está sendo baixada. Pode demorar um pouco."
 
 msgid "EAPI_Common:info_soundfontdownloaded"
-msgstr "Fonte de som baixado com sucesso."
+msgstr "Fonte de som baixada com sucesso."
 
 msgid "EAPI_Common:txt_phr_processing"
 msgstr "Em processamento"

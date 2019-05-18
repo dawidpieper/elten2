@@ -18,7 +18,7 @@ class Scene_Advanced
     @form = Form.new(@field)
 @form.fields[0].settext(readini($configdata + "\\advanced.ini","Advanced","KeyUpdateTime","75").to_s)
 @form.fields[1].checked = readini($configdata + "\\advanced.ini","Advanced","HexSpecial","1").to_i
-@form.fields[2].settext(readini($configdata + "\\advanced.ini","Advanced","RefreshTime","5").to_s)
+@form.fields[2].settext(readini($configdata + "\\advanced.ini","Advanced","AgentRefreshTime","1").to_s)
 @form.fields[3].checked = readini($configdata + "\\advanced.ini","Advanced","SoundStreaming","1").to_i
 @form.fields[4].checked = readini($configdata + "\\advanced.ini","Advanced","SyncTime","1").to_i
       @field[0].focus  
@@ -32,7 +32,7 @@ writeini($configdata + "\\advanced.ini","Advanced","HexSpecial",@form.fields[1].
 writeini($configdata + "\\advanced.ini","Advanced","SoundStreaming",@form.fields[3].checked.to_s)
 writeini($configdata + "\\advanced.ini","Advanced","SyncTime",@form.fields[4].checked.to_s)
 @form.fields[2].finalize
-writeini($configdata + "\\advanced.ini","Advanced","RefreshTime",@form.fields[2].text_str)
+writeini($configdata + "\\advanced.ini","Advanced","AgentRefreshTime",@form.fields[2].text_str)
 $advanced_keyms = @form.fields[0].text_str.to_i
 $advanced_hexspecial = @form.fields[1].checked.to_i
 $advanced_refreshtime = @form.fields[2].text_str.to_i

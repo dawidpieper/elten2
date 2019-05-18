@@ -16,7 +16,7 @@ file=dir+"/LC_MESSAGES/elten.po"
     r=IO.read(file)
     r.gsub!("\"\r\n\""," ")
     r.gsub!("\"\n\""," ")
-    li = r.split("\n")
+    li = r.encode('UTF-8', :invalid => :replace).split("\n")
 dict={}
 dict['_code']=dir
 dict['_name']=locale['name']
@@ -36,6 +36,7 @@ end
 dict['_doc_readme']=IO.read(FileTest.exists?(dir+"/readme.txt")?(dir+"/readme.txt"):(locales.keys[0]+"/readme.txt"))
 dict['_doc_license']=IO.read(FileTest.exists?(dir+"/license.txt")?(dir+"/license.txt"):(locales.keys[0]+"/license.txt"))
 dict['_doc_shortkeys']=IO.read(FileTest.exists?(dir+"/shortkeys.txt")?(dir+"/shortkeys.txt"):(locales.keys[0]+"/shortkeys.txt"))
+dict['_doc_privacypolicy']=IO.read(FileTest.exists?(dir+"/privacypolicy.txt")?(dir+"/privacypolicy.txt"):(locales.keys[0]+"/privacypolicy.txt"))
 $dicts.push(dict)
 end
 end

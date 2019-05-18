@@ -13,6 +13,7 @@ def initialize
     @header = "Menu: "
   end
   def main
+    srvstate
         sel = [_("MainMenu:opt_community"),_("MainMenu:opt_media"),_("MainMenu:opt_files"),_("MainMenu:opt_programs"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
                 @sel = menulr(sel,true,0,@header)
         @header = ""
@@ -186,6 +187,7 @@ close
   def community
     Graphics.transition(10)  if $ruby != true
     @sel = menulr(sel = [_("MainMenu:opt_messages"),_("MainMenu:opt_blogs"),_("MainMenu:opt_forum"),_("MainMenu:opt_chat"),_("MainMenu:opt_notes"),_("MainMenu:opt_whatsnew"),_("MainMenu:opt_polls"),_("MainMenu:opt_users"),_("MainMenu:opt_account")])
+      [1,2].each {|i| @sel.disable_item(i)} if $eltsuspend
     @sel.disable_item(8) if $name=="guest"
     loop do
       loop_update
@@ -549,7 +551,9 @@ if $portable == 1
     end
     def media
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_mediacatalog"),_("MainMenu:opt_youtube")])
+    @sel = menulr([_("MainMenu:opt_mediacatalog"),_("MainMenu:opt_youtube")],true,0,"",true)
+    @sel.disable_item(0) if $eltsuspend
+    @sel.focus
     loop do
 loop_update
       @sel.update

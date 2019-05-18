@@ -177,11 +177,11 @@ writeini($configdata+"\\login.ini","Login","AutoLogin","3")
       end
       dialog_close
  end
- File.delete("temp\\agent.tmp") if FileTest.exists?("temp\\agent.tmp") 
- writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
-  if $agentloaded != true
+    if $agentloaded != true
   agent_start
 $agentloaded = true
+else
+  $agent.write(JSON.generate({'func'=>'relogin','name'=>$name,'token'=>$token})+"\r\n")
 end
 if $speech_wait == true
   $speech_wait = false

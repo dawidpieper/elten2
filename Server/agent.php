@@ -1,6 +1,10 @@
 <?php
 require("header.php");
-mquery("INSERT INTO `actived` (name, date) VALUES ('" . $_GET['name'] . "','" . time() . "') ON DUPLICATE KEY UPDATE name=VALUES(name),date=VALUES(DATE)");
+if($_GET['client']==1)
+mquery("delete from notifications where receiver='{$_GET['name']}'");
+$shown=0;
+if($_GET['shown']==1) $shown=1;
+mquery("INSERT INTO `actived` (name, date, shown, actived) VALUES ('" . $_GET['name'] . "','" . time() . "', ".(int)$shown.",1) ON DUPLICATE KEY UPDATE name=VALUES(name),date=VALUES(DATE),shown=VALUES(shown),actived=values(actived)");
 $ret="0\r\n";
 $ret.=time()."\r\n";
 $versionini=parse_ini_file("/var/www/html/srv/bin/elten.ini");

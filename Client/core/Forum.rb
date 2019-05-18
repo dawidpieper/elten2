@@ -12,12 +12,14 @@ class Scene_Forum
     @query=query
     end
   def main
+    #return $scene=Scene_Main.new if $eltsuspend
         if $name=="guest"
             @noteditable=true
             else
           @noteditable=isbanned($name)
           end
               getcache
+              return if $scene!=self
               if @pre==nil
     groupsmain
   else
@@ -28,11 +30,11 @@ class Scene_Forum
         @frmindex=0
     forum=nil
     for thread in @threads
-      forum=thread.forum if thread.id==@pre
+      forum=thread.forum.name if thread.id==@pre
     end
         group=nil
     for tforum in @forums
-            group=tforum.group if tforum.name==forum
+            group=tforum.group.id if tforum.name==forum
           end
           group=-5 if @preparam==-5
           for i in 0..@groups.size-1
@@ -41,7 +43,7 @@ end
 @grpindex=1 if @preparam==-5
 i=0
 for tforum in @forums
-  if (tforum.group==group) or (tforum.followed and @preparam==-5)
+  if (tforum.group.id==group) or (tforum.followed and @preparam==-5)
     @frmindex=i if tforum.name==forum
     i+=1
     end
@@ -50,7 +52,7 @@ for tforum in @forums
   threadsmain(forum)
 else
   if @preparam==-3
-    @grpindex=@groups.size+1
+    @grpindex=@groups.size+2
     @results=[]    
     sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
     if sr[0].to_i<0
@@ -186,7 +188,7 @@ else
       sforums=[]
       if group>=0
       for f in @forums
-        sforums.push(f) if f.group==group
+        sforums.push(f) if f.group.id==group
       end
     elsif group==-5
             for f in @forums
@@ -199,7 +201,7 @@ else
                   ftm="#{forum.fullname} "
 if group==-5
 for g in @groups
-    ftm+="(#{g.name}) " if g.id==forum.group
+    ftm+="(#{g.name}) " if g.id==forum.group.id
   end
   end
     ftm+=". #{_("Forum:opt_phr_threads")}: #{forum.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{forum.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(forum.posts-forum.readposts).to_s}"
@@ -251,7 +253,7 @@ else
         confirm(_("Forum:alert_markforumasread")) do
           if srvproc("forum_markasread","name=#{$name}\&token=#{$token}\&forum=#{sforums[@frmsel.index].name}")[0].to_i==0
             for t in @threads
-              t.readposts=t.posts if t.forum==sforums[@frmsel.index].name
+              t.readposts=t.posts if t.forum.name==sforums[@frmsel.index].name
             end
             sforums[@frmsel.index].readposts=sforums[@frmsel.index].posts
             @frmsel.commandoptions[@frmsel.index].gsub!("\004NEW\004","")
@@ -327,13 +329,13 @@ end
         for forum in @forums
           folfor.push(forum.name) if forum.followed==true
           end
-          sthreads.push(t) if folfor.include?(t.forum) and t.readposts<t.posts
+          sthreads.push(t) if folfor.include?(t.forum.name) and t.readposts<t.posts
                 when -4
         folfor=[]
         for forum in @forums
           folfor.push(forum.name) if forum.followed==true
           end
-          sthreads.push(t) if folfor.include?(t.forum) and t.readposts==0
+          sthreads.push(t) if folfor.include?(t.forum.name) and t.readposts==0
           when -3
           sthreads.push(t) if @results.include?(t.id)
         when -2
@@ -343,7 +345,7 @@ end
           when 0
             sthreads.push(t)
           else
-        sthreads.push(t) if t.forum==id
+                    sthreads.push(t) if t.forum.name==id
       end
     end
         if id==-2 and sthreads.size==0
@@ -418,7 +420,7 @@ return
             mselt[1]=nil
           else
             mselt[1]=_("Forum:opt_unfollowthr") if sthreads[@thrsel.index].followed==true
-            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr")] if $rang_moderator==1
+            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr")] if $rang_moderator==1||sthreads[@thrsel.index].forum.group.role==1
                           end
           case menuselector(mselt)
           when 0
@@ -465,8 +467,8 @@ for group in @groups
 ind=0
   for i in 0..@forums.size-1
     forum=@forums[i]
-  selt.push(forum.fullname+" ("+groups[forum.group]+")")
-  ind=i if forum.name==sthreads[@thrsel.index].forum
+  selt.push(forum.fullname+" ("+groups[forum.group.id]+")")
+  ind=i if forum.name==sthreads[@thrsel.index].forum.name
   end
 destination=selector(selt,_("Forum:head_movethrlocation"),ind,-1)
 if destination!=-1
@@ -519,7 +521,7 @@ forumindex=0
                             for g in @groups
                               for f in @forums
                                 if f.type==@forumtype
-                                if f.group==g.id
+                                if f.group.id==g.id
                                   forums.push(f.fullname+" (#{g.name})")
                                 forumclasses.push(f)
                                 forumindex=forums.size-1 if f.name==@forum
@@ -626,7 +628,10 @@ speech_wait
 end
 def getcache
 c=srvproc("forum_list","name=#{$name}\&token=#{$token}")
-return if c[0].to_i<0
+if c[0].to_i<0
+  speech(_("General:error"))
+  return $scene=Scene_Main.new
+  end
 @cache=c
 @time=c[1].to_i
 index=0
@@ -669,7 +674,7 @@ when 4
 @groups.last.posts=l.to_i
 when 5
 @groups.last.readposts=l.to_i
-end
+      end
 t+=1
 t=0 if t==6
 end
@@ -682,7 +687,11 @@ when 0
 when 1
 @forums.last.fullname=l.delete("\r\n")
 when 2
-@forums.last.group=l.to_i
+g=nil
+for gr in @groups
+  g=gr if l.to_i==gr.id
+end
+  @forums.last.group=g
 when 3
 @forums.last.type=l.to_i
 when 4
@@ -706,7 +715,12 @@ when 0
 when 1
 @threads.last.name=l.delete("\r\n")
 when 2
-@threads.last.forum=l.delete("\r\n")
+f=nil
+for fr in @forums
+  f=fr if fr.name==l.delete("\r\n")
+end
+f=Struct_Forum_Forum.new(l.delete("\r\n")) if f==nil
+  @threads.last.forum=f
 when 3
 @threads.last.posts=l.to_i
 when 4
@@ -731,12 +745,16 @@ end
 class Scene_Forum_Thread
   def initialize(thread,param=nil,query="",mention=nil)
     @thread=thread
+    for f in Scene_Forum.new.getstruct['threads']
+      @threadclass=f if @thread==f.id
+      end
     @param=param
     @query=query
     @mention=mention
     srvproc("mentions","name=#{$name}\&token=#{$token}\&notice=1\&id=#{mention.id}") if mention!=nil
     end
   def main
+    #return $scene=Scene_Main.new if $eltsuspend
     if $name=="guest"
             @noteditable=true
             else
@@ -897,7 +915,7 @@ def menu
   play("menu_background")
   cat=0
   sel=["#{_("Forum:opt_phr_author")}",_("Forum:opt_reply"),_("Forum:opt_navigation"),_("Forum:opt_mention"),_("Forum:opt_listen"),_("Forum:opt_followthr"),_("General:str_refresh"),_("General:str_cancel")]
-  sel.push(_("Forum:opt_moderation")) if @form.index<@postscount and ($rang_moderator==1 or (@posts[@form.index].author==$name and @type==0))
+    sel.push(_("Forum:opt_moderation")) if @form.index<@postscount and (($rang_moderator==1||@threadclass.forum.group.role==1) or (@posts[@form.index].author==$name))
   sel[5]=_("Forum:opt_unfollowthr") if @followed==true
   sel[0]=@posts[@form.index].authorname if @form.index<@postscount
   index=0
@@ -1091,12 +1109,12 @@ forums={}
 forumsgroups={}
 for forum in @forums
   forums[forum.name]=forum.fullname
-  forumsgroups[forum.name]=forum.group
+  forumsgroups[forum.name]=forum.group.id
 end
 selt=[]
 curr=0
 for thread in @threads
-  selt.push(thread.name+" ("+forums[thread.forum]+" ("+groups[forumsgroups[thread.forum]]+")"+")")
+  selt.push(thread.name+" ("+forums[thread.forum.name]+" ("+groups[forumsgroups[thread.forum]]+")"+")")
   curr=selt.size-1 if thread.id==@thread
 end
 destination=selector(selt,_("Forum:head_movepostlocation"),curr,-1)
@@ -1278,6 +1296,8 @@ class Struct_Forum_Group
                             attr_accessor :threads
                             attr_accessor :posts
                             attr_accessor :readposts
+                            attr_accessor :lang
+                            attr_accessor :role
                             def initialize(id=0)
                               @id=id
                               @name=""
@@ -1285,6 +1305,7 @@ class Struct_Forum_Group
                               @threads=0
                               @posts=0
                               @readposts=0
+                              @role=0
                             end
                             end
                           
@@ -1299,7 +1320,7 @@ class Struct_Forum_Group
                                   attr_accessor :followed
                                   def initialize(name="")
                                     @name=name
-                                    @group=0
+                                    @group=Struct_Forum_Group.new(0)
                                     @fullname=""
                                     @posts=0
                                     @threads=0

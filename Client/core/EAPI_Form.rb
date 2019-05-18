@@ -2011,7 +2011,7 @@ o += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}: " + ASCII(ss) if ss.is_a?(Integ
 o += "\r\n\r\n(Zaznaczono)" if @selected[self.index] == true
 o||=""
 o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
-o=("\004NEW\004"+" "+$1+" "+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
+o=("\004NEW\004"+" "+(($interface_soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
 }
   speech(o)
   play("list_checked") if @selected[self.index] == true
@@ -2054,7 +2054,7 @@ def focus(header=@header)
             if options.size>0
               o = options[self.index].delete("&")
               o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
-o=("\004NEW\004"+" "+$1+" "+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
+o=("\004NEW\004"+" "+(($interface_soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
 }
 sp += o
 ss = false

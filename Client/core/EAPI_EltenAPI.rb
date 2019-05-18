@@ -400,9 +400,8 @@ end
 # @return [String] directory path
 def getdirectory(type)
   dr = "\0" * 2048
-  Win32API.new("shell32","SHGetFolderPath",'iiiip','i').call(0,type,0,0,dr)
-  dr.delete!("\0")
-  fdr=futf8(dr)
+  Win32API.new("shell32","SHGetFolderPathW",'iiiip','i').call(0,type,0,0,dr)
+  fdr=deunicode(dr)
       return fdr
   end
   
@@ -510,8 +509,59 @@ if $ruby == true
         return k
         end
       end
-      
-
     end
-  end
+    end
+      
+class ChildProc
+  attr_reader :pid
+  def initialize(file)
+@stdin_rd = "\0"*4
+@stdin_wr = "\0"*4
+@stdout_rd = "\0"*4
+@stdout_wr = "\0"*4
+saAttr=[12,nil,1].pack("ipi")
+Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdout_rd, @stdout_wr, saAttr, 0)
+Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdout_rd.unpack("i").first, 1, 0)
+Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdin_rd, @stdin_wr, saAttr, 0)
+Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdin_wr.unpack("i").first, 1, 0)
+    params = 'LPPPLLLPPP'
+createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
+    env = 0
+           env = "Windows".split(File::PATH_SEPARATOR) << nil
+                  env = env.pack('p*').unpack('L').first
+      
+                           si = [68,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,@stdin_rd.unpack("I").first,@stdout_wr.unpack("I").first,nil]
+    startinfo = si.pack('IIIIIIIIIIIISSIIII')
+        @procinfo  = [0,0,0,0].pack('LLLL')
+        pr = createprocess.call(0, file, nil, nil, 1, 0, 0, $path[0...$path.size-($path.reverse.index("\\"))], startinfo, @procinfo)
+            @pid = @procinfo.unpack('L').first
+          end
+    def avail
+      dread=[0].pack("I")
+      dleft=[0].pack("I")
+      dtotal=[0].pack("I")
+      buf=""
+      Win32API.new("kernel32","PeekNamedPipe",'ipippp','i').call(@stdout_rd.unpack("I").first,buf,0,dread,dtotal,dleft)
+    
+      return dtotal.unpack("I").first
+      end
+          def read(size=nil)
+            size=avail if size==nil
+            return "" if size==0
+        dread = [0].pack("i")
+      buf="\0"*size
+      readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
+        readfile.call(@stdout_rd.unpack("i").first, buf, size, dread, nil)        
+        return "" if dread.unpack("i").first==0
+        return buf[0..dread.unpack("i").first-1]
+      end
+      def write(text)
+         dwritten = [0].pack("i")
+writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
+        writefile.call(@stdin_wr.unpack("i").first, text, text.bytesize, dwritten, 0)
+      end
+      def close
+       
+        end
+      end
 #Copyright (C) 2014-2018 Dawid Pieper

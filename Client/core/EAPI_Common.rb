@@ -1166,9 +1166,8 @@ end
 # @note this function is reserved for Elten usage
 def agent_start
     #return if $ruby
-    path=$path[0...$path.size-$path.reverse.index("\\")]   
-    File.delete(path+"/temp/agent_exit.tmp") if FileTest.exists?(path+"/temp/agent_exit.tmp")  
-        $agentproc = run("bin\\rubyw -I\"#{path}\\temp\" \"#{path.gsub("\\","/")}/bin/agentc.dat\"") if $silentstart!=true
+                $agent = ChildProc.new("bin\\rubyw -Cbin agent.dat\"")
+                $agent.write($name+"\r\n"+$token+"\r\n"+$wnd.to_s+"\r\n")
     sleep(0.1)
 end
 
@@ -1525,6 +1524,11 @@ else
 executeprocess(cmd,true)
          waiting_end
        end
+       
+       def process_notification(notif)
+         play(notif['sound']) if notif['sound']!=nil
+         speech(notif['alert']) if notif['alert']!=nil
+         end
       end
     end
 #Copyright (C) 2014-2018 Dawid Pieper

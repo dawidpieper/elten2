@@ -10,6 +10,7 @@ class Scene_Blog
     @index=index
     end
   def main
+    return $scene=Scene_Main.new if $eltsuspend
     @sel = Select.new([_("Blog:opt_myblog"),_("Blog:opt_recentlyupdatedblogs"),_("Blog:opt_frequentlyupdatedblogs"),_("Blog:opt_frequentlycommentedblogs"),_("Blog:opt_followedblogs")],true,@index,_("Blog:head"),true)
   if $name=="guest"
     @sel.disable_item(0)
@@ -57,6 +58,7 @@ class Scene_Blog_Main
     $blogreturnscene=scene
     end
   def main
+    return $scene=Scene_Main.new if $eltsuspend
     blogtemp = srvproc("blog_exist","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
 err = blogtemp[0].to_i
 if err < 0
@@ -331,7 +333,8 @@ class Scene_Blog_Posts
     @postselindex = postselindex
     end
   def main
-id = @id
+    return$scene=Scene_Main.new if $eltsuspend
+    id = @id
 blogtemp = srvproc("blog_posts","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&categoryid=#{id}\&assignnew=1")
 err = blogtemp[0].to_i
 if err < 0
@@ -807,6 +810,7 @@ class Scene_Blog_Read
     @scene=scene
       end
   def main
+    return $scene=Scene_Main.new if $eltsuspend
 blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{@owner}&details=1")
 err = blogtemp[0].to_i
 if err < 0

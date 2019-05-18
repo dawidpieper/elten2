@@ -286,7 +286,7 @@ begin
 rescue Exception
   retry
   end
-  @questions=eval(pl[5].to_s.delete("\r\n").delete(";"),nil,"POLLS")
+    @questions=JSON.load(pl[5].to_s.delete("\r\n").delete(";"))
     @description=""
   for i in 6..pl.size-1
     @description+=pl[i]
@@ -375,7 +375,7 @@ begin
 rescue Exception
   retry
   end
-  @questions=eval(pl[5].to_s.delete("\r\n").delete(";"),nil,"POLLS")
+  @questions=JSON.load(pl[5].to_s.delete("\r\n").delete(";"))
     @description=""
   for i in 6..pl.size-1
     @description+=pl[i]

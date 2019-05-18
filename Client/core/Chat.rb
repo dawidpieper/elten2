@@ -25,7 +25,7 @@ class Scene_Chat
       $scene=Scene_Main.new
       return
       end
-    writefile("temp/agent_chat.tmp","2")
+    $agent.write(JSON.generate({'func'=>'chat_open'})+"\r\n")
     ct=srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1")
     if ct[0].to_i<0
       speech(_("General:error"))
@@ -78,13 +78,13 @@ class Scene_Chat
       @form.update
       if (escape and $chat!=true) or ((enter or space) and @form.index==4)
         $chat=false
-        File.delete("temp/agent_chat.tmp") if FileTest.exists?("temp/agent_chat.tmp")
+        $agent.write(JSON.generate({'func'=>'chat_close'})+"\r\n")
         break
         end
       if (((enter or space) and @form.index == 3)) or (escape and $chat==true)
                 play("signal")
                 $chat=true
-                writefile("temp\\agent_chat.tmp","1")
+                $agent.write(JSON.generate({'func'=>'chat_open'})+"\r\n")
                                 break
         end
       upd+=1
