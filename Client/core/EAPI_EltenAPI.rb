@@ -21,7 +21,7 @@ end
     sz=-1 if nulled
     buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipi','i').call(65001,0,str,sz,nil,0)
         Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,buf,buf.bytesize,nil,nil)
-    return buf[0..buf.index("\0")-1]
+            return buf[0..(buf.index("\0")||0)-1]
 end
 
   # Converts a text from UTF8 to CP852

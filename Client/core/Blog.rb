@@ -1040,9 +1040,9 @@ for i in 2..fol.size-1
   end
 sel = []
 for i in 0..@names.size - 1
-  sel[i] = @names[i] + " - #{_("Blog:opt_phr_author")}: " + @owners[i]
+  sel[i] = [@names[i], @owners[i]]
 end
-@sel = Select.new(sel,true,$bloglistindex,_("Blog:head_list"))
+@sel = TableSelect.new([nil,_("Blog:opt_phr_author")],sel,$bloglistindex,_("Blog:head_list"))
 $bloglistindex=0
 @main = false
 loop do
@@ -1053,10 +1053,10 @@ loop do
   end
 end
 def update
-  if escape or Input.trigger?(Input::LEFT)
+  if escape or (!$keyr[0x10]&&Input.trigger?(Input::LEFT))
     $scene = Scene_Blog.new($blogsorderby+1)
   end
-      if enter or Input.trigger?(Input::RIGHT)
+      if enter or (!$keyr[0x10]&&Input.trigger?(Input::RIGHT))
      $bloglistindex = @sel.index
         $scene = Scene_Blog_Main.new(@owners[@sel.index],0,$scene)
       end

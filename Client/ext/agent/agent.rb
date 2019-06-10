@@ -11,6 +11,7 @@ require "digest/bubblebabble"
 require "openssl/digest"
 require "net-http2"
 require "fiddle"
+require "zlib"
 require "./dlls.rb"
 require("./eltenapi.rb")
 
@@ -84,10 +85,11 @@ $hwnd||=STDIN.gets.delete("\r\n").to_i
 end
 Bass.init($hwnd||0)
 $upd={}
-$upd['version']=readini("elten.ini","Elten","Version","0").to_f
-$upd['alpha']=readini("elten.ini","Elten","Alpha","0").to_i
-$upd['beta']=readini("elten.ini","Elten","Beta","0").to_i
+$upd['version']=readini("./elten.ini","Elten","Version","0").to_f
+$upd['alpha']=readini("./elten.ini","Elten","Alpha","0").to_i
+$upd['beta']=readini("./elten.ini","Elten","Beta","0").to_i
 $wn={}
+$li=0
 loop do
 if $hwnd
 exit if !$iswindow.call($hwnd)
@@ -133,7 +135,6 @@ end
 end
 end
 $msg||=0
-$li||=0
 if $li==0
 $lasttime||=Time.now.to_i
 $lastvoice=$voice
@@ -152,9 +153,15 @@ $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
 else
 $soundthemepath = "Audio"
 end
-erequest("wn_agent","name=#{$name}\&token=#{$token}\&agent=1\&lasttime=#{$lasttime.to_i.to_s}\&appid=#{$appid}\&shown=#{(($shown==true)?1:0)}\&chat=#{($chat==true)?1:0}") {|ans|
+erequest("wn_agent","name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&shown=#{(($shown==true)?1:0)}\&chat=#{($chat==true)?1:0}") {|ans|
 begin
-rsp=JSON.load(ans)
+rsp=JSON.load(Zlib.inflate(ans))
+$ag_msg||=rsp['msg'].to_i
+if $ag_msg<(rsp['msg'].to_i||0)
+$ag_msg=rsp['msg'].to_i
+STDOUT.write(JSON.generate({'func'=>'msg','msgs'=>$ag_msg})+"\r\n")
+STDOUT.flush
+end
 begin
 if rsp['upd'].is_a?(Hash)
 if rsp['version'].to_f>$upd['version'].to_f
@@ -195,8 +202,8 @@ else
 $wn_agent=2
 end
 end
-sleep(0.2)
 end
+sleep(0.2)
 $li+=1
 $li=0 if $li>=$refreshtime*5
 $tm=Time.now.to_i if $synctime==0 or $tm==nil

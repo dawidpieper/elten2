@@ -2087,7 +2087,16 @@ self.index = 0 if @border == false
 end
 def enable_item(id)
   @grayed[id]=false
-  end
+end
+def selected?
+  return enter
+end
+def expanded?
+  return ~$keyr[0x10] && Input.trigger?(Input::RIGHT)
+end
+def collapsed?
+  return ~$keyr[0x10] && Input.trigger?(Input::LEFT)
+end
 end
 
 # A button class
@@ -2113,6 +2122,9 @@ end
           play("button_marker")
           speech(@label + "... " + _("EAPI_Form:fld_button"))
         end
+        def pressed?
+          return (enter||space)
+          end
       end
       
       # A checkbox class
@@ -2626,6 +2638,61 @@ lsel = menulr(options,true,0,"")
            end
          end
        end  
+       
+       class TableSelect
+         attr_accessor :columns, :rows
+         attr_reader :sel
+         attr_accessor :header
+         attr_reader :column
+                  def initialize(columns=[], rows=[], index=0, header="", quiet=false)
+           @columns, @rows = columns, rows
+           @column=0
+           @sel = Select.new(format_rows(@column), true, index, header, quiet)
+         end
+         def commandoptions
+           @sel.commandoptions
+           end
+         def format_rows(col=0)
+           opts=[]
+           for r in @rows
+             o=""
+                          o=r[col].to_s if r[col]!=nil
+             for c in 0...@columns.size
+               if c!=col&&r[c]!=nil
+               o+=((c==0)?":":((o[-1..-1]!=":"&&o[-1..-1]!=".")?",":""))+" "
+               o+=(@columns[c]||"")+": "+r[c].to_s
+               end
+               end
+             opts.push(o)
+           end
+           return opts
+         end
+         def index
+           return @sel.index
+         end
+         def index=(ind)
+           @sel.index=(ind)
+         end
+         def column=(c)
+           setcolumn(c)
+         end
+         def setcolumn(c)
+@sel.commandoptions=format_rows(c)
+           @column=c
+           end
+         def update
+           if $keyr[0x10]&&@rows.size>0
+             if Input.trigger?(Input::RIGHT)
+               setcolumn((@column+1)%(@columns.size))
+               speech (@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")"
+               elsif Input.trigger?(Input::LEFT)
+             setcolumn((@column-1)%(@columns.size))
+             speech (@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")"
+                 end
+             end
+           @sel.update
+           end
+         end
      end
      end
 #Copyright (C) 2014-2018 Dawid Pieper

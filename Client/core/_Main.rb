@@ -10,7 +10,7 @@ class Object
 end
 module Elten
 Version=2.3
-Beta=28
+Beta=32
 Alpha=0
 IsBeta=1
 class <<self
@@ -60,7 +60,7 @@ $toscene = false
     break
     end
   end
-    Win32API.new("kernel32","TerminateProcess",'ip','i').call($agent.pid,"")
+    Win32API.new("kernel32","TerminateProcess",'ip','i').call($agent.pid,"") if $agent!=nil
     $agent=nil
     srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:left").urlenc}") if $chat==true
     play("logout")
@@ -119,9 +119,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
     exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
     end
       exit
-    end
-    begin
-      rescue Hangup
+          rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true
   retry

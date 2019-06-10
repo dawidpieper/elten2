@@ -18,8 +18,8 @@ class Scene_Forum
             else
           @noteditable=isbanned($name)
           end
-              getcache
-              return if $scene!=self
+          getcache
+                            return if $scene!=self
               if @pre==nil
     groupsmain
   else
@@ -76,7 +76,7 @@ else
   def groupsmain
     grpselt=[]
     for group in @groups
-      grpselt.push(group.name+" . #{_("Forum:opt_phr_forums")}: #{group.forums.to_s}, #{_("Forum:opt_phr_threads")}: #{group.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{group.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(group.posts-group.readposts).to_s}")
+      grpselt.push([group.name,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
     end
     @grpindex=0 if @grpindex==nil
     forfol=[]
@@ -99,11 +99,13 @@ else
       flr+=thread.readposts
       end
     end
-        @grpsel=Select.new(["#{_("Forum:opt_followedthreads")}. #{_("Forum:opt_phr_threads")}: #{ft.to_s}, #{_("Forum:opt_phr_posts")}: #{fp.to_s}, #{_("Forum:opt_phr_unreads")}: #{(fp-fr).to_s}.","#{_("Forum:opt_followedforums")}. #{_("Forum:opt_phr_forums")}: #{forfol.size}, #{_("Forum:opt_phr_threads")}: #{flt.to_s}, #{_("Forum:opt_phr_posts")}: #{flp.to_s}, #{_("Forum:opt_phr_unreads")}: #{(flp-flr).to_s}."]+grpselt+[_("Forum:opt_search")],true,@grpindex,_("Forum:head"))
+        grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+    grpselt = [[_("Forum:opt_followedthreads"), nil, ft.to_s, fp.to_s, (fp-fr).to_s], [_("Forum:opt_followedforums"), forfol.size.to_s, flt.to_s, flp.to_s, (flp-flr).to_s]]+grpselt+[[_("Forum:opt_search"),nil,nil,nil,nil]]
+        @grpsel=TableSelect.new(grpselh,grpselt,@grpindex,_("Forum:head"))
     loop do
       loop_update
       @grpsel.update
-      if enter or Input.trigger?(Input::RIGHT)
+      if enter or (Input.trigger?(Input::RIGHT) and !$keyr[0x10])
                       @grpindex=@grpsel.index
         if @grpsel.index==0
           return threadsmain(-1)
@@ -131,7 +133,8 @@ else
           end
           end
           else
-        return forumsmain(@grpsel.index-1)
+        g=@groups[@grpsel.index-2]
+            return forumsmain(g.id) if g.role==1 or g.role==2 or g.public==true
         end
         end
       if alt
@@ -187,7 +190,7 @@ else
       @lastgroup=group
       sforums=[]
       if group>=0
-      for f in @forums
+              for f in @forums
         sforums.push(f) if f.group.id==group
       end
     elsif group==-5
@@ -196,24 +199,24 @@ else
       end
       end
       frmselt=[]
-     
-      for forum in sforums
-                  ftm="#{forum.fullname} "
+           for forum in sforums
+                  ftm=[forum.fullname]
 if group==-5
 for g in @groups
-    ftm+="(#{g.name}) " if g.id==forum.group.id
+    ftm[0]+=" (#{g.name}) " if g.id==forum.group.id
   end
   end
-    ftm+=". #{_("Forum:opt_phr_threads")}: #{forum.threads.to_s}, #{_("Forum:opt_phr_posts")}: #{forum.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(forum.posts-forum.readposts).to_s}"
-    ftm+="\004NEW\004" if forum.posts-forum.readposts>0
+    ftm+=[forum.threads.to_s, forum.posts.to_s, (forum.posts-forum.readposts).to_s]
+    ftm[0]+="\004NEW\004" if forum.posts-forum.readposts>0
                   frmselt.push(ftm)
               end
       @frmindex=0 if @frmindex==nil
-      @frmsel=Select.new(frmselt,true,@frmindex,_("Forum:head_selforum"))
+      frmselh=[nil, _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+      @frmsel=TableSelect.new(frmselh,frmselt,@frmindex,_("Forum:head_selforum"))
       loop do
         loop_update
         @frmsel.update
-        if Input.trigger?(Input::LEFT) or escape
+        if (Input.trigger?(Input::LEFT) and !$keyr[0x10]) or escape
           @frmindex=nil
           return groupsmain
         end
@@ -273,7 +276,7 @@ else
               return
           end
           end
-                if (enter or Input.trigger?(Input::RIGHT)) and sforums.size>0
+                if (enter or (Input.trigger?(Input::RIGHT) and !$keyr[0x10])) and sforums.size>0
           @frmindex=@frmsel.index
           return threadsmain(sforums[@frmsel.index].name)
           end
@@ -373,24 +376,27 @@ end
       for i in 0..sthreads.size-1
         thread=sthreads[i]
         index=i if thread.id==@pre
-        tmp=""
-        tmp+=thread.name
-        tmp+="\004INFNEW{#{_("Forum:opt_phr_thrisnew")}: }\004" if thread.readposts<thread.posts and (id!=-2 and id!=-4 and id!=-6 and id!=-7)
+        tmp=[thread.name]
+                tmp[0]+="\004INFNEW{#{_("Forum:opt_phr_thrisnew")}: }\004" if thread.readposts<thread.posts and (id!=-2 and id!=-4 and id!=-6 and id!=-7)
         if id==-7
-          tmp+=" . #{_("Forum:opt_phr_mentionedby")}: #{thread.mention.author} (#{thread.mention.message})"
+          tmp[0]+=" . #{_("Forum:opt_phr_mentionedby")}: #{thread.mention.author} (#{thread.mention.message})"
+        end
+        if id==-3
+          tmp[0]+=" (#{thread.forum.fullname}, #{thread.forum.group.name})"
           end
-                tmp+=" . #{_("Forum:opt_phr_author")}: #{thread.author.lore}, #{_("Forum:opt_phr_posts")}: #{thread.posts.to_s}, #{_("Forum:opt_phr_unreads")}: #{(thread.posts-thread.readposts).to_s}"
-      thrselt.push(tmp)
+                tmp+=[thread.author.lore, thread.posts.to_s, (thread.posts-thread.readposts).to_s]
+                thrselt.push(tmp)
         end
       @pre=nil
       @preparam=nil
             header=_("Forum:head_selthr")
       header="" if id==-2 or id==-4 or id==-6 or id==-7
-      @thrsel=Select.new(thrselt,true,index,header)
+      thrselh = [nil, _("Forum:opt_phr_author"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+      @thrsel=TableSelect.new(thrselh,thrselt,index,header)
       loop do
         loop_update
         @thrsel.update
-        if Input.trigger?(Input::LEFT) or escape
+        if (Input.trigger?(Input::LEFT) and !$keyr[0x10]) or escape
           if id.is_a?(String)
             return forumsmain 
           elsif id==-2 or id==-4 or id==-6 or id==-7
@@ -399,7 +405,7 @@ end
             return groupsmain
           end
         end
-        if enter or Input.trigger?(Input::RIGHT)
+        if enter or (Input.trigger?(Input::RIGHT) and !$keyr[0x10])
 if @lastgroup==-5
           $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index].id,-5,@query)
         else
@@ -525,7 +531,7 @@ forumindex=0
                                   forums.push(f.fullname+" (#{g.name})")
                                 forumclasses.push(f)
                                 forumindex=forums.size-1 if f.name==@forum
-                                end
+                                                              end
                                 end
                                 end
                               end
@@ -627,6 +633,117 @@ end
 speech_wait
 end
 def getcache
+  #return agetcache
+  c=srvproc("forum_struct","name=#{$name}\&token=#{$token}",1).split("\r\n")
+  if c[0].to_i<0
+    speech(_("General:error"))
+    @groups=[]
+    @forums=[]
+    @threads=[]
+    $scene=Scene_Main.new
+    return
+    end
+  l=1
+  while l<c.size
+    objs=c[l+1].to_i
+    strobjs=c[l+2].to_i
+            if c[l]=="groups"
+            groupscache(c[(l+3)..(l+3+objs*strobjs)],objs,strobjs)
+          elsif c[l]=="forums"
+            forumscache(c[(l+3)..(l+3+objs*strobjs)],objs,strobjs)
+          elsif c[l]=="threads"
+            threadscache(c[(l+3)..(l+3+objs*strobjs)],objs,strobjs)
+    end
+    l+=3+objs*strobjs
+  end
+    end
+  def groupscache(c,objs,strobjs)
+    @groups=[]
+        for i in 0...objs
+      for j in 0...strobjs
+                line=c[i*strobjs+j]
+        case j
+        when 0
+          @groups.push(Struct_Forum_Group.new(line.to_i))
+          when 1
+            @groups.last.name=line
+            when 2
+              @groups.last.founder=line
+              when 3
+                @groups.last.description=line.gsub("$","\r\n")
+                when 4
+                  @groups.last.recommended=true if line.to_i==1
+                  when 5
+                    @groups.last.open=true if line.to_i==1
+                    when 6
+                      @groups.last.public=true if line.to_i==1
+                      when 7
+                        @groups.last.role=line.to_i
+                        when 8
+                          @groups.last.forums=line.to_i
+                          when 9
+                            @groups.last.threads=line.to_i
+                            when 10
+                              @groups.last.posts=line.to_i
+                              when 11
+                                @groups.last.readposts=line.to_i
+                              end
+        end
+      end
+    end
+  def forumscache(c,objs,strobjs)
+        @forums=[]
+        for i in 0...objs
+      for j in 0...strobjs
+                line=c[i*strobjs+j]
+        case j
+        when 0
+          @forums.push(Struct_Forum_Forum.new(line))
+          when 1
+            @forums.last.fullname=line
+            when 2
+              @forums.last.type=line.to_i
+              when 3
+                @groups.each {|g| @forums.last.group=g if g.id==line.to_i}
+                when 4
+                  @forums.last.description=line.gsub("$","\r\n")
+                  when 5
+                    @forums.last.followed=true if line.to_i>0
+                    when 6
+                      @forums.last.threads=line.to_i
+                      when 7
+                        @forums.last.posts=line.to_i
+                        when 8
+                          @forums.last.readposts=line.to_i
+      end
+    end
+  end
+end
+  def threadscache(c,objs,strobjs)
+    @threads=[]
+        for i in 0...objs
+      for j in 0...strobjs
+                line=c[i*strobjs+j]
+        case j
+        when 0
+          @threads.push(Struct_Forum_Thread.new(line.to_i))
+          when 1
+            @threads.last.name=line
+            when 2
+              @threads.last.author=line
+            when 3
+              @forums.each {|f| @threads.last.forum=f if f.id==line}
+              when 4
+                @threads.last.followed=true if line.to_i>0
+                when 5
+                  @threads.last.posts=line.to_i
+                  when 6
+                    @threads.last.readposts=line.to_i
+      end
+    end
+  end
+  end
+    def agetcache
 c=srvproc("forum_list","name=#{$name}\&token=#{$token}")
 if c[0].to_i<0
   speech(_("General:error"))
@@ -743,12 +860,10 @@ def getstruct
 end
 
 class Scene_Forum_Thread
-  def initialize(thread,param=nil,query="",mention=nil)
-    @thread=thread
-    for f in Scene_Forum.new.getstruct['threads']
-      @threadclass=f if @thread==f.id
-      end
+  def initialize(thread,param=nil,query="",mention=nil,threadclass=nil)
+            @thread=thread
     @param=param
+    @threadclass=threadclass
     @query=query
     @mention=mention
     srvproc("mentions","name=#{$name}\&token=#{$token}\&notice=1\&id=#{mention.id}") if mention!=nil
@@ -915,7 +1030,7 @@ def menu
   play("menu_background")
   cat=0
   sel=["#{_("Forum:opt_phr_author")}",_("Forum:opt_reply"),_("Forum:opt_navigation"),_("Forum:opt_mention"),_("Forum:opt_listen"),_("Forum:opt_followthr"),_("General:str_refresh"),_("General:str_cancel")]
-    sel.push(_("Forum:opt_moderation")) if @form.index<@postscount and (($rang_moderator==1||@threadclass.forum.group.role==1) or (@posts[@form.index].author==$name))
+    sel.push(_("Forum:opt_moderation")) if @form.index<@postscount and (($rang_moderator==1||(@threadclass!=nil&&@threadclass.forum.group.role==1)) or (@posts[@form.index].author==$name))
   sel[5]=_("Forum:opt_unfollowthr") if @followed==true
   sel[0]=@posts[@form.index].authorname if @form.index<@postscount
   index=0
@@ -1221,11 +1336,11 @@ when                        13
                                     pst=@posts[cur]
                                     speech("#{(cur+1).to_s}: "+pst.author+":\r\n"+pst.post) if pst!=nil
                                                                      end
-                                  if Input.trigger?(Input::RIGHT)
+                                  if (Input.trigger?(Input::RIGHT) and !$keyr[0x10])
                                     speech_stop
                                     cur=@posts.size-2 if cur>@posts.size-2
                                     end
-                                    if Input.trigger?(Input::LEFT)
+                                    if (Input.trigger?(Input::LEFT) and !$keyr[0x10])
                                       speech_stop
                                       cur-=2
                                       cur=-1 if cur<-1
@@ -1298,6 +1413,11 @@ class Struct_Forum_Group
                             attr_accessor :readposts
                             attr_accessor :lang
                             attr_accessor :role
+                            attr_accessor :open
+                            attr_accessor :public
+                            attr_accessor :recommended
+                            attr_accessor :description
+                            attr_accessor :founder
                             def initialize(id=0)
                               @id=id
                               @name=""
@@ -1306,6 +1426,11 @@ class Struct_Forum_Group
                               @posts=0
                               @readposts=0
                               @role=0
+                              @open=false
+                              @public=false
+                              @recommended=false
+                              @description=""
+                              @founder=""
                             end
                             end
                           
@@ -1318,6 +1443,7 @@ class Struct_Forum_Group
                                   attr_accessor :type
                                   attr_accessor :readposts
                                   attr_accessor :followed
+                                  attr_accessor :description
                                   def initialize(name="")
                                     @name=name
                                     @group=Struct_Forum_Group.new(0)
@@ -1327,6 +1453,13 @@ class Struct_Forum_Group
                                     @type=0
                                     @readposts=0
                                     @followed=false
+                                    @description=""
+                                  end
+                                  def id
+                                    return @name
+                                  end
+                                  def id=(id)
+                                    @name=id
                                     end
                                   end
                                   

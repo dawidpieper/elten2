@@ -417,8 +417,8 @@ if $agent!=nil and $agent.avail>0
           $eresps[d['id']]=d
         elsif d['func']=='tray'
                     $trayreturn=true
-        elsif d['func']=='msg'
-                    $agent_msg=d['msgs'].to_i
+                  elsif d['func']=='msg'
+                                        $agent_msg=d['msgs'].to_i
                   elsif d['func']=='error'
                             e=d['msg']+"\r\n"+d['loc']
 if simplequestion(_("EAPI_UI:alert_agentreport"))==1

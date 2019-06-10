@@ -13,7 +13,7 @@ def initialize
     @header = "Menu: "
   end
   def main
-    srvstate
+        srvstate
         sel = [_("MainMenu:opt_community"),_("MainMenu:opt_media"),_("MainMenu:opt_files"),_("MainMenu:opt_programs"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
                 @sel = menulr(sel,true,0,@header)
         @header = ""

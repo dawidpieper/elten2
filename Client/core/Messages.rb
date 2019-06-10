@@ -371,7 +371,7 @@ when 2
   end
     end
   def update_messages
-   if $agent_msg != nil
+   if $agent_msg != nil and @form_messages!=nil and @form_messages.index!=2
      mwn=$agent_msg
           load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true) if mwn>@messages_wn
      @messages_wn=mwn
