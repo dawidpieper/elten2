@@ -196,7 +196,11 @@ menu.update
 if enter
   case menu.index
   when 0
-    $scene = Scene_Messages_New.new(user,"","",self)
+    $scenes.insert(0,Scene_Messages_New.new(user,"","",Scene_Main.new))
+    play("menu_close")
+    Audio.bgs_stop
+    loop_update
+    return "ALT"
     when 1
       play("menu_close")
       Audio.bgs_stop
@@ -204,17 +208,34 @@ if enter
             return("ALT")
       break
             when 2
-        $scene = Scene_Blog_Main.new(user,0,self)
+        $scenes.insert(0,Scene_Blog_Main.new(user,0,Scene_Main))
+        play("menu_close")
+    Audio.bgs_stop
+    loop_update
+        return "ALT"
+        break
         when 3
-          $scene = Scene_Uploads.new(user,self)
+          $scenes.insert(0,Scene_Uploads.new(user,Scene_Main.new))
+          play("menu_close")
+    Audio.bgs_stop
+    loop_update
+    return "ALT"
     when 4
-        $scene=Scene_Honors.new(user,self)
+        $scenes.insert(0,Scene_Honors.new(user,Scene_Main.new))
+        play("menu_close")
+    Audio.bgs_stop
+    loop_update
+    return "ALT"
           when 5
       if @incontacts == true
-        $scene = Scene_Contacts_Delete.new(user,self)
+        $scenes.insert(0,Scene_Contacts_Delete.new(user,Scene_Main.new))
       else
-        $scene = Scene_Contacts_Insert.new(user,self)
+        $scenes.insert(0,Scene_Contacts_Insert.new(user,Scene_Main.new))
       end
+      play("menu_close")
+    Audio.bgs_stop
+    loop_update
+    return "ALT"
             when 6
         play("menu_close")
       Audio.bgs_stop
@@ -224,10 +245,14 @@ if enter
       break        
       when 7
         if @isbanned == false
-          $scene = Scene_Ban_Ban.new(user,self)
+          $scenes.insert(0,Scene_Ban_Ban.new(user,$scene_Main.new))
         else
-          $scene = Scene_Ban_Unban.new(user,self)
+          $scenes.insert(0,Scene_Ban_Unban.new(user,Scene_Main.new))
         end
+        play("menu_close")
+    Audio.bgs_stop
+    loop_update
+    return "ALT"
       else
                 if $usermenuextrascenes.is_a?(Array)
                   play("menu_close")

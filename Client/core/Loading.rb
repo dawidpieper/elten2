@@ -120,7 +120,6 @@ $interface_soundthemeactivation = readini($configdata + "\\interface.ini","Inter
 $interface_typingecho = readini($configdata + "\\interface.ini","Interface","TypingEcho","0").to_i  
 $interface_linewrapping = readini($configdata + "\\interface.ini","Interface","LineWrapping","1").to_i
 $interface_hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
-$interface_fullscreen = readini($configdata + "\\interface.ini","Interface","StartFullScreen","0").to_i
 $advanced_hexspecial = readini($configdata + "\\advanced.ini","Advanced","HexSpecial","1").to_i
 $advanced_refreshtime = readini($configdata + "\\advanced.ini","Advanced","AgentRefreshTime","1").to_i        
 if $advanced_refreshtime==1
@@ -173,15 +172,7 @@ alpha = readini(".\\elten.ini","Elten","Alpha","0").to_i
     $nbeta = nbeta
     $nalpha = nalpha
     $nversion = nversion
-        if $showm == nil and $interface_fullscreen == 1
-    $showm = Win32API.new('user32', 'keybd_event', 'LLLL', '')
-$showm.call(18,0,0,0)
-$showm.call(13,0,0,0)
-$showm.call(13,0,2,0)
-$showm.call(18,0,2,0)
-    Graphics.update
-    end
-        speech_stop
+                speech_stop
     startmessage = "ELTEN: " + $version.to_s
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
 startmessage += " RC #{$alpha.to_s}" if $isbeta == 2

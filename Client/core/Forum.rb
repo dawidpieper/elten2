@@ -93,7 +93,7 @@ else
       fp+=thread.posts
       fr+=thread.readposts
     end
-    if forfol.include?(thread.forum)
+    if forfol.include?(thread.forum.id)
       flt+=1
       flp+=thread.posts
       flr+=thread.readposts
@@ -138,7 +138,10 @@ else
         end
         end
       if alt
-                case menuselector([_("Forum:opt_open"),_("General:str_refresh"),_("General:str_cancel")])
+        menut=[_("Forum:opt_open"),nil,_("General:str_refresh"),_("General:str_cancel")]
+        menut[1] = _("Forum:opt_members") if @grpsel.index>1 and @grpsel.index<@grpsel.commandoptions.size-1
+                sel = menuselector(menut)
+                case sel
         when 0
                         @grpindex=@grpsel.index
         if @grpsel.index==0
@@ -167,13 +170,45 @@ else
           end
           end
           else
-        return forumsmain(@grpsel.index-1)
+        g=@groups[@grpsel.index-2]
+            return forumsmain(g.id) if g.role==1 or g.role==2 or g.public==true
         end
           when 1
-                @grpindex=@grpsel.index
+          m=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=members\&groupid=#{@groups[@grpsel.index-2].id.to_s}")
+          if m[0].to_i<0
+            speech(_("General:error"))
+            speech_wait
+          else
+            selt = []
+            users = []
+            for i in 0...m[1].to_i
+              users.push(m[2+i*2].delete("\r\n"))
+              t=users.last
+              if @groups[@grpsel.index-2].founder==users.last
+                t+=" (#{_("Forum:opt_phr_founder")})"
+              elsif m[2+2*i+1].to_i==2
+                t+=" (#{_("Forum:opt_phr_moderator")})"
+              end
+              t+= ". "+getstatus(users.last)
+              selt.push(t)
+            end
+            sel=Select.new(selt,true,0,_("Forum:head_members"))
+            loop do
+              loop_update
+              sel.update
+              if escape
+                loop_update
+                                @grpsel.focus
+                                break
+                end
+              usermenu(users[sel.index]) if enter or alt
+                            end
+            end
+        when 2
+                          @grpindex=@grpsel.index
                 getcache
         return groupsmain
-        when 2
+            when 3
           $scene=Scene_Main.new
           return
         end
@@ -407,12 +442,12 @@ end
         end
         if enter or (Input.trigger?(Input::RIGHT) and !$keyr[0x10])
 if @lastgroup==-5
-          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index].id,-5,@query)
+          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],-5,@query)
         else
           if id==-7
-            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index].id,id,@query,sthreads[@thrsel.index].mention)
+            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id,@query,sthreads[@thrsel.index].mention)
             else
-          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index].id,id,@query)
+          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id,@query)
           end
           end
 break
@@ -426,11 +461,11 @@ return
             mselt[1]=nil
           else
             mselt[1]=_("Forum:opt_unfollowthr") if sthreads[@thrsel.index].followed==true
-            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr")] if $rang_moderator==1||sthreads[@thrsel.index].forum.group.role==1
+            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr")] if ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
                           end
           case menuselector(mselt)
           when 0
-            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index].id,id)
+            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id)
             break
             return
             when 1
@@ -672,20 +707,22 @@ def getcache
               when 3
                 @groups.last.description=line.gsub("$","\r\n")
                 when 4
-                  @groups.last.recommended=true if line.to_i==1
+                  @groups.last.lang=line
                   when 5
+                  @groups.last.recommended=true if line.to_i==1
+                  when 6
                     @groups.last.open=true if line.to_i==1
-                    when 6
+                    when 7
                       @groups.last.public=true if line.to_i==1
-                      when 7
+                      when 8
                         @groups.last.role=line.to_i
-                        when 8
+                        when 9
                           @groups.last.forums=line.to_i
-                          when 9
+                          when 10
                             @groups.last.threads=line.to_i
-                            when 10
+                            when 11
                               @groups.last.posts=line.to_i
-                              when 11
+                              when 12
                                 @groups.last.readposts=line.to_i
                               end
         end
@@ -860,12 +897,12 @@ def getstruct
 end
 
 class Scene_Forum_Thread
-  def initialize(thread,param=nil,query="",mention=nil,threadclass=nil)
-            @thread=thread
+  def initialize(thread,param=nil,query="",mention=nil)
+            @threadclass=thread
     @param=param
-    @threadclass=threadclass
-    @query=query
+        @query=query
     @mention=mention
+    @thread=@threadclass.id
     srvproc("mentions","name=#{$name}\&token=#{$token}\&notice=1\&id=#{mention.id}") if mention!=nil
     end
   def main
@@ -959,7 +996,8 @@ class Scene_Forum_Thread
           end
           if ((enter or space) and @form.index==@postscount+2) or (enter and $key[0x11] and @form.index==@postscount)
             buf = buffer(@form.fields[@postscount].text_str).to_s
-if srvproc("forum_edit","name=#{$name}&token=#{$token}\&threadid=#{@thread.to_s}\&buffer=#{buf}")[0].to_i<0
+            st=srvproc("forum_edit","name=#{$name}&token=#{$token}\&threadid=#{@thread.to_s}\&buffer=#{buf}")
+if st[0].to_i<0
   speech(_("General:error"))
 else
   speech(_("Forum:info_postcreated"))
@@ -1030,7 +1068,7 @@ def menu
   play("menu_background")
   cat=0
   sel=["#{_("Forum:opt_phr_author")}",_("Forum:opt_reply"),_("Forum:opt_navigation"),_("Forum:opt_mention"),_("Forum:opt_listen"),_("Forum:opt_followthr"),_("General:str_refresh"),_("General:str_cancel")]
-    sel.push(_("Forum:opt_moderation")) if @form.index<@postscount and (($rang_moderator==1||(@threadclass!=nil&&@threadclass.forum.group.role==1)) or (@posts[@form.index].author==$name))
+    sel.push(_("Forum:opt_moderation")) if @form.index<@postscount && ((($rang_moderator==1&&@threadclass.forum.group.recommended)||(@threadclass!=nil&&@threadclass.forum.group.role==2)) || (@posts[@form.index].author==$name))
   sel[5]=_("Forum:opt_unfollowthr") if @followed==true
   sel[0]=@posts[@form.index].authorname if @form.index<@postscount
   index=0

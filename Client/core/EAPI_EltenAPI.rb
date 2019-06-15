@@ -399,7 +399,7 @@ end
 # @param type [Numeric] a directory id
 # @return [String] directory path
 def getdirectory(type)
-  dr = "\0" * 2048
+  dr = "\0" * 520
   Win32API.new("shell32","SHGetFolderPathW",'iiiip','i').call(0,type,0,0,dr)
   fdr=deunicode(dr)
       return fdr
