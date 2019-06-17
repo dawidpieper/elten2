@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper
 #All rights reserved.
 
 
@@ -494,4 +494,4 @@ class SocketError < StandardError
   
 end
 end
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper

@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper
 #All rights reserved.
 
 
@@ -203,4 +203,4 @@ end
 
 Audio_OLD = Audio if $ruby != true
 Audio = Audio_FMOD if $ruby == true
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper

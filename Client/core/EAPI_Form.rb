@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper
 #All rights reserved.
 
 
@@ -1612,4 +1612,4 @@ lsel = menulr(options,true,0,"")
          end
      end
      end
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper

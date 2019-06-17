@@ -1,5 +1,5 @@
 #Elten Code
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper
 #All rights reserved.
 
 
@@ -1361,4 +1361,4 @@ attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attach
 @attachments_names=nil
                                                    end
                end
-#Copyright (C) 2014-2018 Dawid Pieper
+#Copyright (C) 2014-2019 Dawid Pieper
