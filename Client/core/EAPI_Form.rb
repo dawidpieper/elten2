@@ -1021,6 +1021,7 @@ end
           # @param label [String] a button label
         def initialize(label="")
           @label = label
+          @pressed=false
         end
         
         # Updates a button
@@ -1028,14 +1029,15 @@ end
           if $focus == true
     focus
     $focus = false
-    end
+  end
+  @pressed = (enter||space)
           end
         def focus
           play("button_marker")
           speech(@label + "... " + _("EAPI_Form:fld_button"))
         end
         def pressed?
-          return (enter||space)
+          return @pressed
           end
       end
       

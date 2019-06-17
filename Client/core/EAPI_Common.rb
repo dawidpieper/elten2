@@ -245,7 +245,7 @@ if enter
       break        
       when 7
         if @isbanned == false
-          $scenes.insert(0,Scene_Ban_Ban.new(user,$scene_Main.new))
+          $scenes.insert(0,Scene_Ban_Ban.new(user,Scene_Main.new))
         else
           $scenes.insert(0,Scene_Ban_Unban.new(user,Scene_Main.new))
         end
