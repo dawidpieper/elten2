@@ -9,13 +9,14 @@ $usebass=true
 module Bass
   BASS_GetVersion = Win32API.new("bass", "BASS_GetVersion", "", "I")
   BASS_ErrorGetCode = Win32API.new("bass", "BASS_ErrorGetCode", "", "I")
-  BASS_Init = Win32API.new("bass", "BASS_Init", "IIIIP", "I")
+  BASS_Init = Win32API.new("bass", "BASS_Init", "IIII", "I")
   BASS_RecordInit = Win32API.new("bass", "BASS_RecordInit", "I", "I")
   BASS_GetConfig = Win32API.new("bass", "BASS_GetConfig", "I", "I")
   BASS_SetConfig = Win32API.new("bass", "BASS_SetConfig", "II", "I")
   BASS_SetConfigPtr = Win32API.new("bass","BASS_SetConfigPtr",'ip','l')
   BASS_PluginLoad = Win32API.new("bass","BASS_PluginLoad",'p','i')
   BASS_Free = Win32API.new("bass", "BASS_Free", "", "I")
+  BASS_Apply3D = Win32API.new("bass","BASS_Apply3D",'','i')
   BASS_Start = Win32API.new("bass", "BASS_Start", "", "I")
   BASS_Stop = Win32API.new("bass", "BASS_Stop", "", "I")
   BASS_Pause = Win32API.new("bass", "BASS_Pause", "", "I")
@@ -47,6 +48,7 @@ module Bass
   BASS_ChannelBytes2Seconds = Win32API.new("bass", "BASS_ChannelBytes2Seconds", "IL", "I")
   BASS_ChannelGetPosition = Win32API.new("bass", "BASS_ChannelGetPosition", "II", "I")
   BASS_ChannelSetPosition = Win32API.new("bass", "BASS_ChannelSetPosition", "III", "I")
+  BASS_ChannelSet3DPosition = Win32API.new("bass", "BASS_ChannelSet3DPosition", "IPPP", "I")
   BASS_StreamGetFilePosition = Win32API.new("bass", "BASS_StreamGetFilePosition", "II", "I")
   Errmsg = {
     1=>"MEM",2=>"FILEOPEN",3=>"DRIVER",4=>"BUFLOST",5=>"HANDLE",6=>"FORMAT",7=>"POSITION",8=>"INIT",
@@ -62,7 +64,7 @@ return if @init==true
     if (BASS_GetVersion.call >> 16) != 0x0204 then
       raise("bass.dllバージョン2.4系以外には対応しておりません")
     end
-    if BASS_Init.call(-1, samplerate, 4, hWnd, nil) == 0 then
+    if BASS_Init.call(-1, samplerate, 4, hWnd) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
       if BASS_PluginLoad.call("bassopus.dll") == 0 then
@@ -83,7 +85,8 @@ BASS_SetConfig.call(11, 10000)
 BASS_SetConfig.call(12, 10000)
 BASS_SetConfig.call(15, 150)
 BASS_SetConfig.call(21, 1)
-BASS_SetConfig.call(24, 2)    
+BASS_SetConfig.call(10, 2)    
+
         end
 
   def self.free
@@ -97,8 +100,8 @@ BASS_SetConfig.call(24, 2)
     return Sample.new(filename, max)
   end
 
-  def self.loadStream(filename,pos=0)
-    return Stream.new(filename,pos)
+  def self.loadStream(filename,pos=0, u3d=false)
+    return Stream.new(filename,pos, 10, u3d)
   end
 
   class Sample
@@ -177,13 +180,15 @@ BASS_SetConfig.call(24, 2)
 
   class Stream
     attr_reader :ch
-    def initialize(filename,pos=0,tries=10)
+    def initialize(filename,pos=0,tries=10, u3d=false)
       pos=pos.to_i          
             if filename[0..3]=="http"
         @ch = BASS_StreamCreateURL.call(utf8(filename), pos, 0, 0, 0)
                 else
                   for i in 1..10      
-                  @ch = BASS_StreamCreateFile.call(0, utf8(filename), pos, 0, 0, 0, 0)
+                    flags=0
+                    flags=8|2 if u3d
+                                      @ch = BASS_StreamCreateFile.call(0, utf8(filename), pos, 0, 0, 0, flags)
                   if @ch==0
                                         Bass.init($wnd)
                   else
@@ -191,12 +196,12 @@ BASS_SetConfig.call(24, 2)
                   end
                   end
       end
-      if @ch == 0 then
-        return initialize(filename,pos=0,tries-1) if tries>0
-                raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
-    BASS_ChannelSetPosition.call(@ch,0,1000000)
-      end
+      if @ch == 0
+        return initialize(filename,pos=0,tries-1) if tries>0 and !$DEBUG
+                print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+              end
+                                          BASS_ChannelSetPosition.call(@ch,0,1000000)
+                                                                  end
 
     def free
       if BASS_StreamFree.call(@ch) == 0 then
@@ -221,7 +226,7 @@ BASS_SetConfig.call(24, 2)
         end
       end
       if option[:volume] then
-        if BASS_ChannelSetAttribute.call(@ch, 2, [option[:volume]].pack("f").unpack("I")[0]) == -1 then
+        if BASS_ChannelSetAttribute.call(@ch, 4, [option[:volume]].pack("f").unpack("I")[0]) == -1 then
           raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
         end
       end
@@ -294,33 +299,33 @@ BASS_SetConfig.call(24, 2)
   end
     
    class Sound
+     attr_reader :file
      attr_reader :channel
      attr_reader :type
      attr_reader :cls
      include Bass
      attr_reader :file
-     def initialize(file,type=1, looper=false)
-       @file=file
+     def initialize(file,type=1, looper=false, u3d=false)
+              @file=file
        @startposition=0
        ext=File.extname(file).downcase
-              #type=0 if (ext==".wav" or ext==".opus" or ext==".m4a" or ext==".ogg" or ext==".mid") and getsize(file) < 16*1048576
        type=1 if file[0..3]=="http"
        @type=type
        case type
        when 1         
          begin
-         @cls=Bass.loadStream(file)
+         @cls=Bass.loadStream(file,0,u3d)
          rescue Exception
        end
          if @cls==nil or (@cl != nil and @cls.ch==nil)
          if FileTest.exists?(file)
            waiting
-loc="temp\\plr#{rand(36**6).to_s(36)}.wav"
+loc="temp\\plr#{rand(36**6).to_s(36)}.ogg"
            executeprocess("bin\\ffmpeg -y -i \"#{file}\" \"#{loc}\"",true)
                       waiting_end
            if FileTest.exists?(loc)
              file=loc
-             @cls=Bass.loadStream(file)
+             @cls=Bass.loadStream(file,0,u3d)
              end
            end
          end
@@ -393,6 +398,20 @@ loc="temp\\plr#{rand(36**6).to_s(36)}.wav"
        BASS_ChannelSetAttribute.call(@channel,3,pn)
        return pn
      end
+     def set3d(a1=nil,a2=nil,a3=nil,b1=nil,b2=nil,b3=nil,c1=nil,c2=nil,c3=nil)
+       a,b,c=nil,nil,nil
+       if a1!=nil&&a2!=nil&&a3!=nil
+                a=[a1,a2,a3].pack("fff")
+     end
+     if b1!=nil&&b2!=nil&&b3!=nil
+              b=[b1,b2,b3].pack("fff")
+            end
+            if c1!=nil&&c2!=nil&&c3!=nil
+              c=[c1,c2,c3].pack("fff")
+            end
+                                 BASS_ChannelSet3DPosition.call(@channel,a,b,c)
+                                 BASS_Apply3D.call
+            end
      def volume
        vol=[0].pack('f')
        BASS_ChannelGetAttribute.call(@channel,2,vol)

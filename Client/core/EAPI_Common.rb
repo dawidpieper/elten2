@@ -733,162 +733,33 @@ def player(file,label="",wait=false,control=true,trydownload=false,stream=false)
     end
   if label != ""
   dialog_open if wait==false
-speech(label)
 $dialogvoice.close if $dialogvoice != nil
 $dialogvoice = nil
 end
-begin
-if file[0..3]=="http" or stream
-sound = Bass::Sound.new(file,1)
-else
-  sound = Bass::Sound.new(file)
-end
-sound.play
-rescue Exception
-  speech(_("EAPI_Common:error_playing"))
-  speech_wait
-  return
-end   
+snd=Player.new(file,label)
 delay(0.1)
-    pause=false    
-    basefrequency=sound.frequency
-    reset=0
-    ppos=0
     loop do
                     loop_update
-      if space and control
-        if pause!=true
-        ppos=sound.position
-          sound.pause
-        pause=true
-              else
-                        sound.play
-                        if sound.position<ppos
-                        for i in 1..20
-                        sound.position=ppos
-                      end
-                      end
-        pos=0
-        pause=false
-                end
-        end
-      if (escape or enter) and $key[0x10]==false
-                for i in 1..50
-          sound.volume -= 0.02
-          loop_update
-        end
-sound.close
-dialog_close if label != ""          
-  $playlistbuffer.play if plpause==true
-return
-break
-end
-if control      
-  if $key[80]
-    d=sound.position.to_i
-h=d/3600
-        m=(d-d/3600*3600)/60
-  s=d-d/60*60
-  speech(sprintf("%02d:%02d:%02d",h,m,s))
-        end
-  if $key[68]
-    d=sound.length.to_i
-    h=d/3600
-        m=(d-d/3600*3600)/60
-  s=d-d/60*60
-  speech(sprintf("%02d:%02d:%02d",h,m,s))
-    end
-    if $key[74]
-      ppos=sound.position.to_i
-      sound.pause
-      dpos=input_text(_("EAPI_Common:type_movetosec"),"ACCEPTESCAPE",ppos.to_s)
-      dpos=ppos if dpos=="\004ESCAPE\004"
-      dpos=dpos.to_i
-      dpos=sound.length if dpos>sound.length
-      sound.position=dpos
-      sound.play
-      for i in 1..20
-        sound.position=dpos
-        end
-      end
-    if ($key[0x53] or ($key[0x10] and enter)) and file.include?("http")
-    tf=file.gsub("\\","/")
-    fs=tf.split("/")
-    nm=fs.last.split("?")[0]
-    if File.extname(nm)==""
-      l=label.downcase
-      if l.include?("mp3")
-        nm+=".mp3"
-      elsif l.include?(".wav")
-        nm+=".wav"
-      elsif l.include?(".ogg")
-        nm+=".ogg"
-      else
-        nm+=".opus"
-        end
-      end
-    loc=getfile(_("EAPI_Common:head_savelocation"),getdirectory(40)+"\\",true,"Music")
-    if loc!=nil
-            speech(_("EAPI_Common:wait_downloading"))
-                        waiting
-                        executeprocess("bin\\ffmpeg -y -i \"#{file}\" \"#{loc}\\#{nm}\"",true)
-                        waiting_end
-                                    speech(_("General:info_saved"))
-      end
-    end
-    if $key[0x10]              ==false
-    if Input.repeat?(Input::RIGHT)
-                                sound.position += 5
-              end
-      if Input.repeat?(Input::LEFT)
-        sound.position -= 5
-      end
-            if Input.repeat?(Input::UP)
-                      sound.volume += 0.05
-sound.volume = 0.5 if sound.volume == 0.6
-      end
-      if Input.repeat?(Input::DOWN)
-        sound.volume -= 0.05
-sound.volume = 0.01 if sound.volume == 0
-end
-else
-  if Input.repeat?(Input::RIGHT)
-        sound.pan += 0.1
-        sound.pan = 1 if sound.pan > 1
-      end
-      if Input.repeat?(Input::LEFT)
-        sound.pan -= 0.1
-        sound.pan = -1 if sound.pan < -1
-      end
-            if Input.repeat?(Input::UP)
-        sound.frequency += basefrequency.to_f/100.0*2.0
-      sound.frequency=basefrequency*2 if sound.frequency>basefrequency*2
-        end
-      if Input.repeat?(Input::DOWN)
-        sound.frequency -= basefrequency.to_f/100.0*2.0
-      sound.frequency=basefrequency/2 if sound.frequency<basefrequency/2
-end
-end
-if $key[0x08] == true
-  reset=10
-  sound.volume=1
-  sound.pan=0
-  sound.frequency=basefrequency
-  end
-end
-reset -= 1 if reset > 0
+                    snd.update if control
   if wait == true
-  if pause != true
-    if sound.position(true)>=sound.length(true)-1024 and sound.length(true)>0
-                  sound.close
+    if snd.sound!=nil
+  if snd.pause != true
+    if snd.sound.position(true)>=snd.sound.length(true)-1024 and snd.sound.length(true)>0
+                  snd.close
             $playlistbuffer.play if plpause==true
       return
      break
             end
+          end
+          end
+  end
+  if (enter and !$key[0x10]) or escape or snd.sound==nil
+    snd.fade
+    snd.close
+    dialog_close if label!=""
+    break
     end
   end
-  pos=sound.position
-end
 $playlistbuffer.play if plpause==true
 end
 

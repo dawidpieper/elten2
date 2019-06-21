@@ -377,7 +377,7 @@ speech(_("Forum:info_privileges"))
                                           }
                                         else
                                                                                       confirm(s_("Forum:alert_passadmin", {'user'=>users[sel.index], 'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-                      p r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=privileges\&pr=passadmin\&user=#{users[sel.index]}\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+                      r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=privileges\&pr=passadmin\&user=#{users[sel.index]}\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
                                             if r[0].to_i<0
   speech(_("General:error"))
 else
@@ -818,19 +818,18 @@ else
                     return
                     when 5
 selt=[]
-groups=[]
-for group in @groups
-  groups[group.id]=group.name
-  end
 ind=0
-  for i in 0..@forums.size-1
-    forum=@forums[i]
-  selt.push(forum.fullname+" ("+groups[forum.group.id]+")")
+mforums=[]
+for f in @forums
+  mforums.push(f) if f.group.role==2 or ($rang_moderator==1&&f.group.recommended)
+  end
+  for f in mforums
+      selt.push(f.fullname+" ("+f.group.name+")")
   ind=i if forum.name==sthreads[@thrsel.index].forum.name
   end
 destination=selector(selt,_("Forum:head_movethrlocation"),ind,-1)
 if destination!=-1
-  if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=1\&threadid=#{sthreads[@thrsel.index].id}\&destination=#{@forums[destination].name}")[0].to_i<0
+  if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=1\&threadid=#{sthreads[@thrsel.index].id}\&destination=#{mforums[destination].name}")[0].to_i<0
     speech(_("General:error"))
   else
         speech(_("Forum:info_threadmoved"))
@@ -1578,19 +1577,19 @@ for group in @groups
 end
 forums={}
 forumsgroups={}
-for forum in @forums
-  forums[forum.name]=forum.fullname
-  forumsgroups[forum.name]=forum.group.id
-end
 selt=[]
+mthreads=[]
 curr=0
-for thread in @threads
-  selt.push(thread.name+" ("+forums[thread.forum.name]+" ("+groups[forumsgroups[thread.forum]]+")"+")")
-  curr=selt.size-1 if thread.id==@thread
+for t in @threads
+  mthreads.push(t) if t.forum.group.role==2 or ($rang_moderator==1 and t.forum.group.recommended)
+  end
+for t in mthreads
+  selt.push(t.name+" ("+t.forum.fullname+" ("+t.forum.group.name+")"+")")
+  curr=selt.size-1 if t.id==@thread
 end
 destination=selector(selt,_("Forum:head_movepostlocation"),curr,-1)
 if destination!=-1
-    if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=2\&postid=#{@posts[@form.index].id}\&destination=#{@threads[destination].id}\&threadid=#{@thread}")[0].to_i<0
+    if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=2\&postid=#{@posts[@form.index].id}\&destination=#{mthreads[destination].id}\&threadid=#{@thread}")[0].to_i<0
     speech(_("General:error"))
   else
     speech(_("Forum:info_postmoved"))

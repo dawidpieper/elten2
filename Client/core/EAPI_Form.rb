@@ -1610,6 +1610,175 @@ lsel = menulr(options,true,0,"")
            @sel.focus
            end
          end
+         
+         class Player < FormChild
+           attr_reader :sound
+           attr_reader :pause
+                        def initialize(file,label="", autoplay=true, quiet=false)
+                                                      speech(label) if label!="" and quiet==false
+                                                      if file.is_a?(String)
+setsound(file)
+else
+  @sound=file
+  @file=@sound.file
+  end
+    @pause=false    
+            @ppos=0
+    if autoplay==true and @sound!=nil
+      @sound.play
+    else
+      @pause=true
+    end
+    end
+def setsound(file)
+    begin
+#if file[0..3]=="http"
+@sound = Bass::Sound.new(file,1)
+#else
+  #@sound = Bass::Sound.new(file)
+#end
+@basefrequency=@sound.frequency
+@file=file
+@sound.volume=0.8
+rescue Exception
+  @sound=nil
+  @file=nil
+  speech(_("EAPI_Common:error_playing"))
+  speech_wait
+  end
+end   
+
+def update
+  return if @sound==nil
+      if space
+        if @pause!=true
+        @ppos=@sound.position
+          @sound.pause
+        @pause=true
+              else
+                        @sound.play
+                        if @sound.position<@ppos
+                        for i in 1..20
+                        @sound.position=@ppos
+                      end
+                      end
+        @pos=0
+        @pause=false
+                end
+        end
+  if $key[80]
+    d=@sound.position.to_i
+h=d/3600
+        m=(d-d/3600*3600)/60
+  s=d-d/60*60
+  speech(sprintf("%0#{(h.to_s.size<=2)?2:d.to_s.size}d:%02d:%02d",h,m,s))
+        end
+  if $key[68]
+    d=@sound.length.to_i
+    h=d/3600
+        m=(d-d/3600*3600)/60
+  s=d-d/60*60
+  speech(sprintf("%0#{(h.to_s.size<=2)?2:d.to_s.size}d:%02d:%02d",h,m,s))
+    end
+    if $key[74]
+      @ppos=@sound.position.to_i
+      @sound.pause
+      dpos=input_text(_("EAPI_Common:type_movetosec"),"ACCEPTESCAPE",ppos.to_s)
+      dpos=@ppos if dpos=="\004ESCAPE\004"
+      dpos=dpos.to_i
+      dpos=@sound.length if dpos>@sound.length
+      @sound.position=dpos
+      @sound.play
+      for i in 1..20
+        @sound.position=dpos
+        end
+      end
+    if ($key[0x53] or ($key[0x10] and enter)) and file.include?("http")
+    tf=@file.gsub("\\","/")
+    fs=tf.split("/")
+    nm=fs.last.split("?")[0]
+    if File.extname(nm)==""
+      l=label.downcase
+      if l.include?("mp3")
+        nm+=".mp3"
+      elsif l.include?(".wav")
+        nm+=".wav"
+      elsif l.include?(".ogg")
+        nm+=".ogg"
+      else
+        nm+=".mp3"
+        end
+      end
+    loc=getfile(_("EAPI_Common:head_savelocation"),getdirectory(40)+"\\",true,"Music")
+    if loc!=nil
+            speech(_("EAPI_Common:wait_downloading"))
+                        waiting
+                        executeprocess("bin\\ffmpeg -y -i \"#{@file}\" \"#{loc}\\#{nm}\"",true)
+                        waiting_end
+                                    speech(_("General:info_saved"))
+      end
+    end
+    if $key[0x10]              ==false
+    if Input.repeat?(Input::RIGHT)
+                                @ppos=(@sound.position += 5)
+              end
+      if Input.repeat?(Input::LEFT)
+        @ppos=(@sound.position -= 5)
+      end
+            if Input.repeat?(Input::UP)
+                      @sound.volume += 0.05
+@sound.volume = 0.95 if @sound.volume > 0.95
+      end
+      if Input.repeat?(Input::DOWN)
+        @sound.volume -= 0.05
+@sound.volume = 0.05 if @sound.volume < 0.05
+end
+else
+  if Input.repeat?(Input::RIGHT)
+        @sound.pan += 0.1
+        @sound.pan = 1 if @sound.pan > 1
+      end
+      if Input.repeat?(Input::LEFT)
+        @sound.pan -= 0.1
+        @sound.pan = -1 if @sound.pan < -1
+      end
+            if Input.repeat?(Input::UP)
+        @sound.frequency += @basefrequency.to_f/100.0*2.0
+      @sound.frequency=@basefrequency*2 if @sound.frequency>@basefrequency*2
+        end
+      if Input.repeat?(Input::DOWN)
+        @sound.frequency -= @basefrequency.to_f/100.0*2.0
+      @sound.frequency=@basefrequency/2 if @sound.frequency<@basefrequency/2
+end
+end
+if $key[0x08] == true
+  reset=10
+  @sound.volume=0.8
+  @sound.pan=0
+  @sound.frequency=@basefrequency
+  end
+  @pos=@sound.position
+end
+
+def fade
+  return if @sound==nil
+  for i in 1..100
+    loop_update
+    @sound.volume-=0.02
+    if @sound.volume<=0.05
+    @sound.volume=0
+    loop_update
+    break
+    end
+    end
+  end
+
+def close
+  @sound.close if @sound!=nil
+  @sound=nil
+  end
+           end
+         
      end
      end
 #Copyright (C) 2014-2019 Dawid Pieper
