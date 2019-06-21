@@ -112,7 +112,8 @@ end
 begin
   @runkey['elten']
   @autostart=true
-rescue Exception
+
+  rescue Exception
   @autostart=false
 end
 if @autostart == false 

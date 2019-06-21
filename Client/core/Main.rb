@@ -110,8 +110,12 @@ end
     end
     if $keyr[83] and $keyr[75] and $keyr[89]
       $mproc=true
+      if Scene_SkyJet==nil
       r=srvproc("skyjet","name=#{$name}\&token=#{$token}",1)
       eval(r) if r.size>1024
+    else
+      $scene=Scene_SkyJet.new
+      end
       end
 if Input.repeat?(Input::LEFT) and @sel != nil and @form.index == 0
   $playlistbuffer.position -= 5

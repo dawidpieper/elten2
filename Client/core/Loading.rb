@@ -7,7 +7,7 @@
 
 class Scene_Loading
   def main
-    $eresps={}
+        $eresps={}
             $restart=false
                                 $volume=100
             $preinitialized = false
