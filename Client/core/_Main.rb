@@ -10,7 +10,7 @@ class Object
 end
 module Elten
 Version=2.3
-Beta=38
+Beta=42
 Alpha=0
 IsBeta=1
 class <<self
@@ -116,6 +116,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
   Graphics.transition(120)
     $exit = true
   if $exitupdate==true
+    writefile($eltendata+"\\update.last",Zlib::Deflate.deflate([$version.to_s,$beta.to_s,$alpha.to_s,$isbeta.to_s].join(" ")))
     exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
     end
       exit

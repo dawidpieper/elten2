@@ -46,7 +46,7 @@ end
 return res
                     end
                                                     data = "POST /translate_a/single?client=gtx\&sl=#{from}\&tl=#{to}\&dt=t\&ie=utf-8\&oe=utf-8\&dt=bd HTTP/1.1\r\nAccept-Encoding: identity\r\nContent-Length: #{textc.size.to_s}\r\nHost: www.google.com\r\nContent-Type: application/x-www-form-urlencoded\r\nConnection: close\r\nUser-Agent: Elten/#{$version.to_s}\r\n\r\n#{textc}"
-                          tt = connect("translate.google.com",80,data,1024+(4*textc.size))
+                           tt = connect("translate.google.com",80,data,1024+(4*textc.size))
         errc=200
         if (/HTTP\/1.1 (\d\d\d)/=~tt)!=nil
           errc=$1.to_i

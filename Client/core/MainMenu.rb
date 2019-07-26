@@ -14,7 +14,7 @@ def initialize
   end
   def main
         srvstate
-        sel = [_("MainMenu:opt_community"),_("MainMenu:opt_media"),_("MainMenu:opt_files"),_("MainMenu:opt_programs"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
+        sel = [_("MainMenu:opt_community"),_("MainMenu:opt_addons"),_("MainMenu:opt_programs"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
                 @sel = menulr(sel,true,0,@header)
         @header = ""
     loop do
@@ -23,26 +23,22 @@ loop_update
       if $scene != self
         break
       end
-      if enter or (Input.trigger?(Input::DOWN) and @sel.index != 2)
+      if enter or (Input.trigger?(Input::DOWN))
         index = @sel.index
         case @sel.index
         when 0
           community
           when 1
-            media
+            addons
                         when 2
-            $scene = Scene_Files.new
-            close
-            break
-            when 3
               programs
-          when 4
+          when 3
             tools
-            when 5
+            when 4
               settings
-            when 6
+            when 5
               help
-          when 7
+          when 6
             exit
           end
           if $scene == self
@@ -549,11 +545,10 @@ if $portable == 1
       
       end
     end
-    def media
+    def addons
     Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_mediacatalog"),_("MainMenu:opt_youtube")],true,0,"",true)
-    @sel.disable_item(0) if $eltsuspend
-    @sel.focus
+    @sel = menulr([_("MainMenu:opt_files"),_("MainMenu:opt_youtube")],true,0,"",true)
+        @sel.focus
     loop do
 loop_update
       @sel.update
@@ -566,7 +561,7 @@ loop_update
       if enter
         case @sel.index
         when 0
-          $scene = Scene_Media.new
+          $scene = Scene_Files.new
           close
           break
         when 1

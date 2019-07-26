@@ -35,7 +35,7 @@
         # Updates a form
         def update
                             if $key[0x09] == true
-            if $key[0x10] == false
+            if $key[0x10] == false and @fields[@index].subindex==@fields[@index].maxsubindex
               ind=@index
               @index += 1
               while @fields[@index] == nil and @index<@fields.size
@@ -45,7 +45,7 @@
                 @index=ind
                 play("border")
             end
-          else
+          elsif $key[0x10] and @fields[@index].subindex==0
 ind=@index
             @index-=1
             while @fields[@index]==nil
@@ -146,8 +146,7 @@ loop_update
     attr_accessor :audiotext
     attr_accessor :check
     def initialize(header="",type="",text="",quiet=false,init=false,silent=false)
-      
-      @header=header
+            @header=header
 @flags=0
 @flags=type if type.is_a?(Integer)
 @silent=silent
@@ -712,7 +711,54 @@ end
       @bindex,@eindex,@type,@param=bindex,eindex,type,param
     end
   end
-        end
+end
+
+class Editor < FormChild
+attr_accessor :silent
+def text
+@field.text
+end
+def origtext
+@field.origtext
+end
+def audiotext
+@field.audiotext
+end
+def check
+@field.check
+end
+
+def initialize(header="",type="",text="",quiet=false,init=false,silent=false)
+@field=Edit.new(header,type,text,quiet,init,silent)
+@form=Form.new([@field])
+end
+
+def subindex
+@form.index
+end
+
+def maxsubindex
+@form.fields.size-1
+end
+
+def update
+@form.update
+end
+
+def settext(text,reset=true)
+@field.settext(text,reset)
+end
+def finalize
+@field.finalize
+end
+def text_str
+@field.text_str
+end
+
+def focus
+@form.focus
+end
+end
       
     # A listbox class
     class Select < FormChild
@@ -743,6 +789,7 @@ def initialize(options,border=true,index=0,header="",quiet=false,multi=false,lr=
       self.index = index
             @commandoptions = []
                         @hotkeys = {}
+                        @grayed = []
                         for i in 0..options.size - 1
               if options[i]!=nil
 if lr
@@ -752,13 +799,13 @@ end
 end
 opt=options[i]
 opt.delete!("&") if lr
-@commandoptions.push(opt) if options[i] != nil
-            end
+end
+@commandoptions.push(opt)
+@grayed[@commandoptions.size-1]=true if opt==nil||opt==""
                         end            
-            @grayed = []
-                                    @selected = []
+                                                @selected = []
             for i in 0..@commandoptions.size - 1
-              @grayed[i] = false
+              @grayed[i] = false if @grayed[i]!=true
               @selected[i] = false
               end
             @border = border
@@ -1569,6 +1616,9 @@ lsel = menulr(options,true,0,"")
          def format_rows(col=0)
            opts=[]
            for r in @rows
+             if r==nil
+               o=nil
+               else
              o=""
                           o=r[col].to_s if r[col]!=nil
              for c in 0...@columns.size
@@ -1576,7 +1626,8 @@ lsel = menulr(options,true,0,"")
                o+=((c==0)?":":((o[-1..-1]!=":"&&o[-1..-1]!=".")?",":""))+" "
                o+=(@columns[c]||"")+": "+r[c].to_s
                end
-               end
+             end
+             end
              opts.push(o)
            end
            return opts
@@ -1683,7 +1734,7 @@ h=d/3600
     if $key[74]
       @ppos=@sound.position.to_i
       @sound.pause
-      dpos=input_text(_("EAPI_Common:type_movetosec"),"ACCEPTESCAPE",ppos.to_s)
+      dpos=input_text(_("EAPI_Common:type_movetosec"),"ACCEPTESCAPE",@ppos.to_s)
       dpos=@ppos if dpos=="\004ESCAPE\004"
       dpos=dpos.to_i
       dpos=@sound.length if dpos>@sound.length

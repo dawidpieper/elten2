@@ -174,9 +174,9 @@ return
         end
       inpt.settext(selectcontact) if Input.trigger?(Input::UP) or Input.trigger?(Input::DOWN)
       if enter
-        user=inpt.text_str.delete("\r\n").delete("\004LINE\004")
-        user=finduser(user) if finduser(user).upcase==user.upcase
-        if user_exist(user) == false
+        user=inpt.text_str.delete("\r\n").gsub("\004LINE\004","")
+                user=finduser(user) if finduser(user).upcase==user.upcase
+                if user_exist(user) == false
           speech(_("Notes:error_usernotfound"))
         else
           nt=srvproc("notes","name=#{$name}\&token=#{$token}\&noteid=#{note.id}\&addshare=1\&user=#{user}")
@@ -184,7 +184,7 @@ return
             speech(_("General:error"))
             speech_wait
           else
-            speech(s_("Notes:info_sharedwith",['user'=>user]))
+            speech(s_("Notes:info_sharedwith",{'user'=>user}))
             speech_wait
             shares.push(user)
             sharest=shares+[_("Notes:btn_add")]

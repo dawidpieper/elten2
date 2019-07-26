@@ -439,7 +439,7 @@ def position=(val,bytes=false)
   val=0.15 if val<0.15
   return 0 if @closed
   @posupdated=true
-  if @type == 100
+    if @type == 100
     @updating=true
         val*=@basefrequency*4 if bytes==false
 attribs=[]
@@ -459,7 +459,7 @@ end
                     @omit=true
                     return
           end
-                                                  end
+        end
                           @cls.stop
                   @cls.free
                                     @cls=Bass::Stream.new(@file,val*cmp)

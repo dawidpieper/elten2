@@ -139,8 +139,8 @@ sel.disable_item(2)
              when 3
                $scene = Scene_Polls_Create.new
                when 4
-               $scene=Scene_Polls.new
-               when 5
+                                $scene=Scene_Polls.new
+                            when 5
                  $scene=Scene_Main.new
          end
          play("menu_close")
@@ -164,8 +164,8 @@ class Scene_Polls_Create
       end
     if escape
 loop_update
-      $scene=Scene_Polls.new
-      return
+               $scene=Scene_Polls.new
+                   return
       break
     end
    if enter
@@ -268,15 +268,20 @@ else
   end
 
   class Scene_Polls_Answer
-  def initialize(id)
+  def initialize(id,toscene=nil)
     @id=id
+    @toscene=toscene
     end
   def main
 pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{@id.to_s}")
 if pl[0].to_i<0
   speech(_("General:error"))
   speech_wait
-  $scene=Scene_Polls.new
+  if @toscene==nil
+               $scene=Scene_Polls.new
+             else
+               $scene=@toscene
+               end
   return
 end
 @name=pl[2].to_s.delete("\r\n")
@@ -314,7 +319,11 @@ loop do
   loop_update
   @form.update
   if escape
-    $scene=Scene_Polls.new(@id)
+    if @toscene==nil
+               $scene=Scene_Polls.new(@id)
+             else
+               $scene=@toscene
+               end
     return
     break
   end
@@ -341,12 +350,20 @@ end
     else
       speech(_("Polls:info_voted"))
       speech_wait
-      $scene=Scene_Polls.new(@id)
+      if @toscene==nil
+               $scene=Scene_Polls.new(@id)
+             else
+               $scene=@toscene
+               end
     return
     break
       end
   elsif @form.index==@form.fields.size-1
-        $scene=Scene_Polls.new(@id)
+        if @toscene==nil
+               $scene=Scene_Polls.new(@id)
+             else
+               $scene=@toscene
+               end
     return
     break
     end
@@ -357,8 +374,9 @@ end
   end
   
   class Scene_Polls_Results
-    def initialize(id)
+    def initialize(id,toscene=nil)
       @id=id
+      @toscene=toscene
     end
     def main
       pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{@id.to_s}")
@@ -385,7 +403,11 @@ rescue Exception
 if pl[0].to_i<0
   speech(_("General:error"))
   speech_wait
-  $scene=Scene_Polls.new(@id)
+  if @toscene==nil
+               $scene=Scene_Polls.new
+             else
+               $scene=@toscene
+               end
   return
 end
 txt+="#{_("Polls:txt_phr_votes")}: #{pl[1]}\r\n"
@@ -417,7 +439,11 @@ end
 txt+="\r\n\r\n"
   end
 input_text(s_("Polls:read_results",{'name' => @name}),"READONLY",txt)
-$scene=Scene_Polls.new(@id)
+if @toscene==nil
+               $scene=Scene_Polls.new(@id)
+             else
+               $scene=@toscene
+               end
     end
     end
   

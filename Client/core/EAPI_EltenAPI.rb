@@ -15,12 +15,12 @@ return buf<<0
 end
   
   def deunicode(str,nulled=false)
-            str.chop! if str[-1..-1]=="\0" and (str.bytesize.to_i/2!=str.bytesize.to_f/2.0)
+                    str.chop! if str[-1..-1]=="\0" and (str.bytesize.to_i/2!=str.bytesize.to_f/2.0)
         str<<"\0\0" if nulled and str[-2..-1]!="\0\0"
-    sz=str.bytesize
+    sz=str.bytesize/2
     sz=-1 if nulled
                 buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,nil,0,nil,nil)
-                                                Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,buf,buf.size,nil,nil)
+                                                                Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,buf,buf.size,nil,nil)
                                                                     return buf[0..(buf.index("\0")||0)-1]
                                   end
                                   
@@ -401,8 +401,8 @@ end
 def getdirectory(type)
   dr = "\0" * 1040
   Win32API.new("shell32","SHGetFolderPathW",'iiiip','i').call(0,type,0,0,dr)
-  fdr=deunicode(dr)
-      return fdr
+    fdr=deunicode(dr)
+        return fdr
   end
   
   # @note this function is reserved

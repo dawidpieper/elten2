@@ -238,7 +238,7 @@ for i in 4..msg.size-1
 speech @sel_conversations.commandoptions[@sel_conversations.index]
       end
       end
-    if escape or Input.trigger?(Input::LEFT)
+    if escape or Input.trigger?(Input::LEFT) or @sel_conversations.commandoptions.size==0
       if @conversations_sp!="new"
       load_users
       loop_update
@@ -375,9 +375,9 @@ when 2
      mwn=$agent_msg
           load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true) if mwn>@messages_wn
      @messages_wn=mwn
-    end
-@form_messages.update
-    if escape or ((Input.trigger?(Input::LEFT) and @form_messages.index==0) and @form_messages.fields[0]==@sel_messages)
+   end
+   @form_messages.update
+       if escape or ((Input.trigger?(Input::LEFT) and @form_messages.index==0) and @form_messages.fields[0]==@sel_messages) or (@sel_messages.commandoptions.size-@sel_messages.grayed.count(true))==0
       if @form_messages.fields[0]==@sel_messages
       if @messages_sp!="flagged" and @messages_sp!="search"
       load_conversations(@messages_user,@messages_sp)

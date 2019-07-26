@@ -5,9 +5,6 @@
 
 #Open Public License is used to licensing this app!
 
-# Implementation of String#byteslice since RubyMotion (at least as of 3.6)
-# does not implement it.
-#------------------------------------------------------------------------------
 class String
 
   # To get a byte range out of a possible multibyte string, force encoding to 

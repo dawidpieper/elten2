@@ -38,9 +38,7 @@ class Scene_Forum
             group=tforum.group.id if tforum.name==forum
           end
           group=-5 if @preparam==-5
-          for i in 0..@groups.size-1
-  @grpindex[0]=i+2 if @groups[i].id==group
-end
+@grpsetindex=group if group>0
 @grpindex[0]=1 if @preparam==-5
 i=0
 for tforum in @forums
@@ -77,6 +75,7 @@ else
   def groupsmain(type=-1)
         type=(@lastlist||0) if type==-1
     @lastlist=type
+    index=0
     case type
     when 0
       @grpindex.delete_at(-1) while @grpindex.size>1
@@ -84,7 +83,7 @@ sgroups=[]
 spgroups=[]
 sgloc=false
     for g in @groups
-      if g.role>0
+      if g.role==1||g.role==2
       sgroups.push(g)
     end
     if sgloc==false and g.lang.downcase==$language[0..1].downcase and g.recommended
@@ -96,16 +95,18 @@ sgloc=false
     sgroups.sort! {|a,b|
     x=b.lang
     x="_" if b.lang.downcase==$language[0..1].downcase
-    x+=sprintf("%04d",a.id)
+    x+=sprintf("%04d",b.id)
     y=a.lang
     y="_" if a.lang.downcase==$language[0..1].downcase
-    y+=sprintf("%04d",b.id)
-    x<=>y
+    y+=sprintf("%04d",a.id)
+        y<=>x
     }
         grpheadindex=2
         grpselt=[]
-        for group in sgroups
+        for i in 0...sgroups.size
+          group=sgroups[i]
       grpselt.push([group.name,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
+      @grpindex[0]=i+grpheadindex if group.id==@grpsetindex
     end
         forfol=[]
     for forum in @forums
@@ -127,7 +128,10 @@ sgloc=false
       flr+=thread.readposts
             end
           end
-          grpselt = [[_("Forum:opt_followedthreads"), nil, ft.to_s, fp.to_s, (fp-fr).to_s], [_("Forum:opt_followedforums"), forfol.size.to_s, flt.to_s, flp.to_s, (flp-flr).to_s]]+grpselt+[[_("Forum:opt_groupsrecommended")],[_("Forum:opt_groupsopen")],[_("Forum:opt_search")]]
+          grpselt = [[_("Forum:opt_followedthreads"), nil, ft.to_s, fp.to_s, (fp-fr).to_s], [_("Forum:opt_followedforums"), forfol.size.to_s, flt.to_s, flp.to_s, (flp-flr).to_s]]+grpselt+[[_("Forum:opt_groupsrecommended")],[_("Forum:opt_groupsopen")],[_("Forum:opt_groupsinvited")],[_("Forum:opt_groupsall")],[_("Forum:opt_search")]]
+          s=0
+          @groups.each {|g| s+=1 if g.role==5}
+          grpselt[grpheadindex+sgroups.size+2]=[nil] if s==0
           grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
           when 1
             sgroups=[]
@@ -151,7 +155,35 @@ sgloc=false
     when 2
                   sgroups=[]
                               for g in @groups
-              if g.open
+              if g.open&&g.public&&!g.recommended
+                              sgroups.push(g)
+                              end
+            end
+            sgroups.sort! {|a,b| b.posts<=>a.posts}
+       grpheadindex=0
+        grpselt=[]
+        for group in sgroups
+      grpselt.push([group.name+": "+group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
+    end     
+    grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+    when 3
+                            sgroups=[]
+                              for g in @groups
+              if g.role==5
+                              sgroups.push(g)
+                              end
+            end
+            sgroups.sort! {|a,b| b.posts<=>a.posts}
+       grpheadindex=0
+        grpselt=[]
+        for group in sgroups
+      grpselt.push([group.name+": "+group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
+    end     
+    grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+    when 4
+                      sgroups=[]
+                              for g in @groups
+              if g.public||g.open
                               sgroups.push(g)
                               end
             end
@@ -164,6 +196,7 @@ sgloc=false
     grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
     end
         @grpindex[type]=0 if @grpindex[type]==nil
+        @grpsetindex=nil
                   @grpsel=TableSelect.new(grpselh,grpselt,@grpindex[type],_("Forum:head"))
     loop do
       loop_update
@@ -179,6 +212,10 @@ sgloc=false
           elsif @grpsel.index==grpheadindex+sgroups.size+1
           return groupsmain(2)
           elsif @grpsel.index==grpheadindex+sgroups.size+2
+          return groupsmain(3)
+          elsif @grpsel.index==grpheadindex+sgroups.size+3
+          return groupsmain(4)
+          elsif @grpsel.index==grpheadindex+sgroups.size+4
           @query=input_text(_("Forum:type_searchphrase"),"ACCEPTESCAPE")
           loop_update
           if @query!="\004ESCAPE\004"
@@ -201,17 +238,22 @@ sgloc=false
           end
           else
         g=sgroups[@grpsel.index-grpheadindex]
-            return forumsmain(g.id) if g.role==1 or g.role==2 or g.public==true
+                            return forumsmain(g.id) if g.role==1 or g.role==2 or g.public
         end
         end
       if alt
-        menut=[_("Forum:opt_open"),nil,nil,nil,_("General:str_refresh"),_("General:str_cancel")]
+        menut=[_("Forum:opt_open"),nil,nil,nil,nil,nil,_("General:str_refresh"),_("General:str_cancel"),_("Forum:opt_newgroup")]
         if @grpsel.index>=grpheadindex and @grpsel.index<grpheadindex+sgroups.size
         menut[2] = _("Forum:opt_members")
-        menut[3] = _("Forum:opt_join") if sgroups[@grpsel.index-grpheadindex].role==0 and sgroups[@grpsel.index-grpheadindex].open
-        menut[3] = _("Forum:opt_leave") if (sgroups[@grpsel.index-grpheadindex].role==1 or sgroups[@grpsel.index-grpheadindex].role==2) and sgroups[@grpsel.index-grpheadindex].founder!=$name
-        end
-                sel = menuselector(menut)
+        menut[3] = _("Forum:opt_invite") if sgroups[@grpsel.index-grpheadindex].role==2
+                menut[4] = _("Forum:opt_join") if sgroups[@grpsel.index-grpheadindex].role==0 and sgroups[@grpsel.index-grpheadindex].open and sgroups[@grpsel.index-grpheadindex].public
+                menut[4] = _("Forum:opt_invitationaccept") if sgroups[@grpsel.index-grpheadindex].role==5
+        menut[5] = _("Forum:opt_leave") if (sgroups[@grpsel.index-grpheadindex].role==1 or sgroups[@grpsel.index-grpheadindex].role==2) and sgroups[@grpsel.index-grpheadindex].founder!=$name
+        menut[5] = _("Forum:opt_invitationrefuse") if sgroups[@grpsel.index-grpheadindex].role==5
+                menut.push(_("Forum:opt_editgroup")) if sgroups[@grpsel.index-grpheadindex].founder==$name
+        menut.push(_("Forum:opt_deletegroup")) if sgroups[@grpsel.index-grpheadindex].forums==0 and sgroups[@grpsel.index-grpheadindex].founder==$name
+      end
+                     sel = menuselector(menut)
                 case sel
         when 0
                         @grpindex[type]=@grpsel.index
@@ -267,6 +309,10 @@ sgloc=false
                 t+=" (#{_("Forum:opt_phr_founder")})"
               elsif roles.last==2
                 t+=" (#{_("Forum:opt_phr_moderator")})"
+              elsif roles.last==3
+                t+=" (#{_("Forum:opt_phr_banned")})"
+              elsif roles.last==5
+                t+=" (#{_("Forum:opt_phr_invited")})"
               end
               t+= ". "+getstatus(users.last)
               selt.push(t)
@@ -405,7 +451,34 @@ end
                             end
                           end
                           when 3
-                                        if sgroups[@grpsel.index-grpheadindex].role==0
+                            u=input_text(_("Forum:type_invite"), "ACCEPTESCAPE")
+                            if u!="\004ESCAPE\004"
+                                                          u=finduser(u) if u.downcase==finduser(u).downcase
+                            if user_exist(u)==false
+                              speech(_("Forum:error_usernotfound"))
+                              speech_wait
+                              else
+                                                          r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=invite\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}\&user=#{u}")
+                                                          case r[0].to_i
+                                                          when 0
+                                                            speech(_("Forum:info_invited"))
+                                                            when -1
+                                                              speech(_("General:error_db"))
+                                                              when -2
+                                                                speech(_("General:error_tokenexpired"))
+                                                                when -3
+                                                                  speech(_("General:error_permissions"))
+                                                                  when -4
+                                                                    speech(_("Forum:error_usernotfound"))
+                                                                    when -5
+                                                                      speech(_("Forum:error_useralreadyingroup"))
+                                                                    end
+                                                                    speech_wait
+                            end
+                          end
+                          loop_update
+                          @grpsel.focus
+                          when 4
               confirm(s_("Forum:alert_join", {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
               g=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=join\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
               if g[0].to_i==0
@@ -415,7 +488,9 @@ end
                 speech(_("General:error"))
                 end
               }
-            else
+              speech_wait
+            @grpsel.focus
+            when 5
               confirm(s_("Forum:alert_leave", {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
               g=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=leave\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
               if g[0].to_i==0
@@ -425,16 +500,64 @@ end
                 speech(_("General:error"))
                 end
               }
-            end
-            speech_wait
+                        speech_wait
             @grpsel.focus
-        when 4
+        when 6
                           @grpindex[type]=@grpsel.index
                 getcache
         return groupsmain
-            when 5
+            when 7
           $scene=Scene_Main.new
           return
+          when 8
+            newgroup
+            when 9
+              g=sgroups[@grpsel.index-grpheadindex]
+                              fields=[Edit.new(_("Forum:type_groupname"),"",g.name,true), Edit.new(_("Forum:type_groupdescription"),"multiline",g.description,true), Select.new([_("Forum:opt_grouptypehidden"),_("Forum:opt_grouptypepublic")],true,g.public.to_i,_("Forum:head_grouptype"),true),Select.new([_("Forum:opt_groupjointypeopen"),_("Forum:opt_groupjointypemoderated")],true,g.open.to_i,_("Forum:head_groupjointype"),true),nil,Button.new(_("General:str_cancel"))]
+                              if g.recommended
+                                fields[2].disable_item(0)
+                                fields[3].disable_item(0)
+                                end
+          form=Form.new(fields)
+          loop do
+            loop_update
+            form.update
+            if form.fields[4]==nil and form.fields[0].text!=""
+              form.fields[4]=Button.new(_("General:str_save"))
+            elsif form.fields[4]!=nil and form.fields[0].text==""
+              form.fields[4]=nil
+            end
+            case form.fields[2].index
+                            when 0
+                              form.fields[3].commandoptions=[_("Forum:opt_groupjointypeclosed"),_("Forum:opt_groupjointypemoderated")]
+                                          when 1
+                            form.fields[3].commandoptions=[_("Forum:opt_groupjointypemoderated"),_("Forum:opt_groupjointypeopen")]
+            end
+            if form.fields[4]!=nil and form.fields[4].pressed?
+                                                        r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=edit\&groupid=#{g.id.to_s}\&groupname=#{form.fields[0].text.urlenc}\&bufdescription=#{buffer(form.fields[1].text).to_s}\&public=#{form.fields[2].index.to_s}\&open=#{form.fields[3].index.to_s}")
+                                          if r[0].to_i<0
+                                            speech(_("General:error"))
+                                          else
+                                            speech(_("General:info_saved"))
+                                          end
+                                          speech_wait
+                                          getcache
+                                          return groupsmain(@lastlist)
+                                                        end
+            break if escape or form.fields[5].pressed?
+          end
+          loop_update
+            when 10
+              confirm(s_("Forum:alert_deletegroup", {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
+              if srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=delete\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")[0].to_i<0
+                speech(_("General:error"))
+              else
+                speech(_("Forum:info_groupdeleted"))
+              end
+              speech_wait
+              getcache
+              return groupsmain(type)
+              }
         end
       end
       if type==0
@@ -449,6 +572,45 @@ end
       end
       end
     end
+    def newgroup
+      ln=[]
+      lnindex=0
+      for lk in $langs.keys
+        l=$langs[lk]
+        ln.push(l['name']+" ("+l['nativeName']+")")
+        lnindex=ln.size-1 if $language.downcase[0..1]==lk.downcase[0..1]
+        end
+                fields=[Edit.new(_("Forum:type_groupname"),"","",true), Edit.new(_("Forum:type_groupdescription"),"multiline","",true), Select.new(ln,true,lnindex,_("Forum:head_language"),true), Select.new([_("Forum:opt_grouptypehidden"),_("Forum:opt_grouptypepublic")],true,0,_("Forum:head_grouptype"),true),Select.new([_("Forum:opt_groupjointypeopen"),_("Forum:opt_groupjointypemoderated")],true,0,_("Forum:head_groupjointype"),true),nil,Button.new(_("General:str_cancel"))]
+          form=Form.new(fields)
+          loop do
+            loop_update
+            form.update
+            if form.fields[5]==nil and form.fields[0].text!=""
+              form.fields[5]=Button.new(_("Forum:btn_groupcreate"))
+            elsif form.fields[5]!=nil and form.fields[0].text==""
+              form.fields[5]=nil
+            end
+            case form.fields[3].index
+                            when 0
+                              form.fields[4].commandoptions=[_("Forum:opt_groupjointypeclosed"),_("Forum:opt_groupjointypemoderated")]
+                                          when 1
+                            form.fields[4].commandoptions=[_("Forum:opt_groupjointypemoderated"),_("Forum:opt_groupjointypeopen")]
+            end
+            if form.fields[5]!=nil and form.fields[5].pressed?
+                                          r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=create\&groupname=#{form.fields[0].text.urlenc}\&bufdescription=#{buffer(form.fields[1].text).to_s}\&lang=#{$langs.keys[form.fields[2].index].to_s}\&public=#{form.fields[3].index.to_s}\&open=#{form.fields[4].index.to_s}")
+                                          if r[0].to_i<0
+                                            speech(_("General:error"))
+                                          else
+                                            speech(_("Forum:info_groupcreated"))
+                                          end
+                                          speech_wait
+                                          getcache
+                                          return groupsmain(@lastlist)
+                                                        end
+            break if escape or form.fields[6].pressed?
+          end
+          loop_update
+      end
     def forumsmain(group=-1)
       group=@lastgroup if group==-1
       group=0 if group==-1
@@ -492,9 +654,12 @@ for g in @groups
           groupclass=Struct_Forum_Group.new
           @groups.each {|g| groupclass=g if g.id==group}
           if groupclass.founder==$name or groupclass.role==2
-          mns+=[_("Forum:opt_newforum"),_("Forum:opt_editforum")]
+          mns+=[_("Forum:opt_newforum")]
+          if sforums.size>0
+          mns+=[_("Forum:opt_editforum"),_("Forum:opt_changeforumpos")]
           mns.push(_("Forum:opt_deleteforum")) if sforums[@frmsel.index].posts==0
-          end
+        end
+        end
           case menuselector(mns)
           when 0
             @frmindex=@frmsel.index
@@ -579,7 +744,24 @@ else
                   end
                   loop_update
                   @frmsel.focus
-                when 7
+                  when 7
+                    selt=[]
+                    sforums.each {|f| selt.push(f.fullname)}
+                    ind=selector(selt+[_("Forum:opt_changeforumposend")],_("Forum:head_changeforumpos"),0,-1)
+                    if ind!=-1
+                      r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=forumchangepos\&forum=#{sforums[@frmsel.index].name}\&position=#{ind.to_s}")
+                      if r[0].to_i<0
+                        speech(_("General:error"))
+                      else
+                        speech(_("General:info_saved"))
+                      end
+                      speech_wait
+                      getcache
+                      return forumsmain(group)
+                    else
+                      @frmsel.focus
+                      end
+                when 8
                   confirm(_("Forum:alert_deleteforum")) {
                                     f=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=forumdelete\&forum=#{sforums[@frmsel.index].name}")
                   if f[0].to_i<0
@@ -688,7 +870,7 @@ end
           end
           sthreads.push(t) if folfor.include?(t.forum.name) and t.readposts==0
           when -3
-          sthreads.push(t) if @results.include?(t.id)
+          sthreads.push(t) if @results.include?(t.id) and t.forum.group.recommended or t.forum.group.role==1 or t.forum.group.role==2
         when -2
         sthreads.push(t) if t.followed==true and t.readposts<t.posts
           when -1

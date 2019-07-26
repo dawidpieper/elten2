@@ -557,7 +557,7 @@ if @recst == 0
 speech(_("Blog:wait"))
 speech_wait
 bufid = buffer(text)
-bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postname=#{postname}\&buffer=#{bufid}\&add=1\&privacy=#{@form.fields[4].index.to_s}"
+bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postname=#{postname.urlenc}\&buffer=#{bufid}\&add=1\&privacy=#{@form.fields[4].index.to_s}"
    blogtemp = srvproc("blog_posts_mod",bt)
  else
    waiting

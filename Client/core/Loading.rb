@@ -7,7 +7,7 @@
 
 class Scene_Loading
   def main
-        $eresps={}
+            $eresps={}
             $restart=false
                                 $volume=100
             $preinitialized = false
@@ -231,6 +231,11 @@ if enter
     $soundthemepath = "Audio"
     end
                     $language = readini($configdata + "\\language.ini","Language","Language","en_GB")
+                    if FileTest.exists?("Data/langs.dat")
+                      $langs=load_data("Data/langs.dat")
+                    else
+                      $langs={}
+                      end
                     if !FileTest.exists?("Data/locale.dat")
                     mod="\0"*1024
 Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,mod,mod.size)
@@ -272,6 +277,22 @@ license
         writeini($configdata + "\\interface.ini","Interface","MainVolume","80")
         else
         $volume = volume
+      end
+      if FileTest.exists?($eltendata+"\\update.last")
+        l=Zlib::Inflate.inflate(read($eltendata+"\\update.last")).split(" ")
+        lversion,lbeta,lalpha,lisbeta=l[0].to_f,l[1].to_i,l[2].to_i,l[3].to_i
+        if (lversion<2.3||lbeta<42) and false
+          if $language[0..1].downcase=='pl'
+            speech("Uwaga! Od przyszłych wersji Eltena usunięte zostaną pliki udostępnione oraz awatary. W razie chęci zachowania obecnie udostępnianych plików, prosimy o ich pobranie. Naciśnij enter, aby kontynuować.")
+          else
+            speech("Warning! Uploads and avatars will be deleted from the next versions of Elten. Users are asked to download their data now in case of lack of local backups. Press enter to continue.")
+          end
+          loop do
+            loop_update
+           break if enter
+            end
+          end
+        File.delete($eltendata+"\\update.last")
         end
         autologin = readini($configdata + "\\login.ini","Login","AutoLogin","0").to_i
         if autologin.to_i > 0 and $offline!=true
