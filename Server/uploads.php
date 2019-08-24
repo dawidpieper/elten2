@@ -1,14 +1,9 @@
 ﻿<?php
 require("header.php");
-$zapytanie = "SELECT `filename`, `file` FROM `uploads` WHERE `owner`='".$_GET['searchname']."' ORDER BY `filename`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+$q = mquery("SELECT `filename`, `file` FROM `uploads` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' ORDER BY `filename`");
 $ile=0;
 $tekst = "";
-while($wiersz = mysql_fetch_row($idzapytania)) {
+while($wiersz = mysql_fetch_row($q)) {
 $ile = $ile + 1;
 $tekst.="\r\n".$wiersz[0]."\r\n".$wiersz[1];
 }

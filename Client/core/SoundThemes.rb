@@ -8,22 +8,9 @@
 class Scene_SoundThemes
   def main(canceled=false)
     @return = false
-stmp = Win32API.new($eltenlib,"FilesInDir",'p','p').call(utf8($soundthemesdata + "\\inis"))
-stm = []
-c = 0
-stm[c] = ""
-for i in 0..imax = stmp.size - 1
-  stm[c] += stmp[i..i]
-  if stmp[i..i] == "\n"
-    c += 1
-    stm[c] = "" if i != imax
-    end
-  end
-  st = []
-  for i in 0..stm.size - 1
-    stm[i].delete!("\n")
-    st.push(stm[i]) if stm[i] != "." and stm[i] != ".."
-    end
+st=Dir.entries($soundthemesdata + "\\inis")
+st.delete("..")
+st.delete(".")
 @st = st
 $soundtheme = [0..st.size - 1]
 for i in 0..st.size - 1
@@ -105,7 +92,7 @@ loop_update
       @st_path = []
       @st_file = []
    for i in 1..sttemp.size - 1
-     sttemp[i].delete!("\n")
+     sttemp[i].delete!("\r\n")
      download($url + sttemp[i],"st.ini")
      @st_file[i] = sttemp[i]
          st_name = readini(".\\st.ini","SoundTheme","Name")
@@ -125,56 +112,24 @@ loop_update
      return
    end
    if enter
-          downloadtheme(@st_file[@sel.index + 1],@st_name[@sel.index + 1],@st_path[@sel.index + 1])
+          downloadtheme(@st_file[@sel.index],@st_name[@sel.index],@st_path[@sel.index])
      return
      end
    end
  end
  def downloadtheme(ini,name,path)
-bgmt = Win32API.new($eltenlib,"FilesInDir",'p','p').call(".\\Audio\\BGM")
-bgst = Win32API.new($eltenlib,"FilesInDir",'p','p').call(".\\Audio\\BGS")
-met = Win32API.new($eltenlib,"FilesInDir",'p','p').call(".\\Audio\\ME")
-set = Win32API.new($eltenlib,"FilesInDir",'p','p').call(".\\Audio\\SE")
-bgm = []
-c = 0
-bgm[c] = ""
-for i in 0..imax = bgmt.size - 1
-    bgm[c] += bgmt[i..i] if bgmt[i..i] != "\n"
-  if bgmt[i..i] == "\n"
-    c += 1
-    bgm[c] = "" if i != imax
-    end
-  end
-  bgs = []
-c = 0
-bgs[c] = ""
-for i in 0..imax = bgst.size - 1
-  bgs[c] += bgst[i..i] if bgst[i..i] != "\n"
-  if bgst[i..i] == "\n"
-    c += 1
-    bgs[c] = "" if i != imax
-    end
-  end
-  me = []
-c = 0
-me[c] = ""
-for i in 0..imax = met.size - 1
-  me[c] += met[i..i] if met[i..i] != "\n"
-  if met[i..i] == "\n"
-    c += 1
-    me[c] = "" if i != imax
-    end
-  end
-  se = []
-c = 0
-se[c] = ""
-for i in 0..imax = set.size - 1
-  se[c] += set[i..i] if set[i..i] != "\n"
-  if set[i..i] == "\n"
-    c += 1
-    se[c] = "" if i != imax
-    end
-  end
+   bgm=Dir.entries(".\\Audio\\BGM")
+bgs=Dir.entries(".\\Audio\\BGS")
+me=Dir.entries(".\\Audio\\ME")
+se=Dir.entries(".\\Audio\\SE")
+bgm.delete("..")
+bgm.delete(".")
+bgs.delete("..")
+bgs.delete(".")
+me.delete("..")
+me.delete(".")
+se.delete("..")
+se.delete(".")
   Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path), nil)
   Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGM"),nil)
   Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGS"), nil)

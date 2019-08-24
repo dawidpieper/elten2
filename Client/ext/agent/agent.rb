@@ -1,14 +1,12 @@
 Encoding.default_internal=Encoding::UTF_8
 $VERBOSE = nil
 require "json/pure"
-require "openssl"
 require "digest"
 require "digest/sha1"
 require "digest/sha2"
 require "digest/md5"
 require "digest/rmd160"
 require "digest/bubblebabble"
-require "openssl/digest"
 require "net-http2"
 require "fiddle"
 require "zlib"
@@ -69,12 +67,15 @@ $appid=IO.read($configdata+"\\appid.dat")
 end
 if $*.include?("/autostart")
 $name=readini($configdata+"\\login.ini","Login","Name","")
-erequest("login","login=1\&name=#{$name}\&token=#{readini($configdata+"\\login.ini","Login","Token","")}\&version=#{readini("elten.ini","Elten","Version","")}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}") {	|ans|
+erequest("login","login=1\&name=#{$name}\&token=#{readini($configdata+"\\login.ini","Login","Token","")}\&version=#{readini("elten.ini","Elten","Version","")}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}\&crp=#{Base64.urlsafe_encode64(cryptmessage(JSON.generate({'name'=>$name,'time'=>Time.now.to_i})))}") {|ans|
+if ans!=nil
 d=ans.split("\r\n")
 if d[0].to_i==0
 $token=d[1]
+run("bin\\elten_tray.bin /autostart")
 else
 exit
+end
 end
 }
 sleep(0.1) while !$token
@@ -88,9 +89,12 @@ $upd={}
 $upd['version']=readini("./elten.ini","Elten","Version","0").to_f
 $upd['alpha']=readini("./elten.ini","Elten","Alpha","0").to_i
 $upd['beta']=readini("./elten.ini","Elten","Beta","0").to_i
+$upd['isbeta']=readini("./elten.ini","Elten","IsBeta","0").to_i
 $wn={}
 $li=0
 loop do
+if ($li%20)==0
+exit if $*.include?("/autostart") and $findwindow.call("RGSS PLAYER","ELTEN")!=0
 if $hwnd
 exit if !$iswindow.call($hwnd)
 if ($phwnd=$getforegroundwindow.call)!=$hwnd and $getparent.call($phwnd)!=$hwnd
@@ -100,7 +104,7 @@ if $tray != true and FileTest.exists?("bin/elten_tray.bin") and FileTest.exists?
 play("minimize")
 run("bin\\elten_tray.bin")
 $showwindow.call($hwnd,0)
-STDOUT.write(JSON.generate({'func'=>'tray'})+"\r\n")
+STDOUT.binmode.write((Marshal.dump({'func'=>'tray'})))
 STDOUT.flush
 $tray=true
 end
@@ -110,16 +114,18 @@ $shown = true
 $tray = false if FileTest.exists?("temp/agent_tray.tmp") == false
 end
 end
-while STDIN.ready?
-$istream||=""
-$istream+=STDIN.getc
-if $istream[-1..-1]=="\n"
-data=JSON.load($istream)
-$istream=""
+end
+while STDIN.ready? and ($istream==nil||$istream.eof?)
+#for i in 0..0#until $istream.eof?
+data=Marshal.load(STDIN)
 if data['func']=='srvproc'
 erequest(data['mod'],data['param']) {|resp|
+if resp==nil
 data['resp']=resp
-STDOUT.write(JSON.generate(data)+"\r\n")
+else
+data['resp']=resp.force_encoding("utf-8")
+end
+STDOUT.binmode.write((Marshal.dump(data)))
 STDOUT.flush
 }
 elsif data['func']=="chat_open"
@@ -132,7 +138,7 @@ $token=data['token']
 elsif data['func']=='msg_suppress'
 $msg_suppress=true
 end
-end
+#end
 end
 $msg||=0
 if $li==0
@@ -153,20 +159,27 @@ $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
 else
 $soundthemepath = "Audio"
 end
-erequest("wn_agent","name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&shown=#{(($shown==true)?1:0)}\&chat=#{($chat==true)?1:0}") {|ans|
+pr="name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime||0}"
+pr+="\&shown=1" if $shown==true
+pr+="\&chat=1" if $chat==true
+pr+="\&upd=1" if ($updlasttime||0)<Time.now.to_i-60
+erequest("wn_agent",pr) {|ans|
+if ans!=nil
 begin
 rsp=JSON.load(Zlib.inflate(ans))
+$wnlasttime=rsp['time'] if rsp['time'].is_a?(Integer)
+$updlasttime=rsp['time'] if rsp['time'].is_a?(Integer) and rsp['upd']!=nil
 $ag_msg||=rsp['msg'].to_i
 if $ag_msg<(rsp['msg'].to_i||0)
 $ag_msg=rsp['msg'].to_i
-STDOUT.write(JSON.generate({'func'=>'msg','msgs'=>$ag_msg})+"\r\n")
+STDOUT.binmode.write((Marshal.dump({'func'=>'msg','msgs'=>$ag_msg})))
 STDOUT.flush
 end
 begin
 if rsp['upd'].is_a?(Hash)
-if rsp['version'].to_f>$upd['version'].to_f
+if rsp['upd']['version'].to_f>$upd['version'].to_f
 Notifications.join('Elten '+rsp['upd']['version'].to_s,'new','upd_'+rsp['upd']['version'].to_s)
-elsif rsp['beta'].to_f>=$upd['beta'].to_f
+elsif rsp['upd']['beta'].to_f>$upd['beta'].to_f and $upd['isbeta']==1
 Notifications.join('Elten '+$upd['version'].to_s+" beta "+rsp['upd']['beta'].to_s,'new','upd_'+rsp['upd']['beta'].to_s)
 end
 end
@@ -176,12 +189,13 @@ rsp['wn'].each do |n|
 Notifications.join(n['alert'],n['sound'],n['id'])
 end
 end
-if rsp['wn'].size==0
+if (rsp['wn']||[]).size==0
 $wn_agent||=2
 else
 $wn_agent||=1
 end
 rescue JSON::ParserError => e
+end
 end
 }
 q=Notifications.queue
@@ -203,9 +217,10 @@ $wn_agent=2
 end
 end
 end
-sleep(0.2)
+sleep(0.02)
 $li+=1
-$li=0 if $li>=$refreshtime*5
+$li=0 if $li>=$refreshtime*50
+$tm=$wnlasttime if $wnlasttime!=nil
 $tm=Time.now.to_i if $synctime==0 or $tm==nil
 tim=Time.at($tm)
 m=tim.min
@@ -232,7 +247,7 @@ if asc != nil
 a=alarms[asc]
 if a[2]==0
 alarms.delete_at(asc)
-IO.binwrite($configdata+"\\alarms.dat","wb",Marshal.dump(alarms))
+IO.binwrite($configdata+"\\alarms.dat",Marshal.dump(alarms))
 end
 @alarmplaying=true
 bgplay("alarm")
@@ -248,7 +263,7 @@ end
 end
 rescue Interrupt
 rescue SystemExit
-#rescue Exception
-#STDOUT.write(JSON.generate({'func'=>'error','msg'=>$!.to_s,'loc'=>$@.to_s})+"\r\n")
+rescue Exception
+STDOUT.binmode.write((Marshal.dump({'func'=>'error','msg'=>$!.to_s,'loc'=>$@.to_s})))
 end
 $sslsock.close if $sslsock!=nil and !$sslsock.closed?

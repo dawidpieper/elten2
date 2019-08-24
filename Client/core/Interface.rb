@@ -81,7 +81,7 @@ if @autostart == false and @form.fields[6].checked==1
   path="\0"*1025
 Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,path,path.size)
 path.delete!("\0")
-dr="\""+File.dirname(path)+"\\bin\\rubyw.exe\" \""+File.dirname(path)+"\\bin\\agentc.dat\" /autostart"
+dr="\""+File.dirname(path)+"\\bin\\rubyw.exe\" \""+File.dirname(path)+"\\bin\\agent.dat\" /autostart"
 @runkey['elten']=dr
 elsif @autostart == true and @form.fields[6].checked==0
   @runkey.delete("elten")

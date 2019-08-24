@@ -23,7 +23,7 @@ class Scene_Users_AddedMeToContacts
       end
         for i in 0..@usr.size - 1
       @usr[i].delete!("\r")
-      @usr[i].delete!("\n")
+      @usr[i].delete!("\r\n")
     end
         usr = []
     for i in 1..@usr.size - 1

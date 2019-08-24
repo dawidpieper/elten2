@@ -305,10 +305,10 @@ for q in @questions
     comment=""
     if q[1]==0
       multi=false
-      comment="Pytanie jednokrotnego wyboru"
+      comment=_("Polls:opt_phr_singlechoice")
     else
       multi=true
-      comment="Pytanie wielokrotnego wyboru"
+      comment=_("Polls:opt_phr_multiplechoice")
     end
         qs.push(Select.new(q[2..q.size-1],true,0,q[0]+" (#{comment}): ",true,multi))
     end

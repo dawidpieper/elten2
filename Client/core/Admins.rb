@@ -10,7 +10,7 @@ class Scene_Admins
             @admins = srvproc("admins","name=#{$name}\&token=#{$token}")
             for i in 0..@admins.size - 1
       @admins[i].delete!("\r")
-      @admins[i].delete!("\n")
+      @admins[i].delete!("\r\n")
     end
         adm = []
     for i in 1..@admins.size - 1

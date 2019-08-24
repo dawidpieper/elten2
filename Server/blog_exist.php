@@ -1,13 +1,8 @@
 <?php
 require("init.php");
-$zapytanie = "SELECT `owner`, `name` FROM `blogs`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+$q = mquery("SELECT `owner`, `name` FROM `blogs`");
 $suc = false;
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 if($wiersz[0] == $_GET['searchname'])
 $suc = true;
 }

@@ -1,32 +1,17 @@
 <?php
 require("header.php");
-$zapytanie = "SELECT `name`, `status` FROM `statuses`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+$q = mysql_query("SELECT `name`, `status` FROM `statuses`");
 $suc = false;
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 if($wiersz[0] == $_GET['name']) {
 $suc = true;
 $status = $wiersz[1];
 }
 }
 if($suc == true) {
-$zapytanie = "DELETE FROM `statuses` WHERE `name`='" . $_GET['name'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
+mquery("DELETE FROM `statuses` WHERE `name`='" . $_GET['name'] . "'");
 }
-}
-$zapytanie = "INSERT INTO `statuses` (`name`,`status`) VALUES ('" . $_GET['name'] . "','" . $_GET['text'] . "')";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+mquery("INSERT INTO `statuses` (`name`,`status`) VALUES ('" . $_GET['name'] . "','" . mysql_real_escape_string($_GET['text']) . "')");
 echo "0";
 if($suc == true)
 echo "\r\n*";

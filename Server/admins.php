@@ -1,14 +1,8 @@
 <?php
 require("init.php");
-$error = 0;
-$zapytanie = "SELECT `name` FROM `privileges` where moderator=1";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+$q = mquery("SELECT `name` FROM `privileges` where moderator=1");
 echo "0";
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 $name = $wiersz[0];
 echo "\r\n" . $name;
 }

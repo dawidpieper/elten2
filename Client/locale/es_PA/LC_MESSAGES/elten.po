@@ -1,2937 +1,5338 @@
-# SPanish (Spain) translations for Elten.
-# Copyright (C) (2014-2018) Dawid Pieper
-# This file is distributed under Open Public License, detailed in the repository of ELten project.
-# FIRST AUTHOR <dawidpieper@o2.pl>, 2014.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.3\n"
-"Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-12-26 06:02-0500\n"
-"Last-Translator: Luis Carlos González Morales <luiscarlosgm@hotmail.es>\n"
-"Language: es_PA\n"
-"Language-Team: en <dawidpieper@o2.pl>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"POT-Creation-Date: \n"
+"Language-Team: electro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Elten 2.3B1\n"
-"X-Generator: Poedit 2.2\n"
+Language: es_PA\n
 
-msgid "Authentication:type_pass"
+#: Authentication.rb:68
+msgctxt "Authentication"
+msgid "Type your password"
 msgstr "Escriba su contraseña"
 
-msgid "Authentication:head_enabled"
+#: Authentication.rb:19
+msgctxt "Authentication"
+msgid " Two-factor authentication enables better account security by requiring the  confirmation of each login with your phone. When activated, a text message with a  verification code will be sent to you each time you log in from a new device.  Entering this code will be required to sign in to the program."
 msgstr "La autenticación de dos factores permite una mejor seguridad de la cuenta al requerir la confirmación de cada inicio de sesión con su teléfono. Cuando se active, se le enviará un mensaje de texto con un código de verificación cada vez que inicie sesión desde un nuevo dispositivo. Para ingresar al programa será necesario ingresar este código."
 
-msgid "Authentication:head_disabled"
+#: Authentication.rb:21
+msgctxt "Authentication"
+msgid "Two-factor authentication is enabled on this account."
 msgstr "La autenticación de dos factores está habilitada en esta cuenta."
 
-msgid "Authentication:type_phone"
+#: Authentication.rb:30
+msgctxt "Authentication"
+msgid " Type your phone number that will be used during verification. Remember to enter  the country code, for example, +48 for Poland"
 msgstr "Escriba su número de teléfono que se utilizará durante la verificación. Recuerde ingresar el código de país, por ejemplo, +48 para Polonia"
 
-msgid "Authentication:alert_support"
+#: Authentication.rb:32
+msgctxt "Authentication"
+msgid " Two-factor authentication was introduced in Elten 2.28. After activating it, it  will not be possible to log in from the older versions of the program. DO you  wish to continue anyway?"
 msgstr "La autenticación de dos factores se introdujo en Elten 2.28. Después de activarlo, no será posible iniciar sesión desde las versiones anteriores del programa. ¿Desea continuar de todos modos?"
 
-msgid "Authentication:alert_checkphone"
+#: Authentication.rb:33
+msgctxt "Authentication"
+msgid "Is this phone number correct? Press enter to continue or escape to cancel."
 msgstr "Es este número de teléfono correcto? Pulsa Intro para aceptar o Escape para cancelar."
 
-msgid "Authentication:wait"
+#: Authentication.rb:35
+msgctxt "Authentication"
+msgid "Please wait, connecting to the server ..."
 msgstr "Por favor espere, Conectando al servidor..."
 
-msgid "Authentication:type_code"
+#: Authentication.rb:44
+msgctxt "Authentication"
+msgid " On the phone number indicated, you will receive a text message with the code  activating two-factor authentication. Enter this code"
 msgstr "En el número de teléfono indicado, recibirá un mensaje de texto con el código que activa la autenticación de dos factores. Introduce este código"
 
-msgid "Authentication:type_wrongcode"
+#: Authentication.rb:52
+msgctxt "Authentication"
+msgid "The entered code is not correct. Try again."
 msgstr "El código entrado es incorrecto."
 
-msgid "Authentication:error_wrongcode"
+msgctxt "Authentication"
+msgid "The entered code is not correct."
 msgstr "El código ingresado es inválido."
 
-msgid "Authentication:info_enabled"
+#: Authentication.rb:58
+msgctxt "Authentication"
+msgid "Two-factor authentication has been activated on this account."
 msgstr "La autenticación de dos factores se ha activado en esta cuenta."
 
-msgid "Authentication:alert_disable"
+#: Authentication.rb:69
+msgctxt "Authentication"
+msgid "Are you sure you want to disable two-factor authentication?"
 msgstr "¿Está seguro de que desea deshabilitar la autenticación de dos factores?"
 
-msgid "Authentication:info_disabled"
+#: Authentication.rb:72
+msgctxt "Authentication"
+msgid "Two-factor authentication has been disabled."
 msgstr "La autenticación de dos factores ha sido deshabilitada."
 
-msgid "Users_LastAvatars:head"
-msgstr "Avatares recientemente cambiados"
-
-msgid "Users_RecentlyRegistered:head"
-msgstr "Usuarios registrados recientemente"
-
-msgid "Users_RecentlyActived:head"
-msgstr "Usuarios activos recientemente"
-
-msgid "UserSearch:head_results"
-msgstr "Elementos encontrados"
-
-msgid "UserSearch:head"
-msgstr "Buscar usuarios"
-
-msgid "UserSearch:error_noresults"
-msgstr "No se encontraron coincidencias."
-
-msgid "Clock:head_hour"
-msgstr "Hora"
-
-msgid "Clock:opt_none"
-msgstr "Ninguno"
-
-msgid "Clock:btn_add"
-msgstr "Agregar"
-
-msgid "Clock:chk_notify"
-msgstr "lectura de tiempo automático"
-
-msgid "Clock:opt_voiceandsound"
-msgstr "Voz y sonido"
-
-msgid "Clock:opt_voice"
-msgstr "Solo voz"
-
-msgid "Clock:opt_sound"
-msgstr "Solo sonido"
-
-msgid "Clock:head_readevery"
-msgstr "Anunciar el tiempo"
-
-msgid "Clock:opt_hour"
-msgstr "Cada hora"
-
-msgid "Clock:opt_halfanhour"
-msgstr "Cada horay medio"
-
-msgid "Clock:opt_quarter"
-msgstr "Cada cuarto de hora"
-
-msgid "Clock:head_alarms"
-msgstr "Alarmas"
-
-msgid "Clock:head_minute"
-msgstr "Minuto"
-
-msgid "Clock:head_type"
-msgstr "Tipo"
-
-msgid "Clock:opt_single"
-msgstr "Una vez"
-
-msgid "Clock:opt_multiple"
-msgstr "Repetible"
-
-msgid "Advanced:head_keyreftime"
-msgstr "Tiempo de actualización del estado clave (ms) (Nota: no se recomienda cambiar este valor)"
-
-msgid "Advanced:chk_hexparsing"
-msgstr "Procesado hexagonal diacrítico avanzado"
-
-msgid "Advanced:head_sesreftime"
-msgstr "Tiempo de refresco de sesión (s) (Atención! No es recomendable cambiar este valor!)"
-
-msgid "Advanced:chk_audiostreaming"
-msgstr "Utilizar Audiostreaming si se soporta"
-
-msgid "Advanced:chk_timesyncing"
-msgstr "Sincronizar tiempo con el servidor"
-
-msgid "Notes:btn_add"
-msgstr "Añadir"
-
-msgid "Notes:opt_edit"
-msgstr "Editar"
-
-msgid "Notes:head"
-msgstr "Notas"
-
-msgid "Notes:opt_new"
-msgstr "Nueva nota"
-
-msgid "Notes:head_sharedwith"
-msgstr "Compartir con"
-
-msgid "Notes:opt_read"
-msgstr "Leer"
-
-msgid "FirstRun:type_pass"
-msgstr "Contraseña"
-
-msgid "FirstRun:opt_chars"
-msgstr "Caracteres"
-
-msgid "FirstRun:opt_words"
-msgstr "Palabras"
-
-msgid "FirstRun:opt_charsandwords"
-msgstr "Caracteres y palabras"
-
-msgid "FirstRun:opt_none"
-msgstr "Ningún"
-
-msgid "FirstRun:opt_audio"
-msgstr "Audio"
-
-msgid "ForgotPassword:head"
-msgstr "Restablecer contraseña"
-
-msgid "ForgotPassword:type_mail"
-msgstr "Introduce el correo electrónico usado para el proceso de registro"
-
-msgid "ForgotPassword:error_match"
-msgstr "La dirección de correo electrónico escrita no está asociada con el nombre de usuario introducido."
-
-msgid "ForgotPassword:opt_genkey"
-msgstr "Generar código de restauración de contraseña"
-
-msgid "ForgotPassword:opt_typekey"
-msgstr "Introducir código de restauración de contraseña"
-
-msgid "ForgotPassword:wait"
-msgstr "Por favor, espere mientras se envía un código de restauración de contraseña."
-
-msgid "ForgotPassword:type_key"
-msgstr "Entra el código generado de restauración de contraseña"
-
-msgid "ForgotPassword:error_wrongkey"
-msgstr "El código entrado es inválido"
-
-msgid "ForgotPassword:type_newpass"
-msgstr "Escribir nueva contraseña"
-
-msgid "ForgotPassword:type_newpassagain"
-msgstr "Repita nueva contraseña"
-
-msgid "ForgotPassword:error_difpass"
-msgstr "Las contraseñas ingresadas son diferentes y no coinciden."
-
-msgid "ForgotPassword:error_emptypass"
-msgstr "Contraseña en blanco prevista"
-
-msgid "ForgotPassword:wait_changing"
-msgstr "Por favor, espere mientras la contraseña se cambie."
-
-msgid "ForgotPassword:info_changed"
-msgstr "Contraseña cambiada. Puedes iniciar sesión utilizando los nuevos datos."
-
-msgid "ForgotPassword:head_reset"
-msgstr "Si pierde su contraseña, aún puede restablecerla a través de la dirección de correo electrónico proporcionada durante el proceso de registro. De esta manera, generará el código de restablecimiento de contraseña que se utilizará para verificar su identidad. El código será enviado a su dirección de correo electrónico. ¡Advertencia! La autenticación de dos factores se deshabilitará en su cuenta. Para continuar, ingrese su nombre de usuario:"
-
-msgid "Honors:opt_add"
-msgstr "Agregar"
-
-msgid "Programs:head"
-msgstr "Instalación de programas"
-
-msgid "Portable:head_dest"
-msgstr "Destino"
-
-msgid "Portable:chk_langs"
-msgstr "Incluir otros idiomas"
-
-msgid "Portable:chk_settings"
-msgstr "Copiar configuración actual"
-
-msgid "Portable:chk_soundthemes"
-msgstr "Copiar temas de sonido descargados"
-
-msgid "Portable:wait"
-msgstr "Espera hasta que los archivos se copien."
-
-msgid "Portable:wait_settings"
-msgstr "Copiando configuración"
-
-msgid "Portable:wait_soundthemes"
-msgstr "Copiando temas de sonido"
-
-msgid "Portable:opt_synthreset"
-msgstr "Restaurar configuración de sintetizador"
-
-msgid "Portable:opt_askeverytime"
-msgstr "Preguntar cada vez"
-
-msgid "Portable:opt_usecurrent"
-msgstr "Utilizar configuración actual"
-
-msgid "Portable:head_synth"
-msgstr "Si usa una copia creada de Elten en otra computadora, es posible que la configuración de voz no funcione correctamente. Esto es especialmente notable en una situación en la que otra computadora tendrá otras voces instaladas. ¿Cómo quieres configurar la versión generada?"
-
-msgid "Portable:info_created"
-msgstr "Versión portátil de Elten creada satisfactoriamente."
-
-msgid "Portable:opt_usedefault"
-msgstr "Utilizar lector de pantalla o voz predeterminada"
-
-msgid "Portable:btn_continue"
-msgstr "continuar"
-
-msgid "Polls:type_description"
-msgstr "Descripción"
-
-msgid "Polls:head"
-msgstr "Encuestas"
-
-msgid "Polls:btn_vote"
-msgstr "Votar"
-
-msgid "Polls:opt_results"
-msgstr "Ver resultados"
-
-msgid "Polls:opt_new"
-msgstr "Nueva encuesta"
-
-msgid "Polls:type_pollname"
-msgstr "Nombre de la encuesta"
-
-msgid "Polls:head_questions"
-msgstr "Preguntas"
-
-msgid "Polls:opt_newquestion"
-msgstr "Añadir nueva pregunta"
-
-msgid "Polls:head_answers"
-msgstr "Respuestas"
-
-msgid "Polls:opt_newanswer"
-msgstr "Añadir nueva respuesta"
-
-msgid "Polls:btn_create"
-msgstr "Crear"
-
-msgid "Polls:head_question"
-msgstr "Preguta"
-
-msgid "Polls:opt_singlechoice"
-msgstr "Una opción"
-
-msgid "Polls:opt_multiplechoice"
-msgstr "opción múltiple"
-
-msgid "Polls:opt_textfield"
-msgstr "Edición"
-
-msgid "Polls:head_answertype"
-msgstr "Tipo de pregunta"
-
-msgid "Polls:info_deleted"
-msgstr "Eliminada"
-
-msgid "Uploads:info_saved"
-msgstr "Enregistrado"
-
-msgid "Uploads:opt_add"
-msgstr "Añadir"
-
-msgid "Uploads:opt_play"
-msgstr "Reproducir"
-
-msgid "Uploads:opt_download"
-msgstr "Descargar"
-
-msgid "Uploads:head_dest"
-msgstr "En donde guardarás el archivo?"
-
-msgid "Uploads:info_deleted"
-msgstr "Eliminado"
-
-msgid "Compiler:head_dest"
-msgstr "Lugar de destino"
-
-msgid "Admins:head"
-msgstr "Administradores"
-
-msgid "WhatsNew:info_nonew"
-msgstr "No hay nada nuevo."
-
-msgid "WhatsNew:opt_open"
-msgstr "abrir"
-
-msgid "WhatsNew:opt_deletethread"
-msgstr "Eliminar esta entrada"
-
-msgid "WhatsNew:info_followedel"
-msgstr "Entrada eliminada de la lista de entradas seguidas."
-
-msgid "WhatsNew:opt_deletefollowed"
-msgstr "Eliminar de la lista de entradas seguidas"
-
-msgid "WhatsNew:info_nonewfollowedposts"
-msgstr "No hay nuevas publicaciones en entradas seguidas."
-
-msgid "WhatsNew:head"
-msgstr "Qué hay de nuevo"
-
-msgid "ShortKeys:head"
-msgstr "Comandos de teclado"
-
-msgid "Interface:opt_linear"
-msgstr "Linear"
-
-msgid "Interface:opt_circular"
-msgstr "Circular"
-
-msgid "Interface:head_listspresentation"
-msgstr "Método en pantalla de listas de selección"
-
-msgid "Interface:chk_soundtheme"
-msgstr "Reproducir sonidos de temas de sonido"
-
-msgid "Interface:opt_chars"
-msgstr "Carácteres"
-
-msgid "Interface:opt_words"
-msgstr "Palabras"
-
-msgid "Interface:opt_charsandwords"
-msgstr "Caracteres y palabras"
-
-msgid "Interface:opt_none"
-msgstr "Ninguna"
-
-msgid "Interface:head_typingecho"
-msgstr "Eco de escritura"
-
-msgid "Interface:chk_fullscreen"
-msgstr "Ejecutar programa en pantalla completa"
-
-msgid "Interface:chk_autologin"
-msgstr "Activar inicio de sesión automático"
-
-msgid "Interface:chk_tray"
-msgstr "Minimizar automaticamente Elten a la bandeja del sistema"
-
-msgid "Interface:chk_autostart"
-msgstr "Iniciar Elten automáticamente después de loguearme en Windows"
-
-msgid "Interface:error_autologinrequired"
-msgstr "El inicio de sesión automático es requerido junto al arranque automático."
-
-msgid "Interface:alert_portableautostart"
-msgstr "¡Atención! Está intentando habilitar la función de inicio automático utilizando la versión portátil de Elten. Cuando este programa es inaccesible para Windows o si se cambia su ubicación, el sistema no podrá iniciarlo. Estás seguro de que quieres continuar?"
-
-msgid "UsersAddedMeToContacts:head"
-msgstr "Usuarios que me añadieron a la lista de contactos"
-
-msgid "ReadMe:head"
-msgstr "Léame"
-
-msgid "Blog:opt_newpost"
-msgstr "Nueva publicación"
-
-msgid "Blog:info_deleted"
-msgstr "Eliminado"
-
-msgid "Blog:opt_select"
-msgstr "Seleccionar"
-
-msgid "Blog:opt_myblog"
-msgstr "Mi blog"
-
-msgid "Blog:opt_newcat"
-msgstr "Nueva categoría"
-
-msgid "Blog:alert_deletepost"
-msgstr "Seguro que quieres eliminar esta publicación?"
-
-msgid "Blog:head"
-msgstr "Blogs"
-
-msgid "Blog:head_list"
-msgstr "Lista de blogs"
-
-msgid "Blog:btn_send"
-msgstr "Enviar"
-
-msgid "Blog:btn_back"
-msgstr "Bolver"
-
-msgid "Blog:opt_renameblog"
-msgstr "Cambiar nombre del blog"
-
-msgid "Blog:type_comment"
-msgstr "Su comentario"
-
-msgid "Blog:btn_modifypost"
-msgstr "Editar tu publicación"
-
-msgid "Blog:btn_play"
-msgstr "Reproducir"
-
-msgid "Blog:opt_allposts"
-msgstr "Todas las publicaciones"
-
-msgid "Blog:btn_recpost"
-msgstr "Gravar nueva publicación"
-
-msgid "Blog:btn_stoprec"
-msgstr "Parar de gravar"
-
-msgid "Blog:opt_recentlyupdatedblogs"
-msgstr "Blogs recientemente actualizados"
-
-msgid "Blog:opt_frequentlyupdatedblogs"
-msgstr "Blogs actualizados frecuentemente"
-
-msgid "Blog:opt_frequentlycommentedblogs"
-msgstr "Blogs comentados frecuentemente"
-
-msgid "Blog:type_posttitle"
-msgstr "Título de la publicación"
-
-msgid "Blog:type_post"
-msgstr "Publicación"
-
-msgid "Blog:head_postcategories"
-msgstr "Agregar a categoría"
-
-msgid "Blog:type_catname"
-msgstr "Nombre de categoría"
-
-msgid "Blog:type_newblogname"
-msgstr "Nuevo nombre de blog"
-
-msgid "Blog:wait_converting"
-msgstr "El archivo se está convirtiendo..."
-
-msgid "Blog:opt_rename"
-msgstr "Renombrar"
-
-msgid "Blog:opt_edit"
-msgstr "Edita"
-
-msgid "Blog:opt_open"
-msgstr "Abrir"
-
-msgid "Blog:opt_followblog"
-msgstr "Agregar a blogs seguidos"
-
-msgid "Blog:opt_unfollowblog"
-msgstr "Eliminar de foros seguidos"
-
-msgid "Blog:opt_followedblogs"
-msgstr "Blogs seguidos"
-
-msgid "Blog:btn_createaudiopost"
-msgstr "Crear publicación de audio"
-
-msgid "Blog:opt_useexistingfile"
-msgstr "Utilizar archivo existente"
-
-msgid "Blog:info_modified"
-msgstr "Publicación modificada."
-
-msgid "Blog:head_visibility"
-msgstr "Visibilidad"
-
-msgid "Blog:opt_viseveryone"
-msgstr "Ver a todos"
-
-msgid "Blog:opt_vislogged"
-msgstr "No mostrar a usuarios no registrados"
-
-msgid "Blog:btn_audiopost"
-msgstr "Publicación de audio"
-
-msgid "Blog:opt_changeaudiofile"
-msgstr "Utilizar otro archivo"
-
-msgid "Blog:head_selaudiofile"
-msgstr "Seleccionar archivo de audio"
-
-msgid "Ban:btn_ban"
-msgstr "Ban"
-
-msgid "Ban:btn_unban"
-msgstr "Desbanear"
-
-msgid "Ban:type_banusername"
-msgstr "Introduzca el nombre de usuario para banear"
-
-msgid "Ban:opt_week"
-msgstr "Semana"
-
-msgid "Ban:opt_twoweeks"
-msgstr "2 semanas"
-
-msgid "Ban:opt_month"
-msgstr "30 días"
-
-msgid "Ban:opt_yrquarter"
-msgstr "90 días"
-
-msgid "Ban:info_banned"
-msgstr "Baneado"
-
-msgid "Ban:type_unbanusername"
-msgstr "Introduzca el nombre de usuario para desbanear"
-
-msgid "Ban:info_unbanned"
-msgstr "Desbaneado"
-
-msgid "Users:head"
-msgstr "Lista de usuarios"
-
-msgid "Chat:type_message"
-msgstr "Su mensaje"
-
-msgid "Chat:read_history"
-msgstr "Historial de mensajes"
-
-msgid "Chat:opt_users"
-msgstr "Usuarios en línea"
-
-msgid "Chat:btn_hide"
-msgstr "Ocultar ventana de chat"
-
-msgid "Languages:head"
-msgstr "Administrar idiomas"
-
-msgid "Languages:opt_download"
-msgstr "Descargar la traducción desde el servidor"
-
-msgid "Languages:info_downloaded"
-msgstr "Paquetes de idioma actualizados."
-
-msgid "Files:head"
-msgstr "Archivos"
-
-msgid "Files:info_deleted"
-msgstr "Eliminado"
-
-msgid "Files:opt_openassociated"
-msgstr "Abrir en aplicación asociada"
-
-msgid "Files:opt_copy"
-msgstr "Copiado"
-
-msgid "Files:opt_cut"
-msgstr "Cortar"
-
-msgid "Files:opt_paste"
-msgstr "Pegar"
-
-msgid "Files:opt_newdir"
-msgstr "Nueva carpeta"
-
-msgid "Files:info_copied"
-msgstr "Copiado"
-
-msgid "Files:info_cut"
-msgstr "Separar"
-
-msgid "Files:opt_copied"
-msgstr "Copiado"
-
-msgid "Files:opt_text"
-msgstr "Texto"
-
-msgid "Files:opt_erasepls"
-msgstr "Eliminar lista de reproducción"
-
-msgid "Files:opt_adddirtopls"
-msgstr "Añadir todos los archivos de audio en este directorio a la lista de reproducción"
-
-msgid "Files:opt_play"
-msgstr "Reproducir"
-
-msgid "Files:opt_addtopls"
-msgstr "Añadir a lista de reproducción"
-
-msgid "Files:opt_send"
-msgstr "Subir al servidor"
-
-msgid "Files:opt_opendir"
-msgstr "Abrir este directorio"
-
-msgid "Files:opt_avatar"
-msgstr "Establecer como avatar"
-
-msgid "Files:opt_create"
-msgstr "Create"
-
-msgid "Files:opt_rename"
-msgstr "Cambiar nombre"
-
-msgid "Files:opt_edit"
-msgstr "Editá"
-
-msgid "Files:info_pasted"
-msgstr "Pegado"
-
-msgid "Files:opt_convert"
-msgstr "convertir"
-
-msgid "Files:info_sent"
-msgstr "Enviado"
-
-msgid "Files:error_play"
-msgstr "Este archivo no se puede reproducir."
-
-msgid "Files:opt_read"
-msgstr "Leer"
-
-msgid "Files:opt_pack"
-msgstr "Comprimir"
-
-msgid "Files:opt_unpack"
-msgstr "Extraer"
-
-msgid "Files:head_archiveformat"
-msgstr "Seleccione formato de archivo"
-
-msgid "Files:info_packed"
-msgstr "Comprimido"
-
-msgid "Files:opt_readtofile"
-msgstr "Leer a archivo"
-
-msgid "Files:opt_file"
-msgstr "Archivo"
-
-msgid "Files:opt_dir"
-msgstr "Directorio"
-
-msgid "Files:opt_clipboard"
-msgstr "Portapapeles"
-
-msgid "Files:opt_newdoc"
-msgstr "Nuevo archivo de texto"
-
-msgid "Files:opt_newrec"
-msgstr "Nueva gravación"
-
-msgid "Files:opt_audio"
-msgstr "Audio"
-
-msgid "Files:type_dirname"
-msgstr "Introducir nombre de carpeta"
-
-msgid "Files:type_filename"
-msgstr "Introducir nombre de archivo"
-
-msgid "Files:btn_record"
-msgstr "Gravar"
-
-msgid "SoundThemes:head"
-msgstr "Temas de sonido"
-
-msgid "SoundThemes:info_nothemes"
-msgstr "No hay temas de sonidos."
-
-msgid "SoundThemes:opt_download"
-msgstr "Descargar temas de sonido"
-
-msgid "SoundThemes:opt_default"
-msgstr "Predeterminado"
-
-msgid "SoundThemes:opt_audio"
-msgstr "Audio"
-
-msgid "Changes:head"
-msgstr "Cambios"
-
-msgid "Media:opt_url"
-msgstr "Introduzca la dirección URL"
-
-msgid "Media:type_url"
-msgstr "URL"
-
-msgid "Media:opt_newcat"
-msgstr "Nueva categoría"
-
-msgid "Media:opt_newfile"
-msgstr "Nuevo archivo"
-
-msgid "Media:btn_add"
-msgstr "Agregar"
-
-msgid "Media:type_dsc"
-msgstr "Descripción"
-
-msgid "Media:type_name"
-msgstr "Título"
-
-msgid "Media:opt_play"
-msgstr "Reproducir"
-
-msgid "Media:opt_addtopls"
-msgstr "Agregar a lista de reproducción"
-
-msgid "Media:type_catname"
-msgstr "Categoría"
-
-msgid "Account:type_oldpass"
-msgstr "Ingrese su antigua contraseña."
-
-msgid "Account:type_newpass"
-msgstr "Ingrese su nueva contraseña."
-
-msgid "Account:type_newpassagain"
-msgstr "Repetir nueva contraseña"
-
-msgid "Account:error_difpass"
-msgstr "Los campos nueva contraseña y repetir contraseña tienen valores diferentes, y por lo tanto no coinciden."
-
-msgid "Account:info_passchanged"
-msgstr "Contraseña cambiada."
-
-msgid "Account:error_wrongoldpass"
-msgstr "La antigua contraseña es incorrecta."
-
-msgid "Account:type_pass"
-msgstr "Ingrese contraseña."
-
-msgid "Account:type_newmail"
-msgstr "Introducir nuevo correo electrónico"
-
-msgid "Account:info_mailchanged"
-msgstr "Correo electrónico cambiado."
-
-msgid "Account:type_visitingcard"
-msgstr "Tu tarjeta de visita"
-
-msgid "Account:head_status"
-msgstr "Cambiar tu estado"
-
-msgid "Account:type_status"
-msgstr "Introducir nuevo status"
-
-msgid "Account:opt_add"
-msgstr "Añadir"
-
-msgid "Account:head_profile"
-msgstr "Editor de perfiles"
-
-msgid "Account:type_fullname"
-msgstr "Nombre completo"
-
-msgid "Account:head_gender"
-msgstr "Género"
-
-msgid "Account:chk_hideprofile"
-msgstr "Ocultar mi perfil para extrangeros"
-
-msgid "Account:type_signature"
-msgstr "Su firma"
-
-msgid "Account:head_avatar"
-msgstr "Establecer avatar"
-
-msgid "Account:head_autologintokens"
-msgstr "Tokens de inicio de sesión automático"
-
-msgid "Account:opt_logoutallsessions"
-msgstr "cerrar todas las sesiones"
-
-msgid "Account:head_messages"
-msgstr "Nuevos mensajes"
-
-msgid "Account:head_followedthreads"
-msgstr "Nuevas publicaciones en entradas seguidas"
-
-msgid "Account:head_followedblogs"
-msgstr "Nuevas entradas en blogs seguidos"
-
-msgid "Account:head_blogcomments"
-msgstr "Nuevos comentarios en tu blog"
-
-msgid "Account:head_followedforums"
-msgstr "Nuevas entradas en foros seguidos"
-
-msgid "Account:head_followedforumsposts"
-msgstr "Nuevas publicaciones en foros seguidos"
-
-msgid "Account:head_contacts"
-msgstr "Nuevos amigos"
-
-msgid "Account:head_birthday"
-msgstr "Cumpleaños de amigos"
-
-msgid "Account:head_mentions"
-msgstr "Menciones"
-
-msgid "Account:opt_notifyandshow"
-msgstr "Notificar y mostrar en qué hay de nuevo"
-
-msgid "Account:opt_notify"
-msgstr "Solo notificar"
-
-msgid "Account:opt_ignore"
-msgstr "Ignorar"
-
-msgid "Account:head_blacklist"
-msgstr "Lista negra"
-
-msgid "Account:alert_deletefromblacklist"
-msgstr "¿Está seguro de que desea eliminar a este usuario de la lista negra?"
-
-msgid "Account:info_deletedfromblacklist"
-msgstr "Usuario eliminado de la lista negra."
-
-msgid "Account:alert_addtoblacklist"
-msgstr "Los usuarios agregados a su lista negra no pueden enviarle mensajes privados. Estás seguro de que quieres continuar?"
-
-msgid "Account:error_blacklistadmin"
-msgstr "No puedes añadir un administrador a la lista negra"
-
-msgid "Account:error_blacklistalreadyadded"
-msgstr "Este usuario ya está en la lista negra."
-
-msgid "Account:alert_logoutall"
-msgstr "¿Está seguro de que desea eliminar todos los tokens de inicio de sesión automático y cerrar todas las sesiones? Se cerrará la sesión inmediatamente."
-
-msgid "Contacts:head"
-msgstr "Contactos"
-
-msgid "Contacts:info_empty"
-msgstr "Lista vacía"
-
-msgid "Contacts:opt_newcontact"
-msgstr "Nuevo contacto"
-
-msgid "Contacts:type_username"
-msgstr "Introduzca el nombre del usuario al que quieres agregar a la lista de contactos"
-
-msgid "Contacts:info_contactadded"
-msgstr "Contacto agregado."
-
-msgid "Contacts:error_contactalreadyadded"
-msgstr "El usuario ya está agregado a la lista de contactos."
-
-msgid "Contacts:error_usernotfound"
-msgstr "El usuario no existe."
-
-msgid "Contacts:info_contactdeleted"
-msgstr "Contacto eliminado."
-
-msgid "Contacts:error_usernotadded"
-msgstr "Este usuario no está en la lista de contactos."
-
-msgid "Update:alert_newversion"
-msgstr "Hay una nueva versión disponible de este programa. Desea descargarla e instalarla ahora?"
-
-msgid "Update:alert_newbeta"
-msgstr "Hay una nueva versión beta de este programa, deseas descargarla e instalarla ahora?"
-
-msgid "Update:wait"
-msgstr "Por favor, espere mientras los archivos se descargan."
-
-msgid "Update:wait_languages"
-msgstr "Actualizando paquetes de idioma"
-
-msgid "Update:alert_betawarning"
-msgstr "¡Advertencia! Estás a punto de instalar una versión beta de elten. Dicha versión puede ser inestable o pueden ocurrir otros errores. ¿Realmente deseas continuar?"
-
-msgid "Update:info_downloaded"
-msgstr "La actualización ha sido descargada. Para instalarlo, el programa debe ser reiniciado. Presione enter para continuar o escapar para cancelar."
-
-msgid "Update:wait_downloading"
-msgstr "Descargando actualización"
-
-msgid "Voice:head"
-msgstr "Opciones de voz"
-
-msgid "Voice:opt_changesynth"
-msgstr "Cambiar sintetizador"
-
-msgid "Voice:opt_changerate"
-msgstr "Cambiar velocidad del sintetizador"
-
-msgid "Voice:opt_select"
-msgstr "Seleccione"
-
-msgid "Voice:head_changerate"
-msgstr "Velocidad de la voz"
-
-msgid "Voice:info_saved"
-msgstr "Salvado"
-
-msgid "Voice:opt_changevol"
-msgstr "Cambiar volumen de la voz"
-
-msgid "Voice:opt_usedefault"
-msgstr "Utilizar lector de pantalla o voz predeterminada del sistema"
-
-msgid "Voice:head_changevol"
-msgstr "Volumen de voz"
-
-msgid "Voice:info_useddefault"
-msgstr "Lector de pantalla seleccionado como sintetizador de voz"
-
-msgid "Messages:error_unknown"
-msgstr "Error desconocido"
-
-msgid "Messages:info_nomessages"
-msgstr "No tienes mensajes."
-
-msgid "Messages:opt_answer"
-msgstr "Responder"
-
-msgid "Messages:opt_compose"
-msgstr "Enviar nuevo mensaje"
-
-msgid "Messages:opt_forward"
-msgstr "Adelante"
-
-msgid "Messages:type_subject"
-msgstr "Tema"
-
-msgid "Messages:type_content"
-msgstr "Mensaje:"
-
-msgid "Messages:info_sent"
-msgstr "Mensaje enviado"
-
-msgid "Messages:alert_delete"
-msgstr "Seguro que quieres eliminar este mensaje?"
-
-msgid "Messages:opt_markallasread"
-msgstr "marcar todos los mensajes como no leidos"
-
-msgid "Messages:type_receiver"
-msgstr "Recipiente"
-
-msgid "Messages:btn_send"
-msgstr "Enviar"
-
-msgid "Messages:info_nonewmessages"
-msgstr "No hay mensajes nuevos."
-
-msgid "Messages:head_received"
-msgstr "Mensajes recibidos"
-
-msgid "Messages:head_sent"
-msgstr "Mensajes enviados"
-
-msgid "Messages:opt_showsent"
-msgstr "Ver mensajes enviados"
-
-msgid "Messages:btn_stoprec"
-msgstr "Detener gravación"
-
-msgid "Messages:btn_play"
-msgstr "Reproducir"
-
-msgid "Messages:btn_cancelrec"
-msgstr "Cancelar gravación"
-
-msgid "Messages:head_searchresults"
-msgstr "Ítems encontrados"
-
-msgid "Messages:wait_converting"
-msgstr "El archivo está convirtiéndose..."
-
-msgid "Messages:opt_search"
-msgstr "Buscar"
-
-msgid "Messages:btn_recmessage"
-msgstr "Gravar mensaje de audio"
-
-msgid "Messages:btn_attach"
-msgstr "Adjuntar archivo"
-
-msgid "Messages:head_selattachment"
-msgstr "Seleccionar archivo adjunto"
-
-msgid "Messages:info_attached"
-msgstr "Archivo adjuntado"
-
-msgid "Messages:info_nomoreattachments"
-msgstr "No puedes añadir más adjuntos a este mensaje."
-
-msgid "Messages:head_attachments"
-msgstr "Adjuntos"
-
-msgid "Messages:type_searchphrase"
-msgstr "Entra una frase para buscar"
-
-msgid "Messages:alert_mail"
-msgstr "Deseas enviar este mensaje como correo electrónico?"
-
-msgid "Messages:opt_flag"
-msgstr "Marcar"
-
-msgid "Messages:opt_removeflag"
-msgstr "Eliminar marca"
-
-msgid "Messages:opt_showflagged"
-msgstr "Mostrar mensajes marcados"
-
-msgid "Messages:info_flagged"
-msgstr "Mensaje abanderado."
-
-msgid "Messages:info_glagremoved"
-msgstr "Mensaje inabanderado."
-
-msgid "Messages:head_flagged"
-msgstr "Mensajes marcados"
-
-msgid "Messages:opt_loadmore"
-msgstr "cargar nuevos mensajes"
-
-msgid "MyPermissions:opt_moderators"
-msgstr "Moderadores"
-
-msgid "MyPermissions:opt_mediaadministrators"
-msgstr "Administrador de medios"
-
-msgid "MyPermissions:opt_translators"
-msgstr "Traductores"
-
-msgid "MyPermissions:opt_developers"
-msgstr "Desarrolladores"
-
-msgid "Online:head"
-msgstr "Quién está en línea?"
-
-msgid "MainMenu:opt_installnewprograms"
-msgstr "Instalar programas"
-
-msgid "MainMenu:alert_reinstall"
-msgstr "¿Quieres restaurar la última versión estable de este programa? Todos los ajustes permanecen como son."
-
-msgid "Forum:opt_newthr"
-msgstr "Nueva entrada"
-
-msgid "Forum:info_thrfollowed"
-msgstr "Añadido a la lista de entradas seguidas"
-
-msgid "Forum:opt_gotolast"
-msgstr "Ir a la última publicación"
-
-msgid "Forum:type_thrname"
-msgstr "Título de la entrada"
-
-msgid "Forum:info_thrcreated"
-msgstr "Entrada creada."
-
-msgid "Forum:error_thrcreation"
-msgstr "Error creando la entrada!"
-
-msgid "Forum:info_postcreated"
-msgstr "Publicación creada"
-
-msgid "Forum:info_thrdeleted"
-msgstr "Entrada eliminada."
-
-msgid "Forum:info_postdeleted"
-msgstr "Publicación eliminada."
-
-msgid "Forum:head"
-msgstr "Foro"
-
-msgid "Forum:opt_reply"
-msgstr "Responder"
-
-msgid "Forum:opt_quote"
-msgstr "Responder con cita"
-
-msgid "Forum:opt_gotounread"
-msgstr "Ir a la primera publicación nueva"
-
-msgid "Forum:btn_send"
-msgstr "Enviar"
-
-msgid "Forum:info_nonewfollowedthr"
-msgstr "No hay nuevas publicaciones en entradas que sigues."
-
-msgid "Forum:btn_back"
-msgstr "Atrás"
-
-msgid "Forum:btn_sendaudio"
-msgstr "Añadir publicación"
-
-msgid "Forum:type_reply"
-msgstr "Su respuesta"
-
-msgid "Forum:head_selforum"
-msgstr "Seleccionar foro"
-
-msgid "Forum:head_selthr"
-msgstr "Seleccionar entrada"
-
-msgid "Forum:btn_recnewpost"
-msgstr "Gravar una nueva publicación"
-
-msgid "Forum:btn_recstop"
-msgstr "Detener de gravar"
-
-msgid "Forum:btn_recagain"
-msgstr "Gravar nuevamente la publicación"
-
-msgid "Forum:btn_play"
-msgstr "Reproducir"
-
-msgid "Forum:type_postcontent"
-msgstr "Publicación"
-
-msgid "Forum:wait_converting"
-msgstr "Convertiendo..."
-
-msgid "Forum:btn_recpost"
-msgstr "Gravar publicación"
-
-msgid "Forum:btn_playpost"
-msgstr "Reproducir publicación"
-
-msgid "Forum:opt_search"
-msgstr "Buscar"
-
-msgid "Forum:opt_rename"
-msgstr "Renombrar"
-
-msgid "Forum:opt_edit"
-msgstr "Editar publicación"
-
-msgid "Forum:opt_deletepost"
-msgstr "Eliminar publicación"
-
-msgid "Forum:opt_open"
-msgstr "Abrir"
-
-msgid "Forum:opt_movethr"
-msgstr "Mover entrada"
-
-msgid "Forum:type_searchphrase"
-msgstr "Introduzca una frace para encontrar"
-
-msgid "Forum:opt_followthr"
-msgstr "Añadir a la lista de entradas seguidas"
-
-msgid "Forum:opt_unfollowthr"
-msgstr "Dejar de seguir esta entrada"
-
-msgid "Forum:opt_deletethr"
-msgstr "Eliminar entrada"
-
-msgid "Forum:opt_navigation"
-msgstr "Navegación"
-
-msgid "Forum:opt_gotopost"
-msgstr "Ir a publicación"
-
-msgid "Forum:opt_searchthr"
-msgstr "Buscar entradas"
-
-msgid "Forum:opt_gotofirst"
-msgstr "Ir a la primera publicación"
-
-msgid "Forum:opt_moderation"
-msgstr "Moderación"
-
-msgid "Forum:opt_movepost"
-msgstr "Mover publicación"
-
-msgid "Forum:type_editpost"
-msgstr "Edita tu publicación aquí"
-
-msgid "Forum:info_postmodified"
-msgstr "Publicación modificada"
-
-msgid "Forum:opt_mention"
-msgstr "Mencionar publicación"
-
-msgid "Forum:opt_listen"
-msgstr "escuchar entrada"
-
-msgid "Forum:opt_followforum"
-msgstr "Seguir este foro"
-
-msgid "Forum:opt_unfollowforum"
-msgstr "Dejar de seguir este foro"
-
-msgid "Forum:info_forumfollowed"
-msgstr "Agregado a lista de foros seguidos"
-
-msgid "Forum:info_forumunfollowed"
-msgstr "Eliminado de la lista de foros seguidos"
-
-msgid "Forum:info_thrunfollowed"
-msgstr "Eliminado de la lista de entradas seguidas"
-
-msgid "Forum:info_message"
-msgstr "Mensaje"
-
-msgid "Forum:opt_markforumasread"
-msgstr "Marcar este foro como no leido"
-
-msgid "Forum:alert_markforumasread"
-msgstr "Todas las publicaciones en este foro se marcarán como leídas. Estás seguro de que quieres continuar?"
-
-msgid "Main:info_pressalt"
-msgstr "Presione la tecla alt para abrir el menú"
-
-msgid "Main:btn_erasepls"
-msgstr "Eliminar la lista de reproducción"
-
-msgid "Main:head_pls"
-msgstr "Lista de reproducción"
-
-msgid "Main:btn_send"
-msgstr "Cargar al servidor"
-
-msgid "Main:btn_avatar"
-msgstr "Establecer como avatar"
-
-msgid "Main:head_player"
-msgstr "Reproductor"
-
-msgid "Main:btn_shuffle"
-msgstr "Aleatorio"
-
-msgid "Main:info_shuffled"
-msgstr "Lista de reproducción aleatoria"
-
-msgid "Login:type_login"
-msgstr "Nombre de usuario"
-
-msgid "Login:type_pass"
-msgstr "Contraseña"
-
-msgid "Login:opt_asknomore"
-msgstr "No preguntar de nuevo"
-
-msgid "Login:info_asknomore"
-msgstr "To reenable autologin feature, proceed to the interface settings."
-
-msgid "Login:alert_crpdeprecated"
-msgstr "Los datos de inicio de sesión guardados utilizan el antiguo método de autenticación de cuenta en el que se ha detectado la susceptibilidad a los ataques de piratas informáticos. Se han introducido nuevos algoritmos de inicio de sesión automáticos más seguros en Elten 2.2. Se recomienda que convierta la información guardada en un nuevo sistema para mejorar la seguridad de su cuenta. ¿Desea actualizar la información guardada ahora?"
-
-msgid "Login:info_autologin"
-msgstr "El inicio de sesión automático continuará hasta que cierre la sesión. Las claves de inicio de sesión automáticas se pueden administrar desde la pestaña Mi cuenta en el menú Comunidad."
-
-msgid "Login:info_crpupdated"
-msgstr "Los datos de inicio de sesión se han actualizado. El inicio de sesión automático continuará hasta que cierre la sesión. Las claves de inicio de sesión automáticas se pueden administrar desde la pestaña Mi cuenta en el menú Comunidad."
-
-msgid "Login:type_authcode"
-msgstr "La autenticación de dos factores está habilitada en esta cuenta. Ingrese el código que se le envió por mensaje de texto para permitir que este dispositivo inicie sesión. Si no tiene acceso al número de teléfono utilizado, seleccione la opción de restablecimiento de contraseña para desactivar la autenticación de dos factores."
-
-msgid "Login:error_verification"
-msgstr "Verificación fallida"
-
-msgid "Login:type_authcodeagain"
-msgstr "El código ingresado es inválido, intenta de nuevo"
-
-msgid "Registration:info_slashes"
-msgstr "El nombre de usuario no contendrá barras. El signo se omitirá."
-
-msgid "Registration:info_spaces"
-msgstr "El nombre de usuarios no contendrá espacios. el signo se omitirá."
-
-msgid "Registration:type_login"
-msgstr "Ingrese su nombre de usuario. Se utilizará para la identificación. La longitud máxima del nombre de usuario es de 64 caracteres."
-
-msgid "Registration:type_pass"
-msgstr "Ingresa tu contraseña. Se recomienda utilizar una contraseña segura, que consiste en números y letras. La longitud máxima de la contraseña es de 256 caracteres."
-
-msgid "Registration:type_mail"
-msgstr "Ingrese su dirección de correo electrónico. Se utilizará en caso de que olvide su contraseña y para enviar información importante."
-
-msgid "Registration:info_registered"
-msgstr "Registro satisfactorio, ¡Gracias! Puedes iniciar sesión utilizando tu nombre de usuario y contraseña."
-
-msgid "Registration:error_unknown"
-msgstr "Se produjo un error desconocido al utilizar la base de datos."
-
-msgid "Registration:error_accountexists"
-msgstr "La cuenta con el nombre de usuario especificado ya existe."
-
-msgid "Registration:error_save"
-msgstr "Se ha producido un error al intentar escribir datos."
-
-msgid "Registration:error_connection"
-msgstr "Se produjo un error al conectar al servidor."
-
-msgid "Loading:opt_login"
-msgstr "Entrar"
-
-msgid "Loading:opt_register"
-msgstr "Registrar"
-
-msgid "Loading:opt_quit"
-msgstr "Salir"
-
-msgid "Loading:opt_interfacesettings"
-msgstr "Opciones de interfaz"
-
-msgid "Loading:opt_forgottenpass"
-msgstr "Restaurar contraseña"
-
-msgid "Loading:opt_guest"
-msgstr "Utilizar cuenta de invitados"
-
-msgid "Loading:opt_changesynth"
-msgstr "Cambiar sintetizador de voz"
-
-msgid "Loading:opt_reinstall"
-msgstr "Reinstalar"
-
-msgid "Loading:info_novoice"
-msgstr "seleccionar el sintetizador SAPI o escape para usar el lector de pantalla instalado."
-
-msgid "EAPI_External:btn_play"
-msgstr "Reproducir"
-
-msgid "EAPI_External:opt_addtopls"
-msgstr "Añadir a la lista de reproducción"
-
-msgid "EAPI_External:opt_avatar"
-msgstr "Elegir como avatar"
-
-msgid "EAPI_External:type_ytsearch"
-msgstr "Buscar en Youtube"
-
-msgid "EAPI_External:head_ytsearchresults"
-msgstr "Elementos encontrados"
-
-msgid "EAPI_External:wait_connecting"
-msgstr "Conectando al servidor, espera por favor..."
-
-msgid "EAPI_External:opt_download"
-msgstr "Descarga"
-
-msgid "EAPI_External:opt_copyurl"
-msgstr "Copiar dirección URL al portapapeles"
-
-msgid "EAPI_External:head_downloadtype"
-msgstr "Cómo quieres descargar este archivo?"
-
-msgid "EAPI_External:opt_downloadvideo"
-msgstr "Descargar como archivo de vídeo"
-
-msgid "EAPI_External:opt_downloadaudio"
-msgstr "Descargar como archivo de audio"
-
-msgid "EAPI_External:wait_downloading"
-msgstr "Descargando, por favor espere..."
-
-msgid "EAPI_External:head_dst"
-msgstr "Donde guardarás este archivo?"
-
-msgid "EAPI_External:head_langdst"
-msgstr "Idioma de destino"
-
-msgid "EAPI_External:head_langsrc"
-msgstr "Idioma original"
-
-msgid "EAPI_External:opt_langdetection"
-msgstr "Reconocer automáticamente"
-
-msgid "EAPI_External:head_saveformat"
-msgstr "Seleccionar formato"
-
-msgid "EAPI_External:btn_translate"
-msgstr "Traducir"
-
-msgid "EAPI_Common:error_console"
-msgstr "Se ha producido un error al procesar el comando."
-
-msgid "EAPI_Common:opt_message"
-msgstr "Escribir mensaje privado"
-
-msgid "EAPI_Common:opt_visitingcard"
-msgstr "Tarjeta de visita"
-
-msgid "EAPI_Common:opt_delcontact"
-msgstr "Eliminar de la lista de contactos"
-
-msgid "EAPI_Common:opt_addcontact"
-msgstr "Agregar a lista de contactos"
-
-msgid "EAPI_Common:info_nothingnew"
-msgstr "No hay nada nuevo por aquí."
-
-msgid "EAPI_Common:opt_quit"
-msgstr "Cerrar"
-
-msgid "EAPI_Common:info_listempty"
-msgstr "Lista en blanco"
-
-msgid "EAPI_Common:opt_ban"
-msgstr "Ban"
-
-msgid "EAPI_Common:opt_unban"
-msgstr "Desbanear"
-
-msgid "EAPI_Common:opt_blog"
-msgstr "Abrir blog del usuario"
-
-msgid "EAPI_Common:opt_tray"
-msgstr "Ocultar programa a la bandeja"
-
-msgid "EAPI_Common:type_soundthemename"
-msgstr "Introduce el nombre del tema de sonido"
-
-msgid "EAPI_Common:info_soundthemecreation"
-msgstr "Archivos de temas de audio creados en %{dir}. Reemplace los archivos del tema de audio predeterminado en el directorio creado con los archivos que desea incluir en él."
-
-msgid "EAPI_Common:head_whattodo"
-msgstr "Qué deseas hacer?"
-
-msgid "EAPI_Common:opt_openthemedir"
-msgstr "Abrir carpeta de temas de sonido"
-
-msgid "EAPI_Common:opt_openthemedirinexplorer"
-msgstr "Abrir carpeta de temas de sonido en Explorador de Windows"
-
-msgid "EAPI_Common:type_errordsc"
-msgstr "Describe el error encontrado"
-
-msgid "EAPI_Common:info_sent"
-msgstr "Enviado."
-
-msgid "EAPI_Common:type_console"
-msgstr "Introduzca el comando a ejecutar"
-
-msgid "EAPI_Common:btn_send"
-msgstr "Enviar"
-
-msgid "EAPI_Common:type_title"
-msgstr "Título"
-
-msgid "EAPI_Common:head_exiting"
-msgstr "Salir..."
-
-msgid "EAPI_Common:opt_playavatar"
-msgstr "Reproducir avatar"
-
-msgid "EAPI_Common:opt_sharedfiles"
-msgstr "Archivos compartidos por este usuario"
-
-msgid "EAPI_Common:info_noupdates"
-msgstr "Estás actualizado."
-
-msgid "EAPI_Common:opt_honors"
-msgstr "insignias de este usuario"
-
-msgid "EAPI_Common:head_voice"
-msgstr "voz"
-
-msgid "EAPI_Common:head_rate"
-msgstr "velocidad"
-
-msgid "EAPI_Common:head_dst"
-msgstr "Lugar de destinación"
-
-msgid "EAPI_Common:btn_preview"
-msgstr "Provar"
-
-msgid "EAPI_Common:btn_confirm"
-msgstr "confirmar"
-
-msgid "EAPI_Common:error_playing"
-msgstr "El archivo no se puede reproducir."
-
-msgid "EAPI_Common:wait_packing"
-msgstr "Comprimiendo..."
-
-msgid "EAPI_Common:head_textsplit"
-msgstr "División de salida"
-
-msgid "EAPI_Common:opt_onefile"
-msgstr "Crear un archivo"
-
-msgid "EAPI_Common:opt_splitbyparagraphs"
-msgstr "Dividir por párrafos"
-
-msgid "EAPI_Common:opt_splitevery"
-msgstr "Dividir cada"
-
-msgid "EAPI_Common:type_splitevery"
-msgstr "Duración del archivo (minutos)"
-
-msgid "EAPI_Common:chk_readfilenum"
-msgstr "Leer número de archivo"
-
-msgid "EAPI_EltenSRV:wait_converting"
-msgstr "Convirtiendo archivo..."
-
-msgid "EAPI_EltenSRV:info_sent"
-msgstr "Enviado"
-
-msgid "EAPI_Network:wait_sending"
-msgstr "Enviando..."
-
-msgid "EAPI_UI:info_newmessage"
-msgstr "Haz recibido un nuevo mensaje"
-
-msgid "EAPI_Speech:chr_dot"
-msgstr "punto"
-
-msgid "EAPI_Speech:chr_comma"
-msgstr "comma"
-
-msgid "EAPI_Speech:chr_slash"
-msgstr "barra"
-
-msgid "EAPI_Speech:chr_semi"
-msgstr "Punto y coma"
-
-msgid "EAPI_Speech:chr_tick"
-msgstr "apóstrophe"
-
-msgid "EAPI_Speech:chr_rightbracket"
-msgstr "cerrar corchete"
-
-msgid "EAPI_Speech:chr_backslash"
-msgstr "barra invertida"
-
-msgid "EAPI_Speech:chr_minus"
-msgstr "menos"
-
-msgid "EAPI_Speech:chr_equals"
-msgstr "igual"
-
-msgid "EAPI_Speech:chr_accent"
-msgstr "accento"
-
-msgid "EAPI_Speech:chr_less"
-msgstr "menor"
-
-msgid "EAPI_Speech:chr_greater"
-msgstr "Mayor"
-
-msgid "EAPI_Speech:chr_question"
-msgstr "cerrar interrogación"
-
-msgid "EAPI_Speech:chr_colon"
-msgstr "dos puntos"
-
-msgid "EAPI_Speech:chr_quote"
-msgstr "comillas"
-
-msgid "EAPI_Speech:chr_leftbrace"
-msgstr "abrir llave"
-
-msgid "EAPI_Speech:chr_rightbrace"
-msgstr "cerrar llabe"
-
-msgid "EAPI_Speech:chr_bar"
-msgstr "barra"
-
-msgid "EAPI_Speech:chr_underline"
-msgstr "subrayado"
-
-msgid "EAPI_Speech:chr_plus"
-msgstr "mas"
-
-msgid "EAPI_Speech:chr_exclamation"
-msgstr "exclamación"
-
-msgid "EAPI_Speech:chr_at"
-msgstr "arroba"
-
-msgid "EAPI_Speech:chr_hash"
-msgstr "guión"
-
-msgid "EAPI_Speech:chr_dollar"
-msgstr "dólar"
-
-msgid "EAPI_Speech:chr_percent"
-msgstr "porcién"
-
-msgid "EAPI_Speech:chr_caret"
-msgstr "intercalación"
-
-msgid "EAPI_Speech:chr_and"
-msgstr "ampersand"
-
-msgid "EAPI_Speech:chr_star"
-msgstr "asterisco"
-
-msgid "EAPI_Speech:chr_leftparen"
-msgstr "abre paréntesis"
-
-msgid "EAPI_Speech:chr_rightparen"
-msgstr "cerrar paréntesis"
-
-msgid "EAPI_Form:fld_media"
-msgstr "Medio"
-
-msgid "EAPI_Form:info_cut"
-msgstr "Cortar"
-
-msgid "EAPI_Form:info_copied"
-msgstr "Copiado"
-
-msgid "EAPI_Form:st_checked"
-msgstr "verificado"
-
-msgid "EAPI_Form:st_unchecked"
-msgstr "No verificado"
-
-msgid "EAPI_Form:fld_checkbox"
-msgstr "Casilla de verificación"
-
-msgid "EAPI_Form:fld_edit"
-msgstr "Cuadro de edición"
-
-msgid "EAPI_Form:fld_text"
-msgstr "Texto"
-
-msgid "EAPI_Form:fld_button"
-msgstr "Botón"
-
-msgid "EAPI_Form:head_dst"
-msgstr "Destinación"
-
-msgid "EAPI_Form:info_pasted"
-msgstr "Pegado"
-
-msgid "EAPI_Form:opt_desktop"
-msgstr "Escritorio"
-
-msgid "EAPI_Form:opt_documents"
-msgstr "Documentos"
-
-msgid "EAPI_Form:opt_music"
-msgstr "Música"
-
-msgid "EAPI_Form:type_searchphrase"
-msgstr "Introducid una frase para encontrar"
-
-msgid "EAPI_Form:info_undone"
-msgstr "Cancelado"
-
-msgid "EAPI_Form:info_listempty"
-msgstr "En blanco"
-
-msgid "EAPI_Form:info_nomatch"
-msgstr "No se encontraron coincidencias."
-
-msgid "_Main:error_console"
-msgstr "Se produjo un error al procesar el comando."
-
-msgid "_Main:opt_quit"
-msgstr "Salir"
-
-msgid "_Main:opt_restart"
-msgstr "Reiniciar"
-
-msgid "_Main:info_copied"
-msgstr "Copiado"
-
-msgid "_Main:head_whattodo"
-msgstr "Qué quieres hacer?"
-
-msgid "_Main:alert_errorreport"
-msgstr "El programa debe estar cerrado. ¿Aún desea enviar un informe de errores a los creadores de esta aplicación?"
-
-msgid "_Main:opt_tryagain"
-msgstr "Intentar de nuevo"
-
-msgid "_Main:opt_abort"
-msgstr "Cerrar aplicación"
-
-msgid "_Main:opt_rescuemode"
-msgstr "Iniciar modo seguro"
-
-msgid "_Main:head_rescuemode"
-msgstr "Modo seguro"
-
-msgid "_Main:opt_reinstall"
-msgstr "Instalar de nuevo"
-
-msgid "_Main:opt_rescueforum"
-msgstr "Intentar abrir foro"
-
-msgid "_Main:opt_rescuemessages"
-msgstr "Intentar abrir mensajes"
-
-msgid "_Main:opt_copyreport"
-msgstr "Copiar detalles de error al portapapeles"
-
-msgid "Notes:opt_phr_author"
-msgstr "Autor"
-
-msgid "Notes:opt_phr_modified"
-msgstr "Modificado"
-
-msgid "Polls:opt_phr_author"
-msgstr "Autor"
-
-msgid "Polls:txt_phr_votes"
-msgstr "número de votos"
-
-msgid "General:error"
-msgstr "Error"
-
-msgid "General:str_quit"
-msgstr "Salir"
-
-msgid "General:str_enable"
-msgstr "Activar"
-
-msgid "General:str_disable"
-msgstr "Desactivar"
-
-msgid "General:str_cancel"
-msgstr "Cancelar"
-
-msgid "General:str_refresh"
-msgstr "Refrescar"
-
-msgid "General:str_save"
-msgstr "Guardar"
-
-msgid "General:info_saved"
-msgstr "Guardado"
-
-msgid "General:str_delete"
-msgstr "Eliminar"
-
-msgid "General:error_guest"
-msgstr "Esta función no puede utilizarse en la cuenta de invitados."
-
-msgid "General:error_tokenexpired"
-msgstr "La clave de sesión expiró."
-
-msgid "General:error_db"
-msgstr "Error conectando a la base de datos."
-
-msgid "General:error_permissions"
-msgstr "No tiene los permisos suficientes para completar esta operación."
-
-msgid "General:str_no"
-msgstr "No"
-
-msgid "General:str_yes"
-msgstr "Si"
-
-msgid "Authentication:error_wrongpass"
+#: Authentication.rb:74
+msgctxt "Authentication"
+msgid "Invalid password"
 msgstr "Se ha introducido una contraseña no válida."
 
-msgid "ForgotPassword:error_unexpected"
-msgstr "Ocurrió un error inesperado."
-
-msgid "Portable:wait_languages"
-msgstr "Descargando paquetes de idioma..."
-
-msgid "Notes:info_notemodified"
-msgstr "Nota modificada."
-
-msgid "ForgotPassword:info_keysent"
-msgstr "La clave de restablecimiento de la contraseña se ha enviado a la dirección de correo electrónico proporcionada. Seleccione la opción de entrada clave para continuar"
-
-msgid "Honors:info_nobadges"
-msgstr "El usuario no recibió ningúna insignia"
-
-msgid "Programs:info_alreadyinstalled"
-msgstr "Este programa ya está instalado."
-
-msgid "Portable:wait_preparingfile"
-msgstr "Preparando archivo..."
-
-msgid "Polls:error_noanswer"
-msgstr "La pregunta no tiene respuesta."
-
-msgid "Uploads:info_copiedtoclip"
-msgstr "Copiado al portapapeles."
-
-msgid "Bug:head"
-msgstr "Reportar un error"
-
-msgid "Blog:error_blognotfound"
-msgstr "Blog no encontrado"
-
-msgid "Chat:error_banned"
-msgstr "Usted está baneado."
-
-msgid "Files:error_deletefile"
-msgstr "No se pudo eliminar el archivo: Acceso denegado"
-
-msgid "Program:info_exited"
-msgstr "El programa ha sido cerrado."
-
-msgid "Update:info_updatewillinstall"
-msgstr "Ahora se instalará la actualización. El programa se reiniciará."
-
-msgid "MyPermissions:info_nopermissions"
-msgstr "Usted no tiene ningún derecho especial."
-
-msgid "Forum:info_forummarkedasread"
-msgstr "El foro ha sido marcado como leído."
-
-msgid "Main:alert_newbeta"
-msgstr "Una nueva versión beta del programa está disponible."
-
-msgid "Login:error_identity"
-msgstr "Se produjo un error durante la autenticación de identidad. Es posible que se haya ingresado una contraseña incorrecta."
-
-msgid "Registration:info_namenoats"
-msgstr "Los nombre de usuarios no contienen caracteres especiales. El carácter se homitirá."
-
-msgid "Loading:alert_newversion"
-msgstr "Una nueva versión del programa está disponible."
-
-msgid "EAPI_External:error_translation"
-msgstr "Se ha producido un error al traducir."
-
-msgid "EAPI_Network:info_progressdonotread"
-msgstr "No lea los cambios en la barra de progreso."
-
-msgid "EAPI_UI:info_retry"
-msgstr "El programa ahora intentará volver a trabajar."
-
-msgid "EAPI_Speech:chr_space"
-msgstr "Espacio"
-
-msgid "EAPI_Form:info_repeated"
-msgstr "repetido"
-
-msgid "Notes:error_usernotfound"
-msgstr "El usuario no existe."
-
-msgid "Programs:info_installed"
-msgstr "Instalación completada."
-
-msgid "Polls:error_questiononeanswer"
-msgstr "La pregunta tiene una sola respuesta."
-
-msgid "WhatsNew:info_nonewonfollowedblogs"
-msgstr "No hay nuevas entradas en los blogs seguidos."
-
-msgid "Blog:info_categorycreated"
-msgstr "La categoría ha sido creada."
-
-msgid "Files:info_unpacked"
-msgstr "Descomprimido."
-
-msgid "Media:info_categorycreated"
-msgstr "La categoría ha sido añadida!"
-
-msgid "Account:info_statuschanged"
-msgstr "El estado ha sido cambiado."
-
-msgid "Update:wait_reinstallationdownloading"
-msgstr "Descargando las instrucciones de reinstalación"
-
-msgid "Messages:info_attachmentdownloaded"
-msgstr "Archivo adjunto descargado."
-
-msgid "Main:info_plserased"
-msgstr "Lista de reproducción eliminada."
-
-msgid "Registration:error_difpass"
-msgstr "Las contraseñas introducidas son diferentes y no coinciden."
-
-msgid "EAPI_Common:wait_downloading"
-msgstr "Descargando..."
-
-msgid "EAPI_EltenSRV:error_noavatar"
-msgstr "El usuario no tiene un avatar."
-
-msgid "EAPI_Network:info_readprogress"
-msgstr "Lee los cambios en la barra de progreso."
-
-msgid "EAPI_Form:info_loaded"
-msgstr "Cargado"
-
-msgid "Notes:info_notedeleted"
-msgstr "Nota eliminada."
-
-msgid "Honors:info_defaulted"
-msgstr "Deselecciona establecer como predeterminado."
-
-msgid "Notes:info_notecreated"
-msgstr "Nota creada."
-
-msgid "Honors:error_usernotfound"
-msgstr "El usuario no existe."
-
-msgid "Honors:info_honored"
-msgstr "insignia otorgada"
-
-msgid "Honors:info_honorcreated"
-msgstr "Insignia agregada"
-
-msgid "Polls:info_pollcreated"
-msgstr "La encuesta fue creada."
-
-msgid "Polls:info_voted"
-msgstr "Tu voto ha sido guardado."
-
-msgid "Blog:info_blogrenamed"
-msgstr "El nombre del blog ha sido cambiado."
-
-msgid "Blog:alert_noblog"
-msgstr "No tienes un blog. ¿Quieres configurarlo?"
-
-msgid "Blog:wait"
-msgstr "Por favor espere..."
-
-msgid "Blog:info_blogcreated"
-msgstr "El blog ha sido creado."
-
-msgid "Blog:info_renamed"
-msgstr "El nombre ha sido cambiado."
-
-msgid "Blog:info_nonewcommentsonyourblog"
-msgstr "No hay nuevos comentarios en tu blog."
-
-msgid "Blog:info_postcreated"
-msgstr "publicación creada"
-
-msgid "Blog:info_commentcreated"
-msgstr "El comentario ha sido añadido."
-
-msgid "Blog:info_blogfollowed"
-msgstr "Añadido a los blogs seguidos."
-
-msgid "Blog:info_blogunfollowed"
-msgstr "Eliminado de la lista de blogs rastreados."
-
-msgid "Blog:info_blogmarkedasread"
-msgstr "Todas las publicaciones en este blog han sido marcadas como leídas."
-
-msgid "Blog:info_recategorized"
-msgstr "Recategorización completada"
-
-msgid "Files:error_clipboardempty"
-msgstr "El portapapeles esta vacio"
-
-msgid "Files:info_renamed"
-msgstr "Nombre cambiado."
-
-msgid "Files:info_dircreated"
-msgstr "La carpeta ha sido creada."
-
-msgid "Files:info_filecreated"
-msgstr "El archivo ha sido creado."
-
-msgid "Files:info_plserased"
-msgstr "Lista de reproducción limpia"
-
-msgid "Files:wait_converting"
-msgstr "Por favor espere, el archivo se está convirtiendo."
-
-msgid "Files:info_converted"
-msgstr "La conversión ha terminado."
-
-msgid "Files:wait_processing"
-msgstr "Procesando..."
-
-msgid "Media:info_added"
-msgstr "Añadido."
-
-msgid "Account:error_identity"
-msgstr "Se produjo un error al intentar autenticar la cuenta. La contraseña incorrecta probablemente fue dada."
-
-msgid "Account:error_usernotfound"
-msgstr "Ese usuario no existe."
-
-msgid "Update:info_reinstall"
-msgstr "El programa ahora será restaurado a la última versión estable. Elten se reiniciará. Esto puede tardar unos minutos."
-
-msgid "Messages:info_allmarkedasread"
-msgstr "Todos los mensajes han sido marcados como leídos."
-
-msgid "Messages:info_messagedeleted"
-msgstr "El mensaje ha sido eliminado."
-
-msgid "Messages:info_filetoolarge"
-msgstr "El archivo es demasiado grande."
-
-msgid "Messages:info_receivernotfound"
-msgstr "El destinatario del mensaje no existe."
-
-msgid "Forum:info_nonewfollowedforumsthreads"
-msgstr "No hay nuevas entradas en foros seguidos ."
-
-msgid "Forum:info_nonewfollowedforumsposts"
-msgstr "No hay nuevas publicaciones seguidas."
-
-msgid "Forum:info_nonewmentions"
-msgstr "No hay nuevas menciones."
-
-msgid "Forum:info_threadmoved"
-msgstr "La entrada se movió."
-
-msgid "Forum:info_renamed"
-msgstr "Nombre cambiado correctamente."
-
-msgid "Forum:wait_postsendpreparation"
-msgstr "Preparando para enviar una publicación..."
-
-msgid "Forum:error_postcreation"
-msgstr "Error al crear publicación."
-
-msgid "Forum:error_phrasenotfound"
-msgstr "La frase dada no fue encontrada."
-
-msgid "Forum:info_postmoved"
-msgstr "Publicación movida."
-
-msgid "Forum:info_postslided"
-msgstr "Publicación pospuesta"
-
-msgid "Forum:info_noonecontactedyou"
-msgstr "Nadie te ha agregado a tus contactos."
-
-msgid "Forum:info_mentionsent"
-msgstr "Nota enviada."
-
-msgid "Login:error_wrongdata"
-msgstr "Contraseña incorrecta"
-
-msgid "Login:error_logon"
-msgstr "Error al iniciar sesión."
-
-msgid "Login:error_srv"
-msgstr "Error al conectar al servidor."
-
-msgid "EAPI_External:info_donotreadprogress"
-msgstr "Sin leer cambios en la barra de progreso"
-
-msgid "EAPI_External:info_readprogress"
-msgstr "Leer cambios en la barra de progreso"
-
-msgid "EAPI_External:info_addedtopls"
-msgstr "Añadido a la lista de reproducción"
-
-msgid "EAPI_External:wait"
-msgstr "Espera por favor..."
-
-msgid "EAPI_External:info_copiedtoclip"
-msgstr "Copiado al portapapeles."
-
-msgid "EAPI_Common:error_logon"
-msgstr "Error, no puedo iniciar sesión. Probablemente ingresaste la contraseña incorrecta o estás baneado."
-
-msgid "EAPI_Common:info_finished"
-msgstr "La operación se completó con éxito."
-
-msgid "EAPI_Common:info_usingscreenreader"
-msgstr "Usando lector de pantalla"
-
-msgid "EAPI_Common:info_usingsapi"
-msgstr "Utilizando síntesis SAPI"
-
-msgid "EAPI_EltenSRV:wait_severalminutes"
-msgstr "Por favor espere, puede tardar unos minutos ..."
-
-msgid "EAPI_UI:info_newmessagefemale"
-msgstr "Has recibido un nuevo mensaje."
-
-msgid "EAPI_UI:info_newfollowedthread"
-msgstr "Una nueva publicación apareció en la siguiente entrada."
-
-msgid "EAPI_UI:info_newfollowedblog"
-msgstr "Una nueva entrada ha aparecido en el blog seguido."
-
-msgid "Honors:alert_mainhonor"
-msgstr "¿Quieres configurar esta insignia como la principal? La decoración principal se mostrará en su tarjeta de visita."
-
-msgid "Blog:alert_deletecategory"
-msgstr "Seguro que quieres eliminar esta categoría?"
-
-msgid "Contacts:alert_delcontact"
-msgstr "¿Estás seguro de que quieres eliminar este contacto?"
-
-msgid "Update:alert_joinbeta"
-msgstr "Usted no es parte del programa de pruebas abiertas de Elten. ¿Quieres unirte ahora para descargar la versión beta?"
-
-msgid "MainMenu:alert_resetsettings"
-msgstr "¿Está seguro de que desea eliminar todas las configuraciones del programa y restaurar los valores predeterminados? Elten se reiniciará."
-
-msgid "EAPI_External:alert_audioreport"
-msgstr "Ocurrió un error al capturar la pista de audio. ¿Quieres enviar un informe de error? Puede ayudar a resolver el problema."
-
-msgid "EAPI_External:alert_ytreport"
-msgstr "Este archivo no se puede reproducir. ¿Quieres enviar un informe sobre este error? Esto puede ayudar a solucionar el problema que ha encontrado."
-
-msgid "EAPI_Common:alert_useragreement"
-msgstr "¿Aceptas el acuerdo de licencia de software de Elten?"
-
-msgid "EAPI_UI:alert_agentreport"
-msgstr "Se ha producido un error inesperado del agente Elten. ¿Quieres enviar un informe sobre este evento? Enviar un informe definitivamente puede ayudarlo a resolver el problema."
-
-msgid "*Main:alert_changepls"
-msgstr "Tu lista de reproducción ha sido cambiada. Guardar cambios?"
-
-msgid "*Main:alert_savepls"
-msgstr "Quieres guardar tu lista de reproducción?"
-
-msgid "*Main:alert_deletepls"
-msgstr "Quieres eliminar la lista de reproducción guardada?"
-
-msgid "Debug:read_report"
-msgstr "Reportar"
-
-msgid "Notes:type_sharenotewith"
-msgstr "¿Con quién quieres compartir esta nota?"
-
-msgid "Notes:type_title"
-msgstr "Título de nota"
-
-msgid "Notes:type_content"
-msgstr "Contenido de la nota"
-
-msgid "Honors:type_name"
-msgstr "Nombre de decoración"
-
-msgid "Honors:type_description"
-msgstr "Descripción de la insignia"
-
-msgid "Honors:type_enname"
-msgstr "Nombre de la insignia en inglés"
-
-msgid "Honors:type_endescription"
-msgstr "descripción de la insignia en inglés"
-
-msgid "Polls:read_poll"
-msgstr "Leer"
-
-msgid "Ban:type_reason"
-msgstr "causa"
-
-msgid "Ban:type_additionalmsg"
-msgstr "Mensaje adicional para el usuario."
-
-msgid "Ban:read_reason"
-msgstr "Razón del ban"
-
-msgid "Ban:read_validuntil"
-msgstr "Ban válido por"
-
-msgid "Ban:type_cancelreason"
-msgstr "Razón de cancelación del ban"
-
-msgid "Media:type_categorydescription"
-msgstr "Descripción de la categoría"
-
-msgid "Account:type_birthdateyear"
-msgstr "Fecha de nacimiento: Año"
-
-msgid "Account:type_birthdatemonth"
-msgstr "Fecha de nacimiento: Mes"
-
-msgid "Account:type_birthdateday"
-msgstr "Fecha de nacimiento: Día"
-
-msgid "Account:type_location"
-msgstr "Localización"
-
-msgid "Account:type_greeting"
-msgstr "Mensaje de bienvenida."
-
-msgid "Forum:type_nick"
-msgstr "Seudónimo:"
-
-msgid "Main:type_test"
-msgstr "prueva"
-
-msgid "EAPI_External:read_Details"
-msgstr "detalles"
-
-msgid "EAPI_Common:read_useragreement"
-msgstr "Contrato de licencia y regulaciones sobre el uso del programa Elten y la red Elten"
-
-msgid "EAPI_Common:read_readingtofile"
-msgstr "Leyendo archivo, por favor espera..."
-
-msgid "EAPI_Form:type_Filename"
-msgstr "Nombre de archivo"
-
-msgid "Honors:type_honoruser"
-msgstr "¿A quién le das esta insignia?"
-
-msgid "Polls:type_answer"
-msgstr "Respuesta"
-
-msgid "Blog:type_blogname"
-msgstr "Ingrese el nombre del blog que se está creando."
-
-msgid "Blog:type_newcatname"
-msgstr "Ingrese un nuevo nombre para esta categoría"
-
-msgid "Files:type_newname"
-msgstr "Nuevo nombre"
-
-msgid "Account:type_blacklistaddusername"
-msgstr "Ingrese el nombre del usuario que desea agregar a la lista negra"
-
-msgid "Contacts:type_blacklistremoveusername"
-msgstr "Ingrese el nombre del usuario que desea agregar a la lista negra"
-
-msgid "Forum:type_thrnewname"
-msgstr "Introduzca un nuevo nombre de entrada"
-
-msgid "Registration:type_passagain"
-msgstr "Repetir contraseña"
-
-msgid "EAPI_Common:type_movetosec"
-msgstr "Ingrese el segundo al que desea saltar"
-
-msgid "EAPI_Form:type_location"
-msgstr "Introduzca el tipo de uvicación"
-
-msgid "Debug:chk_srvconnectionsignal"
-msgstr "Señalizar conexiones al servidor."
-
-msgid "Portable:chk_sfx"
-msgstr "Crear como un archivo exe (Nota: No se recordará ninguna configuración)."
-
-msgid "Interface:chk_linewrapping"
-msgstr "Envolver líneas largas en cuadros de texto"
-
-msgid "Debug:btn_ok"
-msgstr "De acuerdo"
-
-msgid "Blog:btn_createtextpost"
-msgstr "Crear una entrada de texto"
-
-msgid "Messages:btn_sendasadmin"
-msgstr "Enviar como administracion"
-
-msgid "Messages:btn_sendtoall"
-msgstr "Enviar a todos"
-
-msgid "Messages:btn_audiomessage"
-msgstr "Mensaje de voz"
-
-msgid "Forum:btn_recpoststop"
-msgstr "Dejar de grabar la entrada"
-
-msgid "EAPI_Common:btn_agree"
-msgstr "Aceptar"
-
-msgid "EAPI_Common:btn_disagree"
-msgstr "No acepto, cierre el programa"
-
-msgid "EAPI_Common:read_waitprocessingfiles"
-msgstr "Por favor espere, el procesamiento de archivos está en progreso "
-
-msgid "Blog:alert_markblogasread"
-msgstr "Todas las entradas en este blog serán marcadas como leídas. deseas continuar?"
-
-msgid "Files:alert_eltenapi"
-msgstr "¿Desea ejecutar este archivo de script API Elten? Los scripts de fuentes no confiables pueden ser peligrosos y causar daños a su computadora o acceso no autorizado a su cuenta. Continua solo si confía en el origen de este archivo."
-
-msgid "Forum:alert_Deletepost"
-msgstr "Seguro que quieres eliminar esta publicación?"
-
-msgid "EAPI_Common:alert_mididownloadsf"
-msgstr "Estás intentando reproducir un archivo midi. Para reproducir correctamente archivos de este tipo, el programa Elten requiere una base de datos externa de instrumentos. ¿Quieres descargarlo desde el servidor ahora? Esto puede tardar unos minutos."
-
-msgid "Uploads:head_filetosend"
-msgstr "Selecciona el archivo a enviar al servidor."
-
-msgid "Messages:head_savelocation"
-msgstr "Donde guardarás este archivo?"
-
-msgid "EAPI_Common:head_savelocation"
-msgstr "En donde guardarás este archivo?"
-
-msgid "Forum:head_movethrlocation"
-msgstr "Donde moverás la entrada?"
-
-msgid "EAPI_EltenSRV:head_seluser"
-msgstr "Elige un usuario"
-
-msgid "Forum:head_selpost"
-msgstr "Elegir publicación"
-
-msgid "Forum:head_movepostlocation"
-msgstr "Donde moverás esta publicación?"
-
-msgid "Forum:head_postslidewith"
-msgstr "Elija con qué otra publicación para reemplazar esta publicación."
-
-msgid "Files:head_convertto"
-msgstr "¿A qué formato quieres convertir este archivo?"
-
-msgid "Honors:head"
-msgstr "Insignias"
-
-msgid "Honors:head_user"
-msgstr "Ignsignias de %{user}"
-
-msgid "Polls:read_results"
-msgstr "Resultados de la encuesta: #{%name%}"
-
-msgid "Programs:alert_installprogram"
-msgstr "Desea instalar %{name}?"
-
-msgid "Notes:alert_delete"
-msgstr "Seguro que quieres borrar %{name}?"
-
-msgid "Polls:alert_delete"
-msgstr "Seguro que quieres eliminar %{name}?"
-
-msgid "Uploads:head_filesofuser"
-msgstr "Archivos de usuario %{user}"
-
-msgid "Uploads:alert_deletefile"
-msgstr "Seguro que quieres eliminar el archivo %{filename}?"
-
-msgid "Blog:opt_phr_author"
-msgstr "Autor"
-
-msgid "Ban:opt_day"
-msgstr "Día"
-
-msgid "Ban:opt_threedays"
-msgstr "Tres días"
-
-msgid "Ban:opt_year"
-msgstr "Año"
-
-msgid "Chat:info_phr_lastmessage"
-msgstr "Ultimo mensaje"
-
-msgid "Files:alert_delete"
-msgstr "Seguro que quieres suprimir %{filename}?"
-
-msgid "General:female"
-msgstr "Femenino"
-
-msgid "General:male"
-msgstr "Masculino"
-
-msgid "Account:info_phr_addedtoblacklist"
-msgstr "El usuario %{user} ha sido añadido a tu lista negra"
-
-msgid "Voice:info_phr_selectedvoice"
-msgstr "Voz seleccionada"
-
-msgid "Messages:opt_phr_from"
-msgstr "De"
-
-msgid "Messages:opt_phr_to"
-msgstr "a"
-
-msgid "Messages:opt_phr_new"
-msgstr "Nueva"
-
-msgid "Messages:wait_sendingfile"
-msgstr "Cargar: %{file}"
-
-msgid "_Main:info_errorcritical"
-msgstr "Se produjo un error crítico. Descripción: %{description}"
-
-msgid "EAPI_Form:opt_phr_shortkey"
-msgstr "Atajo"
-
-msgid "EAPI_EltenSRV:info_phr_sessconftime"
-msgstr "Hora de confirmación de la sesión:"
-
-msgid "EAPI_Common:txt_phr_gender"
-msgstr "Sexo"
-
-msgid "EAPI_Common:txt_phr_age"
-msgstr "edad"
-
-msgid "EAPI_Common:txt_phr_forumposts"
-msgstr "Publicaciones del foro"
-
-msgid "EAPI_Common:txt_phr_pollsanswered"
-msgstr "Encuestas completadas"
-
-msgid "EAPI_Common:txt_phr_usedversion"
-msgstr "Verción utilizada"
-
-msgid "EAPI_Common:txt_phr_registered"
-msgstr "Cuenta registrada"
-
-msgid "EAPI_Common:error_nofiletoread"
-msgstr "Ningún archivo seleccionado para leer"
-
-msgid "EAPI_Common:error_nofilename"
-msgstr "Podaj tytuł tworzonego pliku"
-
-msgid "EAPI_Common:error_seldestination"
-msgstr "Elija dónde guardar el archivo"
-
-msgid "EAPI_Common:error_selsource"
-msgstr "Seleccione el archivo fuente"
-
-msgid "EAPI_Common:txt_phr_readtofilenum"
-msgstr "Leyendo número de archivo"
-
-msgid "EAPI_Common:txt_phr_sentencenumber"
-msgstr "sentencia %{cursentence} z %{sentences}"
-
-msgid "EAPI_Common:txt_phr_readtime"
-msgstr "Cargado"
-
-msgid "EAPI_Common:txt_phr_timeremaining"
-msgstr "Tiempo restante estimado"
-
-msgid "EAPI_Common:read_visitingcardofuser"
-msgstr "Targeta: %{user}"
-
-msgid "Login:info_loggedinas"
-msgstr "Registrado como: %{user}"
-
-msgid "Login:alert_autologin"
-msgstr "¿Desea activar el inicio de sesión automático para la cuenta %{user}?"
-
-msgid "Forum:opt_phr_author"
-msgstr "Autor"
-
-msgid "Forum:alert_thrdelete"
-msgstr "Seguro que quieres eliminar la entrada %{thrname}?"
-
-msgid "Forum:opt_phr_thrisnew"
-msgstr "Nuevo"
-
-msgid "Forum:opt_phr_threads"
-msgstr "entradas"
-
-msgid "Forum:opt_phr_posts"
-msgstr "Publicaciones"
-
-msgid "WhatsNew:opt_messages"
-msgstr "Mensajes nuevos"
-
-msgid "WhatsNew:opt_followedthreads"
-msgstr "Nuevas publicaciones en entradas que sigues"
-
-msgid "WhatsNew:opt_followedblogs"
-msgstr "Nuevas entradas en blogs rastreados."
-
-msgid "WhatsNew:opt_blogcomments"
-msgstr "Nuevos comentarios en el blog seguido"
-
-msgid "WhatsNew:opt_followedforums"
-msgstr "<Nuevas entradas en foros que sigues"
-
-msgid "WhatsNew:opt_followedforumsposts"
-msgstr "Nuevas publicaciones en foros que sigues"
-
-msgid "WhatsNew:opt_contacts"
-msgstr "Nuevas amistades"
-
-msgid "WhatsNew:opt_birthday"
-msgstr "Aniversarios de amigos"
-
-msgid "WhatsNew:opt_mentions"
-msgstr "Cumpleaños amistosos"
-
-msgid "WhatsNew:opt_update"
-msgstr "nueva actualización (%version)"
-
-msgid "_Main:error_critical"
-msgstr "Se produjo un error crítico. Descripción: %{description}"
-
-msgid "Chat:joined"
-msgstr "Entró a la discusión."
-
-msgid "Chat:left"
-msgstr "Abandonó la discusión."
-
-msgid "Notes:info_sharedwith"
-msgstr "Compartes la nota con %{user}"
-
-msgid "Notes:info_unsharedwith"
-msgstr "Ya no estás compartiendo esta nota con% {user}"
-
-msgid "Notes:alert_unshare"
-msgstr "¿Quieres dejar de compartir esta nota con %{user}?"
-
-msgid "Files:head_soundquality"
-msgstr "Elige la calidad del sonido."
-
-msgid "Files:info_addedtoplscount"
-msgstr "Archivos añadidos a la lista de reproducción: %{count}."
-
-msgid "General:error_platform"
-msgstr "Esta característica no está disponible en esta plataforma."
-
-msgid "EAPI_Common:info_readtofilefinished"
-msgstr "Se ha completado la lectura del archivo."
-
-msgid "EAPI_UI:info_alarm"
-msgstr "Alarma!"
-
-msgid "EAPI_Form:wait_link"
-msgstr "Enlace de apertura ..."
-
-msgid "EAPI_Form:wait_downloading"
-msgstr "Telecargando...g"
-
-msgid "EAPI_Form:info_downloaded"
-msgstr "Descarga completada."
-
-msgid "EAPI_Form:info_checked"
-msgstr "declarado"
-
-msgid "EAPI_Form:info_unchecked"
-msgstr "Insigniado"
-
-msgid "UserSearch:opt_searchagain"
+#: Users_LastAvatars.rb:37
+msgctxt "Users_LastAvatars"
+msgid "recently changed avatars"
+msgstr "Avatares recientemente cambiados"
+
+#: Users_RecentlyRegistered.rb:23
+msgctxt "Users_RecentlyRegistered"
+msgid "Recently registered users"
+msgstr "Usuarios registrados recientemente"
+
+#: Users_RecentlyActived.rb:23
+msgctxt "Users_RecentlyActived"
+msgid "Recently active users"
+msgstr "Usuarios activos recientemente"
+
+#: UserSearch.rb:39
+msgctxt "UserSearch"
+msgid "Found items"
+msgstr "Elementos encontrados"
+
+#: UserSearch.rb:39
+msgctxt "UserSearch"
+msgid "Search users"
+msgstr "Buscar usuarios"
+
+#: UserSearch.rb:27
+msgctxt "UserSearch"
+msgid "No match found."
+msgstr "No se encontraron coincidencias."
+
+#: UserSearch.rb:52
+msgctxt "UserSearch"
+msgid "Search again"
 msgstr "Buscar de nuevo"
 
-msgid "Permissions:head"
-msgstr "Perteneces a los siguientes grupos."
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Hour"
+msgstr "Hora"
 
-msgid "Honors:opt_honor"
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "None"
+msgstr "Ninguno"
+
+#: Clock.rb:70
+msgctxt "Clock"
+msgid "Add"
+msgstr "Agregar"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Auto timereading"
+msgstr "lectura de tiempo automático"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Voice and sound"
+msgstr "Voz y sonido"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Voice only"
+msgstr "Solo voz"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Sound only"
+msgstr "Solo sonido"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "announce time"
+msgstr "Anunciar el tiempo"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every hour"
+msgstr "Cada hora"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every half hour"
+msgstr "Cada horay medio"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every quarter of an hour"
+msgstr "Cada cuarto de hora"
+
+#: Clock.rb:13
+msgctxt "Clock"
+msgid "Alarms"
+msgstr "Alarmas"
+
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Minute"
+msgstr "Minuto"
+
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Type"
+msgstr "Tipo"
+
+#: Clock.rb:68
+msgctxt "Clock"
+msgid "One time"
+msgstr "Una vez"
+
+#: Clock.rb:68
+msgctxt "Clock"
+msgid "Repeaarr"
+msgstr "Repetible"
+
+#: Advanced.rb:11
+msgctxt "Advanced"
+msgid " Key state refresh time (ms) (Note: it is not recommended to change this value!)"
+msgstr "Tiempo de actualización del estado clave (ms) (Nota: no se recomienda cambiar este valor)"
+
+#: Advanced.rb:12
+msgctxt "Advanced"
+msgid "Hexagonal processing of diacritics (advanced)"
+msgstr "Procesado hexagonal diacrítico avanzado"
+
+#: Advanced.rb:13
+msgctxt "Advanced"
+msgid " Session refresh time (s) (Attention! It is not recommended to change this value!)"
+msgstr "Tiempo de refresco de sesión (s) (Atención! No es recomendable cambiar este valor!)"
+
+#: Advanced.rb:14
+msgctxt "Advanced"
+msgid "Use audiostreaming if supported"
+msgstr "Utilizar Audiostreaming si se soporta"
+
+#: Advanced.rb:15
+msgctxt "Advanced"
+msgid "Synchronize time with server"
+msgstr "Sincronizar tiempo con el servidor"
+
+#: Notes.rb:250
+msgctxt "Notes"
+msgid "Add"
+msgstr "Añadir"
+
+#: Notes.rb:130
+msgctxt "Notes"
+msgid "Edit"
+msgstr "Editar"
+
+#: Notes.rb:130
+msgctxt "Notes"
+msgid "Notes"
+msgstr "Notas"
+
+#: Notes.rb:56
+msgctxt "Notes"
+msgid "New note"
+msgstr "Nueva nota"
+
+#: Notes.rb:130
+msgctxt "Notes"
+msgid "Shared with"
+msgstr "Compartir con"
+
+#: Notes.rb:88
+msgctxt "Notes"
+msgid "Read"
+msgstr "Leer"
+
+#: Notes.rb:54
+msgctxt "Notes"
+msgid "Author"
+msgstr "Autor"
+
+#: Notes.rb:54
+msgctxt "Notes"
+msgid "Modified"
+msgstr "Modificado"
+
+#: Notes.rb:158
+msgctxt "Notes"
+msgid "The note has been modified."
+msgstr "Nota modificada."
+
+#: Notes.rb:180
+msgctxt "Notes"
+msgid "User cannot be found"
+msgstr "El usuario no existe."
+
+#: Notes.rb:240
+msgctxt "Notes"
+msgid "The note has been deleted."
+msgstr "Nota eliminada."
+
+#: Notes.rb:271
+msgctxt "Notes"
+msgid "The note has been created"
+msgstr "Nota creada."
+
+#: Notes.rb:167
+msgctxt "Notes"
+msgid "Who do you want to share this note with?"
+msgstr "¿Con quién quieres compartir esta nota?"
+
+#: Notes.rb:250
+msgctxt "Notes"
+msgid "note title"
+msgstr "Título de nota"
+
+#: Notes.rb:250
+msgctxt "Notes"
+msgid "Note content"
+msgstr "Contenido de la nota"
+
+#: Notes.rb:231
+msgctxt "Notes"
+msgid "Do you really want to delete %{name}?"
+msgstr "Seguro que quieres borrar %{name}?"
+
+#: Notes.rb:187
+msgctxt "Notes"
+msgid "From now on you share this note with %{user}"
+msgstr "Compartes la nota con %{user}"
+
+#: Notes.rb:208
+msgctxt "Notes"
+msgid "You no longer share this note with %{user}"
+msgstr "Ya no estás compartiendo esta nota con% {user}"
+
+#: Notes.rb:201
+msgctxt "Notes"
+msgid "Do you want to stop sharing this note with %{user}?"
+msgstr "¿Quieres dejar de compartir esta nota con %{user}?"
+
+#: FirstRun.rb:124
+msgctxt "FirstRun"
+msgid "Password:"
+msgstr "Contraseña"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "Characters"
+msgstr "Caracteres"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "Words"
+msgstr "Palabras"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "Characters and words"
+msgstr "Caracteres y palabras"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "None"
+msgstr "Ningún"
+
+msgctxt "FirstRun"
+msgid "Audio"
+msgstr "Audio"
+
+#: ForgotPassword.rb:34
+msgctxt "ForgotPassword"
+msgid "Password reset"
+msgstr "Restablecer contraseña"
+
+#: ForgotPassword.rb:19
+msgctxt "ForgotPassword"
+msgid "Enter the E-mail address used during the registration process"
+msgstr "Introduce el correo electrónico usado para el proceso de registro"
+
+msgctxt "ForgotPassword"
+msgid "The typed E-mail address is not associated with the entered username."
+msgstr "La dirección de correo electrónico escrita no está asociada con el nombre de usuario introducido."
+
+#: ForgotPassword.rb:34
+msgctxt "ForgotPassword"
+msgid "Generate password reset code"
+msgstr "Generar código de restauración de contraseña"
+
+#: ForgotPassword.rb:34
+msgctxt "ForgotPassword"
+msgid "Enter password reset code"
+msgstr "Introducir código de restauración de contraseña"
+
+#: ForgotPassword.rb:93
+msgctxt "ForgotPassword"
+msgid "Please wait while the password reset key is being generated."
+msgstr "Por favor, espere mientras se envía un código de restauración de contraseña."
+
+#: ForgotPassword.rb:67
+msgctxt "ForgotPassword"
+msgid "Enter the generated password reset code"
+msgstr "Entra el código generado de restauración de contraseña"
+
+msgctxt "ForgotPassword"
+msgid "The entered code is invalid."
+msgstr "El código entrado es inválido"
+
+#: ForgotPassword.rb:81
+msgctxt "ForgotPassword"
+msgid "Type a new password"
+msgstr "Escribir nueva contraseña"
+
+#: ForgotPassword.rb:81
+msgctxt "ForgotPassword"
+msgid "Repeat new password"
+msgstr "Repita nueva contraseña"
+
+msgctxt "ForgotPassword"
+msgid "The entered passwords are different."
+msgstr "Las contraseñas ingresadas son diferentes y no coinciden."
+
+msgctxt "ForgotPassword"
+msgid "Empty password provided."
+msgstr "Contraseña en blanco prevista"
+
+#: ForgotPassword.rb:93
+msgctxt "ForgotPassword"
+msgid "Please wait while the password is being changed."
+msgstr "Por favor, espere mientras la contraseña se cambie."
+
+#: ForgotPassword.rb:99
+msgctxt "ForgotPassword"
+msgid " The password has been changed. You can log in to your account using the new data."
+msgstr "Contraseña cambiada. Puedes iniciar sesión utilizando los nuevos datos."
+
+#: ForgotPassword.rb:12
+msgctxt "ForgotPassword"
+msgid " If you lose your password, you can still reset it via the E-mail address provided  during the registration process. This way you shall generate the password reset  code which will be used to verify your identity. The code will be sent to your e- mail address. Warning! Two-factor authentication will be disabled on your  account. To continue, enter your username:"
+msgstr "Si pierde su contraseña, aún puede restablecerla a través de la dirección de correo electrónico proporcionada durante el proceso de registro. De esta manera, generará el código de restablecimiento de contraseña que se utilizará para verificar su identidad. El código será enviado a su dirección de correo electrónico. ¡Advertencia! La autenticación de dos factores se deshabilitará en su cuenta. Para continuar, ingrese su nombre de usuario:"
+
+#: ForgotPassword.rb:97
+msgctxt "ForgotPassword"
+msgid "An unexpected error"
+msgstr "Ocurrió un error inesperado."
+
+#: ForgotPassword.rb:60
+msgctxt "ForgotPassword"
+msgid " Password reset key has been sent to your specified E-mail address. To continue,  select the option for entering key."
+msgstr "La clave de restablecimiento de la contraseña se ha enviado a la dirección de correo electrónico proporcionada. Seleccione la opción de entrada clave para continuar"
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Add"
+msgstr "Agregar"
+
+#: Honors.rb:66
+msgctxt "Honors"
+msgid "The user has been given no badges."
+msgstr "El usuario no recibió ningúna insignia"
+
+#: Honors.rb:84
+msgctxt "Honors"
+msgid "The badge has been set as default."
+msgstr "Deselecciona establecer como predeterminado."
+
+#: Honors.rb:117
+msgctxt "Honors"
+msgid "The user cannot be found"
+msgstr "El usuario no existe."
+
+#: Honors.rb:124
+msgctxt "Honors"
+msgid "The badge has been granted"
+msgstr "insignia otorgada"
+
+#: Honors.rb:155
+msgctxt "Honors"
+msgid "The badge has been added"
+msgstr "Insignia agregada"
+
+#: Honors.rb:79
+msgctxt "Honors"
+msgid " Do you want to set this badge as your main badge? The main badge will show in  your visiting card."
+msgstr "¿Quieres configurar esta insignia como la principal? La decoración principal se mostrará en su tarjeta de visita."
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge name"
+msgstr "Nombre de decoración"
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge description"
+msgstr "Descripción de la insignia"
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge name in English"
+msgstr "Nombre de la insignia en inglés"
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge description in English"
+msgstr "descripción de la insignia en inglés"
+
+#: Honors.rb:114
+msgctxt "Honors"
+msgid "Who should be granted this badge?"
+msgstr "¿A quién le das esta insignia?"
+
+#: Honors.rb:63
+msgctxt "Honors"
+msgid "Badges"
+msgstr "Insignias"
+
+#: Honors.rb:63
+msgctxt "Honors"
+msgid "Badges of %{user}"
+msgstr "Ignsignias de %{user}"
+
+#: Honors.rb:102
+msgctxt "Honors"
+msgid "Grant a badge"
 msgstr "Dar la insignia"
 
-msgid "Honors:opt_new"
+msgctxt "Honors"
+msgid "A new badge"
 msgstr "Nueva insignia"
 
-msgid "Blog:opt_markallasread"
-msgstr "Marcar todas las entradas en este blog como leídas"
-
-msgid "Forum:opt_phr_unreads"
-msgstr "Nuevo"
-
-msgid "MainMenu:opt_community"
-msgstr "C&omunidad"
-
-msgid "MainMenu:opt_media"
-msgstr "&medio"
-
-msgid "MainMenu:opt_files"
-msgstr "&Archivos"
-
-msgid "MainMenu:opt_programs"
-msgstr "Pro&gramas"
-
-msgid "MainMenu:opt_tools"
-msgstr "&Herramientas"
-
-msgid "MainMenu:opt_settings"
-msgstr "&Configuración"
-
-msgid "MainMenu:opt_help"
-msgstr "&Ayuda"
-
-msgid "MainMenu:opt_quit"
-msgstr "&Salir"
-
-msgid "MainMenu:opt_changelog"
-msgstr "&Lista de cambios"
-
-msgid "MainMenu:opt_version"
-msgstr "Versión del &programa"
-
-msgid "MainMenu:opt_readme"
-msgstr "&Léame"
-
-msgid "MainMenu:opt_shortkeys"
-msgstr "&Comandos de teclado"
-
-msgid "MainMenu:opt_report"
-msgstr "Reportar un e&rror"
-
-msgid "MainMenu:opt_license"
-msgstr "Acuerdo de&l usuario"
-
-msgid "MainMenu:opt_interface"
-msgstr "Opciones de i&nterfaz"
-
-msgid "MainMenu:opt_voice"
-msgstr "&Configuración de voz"
-
-msgid "MainMenu:opt_clock"
-msgstr "Relo&j"
-
-msgid "MainMenu:opt_soundthemes"
-msgstr "Temas de s&onido"
-
-msgid "MainMenu:opt_languages"
-msgstr "Administrar &idiomas"
-
-msgid "MainMenu:opt_advanced"
-msgstr "Op&cionnes avanzadas"
-
-msgid "MainMenu:opt_messages"
-msgstr "&Mensajes"
-
-msgid "MainMenu:opt_blogs"
-msgstr "&Blogs"
-
-msgid "MainMenu:opt_forum"
-msgstr "&Foro"
-
-msgid "MainMenu:opt_chat"
-msgstr "&Chat"
-
-msgid "MainMenu:opt_notes"
-msgstr "No&tas"
-
-msgid "MainMenu:opt_whatsnew"
-msgstr "Qué &hay de nuevo?"
-
-msgid "MainMenu:opt_polls"
-msgstr "En&cuestas"
-
-msgid "MainMenu:opt_users"
-msgstr "&Usuarios"
-
-msgid "MainMenu:opt_account"
-msgstr "Mi cu&enta"
-
-msgid "MainMenu:opt_profile"
-msgstr "Editar p&erfil"
-
-msgid "MainMenu:opt_status"
-msgstr "C&ambiar estado"
-
-msgid "MainMenu:opt_signature"
-msgstr "Mi &firma"
-
-msgid "MainMenu:opt_greeting"
-msgstr "Mi men&saje de bienvenida"
-
-msgid "MainMenu:opt_visitingcard"
-msgstr "Mi &tarjeta de visita"
-
-msgid "MainMenu:opt_honors"
-msgstr "Mis &insignias"
-
-msgid "MainMenu:opt_sharedfiles"
-msgstr "Mis archi&vos compartidos"
-
-msgid "MainMenu:opt_avatar"
-msgstr "Cambiar &avatar"
-
-msgid "MainMenu:opt_whatsnewconfig"
-msgstr "Con&figuración de qué hay de nuevo"
-
-msgid "MainMenu:opt_mypermissions"
-msgstr "Mis p&ermisos"
-
-msgid "MainMenu:opt_blacklist"
-msgstr "Lista &negra"
-
-msgid "MainMenu:opt_autologintokens"
-msgstr "Tokens de inicio de sesión au&tomático"
-
-msgid "MainMenu:opt_changepassword"
-msgstr "Cambiar contra&seña"
-
-msgid "MainMenu:opt_changemail"
-msgstr "Cambiar correo elect&rónico"
-
-msgid "MainMenu:opt_twofactor"
-msgstr "Configuración de autentificadór en dos &factores"
-
-msgid "MainMenu:opt_soundthemesgenerator"
-msgstr "Ge&nerador de temas de sonido"
-
-msgid "MainMenu:opt_speedtest"
-msgstr "Prueva d&e velocidad"
-
-msgid "MainMenu:opt_programmanagement"
-msgstr "Adm&inistrar programas"
-
-msgid "MainMenu:opt_readtofile"
-msgstr "Leer al a&rchivo"
-
-msgid "MainMenu:opt_console"
-msgstr "&Consola"
-
-msgid "MainMenu:opt_compiler"
-msgstr "Co&mpilador Elten API"
-
-msgid "MainMenu:opt_debug"
-msgstr "De&purar"
-
-msgid "MainMenu:opt_tray"
-msgstr "Ocultar a &la bandeja"
-
-msgid "MainMenu:opt_logout"
-msgstr "&Cerrar sesión"
-
-msgid "MainMenu:opt_exit"
-msgstr "S&alir"
-
-msgid "MainMenu:opt_restart"
-msgstr "&Reiniciar"
-
-msgid "MainMenu:opt_restarttodebug"
-msgstr "Reiniciar en mo&do depuración"
-
-msgid "MainMenu:opt_update"
-msgstr "Buscar &actualizaciones"
-
-msgid "MainMenu:opt_reinstall"
-msgstr "&Reinstalar"
-
-msgid "MainMenu:opt_portable"
-msgstr "Crear versión &portable"
-
-msgid "MainMenu:opt_resetsettings"
-msgstr "Resta&urar opciones predeterminados"
-
-msgid "MainMenu:opt_install"
-msgstr "&Instalar"
-
-msgid "MainMenu:opt_mediacatalog"
-msgstr "&Catálogo de medios"
-
-msgid "MainMenu:opt_youtube"
-msgstr "&Youtube"
-
-msgid "MainMenu:opt_contacts"
-msgstr "M&is contactos"
-
-msgid "MainMenu:opt_useraddedmetocontacts"
-msgstr "Usua&rios que me añadieron a los contactos"
-
-msgid "MainMenu:opt_online"
-msgstr "&Quién está en línea?"
-
-msgid "MainMenu:opt_userslist"
-msgstr "&Lista de usuarios"
-
-msgid "MainMenu:opt_admins"
-msgstr "Ad&ministradores"
-
-msgid "MainMenu:opt_usersearch"
-msgstr "Bu&scar usuarios"
-
-msgid "MainMenu:opt_recentlyactived"
-msgstr "Usuarios &recientemente activos"
-
-msgid "MainMenu:opt_recentlyregistered"
-msgstr "Usuarios reci&entemente registrados"
-
-msgid "MainMenu:opt_lastavatars"
-msgstr "a&vatares recientemente cambiados"
-
-msgid "EAPI_Common:txt_phr_userhasblog"
-msgstr "User has a blog"
-
-msgid "_Agent:info_message_male"
-msgstr "Recibistes un nuevo mensaje"
-
-msgid "_Agent:info_message_female"
-msgstr "Has recibido un nuevo mensaje"
-
-msgid "_Agent:info_followedthread"
-msgstr "Una nueva publicación apareció en la entrada seguida"
-
-msgid "_Agent:info_followedblog"
-msgstr "Una nueva publicación apareció en el blog seguido"
-
-msgid "_Agent:info_blogcomment"
-msgstr "Un nuevo comentario apareció en tu blog"
-
-msgid "_Agent:info_followedforum"
-msgstr "Una nueva entrada apareció en el foro seguido"
-
-msgid "_Agent:info_followedforumpost"
-msgstr "Una nueva publicación apareció en el foro seguido"
-
-msgid "_Agent:info_contact"
-msgstr "Tienes un amigo nuevo"
-
-msgid "_Agent:info_newversion"
-msgstr "Una nueva versión de Elten está disponible"
-
-msgid "_Agent:info_newbeta"
-msgstr "Una nueva versión beta de Elten está disponible"
-
-msgid "Forum:opt_followedthreads"
-msgstr "Entradas seguidas"
-
-msgid "Forum:opt_followedforums"
-msgstr "Foros seguidos"
-
-msgid "Forum:opt_phr_forums"
-msgstr "Foros"
-
-msgid "EAPI_Common:txt_phr_lastseen"
-msgstr "Última vez vista"
-
-msgid "EAPI_Common:txt_phr_lastseen_female"
-msgstr "Última vista"
-
-msgid "EAPI_Common:txt_phr_lastseen_male"
-msgstr "Última vista"
-
-msgid "EAPI_Common:head_filetoread"
-msgstr "Archivo para leer"
-
-msgid "EAPI_Common:head_outputformat"
-msgstr "Formato de salida"
-
-msgid "Soundthemes:head_themetodownload"
-msgstr "Seleccione tema a descargar"
-
-msgid "EAPI_Common:head_selcontact"
-msgstr "Seleccionar contacto"
-
-msgid "Forum:opt_phr_mentionedby"
-msgstr "Mencionado por"
-
-msgid "EAPI_Common:txt_phr_knownby"
-msgstr "Conocido por %{count} usuarios"
-
-msgid "EAPI_Common:txt_phr_knownby_female"
-msgstr "Conocido por %{count} users"
-
-msgid "EAPI_Common:txt_phr_knownby_male"
-msgstr "Visto por %{count} users"
-
-msgid "EAPI_Common:txt_phr_knows"
-msgstr "Conoce %{count} users"
-
-msgid "Messages:head"
-msgstr "Mensajes"
-
-msgid "Messages:opt_phr_lastmsg"
-msgstr "Último mensaje"
-
-msgid "Messages:opt_phr_nosubj"
-msgstr "Sin asunto"
-
-msgid "Messages:opt_phr_readmore"
-msgstr "Leer más"
-
-msgid "Messages:head_conversations"
-msgstr "Conversaciones con %{user}"
-
-msgid "Messages:head_messages"
-msgstr "Mensajes en el tema %{subject} con %{user}"
-
-msgid "Messages:opt_showmore"
-msgstr "Ver antiguo"
-
-msgid "Messages:type_reply"
-msgstr "Su respuesta"
-
-msgid "Messages:btn_compose"
-msgstr "Componer"
-
-msgid "Blog:opt_recategorize"
-msgstr "Recategorizar"
-
-msgid "Forum:opt_slidepost"
-msgstr "Cambiar posisión de post"
-
-msgid "Polls:txt_phr_created"
+#: Programs.rb:46
+msgctxt "Programs"
+msgid "Programs installation"
+msgstr "Instalación de programas"
+
+#: Programs.rb:57
+msgctxt "Programs"
+msgid "The program has already been installed."
+msgstr "Este programa ya está instalado."
+
+#: Programs.rb:79
+msgctxt "Programs"
+msgid "Finished installation."
+msgstr "Instalación completada."
+
+#: Programs.rb:58
+msgctxt "Programs"
+msgid "Do you want to install the program %{name}?"
+msgstr "Desea instalar %{name}?"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Destination"
+msgstr "Destino"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Include another languages"
+msgstr "Incluir otros idiomas"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Copy current settings"
+msgstr "Copiar configuración actual"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Copy downloaded soundthemes"
+msgstr "Copiar temas de sonido descargados"
+
+#: Portable.rb:98
+msgctxt "Portable"
+msgid "Please wait while files are being prepared"
+msgstr "Espera hasta que los archivos se copien."
+
+#: Portable.rb:60
+msgctxt "Portable"
+msgid "Copying configuration"
+msgstr "Copiando configuración"
+
+#: Portable.rb:80
+msgctxt "Portable"
+msgid "Copying soundthemes"
+msgstr "Copiando temas de sonido"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Reset synthesizer settings"
+msgstr "Restaurar configuración de sintetizador"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Ask each time"
+msgstr "Preguntar cada vez"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Use current setting"
+msgstr "Utilizar configuración actual"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid " If you use a created copy of Elten on another computer, the voice settings may  not work properly. This is especially noticeable in a situation when another  computer has other voices installed. How do you want to configure the generated  version?"
+msgstr "Si usa una copia creada de Elten en otra computadora, es posible que la configuración de voz no funcione correctamente. Esto es especialmente notable en una situación en la que otra computadora tendrá otras voces instaladas. ¿Cómo quieres configurar la versión generada?"
+
+#: Portable.rb:103
+msgctxt "Portable"
+msgid "Elten Portable version created successfully."
+msgstr "Versión portátil de Elten creada satisfactoriamente."
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Use a screenreader or a system default voice"
+msgstr "Utilizar lector de pantalla o voz predeterminada"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "continue"
+msgstr "continuar"
+
+#: Portable.rb:33
+msgctxt "Portable"
+msgid "Downloading of the language packs..."
+msgstr "Descargando paquetes de idioma..."
+
+#: Portable.rb:98
+msgctxt "Portable"
+msgid "Processing the file..."
+msgstr "Preparando archivo..."
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Create as a single exe file. (No settings will be saved."
+msgstr "Crear como un archivo exe (Nota: No se recordará ninguna configuración)."
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Description"
+msgstr "Descripción"
+
+#: Polls.rb:184
+msgctxt "Polls"
+msgid "Polls"
+msgstr "Encuestas"
+
+#: Polls.rb:316
+msgctxt "Polls"
+msgid "Vote"
+msgstr "Votar"
+
+#: Polls.rb:73
+msgctxt "Polls"
+msgid "Show results"
+msgstr "Ver resultados"
+
+#: Polls.rb:228
+msgctxt "Polls"
+msgid "New poll"
+msgstr "Nueva encuesta"
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Poll name"
+msgstr "Nombre de la encuesta"
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Questions"
+msgstr "Preguntas"
+
+#: Polls.rb:228
+msgctxt "Polls"
+msgid "Add a new question"
+msgstr "Añadir nueva pregunta"
+
+#: Polls.rb:184
+msgctxt "Polls"
+msgid "Answers"
+msgstr "Respuestas"
+
+#: Polls.rb:205
+msgctxt "Polls"
+msgid "Add a new answer"
+msgstr "Añadir nueva respuesta"
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Create"
+msgstr "Crear"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Question"
+msgstr "Preguta"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Single choice"
+msgstr "Una opción"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Multiple choice"
+msgstr "opción múltiple"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Edit box"
+msgstr "Edición"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Question type"
+msgstr "Tipo de pregunta"
+
+#: Polls.rb:133
+msgctxt "Polls"
+msgid "deleted"
+msgstr "Eliminada"
+
+#: Polls.rb:401
+msgctxt "Polls"
+msgid "Author"
+msgstr "Autor"
+
+#: Polls.rb:413
+msgctxt "Polls"
+msgid "The number of votes"
+msgstr "número de votos"
+
+#: Polls.rb:213
+msgctxt "Polls"
+msgid "There are no answers to this question"
+msgstr "La pregunta no tiene respuesta."
+
+#: Polls.rb:215
+msgctxt "Polls"
+msgid "There is only one answer to this question."
+msgstr "La pregunta tiene una sola respuesta."
+
+#: Polls.rb:254
+msgctxt "Polls"
+msgid "The poll has been created."
+msgstr "La encuesta fue creada."
+
+#: Polls.rb:351
+msgctxt "Polls"
+msgid "Your vote has been saved."
+msgstr "Tu voto ha sido guardado."
+
+#: Polls.rb:316
+msgctxt "Polls"
+msgid "Poll"
+msgstr "Leer"
+
+#: Polls.rb:204
+msgctxt "Polls"
+msgid "Answer"
+msgstr "Respuesta"
+
+#: Polls.rb:441
+msgctxt "Polls"
+msgid "Poll results: #{%name%}"
+msgstr "Resultados de la encuesta: #{%name%}"
+
+#: Polls.rb:128
+msgctxt "Polls"
+msgid "Do you really want to delete %{name}?"
+msgstr "Seguro que quieres eliminar %{name}?"
+
+#: Polls.rb:401
+msgctxt "Polls"
+msgid "Created"
 msgstr "Creada"
 
-msgid "Files:head_player"
-msgstr "Reproduciendo: %{file}"
+#: Polls.rb:308
+msgctxt "Polls"
+msgid "Single choice question"
+msgstr "Pregunta de una sola opción"
 
-msgid "Account:opt_phr_computer"
-msgstr "Computadora"
+#: Polls.rb:311
+msgctxt "Polls"
+msgid "Multiple choice question"
+msgstr "Pregunta de opción múltiple"
 
-msgid "Account:opt_phr_creationip"
-msgstr "Dirección IP creada"
+msgctxt "Uploads"
+msgid "Saved"
+msgstr "Enregistrado"
 
-msgid "Account:opt_phr_generationdate"
-msgstr "Fecha de generación"
+#: Uploads.rb:112
+msgctxt "Uploads"
+msgid "Add"
+msgstr "Añadir"
+
+#: Uploads.rb:112
+msgctxt "Uploads"
+msgid "Play"
+msgstr "Reproducir"
+
+#: Uploads.rb:112
+msgctxt "Uploads"
+msgid "Download"
+msgstr "Descargar"
+
+#: Uploads.rb:132
+msgctxt "Uploads"
+msgid "Where do you want to save this file?"
+msgstr "En donde guardarás el archivo?"
+
+#: Uploads.rb:153
+msgctxt "Uploads"
+msgid "deleted"
+msgstr "Eliminado"
+
+#: Uploads.rb:144
+msgctxt "Uploads"
+msgid "Copied to clipboard"
+msgstr "Copiado al portapapeles."
+
+#: Uploads.rb:159
+msgctxt "Uploads"
+msgid "Choose a file to be sent to the server"
+msgstr "Selecciona el archivo a enviar al servidor."
+
+#: Uploads.rb:46
+msgctxt "Uploads"
+msgid "Files of %{user}"
+msgstr "Archivos de usuario %{user}"
+
+#: Uploads.rb:147
+msgctxt "Uploads"
+msgid "Do you really want to delete %{filename}?"
+msgstr "Seguro que quieres eliminar el archivo %{filename}?"
+
+#: Uploads.rb:112
+#, fuzzy
+msgctxt "Uploads"
+msgid "Copy link"
+msgstr "Copy link"
+
+#: Compiler.rb:22
+msgctxt "Compiler"
+msgid "destination location"
+msgstr "Lugar de destino"
+
+#: Admins.rb:23
+msgctxt "Admins"
+msgid "Administrators"
+msgstr "Administradores"
+
+#: WhatsNew.rb:115
+msgctxt "WhatsNew"
+msgid "There is nothing new."
+msgstr "No hay nada nuevo."
+
+msgctxt "WhatsNew"
+msgid "open"
+msgstr "abrir"
+
+msgctxt "WhatsNew"
+msgid "Delete this thread"
+msgstr "Eliminar esta entrada"
+
+msgctxt "WhatsNew"
+msgid "The thread was removed from the list of followed threads"
+msgstr "Entrada eliminada de la lista de entradas seguidas."
+
+msgctxt "WhatsNew"
+msgid "Remove from the list of followed threads"
+msgstr "Eliminar de la lista de entradas seguidas"
+
+msgctxt "WhatsNew"
+msgid "No new posts in followed threads"
+msgstr "No hay nuevas publicaciones en entradas seguidas."
+
+#: WhatsNew.rb:40
+msgctxt "WhatsNew"
+msgid "What's new"
+msgstr "Qué hay de nuevo"
+
+#: WhatsNew.rb:115
+msgctxt "WhatsNew"
+msgid "No new posts on the followed blogs"
+msgstr "No hay nuevas entradas en los blogs seguidos."
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New messages"
+msgstr "Mensajes nuevos"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts in followed threads"
+msgstr "Nuevas publicaciones en entradas que sigues"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts on the followed blogs"
+msgstr "Nuevas entradas en blogs rastreados."
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New comments on your blog"
+msgstr "Nuevos comentarios en el blog seguido"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New threads on followed forums"
+msgstr "<Nuevas entradas en foros que sigues"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts on followed forums"
+msgstr "Nuevas publicaciones en foros que sigues"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New friends"
+msgstr "Nuevas amistades"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Friends' birthday"
+msgstr "Aniversarios de amigos"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Mentions"
+msgstr "Cumpleaños amistosos"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Update available (%version)"
+msgstr "nueva actualización (%version)"
+
+#: ShortKeys.rb:11
+msgctxt "ShortKeys"
+msgid "List of keyboard shortcuts"
+msgstr "Comandos de teclado"
+
+#: Interface.rb:11
+msgctxt "Interface"
+msgid "Linear"
+msgstr "Linear"
+
+#: Interface.rb:11
+msgctxt "Interface"
+msgid "Circular"
+msgstr "Circular"
+
+#: Interface.rb:11
+msgctxt "Interface"
+msgid "The display method of selection lists"
+msgstr "Método en pantalla de listas de selección"
+
+#: Interface.rb:12
+msgctxt "Interface"
+msgid "Play sounds of soundthemes"
+msgstr "Reproducir sonidos de temas de sonido"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Characters"
+msgstr "Carácteres"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Words"
+msgstr "Palabras"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Characters and words"
+msgstr "Caracteres y palabras"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "None"
+msgstr "Ninguna"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Typing echo"
+msgstr "Eco de escritura"
+
+msgctxt "Interface"
+msgid "Run the program in full screen mode"
+msgstr "Ejecutar programa en pantalla completa"
+
+#: Interface.rb:16
+#, fuzzy
+msgctxt "Interface"
+msgid "Enable auto log in"
+msgstr "Enable auto log in"
+
+#: Interface.rb:15
+msgctxt "Interface"
+msgid "Automatically minimize Elten Window to system tray"
+msgstr "Minimizar automaticamente Elten a la bandeja del sistema"
+
+#: Interface.rb:17
+msgctxt "Interface"
+msgid "Automatically start Elten after I log on to Windows"
+msgstr "Iniciar Elten automáticamente después de loguearme en Windows"
+
+#: Interface.rb:48
+#, fuzzy
+msgctxt "Interface"
+msgid "Auto log in is required to use auto start"
+msgstr "Auto log in is required to use auto start"
 
 #, fuzzy
-msgid "MyPermissions:opt_betatesters"
+msgctxt "Interface"
+msgid " Attention! You are trying to enable the auto start function using a portable version of  Elten. When this program is inaccessible for Windows or its location is changed, the system will not be able to start it. Are you sure you want to continue?"
+msgstr " Attention! You are trying to enable the auto start function using a portable version of  Elten. When this program is inaccessible for Windows or its location is changed, the system will not be able to start it. Are you sure you want to continue?"
+
+#: Interface.rb:14
+msgctxt "Interface"
+msgid "Wrap long lines in text fields"
+msgstr "Envolver líneas largas en cuadros de texto"
+
+#: UsersAddedMeToContacts.rb:36
+msgctxt "UsersAddedMeToContacts"
+msgid "Users who added me to their contacts list"
+msgstr "Usuarios que me añadieron a la lista de contactos"
+
+#: ReadMe.rb:11
+msgctxt "ReadMe"
+msgid "Readme"
+msgstr "Léame"
+
+#: Blog.rb:368
+msgctxt "Blog"
+msgid "New post"
+msgstr "Nueva publicación"
+
+#: Blog.rb:638
+msgctxt "Blog"
+msgid "Deleted"
+msgstr "Eliminado"
+
+#: Blog.rb:410
+msgctxt "Blog"
+msgid "Select"
+msgstr "Seleccionar"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "My blog"
+msgstr "Mi blog"
+
+#: Blog.rb:122
+msgctxt "Blog"
+msgid "New category"
+msgstr "Nueva categoría"
+
+#: Blog.rb:628
+msgctxt "Blog"
+msgid "Are you sure you want to delete this post?"
+msgstr "Seguro que quieres eliminar esta publicación?"
+
+#: Blog.rb:1062
+msgctxt "Blog"
+msgid "Blogs"
+msgstr "Blogs"
+
+#: Blog.rb:1062
+msgctxt "Blog"
+msgid "The list of blogs"
+msgstr "Lista de blogs"
+
+#: Blog.rb:982
+msgctxt "Blog"
+msgid "Send"
+msgstr "Enviar"
+
+#: Blog.rb:873
+msgctxt "Blog"
+msgid "Return"
+msgstr "Bolver"
+
+#: Blog.rb:123
+msgctxt "Blog"
+msgid "Change the blog's name"
+msgstr "Cambiar nombre del blog"
+
+#: Blog.rb:863
+msgctxt "Blog"
+msgid "Your comment"
+msgstr "Su comentario"
+
+#: Blog.rb:869
+msgctxt "Blog"
+msgid "Edit your post"
+msgstr "Editar tu publicación"
+
+#: Blog.rb:738
+msgctxt "Blog"
+msgid "Play"
+msgstr "Reproducir"
+
+#: Blog.rb:120
+msgctxt "Blog"
+msgid "All posts"
+msgstr "Todas las publicaciones"
+
+#: Blog.rb:494
+msgctxt "Blog"
+msgid "Record a new post"
+msgstr "Gravar nueva publicación"
+
+#: Blog.rb:502
+msgctxt "Blog"
+msgid "Stop recording"
+msgstr "Parar de gravar"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Recently updated blogs"
+msgstr "Blogs recientemente actualizados"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Frequently updated blogs"
+msgstr "Blogs actualizados frecuentemente"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Frequently commented blogs"
+msgstr "Blogs comentados frecuentemente"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Post title"
+msgstr "Título de la publicación"
+
+#: Blog.rb:981
+msgctxt "Blog"
+msgid "Post"
+msgstr "Publicación"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Add to category"
+msgstr "Agregar a categoría"
+
+#: Blog.rb:265
+msgctxt "Blog"
+msgid "Category name"
+msgstr "Nombre de categoría"
+
+#: Blog.rb:955
+msgctxt "Blog"
+msgid "New blog name"
+msgstr "Nuevo nombre de blog"
+
+#: Blog.rb:762
+msgctxt "Blog"
+msgid "File is being converted..."
+msgstr "El archivo se está convirtiendo..."
+
+#: Blog.rb:193
+msgctxt "Blog"
+msgid "Rename"
+msgstr "Renombrar"
+
+#: Blog.rb:410
+msgctxt "Blog"
+msgid "Edit"
+msgstr "Edita"
+
+#: Blog.rb:1088
+msgctxt "Blog"
+msgid "Open"
+msgstr "Abrir"
+
+#: Blog.rb:1096
+msgctxt "Blog"
+msgid "Add to followed blogs"
+msgstr "Agregar a blogs seguidos"
+
+#: Blog.rb:1094
+msgctxt "Blog"
+msgid "Remove from the followed blogs"
+msgstr "Eliminar de foros seguidos"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Followed blogs"
+msgstr "Blogs seguidos"
+
+#: Blog.rb:531
+msgctxt "Blog"
+msgid "Create an audiopost"
+msgstr "Crear publicación de audio"
+
+#: Blog.rb:494
+msgctxt "Blog"
+msgid "Use an existing file"
+msgstr "Utilizar archivo existente"
+
+#: Blog.rb:1007
+msgctxt "Blog"
+msgid "The post has been modified"
+msgstr "Publicación modificada."
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Visibility"
+msgstr "Visibilidad"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Show to everyone"
+msgstr "Ver a todos"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Do not show to unlogged users"
+msgstr "No mostrar a usuarios no registrados"
+
+#: Blog.rb:722
+msgctxt "Blog"
+msgid "Audio post"
+msgstr "Publicación de audio"
+
+#: Blog.rb:738
+msgctxt "Blog"
+msgid "Use another file"
+msgstr "Utilizar otro archivo"
+
+#: Blog.rb:742
+msgctxt "Blog"
+msgid "Select audio file"
+msgstr "Seleccionar archivo de audio"
+
+#: Blog.rb:75
+msgctxt "Blog"
+msgid "The blog cannot be found."
+msgstr "Blog no encontrado"
+
+#: Blog.rb:276
+msgctxt "Blog"
+msgid "The category has been created."
+msgstr "La categoría ha sido creada."
+
+#: Blog.rb:960
+msgctxt "Blog"
+msgid "Your blog has been renamed"
+msgstr "El nombre del blog ha sido cambiado."
+
+#: Blog.rb:231
+msgctxt "Blog"
+msgid "You do not have any blog. Do you want to create one?"
+msgstr "No tienes un blog. ¿Quieres configurarlo?"
+
+#: Blog.rb:999
+msgctxt "Blog"
+msgid "Please wait..."
+msgstr "Por favor espere..."
+
+#: Blog.rb:252
+msgctxt "Blog"
+msgid "The blog has been created."
+msgstr "El blog ha sido creado."
+
+#: Blog.rb:298
+msgctxt "Blog"
+msgid "The blog has been renamed."
+msgstr "El nombre ha sido cambiado."
+
+#: Blog.rb:370
+msgctxt "Blog"
+msgid "No new comments on your blog."
+msgstr "No hay nuevos comentarios en tu blog."
+
+#: Blog.rb:615
+msgctxt "Blog"
+msgid "The post has been added."
+msgstr "publicación creada"
+
+#: Blog.rb:920
+msgctxt "Blog"
+msgid "The comment has been added."
+msgstr "El comentario ha sido añadido."
+
+#: Blog.rb:1121
+msgctxt "Blog"
+msgid "Added to the followed blogs."
+msgstr "Añadido a los blogs seguidos."
+
+#: Blog.rb:1130
+msgctxt "Blog"
+msgid "Removed from the followed blogs."
+msgstr "Eliminado de la lista de blogs rastreados."
+
+#: Blog.rb:1138
+msgctxt "Blog"
+msgid "The blog has been marked as read."
+msgstr "Todas las publicaciones en este blog han sido marcadas como leídas."
+
+#: Blog.rb:1260
+msgctxt "Blog"
+msgid "Recategorised"
+msgstr "Recategorización completada"
+
+#: Blog.rb:311
+msgctxt "Blog"
+msgid "Are you sure you want to delete this category?"
+msgstr "Seguro que quieres eliminar esta categoría?"
+
+#: Blog.rb:237
+msgctxt "Blog"
+msgid "Type a blog name"
+msgstr "Ingrese el nombre del blog que se está creando."
+
+#: Blog.rb:291
+msgctxt "Blog"
+msgid "Type a new category name"
+msgstr "Ingrese un nuevo nombre para esta categoría"
+
+#: Blog.rb:523
+msgctxt "Blog"
+msgid "Create a text post"
+msgstr "Crear una entrada de texto"
+
+#: Blog.rb:1136
+msgctxt "Blog"
+msgid "All posts on this blog will be marked as read. Do you want to continue?"
+msgstr "Todas las entradas en este blog serán marcadas como leídas. deseas continuar?"
+
+#: Blog.rb:1062
+msgctxt "Blog"
+msgid "Author"
+msgstr "Autor"
+
+#: Blog.rb:1098
+msgctxt "Blog"
+msgid "Mark the blog as read"
+msgstr "Marcar todas las entradas en este blog como leídas"
+
+#: Blog.rb:124
+msgctxt "Blog"
+msgid "Recategorize"
+msgstr "Recategorizar"
+
+msgctxt "Blog"
+msgid "Show only to users in my contacts list"
+msgstr "Mostrar solo a los usuarios de mi lista de contactos"
+
+msgctxt "Blog"
+msgid "Create new blog"
+msgstr "Crear nuevo blog"
+
+msgctxt "Blog"
+msgid "Add coworker"
+msgstr "Añadir compañero de trabajo"
+
+msgctxt "Blog"
+msgid "Coworkers"
+msgstr "Coworkers"
+
+msgctxt "Blog"
+msgid "Release this coworker"
+msgstr "Liberar a este compañero de trabajo"
+
+msgctxt "Blog"
+msgid "What user you want to add to this blog?"
+msgstr "¿Qué usuario quieres añadir a este blog?"
+
+msgctxt "Blog"
+msgid "Are you sure you want to delete this comment?"
+msgstr "¿Está seguro de que desea eliminar este comentario?"
+
+#: Blog.rb:860
+#, fuzzy
+msgctxt "Blog"
+msgid "Media"
+msgstr "Media"
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "Ban"
+msgstr "Ban"
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "Unban"
+msgstr "Desbanear"
+
+#: Ban.rb:17
+msgctxt "Ban"
+msgid "Enter a username to ban"
+msgstr "Introduzca el nombre de usuario para banear"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Week"
+msgstr "Semana"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "2 weeks"
+msgstr "2 semanas"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "30 days"
+msgstr "30 días"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "90 days"
+msgstr "90 días"
+
+#: Ban.rb:66
+msgctxt "Ban"
+msgid "Banned."
+msgstr "Baneado"
+
+#: Ban.rb:89
+msgctxt "Ban"
+msgid "Enter a username to unban."
+msgstr "Introduzca el nombre de usuario para desbanear"
+
+#: Ban.rb:124
+msgctxt "Ban"
+msgid "Unbanned."
+msgstr "Desbaneado"
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "The reason"
+msgstr "causa"
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "An additional message to the user"
+msgstr "Mensaje adicional para el usuario."
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "The ban reason"
+msgstr "Razón del ban"
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "Ban valid until"
+msgstr "Ban válido por"
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "The ban cancel reason"
+msgstr "Razón de cancelación del ban"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Day"
+msgstr "Día"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Three days"
+msgstr "Tres días"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Year"
+msgstr "Año"
+
+#: Users.rb:40
+msgctxt "Users"
+msgid "List of users"
+msgstr "Lista de usuarios"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Your message"
+msgstr "Su mensaje"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Messages history"
+msgstr "Historial de mensajes"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Users online"
+msgstr "Usuarios en línea"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Hide the chat window"
+msgstr "Ocultar ventana de chat"
+
+#: Chat.rb:17
+msgctxt "Chat"
+msgid "You have been banned."
+msgstr "Usted está baneado."
+
+#: Chat.rb:39
+msgctxt "Chat"
+msgid "Last message"
+msgstr "Ultimo mensaje"
+
+#: Chat.rb:40
+msgctxt "Chat"
+msgid "Joined the discussion"
+msgstr "Entró a la discusión."
+
+#: _Main.rb:69
+msgctxt "Chat"
+msgid "Left the discussion."
+msgstr "Abandonó la discusión."
+
+#: Languages.rb:13
+msgctxt "Languages"
+msgid "Manage languages"
+msgstr "Administrar idiomas"
+
+#: Languages.rb:12
+msgctxt "Languages"
+msgid "Download the translation from the server"
+msgstr "Descargar la traducción desde el servidor"
+
+#: Languages.rb:54
+msgctxt "Languages"
+msgid "Language packs have been updated"
+msgstr "Paquetes de idioma actualizados."
+
+#: Files.rb:532
+msgctxt "Files"
+msgid "Files"
+msgstr "Archivos"
+
+#: Files.rb:407
+msgctxt "Files"
+msgid "Deleted"
+msgstr "Eliminado"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Open in an associated application"
+msgstr "Abrir en aplicación asociada"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Copy"
+msgstr "Copiado"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Cut"
+msgstr "Cortar"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Paste"
+msgstr "Pegar"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "New folder"
+msgstr "Nueva carpeta"
+
+#: Files.rb:414
+msgctxt "Files"
+msgid "Copied"
+msgstr "Copiado"
+
+#: Files.rb:419
+msgctxt "Files"
+msgid "Cut out"
+msgstr "Separar"
+
+#: Files.rb:115
+msgctxt "Files"
+msgid "copied"
+msgstr "Copiado"
+
+#: Files.rb:314
+msgctxt "Files"
+msgid "Text"
+msgstr "Texto"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Delete the playlist"
+msgstr "Eliminar lista de reproducción"
+
+#: Files.rb:318
+msgctxt "Files"
+msgid "Add all audio files in this directory to playlist"
+msgstr "Añadir todos los archivos de audio en este directorio a la lista de reproducción"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "Play"
+msgstr "Reproducir"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "Add to playlist"
+msgstr "Añadir a lista de reproducción"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Upload to the server"
+msgstr "Subir al servidor"
+
+#: Files.rb:177
+msgctxt "Files"
+msgid "Open this directory"
+msgstr "Abrir este directorio"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "Set as avatar"
+msgstr "Establecer como avatar"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Create"
+msgstr "Create"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Rename"
+msgstr "Cambiar nombre"
+
+#: Files.rb:551
+msgctxt "Files"
+msgid "Edit"
+msgstr "Editá"
+
+#: Files.rb:272
+msgctxt "Files"
+msgid "pasted"
+msgstr "Pegado"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "convert"
+msgstr "convertir"
+
+#: Files.rb:359
+msgctxt "Files"
+msgid "Sent"
+msgstr "Enviado"
+
+#: Files.rb:74
+msgctxt "Files"
+msgid "This file cannot be played."
+msgstr "Este archivo no se puede reproducir."
+
+#: Files.rb:578
+msgctxt "Files"
+msgid "Read"
+msgstr "Leer"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Compress"
+msgstr "Comprimir"
+
+#: Files.rb:312
+msgctxt "Files"
+msgid "Extract"
+msgstr "Extraer"
+
+#: Files.rb:370
+msgctxt "Files"
+msgid "Select archive format"
+msgstr "Seleccione formato de archivo"
+
+#: Files.rb:382
+msgctxt "Files"
+msgid "Compressed"
+msgstr "Comprimido"
+
+#: Files.rb:578
+msgctxt "Files"
+msgid "Read to file"
+msgstr "Leer a archivo"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "File"
+msgstr "Archivo"
+
+#: Files.rb:317
+msgctxt "Files"
+msgid "Directory"
+msgstr "Directorio"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Clipboard"
+msgstr "Portapapeles"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "New text file"
+msgstr "Nuevo archivo de texto"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "New record"
+msgstr "Nueva gravación"
+
+#: Files.rb:313
+msgctxt "Files"
+msgid "Audio"
+msgstr "Audio"
+
+#: Files.rb:428
+msgctxt "Files"
+msgid "Enter a folder name"
+msgstr "Introducir nombre de carpeta"
+
+#: Files.rb:450
+msgctxt "Files"
+msgid "Enter a file name"
+msgstr "Introducir nombre de archivo"
+
+#: Files.rb:453
+msgctxt "Files"
+msgid "Record"
+msgstr "Gravar"
+
+#: Files.rb:104
+msgctxt "Files"
+msgid "The file cannot be deleted, access denied."
+msgstr "No se pudo eliminar el archivo: Acceso denegado"
+
+#: Files.rb:387
+msgctxt "Files"
+msgid "Unpacked."
+msgstr "Descomprimido."
+
+#: Files.rb:274
+msgctxt "Files"
+msgid "The clipboard is empty"
+msgstr "El portapapeles esta vacio"
+
+#: Files.rb:397
+msgctxt "Files"
+msgid "The file name has been changed."
+msgstr "Nombre cambiado."
+
+#: Files.rb:432
+msgctxt "Files"
+msgid "The folder has been created."
+msgstr "La carpeta ha sido creada."
+
+#: Files.rb:476
+msgctxt "Files"
+msgid "The file has been created."
+msgstr "El archivo ha sido creado."
+
+#: Files.rb:482
+msgctxt "Files"
+msgid "Playlist cleared"
+msgstr "Lista de reproducción limpia"
+
+#: Files.rb:535
+msgctxt "Files"
+msgid "Please wait, the file is being converted."
+msgstr "Por favor espere, el archivo se está convirtiendo."
+
+#: Files.rb:541
+msgctxt "Files"
+msgid "Converted."
+msgstr "La conversión ha terminado."
+
+#: Files.rb:589
+msgctxt "Files"
+msgid "Processing..."
+msgstr "Procesando..."
+
+#: Files.rb:393
+msgctxt "Files"
+msgid "A new file name"
+msgstr "Nuevo nombre"
+
+#: Files.rb:202
+msgctxt "Files"
+msgid " Do you want to run this Elten API script? Scripts coming from unknown sources can  harm your computer or give access to your account to unauthorised persons.  Continue if you trust a source this script comes from."
+msgstr "¿Desea ejecutar este archivo de script API Elten? Los scripts de fuentes no confiables pueden ser peligrosos y causar daños a su computadora o acceso no autorizado a su cuenta. Continua solo si confía en el origen de este archivo."
+
+#: Files.rb:522
+msgctxt "Files"
+msgid "To which format do you want to convert this file?"
+msgstr "¿A qué formato quieres convertir este archivo?"
+
+#: Files.rb:401
+msgctxt "Files"
+msgid "Do you really want to delete %{filename}?"
+msgstr "Seguro que quieres suprimir %{filename}?"
+
+#: Files.rb:532
+msgctxt "Files"
+msgid "Select sound quality"
+msgstr "Elige la calidad del sonido."
+
+#: Files.rb:353
+msgctxt "Files"
+msgid "Files added to playlist: %{count}."
+msgstr "Archivos añadidos a la lista de reproducción: %{count}."
+
+#: Files.rb:514
+msgctxt "Files"
+msgid "Playing: %{file}"
+msgstr "Reproduciendo: %{file}"
+
+#: SoundThemes.rb:34
+msgctxt "SoundThemes"
+msgid "Sound themes"
+msgstr "Temas de sonido"
+
+#: SoundThemes.rb:20
+msgctxt "SoundThemes"
+msgid "No sound themes."
+msgstr "No hay temas de sonidos."
+
+#: SoundThemes.rb:33
+msgctxt "SoundThemes"
+msgid "Download sound themes"
+msgstr "Descargar temas de sonido"
+
+#: SoundThemes.rb:30
+msgctxt "SoundThemes"
+msgid "default"
+msgstr "Predeterminado"
+
+msgctxt "SoundThemes"
+msgid "Audio"
+msgstr "Audio"
+
+#: Changes.rb:783
+msgctxt "Changes"
+msgid "Changelog"
+msgstr "Cambios"
+
+#: Media.rb:44
+msgctxt "Media"
+msgid "Enter the URL"
+msgstr "Introduzca la dirección URL"
+
+#: Media.rb:226
+msgctxt "Media"
+msgid "URL"
+msgstr "URL"
+
+#: Media.rb:44
+msgctxt "Media"
+msgid "New category"
+msgstr "Nueva categoría"
+
+#: Media.rb:136
+msgctxt "Media"
+msgid "New file"
+msgstr "Nuevo archivo"
+
+#: Media.rb:228
+msgctxt "Media"
+msgid "Add"
+msgstr "Agregar"
+
+#: Media.rb:227
+msgctxt "Media"
+msgid "Description"
+msgstr "Descripción"
+
+#: Media.rb:225
+msgctxt "Media"
+msgid "Title"
+msgstr "Título"
+
+#: Media.rb:149
+msgctxt "Media"
+msgid "Play"
+msgstr "Reproducir"
+
+#: Media.rb:149
+msgctxt "Media"
+msgid "Add to playlist"
+msgstr "Agregar a lista de reproducción"
+
+#: Media.rb:183
+msgctxt "Media"
+msgid "Category name"
+msgstr "Categoría"
+
+#: Media.rb:211
+msgctxt "Media"
+msgid "The category has been added."
+msgstr "La categoría ha sido añadida!"
+
+#: Media.rb:257
+msgctxt "Media"
+msgid "Added."
+msgstr "Añadido."
+
+#: Media.rb:184
+msgctxt "Media"
+msgid "Category description"
+msgstr "Descripción de la categoría"
+
+#: Account.rb:14
+msgctxt "Account"
+msgid "Enter your old password."
+msgstr "Ingrese su antigua contraseña."
+
+#: Account.rb:28
+msgctxt "Account"
+msgid "Enter your new password."
+msgstr "Ingrese su nueva contraseña."
+
+#: Account.rb:28
+msgctxt "Account"
+msgid "Repeat new password."
+msgstr "Repetir nueva contraseña"
+
+msgctxt "Account"
+msgid "Fields: New Password and Repeat New Password have different values."
+msgstr "Los campos nueva contraseña y repetir contraseña tienen valores diferentes, y por lo tanto no coinciden."
+
+#: Account.rb:43
+msgctxt "Account"
+msgid "Your password has been changed."
+msgstr "Contraseña cambiada."
+
+msgctxt "Account"
+msgid "The old password is incorrect."
+msgstr "La antigua contraseña es incorrecta."
+
+#: Account.rb:500
+msgctxt "Account"
+msgid "Enter your password."
+msgstr "Ingrese contraseña."
+
+#: Account.rb:75
+msgctxt "Account"
+msgid "Enter a new e-mail address."
+msgstr "Introducir nuevo correo electrónico"
+
+#: Account.rb:85
+msgctxt "Account"
+msgid "E-mail has been changed."
+msgstr "Correo electrónico cambiado."
+
+#: Account.rb:125
+msgctxt "Account"
+msgid "Your visiting card:"
+msgstr "Tu tarjeta de visita"
+
+#: Account.rb:167
+msgctxt "Account"
+msgid "Change your status"
+msgstr "Cambiar tu estado"
+
+#: Account.rb:171
+msgctxt "Account"
+msgid "Enter a new status"
+msgstr "Introducir nuevo status"
+
+#: Account.rb:576
+msgctxt "Account"
+msgid "Add"
+msgstr "Añadir"
+
+#: Account.rb:190
+msgctxt "Account"
+msgid "Profile editor"
+msgstr "Editor de perfiles"
+
+#: Account.rb:211
+msgctxt "Account"
+msgid "Full name"
+msgstr "Nombre completo"
+
+#: Account.rb:212
+msgctxt "Account"
+msgid "Gender"
+msgstr "Género"
+
+#: Account.rb:217
+msgctxt "Account"
+msgid "Hide my profile for strangers"
+msgstr "Ocultar mi perfil para extrangeros"
+
+#: Account.rb:265
+msgctxt "Account"
+msgid "Your signature:"
+msgstr "Su firma"
+
+#: Account.rb:369
+msgctxt "Account"
+msgid "Set avatar"
+msgstr "Establecer avatar"
+
+#: Account.rb:476
+#, fuzzy
+msgctxt "Account"
+msgid "Auto log in tokens"
+msgstr "Auto log in tokens"
+
+#: Account.rb:484
+msgctxt "Account"
+msgid "Log out all sessions"
+msgstr "cerrar todas las sesiones"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New messages"
+msgstr "Nuevos mensajes"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New posts in followed threads"
+msgstr "Nuevas publicaciones en entradas seguidas"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New posts on the followed blogs"
+msgstr "Nuevas entradas en blogs seguidos"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New comments on your blog"
+msgstr "Nuevos comentarios en tu blog"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New threads on followed forums"
+msgstr "Nuevas entradas en foros seguidos"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New posts on followed forums"
+msgstr "Nuevas publicaciones en foros seguidos"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New friends"
+msgstr "Nuevos amigos"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "Friends' birthday"
+msgstr "Cumpleaños de amigos"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "Mentions"
+msgstr "Menciones"
+
+#: Account.rb:395
+msgctxt "Account"
+msgid "Notice and show in what's new"
+msgstr "Notificar y mostrar en qué hay de nuevo"
+
+#: Account.rb:395
+msgctxt "Account"
+msgid "Notice only"
+msgstr "Solo notificar"
+
+#: Account.rb:395
+msgctxt "Account"
+msgid "Ignore"
+msgstr "Ignorar"
+
+#: Account.rb:541
+msgctxt "Account"
+msgid "Black list"
+msgstr "Lista negra"
+
+#: Account.rb:630
+msgctxt "Account"
+msgid "Are you sure you want to remove this user from the black list?"
+msgstr "¿Está seguro de que desea eliminar a este usuario de la lista negra?"
+
+#: Account.rb:635
+msgctxt "Account"
+msgid "A user has been removed from the black list."
+msgstr "Usuario eliminado de la lista negra."
+
+#: Account.rb:604
+msgctxt "Account"
+msgid " The users added to your black list cannot send you private messages. Are you sure  you want to continue?"
+msgstr "Los usuarios agregados a su lista negra no pueden enviarle mensajes privados. Estás seguro de que quieres continuar?"
+
+msgctxt "Account"
+msgid "You cannot add an administrator to the black list."
+msgstr "No puedes añadir un administrador a la lista negra"
+
+msgctxt "Account"
+msgid "This user is already on your black list."
+msgstr "Este usuario ya está en la lista negra."
+
+#: Account.rb:498
+#, fuzzy
+msgctxt "Account"
+msgid " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediatelly."
+msgstr " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediatelly."
+
+#: Account.rb:181
+msgctxt "Account"
+msgid "Your status has been changed."
+msgstr "El estado ha sido cambiado."
+
+#: Account.rb:508
+msgctxt "Account"
+msgid " An error occurred while authenticating the account. You might have provided an  incorrect password."
+msgstr "Se produjo un error al intentar autenticar la cuenta. La contraseña incorrecta probablemente fue dada."
+
+#: Account.rb:623
+msgctxt "Account"
+msgid "The user cannot be found."
+msgstr "Ese usuario no existe."
+
+#: Account.rb:213
+msgctxt "Account"
+msgid "Birth date: year"
+msgstr "Fecha de nacimiento: Año"
+
+#: Account.rb:214
+msgctxt "Account"
+msgid "Birth date: month"
+msgstr "Fecha de nacimiento: Mes"
+
+#: Account.rb:215
+msgctxt "Account"
+msgid "Birth date: day"
+msgstr "Fecha de nacimiento: Día"
+
+#: Account.rb:216
+msgctxt "Account"
+msgid "Location"
+msgstr "Localización"
+
+#: Account.rb:326
+msgctxt "Account"
+msgid "Your welcome message:"
+msgstr "Mensaje de bienvenida."
+
+#: Account.rb:597
+msgctxt "Account"
+msgid "Type a username which you want to add to blacklist."
+msgstr "Ingrese el nombre del usuario que desea agregar a la lista negra"
+
+#: Account.rb:608
+msgctxt "Account"
+msgid "User %{user} has been added to your blacklist"
+msgstr "El usuario %{user} ha sido añadido a tu lista negra"
+
+#: Account.rb:474
+msgctxt "Account"
+msgid "Computer"
+msgstr "Computadora"
+
+#: Account.rb:474
+msgctxt "Account"
+msgid "Creation IP Address"
+msgstr "Dirección IP creada"
+
+#: Account.rb:474
+msgctxt "Account"
+msgid "Generation date"
+msgstr "Fecha de generación"
+
+#: UsersAddedMeToContacts.rb:36
+msgctxt "Contacts"
+msgid "Contacts"
+msgstr "Contactos"
+
+#: Contacts.rb:41
+msgctxt "Contacts"
+msgid "Empty list"
+msgstr "Lista vacía"
+
+#: Contacts.rb:129
+msgctxt "Contacts"
+msgid "New contact"
+msgstr "Nuevo contacto"
+
+#: Contacts.rb:169
+msgctxt "Contacts"
+msgid "Enter the name of the user you want to add to your contacts' list."
+msgstr "Introduzca el nombre del usuario al que quieres agregar a la lista de contactos"
+
+#: Contacts.rb:181
+msgctxt "Contacts"
+msgid "Contact was added."
+msgstr "Contacto agregado."
+
+#: Contacts.rb:193
+msgctxt "Contacts"
+msgid "This user is already added to your contacts' list."
+msgstr "El usuario ya está agregado a la lista de contactos."
+
+#: Contacts.rb:235
+msgctxt "Contacts"
+msgid "This user does not exist."
+msgstr "El usuario no existe."
+
+#: Contacts.rb:219
+msgctxt "Contacts"
+msgid "Contact has been deleted."
+msgstr "Contacto eliminado."
+
+#: Contacts.rb:231
+msgctxt "Contacts"
+msgid "This user is not added to your contacts' list."
+msgstr "Este usuario no está en la lista de contactos."
+
+#: Contacts.rb:82
+msgctxt "Contacts"
+msgid "Are you sure you want to delete this contact?"
+msgstr "¿Estás seguro de que quieres eliminar este contacto?"
+
+#: Contacts.rb:213
+msgctxt "Contacts"
+msgid "Type a username which you want to remove from your contact list."
+msgstr "Ingrese el nombre del usuario que desea agregar a la lista negra"
+
+#: Update.rb:14
+msgctxt "Update"
+msgid " A new version of this program is available. Do you want to download and instal it?"
+msgstr "Hay una nueva versión disponible de este programa. Desea descargarla e instalarla ahora?"
+
+#: Update.rb:16
+msgctxt "Update"
+msgid " A new beta version of this program is available. Do you want to download and  instal it?"
+msgstr "Hay una nueva versión beta de este programa, deseas descargarla e instalarla ahora?"
+
+#: Update.rb:133
+msgctxt "Update"
+msgid "Please wait while files are downloaded."
+msgstr "Por favor, espere mientras los archivos se descargan."
+
+#: Update.rb:108
+msgctxt "Update"
+msgid "updating language packs"
+msgstr "Actualizando paquetes de idioma"
+
+#: Update.rb:29
+msgctxt "Update"
+msgid " Warning! You are about to install a beta version of elten. Such a version can be  unsarr or other errors can occur. Do you really wish to continue?"
+msgstr "¡Advertencia! Estás a punto de instalar una versión beta de elten. Dicha versión puede ser inestable o pueden ocurrir otros errores. ¿Realmente deseas continuar?"
+
+#: Update.rb:75
+msgctxt "Update"
+msgid " The update has been downloaded. To install it, the program must be restarted.  Press enter to continue or escape to cancel."
+msgstr "La actualización ha sido descargada. Para instalarlo, el programa debe ser reiniciado. Presione enter para continuar o escapar para cancelar."
+
+#: Update.rb:71
+msgctxt "Update"
+msgid "Downloading update"
+msgstr "Descargando actualización"
+
+#: Update.rb:88
+msgctxt "Update"
+msgid "Now, the update will be installed. The program will restart."
+msgstr "Ahora se instalará la actualización. El programa se reiniciará."
+
+#: Update.rb:133
+msgctxt "Update"
+msgid "Downloading of the instructions for reinstallation"
+msgstr "Descargando las instrucciones de reinstalación"
+
+#: Update.rb:136
+msgctxt "Update"
+msgid " The program will be now reverted to the latest sarr version. Elten will restart.  It may take several minutes."
+msgstr "El programa ahora será restaurado a la última versión estable. Elten se reiniciará. Esto puede tardar unos minutos."
+
+msgctxt "Update"
+msgid " You are not participating in Elten open insider program. Do you want to join it  now, to download beta version?"
+msgstr "Usted no es parte del programa de pruebas abiertas de Elten. ¿Quieres unirte ahora para descargar la versión beta?"
+
+#: Voice.rb:185
+msgctxt "Voice"
+msgid "Voice settings"
+msgstr "Opciones de voz"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change synthesizer"
+msgstr "Cambiar sintetizador"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change synthesizer's rate"
+msgstr "Cambiar velocidad del sintetizador"
+
+#: Voice.rb:109
+msgctxt "Voice"
+msgid "Select"
+msgstr "Seleccione"
+
+#: Voice.rb:146
+msgctxt "Voice"
+msgid "Select voice's rate"
+msgstr "Velocidad de la voz"
+
+msgctxt "Voice"
+msgid "Saved"
+msgstr "Salvado"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change voice volume"
+msgstr "Cambiar volumen de la voz"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Use screenreader or system default voice"
+msgstr "Utilizar lector de pantalla o voz predeterminada del sistema"
+
+#: Voice.rb:185
+msgctxt "Voice"
+msgid "Select voice volume"
+msgstr "Volumen de voz"
+
+#: Voice.rb:38
+msgctxt "Voice"
+msgid "Screen reader selected as speech synthesizer."
+msgstr "Lector de pantalla seleccionado como sintetizador de voz"
+
+#: Voice.rb:93
+msgctxt "Voice"
+msgid "Selected voice"
+msgstr "Voz seleccionada"
+
+msgctxt "Messages"
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: Messages.rb:642
+msgctxt "Messages"
+msgid "You have no messages."
+msgstr "No tienes mensajes."
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Reply"
+msgstr "Responder"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Send a new message"
+msgstr "Enviar nuevo mensaje"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Forward"
+msgstr "Adelante"
+
+#: Messages.rb:1007
+msgctxt "Messages"
+msgid "Subject:"
+msgstr "Tema"
+
+#: Messages.rb:1008
+msgctxt "Messages"
+msgid "Message:"
+msgstr "Mensaje:"
+
+#: Messages.rb:1283
+msgctxt "Messages"
+msgid "Message has been sent"
+msgstr "Mensaje enviado"
+
+#: Messages.rb:974
+msgctxt "Messages"
+msgid "Are you sure you want to delete this message?"
+msgstr "Seguro que quieres eliminar este mensaje?"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Mark all messages as read"
+msgstr "marcar todos los mensajes como no leidos"
+
+#: Messages.rb:1006
+msgctxt "Messages"
+msgid "Recipient"
+msgstr "Recipiente"
+
+#: Messages.rb:1048
+msgctxt "Messages"
+msgid "Send"
+msgstr "Enviar"
+
+#: Messages.rb:645
+msgctxt "Messages"
+msgid "There are no new messages"
+msgstr "No hay mensajes nuevos."
+
+#: Messages.rb:688
+msgctxt "Messages"
+msgid "Received messages"
+msgstr "Mensajes recibidos"
+
+#: Messages.rb:953
+msgctxt "Messages"
+msgid "Sent messages"
+msgstr "Mensajes enviados"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Show sent messages"
+msgstr "Ver mensajes enviados"
+
+#: Messages.rb:1076
+msgctxt "Messages"
+msgid "Stop recording"
+msgstr "Detener gravación"
+
+#: Messages.rb:1083
+msgctxt "Messages"
+msgid "Play"
+msgstr "Reproducir"
+
+#: Messages.rb:1084
+msgctxt "Messages"
+msgid "Cancel recording"
+msgstr "Cancelar gravación"
+
+#: Messages.rb:916
+msgctxt "Messages"
+msgid "Found items"
+msgstr "Ítems encontrados"
+
+#: Messages.rb:1228
+msgctxt "Messages"
+msgid "File is being converted..."
+msgstr "El archivo está convirtiéndose..."
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Search"
+msgstr "Buscar"
+
+#: Messages.rb:1093
+msgctxt "Messages"
+msgid "Record an audio message"
+msgstr "Gravar mensaje de audio"
+
+#: Messages.rb:1015
+msgctxt "Messages"
+msgid "Attach a file"
+msgstr "Adjuntar archivo"
+
+#: Messages.rb:1101
+msgctxt "Messages"
+msgid "Select a file to attach"
+msgstr "Seleccionar archivo adjunto"
+
+#: Messages.rb:1108
+msgctxt "Messages"
+msgid "File attached."
+msgstr "Archivo adjuntado"
+
+#: Messages.rb:1099
+msgctxt "Messages"
+msgid "You cannot add more attachments to this message."
+msgstr "No puedes añadir más adjuntos a este mensaje."
+
+#: Messages.rb:1031
+msgctxt "Messages"
+msgid "Attachments"
+msgstr "Adjuntos"
+
+#: Messages.rb:897
+msgctxt "Messages"
+msgid "Enter a phrase to look for"
+msgstr "Entra una frase para buscar"
+
+#: Messages.rb:1137
+msgctxt "Messages"
+msgid "Do you want to send this message as e-mail?"
+msgstr "Deseas enviar este mensaje como correo electrónico?"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Flag"
+msgstr "Marcar"
+
+#: Messages.rb:819
+msgctxt "Messages"
+msgid "Remove flag"
+msgstr "Eliminar marca"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Show flagged messages"
+msgstr "Mostrar mensajes marcados"
+
+#: Messages.rb:847
+msgctxt "Messages"
+msgid "The message has been flagged."
+msgstr "Mensaje abanderado."
+
+#: Messages.rb:856
+msgctxt "Messages"
+msgid "The message is no longer flagged."
+msgstr "Mensaje inabanderado."
+
+#: Messages.rb:935
+msgctxt "Messages"
+msgid "Flagged messages"
+msgstr "Mensajes marcados"
+
+#: Messages.rb:673
+msgctxt "Messages"
+msgid "Load more messages"
+msgstr "cargar nuevos mensajes"
+
+#: Messages.rb:777
+msgctxt "Messages"
+msgid "The attachment has been downloaded."
+msgstr "Archivo adjunto descargado."
+
+#: Messages.rb:887
+msgctxt "Messages"
+msgid "All messages have been marked as read."
+msgstr "Todos los mensajes han sido marcados como leídos."
+
+#: Messages.rb:981
+msgctxt "Messages"
+msgid "The message has been deleted."
+msgstr "El mensaje ha sido eliminado."
+
+#: Messages.rb:1105
+msgctxt "Messages"
+msgid "The file is too large."
+msgstr "El archivo es demasiado grande."
+
+#: Messages.rb:1309
+msgctxt "Messages"
+msgid "The recipient cannot be found."
+msgstr "El destinatario del mensaje no existe."
+
+#: Messages.rb:1047
+msgctxt "Messages"
+msgid "Send as an admin"
+msgstr "Enviar como administracion"
+
+#: Messages.rb:1048
+msgctxt "Messages"
+msgid "Send to all"
+msgstr "Enviar a todos"
+
+#: Messages.rb:1075
+msgctxt "Messages"
+msgid "An audio message"
+msgstr "Mensaje de voz"
+
+#: Messages.rb:771
+msgctxt "Messages"
+msgid "Where do you want to save this file?"
+msgstr "Donde guardarás este archivo?"
+
+#: Messages.rb:742
+msgctxt "Messages"
+msgid "From"
+msgstr "De"
+
+#: Messages.rb:656
+msgctxt "Messages"
+msgid "to:"
+msgstr "a"
+
+#: Messages.rb:658
+msgctxt "Messages"
+msgid "New"
+msgstr "Nueva"
+
+#: EAPI_EltenSRV.rb:105
+msgctxt "Messages"
+msgid "Sending: %{file}"
+msgstr "Cargar: %{file}"
+
+#: Messages.rb:1101
+msgctxt "Messages"
+msgid "Messages"
+msgstr "Mensajes"
+
+#: Messages.rb:223
+msgctxt "Messages"
+msgid "Last message"
+msgstr "Último mensaje"
+
+#: Messages.rb:223
+msgctxt "Messages"
+msgid "No subject"
+msgstr "Sin asunto"
+
+#: Messages.rb:368
+msgctxt "Messages"
+msgid "Read more"
+msgstr "Leer más"
+
+#: Messages.rb:228
+msgctxt "Messages"
+msgid "Conversations with %{user}"
+msgstr "Conversaciones con %{user}"
+
+#: Messages.rb:375
+msgctxt "Messages"
+msgid "Messages in topic %{subject} with %{user}"
+msgstr "Mensajes en el tema %{subject} con %{user}"
+
+#: Messages.rb:373
+msgctxt "Messages"
+msgid "Show older"
+msgstr "Ver antiguo"
+
+#: Messages.rb:379
+msgctxt "Messages"
+msgid "Your reply"
+msgstr "Su respuesta"
+
+#: Messages.rb:379
+msgctxt "Messages"
+msgid "Compose"
+msgstr "Componer"
+
+msgctxt "Messages"
+msgid "Create new conversation"
+msgstr "Crear una nueva conversación"
+
+msgctxt "Messages"
+msgid "Add user to this conversation"
+msgstr "Añadir usuario a esta conversación"
+
+msgctxt "Messages"
+msgid "Conversation users"
+msgstr "Usuarios de conversación"
+
+msgctxt "Messages"
+msgid "Delete this user from the conversation"
+msgstr "Elimine a este usuario de la conversación"
+
+msgctxt "Messages"
+msgid "Are you sure you want to delete %{user} from %{conversation}?"
+msgstr "¿Está seguro de que desea eliminar a %{user} de %{conversation}?"
+
+#: MyPermissions.rb:13
+msgctxt "MyPermissions"
+msgid "Moderators"
+msgstr "Moderadores"
+
+#: MyPermissions.rb:14
+msgctxt "MyPermissions"
+msgid "Media administrators"
+msgstr "Administrador de medios"
+
+#: MyPermissions.rb:15
+msgctxt "MyPermissions"
+msgid "Translators"
+msgstr "Traductores"
+
+#: MyPermissions.rb:16
+msgctxt "MyPermissions"
+msgid "Developers"
+msgstr "Desarrolladores"
+
+#: MyPermissions.rb:31
+msgctxt "MyPermissions"
+msgid "You have no special permissions."
+msgstr "Usted no tiene ningún derecho especial."
+
+#: MyPermissions.rb:12
+msgctxt "MyPermissions"
+msgid "Betatesters"
 msgstr "Betatesters"
 
-msgid "EAPI_Common:wait_soundfont"
+#: Online.rb:24
+msgctxt "Online"
+msgid "Who is on line?"
+msgstr "Quién está en línea?"
+
+#: MainMenu.rb:68
+msgctxt "MainMenu"
+msgid "Programs installation"
+msgstr "Instalar programas"
+
+#: MainMenu.rb:499
+msgctxt "MainMenu"
+msgid " Do you want to restore the last sarr version of this program? All settings stay  as they are."
+msgstr "¿Quieres restaurar la última versión estable de este programa? Todos los ajustes permanecen como son."
+
+#: MainMenu.rb:507
+msgctxt "MainMenu"
+msgid " Are you sure you want to reset all settings to their factory defaults? Elten will  restart."
+msgstr "¿Está seguro de que desea eliminar todas las configuraciones del programa y restaurar los valores predeterminados? Elten se reiniciará."
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Community"
+msgstr "C&omunidad"
+
+msgctxt "MainMenu"
+msgid "&media"
+msgstr "&medio"
+
+#: MainMenu.rb:540
+msgctxt "MainMenu"
+msgid "&Files"
+msgstr "&Archivos"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "Pro&grams"
+msgstr "Pro&gramas"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Tools"
+msgstr "&Herramientas"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Settings"
+msgstr "&Configuración"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Help"
+msgstr "&Ayuda"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Quit"
+msgstr "&Salir"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "&Changelog"
+msgstr "&Lista de cambios"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "Program &version"
+msgstr "Versión del &programa"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "&Read me"
+msgstr "&Léame"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "&Shortkeys"
+msgstr "&Comandos de teclado"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "Report a &bug"
+msgstr "Reportar un e&rror"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "User &agreement"
+msgstr "Acuerdo de&l usuario"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "&Interface settings"
+msgstr "Opciones de i&nterfaz"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "&Voice settings"
+msgstr "&Configuración de voz"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "Cloc&k"
+msgstr "Relo&j"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "Soun&dthemes"
+msgstr "Temas de s&onido"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "Manage &languages"
+msgstr "Administrar &idiomas"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "&Advanced settings"
+msgstr "Op&cionnes avanzadas"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Messages"
+msgstr "&Mensajes"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Blogs"
+msgstr "&Blogs"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Forum"
+msgstr "&Foro"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Chat"
+msgstr "&Chat"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "No&tes"
+msgstr "No&tas"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "What's &new?"
+msgstr "Qué &hay de nuevo?"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "Po&lls"
+msgstr "En&cuestas"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "&Users"
+msgstr "&Usuarios"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "My &account"
+msgstr "Mi cu&enta"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Edit &profile"
+msgstr "Editar p&erfil"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Change &status"
+msgstr "C&ambiar estado"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My si&gnature"
+msgstr "Mi &firma"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My &welcome message"
+msgstr "Mi men&saje de bienvenida"
+
+#: MainMenu.rb:287
+#, fuzzy
+msgctxt "MainMenu"
+msgid "My &visiting card"
+msgstr "My &visiting card"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My &badges"
+msgstr "Mis &insignias"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My share&d files"
+msgstr "Mis archi&vos compartidos"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Set &avatar"
+msgstr "Cambiar &avatar"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "WHat's &new configuration"
+msgstr "Con&figuración de qué hay de nuevo"
+
+msgctxt "MainMenu"
+msgid "My p&ermissions"
+msgstr "Mis p&ermisos"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Black l&ist"
+msgstr "Lista &negra"
+
+#: MainMenu.rb:287
+#, fuzzy
+msgctxt "MainMenu"
+msgid "Auto &log in tokens"
+msgstr "Auto &log in tokens"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Change passw&ord"
+msgstr "Cambiar contra&seña"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Change e-&mail"
+msgstr "Cambiar correo elect&rónico"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Two-factor a&uthentication settings"
+msgstr "Configuración de autentificadór en dos &factores"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "Soundthemes &generator"
+msgstr "Ge&nerador de temas de sonido"
+
+#: MainMenu.rb:363
+#, fuzzy
+msgctxt "MainMenu"
+msgid "Speed &test"
+msgstr "Speed &test"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "P&rogram management"
+msgstr "Adm&inistrar programas"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "Read to &file"
+msgstr "Leer al a&rchivo"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "&Console"
+msgstr "&Consola"
+
+msgctxt "MainMenu"
+msgid "&Elten API compiler"
+msgstr "Co&mpilador Elten API"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "De&bugging"
+msgstr "De&purar"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "Hide in &tray"
+msgstr "Ocultar a &la bandeja"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "&Logout"
+msgstr "&Cerrar sesión"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "E&xit"
+msgstr "S&alir"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "&Restart"
+msgstr "&Reiniciar"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "Restart in de&bug mode"
+msgstr "Reiniciar en mo&do depuración"
+
+#: MainMenu.rb:480
+msgctxt "MainMenu"
+msgid "Search for &updates"
+msgstr "Buscar &actualizaciones"
+
+#: MainMenu.rb:480
+msgctxt "MainMenu"
+msgid "&Reinstall"
+msgstr "&Reinstalar"
+
+#: MainMenu.rb:482
+msgctxt "MainMenu"
+msgid "Create &Portable version"
+msgstr "Crear versió&n portable"
+
+#: MainMenu.rb:482
+msgctxt "MainMenu"
+msgid "Restore &default settings"
+msgstr "Resta&urar opciones predeterminados"
+
+#: MainMenu.rb:482
+msgctxt "MainMenu"
+msgid "&Install"
+msgstr "&Instalar"
+
+msgctxt "MainMenu"
+msgid "&Media catalog"
+msgstr "&Catálogo de medios"
+
+#: MainMenu.rb:540
+msgctxt "MainMenu"
+msgid "&YouTube"
+msgstr "&YouTube"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "My &contacts"
+msgstr "M&is contactos"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Users who a&dded me to contacts"
+msgstr "Usua&rios que me añadieron a los contactos"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "WHo is &online?"
+msgstr "&Quién está en línea?"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "&Users list"
+msgstr "&Lista de usuarios"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Ad&mins"
+msgstr "Ad&ministradores"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "User searc&h"
+msgstr "Bu&scar usuarios"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Recently &actived users"
+msgstr "Usuarios &recientemente activos"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Recently &registered users"
+msgstr "Usuarios reci&entemente registrados"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Recently changed a&vatars"
+msgstr "a&vatares recientemente cambiados"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Addons"
+msgstr "&Addons"
+
+#: MainMenu.rb:13
+msgctxt "MainMenu"
+msgid "Menu"
+msgstr "Menu"
+
+#: Forum.rb:1005
+msgctxt "Forum"
+msgid "New thread"
+msgstr "Nueva entrada"
+
+#: Forum.rb:1928
+msgctxt "Forum"
+msgid "Added to the list of followed threads."
+msgstr "Añadido a la lista de entradas seguidas"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Go to last post"
+msgstr "Ir a la última publicación"
+
+#: Forum.rb:1146
+msgctxt "Forum"
+msgid "Thread's title"
+msgstr "Título de la entrada"
+
+#: Forum.rb:1332
+msgctxt "Forum"
+msgid "Thread has been created."
+msgstr "Entrada creada."
+
+msgctxt "Forum"
+msgid "Error creating thread!"
+msgstr "Error creando la entrada!"
+
+#: Forum.rb:1819
+msgctxt "Forum"
+msgid "The post was created."
+msgstr "Publicación creada"
+
+#: Forum.rb:1096
+msgctxt "Forum"
+msgid "This thread has been deleted."
+msgstr "Entrada eliminada."
+
+#: Forum.rb:2057
+msgctxt "Forum"
+msgid "This post has been deleted."
+msgstr "Publicación eliminada."
+
+#: Forum.rb:2072
+msgctxt "Forum"
+msgid "Forum"
+msgstr "Foro"
+
+#: Forum.rb:1867
+msgctxt "Forum"
+msgid "Reply"
+msgstr "Responder"
+
+#: Forum.rb:1867
+msgctxt "Forum"
+msgid "Reply with quote"
+msgstr "Responder con cita"
+
+#: Forum.rb:1872
+msgctxt "Forum"
+msgid "Go to first new post"
+msgstr "Ir a la primera publicación nueva"
+
+#: Forum.rb:1784
+msgctxt "Forum"
+msgid "Send"
+msgstr "Enviar"
+
+#: Forum.rb:937
+msgctxt "Forum"
+msgid "No new posts in followed threads"
+msgstr "No hay nuevas publicaciones en entradas que sigues."
+
+#: Forum.rb:1627
+msgctxt "Forum"
+msgid "Return"
+msgstr "Atrás"
+
+#: Forum.rb:1784
+msgctxt "Forum"
+msgid "Add the post"
+msgstr "Añadir publicación"
+
+#: Forum.rb:1620
+msgctxt "Forum"
+msgid "Your answer"
+msgstr "Su respuesta"
+
+#: Forum.rb:694
+msgctxt "Forum"
+msgid "Forums selection"
+msgstr "Seleccionar foro"
+
+#: Forum.rb:975
+msgctxt "Forum"
+msgid "Threads selection"
+msgstr "Seleccionar entrada"
+
+#: Forum.rb:1622
+msgctxt "Forum"
+msgid "Record a new post"
+msgstr "Gravar una nueva publicación"
+
+#: Forum.rb:1777
+msgctxt "Forum"
+msgid "Stop recording"
+msgstr "Detener de gravar"
+
+#: Forum.rb:1782
+msgctxt "Forum"
+msgid "Record a post once again"
+msgstr "Gravar nuevamente la publicación"
+
+#: Forum.rb:1783
+msgctxt "Forum"
+msgid "Play"
+msgstr "Reproducir"
+
+#: Forum.rb:1143
+msgctxt "Forum"
+msgid "Post"
+msgstr "Publicación"
+
+#: Forum.rb:1795
+msgctxt "Forum"
+msgid "Converting..."
+msgstr "Convertiendo..."
+
+#: Forum.rb:1253
+msgctxt "Forum"
+msgid "Record a post"
+msgstr "Gravar publicación"
+
+#: Forum.rb:1261
+msgctxt "Forum"
+msgid "Play a post"
+msgstr "Reproducir publicación"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Search"
+msgstr "Buscar"
+
+#: Forum.rb:1016
+msgctxt "Forum"
+msgid "Rename"
+msgstr "Renombrar"
+
+#: Forum.rb:1893
+msgctxt "Forum"
+msgid "Edit post"
+msgstr "Editar publicación"
+
+#: Forum.rb:1894
+msgctxt "Forum"
+msgid "Delete post"
+msgstr "Eliminar publicación"
+
+#: Forum.rb:1017
+msgctxt "Forum"
+msgid "Open"
+msgstr "Abrir"
+
+#: Forum.rb:1016
+msgctxt "Forum"
+msgid "Move thread"
+msgstr "Mover entrada"
+
+#: Forum.rb:1961
+msgctxt "Forum"
+msgid "Enter a phrase to look for"
+msgstr "Introduzca una frace para encontrar"
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Add to followed threads list"
+msgstr "Añadir a la lista de entradas seguidas"
+
+#: Forum.rb:1833
+msgctxt "Forum"
+msgid "Unfollow this thread"
+msgstr "Dejar de seguir esta entrada"
+
+#: Forum.rb:1016
+msgctxt "Forum"
+msgid "Delete thread"
+msgstr "Eliminar entrada"
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Navigation"
+msgstr "Navegación"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Go to post"
+msgstr "Ir a publicación"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Search thread"
+msgstr "Buscar entradas"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Go to first post"
+msgstr "Ir a la primera publicación"
+
+#: Forum.rb:1832
+msgctxt "Forum"
+msgid "Moderation"
+msgstr "Moderación"
+
+#: Forum.rb:1894
+msgctxt "Forum"
+msgid "Move post"
+msgstr "Mover publicación"
+
+#: Forum.rb:1995
+msgctxt "Forum"
+msgid "edit your post here"
+msgstr "Edita tu publicación aquí"
+
+#: Forum.rb:2004
+msgctxt "Forum"
+msgid "The post has been modified"
+msgstr "Publicación modificada"
+
+#: Forum.rb:2102
+msgctxt "Forum"
+msgid "Mention post"
+msgstr "Mencionar publicación"
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Listen to the thread"
+msgstr "escuchar entrada"
+
+#: Forum.rb:703
+msgctxt "Forum"
+msgid "Follow this forum"
+msgstr "Seguir este foro"
+
+#: Forum.rb:704
+msgctxt "Forum"
+msgid "Unfollow this forum"
+msgstr "Dejar de seguir este foro"
+
+#: Forum.rb:724
+msgctxt "Forum"
+msgid "Added to followed forums list."
+msgstr "Agregado a lista de foros seguidos"
+
+#: Forum.rb:731
+msgctxt "Forum"
+msgid "Removed from followed forums list."
+msgstr "Eliminado de la lista de foros seguidos"
+
+#: Forum.rb:1935
+msgctxt "Forum"
+msgid "Removed from followed threads list."
+msgstr "Eliminado de la lista de entradas seguidas"
+
+#: Forum.rb:2102
+msgctxt "Forum"
+msgid "Message"
+msgstr "Mensaje"
+
+#: Forum.rb:703
+msgctxt "Forum"
+msgid "Mark this forum as read"
+msgstr "Marcar este foro como no leido"
+
+#: Forum.rb:744
+msgctxt "Forum"
+msgid " All posts on this forum will be marked as read. Are you sure you want to continue?"
+msgstr "Todas las publicaciones en este foro se marcarán como leídas. Estás seguro de que quieres continuar?"
+
+#: Forum.rb:752
+msgctxt "Forum"
+msgid "The forum has been marked as read."
+msgstr "El foro ha sido marcado como leído."
+
+#: Forum.rb:942
+msgctxt "Forum"
+msgid "No new threads on the followed forums"
+msgstr "No hay nuevas entradas en foros seguidos ."
+
+#: Forum.rb:947
+msgctxt "Forum"
+msgid "No new posts on the followed forums"
+msgstr "No hay nuevas publicaciones seguidas."
+
+#: Forum.rb:952
+msgctxt "Forum"
+msgid "No new mentions"
+msgstr "No hay nuevas menciones."
+
+#: Forum.rb:1071
+msgctxt "Forum"
+msgid "The thread has been moved."
+msgstr "La entrada se movió."
+
+#: Forum.rb:1084
+msgctxt "Forum"
+msgid "The forum name has been changed."
+msgstr "Nombre cambiado correctamente."
+
+#: Forum.rb:1798
+msgctxt "Forum"
+msgid "Preparing..."
+msgstr "Preparando para enviar una publicación..."
+
+#: Forum.rb:1821
+msgctxt "Forum"
+msgid "Post creation failure."
+msgstr "Error al crear publicación."
+
+#: Forum.rb:1981
+msgctxt "Forum"
+msgid "The entered phrase cannot be found."
+msgstr "La frase dada no fue encontrada."
+
+#: Forum.rb:2040
+msgctxt "Forum"
+msgid "The post has been moved."
+msgstr "Publicación movida."
+
+#: Forum.rb:2075
+msgctxt "Forum"
+msgid "The post has been slided."
+msgstr "Publicación pospuesta"
+
+#: Forum.rb:2098
+msgctxt "Forum"
+msgid "Nobody added you to their contact list."
+msgstr "Nadie te ha agregado a tus contactos."
+
+#: Forum.rb:2116
+msgctxt "Forum"
+msgid "The mention has been sent."
+msgstr "Nota enviada."
+
+#: Forum.rb:1144
+msgctxt "Forum"
+msgid "Nick:"
+msgstr "Seudónimo:"
+
+#: Forum.rb:1079
+msgctxt "Forum"
+msgid "Type a new thread name"
+msgstr "Introduzca un nuevo nombre de entrada"
+
+#: Forum.rb:1253
+msgctxt "Forum"
+msgid "Stop recording a post"
+msgstr "Dejar de grabar la entrada"
+
+#: Forum.rb:2047
+msgctxt "Forum"
+msgid "Are you sure you want to delete this post?"
+msgstr "Seguro que quieres eliminar esta publicación?"
+
+#: Forum.rb:1066
+msgctxt "Forum"
+msgid "Where do you want to move this thread"
+msgstr "Donde moverás la entrada?"
+
+#: Forum.rb:1976
+msgctxt "Forum"
+msgid "Select a post"
+msgstr "Elegir publicación"
+
+#: Forum.rb:2035
+msgctxt "Forum"
+msgid "Where do you want to move this post?"
+msgstr "Donde moverás esta publicación?"
+
+#: Forum.rb:2072
+msgctxt "Forum"
+msgid "Select a post to be slided with this post."
+msgstr "Elija con qué otra publicación para reemplazar esta publicación."
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Author"
+msgstr "Autor"
+
+#: Forum.rb:1092
+msgctxt "Forum"
+msgid "Do you really want to delete thread %{thrname}?"
+msgstr "Seguro que quieres eliminar la entrada %{thrname}?"
+
+#: Forum.rb:962
+msgctxt "Forum"
+msgid "New"
+msgstr "Nuevo"
+
+#: Forum.rb:693
+msgctxt "Forum"
+msgid "Threads"
+msgstr "entradas"
+
+#: Forum.rb:977
+msgctxt "Forum"
+msgid "posts"
+msgstr "Publicaciones"
+
+#: Forum.rb:977
+msgctxt "Forum"
+msgid "Unread"
+msgstr "Nuevo"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Followed threads"
+msgstr "Entradas seguidas"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Followed forums"
+msgstr "Foros seguidos"
+
+#: Forum.rb:205
+msgctxt "Forum"
+msgid "Forums"
+msgstr "Foros"
+
+#: Forum.rb:965
+msgctxt "Forum"
+msgid "Montioned by"
+msgstr "Mencionado por"
+
+#: Forum.rb:1894
+msgctxt "Forum"
+msgid "Change post position"
+msgstr "Cambiar posisión de post"
+
+#: Forum.rb:264
+msgctxt "Forum"
+msgid "Group members"
+msgstr "Miembros del grupo"
+
+#: Forum.rb:340
+msgctxt "Forum"
+msgid "Group Members"
+msgstr "Miembros del grupo"
+
+#: Forum.rb:475
+msgctxt "Forum"
+msgid "Administrator"
+msgstr "Administrator"
+
+#: Forum.rb:419
+msgctxt "Forum"
+msgid "Moderator"
+msgstr "Moderator"
+
+#: Forum.rb:266
+msgctxt "Forum"
+msgid "Join"
+msgstr "Join"
+
+#: Forum.rb:269
+msgctxt "Forum"
+msgid "Leave"
+msgstr "Leave"
+
+#: Forum.rb:527
+msgctxt "Forum"
+msgid "Are you sure you want to join %{groupname}?"
+msgstr "¿Seguro que quieres entrar a %{groupname}?"
+
+#: Forum.rb:546
+msgctxt "Forum"
+msgid "Are you sure you want to leave %{groupname}?"
+msgstr "¿Seguro que quieres salir de %{groupname}?"
+
+#: Forum.rb:536
+msgctxt "Forum"
+msgid "You've just joined the group"
+msgstr "Acabas de unirte al grupo"
+
+#: Forum.rb:549
+msgctxt "Forum"
+msgid "You've just left the group"
+msgstr "Acabas de dejar el grupo."
+
+#: Forum.rb:361
+msgctxt "Forum"
+msgid "Pass administrative privileges"
+msgstr "Aprobar privilegios administrativos"
+
+#: Forum.rb:358
+msgctxt "Forum"
+msgid "Grant moderation privileges"
+msgstr "Conceder privilegios de moderación"
+
+#: Forum.rb:360
+msgctxt "Forum"
+msgid "Deny moderation privileges"
+msgstr "Denegar privilegios de moderación"
+
+#: Forum.rb:375
+msgctxt "Forum"
+msgid "Ban in this group"
+msgstr "bloquear en este grupo"
+
+#: Forum.rb:380
+msgctxt "Forum"
+msgid "Unban"
+msgstr "Unban"
+
+msgctxt "Forum"
+msgid "Are you sure you want to grant moderation privileges in %{groupname} to user %{user}?"
+msgstr "¿Está seguro de que desea conceder privilegios de moderación en %{groupname} a %{user}?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to deny %{user}'s moderation privileges?"
+msgstr "¿Está seguro de que desea denegar los privilegios de moderación de %{user}?"
+
+#: Forum.rb:477
+msgctxt "Forum"
+msgid "Privileges of this user have been changed."
+msgstr "Se han cambiado los privilegios de este usuario."
+
+#: Forum.rb:467
+msgctxt "Forum"
+msgid "Are you sure you want to resign your administrative privileges in %{groupname} and pass them to %{user}?"
+msgstr "¿Está seguro de que desea renunciar a sus privilegios administrativos en %{groupname} y pasarlos a %{user}?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to ban %{user} in %{groupname}?"
+msgstr "Seguro que quieres bloquear a %{user} en %{groupname}?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to unban %{user} in %{groupname}?"
+msgstr "Seguro que quieres desbloquear a %{user} en %{groupname}?"
+
+#: Forum.rb:377
+msgctxt "Forum"
+msgid "Kick"
+msgstr "Kick"
+
+msgctxt "Forum"
+msgid "Are you sure you want to kick %{user} of %{groupname}?"
+msgstr "Seguro que quieres pegarle a %{user} en %{groupname}?"
+
+#: Forum.rb:709
+msgctxt "Forum"
+msgid "New forum"
+msgstr "Nuevo foro"
+
+#: Forum.rb:712
+msgctxt "Forum"
+msgid "Delete forum"
+msgstr "Eliminar foro"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Forum name"
+msgstr "Nombre del foro"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Forum description"
+msgstr "Descripción del foro"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Forum type"
+msgstr "Tipo de foro"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Text forum"
+msgstr "Foro de texto"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Voice forum"
+msgstr "Foro de voz"
+
+#: Forum.rb:843
+msgctxt "Forum"
+msgid "Create forum"
+msgstr "Crear foro"
+
+#: Forum.rb:859
+msgctxt "Forum"
+msgid "The forum has been created"
+msgstr "El foro ha sido creado"
+
+#: Forum.rb:817
+msgctxt "Forum"
+msgid "Are you sure you want to delete this forum?"
+msgstr "¿Está seguro de que desea eliminar este foro?"
+
+#: Forum.rb:822
+msgctxt "Forum"
+msgid "The forum has been deleted."
+msgstr "El foro ha sido eliminado."
+
+#: Forum.rb:711
+msgctxt "Forum"
+msgid "Edit forum"
+msgstr "Editar foro"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Recommended groups"
+msgstr "Grupos recomendados"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Open groups"
+msgstr "Grupos abiertos"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "All groups"
+msgstr "Todos los grupos"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Group name"
+msgstr "Nombre del grupo"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Group description"
+msgstr "Descripción del grupo"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Group type"
+msgstr "Tipo de grupo"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Public"
+msgstr "Public"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Hidden"
+msgstr "Hidden"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Join method"
+msgstr "Método de unión"
+
+#: Forum.rb:649
+msgctxt "Forum"
+msgid "open (everyone can join)"
+msgstr "abierto (todo el mundo puede unirse)"
+
+#: Forum.rb:649
+msgctxt "Forum"
+msgid "Moderated (everyone can request)"
+msgstr "Moderado (todo el mundo puede solicitar)"
+
+#: Forum.rb:647
+msgctxt "Forum"
+msgid "closed (only invited users can join)"
+msgstr "cerrado (solo los usuarios invitados pueden unirse)"
+
+#: Forum.rb:641
+msgctxt "Forum"
+msgid "Create group"
+msgstr "Crear grupo"
+
+#: Forum.rb:802
+msgctxt "Forum"
+msgid "Change forum position"
+msgstr "Cambiar la posición del foro"
+
+#: Forum.rb:802
+msgctxt "Forum"
+msgid "Above what forum do you want to move this forum?"
+msgstr "¿Por encima de qué foro quieres mover este foro?"
+
+#: Forum.rb:802
+msgctxt "Forum"
+msgid "Move to the end"
+msgstr "Mover hasta el final"
+
+#: Forum.rb:262
+msgctxt "Forum"
+msgid "New group"
+msgstr "Nuevo grupo"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Language"
+msgstr "Language"
+
+#: Forum.rb:656
+msgctxt "Forum"
+msgid "Group has been created"
+msgstr "Se ha creado un grupo"
+
+#: Forum.rb:272
+msgctxt "Forum"
+msgid "Delete group"
+msgstr "Eliminar grupo"
+
+#: Forum.rb:603
+msgctxt "Forum"
+msgid "Are you sure you want to delete %{groupname}?"
+msgstr "¿Seguro que quieres eliminar %{groupname}?"
+
+#: Forum.rb:607
+msgctxt "Forum"
+msgid "Group has been deleted"
+msgstr "Se ha eliminado el grupo"
+
+#: Forum.rb:265
+msgctxt "Forum"
+msgid "Invite"
+msgstr "Invite"
+
+#: Forum.rb:496
+msgctxt "Forum"
+msgid "Type user to invite"
+msgstr "Escriba usuario para invitar"
+
+#: Forum.rb:506
+msgctxt "Forum"
+msgid "The user has been invited"
+msgstr "El usuario ha sido invitado"
+
+#: Forum.rb:514
+msgctxt "Forum"
+msgid "This user does not exist"
+msgstr "Este usuario no existe"
+
+#: Forum.rb:516
+msgctxt "Forum"
+msgid "This user already belongs to this group"
+msgstr "Este usuario ya pertenece a este grupo"
+
+#: Forum.rb:267
+msgctxt "Forum"
+msgid "Accept invitation"
+msgstr "Aceptar invitación"
+
+#: Forum.rb:270
+msgctxt "Forum"
+msgid "Refuse invitation"
+msgstr "Rechazar invitación"
+
+#: Forum.rb:333
+msgctxt "Forum"
+msgid "Invited"
+msgstr "Invited"
+
+#: Forum.rb:457
+msgctxt "Forum"
+msgid "Banned"
+msgstr "Banned"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Invitations"
+msgstr "Invitations"
+
+#: Forum.rb:271
+msgctxt "Forum"
+msgid "Edit group"
+msgstr "Editar grupo"
+
+#: Forum.rb:437
+msgctxt "Forum"
+msgid "Ask to be enrolled in this group"
+msgstr "Pide estar inscrito en este grupo"
+
+#: Forum.rb:525
+msgctxt "Forum"
+msgid "Do you wish to ask to be enrolled in %{groupname}"
+msgstr "¿Desea solicitar que se inscriba en %{groupname}?"
+
+#: Forum.rb:533
+msgctxt "Forum"
+msgid "Request sent"
+msgstr "Solicitud enviada"
+
+#: Forum.rb:458
+msgctxt "Forum"
+msgid "Waiting for review"
+msgstr "A la espera de revisión"
+
+#: Forum.rb:385
+msgctxt "Forum"
+msgid "Examine this application"
+msgstr "Examine esta aplicación"
+
+#: Forum.rb:437
+msgctxt "Forum"
+msgid "Accept"
+msgstr "Accept"
+
+#: Forum.rb:437
+msgctxt "Forum"
+msgid "Refuse"
+msgstr "Refuse"
+
+msgctxt "Forum"
+msgid "Do you want to accept request of user %{user}"
+msgstr "¿Desea aceptar la solicitud de %{user}?"
+
+msgctxt "Forum"
+msgid "Do you want to refuse request of user %{user}"
+msgstr "¿Desea rechazar la solicitud de %{user}?"
+
+#: Forum.rb:1686
+#, fuzzy
+msgctxt "Forum"
+msgid "Attachments"
+msgstr "Attachments"
+
+#: Forum.rb:1609
+#, fuzzy
+msgctxt "Forum"
+msgid "Polls"
+msgstr "Polls"
+
+#: Forum.rb:1143
+#, fuzzy
+msgctxt "Forum"
+msgid "Attach a poll"
+msgstr "Attach a poll"
+
+#: Forum.rb:1620
+#, fuzzy
+msgctxt "Forum"
+msgid "Attach a file"
+msgstr "Attach a file"
+
+#: Forum.rb:1186
+#, fuzzy
+msgctxt "Forum"
+msgid "You haven't created any polls yet."
+msgstr "You haven't created any polls yet."
+
+#: Forum.rb:1172
+#, fuzzy
+msgctxt "Forum"
+msgid "Select poll to attach"
+msgstr "Select poll to attach"
+
+#: Forum.rb:1182
+#, fuzzy
+msgctxt "Forum"
+msgid "Poll has been added"
+msgstr "Poll has been added"
+
+#: Forum.rb:1177
+#, fuzzy
+msgctxt "Forum"
+msgid "This poll has been already added"
+msgstr "This poll has been already added"
+
+#: Forum.rb:1688
+#, fuzzy
+msgctxt "Forum"
+msgid "The file has been attached"
+msgstr "The file has been attached"
+
+#: Forum.rb:1680
+#, fuzzy
+msgctxt "Forum"
+msgid "This file has been already attached"
+msgstr "This file has been already attached"
+
+#: Forum.rb:1677
+#, fuzzy
+msgctxt "Forum"
+msgid "Select file to attach"
+msgstr "Select file to attach"
+
+#: Forum.rb:1683
+#, fuzzy
+msgctxt "Forum"
+msgid "This file is too large"
+msgstr "This file is too large"
+
+#: Forum.rb:1665
+#, fuzzy
+msgctxt "Forum"
+msgid "Where to save this file?"
+msgstr "Where to save this file?"
+
+#: Forum.rb:1016
+#, fuzzy
+msgctxt "Forum"
+msgid "Close thread"
+msgstr "Close thread"
+
+#: Forum.rb:1017
+#, fuzzy
+msgctxt "Forum"
+msgid "Open thread"
+msgstr "Open thread"
+
+#: Forum.rb:1116
+#, fuzzy
+msgctxt "Forum"
+msgid "The thread has been closed"
+msgstr "The thread has been closed"
+
+#: Forum.rb:1112
+#, fuzzy
+msgctxt "Forum"
+msgid "The thread has been opened"
+msgstr "The thread has been opened"
+
+#: Main.rb:85
+msgctxt "Main"
+msgid "Press the alt key to open the menu."
+msgstr "Presione la tecla alt para abrir el menú"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Delete the playlist"
+msgstr "Eliminar la lista de reproducción"
+
+#: Main.rb:193
+msgctxt "Main"
+msgid "Playlist"
+msgstr "Lista de reproducción"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Upload to the server"
+msgstr "Cargar al servidor"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Set as avatar"
+msgstr "Establecer como avatar"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Player"
+msgstr "Reproductor"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Shuffle"
+msgstr "Aleatorio"
+
+#: Main.rb:177
+msgctxt "Main"
+msgid "Playlist shuffled"
+msgstr "Lista de reproducción aleatoria"
+
+#: Main.rb:78
+msgctxt "Main"
+msgid "A new beta version of the program is available."
+msgstr "Una nueva versión beta del programa está disponible."
+
+#: Main.rb:200
+msgctxt "Main"
+msgid "Playlist removed."
+msgstr "Lista de reproducción eliminada."
+
+#: Main.rb:12
+msgctxt "Main"
+msgid "test"
+msgstr "prueva"
+
+#: Login.rb:17
+msgctxt "Login"
+msgid "Username:"
+msgstr "Nombre de usuario"
+
+#: Login.rb:146
+msgctxt "Login"
+msgid "Password:"
+msgstr "Contraseña"
+
+#: Login.rb:134
+msgctxt "Login"
+msgid "Do not ask again"
+msgstr "No preguntar de nuevo"
+
+#: Login.rb:172
+#, fuzzy
+msgctxt "Login"
+msgid "To reenable auto log in feature, proceed to the interface settings."
+msgstr "To reenable auto log in feature, proceed to the interface settings."
+
+#: Login.rb:136
+msgctxt "Login"
+msgid " The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"
+msgstr "Los datos de inicio de sesión guardados utilizan el antiguo método de autenticación de cuenta en el que se ha detectado la susceptibilidad a los ataques de piratas informáticos. Se han introducido nuevos algoritmos de inicio de sesión automáticos más seguros en Elten 2.2. Se recomienda que convierta la información guardada en un nuevo sistema para mejorar la seguridad de su cuenta. ¿Desea actualizar la información guardada ahora?"
+
+#: Login.rb:161
+msgctxt "Login"
+msgid " Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."
+msgstr "El inicio de sesión automático continuará hasta que cierre la sesión. Las claves de inicio de sesión automáticas se pueden administrar desde la pestaña Mi cuenta en el menú Comunidad."
+
+#: Login.rb:163
+msgctxt "Login"
+msgid " Login data has been updated. Automatic login will be proceeding until you log  out. Automatic login keys can be managed from the My Account tab in the Community  menu."
+msgstr "Los datos de inicio de sesión se han actualizado. El inicio de sesión automático continuará hasta que cierre la sesión. Las claves de inicio de sesión automáticas se pueden administrar desde la pestaña Mi cuenta en el menú Comunidad."
+
+#: Login.rb:107
+msgctxt "Login"
+msgid " Two-factor authentication is enabled on this account. Enter the code sent to you  by text message to allow this device to login. If you do not have access to the  phone number used, select the password reset option to disable two-factor  authentication."
+msgstr "La autenticación de dos factores está habilitada en esta cuenta. Ingrese el código que se le envió por mensaje de texto para permitir que este dispositivo inicie sesión. Si no tiene acceso al número de teléfono utilizado, seleccione la opción de restablecimiento de contraseña para desactivar la autenticación de dos factores."
+
+#: Login.rb:101
+msgctxt "Login"
+msgid "Verification failed."
+msgstr "Verificación fallida"
+
+#: Login.rb:107
+msgctxt "Login"
+msgid "The entered code is not valid, try again."
+msgstr "El código ingresado es inválido, intenta de nuevo"
+
+#: Login.rb:152
+msgctxt "Login"
+msgid " An error occurred while authenticating the identity. You might have provided an  incorrect password."
+msgstr "Se produjo un error durante la autenticación de identidad. Es posible que se haya ingresado una contraseña incorrecta."
+
+#: Login.rb:235
+msgctxt "Login"
+msgid "Invalid login or password."
+msgstr "Contraseña incorrecta"
+
+#: Login.rb:240
+msgctxt "Login"
+msgid "Login failure."
+msgstr "Error al iniciar sesión."
+
+#: Login.rb:244
+msgctxt "Login"
+msgid "Connection failure."
+msgstr "Error al conectar al servidor."
+
+#: Login.rb:192
+msgctxt "Login"
+msgid "Logged in as: %{user}"
+msgstr "Registrado como: %{user}"
+
+#: Login.rb:134
+#, fuzzy
+msgctxt "Login"
+msgid "Do you want to enable auto log in for account %{user}?"
+msgstr "Do you want to enable auto log in for account %{user}?"
+
+#: Registration.rb:25
+msgctxt "Registration"
+msgid "User name can not contain slashes. Sign will be Omitted."
+msgstr "El nombre de usuario no contendrá barras. El signo se omitirá."
+
+#: Registration.rb:29
+msgctxt "Registration"
+msgid "User name can not contain spaces. Sign will be Omitted"
+msgstr "El nombre de usuarios no contendrá espacios. el signo se omitirá."
+
+#: Registration.rb:14
+msgctxt "Registration"
+msgid " Enter your username. It will be used for identification.The maximum length of the  username is 64 characters"
+msgstr "Ingrese su nombre de usuario. Se utilizará para la identificación. La longitud máxima del nombre de usuario es de 64 caracteres."
+
+#: Registration.rb:37
+msgctxt "Registration"
+msgid " Enter your password. It is recommended to use a strong password, which consists  of numbers and letters. Maximum length of the password is 256 characters."
+msgstr "Ingresa tu contraseña. Se recomienda utilizar una contraseña segura, que consiste en números y letras. La longitud máxima de la contraseña es de 256 caracteres."
+
+#: Registration.rb:44
+msgctxt "Registration"
+msgid " Enter your e-mail address. It will be used in case you forget your password and  to send important information."
+msgstr "Ingrese su dirección de correo electrónico. Se utilizará en caso de que olvide su contraseña y para enviar información importante."
+
+#: Registration.rb:50
+msgctxt "Registration"
+msgid " Registration is successful, thank you. You can log in using your username and  password."
+msgstr "Registro satisfactorio, ¡Gracias! Puedes iniciar sesión utilizando tu nombre de usuario y contraseña."
+
+#: Registration.rb:52
+msgctxt "Registration"
+msgid "An unknown error occurred while using database"
+msgstr "Se produjo un error desconocido al utilizar la base de datos."
+
+#: Registration.rb:54
+msgctxt "Registration"
+msgid "Account with the specified username already exists."
+msgstr "La cuenta con el nombre de usuario especificado ya existe."
+
+#: Registration.rb:56
+msgctxt "Registration"
+msgid "An error occurred while trying to write data."
+msgstr "Se ha producido un error al intentar escribir datos."
+
+#: Registration.rb:58
+msgctxt "Registration"
+msgid "An error occurred while connecting to the server."
+msgstr "Se produjo un error al conectar al servidor."
+
+#: Registration.rb:17
+msgctxt "Registration"
+msgid "A username cannot contain an at. The character will be ignored."
+msgstr "Los nombre de usuarios no contienen caracteres especiales. El carácter se homitirá."
+
+#: Registration.rb:39
+msgctxt "Registration"
+msgid "The entered passwords differ"
+msgstr "Las contraseñas introducidas son diferentes y no coinciden."
+
+#: Registration.rb:37
+msgctxt "Registration"
+msgid "Repeat your password"
+msgstr "Repetir contraseña"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Log in"
+msgstr "Entrar"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Register"
+msgstr "Registrar"
+
+msgctxt "Loading"
+msgid "Exit"
+msgstr "Salir"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Interface settings"
+msgstr "Opciones de interfaz"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Password reset"
+msgstr "Restaurar contraseña"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Use guest account"
+msgstr "Utilizar cuenta de invitados"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Change speech synthesizer"
+msgstr "Cambiar sintetizador de voz"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Reinstall"
+msgstr "Reinstalar"
+
+#: Loading.rb:197
+msgctxt "Loading"
+msgid " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."
+msgstr "seleccionar el sintetizador SAPI o escape para usar el lector de pantalla instalado."
+
+#: Loading.rb:259
+msgctxt "Loading"
+msgid "A new version of the program is available."
+msgstr "Una nueva versión del programa está disponible."
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Play"
+msgstr "Reproducir"
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Add to playlist"
+msgstr "Añadir a la lista de reproducción"
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Set as avatar"
+msgstr "Elegir como avatar"
+
+#: EAPI_External.rb:203
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Search YouTube"
+msgstr "Search YouTube"
+
+#: EAPI_External.rb:225
+msgctxt "EAPI_External"
+msgid "Found items"
+msgstr "Elementos encontrados"
+
+#: EAPI_External.rb:365
+msgctxt "EAPI_External"
+msgid "Connecting to server, please wait..."
+msgstr "Conectando al servidor, espera por favor..."
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "Download"
+msgstr "Descarga"
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Copy URL to the clipboard"
+msgstr "Copiar dirección URL al portapapeles"
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "How do you want to download this file?"
+msgstr "Cómo quieres descargar este archivo?"
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "Download as a video file"
+msgstr "Descargar como archivo de vídeo"
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "Download as an audio file"
+msgstr "Descargar como archivo de audio"
+
+#: EAPI_External.rb:438
+msgctxt "EAPI_External"
+msgid "Downloading, please wait..."
+msgstr "Descargando, por favor espere..."
+
+#: EAPI_External.rb:431
+msgctxt "EAPI_External"
+msgid "Where you want to save this file?"
+msgstr "Donde guardarás este archivo?"
+
+#: EAPI_External.rb:166
+msgctxt "EAPI_External"
+msgid "destination language"
+msgstr "Idioma de destino"
+
+#: EAPI_External.rb:161
+msgctxt "EAPI_External"
+msgid "source language"
+msgstr "Idioma original"
+
+#: EAPI_External.rb:161
+msgctxt "EAPI_External"
+msgid "recognize automatically"
+msgstr "Reconocer automáticamente"
+
+#: EAPI_External.rb:460
+msgctxt "EAPI_External"
+msgid "Select the format"
+msgstr "Seleccionar formato"
+
+#: EAPI_External.rb:167
+msgctxt "EAPI_External"
+msgid "Translate"
+msgstr "Traducir"
+
+#: EAPI_External.rb:119
+msgctxt "EAPI_External"
+msgid "An error occurred while translating."
+msgstr "Se ha producido un error al traducir."
+
+#: EAPI_External.rb:376
+msgctxt "EAPI_External"
+msgid "Do not read progress bar changes."
+msgstr "Sin leer cambios en la barra de progreso"
+
+#: EAPI_External.rb:379
+msgctxt "EAPI_External"
+msgid "Read progress bar changes."
+msgstr "Leer cambios en la barra de progreso"
+
+#: EAPI_External.rb:424
+msgctxt "EAPI_External"
+msgid "Added to playlist"
+msgstr "Añadido a la lista de reproducción"
+
+#: EAPI_External.rb:486
+msgctxt "EAPI_External"
+msgid "Please wait..."
+msgstr "Espera por favor..."
+
+#: EAPI_External.rb:480
+msgctxt "EAPI_External"
+msgid "Copied to clipboard."
+msgstr "Copiado al portapapeles."
+
+#: EAPI_External.rb:498
+msgctxt "EAPI_External"
+msgid " An error occurred while audiotrack capturing. Do you want to send a bug report?  It may help us solve the problem."
+msgstr "Ocurrió un error al capturar la pista de audio. ¿Quieres enviar un informe de error? Puede ayudar a resolver el problema."
+
+#: EAPI_External.rb:502
+msgctxt "EAPI_External"
+msgid " The file cannot be played. Do you want to report this bug? It may help us fix the  issue."
+msgstr "Este archivo no se puede reproducir. ¿Quieres enviar un informe sobre este error? Esto puede ayudar a solucionar el problema que ha encontrado."
+
+#: EAPI_External.rb:226
+msgctxt "EAPI_External"
+msgid "Details"
+msgstr "detalles"
+
+#: EAPI_External.rb:256
+msgctxt "EAPI_External"
+msgid "Duration"
+msgstr "Duration"
+
+#: EAPI_External.rb:256
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Published on"
+msgstr "Published on"
+
+#: EAPI_External.rb:256
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Key words"
+msgstr "Key words"
+
+#: EAPI_External.rb:486
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Updating Youtube-DL"
+msgstr "Updating Youtube-DL"
+
+#: EAPI_Common.rb:85
+msgctxt "EAPI_Common"
+msgid "An error occured while processing the command"
+msgstr "Se ha producido un error al procesar el comando."
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Write a private message"
+msgstr "Escribir mensaje privado"
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Visiting card"
+msgstr "Tarjeta de visita"
+
+#: EAPI_Common.rb:153
+msgctxt "EAPI_Common"
+msgid "Remove from contacts' list"
+msgstr "Eliminar de la lista de contactos"
+
+#: EAPI_Common.rb:155
+msgctxt "EAPI_Common"
+msgid "Add to contacts' list"
+msgstr "Agregar a lista de contactos"
+
+#: EAPI_Common.rb:317
+msgctxt "EAPI_Common"
+msgid "There is nothing new."
+msgstr "No hay nada nuevo por aquí."
+
+msgctxt "EAPI_Common"
+msgid "Exit"
+msgstr "Cerrar"
+
+#: EAPI_Common.rb:514
+msgctxt "EAPI_Common"
+msgid "Empty list"
+msgstr "Lista en blanco"
+
+#: EAPI_Common.rb:163
+msgctxt "EAPI_Common"
+msgid "Ban"
+msgstr "Ban"
+
+#: EAPI_Common.rb:165
+msgctxt "EAPI_Common"
+msgid "Unban"
+msgstr "Desbanear"
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Open user's blog"
+msgstr "Abrir blog del usuario"
+
+#: EAPI_Common.rb:16
+msgctxt "EAPI_Common"
+msgid "Hide program in Tray"
+msgstr "Ocultar programa a la bandeja"
+
+#: EAPI_Common.rb:329
+msgctxt "EAPI_Common"
+msgid "Enter the name of the soundtheme"
+msgstr "Introduce el nombre del tema de sonido"
+
+#: EAPI_Common.rb:362
+msgctxt "EAPI_Common"
+msgid " Soundtheme files created in %{dir}. Replace files of the default soundtheme in  the created folder with the appropriate files, which constitute the soundtheme."
+msgstr "Archivos de temas de audio creados en %{dir}. Reemplace los archivos del tema de audio predeterminado en el directorio creado con los archivos que desea incluir en él."
+
+#: EAPI_Common.rb:364
+msgctxt "EAPI_Common"
+msgid "What do you want to do?"
+msgstr "Qué deseas hacer?"
+
+#: EAPI_Common.rb:364
+msgctxt "EAPI_Common"
+msgid "Open the soundtheme's folder"
+msgstr "Abrir carpeta de temas de sonido"
+
+#: EAPI_Common.rb:364
+msgctxt "EAPI_Common"
+msgid "Open the soundtheme's folder in windows explorer"
+msgstr "Abrir carpeta de temas de sonido en Explorador de Windows"
+
+#: EAPI_Common.rb:462
+msgctxt "EAPI_Common"
+msgid "Describe the found error"
+msgstr "Describe el error encontrado"
+
+#: EAPI_Common.rb:478
+msgctxt "EAPI_Common"
+msgid "Sent."
+msgstr "Enviado."
+
+#: EAPI_Common.rb:60
+msgctxt "EAPI_Common"
+msgid "Enter the command to execute"
+msgstr "Introduzca el comando a ejecutar"
+
+#: EAPI_Common.rb:462
+msgctxt "EAPI_Common"
+msgid "Send"
+msgstr "Enviar"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Title"
+msgstr "Título"
+
+#: EAPI_Common.rb:14
+msgctxt "EAPI_Common"
+msgid "Exit..."
+msgstr "Salir..."
+
+#: EAPI_Common.rb:160
+msgctxt "EAPI_Common"
+msgid "Play avatar"
+msgstr "Reproducir avatar"
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Files shared by this user"
+msgstr "Archivos compartidos por este usuario"
+
+#: EAPI_Common.rb:678
+msgctxt "EAPI_Common"
+msgid "You are already up to date"
+msgstr "Estás actualizado."
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "badges of this user"
+msgstr "insignias de este usuario"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "voice"
+msgstr "voz"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "rate"
+msgstr "velocidad"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "destination location"
+msgstr "Lugar de destinación"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "preview"
+msgstr "Provar"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "confirm"
+msgstr "confirmar"
+
+#: EAPI_Form.rb:1709
+msgctxt "EAPI_Common"
+msgid "This file cannot be played."
+msgstr "El archivo no se puede reproducir."
+
+#: EAPI_Common.rb:1427
+msgctxt "EAPI_Common"
+msgid "Compressing..."
+msgstr "Comprimiendo..."
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Output splitting"
+msgstr "División de salida"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Create one file"
+msgstr "Crear un archivo"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Divide by paragraphs"
+msgstr "Dividir por párrafos"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Divide every"
+msgstr "Dividir cada"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Duration of one file (minutes)"
+msgstr "Duración del archivo (minutos)"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Read file number"
+msgstr "Leer número de archivo"
+
+#: EAPI_Form.rb:1778
+msgctxt "EAPI_Common"
+msgid "Downloading..."
+msgstr "Descargando..."
+
+msgctxt "EAPI_Common"
+msgid " Login failure. Probably, the password you entered is invalid or you have been  banned."
+msgstr "Error, no puedo iniciar sesión. Probablemente ingresaste la contraseña incorrecta o estás baneado."
+
+msgctxt "EAPI_Common"
+msgid "Operation completed successfully"
+msgstr "La operación se completó con éxito."
+
+#: EAPI_UI.rb:323
+msgctxt "EAPI_Common"
+msgid "Using a screenreader"
+msgstr "Usando lector de pantalla"
+
+#: EAPI_UI.rb:325
+msgctxt "EAPI_Common"
+msgid "Using a selected SAPI synthesizer"
+msgstr "Utilizando síntesis SAPI"
+
+msgctxt "EAPI_Common"
+msgid "Do you accept the user agreement of Elten software?"
+msgstr "¿Aceptas el acuerdo de licencia de software de Elten?"
+
+msgctxt "EAPI_Common"
+msgid "The user agreement, as well as Elten's and Elten Network's terms of service"
+msgstr "Contrato de licencia y regulaciones sobre el uso del programa Elten y la red Elten"
+
+#: EAPI_Common.rb:1340
+msgctxt "EAPI_Common"
+msgid "Please wait, reading to file"
+msgstr "Leyendo archivo, por favor espera..."
+
+#: EAPI_Form.rb:1749
+msgctxt "EAPI_Common"
+msgid "Type a second to which you want to move."
+msgstr "Ingrese el segundo al que desea saltar"
+
+#: EAPI_Common.rb:698
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
+msgstr "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
+
+#: EAPI_Common.rb:698
+msgctxt "EAPI_Common"
+msgid "I do not accept, exit"
+msgstr "No acepto, cierre el programa"
+
+#: EAPI_Common.rb:1395
+msgctxt "EAPI_Common"
+msgid "Please wait, file processing..."
+msgstr "Por favor espere, el procesamiento de archivos está en progreso "
+
+#: EAPI_Common.rb:737
+msgctxt "EAPI_Common"
+msgid " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."
+msgstr "Estás intentando reproducir un archivo midi. Para reproducir correctamente archivos de este tipo, el programa Elten requiere una base de datos externa de instrumentos. ¿Quieres descargarlo desde el servidor ahora? Esto puede tardar unos minutos."
+
+#: EAPI_Form.rb:1776
+msgctxt "EAPI_Common"
+msgid "Where do you want to save this file?"
+msgstr "En donde guardarás este archivo?"
+
+#: EAPI_Common.rb:594
+msgctxt "EAPI_Common"
+msgid "Gender"
+msgstr "Sexo"
+
+#: EAPI_Common.rb:610
+msgctxt "EAPI_Common"
+msgid "Age"
+msgstr "edad"
+
+#: EAPI_Common.rb:633
+msgctxt "EAPI_Common"
+msgid "Forum posts"
+msgstr "Publicaciones del foro"
+
+#: EAPI_Common.rb:634
+msgctxt "EAPI_Common"
+msgid "Polls answered"
+msgstr "Encuestas completadas"
+
+#: EAPI_Common.rb:635
+msgctxt "EAPI_Common"
+msgid "Used version"
+msgstr "Verción utilizada"
+
+#: EAPI_Common.rb:636
+msgctxt "EAPI_Common"
+msgid "Registered"
+msgstr "Cuenta registrada"
+
+#: EAPI_Common.rb:1275
+msgctxt "EAPI_Common"
+msgid "No selected file to read"
+msgstr "Ningún archivo seleccionado para leer"
+
+#: EAPI_Common.rb:1287
+msgctxt "EAPI_Common"
+msgid "Type a file name"
+msgstr "Podaj tytuł tworzonego pliku"
+
+#: EAPI_Common.rb:1289
+msgctxt "EAPI_Common"
+msgid "Select file location"
+msgstr "Elija dónde guardar el archivo"
+
+#: EAPI_Common.rb:1291
+msgctxt "EAPI_Common"
+msgid "Select source file"
+msgstr "Seleccione el archivo fuente"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Reading to file number"
+msgstr "Leyendo número de archivo"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Sentence %{cursentence} z %{sentences}"
+msgstr "sentencia %{cursentence} z %{sentences}"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Read"
+msgstr "Cargado"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Estimated elapsed time"
+msgstr "Tiempo restante estimado"
+
+#: EAPI_Common.rb:644
+msgctxt "EAPI_Common"
+msgid "Visiting card: %{user}"
+msgstr "Targeta: %{user}"
+
+#: EAPI_Common.rb:1406
+msgctxt "EAPI_Common"
+msgid "Reading to file finished."
+msgstr "Se ha completado la lectura del archivo."
+
+#: EAPI_Common.rb:623
+msgctxt "EAPI_Common"
+msgid "User has a blog"
+msgstr "El usuario tiene un blog"
+
+#: EAPI_Common.rb:620
+msgctxt "EAPI_Common"
+msgid "Last seen"
+msgstr "Última vez vista"
+
+#: EAPI_Common.rb:616
+msgctxt "EAPI_Common"
+msgid "Last seen {txt_phr_lastseen_female}"
+msgstr "Última vista"
+
+#: EAPI_Common.rb:618
+msgctxt "EAPI_Common"
+msgid "Last seen {txt_phr_lastseen_male}"
+msgstr "Última vista"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "File to read"
+msgstr "Archivo para leer"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Output format"
+msgstr "Formato de salida"
+
+#: EAPI_Common.rb:521
+msgctxt "EAPI_Common"
+msgid "Select contact"
+msgstr "Seleccionar contacto"
+
+#: EAPI_Common.rb:630
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users"
+msgstr "Conocido por %{count} usuarios"
+
+#: EAPI_Common.rb:628
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users {txt_phr_knownby_female}"
+msgstr "Conocido por %{count} users"
+
+#: EAPI_Common.rb:630
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users {txt_phr_knownby_male}"
+msgstr "Visto por %{count} users"
+
+#: EAPI_Common.rb:624
+msgctxt "EAPI_Common"
+msgid "Knows %{count} users"
+msgstr "Conoce %{count} users"
+
+#: EAPI_Common.rb:738
+msgctxt "EAPI_Common"
+msgid "Please wait, the soundfont is being downloaded. It may take a while."
 msgstr "Por favor, espera mientras el soundfont se descargue. Esto tomaría varios minutos."
 
-msgid "EAPI_Common:info_soundfontdownloaded"
+#: EAPI_Common.rb:738
+msgctxt "EAPI_Common"
+msgid "Soundfont downloaded succesfully."
 msgstr "Soundfont descargado correctamente."
 
-msgid "EAPI_Common:txt_phr_processing"
+#: EAPI_Common.rb:1401
+msgctxt "EAPI_Common"
+msgid "Processing"
 msgstr "Procesando"
+
+#: EAPI_Form.rb:396
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Checked: %{check}"
+msgstr "Checked: %{check}"
+
+#: EAPI_Form.rb:980
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Checked"
+msgstr "Checked"
+
+#: EAPI_Common.rb:695
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "License agreement"
+msgstr "License agreement"
+
+#: EAPI_Common.rb:696
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Terms and Conditions"
+msgstr "Terms and Conditions"
+
+#: EAPI_Common.rb:697
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+#: EAPI_Common.rb:716
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Do you accept Elten license agreement, terms and conditions and privacy policy?"
+msgstr "Do you accept Elten license agreement, terms and conditions and privacy policy?"
+
+#: EAPI_EltenSRV.rb:298
+msgctxt "EAPI_EltenSRV"
+msgid "File is being converted..."
+msgstr "Convirtiendo archivo..."
+
+#: EAPI_EltenSRV.rb:584
+msgctxt "EAPI_EltenSRV"
+msgid "Sent"
+msgstr "Enviado"
+
+#: EAPI_EltenSRV.rb:274
+msgctxt "EAPI_EltenSRV"
+msgid "The user has no avatar."
+msgstr "El usuario no tiene un avatar."
+
+#: EAPI_EltenSRV.rb:297
+msgctxt "EAPI_EltenSRV"
+msgid "Please wait, this may take several minutes..."
+msgstr "Por favor espere, puede tardar unos minutos ..."
+
+#: EAPI_EltenSRV.rb:620
+msgctxt "EAPI_EltenSRV"
+msgid "Select a user"
+msgstr "Elige un usuario"
+
+#: EAPI_EltenSRV.rb:494
+msgctxt "EAPI_EltenSRV"
+msgid "Session confirmation time:"
+msgstr "Hora de confirmación de la sesión:"
+
+#: EAPI_Network.rb:68
+msgctxt "EAPI_Network"
+msgid "sending..."
+msgstr "Enviando..."
+
+#: EAPI_Network.rb:227
+msgctxt "EAPI_Network"
+msgid "Do not report progress bar changes."
+msgstr "No lea los cambios en la barra de progreso."
+
+#: EAPI_Network.rb:230
+msgctxt "EAPI_Network"
+msgid "Read progress bar changes."
+msgstr "Lee los cambios en la barra de progreso."
+
+msgctxt "EAPI_UI"
+msgid "You have received a new message."
+msgstr "Haz recibido un nuevo mensaje"
+
+#: EAPI_UI.rb:427
+msgctxt "EAPI_UI"
+msgid "The program is trying to recover from the frozen state."
+msgstr "El programa ahora intentará volver a trabajar."
+
+msgctxt "EAPI_UI"
+msgid "You received a new message."
+msgstr "Has recibido un nuevo mensaje."
+
+msgctxt "EAPI_UI"
+msgid "A new post in a followed thread."
+msgstr "Una nueva publicación apareció en la siguiente entrada."
+
+msgctxt "EAPI_UI"
+msgid "A new post on a followed blog."
+msgstr "Una nueva entrada ha aparecido en el blog seguido."
+
+#: EAPI_UI.rb:424
+msgctxt "EAPI_UI"
+msgid " An unexpected error of Elten agent occurred. Do you want to report this event? It  may definitely help us solve the problem."
+msgstr "Se ha producido un error inesperado del agente Elten. ¿Quieres enviar un informe sobre este evento? Enviar un informe definitivamente puede ayudarlo a resolver el problema."
+
+#: EAPI_UI.rb:499
+msgctxt "EAPI_UI"
+msgid "Alert!"
+msgstr "Alarma!"
+
+#: EAPI_Speech.rb:223
+msgctxt "EAPI_Speech"
+msgid "dot"
+msgstr "punto"
+
+#: EAPI_Speech.rb:225
+msgctxt "EAPI_Speech"
+msgid "comma"
+msgstr "comma"
+
+#: EAPI_Speech.rb:227
+msgctxt "EAPI_Speech"
+msgid "slash"
+msgstr "barra"
+
+#: EAPI_Speech.rb:229
+msgctxt "EAPI_Speech"
+msgid "semi"
+msgstr "Punto y coma"
+
+#: EAPI_Speech.rb:231
+msgctxt "EAPI_Speech"
+msgid "tick"
+msgstr "apóstrophe"
+
+#: EAPI_Speech.rb:235
+msgctxt "EAPI_Speech"
+msgid "right bracket"
+msgstr "cerrar corchete"
+
+#: EAPI_Speech.rb:237
+msgctxt "EAPI_Speech"
+msgid "backslash"
+msgstr "barra invertida"
+
+#: EAPI_Speech.rb:239
+msgctxt "EAPI_Speech"
+msgid "dash"
+msgstr "menos"
+
+#: EAPI_Speech.rb:241
+msgctxt "EAPI_Speech"
+msgid "equals"
+msgstr "igual"
+
+#: EAPI_Speech.rb:243
+msgctxt "EAPI_Speech"
+msgid "accent"
+msgstr "accento"
+
+#: EAPI_Speech.rb:245
+msgctxt "EAPI_Speech"
+msgid "less"
+msgstr "menor"
+
+#: EAPI_Speech.rb:247
+msgctxt "EAPI_Speech"
+msgid "greater"
+msgstr "Mayor"
+
+#: EAPI_Speech.rb:249
+msgctxt "EAPI_Speech"
+msgid "question"
+msgstr "cerrar interrogación"
+
+#: EAPI_Speech.rb:251
+msgctxt "EAPI_Speech"
+msgid "colon"
+msgstr "dos puntos"
+
+#: EAPI_Speech.rb:253
+msgctxt "EAPI_Speech"
+msgid "quote"
+msgstr "comillas"
+
+#: EAPI_Speech.rb:255
+msgctxt "EAPI_Speech"
+msgid "left brace"
+msgstr "abrir llave"
+
+#: EAPI_Speech.rb:257
+msgctxt "EAPI_Speech"
+msgid "right brace"
+msgstr "cerrar llabe"
+
+#: EAPI_Speech.rb:259
+msgctxt "EAPI_Speech"
+msgid "bar"
+msgstr "barra"
+
+#: EAPI_Speech.rb:261
+msgctxt "EAPI_Speech"
+msgid "line"
+msgstr "subrayado"
+
+#: EAPI_Speech.rb:263
+msgctxt "EAPI_Speech"
+msgid "plus"
+msgstr "mas"
+
+#: EAPI_Speech.rb:265
+msgctxt "EAPI_Speech"
+msgid "bang"
+msgstr "exclamación"
+
+#: EAPI_Speech.rb:267
+msgctxt "EAPI_Speech"
+msgid "at"
+msgstr "arroba"
+
+#: EAPI_Speech.rb:269
+msgctxt "EAPI_Speech"
+msgid "hash"
+msgstr "guión"
+
+#: EAPI_Speech.rb:271
+msgctxt "EAPI_Speech"
+msgid "dollar"
+msgstr "dólar"
+
+#: EAPI_Speech.rb:273
+msgctxt "EAPI_Speech"
+msgid "percent"
+msgstr "porcién"
+
+#: EAPI_Speech.rb:275
+msgctxt "EAPI_Speech"
+msgid "caret"
+msgstr "intercalación"
+
+#: EAPI_Speech.rb:277
+msgctxt "EAPI_Speech"
+msgid "and"
+msgstr "ampersand"
+
+#: EAPI_Speech.rb:279
+msgctxt "EAPI_Speech"
+msgid "star"
+msgstr "asterisco"
+
+#: EAPI_Speech.rb:281
+msgctxt "EAPI_Speech"
+msgid "left paren"
+msgstr "abre paréntesis"
+
+#: EAPI_Speech.rb:283
+msgctxt "EAPI_Speech"
+msgid "right paren"
+msgstr "cerrar paréntesis"
+
+#: EAPI_Speech.rb:88
+msgctxt "EAPI_Speech"
+msgid "Space"
+msgstr "Espacio"
+
+#: EAPI_Speech.rb:233
+msgctxt "EAPI_Speech"
+msgid "left bracket"
+msgstr "abrir corchea"
+
+#: EAPI_Form.rb:699
+msgctxt "EAPI_Form"
+msgid "Media"
+msgstr "Medio"
+
+#: EAPI_Form.rb:415
+msgctxt "EAPI_Form"
+msgid "Cut out"
+msgstr "Cortar"
+
+#: EAPI_Form.rb:409
+msgctxt "EAPI_Form"
+msgid "copied"
+msgstr "Copiado"
+
+#: EAPI_Form.rb:1140
+msgctxt "EAPI_Form"
+msgid "Checked"
+msgstr "verificado"
+
+#: EAPI_Form.rb:1138
+msgctxt "EAPI_Form"
+msgid "unchecked"
+msgstr "No verificado"
+
+#: EAPI_Form.rb:1143
+msgctxt "EAPI_Form"
+msgid "Checkbox"
+msgstr "Casilla de verificación"
+
+#: EAPI_Form.rb:697
+msgctxt "EAPI_Form"
+msgid "Edit box"
+msgstr "Cuadro de edición"
+
+#: EAPI_Form.rb:698
+msgctxt "EAPI_Form"
+msgid "Text"
+msgstr "Texto"
+
+#: EAPI_Form.rb:1094
+msgctxt "EAPI_Form"
+msgid "Button"
+msgstr "Botón"
+
+#: EAPI_Form.rb:470
+msgctxt "EAPI_Form"
+msgid "Destination"
+msgstr "Destinación"
+
+#: EAPI_Form.rb:419
+msgctxt "EAPI_Form"
+msgid "pasted"
+msgstr "Pegado"
+
+#: EAPI_Form.rb:1193
+msgctxt "EAPI_Form"
+msgid "Desktop"
+msgstr "Escritorio"
+
+#: EAPI_Form.rb:1193
+msgctxt "EAPI_Form"
+msgid "Documents"
+msgstr "Documentos"
+
+#: EAPI_Form.rb:1193
+msgctxt "EAPI_Form"
+msgid "Music"
+msgstr "Música"
+
+#: EAPI_Form.rb:437
+msgctxt "EAPI_Form"
+msgid "Enter a phrase to look for"
+msgstr "Introducid una frase para encontrar"
+
+#: EAPI_Form.rb:426
+msgctxt "EAPI_Form"
+msgid "undone"
+msgstr "Cancelado"
+
+#: EAPI_Form.rb:1035
+msgctxt "EAPI_Form"
+msgid "Empty list"
+msgstr "En blanco"
+
+#: EAPI_Form.rb:444
+msgctxt "EAPI_Form"
+msgid "No match found."
+msgstr "No se encontraron coincidencias."
+
+#: EAPI_Form.rb:433
+msgctxt "EAPI_Form"
+msgid "Repeated"
+msgstr "repetido"
+
+#: EAPI_Form.rb:456
+msgctxt "EAPI_Form"
+msgid "Loaded"
+msgstr "Cargado"
+
+#: EAPI_Form.rb:470
+msgctxt "EAPI_Form"
+msgid "File name"
+msgstr "Nombre de archivo"
+
+#: EAPI_Form.rb:1609
+msgctxt "EAPI_Form"
+msgid "Choose a path"
+msgstr "Introduzca el tipo de uvicación"
+
+#: EAPI_Form.rb:1033
+msgctxt "EAPI_Form"
+msgid "Shortcut: "
+msgstr "Atajo"
+
+#: EAPI_Form.rb:237
+msgctxt "EAPI_Form"
+msgid "Opening a link..."
+msgstr "Enlace de apertura ..."
+
+#: EAPI_Form.rb:479
+msgctxt "EAPI_Form"
+msgid "Downloading..."
+msgstr "Telecargando...g"
+
+#: EAPI_Form.rb:483
+msgctxt "EAPI_Form"
+msgid "Downloaded"
+msgstr "Descarga completada."
+
+#: EAPI_Form.rb:1000
+msgctxt "EAPI_Form"
+msgid "Checked {info_checked}"
+msgstr "declarado"
+
+#: EAPI_Form.rb:1004
+msgctxt "EAPI_Form"
+msgid "Unchecked"
+msgstr "Insigniado"
+
+#: WhatsNew.rb:109
+msgctxt "General"
+msgid "Error"
+msgstr "Error"
+
+#: Loading.rb:308
+msgctxt "General"
+msgid "Exit"
+msgstr "Salir"
+
+#: Authentication.rb:19
+msgctxt "General"
+msgid "Enable"
+msgstr "Activar"
+
+#: Authentication.rb:21
+msgctxt "General"
+msgid "Disable"
+msgstr "Desactivar"
+
+#: Voice.rb:110
+msgctxt "General"
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: Users_RecentlyRegistered.rb:49
+msgctxt "General"
+msgid "Refresh"
+msgstr "Refrescar"
+
+#: Polls.rb:178
+msgctxt "General"
+msgid "Save"
+msgstr "Guardar"
+
+#: Voice.rb:209
+msgctxt "General"
+msgid "Saved"
+msgstr "Guardado"
+
+#: Uploads.rb:112
+msgctxt "General"
+msgid "Delete"
+msgstr "Eliminar"
+
+#: WhatsNew.rb:15
+msgctxt "General"
+msgid "This function cannot be used on guest account."
+msgstr "Esta función no puede utilizarse en la cuenta de invitados."
+
+#: Users.rb:19
+msgctxt "General"
+msgid "The session key has expired."
+msgstr "La clave de sesión expiró."
+
+#: Users.rb:14
+msgctxt "General"
+msgid "Error connecting to the database."
+msgstr "Error conectando a la base de datos."
+
+#: Users.rb:24
+msgctxt "General"
+msgid "You do not have sufficient permissions to perform this operation."
+msgstr "No tiene los permisos suficientes para completar esta operación."
+
+#: _Main.rb:156
+msgctxt "General"
+msgid "No"
+msgstr "No"
+
+#: _Main.rb:156
+msgctxt "General"
+msgid "Yes"
+msgstr "Si"
+
+#: EAPI_Common.rb:596
+msgctxt "General"
+msgid "Female"
+msgstr "Femenino"
+
+#: EAPI_Common.rb:598
+msgctxt "General"
+msgid "male"
+msgstr "Masculino"
+
+#: Programs.rb:11
+msgctxt "General"
+msgid "This feature is not available on this platform."
+msgstr "Esta característica no está disponible en esta plataforma."
+
+#: Bug.rb:10
+msgctxt "Bug"
+msgid "Reporting a bug"
+msgstr "Reportar un error"
+
+#: Program.rb:11
+msgctxt "Program"
+msgid "The program has been closed."
+msgstr "El programa ha sido cerrado."
+
+#: _Main.rb:94
+msgctxt "*Main"
+msgid "Your playlist has been changed. Save current changes?"
+msgstr "Tu lista de reproducción ha sido cambiada. Guardar cambios?"
+
+#: _Main.rb:99
+msgctxt "*Main"
+msgid "Do you want to save your playlist?"
+msgstr "Quieres guardar tu lista de reproducción?"
+
+#: _Main.rb:108
+msgctxt "*Main"
+msgid "Do you want to delete the saved playlist?"
+msgstr "Quieres eliminar la lista de reproducción guardada?"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "A report"
+msgstr "Reportar"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "Report connections to the server"
+msgstr "Señalizar conexiones al servidor."
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "OK"
+msgstr "De acuerdo"
+
+#: MyPermissions.rb:17
+msgctxt "Permissions"
+msgid "You are participating in the following groups"
+msgstr "Perteneces a los siguientes grupos."
+
+#: SoundThemes.rb:106
+msgctxt "Soundthemes"
+msgid "Select theme to download"
+msgstr "Seleccione tema a descargar"
+

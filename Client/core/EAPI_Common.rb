@@ -67,20 +67,21 @@ def console
           kom.gsub!("\004LINE\004","\r\n")
           kom.delete!("\005")
   kom = kom.gsub("\004LINE\004","\n")
-kom.gsub!("elten.edb","elten.dat")
   $consoleused = true
 r=false
   begin
   eval(kom,nil,"Console") if r == false
 rescue Exception
     plc=""
+    if $@.is_a?(Array)
   for e in $@
     if e!=nil
-    plc+=e+"\r\n" if e[0..6]!="Section"
+    plc+=e+"\r\n" if e!=nil and e[0..6]!="Section"
     end
   end
-  lin=$@[0].split(":")[1].to_i
-    plc+=kom.delete("\r").split("\n")[lin-1]
+    lin=$@[0].split(":")[1].to_i
+        plc+=kom.delete("\r").split("\n")[lin-1]||""
+        end
   input_text(_("EAPI_Common:error_console"),"READONLY|MULTILINE",$!.to_s+"\r\n"+plc)
   r = true
   end
@@ -177,7 +178,11 @@ else
     if $usermenuextra.is_a?(Array) and $name!="guest"
     sel+=$usermenuextra
     end
-  menu = menulr(sel,true,0,"",true)
+  if submenu==false
+    menu = menulr(sel,true,0,"",true)
+  else
+    menu = Select.new(sel,true,0,"",true)
+    end
   menu.disable_item(2) if @hasblog == false
 if $name!="guest"
   menu.disable_item(3) if fl[1].to_i==0
@@ -192,7 +197,6 @@ menu.disable_item(7) if $rang_moderator==0
 menu.focus
 loop do
 loop_update
-menu.update
 if enter
   case menu.index
   when 0
@@ -208,7 +212,7 @@ if enter
             return("ALT")
       break
             when 2
-        $scenes.insert(0,Scene_Blog_Main.new(user,0,Scene_Main))
+        $scenes.insert(0,Scene_Blog_Main.new(user,0,Scene_Main.new))
         play("menu_close")
     Audio.bgs_stop
     loop_update
@@ -280,11 +284,12 @@ if escape
         break
     end
   end
-  if Input.trigger?(Input::UP) and submenu == true
+  if Input.trigger?(Input::UP) and submenu == true and menu.index==0
         Input.update
     return
     break
-    end
+  end
+  menu.update
 end
 Audio.bgs_stop if submenu != true
 play("menu_close") if submenu != true
@@ -307,7 +312,8 @@ birthday=agtemp[15].to_i
 mentions=agtemp[16].to_i
 $nversion=agtemp[2].to_f
 $nbeta=agtemp[3].to_i
-                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and ($nversion<$version or ($nversion==$version and $isbeta!=1))
+bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i
+                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and Elten.build_id==bid
   speech(_("EAPI_Common:info_nothingnew")) if quiet != true
 else
     $scene = Scene_WhatsNew.new(true,agtemp)
@@ -498,7 +504,7 @@ end
       end
       $contact = []
       for i in 1..ct.size - 1
-        ct[i].delete!("\n")
+        ct[i].delete!("\r\n")
       end
       Graphics.update
       for i in 1..ct.size - 1
@@ -683,26 +689,37 @@ def versioninfo
 # @param omit [Boolean] determines whether to allow user to close the window without accepting
     def license(omit=false)
     @license = $dict['_doc_license']||""
-form = Form.new([Edit.new(_("EAPI_Common:read_useragreement"),Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@license,true),Button.new(_("EAPI_Common:btn_agree")),Button.new(_("EAPI_Common:btn_disagree"))])
+    @rules = $dict['_doc_rules']||""
+    @privacypolicy = $dict['_doc_privacypolicy']||""
+form = Form.new([
+Edit.new(_("EAPI_Common:read_license"),Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@license,true),
+Edit.new(_("EAPI_Common:read_rules"),Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@rules,true),
+Edit.new(_("EAPI_Common:read_privacypolicy"),Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@privacypolicy,true),
+Button.new(_("EAPI_Common:btn_agree")),Button.new(_("EAPI_Common:btn_disagree"))])
 loop do
   loop_update
   form.update
-  if (enter or space) and form.index == 2
+  if (enter or space) and form.index == 4
     exit
   end
-  if (space or enter) and form.index == 1
+  if (space or enter) and form.index == 3
     break
   end
   if escape
     if omit == true
       break
-      else
-    q = simplequestion(_("EAPI_Common:alert_useragreement"))
+    else
+      if form.index==0 or form.index==1
+        form.index+=1
+        form.focus
+        else
+    q = simplequestion(_("EAPI_Common:alert_agreement"))
     if q == 0
       exit
     else
       break
       end
+    end
     end
     end
   end
@@ -1036,7 +1053,7 @@ end
         # @note this function is reserved for Elten usage
         def rcwelcome
           msg=""
-          if $language == "PL_PL"
+          if $language == "pl_PL"
             msg="Witajcie w wersji 2.0 RC.
 Po betatestach trwających od sierpnia 2016 roku, mogę wreszcie zaprezentować efekty naszych prac.
 Ta wersja to RC, release candidate.
@@ -1153,7 +1170,7 @@ def deldir(dir,with=true)
     if hn[0].to_i<0 or hn[1].to_i==0
       return nil
     end
-        if $language=="PL_PL"
+        if $language=="pl_PL"
           return hn[3].delete("\r\n")
         else
           return hn[5].delete("\r\n")

@@ -14,7 +14,8 @@ class Scene_Loading
     $eltenlib = "./eltenvc"
     begin
           $hook = Win32API.new($eltenlib,"hook",'','i').call
-  rescue Exception
+        rescue Exception
+          p 'eltenvc'
     $eltenlib = "elten"
     begin
       $hook = Win32API.new($eltenlib,"hook",'','i').call
@@ -249,7 +250,8 @@ if $silentstart==nil
 end
 speech(startmessage) if $silentstart != true
             $speech_wait = true if $silentstart != true
-        if (((nversion > version+0.00001 or (nalpha > alpha and isbeta==2) or (nalpha == 0 and alpha > 0 and isbeta == 2))) or (isbeta==1 and nversion==version)) and $denyupdate != true
+            bid=srvproc("bin/buildid","build_id=#{Elten.build_id.to_s}",1).to_i
+        if Elten.build_id!=bid and $denyupdate != true
 if $portable != 1
           $scene = Scene_Update_Confirmation.new
       return
@@ -271,14 +273,17 @@ if $portable != 1
                     end
                           volume = readini($configdata + "\\interface.ini","Interface","MainVolume","-1").to_i
       if volume == -1
-$exit = true
+        writeini($configdata + "\\interface.ini","Interface","MainVolume","80")
+      else
+                $volume = volume
+        end
+if !FileTest.exists?($eltendata+"\\license_agreed.dat")
+        $exit = true
 license
                 $exit = nil
-        writeini($configdata + "\\interface.ini","Interface","MainVolume","80")
-        else
-        $volume = volume
-      end
-      if FileTest.exists?($eltendata+"\\update.last")
+                writefile($eltendata+"\\license_agreed.dat","\001")
+        end
+              if FileTest.exists?($eltendata+"\\update.last")
         l=Zlib::Inflate.inflate(read($eltendata+"\\update.last")).split(" ")
         lversion,lbeta,lalpha,lisbeta=l[0].to_f,l[1].to_i,l[2].to_i,l[3].to_i
         if (lversion<2.3||lbeta<42) and false

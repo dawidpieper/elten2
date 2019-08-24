@@ -34,7 +34,9 @@
         
         # Updates a form
         def update
-                            if $key[0x09] == true
+          @index-=1 while @fields[@index]==nil and @index>0
+      @index+=1 while @fields[@index]==nil and @index<@fields.size-1
+                                      if $key[0x09] == true
             if $key[0x10] == false and @fields[@index].subindex==@fields[@index].maxsubindex
               ind=@index
               @index += 1
@@ -125,6 +127,7 @@ loop_update
     Audio.bgs_stop
     r=inp.text_str
   dialog_close
+  loop_update
     return r
   end
   
@@ -139,8 +142,7 @@ loop_update
   
   class Edit < FormChild
     attr_accessor :index
-    attr_accessor :text
-    attr_accessor :flags
+        attr_accessor :flags
     attr_reader :origtext
     attr_accessor :silent    
     attr_accessor :audiotext
@@ -163,7 +165,7 @@ end
 focus if quiet==false
     end
     def update
-      if $focus==true
+            if $focus==true
         $focus=false
         focus
         end
@@ -391,7 +393,7 @@ end
             @check=@vindex
                         end
                                     if @index!=@check
-            @tosay+="\r\n(Zaznaczono: #{getcheck})"
+            @tosay+="\r\n(#{s_("EAPI_Common:info_phr_checked",'check'=>getcheck)})"
             play("edit_checked")
           else
             Audio.bgs_stop
@@ -575,6 +577,7 @@ if @text[oc..oc]!=" "
   return @text[from..to]
   end
   def einsert(text,index=@index,toundo=true)
+    text.delete!("\n") if (@flags&Flags::ReadOnly)!=0
   @undo.push([1,index,text]) if toundo==true
 @undo.delete_at(0) if @undo.size>100
 @redo=[] if toundo==true
@@ -685,6 +688,9 @@ def finalize
   end
   def text_str
   return @text.gsub("\n","\004LINE\004")
+end
+def text
+  @text.gsub("\n","\r\n")
   end
   def focus
       play("edit_marker")
@@ -790,18 +796,22 @@ def initialize(options,border=true,index=0,header="",quiet=false,multi=false,lr=
             @commandoptions = []
                         @hotkeys = {}
                         @grayed = []
-                        for i in 0..options.size - 1
+                        hk=false
+                                                ands=0
+                        options.each {|o| ands+=1 if o!=nil&&o.include?("\&")}
+                                                hk=true if ands>options.size/3
+                                                                        for i in 0..options.size - 1
               if options[i]!=nil
-if lr
+if lr or hk
                 for j in 0..options[i].size-1
   @hotkeys[options[i][j+1..j+1].upcase[0]] = i if options[i][j..j] == "&"
 end
 end
 opt=options[i]
-opt.delete!("&") if lr
+opt.delete!("&") if lr or hk
 end
 @commandoptions.push(opt)
-@grayed[@commandoptions.size-1]=true if opt==nil||opt==""
+@grayed[@commandoptions.size-1]=true if (opt==nil||opt=="")&&!lr
                         end            
                                                 @selected = []
             for i in 0..@commandoptions.size - 1
@@ -967,7 +977,7 @@ for k in @hotkeys.keys
   ss = k if @hotkeys[k] == self.index
   end
 o += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}: " + ASCII(ss) if ss.is_a?(Integer)
-o += "\r\n\r\n(Zaznaczono)" if @selected[self.index] == true
+o += "\r\n\r\n(#{_("EAPI_Common:opt_phr_checked")})" if @selected[self.index] == true
 o||=""
 o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
 o=("\004NEW\004"+" "+(($interface_soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
@@ -1282,7 +1292,7 @@ end
 def filetype
   return 0 if File.directory?(cfile(true,true))
   ext=File.extname(selected).downcase
-  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi"
+  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts"
     return 1
   elsif ext==".txt"
     return 2
@@ -1522,10 +1532,12 @@ lsel=""
 lsel=""
         play("menu_open")
         play("menu_background")
-lsel = menulr(options,true,0,"")
+lsel = menulr(options,true,0,"",true)
                     for d in dis
         lsel.disable_item(d)
-        end
+      end
+      lsel.update
+      lsel.focus
         ret=-1
         loop do
           loop_update
@@ -1742,9 +1754,10 @@ h=d/3600
       @sound.play
       for i in 1..20
         @sound.position=dpos
-        end
       end
-    if ($key[0x53] or ($key[0x10] and enter)) and file.include?("http")
+      loop_update
+      end
+    if ($key[0x53] or ($key[0x10] and enter)) and @file.include?("http")
     tf=@file.gsub("\\","/")
     fs=tf.split("/")
     nm=fs.last.split("?")[0]

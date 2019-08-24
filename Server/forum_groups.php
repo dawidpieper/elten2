@@ -1,95 +1,236 @@
 <?php
-$groups=array();
-$forums=array();
-$threads=array();
-if($_GET['name']=="guest")
+if($_GET['name']=='guest')
 require("init.php");
 else
 require("header.php");
-if($_GET['name']!=NULL) {
-$q=mquery("select id from forum_groups where id<100 and id not in (select groupid from forum_groups_members where user='{$_GET['name']}')");
+if(!isset($_GET['ac'])) die("-3");
+
+if($_GET['ac']=='members') {
+if(!isset($_GET['groupid'])) die("-4");
+$q=mquery("select user, role from forum_groups_members where groupid=".(int)$_GET['groupid']." order by field(role,2,1,3,5,4), user");
+$t="0\r\n".mysql_num_rows($q);
 while($r=mysql_fetch_row($q))
-mquery("insert into forum_groups_members (user,groupid,role) values ('{$_GET['name']}',{$r[0]},0)");
+$t.="\r\n".$r[0]."\r\n".$r[1];
+echo $t;
 }
-if(!isset($_GET['list']) or $_GET['list']=="my") {
-if($_GET['name']!="guest")
-$qgroups=mquery("select forum_groups.id, forum_groups.name, forum_groups.lang, forum_groups_members.role from forum_groups, forum_groups_members where forum_groups_members.groupid=forum_groups.id and forum_groups_members.user='{$_GET['name']}'");
+
+if($_GET['ac'] == "join") {
+if(!isset($_GET['groupid'])) die("-4");
+$type=mysql_fetch_row(mquery("select open, recommended, public, name from forum_groups where id=".(int)$_GET['groupid']));
+$open=$type[0];
+$recommended=$type[1];
+$public=$type[2];
+$groupname=$type[3];
+if(($open==0&&$public==0)&&(mysql_num_rows(mquery("select id from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=5"))==0)) die("-3");
+$status=1;
+if(($open==0&&$public==1)||($open==1&&$public==0)) $status=4;
+mquery("delete from forum_groups_members  where user='".$_GET['name']."' and groupid=".(int)$_GET['groupid']);
+mquery("insert into forum_groups_members (user,groupid,role,joined) values ('".$_GET['name']."', ".(int)$_GET['groupid'].", ".(int)$status.", ".time().")");
+if($recommended==0) {
+$q=mquery("select user from forum_groups_members where role=2 and groupid=".(int)$_GET['groupid']);
+while($r=mysql_fetch_row($q))
+if($status==1)
+message_send('elten', $r[0], 'New member of '.$groupname, "{$_GET['name']} has just joined {$groupname}.");
 else
-$qgroups=mquery("select id, name,0 from forum_groups where recommended=1");
+message_send('elten', $r[0], 'New user wants to join '.$groupname, "{$_GET['name']} wants to join {$groupname}.");
 }
-elseif($_GET['list']=="recommended") {
-if($_GET['name']!="guest")
-$qgroups=mquery("select forum_groups.id, forum_groups.name, forum_groups.lang, 0 from forum_groups, forum_groups_members where forum_groups.recommended=1 and forum_groups.public=1 and forum_groups.id not in (select groupid from forum_groups_members where user='{$_GET['name']}')");
+echo "0";
+}
+
+if($_GET['ac'] == "leave") {
+if(!isset($_GET['groupid'])) die("-4");
+$type=mysql_fetch_row(mquery("select open, recommended, name, founder from forum_groups where id=".(int)$_GET['groupid']));
+$open=$type[0];
+$recommended=$type[1];
+$groupname=$type[2];
+$founder = $type[3];
+if($_GET['name']==$founder) die("-3");
+mquery("delete from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$_GET['groupid']);
+if($recommended==0) {
+$q=mquery("select user from forum_groups_members where role=2 and groupid=".(int)$_GET['groupid']);
+while($r=mysql_fetch_row($q))
+message_send('elten', $r[0], 'One of members has left '.$groupname, "{$_GET['name']} has just left {$groupname}.");
+}
+echo "0";
+}
+
+if($_GET['ac']=='privileges') {
+if(!isset($_GET['groupid'])) die("-4");
+$gr=mysql_fetch_row(mquery("select founder from forum_groups where id=".(int)$_GET['groupid']));
+if($gr[0]!=$_GET['name']) die("-3");
+$uq=mquery("select id, user, role from forum_groups_members where user='".mysql_real_escape_string($_GET['user'])."' and groupid=".(int)$_GET['groupid']);
+if(mysql_num_rows($uq)==0) die("-4");
+$u=mysql_fetch_row($uq);
+if($_GET['pr']=="moderationgrant")
+mquery("update forum_groups_members set role=2 where id=".(int)$u[0]);
+elseif($_GET['pr']=="moderationdeny")
+mquery("update forum_groups_members set role=1 where id=".(int)$u[0]);
+elseif($_GET['pr']=="passadmin") {
+if($u[2]==2)
+mquery("update forum_groups set founder='".mysql_real_escape_string($_GET['user'])."' where id=".(int)$_GET['groupid']);
 else
-$qgroups=mquery("select id, name, 0 from forum_groups where recommended=1 and public=1");
+die("-3");
 }
-elseif($_GET['list']=="all") {
-if($_GET['name']!="guest")
-$qgroups=mquery("select forum_groups.id, forum_groups.name, forum_groups.lang, 0 from forum_groups where forum_groups.public=1 and forum_groups.id not in (select groupid from forum_groups_members where user='{$_GET['name']}')");
-else
-$qgroups=mquery("select id, name, 0 from forum_groups where public=1");
+echo "0";
 }
-$groupids = array(0);
-while($r=mysql_fetch_row($qgroups)) {
-$groups[$r[0]]=[$r[0],$r[1],0,0,0,0,$r[2],$r[3]];
-array_push($groupids,$r[0]);
+
+if($_GET['ac']=='user') {
+if(!isset($_GET['groupid'])) die("-4");
+$gr=mysql_fetch_row(mquery("select founder, recommended, name from forum_groups where id=".(int)$_GET['groupid']));
+if($gr[0]!=$_GET['name'] and mysql_num_rows(mquery("select user from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=2"))==0 and !($gr[1]==1 and getprivileges($_GET['name'])[1]==1)) die("-3");
+$uq=mquery("select id, user, role from forum_groups_members where user='".mysql_real_escape_string($_GET['user'])."' and groupid=".(int)$_GET['groupid']);
+if(mysql_num_rows($uq)==0) die("-4");
+$u=mysql_fetch_row($uq);
+if($_GET['user']==$gr[0] or $u[2]==2) die("-3");
+if($_GET['pr']=="ban")
+mquery("update forum_groups_members set role=3 where id=".(int)$u[0]);
+elseif($_GET['pr']=="unban")
+mquery("update forum_groups_members set role=1 where id=".(int)$u[0]);
+elseif($_GET['pr']=="kick") {
+message_send("elten",$_GET['user'],"You were kicked out of the group","You were kicked out of {$gr[2]}.");
+mquery("delete from forum_groups_members where id=".(int)$u[0]);
 }
-$qtforums="select name,fullname,groupid,type from forums where groupid in (".implode(",",$groupids).")";
-if($_GET['name']!="guest")
-$qtforums.=" or name in (select forum from followedforums where owner='{$_GET['name']}')";
-$qforums=mquery($qtforums);
-$forumnames=array('');
-while($r=mysql_fetch_row($qforums)) {
-$forums[$r[0]]=[$r[0],$r[1],$r[2],$r[3],0,0,0,0];
-array_push($forumnames,$r[0]);
-if(isset($groups[$r[2]])) ++$groups[$r[2]][2];
+elseif($_GET['pr']=="accept") {
+message_send("elten",$_GET['user'],"Your request has been accepted","You have just joined {$gr[2]}.");
+mquery("update forum_groups_members set role=1 where id=".(int)$u[0]);
 }
-$qtthreads="select id,name,forum,lastpostdate from forum_threads where forum in ('".implode("','",$forumnames)."')";
-if($_GET['name']!="guest")
-$qtthreads.=" or id in (select thread from followedthreads where owner='{$_GET['name']}')";
-$qtthreads.=" order by lastpostdate desc";
-$qthreads=mquery($qtthreads);
-$threadids=array(0);
-while($r=mysql_fetch_row($qthreads)) {
-$threads[$r[0]]=[$r[0],$r[1],$r[2],0,"",0,0,$r[3]];
-array_push($threadids,$r[0]);
-if(isset($forums[$r[2]]))++$forums[$r[2]][4];
-if(isset($groups[$forums[$r[2]][2]])) ++$groups[$forums[$r[2]][2]][3];
+elseif($_GET['pr']=="refuse") {
+message_send("elten",$_GET['user'],"Your request has been refused","You have just left {$gr[2]}.");
+mquery("delete from forum_groups_members where id=".(int)$u[0]);
 }
-$qposts=mquery("select thread,author from forum_posts where thread in (".implode(",",$threadids).") order by id asc");
-while($r=mysql_fetch_row($qposts)) {
-if(isset($threads[$r[0]])) ++$threads[$r[0]][3];
-if(isset($forums[$threads[$r[0]][2]])) ++$forums[$threads[$r[0]][2]][5];
-if(isset($groups[$forums[$threads[$r[0]][2]][2]])) ++$groups[$forums[$threads[$r[0]][2]][2]][4];
-if($threads[$r[0]][4]=="")
-$threads[$r[0]][4]=$r[1];
+echo "0";
 }
-if($_GET['name']!="guest") {
-$qreads=mquery("select thread,posts from forum_read where thread in (".implode(",",$threadids).") and owner='{$_GET['name']}'");
-while($r=mysql_fetch_row($qreads)) {
-if(isset($threads[$r[0]])) $threads[$r[0]][5]=$r[1];
-if(isset($forums[$threads[$r[0]][2]])) $forums[$threads[$r[0]][2]][6]+=$r[1];
-if(isset($groups[$forums[$threads[$r[0]][2]][2]])) $groups[$forums[$threads[$r[0]][2]][2]][5]+=$r[1];
+
+if($_GET['ac']=='forumdelete') {
+$q=mquery("select groupid from forums where name='".mysql_real_escape_string($_GET['forum'])."'");
+if(mysql_num_rows($q)==0)
+die("-4");
+$groupid=mysql_fetch_row($q)[0];
+$g=mysql_fetch_row(mquery("select id, recommended, founder from forum_groups where id=".(int)$groupid));
+$qr=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$groupid);
+if(mysql_num_rows($qr)>0)
+$role=mysql_fetch_row($qr)[1];
+if($_GET['name']!=$_GET['founder'] and $role!=2 and !(getprivileges($_GET['name'])[1]==1 and $g[1]==1)) die("-3");
+mquery("delete from forum_posts where thread in (select id from forum_threads where forum='".mysql_real_escape_string($_GET['forum'])."')");
+mquery("delete from forum_read where thread in (select id from forum_threads where forum='".mysql_real_escape_string($_GET['forum'])."')");
+mquery("delete from followedthreads where thread in (select id from forum_threads where forum='".mysql_real_escape_string($_GET['forum'])."')");
+mquery("delete from mentions where thread in (select id from forum_threads where forum='".mysql_real_escape_string($_GET['forum'])."')");
+mquery("delete from forum_threads where forum='".mysql_real_escape_string($_GET['forum'])."'");
+mquery("delete from forums where name='".mysql_real_escape_string($_GET['forum'])."'");
+mquery("delete from followedforums where forum='".mysql_real_escape_string($_GET['forum'])."'");
+echo "0";
 }
-$qfollowed=mquery("select thread from followedthreads where owner='{$_GET['name']}'");
-while($r=mysql_fetch_row($qfollowed))
-$threads[$r[0]][6]=1;
+
+if($_GET['ac'] == 'forumcreate') {
+if(!isset($_GET['groupid'])) die("-4");
+$g=mysql_fetch_row(mquery("select id, recommended, founder, lang from forum_groups where id=".(int)$_GET['groupid']));
+$qr=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$_GET['groupid']);
+if(mysql_num_rows($qr)>0)
+$role=mysql_fetch_row($qr)[1];
+if($_GET['name']!=$_GET['founder'] and $role!=2 and !(getprivileges($_GET['name'])[1]==1 and $g[1]==1)) die("-3");
+$forumid=strtoupper($g[3])."_G_".$_GET['groupid']."_".time()."_".random_str(16);
+$description=$_GET['forumdescription'];
+if(isset($_GET['bufforumdescription'])) $description=buffer_get($_GET['bufforumdescription']);
+mquery("insert into forums (name, fullname, description, type, groupid) values ('".mysql_real_escape_string($forumid)."', '".mysql_real_escape_string($_GET['forumname'])."', '".mysql_real_escape_string($description)."', ".(int)$_GET['forumtype'].", ".(int)$_GET['groupid'].")");
+echo "0";
 }
-$qfollowedforums=mquery("select forum from followedforums where owner='{$_GET['name']}'");
-while($r=mysql_fetch_row($qfollowedforums))
-$forums[$r[0]][7]=1;
-echo "0\r\n".time()."\r\n\004GROUPS\004\r\n";
-foreach($groups as $val)
-foreach($val as $cnt)
-echo $cnt."\r\n";
-flush;
-echo "\004FORUMS\004\r\n";
-foreach($forums as $val)
-foreach($val as $cnt)
-echo $cnt."\r\n";
-flush;
-echo "\004THREADS\004\r\n";
-foreach($threads as $val)
-foreach($val as $cnt)
-echo $cnt."\r\n";
+
+if($_GET['ac']=='forumedit') {
+$q=mquery("select groupid from forums where name='".mysql_real_escape_string($_GET['forum'])."'");
+if(mysql_num_rows($q)==0)
+die("-4");
+$groupid=mysql_fetch_row($q)[0];
+$g=mysql_fetch_row(mquery("select id, recommended, founder from forum_groups where id=".(int)$groupid));
+$qr=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$groupid);
+if(mysql_num_rows($qr)>0)
+$role=mysql_fetch_row($qr)[1];
+if($_GET['name']!=$_GET['founder'] and $role!=2 and !(getprivileges($_GET['name'])[1]==1 and $g[1]==1)) die("-3");
+$description=$_GET['forumdescription'];
+if(isset($_GET['bufforumdescription'])) $description=buffer_get($_GET['bufforumdescription']);
+mquery("update forums set fullname='".mysql_real_escape_string($_GET['forumname'])."', description='".mysql_real_escape_string($description)."' where name='".mysql_real_escape_string($_GET['forum'])."'");
+echo "0";
+}
+
+if($_GET['ac'] == 'forumchangepos') {
+die("-1");
+$q=mquery("select groupid,id from forums where name='".mysql_real_escape_string($_GET['forum'])."'");
+if(mysql_num_rows($q)==0)
+die("-4");
+$t=mysql_fetch_row($q);
+$groupid=$t[0];
+$fid=$t[1];
+$g=mysql_fetch_row(mquery("select id, recommended, founder from forum_groups where id=".(int)$groupid));
+$qr=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$groupid);
+if(mysql_num_rows($qr)>0)
+$role=mysql_fetch_row($qr)[1];
+if($_GET['name']!=$_GET['founder'] and $role!=2 and !(getprivileges($_GET['name'])[1]==1 and $g[1]==1)) die("-3");
+$q=mquery("select id from forums where groupid=".(int)$groupid);
+$pos=-1;
+$nids=array();
+$i=0;
+while($r=mysql_fetch_row($q)) {
+array_push($nids,$r[0]);
+if($r[0]==$fid) $pos=$i;
+++$i;
+}
+$i=0;
+foreach($nids as $nid) {
+if($nid==$fid) break;
+if($nid==0) die("-4");
+if($i<$_GET['position']) {
+while(mysql_num_rows(mquery("select id from forums where id=0"))>0) sleep(0.1);
+mquery("update forums set id=0 where id=".$fid."");
+mquery("update forums set id=".$fid." where id=".$nid);
+mquery("update forums set id=".$nid." where id=0");
+}
+echo "0";
+++$i;
+}
+}
+
+if($_GET['ac']=="delete") {
+if(!isset($_GET['groupid'])) die("-4");
+$grq=mquery("select recommended, founder, name from forum_groups where id=".(int)$_GET['groupid']);
+if(mysql_num_rows($grq)==0) die("-4");
+$gr=mysql_fetch_row($grq);
+if($_GET['name']!=$gr[1]) die("-3");
+if(mysql_fetch_row(mquery("select count(*) from forums where groupid=".(int)$_GET['groupid']))[0]>0) die("-3");
+mquery("delete from forum_groups_members where groupid=".(int)$_GET['groupid']);
+mquery("delete from forum_groups where id=".(int)$_GET['groupid']);
+echo "0";
+}
+
+if($_GET['ac'] == "create") {
+$desc="";
+if(isset($_GET['bufdescription']))
+$desc=buffer_get($_GET['bufdescription']);
+$groupid=(int)mysql_fetch_row(mquery("select max(id) from forum_groups"))[0]+1;
+if($groupid<=1000) $groupid=1001;
+mquery("insert into forum_groups (id,name,founder,description,lang,open,public,created) values (".(int)$groupid.", '".mysql_real_escape_string($_GET['groupname'])."', '".mysql_real_escape_string($_GET['name'])."', '".mysql_real_escape_string($desc)."', '".mysql_real_escape_string($_GET['lang'])."', ".(int)$_GET['open'].", ".(int)$_GET['public'].", ".(int)time().")");
+mquery("insert into forum_groups_members (user,groupid,role,joined) values ('".mysql_real_escape_string($_GET['name'])."', ".(int)$groupid.", 2, ".(int)time().")");
+echo "0";
+}
+
+if($_GET['ac'] == "invite") {
+if(!isset($_GET['groupid'])) die("-4");
+$gr=mysql_fetch_row(mquery("select founder, recommended from forum_groups where id=".(int)$_GET['groupid']));
+if($gr[0]!=$_GET['name'] and mysql_num_rows(mquery("select user from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=2"))==0 and !($gr[1]==1 and getprivileges($_GET['name'])[1]==1)) die("-3");
+$uq=mquery("select id, user, role from forum_groups_members where user='".mysql_real_escape_string($_GET['user'])."' and groupid=".(int)$_GET['groupid']);
+if(mysql_num_rows($uq)>0) die("-5");
+$type=mysql_fetch_row(mquery("select name from forum_groups where id=".(int)$_GET['groupid']));
+$groupname=$type[0];
+mquery("insert into forum_groups_members (user,groupid,role,joined) values ('".$_GET['user']."', ".(int)$_GET['groupid'].", 5, ".time().")");
+message_send('elten', $_GET['user'], 'You have been invited to '.$groupname, "{$_GET['name']} has just invited you to {$groupname}.");
+echo "0";
+}
+
+if($_GET['ac'] == "edit") {
+if(!isset($_GET['groupid'])) die("-4");
+$gr=mysql_fetch_row(mquery("select founder from forum_groups where id=".(int)$_GET['groupid']));
+if($gr[0]!=$_GET['name']) die("-3");
+$desc="";
+if(isset($_GET['bufdescription']))
+$desc=buffer_get($_GET['bufdescription']);
+mquery("update forum_groups set name='".mysql_real_escape_string($_GET['groupname'])."', description='".mysql_real_escape_string($desc)."', open=".(int)$_GET['open'].", public=".(int)$_GET['public']." where id=".(int)$_GET['groupid']);
+}
 ?>

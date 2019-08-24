@@ -1,13 +1,8 @@
 <?php
 require("header.php");
-$zapytanie = "SELECT `name`, `tester`, `moderator`, `media_administrator`, `translator`, `developer` from `privileges`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+$q = mquery("SELECT `name`, `tester`, `moderator`, `media_administrator`, `translator`, `developer` from `privileges`");
 $suc = false;
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 if($wiersz[0] == $_GET['searchname']) {
 $suc = true;
 $name = $wiersz[0];

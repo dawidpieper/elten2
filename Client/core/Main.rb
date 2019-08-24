@@ -60,7 +60,7 @@ end
             fm = readini($configdata + "\\interface.ini","Interface","Status","0").to_i
             if fm == 0
               writeini($configdata + "\\interface.ini","Interface","Status","1").to_i
-              $scene=Scene_FirstRun.new if $language=="PL_PL"
+              $scene=Scene_FirstRun.new if $language=="pl_PL"
               return
               end
             whatsnew(true)

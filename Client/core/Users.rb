@@ -27,7 +27,7 @@ class Scene_Users
     end
         for i in 0..@users.size - 1
       @users[i].delete!("\r")
-      @users[i].delete!("\n")
+      @users[i].delete!("\r\n")
     end
         usr = []
     for i in 1..@users.size - 1

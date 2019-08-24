@@ -11,7 +11,7 @@ class Scene_Online
        
             for i in 0..@online.size - 1
       @online[i].delete!("\r")
-      @online[i].delete!("\n")
+      @online[i].delete!("\r\n")
     end
         onl = []
     for i in 1..@online.size - 1

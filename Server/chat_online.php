@@ -1,14 +1,9 @@
 <?php
 require("header.php");
 $error = 0;
-$zapytanie = "SELECT `name`, `date` FROM `chat_actived` ORDER BY `name`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+$q = mquery("SELECT `name`, `date` FROM `chat_actived` ORDER BY `name`");
 echo "0";
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 $name = $wiersz[0];
 $date = $wiersz[1];
 if($date + 5 >= $cdate) {

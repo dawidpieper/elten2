@@ -31,14 +31,23 @@ def load_locale(file,lang='en_GB')
     r.gsub!("\"\n\"","\n")
     li = r.split("\n")
 $dict={} if $dict==nil or reset==true
-last=''
+id=''
+ctxt=''
 for l in li
 r.chop! if r[-1..-1]=="\r"
+if (/msgctxt "([^"]+)"/=~l)!=nil
+  ctxt=$1.delete("\r\n")
+end
   if (/msgid "([^"]+)"/=~l)!=nil
-  last=$1.delete("\r\n")
+  id=$1.delete("\r\n")
 end
 if (/msgstr "([^"]+)"/=~l)!=nil
-      $dict.store(last,$1.delete("\r\n"))
+  d=$1
+  msgid=id
+  for k in $locales[0].keys
+    msgid=k if k[0...k.index(":")||0]==ctxt and $locales[0][k]==id.gsub(/ \{([^\}]+)\}/,"")
+  end
+          $dict.store(msgid,d.delete("\r\n"))
 end
   end
 end  

@@ -17,47 +17,47 @@ if($_GET['edit']==1) {
 $text=$_GET['text'];
 if($_GET['buffer']!=NULL)
 $text=buffer_get($_GET['buffer']);
-mquery("UPDATE notes SET note='".$text."', modified=".time()." WHERE id=".$_GET['noteid']);
+mquery("UPDATE notes SET note='".mysql_real_escape_string($text)."', modified=".time()." WHERE id=".(int)$_GET['noteid']);
 echo "0";
 }
 if($_GET['create']==1) {
 $text=$_GET['text'];
 if($_GET['buffer']!=NULL)
 $text=buffer_get($_GET['buffer']);
-mquery("INSERT INTO notes (id,author,name,created,modified,note) VALUES ('','".$_GET['name']."','".$_GET['notename']."',".time().",".time().",'".$text."')");
+mquery("INSERT INTO notes (author,name,created,modified,note) VALUES ('".$_GET['name']."','".mysql_real_escape_string($_GET['notename'])."',".time().",".time().",'".mysql_real_escape_string($text)."')");
 echo "0";
 }
 if($_GET['addshare']==1) {
-if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".$_GET['noteid']." and (author='".$_GET['user']."' OR id in (SELECT note from notes_shared where user='".$_GET['user']."'))"))>0) {
+if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".(int)$_GET['noteid']." and (author='".mysql_real_escape_string($_GET['user'])."' OR id in (SELECT note from notes_shared where user='".mysql_real_escape_string($_GET['user'])."'))"))>0) {
 echo "-3";
 die;
 }
-if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".$_GET['noteid']." and author='".$_GET['name']."'"))==0) {
+if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".(int)$_GET['noteid']." and author='".$_GET['name']."'"))==0) {
 echo "-3";
 die;
 }
-mquery("INSERT INTO notes_shared (id,note,user) VALUES ('',".$_GET['noteid'].",'".$_GET['user']."')");
+mquery("INSERT INTO notes_shared (note,user) VALUES (".(int)$_GET['noteid'].",'".mysql_real_escape_string($_GET['user'])."')");
 echo "0";
 }
 if($_GET['delshare']==1) {
-if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".$_GET['noteid']." and author='".$_GET['name']."'"))==0) {
+if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".(int)$_GET['noteid']." and author='".$_GET['name']."'"))==0) {
 echo "-3";
 die;
 }
-mquery("DELETE FROM notes_shared WHERE note=".$_GET['noteid']." AND user='".$_GET['user']."'");
+mquery("DELETE FROM notes_shared WHERE note=".(int)$_GET['noteid']." AND user='".mysql_real_escape_string($_GET['user'])."'");
 echo "0";
 }
 if($_GET['delete']==1) {
-if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".$_GET['noteid']." and author='".$_GET['name']."'"))==0) {
+if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".(int)$_GET['noteid']." and author='".$_GET['name']."'"))==0) {
 echo "-3";
 die;
 }
-mquery("DELETE FROM notes_shared WHERE note=".$_GET['noteid']);
-mquery("DELETE FROM notes WHERE id=".$_GET['noteid']);
+mquery("DELETE FROM notes_shared WHERE note=".(int)$_GET['noteid']);
+mquery("DELETE FROM notes WHERE id=".(int)$_GET['noteid']);
 echo "0";
 }
 if($_GET['getshares']==1) {
-$q=mquery("SELECT user FROM notes_shared WHERE note=".$_GET['noteid']);
+$q=mquery("SELECT user FROM notes_shared WHERE note=".(int)$_GET['noteid']);
 $t="";
 while($r=mysql_fetch_row($q)) {
 $t.=$r[0]."\r\n";

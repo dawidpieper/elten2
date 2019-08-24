@@ -32,7 +32,7 @@ class Scene_Contacts
       end
       @contact = []
       for i in 1..ct.size - 1
-        ct[i].delete!("\n")
+        ct[i].delete!("\r\n")
       end
             for i in 1..ct.size - 1
         @contact.push(ct[i]) if ct[i].size > 1

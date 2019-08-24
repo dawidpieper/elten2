@@ -9,13 +9,13 @@ if($period==90)
 $zapytanie.=" ORDER BY `name`";
 else
 $zapytanie.=" ORDER BY `date` DESC";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
+$q = mysql_query($zapytanie);
+if($q == false) {
 echo "-1\r\n" . $zapytanie;
 die;
 }
 echo "0";
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 $name = $wiersz[0];
 $date = $wiersz[1];
 if($date + $period >= $cdate) {

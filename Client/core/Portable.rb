@@ -47,7 +47,7 @@ copier
     if $l == true
     langs = []
 for i in 1..langtemp.size - 1    
-  langtemp[i].delete!("\n")
+  langtemp[i].delete!("\r\n")
   langs.push(langtemp[i]) if langtemp[i].size > 0
 end
 for i in 0..langs.size - 1

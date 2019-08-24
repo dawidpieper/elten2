@@ -24,16 +24,16 @@ apps = srvproc("apps","name=#{$name}\&token=#{$token}\&list=1")
     for i in 0..nb - 1
       @apps[i]=Struct_Program.new
       t = 0
-            while apps[l] != "\004END\004\n" and apps[l] != nil
+            while apps[l].delete("\r\n") != "\004END\004" and apps[l] != nil
         t += 1
       if t > 3
       @apps[i].description += apps[l]
     elsif t == 1
       @apps[i].ini = apps[l].delete!("\r\n")+".ini"
     elsif t == 2
-      @apps[i].name = apps[l].delete!("\n")
+      @apps[i].name = apps[l].delete!("\r\n")
     elsif t == 3
-      @apps[i].version = apps[l].delete!("\n")
+      @apps[i].version = apps[l].delete!("\r\n")
     end
     l += 1
     end

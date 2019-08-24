@@ -20,12 +20,23 @@ $showwindow = Fiddle::Function.new($user32['ShowWindow'], [Fiddle::TYPE_INT, Fid
 $getforegroundwindow = Fiddle::Function.new($user32['GetForegroundWindow'], [], Fiddle::TYPE_INT)
 $getparent = Fiddle::Function.new($user32['GetParent'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 $iswindow = Fiddle::Function.new($user32['IsWindow'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$findwindow = Fiddle::Function.new($user32['FindWindow'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 $getasynckeystate = Fiddle::Function.new($user32['GetAsyncKeyState'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 
 $shell32 = Fiddle.dlopen("shell32")
 $shgetfolderpath = Fiddle::Function.new($shell32['SHGetFolderPathW'], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 
 $setdlldirectory.call($dlldir)
+
+begin
+begin
+$eltenvc=Fiddle.dlopen("eltenvc")
+rescue Exception
+$eltenvc=Fiddle.dlopen("elten")
+end
+$cryptmessage = Fiddle::Function.new($eltenvc['CryptMessage'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+rescue Exception
+end
 
 $screenreaderapi=Fiddle.dlopen("screenreaderapi")
 $saystring = Fiddle::Function.new($screenreaderapi['sayStringW'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)

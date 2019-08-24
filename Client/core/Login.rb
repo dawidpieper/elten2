@@ -76,11 +76,11 @@ b=0
   suc=false
   while suc==false
   if token=="" and crp!=""
-  logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}&lang=#{$language}")
+  logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}&lang=#{$language}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
 elsif token!=""
-    logintemp = srvproc("login","login=1\&name=#{name}\&token=#{token}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}")
+    logintemp = srvproc("login","login=1\&name=#{name}\&token=#{token}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
 else
-  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password.urlenc}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}")
+  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password.urlenc}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
 end
 suc=true
 if logintemp[0].to_i==-5
@@ -147,7 +147,7 @@ loop_update
           if password=="\004ESCAPE\004"
             break
           else
-            lt=srvproc("login","login=2\&name=#{name}\&password=#{password.urlenc}\&computer=#{$computer.urlenc}\&appid=#{$appid}")
+            lt=srvproc("login","login=2\&name=#{name}\&password=#{password.urlenc}\&computer=#{$computer.urlenc}\&appid=#{$appid}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
             if lt[0].to_i<0
               speech(_("Login:error_identity"))
               speech_wait
@@ -181,7 +181,7 @@ writeini($configdata+"\\login.ini","Login","AutoLogin","3")
   agent_start
 $agentloaded = true
 else
-  $agent.write(JSON.generate({'func'=>'relogin','name'=>$name,'token'=>$token})+"\r\n")
+  $agent.write(Marshal.dump({'func'=>'relogin','name'=>$name,'token'=>$token}))
 end
 if $speech_wait == true
   $speech_wait = false

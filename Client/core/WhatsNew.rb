@@ -35,6 +35,7 @@ nversion=agtemp[2].to_f
     $nbeta = nbeta
     $nversion = nversion
     $nalpha = nalpha
+    bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i
                                                                                             if @init == true     and (posts > 0 or messages > 0)
 header = _("WhatsNew:head")
 else
@@ -56,7 +57,7 @@ else
     @sel.disable_item(6) if friends<= 0
     @sel.disable_item(7) if birthday<= 0
     @sel.disable_item(8) if mentions<= 0
-    @sel.disable_item(9) if !($nversion>$version+0.00001 or ($nbeta>$beta and $isbeta==1) or ($nalpha > $alpha and $isbeta==2) or ($nalpha == 0 and $alpha != 0) or ($nversion==$version and $isbeta==1))
+    @sel.disable_item(9) if bid==Elten.build_id
         if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and ($nversion<$version or ($nversion==$version and $isbeta!=1))
       speech(_("WhatsNew:info_nonew"))
       speech_wait
@@ -115,6 +116,9 @@ else
               speech_wait
               $scene = Scene_WhatsNew.new
               return
+            end
+            for i in 0...bt.size
+              bt[i].delete!("\r\n")
               end
                          @blogauthor = []
            @blogcategory = []

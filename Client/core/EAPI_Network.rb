@@ -202,7 +202,7 @@ key=""
     ans[key.downcase]=val if key!=""
   end
       l=ans["content-length"].to_i
-tx=""
+      tx=""
 waiting
 speech(msg)
 sptm=Time.now.to_i

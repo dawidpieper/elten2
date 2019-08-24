@@ -141,6 +141,10 @@ text=((($interface_soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\
   play("list_new")
   ""
   }
+  text.gsub!("\004CLOSED\004") {
+  play("list_closed")
+  ""
+  }
   text.gsub!("\004ATTACHMENT\004") {
   play("list_attachment")
   ""
@@ -226,7 +230,7 @@ def char_dict(text)
           when "'"
             r=_("EAPI_Speech:chr_tick")
             when "["
-              r="lewy kwadratowy"
+              r=_("EAPI_Speech:chr_leftbracket")
               when "]"
                 r=_("EAPI_Speech:chr_rightbracket")
                 when "\\"
@@ -278,21 +282,21 @@ def char_dict(text)
                                                               when ")"
                                                                 r=_("EAPI_Speech:chr_rightparen")
                                                                 when "ü"
-                                                                                                                                    r="u umlaut" if $language=="PL_PL"
+                                                                                                                                    r="u umlaut" if $language=="pl_PL"
                                                                   when "Ü"
-                                                                    r="U umlaut" if $language=="PL_PL"
+                                                                    r="U umlaut" if $language=="pl_PL"
                                                                     when "ä"
-                                                                      r="a umlaut" if $language=="PL_PL"
+                                                                      r="a umlaut" if $language=="pl_PL"
                                                                       when "Ä"
-                                                                 r="A umlaut" if $language=="PL_PL"       
+                                                                 r="A umlaut" if $language=="pl_PL"
                                                                  when "ö"
-                                                                   r="o umlaut" if $language=="PL_PL"
+                                                                   r="o umlaut" if $language=="pl_PL"
                                                                    when "Ö"
-                                                                     r="O umlaut" if $language=="PL_PL"
+                                                                     r="O umlaut" if $language=="pl_PL"
 when "ß"
-                                                                     r="długie s" if $language=="PL_PL"
+                                                                     r="długie s" if $language=="pl_PL"
                                                                      when "´"
-                                                                     r="ostry akcent" if $language=="PL_PL"
+                                                                     r="ostry akcent" if $language=="pl_PL"
                                                                                          end
                       if r==""
                         return(text)

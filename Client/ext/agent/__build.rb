@@ -60,9 +60,11 @@ end
 end
 r.gsub!("require lib","")
 $cnt+="\r\n"+r+"\r\n"
+$res.push(r)
 end
 
-$cnt="$LOAD_PATH<<\".\"\r\n"
+$res=[]
+$cnt="$LOAD_PATH<<\".\"\r\n$VERBOSE=nil\r\n"
 $soes=[]
 $soeloc = []
 $reqs=[]

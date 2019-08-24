@@ -104,7 +104,7 @@ end
 lines = blogtemp[1].to_i
 l = 2
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
   end
 @postid = []
 @postname = []
@@ -344,7 +344,7 @@ if err < 0
   return
 end
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
 end
 lines = blogtemp[1].to_i
 l = 2
@@ -459,7 +459,7 @@ end
 lines = blogtemp[1].to_i
 l = 2
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
   end
 categoryids = []
 categorynames = []
@@ -660,7 +660,7 @@ end
 lines = blogtemp[1].to_i
 l = 2
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
   end
 categoryids = []
 categorynames = []
@@ -678,7 +678,7 @@ if err < 0
   $scene = Scene_Blog_Main.new
 end
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
 end
 lines = blogtemp[1].to_i
 l = 2
@@ -812,6 +812,7 @@ class Scene_Blog_Read
   def main
     return $scene=Scene_Main.new if $eltsuspend
 blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{@owner}&details=1")
+blogtemp.each {|l| l.delete!("\r\n")}
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -819,7 +820,7 @@ if err < 0
   $scene = Scene_Blog_Main.new(@owner)
 end
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
 end
 lines = blogtemp[1].to_i
 @knownposts=blogtemp[2].to_i
@@ -846,8 +847,18 @@ end
 @postcur = 0
 @fields = []
 for i in 0..@post.size-1
-@fields[i] = Edit.new(@post[i].author,Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@post[i].text,true)
+@fields[(i==0?i:(i+1))] = Edit.new(@post[i].author,Edit::Flags::MultiLine|Edit::Flags::ReadOnly|Edit::Flags::MarkDown,@post[i].text,true)
 end
+@medias=[]
+yts=@post[0].text.scan(/\/watch\?v\=([a-zA-Z0-9\-\_]+)/).map {|a| a[0]}
+yts+=@post[0].text.scan(/youtu.be\/([a-zA-Z0-9\-\_]+)/).map {|a| a[0]}
+if yts.size>0
+  e=ytlist(yts)
+@medias=e['items']
+end
+if @medias.size>0
+  @fields[1]=Select.new(@medias.map {|m| m['snippet']['title']},true,0,_("Blog:head_media"),true)
+  end
 if $name!="guest"
 @fields.push(Edit.new(_("Blog:type_comment"),"MULTILINE"))
 else
@@ -885,11 +896,17 @@ def update
       @form.index=@postcur=@form.fields.size-4
     @form.focus
       elsif $key[0x55] and @knownposts<@post.size
-      @form.index=@postcur=@knownposts
+      @form.index=@postcur=@knownposts+1
       @form.focus
     end
+  end
+  if enter and @form.index==1
+    ytfile(@medias[@form.fields[1].index])
+    speech_wait
+    loop_update
+    @form.fields[@form.index].focus
     end
-  if (enter or space) and @form.index == @form.fields.size - 3
+  if ((enter or space) and @form.index == @form.fields.size - 3) or (enter and $key[0x11] and @form.index==@form.fields.size-4)
     @form.fields[@form.fields.size - 4].finalize
     txt = @form.fields[@form.fields.size - 4].text_str
     if txt.size == 0 or txt == "\r\n"
@@ -1018,11 +1035,11 @@ l = -1
 loop do
   i += 1
   if u == false
-    @names[l] = blogtemp[i].delete("\n")
+    @names[l] = blogtemp[i].delete("\r\n")
     u = true
   else
     l += 1
-    @owners[l] = blogtemp[i].delete("\n")
+    @owners[l] = blogtemp[i].delete("\r\n")
     u = false
     end
   break if i >= blogtemp.size - 1
@@ -1166,7 +1183,7 @@ end
 lines = blogtemp[1].to_i
 l = 2
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
   end
 categoryids = []
 categorynames = []
@@ -1185,7 +1202,7 @@ if err < 0
   return
 end
 for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\n")
+  blogtemp[i].delete!("\r\n")
 end
 lines = blogtemp[1].to_i
 l = 2

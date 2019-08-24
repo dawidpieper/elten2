@@ -15,7 +15,7 @@ $error = 0;
 if($error!=0)
 die($error);
 $password=random_str(64);
-mquery("UPDATE `users` SET `resetpassword`='".$password."' WHERE `name`='".$_GET['name']."'");
+mquery("UPDATE `users` SET `resetpassword`='".$password."' WHERE `name`='".mysql_real_escape_string($_GET['name'])."'");
 $head = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: Elten Support <support@elten-net.eu>\r\n";
 $body = "
 You receive this e-mail, because the password reset has been requested.
@@ -49,7 +49,7 @@ $suc=true;
 if($suc==false)
 die("-2");
 $password=random_str(64);
-mquery("UPDATE `users` SET `resetpassword`='".$password."' WHERE `name`='".$_GET['name']."'");
+mquery("UPDATE `users` SET `resetpassword`='".$password."' WHERE `name`='".mysql_real_escape_string($_GET['name'])."'");
 $head = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: Elten Support <support@elten-net.eu>\r\n";
 $body = "
 You receive this e-mail, because the password reset has been requested.<br>
@@ -76,8 +76,8 @@ $suc=true;
 if($suc==false)
 die("-2");
 if($_GET['change']==1) {
-mquery("update authentications set actived=0 where name='{$_GET['name']}'");
-mquery("update users set password='".$_GET['newpassword']."', resetpassword=null where name='".$_GET['name']."' and mail='".$_GET['mail']."' and resetpassword='".$_GET['key']."'");
+mquery("update authentications set actived=0 where name='".mysql_real_escape_string($_GET['name'])."'");
+mquery("update users set password='".mysql_real_escape_string($_GET['newpassword'])."', resetpassword=null where name='".mysql_real_escape_string($_GET['name'])."' and mail='".mysql_real_escape_string($_GET['mail'])."' and resetpassword='".mysql_real_escape_string($_GET['key'])."'");
 }
 echo "0";
 }

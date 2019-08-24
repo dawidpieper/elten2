@@ -176,25 +176,23 @@ loop do
     return -1
   end
   if (space or enter) and form.index == 2
-    break
+        break
     end
-end
-dialog_close
-lfrom=0
-if from.index==0
+  end
   lfrom=0
-else
-  lfrom=langs.keys[from.index-1]
-end
-lto=langs.keys[to.index]
-ef = translatetext(lfrom,lto,text)
-lfrom = "AUTO" if lfrom==0
-dialog_open
-input_text("Tłumaczenie z #{lfrom} na #{lto}","MULTILINES|READONLY",ef)
-loop_update
-dialog_close
-end
-end
+  if from.index==0
+      lfrom=0
+    else
+        lfrom=langs.keys[from.index-1]
+      end
+      lto=langs.keys[to.index]
+      ef = translatetext(lfrom,lto,text)
+      lfrom = "AUTO" if lfrom==0
+      input_text("#{lfrom} - #{lto}","MULTILINES|READONLY",ef)
+      loop_update
+    dialog_close
+  end
+
 
 # Opens a youtube search dialog
 #
@@ -255,7 +253,7 @@ if (/(\d{1,2})S/=~di) != nil
   s=$1.to_i
 end
 pat=details[sel.index]['items'][0]['snippet']['publishedAt'].gsub("T"," ").gsub(/\.\d\d\dZ/,"")
-text=details[sel.index]['items'][0]['snippet']['title']+"\r\nCzas trwania: "+sprintf("%02d:%02d:%02d",h,m,s)+"\r\nOpublikowano: "+pat+"\r\nSłowa kluczowe: "+details[sel.index]['items'][0]['snippet']['tags'].join(", ")+"\r\n\r\n"+details[sel.index]['items'][0]['snippet']['description']
+text=details[sel.index]['items'][0]['snippet']['title']+"\r\n#{_("EAPI_External:txt_phr_ytduration")}: "+sprintf("%02d:%02d:%02d",h,m,s)+"\r\n#{_("EAPI_External:txt_phr_ytpublishtime")}: "+pat+"\r\n#{_("EAPI_External:txt_phr_ytkeywords")}: "+details[sel.index]['items'][0]['snippet']['tags'].join(", ")+"\r\n\r\n"+details[sel.index]['items'][0]['snippet']['description']
 dete.settext(text)
   end
   form.update
@@ -333,16 +331,21 @@ preview=Bass::Sound.new(url,1)
 preview.play
   end  
 end
-  if enter and form.index==0
+  if enter and form.index==0 and e!=nil
     preview.close if preview!=nil
+    ytfile(e['items'][sel.index])
+    speech_wait
+sel.focus
+end
+end
+end
+  
+def ytfile(url,upd=false)
+    e=url if url.is_a?(Hash)
+    id=e['id']
+    id=id['videoId'] if id.is_a?(Hash)
     waiting
-    if e==nil
-      speech(_("General:error"))
-      speech_wait
-      $scene=Scene_Main.new
-      return
-      end
-    destination = "temp/"+e['items'][sel.index]['snippet']['title'].delspecial+"_"+e['items'][sel.index]['snippet']['channelTitle'].delspecial+".tmp"
+    destination = "temp/"+e['snippet']['title'].delspecial+"_"+e['snippet']['channelTitle'].delspecial+".tmp"
           suc=false
           d=Dir.entries("temp")
   for f in d
@@ -357,10 +360,9 @@ end
 if suc == true
   suc = true
 else
-      $ytdh[sel.index]=1  
-      statustempfile="temp/yts"+rand(36**2).to_s(36)+".tmp"
-            h = run("cmd /c bin\\youtube-dl.exe --no-check-certificate -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{ids[sel.index]}\" 1> #{statustempfile} 2>\&1",true)
-            speech(_("EAPI_External:wait_connecting"))
+            statustempfile="temp/yts"+rand(36**2).to_s(36)+".tmp"
+            h = run("cmd /c bin\\youtube-dl.exe --no-check-certificate -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{id}\" 1> #{statustempfile} 2>\&1",true)
+                        speech(_("EAPI_External:wait_connecting"))
       prc=0
       starttm=Time.now.to_i
       lastcheck=Time.now.to_i
@@ -405,9 +407,7 @@ end
               end
                                 end
 end
-                                   $ytdh[sel.index]=h
-   $ytds[sel.index]=2
- end
+                                       end
  if FileTest.exists?(destination)
                suc = true
                else
@@ -415,10 +415,10 @@ suc=false
 end
 waiting_end
 if suc == true
-        ind=selector([_("EAPI_External:btn_play"),_("EAPI_External:opt_addtopls"),_("EAPI_External:opt_avatar"),_("EAPI_External:opt_download"),_("EAPI_External:opt_copyurl"),_("General:str_cancel")],e['items'][sel.index]['snippet']['title'],0,5,1)
+        ind=selector([_("EAPI_External:btn_play"),_("EAPI_External:opt_addtopls"),_("EAPI_External:opt_avatar"),_("EAPI_External:opt_download"),_("EAPI_External:opt_copyurl"),_("General:str_cancel")],e['snippet']['title'],0,5,1)
         case ind
     when 0
-      player(destination,e['items'][sel.index]['snippet']['title'],false,true,false)
+      player(destination,e['snippet']['title'],false,true,false)
 when 1
   $playlist.push(destination)
 speech(_("EAPI_External:info_addedtopls"))
@@ -431,8 +431,8 @@ fl = ""
 fl = getfile(_("EAPI_External:head_dst"),getdirectory(40)+"\\",true,"Documents")
 if fl!=""
 if type == 0
-fl += "\\"+e['items'][sel.index]['snippet']['title'].delspecial+".mp4"
-    h = run("bin\\youtube-dl.exe -o \"#{fl}\" \"https://youtube.com/watch?v=#{ids[sel.index]}\"",true)
+fl += "\\"+e['snippet']['title'].delspecial+".mp4"
+    h = run("bin\\youtube-dl.exe -o \"#{fl}\" \"https://youtube.com/watch?v=#{id}\"",true)
       t = 0
       tmax = 600
       speech(_("EAPI_External:wait_downloading"))
@@ -475,14 +475,25 @@ if t > tmax
     end
     end
 when 4
-  url="https://youtube.com/watch?v=#{ids[sel.index]}"
+  url="https://youtube.com/watch?v=#{id}"
   Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(url,url.size+1)
   speech(_("EAPI_External:info_copiedtoclip"))
   speech_wait
     when 5
 end
 else
- 
+ if upd==false
+   speech(_("EAPI_External:wait_youtubedl"))
+   waiting
+      executeprocess("bin\\youtube-dl.exe -U",true)
+      delay(1)
+      if FileTest.exists?("bin\\youtube-dl.exe.new")
+        Win32API.new("kernel32","DeleteFile",'p','i').call("bin\\youtube-dl.exe")
+        Win32API.new("kernel32","MoveFile",'pp','i').call(".\\bin\\youtube-dl.exe.new",".\\bin\\youtube-dl.exe") 
+        end
+   waiting_end
+   ytfile(url,true)
+   else
   if FileTest.exists?(destination.gsub($advanced_ytformat,"mp4"))
        if simplequestion(_("EAPI_External:alert_audioreport")) == 1
          bug(true,yst)
@@ -490,14 +501,26 @@ else
     else
   if simplequestion(_("EAPI_External:alert_ytreport")) == 1
     bug(true,yst)
-    end
   end
-  speech_wait
+  end
+  end
 end
-speech_wait
-sel.focus
 end
+
+def ytlist(ids)
+  ids=[ids] if ids.is_a?(String)
+  download("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=#{ids.join(",")}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
+    x=read("temp/yttemp")
+  File.delete("temp/yttemp")
+  e = JSON.load(x)
+      if e['error'] != nil or e['errors'] != nil
+    speech(_("General:error"))
+    speech_wait
+    return {'items'=>[]}
   end
-  end
+  return e
+end
+
+end
 end
 #Copyright (C) 2014-2019 Dawid Pieper

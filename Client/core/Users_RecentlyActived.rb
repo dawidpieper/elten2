@@ -10,7 +10,7 @@ class Scene_Users_RecentlyActived
             @users = srvproc("online","name=#{$name}\&token=#{$token}\&period=86400")
             for i in 0..@users.size - 1
       @users[i].delete!("\r")
-      @users[i].delete!("\n")
+      @users[i].delete!("\r\n")
     end
         onl = []
     for i in 1..@users.size - 1

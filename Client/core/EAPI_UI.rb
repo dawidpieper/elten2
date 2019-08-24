@@ -57,8 +57,8 @@ end
 # @return [Boolean] returns true if escape was pressed, otherwise returns false
   def escape(fromdll = false)
     if fromdll == true
-    esc = Win32API.new($eltenlib,"KeyState",'i','i').call(0x1B)
-    if esc > 0
+    esc = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x1B)
+    if esc!=0
       sleep(0.05)
       return(true)
     else
@@ -76,9 +76,9 @@ end
 # @return [Boolean] returns true if alt was pressed, otherwise returns false
     def alt(fromdll = false)
       if fromdll == true
-    alt = Win32API.new($eltenlib,"KeyState",'i','i').call(0x12)
-    if alt > 0
-      control = Win32API.new($eltenlib,"KeyState",'i','i').call(0x11)
+    alt = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x12)
+    if alt != 0
+      control = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x11)
       if control == 0
       sleep(0.05)
             return(true)
@@ -123,8 +123,8 @@ end
         end
         end
       if fromdll == true
-    enter = Win32API.new($eltenlib,"KeyState",'i','i').call(0x0D)
-    if enter > 0
+    enter = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x0D)
+    if enter != 0
       sleep(0.05)
       return(true)
     else
@@ -146,8 +146,8 @@ end
 # @return [Boolean] returns true if spacebar was pressed, otherwise returns false
         def space(fromdll=false)
           if fromdll == true
-    space = Win32API.new($eltenlib,"KeyState",'i','i').call(0x20)
-    if space > 0
+    space = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20)
+    if space != 0
       sleep(0.05)
       return(true)
     else
@@ -404,17 +404,17 @@ Graphics.update if $ruby != true
          tr=true
 end
 if $agent!=nil and $agent.avail>0
-    str=$agent.read
-    for l in str.split("\r\n")
-                d=JSON    .load(l)
-                if d['func']=="notif"
+          str=StringIO.new($agent.read)
+      while str.pos<str.string.size-1
+                                                                                                                                d=Marshal.load(str)
+                                                                                                                                                if d['func']=="notif"
                                     if $notifications_callback!=nil
                     $notifications_callback.call(d)
                   else
                     process_notification(d)
                     end
-                elsif d['func']=='srvproc'
-          $eresps[d['id']]=d
+                  elsif d['func']=='srvproc'
+                              $eresps[d['id']]=d
         elsif d['func']=='tray'
                     $trayreturn=true
                   elsif d['func']=='msg'
@@ -516,7 +516,7 @@ if FileTest.exists?("temp/agent_alarm.tmp") and $alarmproc!=true
 # @param text [String] a question to ask
 # @return [Numeric] return 0 if user selected no or pressed escape, returns 1 if selected yes.
 def confirm(text="")
-  text.gsub!("jesteś pewien","jesteś pewna") if $language=="PL_PL" and $gender==0
+  text.gsub!("jesteś pewien","jesteś pewna") if $language=="pl_PL" and $gender==0
   dialog_open  
   sel = menulr([_("General:str_no"),_("General:str_yes")],true,0,text)
     loop do

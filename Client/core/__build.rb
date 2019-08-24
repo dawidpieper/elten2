@@ -8,6 +8,7 @@
 require 'zlib'
 
 data=[
+[12956431,"RI_BASE64",Zlib::deflate(IO.read("RI_BASE64.rb"))],
 [79569934,"GEM_STRSCAN",Zlib::deflate(IO.read("GEM_STRSCAN.rb"))],
 [73682277,"RI_OSTRUCT",Zlib::deflate(IO.read("RI_OSTRUCT.rb"))],
 [70125422,"GEM_JSON",Zlib::deflate(IO.read("GEM_JSON.rb"))],

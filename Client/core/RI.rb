@@ -78,7 +78,12 @@ for o in t
       self[i]=n[i]
       end
     return self
-      end
+  end
+  def sum
+    s=self[0]
+    self[1..-1].each {|a| s+=a}
+    return s
+    end
   end
 
 class Fixnum

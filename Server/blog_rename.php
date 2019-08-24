@@ -1,10 +1,5 @@
 <?php
 require("header.php");
-$zapytanie = "update `blogs` set name='" . $_GET['blogname'] . "' where `owner`='".$_GET['name']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+mquery("update `blogs` set name='" . mysql_real_escape_string($_GET['blogname']) . "' where `owner`='".$_GET['name']."'");
 echo "0";
 ?>

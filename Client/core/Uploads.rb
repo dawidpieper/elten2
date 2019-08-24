@@ -109,7 +109,7 @@ class Scene_Uploads
      end
        play("menu_open")
          play("menu_background")
-         menu = menulr([_("Uploads:opt_download"),_("Uploads:opt_play"),"Skopiuj link",_("General:str_delete"),_("Uploads:opt_add")])
+         menu = menulr([_("Uploads:opt_download"),_("Uploads:opt_play"),_("Uploads:opt_copylink"),_("General:str_delete"),_("Uploads:opt_add")])
        menu.disable_item(1) unless n==".mp3" or n==".wav" or n==".ogg" or n==".mid" or n==".flac" or n==".m4a" or n==".mp2" or n==".opus" or n==".aac" or n==".wma"
        menu.disable_item(3) if @name != $name
        menu.disable_item(4) if @name != $name

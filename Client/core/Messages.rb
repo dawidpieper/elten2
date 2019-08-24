@@ -39,6 +39,7 @@ when 0
     @sel_conversations.focus
     when 2
       @form_messages.fields[@form_messages.index].focus
+      load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true)
 end
   @imported=false
   end
@@ -313,29 +314,35 @@ end
 @messages_more=(msg[2].to_i==1)?true:false if !complete
       l=0
       o=-1
-      curid=0
-      curid=@messages[0].id if complete
-for i in 4..msg.size-1
+curids=[]
+@messages.each {|m| curids.push(m.id)}
+      for i in 4..msg.size-1
   line=msg[i].delete("\r\n")
+  if l==0 or @msgproc==true
   case l
   when 0
-    break if complete and line.to_i<=curid
+    @msgproc=true
+    @msgproc=false if complete and curids.include?(line.to_i)
+    if @msgproc
     o=(complete)?0:(@messages.size)
     @messages.insert(o,Struct_Message.new(line.to_i))
+    end
         when 1
     @messages[o].sender=line
     @messages[o].receiver=((line==$name)?user:$name)
 when 2
   @messages[o].subject=line
     when 3
-            @messages[o].date=Time.at(line.to_i)
-    when 4
+                  @messages[o].date=Time.at(line.to_i)
+                when 4
                 @messages[o].mread=line.to_i
         when 5
           @messages[o].marked=line.to_i
           when 6
             @messages[o].attachments=line.split(",")
-            name_attachments(@messages[o]) if @messages[o].attachments.size>0
+            @messages[o].attachments.delete(nil)
+            @messages[o].attachments
+            name_attachments(@messages[o].attachments, @messages[o].attachments_names) if @messages[o].attachments.size>0
             when 7
               if line.include?("\004END\004")==false
         @messages[o].text+=line+"\n"
@@ -343,19 +350,25 @@ when 2
       else
         @messages[o].text.chop!
         end
-            end
+      end
+    elsif l==7
+      if line.include?("\004END\004")==false
+        l-=1
+        end
+      end
       l+=1
       l=0 if l==8
     end
          selt=[]
     for m in @messages
-      break if m.id<=curid
+      if !curids.include?(m.id)
       if complete
       play "messages_update"
                         end
             selt.push(m.sender+":\r\n"+((sp!=nil and sp!="new")?(m.subject+":\r\n"):"")+m.text.gsub("\004LINE\004","\r\n").split("")[0...5000].join+((m.text.size>5000)?"... #{_("Messages:opt_phr_readmore")}":"")+"\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",m.date.year,m.date.month,m.date.day,m.date.hour,m.date.min)+"\r\n")
       selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if m.mread==0
       selt[-1]+="\004ATTACHMENT\004" if m.attachments.size>0
+      end
     end
     selt.push(_("Messages:opt_showmore")) if @messages_more and !complete
     if !complete
@@ -401,8 +414,8 @@ elsif @message_display[0]==@messages[@sel_messages.index].id and ((t=Time.now).t
   @messages[@sel_messages.index].mread=Time.now.to_i
   @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"")
 end
-if @sel_messages.index<@messages.size and @messages[@sel_messages.index].attachments.size>0 and (@form_messages.fields[1]==nil or @form_messages.fields[1].commandoptions!=name_attachments(@messages[@sel_messages.index]))
-  @form_messages.fields[1]=Select.new(name_attachments(@messages[@sel_messages.index]),true,0,_("Messages:head_attachments"),true)
+if @sel_messages.index<@messages.size and @messages[@sel_messages.index].attachments.size>0 and (@form_messages.fields[1]==nil or @form_messages.fields[1].commandoptions!=name_attachments(@messages[@sel_messages.index].attachments,@messages[@sel_messages.index].attachments_names))
+  @form_messages.fields[1]=Select.new(name_attachments(@messages[@sel_messages.index].attachments, @messages[@sel_messages.index].attachments_names),true,0,_("Messages:head_attachments"),true)
 elsif @sel_messages.index>=@messages.size or @messages[@sel_messages.index].attachments.size==0 and @form_messages.fields[1]!=nil
   @form_messages.fields[1]=nil
   @form_messages.index=0 if @form_messages.index==1
@@ -522,20 +535,6 @@ end
                                         @sel_messages.focus
                                         dialog_close
                                         end
-def name_attachments(message)
-  return message.attachments_names if message.attachments_names!=nil
-  att=[]
-                    for at in message.attachments
-                      ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
-                      if ati[0].to_i<0
-                        speech(_("General:error"))
-                        $scene=Scene_Main.new
-                        return
-                      end
-                      att.push(ati[2])  
-                    end
-                    return message.attachments_names=att
-  end
                        def download_attachment(at)
                                  ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
                       if ati[0].to_i<0
@@ -1163,41 +1162,9 @@ rec=0
          @att=""
          if @attachments.size>0
                       for a in @attachments
-           data = ""
-                                      host = $srv
-  host.delete!("/")
-        fl=read(a)
-    boundary=""
-        while fl.include?(boundary)
-        boundary="----EltBoundary"+rand(36**32).to_s(36)
-        end
-    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{fl}\r\n--#{boundary}--"
-    length=data.size    
-    q = "POST /srv/attachments.php?add=1\&filename=#{File.basename(a).urlenc}\&name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-  a = connect(host,80,q,2048,s_("Messages:wait_sendingfile",{'file'=>File.basename(a)}))
-a.delete!("\0")
-for i in 0..a.size - 1
-  if a[i..i+3] == "\r\n\r\n"
-    s = i+4
-    break
-    end
+    @att+=send_attachment(a)+","
   end
-  if s == nil
-    speech(_("General:error"))
-    return nil
-  end
-  sn = a[s..a.size - 1]
-    a = nil
-        bt = strbyline(sn)
-err = bt[0].to_i
-            speech_wait
-                        if err < 0
-      speech(_("General:error"))
-    speech_wait
-      else
-      @att+=bt[1].delete("\r\n")+","
-    end
-             end
+  @att.chop! if @att[-1..-1]==","
            end
                     msgtemp=""
          if rec == 0
@@ -1208,8 +1175,7 @@ err = bt[0].to_i
          if @form.index != 8
                  ex=""
             if @att!="" and @att!=nil
-              @att.chop!
-                    bufatt=buffer(@att)
+                                  bufatt=buffer(@att)
       ex="\&bufatt="+bufatt.to_s
               end         
            msgtemp = srvproc("message_#{tmp}send","name=#{$name}\&token=#{$token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&buffer=#{bufid}#{ex}")
@@ -1237,7 +1203,7 @@ err = bt[0].to_i
     end
         for i in 0..@users.size - 1
       @users[i].delete!("\r")
-      @users[i].delete!("\n")
+      @users[i].delete!("\r\n")
     end
     usr = []
     for i in 1..@users.size - 1
@@ -1358,7 +1324,7 @@ attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attach
                  @attachments=[]
                  @date=0
                                                    @marked=0
-@attachments_names=nil
+@attachments_names=[]
                                                    end
                end
 #Copyright (C) 2014-2019 Dawid Pieper

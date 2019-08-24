@@ -1,38 +1,13 @@
 ﻿<?php
-$sql = mysql_connect("localhost", "elten", "")
-or die("-1");
-$sql_select = @mysql_select_db('elten')
-or die("-1");
-if(mysql_query("SET NAMES utf8") == false) {
-echo "-1";
-die;
+require("init.php");
+if($_GET['register'] == "1") {
+
+$q = mquery("SELECT `name` FROM `users`");
+while ($wiersz = mysql_fetch_row($q)){
+if(strtoupper($wiersz[0]) == strtoupper($_GET['name']) or ($_GET['name']=="admin" or $_GET['name']=="support" or $_GET['name']=="administrator" or $_GET['name']=="webmaster" or $_GET['name']=="postmaster" or $_GET['name']=="elten") and strpos("'",$_GET['name'])===false)
+die("-2");
 }
-foreach($_GET as $value) {
-$value = str_replace("\\","\\\\",$value);
-$value = str_replace("\'","\\\'",$value);
-}
-if($_GET['register'] == "1")
-{
-$zapytanie = "SELECT `name` FROM `users`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false)
-echo "-1\r\n" . $zapytanie;
-else
-{
-while ($wiersz = mysql_fetch_row($idzapytania)){
-if(strtoupper($wiersz[0]) == strtoupper($_GET['name']) or ($_GET['name']=="admin" or $_GET['name']=="support" or $_GET['name']=="administrator" or $_GET['name']=="webmaster" or $_GET['name']=="postmaster" or $_GET['name']=="elten"))
-$error = -2;
-}
-if($error < 0)
-echo $error;
-else
-{
-$zapytanie = "INSERT INTO `users` (`name`, `password`, `mail`) VALUES ('" . $_GET['name'] . "', '" . $_GET['password'] . "', '" . $_GET['mail'] . "')";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false)
-echo "-3";
-else
-{
+mquery("INSERT INTO `users` (`name`, `password`, `mail`) VALUES ('" . mysql_real_escape_string($_GET['name']) . "', '" . mysql_real_escape_string($_GET['password']) . "', '" . mysql_real_escape_string($_GET['mail']) . "')");
 echo "0";
 $head = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: Elten Support <support@elten-net.eu>\r\n";
 $body = "
@@ -50,8 +25,5 @@ Best regards,<br>
 Elten Support Team
 ";
 mail($_GET['mail'], "=?ISO8859-2?B?" . base64_encode("Elten - Welcome!") . "?=", $body, $head);
-}
-}
-}
 }
 ?>

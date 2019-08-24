@@ -1,0 +1,3176 @@
+# Polish (Poland) translations for Elten.
+# Copyright (C) (2014-2018) Dawid Pieper
+# This file is distributed under Open Public License, detailed in the repository of ELten project.
+# FIRST AUTHOR <dawidpieper@o2.pl>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Elten 2.3\n"
+"Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
+"POT-Creation-Date: 2018-11-06 13:45+0100\n"
+"PO-Revision-Date: 2018-10-27 11:40+0200\n"
+"Last-Translator: Dawid Pieper <dawidpieper@o2.pl>\n"
+"Language: pl_PL\n"
+"Language-Team: pl <dawidpieper@o2.pl>\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
+"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Elten 2.3B1\n"
+
+msgid "Authentication:type_pass"
+msgstr "Podaj swoje hasło"
+
+msgid "Authentication:head_enabled"
+msgstr "Dwuetapowe uwierzytelnianie pozwala na lepsze zabezpieczenie konta poprzez potwierdzanie każdego logowania numerem telefonu. Gdy ta opcja jest włączona, przy każdorazowym logowaniu do portalu Elten z nowego urządzenia wysyłana będzie wiadomość SMS z kodem weryfikującym. Wpisanie tego kodu będzie wymagane, aby zalogować się do programu."
+
+msgid "Authentication:head_disabled"
+msgstr "Dwuetapowe uwierzytelnianie jest włączone dla tego konta."
+
+msgid "Authentication:type_phone"
+msgstr "Podaj swój numer telefonu, który będzie używany podczas weryfikacji. Pamiętaj o wpisaniu numeru kierunkowego, na przykład +48 dla polski"
+
+msgid "Authentication:alert_support"
+msgstr "Uwierzytelnianie dwuetapowe zostało wprowadzone w Eltenie 2.28. Po aktywowaniu go, zalogowanie się ze starszych wersji programu nie będzie możliwe. Czy kontynuować mimo to?"
+
+msgid "Authentication:alert_checkphone"
+msgstr "Czy ten numer telefonu jest poprawny? Wciśnij enter aby kontynuować lub escape aby anulować."
+
+msgid "Authentication:wait"
+msgstr "Proszę czekać, trwa łączenie z serwerem..."
+
+msgid "Authentication:type_code"
+msgstr "Na wskazany numer telefonu otrzymasz wiadomość SMS z kodem aktywującym uwierzytelnianie dwuetapowe. Wprowadź ten kod"
+
+msgid "Authentication:type_wrongcode"
+msgstr "Wprowadzony kod nie jest poprawny. Spróbuj jeszcze raz."
+
+msgid "Authentication:error_wrongcode"
+msgstr "Wprowadzony kod nie jest poprawny."
+
+msgid "Authentication:info_enabled"
+msgstr "Uwierzytelnianie dwuetapowe zostało aktywowane dla tego konta."
+
+msgid "Authentication:alert_disable"
+msgstr "Czy jesteś pewien, że chcesz wyłączyć uwierzytelnianie dwuetapowe?"
+
+msgid "Authentication:info_disabled"
+msgstr "Uwierzytelnianie dwuetapowe zostało wyłączone."
+
+msgid "Users_LastAvatars:head"
+msgstr "Ostatnio zmienione awatary"
+
+msgid "Users_RecentlyRegistered:head"
+msgstr "Ostatnio zarejestrowani użytkownicy"
+
+msgid "Users_RecentlyActived:head"
+msgstr "Ostatnio aktywni użytkownicy"
+
+msgid "UserSearch:head_results"
+msgstr "Wyniki wyszukiwania"
+
+msgid "UserSearch:head"
+msgstr "Szukanie użytkowników"
+
+msgid "UserSearch:error_noresults"
+msgstr "Nie znaleziono dopasowania."
+
+msgid "Clock:head_hour"
+msgstr "Godzina"
+
+msgid "Clock:opt_none"
+msgstr "Brak"
+
+msgid "Clock:btn_add"
+msgstr "Dodaj"
+
+msgid "Clock:chk_notify"
+msgstr "Automatyczny odczyt czasu"
+
+msgid "Clock:opt_voiceandsound"
+msgstr "Głos i dźwięk"
+
+msgid "Clock:opt_voice"
+msgstr "Tylko głos"
+
+msgid "Clock:opt_sound"
+msgstr "Tylko dźwięk"
+
+msgid "Clock:head_readevery"
+msgstr "Odczytuj co"
+
+msgid "Clock:opt_hour"
+msgstr "godzinę"
+
+msgid "Clock:opt_halfanhour"
+msgstr "pół godziny"
+
+msgid "Clock:opt_quarter"
+msgstr "kwadrans"
+
+msgid "Clock:head_alarms"
+msgstr "Alarmy"
+
+msgid "Clock:head_minute"
+msgstr "Minuta"
+
+msgid "Clock:head_type"
+msgstr "Rodzaj"
+
+msgid "Clock:opt_single"
+msgstr "Jednorazowy"
+
+msgid "Clock:opt_multiple"
+msgstr "Cykliczny"
+
+msgid "Advanced:head_keyreftime"
+msgstr "Czas odświerzania stanu klawiszy (ms) (Uwaga! Nie zaleca się zmiany tej wartości!)"
+
+msgid "Advanced:chk_hexparsing"
+msgstr "Przetwarzaj diakretyki heksagonalnie (zaawansowane)"
+
+msgid "Advanced:head_sesreftime"
+msgstr "Czas odświerzania sesji (s) (Uwaga! Nie zaleca się zmiany tej wartości!)"
+
+msgid "Advanced:chk_audiostreaming"
+msgstr "Wykorzystuj streaming audio, jeśli obsługiwany"
+
+msgid "Advanced:chk_timesyncing"
+msgstr "Synchronizuj czas z serwerem"
+
+msgid "Notes:btn_add"
+msgstr "Dodaj"
+
+msgid "Notes:opt_edit"
+msgstr "Edytuj"
+
+msgid "Notes:head"
+msgstr "Notatki"
+
+msgid "Notes:opt_new"
+msgstr "Nowa notatka"
+
+msgid "Notes:head_sharedwith"
+msgstr "Notatka współdzielona z"
+
+msgid "Notes:opt_read"
+msgstr "Czytaj"
+
+msgid "FirstRun:type_pass"
+msgstr "Hasło:"
+
+msgid "FirstRun:opt_chars"
+msgstr "Znaki"
+
+msgid "FirstRun:opt_words"
+msgstr "Wyrazy"
+
+msgid "FirstRun:opt_charsandwords"
+msgstr "Znaki i wyrazy"
+
+msgid "FirstRun:opt_none"
+msgstr "Brak"
+
+msgid "FirstRun:opt_audio"
+msgstr "Audio"
+
+msgid "ForgotPassword:head"
+msgstr "Reset hasła"
+
+msgid "ForgotPassword:type_mail"
+msgstr "Podaj adres E-mail użyty podczas rejestracji"
+
+msgid "ForgotPassword:error_match"
+msgstr "Podany adres E-mail nie jest skojarzony z podaną nazwą użytkownika."
+
+msgid "ForgotPassword:opt_genkey"
+msgstr "Wygeneruj klucz resetowania hasła"
+
+msgid "ForgotPassword:opt_typekey"
+msgstr "Wprowadź klucz resetowania hasła"
+
+msgid "ForgotPassword:wait"
+msgstr "Proszę czekać, trwa generowanie klucza resetowania hasła."
+
+msgid "ForgotPassword:type_key"
+msgstr "Wprowadź wygenerowany klucz resetowania hasła."
+
+msgid "ForgotPassword:error_wrongkey"
+msgstr "Wprowadzony klucz jest nieprawidłowy."
+
+msgid "ForgotPassword:type_newpass"
+msgstr "Wprowadź nowe hasło"
+
+msgid "ForgotPassword:type_newpassagain"
+msgstr "Wprowadź ponownie nowe hasło"
+
+msgid "ForgotPassword:error_difpass"
+msgstr "Wprowadzone hasła są różne."
+
+msgid "ForgotPassword:error_emptypass"
+msgstr "Podano puste hasło."
+
+msgid "ForgotPassword:wait_changing"
+msgstr "Proszę czekać, trwa zmiana hasła..."
+
+msgid "ForgotPassword:info_changed"
+msgstr "Hasło zostało zmienione. Możesz się teraz zalogować przy użyciu nowych danych."
+
+msgid "ForgotPassword:head_reset"
+msgstr "W wypadku utraty hasła nadal istnieje możliwość jego zresetowania poprzez weryfikację konta za pośrednictwem podanego adresu E-mail. Możesz wygenerować w ten sposób kod, dzięki któremu możliwa będzie zmiana hasła. Kod zostanie wysłany na twój adres E-mail. Uwaga! Jeśli używane, dwuetapowe uwierzytelnianie zostanie wyłączone. Aby kontynuować, wprowadź swój login:"
+
+msgid "Honors:opt_add"
+msgstr "Dodaj"
+
+msgid "Programs:head"
+msgstr "Instalacja programów"
+
+msgid "Portable:head_dest"
+msgstr "Miejsce docelowe"
+
+msgid "Portable:chk_langs"
+msgstr "Dodaj obsługę innych wersji językowych"
+
+msgid "Portable:chk_settings"
+msgstr "Skopiuj aktualne ustawienia programu"
+
+msgid "Portable:chk_soundthemes"
+msgstr "Skopiuj obecnie pobrane tematy dźwiękowe"
+
+msgid "Portable:wait"
+msgstr "Proszę czekać, trwa przygotowywanie plików."
+
+msgid "Portable:wait_settings"
+msgstr "Kopiowanie konfiguracji"
+
+msgid "Portable:wait_soundthemes"
+msgstr "Kopiowanie tematów dźwiękowych"
+
+msgid "Portable:opt_synthreset"
+msgstr "Zresetuj syntezator"
+
+msgid "Portable:opt_askeverytime"
+msgstr "Pytaj za każdym razem"
+
+msgid "Portable:opt_usecurrent"
+msgstr "Zachowaj obecne ustawienie"
+
+msgid "Portable:head_synth"
+msgstr "Jeśli będziesz używał tworzonej kopii programu Elten na innym komputerze, wybrane ustawienia syntezy mowy mogą nie działać poprawnie. Zauważalne może to być szczególnie w sytuacji, gdy dany komputer będzie miał zainstalowane inne głosy. Jak chcesz skonfigurować tworzoną wersję?"
+
+msgid "Portable:info_created"
+msgstr "Przenośna wersja programu została utworzona."
+
+msgid "Portable:opt_usedefault"
+msgstr "Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"
+
+msgid "Portable:btn_continue"
+msgstr "Kontynuuj"
+
+msgid "Polls:type_description"
+msgstr "Opis"
+
+msgid "Polls:head"
+msgstr "Ankiety"
+
+msgid "Polls:btn_vote"
+msgstr "Głosuj"
+
+msgid "Polls:opt_results"
+msgstr "Pokaż wyniki"
+
+msgid "Polls:opt_new"
+msgstr "Nowa ankieta"
+
+msgid "Polls:type_pollname"
+msgstr "Nazwa ankiety"
+
+msgid "Polls:head_questions"
+msgstr "Pytania"
+
+msgid "Polls:opt_newquestion"
+msgstr "Dodaj nowe pytanie"
+
+msgid "Polls:head_answers"
+msgstr "Odpowiedzi"
+
+msgid "Polls:opt_newanswer"
+msgstr "Dodaj nową odpowiedź"
+
+msgid "Polls:btn_create"
+msgstr "Utwórz"
+
+msgid "Polls:head_question"
+msgstr "Pytanie"
+
+msgid "Polls:opt_singlechoice"
+msgstr "Jednokrotnego wyboru"
+
+msgid "Polls:opt_multiplechoice"
+msgstr "Wielokrotnego wyboru"
+
+msgid "Polls:opt_textfield"
+msgstr "Pole tekstowe"
+
+msgid "Polls:head_answertype"
+msgstr "Metoda odpowiadania"
+
+msgid "Polls:info_deleted"
+msgstr "Usunięto"
+
+msgid "Uploads:info_saved"
+msgstr "Zapisano."
+
+msgid "Uploads:opt_add"
+msgstr "Dodaj"
+
+msgid "Uploads:opt_play"
+msgstr "Odtwarzaj"
+
+msgid "Uploads:opt_download"
+msgstr "Pobierz"
+
+msgid "Uploads:head_dest"
+msgstr "Gdzie zapisać ten plik?"
+
+msgid "Uploads:info_deleted"
+msgstr "Usunięto"
+
+msgid "Compiler:head_dest"
+msgstr "Lokalizacja docelowa"
+
+msgid "Admins:head"
+msgstr "Rada starszych"
+
+msgid "WhatsNew:info_nonew"
+msgstr "Nie ma nic nowego."
+
+msgid "WhatsNew:opt_open"
+msgstr "otwórz"
+
+msgid "WhatsNew:opt_deletethread"
+msgstr "Usuń Wątek"
+
+msgid "WhatsNew:info_followedel"
+msgstr "Usunięto z listy śledzonych wątków"
+
+msgid "WhatsNew:opt_deletefollowed"
+msgstr "Usuń z listy śledzonych wątków"
+
+msgid "WhatsNew:info_nonewfollowedposts"
+msgstr "Brak nowych wpisów w śledzonych wątkach"
+
+msgid "WhatsNew:head"
+msgstr "Co nowego"
+
+msgid "ShortKeys:head"
+msgstr "Lista skrótów klawiszowych"
+
+msgid "Interface:opt_linear"
+msgstr "Liniowy"
+
+msgid "Interface:opt_circular"
+msgstr "Kołowy"
+
+msgid "Interface:head_listspresentation"
+msgstr "Sposób wyświetlania list wyboru"
+
+msgid "Interface:chk_soundtheme"
+msgstr "Odtwarzaj dźwięki tematu dźwiękowego"
+
+msgid "Interface:opt_chars"
+msgstr "Znaki"
+
+msgid "Interface:opt_words"
+msgstr "Wyrazy"
+
+msgid "Interface:opt_charsandwords"
+msgstr "Znaki i wyrazy"
+
+msgid "Interface:opt_none"
+msgstr "Brak"
+
+msgid "Interface:head_typingecho"
+msgstr "Echo pisania"
+
+msgid "Interface:chk_fullscreen"
+msgstr "Uruchamiaj program w trybie pełnoekranowym"
+
+msgid "Interface:chk_autologin"
+msgstr "Włącz automatyczne logowanie"
+
+msgid "Interface:chk_tray"
+msgstr "Automatycznie minimalizuj okno programu do zasobnika systemowego"
+
+msgid "Interface:chk_autostart"
+msgstr "Automatycznie uruchamiaj program Elten przy starcie systemu"
+
+msgid "Interface:error_autologinrequired"
+msgstr "Autostart programu wymaga włączenia automatycznego logowania."
+
+msgid "Interface:alert_portableautostart"
+msgstr "Uwaga! Próbujesz włączyć autostart programu używając przenośnej wersji Eltena. Ta funkcja będzie działać tylko w wypadku, gdy program znajdzie się na stałym dysku komputera, a zatem będzie dostępny przy każdym starcie systemu. Nie można również zmienić jego lokalizacji. Czy chcesz kontynuować mimo to?"
+
+msgid "UsersAddedMeToContacts:head"
+msgstr "Użytkownicy, którzy dodali mnie do swoich kontaktów"
+
+msgid "ReadMe:head"
+msgstr "Przeczytaj mnie"
+
+msgid "Blog:opt_newpost"
+msgstr "Nowy wpis"
+
+msgid "Blog:info_deleted"
+msgstr "Usunięto."
+
+msgid "Blog:opt_select"
+msgstr "Wybierz"
+
+msgid "Blog:opt_myblog"
+msgstr "Mój blog"
+
+msgid "Blog:opt_newcat"
+msgstr "Nowa kategoria"
+
+msgid "Blog:alert_deletepost"
+msgstr "Czy jesteś pewien, że chcesz usunąć ten wpis?"
+
+msgid "Blog:head"
+msgstr "Blogi"
+
+msgid "Blog:head_list"
+msgstr "Lista blogów"
+
+msgid "Blog:btn_send"
+msgstr "Wyślij"
+
+msgid "Blog:btn_back"
+msgstr "Powrót"
+
+msgid "Blog:opt_renameblog"
+msgstr "Zmień nazwę bloga"
+
+msgid "Blog:type_comment"
+msgstr "Twój komentarz"
+
+msgid "Blog:btn_modifypost"
+msgstr "Zmodyfikuj swój wpis"
+
+msgid "Blog:btn_play"
+msgstr "Odtwórz"
+
+msgid "Blog:opt_allposts"
+msgstr "Wszystkie wpisy"
+
+msgid "Blog:btn_recpost"
+msgstr "Nagraj nowy wpis"
+
+msgid "Blog:btn_stoprec"
+msgstr "Zakończ nagrywanie"
+
+msgid "Blog:opt_recentlyupdatedblogs"
+msgstr "Ostatnio aktualizowane blogi"
+
+msgid "Blog:opt_frequentlyupdatedblogs"
+msgstr "Najczęściej aktualizowane blogi"
+
+msgid "Blog:opt_frequentlycommentedblogs"
+msgstr "Najczęściej komentowane blogi"
+
+msgid "Blog:type_posttitle"
+msgstr "Tytuł wpisu"
+
+msgid "Blog:type_post"
+msgstr "Treść wpisu"
+
+msgid "Blog:head_postcategories"
+msgstr "Przypisz do kategorii"
+
+msgid "Blog:type_catname"
+msgstr "Nazwa kategorii"
+
+msgid "Blog:type_newblogname"
+msgstr "Nowa nazwa bloga"
+
+msgid "Blog:wait_converting"
+msgstr "Konwertowanie pliku..."
+
+msgid "Blog:opt_rename"
+msgstr "Zmień nazwę"
+
+msgid "Blog:opt_edit"
+msgstr "Edytuj"
+
+msgid "Blog:opt_open"
+msgstr "Otwórz"
+
+msgid "Blog:opt_followblog"
+msgstr "Dodaj do śledzonych blogów"
+
+msgid "Blog:opt_unfollowblog"
+msgstr "Usuń ze śledzonych blogów"
+
+msgid "Blog:opt_followedblogs"
+msgstr "Śledzone blogi"
+
+msgid "Blog:btn_createaudiopost"
+msgstr "Utwórz wpis audio"
+
+msgid "Blog:opt_useexistingfile"
+msgstr "Użyj istniejącego pliku"
+
+msgid "Blog:info_modified"
+msgstr "Wpis został zmodyfikowany."
+
+msgid "Blog:head_visibility"
+msgstr "Widoczność"
+
+msgid "Blog:opt_viseveryone"
+msgstr "Pokaż wszystkim"
+
+msgid "Blog:opt_vislogged"
+msgstr "Ukryj przed niezalogowanymi użytkownikami"
+
+msgid "Blog:btn_audiopost"
+msgstr "Wpis audio"
+
+msgid "Blog:opt_changeaudiofile"
+msgstr "Użyj innego pliku"
+
+msgid "Blog:head_selaudiofile"
+msgstr "Wybierz plik audio"
+
+msgid "Ban:btn_ban"
+msgstr "Zbanuj"
+
+msgid "Ban:btn_unban"
+msgstr "Odbanuj"
+
+msgid "Ban:type_banusername"
+msgstr "Podaj nazwę użytkownika do zbanowania."
+
+msgid "Ban:opt_week"
+msgstr "Tydzień"
+
+msgid "Ban:opt_twoweeks"
+msgstr "Dwa tygodnie"
+
+msgid "Ban:opt_month"
+msgstr "Trzydzieści dni"
+
+msgid "Ban:opt_yrquarter"
+msgstr "Dziewięćdziesiąt dni"
+
+msgid "Ban:info_banned"
+msgstr "Zbanowano."
+
+msgid "Ban:type_unbanusername"
+msgstr "Podaj nazwę użytkownika do odbanowania."
+
+msgid "Ban:info_unbanned"
+msgstr "Odbanowano."
+
+msgid "Users:head"
+msgstr "Lista użytkowników"
+
+msgid "Chat:type_message"
+msgstr "Twoja wiadomość"
+
+msgid "Chat:read_history"
+msgstr "Historia wiadomości"
+
+msgid "Chat:opt_users"
+msgstr "Aktywne osoby"
+
+msgid "Chat:btn_hide"
+msgstr "Ukryj chat"
+
+msgid "Languages:head"
+msgstr "Zarządzanie językami"
+
+msgid "Languages:opt_download"
+msgstr "Pobierz tłumaczenia z serwera"
+
+msgid "Languages:info_downloaded"
+msgstr "Paczki językowe zostały zaktualizowane"
+
+msgid "Files:head"
+msgstr "Pliki"
+
+msgid "Files:info_deleted"
+msgstr "Usunięto."
+
+msgid "Files:opt_openassociated"
+msgstr "Otwórz w skojarzonej aplikacji"
+
+msgid "Files:opt_copy"
+msgstr "Kopiuj"
+
+msgid "Files:opt_cut"
+msgstr "Wytnij"
+
+msgid "Files:opt_paste"
+msgstr "Wklej"
+
+msgid "Files:opt_newdir"
+msgstr "Nowy folder"
+
+msgid "Files:info_copied"
+msgstr "Skopiowano."
+
+msgid "Files:info_cut"
+msgstr "Wycięto"
+
+msgid "Files:opt_copied"
+msgstr "Skopiowano"
+
+msgid "Files:opt_text"
+msgstr "Tekst"
+
+msgid "Files:opt_erasepls"
+msgstr "Wyczyść playlistę"
+
+msgid "Files:opt_adddirtopls"
+msgstr "Dodaj wszystkie nagrania z tego folderu do playlisty"
+
+msgid "Files:opt_play"
+msgstr "Odtwarzaj"
+
+msgid "Files:opt_addtopls"
+msgstr "Dodaj do playlisty"
+
+msgid "Files:opt_send"
+msgstr "Wyślij na serwer"
+
+msgid "Files:opt_opendir"
+msgstr "Otwórz ten folder"
+
+msgid "Files:opt_avatar"
+msgstr "Ustaw jako awatar"
+
+msgid "Files:opt_create"
+msgstr "Utwórz"
+
+msgid "Files:opt_rename"
+msgstr "Zmień nazwę"
+
+msgid "Files:opt_edit"
+msgstr "Edytuj"
+
+msgid "Files:info_pasted"
+msgstr "Wklejono"
+
+msgid "Files:opt_convert"
+msgstr "Konwertuj"
+
+msgid "Files:info_sent"
+msgstr "Wysłano"
+
+msgid "Files:error_play"
+msgstr "Nie można odtworzyć tego pliku."
+
+msgid "Files:opt_read"
+msgstr "Czytaj"
+
+msgid "Files:opt_pack"
+msgstr "Spakuj"
+
+msgid "Files:opt_unpack"
+msgstr "Rozpakuj"
+
+msgid "Files:head_archiveformat"
+msgstr "Wybierz format archiwum"
+
+msgid "Files:info_packed"
+msgstr "Spakowano"
+
+msgid "Files:opt_readtofile"
+msgstr "Czytaj do pliku"
+
+msgid "Files:opt_file"
+msgstr "Plik"
+
+msgid "Files:opt_dir"
+msgstr "Folder"
+
+msgid "Files:opt_clipboard"
+msgstr "Schowek"
+
+msgid "Files:opt_newdoc"
+msgstr "Nowy dokument tekstowy"
+
+msgid "Files:opt_newrec"
+msgstr "Nowe nagranie"
+
+msgid "Files:opt_audio"
+msgstr "Audio"
+
+msgid "Files:type_dirname"
+msgstr "Podaj nazwę folderu"
+
+msgid "Files:type_filename"
+msgstr "Podaj nazwę pliku"
+
+msgid "Files:btn_record"
+msgstr "Nagraj"
+
+msgid "SoundThemes:head"
+msgstr "Tematy dźwiękowe"
+
+msgid "SoundThemes:info_nothemes"
+msgstr "Brak tematów dźwiękowych."
+
+msgid "SoundThemes:opt_download"
+msgstr "Pobierz tematy dźwiękowe"
+
+msgid "SoundThemes:opt_default"
+msgstr "Temat Domyślny"
+
+msgid "SoundThemes:opt_audio"
+msgstr "Audio"
+
+msgid "Changes:head"
+msgstr "Lista zmian"
+
+msgid "Media:opt_url"
+msgstr "Podaj adres URL"
+
+msgid "Media:type_url"
+msgstr "Adres URL"
+
+msgid "Media:opt_newcat"
+msgstr "Nowa kategoria"
+
+msgid "Media:opt_newfile"
+msgstr "Nowy plik"
+
+msgid "Media:btn_add"
+msgstr "Dodaj"
+
+msgid "Media:type_dsc"
+msgstr "Opis"
+
+msgid "Media:type_name"
+msgstr "Tytuł"
+
+msgid "Media:opt_play"
+msgstr "Odtwarzaj"
+
+msgid "Media:opt_addtopls"
+msgstr "Dodaj do playlisty"
+
+msgid "Media:type_catname"
+msgstr "Nazwa kategorii"
+
+msgid "Account:type_oldpass"
+msgstr "Podaj stare hasło"
+
+msgid "Account:type_newpass"
+msgstr "Podaj nowe hasło"
+
+msgid "Account:type_newpassagain"
+msgstr "Powtórz nowe hasło"
+
+msgid "Account:error_difpass"
+msgstr "Pola: Nowe Hasło i Powtórz Nowe Hasło mają różne wartości."
+
+msgid "Account:info_passchanged"
+msgstr "Hasło zostało zmienione."
+
+msgid "Account:error_wrongoldpass"
+msgstr "Podano błędne stare hasło."
+
+msgid "Account:type_pass"
+msgstr "Podaj hasło"
+
+msgid "Account:type_newmail"
+msgstr "Podaj nowy adres e-mail"
+
+msgid "Account:info_mailchanged"
+msgstr "Adres e-mail został zmieniony."
+
+msgid "Account:type_visitingcard"
+msgstr "Twoja wizytówka:"
+
+msgid "Account:head_status"
+msgstr "Zmiana statusu"
+
+msgid "Account:type_status"
+msgstr "Podaj nowy status"
+
+msgid "Account:opt_add"
+msgstr "Dodaj"
+
+msgid "Account:head_profile"
+msgstr "Edycja profilu"
+
+msgid "Account:type_fullname"
+msgstr "Imię i nazwisko"
+
+msgid "Account:head_gender"
+msgstr "Płeć"
+
+msgid "Account:chk_hideprofile"
+msgstr "Ukryj mój profil przed osobami z poza mojej listy kontaktów"
+
+msgid "Account:type_signature"
+msgstr "Twoja sygnatura:"
+
+msgid "Account:head_avatar"
+msgstr "Ustaw awatar"
+
+msgid "Account:head_autologintokens"
+msgstr "Klucze automatycznego logowania"
+
+msgid "Account:opt_logoutallsessions"
+msgstr "Wyloguj wszystkie sesje"
+
+msgid "Account:head_messages"
+msgstr "Nowe wiadomości"
+
+msgid "Account:head_followedthreads"
+msgstr "Nowe wpisy w śledzonych wątkach"
+
+msgid "Account:head_followedblogs"
+msgstr "Nowe wpisy na śledzonych blogach"
+
+msgid "Account:head_blogcomments"
+msgstr "Nowe komentarze na twoim blogu"
+
+
+
+msgid "Account:head_followedforums"
+msgstr "Nowe wątki na śledzonych forach"
+
+msgid "Account:head_followedforumsposts"
+msgstr "Nowe wpisy na śledzonych forach"
+
+msgid "Account:head_contacts"
+msgstr "Nowi znajomi"
+
+msgid "Account:head_birthday"
+msgstr "Urodziny znajomych"
+
+msgid "Account:head_mentions"
+msgstr "Wzmianki"
+
+msgid "Account:opt_notifyandshow"
+msgstr "Powiadom i pokaż w co nowego"
+
+msgid "Account:opt_notify"
+msgstr "Tylko powiadom"
+
+msgid "Account:opt_ignore"
+msgstr "Zignoruj"
+
+msgid "Account:head_blacklist"
+msgstr "Czarna lista"
+
+msgid "Account:alert_deletefromblacklist"
+msgstr "Czy na pewno chcesz usunąć tego użytkownika z czarnej listy?"
+
+msgid "Account:info_deletedfromblacklist"
+msgstr "Użytkownik został usunięty z czarnej listy."
+
+msgid "Account:alert_addtoblacklist"
+msgstr "Użytkownik po dodaniu do twojej czarnej listy nie będzie mógł wysyłać do ciebie wiadomości prywatnych. Czy jesteś pewien, że chcesz kontynuować?"
+
+msgid "Account:error_blacklistadmin"
+msgstr "Do czarnej listy nie można dodawać członków administracji."
+
+msgid "Account:error_blacklistalreadyadded"
+msgstr "Ten użytkownik jest już dodany do twojej czarnej listy."
+
+msgid "Account:alert_logoutall"
+msgstr "Czy chcesz usunąć wszystkie klucze automatycznego logowania i wylogować wszystkie zalogowane sesje? Wymagane będzie ponowne zalogowanie się do Eltena."
+
+msgid "Contacts:head"
+msgstr "Kontakty"
+
+msgid "Contacts:info_empty"
+msgstr "Pusta Lista"
+
+msgid "Contacts:opt_newcontact"
+msgstr "Nowy Kontakt"
+
+msgid "Contacts:type_username"
+msgstr "Podaj nazwę użytkownika, którego chcesz dodać do swoich kontaktów."
+
+msgid "Contacts:info_contactadded"
+msgstr "Kontakt został dodany."
+
+msgid "Contacts:error_contactalreadyadded"
+msgstr "Ten użytkownik jest już dodany do twoich kontaktów."
+
+msgid "Contacts:error_usernotfound"
+msgstr "Użytkownik o podanej nazwie nie istnieje."
+
+msgid "Contacts:info_contactdeleted"
+msgstr "Kontakt został usunięty."
+
+msgid "Contacts:error_usernotadded"
+msgstr "Ten użytkownik nie jest dodany do twoich kontaktów."
+
+msgid "Update:alert_newversion"
+msgstr "Dostępna jest nowa wersja programu. Czy chcesz ją pobrać i zainstalować?"
+
+msgid "Update:alert_newbeta"
+msgstr "Dostępna jest nowa wersja beta programu. Czy chcesz ją pobrać i zainstalować?"
+
+msgid "Update:wait"
+msgstr "Proszę czekać, trwa pobieranie plików"
+
+msgid "Update:wait_languages"
+msgstr "Aktualizowanie pakietów językowych"
+
+msgid "Update:alert_betawarning"
+msgstr "Ostrzeżenie. Próbujesz zainstalować wersję beta. Zawiera ona nieprzetestowaną wersję programu i może działać niestabilnie lub powodować inne błędy. Czy chcesz kontynuować mimo to?"
+
+msgid "Update:info_downloaded"
+msgstr "Aktualizacja została pobrana. Aby ją zainstalować, program musi zostać uruchomiony ponownie. Naciśnij enter, aby kontynuować lub escape, aby anulować."
+
+msgid "Update:wait_downloading"
+msgstr "Pobieranie aktualizacji"
+
+msgid "Voice:head"
+msgstr "Ustawienia mowy"
+
+msgid "Voice:opt_changesynth"
+msgstr "Zmień syntezator"
+
+msgid "Voice:opt_changerate"
+msgstr "Zmień szybkość syntezatora"
+
+msgid "Voice:opt_select"
+msgstr "Wybierz"
+
+msgid "Voice:head_changerate"
+msgstr "Wybierz szybkość głosu."
+
+msgid "Voice:info_saved"
+msgstr "Zapisano."
+
+msgid "Voice:opt_changevol"
+msgstr "Zmień głośność syntezy"
+
+msgid "Voice:opt_usedefault"
+msgstr "Używaj głosu aktywnego czytnika ekranowego lub domyślnego głosu systemu"
+
+msgid "Voice:head_changevol"
+msgstr "Wybierz głośność syntezy."
+
+msgid "Voice:info_useddefault"
+msgstr "Wybrano obsługę czytnika ekranowego."
+
+msgid "Messages:error_unknown"
+msgstr "Nieznany błąd."
+
+msgid "Messages:info_nomessages"
+msgstr "Nie masz żadnych wiadomości."
+
+msgid "Messages:opt_answer"
+msgstr "Odpowiedz"
+
+msgid "Messages:opt_compose"
+msgstr "Wyślij nową wiadomość"
+
+msgid "Messages:opt_forward"
+msgstr "Przekaż dalej"
+
+msgid "Messages:type_subject"
+msgstr "Temat:"
+
+msgid "Messages:type_content"
+msgstr "Treść:"
+
+msgid "Messages:info_sent"
+msgstr "Wiadomość została wysłana"
+
+msgid "Messages:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć tę wiadomość?"
+
+msgid "Messages:opt_markallasread"
+msgstr "Oznacz wszystkie wiadomości jako przeczytane"
+
+msgid "Messages:type_receiver"
+msgstr "Odbiorca"
+
+msgid "Messages:btn_send"
+msgstr "Wyślij"
+
+msgid "Messages:info_nonewmessages"
+msgstr "Brak nowych wiadomości"
+
+msgid "Messages:head_received"
+msgstr "Wiadomości odebrane"
+
+msgid "Messages:head_sent"
+msgstr "Wiadomości wysłane"
+
+msgid "Messages:opt_showsent"
+msgstr "Pokaż wiadomości wysłane"
+
+msgid "Messages:btn_stoprec"
+msgstr "Zakończ nagrywanie"
+
+msgid "Messages:btn_play"
+msgstr "Odtwórz"
+
+msgid "Messages:btn_cancelrec"
+msgstr "Anuluj nagrywanie"
+
+msgid "Messages:head_searchresults"
+msgstr "Wyniki wyszukiwania"
+
+msgid "Messages:wait_converting"
+msgstr "Konwertowanie pliku..."
+
+msgid "Messages:opt_search"
+msgstr "Szukaj"
+
+msgid "Messages:btn_recmessage"
+msgstr "Nagraj wiadomość głosową"
+
+msgid "Messages:btn_attach"
+msgstr "Załącz plik"
+
+msgid "Messages:head_selattachment"
+msgstr "Wybierz plik do załączenia"
+
+msgid "Messages:info_attached"
+msgstr "Załącznik dodany."
+
+msgid "Messages:info_nomoreattachments"
+msgstr "Nie można dodać więcej załączników."
+
+msgid "Messages:head_attachments"
+msgstr "Załączniki"
+
+msgid "Messages:type_searchphrase"
+msgstr "Podaj tekst do wyszukania"
+
+msgid "Messages:alert_mail"
+msgstr "Czy chcesz wysłać tą wiadomość jako E-mail?"
+
+msgid "Messages:opt_flag"
+msgstr "Oznacz"
+
+msgid "Messages:opt_removeflag"
+msgstr "Usuń oznaczenie"
+
+msgid "Messages:opt_showflagged"
+msgstr "Pokaż oznaczone wiadomości"
+
+msgid "Messages:info_flagged"
+msgstr "Wiadomość została oznaczona."
+
+msgid "Messages:info_glagremoved"
+msgstr "Wiadomość nie jest już oznaczona."
+
+msgid "Messages:head_flagged"
+msgstr "Wiadomości oznaczone"
+
+msgid "Messages:opt_loadmore"
+msgstr "Załaduj więcej wiadomości"
+
+msgid "MyPermissions:opt_moderators"
+msgstr "Moderatorzy"
+
+msgid "MyPermissions:opt_mediaadministrators"
+msgstr "Administratorzy mediów"
+
+msgid "MyPermissions:opt_translators"
+msgstr "Tłumacze"
+
+msgid "MyPermissions:opt_developers"
+msgstr "Programiści"
+
+msgid "Online:head"
+msgstr "Kto jest zalogowany?"
+
+msgid "MainMenu:opt_installnewprograms"
+msgstr "Zainstaluj nowe programy"
+
+msgid "MainMenu:alert_reinstall"
+msgstr "Czy chcesz przywrócić ostatnią stabilną wersję programu? Wszystkie ustawienia zostaną zachowane."
+
+msgid "Forum:opt_newthr"
+msgstr "Nowy temat"
+
+msgid "Forum:info_thrfollowed"
+msgstr "Dodano do śledzonych wątków."
+
+msgid "Forum:opt_gotolast"
+msgstr "Przejdź do ostatniego wpisu"
+
+msgid "Forum:type_thrname"
+msgstr "Tytuł wątku"
+
+msgid "Forum:info_thrcreated"
+msgstr "Wątek został utworzony."
+
+msgid "Forum:error_thrcreation"
+msgstr "Błąd tworzenia wątku!"
+
+msgid "Forum:info_postcreated"
+msgstr "Wpis został utworzony."
+
+msgid "Forum:info_thrdeleted"
+msgstr "Wątek został usunięty."
+
+msgid "Forum:info_postdeleted"
+msgstr "Wpis został usunięty."
+
+msgid "Forum:head"
+msgstr "Forum"
+
+msgid "Forum:opt_reply"
+msgstr "Odpowiedz"
+
+msgid "Forum:opt_quote"
+msgstr "Odpowiedz z cytatem"
+
+msgid "Forum:opt_gotounread"
+msgstr "Przejdź do pierwszego nowego wpisu"
+
+msgid "Forum:btn_send"
+msgstr "Wyślij"
+
+msgid "Forum:info_nonewfollowedthr"
+msgstr "Brak nowych wpisów w śledzonych wątkach"
+
+msgid "Forum:btn_back"
+msgstr "Powrót"
+
+msgid "Forum:btn_sendaudio"
+msgstr "Dodaj wpis"
+
+msgid "Forum:type_reply"
+msgstr "Twoja odpowiedź"
+
+msgid "Forum:head_selforum"
+msgstr "Wybierz forum"
+
+msgid "Forum:head_selthr"
+msgstr "Wybierz temat"
+
+msgid "Forum:btn_recnewpost"
+msgstr "Nagraj nowy wpis"
+
+msgid "Forum:btn_recstop"
+msgstr "Zakończ nagrywanie"
+
+msgid "Forum:btn_recagain"
+msgstr "Nagraj wpis ponownie"
+
+msgid "Forum:btn_play"
+msgstr "Odtwórz"
+
+msgid "Forum:type_postcontent"
+msgstr "Treść wpisu"
+
+msgid "Forum:wait_converting"
+msgstr "Konwertowanie..."
+
+msgid "Forum:btn_recpost"
+msgstr "Nagraj wpis"
+
+msgid "Forum:btn_playpost"
+msgstr "Odtwórz wpis"
+
+msgid "Forum:opt_search"
+msgstr "Szukaj"
+
+msgid "Forum:opt_rename"
+msgstr "Zmień nazwę"
+
+msgid "Forum:opt_edit"
+msgstr "Edytuj wpis"
+
+msgid "Forum:opt_deletepost"
+msgstr "Usuń wpis"
+
+msgid "Forum:opt_open"
+msgstr "Otwórz"
+
+msgid "Forum:opt_movethr"
+msgstr "Przenieś wątek"
+
+msgid "Forum:type_searchphrase"
+msgstr "Podaj tekst do wyszukania"
+
+msgid "Forum:opt_followthr"
+msgstr "Dodaj do śledzonych wątków"
+
+msgid "Forum:opt_unfollowthr"
+msgstr "Usuń ze śledzonych wątków"
+
+msgid "Forum:opt_deletethr"
+msgstr "Usuń wątek"
+
+msgid "Forum:opt_navigation"
+msgstr "Nawigacja"
+
+msgid "Forum:opt_gotopost"
+msgstr "Przejdź do wpisu"
+
+msgid "Forum:opt_searchthr"
+msgstr "Przeszukaj wątek"
+
+msgid "Forum:opt_gotofirst"
+msgstr "Przejdź do pierwszego wpisu"
+
+msgid "Forum:opt_moderation"
+msgstr "Moderacja"
+
+msgid "Forum:opt_movepost"
+msgstr "Przenieś wpis"
+
+msgid "Forum:type_editpost"
+msgstr "Edycja wpisu"
+
+msgid "Forum:info_postmodified"
+msgstr "Wpis został zmodyfikowany."
+
+msgid "Forum:opt_mention"
+msgstr "Wzmiankuj wpis"
+
+msgid "Forum:opt_listen"
+msgstr "Odsłuchaj wątek"
+
+msgid "Forum:opt_followforum"
+msgstr "Śledź to forum"
+
+msgid "Forum:opt_unfollowforum"
+msgstr "Usuń ze śledzonych forów"
+
+msgid "Forum:info_forumfollowed"
+msgstr "Dodano do śledzonych forów."
+
+msgid "Forum:info_forumunfollowed"
+msgstr "Usunięto ze śledzonych forów."
+
+msgid "Forum:info_thrunfollowed"
+msgstr "Usunięto ze śledzonych wątków."
+
+msgid "Forum:info_message"
+msgstr "Wiadomość"
+
+msgid "Forum:opt_markforumasread"
+msgstr "Oznacz to forum jako przeczytane"
+
+msgid "Forum:alert_markforumasread"
+msgstr "Wszystkie wpisy na tym forum zostaną oznaczone jako przeczytane. Czy jesteś pewien, że chcesz kontynuować?"
+
+msgid "Main:info_pressalt"
+msgstr "Naciśnij klawisz ALT, aby otworzyć menu"
+
+msgid "Main:btn_erasepls"
+msgstr "Wyczyść playlistę"
+
+msgid "Main:head_pls"
+msgstr "Playlista"
+
+msgid "Main:btn_send"
+msgstr "Wyślij na serwer"
+
+msgid "Main:btn_avatar"
+msgstr "Ustaw jako awatar"
+
+msgid "Main:head_player"
+msgstr "Odtwarzacz"
+
+msgid "Main:btn_shuffle"
+msgstr "Mieszaj"
+
+msgid "Main:info_shuffled"
+msgstr "Playlista wymieszana"
+
+msgid "Login:type_login"
+msgstr "Login:"
+
+msgid "Login:type_pass"
+msgstr "Hasło:"
+
+msgid "Login:opt_asknomore"
+msgstr "Nie zadawaj więcej tego pytania"
+
+msgid "Login:info_asknomore"
+msgstr "Aby włączyć ponownie pytanie o automatyczne logowanie, wybierz odpowiednią opcję z menu ustawień interfejsu."
+
+msgid "Login:alert_crpdeprecated"
+msgstr "Zapisane informacje logowania wykorzystują starą metodę uwierzytelniania konta, w której wykryte zostały podatności na ataki hakerskie. W Eltenie 2.2 wprowadzone zostały nowe, bezpieczniejsze algorytmy automatycznego logowania. Zalecana jest konwersja zapisanych informacji do nowego systemu w celu poprawienia bezpieczeństwa konta. Czy chcesz zaktualizować zapisane informacje?"
+
+msgid "Login:info_autologin"
+msgstr "Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w menu Społeczność."
+
+msgid "Login:info_crpupdated"
+msgstr "Dane logowania zostały zaktualizowane. Automatyczne logowanie będzie ważne do momentu wylogowania się. Kluczami automatycznego logowania można zarządzać z poziomu zakładki Moje Konto w menu Społeczność."
+
+msgid "Login:type_authcode"
+msgstr "Na tym koncie włączone jest logowanie dwuetapowe. Wprowadź kod wysłany na twój numer wiadomością SMS, aby zezwolić temu urządzeniu na zalogowanie. Jeśli nie masz dostępu do użytego numeru telefonu, wybierz opcję resetowania hasła w celu wyłączenia logowania dwuetapowego."
+
+msgid "Login:error_verification"
+msgstr "Błąd weryfikacji."
+
+msgid "Login:type_authcodeagain"
+msgstr "Wprowadzony kod nie jest poprawny, spróbuj jeszcze raz"
+
+msgid "Registration:info_slashes"
+msgstr "Nazwa użytkownika nie może zawierać ukośników. Znak zostanie pominięty."
+
+msgid "Registration:info_spaces"
+msgstr "Nazwa użytkownika nie może zawierać spacji. Znak zostanie pominięty."
+
+msgid "Registration:type_login"
+msgstr "Podaj swój login. Będzie on używany w celu identyfikacji. Maksymalna długość loginu to 64 znaki."
+
+msgid "Registration:type_pass"
+msgstr "Podaj swoje hasło. Zalecane jest silne hasło. Hasło takie składa się z liter i cyfr. Długość hasła powinna być krótsza niż dwieście pięćdziesiąt sześć znaków."
+
+msgid "Registration:type_mail"
+msgstr "Podaj swój adres mailowy. Będzie on używany w przypadku zapomnienia hasła i do wysyłania najważniejszych informacji."
+
+msgid "Registration:info_registered"
+msgstr "Rejestracja powiodła się, dziękujemy. Możesz teraz się zalogować, używając podanych danych."
+
+msgid "Registration:error_unknown"
+msgstr "Wystąpił nieznany błąd bazy danych."
+
+msgid "Registration:error_accountexists"
+msgstr "Konto o podanym loginie już istnieje."
+
+msgid "Registration:error_save"
+msgstr "Wystąpił błąd zapisu danych."
+
+msgid "Registration:error_connection"
+msgstr "Wystąpił błąd połączenia z serwerem."
+
+msgid "Loading:opt_login"
+msgstr "Zaloguj Się"
+
+msgid "Loading:opt_register"
+msgstr "Rejestracja"
+
+msgid "Loading:opt_quit"
+msgstr "Wyjście"
+
+msgid "Loading:opt_interfacesettings"
+msgstr "Ustawienia interfejsu"
+
+msgid "Loading:opt_forgottenpass"
+msgstr "Reset hasła"
+
+msgid "Loading:opt_guest"
+msgstr "Otwórz na koncie gościa"
+
+msgid "Loading:opt_changesynth"
+msgstr "Zmień syntezator mowy"
+
+msgid "Loading:opt_reinstall"
+msgstr "Wymuś aktualizację lub reinstalację z serwera"
+
+msgid "Loading:info_novoice"
+msgstr "Nie wybrano głosu programu. Naciśnij enter, aby wybrać głos SAPI lub escape, aby użyć głosu domyślnego lub aktywnego czytnika ekranu."
+
+msgid "EAPI_External:btn_play"
+msgstr "Odtwarzaj"
+
+msgid "EAPI_External:opt_addtopls"
+msgstr "Dodaj do playlisty"
+
+msgid "EAPI_External:opt_avatar"
+msgstr "Ustaw jako awatar"
+
+msgid "EAPI_External:type_ytsearch"
+msgstr "Przeszukaj Youtube"
+
+msgid "EAPI_External:head_ytsearchresults"
+msgstr "Wyniki wyszukiwania"
+
+msgid "EAPI_External:wait_connecting"
+msgstr "Łączenie z serwerem, proszę czekać..."
+
+msgid "EAPI_External:opt_download"
+msgstr "Pobierz"
+
+msgid "EAPI_External:opt_copyurl"
+msgstr "Skopiuj adres URL do schowka"
+
+msgid "EAPI_External:head_downloadtype"
+msgstr "Jak chcesz pobrać ten plik?"
+
+msgid "EAPI_External:opt_downloadvideo"
+msgstr "Pobierz jako video"
+
+msgid "EAPI_External:opt_downloadaudio"
+msgstr "Pobierz jako audio"
+
+msgid "EAPI_External:wait_downloading"
+msgstr "Pobieranie, proszę czekać..."
+
+msgid "EAPI_External:head_dst"
+msgstr "Gdzie zapisać ten plik?"
+
+msgid "EAPI_External:head_langdst"
+msgstr "Język docelowy"
+
+msgid "EAPI_External:head_langsrc"
+msgstr "Język źródłowy"
+
+msgid "EAPI_External:opt_langdetection"
+msgstr "Wykryj język automatycznie"
+
+msgid "EAPI_External:head_saveformat"
+msgstr "Wybierz format zapisu"
+
+msgid "EAPI_External:btn_translate"
+msgstr "Tłumacz"
+
+msgid "EAPI_Common:error_console"
+msgstr "Wystąpił błąd podczas przetwarzania polecenia."
+
+msgid "EAPI_Common:opt_message"
+msgstr "Napisz prywatną wiadomość"
+
+msgid "EAPI_Common:opt_visitingcard"
+msgstr "Wizytówka"
+
+msgid "EAPI_Common:opt_delcontact"
+msgstr "Usuń z kontaktów"
+
+msgid "EAPI_Common:opt_addcontact"
+msgstr "Dodaj do kontaktów"
+
+msgid "EAPI_Common:info_nothingnew"
+msgstr "Nie ma nic nowego."
+
+msgid "EAPI_Common:opt_quit"
+msgstr "Wyjście"
+
+msgid "EAPI_Common:info_listempty"
+msgstr "Pusta Lista"
+
+msgid "EAPI_Common:opt_ban"
+msgstr "Zbanuj"
+
+msgid "EAPI_Common:opt_unban"
+msgstr "Odbanuj"
+
+msgid "EAPI_Common:opt_blog"
+msgstr "Otwórz blog tego użytkownika"
+
+msgid "EAPI_Common:opt_tray"
+msgstr "Ukryj program w zasobniku systemowym"
+
+msgid "EAPI_Common:type_soundthemename"
+msgstr "Podaj nazwę tematu dźwiękowego."
+
+msgid "EAPI_Common:info_soundthemecreation"
+msgstr "Pliki tematu dźwiękowego utworzone w %{dir}. Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład."
+
+msgid "EAPI_Common:head_whattodo"
+msgstr "Co chcesz zrobić?"
+
+msgid "EAPI_Common:opt_openthemedir"
+msgstr "Otwórz folder tematu w plikach"
+
+msgid "EAPI_Common:opt_openthemedirinexplorer"
+msgstr "Otwórz folder tematu w systemowym eksploratorze plików"
+
+msgid "EAPI_Common:type_errordsc"
+msgstr "Opisz znaleziony błąd"
+
+msgid "EAPI_Common:info_sent"
+msgstr "Wysłano."
+
+msgid "EAPI_Common:type_console"
+msgstr "Podaj polecenia do wykonania"
+
+msgid "EAPI_Common:btn_send"
+msgstr "Wyślij"
+
+msgid "EAPI_Common:type_title"
+msgstr "Tytuł"
+
+msgid "EAPI_Common:head_exiting"
+msgstr "Zamykanie programu..."
+
+msgid "EAPI_Common:opt_playavatar"
+msgstr "Odtwórz awatar"
+
+msgid "EAPI_Common:opt_sharedfiles"
+msgstr "Pliki udostępniane przez tego użytkownika"
+
+msgid "EAPI_Common:info_noupdates"
+msgstr "Brak dostępnych aktualizacji."
+
+msgid "EAPI_Common:opt_honors"
+msgstr "Odznaczenia tego użytkownika"
+
+msgid "EAPI_Common:head_voice"
+msgstr "Głos"
+
+msgid "EAPI_Common:head_rate"
+msgstr "Szybkość"
+
+msgid "EAPI_Common:head_dst"
+msgstr "Lokalizacja docelowa"
+
+msgid "EAPI_Common:btn_preview"
+msgstr "Podgląd"
+
+msgid "EAPI_Common:btn_confirm"
+msgstr "Potwierdź"
+
+msgid "EAPI_Common:error_playing"
+msgstr "Nie można odtworzyć tego pliku."
+
+msgid "EAPI_Common:wait_packing"
+msgstr "Pakowanie..."
+
+msgid "EAPI_Common:head_textsplit"
+msgstr "Podział tekstu"
+
+msgid "EAPI_Common:opt_onefile"
+msgstr "Utwórz jeden plik"
+
+msgid "EAPI_Common:opt_splitbyparagraphs"
+msgstr "Dziel akapitami"
+
+msgid "EAPI_Common:opt_splitevery"
+msgstr "Dziel co"
+
+msgid "EAPI_Common:type_splitevery"
+msgstr "Długość fragmentu (minuty)"
+
+msgid "EAPI_Common:chk_readfilenum"
+msgstr "Odczytaj numer pliku"
+
+msgid "EAPI_EltenSRV:wait_converting"
+msgstr "Konwertowanie pliku..."
+
+msgid "EAPI_EltenSRV:info_sent"
+msgstr "Wysłano"
+
+msgid "EAPI_Network:wait_sending"
+msgstr "Wysyłanie..."
+
+msgid "EAPI_UI:info_newmessage"
+msgstr "Otrzymałeś nową wiadomość."
+
+msgid "EAPI_Speech:chr_dot"
+msgstr "kropka"
+
+msgid "EAPI_Speech:chr_comma"
+msgstr "przecinek"
+
+msgid "EAPI_Speech:chr_slash"
+msgstr "ukośnik"
+
+msgid "EAPI_Speech:chr_semi"
+msgstr "średnik"
+
+msgid "EAPI_Speech:chr_tick"
+msgstr "apostrof"
+
+msgid "EAPI_Speech:chr_rightbracket"
+msgstr "prawy kwadratowy"
+
+msgid "EAPI_Speech:chr_backslash"
+msgstr "bekslesz"
+
+msgid "EAPI_Speech:chr_minus"
+msgstr "minus"
+
+msgid "EAPI_Speech:chr_equals"
+msgstr "równe"
+
+msgid "EAPI_Speech:chr_accent"
+msgstr "akcent"
+
+msgid "EAPI_Speech:chr_less"
+msgstr "mniejsze"
+
+msgid "EAPI_Speech:chr_greater"
+msgstr "większe"
+
+msgid "EAPI_Speech:chr_question"
+msgstr "pytajnik"
+
+msgid "EAPI_Speech:chr_colon"
+msgstr "dwukropek"
+
+msgid "EAPI_Speech:chr_quote"
+msgstr "cudzysłów"
+
+msgid "EAPI_Speech:chr_leftbrace"
+msgstr "lewa klamra"
+
+msgid "EAPI_Speech:chr_rightbrace"
+msgstr "prawa klamra"
+
+msgid "EAPI_Speech:chr_bar"
+msgstr "kreska pionowa"
+
+msgid "EAPI_Speech:chr_underline"
+msgstr "podkreślnik"
+
+msgid "EAPI_Speech:chr_plus"
+msgstr "plus"
+
+msgid "EAPI_Speech:chr_exclamation"
+msgstr "wykrzyknik"
+
+msgid "EAPI_Speech:chr_at"
+msgstr "małpa"
+
+msgid "EAPI_Speech:chr_hash"
+msgstr "krzyżyk"
+
+msgid "EAPI_Speech:chr_dollar"
+msgstr "dolar"
+
+msgid "EAPI_Speech:chr_percent"
+msgstr "procent"
+
+msgid "EAPI_Speech:chr_caret"
+msgstr "daszek"
+
+msgid "EAPI_Speech:chr_and"
+msgstr "ampersant"
+
+msgid "EAPI_Speech:chr_star"
+msgstr "gwiazdka"
+
+msgid "EAPI_Speech:chr_leftparen"
+msgstr "lewy nawias"
+
+msgid "EAPI_Speech:chr_rightparen"
+msgstr "prawy nawias"
+
+msgid "EAPI_Form:fld_media"
+msgstr "Media"
+
+msgid "EAPI_Form:info_cut"
+msgstr "Wycięto"
+
+msgid "EAPI_Form:info_copied"
+msgstr "Skopiowano"
+
+msgid "EAPI_Form:st_checked"
+msgstr "Oznaczone"
+
+msgid "EAPI_Form:st_unchecked"
+msgstr "Nieoznaczone"
+
+msgid "EAPI_Form:fld_checkbox"
+msgstr "pole wyboru"
+
+msgid "EAPI_Form:fld_edit"
+msgstr "Edycja"
+
+msgid "EAPI_Form:fld_text"
+msgstr "Tekst"
+
+msgid "EAPI_Form:fld_button"
+msgstr "Przycisk"
+
+msgid "EAPI_Form:head_dst"
+msgstr "Miejsce docelowe"
+
+msgid "EAPI_Form:info_pasted"
+msgstr "Wklejono"
+
+msgid "EAPI_Form:opt_desktop"
+msgstr "Pulpit"
+
+msgid "EAPI_Form:opt_documents"
+msgstr "Dokumenty"
+
+msgid "EAPI_Form:opt_music"
+msgstr "Muzyka"
+
+msgid "EAPI_Form:type_searchphrase"
+msgstr "Podaj tekst do wyszukania"
+
+msgid "EAPI_Form:info_undone"
+msgstr "Cofnięto"
+
+msgid "EAPI_Form:info_listempty"
+msgstr "Pusta lista"
+
+msgid "EAPI_Form:info_nomatch"
+msgstr "Nie znaleziono dopasowania."
+
+msgid "_Main:error_console"
+msgstr "Wystąpił błąd podczas przetwarzania polecenia."
+
+msgid "_Main:opt_quit"
+msgstr "Wyjście"
+
+msgid "_Main:opt_restart"
+msgstr "Restart"
+
+msgid "_Main:info_copied"
+msgstr "Skopiowano"
+
+msgid "_Main:head_whattodo"
+msgstr "Co chcesz zrobić?"
+
+msgid "_Main:alert_errorreport"
+msgstr "Program musi zostać zamknięty. Czy chcesz jednak wysłać raport tego błędu do twórców programu?"
+
+msgid "_Main:opt_tryagain"
+msgstr "Spróbuj ponownie"
+
+msgid "_Main:opt_abort"
+msgstr "Przerwij działanie aplikacji"
+
+msgid "_Main:opt_rescuemode"
+msgstr "Uruchom tryb awaryjny"
+
+msgid "_Main:head_rescuemode"
+msgstr "Tryb awaryjny"
+
+msgid "_Main:opt_reinstall"
+msgstr "Zainstaluj program ponownie"
+
+msgid "_Main:opt_rescueforum"
+msgstr "Podejmij próbę otwarcia forum"
+
+msgid "_Main:opt_rescuemessages"
+msgstr "Podejmij próbę otwarcia wiadomości"
+
+msgid "_Main:opt_copyreport"
+msgstr "Skopiuj treść błędu do schowka"
+
+msgid "Notes:opt_phr_author"
+msgstr "Autor"
+
+msgid "Notes:opt_phr_modified"
+msgstr "Zmodyfikowana"
+
+msgid "Polls:opt_phr_author"
+msgstr "Autor"
+
+msgid "Polls:txt_phr_votes"
+msgstr "Liczba głosów"
+
+msgid "General:error"
+msgstr "Błąd"
+
+msgid "General:str_quit"
+msgstr "Wyjście"
+
+msgid "General:str_enable"
+msgstr "Włącz"
+
+msgid "General:str_disable"
+msgstr "Wyłącz"
+
+msgid "General:str_cancel"
+msgstr "Anuluj"
+
+msgid "General:str_refresh"
+msgstr "Odśwież"
+
+msgid "General:str_save"
+msgstr "Zapisz"
+
+msgid "General:info_saved"
+msgstr "Zapisano"
+
+msgid "General:str_delete"
+msgstr "Usuń"
+
+msgid "General:error_guest"
+msgstr "Ta funkcja nie jest dostępna na koncie gościa."
+
+msgid "General:error_tokenexpired"
+msgstr "Klucz sesji wygasł."
+
+msgid "General:error_db"
+msgstr "Błąd połączenia się z bazą danych."
+
+msgid "General:error_permissions"
+msgstr "Nie masz odpowiednich uprawnień, by wykonać tę operację."
+
+msgid "General:str_no"
+msgstr "Nie"
+
+msgid "General:str_yes"
+msgstr "Tak"
+
+msgid "Authentication:error_wrongpass"
+msgstr "Podano nieprawidłowe hasło."
+
+msgid "ForgotPassword:error_unexpected"
+msgstr "Wystąpił nieoczekiwany błąd."
+
+msgid "Portable:wait_languages"
+msgstr "Pobieranie pakietów językowych..."
+
+msgid "Notes:info_notemodified"
+msgstr "Notatka została zmodyfikowana"
+
+msgid "ForgotPassword:info_keysent"
+msgstr "Klucz resetowania hasła został wysłany na podany adres E-mail. Wybierz opcję wprowadzenia klucza, aby kontynuować"
+
+msgid "Honors:info_nobadges"
+msgstr "Użytkownik nie otrzymał żadnych odznaczeń."
+
+msgid "Programs:info_alreadyinstalled"
+msgstr "Ten program jest już zainstalowany."
+
+msgid "Portable:wait_preparingfile"
+msgstr "Przygotowywanie pliku..."
+
+msgid "Polls:error_noanswer"
+msgstr "Pytanie nie ma odpowiedzi"
+
+msgid "Uploads:info_copiedtoclip"
+msgstr "Skopiowano do schowka."
+
+msgid "Bug:head"
+msgstr "Zgłaszanie błędu"
+
+msgid "Blog:error_blognotfound"
+msgstr "Blog nie istnieje."
+
+msgid "Chat:error_banned"
+msgstr "Jesteś zbanowany."
+
+msgid "Files:error_deletefile"
+msgstr "Nie można usunąć tego pliku, odmowa dostępu."
+
+msgid "Program:info_exited"
+msgstr "program został zamknięty."
+
+msgid "Update:info_updatewillinstall"
+msgstr "Aktualizacja zostanie teraz zainstalowana. Program zostanie uruchomiony ponownie."
+
+msgid "MyPermissions:info_nopermissions"
+msgstr "Nie posiadasz żadnych specjalnych uprawnień."
+
+msgid "Forum:info_forummarkedasread"
+msgstr "Forum zostało oznaczone jako przeczytane."
+
+msgid "Main:alert_newbeta"
+msgstr "Dostępna jest nowa wersja beta programu."
+
+msgid "Login:error_identity"
+msgstr "Wystąpił błąd podczas uwierzytelniania tożsamości. Możliwe, że podane zostało błędne hasło."
+
+msgid "Registration:info_namenoats"
+msgstr "Nazwa użytkownika nie może zawierać małp. Znak zostanie pominięty."
+
+msgid "Loading:alert_newversion"
+msgstr "Dostępna jest nowa wersja programu."
+
+msgid "EAPI_External:error_translation"
+msgstr "Wystąpił błąd podczas tłumaczenia"
+
+msgid "EAPI_Network:info_progressdonotread"
+msgstr "Nie odczytuj zmian na pasku postępu."
+
+msgid "EAPI_UI:info_retry"
+msgstr "Program podejmie teraz próbę powrotu do pracy."
+
+msgid "EAPI_Speech:chr_space"
+msgstr "Spacja"
+
+msgid "EAPI_Form:info_repeated"
+msgstr "Powtórzono"
+
+msgid "Notes:error_usernotfound"
+msgstr "Użytkownik nie istnieje"
+
+msgid "Programs:info_installed"
+msgstr "Instalacja zakończona."
+
+msgid "Polls:error_questiononeanswer"
+msgstr "Pytanie ma tylko jedną odpowiedź"
+
+msgid "WhatsNew:info_nonewonfollowedblogs"
+msgstr "Brak nowych wpisów na śledzonych blogach."
+
+msgid "Blog:info_categorycreated"
+msgstr "Kategoria została utworzona."
+
+msgid "Files:info_unpacked"
+msgstr "Rozpakowano."
+
+msgid "Media:info_categorycreated"
+msgstr "Kategoria została dodana!"
+
+msgid "Account:info_statuschanged"
+msgstr "Status został zmieniony."
+
+msgid "Update:wait_reinstallationdownloading"
+msgstr "Pobieranie instrukcji reinstalacji"
+
+msgid "Messages:info_attachmentdownloaded"
+msgstr "Załącznik został pobrany."
+
+msgid "Main:info_plserased"
+msgstr "Playlista usunięta."
+
+msgid "Registration:error_difpass"
+msgstr "Podane hasła są różne."
+
+msgid "EAPI_Common:wait_downloading"
+msgstr "Pobieranie..."
+
+msgid "EAPI_EltenSRV:error_noavatar"
+msgstr "Użytkownik nie posiada avatara."
+
+msgid "EAPI_Network:info_readprogress"
+msgstr "Odczytuj zmiany na pasku postępu."
+
+msgid "EAPI_Form:info_loaded"
+msgstr "Wczytano"
+
+msgid "Notes:info_notedeleted"
+msgstr "Notatka została usunięta."
+
+msgid "Honors:info_defaulted"
+msgstr "Odznaczenie ustawiono jako domyślne."
+
+msgid "Notes:info_notecreated"
+msgstr "Notatka została utworzona"
+
+msgid "Honors:error_usernotfound"
+msgstr "Użytkownik nie istnieje"
+
+msgid "Honors:info_honored"
+msgstr "Odznaczenie nadane"
+
+msgid "Honors:info_honorcreated"
+msgstr "Odznaczenie zostało dodane"
+
+msgid "Polls:info_pollcreated"
+msgstr "Ankieta została utworzona."
+
+msgid "Polls:info_voted"
+msgstr "Twój głos został zapisany."
+
+msgid "Blog:info_blogrenamed"
+msgstr "Nazwa bloga została zmieniona"
+
+msgid "Blog:alert_noblog"
+msgstr "Nie posiadasz bloga. Czy chcesz go założyć?"
+
+msgid "Blog:wait"
+msgstr "Proszę czekać..."
+
+msgid "Blog:info_blogcreated"
+msgstr "Blog został utworzony."
+
+msgid "Blog:info_renamed"
+msgstr "Nazwa została zmieniona."
+
+msgid "Blog:info_nonewcommentsonyourblog"
+msgstr "Brak nowych komentarzy na twoim blogu."
+
+msgid "Blog:info_postcreated"
+msgstr "Wpis został dodany."
+
+msgid "Blog:info_commentcreated"
+msgstr "Komentarz został dodany."
+
+msgid "Blog:info_blogfollowed"
+msgstr "Dodano do śledzonych blogów."
+
+msgid "Blog:info_blogunfollowed"
+msgstr "Usunięto z listy śledzonych blogów."
+
+msgid "Blog:info_blogmarkedasread"
+msgstr "Wszystkie wpisy na tym blogu zostały oznaczone jako przeczytane."
+
+msgid "Blog:info_recategorized"
+msgstr "Rekategoryzacja zakończona"
+
+msgid "Files:error_clipboardempty"
+msgstr "Schowek jest pusty"
+
+msgid "Files:info_renamed"
+msgstr "Nazwa została zmieniona."
+
+msgid "Files:info_dircreated"
+msgstr "Folder został utworzony."
+
+msgid "Files:info_filecreated"
+msgstr "Plik został utworzony."
+
+msgid "Files:info_plserased"
+msgstr "Playlista wyczyszczona"
+
+msgid "Files:wait_converting"
+msgstr "Proszę czekać, trwa konwertowanie pliku."
+
+msgid "Files:info_converted"
+msgstr "Konwersja zakończona."
+
+msgid "Files:wait_processing"
+msgstr "Przetwarzanie..."
+
+msgid "Media:info_added"
+msgstr "Dodano."
+
+msgid "Account:error_identity"
+msgstr "Wystąpił błąd podczas próby uwierzytelnienia konta. Prawdopodobnie podano błędne hasło."
+
+msgid "Account:error_usernotfound"
+msgstr "Użytkownik nie istnieje."
+
+msgid "Update:info_reinstall"
+msgstr "Program zostanie teraz przywrócony do ostatniej stabilnej wersji. Elten zostanie uruchomiony ponownie. To może potrwać kilka minut."
+
+msgid "Messages:info_allmarkedasread"
+msgstr "Wszystkie wiadomości zostały oznaczone jako przeczytane."
+
+msgid "Messages:info_messagedeleted"
+msgstr "Wiadomość została usunięta."
+
+msgid "Messages:info_filetoolarge"
+msgstr "Plik jest zbyt duży."
+
+msgid "Messages:info_receivernotfound"
+msgstr "Odbiorca wiadomości nie istnieje."
+
+msgid "Forum:info_nonewfollowedforumsthreads"
+msgstr "Brak nowych wątków na śledzonych forach"
+
+msgid "Forum:info_nonewfollowedforumsposts"
+msgstr "Brak nowych wpisów na śledzonych forach"
+
+msgid "Forum:info_nonewmentions"
+msgstr "Brak nowych wzmianek"
+
+msgid "Forum:info_threadmoved"
+msgstr "Wątek został przeniesiony."
+
+msgid "Forum:info_renamed"
+msgstr "Nazwa została zmieniona."
+
+msgid "Forum:wait_postsendpreparation"
+msgstr "Przygotowywanie do wysłania wpisu..."
+
+msgid "Forum:error_postcreation"
+msgstr "Błąd tworzenia wpisu."
+
+msgid "Forum:error_phrasenotfound"
+msgstr "Nie znaleziono podanej frazy."
+
+msgid "Forum:info_postmoved"
+msgstr "Wpis został przeniesiony."
+
+msgid "Forum:info_postslided"
+msgstr "Wpis został przesunięty."
+
+msgid "Forum:info_noonecontactedyou"
+msgstr "Nikt nie dodał Ciebie do swoich kontaktów."
+
+msgid "Forum:info_mentionsent"
+msgstr "Wzmianka została wysłana."
+
+msgid "Login:error_wrongdata"
+msgstr "Błędny login lub hasło."
+
+msgid "Login:error_logon"
+msgstr "Błąd logowania."
+
+msgid "Login:error_srv"
+msgstr "Błąd połączenia z serwerem."
+
+msgid "EAPI_External:info_donotreadprogress"
+msgstr "Nie odczytuj zmian na pasku postępu."
+
+msgid "EAPI_External:info_readprogress"
+msgstr "Odczytuj zmiany na pasku postępu."
+
+msgid "EAPI_External:info_addedtopls"
+msgstr "Dodano do playlisty"
+
+msgid "EAPI_External:wait"
+msgstr "Proszę czekać..."
+
+msgid "EAPI_External:info_copiedtoclip"
+msgstr "Skopiowano do schowka."
+
+msgid "EAPI_Common:error_logon"
+msgstr "Błąd, nie mogę się zalogować. Prawdopodobnie podano błędne hasło lub jesteś zbanowany."
+
+msgid "EAPI_Common:info_finished"
+msgstr "Operacja zakończona powodzeniem"
+
+msgid "EAPI_Common:info_usingscreenreader"
+msgstr "Używanie czytnika ekranu"
+
+msgid "EAPI_Common:info_usingsapi"
+msgstr "Używanie wybranej syntezy SAPI"
+
+msgid "EAPI_EltenSRV:wait_severalminutes"
+msgstr "Proszę czekać, to może potrwać kilka minut..."
+
+msgid "EAPI_UI:info_newmessagefemale"
+msgstr "Otrzymałaś nową wiadomość."
+
+msgid "EAPI_UI:info_newfollowedthread"
+msgstr "W śledzonym wątku pojawił się nowy wpis."
+
+msgid "EAPI_UI:info_newfollowedblog"
+msgstr "Na śledzonym blogu pojawił się nowy wpis."
+
+msgid "Honors:alert_mainhonor"
+msgstr "Czy chcesz ustawić to odznaczenie jako główne? Główne odznaczenie pokaże się w twojej wizytówce."
+
+msgid "Blog:alert_deletecategory"
+msgstr "Czy jesteś pewien, że chcesz usunąć tą kategorię?"
+
+msgid "Contacts:alert_delcontact"
+msgstr "Czy na pewno chcesz usunąć ten kontakt?"
+
+msgid "Update:alert_joinbeta"
+msgstr "Nie należysz do otwartego programu testów Elten. Czy chcesz do niego przystąpić teraz, by pobrać wersję beta?"
+
+msgid "MainMenu:alert_resetsettings"
+msgstr "Czy jesteś pewien, że chcesz usunąć wszystkie ustawienia programu i przywrócić wartości domyślne? Elten zostanie uruchomiony ponownie."
+
+msgid "EAPI_External:alert_audioreport"
+msgstr "Wystąpił błąd podczas przechwytywania ścieżki audio. Czy chcesz wysłać raport o błędzie? Może on pomóc rozwiązać problem "
+
+msgid "EAPI_External:alert_ytreport"
+msgstr "Nie można odtworzyć tego pliku. Czy chcesz wysłać raport o tym błędzie? Może to pomóc naprawić napotkany problem."
+
+msgid "EAPI_Common:alert_useragreement"
+msgstr "Czy akceptujesz umowę licencyjną oprogramowania Elten?"
+
+msgid "EAPI_UI:alert_agentreport"
+msgstr "Wystąpił nieoczekiwany błąd agenta programu Elten. Czy chcesz przesłać raport o tym zdarzeniu? Przesłanie raportu może zdecydowanie ułatwić rozwiązanie problemu."
+
+msgid "*Main:alert_changepls"
+msgstr "Twoja playlista została zmieniona. Zapisać zmiany?"
+
+msgid "*Main:alert_savepls"
+msgstr "Czy chcesz zapisać swoją playlistę?"
+
+msgid "*Main:alert_deletepls"
+msgstr "Czy chcesz usunąć zapisaną playlistę?"
+
+msgid "Debug:read_report"
+msgstr "Raport"
+
+msgid "Notes:type_sharenotewith"
+msgstr "Z kim chcesz współdzielić tą notatkę?"
+
+msgid "Notes:type_title"
+msgstr "Tytuł notatki"
+
+msgid "Notes:type_content"
+msgstr "Treść notatki"
+
+msgid "Honors:type_name"
+msgstr "Nazwa odznaczenia"
+
+msgid "Honors:type_description"
+msgstr "Opis odznaczenia"
+
+msgid "Honors:type_enname"
+msgstr "Angielska nazwa odznaczenia"
+
+msgid "Honors:type_endescription"
+msgstr "Angielski opis odznaczenia"
+
+msgid "Polls:read_poll"
+msgstr "Ankieta"
+
+msgid "Ban:type_reason"
+msgstr "Przyczyna"
+
+msgid "Ban:type_additionalmsg"
+msgstr "Dodatkowa wiadomość dla użytkownika"
+
+msgid "Ban:read_reason"
+msgstr "Przyczyna zbanowania"
+
+msgid "Ban:read_validuntil"
+msgstr "Ban ważny do"
+
+msgid "Ban:type_cancelreason"
+msgstr "Przyczyna anulowania bana"
+
+msgid "Media:type_categorydescription"
+msgstr "Opis kategorii"
+
+msgid "Account:type_birthdateyear"
+msgstr "Data urodzenia: rok"
+
+msgid "Account:type_birthdatemonth"
+msgstr "Data urodzenia: miesiąc"
+
+msgid "Account:type_birthdateday"
+msgstr "Data urodzenia: dzień"
+
+msgid "Account:type_location"
+msgstr "Lokalizacja"
+
+msgid "Account:type_greeting"
+msgstr "Twoja wiadomość powitalna:"
+
+msgid "Forum:type_nick"
+msgstr "Pseudonim:"
+
+msgid "Main:type_test"
+msgstr "test"
+
+msgid "EAPI_External:read_Details"
+msgstr "Szczegóły"
+
+msgid "EAPI_Common:read_useragreement"
+msgstr "Umowa licencyjna oraz regulamin użytkowania programu Elten oraz sieci Elten Network"
+
+msgid "EAPI_Common:read_readingtofile"
+msgstr "Czytanie do pliku, proszę czekać..."
+
+msgid "EAPI_Form:type_Filename"
+msgstr "Nazwa pliku"
+
+msgid "Honors:type_honoruser"
+msgstr "Komu nadać to odznaczenie?"
+
+msgid "Polls:type_answer"
+msgstr "Odpowiedź"
+
+msgid "Blog:type_blogname"
+msgstr "Podaj nazwę tworzonego bloga."
+
+msgid "Blog:type_newcatname"
+msgstr "Podaj nową nazwę dla tej kategorii"
+
+msgid "Files:type_newname"
+msgstr "Nowa nazwa"
+
+msgid "Account:type_blacklistaddusername"
+msgstr "Podaj nazwę użytkownika, którego chcesz dodać do czarnej listy"
+
+msgid "Contacts:type_blacklistremoveusername"
+msgstr "Podaj nazwę użytkownika, którego chcesz usunąć ze swoich kontaktów."
+
+msgid "Forum:type_thrnewname"
+msgstr "Podaj nową nazwę wątku"
+
+msgid "Registration:type_passagain"
+msgstr "Powtórz hasło"
+
+msgid "EAPI_Common:type_movetosec"
+msgstr "Podaj sekundę, do której chcesz przeskoczyć"
+
+msgid "EAPI_Form:type_location"
+msgstr "Podaj ścieżkę"
+
+msgid "Debug:chk_srvconnectionsignal"
+msgstr "Sygnalizuj połączenia z serwerem"
+
+msgid "Portable:chk_sfx"
+msgstr "Utwórz jako jeden plik exe (Uwaga! Żadne ustawienia nie będą zapamiętywane.)"
+
+msgid "Interface:chk_linewrapping"
+msgstr "Zawijaj długie wiersze w polach tekstowych"
+
+msgid "Debug:btn_ok"
+msgstr "OK"
+
+msgid "Blog:btn_createtextpost"
+msgstr "Utwórz wpis tekstowy"
+
+msgid "Messages:btn_sendasadmin"
+msgstr "Wyślij jako administracja"
+
+msgid "Messages:btn_sendtoall"
+msgstr "Wyślij do wszystkich"
+
+msgid "Messages:btn_audiomessage"
+msgstr "Wiadomość głosowa"
+
+msgid "Forum:btn_recpoststop"
+msgstr "Zatrzymaj nagrywanie wpisu"
+
+msgid "EAPI_Common:btn_agree"
+msgstr "Akceptuję"
+
+msgid "EAPI_Common:btn_disagree"
+msgstr "Nie akceptuję, zamknij program"
+
+msgid "EAPI_Common:read_waitprocessingfiles"
+msgstr "Proszę czekać, trwa przetwarzanie plików..."
+
+msgid "Blog:alert_markblogasread"
+msgstr "Wszystkie wpisy na tym blogu zostaną oznaczone jako przeczytane. Czy jesteś pewien, że chcesz kontynuować?"
+
+msgid "Files:alert_eltenapi"
+msgstr "Czy chcesz uruchomić ten plik skryptu Elten API? Skrypty pochodzące z niezaufanych źródeł mogą być niebezpieczne i spowodować uszkodzenie komputera lub uzyskanie dostępu do konta przez osoby niepowołane. Kontynuuj tylko wtedy, gdy ufasz pochodzeniu tego pliku."
+
+msgid "Forum:alert_Deletepost"
+msgstr "Czy na pewno chcesz usunąć ten wpis?"
+
+msgid "EAPI_Common:alert_mididownloadsf"
+msgstr "Próbujesz odtworzyć plik typu midi. Aby poprawnie odtwarzać pliki tego typu, program Elten wymaga zewnętrznej bazy brzmień instrumentów. Czy chcesz ją teraz pobrać z serwera? To może potrwać kilka minut."
+
+msgid "Uploads:head_filetosend"
+msgstr "Wybierz plik do wysłania na serwer"
+
+msgid "Messages:head_savelocation"
+msgstr "Gdzie chcesz zapisać ten plik?"
+
+msgid "EAPI_Common:head_savelocation"
+msgstr "Gdzie chcesz zapisać ten plik?"
+
+msgid "Forum:head_movethrlocation"
+msgstr "Gdzie chcesz przenieść ten wątek"
+
+msgid "EAPI_EltenSRV:head_seluser"
+msgstr "Wybierz użytkownika"
+
+msgid "Forum:head_selpost"
+msgstr "Wybierz wpis"
+
+msgid "Forum:head_movepostlocation"
+msgstr "Gdzie chcesz przenieść ten wpis?"
+
+msgid "Forum:head_postslidewith"
+msgstr "Wybierz, z którym innym wpisem zamienić ten wpis."
+
+msgid "Files:head_convertto"
+msgstr "Do jakiego formatu chcesz przekonwertować ten plik?"
+
+msgid "Honors:head"
+msgstr "Odznaczenia"
+
+msgid "Honors:head_user"
+msgstr "Odznaczenia użytkownika %{user}"
+
+msgid "Polls:read_results"
+msgstr "Wyniki ankiety: #{%name%}"
+
+msgid "Programs:alert_installprogram"
+msgstr "Czy chcesz zainstalować program %{name}?"
+
+msgid "Notes:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+
+msgid "Polls:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{name}?"
+
+msgid "Uploads:head_filesofuser"
+msgstr "Pliki użytkownika %{user}"
+
+msgid "Uploads:alert_deletefile"
+msgstr "Czy jesteś pewien, że chcesz usunąć plik %{filename}?"
+
+msgid "Blog:opt_phr_author"
+msgstr "Autor"
+
+msgid "Ban:opt_day"
+msgstr "Dzień"
+
+msgid "Ban:opt_threedays"
+msgstr "Trzy dni"
+
+msgid "Ban:opt_year"
+msgstr "Rok"
+
+msgid "Chat:info_phr_lastmessage"
+msgstr "Ostatnia wiadomość"
+
+msgid "Files:alert_delete"
+msgstr "Czy jesteś pewien, że chcesz usunąć %{filename}?"
+
+msgid "General:female"
+msgstr "Kobieta"
+
+msgid "General:male"
+msgstr "mężczyzna"
+
+msgid "Account:info_phr_addedtoblacklist"
+msgstr "Użytkownik %{user} został dodany do twojej czarnej listy"
+
+msgid "Voice:info_phr_selectedvoice"
+msgstr "Wybrany głos"
+
+msgid "Messages:opt_phr_from"
+msgstr "Od"
+
+msgid "Messages:opt_phr_to"
+msgstr "Do:"
+
+msgid "Messages:opt_phr_new"
+msgstr "Nowa"
+
+msgid "Messages:wait_sendingfile"
+msgstr "Przesyłanie: %{file}"
+
+msgid "_Main:info_errorcritical"
+msgstr "Wystąpił krytyczny błąd. Opis błędu: %{description}"
+
+msgid "EAPI_Form:opt_phr_shortkey"
+msgstr "Skrót: "
+
+msgid "EAPI_EltenSRV:info_phr_sessconftime"
+msgstr "Czas potwierdzenia sesji:"
+
+msgid "EAPI_Common:txt_phr_gender"
+msgstr "Płeć"
+
+msgid "EAPI_Common:txt_phr_age"
+msgstr "Wiek"
+
+msgid "EAPI_Common:txt_phr_forumposts"
+msgstr "Wpisy na forum"
+
+msgid "EAPI_Common:txt_phr_pollsanswered"
+msgstr "Wypełnione ankiety"
+
+msgid "EAPI_Common:txt_phr_usedversion"
+msgstr "Używana wersja programu"
+
+msgid "EAPI_Common:txt_phr_registered"
+msgstr "Konto zarejestrowane"
+
+msgid "EAPI_Common:error_nofiletoread"
+msgstr "Nie wybrano pliku do przeczytania"
+
+msgid "EAPI_Common:error_nofilename"
+msgstr "Podaj tytuł tworzonego pliku"
+
+msgid "EAPI_Common:error_seldestination"
+msgstr "Wybierz miejsce zapisu pliku"
+
+msgid "EAPI_Common:error_selsource"
+msgstr "Wybierz plik źródłowy"
+
+msgid "EAPI_Common:txt_phr_readtofilenum"
+msgstr "Czytanie do pliku numer"
+
+msgid "EAPI_Common:txt_phr_sentencenumber"
+msgstr "Zdanie %{cursentence} z %{sentences}"
+
+msgid "EAPI_Common:txt_phr_readtime"
+msgstr "Przeczytano"
+
+msgid "EAPI_Common:txt_phr_timeremaining"
+msgstr "Szacowany pozostały czas"
+
+msgid "EAPI_Common:read_visitingcardofuser"
+msgstr "Wizytówka: %{user}"
+
+msgid "Login:info_loggedinas"
+msgstr "Zalogowany jako: %{user}"
+
+msgid "Login:alert_autologin"
+msgstr "Czy chcesz włączyć automatyczne logowanie dla konta %{user}?"
+
+msgid "Forum:opt_phr_author"
+msgstr "Autor"
+
+msgid "Forum:alert_thrdelete"
+msgstr "Czy jesteś pewien, że chcesz usunąć wątek %{thrname}?"
+
+msgid "Forum:opt_phr_thrisnew"
+msgstr "Nowy"
+
+msgid "Forum:opt_phr_threads"
+msgstr "wątki"
+
+msgid "Forum:opt_phr_posts"
+msgstr "wpisy"
+
+msgid "WhatsNew:opt_messages"
+msgstr "Nowe wiadomości"
+
+msgid "WhatsNew:opt_followedthreads"
+msgstr "Nowe wpisy w śledzonych wątkach"
+
+msgid "WhatsNew:opt_followedblogs"
+msgstr "Nowe wpisy na śledzonych blogach"
+
+msgid "WhatsNew:opt_blogcomments"
+msgstr "Nowe komentarze na twoim blogu"
+
+msgid "WhatsNew:opt_followedforums"
+msgstr "Nowe wątki na śledzonych forach"
+
+msgid "WhatsNew:opt_followedforumsposts"
+msgstr "Nowe wpisy na śledzonych forach"
+
+msgid "WhatsNew:opt_contacts"
+msgstr "Nowi znajomi"
+
+msgid "WhatsNew:opt_birthday"
+msgstr "Urodziny znajomych"
+
+msgid "WhatsNew:opt_mentions"
+msgstr "Wzmianki"
+
+msgid "WhatsNew:opt_update"
+msgstr "Dostępna aktualizacja (%{version})"
+
+msgid "_Main:error_critical"
+msgstr "Wystąpił krytyczny błąd. Opis błędu: %{description}"
+
+msgid "Chat:joined"
+msgstr "Dołączył do dyskusji."
+
+msgid "Chat:left"
+msgstr "Opuścił dyskusję."
+
+msgid "Notes:info_sharedwith"
+msgstr "Od teraz współdzielisz tę notatkę z %{user}"
+
+msgid "Notes:info_unsharedwith"
+msgstr "Nie współdzielisz już tej notatki z %{user}"
+
+msgid "Notes:alert_unshare"
+msgstr "Czy chcesz przestać współdzielić tę notatkę z %{user}?"
+
+msgid "Files:head_soundquality"
+msgstr "Wybierz jakość dźwięku"
+
+msgid "Files:info_addedtoplscount"
+msgstr "Pliki dodane do playlisty: %{count}."
+
+msgid "General:error_platform"
+msgstr "Ta funkcja nie jest dostępna na tej platformie."
+
+msgid "EAPI_Common:info_readtofilefinished"
+msgstr "Czytanie do pliku zakończono."
+
+msgid "EAPI_UI:info_alarm"
+msgstr "Alarm!"
+
+msgid "EAPI_Form:wait_link"
+msgstr "Otwieranie łącza..."
+
+msgid "EAPI_Form:wait_downloading"
+msgstr "Pobieranie..."
+
+msgid "EAPI_Form:info_downloaded"
+msgstr "Pobieranie zakończone"
+
+msgid "EAPI_Form:info_checked"
+msgstr "Zaznaczono"
+
+msgid "EAPI_Form:info_unchecked"
+msgstr "Odznaczono"
+
+msgid "UserSearch:opt_searchagain"
+msgstr "Wyszukaj ponownie"
+
+msgid "Permissions:head"
+msgstr "Należysz do następujących grup"
+
+msgid "Honors:opt_honor"
+msgstr "Nadaj odznaczenie"
+
+msgid "Honors:opt_new"
+msgstr "Nowe odznaczenie"
+
+msgid "Blog:opt_markallasread"
+msgstr "Oznacz wszystkie wpisy na tym blogu jako przeczytane"
+
+msgid "Forum:opt_phr_unreads"
+msgstr "Nowe"
+
+msgid "MainMenu:opt_community"
+msgstr "Społe&czność"
+
+msgid "MainMenu:opt_media"
+msgstr "&media"
+
+msgid "MainMenu:opt_files"
+msgstr "&Pliki"
+
+msgid "MainMenu:opt_programs"
+msgstr "Pro&gramy"
+
+msgid "MainMenu:opt_tools"
+msgstr "&Narzędzia"
+
+msgid "MainMenu:opt_settings"
+msgstr "U&stawienia"
+
+msgid "MainMenu:opt_help"
+msgstr "P&omoc"
+
+msgid "MainMenu:opt_quit"
+msgstr "W&yjście"
+
+msgid "MainMenu:opt_changelog"
+msgstr "Lista &zmian"
+
+msgid "MainMenu:opt_version"
+msgstr "&Wersja programu"
+
+msgid "MainMenu:opt_readme"
+msgstr "P&rzeczytaj mnie"
+
+msgid "MainMenu:opt_shortkeys"
+msgstr "Lista &skrótów klawiszowych"
+
+msgid "MainMenu:opt_report"
+msgstr "Zgłoś &błąd"
+
+msgid "MainMenu:opt_license"
+msgstr "&Licencja użytkownika"
+
+msgid "MainMenu:opt_interface"
+msgstr "Ustawienia &interfejsu"
+
+msgid "MainMenu:opt_voice"
+msgstr "Ustawienia &głosu"
+
+msgid "MainMenu:opt_clock"
+msgstr "&Zegar"
+
+msgid "MainMenu:opt_soundthemes"
+msgstr "Tematy &dźwiękowe"
+
+msgid "MainMenu:opt_languages"
+msgstr "Zarządzanie &językami"
+
+msgid "MainMenu:opt_advanced"
+msgstr "Ustawienia z&aawansowane"
+
+msgid "MainMenu:opt_messages"
+msgstr "Wiado&mości"
+
+msgid "MainMenu:opt_blogs"
+msgstr "&Blogi"
+
+msgid "MainMenu:opt_forum"
+msgstr "&Forum"
+
+msgid "MainMenu:opt_chat"
+msgstr "&Chat"
+
+msgid "MainMenu:opt_notes"
+msgstr "No&tatki"
+
+msgid "MainMenu:opt_whatsnew"
+msgstr "Co &nowego?"
+
+msgid "MainMenu:opt_polls"
+msgstr "&Ankiety"
+
+msgid "MainMenu:opt_users"
+msgstr "&Użytkownicy"
+
+msgid "MainMenu:opt_account"
+msgstr "M&oje konto"
+
+msgid "MainMenu:opt_profile"
+msgstr "Edytuj &profil"
+
+msgid "MainMenu:opt_status"
+msgstr "Zmiana &statusu"
+
+msgid "MainMenu:opt_signature"
+msgstr "Moja sy&gnatura"
+
+msgid "MainMenu:opt_greeting"
+msgstr "Moja wiadomość po&witalna"
+
+msgid "MainMenu:opt_visitingcard"
+msgstr "Moja w&izytówka"
+
+msgid "MainMenu:opt_honors"
+msgstr "Moje &odznaczenia"
+
+msgid "MainMenu:opt_sharedfiles"
+msgstr "U&dostępnione przeze mnie pliki"
+
+msgid "MainMenu:opt_avatar"
+msgstr "Ustaw &awatar"
+
+msgid "MainMenu:opt_whatsnewconfig"
+msgstr "Ustawienia co &nowego"
+
+msgid "MainMenu:opt_mypermissions"
+msgstr "Moje &uprawnienia"
+
+msgid "MainMenu:opt_blacklist"
+msgstr "Cza&rna lista"
+
+msgid "MainMenu:opt_autologintokens"
+msgstr "Klucze automatycznego &logowania"
+
+msgid "MainMenu:opt_changepassword"
+msgstr "Zmień &hasło"
+
+msgid "MainMenu:opt_changemail"
+msgstr "Zmień adres e-&mail"
+
+msgid "MainMenu:opt_twofactor"
+msgstr "Ustawienia uwierzytelniania dwu&etapowego"
+
+msgid "MainMenu:opt_soundthemesgenerator"
+msgstr "&Generator tematów dźwiękowych"
+
+msgid "MainMenu:opt_speedtest"
+msgstr "&Test prędkości łącza"
+
+msgid "MainMenu:opt_programmanagement"
+msgstr "Zarządzanie p&rogramem"
+
+msgid "MainMenu:opt_readtofile"
+msgstr "Czytanie do &pliku"
+
+msgid "MainMenu:opt_console"
+msgstr "&Konsola"
+
+msgid "MainMenu:opt_compiler"
+msgstr "Kompilator &Elten API"
+
+msgid "MainMenu:opt_debug"
+msgstr "De&bugowanie"
+
+msgid "MainMenu:opt_tray"
+msgstr "&Ukryj program w zasobniku systemowym"
+
+msgid "MainMenu:opt_logout"
+msgstr "Wy&loguj się"
+
+msgid "MainMenu:opt_exit"
+msgstr "W&yjście"
+
+msgid "MainMenu:opt_restart"
+msgstr "&Restart"
+
+msgid "MainMenu:opt_restarttodebug"
+msgstr "Restart do trybu de&bugowania"
+
+msgid "MainMenu:opt_update"
+msgstr "Sprawdź dostępność &aktualizacji"
+
+msgid "MainMenu:opt_reinstall"
+msgstr "&Reinstalacja programu"
+
+msgid "MainMenu:opt_portable"
+msgstr "Utwórz wersję &przenośną"
+
+msgid "MainMenu:opt_resetsettings"
+msgstr "Przywróć ustawienia &domyślne"
+
+msgid "MainMenu:opt_install"
+msgstr "Za&instaluj program"
+
+msgid "MainMenu:opt_mediacatalog"
+msgstr "Katalog &mediów"
+
+msgid "MainMenu:opt_youtube"
+msgstr "&Youtube"
+
+msgid "MainMenu:opt_contacts"
+msgstr "Moje &kontakty"
+
+msgid "MainMenu:opt_useraddedmetocontacts"
+msgstr "Użytkownicy, którzy &dodali mnie do swoich kontaktów"
+
+msgid "MainMenu:opt_online"
+msgstr "Kto jest zal&ogowany?"
+
+msgid "MainMenu:opt_userslist"
+msgstr "Lista &użytkowników"
+
+msgid "MainMenu:opt_admins"
+msgstr "Rada &starszych"
+
+msgid "MainMenu:opt_usersearch"
+msgstr "S&zukanie użytkowników"
+
+msgid "MainMenu:opt_recentlyactived"
+msgstr "Ostatnio &aktywni użytkownicy"
+
+msgid "MainMenu:opt_recentlyregistered"
+msgstr "Ostatnio za&rejestrowani użytkownicy"
+
+msgid "MainMenu:opt_lastavatars"
+msgstr "Ostatnio zmienione awa&tary"
+
+msgid "EAPI_Common:txt_phr_userhasblog"
+msgstr "Użytkownik posiada bloga"
+
+msgid "_Agent:info_message_male"
+msgstr "Otrzymałeś nową wiadomość"
+
+msgid "_Agent:info_message_female"
+msgstr "Otrzymałaś nową wiadomość"
+
+msgid "_Agent:info_followedthread"
+msgstr "W śledzonym wątku pojawił się nowy wpis"
+
+msgid "_Agent:info_followedblog"
+msgstr "Na śledzonym blogu pojawił się nowy wpis"
+
+msgid "_Agent:info_blogcomment"
+msgstr "Na twoim blogu pojawił się nowy komentarz"
+
+msgid "_Agent:info_followedforum"
+msgstr "Na śledzonym forum pojawił się nowy wątek"
+
+msgid "_Agent:info_followedforumpost"
+msgstr "Na śledzonym forum pojawił się nowy wpis"
+
+msgid "_Agent:info_mention"
+msgstr "Wzmiankowano nowy wpis"
+
+msgid "_Agent:info_contact"
+msgstr "Masz nowego znajomego"
+
+msgid "_Agent:info_newversion"
+msgstr "Dostępna jest nowa wersja programu Elten"
+
+msgid "_Agent:info_newbeta"
+msgstr "Dostępna jest nowa wersja beta programu Elten"
+
+msgid "Forum:opt_followedthreads"
+msgstr "Śledzone wątki"
+
+msgid "Forum:opt_followedforums"
+msgstr "Śledzone fora"
+
+msgid "Forum:opt_phr_forums"
+msgstr "Fora"
+
+msgid "EAPI_Common:txt_phr_lastseen"
+msgstr "Widziany/a"
+
+msgid "EAPI_Common:txt_phr_lastseen_female"
+msgstr "Widziana"
+
+msgid "EAPI_Common:txt_phr_lastseen_male"
+msgstr "Widziany"
+
+msgid "EAPI_Common:head_filetoread"
+msgstr "Plik do przeczytania"
+
+msgid "EAPI_Common:head_outputformat"
+msgstr "Format wyjściowy"
+
+msgid "Soundthemes:head_themetodownload"
+msgstr "Wybierz temat do pobrania"
+
+msgid "EAPI_Common:head_selcontact"
+msgstr "Wybierz kontakt"
+
+msgid "Forum:opt_phr_mentionedby"
+msgstr "Wzmiankujący"
+
+msgid "EAPI_Common:txt_phr_knownby"
+msgstr "Znan(y/a) przez %{count} użytkowników"
+
+msgid "EAPI_Common:txt_phr_knownby_female"
+msgstr "Znana przez %{count} użytkowników"
+
+msgid "EAPI_Common:txt_phr_knownby_male"
+msgstr "Znany przez %{count} użytkowników"
+
+msgid "EAPI_Common:txt_phr_knows"
+msgstr "Zna %{count} użytkowników"
+
+msgid "Messages:head"
+msgstr "Wiadomości"
+
+msgid "Messages:opt_phr_lastmsg"
+msgstr "Ostatnia"
+
+msgid "Messages:opt_phr_nosubj"
+msgstr "Brak tematu"
+
+msgid "Messages:opt_phr_readmore"
+msgstr "Czytaj więcej"
+
+msgid "Messages:head_conversations"
+msgstr "Konwersacje z %{user}"
+
+msgid "Messages:head_messages"
+msgstr "%{subject} - konwersacja z %{user}"
+
+msgid "Messages:opt_showmore"
+msgstr "Pokaż starsze"
+
+msgid "Messages:type_reply"
+msgstr "Twoja odpowiedź"
+
+msgid "Messages:btn_compose"
+msgstr "Pokaż edytor"
+
+msgid "Blog:opt_recategorize"
+msgstr "Rekategoryzacja"
+
+msgid "Forum:opt_slidepost"
+msgstr "Zmień pozycję wpisu"
+
+msgid "Polls:txt_phr_created"
+msgstr "Utworzona"
+
+msgid "Files:head_player"
+msgstr "Odtwarzanie: %{file}"
+
+msgid "Account:opt_phr_computer"
+msgstr "Komputer"
+
+msgid "Account:opt_phr_creationip"
+msgstr "Adres IP utworzenia"
+
+msgid "Account:opt_phr_generationdate"
+msgstr "Data wygenerowania"
+
+msgid "MyPermissions:opt_betatesters"
+msgstr "Betatesterzy"
+
+msgid "EAPI_Common:wait_soundfont"
+msgstr "Proszę czekać, trwa pobieranie bazy brzmień midi. To może potrwać kilka minut."
+
+msgid "EAPI_Common:info_soundfontdownloaded"
+msgstr "Baza brzmień midi została pobrana."
+
+msgid "EAPI_Common:txt_phr_processing"
+msgstr "Przetwarzanie"
+
+msgid "Forum:opt_members"
+msgstr "Członkowie grupy"
+
+msgid "Forum:head_members"
+msgstr "Członkowie grupy"
+
+msgid "Forum:opt_phr_founder"
+msgstr "Administrator"
+
+msgid "Forum:opt_phr_moderator"
+msgstr "Moderator"
+
+msgid "Forum:opt_join"
+msgstr "Dołącz"
+
+msgid "Forum:opt_leave"
+msgstr "Opuść grupę"
+
+msgid "Forum:alert_join"
+msgstr "Czy jesteś pewien, że chcesz dołączyć do grupy %{groupname}"
+
+msgid "Forum:alert_leave"
+msgstr "Czy jesteś pewien, że chcesz opuścić grupę %{groupname}"
+
+msgid "Forum:info_joined"
+msgstr "Zapisano do grupy"
+
+msgid "Forum:info_left"
+msgstr "Opuszczono grupę"
+
+msgid "Forum:opt_passadmin"
+msgstr "Przekaż swoje uprawnienia administracyjne temu użytkownikowi"
+
+msgid "Forum:opt_moderationgrant"
+msgstr "Mianuj tego użytkownika na stanowisko moderatora grupy"
+
+msgid "Forum:opt_moderationdeny"
+msgstr "Odbierz temu użytkownikowi uprawnienia moderatora grupy"
+
+msgid "Forum:opt_userban"
+msgstr "Zbanuj tego użytkownika w tej grupie"
+
+msgid "Forum:opt_userunban"
+msgstr "Odbanuj tego użytkownika w tej grupie"
+
+msgid "Forum:alert_moderationgrant"
+msgstr "Czy na pewno chcesz mianować użytkownika %{user} na stanowisko moderatora grupy %{groupname}?"
+
+msgid "Forum:alert_moderationdeny"
+msgstr "Czy na pewno chcesz odebrać użytkownikowi %{user} uprawnienia moderatora w grupie %{groupname}?"
+
+msgid "Forum:info_privileges"
+msgstr "Uprawnienia użytkownika zostały zmienione"
+
+msgid "Forum:alert_passadmin"
+msgstr "Czy jesteś pewien, że chcesz się zrzec funkcji administratora grupy %{groupname} i przekazać ją użytkownikowi %{user}?"
+
+msgid "Forum:alert_userban"
+msgstr "Czy na pewno chcesz zbanować użytkownika %{user} w grupie %{groupname}?"
+
+msgid "Forum:alert_userunban"
+msgstr "Czy na pewno chcesz odbanować użytkownika %{user} w grupie %{groupname}?"
+
+msgid "Forum:opt_userkick"
+msgstr "Wyrzuć użytkownika z grupy"
+
+msgid "Forum:alert_userkick"
+msgstr "Czy na pewno chcesz usunąć użytkownika %{user} z grupy %{groupname}?"
+
+msgid "Forum:opt_newforum"
+msgstr "Nowe forum"
+
+msgid "Forum:opt_deleteforum"
+msgstr "Usuń forum"
+
+msgid "Forum:type_forumname"
+msgstr "Nazwa forum"
+
+msgid "Forum:type_forumdescription"
+msgstr "Opis forum"
+
+msgid "Forum:head_forumtype"
+msgstr "Typ forum"
+
+msgid "Forum:opt_forumtypetext"
+msgstr "Forum tekstowe"
+
+msgid "Forum:opt_forumtypevoice"
+msgstr "Forum głosowe"
+
+msgid "Forum:btn_forumcreate"
+msgstr "Utwórz forum"
+
+msgid "Forum:info_forumcreated"
+msgstr "Forum zostało utworzone"
+
+msgid "Forum:alert_deleteforum"
+msgstr "Czy jesteś pewien, że chcesz usunąć to forum? Usunięte zostaną także wszystkie znajdujące się na nim wątki i wpisy."
+
+msgid "Forum:info_forumdeleted"
+msgstr "Forum zostało usunięte"
+
+msgid "Forum:opt_editforum"
+msgstr "Modyfikuj forum"
+
+msgid "Forum:opt_groupsrecommended"
+msgstr "Grupy rekomendowane"
+
+msgid "Forum:opt_groupsopen"
+msgstr "Grupy otwarte"
+
+msgid "Forum:opt_groupsall"
+msgstr "Wszystkie grupy"
+
+msgid "Forum:type_groupname"
+msgstr "Nazwa grupy"
+
+msgid "Forum:type_groupdescription"
+msgstr "Opis grupy"
+
+msgid "Forum:head_grouptype"
+msgstr "Typ grupy"
+
+msgid "Forum:opt_grouptypepublic"
+msgstr "Grupa publiczna"
+
+msgid "Forum:opt_grouptypehidden"
+msgstr "Grupa ukryta"
+
+msgid "Forum:head_groupjointype"
+msgstr "Sposób dołączania do grupy"
+
+msgid "Forum:opt_groupjointypeopen"
+msgstr "Grupa otwarta (każdy może dołączyć)"
+
+msgid "Forum:opt_groupjointypemoderated"
+msgstr "Grupa moderowana (Administracja zatwierdza kandydatury użytkowników)"
+
+msgid "Forum:opt_groupjointypeclosed"
+msgstr "Grupa zamknięta (użytkownicy dołączać mogą tylko na zaproszenie)"
+
+msgid "Forum:btn_groupcreate"
+msgstr "Utwórz grupę"
+
+msgid "Forum:opt_changeforumpos"
+msgstr "Przesuń forum"
+
+msgid "Forum:head_changeforumpos"
+msgstr "Nad czym umieścić to forum?"
+
+msgid "Forum:opt_changeforumposend"
+msgstr "Umieść na końcu"
+
+msgid "Forum:opt_newgroup"
+msgstr "Nowa grupa"
+
+msgid "Forum:head_language"
+msgstr "Język"
+
+msgid "Forum:info_groupcreated"
+msgstr "Grupa została utworzona"
+
+msgid "Forum:opt_deletegroup"
+msgstr "Usuń grupę"
+
+msgid "Forum:alert_deletegroup"
+msgstr "Czy jesteś pewien, że chcesz usunąć grupę %{groupname}?"
+
+msgid "Forum:info_groupdeleted"
+msgstr "Grupa została usunięta"
+
+msgid "MainMenu:opt_addons"
+msgstr "&Dodatki"
+
+msgid "Forum:opt_invite"
+msgstr "Zaproś"
+
+msgid "Forum:type_invite"
+msgstr "Podaj nazwę użytkownika, którego chcesz zaprosić"
+
+msgid "Forum:info_invited"
+msgstr "Użytkownik został zaproszony"
+
+msgid "Forum:error_usernotfound"
+msgstr "Użytkownik nie istnieje"
+
+msgid "Forum:error_useralreadyingroup"
+msgstr "Ten użytkownik należy już do tej grupy"
+
+msgid "Forum:opt_invitationaccept"
+msgstr "Przyjmij zaproszenie"
+
+msgid "Forum:opt_invitationrefuse"
+msgstr "Odrzuć zaproszenie"
+
+msgid "Forum:opt_phr_invited"
+msgstr "Zaproszenie oczekujące"
+
+msgid "Forum:opt_phr_banned"
+msgstr "Ban"
+
+msgid "Forum:opt_groupsinvited"
+msgstr "Oczekujące zaproszenia"
+
+msgid "Forum:opt_editgroup"
+msgstr "Modyfikuj ustawienia grupy"
+
+msgid "Forum:opt_request"
+msgstr "Poproś o zapisanie do grupy"
+
+msgid "Forum:alert_request"
+msgstr "Czy chcesz złożyć podanie do grupy %{groupname}?"
+
+msgid "Forum:info_requested"
+msgstr "Prośba o zapisanie została wysłana"
+
+msgid "Forum:opt_phr_requested"
+msgstr "Oczekuje na rozpatrzenie"
+
+msgid "Forum:opt_requestexamine"
+msgstr "Rozpatrz tę prośbę"
+
+msgid "Forum:opt_requestaccept"
+msgstr "Przyjmij"
+
+msgid "Forum:opt_requestrefuse"
+msgstr "odrzuć"
+
+msgid "Forum:alert_useraccept"
+msgstr "Czy chcesz przyjąć użytkownika %{user} do tej grupy?"
+
+msgid "Forum:alert_userrefuse"
+msgstr "Czy na pewno chcesz odmówić użytkownikowi %{user} dołączenia do tej grupy?"
+

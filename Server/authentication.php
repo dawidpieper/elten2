@@ -21,8 +21,8 @@ while(strlen($code)<6)
 $code.=rand(0,9);
 $params = array(
 'credentials' => array(
-'key' => '',
-'secret' => '',
+'key' => 'AKIAJFWNRJW4DC7GLJ6Q',
+'secret' => '/Z2+cB6gBANuDNFIcgSuUQP3Ao/adWo8qmZ+0UHD',
 ),
 'region' => 'eu-west-1', // < your aws from SNS Topic region
 'version' => 'latest'
@@ -56,8 +56,8 @@ $code=$r[3];
 $tries=$r[4];
 if($code==$_GET['code'] and $tries<3) {
 mquery("update authentications set actived=1 where name='{$_GET['name']}'");
-if(mysql_num_rows(mquery("select * from authenticated where name='{$_GET['name']}' and appid='{$_GET['appid']}'"))==0)
-mquery("insert into authenticated (id,name,appid,date) values ('','{$_GET['name']}','{$_GET['appid']}',".time().")");
+if(mysql_num_rows(mquery("select * from authenticated where name='{$_GET['name']}' and appid='".mysql_real_escape_string($_GET['appid'])."'"))==0)
+mquery("insert into authenticated (name,appid,date) values ('".$_GET['name']."','".mysql_real_escape_string($_GET['appid'])."',".time().")");
 echo "0";
 }
 else {
@@ -79,7 +79,7 @@ if($tries>3)
 die("-3");
 else {
 mquery("delete from authcodes where name='{$_GET['name']}'");
-mquery("insert into authenticated (id,name,appid,date) values ('','{$_GET['name']}','{$_GET['appid']}',".time().")");
+mquery("insert into authenticated (name,appid,date) values ('{$_GET['name']}','".mysql_real_escape_string($_GET['appid'])."',".time().")");
 }
 }
 else {

@@ -1,44 +1,24 @@
 <?php
 require("header.php");
 if($_GET['ac'] == 1) {
-$zapytanie = "SELECT `id` FROM `buffers`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+$q = mquery("SELECT `id` FROM `buffers`");
 $suc = false;
-while($wiersz = mysql_fetch_row($idzapytania)) {
+while($wiersz = mysql_fetch_row($q)) {
 if($wiersz[0] == $_GET['id']){
 $suc = true;
 }
 }
 if($suc == true) {
 sleep(1);
-$zapytanie = "DELETE FROM `buffers` WHERE `id`='" . $_GET['id'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
+mquery("DELETE FROM `buffers` WHERE `id`='" . (int)$_GET['id'] . "'");
 }
-}
-$zapytanie = "INSERT INTO `buffers` (id, data, owner, date) VALUES ('" . $_GET['id'] . "', '" . $_GET['data'] . "','" . $_GET['name'] . "',".time().")";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+mquery("INSERT INTO `buffers` (id, data, owner, date) VALUES ('" . (int)$_GET['id'] . "', '" . mysql_real_escape_string($_GET['data']) . "','" . $_GET['name'] . "',".time().")");
 }
 if($_GET['ac'] == 2) {
-$zapytanie = "SELECT `id`, `data`, `owner` FROM `buffers`";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+$q = mquery("SELECT `id`, `data`, `owner` FROM `buffers`");
 $suc = false;
 $data = "";
-while($wiersz = mysql_fetch_row($idzapytania)) {
+while($wiersz = mysql_fetch_row($q)) {
 if($wiersz[0] == $_GET['id']){
 $suc = true;
 $data = $wiersz[1];
@@ -50,18 +30,8 @@ echo "-1\r\n" . $zapytanie;
 die;
 }
 if($owner == $_GET['name']) {
-$zapytanie = "DELETE FROM `buffers` WHERE `id`='" . $_GET['id'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
-$zapytanie = "INSERT INTO `buffers` (id, data, owner, date) VALUES ('" . $_GET['id'] . "', '" . $data . $_GET['data'] . "','" . $_GET['name'] . "',".time().")";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1\r\n" . $zapytanie;
-die;
-}
+mquery("DELETE FROM `buffers` WHERE `id`='" . (int)$_GET['id'] . "'");
+mquery("INSERT INTO `buffers` (id, data, owner, date) VALUES ('" . (int)$_GET['id'] . "', '" . mysql_real_escape_string($data . $_GET['data']) . "','" . $_GET['name'] . "',".time().")");
 }
 else {
 echo "-2";

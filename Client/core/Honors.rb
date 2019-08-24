@@ -49,7 +49,7 @@ class Scene_Honors
     end
     selt=[]
     for h in @honors
-      if $language=="PL_PL"
+      if $language=="pl_PL"
         selt.push(h.name+":\r\n"+h.description)
       else
                 selt.push(h.enname+":\r\n"+h.endescription)

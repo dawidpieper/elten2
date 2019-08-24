@@ -28,17 +28,17 @@ $qr.="null";
 $qr.=") ORDER BY `postid` ".$ordertype;
 }
 elseif($_GET['categoryid']>0)
-$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE posttype=0 AND owner='".$_GET['searchname']."' AND postid in (SELECT `postid` FROM `blog_assigning` WHERE `categoryid`=".$_GET['categoryid']." AND `owner`='".$_GET['searchname']."') ORDER BY `postid` ".$ordertype;
+$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE posttype=0 AND owner='".mysql_real_escape_string($_GET['searchname'])."' AND postid in (SELECT `postid` FROM `blog_assigning` WHERE `categoryid`=".(int)$_GET['categoryid']." AND `owner`='".mysql_real_escape_string($_GET['searchname'])."') ORDER BY `postid` ".$ordertype;
 else
-$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".$_GET['searchname']."' AND `posttype`=0 ORDER BY `postid` ".$ordertype;
+$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' AND `posttype`=0 ORDER BY `postid` ".$ordertype;
 $qi = mquery($qr);
 $cposts[]=0;
 $nposts[]=0;
 if($_GET['categoryid']!="NEW") {
-$q=mquery("SELECT `postid`, count(postid) as cnt FROM `blog_posts` WHERE `owner`='".$_GET['searchname']."' group by postid");
+$q=mquery("SELECT `postid`, count(postid) as cnt FROM `blog_posts` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' group by postid");
 while($r=mysql_fetch_row($q))
 $cposts[$r[0]]=$r[1];
-$q=mquery("SELECT `post`,`posts` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['searchname']."'");
+$q=mquery("SELECT `post`,`posts` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".mysql_real_escape_string($_GET['searchname'])."'");
 while($r=mysql_fetch_row($q))
 $nposts[$r[0]]=$r[1];
 }
@@ -57,7 +57,7 @@ else
 $text.="0\r\n";
 }
 if($_GET['listcategories']==1) {
-$cq=mquery("SELECT `categoryid` FROM `blog_assigning` WHERE `owner`='".$_GET['searchname']."' AND `postid`=".$wiersz[0]);
+$cq=mquery("SELECT `categoryid` FROM `blog_assigning` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' AND `postid`=".$wiersz[0]);
 while($cr=mysql_fetch_row($cq))
 $text.=$cr[0].",";
 $text.="\r\n";

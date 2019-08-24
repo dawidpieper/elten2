@@ -39,9 +39,12 @@ class Scene_Users_LastAvatars
       loop_update
       @sel.update
       return $scene=Scene_Main.new if escape
-      if enter or alt
+      if alt
       usermenu(@users[@sel.index])
       loop_update
+    end
+    if enter
+      avatar(@users[@sel.index])
       end
       end
   end

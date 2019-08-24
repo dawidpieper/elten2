@@ -1,6 +1,6 @@
 ﻿<?php
 require("init.php");
-$q = mquery("SELECT `postid`, `author`, `post`, `date`, `moddate`, `privacy` FROM `blog_posts` WHERE `owner`='" . $_GET['searchname'] . "' AND `postid`=" . $_GET['postid']);
+$q = mquery("SELECT `postid`, `author`, `post`, `date`, `moddate`, `privacy` FROM `blog_posts` WHERE `owner`='" . mysql_real_escape_string($_GET['searchname']) . "' AND `postid`=" . (int)$_GET['postid']);
 $re = 0;
 $text = "";
 $rq = mquery("SELECT `id`, `author`, `post`, `posts` FROM `blog_read` WHERE `owner`='".$_GET['name']."'");
@@ -12,11 +12,12 @@ $suc = true;
 $knownposts=$rr[3];
 }
 }
-if($_GET['name']!="guest")
+if($_GET['name']!="guest") {
 if($suc == true)
-mquery("UPDATE `blog_read` SET `posts`=".mysql_num_rows($q)." WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['searchname']."' AND `post`=".$_GET['postid']);
+mquery("UPDATE `blog_read` SET `posts`=".mysql_num_rows($q)." WHERE `owner`='".$_GET['name']."' AND `author`='".mysql_real_escape_string($_GET['searchname'])."' AND `post`=".(int)$_GET['postid']);
 else
-mquery("INSERT INTO `blog_read` (id, owner, author, post, posts) VALUES ('','".$_GET['name']."','".$_GET['searchname']."',".$_GET['postid'].",".mysql_num_rows($q).")");
+mquery("INSERT INTO `blog_read` (owner, author, post, posts) VALUES ('".$_GET['name']."','".mysql_real_escape_string($_GET['searchname'])."',".(int)$_GET['postid'].",".mysql_num_rows($q).")");
+}
 if($_GET['details']==1)
 $text=$knownposts."\r\n";
 while ($r = mysql_fetch_row($q)){

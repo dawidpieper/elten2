@@ -21,11 +21,11 @@ if($suc == true) {
 echo "-3";
 die;
 }
-mquery("INSERT INTO `followedthreads` (id, owner, forum, thread) VALUES ('','".$_GET['name']."','" . $_GET['forum'] . "','" . $_GET['thread'] . "')");
+mquery("INSERT INTO `followedthreads` (owner, forum, thread) VALUES ('".$_GET['name']."','" . mysql_real_escape_string($_GET['forum']) . "','" . (int)$_GET['thread'] . "')");
 echo "0";
 }
 if($_GET['remove'] == 1) {
-mquery("DELETE FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "' AND `thread`='" . $_GET['thread'] . "'");
+mquery("DELETE FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "' AND `thread`='" . (int)$_GET['thread'] . "'");
 echo "0";
 }
 if($_GET['get'] == 2) {
@@ -49,11 +49,11 @@ if($suc == true) {
 echo "-3";
 die;
 }
-mquery("INSERT INTO `followedforums` (id, owner, forum) VALUES ('','".$_GET['name']."','" . $_GET['forum'] . "')");
+mquery("INSERT INTO `followedforums` (owner, forum) VALUES ('".$_GET['name']."','" . mysql_real_escape_string($_GET['forum']) . "')");
 echo "0";
 }
 if($_GET['remove'] == 2) {
-mquery("DELETE FROM `followedforums` WHERE `owner`='" . $_GET['name'] . "' AND `forum`='" . $_GET['forum'] . "'");
+mquery("DELETE FROM `followedforums` WHERE `owner`='" . $_GET['name'] . "' AND `forum`='" . mysql_real_escape_string($_GET['forum']) . "'");
 echo "0";
 }
 ?>

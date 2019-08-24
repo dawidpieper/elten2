@@ -25,7 +25,7 @@ if($_GET['text']==NULL)
 $message=buffer_get($_GET['buffer']);
 else
 $message=$_GET['text'];
-mquery("INSERT INTO chat (id,sender,time,message) VALUES ('','".$_GET['name']."',".time().",'".$message."')");
+mquery("INSERT INTO chat (sender,time,message) VALUES ('".$_GET['name']."',".(microtime(true)*1000000).",'".mysql_real_escape_string($message)."')");
 $message=str_replace("\r\n"," ",$message);
 echo "0";
 }

@@ -6,9 +6,10 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Forum
-  def initialize(pre=nil,preparam=nil,query="")
+  def initialize(pre=nil,preparam=nil,cat=0,query="")
     @pre=pre
     @preparam=preparam
+    @lastlist=@cat=cat
     @query=query
     @grpindex||=[]
     end
@@ -22,12 +23,12 @@ class Scene_Forum
           getcache
                             return if $scene!=self
               if @pre==nil
-    groupsmain
+    groupsmain(@cat)
   else
         if @preparam.is_a?(String) or @preparam==nil or @preparam==-5
           foll=false
           foll=true if @preparam==-5
-        @grpindex[0]=0
+        #@grpindex[0]=0
         @frmindex=0
     forum=nil
     for thread in @threads
@@ -38,6 +39,7 @@ class Scene_Forum
             group=tforum.group.id if tforum.name==forum
           end
           group=-5 if @preparam==-5
+          group=0 if group==nil
 @grpsetindex=group if group>0
 @grpindex[0]=1 if @preparam==-5
 i=0
@@ -53,6 +55,7 @@ else
   if @preparam==-3
     @grpindex[0]=@groups.size+2
     @results=[]    
+        if @query!=""
     sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
     if sr[0].to_i<0
             speech(_("General:error"))
@@ -66,7 +69,10 @@ else
                 t=0
                 end
               end
-              end
+            end
+          else
+            @threads.each {|t| @results.push(t.id)}
+            end
     end
   threadsmain(@preparam)
   end
@@ -74,8 +80,10 @@ else
   end
   def groupsmain(type=-1)
         type=(@lastlist||0) if type==-1
+        ll=@lastlist
     @lastlist=type
     index=0
+    @cat=type
     case type
     when 0
       @grpindex.delete_at(-1) while @grpindex.size>1
@@ -133,6 +141,7 @@ sgloc=false
           @groups.each {|g| s+=1 if g.role==5}
           grpselt[grpheadindex+sgroups.size+2]=[nil] if s==0
           grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+                    @grpindex[0]=grpheadindex+sgroups.size+ll-1 if ll>0
           when 1
             sgroups=[]
             spgroups=[]
@@ -159,13 +168,13 @@ sgloc=false
                               sgroups.push(g)
                               end
             end
-            sgroups.sort! {|a,b| b.posts<=>a.posts}
+            sgroups.sort! {|a,b| (b.posts*b.acmembers**2)<=>(a.posts*a.acmembers**2)}
        grpheadindex=0
         grpselt=[]
         for group in sgroups
-      grpselt.push([group.name+": "+group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
+      grpselt.push([group.name,group.founder,group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
     end     
-    grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+    grpselh= [nil, _("Forum:opt_phr_founder"), nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
     when 3
                             sgroups=[]
                               for g in @groups
@@ -173,13 +182,13 @@ sgloc=false
                               sgroups.push(g)
                               end
             end
-            sgroups.sort! {|a,b| b.posts<=>a.posts}
+            sgroups.sort! {|a,b| (b.posts*b.acmembers**2)<=>(a.posts*a.acmembers**2)}
        grpheadindex=0
         grpselt=[]
         for group in sgroups
-      grpselt.push([group.name+": "+group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
+      grpselt.push([group.name,group.founder,group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
     end     
-    grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+    grpselh= [nil, _("Forum:opt_phr_founder"), nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
     when 4
                       sgroups=[]
                               for g in @groups
@@ -187,15 +196,19 @@ sgloc=false
                               sgroups.push(g)
                               end
             end
-            sgroups.sort! {|a,b| b.posts<=>a.posts}
+            sgroups.sort! {|a,b| (b.posts*b.acmembers**2)<=>(a.posts*a.acmembers**2)}
        grpheadindex=0
         grpselt=[]
         for group in sgroups
-      grpselt.push([group.name+": "+group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
+      grpselt.push([group.name,group.founder,group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
     end     
-    grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+    grpselh= [nil, _("Forum:opt_phr_founder"), nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
     end
-        @grpindex[type]=0 if @grpindex[type]==nil
+        if @grpindex[type]==nil and @grpsetindex!=nil
+                    for i in 0...sgroups.size
+            @grpindex[type]=i+grpheadindex if sgroups[i].id==@grpsetindex
+            end
+          end
         @grpsetindex=nil
                   @grpsel=TableSelect.new(grpselh,grpselt,@grpindex[type],_("Forum:head"))
     loop do
@@ -220,6 +233,7 @@ sgloc=false
           loop_update
           if @query!="\004ESCAPE\004"
           @results=[]
+          if @query!=""
           sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
           if sr[0].to_i<0
             speech(_("General:error"))
@@ -233,9 +247,12 @@ sgloc=false
                 t=0
                 end
               end
+              end
+            else
+              @threads.each {|t| @results.push(t.id)}
+              end
           return threadsmain(-3)
-          end
-          end
+                    end
           else
         g=sgroups[@grpsel.index-grpheadindex]
                             return forumsmain(g.id) if g.role==1 or g.role==2 or g.public
@@ -248,7 +265,8 @@ sgloc=false
         menut[3] = _("Forum:opt_invite") if sgroups[@grpsel.index-grpheadindex].role==2
                 menut[4] = _("Forum:opt_join") if sgroups[@grpsel.index-grpheadindex].role==0 and sgroups[@grpsel.index-grpheadindex].open and sgroups[@grpsel.index-grpheadindex].public
                 menut[4] = _("Forum:opt_invitationaccept") if sgroups[@grpsel.index-grpheadindex].role==5
-        menut[5] = _("Forum:opt_leave") if (sgroups[@grpsel.index-grpheadindex].role==1 or sgroups[@grpsel.index-grpheadindex].role==2) and sgroups[@grpsel.index-grpheadindex].founder!=$name
+                menut[4] = _("Forum:opt_request") if sgroups[@grpsel.index-grpheadindex].role==0&&((sgroups[@grpsel.index-grpheadindex].public&&!sgroups[@grpsel.index-grpheadindex].open)||(sgroups[@grpsel.index-grpheadindex].open&&!sgroups[@grpsel.index-grpheadindex].public))
+        menut[5] = _("Forum:opt_leave") if (sgroups[@grpsel.index-grpheadindex].role==1 or sgroups[@grpsel.index-grpheadindex].role==2 or sgroups[@grpsel.index-grpheadindex].role==4) and sgroups[@grpsel.index-grpheadindex].founder!=$name
         menut[5] = _("Forum:opt_invitationrefuse") if sgroups[@grpsel.index-grpheadindex].role==5
                 menut.push(_("Forum:opt_editgroup")) if sgroups[@grpsel.index-grpheadindex].founder==$name
         menut.push(_("Forum:opt_deletegroup")) if sgroups[@grpsel.index-grpheadindex].forums==0 and sgroups[@grpsel.index-grpheadindex].founder==$name
@@ -313,6 +331,8 @@ sgloc=false
                 t+=" (#{_("Forum:opt_phr_banned")})"
               elsif roles.last==5
                 t+=" (#{_("Forum:opt_phr_invited")})"
+                elsif roles.last==4
+                t+=" (#{_("Forum:opt_phr_requested")})"
               end
               t+= ". "+getstatus(users.last)
               selt.push(t)
@@ -333,7 +353,7 @@ sgloc=false
                 men=menulr(ment)
                 if sgroups[@grpsel.index-grpheadindex].founder!=$name or users[sel.index]==$name
                 men.disable_item(1)
-                              else
+                                              else
                 if roles[sel.index]==1
                 men.commandoptions[1]=_("Forum:opt_moderationgrant")
                                               elsif roles[sel.index]==2
@@ -342,13 +362,16 @@ sgloc=false
               elsif roles[sel.index]==3
                 men.disable_item(1)
                 men.commandoptions[2]=_("Forum:opt_userunban")
+                elsif roles[sel.index]==4
+                men.disable_item(1)
+                men.commandoptions[2]=_("Forum:opt_requestexamine")
                 end
               end
               if (sgroups[@grpsel.index-grpheadindex].founder!=$name and sgroups[@grpsel.index-grpheadindex].role!=2) or $name==users[sel.index]
-                men.disable_item(2)
+                                men.disable_item(2)
                 else
                 if roles[sel.index]==1
-                  if sgroups[@grpsel.index-grpheadindex].open
+                  if sgroups[@grpsel.index-grpheadindex].open&&sgroups[@grpsel.index-grpheadindex].public
                     men.commandoptions[2] = _("Forum:opt_userban")
                     else
                  men.commandoptions[2] = _("Forum:opt_userkick")
@@ -357,9 +380,12 @@ sgloc=false
                  men.commandoptions[2] = _("Forum:opt_userunban")
                elsif roles[sel.index]==3
                  men.disable_item(2) if sgroups[@grpsel.index-grpheadindex].founder!=$name
+                 elsif roles[sel.index]==4
+                men.disable_item(1)
+                men.commandoptions[2]=_("Forum:opt_requestexamine")
                   end
-                                end
-                play("menu_open")
+                end
+                                play("menu_open")
                 play("menu_background")
                 brm=false
                 loop do
@@ -397,30 +423,46 @@ speech(_("Forum:info_privileges"))
                       }
                                         brm=true
                                         when 2
-                                          if roles[sel.index]==1 or roles[sel.index]==3
+                                          if roles[sel.index]==1 or roles[sel.index]==3 or roles[sel.index]==4
                                             cat=""
                                             if roles[sel.index]==1
-                                              if sgroups[@grpsel.index-grpheadindex].open
+                                              if sgroups[@grpsel.index-grpheadindex].open&&sgroups[@grpsel.index-grpheadindex].public
                                               cat="ban"
                                             else
                                               cat="kick"
                                               end
-                                            else
+                                            elsif roles[sel.index]==3
                                               cat="unban"
-                                            end
+                                            elsif roles[sel.index]==4
+                                              c=selector([_("Forum:opt_requestaccept"),_("Forum:opt_requestrefuse"),_("General:str_cancel")],"",0,2,1)
+                                              case c
+                                              when 0
+                                                cat="accept"
+                                                when 1
+                                                  cat="refuse"
+                                                  when 2
+                                                    cat=nil
+                                                                                                end
+                                                                                              end
+                                                                                              if cat!=nil
                                             confirm(s_("Forum:alert_user#{cat}", {'user'=>users[sel.index], 'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
                       r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=user\&pr=#{cat}\&user=#{users[sel.index]}\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
                                             if r[0].to_i<0
   speech(_("General:error"))
 else
-if roles[sel.index]==3
-  roles[sel.index]=1
-else
+  if cat=="ban"
   roles[sel.index]=3
-  end
+elsif cat=="unban"||cat=="accept"
+  roles[sel.index]=1
+  sel.commandoptions[sel.index].gsub!(_("Forum:opt_phr_banned"),"")
+  sel.commandoptions[sel.index].gsub!(_("Forum:opt_phr_requested"),"")
+elsif cat=="refuse"
+  sel.disable_item(sel.index)
+    end
 speech(_("Forum:info_privileges"))
                                           end
                                           }
+                                          end
                                         else
                                                                                       confirm(s_("Forum:alert_passadmin", {'user'=>users[sel.index], 'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
                       r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=privileges\&pr=passadmin\&user=#{users[sel.index]}\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
@@ -479,11 +521,21 @@ end
                           loop_update
                           @grpsel.focus
                           when 4
-              confirm(s_("Forum:alert_join", {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-              g=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=join\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+              if sgroups[@grpsel.index-grpheadindex].role==0&&((sgroups[@grpsel.index-grpheadindex].public&&!sgroups[@grpsel.index-grpheadindex].open)||(sgroups[@grpsel.index-grpheadindex].open&&!sgroups[@grpsel.index-grpheadindex].public))
+                s="Forum:alert_request"
+              else
+                s="Forum:alert_join"
+                end
+                confirm(s_(s, {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
+                            g=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=join\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
               if g[0].to_i==0
+                if sgroups[@grpsel.index-grpheadindex].role==0&&((sgroups[@grpsel.index-grpheadindex].public&&!sgroups[@grpsel.index-grpheadindex].open)||(sgroups[@grpsel.index-grpheadindex].open&&!sgroups[@grpsel.index-grpheadindex].public))
+                  speech(_("Forum:info_requested"))
+                  sgroups[@grpsel.index-grpheadindex].role=4
+                else
                 speech(_("Forum:info_joined"))
                 sgroups[@grpsel.index-grpheadindex].role=1
+                end
               else
                 speech(_("General:error"))
                 end
@@ -870,7 +922,7 @@ end
           end
           sthreads.push(t) if folfor.include?(t.forum.name) and t.readposts==0
           when -3
-          sthreads.push(t) if @results.include?(t.id) and t.forum.group.recommended or t.forum.group.role==1 or t.forum.group.role==2
+          sthreads.push(t) if @results.include?(t.id) and (t.forum.group.recommended or t.forum.group.role==1 or t.forum.group.role==2)
         when -2
         sthreads.push(t) if t.followed==true and t.readposts<t.posts
           when -1
@@ -908,6 +960,7 @@ end
         index=i if thread.id==@pre
         tmp=[thread.name]
                 tmp[0]+="\004INFNEW{#{_("Forum:opt_phr_thrisnew")}: }\004" if thread.readposts<thread.posts and (id!=-2 and id!=-4 and id!=-6 and id!=-7)
+                tmp[0]+="\004CLOSED\004" if thread.closed
         if id==-7
           tmp[0]+=" . #{_("Forum:opt_phr_mentionedby")}: #{thread.mention.author} (#{thread.mention.message})"
         end
@@ -937,12 +990,12 @@ end
         end
         if enter or (Input.trigger?(Input::RIGHT) and !$keyr[0x10]) and sthreads.size>0
 if @lastgroup==-5
-          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],-5,@query)
+          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],-5,@cat,@query)
         else
           if id==-7
-            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id,@query,sthreads[@thrsel.index].mention)
+            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id,@cat,@query,sthreads[@thrsel.index].mention)
             else
-          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id,@query)
+          $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id,@cat,@query)
           end
           end
 break
@@ -960,11 +1013,12 @@ return
             mselt[1]=nil
           else
             mselt[1]=_("Forum:opt_unfollowthr") if sthreads[@thrsel.index].followed==true
-            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr")] if ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
+            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr"),_("Forum:opt_closethr")] if ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
+          mselt[8]=_("Forum:opt_openthr") if sthreads[@thrsel.index].closed and ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
                           end
           case menuselector(mselt)
           when 0
-            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id)
+            $scene=Scene_Forum_Thread.new(sthreads[@thrsel.index],id,@cat)
             break
             return
             when 1
@@ -1046,7 +1100,24 @@ getcache
                             return threadsmain(id)
                           end
                           end
-          end
+                          when 8
+                            clo=((sthreads[@thrsel.index].closed)?0:1)
+                            f=srvproc("forum_mod","name=#{$name}\&token=#{$token}\&closing=1\&close=#{clo.to_s}\&threadid=#{sthreads[@thrsel.index].id.to_s}")
+                            if f[0].to_i<0
+                              speech(_("General:error"))
+                            else
+                              if sthreads[@thrsel.index].closed
+                                sthreads[@thrsel.index].closed=false
+                                @thrsel.rows[@thrsel.index][0].gsub!("\004CLOSED\004","")
+                                speech(_("Forum:info_thropened"))
+                              else
+                                sthreads[@thrsel.index].closed=true
+                                @thrsel.rows[@thrsel.index][0]+="\004CLOSED\004"
+                                speech(_("Forum:info_thrclosed"))
+                              end
+             @thrsel.setcolumn(0)
+                              end
+                          end
           end
                 end
       end
@@ -1069,22 +1140,106 @@ forumindex=0
                                 end
                               end
                             if @forumtype == 0                            
-                                                          fields = [Edit.new(_("Forum:type_thrname"),"","",true), Edit.new(_("Forum:type_postcontent"),"MULTILINE","",true), CheckBox.new(_("Forum:opt_followthr")), Select.new(forums,true,forumindex,_("Forum:head")), nil, Button.new(_("General:str_cancel"))]
-                                                         fields[6] = Edit.new(_("Forum:type_nick"),"","",true) if $rang_moderator == 1 or $rang_developer == 1
+                                                          fields = [Edit.new(_("Forum:type_thrname"),"","",true), Edit.new(_("Forum:type_postcontent"),"MULTILINE","",true), nil, nil, Button.new(_("Forum:btn_addpoll")),nil,Button.new(_("Forum:btn_attach"))]
+                                                         fields[11] = Edit.new(_("Forum:type_nick"),"","",true) if $rang_moderator == 1 or $rang_developer == 1
                                                        else
-                                                         fields = [Edit.new(_("Forum:type_thrname"),"","",true), Button.new(_("Forum:btn_recpost")), nil, CheckBox.new(_("Forum:opt_followthr")), Select.new(forums,true,forumindex,_("Forum:head")), nil, Button.new(_("General:str_cancel"))]
+                                                         fields = [Edit.new(_("Forum:type_thrname"),"","",true), Button.new(_("Forum:btn_recpost")), nil]
                                                        end
+                                                       fields[7..10]=[CheckBox.new(_("Forum:opt_followthr")), Select.new(forums,true,forumindex,_("Forum:head")), nil, Button.new(_("General:str_cancel"))]
                                                                                                                form = Form.new(fields)
+                                                                                                               polls=[]
+                                                                                                               files=[]
                                                          loop do
                                                           loop_update
                                                           if @forumtype == 0 and (form.fields[0].text!="" and form.fields[1].text!="")
-                                                            form.fields[4]=Button.new(_("Forum:btn_send"))
+                                                            form.fields[9]=Button.new(_("Forum:btn_send"))
                                                           elsif @forumtype == 0
-                                                            form.fields[4]=nil
+                                                            form.fields[9]=nil
                                                           end
                                                           form.update
-                                                          if @forumtype == 0            
-                                                          if ($key[0x11] == true or form.index == 4) and enter
+                                                          if (enter or space) and form.index==4 and polls.size<3
+                                                            pls=srvproc("polls","name=#{$name}\&token=#{$token}\&list=1\&byme=1")
+                                                            if pls[0].to_i==0
+                                                              if pls[1].to_i>0
+                                                            ids=[]
+                                                            names=[]
+                                                                                                                        for i in 1...pls.size
+                                                            if i==1 or pls[i].delete("\r\n")=="\004END\004"
+                                                            ids.push(pls[i+1].to_i)
+                                                            names.push(pls[i+2])
+                                                                                                                      end
+                                                                                                                    end
+                                                                                                                                                                                ind=selector(names,_("Forum:head_polltoadd"),0,-1)
+                                                            if ind==-1
+                                                            form.focus
+                                                          else
+                                                            if polls.include?(ids[ind])
+                                                              speech(_("Forum:info_pollalreadyadded"))
+                                                            else
+                                                              polls.push(ids[ind])
+                                                              form.fields[3]||=Select.new([],true,0,_("Forum:head_polls"),true)
+                                                              form.fields[3].commandoptions.push(names[ind])
+                                                              speech(_("Forum:info_polladded"))
+                                                              end
+                                                            end
+                                                          else
+                                                            speech(_("Forum:info_nopolls"))
+                                                            speech_wait
+                                                          end
+                                                        else
+                                                          speech(_("General:error"))
+                                                          speech_wait
+                                                        end
+                                                        loop_update
+                                                          end
+                                                          if form.index==3 and $key[0x2e]
+                                                            play("edit_delete")
+                                                            polls.delete_at(form.fields[3].index)
+                                                            form.fields[3].commandoptions.delete_at(form.fields[3].index)
+                                                            form.fields[3].index-=1 if form.fields[3].index>0
+                                                            if polls.size==0
+                                                              form.fields[3]=nil
+                                                              form.index=4
+                                                              form.focus
+                                                            else
+                                                              speech(form.fields[3].commandoptions[form.fields[3].index])
+                                                              end
+                                                            end
+                                                            if (enter or space) and form.index==6 and files.size<3
+                                                              l=getfile(_("Forum:head_selattachment"), getdirectory(5)+"\\")
+                                                              if l!="" and l!=nil
+                                                                if files.include?(l)
+                                                                  speech(_("Forum:info_filealreadyattached"))
+                                                                else
+                                                                  if read(l,true)>16777216
+                                                                    speech(_("Forum:error_filetoolarge"))
+                                                                    else
+                                                                  files.push(l)
+                                                                  form.fields[5]||=Select.new([],true,0,_("Forum:head_attachments"),true)
+                                                                  form.fields[5].commandoptions.push(File.basename(l))
+                                                                  speech(_("Forum:info_fileattached"))
+                                                                  end
+                                                                  end
+                                                              else
+                                                                form.focus
+                                                              end
+                                                              loop_update
+                                                              end
+                                                                                                                    if form.index==5 and $key[0x2e]
+                                                            play("edit_delete")
+                                                            files.delete_at(form.fields[5].index)
+                                                            form.fields[5].commandoptions.delete_at(form.fields[5].index)
+                                                            form.fields[5].index-=1 if form.fields[5].index>0
+                                                            if files.size==0
+                                                              form.fields[5]=nil
+                                                              form.index=6
+                                                              form.focus
+                                                            else
+                                                              speech(form.fields[5].commandoptions[form.fields[5].index])
+                                                              end
+                                                            end
+                                                              if @forumtype == 0            
+                                                          if ($key[0x11] == true or form.index == 9) and enter
                                                                         play("list_select")
                                                                                                                                                 thread = form.fields[0].text_str
                                                                         text = form.fields[1].text_str
@@ -1104,11 +1259,11 @@ forumindex=0
                                                                             recpostst=2
                                                                             form.fields[1]=Button.new(_("Forum:btn_recagain"))
                                                                             form.fields[2]=Button.new(_("Forum:btn_playpost"))
-fields[5]=Button.new(_("Forum:btn_send"))
+fields[9]=Button.new(_("Forum:btn_send"))
                                                                             end                                                                            
                                                                       end
                                                        player("temp/audiothreadpost.wav","",true) if (enter or space) and form.index == 2 and recpostst == 2
-                                                                      if (enter or space) and form.index==5
+                                                                      if (enter or space) and form.index==9
                                                                         if recpostst==1
                                                                           play("recording_stop")
                                                                         recording_stop
@@ -1116,7 +1271,7 @@ fields[5]=Button.new(_("Forum:btn_send"))
                                                                       break
                                                                         end
                                                        end
-                                                                      if escape or (((form.index == 6 and @forumtype>=1) or (form.index==5 and @forumtype==0)) and enter)
+                                                                      if escape or (((form.index == 10)) and enter)
                                                                         recording_stop if @rectitlest==1 or @recpostst==1
                                                                         loop_update
                                                                         return
@@ -1126,9 +1281,24 @@ fields[5]=Button.new(_("Forum:btn_send"))
                               if @forumtype == 0                          
                                                               buf = buffer(text).to_s
                             addtourl=""
-                                                              addtourl = "\&uselore=1\&lore=#{form.fields[6].text_str}" if form.fields[6] != nil
-                                                              addtourl += "&follow=1" if form.fields[2].checked==1
-                            ft = srvproc("forum_edit","name=" + $name + "&token=" + $token + "&forumname=" + forumclasses[form.fields[3].index].name + "&threadname=" + thread.urlenc + "&buffer=" + buf + addtourl)
+                                                              addtourl = "\&uselore=1\&lore=#{form.fields[11].text_str}" if form.fields[11] != nil
+                                                              addtourl += "&follow=1" if form.fields[7].checked==1
+                                                              if polls.size>0
+                                                                addtourl+="\&polls="
+                                                                for i in 0...polls.size
+                                                                  addtourl+="," if i>0
+                                                                  addtourl+=polls[i].to_s
+                                                                  end
+                                                                end
+                                                                if files.size>0
+                                                                atts=""
+                                                                for f in files
+                                                                  atts+=send_attachment(f)+","
+                                                                end
+                                                                atts.chop! if atts[-1..-1]==","
+                                                                addtourl+="\&bufatt="+buffer(atts).to_s
+                                                                end
+                            ft = srvproc("forum_edit","name=" + $name + "&token=" + $token + "&forumname=" + forumclasses[form.fields[8].index].name + "&threadname=" + thread.urlenc + "&buffer=" + buf + addtourl)
                           else
                             waiting
                                           speech(_("Forum:wait_converting"))
@@ -1140,7 +1310,7 @@ fields[5]=Button.new(_("Forum:btn_send"))
     data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{flp}\r\n--#{boundary}--"
     length=data.size    
             host = $srv.delete("/")
-    q = "POST /srv/forum_edit.php?name=#{$name}\&token=#{$token}\&threadname=#{form.fields[0].text_str.urlenc}\&forumname=#{forumclasses[form.fields[4].index].name.urlenc}\&audio=1\&follow=#{form.fields[3].checked.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+    q = "POST /srv/forum_edit.php?name=#{$name}\&token=#{$token}\&threadname=#{form.fields[0].text_str.urlenc}\&forumname=#{forumclasses[form.fields[8].index].name.urlenc}\&audio=1\&follow=#{form.fields[7].checked.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
 a = connect(host,80,q).delete("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
@@ -1166,10 +1336,10 @@ end
 speech_wait
 end
 def getcache
-  #return agetcache
-  c=srvproc("forum_struct","name=#{$name}\&token=#{$token}",1).split("\r\n")
-  if c[0].to_i<0
+    c=srvproc("forum_struct","name=#{$name}\&token=#{$token}", 1).split("\r\n")
+      if c[0].to_i<0
     speech(_("General:error"))
+    speech_wait
     @groups=[]
     @forums=[]
     @threads=[]
@@ -1222,6 +1392,9 @@ def getcache
                               @groups.last.posts=line.to_i
                               when 12
                                 @groups.last.readposts=line.to_i
+                                when 13
+                                  @groups.last.acmembers=line.to_i
+                                  @groups.last.name+": "+@groups.last.acmembers.to_s
                               end
         end
       end
@@ -1274,6 +1447,10 @@ end
                   @threads.last.posts=line.to_i
                   when 6
                     @threads.last.readposts=line.to_i
+                    when 7
+                      @threads.last.pinned=true if line.to_i>0
+                      when 8
+                        @threads.last.closed=true if line.to_i>0
       end
     end
   end
@@ -1395,9 +1572,10 @@ def getstruct
 end
 
 class Scene_Forum_Thread
-  def initialize(thread,param=nil,query="",mention=nil)
+  def initialize(thread,param=nil,cat=0,query="",mention=nil)
             @threadclass=thread
     @param=param
+    @cat=cat
         @query=query
     @mention=mention
     @thread=@threadclass.id
@@ -1407,34 +1585,47 @@ class Scene_Forum_Thread
     #return $scene=Scene_Main.new if $eltsuspend
     if $name=="guest"
             @noteditable=true
+          elsif @threadclass.closed
+            @noteditable=true
             else
           @noteditable=isbanned($name)
-          @noteditable=true if (@threadclass.forum.group.role==0 and @threadclass.forum.group.open==false) or @threadclass.forum.group.role==3
+          @noteditable=true if (![1,2].include?(@threadclass.forum.group.role) and @threadclass.forum.group.open==false) or @threadclass.forum.group.role==3
           end
     getcache
         index=-1
     @fields=[]
     for i in 0..@posts.size-1
       post=@posts[i]
-      index=i if index==-1 and @param==-3 and post.post.downcase.include?(@query.downcase)
-      index=i if @mention!=nil and @param==-7 and post.id==@mention.post
-      @fields.push(Edit.new(post.authorname,"MULTILINE|READONLY",post.post+post.signature+post.date+"\r\n"+(i+1).to_s+"/"+@posts.size.to_s,true))
+      index=i*3 if index==-1 and @param==-3 and post.post.downcase.include?(@query.downcase)
+      index=i*3 if @mention!=nil and @param==-7 and post.id==@mention.post
+      @fields+=[Edit.new(post.authorname,"MULTILINE|READONLY",post.post+post.signature+post.date+"\r\n"+(i+1).to_s+"/"+@posts.size.to_s,true), nil, nil]
+      @fields[-1]=Select.new(name_attachments(post.attachments),true,0,_("Forum:head_attachments"),true) if post.attachments.size>0
+      if post.polls.size>0
+                names=[]
+        for o in post.polls
+          pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{o.to_s}")
+          names.push(pl[2].delete("\r\n")) if pl[0].to_i==0 and pl.size>1
+        end
+        @fields[-2]=Select.new(names,true,0,_("Forum:head_polls"),true) if names.size==post.polls.size
+        end
     end
     index=0 if index==-1
     index=@lastpostindex if @lastpostindex!=nil
+    index=0 if index>@fields.size
     @type=0
     @type=1 if @posts.size>0 and @posts[0].post.include?("\004AUDIO\004")
     if @noteditable==false
     case @type
     when 0
-      @fields+=[Edit.new(_("Forum:type_reply"),"MULTILINE","",true),nil,nil]
+      @fields+=[Edit.new(_("Forum:type_reply"),"MULTILINE","",true),nil,nil,nil,nil,nil,Button.new(_("Forum:btn_attach"))]
     else
-      @fields+=[Button.new(_("Forum:btn_recnewpost")),nil,nil]
+      @fields+=[Button.new(_("Forum:btn_recnewpost")),nil,nil,nil,nil,nil,nil]
     end
   else
-    @fields+=[nil,nil,nil]
+    @fields+=[nil,nil,nil,nil,nil,nil,nil]
     end
     @fields.push(Button.new(_("Forum:btn_back")))
+    @attachments=[]
     @form=Form.new(@fields,index)
     loop do
       loop_update
@@ -1450,9 +1641,71 @@ class Scene_Forum_Thread
       end
       menu if alt    
       if escape or ((space or enter) and @form.index==@fields.size-1)
-        $scene=Scene_Forum.new(@thread,@param,@query)
+        $scene=Scene_Forum.new(@thread,@param,@cat,@query)
         return
+      end
+      if enter and @form.index<@postscount*3 and @form.index%3==1
+        pl=@posts[@form.index/3].polls[@form.fields[@form.index].index]
+        voted=false
+        voted=true if srvproc("polls","name=#{$name}\&token=#{$token}\&voted=1\&poll=#{pl.to_s}")[1].to_i==1
+        selt=[_("Polls:btn_vote"),_("Polls:opt_results")]
+        selt[0]=nil if voted
+        case menuselector(selt)
+        when 0
+          $scenes.insert(0,Scene_Polls_Answer.new(pl.to_i,Scene_Main.new))
+          when 1
+            $scenes.insert(0,Scene_Polls_Results.new(pl.to_i,Scene_Main.new))
         end
+        loop_update
+        @form.focus
+        end
+      if enter and @form.index<@postscount*3 and @form.index%3==2
+        fl=@posts[@form.index/3].attachments[@form.fields[@form.index].index]
+        nm=name_attachments([fl]).first
+        loc = getfile(_("Forum:head_attachmentsavelocation"), getdirectory(40)+"\\", true, "Documents")
+        if loc!=nil and loc!=""
+          waiting
+                    downloadfile($url+"/attachments/"+fl,loc+"\\"+nm)
+          waiting_end
+          speech(_("General:info_saved"))
+        else
+          @form.focus
+        end
+        loop_update
+        end
+      if ((space or enter) and @form.index==@fields.size-2) and @attachments.size<3
+                                                                      l=getfile(_("Forum:head_selattachment"), getdirectory(5)+"\\")
+                                                              if l!="" and l!=nil
+                                                                if @attachments.include?(l)
+                                                                  speech(_("Forum:info_filealreadyattached"))
+                                                                else
+                                                                  if read(l,true)>16777216
+                                                                    speech(_("Forum:error_filetoolarge"))
+                                                                    else
+                                                                  @attachments.push(l)
+                                                                  @form.fields[@form.fields.size-3]||=Select.new([],true,0,_("Forum:head_attachments"),true)
+                                                                  @form.fields[@form.fields.size-3].commandoptions.push(File.basename(l))
+                                                                  speech(_("Forum:info_fileattached"))
+                                                                  end
+                                                                  end
+                                                              else
+                                                                @form.focus
+                                                              end
+                                                              loop_update
+                                                            end
+                                                                                                                                                                                if @form.index==@form.fields.size-3 and $key[0x2e]
+                                                            play("edit_delete")
+                                                            @attachments.delete_at(@form.fields[@form.fields.size-3].index)
+                                                            @form.fields[@form.fields.size-3].commandoptions.delete_at(@form.fields[@form.fields.size-3].index)
+                                                            @form.fields[@form.fields.size-3].index-=1 if @form.fields[@form.fields.size-3].index>0
+                                                            if @attachments.size==0
+                                                              @form.fields[@form.fields.size-3]=nil
+                                                              @form.index=@form.fields.size-2
+                                                              @form.focus
+                                                            else
+                                                              speech(@form.fields[@form.fields.size-3].commandoptions[@form.fields[@form.fields.size-3].index])
+                                                              end
+                                                            end
       break if $scene!=self
         end
   end
@@ -1462,12 +1715,12 @@ class Scene_Forum_Thread
         @form.index=0
         @form.focus
       elsif $key[0xbe]
-        @form.index=@postscount-1
+        @form.index=@postscount*3-3
         @form.focus
-      elsif $key[0x44] and @type==0 and @form.index<@postscount and @noteditable==false
-        @form.fields[@postscount].settext("\r\n--Cytat (#{@posts[@form.index].authorname}):\r\n#{@posts[@form.index].post}\r\n--Koniec cytatu\r\n#{@form.fields[@postscount].text_str}")
-                @form.fields[@postscount].index=0
-        @form.index=@postscount
+      elsif $key[0x44] and @type==0 and @form.index<@postscount*3 and @noteditable==false
+        @form.fields[@postscount*3].settext("\r\n--Cytat (#{@posts[@form.index/3].authorname}):\r\n#{@posts[@form.index/3].post}\r\n--Koniec cytatu\r\n#{@form.fields[@postscount*3].text_str}")
+                @form.fields[@postscount*3].index=0
+        @form.index=@postscount*3
         @form.focus
       elsif $key[0x4A]
         selt=[]
@@ -1475,27 +1728,36 @@ class Scene_Forum_Thread
     selt.push((i+1).to_s+" z "+@postscount.to_s+": "+@posts[i].author)
     end
   dialog_open
-    @form.index=selector(selt,_("Forum:head_selpost"),@form.index,@form.index)
+    @form.index=selector(selt,_("Forum:head_selpost"),@form.index,@form.index)*3
     dialog_close
   @form.focus         
         elsif $key[0x4e] and @noteditable==false
-          @form.index=@postscount
+          @form.index=@postscount*3
           @form.focus
           elsif $key[0x55] and @readposts<@postscount
-            @form.index=@readposts
+            @form.index=@readposts*3
             @form.focus
           end
           end
         end
         def textsendupdate
-                    if @form.fields[@postscount].text=="" and @form.fields[@postscount+2]!=nil
-                        @form.fields[@postscount+2]=nil
-          elsif @form.fields[@postscount].text!="" and @form.fields[@postscount+2]==nil
-            @form.fields[@postscount+2]=Button.new(_("Forum:btn_send"))
+                    if @form.fields[@postscount*3].text=="" and @form.fields[@postscount*3+2]!=nil
+                        @form.fields[@postscount*3+2]=nil
+          elsif @form.fields[@postscount*3].text!="" and @form.fields[@postscount*3+2]==nil
+            @form.fields[@postscount*3+2]=Button.new(_("Forum:btn_send"))
           end
-          if ((enter or space) and @form.index==@postscount+2) or (enter and $key[0x11] and @form.index==@postscount)
-            buf = buffer(@form.fields[@postscount].text_str).to_s
-            st=srvproc("forum_edit","name=#{$name}&token=#{$token}\&threadid=#{@thread.to_s}\&buffer=#{buf}")
+          if ((enter or space) and @form.index==@postscount*3+2) or (enter and $key[0x11] and @form.index==@postscount*3)
+            buf = buffer(@form.fields[@postscount*3].text_str).to_s
+            addtourl=""
+            if @attachments.size>0
+                                                                atts=""
+                                                                for f in @attachments
+                                                                  atts+=send_attachment(f)+","
+                                                                end
+                                                                atts.chop! if atts[-1..-1]==","
+                                                                addtourl+="\&bufatt="+buffer(atts).to_s
+                                                                end
+            st=srvproc("forum_edit","name=#{$name}&token=#{$token}\&threadid=#{@thread.to_s}\&buffer=#{buf}\&#{addtourl}")
 if st[0].to_i<0
   speech(_("General:error"))
 else
@@ -1507,24 +1769,24 @@ return main
         end
         def audiosendupdate
          @recording = 0 if @recording == nil
-           if (enter or space) and @form.index==@form.fields.size-4
+           if (enter or space) and @form.index==@form.fields.size-8
              if @recording==0 or @recording==2
                  @recording=1
     recording_start("temp/audiopost.wav")
     play("recording_start")
-    @form.fields[@form.fields.size-4]=Button.new(_("Forum:btn_recstop"))
-    @form.fields[@form.fields.size-3]=nil
+    @form.fields[@form.fields.size-8]=Button.new(_("Forum:btn_recstop"))
+    @form.fields[@form.fields.size-7]=nil
       elsif @recording == 1
     recording_stop
     play("recording_stop")
-    @form.fields[@form.fields.size-4]=Button.new(_("Forum:btn_recagain"))
-    @form.fields[@form.fields.size-3]=Button.new(_("Forum:btn_play"))
-    @form.fields[@form.fields.size-2]=Button.new(_("Forum:btn_sendaudio"))
+    @form.fields[@form.fields.size-8]=Button.new(_("Forum:btn_recagain"))
+    @form.fields[@form.fields.size-7]=Button.new(_("Forum:btn_play"))
+    @form.fields[@form.fields.size-6]=Button.new(_("Forum:btn_sendaudio"))
     @recording = 2
              end
            end
-             player("temp/audiopost.wav","",true) if (enter or space) and @form.index == @form.fields.size-3
-             if (enter or space) and @form.index == @form.fields.size-2 and @recording == 2
+             player("temp/audiopost.wav","",true) if (enter or space) and @form.index == @form.fields.size-7
+             if (enter or space) and @form.index == @form.fields.size-6 and @recording == 2
                    if @recording == 1
       play("recording_stop")
       recording_stop
@@ -1567,26 +1829,26 @@ def menu
   play("menu_background")
   cat=0
   sel=["#{_("Forum:opt_phr_author")}",_("Forum:opt_reply"),_("Forum:opt_navigation"),_("Forum:opt_mention"),_("Forum:opt_listen"),_("Forum:opt_followthr"),_("General:str_refresh"),_("General:str_cancel")]
-    sel.push(_("Forum:opt_moderation")) if @form.index<@postscount && ((($rang_moderator==1&&@threadclass.forum.group.recommended)||(@threadclass!=nil&&@threadclass.forum.group.role==2)) || (@posts[@form.index].author==$name))
+    sel.push(_("Forum:opt_moderation")) if @form.index<@postscount*3 && ((($rang_moderator==1&&@threadclass.forum.group.recommended)||(@threadclass!=nil&&@threadclass.forum.group.role==2)) || (@posts[@form.index/3].author==$name))
   sel[5]=_("Forum:opt_unfollowthr") if @followed==true
-  sel[0]=@posts[@form.index].authorname if @form.index<@postscount
+  sel[0]=@posts[@form.index/3].authorname if @form.index<@postscount*3
   index=0
-  index=1 if @form.index>=@postscount
+  index=1 if @form.index>=@postscount*3
   @menu=@origmenu=menulr(sel,true,index,"",true)
-  @menu.disable_item(0) if @form.index>=@postscount
-  @menu.disable_item(3) if @form.index>=@postscount
-  @menu.disable_item(5) if @form.index>=@posts.size
+  @menu.disable_item(0) if @form.index>=@postscount*3
+  @menu.disable_item(3) if @form.index>=@postscount*3
+  @menu.disable_item(5) if @form.index>=@posts.size*3
   @menu.focus
   res=-1
   loop do
     loop_update
-@menu.update
  if enter or (Input.trigger?(Input::DOWN) and cat==0 and @menu.index!=3 and @menu.index!=4 and @menu.index!=5 and @menu.index!=6)
+   loop_update
    case cat
    when 0
     case @menu.index
     when 0
-           if usermenu(@posts[@form.index].author,true)=="ALT"
+           if usermenu(@posts[@form.index/3].author,true)=="ALT"
         break
       else
         if $scene==self
@@ -1597,19 +1859,19 @@ def menu
       end
             end
             when 1
-      if @form.index>=@postscount
+      if @form.index>=@postscount*3
         res=4
         break
         else
         cat=1
-        @menu=menulr([_("Forum:opt_reply"),_("Forum:opt_quote")])
+        @menu=Select.new([_("Forum:opt_reply"),_("Forum:opt_quote")])
         @menu.disable_item(1) if @type==1
       end
       when 2
         ls=[_("Forum:opt_gotopost"),_("Forum:opt_searchthr"),_("Forum:opt_gotofirst"),_("Forum:opt_gotolast")]
         ls.push(_("Forum:opt_gotounread")) if @readposts<@postscount
         cat=2
-        @menu=menulr(ls)
+        @menu=Select.new(ls)
         @menu.disable_item(1) if @type==1
         when 3
           res=15
@@ -1630,7 +1892,7 @@ when 4
           cat=3
           ls=[_("Forum:opt_edit")]
           ls+=[_("Forum:opt_movepost"),_("Forum:opt_deletepost"),_("Forum:opt_slidepost")] if $rang_moderator==1 or @threadclass.forum.group.role==2
-          @menu=menulr(ls,true,0,"",false)
+          @menu=Select.new(ls,true,0,"",false)
           @menu.disable_item(0) if @type==1
           @menu.focus
         end
@@ -1645,11 +1907,12 @@ break
             break
               end
             end
- if Input.trigger?(Input::UP) and cat>0
+ if Input.trigger?(Input::UP) and cat>0 and @menu.index==0
    cat=0
    @menu=@origmenu
    @menu.focus
-   end
+ end
+ @menu.update
  if alt or escape
    break
    end
@@ -1676,14 +1939,14 @@ else
     when 2
       return main
       when 3
-      return $scene=Scene_Forum.new(@thread,@param)
+      return $scene=Scene_Forum.new(@thread,@param,@cat)
       when 4
-        @form.index=@postscount
+        @form.index=@postscount*3
         @form.focus
         when 5
-          @form.fields[@postscount].settext("\r\n--Cytat (#{@posts[@form.index].authorname}):\r\n#{@posts[@form.index].post}\r\n--Koniec cytatu\r\n#{@form.fields[@postscount].text_str}")
-                @form.fields[@postscount].index=0
-        @form.index=@postscount
+          @form.fields[@postscount*3].settext("\r\n--Cytat (#{@posts[@form.index/3].authorname}):\r\n#{@posts[@form.index/3].post}\r\n--Koniec cytatu\r\n#{@form.fields[@postscount*3].text_str}")
+                @form.fields[@postscount*3].index=0
+        @form.index=@postscount*3
         @form.focus
           when 6
             selt=[]
@@ -1691,7 +1954,7 @@ else
     selt.push((i+1).to_s+" z "+@postscount.to_s+": "+@posts[i].author)
     end
   dialog_open
-    @form.index=selector(selt,_("Forum:head_selpost"),@form.index,@form.index)
+    @form.index=selector(selt,_("Forum:head_selpost"),@form.index,@form.index)*3
     dialog_close
   @form.focus         
             when 7
@@ -1702,7 +1965,7 @@ else
           ind=-1
           for i in 0..@posts.size-1
     if @posts[i].post.downcase.include?(search.downcase)
-      selt.push((i+1).to_s+" z "+@postscount.to_s+": "+@posts[i].author)
+      selt.push((i+1).to_s+": "+@posts[i].author)
       sr.push(i)
       ind=selt.size-1 if i>=@form.index and ind==-1
       end
@@ -1711,7 +1974,7 @@ else
     if selt.size>0
     dialog_open
     ind=selector(selt,_("Forum:head_selpost"),ind,-1)
-    @form.index=sr[ind] if ind!=-1
+    @form.index=sr[ind]*3 if ind!=-1
         dialog_close
   @form.focus         
 else
@@ -1722,20 +1985,20 @@ else
                 @form.index=0
                 @form.focus
                 when 9
-                  @form.index=@postscount-1
+                  @form.index=@postscount*3-3
                   @form.focus
                   when 10
-                    @form.index=@readposts
+                    @form.index=@readposts*3
                     @form.focus
                     when 11
 dialog_open
-                      form=Form.new([Edit.new(_("Forum:type_editpost"),"MULTILINE",@posts[@form.index].post),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
+                      form=Form.new([Edit.new(_("Forum:type_editpost"),"MULTILINE",@posts[@form.index/3].post),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
                       loop do
                         loop_update
                         form.update
                         if form.fields[0].text_str.size>1 and (((enter or space) and form.index==1) or (enter and $key[0x11] and form.index<2))
                           buf=buffer(form.fields[0].text_str)
-if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&edit=1\&postid=#{@posts[@form.index].id.to_s}\&threadid=#{@thread.to_s}\&buffer=#{buf}")[0].to_i<0
+if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&edit=1\&postid=#{@posts[@form.index/3].id.to_s}\&threadid=#{@thread.to_s}\&buffer=#{buf}")[0].to_i<0
   speech(_("General:error"))
 else
   speech(_("Forum:info_postmodified"))
@@ -1771,7 +2034,7 @@ for t in mthreads
 end
 destination=selector(selt,_("Forum:head_movepostlocation"),curr,-1)
 if destination!=-1
-    if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=2\&postid=#{@posts[@form.index].id}\&destination=#{mthreads[destination].id}\&threadid=#{@thread}")[0].to_i<0
+    if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=2\&postid=#{@posts[@form.index/3].id}\&destination=#{mthreads[destination].id}\&threadid=#{@thread}")[0].to_i<0
     speech(_("General:error"))
   else
     speech(_("Forum:info_postmoved"))
@@ -1786,7 +2049,7 @@ when                        13
                                                       if @posts.size==1
                                                       prm="name=#{$name}\&token=#{$token}\&threadid=#{@thread}\&delete=1"
                                                     else
-                                                      prm="name=#{$name}\&token=#{$token}\&postid=#{@posts[@form.index].id}\&threadid=#{@thread}\&delete=2"
+                                                      prm="name=#{$name}\&token=#{$token}\&postid=#{@posts[@form.index/3].id}\&threadid=#{@thread}\&delete=2"
                                                     end
                                                     if srvproc("forum_mod",prm)[0].to_i<0
                                                       speech(_("General:error"))
@@ -1794,7 +2057,7 @@ when                        13
                                                       speech(_("Forum:info_postdeleted"))
                                                       speech_wait
                                                       if @posts.size==1
-                                                        $scene=Scene_Forum.new(@thread,@param,@query)
+                                                        $scene=Scene_Forum.new(@thread,@param,@cat,@query)
                                                       else
                                                                                                                 @lastpostindex=@form.index
                                                         return main
@@ -1808,14 +2071,16 @@ when                        13
                                                                                                               end
                                                       dest=selector(sels,_("Forum:head_postslidewith"),@form.index,-1)
                                                       if dest!=-1
-                                                        if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=3\&source=#{@posts[@form.index].id.to_s}\&destination=#{@posts[dest].id.to_s}")[0].to_i==0
+                                                        if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=3\&source=#{@posts[@form.index/3].id.to_s}\&destination=#{@posts[dest].id.to_s}")[0].to_i==0
                                                           speech(_("Forum:info_postslided"))
                                                         else
                                                           speech(_("General:error"))
                                                         end
                                                         speech_wait
-                                                        @posts[@form.index],@posts[dest]=@posts[dest],@posts[@form.index]
-                                                        @form.fields[@form.index],@form.fields[dest]=@form.fields[dest],@form.fields[@form.index]
+                                                        @posts[@form.index/3],@posts[dest]=@posts[dest],@posts[@form.index/3]
+                                                        @form.fields[@form.index],@form.fields[dest*3]=@form.fields[dest*3],@form.fields[@form.index]
+                                                        @form.fields[@form.index+1],@form.fields[dest*3+1]=@form.fields[dest*3+1],@form.fields[@form.index+1]
+                                                        @form.fields[@form.index+2],@form.fields[dest*3+2]=@form.fields[dest*3+2],@form.fields[@form.index+2]
                                                         @form.focus
                                                         end
                                                     when 15
@@ -1844,7 +2109,7 @@ when                        13
                                                             break
                                                           end
                                                           if (enter or space) and form.index==2
-                                                            mt=srvproc("mentions","name=#{$name}\&token=#{$token}\&add=1\&user=#{users[form.fields[0].index]}\&message=#{form.fields[1].text_str}\&thread=#{@thread}\&post=#{@posts[@form.index].id}")
+                                                            mt=srvproc("mentions","name=#{$name}\&token=#{$token}\&add=1\&user=#{users[form.fields[0].index]}\&message=#{form.fields[1].text_str}\&thread=#{@thread}\&post=#{@posts[@form.index/3].id}")
                                                             if mt[0].to_i<0
                                                               speech(_("General:error"))
                                                             else
@@ -1858,13 +2123,13 @@ when                        13
                                                                                         when 16
                                 if $voice==-1 and @type==0
                                   text=""
-                                  for pst in @posts[@form.index..@posts.size]
+                                  for pst in @posts[@form.index/3..@posts.size]
                                     text+=pst.author+"\r\n"+pst.post+"\r\n"+pst.date+"\r\n\r\n"
                                   end
                                   speech(text)
                                 else
                                   speech_wait
-                                  cur=@form.index-1
+                                  cur=@form.index/3-1
                                   while cur<@posts.size
                                     loop_update
                                     if speech_actived==false and Win32API.new("screenreaderapi","sapiIsPaused",'','i').call==0
@@ -1901,7 +2166,7 @@ when                        13
   loop_update  
   end
   def getcache
-    c=srvproc("forum_thread","name=#{$name}\&token=#{$token}\&thread=#{@thread.to_s}")
+    c=srvproc("forum_thread","name=#{$name}\&token=#{$token}\&thread=#{@thread.to_s}\&atts=1")
         return if c[0].to_i<0
     @cache=c
     @cachetime=c[1].to_i
@@ -1930,6 +2195,12 @@ t=0
               @posts.last.date=l.delete("\r\n")
               t+=1
               when 4
+                @posts.last.polls=l.delete("\r\n").split(",").map {|a| a.to_i}
+                t+=1
+                when 5
+                  @posts.last.attachments=l.delete("\r\n").split(",")
+                  t+=1
+              when 6
                if l.delete("\r\n")=="\004END\004"
               t=0
             else
@@ -1955,6 +2226,7 @@ class Struct_Forum_Group
                             attr_accessor :recommended
                             attr_accessor :description
                             attr_accessor :founder
+                            attr_accessor :acmembers
                             def initialize(id=0)
                               @id=id
                               @name=""
@@ -1968,6 +2240,7 @@ class Struct_Forum_Group
                               @recommended=false
                               @description=""
                               @founder=""
+                              @acmembers=0
                             end
                             end
                           
@@ -2010,6 +2283,8 @@ class Struct_Forum_Group
                                     attr_accessor :lastupdate
                                     attr_accessor :forum
                                     attr_accessor :mention
+                                    attr_accessor :pinned
+                                    attr_accessor :closed
                                     def initialize(id=0,name="")
                                       @id=id
                                       @name=name
@@ -2019,6 +2294,8 @@ class Struct_Forum_Group
                                       @followed=false
                                     @lastupdate=0
                                     @forum=""  
+                                    @pinned=false
+                                    @closed=false
                                     end\
                                   end
                                   
@@ -2029,6 +2306,8 @@ class Struct_Forum_Group
                                     attr_accessor :authorname
                                                                         attr_accessor :signature
                                                                         attr_accessor :date
+                                                                        attr_accessor :attachments
+                                                                        attr_accessor :polls
                                     def initialize(id=0)
                                       @id=id
                                       @author=""
@@ -2036,6 +2315,8 @@ class Struct_Forum_Group
                                       @authorname=""
                                                                             @signature=""
                                     @date=""
+                                    @attachments=[]
+                                    @polls=[]
                                                                             end
                                                                           end
                                                                           class Struct_Forum_Mention

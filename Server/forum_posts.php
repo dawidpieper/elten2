@@ -35,18 +35,18 @@ echo "0" . $tekst;
 if($_GET['cat'] == 1) {
 $forumname = NULL;
 $forumname = $_GET['forumname'];
-$q = mquery("SELECT `updatedate`, `expiredate`, `content` FROM `cache` WHERE `forumname`='".$forumname."'");
+$q = mquery("SELECT `updatedate`, `expiredate`, `content` FROM `cache` WHERE `forumname`='".mysql_real_escape_string($forumname)."'");
 $tekst = "";
 $r = mysql_fetch_row($q);
 if($r[0] > $r[1] AND $forumname!=NULL and $forumname[0]!="*" and $_GET['details']==1)
 $tekst = $r[2];
 else {
 if($forumname != NULL and $forumname[0]!="*")
-$qr = "SELECT `id` FROM `forum_threads` WHERE `forum`='" . $_GET['forumname'] . "' ORDER BY `lastpostdate` DESC";
+$qr = "SELECT `id` FROM `forum_threads` WHERE `forum`='" . mysql_real_escape_string($_GET['forumname']) . "' ORDER BY `lastpostdate` DESC";
 elseif($forumname[0]=="*") {
 $f=str_replace("\\","\\\\",$forumname);
 $f=ltrim(str_replace("'","\\'",$f),"*");
-$qr = "SELECT DISTINCT `thread` FROM `forum_posts` WHERE LOWER(`post`) LIKE LOWER('%".$f."%')";
+$qr = "SELECT DISTINCT `thread` FROM `forum_posts` WHERE LOWER(`post`) LIKE LOWER('%".mysql_real_escape_string($f)."%')";
 }
 else
 $qr = "SELECT `id` FROM `forum_threads` WHERE `id` in (SELECT `thread` FROM `followedthreads` WHERE `owner`='" . $_GET['name'] . "') ORDER BY `lastpostdate` DESC";
@@ -57,7 +57,7 @@ $tekst .= "\r\n" . $r[0] . "\r\n";
 if($forumname[0]=="*") {
 $f=str_replace("\\","\\\\",$_GET['forumname']);
 $f=ltrim(str_replace("'","\\'",$f),"*");
-$q2 = mquery("SELECT `id`,`author` FROM `forum_posts` WHERE `thread`=" . $r[0]." AND `post` LIKE '%".$f."%'");
+$q2 = mquery("SELECT `id`,`author` FROM `forum_posts` WHERE `thread`=" . $r[0]." AND `post` LIKE '%".mysql_real_escape_string($f)."%'");
 }
 else
 $q2 = mquery("SELECT `id`,`author` FROM `forum_posts` WHERE `thread`=" . $r[0]);
@@ -66,18 +66,14 @@ if($_GET['details']==1)
 $tekst .= "\r\n".mysql_fetch_row($q2)[1];
 }
 if($forumname!=NULL and $forumname[0]!="*" and $_GET['details']==1) {
-mquery("UPDATE `cache` SET `updatedate`=".time().", `content`='".$tekst."' WHERE `forumname`='".$forumname."'");
+mquery("UPDATE `cache` SET `updatedate`=".time().", `content`='".$tekst."' WHERE `forumname`='".mysql_real_escape_string($forumname)."'");
 }
 }
 echo "0" . $tekst;
 }
 if($_GET['cat'] == 2 and $_GET['name']!="guest") {
 $zapytanie = "SELECT `forum`, `thread`, `posts` FROM `forum_read` WHERE `owner`='" . $_GET['name'] . "'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+$idzapytania = mquery($zapytanie);
 $posts = 0;
 $tekst = "";
 while ($wiersz = mysql_fetch_row($idzapytania)){
@@ -86,12 +82,8 @@ $tekst .= "\r\n" . $wiersz[1] . "\r\n" . $wiersz[2];
 echo "0" . $tekst;
 }
 if($_GET['cat'] == 3) {
-$zapytanie = "SELECT `id` FROM `forum_posts` WHERE `author`='".$_GET['searchname']."'";
-$idzapytania = mysql_query($zapytanie);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+$zapytanie = "SELECT `id` FROM `forum_posts` WHERE `author`='".mysql_real_escape_string($_GET['searchname'])."'";
+$idzapytania = mquery($zapytanie);
 echo "0\r\n".mysql_num_rows($idzapytania);
 }
 ?>

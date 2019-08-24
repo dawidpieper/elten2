@@ -14,10 +14,56 @@ module EltenAPI
     # @param param [String] & terminated parameters
     # @param output [Numeric] output type: 0 - Array of lines, 1 - string
         def srvproc(mod,param,output=0)
-    url = $url + mod + ".php?" + hexspecial(param)
-    tmpname = "temp/eas#{(rand(36**2).to_s(36))}.tmp"
-#tm=Time.now.to_i*1000000+Time.now.usec
-    return ["-1"] if download(url,tmpname) != 0
+          if $agent!=nil
+        id=rand(1e8)
+            $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>mod,'param'=>param,'id'=>id}))
+            t=Time.now.to_f
+            w=false
+    while $eresps[id]==nil
+      loop_update
+      if Time.now.to_f-t>2 and w==false
+        waiting
+        w=true
+      elsif Time.now.to_f-t>15
+        waiting_end
+        return srvproc(mod,param,output)
+      end
+      if escape and w
+        waiting_end
+                case output
+        when 0
+          return ["-1"]
+          when 1
+            return "-1"
+        end
+        end
+      end
+      waiting_end if w
+            if $eresps[id]['resp']==nil
+return srvproc(mod,param,output)        
+end
+    case output
+    when 0
+r=$eresps[id]['resp'].delete("\r").split("\n")
+    for i in 0...r.size
+      r[i]+="\r\n"
+      end
+      return r
+    when 1
+      return $eresps[id]['resp']
+      end
+    end
+        url = $url + mod + ".php?" + hexspecial(param)
+tmpname = "temp/eas#{(rand(36**2).to_s(36))}.tmp"
+    #tm=Time.now.to_i*1000000+Time.now.usec
+ if download(url,tmpname) != 0
+   case output
+   when 0
+return ["-1"]
+when 1
+  return "-1"
+end
+end
         #speech("#{read(tmpname,true)}B pobrano w "+((Time.now.to_i*1000000+Time.now.usec-tm)/1000).to_s+"ms (#{mod})");speech_wait
         case output
     when 0
@@ -29,7 +75,58 @@ module EltenAPI
       end
     File.delete(tmpname) if $DEBUG==false
         return r
-          end
+      end
+      
+      def name_attachments(attachments, names=[])
+  return names if names!=nil&&names.size>0
+                      for at in attachments
+                      ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+                      if ati[0].to_i<0 or ati.size==1
+                        attachments.delete(at)
+                        next
+                      end
+                      names.push(ati[2].delete("\r\n"))
+                    end
+                    return names
+  end
+      
+      def send_attachment(file)
+           data = ""
+                                      host = $srv
+  host.delete!("/")
+        fl=read(file)
+    boundary=""
+        while fl.include?(boundary)
+        boundary="----EltBoundary"+rand(36**32).to_s(36)
+        end
+    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{fl}\r\n--#{boundary}--"
+    length=data.size    
+    q = "POST /srv/attachments.php?add=1\&filename=#{File.basename(file).urlenc}\&name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+  a = connect(host,80,q,2048,s_("Messages:wait_sendingfile",{'file'=>File.basename(file)}))
+a.delete!("\0")
+for i in 0..a.size - 1
+  if a[i..i+3] == "\r\n\r\n"
+    s = i+4
+    break
+    end
+  end
+  if s == nil
+    speech(_("General:error"))
+    return nil
+  end
+  sn = a[s..a.size - 1]
+    a = nil
+        bt = strbyline(sn)
+err = bt[0].to_i
+            speech_wait
+                        if err < 0
+      speech(_("General:error"))
+    speech_wait
+return nil
+else
+      return bt[1].delete("\r\n")
+    end
+end
           
           # Gets the status of specified user
           #
@@ -57,9 +154,8 @@ module EltenAPI
   $statustexts = []
       tonline = srvproc("online","name=#{$name}\&token=#{$token}")
             for i in 0..tonline.size - 1
-      tonline[i].delete!("\r")
-      tonline[i].delete!("\n")
-    end
+      tonline[i].delete!("\r\n")
+          end
         $statusonline = []
     for i in 1..tonline.size - 1
       $statusonline.push(tonline[i]) if tonline[i].size > 0
@@ -82,7 +178,8 @@ module EltenAPI
     end
   end
   st = ""
-  for i in 0..$statususers.size - 1
+  return if $statususers==nil
+  for i in 0...$statususers.size
     if name == $statususers[i]
       st = $statustexts[i]
       end
@@ -108,7 +205,7 @@ def setstatus(text)
   # @param data [String] buffer input
   # @return [Numeric] a buffer id
   def buffer(data)
-                                return buffer_post(data)
+                                    return buffer_post(data)
         s=false
     while s==false
       s=true
@@ -386,18 +483,16 @@ end
 
 # @note this function is reserved.
 def speedtest
-    tm = Time.now
-starttm = tm.to_i+tm.usec/1000000.0
-i=[]
+    times=[]
+    i=[]
 for i in 1..30
+  t=Time.now.to_f
 i = srvproc("active","name=#{$name}\&token=#{$token}")
+times.push(Time.now.to_f-t)
+#delay(0.1)
 end
-  tm = Time.now
-  stoptm = tm.to_i+tm.usec/1000000.0
-  time=(((stoptm-starttm)*1000)/30).to_i
-  speech("#{_("EAPI_EltenSRV:info_phr_sessconftime")}: #{time.to_s}ms.")
+    speech("#{_("EAPI_EltenSRV:info_phr_sessconftime")}: #{((times.sum.to_f/times.size.to_f)*1000).round}ms.")
     speech_wait
-return time
 end
 
 
@@ -536,6 +631,19 @@ def srvstate
     $eltsuspend=(st[1].to_i==1)?true:false
     end
   end
+  
+
+  def cryptmessage(msg)
+    b="\0"*20
+    b="\0"*(msg.bytesize+18) if msg!=nil
+    begin
+      a=Win32API.new($eltenlib,"CryptMessage",'ppi','i').call(msg,b,b.bytesize)
+      return b
+    rescue Exception
+      return "err::#{$!.to_s}"
+      end
+      end
+
         end
   end
 #Copyright (C) 2014-2019 Dawid Pieper

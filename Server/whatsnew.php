@@ -47,16 +47,16 @@ mquery("UPDATE `whatsnew` SET `messages`=0 WHERE `name`=".$_GET['name']);
 echo "0\r\n" . $nmessages . "\r\n" . $nposts . "\r\n" . $nblogposts . "\r\n" . $nblogcomments;
 }
 if($_GET['set']>0) {
-$nmessages = $_GET['messages'];
+$nmessages = (int)$_GET['messages'];
 if($_GET['set']==2)
 $nmessages=mysql_num_rows(mquery("SELECT `id` FROM `messages` WHERE `receiver`='".$_GET['name']."' AND `deletedfromreceived`=0"))-$nmessages;
-$nposts = $_GET['posts'];
+$nposts = (int)$_GET['posts'];
 if($_GET['blogposts'] != NULL)
-$nblogposts = $_GET['blogposts'];
+$nblogposts = (int)$_GET['blogposts'];
 else
 $nblogposts = -1;
 if($_GET['blogcomments'] != NULL)
-$nblogcomments = $_GET['blogcomments'];
+$nblogcomments = (int)$_GET['blogcomments'];
 else
 $nblogcomments = -1;
 if($nposts == -1)
@@ -67,7 +67,7 @@ if($nblogposts == -1)
 $nblogposts = $blogposts;
 if($nblogcomments == -1)
 $nblogcomments = $blogcomments;
-mquery("UPDATE `whatsnew` SET `messages`=".$nmessages.", `posts`=".$nposts.", `blogposts`=".$nblogposts.", `blogcomments`=".$nblogcomments." WHERE `name`='" . $_GET['name'] . "'");
+mquery("UPDATE `whatsnew` SET `messages`=".(int)$nmessages.", `posts`=".(int)$nposts.", `blogposts`=".(int)$nblogposts.", `blogcomments`=".(int)$nblogcomments." WHERE `name`='" . $_GET['name'] . "'");
 echo "0";
 }
 ?>

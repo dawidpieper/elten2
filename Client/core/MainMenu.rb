@@ -10,43 +10,49 @@ def initialize
     $runprogram = nil
     play("menu_open")
     play("menu_background")
-    @header = "Menu: "
+    @header = _("MainMenu:head")
   end
   def main
         srvstate
         sel = [_("MainMenu:opt_community"),_("MainMenu:opt_addons"),_("MainMenu:opt_programs"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
                 @sel = menulr(sel,true,0,@header)
         @header = ""
+        skiploop=false
     loop do
-loop_update
+      loop_update if skiploop==false
       @sel.update
       if $scene != self
         break
       end
-      if enter or (Input.trigger?(Input::DOWN))
+      if enter or (Input.trigger?(Input::DOWN)) or skiploop
         index = @sel.index
         case @sel.index
         when 0
-          community
+          s=community
           when 1
-            addons
+            s=addons
                         when 2
-              programs
+              s=programs
           when 3
-            tools
+            s=tools
             when 4
-              settings
+              s=settings
             when 5
-              help
+              s=help
           when 6
-            exit
+            s=exit
           end
           if $scene == self
-            loop_update
+            loop_update if s==false
 @sel = menulr(sel)
                   @sel.index = index
           @sel.focus
-          end
+        end
+        if s==true
+        skiploop=true
+      else
+        skiploop=false
+                end
           end
           if escape or alt
 close
@@ -54,24 +60,23 @@ close
           end
         end
         def programs
-    Graphics.transition(10)  if $ruby != true
-    sel=[]
+        sel=[]
     $app=[] if $app==nil
     for a in $app
       sel.push(a[2])
     end
     sel.push(_("MainMenu:opt_installnewprograms"))
-    @sel = menulr(sel)
+    @sel = Select.new(sel)
     loop do
 loop_update
-      @sel.update
+      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
+                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+              end
+                    @sel.update
       if $scene != self
         break
       end
-      if Input.trigger?(Input::UP) or escape
-                return
-        end
-      if enter
+                    if enter
   if @sel.index<@sel.commandoptions.size-1
         $runprogram = $app[@sel.index][3]
   $runprogram=nil if @sel.commandoptions.size==0
@@ -87,17 +92,16 @@ close
           end
         end
                   def help
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_changelog"),_("MainMenu:opt_version"),_("MainMenu:opt_readme"),_("MainMenu:opt_shortkeys"),_("MainMenu:opt_report"),_("MainMenu:opt_license")])
+        @sel = Select.new([_("MainMenu:opt_changelog"),_("MainMenu:opt_version"),_("MainMenu:opt_readme"),_("MainMenu:opt_shortkeys"),_("MainMenu:opt_report"),_("MainMenu:opt_license")])
     loop do
 loop_update
-      @sel.update
+      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
+                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+              end
+                    @sel.update
       if $scene != self
         break
       end
-      if Input.trigger?(Input::UP) or escape
-                return
-        end
       if enter
         case @sel.index
         when 0
@@ -136,17 +140,16 @@ close
           end
         end
           def settings
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_interface"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
+    @sel = Select.new([_("MainMenu:opt_interface"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
     loop do
 loop_update
-      @sel.update
+      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
+                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+              end
+                    @sel.update
       if $scene != self
         break
       end
-      if Input.trigger?(Input::UP) or escape
-                return
-        end
       if enter
         case @sel.index
         when 0
@@ -181,19 +184,18 @@ close
           end
         end
   def community
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr(sel = [_("MainMenu:opt_messages"),_("MainMenu:opt_blogs"),_("MainMenu:opt_forum"),_("MainMenu:opt_chat"),_("MainMenu:opt_notes"),_("MainMenu:opt_whatsnew"),_("MainMenu:opt_polls"),_("MainMenu:opt_users"),_("MainMenu:opt_account")])
+    @sel = Select.new(sel = [_("MainMenu:opt_messages"),_("MainMenu:opt_blogs"),_("MainMenu:opt_forum"),_("MainMenu:opt_chat"),_("MainMenu:opt_notes"),_("MainMenu:opt_whatsnew"),_("MainMenu:opt_polls"),_("MainMenu:opt_users"),_("MainMenu:opt_account")])
       [1,2].each {|i| @sel.disable_item(i)} if $eltsuspend
     @sel.disable_item(8) if $name=="guest"
     loop do
       loop_update
-      @sel.update
+      if (Input.trigger?(Input::RIGHT) and @sel.index!=7 and @sel.index!=8) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
+                return (Input.trigger?(Input::RIGHT))
+              end
+                    @sel.update
       if $scene != self
         break
       end
-      if Input.trigger?(Input::UP) or escape
-                return
-        end
       if enter
         case @sel.index
         when 0
@@ -226,10 +228,11 @@ close
   break
   when 7
     index = @sel.index
-                users
+                s=users
+                return s if s==true
                 if $scene == self
                loop_update
-                                 @sel = menulr(sel)
+                                 @sel = Select.new(sel)
                                  @sel.disable_item(8) if $name=="guest"                                 
                 @sel.index = index
                             @sel.focus
@@ -238,10 +241,11 @@ close
                             end
   when 8
                 index = @sel.index
-                myaccount
+                s=myaccount
+                return s if s==true
                 if $scene == self
                loop_update
-                                 @sel = menulr(sel)
+                                 @sel = Select.new(sel)
                 @sel.index = index
                             @sel.focus
                           else
@@ -249,11 +253,12 @@ close
                             end
             end
           end
-                    if Input.trigger?(Input::DOWN) and @sel.index == 7
+                    if Input.trigger?(Input::RIGHT) and @sel.index == 7
             index = @sel.index
-            users
+            s=users
+            return s if s==true
             if $scene == self
-            @sel = menulr(sel)
+            @sel = Select.new(sel)
             @sel.disable_item(8) if $name=="guest"
             @sel.index = index
             @sel.focus
@@ -261,11 +266,12 @@ close
             return
             end
                        end
-          if Input.trigger?(Input::DOWN) and @sel.index == 8
+          if Input.trigger?(Input::RIGHT) and @sel.index == 8
             index = @sel.index
-            myaccount
+            s=myaccount
+            return s if s==true
             if $scene == self
-            @sel = menulr(sel)
+            @sel = Select.new(sel)
             @sel.index = index
             @sel.focus
           else
@@ -278,17 +284,16 @@ close
           end
         end
           def myaccount
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_profile"),_("MainMenu:opt_status"),_("MainMenu:opt_signature"),_("MainMenu:opt_greeting"),_("MainMenu:opt_visitingcard"),_("MainMenu:opt_honors"),_("MainMenu:opt_sharedfiles"),_("MainMenu:opt_avatar"),_("MainMenu:opt_whatsnewconfig"),_("MainMenu:opt_mypermissions"),_("MainMenu:opt_blacklist"),_("MainMenu:opt_autologintokens"),_("MainMenu:opt_changepassword"),_("MainMenu:opt_changemail"),_("MainMenu:opt_twofactor")])
+    @sel = Select.new([_("MainMenu:opt_profile"),_("MainMenu:opt_status"),_("MainMenu:opt_signature"),_("MainMenu:opt_greeting"),_("MainMenu:opt_visitingcard"),_("MainMenu:opt_honors"),_("MainMenu:opt_sharedfiles"),_("MainMenu:opt_avatar"),_("MainMenu:opt_whatsnewconfig"),_("MainMenu:opt_blacklist"),_("MainMenu:opt_autologintokens"),_("MainMenu:opt_changepassword"),_("MainMenu:opt_changemail"),_("MainMenu:opt_twofactor")])
     loop do
 loop_update
-      @sel.update
+      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape
+                return (Input.trigger?(Input::RIGHT))
+              end
+                    @sel.update
       if $scene != self
         break
       end
-      if Input.trigger?(Input::UP) or escape
-                return
-        end
       if enter
         case @sel.index
         when 0
@@ -328,26 +333,22 @@ loop_update
               close
               break
               when 9
-              $scene=Scene_MyPermissions.new
-              close
-              break
-              when 10
                 $scene=Scene_Account_BlackList.new
                 close
                 break
-              when 11
+              when 10
                 $scene=Scene_Account_AutoLogins.new
                 close
                 break
-              when 12
+              when 11
           $scene = Scene_Account_Password.new
           close
           break
-        when 13
+        when 12
           $scene = Scene_Account_Mail.new
           close
           break
-          when 14
+          when 13
             $scene = Scene_Authentication.new
           close
           break
@@ -359,16 +360,11 @@ close
           end
         end
                   def tools
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr(sel=[_("MainMenu:opt_soundthemesgenerator"),_("MainMenu:opt_speedtest"),_("MainMenu:opt_programmanagement"),_("MainMenu:opt_readtofile"),_("MainMenu:opt_console"),_("MainMenu:opt_compiler"),_("MainMenu:opt_debug")])
+    @sel = Select.new(sel=[_("MainMenu:opt_soundthemesgenerator"),_("MainMenu:opt_speedtest"),_("MainMenu:opt_programmanagement"),_("MainMenu:opt_readtofile"),_("MainMenu:opt_console"),_("MainMenu:opt_debug")])
     @sel.disable_item(6) if $DEBUG!=true
         loop do
 loop_update
-      @sel.update
-      if $scene != self
-        break
-      end
-      if enter or (Input.trigger?(Input::DOWN) and @sel.index == 2)
+      if enter or (Input.trigger?(Input::RIGHT) and @sel.index == 2)
         case @sel.index
         when 0
   $scene = Scene_SoundThemesGenerator.new
@@ -380,10 +376,11 @@ loop_update
    break
   when 2
     index = @sel.index
-    management
+    s=management
+    return s if s==true
         if $scene == self
                loop_update
-                  @sel = menulr(sel)
+                  @sel = Select.new(sel)
                 @sel.index = index
                             @sel.focus
                           else
@@ -397,33 +394,28 @@ loop_update
      $scene = Scene_Console.new
      close
      break
-     when 5
-       $scene = Scene_Compiler.new
-       close
-       break
-       when 6
+       when 5
          $scene=Scene_Debug.new
          close
          break
                end
           end
-          if Input.trigger?(Input::UP) or escape
-                        return
-            end
+          if Input.trigger?(Input::LEFT) or (Input.trigger?(Input::RIGHT) and @sel.index!=2) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
+                        return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+                      end
+                            @sel.update
+      if $scene != self
+        break
+      end
           if alt
             close
             end
           end
         end  
         def exit
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_tray"),_("MainMenu:opt_logout"),_("MainMenu:opt_exit"),_("MainMenu:opt_restart"),_("MainMenu:opt_restarttodebug")])
+    @sel = Select.new([_("MainMenu:opt_tray"),_("MainMenu:opt_logout"),_("MainMenu:opt_exit"),_("MainMenu:opt_restart"),_("MainMenu:opt_restarttodebug")])
     loop do
 loop_update
-      @sel.update
-      if $scene != self
-        break
-      end
       if enter
         case @sel.index
         when 0
@@ -452,22 +444,24 @@ if autologin.to_i>0
               break
               when 3
                               play("logout")
-              Graphics.transition(120)
               $scene = Scene_Loading.new
               close
               break
               when 4
                 play("logout")
-              Graphics.transition(120)
               $DEBUG=true
               $scene = Scene_Loading.new
               close
               break
             end
           end
-          if Input.trigger?(Input::UP) or escape
-                        return
-            end
+          if Input.trigger?(Input::LEFT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
+                        return (Input.trigger?(Input::LEFT))
+                      end
+                            @sel.update
+      if $scene != self
+        break
+      end
           if alt
             close
             end
@@ -476,21 +470,18 @@ if autologin.to_i>0
   def close
     play("menu_close")
 Audio.bgs_fade(2000)
-for i in 1..Graphics.frame_rate
-  loop_update
-  end
+delay(1)
     $scene = Scene_Main.new if $scene == self
               if $runprogram != nil
                                             $scene=$runprogram.new
                 end
               end
               def management
-     Graphics.transition(10)  if $ruby != true
 sel=[_("MainMenu:opt_update"),_("MainMenu:opt_reinstall"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
 if $portable == 1
   sel=["",_("MainMenu:opt_install"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
   end
-     @sel = menulr(sel)
+     @sel = Select.new(sel)
      if $portable == 1
        @sel.index=1
        @sel.focus
@@ -498,10 +489,6 @@ if $portable == 1
        end
         loop do
       loop_update
-      @sel.update
-      if $scene != self
-        break
-      end
       if enter
         case @sel.index
         when 0
@@ -536,8 +523,12 @@ if $portable == 1
               end
           end
           end
-      if Input.trigger?(Input::UP) or escape
-        return
+      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape
+        return (Input.trigger?(Input::RIGHT))
+      end
+            @sel.update
+      if $scene != self
+        break
       end
       if alt
         close
@@ -546,18 +537,17 @@ if $portable == 1
       end
     end
     def addons
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_files"),_("MainMenu:opt_youtube")],true,0,"",true)
+    @sel = Select.new([_("MainMenu:opt_files"),_("MainMenu:opt_youtube")],true,0,"",true)
         @sel.focus
     loop do
 loop_update
-      @sel.update
+      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
+                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+              end
+                    @sel.update
       if $scene != self
         break
       end
-      if Input.trigger?(Input::UP) or escape
-                return
-        end
       if enter
         case @sel.index
         when 0
@@ -576,17 +566,16 @@ close
           end
         end
         def users
-    Graphics.transition(10)  if $ruby != true
-    @sel = menulr([_("MainMenu:opt_contacts"),_("MainMenu:opt_useraddedmetocontacts"),_("MainMenu:opt_online"),_("MainMenu:opt_userslist"),_("MainMenu:opt_admins"),_("MainMenu:opt_usersearch"),_("MainMenu:opt_recentlyactived"),_("MainMenu:opt_recentlyregistered"),_("MainMenu:opt_lastavatars")])
+    @sel = Select.new([_("MainMenu:opt_contacts"),_("MainMenu:opt_useraddedmetocontacts"),_("MainMenu:opt_online"),_("MainMenu:opt_userslist"),_("MainMenu:opt_admins"),_("MainMenu:opt_usersearch"),_("MainMenu:opt_recentlyactived"),_("MainMenu:opt_recentlyregistered"),_("MainMenu:opt_lastavatars")])
     loop do
 loop_update
-      @sel.update
+      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape
+                return (Input.trigger?(Input::RIGHT))
+              end
+                    @sel.update
       if $scene != self
         break
       end
-      if Input.trigger?(Input::UP) or escape
-                return
-        end
       if enter
         case @sel.index
         when 0

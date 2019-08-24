@@ -1,5 +1,15 @@
 require("./bass.rb")
 
+def cryptmessage(msg)
+buf="\0"*(msg.bytesize+18)
+begin
+$cryptmessage.call(msg,buf,buf.bytesize)
+return buf
+rescue Exception
+return ""
+end
+end
+
 def unicode(str)
 buf="\0"*$multibytetowidechar.call(65001,0,str,str.bytesize,nil,0)*2
 $multibytetowidechar.call(65001,0,str,str.bytesize,buf,buf.bytesize/2)
@@ -69,19 +79,28 @@ begin
 request = $http.prepare_request(:get, "/srv/#{mod}.php?#{param}")
 body=""
 request.on(:body_chunk) {|ch| body+=ch}
-request.on(:close) {$lastrep=Time.now.to_i; b.call(body)}
+request.on(:close) {$lastrep=Time.now.to_i ;b.call(body)}
+request.on(:error) {b.call(nil)}
 $http.call_async request
 rescue Exception
 sleep(1)
 init
 sleep(0.5)
-retry if tries<3
+if tries<3
+retry
+else
+b.call(nil)
+end
 end
 end
 
 def play(file)
+if file[0..3]!="http"
 f=$soundthemepath+"\\SE\\#{file}.ogg"
 f="Audio/SE/#{file}.ogg" if FileTest.exists?(f)==false
+else
+f=file
+end
 #begin
 $plid||=0
 $players||=[]

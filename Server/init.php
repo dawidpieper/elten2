@@ -1,5 +1,6 @@
 <?php
-$sql = mysql_connect("localhost", "elten", "")
+require("secret.php");
+$sql = mysql_connect("localhost", "elten", $db_pass)
 or die("-1\r\nsql");
 $sql_select = @mysql_select_db('elten')
 or die("-1\r\nsql");
@@ -8,16 +9,6 @@ echo "-1\r\nutf";
 die;
 }
 $cdate = time();
-foreach($_GET as $key => $value) {
-$v = str_replace("\\","\\\\",$value);
-$v = str_replace("+","\\+",$v);
-$g[$key] = str_replace("'","\\'",$v);
-}
-$_GET=$g;
-if($_GET['test']==1) {
-print_r($g);
-print_r($_GET);
-}
 function mquery($query) {
 $queryid = mysql_query($query);
 if($queryid == false) {
@@ -37,8 +28,6 @@ if($ret == null) {
 echo "-1\r\nbuf";
 die;
 }
-$ret = str_replace("\\","\\\\",$ret);
-$ret = str_replace("'","\\'",$ret);
 return $ret;
 }
 function getprivileges($searchname) {
@@ -69,4 +58,5 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
     }
     return $str;
 }
+require("/var/www/html/srv/func.php");
 ?>

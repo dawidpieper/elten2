@@ -25,7 +25,7 @@ class Scene_Chat
       $scene=Scene_Main.new
       return
       end
-    $agent.write(JSON.generate({'func'=>'chat_open'})+"\r\n")
+    $agent.write(Marshal.dump({'func'=>'chat_open'}))
     ct=srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1")
     if ct[0].to_i<0
       speech(_("General:error"))
@@ -78,13 +78,13 @@ class Scene_Chat
       @form.update
       if (escape and $chat!=true) or ((enter or space) and @form.index==4)
         $chat=false
-        $agent.write(JSON.generate({'func'=>'chat_close'})+"\r\n")
+        $agent.write(Marshal.dump({'func'=>'chat_close'}))
         break
         end
       if (((enter or space) and @form.index == 3)) or (escape and $chat==true)
                 play("signal")
                 $chat=true
-                $agent.write(JSON.generate({'func'=>'chat_open'})+"\r\n")
+                $agent.write(Marshal.dump({'func'=>'chat_open'}))
                                 break
         end
       upd+=1

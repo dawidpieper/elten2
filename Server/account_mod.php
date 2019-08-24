@@ -14,12 +14,12 @@ echo "-6";
 die;
 }
 if($_GET['changepassword'] == 1) {
-mquery("UPDATE `users` SET `password`='" . $_GET['password'] . "' WHERE name='" . $_GET['name'] . "'");
-mquery("UPDATE users SET `resetpassword`=NULL where `name`='".$_GET['name']."'");
+mquery("UPDATE `users` SET `password`='" . mysql_real_escape_string($_GET['password']) . "' WHERE name='" . mysql_real_escape_string($_GET['name']) . "'");
+mquery("UPDATE users SET `resetpassword`=NULL where `name`='".mysql_real_escape_string($_GET['name'])."'");
 echo "0";
 }
 if($_GET['changemail'] == 1) {
-mquery("UPDATE `users` SET `mail`='" . $_GET['mail'] . "' WHERE name='" . $_GET['name'] . "'");
+mquery("UPDATE `users` SET `mail`='" . mysql_real_escape_string($_GET['mail']) . "' WHERE name='" . mysql_real_escape_string($_GET['name']) . "'");
 echo "0";
 }
 ?>

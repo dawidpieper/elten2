@@ -33,13 +33,13 @@ if($_GET['read']==1) {
 $q=mquery("SELECT `id`, `sender`, `receiver`, `subject`, `date`, `read`, `marked`, `attachments`, `message` FROM `messages` where (sender='".$_GET['name']."' or receiver='".$_GET['name']."') and id=".((int) $_GET['id']));
 if(mysql_num_rows($q)==0)
 die("-3");
-mquery("UPDATE `messages` SET `read`=".Time()." WHERE `id`='".$_GET['id']."' and receiver='".$_GET['name']."'");
+mquery("UPDATE `messages` SET `read`=".Time()." WHERE `id`='".(int)$_GET['id']."' and receiver='".$_GET['name']."'");
 $r=mysql_fetch_row($q);
 if(($r[5]==0 or $r[5]==null) and file_exists("cache/messages_".$_GET['name'].".dat")) unlink("cache/messages_".$_GET['name'].".dat");
 echo "0\r\n".$r[0]."\r\n".$r[1]."\r\n".$r[2]."\r\n".$r[3]."\r\n".$r[4]."\r\n".((int) $r[5])."\r\n".((int) $r[6])."\r\n".((int) $r[7])."\r\n".$r[8];
 }
 if($_GET['search']==1) {
-$q=mquery("select id from messages where receiver='".$_GET['name']."' and deletedfromreceived!=1 and upper(message) like upper('%".$_GET['query']."%')");
+$q=mquery("select id from messages where receiver='".$_GET['name']."' and deletedfromreceived!=1 and upper(message) like upper('%".mysql_real_escape_string($_GET['query'])."%')");
 $text="";
 while($r=mysql_fetch_row($q))
 $text.="\r\n".$r[0];

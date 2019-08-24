@@ -1,3058 +1,5327 @@
-# Russian (Russia) translations for Elten.
-# Copyright (C) (2014-2018) Dawid Pieper
-# This file is distributed under Open Public License, detailed in the repository of ELten project.
-# FIRST AUTHOR <dawidpieper@o2.pl>, 2014.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.3\n"
-"Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2018-10-24 10:00+0200\n"
-"PO-Revision-Date: 2018-11-25 02:37+0300\n"
-"Last-Translator: Alexander Yashin <A.jaszyn@ya.ru>\n"
-"Language: ru_RU\n"
-"Language-Team: Ru <A.jaszyn@ya.ru>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"POT-Creation-Date: \n"
+"Language-Team: monstricek\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Elten 2.3B1\n"
-"X-Generator: Poedit 1.6.10\n"
+Language: ru_RU\n
 
-msgid "Authentication:type_pass"
+#: Authentication.rb:68
+msgctxt "Authentication"
+msgid "Type your password"
 msgstr "Введите ваш пароль"
 
-msgid "Authentication:head_enabled"
-msgstr ""
-"Двухфакторная аутентификация  необходима для лучшей защиты вашей учётной "
-"записи. Когда вы включите эту опцию, ваш аккаунт будет защищён, а при входе "
-"с любого нового устройства, на указанный вами телефон придёт смс с кодом. "
-"Этот код будет нужно ввести в момент входа. Если код будет введён верно, вы "
-"получите доступ к своей учётной записи. "
+#: Authentication.rb:19
+msgctxt "Authentication"
+msgid " Two-factor authentication enables better account security by requiring the  confirmation of each login with your phone. When activated, a text message with a  verification code will be sent to you each time you log in from a new device.  Entering this code will be required to sign in to the program."
+msgstr "Двухфакторная аутентификация защитит вашу учётную запись от взлома. Каждый раз, когда вы входите в неё с другого устройства,  на ваш телефон будет поступать смс с уникальным кодом, который потребуется ввести, чтобы подтвердить вашу личность. "
 
-msgid "Authentication:head_disabled"
+#: Authentication.rb:21
+msgctxt "Authentication"
+msgid "Two-factor authentication is enabled on this account."
 msgstr "Двухфакторная аутентификация включена"
 
-msgid "Authentication:type_phone"
-msgstr ""
-"Введите номер телефона в формате плюс, код страны, код города или мобильного "
-"оператора, номер абонента.   Важно вводить существующий номер, который "
-"доступен только вам, поскольку он  будет использован для входа в систему. "
+#: Authentication.rb:30
+msgctxt "Authentication"
+msgid " Type your phone number that will be used during verification. Remember to enter  the country code, for example, +48 for Poland"
+msgstr "Введите номер телефона, который будет использоваться для аутентификации. Помните, что его нужно вводить в международном формате, с использованием кода страны. Код России  плюс 7, Украины -  Плюс 380, Республики Беларусь - Плюс375."
 
-msgid "Authentication:alert_support"
-msgstr ""
-"Двухфакторная аутентификация доступна в элтене начиная с версии   2.28. Если "
-"включить её, доступ к учётной записи с использованием старых версий "
-"программы будет невозможен. Вы хотите продолжить?"
+#: Authentication.rb:32
+msgctxt "Authentication"
+msgid " Two-factor authentication was introduced in Elten 2.28. After activating it, it  will not be possible to log in from the older versions of the program. DO you  wish to continue anyway?"
+msgstr "Двухфакторная аутентификация появилась в  Elten 2.28. Активировав её, вы не сможете войти в свою учётную запись, используя более старую версию клиента. Хотите продолжить?"
 
-msgid "Authentication:alert_checkphone"
-msgstr ""
-"Проверьте введённый номер телефона. Если всё  верно, нажмите enter для "
-"продолжения. Если вы ошиблись, нажмите escape и отредактируйте введённую "
-"информацию."
+#: Authentication.rb:33
+msgctxt "Authentication"
+msgid "Is this phone number correct? Press enter to continue or escape to cancel."
+msgstr "Это верный номер телефона? Если да, нажмите Enter, если ошиблись, нажмите Escape."
 
-msgid "Authentication:wait"
+#: Authentication.rb:35
+msgctxt "Authentication"
+msgid "Please wait, connecting to the server ..."
 msgstr "Пожалуйста, подождите, идёт соединение с сервером."
 
-msgid "Authentication:type_code"
-msgstr "Сейчас вы получите смс с кодом активации. Введите его здесь."
+#: Authentication.rb:44
+msgctxt "Authentication"
+msgid " On the phone number indicated, you will receive a text message with the code  activating two-factor authentication. Enter this code"
+msgstr "На указанный телефонный номер вы получите смс с кодом активации. Пожалуйста, введите его. "
 
-msgid "Authentication:type_wrongcode"
+#: Authentication.rb:52
+msgctxt "Authentication"
+msgid "The entered code is not correct. Try again."
 msgstr "Введённый код неверен, Попробуйте ещё раз."
 
-msgid "Authentication:error_wrongcode"
+msgctxt "Authentication"
+msgid "The entered code is not correct."
 msgstr "Введённый код неверен, Попробуйте ещё раз."
 
-msgid "Authentication:info_enabled"
+#: Authentication.rb:58
+msgctxt "Authentication"
+msgid "Two-factor authentication has been activated on this account."
 msgstr "Двухфакторная аутентификация включена"
 
-msgid "Authentication:alert_disable"
+#: Authentication.rb:69
+msgctxt "Authentication"
+msgid "Are you sure you want to disable two-factor authentication?"
 msgstr "Вы действительно хотите отключить двухфакторную аутентификацию? "
 
-msgid "Authentication:info_disabled"
+#: Authentication.rb:72
+msgctxt "Authentication"
+msgid "Two-factor authentication has been disabled."
 msgstr "Двухфакторная аутентификация выключена"
 
-msgid "Users_LastAvatars:head"
+#: Authentication.rb:74
+msgctxt "Authentication"
+msgid "Invalid password"
+msgstr "Да"
+
+#: Users_LastAvatars.rb:37
+msgctxt "Users_LastAvatars"
+msgid "recently changed avatars"
 msgstr "Новые звуковые аватары"
 
-msgid "Users_RecentlyRegistered:head"
+#: Users_RecentlyRegistered.rb:23
+msgctxt "Users_RecentlyRegistered"
+msgid "Recently registered users"
 msgstr "Новые пользователи"
 
-msgid "Users_RecentlyActived:head"
+#: Users_RecentlyActived.rb:23
+msgctxt "Users_RecentlyActived"
+msgid "Recently active users"
 msgstr "Пользователи, входившие недавно"
 
-msgid "UserSearch:head_results"
+#: UserSearch.rb:39
+msgctxt "UserSearch"
+msgid "Found items"
 msgstr "Результаты поиска"
 
-msgid "UserSearch:head"
+#: UserSearch.rb:39
+msgctxt "UserSearch"
+msgid "Search users"
 msgstr "Поиск пользователей"
 
-msgid "UserSearch:error_noresults"
+#: UserSearch.rb:27
+msgctxt "UserSearch"
+msgid "No match found."
 msgstr "Пользователи по вашему запросу не найдены. "
 
-msgid "Clock:head_hour"
-msgstr "Час"
-
-msgid "Clock:opt_none"
-msgstr "Нет"
-
-msgid "Clock:btn_add"
-msgstr "добавить"
-
-msgid "Clock:chk_notify"
-msgstr "Уведомлять о времени используя"
-
-msgid "Clock:opt_voiceandsound"
-msgstr "Голос и звук"
-
-msgid "Clock:opt_voice"
-msgstr "только голос"
-
-msgid "Clock:opt_sound"
-msgstr "Только звук"
-
-msgid "Clock:head_readevery"
-msgstr "Сообщать о времени"
-
-msgid "Clock:opt_hour"
-msgstr "каждый час"
-
-msgid "Clock:opt_halfanhour"
-msgstr "каждые полчаса"
-
-msgid "Clock:opt_quarter"
-msgstr "Каждые 15 минут"
-
-msgid "Clock:head_alarms"
-msgstr "Сигналы"
-
-msgid "Clock:head_minute"
-msgstr "Минута"
-
-msgid "Clock:head_type"
-msgstr "Вид"
-
-msgid "Clock:opt_single"
-msgstr "Однократный"
-
-msgid "Clock:opt_multiple"
-msgstr "Циклический"
-
-msgid "Advanced:head_keyreftime"
-msgstr ""
-"Время обновления клавиш в милисекундах. Внимание! Изменение этого параметра "
-"является нежелательным."
-
-msgid "Advanced:chk_hexparsing"
-msgstr "Гексагональное  отображение диакритики (продвинутая настройка)"
-
-msgid "Advanced:head_sesreftime"
-msgstr ""
-"Время обновления сессии. Внимание. Изменение параметра является "
-"нежелательным."
-
-msgid "Advanced:chk_audiostreaming"
-msgstr "Использовать аудиостриминг, если он поддерживается"
-
-msgid "Advanced:chk_timesyncing"
-msgstr "Синхронизировать время и дату с сервером"
-
-msgid "Notes:btn_add"
-msgstr "Добавить заметку"
-
-msgid "Notes:opt_edit"
-msgstr "Редактировать заметку"
-
-msgid "Notes:head"
-msgstr "Заметки"
-
-msgid "Notes:opt_new"
-msgstr "Новая заметка"
-
-msgid "Notes:head_sharedwith"
-msgstr "Заметка редактируется совместно с "
-
-msgid "Notes:opt_read"
-msgstr "Читать"
-
-msgid "FirstRun:type_pass"
-msgstr "Пароль"
-
-msgid "FirstRun:opt_chars"
-msgstr "Символы"
-
-msgid "FirstRun:opt_words"
-msgstr "Слова"
-
-msgid "FirstRun:opt_charsandwords"
-msgstr "Символы и слова"
-
-msgid "FirstRun:opt_none"
-msgstr "Ничего"
-
-msgid "FirstRun:opt_audio"
-msgstr "Аудио"
-
-msgid "ForgotPassword:head"
-msgstr "Восстановление пароля"
-
-msgid "ForgotPassword:type_mail"
-msgstr "Введите адрес электронной почты, который использовался при регистрации"
-
-msgid "ForgotPassword:error_match"
-msgstr ""
-"Введённый адрес электронной почты не совпадает с введённым именем  "
-"пользователя"
-
-msgid "ForgotPassword:opt_genkey"
-msgstr "Создать ключ восстановления пароля"
-
-msgid "ForgotPassword:opt_typekey"
-msgstr "Введите ключ восстановления пароля"
-
-msgid "ForgotPassword:wait"
-msgstr "Подождите, идёт создание ключа для  восстановления пароля."
-
-msgid "ForgotPassword:type_key"
-msgstr "Введите ключ восстановления пароля"
-
-msgid "ForgotPassword:error_wrongkey"
-msgstr "Введённый ключ неверен."
-
-msgid "ForgotPassword:type_newpass"
-msgstr "Введите новый пароль"
-
-msgid "ForgotPassword:type_newpassagain"
-msgstr "Повторите ввод нового пароля"
-
-msgid "ForgotPassword:error_difpass"
-msgstr "Введённые пароли не совпадают."
-
-msgid "ForgotPassword:error_emptypass"
-msgstr "Вы не ввели пароль. Поле обязательно должно быть заполнено."
-
-msgid "ForgotPassword:wait_changing"
-msgstr "Подождите, идёт изменение пароля."
-
-msgid "ForgotPassword:info_changed"
-msgstr "Пароль изменён. Войдите, используя новые данные."
-
-msgid "ForgotPassword:head_reset"
-msgstr ""
-"Сбросить пароль очень просто.  Сейчас мы создадим ключ сброса пароля и "
-"отправим его на адрес электронной почты, к которому привязана ваша учётная "
-"запись.  Получив ключ, вы введёте его в поле, после чего сможете придумать "
-"новый пароль.  Внимание! Если используется двухэтапная аутентификация, она  "
-"будет отключена. Чтобы продолжить, введите свой логин:"
-
-msgid "Honors:opt_add"
-msgstr "Добавить"
-
-msgid "Programs:head"
-msgstr "Установка программ"
-
-msgid "Portable:head_dest"
-msgstr "Путь для размещения:"
-
-msgid "Portable:chk_langs"
-msgstr "Добавить поддержку других языков"
-
-msgid "Portable:chk_settings"
-msgstr "Скопировать текущие настройки программы"
-
-msgid "Portable:chk_soundthemes"
-msgstr "Скопировать установленные звуковые схемы"
-
-msgid "Portable:wait"
-msgstr "Подождите, идёт подготовка файлов."
-
-msgid "Portable:wait_settings"
-msgstr "Копирование конфигурации"
-
-msgid "Portable:wait_soundthemes"
-msgstr "Копирование звуковых схем"
-
-msgid "Portable:opt_synthreset"
-msgstr "Использовать речевые настройки по умолчанию"
-
-msgid "Portable:opt_askeverytime"
-msgstr "Спрашивать каждый раз"
-
-msgid "Portable:opt_usecurrent"
-msgstr "Сохранить текущие настройки"
-
-msgid "Portable:head_synth"
-msgstr ""
-"При использовании элтена на другом компьютере,  могут возникнуть проблемы с "
-"синтезатором речи, особенно в случае, если на нём установлены иные "
-"синтезаторы. Помните об этом. Выберите способ речевого вывода"
-
-msgid "Portable:info_created"
-msgstr "Портабельная версия программы создана."
-
-msgid "Portable:opt_usedefault"
-msgstr "Использовать голос скринридера или основной системный голос"
-
-msgid "Portable:btn_continue"
-msgstr "Продолжить"
-
-msgid "Polls:type_description"
-msgstr "Описание"
-
-msgid "Polls:head"
-msgstr "Опросы"
-
-msgid "Polls:btn_vote"
-msgstr "Голосовать"
-
-msgid "Polls:opt_results"
-msgstr "Результаты"
-
-msgid "Polls:opt_new"
-msgstr "Новый опрос"
-
-msgid "Polls:type_pollname"
-msgstr "Название опроса"
-
-msgid "Polls:head_questions"
-msgstr "Вопросы"
-
-msgid "Polls:opt_newquestion"
-msgstr "Добавить новый вопрос"
-
-msgid "Polls:head_answers"
-msgstr "Ответы"
-
-msgid "Polls:opt_newanswer"
-msgstr "Добавить новый ответ"
-
-msgid "Polls:btn_create"
-msgstr "Создать"
-
-msgid "Polls:head_question"
-msgstr "Вопрос"
-
-msgid "Polls:opt_singlechoice"
-msgstr "Возможен выбор одного ответа"
-
-msgid "Polls:opt_multiplechoice"
-msgstr "Можно выбрать несколько ответов"
-
-msgid "Polls:opt_textfield"
-msgstr "редактор"
-
-msgid "Polls:head_answertype"
-msgstr "Тип ответа"
-
-msgid "Polls:info_deleted"
-msgstr "Удалено"
-
-msgid "Uploads:info_saved"
-msgstr "Сохранено"
-
-msgid "Uploads:opt_add"
-msgstr "Добавить"
-
-msgid "Uploads:opt_play"
-msgstr "Воспроизвести"
-
-msgid "Uploads:opt_download"
-msgstr "Скачать"
-
-msgid "Uploads:head_dest"
-msgstr "Где необходимо сохранить этот файл?"
-
-msgid "Uploads:info_deleted"
-msgstr "Удалено"
-
-msgid "Compiler:head_dest"
-msgstr "Путь размещения"
-
-msgid "Admins:head"
-msgstr "Совет старейшин"
-
-msgid "WhatsNew:info_nonew"
-msgstr "Новых событий нет."
-
-msgid "WhatsNew:opt_open"
-msgstr "Открыть"
-
-msgid "WhatsNew:opt_deletethread"
-msgstr "Удалить тему"
-
-msgid "WhatsNew:info_followedel"
-msgstr "Тема удалена из списка избранных"
-
-msgid "WhatsNew:opt_deletefollowed"
-msgstr "Удалить из списка избранных тем"
-
-msgid "WhatsNew:info_nonewfollowedposts"
-msgstr "Нет новых постов в избранных темах"
-
-msgid "WhatsNew:head"
-msgstr "Новые события"
-
-msgid "ShortKeys:head"
-msgstr "Список горячих клавиш"
-
-msgid "Interface:opt_linear"
-msgstr "Линейный"
-
-msgid "Interface:opt_circular"
-msgstr "Кольцевой"
-
-msgid "Interface:head_listspresentation"
-msgstr "Способ отображения списков"
-
-msgid "Interface:chk_soundtheme"
-msgstr "Использовать звуковую схему"
-
-msgid "Interface:opt_chars"
-msgstr "Символы"
-
-msgid "Interface:opt_words"
-msgstr "слова"
-
-msgid "Interface:opt_charsandwords"
-msgstr "Символы и слова"
-
-msgid "Interface:opt_none"
-msgstr "Ничего"
-
-msgid "Interface:head_typingecho"
-msgstr "Эхо ввода"
-
-msgid "Interface:chk_fullscreen"
-msgstr "Запускать программу в полноэкранном режиме"
-
-msgid "Interface:chk_autologin"
-msgstr "Автоматически входить в свою учётную запись при старте программы"
-
-msgid "Interface:chk_tray"
-msgstr "Скрывать окно программы в системном трее"
-
-msgid "Interface:chk_autostart"
-msgstr "Автозагрузка программы при входе в систему"
-
-msgid "Interface:error_autologinrequired"
-msgstr ""
-"Для автозагрузки элтена, необходимо включить функцию  автоматического входа."
-
-msgid "Interface:alert_portableautostart"
-msgstr ""
-"Внимание! Вы хотите включить автозагрузку элтена, но используете его "
-"портабельную версию. Помните, что программа должна находиться на жёстком "
-"диске компьютера и её нельзя перемещать в другое место. Хотите продолжить?"
-
-msgid "UsersAddedMeToContacts:head"
-msgstr "Пользователи, добавившие меня в контакты"
-
-msgid "ReadMe:head"
-msgstr "Справка"
-
-msgid "Blog:opt_newpost"
-msgstr "Новый пост"
-
-msgid "Blog:info_deleted"
-msgstr "удалено"
-
-msgid "Blog:opt_select"
-msgstr "Выбрать"
-
-msgid "Blog:opt_myblog"
-msgstr "Mój blog"
-
-msgid "Blog:opt_newcat"
-msgstr "Новая категория"
-
-msgid "Blog:alert_deletepost"
-msgstr "Вы действительно хотите удалить этот пост?"
-
-msgid "Blog:head"
-msgstr "Блоги"
-
-msgid "Blog:head_list"
-msgstr "Список блогов"
-
-msgid "Blog:btn_send"
-msgstr "Разместить"
-
-msgid "Blog:btn_back"
-msgstr "Назад"
-
-msgid "Blog:opt_renameblog"
-msgstr "Переименовать блог"
-
-msgid "Blog:type_comment"
-msgstr "Ваш комментарий"
-
-msgid "Blog:btn_modifypost"
-msgstr "Редактировать пост"
-
-msgid "Blog:btn_play"
-msgstr "Воспроизвести"
-
-msgid "Blog:opt_allposts"
-msgstr "Все посты"
-
-msgid "Blog:btn_recpost"
-msgstr "Записать голосовой пост"
-
-msgid "Blog:btn_stoprec"
-msgstr "Остановить запись"
-
-msgid "Blog:opt_recentlyupdatedblogs"
-msgstr "Недавно обновлённые блоги"
-
-msgid "Blog:opt_frequentlyupdatedblogs"
-msgstr "Самые активные блоги"
-
-msgid "Blog:opt_frequentlycommentedblogs"
-msgstr "Самые комментируемые блоги"
-
-msgid "Blog:type_posttitle"
-msgstr "Заголовок поста"
-
-msgid "Blog:type_post"
-msgstr "Пост"
-
-msgid "Blog:head_postcategories"
-msgstr "Категория"
-
-msgid "Blog:type_catname"
-msgstr "Название категории"
-
-msgid "Blog:type_newblogname"
-msgstr "Новое название блога"
-
-msgid "Blog:wait_converting"
-msgstr "Конвертация файла"
-
-msgid "Blog:opt_rename"
-msgstr "Изменить название"
-
-msgid "Blog:opt_edit"
-msgstr "Редактировать"
-
-msgid "Blog:opt_open"
-msgstr "Открыть"
-
-msgid "Blog:opt_followblog"
-msgstr "Добавить в список избранных блогов"
-
-msgid "Blog:opt_unfollowblog"
-msgstr "Удалить из списка избранных блогов"
-
-msgid "Blog:opt_followedblogs"
-msgstr "Избранные блоги"
-
-msgid "Blog:btn_createaudiopost"
-msgstr "Создать аудио-пост"
-
-msgid "Blog:opt_useexistingfile"
-msgstr "Использовать существующий файл"
-
-msgid "Blog:info_modified"
-msgstr "Пост изменён"
-
-msgid "Blog:head_visibility"
-msgstr "Кто может читать и комментировать пост?"
-
-msgid "Blog:opt_viseveryone"
-msgstr "Все"
-
-msgid "Blog:opt_vislogged"
-msgstr "Только пользователи Элтена"
-
-msgid "Blog:btn_audiopost"
-msgstr "Аудио-пост"
-
-msgid "Blog:opt_changeaudiofile"
-msgstr "Использовать другой файл"
-
-msgid "Blog:head_selaudiofile"
-msgstr "Выберите аудиофайл"
-
-msgid "Ban:btn_ban"
-msgstr "Заблокировать"
-
-msgid "Ban:btn_unban"
-msgstr "Разблокировать"
-
-msgid "Ban:type_banusername"
-msgstr "Введите логин пользователя, которого нужно заблокировать"
-
-msgid "Ban:opt_week"
-msgstr "Неделя"
-
-msgid "Ban:opt_twoweeks"
-msgstr "две недели"
-
-msgid "Ban:opt_month"
-msgstr "Месяц"
-
-msgid "Ban:opt_yrquarter"
-msgstr "90 дней"
-
-msgid "Ban:info_banned"
-msgstr "Пользователь заблокирован."
-
-msgid "Ban:type_unbanusername"
-msgstr "Введите логин пользователя, которого нужно разблокировать"
-
-msgid "Ban:info_unbanned"
-msgstr "Пользователь разблокирован."
-
-msgid "Users:head"
-msgstr "Список пользователей"
-
-msgid "Chat:type_message"
-msgstr "Введите сообщение"
-
-msgid "Chat:read_history"
-msgstr "История сообщений"
-
-msgid "Chat:opt_users"
-msgstr "Активные пользователи"
-
-msgid "Chat:btn_hide"
-msgstr "Скрыть чат"
-
-msgid "Languages:head"
-msgstr "Язык"
-
-msgid "Languages:opt_download"
-msgstr "Скачать актуальные переводы с сервера"
-
-msgid "Languages:info_downloaded"
-msgstr "Переводы обновлены."
-
-msgid "Files:head"
-msgstr "Менеджер файлов"
-
-msgid "Files:info_deleted"
-msgstr "Файл удалён."
-
-msgid "Files:opt_openassociated"
-msgstr "Открыть в ассоциированном приложении"
-
-msgid "Files:opt_copy"
-msgstr "Скопировать"
-
-msgid "Files:opt_cut"
-msgstr "Вырезать"
-
-msgid "Files:opt_paste"
-msgstr "Вставить"
-
-msgid "Files:opt_newdir"
-msgstr "Новая папка"
-
-msgid "Files:info_copied"
-msgstr "скопировано"
-
-msgid "Files:info_cut"
-msgstr "Вырезано"
-
-msgid "Files:opt_copied"
-msgstr "Скопировано"
-
-msgid "Files:opt_text"
-msgstr "Текст"
-
-msgid "Files:opt_erasepls"
-msgstr "Очистить плейлист"
-
-msgid "Files:opt_adddirtopls"
-msgstr "Добавить все аудиозаписи из этой папки в плейлист"
-
-msgid "Files:opt_play"
-msgstr "Воспроизвести"
-
-msgid "Files:opt_addtopls"
-msgstr "Добавить в плейлист"
-
-msgid "Files:opt_send"
-msgstr "Отправить в облако"
-
-msgid "Files:opt_opendir"
-msgstr "Открыть папку"
-
-msgid "Files:opt_avatar"
-msgstr "Установить в качестве звукового аватара"
-
-msgid "Files:opt_create"
-msgstr "Создать"
-
-msgid "Files:opt_rename"
-msgstr "Переименовать"
-
-msgid "Files:opt_edit"
-msgstr "Редактировать"
-
-msgid "Files:info_pasted"
-msgstr "Вставлено"
-
-msgid "Files:opt_convert"
-msgstr "Конвертировать"
-
-msgid "Files:info_sent"
-msgstr "Отправлено"
-
-msgid "Files:error_play"
-msgstr "Открытие файла невозможно."
-
-msgid "Files:opt_read"
-msgstr "Читать"
-
-msgid "Files:opt_pack"
-msgstr "Заархивировать"
-
-msgid "Files:opt_unpack"
-msgstr "Разархивировать"
-
-msgid "Files:head_archiveformat"
-msgstr "выберите формат архива"
-
-msgid "Files:info_packed"
-msgstr "Заархивировано"
-
-msgid "Files:opt_readtofile"
-msgstr "Преобразование текста в речь"
-
-msgid "Files:opt_file"
-msgstr "Файл"
-
-msgid "Files:opt_dir"
-msgstr "Папка"
-
-msgid "Files:opt_clipboard"
-msgstr "Буфер обмена"
-
-msgid "Files:opt_newdoc"
-msgstr "Новый текстовый документ"
-
-msgid "Files:opt_newrec"
-msgstr "Новая аудиозапись"
-
-msgid "Files:opt_audio"
-msgstr "Аудио"
-
-msgid "Files:type_dirname"
-msgstr "Введите название папки"
-
-msgid "Files:type_filename"
-msgstr "Введите название файла"
-
-msgid "Files:btn_record"
-msgstr "Запись"
-
-msgid "SoundThemes:head"
-msgstr "Звуковые схемы"
-
-msgid "SoundThemes:info_nothemes"
-msgstr "Звуковые схемы отсутствуют."
-
-msgid "SoundThemes:opt_download"
-msgstr "Скачать звуковые схемы"
-
-msgid "SoundThemes:opt_default"
-msgstr "Поумолчанию"
-
-msgid "SoundThemes:opt_audio"
-msgstr "Аудио"
-
-msgid "Changes:head"
-msgstr "Список изменений"
-
-msgid "Media:opt_url"
-msgstr "Ввести адрес вручную"
-
-msgid "Media:type_url"
-msgstr "Введите адрес потока"
-
-msgid "Media:opt_newcat"
-msgstr "Новая категория"
-
-msgid "Media:opt_newfile"
-msgstr "Новый элемент"
-
-msgid "Media:btn_add"
-msgstr "Добавить"
-
-msgid "Media:type_dsc"
-msgstr "Описание"
-
-msgid "Media:type_name"
-msgstr "Название"
-
-msgid "Media:opt_play"
-msgstr "Воспроизвести"
-
-msgid "Media:opt_addtopls"
-msgstr "Добавить в плейлист"
-
-msgid "Media:type_catname"
-msgstr "Название категории"
-
-msgid "Account:type_oldpass"
-msgstr "Введите старый пароль"
-
-msgid "Account:type_newpass"
-msgstr "Введите новый пароль"
-
-msgid "Account:type_newpassagain"
-msgstr "Повторно введите новый пароль"
-
-msgid "Account:error_difpass"
-msgstr "Поля \"новый пароль\" и \"повторите пароль\" заполнены по-разному"
-
-msgid "Account:info_passchanged"
-msgstr "пароль изменён"
-
-msgid "Account:error_wrongoldpass"
-msgstr "Введён старый ошибочный пароль."
-
-msgid "Account:type_pass"
-msgstr "Введите пароль"
-
-msgid "Account:type_newmail"
-msgstr "Введите новый адрес электронной почты"
-
-msgid "Account:info_mailchanged"
-msgstr "Адрес электронной почты изменён."
-
-msgid "Account:type_visitingcard"
-msgstr "Напишите всё, что хотите рассказать о себе"
-
-msgid "Account:head_status"
-msgstr "Изменить статус"
-
-msgid "Account:type_status"
-msgstr "Введите новый статус"
-
-msgid "Account:opt_add"
-msgstr "Добавить"
-
-msgid "Account:head_profile"
-msgstr "Редактировать профиль"
-
-msgid "Account:type_fullname"
-msgstr "Имя и фамилия"
-
-msgid "Account:head_gender"
-msgstr "Пол"
-
-msgid "Account:chk_hideprofile"
-msgstr "Не показывать профиль тем, кого я не добавил в контакты"
-
-msgid "Account:type_signature"
-msgstr "Подпись под постами на форуме"
-
-msgid "Account:head_avatar"
-msgstr "Выбрать звуковой аватар"
-
-msgid "Account:head_autologintokens"
-msgstr "Ключи автоматического входа"
-
-msgid "Account:opt_logoutallsessions"
-msgstr "Выйти со всех устройств"
-
-msgid "Account:head_messages"
-msgstr "Новые сообщения"
-
-msgid "Account:head_followedthreads"
-msgstr "Новые посты в избранных темах"
-
-msgid "Account:head_followedblogs"
-msgstr "Новые посты в избранных блогах"
-
-msgid "Account:head_blogcomments"
-msgstr "Новые комментарии на вашем блоге"
-
-msgid "Account:head_followedforums"
-msgstr "Новые темы на избранных форумах"
-
-msgid "Account:head_followedforumsposts"
-msgstr "Новые посты на избранных форумах"
-
-msgid "Account:head_contacts"
-msgstr "Новые знакомые"
-
-msgid "Account:head_birthday"
-msgstr "Дни рождения"
-
-msgid "Account:head_mentions"
-msgstr "Упоминания"
-
-msgid "Account:opt_notifyandshow"
-msgstr "Уведомить и показать в разделе \"новые события\""
-
-msgid "Account:opt_notify"
-msgstr "Только уведомить"
-
-msgid "Account:opt_ignore"
-msgstr "Игнорировать"
-
-msgid "Account:head_blacklist"
-msgstr "Чёрный список"
-
-msgid "Account:alert_deletefromblacklist"
-msgstr "Вы действительно хотите удалить пользователя из чёрного списка?"
-
-msgid "Account:info_deletedfromblacklist"
-msgstr "Пользователь удалён из чёрного списка."
-
-msgid "Account:alert_addtoblacklist"
-msgstr ""
-"Если вы добавите пользователя в чёрный список, то он не сможет отправлять "
-"вам приватные сообщения. Продолжить?"
-
-msgid "Account:error_blacklistadmin"
-msgstr "Администратора невозможно добавить в чёрный список."
-
-msgid "Account:error_blacklistalreadyadded"
-msgstr "Пользователь уже добавлен в чёрный список."
-
-msgid "Account:alert_logoutall"
-msgstr ""
-"Вы действительно хотите удалить все ключи автоматического входа? Помните, "
-"что  в этом случае  будет необходимо снова войти в программу на всех ваших "
-"устройствах."
-
-msgid "Contacts:head"
-msgstr "Список контактов"
-
-msgid "Contacts:info_empty"
-msgstr "Список пуст"
-
-msgid "Contacts:opt_newcontact"
-msgstr "Добавить контакт"
-
-msgid "Contacts:type_username"
-msgstr ""
-"Введите логин пользователя, которого хотите добавить в список контактов"
-
-msgid "Contacts:info_contactadded"
-msgstr "Контакт добавлен"
-
-msgid "Contacts:error_contactalreadyadded"
-msgstr "Пользователь уже добавлен в список контактов."
-
-msgid "Contacts:error_usernotfound"
-msgstr " Логин не существует."
-
-msgid "Contacts:info_contactdeleted"
-msgstr "контакт удалён."
-
-msgid "Contacts:error_usernotadded"
-msgstr "Пользователь ещё не добавлен в список контактов."
-
-msgid "Update:alert_newversion"
-msgstr "Доступна новая версия программы. Хотите загрузить и установить её?"
-
-msgid "Update:alert_newbeta"
-msgstr ""
-"Доступна новая бета-версия программы. Хотите загрузить и установить её?"
-
-msgid "Update:wait"
-msgstr "Пожалуйста, подождите, обновления загружаются."
-
-msgid "Update:wait_languages"
-msgstr "Идёт обновление переводов. Ожидайте."
-
-msgid "Update:alert_betawarning"
-msgstr ""
-"Внимание! Вы пробуете установить бета-версию. Такие версии являются "
-"тестовыми, поэтому могут содержать ошибки и недоработки. Хотите продолжить?"
-
-msgid "Update:info_downloaded"
-msgstr ""
-"Обновление успешно загружено. Для установки нажмите Enter. Для отмены - "
-"escape."
-
-msgid "Update:wait_downloading"
-msgstr "Загрузка обновления"
-
-msgid "Voice:head"
-msgstr "Настройки синтезатора речи"
-
-msgid "Voice:opt_changesynth"
-msgstr "Изменить синтезатор"
-
-msgid "Voice:opt_changerate"
-msgstr "Изменить скорость речи"
-
-msgid "Voice:opt_select"
-msgstr "выбрать"
-
-msgid "Voice:head_changerate"
-msgstr "Выберите скорость голоса"
-
-msgid "Voice:info_saved"
-msgstr "Настройки синтезатора сохранены."
-
-msgid "Voice:opt_changevol"
-msgstr "Изменить громкость синтезатора"
-
-msgid "Voice:opt_usedefault"
-msgstr "Использовать скринридер вместо синтезатора"
-
-msgid "Voice:head_changevol"
-msgstr "Выберите громкость синтезатора."
-
-msgid "Voice:info_useddefault"
-msgstr "Вы выбрали использование скринридера."
-
-msgid "Messages:error_unknown"
-msgstr "Неизвестная ошибка"
-
-msgid "Messages:info_nomessages"
-msgstr "Почтовый ящик пуст."
-
-msgid "Messages:opt_answer"
-msgstr "Ответить"
-
-msgid "Messages:opt_compose"
-msgstr "Создать"
-
-msgid "Messages:opt_forward"
-msgstr "Переслать"
-
-msgid "Messages:type_subject"
-msgstr "Тема:"
-
-msgid "Messages:type_content"
-msgstr "Сообщение:"
-
-msgid "Messages:info_sent"
-msgstr "Сообщение отправлено."
-
-msgid "Messages:alert_delete"
-msgstr "Вы действительно хотите удалить это сообщение?"
-
-msgid "Messages:opt_markallasread"
-msgstr "Отметить все сообщения как прочитанные"
-
-msgid "Messages:type_receiver"
-msgstr "Получатель"
-
-msgid "Messages:btn_send"
-msgstr "Отправить"
-
-msgid "Messages:info_nonewmessages"
-msgstr "Новых сообщений нет"
-
-msgid "Messages:head_received"
-msgstr "Полученные сообщения"
-
-msgid "Messages:head_sent"
-msgstr "Отправленные сообщения"
-
-msgid "Messages:opt_showsent"
-msgstr "Показать отправленные сообщения"
-
-msgid "Messages:btn_stoprec"
-msgstr "Завершить запись"
-
-msgid "Messages:btn_play"
-msgstr "Воспроизвести"
-
-msgid "Messages:btn_cancelrec"
-msgstr "Отменить запись"
-
-msgid "Messages:head_searchresults"
-msgstr "Результаты поиска"
-
-msgid "Messages:wait_converting"
-msgstr "Конвертация файла"
-
-msgid "Messages:opt_search"
-msgstr "Искать"
-
-msgid "Messages:btn_recmessage"
-msgstr "Голосовое сообщение"
-
-msgid "Messages:btn_attach"
-msgstr "Добавить вложение"
-
-msgid "Messages:head_selattachment"
-msgstr "Выберите файл, который хотите добавить к сообщению"
-
-msgid "Messages:info_attached"
-msgstr "Вложение добавлено."
-
-msgid "Messages:info_nomoreattachments"
-msgstr "Больше вложений добавить нельзя."
-
-msgid "Messages:head_attachments"
-msgstr "Вложения"
-
-msgid "Messages:type_searchphrase"
-msgstr "Введите фразу для поиска"
-
-msgid "Messages:alert_mail"
-msgstr "Вы хотите оправить это сообщение как e-mail?"
-
-msgid "Messages:opt_flag"
-msgstr "Отметить"
-
-msgid "Messages:opt_removeflag"
-msgstr "Убрать отметку"
-
-msgid "Messages:opt_showflagged"
-msgstr "Показать отмеченные сообщения"
-
-msgid "Messages:info_flagged"
-msgstr "Сообщение отмечено"
-
-msgid "Messages:info_glagremoved"
-msgstr "Отметка снята"
-
-msgid "Messages:head_flagged"
-msgstr "Отмеченные сообщения"
-
-msgid "Messages:opt_loadmore"
-msgstr "Загрузить больше"
-
-msgid "MyPermissions:opt_moderators"
-msgstr "Модераторы"
-
-msgid "MyPermissions:opt_mediaadministrators"
-msgstr "Редакторы медиа"
-
-msgid "MyPermissions:opt_translators"
-msgstr "Переводчики"
-
-msgid "MyPermissions:opt_developers"
-msgstr "Разработчики"
-
-msgid "Online:head"
-msgstr "Кто он-лайн?"
-
-msgid "MainMenu:opt_installnewprograms"
-msgstr "Установить программы"
-
-msgid "MainMenu:alert_reinstall"
-msgstr ""
-"Хотите вернуться к стобильной версии программы? Все ваши настройки будут "
-"сохранены."
-
-msgid "Forum:opt_newthr"
-msgstr "Новая тема"
-
-msgid "Forum:info_thrfollowed"
-msgstr "Тема добавлена в избранное."
-
-msgid "Forum:opt_gotolast"
-msgstr "Перейти к последнему посту"
-
-msgid "Forum:type_thrname"
-msgstr "название темы"
-
-msgid "Forum:info_thrcreated"
-msgstr "Тема создана."
-
-msgid "Forum:error_thrcreation"
-msgstr "Ошибка при  создании темы."
-
-msgid "Forum:info_postcreated"
-msgstr "Пост отправлен."
-
-msgid "Forum:info_thrdeleted"
-msgstr "Тема удалена."
-
-msgid "Forum:info_postdeleted"
-msgstr "Пост удалён."
-
-msgid "Forum:head"
-msgstr "Форум"
-
-msgid "Forum:opt_reply"
-msgstr "ответить"
-
-msgid "Forum:opt_quote"
-msgstr "Ответить с цитатой"
-
-msgid "Forum:opt_gotounread"
-msgstr "Перейти к первому непрочитанному посту"
-
-msgid "Forum:btn_send"
-msgstr "Отправить"
-
-msgid "Forum:info_nonewfollowedthr"
-msgstr "Нет новых сообщений в избранных темах"
-
-msgid "Forum:btn_back"
-msgstr "Назад"
-
-msgid "Forum:btn_sendaudio"
-msgstr "Добавить"
-
-msgid "Forum:type_reply"
-msgstr "Ваш ответ"
-
-msgid "Forum:head_selforum"
-msgstr "Выберите форум"
-
-msgid "Forum:head_selthr"
-msgstr "Выберите тему"
-
-msgid "Forum:btn_recnewpost"
-msgstr "Записать аудиопост"
-
-msgid "Forum:btn_recstop"
-msgstr "Завершить запись"
-
-msgid "Forum:btn_recagain"
-msgstr "Перезаписать"
-
-msgid "Forum:btn_play"
-msgstr "Воспроизвести"
-
-msgid "Forum:type_postcontent"
-msgstr "содержание поста"
-
-msgid "Forum:wait_converting"
-msgstr "Файл конвертируется"
-
-msgid "Forum:btn_recpost"
-msgstr "Записать аудиопост"
-
-msgid "Forum:btn_playpost"
-msgstr "Воспроизвести"
-
-msgid "Forum:opt_search"
-msgstr "Поиск"
-
-msgid "Forum:opt_rename"
-msgstr "Переименовать"
-
-msgid "Forum:opt_edit"
-msgstr "Отредактировать пост"
-
-msgid "Forum:opt_deletepost"
-msgstr "Удалить пост"
-
-msgid "Forum:opt_open"
-msgstr "Открыть"
-
-msgid "Forum:opt_movethr"
-msgstr "Перенести тему"
-
-msgid "Forum:type_searchphrase"
-msgstr "Введите текст для поиска"
-
-msgid "Forum:opt_followthr"
-msgstr "Добавить в список избранных тем"
-
-msgid "Forum:opt_unfollowthr"
-msgstr "Удалить из списка избранных тем"
-
-msgid "Forum:opt_deletethr"
-msgstr "Удалить тему"
-
-msgid "Forum:opt_navigation"
-msgstr "Навигация"
-
-msgid "Forum:opt_gotopost"
-msgstr "Перейти к посту"
-
-msgid "Forum:opt_searchthr"
-msgstr "Искать в теме"
-
-msgid "Forum:opt_gotofirst"
-msgstr "Перейти к первому посту"
-
-msgid "Forum:opt_moderation"
-msgstr "Модерация"
-
-msgid "Forum:opt_movepost"
-msgstr "Перенести пост"
-
-msgid "Forum:type_editpost"
-msgstr "Редактировать пост"
-
-msgid "Forum:info_postmodified"
-msgstr "Пост изменён."
-
-msgid "Forum:opt_mention"
-msgstr "Отправить пост знакомому"
-
-msgid "Forum:opt_listen"
-msgstr "Прослушать тему"
-
-msgid "Forum:opt_followforum"
-msgstr "Добавить в список избранных форумов"
-
-msgid "Forum:opt_unfollowforum"
-msgstr "Удалить изз  списка избранных форумов"
-
-msgid "Forum:info_forumfollowed"
-msgstr "Форум добавлен в избранное."
-
-msgid "Forum:info_forumunfollowed"
-msgstr "Форум удалён из избранного."
-
-msgid "Forum:info_thrunfollowed"
-msgstr "Тема удалена из избранного."
-
-msgid "Forum:info_message"
-msgstr "Сообщение"
-
-msgid "Forum:opt_markforumasread"
-msgstr "Отметить форум как прочитанный"
-
-msgid "Forum:alert_markforumasread"
-msgstr ""
-"Все посты на этом форуме будут отмечены как прочитанные. Хотите продолжить?"
-
-msgid "Main:info_pressalt"
-msgstr "Нажмите клавишу альт, чтобы войти в меню."
-
-msgid "Main:btn_erasepls"
-msgstr "Очистить плейлист"
-
-msgid "Main:head_pls"
-msgstr "Плейлист"
-
-msgid "Main:btn_send"
-msgstr "Отправить на сервер"
-
-msgid "Main:btn_avatar"
-msgstr "Установить в качестве звукового аватара"
-
-msgid "Main:head_player"
-msgstr "Плеер"
-
-msgid "Main:btn_shuffle"
-msgstr "Перемешать"
-
-msgid "Main:info_shuffled"
-msgstr "Перемешано"
-
-msgid "Login:type_login"
-msgstr "Логин"
-
-msgid "Login:type_pass"
-msgstr "Пароль"
-
-msgid "Login:opt_asknomore"
-msgstr "Больше не спрашивать"
-
-msgid "Login:info_asknomore"
-msgstr ""
-"Если вы в будущем  захотите изменить настройку автоматического входа, "
-"откройте настройки и найдите там соответствующую опцию."
-
-msgid "Login:alert_crpdeprecated"
-msgstr ""
-"Текущие параметры входа устарели.  Старый метод аутентификации учетной "
-"записи содержит уязвимость для хакерских атак. Новые, более безопасные "
-"алгоритмы автоматического входа в систему были введены в Элтене  2.2. "
-"Рекомендуется конвертировать сохраненную информацию в новый формат, чтобы "
-"повысить безопасность вашей учетной записи. Вы хотите обновить сохраненную "
-"информацию?"
-
-msgid "Login:info_autologin"
-msgstr ""
-"Автоматический вход будет доступен до ручного  выхода из системы. Параметры "
-"ключей входа можно найти в разделе «Моя учетная запись» в меню «Сообщество»."
-
-msgid "Login:info_crpupdated"
-msgstr ""
-"Данные изменены. Автоматический вход будет доступен до ручного  выхода из "
-"системы. Параметры ключей входа можно найти в разделе «Моя учетная запись» в "
-"меню «Сообщество». Настройки автоматического входа расположены в настройках "
-"программы."
-
-msgid "Login:type_authcode"
-msgstr ""
-"В параметрах этой учётной записи включена двухфакторная аутентификация. "
-"Введите, пожалуйста, код, который вы получите по смс на указанный номер "
-"телефона. Если код не пришёл или у вас нет доступа к телефону, вы можете "
-"сбросить пароль средствами программы. Помните, что для сброса пароля вам "
-"необходим адрес электронной почты, на который вы регистрировали свою учётную "
-"запись. "
-
-msgid "Login:error_verification"
-msgstr "Ошибка аутентификации."
-
-msgid "Login:type_authcodeagain"
-msgstr "Код неверен, Попробуйте ещё раз."
-
-msgid "Registration:info_slashes"
-msgstr ""
-"Имя пользователя не может содержать символ  косой черты. Он будет пропущен."
-
-msgid "Registration:info_spaces"
-msgstr "Имя пользователя не может содержать пробел. Знак будет пропущен."
-
-msgid "Registration:type_login"
-msgstr ""
-"Придумайте и введите ваше имя пользователя. Вы будете использовать его для "
-"входа в систему, а другие пользователи смогут находить вас, введя его в "
-"поиске. Имя пользователя должно быть написано латиницей и содержать от "
-"одного  до шестидесяти четырёх символов."
-
-msgid "Registration:type_pass"
-msgstr ""
-"Придумайте и введите пароль. Помните, что лучше использовать сложные пароли, "
-"в которых есть буквы и цифры.  Максимальная длина  пароля - 256 символов."
-
-msgid "Registration:type_mail"
-msgstr ""
-"Введите ваш актуальный адрес электронной почты. Его можно будет "
-"использовать, если вы забудите пароль, а также для активации сервиса и "
-"получения полезной информации. "
-
-msgid "Registration:info_registered"
-msgstr ""
-"Поздравляем! Регистрация завершена. Добро пожаловать в наше сообщество! "
-"Теперь, пожалуйста, войдите в систему, используя ваши имя пользователя и "
-"пароль."
-
-msgid "Registration:error_unknown"
-msgstr "Ошибка в базе данных.."
-
-msgid "Registration:error_accountexists"
-msgstr "Введённое вами имя пользователя уже занято."
-
-msgid "Registration:error_save"
-msgstr "Ошибка записи данных."
-
-msgid "Registration:error_connection"
-msgstr "Ошибка соединения."
-
-msgid "Loading:opt_login"
-msgstr "Войти"
-
-msgid "Loading:opt_register"
-msgstr "Зарегистрироваться"
-
-msgid "Loading:opt_quit"
-msgstr "Выйти"
-
-msgid "Loading:opt_interfacesettings"
-msgstr "Настройки интерфейса"
-
-msgid "Loading:opt_forgottenpass"
-msgstr "Восстановление пароля"
-
-msgid "Loading:opt_guest"
-msgstr "Войти как гость"
-
-msgid "Loading:opt_changesynth"
-msgstr "Изменить синтезатор речи"
-
-msgid "Loading:opt_reinstall"
-msgstr "Переустановить или обновить программу"
-
-msgid "Loading:info_novoice"
-msgstr ""
-"Голос программы ещё не выбран. Нажмите enter, чтобы выбрать голос sapi-5, "
-"либо escape, если хотите использовать голос вашей текущей программы "
-"экранного доступа."
-
-msgid "EAPI_External:btn_play"
-msgstr "Воспроизвести"
-
-msgid "EAPI_External:opt_addtopls"
-msgstr "Добавить в плейлист"
-
-msgid "EAPI_External:opt_avatar"
-msgstr "Установить в качестве звукового аватара"
-
-msgid "EAPI_External:type_ytsearch"
-msgstr "Искать на youtube"
-
-msgid "EAPI_External:head_ytsearchresults"
-msgstr "результаты поиска"
-
-msgid "EAPI_External:wait_connecting"
-msgstr "Идёт соединение с сервером. Пожалуйста, подождите."
-
-msgid "EAPI_External:opt_download"
-msgstr "Скачать"
-
-msgid "EAPI_External:opt_copyurl"
-msgstr "Скопировать ссылку"
-
-msgid "EAPI_External:head_downloadtype"
-msgstr "Как следует сохранить этот файл?"
-
-msgid "EAPI_External:opt_downloadvideo"
-msgstr "Скачать видео"
-
-msgid "EAPI_External:opt_downloadaudio"
-msgstr "Скачать только аудио"
-
-msgid "EAPI_External:wait_downloading"
-msgstr "Идёт загрузка. Подождите, пожалуйста."
-
-msgid "EAPI_External:head_dst"
-msgstr "Где сохранить файл?"
-
-msgid "EAPI_External:head_langdst"
-msgstr "Требуемый язык"
-
-msgid "EAPI_External:head_langsrc"
-msgstr "Исходный язык"
-
-msgid "EAPI_External:opt_langdetection"
-msgstr "Автоматически распознать язык"
-
-msgid "EAPI_External:head_saveformat"
-msgstr "Выберите формат записи"
-
-msgid "EAPI_External:btn_translate"
-msgstr "Перевести"
-
-msgid "EAPI_Common:error_console"
-msgstr "Ошибка во время создания команды."
-
-msgid "EAPI_Common:opt_message"
-msgstr "Написать личное сообщение"
-
-msgid "EAPI_Common:opt_visitingcard"
-msgstr "Профиль"
-
-msgid "EAPI_Common:opt_delcontact"
-msgstr "Удалить из списка контатов"
-
-msgid "EAPI_Common:opt_addcontact"
-msgstr "Добавить в список контактов"
-
-msgid "EAPI_Common:info_nothingnew"
-msgstr "Новых событий нет."
-
-msgid "EAPI_Common:opt_quit"
-msgstr "Выйти"
-
-msgid "EAPI_Common:info_listempty"
-msgstr "Список пуст"
-
-msgid "EAPI_Common:opt_ban"
-msgstr "Заблокировать"
-
-msgid "EAPI_Common:opt_unban"
-msgstr "Разблокировать"
-
-msgid "EAPI_Common:opt_blog"
-msgstr "Открыть блог"
-
-msgid "EAPI_Common:opt_tray"
-msgstr "Скрыть в трей"
-
-msgid "EAPI_Common:type_soundthemename"
-msgstr "Введите название звуковой схемы."
-
-msgid "EAPI_Common:info_soundthemecreation"
-msgstr ""
-"Файлы звуковой схемы размещены в папке  %{dir}.  Замените файлы на те, "
-"которые вам необходимы."
-
-msgid "EAPI_Common:head_whattodo"
-msgstr "Что необходимо сделать?"
-
-msgid "EAPI_Common:opt_openthemedir"
-msgstr "Открыть папку со схемой в менеджере файлов"
-
-msgid "EAPI_Common:opt_openthemedirinexplorer"
-msgstr "Открыть папку со звуковой схемой в проводнике"
-
-msgid "EAPI_Common:type_errordsc"
-msgstr "Опишите произошедшую ошибку"
-
-msgid "EAPI_Common:info_sent"
-msgstr "Отправлено"
-
-msgid "EAPI_Common:type_console"
-msgstr "Podaj polecenia do wykonania"
-
-msgid "EAPI_Common:btn_send"
-msgstr "Отправить"
-
-msgid "EAPI_Common:type_title"
-msgstr "Название"
-
-msgid "EAPI_Common:head_exiting"
-msgstr "Выход из программы"
-
-msgid "EAPI_Common:opt_playavatar"
-msgstr "Воспроизвести аватар"
-
-msgid "EAPI_Common:opt_sharedfiles"
-msgstr "Файлы пользователя"
-
-msgid "EAPI_Common:info_noupdates"
-msgstr "Обновлений нет."
-
-msgid "EAPI_Common:opt_honors"
-msgstr "Значки пользователя"
-
-msgid "EAPI_Common:head_voice"
-msgstr "Голос"
-
-msgid "EAPI_Common:head_rate"
-msgstr "Скорость"
-
-msgid "EAPI_Common:head_dst"
-msgstr "Место размещения"
-
-msgid "EAPI_Common:btn_preview"
-msgstr "Предпросмотр"
-
-msgid "EAPI_Common:btn_confirm"
-msgstr "Подтвердить"
-
-msgid "EAPI_Common:error_playing"
-msgstr "Файл невозможно открыть."
-
-msgid "EAPI_Common:wait_packing"
-msgstr "Архивация"
-
-msgid "EAPI_Common:head_textsplit"
-msgstr "Разделить текст"
-
-msgid "EAPI_Common:opt_onefile"
-msgstr "Создать один файл"
-
-msgid "EAPI_Common:opt_splitbyparagraphs"
-msgstr "Разделить на абзацы"
-
-msgid "EAPI_Common:opt_splitevery"
-msgstr "Разделить на куски по"
-
-msgid "EAPI_Common:type_splitevery"
-msgstr "Длина фрагмента в минутах"
-
-msgid "EAPI_Common:chk_readfilenum"
-msgstr "Называть номер файла"
-
-msgid "EAPI_EltenSRV:wait_converting"
-msgstr "Конвертация файла"
-
-msgid "EAPI_EltenSRV:info_sent"
-msgstr "Отправлено"
-
-msgid "EAPI_Network:wait_sending"
-msgstr "Отправка"
-
-msgid "EAPI_UI:info_newmessage"
-msgstr "Вам пришло новое сообщение"
-
-msgid "EAPI_Speech:chr_dot"
-msgstr "Точка"
-
-msgid "EAPI_Speech:chr_comma"
-msgstr "Запятая"
-
-msgid "EAPI_Speech:chr_slash"
-msgstr "Косая черта"
-
-msgid "EAPI_Speech:chr_semi"
-msgstr "точка с запятой"
-
-msgid "EAPI_Speech:chr_tick"
-msgstr "Апостроф"
-
-msgid "EAPI_Speech:chr_rightbracket"
-msgstr "Правая квадратная скобка"
-
-msgid "EAPI_Speech:chr_backslash"
-msgstr "бэкслэш"
-
-msgid "EAPI_Speech:chr_minus"
-msgstr "минус"
-
-msgid "EAPI_Speech:chr_equals"
-msgstr "равно"
-
-msgid "EAPI_Speech:chr_accent"
-msgstr "Ударение"
-
-msgid "EAPI_Speech:chr_less"
-msgstr "Меньше"
-
-msgid "EAPI_Speech:chr_greater"
-msgstr "Больше"
-
-msgid "EAPI_Speech:chr_question"
-msgstr "Вопросительный знак"
-
-msgid "EAPI_Speech:chr_colon"
-msgstr "Двоеточие"
-
-msgid "EAPI_Speech:chr_quote"
-msgstr "Кавычка"
-
-msgid "EAPI_Speech:chr_leftbrace"
-msgstr "Левая фигурная скобка"
-
-msgid "EAPI_Speech:chr_rightbrace"
-msgstr "Правая фигурная скобка"
-
-msgid "EAPI_Speech:chr_bar"
-msgstr "вертикальная линия"
-
-msgid "EAPI_Speech:chr_underline"
-msgstr "Подчёркивание"
-
-msgid "EAPI_Speech:chr_plus"
-msgstr "Плюс"
-
-msgid "EAPI_Speech:chr_exclamation"
-msgstr "Восклицательный знак"
-
-msgid "EAPI_Speech:chr_at"
-msgstr "Собачка"
-
-msgid "EAPI_Speech:chr_hash"
-msgstr "Решётка"
-
-msgid "EAPI_Speech:chr_dollar"
-msgstr "Доллар"
-
-msgid "EAPI_Speech:chr_percent"
-msgstr "Процент"
-
-msgid "EAPI_Speech:chr_caret"
-msgstr "пик"
-
-msgid "EAPI_Speech:chr_and"
-msgstr "Амперсант"
-
-msgid "EAPI_Speech:chr_star"
-msgstr "Звёздочка"
-
-msgid "EAPI_Speech:chr_leftparen"
-msgstr "Левая скобка"
-
-msgid "EAPI_Speech:chr_rightparen"
-msgstr "Правая скобка"
-
-msgid "EAPI_Form:fld_media"
-msgstr "Медиа"
-
-msgid "EAPI_Form:info_cut"
-msgstr "Вырезано"
-
-msgid "EAPI_Form:info_copied"
-msgstr "Скопировано"
-
-msgid "EAPI_Form:st_checked"
-msgstr "Отмечен"
-
-msgid "EAPI_Form:st_unchecked"
-msgstr "Не отмечен"
-
-msgid "EAPI_Form:fld_checkbox"
-msgstr "флажок"
-
-msgid "EAPI_Form:fld_edit"
-msgstr "Редактор"
-
-msgid "EAPI_Form:fld_text"
-msgstr "Tekst"
-
-msgid "EAPI_Form:fld_button"
-msgstr "Кнопка"
-
-msgid "EAPI_Form:head_dst"
-msgstr "Путь"
-
-msgid "EAPI_Form:info_pasted"
-msgstr "Вставлено"
-
-msgid "EAPI_Form:opt_desktop"
-msgstr "Рабочий стол"
-
-msgid "EAPI_Form:opt_documents"
-msgstr "Документы"
-
-msgid "EAPI_Form:opt_music"
-msgstr "Музыка"
-
-msgid "EAPI_Form:type_searchphrase"
-msgstr "Введите текст для поиска"
-
-msgid "EAPI_Form:info_undone"
-msgstr "Отменено"
-
-msgid "EAPI_Form:info_listempty"
-msgstr "Список пуст"
-
-msgid "EAPI_Form:info_nomatch"
-msgstr "Команда не найдена"
-
-msgid "_Main:error_console"
-msgstr "Ошибка во время выполнения команды"
-
-msgid "_Main:opt_quit"
-msgstr "Выйти"
-
-msgid "_Main:opt_restart"
-msgstr "Перезагрузка"
-
-msgid "_Main:info_copied"
-msgstr "Скопировано"
-
-msgid "_Main:head_whattodo"
-msgstr "Что необходимо сделать?"
-
-msgid "_Main:alert_errorreport"
-msgstr ""
-"Программа будет закрыта. Хотите отправить сообщение об ошибке разработчикам?"
-
-msgid "_Main:opt_tryagain"
-msgstr "Попробуйте ещё раз."
-
-msgid "_Main:opt_abort"
-msgstr "Прервать работу приложения"
-
-msgid "_Main:opt_rescuemode"
-msgstr "Запустить аварийный режим"
-
-msgid "_Main:head_rescuemode"
-msgstr "Аварийный режим"
-
-msgid "_Main:opt_reinstall"
-msgstr "Переустановить программу"
-
-msgid "_Main:opt_rescueforum"
-msgstr "Попробовать открыть форум"
-
-msgid "_Main:opt_rescuemessages"
-msgstr "Попробовать открыть сообщения"
-
-msgid "_Main:opt_copyreport"
-msgstr "Скопировать текст ошибки в буфер обмена"
-
-msgid "Notes:opt_phr_author"
-msgstr "Автор"
-
-msgid "Notes:opt_phr_modified"
-msgstr "Изменена"
-
-msgid "Polls:opt_phr_author"
-msgstr "Автор"
-
-msgid "Polls:txt_phr_votes"
-msgstr "Количество голосов:"
-
-msgid "General:error"
-msgstr "Ошибка"
-
-msgid "General:str_quit"
-msgstr "Выйти"
-
-msgid "General:str_enable"
-msgstr "Включить"
-
-msgid "General:str_disable"
-msgstr "Выключить"
-
-msgid "General:str_cancel"
-msgstr "Отменить"
-
-msgid "General:str_refresh"
-msgstr "Обновить"
-
-msgid "General:str_save"
-msgstr "Сохранить"
-
-msgid "General:info_saved"
-msgstr "Сохранено"
-
-msgid "General:str_delete"
-msgstr "Удалить"
-
-msgid "General:error_guest"
-msgstr "Опция недоступна при использовании гостевой учётной записи"
-
-msgid "General:error_tokenexpired"
-msgstr "Ключ сессии не актуален"
-
-msgid "General:error_db"
-msgstr "Ошибка подключения к базе данных"
-
-msgid "General:error_permissions"
-msgstr "У вас недостаточно прав для выполнения этой операции."
-
-msgid "General:str_no"
-msgstr "Нет"
-
-msgid "General:str_yes"
-msgstr "Да"
-
-msgid "Authentication:error_wrongpass"
-msgstr "Да"
-
-msgid "ForgotPassword:error_unexpected"
-msgstr "Возникла неожиданная ошибка"
-
-msgid "Portable:wait_languages"
-msgstr "Загрузка языковых пакетов"
-
-msgid "Notes:info_notemodified"
-msgstr "Заметка отредактирована"
-
-msgid "ForgotPassword:info_keysent"
-msgstr ""
-"Ключ для восстановления пароля отправлен на электронный адрес, который вы "
-"указали при регистрации. "
-
-msgid "Honors:info_nobadges"
-msgstr "У пользователя нет значков"
-
-msgid "Programs:info_alreadyinstalled"
-msgstr "Программа уже установлена."
-
-msgid "Portable:wait_preparingfile"
-msgstr "Подготовка файла"
-
-msgid "Polls:error_noanswer"
-msgstr "Нет ответов на вопрос"
-
-msgid "Uploads:info_copiedtoclip"
-msgstr "Скопировано в буфер обмена."
-
-msgid "Bug:head"
-msgstr "Сообщение об ошибке"
-
-msgid "Blog:error_blognotfound"
-msgstr "Блог не существует."
-
-msgid "Chat:error_banned"
-msgstr "Вы заблокированы."
-
-msgid "Files:error_deletefile"
-msgstr "Ошибка доступа. Файл не может быть удалён."
-
-msgid "Program:info_exited"
-msgstr "Программа закрыта"
-
-msgid "Update:info_updatewillinstall"
-msgstr ""
-"Сейчас будет установлено обновление. Программа запустится автоматически."
-
-msgid "MyPermissions:info_nopermissions"
-msgstr "У вас нет дополнительных возможностей."
-
-msgid "Forum:info_forummarkedasread"
-msgstr "Форум отмечен как прочитанный."
-
-msgid "Main:alert_newbeta"
-msgstr "Доступна новая бета-версия программы"
-
-msgid "Login:error_identity"
-msgstr "Ошибка во время входа. Возможно, введён неверный пароль."
-
-msgid "Registration:info_namenoats"
-msgstr ""
-"В имени пользователя не может быть использована собачка. Знак будет пропущен."
-
-msgid "Loading:alert_newversion"
-msgstr "Доступно обновление"
-
-msgid "EAPI_External:error_translation"
-msgstr "Произошла ошибка во время перевода"
-
-msgid "EAPI_Network:info_progressdonotread"
-msgstr "Не читать изменений индикатора выполнения"
-
-msgid "EAPI_UI:info_retry"
-msgstr "Программа будет пробовать восстановить работу."
-
-msgid "EAPI_Speech:chr_space"
-msgstr "Пробел"
-
-msgid "EAPI_Form:info_repeated"
-msgstr "Повторено"
-
-msgid "Notes:error_usernotfound"
-msgstr "Пользователь не существует."
-
-msgid "Programs:info_installed"
-msgstr "Установка завершена."
-
-msgid "Polls:error_questiononeanswer"
-msgstr "Есть только один ответ на вопрос."
-
-msgid "WhatsNew:info_nonewonfollowedblogs"
-msgstr "новых постов в избранных блогах нет."
-
-msgid "Blog:info_categorycreated"
-msgstr "Категория создана."
-
-msgid "Files:info_unpacked"
-msgstr "Разархивировано."
-
-msgid "Media:info_categorycreated"
-msgstr "Категория добавлена."
-
-msgid "Account:info_statuschanged"
-msgstr "Статус изменён."
-
-msgid "Update:wait_reinstallationdownloading"
-msgstr "Загрузка скрипта установки"
-
-msgid "Messages:info_attachmentdownloaded"
-msgstr "Вложение скачено."
-
-msgid "Main:info_plserased"
-msgstr "Плейлист удалён."
-
-msgid "Registration:error_difpass"
-msgstr "Введённые пароли не совпадают."
-
-msgid "EAPI_Common:wait_downloading"
-msgstr "Загрузка"
-
-msgid "EAPI_EltenSRV:error_noavatar"
-msgstr "У пользователя нет звукового  аватара."
-
-msgid "EAPI_Network:info_readprogress"
-msgstr "Читать изменения индикатора выполнения"
-
-msgid "EAPI_Form:info_loaded"
-msgstr "Загружено"
-
-msgid "Notes:info_notedeleted"
-msgstr "Заметка удалена."
-
-msgid "Honors:info_defaulted"
-msgstr "Установлено по умолчанию."
-
-msgid "Notes:info_notecreated"
-msgstr "Заметка создана."
-
-msgid "Honors:error_usernotfound"
-msgstr "Пользователь не существует"
-
-msgid "Honors:info_honored"
-msgstr "Значок добавлен."
-
-msgid "Honors:info_honorcreated"
-msgstr "Значок присвоен."
-
-msgid "Polls:info_pollcreated"
-msgstr "Опрос создан."
-
-msgid "Polls:info_voted"
-msgstr "Голос сохранён."
-
-msgid "Blog:info_blogrenamed"
-msgstr "Блог переименован."
-
-msgid "Blog:alert_noblog"
-msgstr ""
-"У вас ещё нет блога. С его помощью вы сможете размещать своё творчество, "
-"делиться с участниками мыслями и идеями, рассказывать о себе и многое "
-"другое. Хотите создать блог?"
-
-msgid "Blog:wait"
-msgstr "Пожалуйста, подождите."
-
-msgid "Blog:info_blogcreated"
-msgstr "Поздравляем! Вы создали блог."
-
-msgid "Blog:info_renamed"
-msgstr "Название блога изменено."
-
-msgid "Blog:info_nonewcommentsonyourblog"
-msgstr "Новых комментариев нет."
-
-msgid "Blog:info_postcreated"
-msgstr "Пост добавлен."
-
-msgid "Blog:info_commentcreated"
-msgstr "Комментарий добавлен."
-
-msgid "Blog:info_blogfollowed"
-msgstr "Блог добавлен в список избранных блогов."
-
-msgid "Blog:info_blogunfollowed"
-msgstr "Блог удалён из списка избранных блогов."
-
-msgid "Blog:info_blogmarkedasread"
-msgstr "Все посты этого блога отмечены как прочитанные."
-
-msgid "Blog:info_recategorized"
-msgstr "Рекатегоризация завершена."
-
-msgid "Files:error_clipboardempty"
-msgstr "Буфер обмена пуст."
-
-msgid "Files:info_renamed"
-msgstr "Название изменено."
-
-msgid "Files:info_dircreated"
-msgstr "Папка создана."
-
-msgid "Files:info_filecreated"
-msgstr "Файл создан."
-
-msgid "Files:info_plserased"
-msgstr "Плейлист очищен."
-
-msgid "Files:wait_converting"
-msgstr "Подождите, файл конвертируется."
-
-msgid "Files:info_converted"
-msgstr "Файл сконвертирован."
-
-msgid "Files:wait_processing"
-msgstr "Конвертация"
-
-msgid "Media:info_added"
-msgstr "Добавлено."
-
-msgid "Account:error_identity"
-msgstr "Ошибка во время аутентификации. Возможно, введён неверный пароль."
-
-msgid "Account:error_usernotfound"
-msgstr "Пользователь не существует."
-
-msgid "Update:info_reinstall"
-msgstr ""
-"Программа будет переустановлена. Вы вернётесь на последнюю стабильную "
-"версию. Пожалуйста, подождите. Процесс может занять несколько минут. "
-
-msgid "Messages:info_allmarkedasread"
-msgstr "Все сообщения будут отмечены как прочитанные."
-
-msgid "Messages:info_messagedeleted"
-msgstr "Сообщение удалено."
-
-msgid "Messages:info_filetoolarge"
-msgstr "Файл слишком большой."
-
-msgid "Messages:info_receivernotfound"
-msgstr "Получатель не существует."
-
-msgid "Forum:info_nonewfollowedforumsthreads"
-msgstr "Нет новых тем на избранных форумах."
-
-msgid "Forum:info_nonewfollowedforumsposts"
-msgstr "Нет новых постов на избранных форумах."
-
-msgid "Forum:info_nonewmentions"
-msgstr "Упоминаний нет."
-
-msgid "Forum:info_threadmoved"
-msgstr "Тема перенесена."
-
-msgid "Forum:info_renamed"
-msgstr "Название изменено."
-
-msgid "Forum:wait_postsendpreparation"
-msgstr "Подготовка к отправке"
-
-msgid "Forum:error_postcreation"
-msgstr "Ошибка при создании поста."
-
-msgid "Forum:error_phrasenotfound"
-msgstr "Фраза не найдена."
-
-msgid "Forum:info_postmoved"
-msgstr "Пост перенесён."
-
-msgid "Forum:info_postslided"
-msgstr "Пост перенесён."
-
-msgid "Forum:info_noonecontactedyou"
-msgstr "Никто пока не добавил вас в список контактов. "
-
-msgid "Forum:info_mentionsent"
-msgstr "Упоминание отправлено."
-
-msgid "Login:error_wrongdata"
-msgstr "Имя пользователя или пароль введены неправильно."
-
-msgid "Login:error_logon"
-msgstr "Ошибка входа."
-
-msgid "Login:error_srv"
-msgstr "Ошибка подключения к серверу."
-
-msgid "EAPI_External:info_donotreadprogress"
-msgstr "Не читать изменений индикатора выполнения"
-
-msgid "EAPI_External:info_readprogress"
-msgstr "Читать изменения индикатора выполнения"
-
-msgid "EAPI_External:info_addedtopls"
-msgstr "Добавлено в плейлист."
-
-msgid "EAPI_External:wait"
-msgstr "Подождите"
-
-msgid "EAPI_External:info_copiedtoclip"
-msgstr "Скопировано в буфер обмена."
-
-msgid "EAPI_Common:error_logon"
-msgstr ""
-"Ошибка входа. Вы ввели неправильный пароль, либо были заблокированы "
-"администратором."
-
-msgid "EAPI_Common:info_finished"
-msgstr "Операция завершена успешно."
-
-msgid "EAPI_Common:info_usingscreenreader"
-msgstr "Используется скринридер."
-
-msgid "EAPI_Common:info_usingsapi"
-msgstr "Используется сапи."
-
-msgid "EAPI_EltenSRV:wait_severalminutes"
-msgstr "Пожалуйста, подождите. Это может занять несколько минут."
-
-msgid "EAPI_UI:info_newmessagefemale"
-msgstr "Вы получили новое сообщение."
-
-msgid "EAPI_UI:info_newfollowedthread"
-msgstr "В избранной теме кто-то написал новый пост."
-
-msgid "EAPI_UI:info_newfollowedblog"
-msgstr "На избранном блоге появился новый пост."
-
-msgid "Honors:alert_mainhonor"
-msgstr ""
-"Хотите установить этот значок в качестве основного? Он будет показан в вашем "
-"профиле."
-
-msgid "Blog:alert_deletecategory"
-msgstr "Вы хотите удалить эту категорию?"
-
-msgid "Contacts:alert_delcontact"
-msgstr "Вы действительно хотите удалить этот контакт?"
-
-msgid "Update:alert_joinbeta"
-msgstr ""
-"Вы ещё не зарегистрированы в программе открытых бета-тестов. Хотите "
-"зарегистрироваться и скачатьбета-версию?"
-
-msgid "MainMenu:alert_resetsettings"
-msgstr ""
-"Вы действительно хотите вернуть элтен  к заводским настройкам? Будет "
-"необходима перезагрузка программы."
-
-msgid "EAPI_External:alert_audioreport"
-msgstr ""
-"Произошла ошибка при захвате аудиодорожки. Вы хотите отправить отчет об "
-"ошибке? Это может помочь решить проблему"
-
-msgid "EAPI_External:alert_ytreport"
-msgstr ""
-"Этот файл нельзя воспроизвести. Вы хотите отправить отчет об ошибке? Это "
-"может помочь устранить проблему, с которой вы столкнулись."
-
-msgid "EAPI_Common:alert_useragreement"
-msgstr "Вы принимаете условия лицензионного соглашения?"
-
-msgid "EAPI_UI:alert_agentreport"
-msgstr ""
-"Произошла ошибка агента программы Элтен. Вы хотите отправить рапорт об "
-"ошибке? Это может помочь избежать её в будущем."
-
-msgid "*Main:alert_changepls"
-msgstr "Плейлист изменён. Сохранить изменения?"
-
-msgid "*Main:alert_savepls"
-msgstr "Хотите сохранить плейлист?"
-
-msgid "*Main:alert_deletepls"
-msgstr "Хотите удалить сохранённый плей-лист?"
-
-msgid "Debug:read_report"
-msgstr "Сообщение об ошибке"
-
-msgid "Notes:type_sharenotewith"
-msgstr "С кем вы хотите работать над заметкой?"
-
-msgid "Notes:type_title"
-msgstr "Название заметки"
-
-msgid "Notes:type_content"
-msgstr "Текст заметки"
-
-msgid "Honors:type_name"
-msgstr "Название значка"
-
-msgid "Honors:type_description"
-msgstr "Описание значка"
-
-msgid "Honors:type_enname"
-msgstr "Английское название значка"
-
-msgid "Honors:type_endescription"
-msgstr "Английское описание значка"
-
-msgid "Polls:read_poll"
-msgstr "Опрос"
-
-msgid "Ban:type_reason"
-msgstr "Основание блокировки"
-
-msgid "Ban:type_additionalmsg"
-msgstr "Дополнительное сообщение"
-
-msgid "Ban:read_reason"
-msgstr "Причина блокировки"
-
-msgid "Ban:read_validuntil"
-msgstr "Пользователь заблокирован на"
-
-msgid "Ban:type_cancelreason"
-msgstr "Причина отмены бана"
-
-msgid "Media:type_categorydescription"
-msgstr "Описание категории"
-
-msgid "Account:type_birthdateyear"
-msgstr "Дата рождения. Год:"
-
-msgid "Account:type_birthdatemonth"
-msgstr "Дата рождения. Месяц:"
-
-msgid "Account:type_birthdateday"
-msgstr "Дата рождения: День:"
-
-msgid "Account:type_location"
-msgstr "Откуда"
-
-msgid "Account:type_greeting"
-msgstr "Приветственное сообщение"
-
-msgid "Forum:type_nick"
-msgstr "Псевдоним"
-
-msgid "Main:type_test"
-msgstr "тест"
-
-msgid "EAPI_External:read_Details"
-msgstr "Подробности"
-
-msgid "EAPI_Common:read_useragreement"
-msgstr "Лицензионное соглашение и правила использования"
-
-msgid "EAPI_Common:read_readingtofile"
-msgstr "Идёт преобразование текста в речь. Пожалуйста, подождите."
-
-msgid "EAPI_Form:type_Filename"
-msgstr "Название файла"
-
-msgid "Honors:type_honoruser"
-msgstr "Кому отправить значок?"
-
-msgid "Polls:type_answer"
-msgstr "Ответ"
-
-msgid "Blog:type_blogname"
-msgstr "Введите название блога"
-
-msgid "Blog:type_newcatname"
-msgstr "Введите новое название категории"
-
-msgid "Files:type_newname"
-msgstr "Новое название"
-
-msgid "Account:type_blacklistaddusername"
-msgstr "Введите имя пользователя, которого хотите заблокировать"
-
-msgid "Contacts:type_blacklistremoveusername"
-msgstr ""
-"Введите имя пользователя, которого хотите удалить из контактовчёрного списка"
-
-msgid "Forum:type_thrnewname"
-msgstr "Введите новое название темы"
-
-msgid "Registration:type_passagain"
-msgstr "Повторите ввод пароля"
-
-msgid "EAPI_Common:type_movetosec"
-msgstr "Введите секунду, на которую требуется переместиться"
-
-msgid "EAPI_Form:type_location"
-msgstr "Укажите путь"
-
-msgid "Debug:chk_srvconnectionsignal"
-msgstr "Информировать о подключении к серверу"
-
-msgid "Portable:chk_sfx"
-msgstr "Сохранить как один exe-файл. Внимание! Настройки не будут сохранены."
-
-msgid "Interface:chk_linewrapping"
-msgstr "Преобразовывать длинные строки в полях редактирования"
-
-msgid "Debug:btn_ok"
-msgstr "Ок"
-
-msgid "Blog:btn_createtextpost"
-msgstr "Создать текстовый пост"
-
-msgid "Messages:btn_sendasadmin"
-msgstr "Отправить от имени администрации"
-
-msgid "Messages:btn_sendtoall"
-msgstr "Отправить всем"
-
-msgid "Messages:btn_audiomessage"
-msgstr "Голосовое сообщение"
-
-msgid "Forum:btn_recpoststop"
-msgstr "Остановить запись"
-
-msgid "EAPI_Common:btn_agree"
-msgstr "Соглашаюсь"
-
-msgid "EAPI_Common:btn_disagree"
-msgstr "Не соглашаюсь. Закройте программу!"
-
-msgid "EAPI_Common:read_waitprocessingfiles"
-msgstr "Подождите, идёт преобразование файлов."
-
-msgid "Blog:alert_markblogasread"
-msgstr ""
-"Все посты на этом блоге будут отмечены как прочитанные. Хотите продолжить?"
-
-msgid "Files:alert_eltenapi"
-msgstr ""
-"Вы хотите запустить этот скрипт Elten API? Скрипты из ненадежных источников "
-"могут быть опасны и нанести ущерб вашему компьютеру или привести к  "
-"несанкционированному доступу к вашей учетной записи. Продолжайте, только "
-"если вы доверяете источнику этого файла."
-
-msgid "Forum:alert_Deletepost"
-msgstr "Вы действительно хотите удалить этот пост?"
-
-msgid "EAPI_Common:alert_mididownloadsf"
-msgstr ""
-"Вы пытаетесь воспроизвести  в midi-файл. Чтобы правильно воспроизводить "
-"файлы этого типа, программе Elten требуется внешний синтезатор миди. Вы "
-"хотите загрузить его с сервера? Это может занять несколько минут."
-
-msgid "Uploads:head_filetosend"
-msgstr "Выберите файл, который хотите отправить на сервер"
-
-msgid "Messages:head_savelocation"
-msgstr "Где требуется  сохранить файл?"
-
-msgid "EAPI_Common:head_savelocation"
-msgstr "Где требуется сохранить файл?"
-
-msgid "Forum:head_movethrlocation"
-msgstr "Куда необходимо перенести тему?"
-
-msgid "EAPI_EltenSRV:head_seluser"
-msgstr "Выберите пользователя"
-
-msgid "Forum:head_selpost"
-msgstr "Выберите пост"
-
-msgid "Forum:head_movepostlocation"
-msgstr "Куда необходимо перенести пост?"
-
-msgid "Forum:head_postslidewith"
-msgstr "Выберите, каким постом заменить этот пост."
-
-msgid "Files:head_convertto"
-msgstr "В какой формат требуется сконвертировать этот файл?"
-
-msgid "Honors:head"
-msgstr "Значки"
-
-msgid "Honors:head_user"
-msgstr "Значки пользователя  %{user}"
-
-msgid "Polls:read_results"
-msgstr "Результаты анкеты: #{%name%}"
-
-msgid "Programs:alert_installprogram"
-msgstr "Вы хотите установить  %{name}?"
-
-msgid "Notes:alert_delete"
-msgstr "Вы действительно хотите удалить  %{name}?"
-
-msgid "Polls:alert_delete"
-msgstr "Вы действительно хотите удалить  %{name}?"
-
-msgid "Uploads:head_filesofuser"
-msgstr "Файлы пользователя %{user}"
-
-msgid "Uploads:alert_deletefile"
-msgstr "Вы действительно хотите удалить  %{filename}?"
-
-msgid "Blog:opt_phr_author"
-msgstr "Автор"
-
-msgid "Ban:opt_day"
-msgstr "День"
-
-msgid "Ban:opt_threedays"
-msgstr "Три дня"
-
-msgid "Ban:opt_year"
-msgstr "Год"
-
-msgid "Chat:info_phr_lastmessage"
-msgstr "Последнее сообщение"
-
-msgid "Files:alert_delete"
-msgstr "Вы действительно хотите удалить  %{filename}?"
-
-msgid "General:female"
-msgstr "Женщина"
-
-msgid "General:male"
-msgstr "Мужчина"
-
-msgid "Account:info_phr_addedtoblacklist"
-msgstr "Пользователь %{user} Заблокирован и добавлен в чёрный список."
-
-msgid "Voice:info_phr_selectedvoice"
-msgstr "Вы выбрали голос"
-
-msgid "Messages:opt_phr_from"
-msgstr "От"
-
-msgid "Messages:opt_phr_to"
-msgstr "Кому"
-
-msgid "Messages:opt_phr_new"
-msgstr "Новое"
-
-msgid "Messages:wait_sendingfile"
-msgstr "Отправка: %{file}"
-
-msgid "_Main:info_errorcritical"
-msgstr "Критическая ошибка. Описание: %{description}"
-
-msgid "EAPI_Form:opt_phr_shortkey"
-msgstr "Горячая клавиша"
-
-msgid "EAPI_EltenSRV:info_phr_sessconftime"
-msgstr "Время подтверждения сессии"
-
-msgid "EAPI_Common:txt_phr_gender"
-msgstr "Пол"
-
-msgid "EAPI_Common:txt_phr_age"
-msgstr "Возраст"
-
-msgid "EAPI_Common:txt_phr_forumposts"
-msgstr "Постов на форуме"
-
-msgid "EAPI_Common:txt_phr_pollsanswered"
-msgstr "Пройдённых опросов"
-
-msgid "EAPI_Common:txt_phr_usedversion"
-msgstr "Используемая версия программы"
-
-msgid "EAPI_Common:txt_phr_registered"
-msgstr "Учётная запись зарегистрирована"
-
-msgid "EAPI_Common:error_nofiletoread"
-msgstr "Файл не выбран."
-
-msgid "EAPI_Common:error_nofilename"
-msgstr "Введите имя создаваемого файла"
-
-msgid "EAPI_Common:error_seldestination"
-msgstr "Выберите место сохранения файла"
-
-msgid "EAPI_Common:error_selsource"
-msgstr "Выберите источникисходный файл"
-
-msgid "EAPI_Common:txt_phr_readtofilenum"
-msgstr "Чтение в файл номер"
-
-msgid "EAPI_Common:txt_phr_sentencenumber"
-msgstr "Предложение %{cursentence} из %{sentences}"
-
-msgid "EAPI_Common:txt_phr_readtime"
-msgstr "Прочитано"
-
-msgid "EAPI_Common:txt_phr_timeremaining"
-msgstr "Осталось времени"
-
-msgid "EAPI_Common:read_visitingcardofuser"
-msgstr "Профиль: %{user}"
-
-msgid "Login:info_loggedinas"
-msgstr "Здравствуйте: %{user}"
-
-msgid "Login:alert_autologin"
-msgstr "Хотите автоматически входить в систему с именем пользователя  %{user}?"
-
-msgid "Forum:opt_phr_author"
-msgstr "Автор"
-
-msgid "Forum:alert_thrdelete"
-msgstr "Вы действительно хотите удалить тему  %{thrname}?"
-
-msgid "Forum:opt_phr_thrisnew"
-msgstr "Непрочитано"
-
-msgid "Forum:opt_phr_threads"
-msgstr "Тем"
-
-msgid "Forum:opt_phr_posts"
-msgstr "Постов"
-
-msgid "WhatsNew:opt_messages"
-msgstr "Новых сообщений"
-
-msgid "WhatsNew:opt_followedthreads"
-msgstr "Новых постов в избранных темах"
-
-msgid "WhatsNew:opt_followedblogs"
-msgstr "Новых постов в избранных блогах"
-
-msgid "WhatsNew:opt_blogcomments"
-msgstr "Новых комментариев на вашем блоге"
-
-msgid "WhatsNew:opt_followedforums"
-msgstr "Новые темы на избранных форумах"
-
-msgid "WhatsNew:opt_followedforumsposts"
-msgstr "Новые посты на избранных форумах"
-
-msgid "WhatsNew:opt_contacts"
-msgstr "Вас добавили в контакты"
-
-msgid "WhatsNew:opt_birthday"
-msgstr "Дни рождения знакомых"
-
-msgid "WhatsNew:opt_mentions"
-msgstr "Упоминания"
-
-msgid "WhatsNew:opt_update"
-msgstr "Доступно обновление до  (%version)"
-
-msgid "_Main:error_critical"
-msgstr "Произошла критическая ошибка. Описание: %{description}"
-
-msgid "Chat:joined"
-msgstr "Присоединился"
-
-msgid "Chat:left"
-msgstr "Вышел"
-
-msgid "Notes:info_sharedwith"
-msgstr "Вы редактируете эту заметку совместно с  %{user}"
-
-msgid "Notes:info_unsharedwith"
-msgstr "Вы больше не редактируете эту заметку совместно с  %{user}"
-
-msgid "Notes:alert_unshare"
-msgstr "Вы хотите перестать редактировать эту заметку с %user?"
-
-msgid "Files:head_soundquality"
-msgstr "Выберите качество звука"
-
-msgid "Files:info_addedtoplscount"
-msgstr "Файлы добавленные в плейлист: %{count}."
-
-msgid "General:error_platform"
-msgstr "Эта опция недоступна на данной операционной системе"
-
-msgid "EAPI_Common:info_readtofilefinished"
-msgstr "Преобразование текста в речь завершено."
-
-msgid "EAPI_UI:info_alarm"
-msgstr "Внимание!"
-
-msgid "EAPI_Form:wait_link"
-msgstr "Получение соединения..."
-
-msgid "EAPI_Form:wait_downloading"
-msgstr "Загрузка..."
-
-msgid "EAPI_Form:info_downloaded"
-msgstr "Скачивание завершено."
-
-msgid "EAPI_Form:info_checked"
-msgstr "Отмечено"
-
-msgid "EAPI_Form:info_unchecked"
-msgstr "Не отмечено"
-
-msgid "UserSearch:opt_searchagain"
+#: UserSearch.rb:52
+msgctxt "UserSearch"
+msgid "Search again"
 msgstr "Искать ещё раз"
 
-msgid "Permissions:head"
-msgstr "Вы входите в следующие группы"
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Hour"
+msgstr "Час"
 
-msgid "Honors:opt_honor"
-msgstr "Отдать значок"
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "None"
+msgstr "Нет"
 
-msgid "Honors:opt_new"
-msgstr "Новый значок"
+#: Clock.rb:70
+msgctxt "Clock"
+msgid "Add"
+msgstr "добавить"
 
-msgid "Blog:opt_markallasread"
-msgstr "Отметить все посты на этом блоге как прочитанные"
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Auto timereading"
+msgstr "Уведомлять о времени используя"
 
-msgid "Forum:opt_phr_unreads"
-msgstr "Не прочитано"
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Voice and sound"
+msgstr "Голос и звук"
 
-msgid "MainMenu:opt_community"
-msgstr "Сообщество"
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Voice only"
+msgstr "только голос"
 
-msgid "MainMenu:opt_media"
-msgstr "Медиа"
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Sound only"
+msgstr "Только звук"
 
-msgid "MainMenu:opt_files"
-msgstr "Файлы"
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "announce time"
+msgstr "Сообщать о времени"
 
-msgid "MainMenu:opt_programs"
-msgstr "Программы"
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every hour"
+msgstr "каждый час"
 
-msgid "MainMenu:opt_tools"
-msgstr "Инструменты"
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every half hour"
+msgstr "каждые полчаса"
 
-msgid "MainMenu:opt_settings"
-msgstr "Настройки"
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every quarter of an hour"
+msgstr "Каждые 15 минут"
 
-msgid "MainMenu:opt_help"
-msgstr "Помощь"
+#: Clock.rb:13
+msgctxt "Clock"
+msgid "Alarms"
+msgstr "Сигналы"
 
-msgid "MainMenu:opt_quit"
-msgstr "Выход"
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Minute"
+msgstr "Минута"
 
-msgid "MainMenu:opt_changelog"
-msgstr "Список изменений"
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Type"
+msgstr "Вид"
 
-msgid "MainMenu:opt_version"
-msgstr "Версия приложения"
+#: Clock.rb:68
+msgctxt "Clock"
+msgid "One time"
+msgstr "Однократный"
 
-msgid "MainMenu:opt_readme"
-msgstr "О проекте"
+#: Clock.rb:68
+msgctxt "Clock"
+msgid "Repeaarr"
+msgstr "Циклический"
 
-msgid "MainMenu:opt_shortkeys"
-msgstr "Список горячих клавиш"
+#: Advanced.rb:11
+msgctxt "Advanced"
+msgid " Key state refresh time (ms) (Note: it is not recommended to change this value!)"
+msgstr "Обновление клавиш в милисекундах. (Если вам неизвестно, зачем нужна эта настройка, не изменяйте её)"
 
-msgid "MainMenu:opt_report"
-msgstr "Сообщить о проблеме"
+#: Advanced.rb:12
+msgctxt "Advanced"
+msgid "Hexagonal processing of diacritics (advanced)"
+msgstr "Гексагональное  отображение диакритики (продвинутая настройка)"
 
-msgid "MainMenu:opt_license"
-msgstr "Правила сообщества и лицензионное соглашение"
+#: Advanced.rb:13
+msgctxt "Advanced"
+msgid " Session refresh time (s) (Attention! It is not recommended to change this value!)"
+msgstr "Обновление сессии в секундах. (Не изменяйте эту настройку, если не знаете её значения)"
 
-msgid "MainMenu:opt_interface"
-msgstr "Параметры интерфейса"
+#: Advanced.rb:14
+msgctxt "Advanced"
+msgid "Use audiostreaming if supported"
+msgstr "Использовать аудиостриминг, если он поддерживается"
 
-msgid "MainMenu:opt_voice"
-msgstr "Параметры речи"
+#: Advanced.rb:15
+msgctxt "Advanced"
+msgid "Synchronize time with server"
+msgstr "Синхронизировать время и дату с сервером"
 
-msgid "MainMenu:opt_clock"
-msgstr "Часы"
+#: Notes.rb:250
+msgctxt "Notes"
+msgid "Add"
+msgstr "Добавить заметку"
 
-msgid "MainMenu:opt_soundthemes"
-msgstr "Звуковые схемы"
+#: Notes.rb:130
+msgctxt "Notes"
+msgid "Edit"
+msgstr "Редактировать заметку"
 
-msgid "MainMenu:opt_languages"
-msgstr "Язык"
-
-msgid "MainMenu:opt_advanced"
-msgstr "Дополнительно"
-
-msgid "MainMenu:opt_messages"
-msgstr "Сообщения"
-
-msgid "MainMenu:opt_blogs"
-msgstr "Блоги"
-
-msgid "MainMenu:opt_forum"
-msgstr "Форум"
-
-msgid "MainMenu:opt_chat"
-msgstr "Чат"
-
-msgid "MainMenu:opt_notes"
+#: Notes.rb:130
+msgctxt "Notes"
+msgid "Notes"
 msgstr "Заметки"
 
-msgid "MainMenu:opt_whatsnew"
-msgstr "Новые события"
+#: Notes.rb:56
+msgctxt "Notes"
+msgid "New note"
+msgstr "Новая заметка"
 
-msgid "MainMenu:opt_polls"
+#: Notes.rb:130
+msgctxt "Notes"
+msgid "Shared with"
+msgstr "Заметка редактируется совместно с "
+
+#: Notes.rb:88
+msgctxt "Notes"
+msgid "Read"
+msgstr "Читать"
+
+#: Notes.rb:54
+msgctxt "Notes"
+msgid "Author"
+msgstr "Автор"
+
+#: Notes.rb:54
+msgctxt "Notes"
+msgid "Modified"
+msgstr "Изменена"
+
+#: Notes.rb:158
+msgctxt "Notes"
+msgid "The note has been modified."
+msgstr "Заметка отредактирована"
+
+#: Notes.rb:180
+msgctxt "Notes"
+msgid "User cannot be found"
+msgstr "Пользователь не существует."
+
+#: Notes.rb:240
+msgctxt "Notes"
+msgid "The note has been deleted."
+msgstr "Заметка удалена."
+
+#: Notes.rb:271
+msgctxt "Notes"
+msgid "The note has been created"
+msgstr "Заметка создана."
+
+#: Notes.rb:167
+msgctxt "Notes"
+msgid "Who do you want to share this note with?"
+msgstr "С кем вы хотите работать над заметкой?"
+
+#: Notes.rb:250
+msgctxt "Notes"
+msgid "note title"
+msgstr "Название заметки"
+
+#: Notes.rb:250
+msgctxt "Notes"
+msgid "Note content"
+msgstr "Текст заметки"
+
+#: Notes.rb:231
+msgctxt "Notes"
+msgid "Do you really want to delete %{name}?"
+msgstr "Вы действительно хотите удалить  %{name}?"
+
+#: Notes.rb:187
+msgctxt "Notes"
+msgid "From now on you share this note with %{user}"
+msgstr "Вы редактируете эту заметку совместно с  %{user}"
+
+#: Notes.rb:208
+msgctxt "Notes"
+msgid "You no longer share this note with %{user}"
+msgstr "Вы больше не редактируете эту заметку совместно с  %{user}"
+
+#: Notes.rb:201
+msgctxt "Notes"
+msgid "Do you want to stop sharing this note with %{user}?"
+msgstr "Вы хотите перестать редактировать эту заметку с %user?"
+
+#: FirstRun.rb:124
+msgctxt "FirstRun"
+msgid "Password:"
+msgstr "Пароль"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "Characters"
+msgstr "Символы"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "Words"
+msgstr "Слова"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "Characters and words"
+msgstr "Символы и слова"
+
+#: FirstRun.rb:102
+msgctxt "FirstRun"
+msgid "None"
+msgstr "Ничего"
+
+msgctxt "FirstRun"
+msgid "Audio"
+msgstr "Аудио"
+
+#: ForgotPassword.rb:34
+msgctxt "ForgotPassword"
+msgid "Password reset"
+msgstr "Восстановление пароля"
+
+#: ForgotPassword.rb:19
+msgctxt "ForgotPassword"
+msgid "Enter the E-mail address used during the registration process"
+msgstr "Введите адрес электронной почты, который использовался при регистрации"
+
+msgctxt "ForgotPassword"
+msgid "The typed E-mail address is not associated with the entered username."
+msgstr "  Введённый адрес электронной почты не совпадает с введённым именем    пользователя"
+
+#: ForgotPassword.rb:34
+msgctxt "ForgotPassword"
+msgid "Generate password reset code"
+msgstr "Создать ключ восстановления пароля"
+
+#: ForgotPassword.rb:34
+msgctxt "ForgotPassword"
+msgid "Enter password reset code"
+msgstr "Введите ключ восстановления пароля"
+
+#: ForgotPassword.rb:93
+msgctxt "ForgotPassword"
+msgid "Please wait while the password reset key is being generated."
+msgstr "Подождите, идёт создание ключа для  восстановления пароля."
+
+#: ForgotPassword.rb:67
+msgctxt "ForgotPassword"
+msgid "Enter the generated password reset code"
+msgstr "Введите ключ восстановления пароля"
+
+msgctxt "ForgotPassword"
+msgid "The entered code is invalid."
+msgstr "Введённый ключ неверен."
+
+#: ForgotPassword.rb:81
+msgctxt "ForgotPassword"
+msgid "Type a new password"
+msgstr "Введите новый пароль"
+
+#: ForgotPassword.rb:81
+msgctxt "ForgotPassword"
+msgid "Repeat new password"
+msgstr "Повторите ввод нового пароля"
+
+msgctxt "ForgotPassword"
+msgid "The entered passwords are different."
+msgstr "Введённые пароли не совпадают."
+
+msgctxt "ForgotPassword"
+msgid "Empty password provided."
+msgstr "Вы не ввели пароль. Поле обязательно должно быть заполнено."
+
+#: ForgotPassword.rb:93
+msgctxt "ForgotPassword"
+msgid "Please wait while the password is being changed."
+msgstr "Подождите, идёт изменение пароля."
+
+#: ForgotPassword.rb:99
+msgctxt "ForgotPassword"
+msgid " The password has been changed. You can log in to your account using the new data."
+msgstr "Пароль был изменен. Вы можете войти в свой аккаунт, используя новые данные."
+
+#: ForgotPassword.rb:12
+msgctxt "ForgotPassword"
+msgid " If you lose your password, you can still reset it via the E-mail address provided  during the registration process. This way you shall generate the password reset  code which will be used to verify your identity. The code will be sent to your e- mail address. Warning! Two-factor authentication will be disabled on your  account. To continue, enter your username:"
+msgstr "Вы можете сбросить пароль с помощью адреса электронной почты, указанного при регистрации.  На адрес придёт код для  сброса пароля.    Двухфакторная аутентификация будет отключена. Чтобы продолжить, введите ваше имя пользователя:"
+
+#: ForgotPassword.rb:97
+msgctxt "ForgotPassword"
+msgid "An unexpected error"
+msgstr "Возникла неожиданная ошибка"
+
+#: ForgotPassword.rb:60
+msgctxt "ForgotPassword"
+msgid " Password reset key has been sent to your specified E-mail address. To continue,  select the option for entering key."
+msgstr "Код  для сброса пароля был отправлен на указанный вами адрес электронной почты. Для продолжения,  введите его. "
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Add"
+msgstr "Добавить"
+
+#: Honors.rb:66
+msgctxt "Honors"
+msgid "The user has been given no badges."
+msgstr "У пользователя нет значков"
+
+#: Honors.rb:84
+msgctxt "Honors"
+msgid "The badge has been set as default."
+msgstr "Установлено по умолчанию."
+
+#: Honors.rb:117
+msgctxt "Honors"
+msgid "The user cannot be found"
+msgstr "Пользователь не существует"
+
+#: Honors.rb:124
+msgctxt "Honors"
+msgid "The badge has been granted"
+msgstr "Значок добавлен."
+
+#: Honors.rb:155
+msgctxt "Honors"
+msgid "The badge has been added"
+msgstr "Значок присвоен."
+
+#: Honors.rb:79
+msgctxt "Honors"
+msgid " Do you want to set this badge as your main badge? The main badge will show in  your visiting card."
+msgstr "Вы хотите установить этот значок в качестве основного значка? Основной значок будет отображаться в вашем профиле."
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge name"
+msgstr "Название значка"
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge description"
+msgstr "Описание значка"
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge name in English"
+msgstr "Английское название значка"
+
+#: Honors.rb:141
+msgctxt "Honors"
+msgid "Badge description in English"
+msgstr "Английское описание значка"
+
+#: Honors.rb:114
+msgctxt "Honors"
+msgid "Who should be granted this badge?"
+msgstr "Кому отправить значок?"
+
+#: Honors.rb:63
+msgctxt "Honors"
+msgid "Badges"
+msgstr "Значки"
+
+#: Honors.rb:63
+msgctxt "Honors"
+msgid "Badges of %{user}"
+msgstr "Значки пользователя  %{user}"
+
+#: Honors.rb:102
+msgctxt "Honors"
+msgid "Grant a badge"
+msgstr "Отдать значок"
+
+msgctxt "Honors"
+msgid "A new badge"
+msgstr "Новый значок"
+
+#: Programs.rb:46
+msgctxt "Programs"
+msgid "Programs installation"
+msgstr "Установка программ"
+
+#: Programs.rb:57
+msgctxt "Programs"
+msgid "The program has already been installed."
+msgstr "Программа уже установлена."
+
+#: Programs.rb:79
+msgctxt "Programs"
+msgid "Finished installation."
+msgstr "Установка завершена."
+
+#: Programs.rb:58
+msgctxt "Programs"
+msgid "Do you want to install the program %{name}?"
+msgstr "Вы хотите установить  %{name}?"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Destination"
+msgstr "Путь для размещения:"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Include another languages"
+msgstr "Добавить поддержку других языков"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Copy current settings"
+msgstr "Скопировать текущие настройки программы"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Copy downloaded soundthemes"
+msgstr "Скопировать установленные звуковые схемы"
+
+#: Portable.rb:98
+msgctxt "Portable"
+msgid "Please wait while files are being prepared"
+msgstr "Подождите, идёт подготовка файлов."
+
+#: Portable.rb:60
+msgctxt "Portable"
+msgid "Copying configuration"
+msgstr "Копирование конфигурации"
+
+#: Portable.rb:80
+msgctxt "Portable"
+msgid "Copying soundthemes"
+msgstr "Копирование звуковых схем"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Reset synthesizer settings"
+msgstr "Использовать речевые настройки по умолчанию"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Ask each time"
+msgstr "Спрашивать каждый раз"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Use current setting"
+msgstr "Сохранить текущие настройки"
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid " If you use a created copy of Elten on another computer, the voice settings may  not work properly. This is especially noticeable in a situation when another  computer has other voices installed. How do you want to configure the generated  version?"
+msgstr "Если вы будете использовать  переносную копию Elten на другом компьютере, настройки голосо могут работать неправильно. Это особенно заметно в ситуации, когда на другом компьютере установлены другие голоса. Укажите, каким образом следует настроить переносную версию elten?"
+
+#: Portable.rb:103
+msgctxt "Portable"
+msgid "Elten Portable version created successfully."
+msgstr "Портабельная версия программы создана."
+
+#: Portable.rb:66
+msgctxt "Portable"
+msgid "Use a screenreader or a system default voice"
+msgstr "Использовать голос скринридера или основной системный голос"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "continue"
+msgstr "Продолжить"
+
+#: Portable.rb:33
+msgctxt "Portable"
+msgid "Downloading of the language packs..."
+msgstr "Загрузка языковых пакетов"
+
+#: Portable.rb:98
+msgctxt "Portable"
+msgid "Processing the file..."
+msgstr "Подготовка файла"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Create as a single exe file. (No settings will be saved."
+msgstr "Сохранить как один exe-файл. Внимание! Настройки не будут сохранены."
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Description"
+msgstr "Описание"
+
+#: Polls.rb:184
+msgctxt "Polls"
+msgid "Polls"
 msgstr "Опросы"
 
-msgid "MainMenu:opt_users"
-msgstr "Пользователи"
-
-msgid "MainMenu:opt_account"
-msgstr "Моя учётная запись"
-
-msgid "MainMenu:opt_profile"
-msgstr "Редактировать профиль"
-
-msgid "MainMenu:opt_status"
-msgstr "Изменить статус"
-
-msgid "MainMenu:opt_signature"
-msgstr "Изменить подпись под постами на форуме"
-
-msgid "MainMenu:opt_greeting"
-msgstr "Изменить приветственное сообщение"
-
-msgid "MainMenu:opt_visitingcard"
-msgstr "Рассказать о себе"
-
-msgid "MainMenu:opt_honors"
-msgstr "Мои значки"
-
-msgid "MainMenu:opt_sharedfiles"
-msgstr "Моё облако"
-
-msgid "MainMenu:opt_avatar"
-msgstr "Установить звуковой аватар"
-
-msgid "MainMenu:opt_whatsnewconfig"
-msgstr "Настройки получения уведомлений"
-
-msgid "MainMenu:opt_mypermissions"
-msgstr "Мои разрешения"
-
-msgid "MainMenu:opt_blacklist"
-msgstr "Чёрный список"
-
-msgid "MainMenu:opt_autologintokens"
-msgstr "Ключи автовхода"
-
-msgid "MainMenu:opt_changepassword"
-msgstr "Изменить пароль"
-
-msgid "MainMenu:opt_changemail"
-msgstr "Изменить адрес электронной почты"
-
-msgid "MainMenu:opt_twofactor"
-msgstr "Настройки двухфакторной аутентификации"
-
-msgid "MainMenu:opt_soundthemesgenerator"
-msgstr "Создание звуковых схем"
-
-msgid "MainMenu:opt_speedtest"
-msgstr "Тест скорости интернета"
-
-msgid "MainMenu:opt_programmanagement"
-msgstr "Управление программой"
-
-msgid "MainMenu:opt_readtofile"
-msgstr "Преобразование текста в речь"
-
-msgid "MainMenu:opt_console"
-msgstr "Консоль"
-
-msgid "MainMenu:opt_compiler"
-msgstr "Компилятор elten api"
-
-msgid "MainMenu:opt_debug"
-msgstr "Отладка"
-
-msgid "MainMenu:opt_tray"
-msgstr "Скрыть в трей"
-
-msgid "MainMenu:opt_logout"
-msgstr "Выход из учётной записи"
-
-msgid "MainMenu:opt_exit"
-msgstr "Выход из программы"
-
-msgid "MainMenu:opt_restart"
-msgstr "Перезагрузка"
-
-msgid "MainMenu:opt_restarttodebug"
-msgstr "Перезагрузка в режиме отладки"
-
-msgid "MainMenu:opt_update"
-msgstr "Проверка обновлений"
-
-msgid "MainMenu:opt_reinstall"
-msgstr "Переустановить elten"
-
-msgid "MainMenu:opt_portable"
-msgstr "Создать переносную версию"
-
-msgid "MainMenu:opt_resetsettings"
-msgstr "Вернуться к исходным настройкам"
-
-msgid "MainMenu:opt_install"
-msgstr "Установить"
-
-msgid "MainMenu:opt_mediacatalog"
-msgstr "Каталог медиа"
-
-msgid "MainMenu:opt_youtube"
-msgstr "&Youtube"
-
-msgid "MainMenu:opt_contacts"
-msgstr "Список контактов"
-
-msgid "MainMenu:opt_useraddedmetocontacts"
-msgstr "Пользователи, добавившие меня в контакты"
-
-msgid "MainMenu:opt_online"
-msgstr "Кто онлайн?"
-
-msgid "MainMenu:opt_userslist"
-msgstr "Список пользователей"
-
-msgid "MainMenu:opt_admins"
-msgstr "Совет старейшен"
-
-msgid "MainMenu:opt_usersearch"
-msgstr "Поиск пользователей"
-
-msgid "MainMenu:opt_recentlyactived"
-msgstr "Пользователи, входившие недавно"
-
-msgid "MainMenu:opt_recentlyregistered"
-msgstr "новые пользователи"
-
-msgid "MainMenu:opt_lastavatars"
-msgstr "Недавно изменнённые аватары"
-
-msgid "Eapi-common:txt_phr_userhasblog"
-msgstr "User has a blog"
-
-msgid "_Agent:info_message_male"
-msgstr "Получено новое сообщение"
-
-msgid "_Agent:info_message_female"
-msgstr "Получено новое сообщение"
-
-msgid "_Agent:info_followedthread"
-msgstr "На избранном форуме появился новый пост"
-
-msgid "_Agent:info_followedblog"
-msgstr "На избранном блоге появился новый пост"
-
-msgid "_Agent:info_blogcomment"
-msgstr "На вашем блоге появился новый комментарий"
-
-msgid "_Agent:info_followedforum"
-msgstr "На избранном форуме появилась новая тема"
-
-msgid "_Agent:info_followedforumpost"
-msgstr "На избранном форуме появился новый пост"
-
-msgid "_Agent:info_mention"
-msgstr "новое упоминание"
-
-msgid "_Agent:info_contact"
-msgstr "У вас появился новый знакомый"
-
-msgid "_Agent:info_newversion"
-msgstr "Доступно обновление программы"
-
-msgid "_Agent:info_newbeta"
-msgstr "Доступна новая бета-версия программы"
-
-msgid "Forum:opt_followedthreads"
-msgstr "Избранные темы"
-
-msgid "Forum:opt_followedforums"
-msgstr "Избранные форумы"
-
-msgid "Forum:opt_phr_forums"
-msgstr "Форумы"
-
-msgid "EAPI_Common:txt_phr_lastseen"
-msgstr "Последний визит"
-
-msgid "EAPI_Common:txt_phr_lastseen_female"
-msgstr "Была в сети"
-
-msgid "EAPI_Common:txt_phr_lastseen_male"
-msgstr "Был в сети"
-
-msgid "EAPI_Common:head_filetoread"
-msgstr "Файл для прочтения"
-
-msgid "EAPI_Common:head_outputformat"
-msgstr "Формат"
-
-msgid "Soundthemes:head_themetodownload"
-msgstr "Выберите тему для скачивания"
-
-msgid "EAPI_Common:head_selcontact"
-msgstr "Выберите контакт"
-
-msgid "Forum:opt_phr_mentionedby"
-msgstr "Упомянуты пользователем"
-
-msgid "EAPI_Common:txt_phr_knownby"
-msgstr "В контактах у  %{count} пользователей"
-
-msgid "EAPI_Common:txt_phr_knownby_female"
-msgstr "В контактах у  %{count} пользователей "
-
-msgid "EAPI_Common:txt_phr_knownby_male"
-msgstr "В контактах у  %{count} пользователей"
-
-msgid "EAPI_Common:txt_phr_knows"
-msgstr "Знает %{count} пользователей"
-
-msgid "Messages:head"
-msgstr "Сообщения"
-
-msgid "Messages:opt_phr_lastmsg"
-msgstr "Последнее сообщение"
-
-msgid "Messages:opt_phr_nosubj"
-msgstr "Без темы"
-
-msgid "Messages:opt_phr_readmore"
-msgstr "Читать далее"
-
-msgid "Messages:head_conversations"
-msgstr "Переписка с пользователем  %{user}"
-
-msgid "Messages:head_messages"
-msgstr "Переписка на тему %{subject} с пользователем  %{user}"
-
-msgid "Messages:opt_showmore"
-msgstr "Показать старые"
-
-msgid "Messages:type_reply"
-msgstr "Ваш ответ"
-
-msgid "Messages:btn_compose"
-msgstr "Открыть расширенный редактор"
-
-msgid "Blog:opt_recategorize"
-msgstr "Настроить категории блога"
-
-msgid "Forum:opt_slidepost"
-msgstr "Изменить место поста"
-
-msgid "Polls:txt_phr_created"
+#: Polls.rb:316
+msgctxt "Polls"
+msgid "Vote"
+msgstr "Голосовать"
+
+#: Polls.rb:73
+msgctxt "Polls"
+msgid "Show results"
+msgstr "Результаты"
+
+#: Polls.rb:228
+msgctxt "Polls"
+msgid "New poll"
+msgstr "Новый опрос"
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Poll name"
+msgstr "Название опроса"
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Questions"
+msgstr "Вопросы"
+
+#: Polls.rb:228
+msgctxt "Polls"
+msgid "Add a new question"
+msgstr "Добавить новый вопрос"
+
+#: Polls.rb:184
+msgctxt "Polls"
+msgid "Answers"
+msgstr "Ответы"
+
+#: Polls.rb:205
+msgctxt "Polls"
+msgid "Add a new answer"
+msgstr "Добавить новый ответ"
+
+#: Polls.rb:153
+msgctxt "Polls"
+msgid "Create"
+msgstr "Создать"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Question"
+msgstr "Вопрос"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Single choice"
+msgstr "Возможен выбор одного ответа"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Multiple choice"
+msgstr "Можно выбрать несколько ответов"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Edit box"
+msgstr "редактор"
+
+#: Polls.rb:178
+msgctxt "Polls"
+msgid "Question type"
+msgstr "Тип ответа"
+
+#: Polls.rb:133
+msgctxt "Polls"
+msgid "deleted"
+msgstr "Удалено"
+
+#: Polls.rb:401
+msgctxt "Polls"
+msgid "Author"
+msgstr "Автор"
+
+#: Polls.rb:413
+msgctxt "Polls"
+msgid "The number of votes"
+msgstr "Количество голосов:"
+
+#: Polls.rb:213
+msgctxt "Polls"
+msgid "There are no answers to this question"
+msgstr "Нет ответов на вопрос"
+
+#: Polls.rb:215
+msgctxt "Polls"
+msgid "There is only one answer to this question."
+msgstr "Есть только один ответ на вопрос."
+
+#: Polls.rb:254
+msgctxt "Polls"
+msgid "The poll has been created."
+msgstr "Опрос создан."
+
+#: Polls.rb:351
+msgctxt "Polls"
+msgid "Your vote has been saved."
+msgstr "Голос сохранён."
+
+#: Polls.rb:316
+msgctxt "Polls"
+msgid "Poll"
+msgstr "Опрос"
+
+#: Polls.rb:204
+msgctxt "Polls"
+msgid "Answer"
+msgstr "Ответ"
+
+#: Polls.rb:441
+msgctxt "Polls"
+msgid "Poll results: #{%name%}"
+msgstr "Результаты опроса #{%name%}"
+
+#: Polls.rb:128
+msgctxt "Polls"
+msgid "Do you really want to delete %{name}?"
+msgstr "Вы действительно хотите удалить  %{name}?"
+
+#: Polls.rb:401
+msgctxt "Polls"
+msgid "Created"
 msgstr "Опрос создан"
 
-msgid "Files:head_player"
+#: Polls.rb:308
+msgctxt "Polls"
+msgid "Single choice question"
+msgstr "Возможен выбор одного варианта ответа"
+
+#: Polls.rb:311
+msgctxt "Polls"
+msgid "Multiple choice question"
+msgstr "Можно выбрать несколько вариантов ответа"
+
+msgctxt "Uploads"
+msgid "Saved"
+msgstr "Сохранено"
+
+#: Uploads.rb:112
+msgctxt "Uploads"
+msgid "Add"
+msgstr "Добавить"
+
+#: Uploads.rb:112
+msgctxt "Uploads"
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: Uploads.rb:112
+msgctxt "Uploads"
+msgid "Download"
+msgstr "Скачать"
+
+#: Uploads.rb:132
+msgctxt "Uploads"
+msgid "Where do you want to save this file?"
+msgstr "Где необходимо сохранить этот файл?"
+
+#: Uploads.rb:153
+msgctxt "Uploads"
+msgid "deleted"
+msgstr "Удалено"
+
+#: Uploads.rb:144
+msgctxt "Uploads"
+msgid "Copied to clipboard"
+msgstr "Скопировано в буфер обмена."
+
+#: Uploads.rb:159
+msgctxt "Uploads"
+msgid "Choose a file to be sent to the server"
+msgstr "Выберите файл, который хотите отправить на сервер"
+
+#: Uploads.rb:46
+msgctxt "Uploads"
+msgid "Files of %{user}"
+msgstr "Файлы пользователя %{user}"
+
+#: Uploads.rb:147
+msgctxt "Uploads"
+msgid "Do you really want to delete %{filename}?"
+msgstr "Вы действительно хотите удалить  %{filename}?"
+
+#: Uploads.rb:112
+msgctxt "Uploads"
+msgid "Copy link"
+msgstr "Скопировать прямую ссылку"
+
+#: Compiler.rb:22
+msgctxt "Compiler"
+msgid "destination location"
+msgstr "Путь размещения"
+
+#: Admins.rb:23
+msgctxt "Admins"
+msgid "Administrators"
+msgstr "Совет старейшин"
+
+#: WhatsNew.rb:115
+msgctxt "WhatsNew"
+msgid "There is nothing new."
+msgstr "Уведомлений нет"
+
+msgctxt "WhatsNew"
+msgid "open"
+msgstr "Открыть"
+
+msgctxt "WhatsNew"
+msgid "Delete this thread"
+msgstr "Удалить тему"
+
+msgctxt "WhatsNew"
+msgid "The thread was removed from the list of followed threads"
+msgstr "Тема удалена из списка избранных"
+
+msgctxt "WhatsNew"
+msgid "Remove from the list of followed threads"
+msgstr "Удалить из списка избранных тем"
+
+msgctxt "WhatsNew"
+msgid "No new posts in followed threads"
+msgstr "Нет новых постов в избранных темах"
+
+#: WhatsNew.rb:40
+msgctxt "WhatsNew"
+msgid "What's new"
+msgstr "Уведомления"
+
+#: WhatsNew.rb:115
+msgctxt "WhatsNew"
+msgid "No new posts on the followed blogs"
+msgstr "новых постов в избранных блогах нет."
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New messages"
+msgstr "Количество новых сообщений"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts in followed threads"
+msgstr "Количество новых постов в избранных темах"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts on the followed blogs"
+msgstr "Количество новых постов на избранных блогах"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New comments on your blog"
+msgstr "Количество новых комментариев на вашем блоге: "
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New threads on followed forums"
+msgstr "Количество новых тем на избранных форумах: "
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts on followed forums"
+msgstr "Количество новых постов на избранных форумах:"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New friends"
+msgstr "Вас добавили в контакты"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Friends' birthday"
+msgstr "Дни рождения знакомых"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Mentions"
+msgstr "Упоминания"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Update available (%version)"
+msgstr "Доступно обновление программы до версии   (%version)"
+
+#: ShortKeys.rb:11
+msgctxt "ShortKeys"
+msgid "List of keyboard shortcuts"
+msgstr "Список горячих клавиш"
+
+#: Interface.rb:11
+msgctxt "Interface"
+msgid "Linear"
+msgstr "Линейный"
+
+#: Interface.rb:11
+msgctxt "Interface"
+msgid "Circular"
+msgstr "Кольцевой"
+
+#: Interface.rb:11
+msgctxt "Interface"
+msgid "The display method of selection lists"
+msgstr "Способ отображения списков"
+
+#: Interface.rb:12
+msgctxt "Interface"
+msgid "Play sounds of soundthemes"
+msgstr "Использовать звуковую схему"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Characters"
+msgstr "Символы"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Words"
+msgstr "слова"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Characters and words"
+msgstr "Символы и слова"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "None"
+msgstr "Ничего"
+
+#: Interface.rb:13
+msgctxt "Interface"
+msgid "Typing echo"
+msgstr "Эхо ввода"
+
+msgctxt "Interface"
+msgid "Run the program in full screen mode"
+msgstr "Запускать программу в полноэкранном режиме"
+
+#: Interface.rb:16
+msgctxt "Interface"
+msgid "Enable auto log in"
+msgstr "Входить в учётную запись автоматически"
+
+#: Interface.rb:15
+msgctxt "Interface"
+msgid "Automatically minimize Elten Window to system tray"
+msgstr "Скрывать окно программы в системном трее"
+
+#: Interface.rb:17
+msgctxt "Interface"
+msgid "Automatically start Elten after I log on to Windows"
+msgstr "Автозагрузка программы при входе в систему"
+
+#: Interface.rb:48
+msgctxt "Interface"
+msgid "Auto log in is required to use auto start"
+msgstr "Для автозагрузки elten вы должны включить опцию \"
+
+msgctxt "Interface"
+msgid " Attention! You are trying to enable the auto start function using a portable version of  Elten. When this program is inaccessible for Windows or its location is changed, the system will not be able to start it. Are you sure you want to continue?"
+msgstr "Внимание! Вы пытаетесь включить функцию автозагрузку, используя переносную версию Elten. Если эта программа будет  недоступна для Windows или ее местоположение окажется  изменено, система не сможет ее запустить.  Хотите продолжить?"
+
+#: Interface.rb:14
+msgctxt "Interface"
+msgid "Wrap long lines in text fields"
+msgstr "Преобразовывать длинные строки в полях редактирования"
+
+#: UsersAddedMeToContacts.rb:36
+msgctxt "UsersAddedMeToContacts"
+msgid "Users who added me to their contacts list"
+msgstr "Пользователи, добавившие меня в контакты"
+
+#: ReadMe.rb:11
+msgctxt "ReadMe"
+msgid "Readme"
+msgstr "Справка"
+
+#: Blog.rb:368
+msgctxt "Blog"
+msgid "New post"
+msgstr "Новый пост"
+
+#: Blog.rb:638
+msgctxt "Blog"
+msgid "Deleted"
+msgstr "удалено"
+
+#: Blog.rb:410
+msgctxt "Blog"
+msgid "Select"
+msgstr "Выбрать"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "My blog"
+msgstr "Мой блог"
+
+#: Blog.rb:122
+msgctxt "Blog"
+msgid "New category"
+msgstr "Новая категория"
+
+#: Blog.rb:628
+msgctxt "Blog"
+msgid "Are you sure you want to delete this post?"
+msgstr "Вы действительно хотите удалить этот пост?"
+
+#: Blog.rb:1062
+msgctxt "Blog"
+msgid "Blogs"
+msgstr "Блоги"
+
+#: Blog.rb:1062
+msgctxt "Blog"
+msgid "The list of blogs"
+msgstr "Список блогов"
+
+#: Blog.rb:982
+msgctxt "Blog"
+msgid "Send"
+msgstr "Разместить"
+
+#: Blog.rb:873
+msgctxt "Blog"
+msgid "Return"
+msgstr "Назад"
+
+#: Blog.rb:123
+msgctxt "Blog"
+msgid "Change the blog's name"
+msgstr "Переименовать блог"
+
+#: Blog.rb:863
+msgctxt "Blog"
+msgid "Your comment"
+msgstr "Ваш комментарий"
+
+#: Blog.rb:869
+msgctxt "Blog"
+msgid "Edit your post"
+msgstr "Редактировать пост"
+
+#: Blog.rb:738
+msgctxt "Blog"
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: Blog.rb:120
+msgctxt "Blog"
+msgid "All posts"
+msgstr "Все посты"
+
+#: Blog.rb:494
+msgctxt "Blog"
+msgid "Record a new post"
+msgstr "Записать Аудио-пост"
+
+#: Blog.rb:502
+msgctxt "Blog"
+msgid "Stop recording"
+msgstr "Остановить запись"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Recently updated blogs"
+msgstr "Недавно обновлённые блоги"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Frequently updated blogs"
+msgstr "Самые активные блоги"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Frequently commented blogs"
+msgstr "Самые комментируемые блоги"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Post title"
+msgstr "Заголовок поста"
+
+#: Blog.rb:981
+msgctxt "Blog"
+msgid "Post"
+msgstr "Пост"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Add to category"
+msgstr "Категория"
+
+#: Blog.rb:265
+msgctxt "Blog"
+msgid "Category name"
+msgstr "Название категории"
+
+#: Blog.rb:955
+msgctxt "Blog"
+msgid "New blog name"
+msgstr "Новое название блога"
+
+#: Blog.rb:762
+msgctxt "Blog"
+msgid "File is being converted..."
+msgstr "Конвертация файла"
+
+#: Blog.rb:193
+msgctxt "Blog"
+msgid "Rename"
+msgstr "Изменить название"
+
+#: Blog.rb:410
+msgctxt "Blog"
+msgid "Edit"
+msgstr "Редактировать"
+
+#: Blog.rb:1088
+msgctxt "Blog"
+msgid "Open"
+msgstr "Открыть"
+
+#: Blog.rb:1096
+msgctxt "Blog"
+msgid "Add to followed blogs"
+msgstr "Добавить в список избранных блогов"
+
+#: Blog.rb:1094
+msgctxt "Blog"
+msgid "Remove from the followed blogs"
+msgstr "Удалить из списка избранных блогов"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Followed blogs"
+msgstr "Избранные блоги"
+
+#: Blog.rb:531
+msgctxt "Blog"
+msgid "Create an audiopost"
+msgstr "Создать аудио-пост"
+
+#: Blog.rb:494
+msgctxt "Blog"
+msgid "Use an existing file"
+msgstr "Использовать существующий файл"
+
+#: Blog.rb:1007
+msgctxt "Blog"
+msgid "The post has been modified"
+msgstr "Пост изменён"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Visibility"
+msgstr "Кто может читать и комментировать пост?"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Show to everyone"
+msgstr "Все"
+
+#: Blog.rb:718
+msgctxt "Blog"
+msgid "Do not show to unlogged users"
+msgstr "Только пользователи Элтена"
+
+#: Blog.rb:722
+msgctxt "Blog"
+msgid "Audio post"
+msgstr "Аудио-пост"
+
+#: Blog.rb:738
+msgctxt "Blog"
+msgid "Use another file"
+msgstr "Использовать другой файл"
+
+#: Blog.rb:742
+msgctxt "Blog"
+msgid "Select audio file"
+msgstr "Выберите аудиофайл"
+
+#: Blog.rb:75
+msgctxt "Blog"
+msgid "The blog cannot be found."
+msgstr "Блог не существует."
+
+#: Blog.rb:276
+msgctxt "Blog"
+msgid "The category has been created."
+msgstr "Категория создана."
+
+#: Blog.rb:960
+msgctxt "Blog"
+msgid "Your blog has been renamed"
+msgstr "Блог переименован."
+
+#: Blog.rb:231
+msgctxt "Blog"
+msgid "You do not have any blog. Do you want to create one?"
+msgstr "  У вас ещё нет блога. С его помощью вы сможете размещать своё творчество,   делиться с участниками мыслями и идеями, рассказывать о себе и многое   другое. Хотите создать блог?"
+
+#: Blog.rb:999
+msgctxt "Blog"
+msgid "Please wait..."
+msgstr "Пожалуйста, подождите."
+
+#: Blog.rb:252
+msgctxt "Blog"
+msgid "The blog has been created."
+msgstr "Поздравляем! Вы создали блог."
+
+#: Blog.rb:298
+msgctxt "Blog"
+msgid "The blog has been renamed."
+msgstr "Название блога изменено."
+
+#: Blog.rb:370
+msgctxt "Blog"
+msgid "No new comments on your blog."
+msgstr "Новых комментариев нет."
+
+#: Blog.rb:615
+msgctxt "Blog"
+msgid "The post has been added."
+msgstr "Пост добавлен."
+
+#: Blog.rb:920
+msgctxt "Blog"
+msgid "The comment has been added."
+msgstr "Комментарий добавлен."
+
+#: Blog.rb:1121
+msgctxt "Blog"
+msgid "Added to the followed blogs."
+msgstr "Блог добавлен в список избранных блогов."
+
+#: Blog.rb:1130
+msgctxt "Blog"
+msgid "Removed from the followed blogs."
+msgstr "Блог удалён из списка избранных блогов."
+
+#: Blog.rb:1138
+msgctxt "Blog"
+msgid "The blog has been marked as read."
+msgstr "Все посты этого блога отмечены как прочитанные."
+
+#: Blog.rb:1260
+msgctxt "Blog"
+msgid "Recategorised"
+msgstr "Рекатегоризация завершена."
+
+#: Blog.rb:311
+msgctxt "Blog"
+msgid "Are you sure you want to delete this category?"
+msgstr "Вы хотите удалить эту категорию?"
+
+#: Blog.rb:237
+msgctxt "Blog"
+msgid "Type a blog name"
+msgstr "Введите название блога"
+
+#: Blog.rb:291
+msgctxt "Blog"
+msgid "Type a new category name"
+msgstr "Введите новое название категории"
+
+#: Blog.rb:523
+msgctxt "Blog"
+msgid "Create a text post"
+msgstr "Создать текстовый пост"
+
+#: Blog.rb:1136
+msgctxt "Blog"
+msgid "All posts on this blog will be marked as read. Do you want to continue?"
+msgstr "  Все посты на этом блоге будут отмечены как прочитанные. Хотите продолжить?"
+
+#: Blog.rb:1062
+msgctxt "Blog"
+msgid "Author"
+msgstr "Автор"
+
+#: Blog.rb:1098
+msgctxt "Blog"
+msgid "Mark the blog as read"
+msgstr "Отметить все посты на этом блоге как прочитанные"
+
+#: Blog.rb:124
+msgctxt "Blog"
+msgid "Recategorize"
+msgstr "Настроить категории блога"
+
+msgctxt "Blog"
+msgid "Show only to users in my contacts list"
+msgstr "Показывать только моим контактам"
+
+msgctxt "Blog"
+msgid "Create new blog"
+msgstr "Создать новый блог"
+
+msgctxt "Blog"
+msgid "Add coworker"
+msgstr "Добавить соредактора"
+
+msgctxt "Blog"
+msgid "Coworkers"
+msgstr "Coworkers"
+
+msgctxt "Blog"
+msgid "Release this coworker"
+msgstr "Удалить соредактора"
+
+msgctxt "Blog"
+msgid "What user you want to add to this blog?"
+msgstr "Укажите пользователя, которого хотите сделать соредактором"
+
+msgctxt "Blog"
+msgid "Are you sure you want to delete this comment?"
+msgstr "Вы действительно хотите удалить этот комментарий?"
+
+#: Blog.rb:860
+#, fuzzy
+msgctxt "Blog"
+msgid "Media"
+msgstr "Media"
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "Ban"
+msgstr "Заблокировать"
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "Unban"
+msgstr "Разблокировать"
+
+#: Ban.rb:17
+msgctxt "Ban"
+msgid "Enter a username to ban"
+msgstr "Введите логин пользователя, которого нужно заблокировать"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Week"
+msgstr "Неделя"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "2 weeks"
+msgstr "две недели"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "30 days"
+msgstr "Месяц"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "90 days"
+msgstr "90 дней"
+
+#: Ban.rb:66
+msgctxt "Ban"
+msgid "Banned."
+msgstr "Пользователь заблокирован."
+
+#: Ban.rb:89
+msgctxt "Ban"
+msgid "Enter a username to unban."
+msgstr "Введите логин пользователя, которого нужно разблокировать"
+
+#: Ban.rb:124
+msgctxt "Ban"
+msgid "Unbanned."
+msgstr "Пользователь разблокирован."
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "The reason"
+msgstr "Основание блокировки"
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "An additional message to the user"
+msgstr "Дополнительное сообщение"
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "The ban reason"
+msgstr "Причина блокировки"
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "Ban valid until"
+msgstr "Пользователь заблокирован на"
+
+#: Ban.rb:114
+msgctxt "Ban"
+msgid "The ban cancel reason"
+msgstr "Причина отмены бана"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Day"
+msgstr "День"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Three days"
+msgstr "Три дня"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Year"
+msgstr "Год"
+
+#: Users.rb:40
+msgctxt "Users"
+msgid "List of users"
+msgstr "Список пользователей"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Your message"
+msgstr "Введите сообщение"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Messages history"
+msgstr "История сообщений"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Users online"
+msgstr "Активные пользователи"
+
+#: Chat.rb:50
+msgctxt "Chat"
+msgid "Hide the chat window"
+msgstr "Скрыть чат"
+
+#: Chat.rb:17
+msgctxt "Chat"
+msgid "You have been banned."
+msgstr "Вы заблокированы."
+
+#: Chat.rb:39
+msgctxt "Chat"
+msgid "Last message"
+msgstr "Последнее сообщение"
+
+#: Chat.rb:40
+msgctxt "Chat"
+msgid "Joined the discussion"
+msgstr "Присоединился"
+
+#: _Main.rb:69
+msgctxt "Chat"
+msgid "Left the discussion."
+msgstr "Вышел"
+
+#: Languages.rb:13
+msgctxt "Languages"
+msgid "Manage languages"
+msgstr "Язык"
+
+#: Languages.rb:12
+msgctxt "Languages"
+msgid "Download the translation from the server"
+msgstr "Скачать актуальные переводы с сервера"
+
+#: Languages.rb:54
+msgctxt "Languages"
+msgid "Language packs have been updated"
+msgstr "Переводы обновлены."
+
+#: Files.rb:532
+msgctxt "Files"
+msgid "Files"
+msgstr "Менеджер файлов"
+
+#: Files.rb:407
+msgctxt "Files"
+msgid "Deleted"
+msgstr "Файл удалён."
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Open in an associated application"
+msgstr "Открыть в ассоциированном приложении"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Copy"
+msgstr "Скопировать"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Cut"
+msgstr "Вырезать"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Paste"
+msgstr "Вставить"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "New folder"
+msgstr "Новая папка"
+
+#: Files.rb:414
+msgctxt "Files"
+msgid "Copied"
+msgstr "скопировано"
+
+#: Files.rb:419
+msgctxt "Files"
+msgid "Cut out"
+msgstr "Вырезано"
+
+#: Files.rb:115
+msgctxt "Files"
+msgid "copied"
+msgstr "Скопировано"
+
+#: Files.rb:314
+msgctxt "Files"
+msgid "Text"
+msgstr "Текст"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Delete the playlist"
+msgstr "Очистить плейлист"
+
+#: Files.rb:318
+msgctxt "Files"
+msgid "Add all audio files in this directory to playlist"
+msgstr "Добавить все аудиозаписи из этой папки в плейлист"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "Add to playlist"
+msgstr "Добавить в плейлист"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Upload to the server"
+msgstr "Отправить в облако"
+
+#: Files.rb:177
+msgctxt "Files"
+msgid "Open this directory"
+msgstr "Открыть папку"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "Set as avatar"
+msgstr "Установить в качестве звукового аватара"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Create"
+msgstr "Создать"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Rename"
+msgstr "Переименовать"
+
+#: Files.rb:551
+msgctxt "Files"
+msgid "Edit"
+msgstr "Редактировать"
+
+#: Files.rb:272
+msgctxt "Files"
+msgid "pasted"
+msgstr "Вставлено"
+
+#: Files.rb:507
+msgctxt "Files"
+msgid "convert"
+msgstr "Конвертировать"
+
+#: Files.rb:359
+msgctxt "Files"
+msgid "Sent"
+msgstr "Отправлено"
+
+#: Files.rb:74
+msgctxt "Files"
+msgid "This file cannot be played."
+msgstr "Открытие файла невозможно."
+
+#: Files.rb:578
+msgctxt "Files"
+msgid "Read"
+msgstr "Читать"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Compress"
+msgstr "Заархивировать"
+
+#: Files.rb:312
+msgctxt "Files"
+msgid "Extract"
+msgstr "Разархивировать"
+
+#: Files.rb:370
+msgctxt "Files"
+msgid "Select archive format"
+msgstr "выберите формат архива"
+
+#: Files.rb:382
+msgctxt "Files"
+msgid "Compressed"
+msgstr "Заархивировано"
+
+#: Files.rb:578
+msgctxt "Files"
+msgid "Read to file"
+msgstr "Преобразование текста в речь"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "File"
+msgstr "Файл"
+
+#: Files.rb:317
+msgctxt "Files"
+msgid "Directory"
+msgstr "Папка"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Clipboard"
+msgstr "Буфер обмена"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "New text file"
+msgstr "Новый текстовый документ"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "New record"
+msgstr "Новая аудиозапись"
+
+#: Files.rb:313
+msgctxt "Files"
+msgid "Audio"
+msgstr "Аудио"
+
+#: Files.rb:428
+msgctxt "Files"
+msgid "Enter a folder name"
+msgstr "Введите название папки"
+
+#: Files.rb:450
+msgctxt "Files"
+msgid "Enter a file name"
+msgstr "Введите название файла"
+
+#: Files.rb:453
+msgctxt "Files"
+msgid "Record"
+msgstr "Запись"
+
+#: Files.rb:104
+msgctxt "Files"
+msgid "The file cannot be deleted, access denied."
+msgstr "Ошибка доступа. Файл не может быть удалён."
+
+#: Files.rb:387
+msgctxt "Files"
+msgid "Unpacked."
+msgstr "Разархивировано."
+
+#: Files.rb:274
+msgctxt "Files"
+msgid "The clipboard is empty"
+msgstr "Буфер обмена пуст."
+
+#: Files.rb:397
+msgctxt "Files"
+msgid "The file name has been changed."
+msgstr "Название изменено."
+
+#: Files.rb:432
+msgctxt "Files"
+msgid "The folder has been created."
+msgstr "Папка создана."
+
+#: Files.rb:476
+msgctxt "Files"
+msgid "The file has been created."
+msgstr "Файл создан."
+
+#: Files.rb:482
+msgctxt "Files"
+msgid "Playlist cleared"
+msgstr "Плейлист очищен."
+
+#: Files.rb:535
+msgctxt "Files"
+msgid "Please wait, the file is being converted."
+msgstr "Подождите, файл конвертируется."
+
+#: Files.rb:541
+msgctxt "Files"
+msgid "Converted."
+msgstr "Файл сконвертирован."
+
+#: Files.rb:589
+msgctxt "Files"
+msgid "Processing..."
+msgstr "Конвертация"
+
+#: Files.rb:393
+msgctxt "Files"
+msgid "A new file name"
+msgstr "Новое название"
+
+#: Files.rb:202
+msgctxt "Files"
+msgid " Do you want to run this Elten API script? Scripts coming from unknown sources can  harm your computer or give access to your account to unauthorised persons.  Continue if you trust a source this script comes from."
+msgstr "Вы хотите запустить этот скрипт Elten API? Сценарии, поступающие из неизвестных источников, могут нанести вред вашему компьютеру или дать доступ к вашей учетной записи посторонним лицам. Продолжайте, если вы доверяете источнику скрипта. "
+
+#: Files.rb:522
+msgctxt "Files"
+msgid "To which format do you want to convert this file?"
+msgstr "В какой формат требуется сконвертировать этот файл?"
+
+#: Files.rb:401
+msgctxt "Files"
+msgid "Do you really want to delete %{filename}?"
+msgstr "Вы действительно хотите удалить  %{filename}?"
+
+#: Files.rb:532
+msgctxt "Files"
+msgid "Select sound quality"
+msgstr "Выберите качество звука"
+
+#: Files.rb:353
+msgctxt "Files"
+msgid "Files added to playlist: %{count}."
+msgstr "Файлы добавленные в плейлист: %{count}."
+
+#: Files.rb:514
+msgctxt "Files"
+msgid "Playing: %{file}"
 msgstr "Воспроизводится: %{file}"
 
-msgid "Account:opt_phr_computer"
+#: SoundThemes.rb:34
+msgctxt "SoundThemes"
+msgid "Sound themes"
+msgstr "Звуковые схемы"
+
+#: SoundThemes.rb:20
+msgctxt "SoundThemes"
+msgid "No sound themes."
+msgstr "Звуковые схемы отсутствуют."
+
+#: SoundThemes.rb:33
+msgctxt "SoundThemes"
+msgid "Download sound themes"
+msgstr "Скачать звуковые схемы"
+
+#: SoundThemes.rb:30
+msgctxt "SoundThemes"
+msgid "default"
+msgstr "Поумолчанию"
+
+msgctxt "SoundThemes"
+msgid "Audio"
+msgstr "Аудио"
+
+#: Changes.rb:783
+msgctxt "Changes"
+msgid "Changelog"
+msgstr "Список изменений"
+
+#: Media.rb:44
+msgctxt "Media"
+msgid "Enter the URL"
+msgstr "Ввести адрес вручную"
+
+#: Media.rb:226
+msgctxt "Media"
+msgid "URL"
+msgstr "Введите адрес потока"
+
+#: Media.rb:44
+msgctxt "Media"
+msgid "New category"
+msgstr "Новая категория"
+
+#: Media.rb:136
+msgctxt "Media"
+msgid "New file"
+msgstr "Новый элемент"
+
+#: Media.rb:228
+msgctxt "Media"
+msgid "Add"
+msgstr "Добавить"
+
+#: Media.rb:227
+msgctxt "Media"
+msgid "Description"
+msgstr "Описание"
+
+#: Media.rb:225
+msgctxt "Media"
+msgid "Title"
+msgstr "Название"
+
+#: Media.rb:149
+msgctxt "Media"
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: Media.rb:149
+msgctxt "Media"
+msgid "Add to playlist"
+msgstr "Добавить в плейлист"
+
+#: Media.rb:183
+msgctxt "Media"
+msgid "Category name"
+msgstr "Название категории"
+
+#: Media.rb:211
+msgctxt "Media"
+msgid "The category has been added."
+msgstr "Категория добавлена."
+
+#: Media.rb:257
+msgctxt "Media"
+msgid "Added."
+msgstr "Добавлено."
+
+#: Media.rb:184
+msgctxt "Media"
+msgid "Category description"
+msgstr "Описание категории"
+
+#: Account.rb:14
+msgctxt "Account"
+msgid "Enter your old password."
+msgstr "Введите старый пароль"
+
+#: Account.rb:28
+msgctxt "Account"
+msgid "Enter your new password."
+msgstr "Введите новый пароль"
+
+#: Account.rb:28
+msgctxt "Account"
+msgid "Repeat new password."
+msgstr "Повторно введите новый пароль"
+
+msgctxt "Account"
+msgid "Fields: New Password and Repeat New Password have different values."
+msgstr "введённые пароли не совпадают"
+
+#: Account.rb:43
+msgctxt "Account"
+msgid "Your password has been changed."
+msgstr "пароль изменён"
+
+msgctxt "Account"
+msgid "The old password is incorrect."
+msgstr "Введён старый ошибочный пароль."
+
+#: Account.rb:500
+msgctxt "Account"
+msgid "Enter your password."
+msgstr "Введите пароль"
+
+#: Account.rb:75
+msgctxt "Account"
+msgid "Enter a new e-mail address."
+msgstr "Введите новый адрес электронной почты"
+
+#: Account.rb:85
+msgctxt "Account"
+msgid "E-mail has been changed."
+msgstr "Адрес электронной почты изменён."
+
+#: Account.rb:125
+msgctxt "Account"
+msgid "Your visiting card:"
+msgstr "Напишите всё, что хотите рассказать о себе"
+
+#: Account.rb:167
+msgctxt "Account"
+msgid "Change your status"
+msgstr "Изменить статус"
+
+#: Account.rb:171
+msgctxt "Account"
+msgid "Enter a new status"
+msgstr "Введите новый статус"
+
+#: Account.rb:576
+msgctxt "Account"
+msgid "Add"
+msgstr "Добавить"
+
+#: Account.rb:190
+msgctxt "Account"
+msgid "Profile editor"
+msgstr "Редактировать профиль"
+
+#: Account.rb:211
+msgctxt "Account"
+msgid "Full name"
+msgstr "Имя и фамилия"
+
+#: Account.rb:212
+msgctxt "Account"
+msgid "Gender"
+msgstr "Пол"
+
+#: Account.rb:217
+msgctxt "Account"
+msgid "Hide my profile for strangers"
+msgstr "Не показывать профиль людям вне моего списка контактов"
+
+#: Account.rb:265
+msgctxt "Account"
+msgid "Your signature:"
+msgstr "Подпись под постами на форуме"
+
+#: Account.rb:369
+msgctxt "Account"
+msgid "Set avatar"
+msgstr "Выбрать звуковой аватар"
+
+#: Account.rb:476
+msgctxt "Account"
+msgid "Auto log in tokens"
+msgstr "Ключи автовхода"
+
+#: Account.rb:484
+msgctxt "Account"
+msgid "Log out all sessions"
+msgstr "Выйти со всех устройств"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New messages"
+msgstr "Новые личные  сообщения"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New posts in followed threads"
+msgstr "Новые посты в избранных темах"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New posts on the followed blogs"
+msgstr "Новые посты в избранных блогах"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New comments on your blog"
+msgstr "Новые комментарии на вашем блоге"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New threads on followed forums"
+msgstr "Новые темы на избранных форумах"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New posts on followed forums"
+msgstr "Новые посты на избранных форумах"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "New friends"
+msgstr "Новые знакомые"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "Friends' birthday"
+msgstr "Дни рождения знакомых"
+
+#: Account.rb:396
+msgctxt "Account"
+msgid "Mentions"
+msgstr "Упоминания"
+
+#: Account.rb:395
+msgctxt "Account"
+msgid "Notice and show in what's new"
+msgstr "Оповестить и показать в списке уведомлений"
+
+#: Account.rb:395
+msgctxt "Account"
+msgid "Notice only"
+msgstr "Только уведомить"
+
+#: Account.rb:395
+msgctxt "Account"
+msgid "Ignore"
+msgstr "Игнорировать"
+
+#: Account.rb:541
+msgctxt "Account"
+msgid "Black list"
+msgstr "Чёрный список"
+
+#: Account.rb:630
+msgctxt "Account"
+msgid "Are you sure you want to remove this user from the black list?"
+msgstr "Вы действительно хотите удалить пользователя из чёрного списка?"
+
+#: Account.rb:635
+msgctxt "Account"
+msgid "A user has been removed from the black list."
+msgstr "Пользователь удалён из чёрного списка."
+
+#: Account.rb:604
+msgctxt "Account"
+msgid " The users added to your black list cannot send you private messages. Are you sure  you want to continue?"
+msgstr "Пользователи, добавленные вами в чёрный список, не могут отправлять вам приватные сообщения. Хотите продолжить?"
+
+msgctxt "Account"
+msgid "You cannot add an administrator to the black list."
+msgstr "Администратора невозможно добавить в чёрный список."
+
+msgctxt "Account"
+msgid "This user is already on your black list."
+msgstr "Пользователь уже добавлен в чёрный список."
+
+#: Account.rb:498
+msgctxt "Account"
+msgid " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediatelly."
+msgstr "Вы действительно хотите удалить все ключи автовхода? Вам придётся вновь войти в elten на всех ваших устройствах."
+
+#: Account.rb:181
+msgctxt "Account"
+msgid "Your status has been changed."
+msgstr "Статус изменён."
+
+#: Account.rb:508
+msgctxt "Account"
+msgid " An error occurred while authenticating the account. You might have provided an  incorrect password."
+msgstr "Ошибка входа. ВВедён неправильный пароль. "
+
+#: Account.rb:623
+msgctxt "Account"
+msgid "The user cannot be found."
+msgstr "Пользователь не существует."
+
+#: Account.rb:213
+msgctxt "Account"
+msgid "Birth date: year"
+msgstr "Дата рождения. Год:"
+
+#: Account.rb:214
+msgctxt "Account"
+msgid "Birth date: month"
+msgstr "Дата рождения. Месяц:"
+
+#: Account.rb:215
+msgctxt "Account"
+msgid "Birth date: day"
+msgstr "Дата рождения: День:"
+
+#: Account.rb:216
+msgctxt "Account"
+msgid "Location"
+msgstr "Откуда"
+
+#: Account.rb:326
+msgctxt "Account"
+msgid "Your welcome message:"
+msgstr "Приветственное сообщение"
+
+#: Account.rb:597
+msgctxt "Account"
+msgid "Type a username which you want to add to blacklist."
+msgstr "Введите имя пользователя, которого хотите заблокировать"
+
+#: Account.rb:608
+msgctxt "Account"
+msgid "User %{user} has been added to your blacklist"
+msgstr "Пользователь %{user} Заблокирован и добавлен в чёрный список."
+
+#: Account.rb:474
+msgctxt "Account"
+msgid "Computer"
 msgstr "Компьютер"
 
-msgid "Account:opt_phr_creationip"
+#: Account.rb:474
+msgctxt "Account"
+msgid "Creation IP Address"
 msgstr "IP Address"
 
-msgid "Account:opt_phr_generationdate"
+#: Account.rb:474
+msgctxt "Account"
+msgid "Generation date"
 msgstr "Дата создания:"
 
-msgid "MyPermissions:opt_betatesters"
+#: UsersAddedMeToContacts.rb:36
+msgctxt "Contacts"
+msgid "Contacts"
+msgstr "Список контактов"
+
+#: Contacts.rb:41
+msgctxt "Contacts"
+msgid "Empty list"
+msgstr "Список пуст"
+
+#: Contacts.rb:129
+msgctxt "Contacts"
+msgid "New contact"
+msgstr "Добавить контакт"
+
+#: Contacts.rb:169
+msgctxt "Contacts"
+msgid "Enter the name of the user you want to add to your contacts' list."
+msgstr "  Введите логин пользователя, которого хотите добавить в список контактов"
+
+#: Contacts.rb:181
+msgctxt "Contacts"
+msgid "Contact was added."
+msgstr "Контакт добавлен"
+
+#: Contacts.rb:193
+msgctxt "Contacts"
+msgid "This user is already added to your contacts' list."
+msgstr "Пользователь уже добавлен в список контактов."
+
+#: Contacts.rb:235
+msgctxt "Contacts"
+msgid "This user does not exist."
+msgstr " Логин не существует."
+
+#: Contacts.rb:219
+msgctxt "Contacts"
+msgid "Contact has been deleted."
+msgstr "контакт удалён."
+
+#: Contacts.rb:231
+msgctxt "Contacts"
+msgid "This user is not added to your contacts' list."
+msgstr "Пользователь ещё не добавлен в список контактов."
+
+#: Contacts.rb:82
+msgctxt "Contacts"
+msgid "Are you sure you want to delete this contact?"
+msgstr "Вы действительно хотите удалить этот контакт?"
+
+#: Contacts.rb:213
+msgctxt "Contacts"
+msgid "Type a username which you want to remove from your contact list."
+msgstr "  Введите имя пользователя, которого хотите удалить из контактовчёрного списка"
+
+#: Update.rb:14
+msgctxt "Update"
+msgid " A new version of this program is available. Do you want to download and instal it?"
+msgstr "Доступно обновление. Хотите загрузить и установить его?"
+
+#: Update.rb:16
+msgctxt "Update"
+msgid " A new beta version of this program is available. Do you want to download and  instal it?"
+msgstr "Доступно обновление бета-версии. Хотите загрузить и установить его?"
+
+#: Update.rb:133
+msgctxt "Update"
+msgid "Please wait while files are downloaded."
+msgstr "Пожалуйста, подождите, обновления загружаются."
+
+#: Update.rb:108
+msgctxt "Update"
+msgid "updating language packs"
+msgstr "Идёт обновление переводов. Ожидайте."
+
+#: Update.rb:29
+msgctxt "Update"
+msgid " Warning! You are about to install a beta version of elten. Such a version can be  unsarr or other errors can occur. Do you really wish to continue?"
+msgstr "Внимание!  Вы собираетесь установить бета-версию elten. Такая версия может быть нестобильной, либо  содержать  другие ошибки. Помните, вы устанавливаете её на свой страх и риск.  Хотите продолжить?"
+
+#: Update.rb:75
+msgctxt "Update"
+msgid " The update has been downloaded. To install it, the program must be restarted.  Press enter to continue or escape to cancel."
+msgstr "Обновление было загружено. Для его установки необходимо перезапустить программу. Нажмите enter, чтобы продолжить, либо Escape для отмены установки."
+
+#: Update.rb:71
+msgctxt "Update"
+msgid "Downloading update"
+msgstr "Загрузка обновления"
+
+#: Update.rb:88
+msgctxt "Update"
+msgid "Now, the update will be installed. The program will restart."
+msgstr "  Сейчас будет установлено обновление. Программа запустится автоматически."
+
+#: Update.rb:133
+msgctxt "Update"
+msgid "Downloading of the instructions for reinstallation"
+msgstr "Загрузка скрипта установки"
+
+#: Update.rb:136
+msgctxt "Update"
+msgid " The program will be now reverted to the latest sarr version. Elten will restart.  It may take several minutes."
+msgstr "Программа вернётся к последней стобильной  версии и перезагрузится. Подождите, это может занять некоторое время. "
+
+msgctxt "Update"
+msgid " You are not participating in Elten open insider program. Do you want to join it  now, to download beta version?"
+msgstr "Вы ещё  не участвуете в тестировании бета-версий elten. Хотите присоединиться к нему сейчас, чтобы загрузить бета-версию и попробовать новые функции?"
+
+#: Voice.rb:185
+msgctxt "Voice"
+msgid "Voice settings"
+msgstr "Настройки синтезатора речи"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change synthesizer"
+msgstr "Изменить синтезатор"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change synthesizer's rate"
+msgstr "Изменить скорость речи"
+
+#: Voice.rb:109
+msgctxt "Voice"
+msgid "Select"
+msgstr "выбрать"
+
+#: Voice.rb:146
+msgctxt "Voice"
+msgid "Select voice's rate"
+msgstr "Выберите скорость голоса"
+
+msgctxt "Voice"
+msgid "Saved"
+msgstr "Настройки синтезатора сохранены."
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change voice volume"
+msgstr "Изменить громкость синтезатора"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Use screenreader or system default voice"
+msgstr "Использовать скринридер вместо синтезатора"
+
+#: Voice.rb:185
+msgctxt "Voice"
+msgid "Select voice volume"
+msgstr "Выберите громкость синтезатора."
+
+#: Voice.rb:38
+msgctxt "Voice"
+msgid "Screen reader selected as speech synthesizer."
+msgstr "Вы выбрали использование скринридера."
+
+#: Voice.rb:93
+msgctxt "Voice"
+msgid "Selected voice"
+msgstr "Вы выбрали голос"
+
+msgctxt "Messages"
+msgid "Unknown error"
+msgstr "Неизвестная ошибка"
+
+#: Messages.rb:642
+msgctxt "Messages"
+msgid "You have no messages."
+msgstr "Почтовый ящик пуст."
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Reply"
+msgstr "Ответить"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Send a new message"
+msgstr "Создать сообщение"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Forward"
+msgstr "Переслать"
+
+#: Messages.rb:1007
+msgctxt "Messages"
+msgid "Subject:"
+msgstr "Тема:"
+
+#: Messages.rb:1008
+msgctxt "Messages"
+msgid "Message:"
+msgstr "Сообщение:"
+
+#: Messages.rb:1283
+msgctxt "Messages"
+msgid "Message has been sent"
+msgstr "Сообщение отправлено."
+
+#: Messages.rb:974
+msgctxt "Messages"
+msgid "Are you sure you want to delete this message?"
+msgstr "Вы действительно хотите удалить это сообщение?"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Mark all messages as read"
+msgstr "Отметить все сообщения как прочитанные"
+
+#: Messages.rb:1006
+msgctxt "Messages"
+msgid "Recipient"
+msgstr "Получатель"
+
+#: Messages.rb:1048
+msgctxt "Messages"
+msgid "Send"
+msgstr "Отправить"
+
+#: Messages.rb:645
+msgctxt "Messages"
+msgid "There are no new messages"
+msgstr "Новых сообщений нет"
+
+#: Messages.rb:688
+msgctxt "Messages"
+msgid "Received messages"
+msgstr "Полученные сообщения"
+
+#: Messages.rb:953
+msgctxt "Messages"
+msgid "Sent messages"
+msgstr "Отправленные сообщения"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Show sent messages"
+msgstr "Показать отправленные сообщения"
+
+#: Messages.rb:1076
+msgctxt "Messages"
+msgid "Stop recording"
+msgstr "Завершить запись"
+
+#: Messages.rb:1083
+msgctxt "Messages"
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: Messages.rb:1084
+msgctxt "Messages"
+msgid "Cancel recording"
+msgstr "Отменить запись"
+
+#: Messages.rb:916
+msgctxt "Messages"
+msgid "Found items"
+msgstr "Результаты поиска"
+
+#: Messages.rb:1228
+msgctxt "Messages"
+msgid "File is being converted..."
+msgstr "Конвертация файла"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Search"
+msgstr "Искать"
+
+#: Messages.rb:1093
+msgctxt "Messages"
+msgid "Record an audio message"
+msgstr "Записать голосовое сообщение"
+
+#: Messages.rb:1015
+msgctxt "Messages"
+msgid "Attach a file"
+msgstr "Добавить вложение"
+
+#: Messages.rb:1101
+msgctxt "Messages"
+msgid "Select a file to attach"
+msgstr "Выберите файл, который хотите добавить к сообщению"
+
+#: Messages.rb:1108
+msgctxt "Messages"
+msgid "File attached."
+msgstr "Вложение добавлено."
+
+#: Messages.rb:1099
+msgctxt "Messages"
+msgid "You cannot add more attachments to this message."
+msgstr "Больше вложений добавить нельзя."
+
+#: Messages.rb:1031
+msgctxt "Messages"
+msgid "Attachments"
+msgstr "Вложения"
+
+#: Messages.rb:897
+msgctxt "Messages"
+msgid "Enter a phrase to look for"
+msgstr "Введите фразу для поиска"
+
+#: Messages.rb:1137
+msgctxt "Messages"
+msgid "Do you want to send this message as e-mail?"
+msgstr "Вы хотите отправить это сообщение как e-mail?"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Flag"
+msgstr "Отметить"
+
+#: Messages.rb:819
+msgctxt "Messages"
+msgid "Remove flag"
+msgstr "Убрать отметку"
+
+#: Messages.rb:808
+msgctxt "Messages"
+msgid "Show flagged messages"
+msgstr "Показать отмеченные сообщения"
+
+#: Messages.rb:847
+msgctxt "Messages"
+msgid "The message has been flagged."
+msgstr "Сообщение отмечено"
+
+#: Messages.rb:856
+msgctxt "Messages"
+msgid "The message is no longer flagged."
+msgstr "Отметка снята"
+
+#: Messages.rb:935
+msgctxt "Messages"
+msgid "Flagged messages"
+msgstr "Отмеченные сообщения"
+
+#: Messages.rb:673
+msgctxt "Messages"
+msgid "Load more messages"
+msgstr "Загрузить больше"
+
+#: Messages.rb:777
+msgctxt "Messages"
+msgid "The attachment has been downloaded."
+msgstr "Вложение скачено."
+
+#: Messages.rb:887
+msgctxt "Messages"
+msgid "All messages have been marked as read."
+msgstr "Все сообщения будут отмечены как прочитанные."
+
+#: Messages.rb:981
+msgctxt "Messages"
+msgid "The message has been deleted."
+msgstr "Сообщение удалено."
+
+#: Messages.rb:1105
+msgctxt "Messages"
+msgid "The file is too large."
+msgstr "Файл слишком большой."
+
+#: Messages.rb:1309
+msgctxt "Messages"
+msgid "The recipient cannot be found."
+msgstr "Получатель не существует."
+
+#: Messages.rb:1047
+msgctxt "Messages"
+msgid "Send as an admin"
+msgstr "Отправить от имени администрации"
+
+#: Messages.rb:1048
+msgctxt "Messages"
+msgid "Send to all"
+msgstr "Отправить всем"
+
+#: Messages.rb:1075
+msgctxt "Messages"
+msgid "An audio message"
+msgstr "Голосовое сообщение"
+
+#: Messages.rb:771
+msgctxt "Messages"
+msgid "Where do you want to save this file?"
+msgstr "Где требуется  сохранить файл?"
+
+#: Messages.rb:742
+msgctxt "Messages"
+msgid "From"
+msgstr "От"
+
+#: Messages.rb:656
+msgctxt "Messages"
+msgid "to:"
+msgstr "Кому"
+
+#: Messages.rb:658
+msgctxt "Messages"
+msgid "New"
+msgstr "Новое"
+
+#: EAPI_EltenSRV.rb:105
+msgctxt "Messages"
+msgid "Sending: %{file}"
+msgstr "Отправка: %{file}"
+
+#: Messages.rb:1101
+msgctxt "Messages"
+msgid "Messages"
+msgstr "Сообщения"
+
+#: Messages.rb:223
+msgctxt "Messages"
+msgid "Last message"
+msgstr "Последнее сообщение"
+
+#: Messages.rb:223
+msgctxt "Messages"
+msgid "No subject"
+msgstr "Без темы"
+
+#: Messages.rb:368
+msgctxt "Messages"
+msgid "Read more"
+msgstr "Читать далее"
+
+#: Messages.rb:228
+msgctxt "Messages"
+msgid "Conversations with %{user}"
+msgstr "Переписка с пользователем  %{user}"
+
+#: Messages.rb:375
+msgctxt "Messages"
+msgid "Messages in topic %{subject} with %{user}"
+msgstr "Переписка на тему %{subject} с пользователем  %{user}"
+
+#: Messages.rb:373
+msgctxt "Messages"
+msgid "Show older"
+msgstr "Показать старые"
+
+#: Messages.rb:379
+msgctxt "Messages"
+msgid "Your reply"
+msgstr "Ваш ответ"
+
+#: Messages.rb:379
+msgctxt "Messages"
+msgid "Compose"
+msgstr "Открыть расширенный редактор"
+
+msgctxt "Messages"
+msgid "Create new conversation"
+msgstr "Создать новую беседу"
+
+msgctxt "Messages"
+msgid "Add user to this conversation"
+msgstr "Добавить пользователя в беседу"
+
+msgctxt "Messages"
+msgid "Conversation users"
+msgstr "Участники беседы"
+
+msgctxt "Messages"
+msgid "Delete this user from the conversation"
+msgstr "Удалить пользователя из беседы?"
+
+msgctxt "Messages"
+msgid "Are you sure you want to delete %{user} from %{conversation}?"
+msgstr "Вы действительно хотите удалить  %{user} из беседы  %{conversation}?"
+
+#: MyPermissions.rb:13
+msgctxt "MyPermissions"
+msgid "Moderators"
+msgstr "Модераторы"
+
+#: MyPermissions.rb:14
+msgctxt "MyPermissions"
+msgid "Media administrators"
+msgstr "Редакторы медиа"
+
+#: MyPermissions.rb:15
+msgctxt "MyPermissions"
+msgid "Translators"
+msgstr "Переводчики"
+
+#: MyPermissions.rb:16
+msgctxt "MyPermissions"
+msgid "Developers"
+msgstr "Разработчики"
+
+#: MyPermissions.rb:31
+msgctxt "MyPermissions"
+msgid "You have no special permissions."
+msgstr "У вас нет дополнительных возможностей."
+
+#: MyPermissions.rb:12
+msgctxt "MyPermissions"
+msgid "Betatesters"
 msgstr "Бетатестеры"
 
-msgid "EAPI_Common:wait_soundfont"
-msgstr ""
-"Подождите, звуковая схема скачивается. Это может занять несколько минут."
+#: Online.rb:24
+msgctxt "Online"
+msgid "Who is on line?"
+msgstr "Кто он-лайн?"
 
-msgid "EAPI_Common:info_soundfontdownloaded"
+#: MainMenu.rb:68
+msgctxt "MainMenu"
+msgid "Programs installation"
+msgstr "Установить программы"
+
+#: MainMenu.rb:499
+msgctxt "MainMenu"
+msgid " Do you want to restore the last sarr version of this program? All settings stay  as they are."
+msgstr "Вы хотите вернуться к исходной версии elten? Внимание, ваши настройки не сохранятся. "
+
+#: MainMenu.rb:507
+msgctxt "MainMenu"
+msgid " Are you sure you want to reset all settings to their factory defaults? Elten will  restart."
+msgstr "Вы хотите вернуться к настройкам по умолчанию?"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Community"
+msgstr "&Сообщество"
+
+msgctxt "MainMenu"
+msgid "&media"
+msgstr "&Медиа"
+
+#: MainMenu.rb:540
+msgctxt "MainMenu"
+msgid "&Files"
+msgstr "&Диспетчер файлов"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "Pro&grams"
+msgstr "Программы"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Tools"
+msgstr "&Инструменты"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Settings"
+msgstr "&Настройки"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Help"
+msgstr "&Помощь"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Quit"
+msgstr "&Выход"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "&Changelog"
+msgstr "&Список изменений"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "Program &version"
+msgstr "Версия приложения"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "&Read me"
+msgstr "&О проекте"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "&Shortkeys"
+msgstr "&Список горячих клавиш"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "Report a &bug"
+msgstr "Сообщить о проблеме"
+
+#: MainMenu.rb:95
+msgctxt "MainMenu"
+msgid "User &agreement"
+msgstr "Правила сообщества и лицензионное соглашение"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "&Interface settings"
+msgstr "&Параметры интерфейса"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "&Voice settings"
+msgstr "&Параметры речи"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "Cloc&k"
+msgstr "Часы"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "Soun&dthemes"
+msgstr "Звуковые схемы"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "Manage &languages"
+msgstr "Язык"
+
+#: MainMenu.rb:143
+msgctxt "MainMenu"
+msgid "&Advanced settings"
+msgstr "&Дополнительно"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Messages"
+msgstr "&Почтовый ящик"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Blogs"
+msgstr "&Блоги"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Forum"
+msgstr "&Форум"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "&Chat"
+msgstr "&Чат"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "No&tes"
+msgstr "Заметки"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "What's &new?"
+msgstr "&Уведомления"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "Po&lls"
+msgstr "&Опросы"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "&Users"
+msgstr "&Пользователи"
+
+#: MainMenu.rb:187
+msgctxt "MainMenu"
+msgid "My &account"
+msgstr "Моя учётная запись"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Edit &profile"
+msgstr "Редактировать профиль"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Change &status"
+msgstr "Изменить статус"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My si&gnature"
+msgstr "Изменить подпись под постами на форуме"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My &welcome message"
+msgstr "Изменить приветственное сообщение"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My &visiting card"
+msgstr "Моя анкета"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My &badges"
+msgstr "Мои значки"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "My share&d files"
+msgstr "Моё облако"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Set &avatar"
+msgstr "Установить звуковой аватар"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "WHat's &new configuration"
+msgstr "Настройки получения уведомлений"
+
+msgctxt "MainMenu"
+msgid "My p&ermissions"
+msgstr "Мои разрешения"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Black l&ist"
+msgstr "Чёрный список"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Auto &log in tokens"
+msgstr "Ключи автовхода"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Change passw&ord"
+msgstr "Изменить пароль"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Change e-&mail"
+msgstr "Изменить адрес электронной почты"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "Two-factor a&uthentication settings"
+msgstr "Настройки двухфакторной аутентификации"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "Soundthemes &generator"
+msgstr "Создание звуковых схем"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "Speed &test"
+msgstr "Проверка скорости соединения"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "P&rogram management"
+msgstr "&Управление программой"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "Read to &file"
+msgstr "Преобразование текста в речь"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "&Console"
+msgstr "&Консоль"
+
+msgctxt "MainMenu"
+msgid "&Elten API compiler"
+msgstr "&Компилятор elten api"
+
+#: MainMenu.rb:363
+msgctxt "MainMenu"
+msgid "De&bugging"
+msgstr "Отладка"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "Hide in &tray"
+msgstr "Скрыть в трей"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "&Logout"
+msgstr "&Выход из учётной записи"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "E&xit"
+msgstr "&Выход из программы"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "&Restart"
+msgstr "&Перезагрузка"
+
+#: MainMenu.rb:416
+msgctxt "MainMenu"
+msgid "Restart in de&bug mode"
+msgstr "Перезагрузка в режиме отладки"
+
+#: MainMenu.rb:480
+msgctxt "MainMenu"
+msgid "Search for &updates"
+msgstr "Проверка обновлений"
+
+#: MainMenu.rb:480
+msgctxt "MainMenu"
+msgid "&Reinstall"
+msgstr "&Переустановить elten"
+
+#: MainMenu.rb:482
+msgctxt "MainMenu"
+msgid "Create &Portable version"
+msgstr "Создать &Portable version"
+
+#: MainMenu.rb:482
+msgctxt "MainMenu"
+msgid "Restore &default settings"
+msgstr "Вернуться к исходным настройкам"
+
+#: MainMenu.rb:482
+msgctxt "MainMenu"
+msgid "&Install"
+msgstr "&Установить"
+
+msgctxt "MainMenu"
+msgid "&Media catalog"
+msgstr "&Каталог медиа"
+
+#: MainMenu.rb:540
+msgctxt "MainMenu"
+msgid "&YouTube"
+msgstr "&YouTube"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "My &contacts"
+msgstr "Список контактов"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Users who a&dded me to contacts"
+msgstr "Пользователи, добавившие меня в контакты"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "WHo is &online?"
+msgstr "Кто онлайн?"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "&Users list"
+msgstr "Список пользователей"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Ad&mins"
+msgstr "Совет старейшен"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "User searc&h"
+msgstr "Поиск пользователей"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Recently &actived users"
+msgstr "Пользователи, входившие недавно"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Recently &registered users"
+msgstr "новые пользователи"
+
+#: MainMenu.rb:569
+msgctxt "MainMenu"
+msgid "Recently changed a&vatars"
+msgstr "Недавно изменённые аватары"
+
+#: MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "&Addons"
+msgstr "&Утилиты"
+
+#: MainMenu.rb:13
+msgctxt "MainMenu"
+msgid "Menu"
+msgstr "Меню"
+
+#: Forum.rb:1005
+msgctxt "Forum"
+msgid "New thread"
+msgstr "Новая тема"
+
+#: Forum.rb:1928
+msgctxt "Forum"
+msgid "Added to the list of followed threads."
+msgstr "Тема добавлена в избранное."
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Go to last post"
+msgstr "Перейти к последнему посту"
+
+#: Forum.rb:1146
+msgctxt "Forum"
+msgid "Thread's title"
+msgstr "название темы"
+
+#: Forum.rb:1332
+msgctxt "Forum"
+msgid "Thread has been created."
+msgstr "Тема создана."
+
+msgctxt "Forum"
+msgid "Error creating thread!"
+msgstr "Ошибка при  создании темы."
+
+#: Forum.rb:1819
+msgctxt "Forum"
+msgid "The post was created."
+msgstr "Пост отправлен."
+
+#: Forum.rb:1096
+msgctxt "Forum"
+msgid "This thread has been deleted."
+msgstr "Тема удалена."
+
+#: Forum.rb:2057
+msgctxt "Forum"
+msgid "This post has been deleted."
+msgstr "Пост удалён."
+
+#: Forum.rb:2072
+msgctxt "Forum"
+msgid "Forum"
+msgstr "Форум"
+
+#: Forum.rb:1867
+msgctxt "Forum"
+msgid "Reply"
+msgstr "ответить"
+
+#: Forum.rb:1867
+msgctxt "Forum"
+msgid "Reply with quote"
+msgstr "Ответить с цитатой"
+
+#: Forum.rb:1872
+msgctxt "Forum"
+msgid "Go to first new post"
+msgstr "Перейти к первому непрочитанному посту"
+
+#: Forum.rb:1784
+msgctxt "Forum"
+msgid "Send"
+msgstr "Отправить"
+
+#: Forum.rb:937
+msgctxt "Forum"
+msgid "No new posts in followed threads"
+msgstr "Нет новых постов в избранных темах"
+
+#: Forum.rb:1627
+msgctxt "Forum"
+msgid "Return"
+msgstr "Назад"
+
+#: Forum.rb:1784
+msgctxt "Forum"
+msgid "Add the post"
+msgstr "Добавить"
+
+#: Forum.rb:1620
+msgctxt "Forum"
+msgid "Your answer"
+msgstr "Ваш ответ"
+
+#: Forum.rb:694
+msgctxt "Forum"
+msgid "Forums selection"
+msgstr "Выберите форум"
+
+#: Forum.rb:975
+msgctxt "Forum"
+msgid "Threads selection"
+msgstr "Выберите тему"
+
+#: Forum.rb:1622
+msgctxt "Forum"
+msgid "Record a new post"
+msgstr "Записать аудиопост"
+
+#: Forum.rb:1777
+msgctxt "Forum"
+msgid "Stop recording"
+msgstr "Завершить запись"
+
+#: Forum.rb:1782
+msgctxt "Forum"
+msgid "Record a post once again"
+msgstr "Перезаписать"
+
+#: Forum.rb:1783
+msgctxt "Forum"
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: Forum.rb:1143
+msgctxt "Forum"
+msgid "Post"
+msgstr "содержание поста"
+
+#: Forum.rb:1795
+msgctxt "Forum"
+msgid "Converting..."
+msgstr "Файл конвертируется"
+
+#: Forum.rb:1253
+msgctxt "Forum"
+msgid "Record a post"
+msgstr "Записать аудиопост"
+
+#: Forum.rb:1261
+msgctxt "Forum"
+msgid "Play a post"
+msgstr "Воспроизвести"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Search"
+msgstr "Поиск"
+
+#: Forum.rb:1016
+msgctxt "Forum"
+msgid "Rename"
+msgstr "Переименовать"
+
+#: Forum.rb:1893
+msgctxt "Forum"
+msgid "Edit post"
+msgstr "Отредактировать пост"
+
+#: Forum.rb:1894
+msgctxt "Forum"
+msgid "Delete post"
+msgstr "Удалить пост"
+
+#: Forum.rb:1017
+msgctxt "Forum"
+msgid "Open"
+msgstr "Открыть"
+
+#: Forum.rb:1016
+msgctxt "Forum"
+msgid "Move thread"
+msgstr "Перенести тему"
+
+#: Forum.rb:1961
+msgctxt "Forum"
+msgid "Enter a phrase to look for"
+msgstr "Введите текст для поиска"
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Add to followed threads list"
+msgstr "Добавить в список избранных тем"
+
+#: Forum.rb:1833
+msgctxt "Forum"
+msgid "Unfollow this thread"
+msgstr "Удалить из списка избранных тем"
+
+#: Forum.rb:1016
+msgctxt "Forum"
+msgid "Delete thread"
+msgstr "Удалить тему"
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Navigation"
+msgstr "Навигация"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Go to post"
+msgstr "Перейти к посту"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Search thread"
+msgstr "Искать в теме"
+
+#: Forum.rb:1871
+msgctxt "Forum"
+msgid "Go to first post"
+msgstr "Перейти к первому посту"
+
+#: Forum.rb:1832
+msgctxt "Forum"
+msgid "Moderation"
+msgstr "Модерация"
+
+#: Forum.rb:1894
+msgctxt "Forum"
+msgid "Move post"
+msgstr "Перенести пост"
+
+#: Forum.rb:1995
+msgctxt "Forum"
+msgid "edit your post here"
+msgstr "Редактировать пост"
+
+#: Forum.rb:2004
+msgctxt "Forum"
+msgid "The post has been modified"
+msgstr "Пост изменён."
+
+#: Forum.rb:2102
+msgctxt "Forum"
+msgid "Mention post"
+msgstr "Отправить пост знакомому"
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Listen to the thread"
+msgstr "Прослушать тему"
+
+#: Forum.rb:703
+msgctxt "Forum"
+msgid "Follow this forum"
+msgstr "Добавить в список избранных форумов"
+
+#: Forum.rb:704
+msgctxt "Forum"
+msgid "Unfollow this forum"
+msgstr "Удалить изз  списка избранных форумов"
+
+#: Forum.rb:724
+msgctxt "Forum"
+msgid "Added to followed forums list."
+msgstr "Форум добавлен в избранное."
+
+#: Forum.rb:731
+msgctxt "Forum"
+msgid "Removed from followed forums list."
+msgstr "Форум удалён из избранного."
+
+#: Forum.rb:1935
+msgctxt "Forum"
+msgid "Removed from followed threads list."
+msgstr "Тема удалена из избранного."
+
+#: Forum.rb:2102
+msgctxt "Forum"
+msgid "Message"
+msgstr "Сообщение"
+
+#: Forum.rb:703
+msgctxt "Forum"
+msgid "Mark this forum as read"
+msgstr "Отметить форум как прочитанный"
+
+#: Forum.rb:744
+msgctxt "Forum"
+msgid " All posts on this forum will be marked as read. Are you sure you want to continue?"
+msgstr "Все сообщения на этом форуме будут помечены как прочитанные. Вы уверены что хотите продолжить?"
+
+#: Forum.rb:752
+msgctxt "Forum"
+msgid "The forum has been marked as read."
+msgstr "Форум отмечен как прочитанный."
+
+#: Forum.rb:942
+msgctxt "Forum"
+msgid "No new threads on the followed forums"
+msgstr "Нет новых тем на избранных форумах."
+
+#: Forum.rb:947
+msgctxt "Forum"
+msgid "No new posts on the followed forums"
+msgstr "Нет новых постов на избранных форумах."
+
+#: Forum.rb:952
+msgctxt "Forum"
+msgid "No new mentions"
+msgstr "Упоминаний нет."
+
+#: Forum.rb:1071
+msgctxt "Forum"
+msgid "The thread has been moved."
+msgstr "Тема перенесена."
+
+#: Forum.rb:1084
+msgctxt "Forum"
+msgid "The forum name has been changed."
+msgstr "Название изменено."
+
+#: Forum.rb:1798
+msgctxt "Forum"
+msgid "Preparing..."
+msgstr "Подготовка к отправке"
+
+#: Forum.rb:1821
+msgctxt "Forum"
+msgid "Post creation failure."
+msgstr "Ошибка при создании поста."
+
+#: Forum.rb:1981
+msgctxt "Forum"
+msgid "The entered phrase cannot be found."
+msgstr "Фраза не найдена."
+
+#: Forum.rb:2040
+msgctxt "Forum"
+msgid "The post has been moved."
+msgstr "Пост перенесён."
+
+#: Forum.rb:2075
+msgctxt "Forum"
+msgid "The post has been slided."
+msgstr "Пост перенесён."
+
+#: Forum.rb:2098
+msgctxt "Forum"
+msgid "Nobody added you to their contact list."
+msgstr "Никто пока не добавил вас в список контактов. "
+
+#: Forum.rb:2116
+msgctxt "Forum"
+msgid "The mention has been sent."
+msgstr "Упоминание отправлено."
+
+#: Forum.rb:1144
+msgctxt "Forum"
+msgid "Nick:"
+msgstr "Псевдоним"
+
+#: Forum.rb:1079
+msgctxt "Forum"
+msgid "Type a new thread name"
+msgstr "Введите новое название темы"
+
+#: Forum.rb:1253
+msgctxt "Forum"
+msgid "Stop recording a post"
+msgstr "Остановить запись"
+
+#: Forum.rb:2047
+msgctxt "Forum"
+msgid "Are you sure you want to delete this post?"
+msgstr "Вы действительно хотите удалить этот пост?"
+
+#: Forum.rb:1066
+msgctxt "Forum"
+msgid "Where do you want to move this thread"
+msgstr "Куда необходимо перенести тему?"
+
+#: Forum.rb:1976
+msgctxt "Forum"
+msgid "Select a post"
+msgstr "Выберите пост"
+
+#: Forum.rb:2035
+msgctxt "Forum"
+msgid "Where do you want to move this post?"
+msgstr "Куда необходимо перенести пост?"
+
+#: Forum.rb:2072
+msgctxt "Forum"
+msgid "Select a post to be slided with this post."
+msgstr "Выберите, каким постом заменить этот пост."
+
+#: Forum.rb:1831
+msgctxt "Forum"
+msgid "Author"
+msgstr "Автор"
+
+#: Forum.rb:1092
+msgctxt "Forum"
+msgid "Do you really want to delete thread %{thrname}?"
+msgstr "Вы действительно хотите удалить тему  %{thrname}?"
+
+#: Forum.rb:962
+msgctxt "Forum"
+msgid "New"
+msgstr "Непрочитано"
+
+#: Forum.rb:693
+msgctxt "Forum"
+msgid "Threads"
+msgstr "Тем"
+
+#: Forum.rb:977
+msgctxt "Forum"
+msgid "posts"
+msgstr "Постов"
+
+#: Forum.rb:977
+msgctxt "Forum"
+msgid "Unread"
+msgstr "Не прочитано"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Followed threads"
+msgstr "Избранные темы"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Followed forums"
+msgstr "Избранные форумы"
+
+#: Forum.rb:205
+msgctxt "Forum"
+msgid "Forums"
+msgstr "Форумы"
+
+#: Forum.rb:965
+msgctxt "Forum"
+msgid "Montioned by"
+msgstr "Упомянуты пользователем"
+
+#: Forum.rb:1894
+msgctxt "Forum"
+msgid "Change post position"
+msgstr "Изменить место поста"
+
+#: Forum.rb:264
+msgctxt "Forum"
+msgid "Group members"
+msgstr "Участники группы"
+
+#: Forum.rb:340
+msgctxt "Forum"
+msgid "Group Members"
+msgstr "Участники группы"
+
+#: Forum.rb:475
+msgctxt "Forum"
+msgid "Administrator"
+msgstr "Администратор"
+
+#: Forum.rb:419
+msgctxt "Forum"
+msgid "Moderator"
+msgstr "Модератор"
+
+#: Forum.rb:266
+msgctxt "Forum"
+msgid "Join"
+msgstr "Присоединиться к группе"
+
+#: Forum.rb:269
+msgctxt "Forum"
+msgid "Leave"
+msgstr "Покинуть группу"
+
+#: Forum.rb:527
+msgctxt "Forum"
+msgid "Are you sure you want to join %{groupname}?"
+msgstr "Вы действительно хотите стать участником группы  %{groupname}?"
+
+#: Forum.rb:546
+msgctxt "Forum"
+msgid "Are you sure you want to leave %{groupname}?"
+msgstr "Вы действительно хотите выйти из группы  %{groupname}?"
+
+#: Forum.rb:536
+msgctxt "Forum"
+msgid "You've just joined the group"
+msgstr "Вы успешно присоединились к группе"
+
+#: Forum.rb:549
+msgctxt "Forum"
+msgid "You've just left the group"
+msgstr "Вы успешно покинули группу"
+
+#: Forum.rb:361
+msgctxt "Forum"
+msgid "Pass administrative privileges"
+msgstr "Назначить администратора"
+
+#: Forum.rb:358
+msgctxt "Forum"
+msgid "Grant moderation privileges"
+msgstr "Предоставить права модерации"
+
+#: Forum.rb:360
+msgctxt "Forum"
+msgid "Deny moderation privileges"
+msgstr "Отменить права модерации"
+
+#: Forum.rb:375
+msgctxt "Forum"
+msgid "Ban in this group"
+msgstr "Забанить"
+
+#: Forum.rb:380
+msgctxt "Forum"
+msgid "Unban"
+msgstr "Разбанить"
+
+msgctxt "Forum"
+msgid "Are you sure you want to grant moderation privileges in %{groupname} to user %{user}?"
+msgstr "Вы пытаетесь назначить модератора для группы %{groupname}, хотите сделать модератором пользователя   %{user}?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to deny %{user}'s moderation privileges?"
+msgstr "Вы действительно хотите отменить статус  модератора у %{user}'s ?"
+
+#: Forum.rb:477
+msgctxt "Forum"
+msgid "Privileges of this user have been changed."
+msgstr "Привилегии этого пользователя были изменены."
+
+#: Forum.rb:467
+msgctxt "Forum"
+msgid "Are you sure you want to resign your administrative privileges in %{groupname} and pass them to %{user}?"
+msgstr "Вы хотите передать управление группой  %{groupname}  пользователю %{user}?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to ban %{user} in %{groupname}?"
+msgstr "Вы действительно хотите забанить  %{user} в группе  %{groupname}?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to unban %{user} in %{groupname}?"
+msgstr " Вы действительно хотите разблокировать доступ  пользователю %{user} к  группе  %{groupname}?"
+
+#: Forum.rb:377
+msgctxt "Forum"
+msgid "Kick"
+msgstr "Удалить из группы"
+
+msgctxt "Forum"
+msgid "Are you sure you want to kick %{user} of %{groupname}?"
+msgstr " Вы действительно хотите удалить пользователя  %{user} из группы %{groupname}?"
+
+#: Forum.rb:709
+msgctxt "Forum"
+msgid "New forum"
+msgstr "Новый форум"
+
+#: Forum.rb:712
+msgctxt "Forum"
+msgid "Delete forum"
+msgstr "Удалить форум"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Forum name"
+msgstr "Название форума"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Forum description"
+msgstr "Описание форума"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Forum type"
+msgstr "тип форума"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Text forum"
+msgstr "Текстовый"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Voice forum"
+msgstr "Голосовой"
+
+#: Forum.rb:843
+msgctxt "Forum"
+msgid "Create forum"
+msgstr "Создать форум"
+
+#: Forum.rb:859
+msgctxt "Forum"
+msgid "The forum has been created"
+msgstr "Форум создан"
+
+#: Forum.rb:817
+msgctxt "Forum"
+msgid "Are you sure you want to delete this forum?"
+msgstr "Вы действительно хотите удалить этот форум?"
+
+#: Forum.rb:822
+msgctxt "Forum"
+msgid "The forum has been deleted."
+msgstr "Форум удалён."
+
+#: Forum.rb:711
+msgctxt "Forum"
+msgid "Edit forum"
+msgstr "Редактировать форум"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Recommended groups"
+msgstr "Рекомендованные группы"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Open groups"
+msgstr "Общедоступные группы"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "All groups"
+msgstr "Все группы"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Group name"
+msgstr "Название группы"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Group description"
+msgstr "Описание группы"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Group type"
+msgstr "Тип группы"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Public"
+msgstr "Публичный"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Hidden"
+msgstr "Скрытый"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Join method"
+msgstr "Метод присоединения"
+
+#: Forum.rb:649
+msgctxt "Forum"
+msgid "open (everyone can join)"
+msgstr "Открытая: (каждый может присоединиться)"
+
+#: Forum.rb:649
+msgctxt "Forum"
+msgid "Moderated (everyone can request)"
+msgstr "Закрытая: (каждый может отправить запрос на вступление)"
+
+#: Forum.rb:647
+msgctxt "Forum"
+msgid "closed (only invited users can join)"
+msgstr "Частная: (вступать могут только приглашённые пользователи)"
+
+#: Forum.rb:641
+msgctxt "Forum"
+msgid "Create group"
+msgstr "Создать группу"
+
+#: Forum.rb:802
+msgctxt "Forum"
+msgid "Change forum position"
+msgstr "Изменить позицию форума в списке"
+
+#: Forum.rb:802
+msgctxt "Forum"
+msgid "Above what forum do you want to move this forum?"
+msgstr "Над каким форумом вы хотите разместить этот форум?"
+
+#: Forum.rb:802
+msgctxt "Forum"
+msgid "Move to the end"
+msgstr "Переместить в конец "
+
+#: Forum.rb:262
+msgctxt "Forum"
+msgid "New group"
+msgstr "Новая группа"
+
+#: Forum.rb:635
+msgctxt "Forum"
+msgid "Language"
+msgstr "Язык"
+
+#: Forum.rb:656
+msgctxt "Forum"
+msgid "Group has been created"
+msgstr "Группа создана успешно."
+
+#: Forum.rb:272
+msgctxt "Forum"
+msgid "Delete group"
+msgstr "Удалить группу"
+
+#: Forum.rb:603
+msgctxt "Forum"
+msgid "Are you sure you want to delete %{groupname}?"
+msgstr "Вы действительно хотите удалить  %{groupname}?"
+
+#: Forum.rb:607
+msgctxt "Forum"
+msgid "Group has been deleted"
+msgstr "Группа удалена."
+
+#: Forum.rb:265
+msgctxt "Forum"
+msgid "Invite"
+msgstr "Invite"
+
+#: Forum.rb:496
+msgctxt "Forum"
+msgid "Type user to invite"
+msgstr "Введите логин пользователя, которого хотите пригласить"
+
+#: Forum.rb:506
+msgctxt "Forum"
+msgid "The user has been invited"
+msgstr "Пользователь приглашён"
+
+#: Forum.rb:514
+msgctxt "Forum"
+msgid "This user does not exist"
+msgstr "Пользователь не существует"
+
+#: Forum.rb:516
+msgctxt "Forum"
+msgid "This user already belongs to this group"
+msgstr "Пользователь уже является членом группы"
+
+#: Forum.rb:267
+msgctxt "Forum"
+msgid "Accept invitation"
+msgstr "Принять приглашение"
+
+#: Forum.rb:270
+msgctxt "Forum"
+msgid "Refuse invitation"
+msgstr "Отконить приглашение"
+
+#: Forum.rb:333
+msgctxt "Forum"
+msgid "Invited"
+msgstr "Invited"
+
+#: Forum.rb:457
+msgctxt "Forum"
+msgid "Banned"
+msgstr "Banned"
+
+#: Forum.rb:139
+msgctxt "Forum"
+msgid "Invitations"
+msgstr "Invitations"
+
+#: Forum.rb:271
+msgctxt "Forum"
+msgid "Edit group"
+msgstr "Редактировать группу"
+
+#: Forum.rb:437
+msgctxt "Forum"
+msgid "Ask to be enrolled in this group"
+msgstr "Отправить запрос на вступление"
+
+#: Forum.rb:525
+msgctxt "Forum"
+msgid "Do you wish to ask to be enrolled in %{groupname}"
+msgstr "Вы хотите отправить запрос на вступление в группу  %{groupname}"
+
+#: Forum.rb:533
+msgctxt "Forum"
+msgid "Request sent"
+msgstr "Запрос отправлен."
+
+#: Forum.rb:458
+msgctxt "Forum"
+msgid "Waiting for review"
+msgstr "Ожидание ответа администрации"
+
+#: Forum.rb:385
+msgctxt "Forum"
+msgid "Examine this application"
+msgstr "Изучить это приложение"
+
+#: Forum.rb:437
+msgctxt "Forum"
+msgid "Accept"
+msgstr "Accept"
+
+#: Forum.rb:437
+msgctxt "Forum"
+msgid "Refuse"
+msgstr "Refuse"
+
+msgctxt "Forum"
+msgid "Do you want to accept request of user %{user}"
+msgstr "Вы хотите принять запрос на вступление от пользователя  %{user}"
+
+msgctxt "Forum"
+msgid "Do you want to refuse request of user %{user}"
+msgstr "Вы хотите отказать пользователю  %{user}"
+
+#: Forum.rb:1686
+#, fuzzy
+msgctxt "Forum"
+msgid "Attachments"
+msgstr "Attachments"
+
+#: Forum.rb:1609
+#, fuzzy
+msgctxt "Forum"
+msgid "Polls"
+msgstr "Polls"
+
+#: Forum.rb:1143
+#, fuzzy
+msgctxt "Forum"
+msgid "Attach a poll"
+msgstr "Attach a poll"
+
+#: Forum.rb:1620
+#, fuzzy
+msgctxt "Forum"
+msgid "Attach a file"
+msgstr "Attach a file"
+
+#: Forum.rb:1186
+#, fuzzy
+msgctxt "Forum"
+msgid "You haven't created any polls yet."
+msgstr "You haven't created any polls yet."
+
+#: Forum.rb:1172
+#, fuzzy
+msgctxt "Forum"
+msgid "Select poll to attach"
+msgstr "Select poll to attach"
+
+#: Forum.rb:1182
+#, fuzzy
+msgctxt "Forum"
+msgid "Poll has been added"
+msgstr "Poll has been added"
+
+#: Forum.rb:1177
+#, fuzzy
+msgctxt "Forum"
+msgid "This poll has been already added"
+msgstr "This poll has been already added"
+
+#: Forum.rb:1688
+#, fuzzy
+msgctxt "Forum"
+msgid "The file has been attached"
+msgstr "The file has been attached"
+
+#: Forum.rb:1680
+#, fuzzy
+msgctxt "Forum"
+msgid "This file has been already attached"
+msgstr "This file has been already attached"
+
+#: Forum.rb:1677
+#, fuzzy
+msgctxt "Forum"
+msgid "Select file to attach"
+msgstr "Select file to attach"
+
+#: Forum.rb:1683
+#, fuzzy
+msgctxt "Forum"
+msgid "This file is too large"
+msgstr "This file is too large"
+
+#: Forum.rb:1665
+#, fuzzy
+msgctxt "Forum"
+msgid "Where to save this file?"
+msgstr "Where to save this file?"
+
+#: Forum.rb:1016
+#, fuzzy
+msgctxt "Forum"
+msgid "Close thread"
+msgstr "Close thread"
+
+#: Forum.rb:1017
+#, fuzzy
+msgctxt "Forum"
+msgid "Open thread"
+msgstr "Open thread"
+
+#: Forum.rb:1116
+#, fuzzy
+msgctxt "Forum"
+msgid "The thread has been closed"
+msgstr "The thread has been closed"
+
+#: Forum.rb:1112
+#, fuzzy
+msgctxt "Forum"
+msgid "The thread has been opened"
+msgstr "The thread has been opened"
+
+#: Main.rb:85
+msgctxt "Main"
+msgid "Press the alt key to open the menu."
+msgstr "Нажмите альт, чтобы открыть главное меню."
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Delete the playlist"
+msgstr "Очистить плейлист"
+
+#: Main.rb:193
+msgctxt "Main"
+msgid "Playlist"
+msgstr "Плейлист"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Upload to the server"
+msgstr "Отправить на сервер"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Set as avatar"
+msgstr "Установить в качестве звукового аватара"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Player"
+msgstr "Плеер"
+
+#: Main.rb:98
+msgctxt "Main"
+msgid "Shuffle"
+msgstr "Перемешать"
+
+#: Main.rb:177
+msgctxt "Main"
+msgid "Playlist shuffled"
+msgstr "Перемешано"
+
+#: Main.rb:78
+msgctxt "Main"
+msgid "A new beta version of the program is available."
+msgstr "Доступна новая бета-версия программы"
+
+#: Main.rb:200
+msgctxt "Main"
+msgid "Playlist removed."
+msgstr "Плейлист удалён."
+
+#: Main.rb:12
+msgctxt "Main"
+msgid "test"
+msgstr "тест"
+
+#: Login.rb:17
+msgctxt "Login"
+msgid "Username:"
+msgstr "Имя пользователя:"
+
+#: Login.rb:146
+msgctxt "Login"
+msgid "Password:"
+msgstr "Пароль"
+
+#: Login.rb:134
+msgctxt "Login"
+msgid "Do not ask again"
+msgstr "Больше не спрашивать"
+
+#: Login.rb:172
+msgctxt "Login"
+msgid "To reenable auto log in feature, proceed to the interface settings."
+msgstr "Чтобы включить функцию автоматического входа, перейдите к настройкам интерфейса."
+
+#: Login.rb:136
+msgctxt "Login"
+msgid " The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"
+msgstr "Сохраненные данные для входа в систему используют старый метод аутентификации учетной записи, при котором была обнаружена уязвимость к хакерским атакам. Новые, более безопасные алгоритмы автоматического входа были введены в Elten 2.2. Рекомендуется преобразовать сохраненную информацию в новую систему, чтобы повысить безопасность своей учетной записи. Хотите обновить сохраненную информацию сейчас?"
+
+#: Login.rb:161
+msgctxt "Login"
+msgid " Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."
+msgstr "Автоматический вход будет активен до тех пор, пока вы не выйдете из системы. Управлять ключами входа можно на вкладке «Моя учетная запись» в меню «Сообщество»."
+
+#: Login.rb:163
+msgctxt "Login"
+msgid " Login data has been updated. Automatic login will be proceeding until you log  out. Automatic login keys can be managed from the My Account tab in the Community  menu."
+msgstr "Данные для входа были обновлены. Автоматический вход будет  активен до тех пор, пока вы не выйдете из системы. Ключами автоматического входа можно управлять на вкладке «Моя учетная запись» в меню «Сообщество»."
+
+#: Login.rb:107
+msgctxt "Login"
+msgid " Two-factor authentication is enabled on this account. Enter the code sent to you  by text message to allow this device to login. If you do not have access to the  phone number used, select the password reset option to disable two-factor  authentication."
+msgstr "Для этой учетной записи включена двухфакторная аутентификация. Введите код, отправленный вам в виде текстового сообщения, чтобы разрешить этому устройству вход в систему. Если у вас нет доступа к используемому номеру телефона, выберите в меню  параметр  \"
+
+#: Login.rb:101
+msgctxt "Login"
+msgid "Verification failed."
+msgstr "Ошибка аутентификации."
+
+#: Login.rb:107
+msgctxt "Login"
+msgid "The entered code is not valid, try again."
+msgstr "Код неверен, Попробуйте ещё раз."
+
+#: Login.rb:152
+msgctxt "Login"
+msgid " An error occurred while authenticating the identity. You might have provided an  incorrect password."
+msgstr "Пароль неверен. Попробуйте ещё раз!"
+
+#: Login.rb:235
+msgctxt "Login"
+msgid "Invalid login or password."
+msgstr "Имя пользователя или пароль введены неправильно."
+
+#: Login.rb:240
+msgctxt "Login"
+msgid "Login failure."
+msgstr "Ошибка входа."
+
+#: Login.rb:244
+msgctxt "Login"
+msgid "Connection failure."
+msgstr "Ошибка подключения к серверу."
+
+#: Login.rb:192
+msgctxt "Login"
+msgid "Logged in as: %{user}"
+msgstr "Добро пожаловать,  %{user}"
+
+#: Login.rb:134
+msgctxt "Login"
+msgid "Do you want to enable auto log in for account %{user}?"
+msgstr "Вы хотите автоматически входить в учётную запись  %{user}?"
+
+#: Registration.rb:25
+msgctxt "Registration"
+msgid "User name can not contain slashes. Sign will be Omitted."
+msgstr "  Имя пользователя не может содержать символ  косой черты. Он будет пропущен."
+
+#: Registration.rb:29
+msgctxt "Registration"
+msgid "User name can not contain spaces. Sign will be Omitted"
+msgstr "Имя пользователя не может содержать пробел. Знак будет пропущен."
+
+#: Registration.rb:14
+msgctxt "Registration"
+msgid " Enter your username. It will be used for identification.The maximum length of the  username is 64 characters"
+msgstr "Введите ваше  имя пользователя. Оно  будет использоваться  для входа  в систему и в сообществе elten. Максимальная длина имени пользователя составляет 64 символа."
+
+#: Registration.rb:37
+msgctxt "Registration"
+msgid " Enter your password. It is recommended to use a strong password, which consists  of numbers and letters. Maximum length of the password is 256 characters."
+msgstr "Введите ваш пароль. Рекомендуется использовать сложный пароль, состоящий из цифр и букв. Максимальная длина пароля 256 символов."
+
+#: Registration.rb:44
+msgctxt "Registration"
+msgid " Enter your e-mail address. It will be used in case you forget your password and  to send important information."
+msgstr "Введите ваш адрес электронной почты. Он будет использоваться в случае, если вы забудете свой пароль, либо   для получения важной информации от проекта. "
+
+#: Registration.rb:50
+msgctxt "Registration"
+msgid " Registration is successful, thank you. You can log in using your username and  password."
+msgstr "Добро пожаловать! Регистрация прошла успешно.  Вы можете войти в систему  под своим именем пользователя и паролем. "
+
+#: Registration.rb:52
+msgctxt "Registration"
+msgid "An unknown error occurred while using database"
+msgstr "Ошибка в базе данных.."
+
+#: Registration.rb:54
+msgctxt "Registration"
+msgid "Account with the specified username already exists."
+msgstr "Введённое вами имя пользователя уже занято."
+
+#: Registration.rb:56
+msgctxt "Registration"
+msgid "An error occurred while trying to write data."
+msgstr "Ошибка записи данных."
+
+#: Registration.rb:58
+msgctxt "Registration"
+msgid "An error occurred while connecting to the server."
+msgstr "Ошибка соединения."
+
+#: Registration.rb:17
+msgctxt "Registration"
+msgid "A username cannot contain an at. The character will be ignored."
+msgstr "  В имени пользователя не может быть использована собачка. Знак будет  пропущен."
+
+#: Registration.rb:39
+msgctxt "Registration"
+msgid "The entered passwords differ"
+msgstr "Введённые пароли не совпадают."
+
+#: Registration.rb:37
+msgctxt "Registration"
+msgid "Repeat your password"
+msgstr "Повторите ввод пароля"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Log in"
+msgstr "Войти"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Register"
+msgstr "Зарегистрироваться"
+
+msgctxt "Loading"
+msgid "Exit"
+msgstr "Выйти"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Interface settings"
+msgstr "Настройки интерфейса"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Password reset"
+msgstr "Восстановить забытый пароль"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Use guest account"
+msgstr "Войти как гость"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Change speech synthesizer"
+msgstr "Изменить синтезатор речи"
+
+#: Loading.rb:308
+msgctxt "Loading"
+msgid "Reinstall"
+msgstr "Переустановить или обновить программу"
+
+#: Loading.rb:197
+msgctxt "Loading"
+msgid " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."
+msgstr "Выберите метод речевого вывода. Нажмите enter, чтобы использовать синтезатор, установленный в системе, либо Escape, чтобы интерфейс озвучивался вашей программой экранного доступа."
+
+#: Loading.rb:259
+msgctxt "Loading"
+msgid "A new version of the program is available."
+msgstr "Доступно обновление"
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Add to playlist"
+msgstr "Добавить в плейлист"
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Set as avatar"
+msgstr "Установить в качестве звукового аватара"
+
+#: EAPI_External.rb:203
+msgctxt "EAPI_External"
+msgid "Search YouTube"
+msgstr "Поиск в  YouTube"
+
+#: EAPI_External.rb:225
+msgctxt "EAPI_External"
+msgid "Found items"
+msgstr "результаты поиска"
+
+#: EAPI_External.rb:365
+msgctxt "EAPI_External"
+msgid "Connecting to server, please wait..."
+msgstr "Идёт соединение с сервером. Пожалуйста, подождите."
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "Download"
+msgstr "Скачать"
+
+#: EAPI_External.rb:418
+msgctxt "EAPI_External"
+msgid "Copy URL to the clipboard"
+msgstr "Скопировать ссылку"
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "How do you want to download this file?"
+msgstr "Как следует сохранить этот файл?"
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "Download as a video file"
+msgstr "Скачать видео"
+
+#: EAPI_External.rb:428
+msgctxt "EAPI_External"
+msgid "Download as an audio file"
+msgstr "Скачать только аудио"
+
+#: EAPI_External.rb:438
+msgctxt "EAPI_External"
+msgid "Downloading, please wait..."
+msgstr "Идёт скачивание. Подождите, пожалуйста."
+
+#: EAPI_External.rb:431
+msgctxt "EAPI_External"
+msgid "Where you want to save this file?"
+msgstr "Где сохранить файл?"
+
+#: EAPI_External.rb:166
+msgctxt "EAPI_External"
+msgid "destination language"
+msgstr "Требуемый язык"
+
+#: EAPI_External.rb:161
+msgctxt "EAPI_External"
+msgid "source language"
+msgstr "Исходный язык"
+
+#: EAPI_External.rb:161
+msgctxt "EAPI_External"
+msgid "recognize automatically"
+msgstr "Автоматически распознать язык"
+
+#: EAPI_External.rb:460
+msgctxt "EAPI_External"
+msgid "Select the format"
+msgstr "Выберите формат записи"
+
+#: EAPI_External.rb:167
+msgctxt "EAPI_External"
+msgid "Translate"
+msgstr "Перевести"
+
+#: EAPI_External.rb:119
+msgctxt "EAPI_External"
+msgid "An error occurred while translating."
+msgstr "Произошла ошибка во время перевода"
+
+#: EAPI_External.rb:376
+msgctxt "EAPI_External"
+msgid "Do not read progress bar changes."
+msgstr "Не читать изменений индикатора выполнения"
+
+#: EAPI_External.rb:379
+msgctxt "EAPI_External"
+msgid "Read progress bar changes."
+msgstr "Читать изменения индикатора выполнения"
+
+#: EAPI_External.rb:424
+msgctxt "EAPI_External"
+msgid "Added to playlist"
+msgstr "Добавлено в плейлист."
+
+#: EAPI_External.rb:486
+msgctxt "EAPI_External"
+msgid "Please wait..."
+msgstr "Пожалуйста, подождите..."
+
+#: EAPI_External.rb:480
+msgctxt "EAPI_External"
+msgid "Copied to clipboard."
+msgstr "Скопировано в буфер обмена."
+
+#: EAPI_External.rb:498
+msgctxt "EAPI_External"
+msgid " An error occurred while audiotrack capturing. Do you want to send a bug report?  It may help us solve the problem."
+msgstr "Произошла ошибка во время захвата аудиотрека. Вы хотите отправить отчет об ошибке? Это может помочь нам решить проблему."
+
+#: EAPI_External.rb:502
+msgctxt "EAPI_External"
+msgid " The file cannot be played. Do you want to report this bug? It may help us fix the  issue."
+msgstr "Файл не может быть воспроизведен. Вы хотите сообщить об этой ошибке? Это может помочь нам решить проблему."
+
+#: EAPI_External.rb:226
+msgctxt "EAPI_External"
+msgid "Details"
+msgstr "Подробности"
+
+#: EAPI_External.rb:256
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Duration"
+msgstr "Duration"
+
+#: EAPI_External.rb:256
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Published on"
+msgstr "Published on"
+
+#: EAPI_External.rb:256
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Key words"
+msgstr "Key words"
+
+#: EAPI_External.rb:486
+#, fuzzy
+msgctxt "EAPI_External"
+msgid "Updating Youtube-DL"
+msgstr "Updating Youtube-DL"
+
+#: EAPI_Common.rb:85
+msgctxt "EAPI_Common"
+msgid "An error occured while processing the command"
+msgstr "Ошибка во время создания команды."
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Write a private message"
+msgstr "Написать личное сообщение"
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Visiting card"
+msgstr "Профиль"
+
+#: EAPI_Common.rb:153
+msgctxt "EAPI_Common"
+msgid "Remove from contacts' list"
+msgstr "Удалить из списка контатов"
+
+#: EAPI_Common.rb:155
+msgctxt "EAPI_Common"
+msgid "Add to contacts' list"
+msgstr "Добавить в список контактов"
+
+#: EAPI_Common.rb:317
+msgctxt "EAPI_Common"
+msgid "There is nothing new."
+msgstr "Новых событий нет."
+
+msgctxt "EAPI_Common"
+msgid "Exit"
+msgstr "Выйти"
+
+#: EAPI_Common.rb:514
+msgctxt "EAPI_Common"
+msgid "Empty list"
+msgstr "Список пуст"
+
+#: EAPI_Common.rb:163
+msgctxt "EAPI_Common"
+msgid "Ban"
+msgstr "Заблокировать"
+
+#: EAPI_Common.rb:165
+msgctxt "EAPI_Common"
+msgid "Unban"
+msgstr "Разблокировать"
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Open user's blog"
+msgstr "Открыть блог"
+
+#: EAPI_Common.rb:16
+msgctxt "EAPI_Common"
+msgid "Hide program in Tray"
+msgstr "Скрыть в трей"
+
+#: EAPI_Common.rb:329
+msgctxt "EAPI_Common"
+msgid "Enter the name of the soundtheme"
+msgstr "Введите название звуковой схемы."
+
+#: EAPI_Common.rb:362
+msgctxt "EAPI_Common"
+msgid " Soundtheme files created in %{dir}. Replace files of the default soundtheme in  the created folder with the appropriate files, which constitute the soundtheme."
+msgstr "Файлы звуковой схемы размещены в папке  %{dir}. Замените оригенальные файлы своими, чтобы создать звуковую схему."
+
+#: EAPI_Common.rb:364
+msgctxt "EAPI_Common"
+msgid "What do you want to do?"
+msgstr "Что необходимо сделать?"
+
+#: EAPI_Common.rb:364
+msgctxt "EAPI_Common"
+msgid "Open the soundtheme's folder"
+msgstr "Открыть папку со схемой в менеджере файлов"
+
+#: EAPI_Common.rb:364
+msgctxt "EAPI_Common"
+msgid "Open the soundtheme's folder in windows explorer"
+msgstr "Открыть папку со звуковой схемой в проводнике"
+
+#: EAPI_Common.rb:462
+msgctxt "EAPI_Common"
+msgid "Describe the found error"
+msgstr "Опишите произошедшую ошибку"
+
+#: EAPI_Common.rb:478
+msgctxt "EAPI_Common"
+msgid "Sent."
+msgstr "Отправлено"
+
+#: EAPI_Common.rb:60
+msgctxt "EAPI_Common"
+msgid "Enter the command to execute"
+msgstr "Введите команду"
+
+#: EAPI_Common.rb:462
+msgctxt "EAPI_Common"
+msgid "Send"
+msgstr "Отправить"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Title"
+msgstr "Название"
+
+#: EAPI_Common.rb:14
+msgctxt "EAPI_Common"
+msgid "Exit..."
+msgstr "Выход из программы..."
+
+#: EAPI_Common.rb:160
+msgctxt "EAPI_Common"
+msgid "Play avatar"
+msgstr "Воспроизвести аватар"
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "Files shared by this user"
+msgstr "Файлы пользователя"
+
+#: EAPI_Common.rb:678
+msgctxt "EAPI_Common"
+msgid "You are already up to date"
+msgstr "Обновлений нет."
+
+#: EAPI_Common.rb:150
+msgctxt "EAPI_Common"
+msgid "badges of this user"
+msgstr "Значки пользователя"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "voice"
+msgstr "Голос"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "rate"
+msgstr "Скорость"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "destination location"
+msgstr "Место размещения:"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "preview"
+msgstr "Предпросмотр"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "confirm"
+msgstr "Подтвердить"
+
+#: EAPI_Form.rb:1709
+msgctxt "EAPI_Common"
+msgid "This file cannot be played."
+msgstr "Файл невозможно открыть."
+
+#: EAPI_Common.rb:1427
+msgctxt "EAPI_Common"
+msgid "Compressing..."
+msgstr "Архивация"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Output splitting"
+msgstr "Разделить текст"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Create one file"
+msgstr "Создать один файл"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Divide by paragraphs"
+msgstr "Разделить на абзацы"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Divide every"
+msgstr "Разделить на куски по"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Duration of one file (minutes)"
+msgstr "Длина фрагмента в минутах"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Read file number"
+msgstr "Называть номер файла"
+
+#: EAPI_Form.rb:1778
+msgctxt "EAPI_Common"
+msgid "Downloading..."
+msgstr "Скачивание"
+
+msgctxt "EAPI_Common"
+msgid " Login failure. Probably, the password you entered is invalid or you have been  banned."
+msgstr "Ошибка входа. Ваша учётная запись заблокирована или не существует."
+
+msgctxt "EAPI_Common"
+msgid "Operation completed successfully"
+msgstr "Операция завершена успешно."
+
+#: EAPI_UI.rb:323
+msgctxt "EAPI_Common"
+msgid "Using a screenreader"
+msgstr "Используется скринридер."
+
+#: EAPI_UI.rb:325
+msgctxt "EAPI_Common"
+msgid "Using a selected SAPI synthesizer"
+msgstr "Используется сапи."
+
+msgctxt "EAPI_Common"
+msgid "Do you accept the user agreement of Elten software?"
+msgstr "Вы принимаете условия лицензионного соглашения?"
+
+msgctxt "EAPI_Common"
+msgid "The user agreement, as well as Elten's and Elten Network's terms of service"
+msgstr "Пользовательское и лицензионное  соглашения Elten и Elten Network"
+
+#: EAPI_Common.rb:1340
+msgctxt "EAPI_Common"
+msgid "Please wait, reading to file"
+msgstr "Идёт преобразование текста в речь. Пожалуйста, подождите."
+
+#: EAPI_Form.rb:1749
+msgctxt "EAPI_Common"
+msgid "Type a second to which you want to move."
+msgstr "Введите секунду, на которую требуется переместиться"
+
+#: EAPI_Common.rb:698
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
+msgstr "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
+
+#: EAPI_Common.rb:698
+msgctxt "EAPI_Common"
+msgid "I do not accept, exit"
+msgstr "Не принимаю"
+
+#: EAPI_Common.rb:1395
+msgctxt "EAPI_Common"
+msgid "Please wait, file processing..."
+msgstr "Подождите, файл конвертируется."
+
+#: EAPI_Common.rb:737
+msgctxt "EAPI_Common"
+msgid " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."
+msgstr "Вы пытаетесь воспроизвести Midi-файл, но для этого elten должен загрузить дополнительную библиотеку. Хотите продолжить?"
+
+#: EAPI_Form.rb:1776
+msgctxt "EAPI_Common"
+msgid "Where do you want to save this file?"
+msgstr "Где требуется сохранить файл?"
+
+#: EAPI_Common.rb:594
+msgctxt "EAPI_Common"
+msgid "Gender"
+msgstr "Пол"
+
+#: EAPI_Common.rb:610
+msgctxt "EAPI_Common"
+msgid "Age"
+msgstr "Возраст"
+
+#: EAPI_Common.rb:633
+msgctxt "EAPI_Common"
+msgid "Forum posts"
+msgstr "Постов на форуме"
+
+#: EAPI_Common.rb:634
+msgctxt "EAPI_Common"
+msgid "Polls answered"
+msgstr "Пройдённых опросов"
+
+#: EAPI_Common.rb:635
+msgctxt "EAPI_Common"
+msgid "Used version"
+msgstr "Используемая версия программы"
+
+#: EAPI_Common.rb:636
+msgctxt "EAPI_Common"
+msgid "Registered"
+msgstr "Учётная запись зарегистрирована"
+
+#: EAPI_Common.rb:1275
+msgctxt "EAPI_Common"
+msgid "No selected file to read"
+msgstr "Файл не выбран."
+
+#: EAPI_Common.rb:1287
+msgctxt "EAPI_Common"
+msgid "Type a file name"
+msgstr "Введите имя создаваемого файла"
+
+#: EAPI_Common.rb:1289
+msgctxt "EAPI_Common"
+msgid "Select file location"
+msgstr "Выберите место сохранения файла"
+
+#: EAPI_Common.rb:1291
+msgctxt "EAPI_Common"
+msgid "Select source file"
+msgstr "Выберите источникисходный файл"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Reading to file number"
+msgstr "Чтение в файл номер"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Sentence %{cursentence} z %{sentences}"
+msgstr "Предложение %{cursentence} из %{sentences}"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Read"
+msgstr "Прочитано"
+
+#: EAPI_Common.rb:1380
+msgctxt "EAPI_Common"
+msgid "Estimated elapsed time"
+msgstr "Осталось времени"
+
+#: EAPI_Common.rb:644
+msgctxt "EAPI_Common"
+msgid "Visiting card: %{user}"
+msgstr "Профиль: %{user}"
+
+#: EAPI_Common.rb:1406
+msgctxt "EAPI_Common"
+msgid "Reading to file finished."
+msgstr "Преобразование текста в речь завершено."
+
+#: EAPI_Common.rb:623
+msgctxt "EAPI_Common"
+msgid "User has a blog"
+msgstr "Пользователь ведёт блог"
+
+#: EAPI_Common.rb:620
+msgctxt "EAPI_Common"
+msgid "Last seen"
+msgstr "Последний визит"
+
+#: EAPI_Common.rb:616
+msgctxt "EAPI_Common"
+msgid "Last seen {txt_phr_lastseen_female}"
+msgstr "Была в сети"
+
+#: EAPI_Common.rb:618
+msgctxt "EAPI_Common"
+msgid "Last seen {txt_phr_lastseen_male}"
+msgstr "Был в сети"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "File to read"
+msgstr "Файл для прочтения"
+
+#: EAPI_Common.rb:1214
+msgctxt "EAPI_Common"
+msgid "Output format"
+msgstr "Формат"
+
+#: EAPI_Common.rb:521
+msgctxt "EAPI_Common"
+msgid "Select contact"
+msgstr "Выберите контакт"
+
+#: EAPI_Common.rb:630
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users"
+msgstr "В контактах у  %{count} пользователей"
+
+#: EAPI_Common.rb:628
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users {txt_phr_knownby_female}"
+msgstr "В контактах у  %{count} пользователей "
+
+#: EAPI_Common.rb:630
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users {txt_phr_knownby_male}"
+msgstr "В контактах у  %{count} пользователей"
+
+#: EAPI_Common.rb:624
+msgctxt "EAPI_Common"
+msgid "Knows %{count} users"
+msgstr "Знает %{count} пользователей"
+
+#: EAPI_Common.rb:738
+msgctxt "EAPI_Common"
+msgid "Please wait, the soundfont is being downloaded. It may take a while."
+msgstr "  Подождите, звуковая схема скачивается. Это может занять несколько минут."
+
+#: EAPI_Common.rb:738
+msgctxt "EAPI_Common"
+msgid "Soundfont downloaded succesfully."
 msgstr "Звуковая схема скачана."
 
-msgid "EAPI_Common:txt_phr_processing"
+#: EAPI_Common.rb:1401
+msgctxt "EAPI_Common"
+msgid "Processing"
 msgstr "Преобразование"
+
+#: EAPI_Form.rb:396
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Checked: %{check}"
+msgstr "Checked: %{check}"
+
+#: EAPI_Form.rb:980
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Checked"
+msgstr "Checked"
+
+#: EAPI_Common.rb:695
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "License agreement"
+msgstr "License agreement"
+
+#: EAPI_Common.rb:696
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Terms and Conditions"
+msgstr "Terms and Conditions"
+
+#: EAPI_Common.rb:697
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Privacy Policy"
+msgstr "Privacy Policy"
+
+#: EAPI_Common.rb:716
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Do you accept Elten license agreement, terms and conditions and privacy policy?"
+msgstr "Do you accept Elten license agreement, terms and conditions and privacy policy?"
+
+#: EAPI_EltenSRV.rb:298
+msgctxt "EAPI_EltenSRV"
+msgid "File is being converted..."
+msgstr "Конвертация файла"
+
+#: EAPI_EltenSRV.rb:584
+msgctxt "EAPI_EltenSRV"
+msgid "Sent"
+msgstr "Отправлено"
+
+#: EAPI_EltenSRV.rb:274
+msgctxt "EAPI_EltenSRV"
+msgid "The user has no avatar."
+msgstr "У пользователя нет звукового  аватара."
+
+#: EAPI_EltenSRV.rb:297
+msgctxt "EAPI_EltenSRV"
+msgid "Please wait, this may take several minutes..."
+msgstr "Пожалуйста, подождите. Это может занять несколько минут."
+
+#: EAPI_EltenSRV.rb:620
+msgctxt "EAPI_EltenSRV"
+msgid "Select a user"
+msgstr "Выберите пользователя"
+
+#: EAPI_EltenSRV.rb:494
+msgctxt "EAPI_EltenSRV"
+msgid "Session confirmation time:"
+msgstr "Время подтверждения сессии:"
+
+#: EAPI_Network.rb:68
+msgctxt "EAPI_Network"
+msgid "sending..."
+msgstr "Отправка"
+
+#: EAPI_Network.rb:227
+msgctxt "EAPI_Network"
+msgid "Do not report progress bar changes."
+msgstr "Не читать изменений индикатора выполнения"
+
+#: EAPI_Network.rb:230
+msgctxt "EAPI_Network"
+msgid "Read progress bar changes."
+msgstr "Читать изменения индикатора выполнения"
+
+msgctxt "EAPI_UI"
+msgid "You have received a new message."
+msgstr "Вам пришло новое сообщение"
+
+#: EAPI_UI.rb:427
+msgctxt "EAPI_UI"
+msgid "The program is trying to recover from the frozen state."
+msgstr "Программа будет пробовать восстановить работу."
+
+msgctxt "EAPI_UI"
+msgid "You received a new message."
+msgstr "Вы получили новое сообщение."
+
+msgctxt "EAPI_UI"
+msgid "A new post in a followed thread."
+msgstr "В избранной теме появился новый пост."
+
+msgctxt "EAPI_UI"
+msgid "A new post on a followed blog."
+msgstr "На избранном блоге появился новый пост."
+
+#: EAPI_UI.rb:424
+msgctxt "EAPI_UI"
+msgid " An unexpected error of Elten agent occurred. Do you want to report this event? It  may definitely help us solve the problem."
+msgstr "Произошла непредвиденная ошибка агента Elten. Вы хотите сообщить о ней разработчику? Это может помочь исправить её."
+
+#: EAPI_UI.rb:499
+msgctxt "EAPI_UI"
+msgid "Alert!"
+msgstr "Внимание!"
+
+#: EAPI_Speech.rb:223
+msgctxt "EAPI_Speech"
+msgid "dot"
+msgstr "Точка"
+
+#: EAPI_Speech.rb:225
+msgctxt "EAPI_Speech"
+msgid "comma"
+msgstr "Запятая"
+
+#: EAPI_Speech.rb:227
+msgctxt "EAPI_Speech"
+msgid "slash"
+msgstr "Косая черта"
+
+#: EAPI_Speech.rb:229
+msgctxt "EAPI_Speech"
+msgid "semi"
+msgstr "точка с запятой"
+
+#: EAPI_Speech.rb:231
+msgctxt "EAPI_Speech"
+msgid "tick"
+msgstr "Апостроф"
+
+#: EAPI_Speech.rb:235
+msgctxt "EAPI_Speech"
+msgid "right bracket"
+msgstr "Правая квадратная скобка"
+
+#: EAPI_Speech.rb:237
+msgctxt "EAPI_Speech"
+msgid "backslash"
+msgstr "бэкслэш"
+
+#: EAPI_Speech.rb:239
+msgctxt "EAPI_Speech"
+msgid "dash"
+msgstr "минус"
+
+#: EAPI_Speech.rb:241
+msgctxt "EAPI_Speech"
+msgid "equals"
+msgstr "равно"
+
+#: EAPI_Speech.rb:243
+msgctxt "EAPI_Speech"
+msgid "accent"
+msgstr "Ударение"
+
+#: EAPI_Speech.rb:245
+msgctxt "EAPI_Speech"
+msgid "less"
+msgstr "Меньше"
+
+#: EAPI_Speech.rb:247
+msgctxt "EAPI_Speech"
+msgid "greater"
+msgstr "Больше"
+
+#: EAPI_Speech.rb:249
+msgctxt "EAPI_Speech"
+msgid "question"
+msgstr "Вопросительный знак"
+
+#: EAPI_Speech.rb:251
+msgctxt "EAPI_Speech"
+msgid "colon"
+msgstr "Двоеточие"
+
+#: EAPI_Speech.rb:253
+msgctxt "EAPI_Speech"
+msgid "quote"
+msgstr "Кавычка"
+
+#: EAPI_Speech.rb:255
+msgctxt "EAPI_Speech"
+msgid "left brace"
+msgstr "Левая фигурная скобка"
+
+#: EAPI_Speech.rb:257
+msgctxt "EAPI_Speech"
+msgid "right brace"
+msgstr "Правая фигурная скобка"
+
+#: EAPI_Speech.rb:259
+msgctxt "EAPI_Speech"
+msgid "bar"
+msgstr "вертикальная линия"
+
+#: EAPI_Speech.rb:261
+msgctxt "EAPI_Speech"
+msgid "line"
+msgstr "Подчёркивание"
+
+#: EAPI_Speech.rb:263
+msgctxt "EAPI_Speech"
+msgid "plus"
+msgstr "Плюс"
+
+#: EAPI_Speech.rb:265
+msgctxt "EAPI_Speech"
+msgid "bang"
+msgstr "Восклицательный знак"
+
+#: EAPI_Speech.rb:267
+msgctxt "EAPI_Speech"
+msgid "at"
+msgstr "Собачка"
+
+#: EAPI_Speech.rb:269
+msgctxt "EAPI_Speech"
+msgid "hash"
+msgstr "Решётка"
+
+#: EAPI_Speech.rb:271
+msgctxt "EAPI_Speech"
+msgid "dollar"
+msgstr "Доллар"
+
+#: EAPI_Speech.rb:273
+msgctxt "EAPI_Speech"
+msgid "percent"
+msgstr "Процент"
+
+#: EAPI_Speech.rb:275
+msgctxt "EAPI_Speech"
+msgid "caret"
+msgstr "пик"
+
+#: EAPI_Speech.rb:277
+msgctxt "EAPI_Speech"
+msgid "and"
+msgstr "Амперсант"
+
+#: EAPI_Speech.rb:279
+msgctxt "EAPI_Speech"
+msgid "star"
+msgstr "Звёздочка"
+
+#: EAPI_Speech.rb:281
+msgctxt "EAPI_Speech"
+msgid "left paren"
+msgstr "Левая скобка"
+
+#: EAPI_Speech.rb:283
+msgctxt "EAPI_Speech"
+msgid "right paren"
+msgstr "Правая скобка"
+
+#: EAPI_Speech.rb:88
+msgctxt "EAPI_Speech"
+msgid "Space"
+msgstr "Пробел"
+
+#: EAPI_Speech.rb:233
+msgctxt "EAPI_Speech"
+msgid "left bracket"
+msgstr "Левая скобка"
+
+#: EAPI_Form.rb:699
+msgctxt "EAPI_Form"
+msgid "Media"
+msgstr "Медиа"
+
+#: EAPI_Form.rb:415
+msgctxt "EAPI_Form"
+msgid "Cut out"
+msgstr "Вырезано"
+
+#: EAPI_Form.rb:409
+msgctxt "EAPI_Form"
+msgid "copied"
+msgstr "Скопировано"
+
+#: EAPI_Form.rb:1140
+msgctxt "EAPI_Form"
+msgid "Checked"
+msgstr "Отмечен"
+
+#: EAPI_Form.rb:1138
+msgctxt "EAPI_Form"
+msgid "unchecked"
+msgstr "Не отмечен"
+
+#: EAPI_Form.rb:1143
+msgctxt "EAPI_Form"
+msgid "Checkbox"
+msgstr "флажок"
+
+#: EAPI_Form.rb:697
+msgctxt "EAPI_Form"
+msgid "Edit box"
+msgstr "Редактор"
+
+#: EAPI_Form.rb:698
+msgctxt "EAPI_Form"
+msgid "Text"
+msgstr "Tekst"
+
+#: EAPI_Form.rb:1094
+msgctxt "EAPI_Form"
+msgid "Button"
+msgstr "Кнопка"
+
+#: EAPI_Form.rb:470
+msgctxt "EAPI_Form"
+msgid "Destination"
+msgstr "Путь"
+
+#: EAPI_Form.rb:419
+msgctxt "EAPI_Form"
+msgid "pasted"
+msgstr "Вставлено"
+
+#: EAPI_Form.rb:1193
+msgctxt "EAPI_Form"
+msgid "Desktop"
+msgstr "Рабочий стол"
+
+#: EAPI_Form.rb:1193
+msgctxt "EAPI_Form"
+msgid "Documents"
+msgstr "Документы"
+
+#: EAPI_Form.rb:1193
+msgctxt "EAPI_Form"
+msgid "Music"
+msgstr "Музыка"
+
+#: EAPI_Form.rb:437
+msgctxt "EAPI_Form"
+msgid "Enter a phrase to look for"
+msgstr "Введите текст для поиска"
+
+#: EAPI_Form.rb:426
+msgctxt "EAPI_Form"
+msgid "undone"
+msgstr "Отменено"
+
+#: EAPI_Form.rb:1035
+msgctxt "EAPI_Form"
+msgid "Empty list"
+msgstr "Список пуст"
+
+#: EAPI_Form.rb:444
+msgctxt "EAPI_Form"
+msgid "No match found."
+msgstr "Команда не найдена"
+
+#: EAPI_Form.rb:433
+msgctxt "EAPI_Form"
+msgid "Repeated"
+msgstr "Повторено"
+
+#: EAPI_Form.rb:456
+msgctxt "EAPI_Form"
+msgid "Loaded"
+msgstr "Загружено"
+
+#: EAPI_Form.rb:470
+msgctxt "EAPI_Form"
+msgid "File name"
+msgstr "Название файла"
+
+#: EAPI_Form.rb:1609
+msgctxt "EAPI_Form"
+msgid "Choose a path"
+msgstr "Укажите путь"
+
+#: EAPI_Form.rb:1033
+msgctxt "EAPI_Form"
+msgid "Shortcut: "
+msgstr "Горячая клавиша: "
+
+#: EAPI_Form.rb:237
+msgctxt "EAPI_Form"
+msgid "Opening a link..."
+msgstr "Открытие ссылки"
+
+#: EAPI_Form.rb:479
+msgctxt "EAPI_Form"
+msgid "Downloading..."
+msgstr "Загрузка..."
+
+#: EAPI_Form.rb:483
+msgctxt "EAPI_Form"
+msgid "Downloaded"
+msgstr "Скачивание завершено."
+
+#: EAPI_Form.rb:1000
+msgctxt "EAPI_Form"
+msgid "Checked {info_checked}"
+msgstr "Отмечен"
+
+#: EAPI_Form.rb:1004
+msgctxt "EAPI_Form"
+msgid "Unchecked"
+msgstr "Не отмечен"
+
+#: WhatsNew.rb:109
+msgctxt "General"
+msgid "Error"
+msgstr "Ошибка"
+
+#: Loading.rb:308
+msgctxt "General"
+msgid "Exit"
+msgstr "Выйти"
+
+#: Authentication.rb:19
+msgctxt "General"
+msgid "Enable"
+msgstr "Включить"
+
+#: Authentication.rb:21
+msgctxt "General"
+msgid "Disable"
+msgstr "Выключить"
+
+#: Voice.rb:110
+msgctxt "General"
+msgid "Cancel"
+msgstr "Отменить"
+
+#: Users_RecentlyRegistered.rb:49
+msgctxt "General"
+msgid "Refresh"
+msgstr "Обновить"
+
+#: Polls.rb:178
+msgctxt "General"
+msgid "Save"
+msgstr "Сохранить"
+
+#: Voice.rb:209
+msgctxt "General"
+msgid "Saved"
+msgstr "Сохранено"
+
+#: Uploads.rb:112
+msgctxt "General"
+msgid "Delete"
+msgstr "Удалить"
+
+#: WhatsNew.rb:15
+msgctxt "General"
+msgid "This function cannot be used on guest account."
+msgstr "Опция недоступна при использовании гостевой учётной записи"
+
+#: Users.rb:19
+msgctxt "General"
+msgid "The session key has expired."
+msgstr "Ключ сессии не актуален"
+
+#: Users.rb:14
+msgctxt "General"
+msgid "Error connecting to the database."
+msgstr "Ошибка подключения к базе данных"
+
+#: Users.rb:24
+msgctxt "General"
+msgid "You do not have sufficient permissions to perform this operation."
+msgstr "У вас недостаточно прав для выполнения этой операции."
+
+#: _Main.rb:156
+msgctxt "General"
+msgid "No"
+msgstr "Нет"
+
+#: _Main.rb:156
+msgctxt "General"
+msgid "Yes"
+msgstr "Да"
+
+#: EAPI_Common.rb:596
+msgctxt "General"
+msgid "Female"
+msgstr "Женщина"
+
+#: EAPI_Common.rb:598
+msgctxt "General"
+msgid "male"
+msgstr "Мужчина"
+
+#: Programs.rb:11
+msgctxt "General"
+msgid "This feature is not available on this platform."
+msgstr "Эта опция недоступна на данной операционной системе"
+
+#: Bug.rb:10
+msgctxt "Bug"
+msgid "Reporting a bug"
+msgstr "Сообщение об ошибке"
+
+#: Program.rb:11
+msgctxt "Program"
+msgid "The program has been closed."
+msgstr "Программа закрыта"
+
+#: _Main.rb:94
+msgctxt "*Main"
+msgid "Your playlist has been changed. Save current changes?"
+msgstr "Плейлист изменён. Сохранить изменения?"
+
+#: _Main.rb:99
+msgctxt "*Main"
+msgid "Do you want to save your playlist?"
+msgstr "Хотите сохранить плейлист?"
+
+#: _Main.rb:108
+msgctxt "*Main"
+msgid "Do you want to delete the saved playlist?"
+msgstr "Хотите удалить сохранённый плейлист?"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "A report"
+msgstr "Сообщение об ошибке"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "Report connections to the server"
+msgstr "Информировать о подключении к серверу"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "OK"
+msgstr "Ок"
+
+#: MyPermissions.rb:17
+msgctxt "Permissions"
+msgid "You are participating in the following groups"
+msgstr "Вы входите в следующие группы"
+
+#: SoundThemes.rb:106
+msgctxt "Soundthemes"
+msgid "Select theme to download"
+msgstr "Выберите тему для скачивания"
+

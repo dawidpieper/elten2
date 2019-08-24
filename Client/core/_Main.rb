@@ -10,9 +10,10 @@ class Object
 end
 module Elten
 Version=2.3
-Beta=42
+Beta=0
 Alpha=0
-IsBeta=1
+IsBeta=0
+BuildID=20190824009
 class <<self
 def version
   return Version
@@ -25,6 +26,9 @@ def alpha
 end
 def isbeta
   return IsBeta
+end
+def build_id
+  return BuildID
   end
 end
 end
@@ -144,10 +148,10 @@ rescue RuntimeError
     Graphics.update
     retry
   else
-    speech(s_("_Main:error_critical",{'description'=>$!.message}))
+    speech("Critical error occurred: "+$!.message)
     speech_wait
     sleep(0.5)
-    speech(_("_Main:alert_errorreport"))
+    speech("Do you wish to send the error report?")
     speech_wait
     @sel = menulr([_("General:str_no"),_("General:str_yes")])
     loop do
@@ -175,22 +179,22 @@ end
       if $ruby != true
     if $consoleused == true
     print $!.message.to_s + "   |   " + $@.to_s if $DEBUG
-    speech(_("_Main:error_console"))
+    speech("Error occurred")
         speech_wait
     $console_used = false
     $tomain = true
     retry
   elsif $updating != true and $beta_downloading != true and $start != nil and $downloading != true
-        speech(s_("_Main:info_errorcritical",{'description'=>$!.message}))
+        speech("Critical error occurred: "+$!.message)
     speech_wait
     sleep(0.5)
-    speech(_("_Main:alert_errorreport"))
+    speech("Do you want to send the errror report?")
     speech_wait
-    if confirm == 1
+    if selector(["No","Yes"])== 1
       sleep(0.15)
       bug
     end
-sel = menulr([_("_Main:opt_copyreport"),_("_Main:opt_restart"),_("_Main:opt_tryagain"),_("_Main:opt_rescuemode"),_("_Main:opt_abort")],true,0,_("_Main:head_whattodo"))
+sel = menulr(["Copy error report to clipboard","Restart","Try again","Rescue mode","Abort"],true,0,"What to do?")
 loop do
   loop_update
   sel.update
@@ -200,7 +204,7 @@ loop do
   else
     msg = $!.to_s+"\r\n"+$@.to_s
     Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(msg,msg.size+1)
-    speech(_("_Main:info_copied"))
+    speech("Copied to clipboard")
     end
   end
   end
@@ -212,10 +216,10 @@ loop do
         $toscene = true
         retry
     when 3
-      speech(_("_Main:head_rescuemode"))
+      speech("Rescue mode")
       speech_wait
-      @sels = [_("General:str_quit"),_("_Main:opt_reinstall")]
-      @sels += [_("_Main:opt_rescueforum"),_("_Main:opt_rescuemessages")] if $name != nil and $name != ""
+      @sels = ["Quit", "Reinstall"]
+      @sels += ["Try to open forum", "Try to open messages"] if $name != nil and $name != ""
       @sel = menulr(@sels)
       loop do
         loop_update

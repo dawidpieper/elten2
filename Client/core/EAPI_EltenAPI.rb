@@ -277,8 +277,7 @@ end
         createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
 handler = createfile.call(utf8(file),1,1|2|4,nil,4,0,0)
 if handler < 64
-  speech(_("General:error"))
-  speech_wait
+  return nil
   end
 readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
 file
@@ -520,9 +519,9 @@ class ChildProc
 @stdout_rd = "\0"*4
 @stdout_wr = "\0"*4
 saAttr=[12,nil,1].pack("ipi")
-Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdout_rd, @stdout_wr, saAttr, 0)
+Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdout_rd, @stdout_wr, saAttr, 1048576*32)
 Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdout_rd.unpack("i").first, 1, 0)
-Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdin_rd, @stdin_wr, saAttr, 0)
+Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdin_rd, @stdin_wr, saAttr, 1048576*32)
 Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdin_wr.unpack("i").first, 1, 0)
     params = 'LPPPLLLPPP'
 createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')

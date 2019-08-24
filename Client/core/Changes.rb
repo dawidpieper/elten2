@@ -43,6 +43,7 @@ Wersja 1.04:
 - Poprawiono: błąd z informowaniem o nowych linijkach tekstu przez słowo LINE
 - Poprawiono: błędy z buforowaniem linii i znaków w polach tekstowych
 - Poprawiono: błąd z łączeniem wielu znaków w jedną tablicę w polach tekstowych
+- Poprawiono: Jeśli nie uda się połączyć z serwerem Youtube, nastąpi próba aktualizacji biblioteki Youtube-DL
 - Poprawiono: wiele błędów powodujących zawieszenie się programu, w wypadku zawieszenia, program powtarza wykonywaną klasę
 
 2014-10-19
@@ -751,7 +752,28 @@ Wersja 2.285:
 2019-03-09
 ","
 Wersja 2.3:
-Praca w toku
+- Dodano: grupy
+- Dodano: pięć nowych języków: hiszpański, francuski, horwacki, portugalski i rosyjski
+- Dodano: możliwość załączania plików i ankiet na forum
+- Dodano: nowe narzędzia moderatorskie
+- Dodano: na blogach linki do serwisu Youtube są automatycznie wykrywane i możliwe jest ich odtworzenie z poziomu programu
+- Dodano: wsparcie dla unikodu
+- Usunięto: katalog mediów
+- Usunięto: Kompilator Elten API
+- Zmieniono: tłumaczenia od tej pory wykorzystują system kluczy zamiast słownika
+- Zmieniono: wiadomości wyświetlane są od teraz w podziale na korespondentów i tematy oraz automatycznie odświeżane
+- Zmieniono: powiadomienia zawierają od tej pory szczegółowe informację i różnią się dźwiękiem zależnie od przyczyny wysłania
+- Zmieniono: nowy układ menu głównego
+- Zmieniono: drobne modyfikacje interfejsu
+- Zmieniono: agent programu został przepisany
+- Zmieniono: w komunikacji z serwerem od tej pory wykorzystywany jest protokół HTTP w wersji 2.0
+- Zmieniono: nowa metoda uwierzytelniania klienta
+- Zmieniono: aktualizacja bibliotek
+- Poprawiono: tłumaczenie nie wpływa już na wpisywany tekst
+- Poprawiono: przy problemie komunikacji z serwerem Elten już się nie zawiesza
+- Poprawiono: JSON jest już parsowany poprawnie
+
+2019-08-24
 "]
 @changes.reverse!
 @selt = []
