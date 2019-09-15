@@ -53,6 +53,7 @@ msgctxt "Authentication"
 msgid "The entered code is not correct. Try again."
 msgstr "Wprowadzony kod nie jest poprawny. Spróbuj jeszcze raz."
 
+#: Authentication.rb:54
 msgctxt "Authentication"
 msgid "The entered code is not correct."
 msgstr "Wprowadzony kod nie jest poprawny."
@@ -734,7 +735,7 @@ msgstr "Odpowiedź"
 #: Polls.rb:441
 msgctxt "Polls"
 msgid "Poll results: #{%name%}"
-msgstr "Wyniki ankiety: #{%name%}"
+msgstr "Wyniki ankiety: %{name}"
 
 #: Polls.rb:128
 msgctxt "Polls"
@@ -998,17 +999,17 @@ msgctxt "ReadMe"
 msgid "Readme"
 msgstr "Przeczytaj mnie"
 
-#: Blog.rb:368
+#: Blog.rb:347
 msgctxt "Blog"
 msgid "New post"
 msgstr "Nowy wpis"
 
-#: Blog.rb:638
+#: Blog.rb:606
 msgctxt "Blog"
 msgid "Deleted"
 msgstr "Usunięto."
 
-#: Blog.rb:410
+#: Blog.rb:389
 msgctxt "Blog"
 msgid "Select"
 msgstr "Wybierz"
@@ -1018,67 +1019,67 @@ msgctxt "Blog"
 msgid "My blog"
 msgstr "Mój blog"
 
-#: Blog.rb:122
+#: Blog.rb:126
 msgctxt "Blog"
 msgid "New category"
 msgstr "Nowa kategoria"
 
-#: Blog.rb:628
+#: Blog.rb:596
 msgctxt "Blog"
 msgid "Are you sure you want to delete this post?"
 msgstr "Czy jesteś pewien, że chcesz usunąć ten wpis?"
 
-#: Blog.rb:1062
+#: Blog.rb:981
 msgctxt "Blog"
 msgid "Blogs"
 msgstr "Blogi"
 
-#: Blog.rb:1062
+#: Blog.rb:981
 msgctxt "Blog"
 msgid "The list of blogs"
 msgstr "Lista blogów"
 
-#: Blog.rb:982
+#: Blog.rb:864
 msgctxt "Blog"
 msgid "Send"
 msgstr "Wyślij"
 
-#: Blog.rb:873
+#: Blog.rb:853
 msgctxt "Blog"
 msgid "Return"
 msgstr "Powrót"
 
-#: Blog.rb:123
+#: Blog.rb:127
 msgctxt "Blog"
 msgid "Change the blog's name"
 msgstr "Zmień nazwę bloga"
 
-#: Blog.rb:863
+#: Blog.rb:843
 msgctxt "Blog"
 msgid "Your comment"
 msgstr "Twój komentarz"
 
-#: Blog.rb:869
+#: Blog.rb:849
 msgctxt "Blog"
 msgid "Edit your post"
 msgstr "Zmodyfikuj swój wpis"
 
-#: Blog.rb:738
+#: Blog.rb:709
 msgctxt "Blog"
 msgid "Play"
 msgstr "Odtwórz"
 
-#: Blog.rb:120
+#: Blog.rb:124
 msgctxt "Blog"
 msgid "All posts"
 msgstr "Wszystkie wpisy"
 
-#: Blog.rb:494
+#: Blog.rb:474
 msgctxt "Blog"
 msgid "Record a new post"
 msgstr "Nagraj nowy wpis"
 
-#: Blog.rb:502
+#: Blog.rb:482
 msgctxt "Blog"
 msgid "Stop recording"
 msgstr "Zakończ nagrywanie"
@@ -1098,57 +1099,57 @@ msgctxt "Blog"
 msgid "Frequently commented blogs"
 msgstr "Najczęściej komentowane blogi"
 
-#: Blog.rb:718
+#: Blog.rb:689
 msgctxt "Blog"
 msgid "Post title"
 msgstr "Tytuł wpisu"
 
-#: Blog.rb:981
+#: Blog.rb:689
 msgctxt "Blog"
 msgid "Post"
 msgstr "Treść wpisu"
 
-#: Blog.rb:718
+#: Blog.rb:689
 msgctxt "Blog"
 msgid "Add to category"
 msgstr "Przypisz do kategorii"
 
-#: Blog.rb:265
+#: Blog.rb:161
 msgctxt "Blog"
 msgid "Category name"
 msgstr "Nazwa kategorii"
 
-#: Blog.rb:955
+#: Blog.rb:181
 msgctxt "Blog"
 msgid "New blog name"
 msgstr "Nowa nazwa bloga"
 
-#: Blog.rb:762
+#: Blog.rb:738
 msgctxt "Blog"
 msgid "File is being converted..."
 msgstr "Konwertowanie pliku..."
 
-#: Blog.rb:193
+#: Blog.rb:197
 msgctxt "Blog"
 msgid "Rename"
 msgstr "Zmień nazwę"
 
-#: Blog.rb:410
+#: Blog.rb:389
 msgctxt "Blog"
 msgid "Edit"
 msgstr "Edytuj"
 
-#: Blog.rb:1088
+#: Blog.rb:1007
 msgctxt "Blog"
 msgid "Open"
 msgstr "Otwórz"
 
-#: Blog.rb:1096
+#: Blog.rb:1015
 msgctxt "Blog"
 msgid "Add to followed blogs"
 msgstr "Dodaj do śledzonych blogów"
 
-#: Blog.rb:1094
+#: Blog.rb:1013
 msgctxt "Blog"
 msgid "Remove from the followed blogs"
 msgstr "Usuń ze śledzonych blogów"
@@ -1158,157 +1159,156 @@ msgctxt "Blog"
 msgid "Followed blogs"
 msgstr "Śledzone blogi"
 
-#: Blog.rb:531
+#: Blog.rb:511
 msgctxt "Blog"
 msgid "Create an audiopost"
 msgstr "Utwórz wpis audio"
 
-#: Blog.rb:494
+#: Blog.rb:474
 msgctxt "Blog"
 msgid "Use an existing file"
 msgstr "Użyj istniejącego pliku"
 
-#: Blog.rb:1007
 msgctxt "Blog"
 msgid "The post has been modified"
 msgstr "Wpis został zmodyfikowany."
 
-#: Blog.rb:718
+#: Blog.rb:689
 msgctxt "Blog"
 msgid "Visibility"
 msgstr "Widoczność"
 
-#: Blog.rb:718
+#: Blog.rb:689
 msgctxt "Blog"
 msgid "Show to everyone"
 msgstr "Pokaż wszystkim"
 
-#: Blog.rb:718
+#: Blog.rb:689
 msgctxt "Blog"
 msgid "Do not show to unlogged users"
 msgstr "Ukryj przed niezalogowanymi użytkownikami"
 
-#: Blog.rb:722
+#: Blog.rb:693
 msgctxt "Blog"
 msgid "Audio post"
 msgstr "Wpis audio"
 
-#: Blog.rb:738
+#: Blog.rb:709
 msgctxt "Blog"
 msgid "Use another file"
 msgstr "Użyj innego pliku"
 
-#: Blog.rb:742
+#: Blog.rb:713
 msgctxt "Blog"
 msgid "Select audio file"
 msgstr "Wybierz plik audio"
 
-#: Blog.rb:75
+#: Blog.rb:79
 msgctxt "Blog"
 msgid "The blog cannot be found."
 msgstr "Blog nie istnieje."
 
-#: Blog.rb:276
+#: Blog.rb:169
 msgctxt "Blog"
 msgid "The category has been created."
 msgstr "Kategoria została utworzona."
 
-#: Blog.rb:960
+#: Blog.rb:187
 msgctxt "Blog"
 msgid "Your blog has been renamed"
 msgstr "Nazwa bloga została zmieniona"
 
-#: Blog.rb:231
+#: Blog.rb:280
 msgctxt "Blog"
 msgid "You do not have any blog. Do you want to create one?"
 msgstr "Nie posiadasz bloga. Czy chcesz go założyć?"
 
-#: Blog.rb:999
+#: Blog.rb:738
 msgctxt "Blog"
 msgid "Please wait..."
 msgstr "Proszę czekać..."
 
-#: Blog.rb:252
+#: Blog.rb:301
 msgctxt "Blog"
 msgid "The blog has been created."
 msgstr "Blog został utworzony."
 
-#: Blog.rb:298
+#: Blog.rb:248
 msgctxt "Blog"
 msgid "The blog has been renamed."
 msgstr "Nazwa została zmieniona."
 
-#: Blog.rb:370
+#: Blog.rb:349
 msgctxt "Blog"
 msgid "No new comments on your blog."
 msgstr "Brak nowych komentarzy na twoim blogu."
 
-#: Blog.rb:615
+#: Blog.rb:583
 msgctxt "Blog"
 msgid "The post has been added."
 msgstr "Wpis został dodany."
 
-#: Blog.rb:920
+#: Blog.rb:904
 msgctxt "Blog"
 msgid "The comment has been added."
 msgstr "Komentarz został dodany."
 
-#: Blog.rb:1121
+#: Blog.rb:1040
 msgctxt "Blog"
 msgid "Added to the followed blogs."
 msgstr "Dodano do śledzonych blogów."
 
-#: Blog.rb:1130
+#: Blog.rb:1049
 msgctxt "Blog"
 msgid "Removed from the followed blogs."
 msgstr "Usunięto z listy śledzonych blogów."
 
-#: Blog.rb:1138
+#: Blog.rb:1057
 msgctxt "Blog"
 msgid "The blog has been marked as read."
 msgstr "Wszystkie wpisy na tym blogu zostały oznaczone jako przeczytane."
 
-#: Blog.rb:1260
+#: Blog.rb:1179
 msgctxt "Blog"
 msgid "Recategorised"
 msgstr "Rekategoryzacja zakończona"
 
-#: Blog.rb:311
+#: Blog.rb:261
 msgctxt "Blog"
 msgid "Are you sure you want to delete this category?"
 msgstr "Czy jesteś pewien, że chcesz usunąć tą kategorię?"
 
-#: Blog.rb:237
+#: Blog.rb:286
 msgctxt "Blog"
 msgid "Type a blog name"
 msgstr "Podaj nazwę tworzonego bloga."
 
-#: Blog.rb:291
+#: Blog.rb:241
 msgctxt "Blog"
 msgid "Type a new category name"
 msgstr "Podaj nową nazwę dla tej kategorii"
 
-#: Blog.rb:523
+#: Blog.rb:503
 msgctxt "Blog"
 msgid "Create a text post"
 msgstr "Utwórz wpis tekstowy"
 
-#: Blog.rb:1136
+#: Blog.rb:1055
 msgctxt "Blog"
 msgid "All posts on this blog will be marked as read. Do you want to continue?"
 msgstr "Wszystkie wpisy na tym blogu zostaną oznaczone jako przeczytane. Czy jesteś pewien, że chcesz kontynuować?"
 
-#: Blog.rb:1062
+#: Blog.rb:981
 msgctxt "Blog"
 msgid "Author"
 msgstr "Autor"
 
-#: Blog.rb:1098
+#: Blog.rb:1017
 msgctxt "Blog"
 msgid "Mark the blog as read"
 msgstr "Oznacz wszystkie wpisy na tym blogu jako przeczytane"
 
-#: Blog.rb:124
+#: Blog.rb:128
 msgctxt "Blog"
 msgid "Recategorize"
 msgstr "Rekategoryzacja"
@@ -1347,10 +1347,25 @@ msgctxt "Blog"
 msgid "Are you sure you want to delete this comment?"
 msgstr "Are you sure you want to delete this comment?"
 
-#: Blog.rb:860
+#: Blog.rb:840
 msgctxt "Blog"
 msgid "Media"
 msgstr "Media"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Blogs popular with my friends"
+msgstr "Blogi popularne wśród moich kontaktów"
+
+#: Blog.rb:689
+msgctxt "Blog"
+msgid "Allow users to comment this post"
+msgstr "Pozwól na komentowanie tego wpisu"
+
+#: Blog.rb:721
+msgctxt "Blog"
+msgid "Do you wish to delete all comments on this post? You can disable commenting on this post without deleting comments already posted."
+msgstr "Czy chcesz usunąć wszystkie komentarze do tego wpisu? Możliwe jest wyłączenie komentowania wpisu bez usuwania uprzednio utworzonych komentarzy."
 
 #: Ban.rb:27
 msgctxt "Ban"
@@ -1482,7 +1497,7 @@ msgctxt "Chat"
 msgid "Joined the discussion"
 msgstr "Dołączył do dyskusji."
 
-#: _Main.rb:69
+#: _Main.rb:74
 msgctxt "Chat"
 msgid "Left the discussion."
 msgstr "Opuścił dyskusję."
@@ -1602,7 +1617,7 @@ msgctxt "Files"
 msgid "Rename"
 msgstr "Zmień nazwę"
 
-#: Files.rb:551
+#: Files.rb:556
 msgctxt "Files"
 msgid "Edit"
 msgstr "Edytuj"
@@ -1627,7 +1642,7 @@ msgctxt "Files"
 msgid "This file cannot be played."
 msgstr "Nie można odtworzyć tego pliku."
 
-#: Files.rb:578
+#: Files.rb:583
 msgctxt "Files"
 msgid "Read"
 msgstr "Czytaj"
@@ -1652,7 +1667,7 @@ msgctxt "Files"
 msgid "Compressed"
 msgstr "Spakowano"
 
-#: Files.rb:578
+#: Files.rb:583
 msgctxt "Files"
 msgid "Read to file"
 msgstr "Czytaj do pliku"
@@ -1747,7 +1762,7 @@ msgctxt "Files"
 msgid "Converted."
 msgstr "Konwersja zakończona."
 
-#: Files.rb:589
+#: Files.rb:594
 msgctxt "Files"
 msgid "Processing..."
 msgstr "Przetwarzanie..."
@@ -1811,72 +1826,72 @@ msgctxt "SoundThemes"
 msgid "Audio"
 msgstr "Audio"
 
-#: Changes.rb:783
+#: Changes.rb:822
 msgctxt "Changes"
 msgid "Changelog"
 msgstr "Lista zmian"
 
-#: Media.rb:44
+#: Media.rb:43
 msgctxt "Media"
 msgid "Enter the URL"
 msgstr "Podaj adres URL"
 
-#: Media.rb:226
+#: Media.rb:225
 msgctxt "Media"
 msgid "URL"
 msgstr "Adres URL"
 
-#: Media.rb:44
+#: Media.rb:43
 msgctxt "Media"
 msgid "New category"
 msgstr "Nowa kategoria"
 
-#: Media.rb:136
+#: Media.rb:135
 msgctxt "Media"
 msgid "New file"
 msgstr "Nowy plik"
 
-#: Media.rb:228
+#: Media.rb:227
 msgctxt "Media"
 msgid "Add"
 msgstr "Dodaj"
 
-#: Media.rb:227
+#: Media.rb:226
 msgctxt "Media"
 msgid "Description"
 msgstr "Opis"
 
-#: Media.rb:225
+#: Media.rb:224
 msgctxt "Media"
 msgid "Title"
 msgstr "Tytuł"
 
-#: Media.rb:149
+#: Media.rb:148
 msgctxt "Media"
 msgid "Play"
 msgstr "Odtwarzaj"
 
-#: Media.rb:149
+#: Media.rb:148
 msgctxt "Media"
 msgid "Add to playlist"
 msgstr "Dodaj do playlisty"
 
-#: Media.rb:183
+#: Media.rb:182
 msgctxt "Media"
 msgid "Category name"
 msgstr "Nazwa kategorii"
 
-#: Media.rb:211
+#: Media.rb:210
 msgctxt "Media"
 msgid "The category has been added."
 msgstr "Kategoria została dodana!"
 
-#: Media.rb:257
+#: Media.rb:256
 msgctxt "Media"
 msgid "Added."
 msgstr "Dodano."
 
-#: Media.rb:184
+#: Media.rb:183
 msgctxt "Media"
 msgid "Category description"
 msgstr "Opis kategorii"
@@ -2074,8 +2089,8 @@ msgstr "Ten użytkownik jest już dodany do twojej czarnej listy."
 
 #: Account.rb:498
 msgctxt "Account"
-msgid " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediatelly."
-msgstr "Czy na pewno chcesz usunąć wszystkie klucze automatycznego logowania?"
+msgid " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediately."
+msgstr "Czy jesteś pewien, że chcesz usunąć wszystkie klucze automatycznego logowania i wylogować wszystkie sesje?"
 
 #: Account.rb:181
 msgctxt "Account"
@@ -2309,252 +2324,251 @@ msgctxt "Messages"
 msgid "Unknown error"
 msgstr "Nieznany błąd."
 
-#: Messages.rb:642
+#: Messages.rb:646
 msgctxt "Messages"
 msgid "You have no messages."
 msgstr "Nie masz żadnych wiadomości."
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Reply"
 msgstr "Odpowiedz"
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Send a new message"
 msgstr "Wyślij nową wiadomość"
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Forward"
 msgstr "Przekaż dalej"
 
-#: Messages.rb:1007
+#: Messages.rb:1011
 msgctxt "Messages"
 msgid "Subject:"
 msgstr "Temat:"
 
-#: Messages.rb:1008
+#: Messages.rb:1012
 msgctxt "Messages"
 msgid "Message:"
 msgstr "Treść:"
 
-#: Messages.rb:1283
+#: Messages.rb:1271
 msgctxt "Messages"
 msgid "Message has been sent"
 msgstr "Wiadomość została wysłana"
 
-#: Messages.rb:974
+#: Messages.rb:978
 msgctxt "Messages"
 msgid "Are you sure you want to delete this message?"
 msgstr "Czy jesteś pewien, że chcesz usunąć tę wiadomość?"
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Mark all messages as read"
 msgstr "Oznacz wszystkie wiadomości jako przeczytane"
 
-#: Messages.rb:1006
+#: Messages.rb:1010
 msgctxt "Messages"
 msgid "Recipient"
 msgstr "Odbiorca"
 
-#: Messages.rb:1048
+#: Messages.rb:1052
 msgctxt "Messages"
 msgid "Send"
 msgstr "Wyślij"
 
-#: Messages.rb:645
+#: Messages.rb:649
 msgctxt "Messages"
 msgid "There are no new messages"
 msgstr "Brak nowych wiadomości"
 
-#: Messages.rb:688
+#: Messages.rb:692
 msgctxt "Messages"
 msgid "Received messages"
 msgstr "Wiadomości odebrane"
 
-#: Messages.rb:953
+#: Messages.rb:957
 msgctxt "Messages"
 msgid "Sent messages"
 msgstr "Wiadomości wysłane"
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Show sent messages"
 msgstr "Pokaż wiadomości wysłane"
 
-#: Messages.rb:1076
+#: Messages.rb:1080
 msgctxt "Messages"
 msgid "Stop recording"
 msgstr "Zakończ nagrywanie"
 
-#: Messages.rb:1083
+#: Messages.rb:1087
 msgctxt "Messages"
 msgid "Play"
 msgstr "Odtwórz"
 
-#: Messages.rb:1084
+#: Messages.rb:1088
 msgctxt "Messages"
 msgid "Cancel recording"
 msgstr "Anuluj nagrywanie"
 
-#: Messages.rb:916
+#: Messages.rb:920
 msgctxt "Messages"
 msgid "Found items"
 msgstr "Wyniki wyszukiwania"
 
-#: Messages.rb:1228
 msgctxt "Messages"
 msgid "File is being converted..."
 msgstr "Konwertowanie pliku..."
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Search"
 msgstr "Szukaj"
 
-#: Messages.rb:1093
+#: Messages.rb:1097
 msgctxt "Messages"
 msgid "Record an audio message"
 msgstr "Nagraj wiadomość głosową"
 
-#: Messages.rb:1015
+#: Messages.rb:1019
 msgctxt "Messages"
 msgid "Attach a file"
 msgstr "Załącz plik"
 
-#: Messages.rb:1101
+#: Messages.rb:1105
 msgctxt "Messages"
 msgid "Select a file to attach"
 msgstr "Wybierz plik do załączenia"
 
-#: Messages.rb:1108
+#: Messages.rb:1112
 msgctxt "Messages"
 msgid "File attached."
 msgstr "Załącznik dodany."
 
-#: Messages.rb:1099
+#: Messages.rb:1103
 msgctxt "Messages"
 msgid "You cannot add more attachments to this message."
 msgstr "Nie można dodać więcej załączników."
 
-#: Messages.rb:1031
+#: Messages.rb:1035
 msgctxt "Messages"
 msgid "Attachments"
 msgstr "Załączniki"
 
-#: Messages.rb:897
+#: Messages.rb:901
 msgctxt "Messages"
 msgid "Enter a phrase to look for"
 msgstr "Podaj tekst do wyszukania"
 
-#: Messages.rb:1137
+#: Messages.rb:1141
 msgctxt "Messages"
 msgid "Do you want to send this message as e-mail?"
 msgstr "Czy chcesz wysłać tą wiadomość jako E-mail?"
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Flag"
 msgstr "Oznacz"
 
-#: Messages.rb:819
+#: Messages.rb:823
 msgctxt "Messages"
 msgid "Remove flag"
 msgstr "Usuń oznaczenie"
 
-#: Messages.rb:808
+#: Messages.rb:812
 msgctxt "Messages"
 msgid "Show flagged messages"
 msgstr "Pokaż oznaczone wiadomości"
 
-#: Messages.rb:847
+#: Messages.rb:851
 msgctxt "Messages"
 msgid "The message has been flagged."
 msgstr "Wiadomość została oznaczona."
 
-#: Messages.rb:856
+#: Messages.rb:860
 msgctxt "Messages"
 msgid "The message is no longer flagged."
 msgstr "Wiadomość nie jest już oznaczona."
 
-#: Messages.rb:935
+#: Messages.rb:939
 msgctxt "Messages"
 msgid "Flagged messages"
 msgstr "Wiadomości oznaczone"
 
-#: Messages.rb:673
+#: Messages.rb:677
 msgctxt "Messages"
 msgid "Load more messages"
 msgstr "Załaduj więcej wiadomości"
 
-#: Messages.rb:777
+#: Messages.rb:781
 msgctxt "Messages"
 msgid "The attachment has been downloaded."
 msgstr "Załącznik został pobrany."
 
-#: Messages.rb:887
+#: Messages.rb:891
 msgctxt "Messages"
 msgid "All messages have been marked as read."
 msgstr "Wszystkie wiadomości zostały oznaczone jako przeczytane."
 
-#: Messages.rb:981
+#: Messages.rb:985
 msgctxt "Messages"
 msgid "The message has been deleted."
 msgstr "Wiadomość została usunięta."
 
-#: Messages.rb:1105
+#: Messages.rb:1109
 msgctxt "Messages"
 msgid "The file is too large."
 msgstr "Plik jest zbyt duży."
 
-#: Messages.rb:1309
+#: Messages.rb:1297
 msgctxt "Messages"
 msgid "The recipient cannot be found."
 msgstr "Odbiorca wiadomości nie istnieje."
 
-#: Messages.rb:1047
+#: Messages.rb:1051
 msgctxt "Messages"
 msgid "Send as an admin"
 msgstr "Wyślij jako administracja"
 
-#: Messages.rb:1048
+#: Messages.rb:1052
 msgctxt "Messages"
 msgid "Send to all"
 msgstr "Wyślij do wszystkich"
 
-#: Messages.rb:1075
+#: Messages.rb:1079
 msgctxt "Messages"
 msgid "An audio message"
 msgstr "Wiadomość głosowa"
 
-#: Messages.rb:771
+#: Messages.rb:775
 msgctxt "Messages"
 msgid "Where do you want to save this file?"
 msgstr "Gdzie chcesz zapisać ten plik?"
 
-#: Messages.rb:742
+#: Messages.rb:746
 msgctxt "Messages"
 msgid "From"
 msgstr "Od"
 
-#: Messages.rb:656
+#: Messages.rb:660
 msgctxt "Messages"
 msgid "to:"
 msgstr "Do:"
 
-#: Messages.rb:658
+#: Messages.rb:662
 msgctxt "Messages"
 msgid "New"
 msgstr "Nowa"
 
-#: EAPI_EltenSRV.rb:105
+#: EAPI_EltenSRV.rb:109
 msgctxt "Messages"
 msgid "Sending: %{file}"
 msgstr "Przesyłanie: %{file}"
 
-#: Messages.rb:1101
+#: Messages.rb:1105
 msgctxt "Messages"
 msgid "Messages"
 msgstr "Wiadomości"
@@ -2664,12 +2678,12 @@ msgctxt "MainMenu"
 msgid "Programs installation"
 msgstr "Zainstaluj nowe programy"
 
-#: MainMenu.rb:499
+#: MainMenu.rb:495
 msgctxt "MainMenu"
 msgid " Do you want to restore the last sarr version of this program? All settings stay  as they are."
 msgstr "Czy chcesz przywrócić ostatnią stabilną wersję programu? Wszystkie ustawienia zostaną zachowane."
 
-#: MainMenu.rb:507
+#: MainMenu.rb:503
 msgctxt "MainMenu"
 msgid " Are you sure you want to reset all settings to their factory defaults? Elten will  restart."
 msgstr "Czy jesteś pewien, że chcesz usunąć wszystkie ustawienia programu i przywrócić wartości domyślne? Elten zostanie uruchomiony ponownie."
@@ -2683,7 +2697,7 @@ msgctxt "MainMenu"
 msgid "&media"
 msgstr "&media"
 
-#: MainMenu.rb:540
+#: MainMenu.rb:536
 msgctxt "MainMenu"
 msgid "&Files"
 msgstr "&Pliki"
@@ -2743,17 +2757,17 @@ msgctxt "MainMenu"
 msgid "User &agreement"
 msgstr "&Licencja użytkownika"
 
-#: MainMenu.rb:143
+#: MainMenu.rb:139
 msgctxt "MainMenu"
 msgid "&Interface settings"
 msgstr "Ustawienia &interfejsu"
 
-#: MainMenu.rb:143
+#: MainMenu.rb:139
 msgctxt "MainMenu"
 msgid "&Voice settings"
 msgstr "Ustawienia &głosu"
 
-#: MainMenu.rb:143
+#: MainMenu.rb:139
 msgctxt "MainMenu"
 msgid "Cloc&k"
 msgstr "&Zegar"
@@ -2763,12 +2777,12 @@ msgctxt "MainMenu"
 msgid "Soun&dthemes"
 msgstr "Tematy &dźwiękowe"
 
-#: MainMenu.rb:143
+#: MainMenu.rb:139
 msgctxt "MainMenu"
 msgid "Manage &languages"
 msgstr "Zarządzanie &językami"
 
-#: MainMenu.rb:143
+#: MainMenu.rb:139
 msgctxt "MainMenu"
 msgid "&Advanced settings"
 msgstr "Ustawienia z&aawansowane"
@@ -2907,10 +2921,10 @@ msgctxt "MainMenu"
 msgid "P&rogram management"
 msgstr "Zarządzanie p&rogramem"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:536
 msgctxt "MainMenu"
 msgid "Read to &file"
-msgstr "Czytanie do &pliku"
+msgstr "&Czytanie do pliku"
 
 #: MainMenu.rb:363
 msgctxt "MainMenu"
@@ -2926,52 +2940,52 @@ msgctxt "MainMenu"
 msgid "De&bugging"
 msgstr "De&bugowanie"
 
-#: MainMenu.rb:416
+#: MainMenu.rb:412
 msgctxt "MainMenu"
 msgid "Hide in &tray"
 msgstr "&Ukryj program w zasobniku systemowym"
 
-#: MainMenu.rb:416
+#: MainMenu.rb:412
 msgctxt "MainMenu"
 msgid "&Logout"
 msgstr "Wy&loguj się"
 
-#: MainMenu.rb:416
+#: MainMenu.rb:412
 msgctxt "MainMenu"
 msgid "E&xit"
 msgstr "W&yjście"
 
-#: MainMenu.rb:416
+#: MainMenu.rb:412
 msgctxt "MainMenu"
 msgid "&Restart"
 msgstr "&Restart"
 
-#: MainMenu.rb:416
+#: MainMenu.rb:412
 msgctxt "MainMenu"
 msgid "Restart in de&bug mode"
 msgstr "Restart do trybu de&bugowania"
 
-#: MainMenu.rb:480
+#: MainMenu.rb:476
 msgctxt "MainMenu"
 msgid "Search for &updates"
 msgstr "Sprawdź dostępność &aktualizacji"
 
-#: MainMenu.rb:480
+#: MainMenu.rb:476
 msgctxt "MainMenu"
 msgid "&Reinstall"
 msgstr "&Reinstalacja programu"
 
-#: MainMenu.rb:482
+#: MainMenu.rb:478
 msgctxt "MainMenu"
 msgid "Create &Portable version"
 msgstr "Utwórz wersję &przenośną"
 
-#: MainMenu.rb:482
+#: MainMenu.rb:478
 msgctxt "MainMenu"
 msgid "Restore &default settings"
 msgstr "Przywróć ustawienia &domyślne"
 
-#: MainMenu.rb:482
+#: MainMenu.rb:478
 msgctxt "MainMenu"
 msgid "&Install"
 msgstr "Za&instaluj program"
@@ -2980,7 +2994,7 @@ msgctxt "MainMenu"
 msgid "&Media catalog"
 msgstr "Katalog &mediów"
 
-#: MainMenu.rb:540
+#: MainMenu.rb:536
 msgctxt "MainMenu"
 msgid "&YouTube"
 msgstr "&YouTube"
@@ -3040,27 +3054,32 @@ msgctxt "MainMenu"
 msgid "Menu"
 msgstr "Menu"
 
-#: Forum.rb:1005
+#: MainMenu.rb:139
+msgctxt "MainMenu"
+msgid "Sound device"
+msgstr "&Urządzenia audio"
+
+#: Forum.rb:1075
 msgctxt "Forum"
 msgid "New thread"
 msgstr "Nowy temat"
 
-#: Forum.rb:1928
+#: Forum.rb:2009
 msgctxt "Forum"
 msgid "Added to the list of followed threads."
 msgstr "Dodano do śledzonych wątków."
 
-#: Forum.rb:1871
+#: Forum.rb:1952
 msgctxt "Forum"
 msgid "Go to last post"
 msgstr "Przejdź do ostatniego wpisu"
 
-#: Forum.rb:1146
+#: Forum.rb:1216
 msgctxt "Forum"
 msgid "Thread's title"
 msgstr "Tytuł wątku"
 
-#: Forum.rb:1332
+#: Forum.rb:1404
 msgctxt "Forum"
 msgid "Thread has been created."
 msgstr "Wątek został utworzony."
@@ -3069,487 +3088,485 @@ msgctxt "Forum"
 msgid "Error creating thread!"
 msgstr "Błąd tworzenia wątku!"
 
-#: Forum.rb:1819
+#: Forum.rb:1900
 msgctxt "Forum"
 msgid "The post was created."
 msgstr "Wpis został utworzony."
 
-#: Forum.rb:1096
+#: Forum.rb:1166
 msgctxt "Forum"
 msgid "This thread has been deleted."
 msgstr "Wątek został usunięty."
 
-#: Forum.rb:2057
+#: Forum.rb:2138
 msgctxt "Forum"
 msgid "This post has been deleted."
 msgstr "Wpis został usunięty."
 
-#: Forum.rb:2072
+#: Forum.rb:2154
 msgctxt "Forum"
 msgid "Forum"
 msgstr "Forum"
 
-#: Forum.rb:1867
+#: Forum.rb:1948
 msgctxt "Forum"
 msgid "Reply"
 msgstr "Odpowiedz"
 
-#: Forum.rb:1867
+#: Forum.rb:1948
 msgctxt "Forum"
 msgid "Reply with quote"
 msgstr "Odpowiedz z cytatem"
 
-#: Forum.rb:1872
+#: Forum.rb:1953
 msgctxt "Forum"
 msgid "Go to first new post"
 msgstr "Przejdź do pierwszego nowego wpisu"
 
-#: Forum.rb:1784
+#: Forum.rb:1863
 msgctxt "Forum"
 msgid "Send"
 msgstr "Wyślij"
 
-#: Forum.rb:937
+#: Forum.rb:1004
 msgctxt "Forum"
 msgid "No new posts in followed threads"
 msgstr "Brak nowych wpisów w śledzonych wątkach"
 
-#: Forum.rb:1627
+#: Forum.rb:1706
 msgctxt "Forum"
 msgid "Return"
 msgstr "Powrót"
 
-#: Forum.rb:1784
+#: Forum.rb:1863
 msgctxt "Forum"
 msgid "Add the post"
 msgstr "Dodaj wpis"
 
-#: Forum.rb:1620
+#: Forum.rb:1699
 msgctxt "Forum"
 msgid "Your answer"
 msgstr "Twoja odpowiedź"
 
-#: Forum.rb:694
+#: Forum.rb:744
 msgctxt "Forum"
 msgid "Forums selection"
 msgstr "Wybierz forum"
 
-#: Forum.rb:975
+#: Forum.rb:1042
 msgctxt "Forum"
 msgid "Threads selection"
 msgstr "Wybierz temat"
 
-#: Forum.rb:1622
+#: Forum.rb:1701
 msgctxt "Forum"
 msgid "Record a new post"
 msgstr "Nagraj nowy wpis"
 
-#: Forum.rb:1777
+#: Forum.rb:1856
 msgctxt "Forum"
 msgid "Stop recording"
 msgstr "Zakończ nagrywanie"
 
-#: Forum.rb:1782
+#: Forum.rb:1861
 msgctxt "Forum"
 msgid "Record a post once again"
 msgstr "Nagraj wpis ponownie"
 
-#: Forum.rb:1783
+#: Forum.rb:1862
 msgctxt "Forum"
 msgid "Play"
 msgstr "Odtwórz"
 
-#: Forum.rb:1143
+#: Forum.rb:1213
 msgctxt "Forum"
 msgid "Post"
 msgstr "Treść wpisu"
 
-#: Forum.rb:1795
 msgctxt "Forum"
 msgid "Converting..."
 msgstr "Konwertowanie..."
 
-#: Forum.rb:1253
+#: Forum.rb:1323
 msgctxt "Forum"
 msgid "Record a post"
 msgstr "Nagraj wpis"
 
-#: Forum.rb:1261
+#: Forum.rb:1331
 msgctxt "Forum"
 msgid "Play a post"
 msgstr "Odtwórz wpis"
 
-#: Forum.rb:1871
+#: Forum.rb:1952
 msgctxt "Forum"
 msgid "Search"
 msgstr "Szukaj"
 
-#: Forum.rb:1016
+#: Forum.rb:1086
 msgctxt "Forum"
 msgid "Rename"
 msgstr "Zmień nazwę"
 
-#: Forum.rb:1893
+#: Forum.rb:1974
 msgctxt "Forum"
 msgid "Edit post"
 msgstr "Edytuj wpis"
 
-#: Forum.rb:1894
+#: Forum.rb:1975
 msgctxt "Forum"
 msgid "Delete post"
 msgstr "Usuń wpis"
 
-#: Forum.rb:1017
+#: Forum.rb:1087
 msgctxt "Forum"
 msgid "Open"
 msgstr "Otwórz"
 
-#: Forum.rb:1016
+#: Forum.rb:1086
 msgctxt "Forum"
 msgid "Move thread"
 msgstr "Przenieś wątek"
 
-#: Forum.rb:1961
+#: Forum.rb:2042
 msgctxt "Forum"
 msgid "Enter a phrase to look for"
 msgstr "Podaj tekst do wyszukania"
 
-#: Forum.rb:1831
+#: Forum.rb:1912
 msgctxt "Forum"
 msgid "Add to followed threads list"
 msgstr "Dodaj do śledzonych wątków"
 
-#: Forum.rb:1833
+#: Forum.rb:1914
 msgctxt "Forum"
 msgid "Unfollow this thread"
 msgstr "Usuń ze śledzonych wątków"
 
-#: Forum.rb:1016
+#: Forum.rb:1086
 msgctxt "Forum"
 msgid "Delete thread"
 msgstr "Usuń wątek"
 
-#: Forum.rb:1831
+#: Forum.rb:1912
 msgctxt "Forum"
 msgid "Navigation"
 msgstr "Nawigacja"
 
-#: Forum.rb:1871
+#: Forum.rb:1952
 msgctxt "Forum"
 msgid "Go to post"
 msgstr "Przejdź do wpisu"
 
-#: Forum.rb:1871
+#: Forum.rb:1952
 msgctxt "Forum"
 msgid "Search thread"
 msgstr "Przeszukaj wątek"
 
-#: Forum.rb:1871
+#: Forum.rb:1952
 msgctxt "Forum"
 msgid "Go to first post"
 msgstr "Przejdź do pierwszego wpisu"
 
-#: Forum.rb:1832
+#: Forum.rb:1913
 msgctxt "Forum"
 msgid "Moderation"
 msgstr "Moderacja"
 
-#: Forum.rb:1894
+#: Forum.rb:1975
 msgctxt "Forum"
 msgid "Move post"
 msgstr "Przenieś wpis"
 
-#: Forum.rb:1995
+#: Forum.rb:2076
 msgctxt "Forum"
 msgid "edit your post here"
 msgstr "Edycja wpisu"
 
-#: Forum.rb:2004
+#: Forum.rb:2085
 msgctxt "Forum"
 msgid "The post has been modified"
 msgstr "Wpis został zmodyfikowany."
 
-#: Forum.rb:2102
+#: Forum.rb:2180
 msgctxt "Forum"
 msgid "Mention post"
 msgstr "Wzmiankuj wpis"
 
-#: Forum.rb:1831
+#: Forum.rb:1912
 msgctxt "Forum"
 msgid "Listen to the thread"
 msgstr "Odsłuchaj wątek"
 
-#: Forum.rb:703
+#: Forum.rb:756
 msgctxt "Forum"
 msgid "Follow this forum"
 msgstr "Śledź to forum"
 
-#: Forum.rb:704
+#: Forum.rb:757
 msgctxt "Forum"
 msgid "Unfollow this forum"
 msgstr "Usuń ze śledzonych forów"
 
-#: Forum.rb:724
+#: Forum.rb:777
 msgctxt "Forum"
 msgid "Added to followed forums list."
 msgstr "Dodano do śledzonych forów."
 
-#: Forum.rb:731
+#: Forum.rb:784
 msgctxt "Forum"
 msgid "Removed from followed forums list."
 msgstr "Usunięto ze śledzonych forów."
 
-#: Forum.rb:1935
+#: Forum.rb:2016
 msgctxt "Forum"
 msgid "Removed from followed threads list."
 msgstr "Usunięto ze śledzonych wątków."
 
-#: Forum.rb:2102
+#: Forum.rb:2180
 msgctxt "Forum"
 msgid "Message"
 msgstr "Wiadomość"
 
-#: Forum.rb:703
+#: Forum.rb:756
 msgctxt "Forum"
 msgid "Mark this forum as read"
 msgstr "Oznacz to forum jako przeczytane"
 
-#: Forum.rb:744
+#: Forum.rb:797
 msgctxt "Forum"
 msgid " All posts on this forum will be marked as read. Are you sure you want to continue?"
 msgstr "Wszystkie wpisy na tym forum zostaną oznaczone jako przeczytane. Czy jesteś pewien, że chcesz kontynuować?"
 
-#: Forum.rb:752
+#: Forum.rb:805
 msgctxt "Forum"
 msgid "The forum has been marked as read."
 msgstr "Forum zostało oznaczone jako przeczytane."
 
-#: Forum.rb:942
+#: Forum.rb:1009
 msgctxt "Forum"
 msgid "No new threads on the followed forums"
 msgstr "Brak nowych wątków na śledzonych forach"
 
-#: Forum.rb:947
+#: Forum.rb:1014
 msgctxt "Forum"
 msgid "No new posts on the followed forums"
 msgstr "Brak nowych wpisów na śledzonych forach"
 
-#: Forum.rb:952
+#: Forum.rb:1019
 msgctxt "Forum"
 msgid "No new mentions"
 msgstr "Brak nowych wzmianek"
 
-#: Forum.rb:1071
+#: Forum.rb:1141
 msgctxt "Forum"
 msgid "The thread has been moved."
 msgstr "Wątek został przeniesiony."
 
-#: Forum.rb:1084
+#: Forum.rb:1154
 msgctxt "Forum"
 msgid "The forum name has been changed."
 msgstr "Nazwa została zmieniona."
 
-#: Forum.rb:1798
+#: Forum.rb:1874
 msgctxt "Forum"
 msgid "Preparing..."
 msgstr "Przygotowywanie do wysłania wpisu..."
 
-#: Forum.rb:1821
+#: Forum.rb:1902
 msgctxt "Forum"
 msgid "Post creation failure."
 msgstr "Błąd tworzenia wpisu."
 
-#: Forum.rb:1981
+#: Forum.rb:2062
 msgctxt "Forum"
 msgid "The entered phrase cannot be found."
 msgstr "Nie znaleziono podanej frazy."
 
-#: Forum.rb:2040
+#: Forum.rb:2121
 msgctxt "Forum"
 msgid "The post has been moved."
 msgstr "Wpis został przeniesiony."
 
-#: Forum.rb:2075
+#: Forum.rb:2157
 msgctxt "Forum"
 msgid "The post has been slided."
 msgstr "Wpis został przesunięty."
 
-#: Forum.rb:2098
+#: Forum.rb:2176
 msgctxt "Forum"
 msgid "Nobody added you to their contact list."
 msgstr "Nikt nie dodał Ciebie do swoich kontaktów."
 
-#: Forum.rb:2116
+#: Forum.rb:2194
 msgctxt "Forum"
 msgid "The mention has been sent."
 msgstr "Wzmianka została wysłana."
 
-#: Forum.rb:1144
+#: Forum.rb:1214
 msgctxt "Forum"
 msgid "Nick:"
 msgstr "Pseudonim:"
 
-#: Forum.rb:1079
+#: Forum.rb:1149
 msgctxt "Forum"
 msgid "Type a new thread name"
 msgstr "Podaj nową nazwę wątku"
 
-#: Forum.rb:1253
+#: Forum.rb:1323
 msgctxt "Forum"
 msgid "Stop recording a post"
 msgstr "Zatrzymaj nagrywanie wpisu"
 
-#: Forum.rb:2047
+#: Forum.rb:2128
 msgctxt "Forum"
 msgid "Are you sure you want to delete this post?"
 msgstr "Czy na pewno chcesz usunąć ten wpis?"
 
-#: Forum.rb:1066
+#: Forum.rb:1136
 msgctxt "Forum"
 msgid "Where do you want to move this thread"
 msgstr "Gdzie chcesz przenieść ten wątek"
 
-#: Forum.rb:1976
+#: Forum.rb:2057
 msgctxt "Forum"
 msgid "Select a post"
 msgstr "Wybierz wpis"
 
-#: Forum.rb:2035
+#: Forum.rb:2116
 msgctxt "Forum"
 msgid "Where do you want to move this post?"
 msgstr "Gdzie chcesz przenieść ten wpis?"
 
-#: Forum.rb:2072
 msgctxt "Forum"
 msgid "Select a post to be slided with this post."
 msgstr "Wybierz, z którym innym wpisem zamienić ten wpis."
 
-#: Forum.rb:1831
+#: Forum.rb:1912
 msgctxt "Forum"
 msgid "Author"
 msgstr "Autor"
 
-#: Forum.rb:1092
+#: Forum.rb:1162
 msgctxt "Forum"
 msgid "Do you really want to delete thread %{thrname}?"
 msgstr "Czy jesteś pewien, że chcesz usunąć wątek %{thrname}?"
 
-#: Forum.rb:962
+#: Forum.rb:1029
 msgctxt "Forum"
 msgid "New"
 msgstr "Nowy"
 
-#: Forum.rb:693
+#: Forum.rb:743
 msgctxt "Forum"
 msgid "Threads"
 msgstr "wątki"
 
-#: Forum.rb:977
+#: Forum.rb:1044
 msgctxt "Forum"
 msgid "posts"
 msgstr "wpisy"
 
-#: Forum.rb:977
+#: Forum.rb:1044
 msgctxt "Forum"
 msgid "Unread"
 msgstr "Nowe"
 
-#: Forum.rb:139
+#: Forum.rb:150
 msgctxt "Forum"
 msgid "Followed threads"
 msgstr "Śledzone wątki"
 
-#: Forum.rb:139
+#: Forum.rb:150
 msgctxt "Forum"
 msgid "Followed forums"
 msgstr "Śledzone fora"
 
-#: Forum.rb:205
+#: Forum.rb:246
 msgctxt "Forum"
 msgid "Forums"
 msgstr "Fora"
 
-#: Forum.rb:965
+#: Forum.rb:1032
 msgctxt "Forum"
 msgid "Montioned by"
 msgstr "Wzmiankujący"
 
-#: Forum.rb:1894
+#: Forum.rb:1975
 msgctxt "Forum"
 msgid "Change post position"
 msgstr "Zmień pozycję wpisu"
 
-#: Forum.rb:264
+#: Forum.rb:314
 msgctxt "Forum"
 msgid "Group members"
 msgstr "Członkowie grupy"
 
-#: Forum.rb:340
+#: Forum.rb:390
 msgctxt "Forum"
 msgid "Group Members"
 msgstr "Członkowie grupy"
 
-#: Forum.rb:475
+#: Forum.rb:525
 msgctxt "Forum"
 msgid "Administrator"
 msgstr "Administrator"
 
-#: Forum.rb:419
+#: Forum.rb:469
 msgctxt "Forum"
 msgid "Moderator"
 msgstr "Moderator"
 
-#: Forum.rb:266
+#: Forum.rb:316
 msgctxt "Forum"
 msgid "Join"
 msgstr "Dołącz"
 
-#: Forum.rb:269
+#: Forum.rb:319
 msgctxt "Forum"
 msgid "Leave"
 msgstr "Opuść grupę"
 
-#: Forum.rb:527
+#: Forum.rb:577
 msgctxt "Forum"
 msgid "Are you sure you want to join %{groupname}?"
 msgstr "Czy jesteś pewien, że chcesz dołączyć do grupy %{groupname}"
 
-#: Forum.rb:546
+#: Forum.rb:596
 msgctxt "Forum"
 msgid "Are you sure you want to leave %{groupname}?"
 msgstr "Czy jesteś pewien, że chcesz opuścić grupę %{groupname}"
 
-#: Forum.rb:536
+#: Forum.rb:586
 msgctxt "Forum"
 msgid "You've just joined the group"
 msgstr "Zapisano do grupy"
 
-#: Forum.rb:549
+#: Forum.rb:599
 msgctxt "Forum"
 msgid "You've just left the group"
 msgstr "Opuszczono grupę"
 
-#: Forum.rb:361
+#: Forum.rb:411
 msgctxt "Forum"
 msgid "Pass administrative privileges"
 msgstr "Przekaż swoje uprawnienia administracyjne temu użytkownikowi"
 
-#: Forum.rb:358
+#: Forum.rb:408
 msgctxt "Forum"
 msgid "Grant moderation privileges"
 msgstr "Mianuj tego użytkownika na stanowisko moderatora grupy"
 
-#: Forum.rb:360
+#: Forum.rb:410
 msgctxt "Forum"
 msgid "Deny moderation privileges"
 msgstr "Odbierz temu użytkownikowi uprawnienia moderatora grupy"
 
-#: Forum.rb:375
+#: Forum.rb:425
 msgctxt "Forum"
 msgid "Ban in this group"
 msgstr "Zbanuj tego użytkownika w tej grupie"
 
-#: Forum.rb:380
+#: Forum.rb:430
 msgctxt "Forum"
 msgid "Unban"
 msgstr "Odbanuj tego użytkownika w tej grupie"
@@ -3562,12 +3579,12 @@ msgctxt "Forum"
 msgid "Are you sure you want to deny %{user}'s moderation privileges?"
 msgstr "Czy na pewno chcesz odebrać użytkownikowi %{user} uprawnienia moderatora w grupie %{groupname}?"
 
-#: Forum.rb:477
+#: Forum.rb:527
 msgctxt "Forum"
 msgid "Privileges of this user have been changed."
 msgstr "Uprawnienia użytkownika zostały zmienione"
 
-#: Forum.rb:467
+#: Forum.rb:517
 msgctxt "Forum"
 msgid "Are you sure you want to resign your administrative privileges in %{groupname} and pass them to %{user}?"
 msgstr "Czy jesteś pewien, że chcesz się zrzec funkcji administratora grupy %{groupname} i przekazać ją użytkownikowi %{user}?"
@@ -3580,7 +3597,7 @@ msgctxt "Forum"
 msgid "Are you sure you want to unban %{user} in %{groupname}?"
 msgstr "Czy na pewno chcesz odbanować użytkownika %{user} w grupie %{groupname}?"
 
-#: Forum.rb:377
+#: Forum.rb:427
 msgctxt "Forum"
 msgid "Kick"
 msgstr "Wyrzuć użytkownika z grupy"
@@ -3589,262 +3606,262 @@ msgctxt "Forum"
 msgid "Are you sure you want to kick %{user} of %{groupname}?"
 msgstr "Czy na pewno chcesz usunąć użytkownika %{user} z grupy %{groupname}?"
 
-#: Forum.rb:709
+#: Forum.rb:762
 msgctxt "Forum"
 msgid "New forum"
 msgstr "Nowe forum"
 
-#: Forum.rb:712
+#: Forum.rb:765
 msgctxt "Forum"
 msgid "Delete forum"
 msgstr "Usuń forum"
 
-#: Forum.rb:837
+#: Forum.rb:890
 msgctxt "Forum"
 msgid "Forum name"
 msgstr "Nazwa forum"
 
-#: Forum.rb:837
+#: Forum.rb:890
 msgctxt "Forum"
 msgid "Forum description"
 msgstr "Opis forum"
 
-#: Forum.rb:837
+#: Forum.rb:890
 msgctxt "Forum"
 msgid "Forum type"
 msgstr "Typ forum"
 
-#: Forum.rb:837
+#: Forum.rb:890
 msgctxt "Forum"
 msgid "Text forum"
 msgstr "Forum tekstowe"
 
-#: Forum.rb:837
+#: Forum.rb:890
 msgctxt "Forum"
 msgid "Voice forum"
 msgstr "Forum głosowe"
 
-#: Forum.rb:843
+#: Forum.rb:896
 msgctxt "Forum"
 msgid "Create forum"
 msgstr "Utwórz forum"
 
-#: Forum.rb:859
+#: Forum.rb:912
 msgctxt "Forum"
 msgid "The forum has been created"
 msgstr "Forum zostało utworzone"
 
-#: Forum.rb:817
+#: Forum.rb:870
 msgctxt "Forum"
 msgid "Are you sure you want to delete this forum?"
 msgstr "Czy jesteś pewien, że chcesz usunąć to forum? Usunięte zostaną także wszystkie znajdujące się na nim wątki i wpisy."
 
-#: Forum.rb:822
+#: Forum.rb:875
 msgctxt "Forum"
 msgid "The forum has been deleted."
 msgstr "Forum zostało usunięte"
 
-#: Forum.rb:711
+#: Forum.rb:764
 msgctxt "Forum"
 msgid "Edit forum"
 msgstr "Modyfikuj forum"
 
-#: Forum.rb:139
+#: Forum.rb:150
 msgctxt "Forum"
 msgid "Recommended groups"
 msgstr "Grupy rekomendowane"
 
-#: Forum.rb:139
+#: Forum.rb:150
 msgctxt "Forum"
 msgid "Open groups"
 msgstr "Grupy otwarte"
 
-#: Forum.rb:139
+#: Forum.rb:150
 msgctxt "Forum"
 msgid "All groups"
 msgstr "Wszystkie grupy"
 
-#: Forum.rb:635
+#: Forum.rb:685
 msgctxt "Forum"
 msgid "Group name"
 msgstr "Nazwa grupy"
 
-#: Forum.rb:635
+#: Forum.rb:685
 msgctxt "Forum"
 msgid "Group description"
 msgstr "Opis grupy"
 
-#: Forum.rb:635
+#: Forum.rb:685
 msgctxt "Forum"
 msgid "Group type"
 msgstr "Typ grupy"
 
-#: Forum.rb:635
+#: Forum.rb:685
 msgctxt "Forum"
 msgid "Public"
 msgstr "Grupa publiczna"
 
-#: Forum.rb:635
+#: Forum.rb:685
 msgctxt "Forum"
 msgid "Hidden"
 msgstr "Grupa ukryta"
 
-#: Forum.rb:635
+#: Forum.rb:685
 msgctxt "Forum"
 msgid "Join method"
 msgstr "Sposób dołączania do grupy"
 
-#: Forum.rb:649
+#: Forum.rb:699
 msgctxt "Forum"
 msgid "open (everyone can join)"
 msgstr "Grupa otwarta (każdy może dołączyć)"
 
-#: Forum.rb:649
+#: Forum.rb:699
 msgctxt "Forum"
 msgid "Moderated (everyone can request)"
 msgstr "Grupa moderowana (Administracja zatwierdza kandydatury użytkowników)"
 
-#: Forum.rb:647
+#: Forum.rb:697
 msgctxt "Forum"
 msgid "closed (only invited users can join)"
 msgstr "Grupa zamknięta (użytkownicy dołączać mogą tylko na zaproszenie)"
 
-#: Forum.rb:641
+#: Forum.rb:691
 msgctxt "Forum"
 msgid "Create group"
 msgstr "Utwórz grupę"
 
-#: Forum.rb:802
+#: Forum.rb:855
 msgctxt "Forum"
 msgid "Change forum position"
 msgstr "Przesuń forum"
 
-#: Forum.rb:802
+#: Forum.rb:855
 msgctxt "Forum"
 msgid "Above what forum do you want to move this forum?"
 msgstr "Nad czym umieścić to forum?"
 
-#: Forum.rb:802
+#: Forum.rb:855
 msgctxt "Forum"
 msgid "Move to the end"
 msgstr "Umieść na końcu"
 
-#: Forum.rb:262
+#: Forum.rb:312
 msgctxt "Forum"
 msgid "New group"
 msgstr "Nowa grupa"
 
-#: Forum.rb:635
+#: Forum.rb:685
 msgctxt "Forum"
 msgid "Language"
 msgstr "Język"
 
-#: Forum.rb:656
+#: Forum.rb:706
 msgctxt "Forum"
 msgid "Group has been created"
 msgstr "Grupa została utworzona"
 
-#: Forum.rb:272
+#: Forum.rb:322
 msgctxt "Forum"
 msgid "Delete group"
 msgstr "Usuń grupę"
 
-#: Forum.rb:603
+#: Forum.rb:653
 msgctxt "Forum"
 msgid "Are you sure you want to delete %{groupname}?"
 msgstr "Czy jesteś pewien, że chcesz usunąć grupę %{groupname}?"
 
-#: Forum.rb:607
+#: Forum.rb:657
 msgctxt "Forum"
 msgid "Group has been deleted"
 msgstr "Grupa została usunięta"
 
-#: Forum.rb:265
+#: Forum.rb:315
 msgctxt "Forum"
 msgid "Invite"
 msgstr "Zaproś"
 
-#: Forum.rb:496
+#: Forum.rb:546
 msgctxt "Forum"
 msgid "Type user to invite"
 msgstr "Podaj nazwę użytkownika, którego chcesz zaprosić"
 
-#: Forum.rb:506
+#: Forum.rb:556
 msgctxt "Forum"
 msgid "The user has been invited"
 msgstr "Użytkownik został zaproszony"
 
-#: Forum.rb:514
+#: Forum.rb:564
 msgctxt "Forum"
 msgid "This user does not exist"
 msgstr "Użytkownik nie istnieje"
 
-#: Forum.rb:516
+#: Forum.rb:566
 msgctxt "Forum"
 msgid "This user already belongs to this group"
 msgstr "Ten użytkownik należy już do tej grupy"
 
-#: Forum.rb:267
+#: Forum.rb:317
 msgctxt "Forum"
 msgid "Accept invitation"
 msgstr "Przyjmij zaproszenie"
 
-#: Forum.rb:270
+#: Forum.rb:320
 msgctxt "Forum"
 msgid "Refuse invitation"
 msgstr "Odrzuć zaproszenie"
 
-#: Forum.rb:333
+#: Forum.rb:383
 msgctxt "Forum"
 msgid "Invited"
 msgstr "Zaproszenie oczekujące"
 
-#: Forum.rb:457
+#: Forum.rb:507
 msgctxt "Forum"
 msgid "Banned"
 msgstr "Ban"
 
-#: Forum.rb:139
+#: Forum.rb:150
 msgctxt "Forum"
 msgid "Invitations"
 msgstr "Oczekujące zaproszenia"
 
-#: Forum.rb:271
+#: Forum.rb:321
 msgctxt "Forum"
 msgid "Edit group"
 msgstr "Modyfikuj ustawienia grupy"
 
-#: Forum.rb:437
+#: Forum.rb:487
 msgctxt "Forum"
 msgid "Ask to be enrolled in this group"
 msgstr "Poproś o zapisanie do grupy"
 
-#: Forum.rb:525
+#: Forum.rb:575
 msgctxt "Forum"
 msgid "Do you wish to ask to be enrolled in %{groupname}"
 msgstr "Czy chcesz złożyć podanie do grupy %{groupname}?"
 
-#: Forum.rb:533
+#: Forum.rb:583
 msgctxt "Forum"
 msgid "Request sent"
 msgstr "Prośba o zapisanie została wysłana"
 
-#: Forum.rb:458
+#: Forum.rb:508
 msgctxt "Forum"
 msgid "Waiting for review"
 msgstr "Oczekuje na rozpatrzenie"
 
-#: Forum.rb:385
+#: Forum.rb:435
 msgctxt "Forum"
 msgid "Examine this application"
 msgstr "Rozpatrz tę prośbę"
 
-#: Forum.rb:437
+#: Forum.rb:487
 msgctxt "Forum"
 msgid "Accept"
 msgstr "Przyjmij"
 
-#: Forum.rb:437
+#: Forum.rb:487
 msgctxt "Forum"
 msgid "Refuse"
 msgstr "odrzuć"
@@ -3857,142 +3874,166 @@ msgctxt "Forum"
 msgid "Do you want to refuse request of user %{user}"
 msgstr "Czy na pewno chcesz odmówić użytkownikowi %{user} dołączenia do tej grupy?"
 
-#: Forum.rb:1686
+#: Forum.rb:1765
 msgctxt "Forum"
 msgid "Attachments"
 msgstr "Załączniki"
 
-#: Forum.rb:1609
+#: Forum.rb:1688
 msgctxt "Forum"
 msgid "Polls"
 msgstr "Ankiety"
 
-#: Forum.rb:1143
+#: Forum.rb:1213
 msgctxt "Forum"
 msgid "Attach a poll"
 msgstr "Załącz ankietę"
 
-#: Forum.rb:1620
+#: Forum.rb:1699
 msgctxt "Forum"
 msgid "Attach a file"
 msgstr "Załącz plik"
 
-#: Forum.rb:1186
+#: Forum.rb:1256
 msgctxt "Forum"
 msgid "You haven't created any polls yet."
 msgstr "Nie utworzyłeś żadnych ankiet."
 
-#: Forum.rb:1172
+#: Forum.rb:1242
 msgctxt "Forum"
 msgid "Select poll to attach"
 msgstr "Wybierz ankietę do załączenia"
 
-#: Forum.rb:1182
+#: Forum.rb:1252
 msgctxt "Forum"
 msgid "Poll has been added"
 msgstr "Ankieta została dodana"
 
-#: Forum.rb:1177
+#: Forum.rb:1247
 msgctxt "Forum"
-msgid "This poll has been already added"
-msgstr "Ta ankieta została już dodana"
+msgid "This poll has already been added"
+msgstr "Ta ankieta została już dołączona"
 
-#: Forum.rb:1688
+#: Forum.rb:1767
 msgctxt "Forum"
 msgid "The file has been attached"
 msgstr "Załącznik dodany"
 
-#: Forum.rb:1680
+#: Forum.rb:1759
 msgctxt "Forum"
 msgid "This file has been already attached"
 msgstr "Ten plik został już dodany"
 
-#: Forum.rb:1677
+#: Forum.rb:1756
 msgctxt "Forum"
 msgid "Select file to attach"
 msgstr "Wybierz plik do załączenia"
 
-#: Forum.rb:1683
+#: Forum.rb:1762
 msgctxt "Forum"
 msgid "This file is too large"
 msgstr "Plik jest zbyt duży"
 
-#: Forum.rb:1665
+#: Forum.rb:1744
 msgctxt "Forum"
 msgid "Where to save this file?"
 msgstr "Gdzie zapisać ten plik?"
 
-#: Forum.rb:1016
+#: Forum.rb:1086
 msgctxt "Forum"
 msgid "Close thread"
 msgstr "Zamknij wątek"
 
-#: Forum.rb:1017
+#: Forum.rb:1087
 msgctxt "Forum"
 msgid "Open thread"
 msgstr "Otwórz wątek"
 
-#: Forum.rb:1116
+#: Forum.rb:1186
 msgctxt "Forum"
 msgid "The thread has been closed"
 msgstr "Wątek został zamknięty."
 
-#: Forum.rb:1112
+#: Forum.rb:1182
 msgctxt "Forum"
 msgid "The thread has been opened"
 msgstr "Wątek został otwarty."
 
-#: Main.rb:85
+#: Forum.rb:150
+msgctxt "Forum"
+msgid "Recently created groups"
+msgstr "Ostatnio utworzone grupy"
+
+#: Forum.rb:150
+msgctxt "Forum"
+msgid "Threads popular with my friends"
+msgstr "Wątki popularne wśród moich kontaktów"
+
+#: Forum.rb:150
+msgctxt "Forum"
+msgid "Groups popular with my friends"
+msgstr "Grupy popularne wśród moich znajomych"
+
+#: Forum.rb:2153
+msgctxt "Forum"
+msgid "Move to end"
+msgstr "Przesuń na koniec"
+
+#: Forum.rb:2154
+msgctxt "Forum"
+msgid "Where to slide this post?"
+msgstr "Gdzie przesunąć ten wpis?"
+
+#: Main.rb:94
 msgctxt "Main"
 msgid "Press the alt key to open the menu."
 msgstr "Naciśnij klawisz ALT, aby otworzyć menu"
 
-#: Main.rb:98
+#: Main.rb:107
 msgctxt "Main"
 msgid "Delete the playlist"
 msgstr "Wyczyść playlistę"
 
-#: Main.rb:193
+#: Main.rb:202
 msgctxt "Main"
 msgid "Playlist"
 msgstr "Playlista"
 
-#: Main.rb:98
+#: Main.rb:107
 msgctxt "Main"
 msgid "Upload to the server"
 msgstr "Wyślij na serwer"
 
-#: Main.rb:98
+#: Main.rb:107
 msgctxt "Main"
 msgid "Set as avatar"
 msgstr "Ustaw jako awatar"
 
-#: Main.rb:98
+#: Main.rb:107
 msgctxt "Main"
 msgid "Player"
 msgstr "Odtwarzacz"
 
-#: Main.rb:98
+#: Main.rb:107
 msgctxt "Main"
 msgid "Shuffle"
 msgstr "Mieszaj"
 
-#: Main.rb:177
+#: Main.rb:186
 msgctxt "Main"
 msgid "Playlist shuffled"
 msgstr "Playlista wymieszana"
 
-#: Main.rb:78
+#: Main.rb:87
 msgctxt "Main"
 msgid "A new beta version of the program is available."
 msgstr "Dostępna jest nowa wersja beta programu."
 
-#: Main.rb:200
+#: Main.rb:209
 msgctxt "Main"
 msgid "Playlist removed."
 msgstr "Playlista usunięta."
 
-#: Main.rb:12
 msgctxt "Main"
 msgid "test"
 msgstr "test"
@@ -4142,12 +4183,12 @@ msgctxt "Registration"
 msgid "Repeat your password"
 msgstr "Powtórz hasło"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "Loading"
 msgid "Log in"
 msgstr "Zaloguj Się"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "Loading"
 msgid "Register"
 msgstr "Rejestracja"
@@ -4156,37 +4197,37 @@ msgctxt "Loading"
 msgid "Exit"
 msgstr "Wyjście"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "Loading"
 msgid "Interface settings"
 msgstr "Ustawienia interfejsu"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "Loading"
 msgid "Password reset"
 msgstr "Reset hasła"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "Loading"
 msgid "Use guest account"
 msgstr "Otwórz na koncie gościa"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "Loading"
 msgid "Change speech synthesizer"
 msgstr "Zmień syntezator mowy"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "Loading"
 msgid "Reinstall"
 msgstr "Wymuś aktualizację lub reinstalację z serwera"
 
-#: Loading.rb:197
+#: Loading.rb:198
 msgctxt "Loading"
 msgid " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."
 msgstr "Nie wybrano głosu programu. Naciśnij enter, aby wybrać głos SAPI lub escape, aby użyć głosu domyślnego lub aktywnego czytnika ekranu."
 
-#: Loading.rb:259
+#: Loading.rb:266
 msgctxt "Loading"
 msgid "A new version of the program is available."
 msgstr "Dostępna jest nowa wersja programu."
@@ -4301,7 +4342,7 @@ msgctxt "EAPI_External"
 msgid "Added to playlist"
 msgstr "Dodano do playlisty"
 
-#: EAPI_External.rb:486
+#: EAPI_External.rb:536
 msgctxt "EAPI_External"
 msgid "Please wait..."
 msgstr "Proszę czekać..."
@@ -4346,6 +4387,21 @@ msgctxt "EAPI_External"
 msgid "Updating Youtube-DL"
 msgstr "Aktualizowanie Youtube-DL"
 
+#: EAPI_External.rb:532
+msgctxt "EAPI_External"
+msgid "The file you're trying to open was saved in format that Elten does not support. Do you want to download and install Calibre Library that will allow Elten to read Ebooks?"
+msgstr "Plik, który próbujesz utworzyć, został zapisany w formacie, którego Elten nie umie odczytać. Czy chcesz pobrać i zainstalować bibliotekę Calibre, która umożliwi Eltenowi odczyt książek?"
+
+#: EAPI_External.rb:534
+msgctxt "EAPI_External"
+msgid "Downloading Calibre, please wait..."
+msgstr "Pobieranie biblioteki Calibre, proszę czekać..."
+
+#: EAPI_External.rb:536
+msgctxt "EAPI_External"
+msgid "Extracting Calibre, please wait..."
+msgstr "Rozpakowywanie biblioteki Calibre, proszę czekać..."
+
 #: EAPI_Common.rb:85
 msgctxt "EAPI_Common"
 msgid "An error occured while processing the command"
@@ -4371,7 +4427,7 @@ msgctxt "EAPI_Common"
 msgid "Add to contacts' list"
 msgstr "Dodaj do kontaktów"
 
-#: EAPI_Common.rb:317
+#: EAPI_Common.rb:301
 msgctxt "EAPI_Common"
 msgid "There is nothing new."
 msgstr "Nie ma nic nowego."
@@ -4380,7 +4436,7 @@ msgctxt "EAPI_Common"
 msgid "Exit"
 msgstr "Wyjście"
 
-#: EAPI_Common.rb:514
+#: EAPI_Common.rb:498
 msgctxt "EAPI_Common"
 msgid "Empty list"
 msgstr "Pusta Lista"
@@ -4405,37 +4461,37 @@ msgctxt "EAPI_Common"
 msgid "Hide program in Tray"
 msgstr "Ukryj program w zasobniku systemowym"
 
-#: EAPI_Common.rb:329
+#: EAPI_Common.rb:313
 msgctxt "EAPI_Common"
 msgid "Enter the name of the soundtheme"
 msgstr "Podaj nazwę tematu dźwiękowego."
 
-#: EAPI_Common.rb:362
+#: EAPI_Common.rb:346
 msgctxt "EAPI_Common"
 msgid " Soundtheme files created in %{dir}. Replace files of the default soundtheme in  the created folder with the appropriate files, which constitute the soundtheme."
 msgstr "Pliki tematu dźwiękowego utworzone w %{dir}. Podmień pliki domyślnego tematu dźwiękowego w utworzonym katalogu plikami, które mają wchodzić w jego skład."
 
-#: EAPI_Common.rb:364
+#: EAPI_Common.rb:348
 msgctxt "EAPI_Common"
 msgid "What do you want to do?"
 msgstr "Co chcesz zrobić?"
 
-#: EAPI_Common.rb:364
+#: EAPI_Common.rb:348
 msgctxt "EAPI_Common"
 msgid "Open the soundtheme's folder"
 msgstr "Otwórz folder tematu w plikach"
 
-#: EAPI_Common.rb:364
+#: EAPI_Common.rb:348
 msgctxt "EAPI_Common"
 msgid "Open the soundtheme's folder in windows explorer"
 msgstr "Otwórz folder tematu w systemowym eksploratorze plików"
 
-#: EAPI_Common.rb:462
+#: EAPI_Common.rb:446
 msgctxt "EAPI_Common"
 msgid "Describe the found error"
 msgstr "Opisz znaleziony błąd"
 
-#: EAPI_Common.rb:478
+#: EAPI_Common.rb:462
 msgctxt "EAPI_Common"
 msgid "Sent."
 msgstr "Wysłano."
@@ -4445,12 +4501,12 @@ msgctxt "EAPI_Common"
 msgid "Enter the command to execute"
 msgstr "Podaj polecenia do wykonania"
 
-#: EAPI_Common.rb:462
+#: EAPI_Common.rb:446
 msgctxt "EAPI_Common"
 msgid "Send"
 msgstr "Wyślij"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Title"
 msgstr "Tytuł"
@@ -4470,7 +4526,7 @@ msgctxt "EAPI_Common"
 msgid "Files shared by this user"
 msgstr "Pliki udostępniane przez tego użytkownika"
 
-#: EAPI_Common.rb:678
+#: EAPI_Common.rb:662
 msgctxt "EAPI_Common"
 msgid "You are already up to date"
 msgstr "Brak dostępnych aktualizacji."
@@ -4480,72 +4536,72 @@ msgctxt "EAPI_Common"
 msgid "badges of this user"
 msgstr "Odznaczenia tego użytkownika"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "voice"
 msgstr "Głos"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "rate"
 msgstr "Szybkość"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "destination location"
 msgstr "Lokalizacja docelowa"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "preview"
 msgstr "Podgląd"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "confirm"
 msgstr "Potwierdź"
 
-#: EAPI_Form.rb:1709
+#: EAPI_Form.rb:1742
 msgctxt "EAPI_Common"
 msgid "This file cannot be played."
 msgstr "Nie można odtworzyć tego pliku."
 
-#: EAPI_Common.rb:1427
+#: EAPI_Common.rb:1417
 msgctxt "EAPI_Common"
 msgid "Compressing..."
 msgstr "Pakowanie..."
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Output splitting"
 msgstr "Podział tekstu"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Create one file"
 msgstr "Utwórz jeden plik"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Divide by paragraphs"
 msgstr "Dziel akapitami"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Divide every"
 msgstr "Dziel co"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Duration of one file (minutes)"
 msgstr "Długość fragmentu (minuty)"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Read file number"
 msgstr "Odczytaj numer pliku"
 
-#: EAPI_Form.rb:1778
+#: EAPI_Form.rb:1811
 msgctxt "EAPI_Common"
 msgid "Downloading..."
 msgstr "Pobieranie..."
@@ -4558,12 +4614,12 @@ msgctxt "EAPI_Common"
 msgid "Operation completed successfully"
 msgstr "Operacja zakończona powodzeniem"
 
-#: EAPI_UI.rb:323
+#: EAPI_UI.rb:504
 msgctxt "EAPI_Common"
 msgid "Using a screenreader"
 msgstr "Używanie czytnika ekranu"
 
-#: EAPI_UI.rb:325
+#: EAPI_UI.rb:506
 msgctxt "EAPI_Common"
 msgid "Using a selected SAPI synthesizer"
 msgstr "Używanie wybranej syntezy SAPI"
@@ -4576,187 +4632,187 @@ msgctxt "EAPI_Common"
 msgid "The user agreement, as well as Elten's and Elten Network's terms of service"
 msgstr "Umowa licencyjna oraz regulamin użytkowania programu Elten oraz sieci Elten Network"
 
-#: EAPI_Common.rb:1340
+#: EAPI_Common.rb:1330
 msgctxt "EAPI_Common"
 msgid "Please wait, reading to file"
 msgstr "Czytanie do pliku, proszę czekać..."
 
-#: EAPI_Form.rb:1749
+#: EAPI_Form.rb:1782
 msgctxt "EAPI_Common"
 msgid "Type a second to which you want to move."
 msgstr "Podaj sekundę, do której chcesz przeskoczyć"
 
-#: EAPI_Common.rb:698
+#: EAPI_Common.rb:682
 msgctxt "EAPI_Common"
 msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
 msgstr "Akceptuję Umowę Licencyjną programu Elten, jego Regulamin oraz Politykę Prywatności"
 
-#: EAPI_Common.rb:698
+#: EAPI_Common.rb:682
 msgctxt "EAPI_Common"
 msgid "I do not accept, exit"
 msgstr "Nie akceptuję, zamknij program"
 
-#: EAPI_Common.rb:1395
+#: EAPI_Common.rb:1385
 msgctxt "EAPI_Common"
 msgid "Please wait, file processing..."
 msgstr "Proszę czekać, trwa przetwarzanie plików..."
 
-#: EAPI_Common.rb:737
+#: EAPI_Common.rb:721
 msgctxt "EAPI_Common"
 msgid " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."
 msgstr "Próbujesz odtworzyć plik typu midi. Aby poprawnie odtwarzać pliki tego typu, program Elten wymaga zewnętrznej bazy brzmień instrumentów. Czy chcesz ją teraz pobrać z serwera? To może potrwać kilka minut."
 
-#: EAPI_Form.rb:1776
+#: EAPI_Form.rb:1809
 msgctxt "EAPI_Common"
 msgid "Where do you want to save this file?"
 msgstr "Gdzie chcesz zapisać ten plik?"
 
-#: EAPI_Common.rb:594
+#: EAPI_Common.rb:578
 msgctxt "EAPI_Common"
 msgid "Gender"
 msgstr "Płeć"
 
-#: EAPI_Common.rb:610
+#: EAPI_Common.rb:594
 msgctxt "EAPI_Common"
 msgid "Age"
 msgstr "Wiek"
 
-#: EAPI_Common.rb:633
+#: EAPI_Common.rb:617
 msgctxt "EAPI_Common"
 msgid "Forum posts"
 msgstr "Wpisy na forum"
 
-#: EAPI_Common.rb:634
+#: EAPI_Common.rb:618
 msgctxt "EAPI_Common"
 msgid "Polls answered"
 msgstr "Wypełnione ankiety"
 
-#: EAPI_Common.rb:635
+#: EAPI_Common.rb:619
 msgctxt "EAPI_Common"
 msgid "Used version"
 msgstr "Używana wersja programu"
 
-#: EAPI_Common.rb:636
+#: EAPI_Common.rb:620
 msgctxt "EAPI_Common"
 msgid "Registered"
 msgstr "Konto zarejestrowane"
 
-#: EAPI_Common.rb:1275
+#: EAPI_Common.rb:1259
 msgctxt "EAPI_Common"
 msgid "No selected file to read"
 msgstr "Nie wybrano pliku do przeczytania"
 
-#: EAPI_Common.rb:1287
+#: EAPI_Common.rb:1271
 msgctxt "EAPI_Common"
 msgid "Type a file name"
 msgstr "Podaj tytuł tworzonego pliku"
 
-#: EAPI_Common.rb:1289
+#: EAPI_Common.rb:1273
 msgctxt "EAPI_Common"
 msgid "Select file location"
 msgstr "Wybierz miejsce zapisu pliku"
 
-#: EAPI_Common.rb:1291
+#: EAPI_Common.rb:1275
 msgctxt "EAPI_Common"
 msgid "Select source file"
 msgstr "Wybierz plik źródłowy"
 
-#: EAPI_Common.rb:1380
+#: EAPI_Common.rb:1370
 msgctxt "EAPI_Common"
 msgid "Reading to file number"
 msgstr "Czytanie do pliku numer"
 
-#: EAPI_Common.rb:1380
+#: EAPI_Common.rb:1370
 msgctxt "EAPI_Common"
 msgid "Sentence %{cursentence} z %{sentences}"
 msgstr "Zdanie %{cursentence} z %{sentences}"
 
-#: EAPI_Common.rb:1380
+#: EAPI_Common.rb:1370
 msgctxt "EAPI_Common"
 msgid "Read"
 msgstr "Przeczytano"
 
-#: EAPI_Common.rb:1380
+#: EAPI_Common.rb:1370
 msgctxt "EAPI_Common"
 msgid "Estimated elapsed time"
 msgstr "Szacowany pozostały czas"
 
-#: EAPI_Common.rb:644
+#: EAPI_Common.rb:628
 msgctxt "EAPI_Common"
 msgid "Visiting card: %{user}"
 msgstr "Wizytówka: %{user}"
 
-#: EAPI_Common.rb:1406
+#: EAPI_Common.rb:1396
 msgctxt "EAPI_Common"
 msgid "Reading to file finished."
 msgstr "Czytanie do pliku zakończono."
 
-#: EAPI_Common.rb:623
+#: EAPI_Common.rb:607
 msgctxt "EAPI_Common"
 msgid "User has a blog"
 msgstr "Użytkownik posiada bloga"
 
-#: EAPI_Common.rb:620
+#: EAPI_Common.rb:604
 msgctxt "EAPI_Common"
 msgid "Last seen"
 msgstr "Widziany/a"
 
-#: EAPI_Common.rb:616
+#: EAPI_Common.rb:600
 msgctxt "EAPI_Common"
 msgid "Last seen {txt_phr_lastseen_female}"
 msgstr "Widziana"
 
-#: EAPI_Common.rb:618
+#: EAPI_Common.rb:602
 msgctxt "EAPI_Common"
 msgid "Last seen {txt_phr_lastseen_male}"
 msgstr "Widziany"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "File to read"
 msgstr "Plik do przeczytania"
 
-#: EAPI_Common.rb:1214
+#: EAPI_Common.rb:1198
 msgctxt "EAPI_Common"
 msgid "Output format"
 msgstr "Format wyjściowy"
 
-#: EAPI_Common.rb:521
+#: EAPI_Common.rb:505
 msgctxt "EAPI_Common"
 msgid "Select contact"
 msgstr "Wybierz kontakt"
 
-#: EAPI_Common.rb:630
+#: EAPI_Common.rb:614
 msgctxt "EAPI_Common"
 msgid "Known by %{count} users"
 msgstr "Znan(y/a) przez %{count} użytkowników"
 
-#: EAPI_Common.rb:628
+#: EAPI_Common.rb:612
 msgctxt "EAPI_Common"
 msgid "Known by %{count} users {txt_phr_knownby_female}"
 msgstr "Znana przez %{count} użytkowników"
 
-#: EAPI_Common.rb:630
+#: EAPI_Common.rb:614
 msgctxt "EAPI_Common"
 msgid "Known by %{count} users {txt_phr_knownby_male}"
 msgstr "Znany przez %{count} użytkowników"
 
-#: EAPI_Common.rb:624
+#: EAPI_Common.rb:608
 msgctxt "EAPI_Common"
 msgid "Knows %{count} users"
 msgstr "Zna %{count} użytkowników"
 
-#: EAPI_Common.rb:738
+#: EAPI_Common.rb:722
 msgctxt "EAPI_Common"
 msgid "Please wait, the soundfont is being downloaded. It may take a while."
 msgstr "Proszę czekać, trwa pobieranie bazy brzmień midi. To może potrwać kilka minut."
 
-#: EAPI_Common.rb:738
+#: EAPI_Common.rb:722
 msgctxt "EAPI_Common"
 msgid "Soundfont downloaded succesfully."
 msgstr "Baza brzmień midi została pobrana."
 
-#: EAPI_Common.rb:1401
+#: EAPI_Common.rb:1391
 msgctxt "EAPI_Common"
 msgid "Processing"
 msgstr "Przetwarzanie"
@@ -4766,57 +4822,56 @@ msgctxt "EAPI_Common"
 msgid "Checked: %{check}"
 msgstr "Zaznaczono: %{check}"
 
-#: EAPI_Form.rb:980
+#: EAPI_Form.rb:988
 msgctxt "EAPI_Common"
 msgid "Checked"
 msgstr "Zaznaczono"
 
-#: EAPI_Common.rb:695
+#: EAPI_Common.rb:679
 msgctxt "EAPI_Common"
 msgid "License agreement"
 msgstr "Licencja Użytkownika programu Elten"
 
-#: EAPI_Common.rb:696
+#: EAPI_Common.rb:680
 msgctxt "EAPI_Common"
 msgid "Terms and Conditions"
 msgstr "Regulamin portalu Elten Network"
 
-#: EAPI_Common.rb:697
+#: EAPI_Common.rb:681
 msgctxt "EAPI_Common"
 msgid "Privacy Policy"
 msgstr "Polityka Prywatności"
 
-#: EAPI_Common.rb:716
+#: EAPI_Common.rb:700
 msgctxt "EAPI_Common"
 msgid "Do you accept Elten license agreement, terms and conditions and privacy policy?"
 msgstr "Czy akceptujesz Umowę Licencyjną programu Elten, jego Regulamin oraz Politykę Prywatności?"
 
-#: EAPI_EltenSRV.rb:298
+#: EAPI_EltenSRV.rb:302
 msgctxt "EAPI_EltenSRV"
 msgid "File is being converted..."
 msgstr "Konwertowanie pliku..."
 
-#: EAPI_EltenSRV.rb:584
+#: EAPI_EltenSRV.rb:572
 msgctxt "EAPI_EltenSRV"
 msgid "Sent"
 msgstr "Wysłano"
 
-#: EAPI_EltenSRV.rb:274
+#: EAPI_EltenSRV.rb:278
 msgctxt "EAPI_EltenSRV"
 msgid "The user has no avatar."
 msgstr "Użytkownik nie posiada avatara."
 
-#: EAPI_EltenSRV.rb:297
+#: EAPI_EltenSRV.rb:301
 msgctxt "EAPI_EltenSRV"
 msgid "Please wait, this may take several minutes..."
 msgstr "Proszę czekać, to może potrwać kilka minut..."
 
-#: EAPI_EltenSRV.rb:620
+#: EAPI_EltenSRV.rb:608
 msgctxt "EAPI_EltenSRV"
 msgid "Select a user"
 msgstr "Wybierz użytkownika"
 
-#: EAPI_EltenSRV.rb:494
 msgctxt "EAPI_EltenSRV"
 msgid "Session confirmation time:"
 msgstr "Czas potwierdzenia sesji:"
@@ -4840,7 +4895,7 @@ msgctxt "EAPI_UI"
 msgid "You have received a new message."
 msgstr "Otrzymałeś nową wiadomość."
 
-#: EAPI_UI.rb:427
+#: EAPI_UI.rb:608
 msgctxt "EAPI_UI"
 msgid "The program is trying to recover from the frozen state."
 msgstr "Program podejmie teraz próbę powrotu do pracy."
@@ -4857,12 +4912,12 @@ msgctxt "EAPI_UI"
 msgid "A new post on a followed blog."
 msgstr "Na śledzonym blogu pojawił się nowy wpis."
 
-#: EAPI_UI.rb:424
+#: EAPI_UI.rb:605
 msgctxt "EAPI_UI"
 msgid " An unexpected error of Elten agent occurred. Do you want to report this event? It  may definitely help us solve the problem."
 msgstr "Wystąpił nieoczekiwany błąd agenta programu Elten. Czy chcesz przesłać raport o tym zdarzeniu? Przesłanie raportu może zdecydowanie ułatwić rozwiązanie problemu."
 
-#: EAPI_UI.rb:499
+#: EAPI_UI.rb:683
 msgctxt "EAPI_UI"
 msgid "Alert!"
 msgstr "Alarm!"
@@ -4914,8 +4969,8 @@ msgstr "równe"
 
 #: EAPI_Speech.rb:243
 msgctxt "EAPI_Speech"
-msgid "accent"
-msgstr "akcent"
+msgid "graav"
+msgstr "graav"
 
 #: EAPI_Speech.rb:245
 msgctxt "EAPI_Speech"
@@ -5042,17 +5097,17 @@ msgctxt "EAPI_Form"
 msgid "copied"
 msgstr "Skopiowano"
 
-#: EAPI_Form.rb:1140
+#: EAPI_Form.rb:1148
 msgctxt "EAPI_Form"
 msgid "Checked"
 msgstr "Oznaczone"
 
-#: EAPI_Form.rb:1138
+#: EAPI_Form.rb:1146
 msgctxt "EAPI_Form"
 msgid "unchecked"
 msgstr "Nieoznaczone"
 
-#: EAPI_Form.rb:1143
+#: EAPI_Form.rb:1151
 msgctxt "EAPI_Form"
 msgid "Checkbox"
 msgstr "pole wyboru"
@@ -5067,7 +5122,7 @@ msgctxt "EAPI_Form"
 msgid "Text"
 msgstr "Tekst"
 
-#: EAPI_Form.rb:1094
+#: EAPI_Form.rb:1102
 msgctxt "EAPI_Form"
 msgid "Button"
 msgstr "Przycisk"
@@ -5082,17 +5137,17 @@ msgctxt "EAPI_Form"
 msgid "pasted"
 msgstr "Wklejono"
 
-#: EAPI_Form.rb:1193
+#: EAPI_Form.rb:1209
 msgctxt "EAPI_Form"
 msgid "Desktop"
 msgstr "Pulpit"
 
-#: EAPI_Form.rb:1193
+#: EAPI_Form.rb:1209
 msgctxt "EAPI_Form"
 msgid "Documents"
 msgstr "Dokumenty"
 
-#: EAPI_Form.rb:1193
+#: EAPI_Form.rb:1209
 msgctxt "EAPI_Form"
 msgid "Music"
 msgstr "Muzyka"
@@ -5107,7 +5162,7 @@ msgctxt "EAPI_Form"
 msgid "undone"
 msgstr "Cofnięto"
 
-#: EAPI_Form.rb:1035
+#: EAPI_Form.rb:1043
 msgctxt "EAPI_Form"
 msgid "Empty list"
 msgstr "Pusta lista"
@@ -5132,12 +5187,12 @@ msgctxt "EAPI_Form"
 msgid "File name"
 msgstr "Nazwa pliku"
 
-#: EAPI_Form.rb:1609
+#: EAPI_Form.rb:1636
 msgctxt "EAPI_Form"
 msgid "Choose a path"
 msgstr "Podaj ścieżkę"
 
-#: EAPI_Form.rb:1033
+#: EAPI_Form.rb:1041
 msgctxt "EAPI_Form"
 msgid "Shortcut: "
 msgstr "Skrót: "
@@ -5157,12 +5212,12 @@ msgctxt "EAPI_Form"
 msgid "Downloaded"
 msgstr "Pobieranie zakończone"
 
-#: EAPI_Form.rb:1000
+#: EAPI_Form.rb:1008
 msgctxt "EAPI_Form"
 msgid "Checked {info_checked}"
 msgstr "Zaznaczono"
 
-#: EAPI_Form.rb:1004
+#: EAPI_Form.rb:1012
 msgctxt "EAPI_Form"
 msgid "Unchecked"
 msgstr "Odznaczono"
@@ -5172,7 +5227,7 @@ msgctxt "General"
 msgid "Error"
 msgstr "Błąd"
 
-#: Loading.rb:308
+#: Loading.rb:317
 msgctxt "General"
 msgid "Exit"
 msgstr "Wyjście"
@@ -5197,7 +5252,7 @@ msgctxt "General"
 msgid "Refresh"
 msgstr "Odśwież"
 
-#: Polls.rb:178
+#: SoundCard.rb:14
 msgctxt "General"
 msgid "Save"
 msgstr "Zapisz"
@@ -5232,22 +5287,22 @@ msgctxt "General"
 msgid "You do not have sufficient permissions to perform this operation."
 msgstr "Nie masz odpowiednich uprawnień, by wykonać tę operację."
 
-#: _Main.rb:156
+#: _Main.rb:162
 msgctxt "General"
 msgid "No"
 msgstr "Nie"
 
-#: _Main.rb:156
+#: _Main.rb:162
 msgctxt "General"
 msgid "Yes"
 msgstr "Tak"
 
-#: EAPI_Common.rb:596
+#: EAPI_Common.rb:580
 msgctxt "General"
 msgid "Female"
 msgstr "Kobieta"
 
-#: EAPI_Common.rb:598
+#: EAPI_Common.rb:582
 msgctxt "General"
 msgid "male"
 msgstr "mężczyzna"
@@ -5267,17 +5322,17 @@ msgctxt "Program"
 msgid "The program has been closed."
 msgstr "program został zamknięty."
 
-#: _Main.rb:94
+#: _Main.rb:99
 msgctxt "*Main"
 msgid "Your playlist has been changed. Save current changes?"
 msgstr "Twoja playlista została zmieniona. Zapisać zmiany?"
 
-#: _Main.rb:99
+#: _Main.rb:104
 msgctxt "*Main"
 msgid "Do you want to save your playlist?"
 msgstr "Czy chcesz zapisać swoją playlistę?"
 
-#: _Main.rb:108
+#: _Main.rb:113
 msgctxt "*Main"
 msgid "Do you want to delete the saved playlist?"
 msgstr "Czy chcesz usunąć zapisaną playlistę?"
@@ -5306,4 +5361,89 @@ msgstr "Należysz do następujących grup"
 msgctxt "Soundthemes"
 msgid "Select theme to download"
 msgstr "Wybierz temat do pobrania"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Unit to test"
+msgstr "Moduł do przetestowania"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Session refresh"
+msgstr "Odświeżanie sesji"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "What's new"
+msgstr "Co nowego"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Forum structure"
+msgstr "Struktura forum"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Messages recipients"
+msgstr "Odbiorcy wiadomości"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Blogs list"
+msgstr "Lista blogów"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Number of attempts to perform"
+msgstr "Ilość zapytań"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Start"
+msgstr "Start"
+
+#: SpeedTest.rb:48
+msgctxt "SpeedTest"
+msgid "Test results"
+msgstr "Wyniki"
+
+#: SpeedTest.rb:40
+msgctxt "SpeedTest"
+msgid "Average time"
+msgstr "Czas średni"
+
+#: SpeedTest.rb:41
+msgctxt "SpeedTest"
+msgid "Minimum time"
+msgstr "Czas minimalny"
+
+#: SpeedTest.rb:42
+msgctxt "SpeedTest"
+msgid "Maximum time"
+msgstr "Czas maksymalny"
+
+#: SpeedTest.rb:31
+msgctxt "SpeedTest"
+msgid "Performing test, please wait"
+msgstr "Testowanie, proszę czekać"
+
+#: SoundCard.rb:14
+msgctxt "SoundCard"
+msgid "Sound Device"
+msgstr "Urządzenie wyjściowe"
+
+#: SoundCard.rb:13
+msgctxt "SoundCard"
+msgid "Use Default"
+msgstr "Użyj domyślnego"
+
+#: SoundCard.rb:14
+msgctxt "SoundCard"
+msgid "Output device"
+msgstr "Urządzenie wyjściowe"
+
+#: SoundCard.rb:14
+msgctxt "SoundCard"
+msgid "Input device"
+msgstr "Mikrofon"
 

@@ -457,6 +457,16 @@ return r
 end
 
 
+def insert_scene(scene)
+  return if ($scenes[0]!=nil and $scenes[0].is_a?(scene.class)) or $scene.is_a?(scene.class)
+  if $scene.is_a?(Scene_Main) and $scenes.size==0
+    return $scene=scene
+    end
+  $scenes.insert(0,scene)
+  t=Time.now.to_f
+  loop_update while Time.now.to_f-t<0.2
+  end
+
   include UI
   include UI::Keyboard
   include Speech
@@ -533,7 +543,10 @@ createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
     startinfo = si.pack('IIIIIIIIIIIISSIIII')
         @procinfo  = [0,0,0,0].pack('LLLL')
         pr = createprocess.call(0, file, nil, nil, 1, 0, 0, $path[0...$path.size-($path.reverse.index("\\"))], startinfo, @procinfo)
-            @pid = @procinfo.unpack('L').first
+            @pid = @procinfo.unpack('LLLL').first
+          end
+          def terminate
+            Win32API.new("kernel32","TerminateProcess",'ip','i').call(@pid,"")
           end
     def avail
       dread=[0].pack("I")

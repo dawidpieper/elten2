@@ -5,7 +5,7 @@
 
 #Open Public License is used to licensing this app!
 
-module Audio_FMOD
+module Audio
   $bgm = nil
   $bgs = nil
   $me = []
@@ -19,7 +19,7 @@ if $bgm != nil
   $bgm.close
   $bgm = nil
 end
-$bgm = AudioFile.new(utf8(file),2)
+$bgm = Bass::Sound.new(file,1,true)
 if volume < 100
   $bgm.volume = (volume.to_f / 100.to_f).to_f
 end
@@ -32,7 +32,7 @@ $bgm.play
 return file
   end
   def self.bgm_stop
-    if $bgm != nil
+    if $bgm != nil and !$bgm.closed
       $bgm.close
       $bgm = nil
       return true
@@ -40,13 +40,15 @@ return file
     return false
   end
   def self.bgm_fade(time=1000)
+    return if $bgm==nil or $bgm.closed
     Thread.new do
       t = time
                     pr = ($bgm.volume.to_f / 100.to_f).to_f
         w = (t.to_f / 100.to_f / 1000.to_f).to_f
       for i in 1..100
         if $bgm != nil
-        delay(w)
+        sleep(w)
+        break if $bgm==nil or $bgm.closed
         $bgm.volume -= pr
       else
         break
@@ -63,7 +65,7 @@ if $bgs != nil
   $bgs.close
   $bgs = nil
 end
-$bgs = AudioFile.new(utf8(file),2)
+$bgs = Bass::Sound.new(file,1,true)
 if volume < 100
   $bgs.volume = (volume.to_f / 100.to_f).to_f
 end
@@ -76,7 +78,7 @@ $bgs.play
 return file
   end
   def self.bgs_stop
-    if $bgs != nil
+        if $bgs != nil and !$bgs.closed
       $bgs.close
       $bgs = nil
       return true
@@ -84,13 +86,15 @@ return file
     return false
   end
     def self.bgs_fade(time=1000)
+      return if $bgs==nil or $bgs.closed
     Thread.new do
       t = time
               pr = ($bgs.volume.to_f / 100.to_f).to_f
         w = (t.to_f / 100.to_f / 1000.to_f).to_f
       for i in 1..100
         if $bgs != nil
-        delay(w)
+        sleep(w)
+        break if $bgs==nil or $bgs.closed
         $bgs.volume -= pr
       else
         break
@@ -103,7 +107,7 @@ return file
     volume = volume.to_i
     pitch = pitch.to_i
     file = searchaudiofileextension(file)
-$me.push(AudioFile.new(utf8(file),1))
+$me.push(Bass::Sound.new(file,0))
 if volume < 100
   $me[$me.size - 1].volume = (volume.to_f / 100.to_f).to_f
 end
@@ -129,7 +133,7 @@ return file
     volume = volume.to_i
     pitch = pitch.to_i
     file = searchaudiofileextension(file)
-$se.push(AudioFile.new(utf8(file),1))
+$se.push(Bass::Sound.new(utf8(file),1))
 if volume < 100
   $se[$se.size - 1].volume = (volume.to_f / 100.to_f).to_f
 end
@@ -153,7 +157,7 @@ for i in 0..$se.size - 1
   end
   def self.searchaudiofileextension(file)
     if FileTest.exist?(file) == false
-ext = ['AIFF', 'ASF', 'ASX', 'DLS', 'FLAC', 'FSB', 'IT', 'M3U', 'MID', 'MOD', 'MP2', 'MP3', 'OGG', 'PLS', 'RAW', 'S3M', 'VAG', 'WAV', 'WAX', 'WMA', 'XM', 'XMA']
+      ext = ['AIFF', 'ASF', 'ASX', 'DLS', 'FLAC', 'FSB', 'IT', 'M3U', 'MID', 'MOD', 'MP2', 'MP3', 'OGG', 'PLS', 'RAW', 'S3M', 'VAG', 'WAV', 'WAX', 'WMA', 'XM', 'XMA']
 suc = false
 for i in 0..ext.size - 1
   if FileTest.exist?(file + "." + ext[i])
@@ -177,7 +181,9 @@ else
     end
     rtp = "." if rtp == ""
   return searchaudiofileextensionrtp(file,rtp)
-  end
+end
+else
+  return file
 end
 end
   def self.searchaudiofileextensionrtp(file,rtp)

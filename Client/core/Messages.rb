@@ -407,14 +407,21 @@ when 2
     end
     menu_messages if alt
                       download_attachment(@messages[@sel_messages.index].attachments[@form_messages.fields[1].index]) if enter and @form_messages.index==1 and @form_messages.fields[1]!=nil
-              return if @messages.size==0 or @sel_messages==nil
+                      if (enter or Input.trigger?(Input::RIGHT)) and @sel_messages!=nil and @sel_messages.index==@messages.size
+                        ind=@sel_messages.index
+      load_messages(@messages_user,@messages_subject,@messages_sp,@messages_limit+50)
+      @sel_messages.index=ind
+      speech @sel_messages.commandoptions[@sel_messages.index]
+      end
+              return if @messages.size==0 or @sel_messages==nil or @messages[@sel_messages.index]==nil
      if @message_display==nil or @message_display[0]!=@messages[@sel_messages.index].id
 @message_display=[@messages[@sel_messages.index].id,Time.now]
 elsif @message_display[0]==@messages[@sel_messages.index].id and ((t=Time.now).to_i*1000000+t.usec)-(@message_display[1].to_i*1000000+@message_display[1].usec)>3000000 and @messages[@sel_messages.index].receiver==$name and @messages[@sel_messages.index].mread==0
   @messages[@sel_messages.index].mread=Time.now.to_i
   @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"")
 end
-if @sel_messages.index<@messages.size and @messages[@sel_messages.index].attachments.size>0 and (@form_messages.fields[1]==nil or @form_messages.fields[1].commandoptions!=name_attachments(@messages[@sel_messages.index].attachments,@messages[@sel_messages.index].attachments_names))
+if @messages[@sel_messages.index]!=nil
+if @sel_messages.index<@messages.size and @messages[@sel_messages.index]!=nil and @messages[@sel_messages.index].attachments.size>0 and (@form_messages.fields[1]==nil or @form_messages.fields[1].commandoptions!=name_attachments(@messages[@sel_messages.index].attachments,@messages[@sel_messages.index].attachments_names))
   @form_messages.fields[1]=Select.new(name_attachments(@messages[@sel_messages.index].attachments, @messages[@sel_messages.index].attachments_names),true,0,_("Messages:head_attachments"),true)
 elsif @sel_messages.index>=@messages.size or @messages[@sel_messages.index].attachments.size==0 and @form_messages.fields[1]!=nil
   @form_messages.fields[1]=nil
@@ -427,11 +434,8 @@ deletemessage if $key[0x2e] and @sel_messages.index<@messages.size and @form_mes
       loop_update
       return if $scene!=self
       @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"") if @messages[@sel_messages.index].receiver==$name
-    else
-      @sel_messages.index-=1
-      load_messages(@messages_user,@messages_subject,@messages_sp,@messages_limit+50)
-      speech @sel_messages.commandoptions[@sel_messages.index]
       end
+    end
     end
       if @form_messages.fields[2]!=nil
   if @form_messages.fields[2].text=="" and @form_messages.fields[3]!=nil
@@ -1069,8 +1073,8 @@ rec=0
            @form.update
                if (enter or space) and @form.index == 3
              if rec == 0
-             play("recording_start")
-             recording_start("temp/audiomessage.wav")
+                          @r=Recorder.start("temp/audiomessage.opus",96)
+                          play("recording_start")
              @msgedit=@form.fields[2]
              @form.fields[2]=Button.new(_("Messages:btn_audiomessage"))
              @form.fields[3]=Button.new(_("Messages:btn_stoprec"))
@@ -1079,12 +1083,12 @@ rec=0
              rec = 1
          elsif rec == 1
            play("recording_stop")
-           recording_stop
+           @r.stop
            @form.fields[3]=Button.new(_("Messages:btn_play"))
            @form.fields[2] = Button.new(_("Messages:btn_cancelrec"))
            rec = 2
          elsif rec == 2
-                      player("temp/audiomessage.wav","",true)
+                      player("temp/audiomessage.opus","",true)
                                    end
                                  end
                                  if (enter or space) and @form.index == 2 and rec > 1
@@ -1221,31 +1225,15 @@ rec=0
     end
   else
     if rec == 1
-    recording_stop
+    @r.stop
     play("recording_stop")
   end
   waiting            
-  speech(_("Messages:wait_converting"))
-      File.delete("temp/audiomessage.opus") if FileTest.exists?("temp/audiomessage.opus")
-      h = run("bin\\ffmpeg.exe -y -i \"temp\\audiomessage.wav\" -b:a 96K temp/audiomessage.opus",true)
-      t = 0
-      tmax = 1000
-      loop do
-        loop_update
-        x="\0"*1024
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
-x.delete!("\0")
-if x != "\003\001"
-  break
-  end
-t += 10.0/Graphics.frame_rate
-if t > tmax
-  speech(_("General:error"))
-  return -1
-  break
-  end
-        end
                   fl = read("temp/audiomessage.opus")
+                  if fl[0..3]!='OggS'
+                    speech(_("General:error"))
+                    return $scene=Scene_Main.new
+                    end
             host = $srv
   host.delete!("/")
               boundary=""

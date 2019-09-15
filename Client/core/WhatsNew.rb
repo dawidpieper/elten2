@@ -58,7 +58,7 @@ else
     @sel.disable_item(7) if birthday<= 0
     @sel.disable_item(8) if mentions<= 0
     @sel.disable_item(9) if bid==Elten.build_id
-        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and ($nversion<$version or ($nversion==$version and $isbeta!=1))
+        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and bid==Elten.build_id
       speech(_("WhatsNew:info_nonew"))
       speech_wait
       $scene = Scene_Main.new

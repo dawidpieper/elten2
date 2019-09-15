@@ -87,9 +87,9 @@ if($role!=2 and !($moderator==1 and $gr[1]==1))
 die("-3");
 mquery("UPDATE forum_threads SET name='".mysql_real_escape_string($_GET['threadname'])."' WHERE `id`=".(int)$_GET['threadid']);
 }
+
 if($_GET['move']==3) {
-$tempid=mysql_fetch_row(mquery("select id from forum_posts order by id desc limit 0,1"))[0]+rand(100,10000);
-$srcthread=mysql_fetch_row(mquery("select thread from forum_posts where id=".(int)$_GET['source']))[0];
+$srcthread=mysql_fetch_row(mquery("select thread from forum_posts where id=".(int)$_GET['source'].""))[0];
 $gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$srcthread."))"));
 $grm=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$gr[0]);
 if(mysql_num_rows($grm)>0)
@@ -99,9 +99,41 @@ die("-3");
 $dstthread=mysql_fetch_row(mquery("select thread from forum_posts where id=".(int)$_GET['destination']));
 if(file_exists("cache/forumthread".$dstthread.".dat")) unlink("cache/forumthread".$dstthread.".dat");
 if(file_exists("cache/forumthread".$srcthread.".dat")) unlink("cache/forumthread".$srcthread.".dat");
-mquery("update forum_posts set id={$tempid} where id=".(int)$_GET['source']);
-mquery("update forum_posts set id=".(int)$_GET['source']." where id=".(int)$_GET['destination']);
-mquery("update forum_posts set id=".(int)$_GET['destination']." where id={$tempid}");
+$q=mquery("select id from forum_posts where thread=".(int)$srcthread);
+$ids=array();
+while($r=mysql_fetch_row($q))
+array_push($ids,(int)$r[0]);
+if($_GET['destination']!=0)
+$pos=array_search($_GET['destination'],$ids)-1;
+else
+$pos=count($ids)-1;
+$swaps=0;
+$orig=null;
+$oids=$ids;
+while(($ids[$pos]!=$_GET['source']) and $swaps<10000) {
+++$swaps;
+$i=array_search($_GET['source'],$ids);
+if($orig==null) {
+$orig=$ids[$pos];
+}
+$swap=array($oids[$i]);
+$t=$ids[$i];
+if($i>$pos) {
+$ids[$i]=$ids[$i-1];
+$ids[$i-1]=$t;
+$swap[1]=$oids[$i-1];
+}
+elseif($i<$pos) {
+$ids[$i]=$ids[$i+1];
+$ids[$i+1]=$t;
+$swap[1]=$oids[$i+1];
+}
+if($swap[0]==null or $swap[1]==null) break;
+while(mysql_num_rows(mquery("select id from forum_posts where id=0"))>0) sleep(0.5);
+mquery("update forum_posts set id=0 where id=".$swap[0]."");
+mquery("update forum_posts set id=".$swap[0]." where id=".$swap[1]);
+mquery("update forum_posts set id=".$swap[1]." where id=0");
+}
 }
 if($_GET['closing'] == 1) {
 $gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$_GET['threadid']."))"));

@@ -109,11 +109,7 @@ loop_update
           close
           break
           when 1
-            startmessage = "ELTEN: " + $version.to_s
-    startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
-    startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
-    speech(startmessage)
-            speech_wait
+$scene=Scene_Version.new
           close
           break
           when 2
@@ -140,7 +136,7 @@ close
           end
         end
           def settings
-    @sel = Select.new([_("MainMenu:opt_interface"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
+    @sel = Select.new([_("MainMenu:opt_interface"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundcard"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
     loop do
 loop_update
       if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
@@ -165,14 +161,18 @@ loop_update
                   close
                   break
           when 3
+            $scene=Scene_SoundCard.new
+            close
+            break
+            when 4
             $scene = Scene_SoundThemes.new
             close 
             break
-            when 4
+            when 5
               $scene = Scene_Languages.new
               close
               break
-              when 5
+              when 6
                 $scene=Scene_Advanced.new
                 close
                 break
@@ -360,7 +360,7 @@ close
           end
         end
                   def tools
-    @sel = Select.new(sel=[_("MainMenu:opt_soundthemesgenerator"),_("MainMenu:opt_speedtest"),_("MainMenu:opt_programmanagement"),_("MainMenu:opt_readtofile"),_("MainMenu:opt_console"),_("MainMenu:opt_debug")])
+    @sel = Select.new(sel=[_("MainMenu:opt_soundthemesgenerator"),_("MainMenu:opt_speedtest"),_("MainMenu:opt_programmanagement"),_("MainMenu:opt_console"),_("MainMenu:opt_debug")])
     @sel.disable_item(6) if $DEBUG!=true
         loop do
 loop_update
@@ -370,11 +370,11 @@ loop_update
   $scene = Scene_SoundThemesGenerator.new
   close
   break
-  when 1
-   speedtest
-   close
-   break
-  when 2
+    when 1
+      $scene=Scene_SpeedTest.new
+      close
+      break
+      when 2
     index = @sel.index
     s=management
     return s if s==true
@@ -386,15 +386,11 @@ loop_update
                           else
                             return
                           end
-                          when 3
-                            $scene=Scene_SpeechToFile.new
-                            close
-                            break
-       when 4
+       when 3
      $scene = Scene_Console.new
      close
      break
-       when 5
+       when 4
          $scene=Scene_Debug.new
          close
          break
@@ -537,7 +533,7 @@ if $portable == 1
       end
     end
     def addons
-    @sel = Select.new([_("MainMenu:opt_files"),_("MainMenu:opt_youtube")],true,0,"",true)
+    @sel = Select.new([_("MainMenu:opt_files"),_("MainMenu:opt_readtofile"),_("MainMenu:opt_youtube")],true,0,"",true)
         @sel.focus
     loop do
 loop_update
@@ -554,7 +550,11 @@ loop_update
           $scene = Scene_Files.new
           close
           break
-        when 1
+          when 1
+            $scene=Scene_SpeechToFile.new
+            close
+            break
+        when 2
           $scene=Scene_Youtube.new
           close
           break

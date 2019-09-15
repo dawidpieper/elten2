@@ -774,6 +774,45 @@ Wersja 2.3:
 - Poprawiono: JSON jest już parsowany poprawnie
 
 2019-08-24
+","
+Wersja 2.31
+- Dodano: lista ostatnio utworzonych grup
+- Dodano: możliwość wyboru karty dźwiękowej
+- Zmieniono: przy odczycie książek używana jest od tej pory biblioteka Calibre
+- Zmieniono: nowy interfejs testu łącza
+- Poprawiono: lista tematów dźwiękowych do pobrania jest już wyświetlana poprawnie
+- Poprawiono: ponownie możliwe jest cytowanie wpisów
+- Poprawiono: Elten poprawnie odczytuje informacje o dostępnych aktualizacjach
+- Poprawiono: agent nie zwraca wyjątku, gdy nie udaje się odtworzyć dźwięku powiadomienia
+- Poprawiono: Czytanie do pliku działa już poprawnie
+- Poprawiono: zapamiętywana jest główna kolumna wybrana na listach w zakładce forum
+- Poprawiono: menu poprawnie przetwarza skróty klawiszowe przy szybkim wciśnięciu klawiszy
+- Poprawiono: Elten nie przełącza już domyślnie języka na angielski po aktualizacji, gdy poprzednio nie wybrano żadnego języka
+- Poprawiono: opisy forów są już poprawnie odczytywane
+- Poprawiono: kursor nie przeskakuje już do pustych kolumn przy nawigacji po tabelach
+- Poprawiono: Co nowego ponownie zamyka się, gdy nie ma żadnych więcej oczekujących zdarzeń
+- Poprawiono: unifikacja obsługi audio
+
+2019-08-26
+","
+Wersja 2.32:
+- Dodano: możliwość wyboru mikrofonu
+- Zmieniono: nowe okno z informacjami o wersji programu
+- Zmieniono: od tej pory nagrywane dźwięki są kodowane w locie do formatu Opus
+- Zmieniono: wczytywanie forum wymaga mniejszej liczby zapytań do serwera
+- Zmieniono: aktualizacja bibliotek
+- Poprawiono: wciśnięcie entera podczas pisania pierwszego komentarza na blogu nie powoduje już wyjątku krytycznego
+- Poprawiono: wyświetlanie starszych wiadomości działa już poprawnie
+- Poprawiono: obsługa kolejkowania zapytań do serwera
+
+2019-09-10
+","
+Wersja 2.33:
+- Dodano: lista wątków i grup popularnych wśród znajomych
+- Dodano: lista blogów popularnych wśród znajomych
+- Dodano: możliwość wyłączania komentarzy pod określonymi wpisami na blogach
+
+2019-09-14
 "]
 @changes.reverse!
 @selt = []

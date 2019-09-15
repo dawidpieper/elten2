@@ -152,7 +152,7 @@ echo "0";
 }
 
 if($_GET['ac'] == 'forumchangepos') {
-die("-1");
+//die("-1");
 $q=mquery("select groupid,id from forums where name='".mysql_real_escape_string($_GET['forum'])."'");
 if(mysql_num_rows($q)==0)
 die("-4");
@@ -165,27 +165,38 @@ if(mysql_num_rows($qr)>0)
 $role=mysql_fetch_row($qr)[1];
 if($_GET['name']!=$_GET['founder'] and $role!=2 and !(getprivileges($_GET['name'])[1]==1 and $g[1]==1)) die("-3");
 $q=mquery("select id from forums where groupid=".(int)$groupid);
-$pos=-1;
-$nids=array();
-$i=0;
-while($r=mysql_fetch_row($q)) {
-array_push($nids,$r[0]);
-if($r[0]==$fid) $pos=$i;
-++$i;
+$ids=array();
+while($r=mysql_fetch_row($q))
+array_push($ids,$r[0]);
+$dest=$ids[$_GET['position']];
+$swaps=0;
+$orig=null;
+$oids=$ids;
+while(($ids[$_GET['position']]!=$fid or $ids[$_GET['position']+1]!=$orig) and $swaps<100) {
+++$swaps;
+$i=array_search($fid,$ids);
+if($orig==null) {
+$orig=$ids[$_GET['position']];
 }
-$i=0;
-foreach($nids as $nid) {
-if($nid==$fid) break;
-if($nid==0) die("-4");
-if($i<$_GET['position']) {
-while(mysql_num_rows(mquery("select id from forums where id=0"))>0) sleep(0.1);
-mquery("update forums set id=0 where id=".$fid."");
-mquery("update forums set id=".$fid." where id=".$nid);
-mquery("update forums set id=".$nid." where id=0");
+$swap=array($oids[$i]);
+$t=$ids[$i];
+if($i>=$_GET['position']) {
+$ids[$i]=$ids[$i-1];
+$ids[$i-1]=$t;
+$swap[1]=$oids[$i-1];
+}
+else {
+$ids[$i]=$ids[$i+1];
+$ids[$i+1]=$t;
+$swap[1]=$oids[$i+1];
+}
+if($swap[0]==null or $swap[1]==null) break;
+while(mysql_num_rows(mquery("select id from forums where id=0"))>0) sleep(0.2);
+mquery("update forums set id=0 where id=".$swap[0]."");
+mquery("update forums set id=".$swap[0]." where id=".$swap[1]);
+mquery("update forums set id=".$swap[1]." where id=0");
 }
 echo "0";
-++$i;
-}
 }
 
 if($_GET['ac']=="delete") {

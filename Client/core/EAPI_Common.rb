@@ -198,70 +198,54 @@ menu.focus
 loop do
 loop_update
 if enter
+  play("menu_close")
+    Audio.bgs_stop
   case menu.index
   when 0
-    $scenes.insert(0,Scene_Messages_New.new(user,"","",Scene_Main.new))
-    play("menu_close")
-    Audio.bgs_stop
-    loop_update
+    insert_scene(Scene_Messages_New.new(user,"","",Scene_Main.new))
+        loop_update
     return "ALT"
     when 1
-      play("menu_close")
-      Audio.bgs_stop
-      visitingcard(user)
+            visitingcard(user)
             return("ALT")
       break
             when 2
-        $scenes.insert(0,Scene_Blog_Main.new(user,0,Scene_Main.new))
-        play("menu_close")
-    Audio.bgs_stop
+        insert_scene(Scene_Blog_Main.new(user,0,Scene_Main.new))
     loop_update
         return "ALT"
         break
         when 3
-          $scenes.insert(0,Scene_Uploads.new(user,Scene_Main.new))
-          play("menu_close")
-    Audio.bgs_stop
+          insert_scene(Scene_Uploads.new(user,Scene_Main.new))
     loop_update
     return "ALT"
     when 4
-        $scenes.insert(0,Scene_Honors.new(user,Scene_Main.new))
-        play("menu_close")
-    Audio.bgs_stop
+        insert_scene(Scene_Honors.new(user,Scene_Main.new))
     loop_update
     return "ALT"
           when 5
       if @incontacts == true
-        $scenes.insert(0,Scene_Contacts_Delete.new(user,Scene_Main.new))
+        insert_scene(Scene_Contacts_Delete.new(user,Scene_Main.new))
       else
-        $scenes.insert(0,Scene_Contacts_Insert.new(user,Scene_Main.new))
+        insert_scene(Scene_Contacts_Insert.new(user,Scene_Main.new))
       end
-      play("menu_close")
-    Audio.bgs_stop
     loop_update
     return "ALT"
             when 6
-        play("menu_close")
-      Audio.bgs_stop
       speech(_("EAPI_Common:wait_downloading"))
       avatar(user)
             return("ALT")
       break        
       when 7
         if @isbanned == false
-          $scenes.insert(0,Scene_Ban_Ban.new(user,Scene_Main.new))
+          insert_scene(Scene_Ban_Ban.new(user,Scene_Main.new))
         else
-          $scenes.insert(0,Scene_Ban_Unban.new(user,Scene_Main.new))
+          insert_scene(Scene_Ban_Unban.new(user,Scene_Main.new))
         end
-        play("menu_close")
-    Audio.bgs_stop
     loop_update
     return "ALT"
       else
                 if $usermenuextrascenes.is_a?(Array)
-                  play("menu_close")
-                  Audio.bgs_stop
-                  $scenes.insert(0,$usermenuextrascenes[menu.index-8].userevent(user))
+                  insert_scene($usermenuextrascenes[menu.index-8].userevent(user))
                                                                  return "ALT"
                   break                  
                   end
@@ -894,7 +878,7 @@ end
     begin    
     $subthreads=[] if $subthreads==nil
                             loop do
-                              sleep(0.04)
+                              sleep(0.05)
                                     if $scenes.size > 0
                                       if $currentthread != nil  
                                                                                   $subthreads.push($currentthread)
@@ -914,8 +898,7 @@ end
                                             $stopmainthread = false
                       $scene = sc
 $scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
-Graphics.update
-key_update
+$key[0..255]=[false]*256
 $focus = true if $scene.is_a?(Scene_Main) == false                    
 end
 rescue Exception
@@ -927,6 +910,7 @@ loop_update
 $focus = true if $scene.is_a?(Scene_Main) == false                    
   retry
 end
+sleep(0.1)
 end
 end
   if $currentthread != nil    
@@ -953,7 +937,7 @@ end
          sleep(0.1)
        end
      rescue Exception
-       retry
+              retry
        end
      end
      
@@ -1201,7 +1185,7 @@ return o
 end
 def speechtofile(file="",text="",name="")
   text=read(file) if text=="" and file!=""
-  text = text[3..text.size-1] if text[0] == 239 and text[1] == 187 and text[2] == 191
+  text = futf8(text[3..-1]) if text[0] == 239 and text[1] == 187 and text[2] == 191
               name=File.basename(file).gsub(File.extname(file),"") if file!="" and name==""
   voices=[]
   for i in 0..Win32API.new("screenreaderapi","sapiGetNumVoices",'','i').call-1
@@ -1242,9 +1226,9 @@ if (enter or space)
     end
     if ttext==""
               ext=File.extname(fields[4].selected(false))
-        if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf"
+        if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
         fid="txe#{rand(36**8).to_s(36)}"
-            executeprocess("bin\\blb2txt.exe -f \"#{fields[4].selected}\" -v \"temp\\\" -p \"#{fid}\" -e \"utf8\"",true)
+                    convert_book(fields[4].selected, "temp\\"+fid+".txt")
             File.rename("temp\\"+fid+".txt","temp\\"+fid+".tmp")
             impfile="temp\\#{fid}.tmp"
             ttext=read(impfile)
@@ -1312,15 +1296,21 @@ if fields[5]!=nil
     outd+="\\#{cname}.wav"
     cmd+="/o \"#{outd}\" "
         if file==""
-      if text!=""
+      if text!="" and text.size<256
         cmd+="/t \"#{text.gsub("\"","")}\" "
       else
+        if text==""
         impfile=fields[4].selected
         ext=File.extname(fields[4].selected(false))
+      else
+        impfile="temp\\txi#{rand(36**8).to_s(36)}.txt"
+        writefile(impfile,text)
+        ext="txt"
+        end
         fid=""
-        if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf"
+        if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
         fid="txe#{rand(36**8).to_s(36)}"
-            executeprocess("bin\\blb2txt.exe -f \"#{fields[4].selected}\" -v \"temp\\\" -p \"#{fid}\" -e \"utf8\"",true)
+            convert_book(fields[4].selected, "temp\\"+fid+".txt")
             File.rename("temp\\"+fid+".txt","temp\\"+fid+".tmp")
             impfile="temp\\#{fid}.tmp"
             end
@@ -1404,7 +1394,7 @@ if x != "\003\001"
    end
   waiting_end
    speech(_("EAPI_Common:info_readtofilefinished"))
-  speech_wasp
+  speech_wait
   break
   end
 end

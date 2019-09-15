@@ -2,6 +2,8 @@
 require("header.php");
 if($_GET['add'] == 1){
 $postid=1;
+$comments=1;
+if(isset($_GET['comments'])) $comments=$_GET['comments'];
 $q = mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'");
 while($wiersz = mysql_fetch_row($q)) {
 if($wiersz[0]>=$postid)
@@ -31,7 +33,7 @@ $post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004";
 if($_GET['buffer'] != null) {
 $post = buffer_get($_GET['buffer']);
 }
-mquery("INSERT INTO `blog_posts` (`owner`,`author`,`postid`,`posttype`,`name`,`post`,`date`,`privacy`) VALUES ('" . $_GET['name'] . "','".$_GET['name']."'," . (int)$postid . ",0,'".mysql_real_escape_string($_GET['postname'])."','" . mysql_real_escape_string($post) . "',".time().",".((int)$_GET['privacy']).")");
+mquery("INSERT INTO `blog_posts` (`owner`,`author`,`postid`,`posttype`,`name`,`post`,`date`,`privacy`,`comments`) VALUES ('" . $_GET['name'] . "','".$_GET['name']."'," . (int)$postid . ",0,'".mysql_real_escape_string($_GET['postname'])."','" . mysql_real_escape_string($post) . "',".time().",".((int)$_GET['privacy']).",".(int)$comments.")");
 mquery("INSERT INTO `blog_read` (`owner`,`author`,`post`,`posts`) VALUES ('" . $_GET['name'] . "','".$_GET['name']."'," . (int)$postid . ",1)");
 $cats = explode(",",$_GET['categoryid']);
 $i = 0;
@@ -50,6 +52,8 @@ mquery("DELETE FROM `blog_read` WHERE `author`='".$_GET['name']."' AND `post`=".
 }
 if($_GET['mod'] == 1){
 $post = $_GET['post'];
+$comments=1;
+if(isset($_GET['comments'])) $comments=$_GET['comments'];
 if($_GET['audio']==1) {
 if(strlen($_POST['post']) < 8) {
 echo "-1";
@@ -74,7 +78,7 @@ if($_GET['buffer'] != null)
 $post=buffer_get($_GET['buffer']);
 if($post==NULL)
 $post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$_GET['name']."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
-mquery("UPDATE `blog_posts` SET `post`='" . mysql_real_escape_string($post) . "', `moddate`=".time()." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$_GET['name']."'");
+mquery("UPDATE `blog_posts` SET `post`='" . mysql_real_escape_string($post) . "', `moddate`=".time().", `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$_GET['name']."'");
 }
 if($_GET['addassigning'] == 1) {
 $q = mquery("SELECT `postid` FROM `blog_assigning` WHERE `postid`=".(int)$_GET['postid']." AND `categoryid`=".(int)$_GET['categoryid']." AND `owner`='".$_GET['name']."'");
@@ -108,6 +112,8 @@ die;
 }
 if($_GET['edit'] == 1) {
 $post = $_GET['post'];
+$comments=1;
+if(isset($_GET['comments'])) $comments=$_GET['comments'];
 if($_GET['audio']==1) {
 if(strlen($_POST['post']) < 8) {
 echo "-1";
@@ -123,7 +129,7 @@ if($_GET['buffer'] != null)
 $post=buffer_get($_GET['buffer']);
 if($post==NULL)
 $post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$_GET['name']."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
-mquery("UPDATE `blog_posts` SET `moddate`=".time().", `post`='" . mysql_real_escape_string($post) . "', `name`='".mysql_real_escape_string($_GET['postname'])."', `privacy`='".((int) $_GET['privacy'])."' WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$_GET['name']."'");
+mquery("UPDATE `blog_posts` SET `moddate`=".time().", `post`='" . mysql_real_escape_string($post) . "', `name`='".mysql_real_escape_string($_GET['postname'])."', `privacy`='".((int) $_GET['privacy'])."', `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$_GET['name']."'");
 $categories = [];
 $cats = explode(",",$_GET['categoryid']);
 $zapytanie = "DELETE FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `owner`='".$_GET['name']."'";
@@ -162,6 +168,10 @@ if($cat!=NULL and $cat!="")
 mquery("INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$_GET['name']."',".(int)$cat.",".$postid.")");
 }
 }
+}
+if($_GET['delcomments'] == 1){
+mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " AND `owner`='".$_GET['name']."' and posttype=1");
+mquery("update `blog_read` set posts=1 WHERE `author`='".$_GET['name']."' AND `post`=".(int)$_GET['postid']);
 }
 echo "0";
 ?>

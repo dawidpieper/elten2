@@ -33,9 +33,9 @@ return main if confirm(_("Authentication:alert_support"))==0
 return main if input_text(_("Authentication:alert_checkphone"),"ACCEPTESCAPE|READONLY",phone)=="\004ESCAPE\004"
 if suc==true
 speech(_("Authentication:wait"))
-enb=srvproc("authentication","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}\&phone=#{phone}\&enable=1&lang=#{$language}")
+enb=srvproc("authentication","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}\&phone=#{phone.urlenc}\&enable=1&lang=#{$language}")
 speech_wait
-if enb[0].to_i<0
+if enb[0].to_i<0||enb[0].include?("-")
   speech(_("General:error"))
   speech_wait
 else
@@ -45,13 +45,13 @@ else
   while tries<3
   code=input_text(label,"NUMBERS").delete("\r\n") while code==""
     cnf=srvproc("authentication","name=#{$name}\&token=#{$token}\&verify=1\&code=#{code}\&appid=#{$appid}")
-  if cnf[0].to_i<0
+  if cnf[0].to_i<0||cnf[0].include?("-")
         tries+=1
         code=""
         if tries<3
           label=_("Authentication:type_wrongcode")
         else
-          speech(_("General:error_wrongcode"))
+          speech(_("Authentication:error_wrongcode"))
           end
     speech_wait
   else

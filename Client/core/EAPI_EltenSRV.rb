@@ -14,7 +14,7 @@ module EltenAPI
     # @param param [String] & terminated parameters
     # @param output [Numeric] output type: 0 - Array of lines, 1 - string
         def srvproc(mod,param,output=0)
-          if $agent!=nil
+          if $agent!=nil and $netuseold!=true
         id=rand(1e8)
             $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>mod,'param'=>param,'id'=>id}))
             t=Time.now.to_f
@@ -26,7 +26,7 @@ module EltenAPI
         w=true
       elsif Time.now.to_f-t>15
         waiting_end
-        return srvproc(mod,param,output)
+        break
       end
       if escape and w
         waiting_end
@@ -39,8 +39,12 @@ module EltenAPI
         end
       end
       waiting_end if w
-            if $eresps[id]['resp']==nil
-return srvproc(mod,param,output)        
+            if $eresps[id]==nil||$eresps[id]['resp']==nil
+              tid=rand(1e8)
+              $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>'active','param'=>"name=#{$name}\&token=#{$token}",'id'=>tid}))
+              delay(1)
+              $netuseold=true if $eresps[tid]!=nil
+              return srvproc(mod,param,output)        
 end
     case output
     when 0
@@ -178,7 +182,7 @@ end
     end
   end
   st = ""
-  return if $statususers==nil
+  return if $statususers==nil or $statusonline==nil
   for i in 0...$statususers.size
     if name == $statususers[i]
       st = $statustexts[i]
@@ -481,22 +485,6 @@ end
 return filedir
 end
 
-# @note this function is reserved.
-def speedtest
-    times=[]
-    i=[]
-for i in 1..30
-  t=Time.now.to_f
-i = srvproc("active","name=#{$name}\&token=#{$token}")
-times.push(Time.now.to_f-t)
-#delay(0.1)
-end
-    speech("#{_("EAPI_EltenSRV:info_phr_sessconftime")}: #{((times.sum.to_f/times.size.to_f)*1000).round}ms.")
-    speech_wait
-end
-
-
-
 # Checks if the specified user exists
 #
 # @param usr [String] user name
@@ -626,11 +614,8 @@ else
 end
 
 def srvstate
-  st=srvproc("state","")
-  if st[0].to_i==0
-    $eltsuspend=(st[1].to_i==1)?true:false
-    end
-  end
+      $eltsuspend=false
+      end
   
 
   def cryptmessage(msg)

@@ -14,6 +14,8 @@ module Bass
   BASS_GetConfig = Win32API.new("bass", "BASS_GetConfig", "I", "I")
   BASS_SetConfig = Win32API.new("bass", "BASS_SetConfig", "II", "I")
   BASS_SetConfigPtr = Win32API.new("bass","BASS_SetConfigPtr",'ip','l')
+  BASS_SetDevice = Win32API.new("bass","BASS_SetDevice",'i','i')
+  BASS_GetDeviceInfo = Win32API.new("bass","BASS_GetDeviceInfo",'ip','i')
   BASS_PluginLoad = Win32API.new("bass","BASS_PluginLoad",'p','i')
   BASS_Free = Win32API.new("bass", "BASS_Free", "", "I")
   BASS_Apply3D = Win32API.new("bass","BASS_Apply3D",'','i')
@@ -23,8 +25,10 @@ module Bass
   BASS_SetVolume = Win32API.new("bass", "BASS_SetVolume", "I", "I")
   BASS_GetVolume = Win32API.new("bass", "BASS_GetVolume", "", "I")
   BASS_RecordStart = Win32API.new("bass", "BASS_RecordStart", "IIIIII", "I")
-  BASS_Encode_Start = Win32API.new("bassenc", "BASS_Encode_Start", "IPIIII", "I")
+  BASS_Encode_Start = Win32API.new("bassenc", "BASS_Encode_Start", "IPIPI", "I")
+  BASS_Encode_SetPaused = Win32API.new("bassenc", "BASS_Encode_SetPaused", "II", "I")
   BASS_Encode_Stop = Win32API.new("bassenc", "BASS_Encode_Stop", "I", "I")
+    BASS_Encode_StopEx = Win32API.new("bassenc", "BASS_Encode_StopEx", "II", "I")
   BASS_SampleLoad = Win32API.new("bass", "BASS_SampleLoad", "IPIIIII", "I")
   BASS_SampleCreate = Win32API.new("bass", "BASS_SampleCreate", "IIIII", "I")
   BASS_SampleFree = Win32API.new("bass", "BASS_SampleFree", "I", "I")
@@ -58,13 +62,50 @@ module Bass
     45=>"ENDED",-1=>" UNKNOWN"
   }
 
+  def self.soundcards
+    ret=[]
+    index=0
+      tmp=[nil,nil,0].pack("ppi")
+      while BASS_GetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("ii")
+        o="\0"*1024
+        Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
+        sc=futf8(o[0...o.index("\0")])
+       ret.push(sc)
+        index+=1
+      end
+    return ret
+    end
+
+    def self.setdevice(d,hWnd=nil, samplerate=44100)
+      $soundthemesounds.values.each {|g| g.close if g!=nil and !g.closed}
+      $soundthemesounds={}
+            hWnd||=$wnd
+      BASS_Init.call(d, samplerate, 4, hWnd)
+      BASS_SetDevice.call(d)
+      end
+    
   def self.init(hWnd, samplerate = 44100)
 return if @init==true
     @init=true
     if (BASS_GetVersion.call >> 16) != 0x0204 then
       raise("bass.dllバージョン2.4系以外には対応しておりません")
     end
-    if BASS_Init.call(-1, samplerate, 4, hWnd) == 0
+      devs=[]
+      card=-1
+      if $interface_soundcard!=nil and $interface_soundcard!=""
+      index=1
+      tmp=[nil,nil,0].pack("ppi")
+      while BASS_GetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("ii")
+        o="\0"*1024
+        Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
+               sc=futf8(o[0...o.index("\0")])
+                card=index if sc==$interface_soundcard
+        index+=1
+      end
+      end
+      if BASS_Init.call(card, samplerate, 4, hWnd) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
       if BASS_PluginLoad.call("bassopus.dll") == 0 then
@@ -76,9 +117,9 @@ if BASS_PluginLoad.call("bassmidi.dll") == 0 then
     if BASS_PluginLoad.call("basswma.dll") == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
-    if BASS_RecordInit.call(-1) == 0 then
-      raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-    end
+    #if BASS_RecordInit.call(-1) == 0 then
+      #print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+    #end
         BASS_SetConfig.call(0, 1000)
 BASS_SetConfig.call(1, 100)
 BASS_SetConfig.call(11, 10000)
@@ -112,13 +153,16 @@ BASS_SetConfig.call(10, 2)
       else
         @handle = BASS_SampleLoad.call(0, utf8(filename), 0, 0, 0, max, 0x20000)
           end
-      @ch=@handle
+      @ch=BASS_SampleGetChannel.call(@handle,0)
       if @handle == 0 then
         return Bass::Stream.new(filename)        
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
             end
 
+            def newchannel
+              @ch=BASS_SampleGetChannel.call(@handle,0)
+              end
     def free
       if BASS_SampleFree.call(@handle) == 0 then
         #raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
@@ -126,11 +170,13 @@ BASS_SetConfig.call(10, 2)
     end
 
     def play(option = {})
-      ch = BASS_SampleGetChannel.call(@handle, 0)
+      ch = @ch||BASS_SampleGetChannel.call(@handle, 1)
       if ch == 0 then
+        return
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
 
+      if false
       if option[:loop] then
         if BASS_ChannelFlags.call(ch, 4, 4) == -1 then
           raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
@@ -146,7 +192,8 @@ BASS_SetConfig.call(10, 2)
           raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
         end
       end
-
+      end
+#BASS_ChannelSetAttribute.call(ch, 2, [0.1].pack("f").unpack("I")[0])
       if BASS_ChannelPlay.call(ch, 0) == 0 then
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
@@ -231,7 +278,7 @@ BASS_SetConfig.call(10, 2)
         end
       end
       if BASS_ChannelPlay.call(@ch, 0) == 0 then
-        raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+        return nil
       end
     end
 
@@ -265,15 +312,14 @@ BASS_SetConfig.call(10, 2)
   p param
   end
     def initialize(file,freq=48000,quality=nil,flags=32768)
-           @handle = BASS_RecordStart.call(freq, 2, flags, 0, 0, 0)
-           @encoder = BASS_Encode_Start.call(@handle,"\"bin/opusenc.exe\" #{if quality!=nil;"--bitrate #{quality.to_s}";else;"";end} - \"#{file}\"",262144,0,0,0)
-#@encoder = BASS_Encode_Start.call(@handle,"test.wav",64,0,0,0)
+           p @handle = BASS_RecordStart.call(freq, 2, flags, 0, 0, 0)
+           #p @encoder = BASS_Encode_Start.call(@handle,"\"bin\\opusenc.exe\" #{if quality!=nil;"--bitrate #{quality.to_s}";else;"";end} - \"#{file}\"",262144,nil,0)
+           p @encoder = BASS_Encode_Start.call(@handle,"\"bin\\rubyw.exe\" -Cbin test.rb",262144,nil,0)
       @ch=@handle
       if @handle == 0 then
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
-      BASS_ChannelPlay.call(@handle,0)
-      end
+            end
 
     def free
       if BASS_SampleFree.call(@handle) == 0 then
@@ -282,19 +328,22 @@ BASS_SetConfig.call(10, 2)
     end
 
     def play
-            if BASS_ChannelPlay.call(@ch, 0) == 0 then
+                  if BASS_ChannelPlay.call(@ch, 0) == 0 then
+        raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+      end
+      if BASS_Encode_SetPaused.call(@encoder, 0) == 0 then
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
       return ch
     end
 
-    def stop(ch = nil)
-        if BASS_ChannelStop.call(ch) == 0 then
-          raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-        end
-        if BASS_Encode_Stop.call(@encoder) == 0 then
+    def stop
+              if BASS_Encode_StopEx.call(@encoder,1) == 0 then
           raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
+        if BASS_ChannelStop.call(@ch) == 0 then
+          raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+        end
     end
   end
     
@@ -306,6 +355,7 @@ BASS_SetConfig.call(10, 2)
      include Bass
      attr_reader :file
      def initialize(file,type=1, looper=false, u3d=false)
+       @looper=looper
               @file=file
        @startposition=0
        ext=File.extname(file).downcase
@@ -415,12 +465,16 @@ loc="temp\\plr#{rand(36**6).to_s(36)}.ogg"
      def volume
        vol=[0].pack('f')
        BASS_ChannelGetAttribute.call(@channel,2,vol)
-       return vol.unpack("f")[0]
-       end
+              return vol.unpack("f")[0]
+            end
+            def newchannel
+              @channel=@cls.newchannel
+              BASS_ChannelFlags.call(@channel, 4, 4) if @looper==true
+              end
      def volume=(v)
               vol=[v].pack('f').unpack('i')[0]
        BASS_ChannelSetAttribute.call(@channel,2,vol)
-       return vol
+                     return vol
      end
 def length(bytes=false)
             bts=BASS_ChannelGetLength.call(@channel,0)+@startposition

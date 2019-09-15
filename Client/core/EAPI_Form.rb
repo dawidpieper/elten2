@@ -27,7 +27,7 @@
               @fields[@index] = Edit.new(@fields[@index][1],@fields[@index][2],@fields[@index][3],false,@fields[@index][4])
             end
             end
-          @fields[@index].focus
+          @fields[@index].focus if @fields[@index]!=nil
           play("form_marker") if @silent==false
           loop_update
         end
@@ -771,7 +771,7 @@ end
       # @return [Numeric] a listbox index
 attr_accessor :index
 # @return [Array] listbox options
-attr_accessor :commandoptions    
+attr_reader :commandoptions    
 attr_reader :grayed
 attr_reader :selected
 attr_accessor :silent
@@ -787,34 +787,17 @@ attr_accessor :header
 # @param lr [Boolean] create left-right listbox
 # @param silent [Boolean] don't play listbox sounds
 def initialize(options,border=true,index=0,header="",quiet=false,multi=false,lr=false,silent=false)
+    $lastkeychar=nil
   options=options.deep_dup
       border=false if $interface_listtype == 1
       index = 0 if index == nil
      index = 0 if index >= options.size
       index+=options.size if index<0
       self.index = index
-            @commandoptions = []
-                        @hotkeys = {}
-                        @grayed = []
-                        hk=false
-                                                ands=0
-                        options.each {|o| ands+=1 if o!=nil&&o.include?("\&")}
-                                                hk=true if ands>options.size/3
-                                                                        for i in 0..options.size - 1
-              if options[i]!=nil
-if lr or hk
-                for j in 0..options[i].size-1
-  @hotkeys[options[i][j+1..j+1].upcase[0]] = i if options[i][j..j] == "&"
-end
-end
-opt=options[i]
-opt.delete!("&") if lr or hk
-end
-@commandoptions.push(opt)
-@grayed[@commandoptions.size-1]=true if (opt==nil||opt=="")&&!lr
-                        end            
+                        @lr=lr
+self.commandoptions=(options)
                                                 @selected = []
-            for i in 0..@commandoptions.size - 1
+                                                            for i in 0..@commandoptions.size - 1
               @grayed[i] = false if @grayed[i]!=true
               @selected[i] = false
               end
@@ -824,15 +807,40 @@ end
             header="" if header==nil
             index=0 if index<0
             @index=0 if @index<0
-            options[index]="" if options[index]==nil
-                        @header = header
+                                    @header = header
               focus if quiet == false
-              @lr=lr
-            end
+                                        end
+            
+            def commandoptions=(options)
+              @commandoptions=[]
+              @grayed||=[]
+              @hotkeys||={}
+                                      hk=false
+                                                ands=0
+                        options.each {|o| ands+=1 if o!=nil&&o.include?("\&")}
+                                                hk=true if ands>options.size/3
+                                                                        for i in 0..options.size - 1
+                                                                          gray=false
+              if options[i]!=nil
+if @lr or hk
+                for j in 0..options[i].size-1
+  @hotkeys[options[i][j+1..j+1].upcase[0]] = i if options[i][j..j] == "&"
+end
+end
+opt=options[i]
+opt.delete!("&") if @lr or hk
+else
+  opt=""
+  gray=true
+end
+@commandoptions.push(opt)
+@grayed[@commandoptions.size-1]=true if ((opt==nil)&&!lr)||gray
+end            
+end
             
             # Update the listbox
     def update
-      if $focus == true
+                  if $focus == true
     focus
     $focus = false
     end
@@ -1111,7 +1119,7 @@ end
         # @param label [String] a checkbox label
         def initialize(label="",checked=0)
           @label = label
-          @checked = checked
+          @checked = checked.to_i
         end
         
         # Updates a checkbox
@@ -1162,18 +1170,26 @@ end
                 # @param quiet [Boolean] don't write the caption at creation
                 # @param file [String] a file to focus
                 # @param exts [Array] an array of file extensions to show
-                def initialize(header="",path="",hidefiles=false,quiet=false,file=nil,exts=nil,specialvoices=false)
-        @path=path
-        @cpath=path
-        @file=""
+                def initialize(header="",path="",hidefiles=false,quiet=false,file=nil,exts=nil,specialvoices=true)
+                            $filestrees||={}
+                                                @id=path+"/"+(file||"")+":"+(exts||"")+":::"+header
                 @hidefiles=hidefiles
         @header=header
         @specialvoices=specialvoices
-        if file!=nil
-          @file=file
-          end
         @exts=exts
-          focus if quiet==false
+          if $filestrees[@id]!=nil
+            f=$filestrees[@id]
+            @file=f[1]
+            @path=f[0]
+            @cpath=f[0]
+            #@file=nil if !FileTest.exists?(@path+"/"+@file)
+          else
+                    @path=path
+        @cpath=path
+        @file=""
+                          @file=file if file!=nil
+                        end
+                        focus if quiet==false
         end
         
         # Updates a files tree
@@ -1220,7 +1236,16 @@ if @exts!=nil
   end
      end
   fls.delete(nil)
+end
+dirs=[]
+for i in 0..fls.size-1
+    if File.directory?(@path+fls[i])
+      dirs.push(fls[i])
+      fls[i]=nil
       end
+  end
+  fls.delete(nil)
+  fls=dirs+fls
   ind=0
   ind=@sel.index if @sel!=nil
 ind-=1 if ind>fls.size-1
@@ -1287,6 +1312,7 @@ t=@cpath.split("\\")
 @sel=nil
 end
 end
+$filestrees[@id]=[@path,@file]
 end
 
 def filetype
@@ -1515,6 +1541,7 @@ lsel=""
             break
           end
           if (escape or (cancelkey!=nil and Input.trigger?(cancelkey))) and escapeindex!=nil
+            loop_update
             return escapeindex
             break
             end
@@ -1628,9 +1655,9 @@ lsel = menulr(options,true,0,"",true)
          def format_rows(col=0)
            opts=[]
            for r in @rows
-             if r==nil
+             if r==nil or r.count(nil)==r.size
                o=nil
-               else
+                              else
              o=""
                           o=r[col].to_s if r[col]!=nil
              for c in 0...@columns.size
@@ -1642,7 +1669,7 @@ lsel = menulr(options,true,0,"",true)
              end
              opts.push(o)
            end
-           return opts
+                      return opts
          end
          def index
            return @sel.index
@@ -1660,10 +1687,14 @@ lsel = menulr(options,true,0,"",true)
          def update
            if $keyr[0x10]&&@rows.size>0
              if Input.trigger?(Input::RIGHT)
+               c=@column
                setcolumn((@column+1)%(@columns.size))
+                              setcolumn((@column+1)%(@columns.size)) while (@rows[index][@column]==nil||@rows[index][@column]=="") and c!=@column
                speech (@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")"
-               elsif Input.trigger?(Input::LEFT)
-             setcolumn((@column-1)%(@columns.size))
+             elsif Input.trigger?(Input::LEFT)
+               c=@column
+                           setcolumn((@column-1)%(@columns.size))
+                           setcolumn((@column-1)%(@columns.size)) while (@rows[index][@column]==nil||@rows[index][@column]=="") and c!=@column
              speech (@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")"
                  end
              end
@@ -1677,7 +1708,9 @@ lsel = menulr(options,true,0,"",true)
          class Player < FormChild
            attr_reader :sound
            attr_reader :pause
+           attr_accessor :label
                         def initialize(file,label="", autoplay=true, quiet=false)
+                          @label=label
                                                       speech(label) if label!="" and quiet==false
                                                       if file.is_a?(String)
 setsound(file)
@@ -1762,7 +1795,7 @@ h=d/3600
     fs=tf.split("/")
     nm=fs.last.split("?")[0]
     if File.extname(nm)==""
-      l=label.downcase
+      l=@label.downcase
       if l.include?("mp3")
         nm+=".mp3"
       elsif l.include?(".wav")

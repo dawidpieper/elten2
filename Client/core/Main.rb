@@ -7,14 +7,23 @@
 
 class Scene_Main
   def main
-   
-    srvstate
-        #t=NEdit.new(_("Main:type_test"),NEdit::Flags::MultiLine)
-#loop do
-#loop_update
-#t.update
-#break if escape
-#end
+   if $remauth!=nil
+     r=$remauth
+     $remauth=nil
+     if !r.is_a?(Float)||r<2.32
+     txt="W Eltenie 2.28 udostępniony został mechanizm zwany uwierzytelnianiem dwuetapowym.
+     Jego celem jest zabezpieczenie kont Eltenowiczów przed utratą nawet w wypadku odgadnięcia lub wykradnięcia hasła. Polega on na potwierdzeniu tożsamości przez wpisanie kodu wysłanego wiadomością SMS na numer telefonu użytkownika za każdym pierwszym logowaniem z nowego urządzenia.
+     Czy chcesz skonfigurować uwierzytelnianie dwuetapowe teraz?"
+   else
+     txt = "Poprzednie wydanie Eltena posiadało błąd uniemożliwiający aktywację uwierzytelniania dwuetapowego.
+     Jeśli chcesz, możesz aktywować je teraz.
+     Jeśli już wcześniej udało się aktywować uwierzytelnianie dwuetapowe na tym koncie, czynności nie trzeba ponawiać.
+     W Eltenie 2.28 udostępniony został mechanizm zwany uwierzytelnianiem dwuetapowym.
+     Jego celem jest zabezpieczenie kont Eltenowiczów przed utratą nawet w wypadku odgadnięcia lub wykradnięcia hasła. Polega on na potwierdzeniu tożsamości przez wpisanie kodu wysłanego wiadomością SMS na numer telefonu użytkownika za każdym pierwszym logowaniem z nowego urządzenia.
+     Czy chcesz skonfigurować uwierzytelnianie dwuetapowe teraz?"
+     end
+     confirm(txt) {return $scene=Scene_Authentication.new}
+     end
     if $restart==true
       $restart=false
       $scene=Scene_Loading.new

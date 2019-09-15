@@ -7,8 +7,7 @@
 
 class Scene_Media
   def main
-    $rec=Bass::Record.new("tojesttest.opus")
-    mediatemp = srvproc("media","name=#{$name}\&token=#{$token}")
+        mediatemp = srvproc("media","name=#{$name}\&token=#{$token}")
         if mediatemp[0].to_i < 0
       speech(_("General:error"))
       speech_wait

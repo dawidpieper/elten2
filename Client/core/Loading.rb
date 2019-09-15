@@ -51,9 +51,7 @@ class Scene_Loading
       siz=[$computer.size].pack("i")
       Win32API.new("kernel32","GetComputerName",'pp','i').call($computer,siz)
       $computer.delete!("\0")
-      Bass.init($wnd) if $usebass==true
-      writefile("hwnd",$wnd.to_s)
-      if $ruby != true
+                  if $ruby != true
             $sprite = Sprite.new
     $sprite.bitmap = Bitmap.new("elten.jpg") if FileTest.exists?("elten.jpg")
     Graphics.freeze
@@ -115,6 +113,8 @@ keyms=readini($configdata+"\\interface.ini","Interface","KeyUpdateTime","")
   writeini($configdata+"\\advanced.ini","Advanced","SoundStreaming",ss) if ss!=""
   end
   $interface_listtype = readini($configdata + "\\interface.ini","Interface","ListType","0").to_i
+  $interface_soundcard = readini($configdata + "\\interface.ini","Interface","SoundCard","")
+  $interface_microphone = readini($configdata + "\\interface.ini","Interface","Microphone","")
 $advanced_keyms = readini($configdata + "\\advanced.ini","Advanced","KeyUpdateTime","75").to_i
 $advanced_ackeyms = $advanced_keyms * 3
 $interface_soundthemeactivation = readini($configdata + "\\interface.ini","Interface","SoundThemeActivation","1").to_i
@@ -131,6 +131,7 @@ $advanced_ytformat = readini($configdata + "\\advanced.ini","Advanced","YTFormat
 $advanced_ytformat="wav" if $advanced_ytformat!="mp3"
 $advanced_soundstreaming = readini($configdata + "\\advanced.ini","Advanced","SoundStreaming","1").to_i
 $advanced_synctime = readini($configdata + "\\advanced.ini","Advanced","SyncTime","1").to_i
+Bass.init($wnd) if $usebass==true
 if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
           $url = "http://elten-net.eu/srv/"
       if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
@@ -231,12 +232,12 @@ if enter
   else
     $soundthemepath = "Audio"
     end
-                    $language = readini($configdata + "\\language.ini","Language","Language","en_GB")
+                    $language = readini($configdata + "\\language.ini","Language","Language","")
                     if FileTest.exists?("Data/langs.dat")
                       $langs=load_data("Data/langs.dat")
                     else
                       $langs={}
-                      end
+                    end
                     if !FileTest.exists?("Data/locale.dat")
                     mod="\0"*1024
 Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,mod,mod.size)
@@ -245,6 +246,12 @@ fol=mod[0...ind]
 Win32API.new("kernel32","SetCurrentDirectory",'p','i').call(fol)
 end
                     load_locale("Data/locale.dat",$language)
+                    if $language==""
+                                          lcid=Win32API.new("kernel32","GetUserDefaultLCID",'','i').call
+                                                              $locales.each {|l| $language=l['_code'] if l['_lcid']==lcid }
+                                                                                  $language='en_GB' if $language==""
+                                                                                  set_locale($language)
+                      end
 if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
@@ -286,15 +293,17 @@ license
               if FileTest.exists?($eltendata+"\\update.last")
         l=Zlib::Inflate.inflate(read($eltendata+"\\update.last")).split(" ")
         lversion,lbeta,lalpha,lisbeta=l[0].to_f,l[1].to_i,l[2].to_i,l[3].to_i
-        if (lversion<2.3||lbeta<42) and false
+        if lversion<2.32
           if $language[0..1].downcase=='pl'
-            speech("Uwaga! Od przyszłych wersji Eltena usunięte zostaną pliki udostępnione oraz awatary. W razie chęci zachowania obecnie udostępnianych plików, prosimy o ich pobranie. Naciśnij enter, aby kontynuować.")
+            $remauth=lversion
+            speech("Uwaga! Od przyszłych wersji Eltena usunięte zostaną pliki udostępnione. W razie chęci zachowania obecnie udostępnianych plików, prosimy o ich pobranie. Naciśnij enter, aby kontynuować.") if lversion<2.32
           else
-            speech("Warning! Uploads and avatars will be deleted from the next versions of Elten. Users are asked to download their data now in case of lack of local backups. Press enter to continue.")
+            speech("Warning! Shared files will be deleted from the next versions of Elten. Users are asked to download their data now in case of lack of local backups. Press enter to continue.") if lversion<2.32
           end
+          t=Time.now.to_f
           loop do
             loop_update
-           break if enter
+           break if enter or t<Time.now.to_f-30 or lversion>=2.32
             end
           end
         File.delete($eltendata+"\\update.last")

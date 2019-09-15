@@ -8,6 +8,10 @@
 require 'zlib'
 
 data=[
+[81165628,"Recorder",Zlib::deflate(IO.read("Recorder.rb"))],
+[73382195,"Version",Zlib::deflate(IO.read("Version.rb"))],
+[78087115,"SoundCard",Zlib::deflate(IO.read("SoundCard.rb"))],
+[85146270,"SpeedTest",Zlib::deflate(IO.read("SpeedTest.rb"))],
 [12956431,"RI_BASE64",Zlib::deflate(IO.read("RI_BASE64.rb"))],
 [79569934,"GEM_STRSCAN",Zlib::deflate(IO.read("GEM_STRSCAN.rb"))],
 [73682277,"RI_OSTRUCT",Zlib::deflate(IO.read("RI_OSTRUCT.rb"))],

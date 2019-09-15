@@ -17,6 +17,14 @@ module EltenAPI
     #  play("list_focus",80,100)
     def play(voice,volume=100,pitch=100)
                         if $interface_soundthemeactivation != 0
+                          if $soundthemesounds==nil or $soundthemesoundspath!=$soundthemepath
+                            if $soundthemesounds!=nil
+                              $soundthemesounds.values.each {|s| s.close if s!=nil}
+                              end
+                            $soundthemesounds={}
+                            $soundthemesoundspath=$soundthemepath
+                            end
+                          b=nil
                         if volume >= 0
                           volume = (volume.to_f * $volume.to_f / 100.0)
                         volume = 100 if volume > 100
@@ -25,25 +33,198 @@ module EltenAPI
                                               else
                                                 volume = volume * -1
                                                 volume = 100 if volume > 100
-                                                end
-                        if FileTest.exist?("#{$soundthemepath}/SE/#{voice}.wav") or FileTest.exist?("#{$soundthemepath}/SE/#{voice}.mp3") or FileTest.exist?("#{$soundthemepath}/SE/#{voice}.ogg") or FileTest.exist?("#{$soundthemepath}/SE/#{voice}.mid")
-                          Audio.se_play("#{$soundthemepath}/SE/#{voice}",volume,pitch)
-                          return(true)
+                                              end
+                                              if $soundthemesounds[voice]==nil or $soundthemesounds[voice].closed
+                        if FileTest.exist?("#{$soundthemepath}/SE/#{voice}.ogg")
+                          b=Bass::Sound.new("#{$soundthemepath}/SE/#{voice}.ogg",0)
                         end
-                                                if FileTest.exist?("#{$soundthemepath}/BGS/#{voice}.wav") or FileTest.exist?("#{$soundthemepath}/BGS/#{voice}.mp3") or FileTest.exist?("#{$soundthemepath}/BGS/#{voice}.ogg") or FileTest.exist?("#{$soundthemepath}/BGS/#{voice}.mid")
-                          Audio.bgs_play("#{$soundthemepath}/BGS/#{voice}",volume,pitch)
-                          return(true)
+                                                if b==nil&&FileTest.exist?("#{$soundthemepath}/BGS/#{voice}.ogg")
+                                                  $bgs.close if $bgs!=nil
+                          b=$bgs=Bass::Sound.new("#{$soundthemepath}/BGS/#{voice}.ogg",0,true)
+                                                  end
+                                                if b==nil and FileTest.exist?("Audio/SE/#{voice}.ogg")
+                          b=Bass::Sound.new("Audio/SE/#{voice}.ogg",0)
                         end
-                                                if FileTest.exist?("Audio/SE/#{voice}.wav") or FileTest.exist?("Audio/SE/#{voice}.mp3") or FileTest.exist?("Audio/SE/#{voice}.ogg") or FileTest.exist?("Audio/SE/#{voice}.mid")
-                          Audio.se_play("Audio/SE/#{voice}",volume,pitch)
-                          return(true)
+                                                if b==nil and FileTest.exist?("Audio/BGS/#{voice}.ogg")
+                                                  $bgs.close if $bgs!=nil
+                          b=$bgs=Bass::Sound.new("Audio/BGS/#{voice}.ogg",0,true)
                         end
-                                                if FileTest.exist?("Audio/BGS/#{voice}.wav") or FileTest.exist?("Audio/BGS/#{voice}.mp3") or FileTest.exist?("Audio/BGS/#{voice}.ogg") or FileTest.exist?("Audio/BGS/#{voice}.mid")
-                          Audio.bgs_play("Audio/BGS/#{voice}",volume,pitch)
-                          return(true)
+                        $soundthemesounds[voice]=b
+                      else
+                        b=$soundthemesounds[voice]
+                        end
+                        if b!=nil
+                          b.newchannel
+                                                  b.volume=volume.to_f/100.0*0.5
+                                                                                                                                                                                                      b.play
                         end
                         end
                       end
+                      # The keyboard related functions                      
+                      module Keyboard
+                        # @note this function is reserved
+                        def GetAsyncKeyState(id)
+ return(Win32API.new("user32","GetAsyncKeyState",'i','i').call(id))
+end
+
+# Determines if escape has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @return [Boolean] returns true if escape was pressed, otherwise returns false
+  def escape(fromdll = false)
+    if fromdll == true
+    esc = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x1B)
+    if esc!=0
+      sleep(0.05)
+      return(true)
+    else
+      return(false)
+    end
+  else
+        r = $key[0x1B]
+                  return r
+    end
+    end
+    
+    # Determines if alt has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @return [Boolean] returns true if alt was pressed, otherwise returns false
+    def alt(fromdll = false)
+      if fromdll == true
+    alt = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x12)
+    if alt != 0
+      control = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x11)
+      if control == 0
+      sleep(0.05)
+            return(true)
+    else
+      return(false)
+      end
+    else
+      return(false)
+    end
+  else
+                        if $keypr[0xA4] or ($keyr[0xA4] and $altsta)
+                      $altsta=true
+        t=Time.now
+        $altstt =t.to_i*1000000+t.usec
+        $altsta,$altstt=false,0 if $keyr[0x09] or $keyr[0x11]
+                return false
+      elsif !$keyr[0xA4] and $altsta
+        $altsta=false
+        t=Time.now
+        if (t.to_i*1000000+t.usec)-($altstt||0)<30000 and Win32API.new("user32","GetFocus",'','i').call==$wnd
+                      $altst=0
+                    return true
+          else
+                      return false
+                    end
+                  else
+                    return false
+        end
+              end
+    end
+    
+    # Determines if enter has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @param space [Boolean] determines whether to accept a spacebar press
+# @return [Boolean] returns true if enter was pressed, otherwise returns false
+    def enter(fromdll = false, space = false)
+      if $enter.is_a?(Integer)
+        if $enter > 0
+        $enter -= 1
+        return true
+        end
+        end
+      if fromdll == true
+    enter = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x0D)
+    if enter != 0
+      sleep(0.05)
+      return(true)
+    else
+      return(false)
+    end
+  else
+    key_update if $key==nil
+      if $key[0x0d] == true
+      return true
+    else
+      return false
+      end
+  end
+    end
+    
+    # Determines if spacebar has been pressed
+#
+# @param fromdll [Boolean] use WinAPI instead of EltenAPI
+# @return [Boolean] returns true if spacebar was pressed, otherwise returns false
+        def space(fromdll=false)
+          if fromdll == true
+    space = Win32API.new("user32","GetAsyncKeyState",'i','i').call(0x20)
+    if space != 0
+      sleep(0.05)
+      return(true)
+    else
+      return(false)
+    end
+  else
+return $key[0x20]
+    end
+  end
+  
+  # Updates the keyboard state
+       def key_update
+     $key = []
+     $keyr = []
+     $keypr = []
+     if $keyms == nil
+     $lkey = 0 if $lkey == nil
+     $keyms= []
+     $keyrls=[]
+            $keyms = [$advanced_keyms+5]*256
+       $keyms[0x1b] = $advanced_ackeyms+5
+       $keyrls=[0]*256
+               end
+     $keybd="\0"*256
+     Win32API.new("user32","GetKeyboardState",'p','i').call($keybd)
+          $keys=keys=$keybd.unpack('c'*256)
+                    for i in 1..255
+                        if keys[i]<0
+         if ($keyms[i] > $advanced_keyms and i != 0x1b) or ($keyms[i] > $advanced_ackeyms)
+                                  if $keyms[i]==$advanced_keyms+5
+                                                  $keypr[i]=true
+                       $keyrls[i]=1
+                         else
+                         $keypr[i]=false
+                       end
+                       $keyms[i] = 0
+                      $keyms[i] = 50 if $lkey == i
+                      $key[i] = true
+           $lkey = i
+         $keyr[i]=true
+       else
+         $keyrls[i]=false
+                  $keypr[i]=false
+           $keyms[i] += 1
+                      $key[i] = false
+           $key[i] = true if i >= 0x10 and i <= 0x12 or i == 0x14
+           $keyr[i]=true
+         end
+       else
+         $keypr[i] = false
+         $key[i] = false
+         $keyr[i]=false
+         $keyms[i] = $advanced_keyms+5
+         $keyms[i] = $advanced_ackeyms + 5 if i == 0x1b
+                  $keyrls[i] = 0 if keys[i]==1
+                  end
+       end
+     end
+                      
+   end
+
                       # The keyboard related functions                      
                       module Keyboard
                         # @note this function is reserved
@@ -273,7 +454,7 @@ end
            if $keyr[0x10]
     $playlistindex += 1 if $playlistbuffer!=nil
   elsif $scene.is_a?(Scene_Console)==false
-    $scenes.insert(0,Scene_Console.new)
+    insert_scene(Scene_Console.new)
     end
         end
         if $key[0x75]
@@ -325,7 +506,7 @@ if $key[0x73]
     speech(_("EAPI_Common:info_usingsapi"))
   end
 else
-  $scenes.insert(0,Scene_ShortKeys.new) if $scene.is_a?(Scene_ShortKeys)==false
+  insert_scene(Scene_ShortKeys.new) if $scene.is_a?(Scene_ShortKeys)==false
       end
   end
   if $key[0x71]
@@ -333,7 +514,7 @@ else
     if $scene.is_a?(Scene_Main)
       $scene=Scene_MainMenu.new
       else
-    $scenes.insert(0,Scene_MainMenu.new) if $scene.is_a?(Scene_MainMenu)==false
+    insert_scene(Scene_MainMenu.new) if $scene.is_a?(Scene_MainMenu)==false
     end
   end
     end
@@ -363,16 +544,16 @@ end
 if $name != "" and $name != nil and $token != nil and $token != ""
   if $key[0x78]
     if !$keyr[0x10] and $scene.is_a?(Scene_Contacts) == false
-    $scenes.insert(0,Scene_Contacts.new)
+    insert_scene(Scene_Contacts.new)
       elsif $scene.is_a?(Scene_Online) == false and $keyr[0x10]
-        $scenes.insert(0,Scene_Online.new)
+        insert_scene(Scene_Online.new)
   end
     end
         if $key[0x79]
            if !$keyr[0x10] and $scene.is_a?(Scene_WhatsNew) == false
-$scenes.insert(0,Scene_WhatsNew.new)
+insert_scene(Scene_WhatsNew.new)
 elsif $scene.is_a?(Scene_Messages) == false and $keyr[0x10]
-  $scenes.insert(0,Scene_Messages.new)
+  insert_scene(Scene_Messages.new)
     end
       end
 end
@@ -380,7 +561,7 @@ if $key[0x7a]
   if !$keyr[0x10]
     speech($speech_lasttext)
   elsif $scene.is_a?(Scene_Chat)==false
-    $scenes.insert(0,Scene_Chat.new)
+    insert_scene(Scene_Chat.new)
     end
       end
   end
@@ -404,7 +585,7 @@ Graphics.update if $ruby != true
          tr=true
 end
 if $agent!=nil and $agent.avail>0
-          str=StringIO.new($agent.read)
+            str=StringIO.new($agent.read)
       while str.pos<str.string.size-1
                                                                                                                                 d=Marshal.load(str)
                                                                                                                                                 if d['func']=="notif"
@@ -414,7 +595,7 @@ if $agent!=nil and $agent.avail>0
                     process_notification(d)
                     end
                   elsif d['func']=='srvproc'
-                              $eresps[d['id']]=d
+                                                  $eresps[d['id']]=d
         elsif d['func']=='tray'
                     $trayreturn=true
                   elsif d['func']=='msg'
@@ -425,6 +606,9 @@ if simplequestion(_("EAPI_UI:alert_agentreport"))==1
     bug(false,"Elten Agent Error:\r\n"+e)
         end
 speech(_("EAPI_UI:info_retry"))
+else
+  play 'right'
+  $lll=d
                                       end
         end
   end
@@ -491,7 +675,7 @@ if tr == true
   speech_wait
   end
 if $key[0x11] and $keyr[0x42] and $keyr[0x4D] and $keyr[0x55] and $name!="" and $name!=nil and $oken!="" and $token!=nil and $scene.is_a?(Scene_Events) == false and $scenes[0].is_a?(Scene_Events) == false
-    $scenes.insert(0,Scene_Events.new(2))
+    insert_scene(Scene_Events.new(2))
   end
 if FileTest.exists?("temp/agent_alarm.tmp") and $alarmproc!=true
   $alarmproc=true

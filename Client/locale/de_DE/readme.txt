@@ -30,12 +30,12 @@ Das Menü namens community enthält, wie der Name sagt, Funktionen, die für die
 Hier finden Sie Optionen wie Forum, Blogs oder private Nachrichten. 
 Sie sollten in Erwägung ziehen, Ihr Profil im Untermenü "Mein Konto" zu vervollständigen.
 Hier sind Sie auch in der Lage, etwas in Ihrer Visitenkarte aufzuschreiben.
-Das zweite Menü heißt Medien. 
-Sie können hier Materialien finden, die von anderen geteilt werden, und YouTube durchsuchen. 
-Dateien ist ein einfacher Dateimanager. 
+Das zweite Menü heißt Erweiterungen.
+Die erste Option in diesem Menü, Dateien, ist ein einfacher Dateimanager. 
 Hier befinden sich Dateiverwaltungsoptionen wie das bearbeiten von Textdateien, Abspielen von Musik, und, falls erwünscht, kann hier auch Ihr Avatar hochgeladen werden. 
 Ein Avatar ist eine Tonaufnahme, die anderen Benutzern in Ihrem Profilmenü zur Verfügung steht. 
 Außerdem können Sie einige Dateien auf den Server hochladen, damit sie von anderen Elten-Benutzern heruntergeladen werden können. 
+Die zweite Option nennt sich YouTube, mit der Sie nach YouTube-Videos suchen und abspielen können.
 Das Menü Programme enthält externe Anwendungen, die in der Elten-API geschrieben wurden. 
 Tools ist ein Untermenü, das, wie sein Name sagt, Werkzeuge enthält, um Elten zu verwalten.
 Hier finden Sie Optionen wie einen Geschwindigkeitstest für Ihre Internetverbindung, die Konsole, die Aktualisierung auf eine neue Version des Programms oder die Erstellung eines neuen Audiothemas
@@ -44,7 +44,7 @@ Sie können zum Beispiel das Elten-Fenster in der Taskleiste automatisch ausblen
 Diese Option kann in den Interface-Einstellungen gefunden werden. 
 Das Hilfe-Menü enthält Dokumente, die sich auf die Verwendung des Programms beziehen. 
 Hier finden Sie den Änderungsverlauf sowie die Kurztastenliste, Lizenz und dieses Dokument. 
-Sie können einen Fehler auch über dieses Menü melden. 
+Sie können einen Fehler auch über dieses Menü, entweder in englischer oder polnischer Sprache, melden. Wenn sie keine der beiden Sprachen sprechen, greifen sie bitte auf die Hilfe anderer oder auf elektronische Übersetzungshilfen wie Google zurück. Ich, Karl Eick, der Autor der deutschen Übersetzung dieses Liesmichs, stehe Ihnen gerne zur Verfügung. Ich bin unter dem Spitznamen Hozosch auf Elten zu finden.
 Das letzte Menü, beenden, ermöglicht es Ihnen, die Anwendung zu verbergen oder zu schließen. 
 5. Autor kontaktieren
 Bei Fragen, Kommentaren oder Anregungen, kontaktieren Sie den Autor bitte in englischer oder polnischer Sprache

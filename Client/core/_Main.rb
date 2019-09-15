@@ -9,11 +9,12 @@ class Object
   include EltenAPI
 end
 module Elten
-Version=2.3
+Version=2.33
 Beta=0
 Alpha=0
 IsBeta=0
-BuildID=20190824009
+BuildID=20190915001
+BuildDate=1568576110
 class <<self
 def version
   return Version
@@ -29,6 +30,10 @@ def isbeta
 end
 def build_id
   return BuildID
+end
+def build_date
+  t=Time.at(BuildDate)
+  return sprintf("%04d-%02d-%02d %02d:%02d",t.year,t.month,t.day,t.hour,t.min)
   end
 end
 end
@@ -121,6 +126,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
     $exit = true
   if $exitupdate==true
     writefile($eltendata+"\\update.last",Zlib::Deflate.deflate([$version.to_s,$beta.to_s,$alpha.to_s,$isbeta.to_s].join(" ")))
+    writefile($eltendata+"\\bin\\Data\\update.last",Marshal.dump(Time.now.to_f))
     exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
     end
       exit
@@ -236,12 +242,12 @@ loop do
         $toscene = true
         retry
         when 2
-          $scenes.insert(0,$scene) if $scenes != nil
+          insert_scene($scene) if $scenes != nil
           $scene = Scene_Forum.new
                     $toscene = true
                     retry
           when 3
-            $scenes.insert(0,$scene) if $scenes != nil
+            insert_scene($scene) if $scenes != nil
             $scene = Scene_Messages.new
             $toscene = true      
             retry

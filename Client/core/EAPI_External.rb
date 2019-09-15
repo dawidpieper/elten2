@@ -521,6 +521,32 @@ def ytlist(ids)
   return e
 end
 
+
+def convert_book(src,dst)
+  if src[-3..-1].downcase=="txt" and dst[-3..-1].downcase=="txt"
+    r=read(src)
+    r=futf8(r) if r[0]<200
+    writefile(dst,r)
+    end
+  if !FileTest.exists?($extrasdata+"\\Calibre Portable\\Calibre\\ebook-convert.exe")
+    s=confirm(_("EAPI_External:alert_calibre"))
+    if s==1
+      downloadfile("http://download.calibre-ebook.com/3.46.0/calibre-portable-installer-3.46.0.exe","temp\\calibre.exe",_("EAPI_External:wait_calibredownloading"))
+      return if !FileTest.exists?("temp\\calibre.exe") or read("temp\\calibre.exe",true)<1048576
+      speech(_("EAPI_External:wait_calibreextracting"))
+      waiting
+      executeprocess("temp\\calibre.exe \"temp\"",true)
+      copydir("temp/Calibre Portable",$extrasdata+"/Calibre Portable")
+      deldir("temp/Calibre Portable")
+      waiting_end
+      File.delete("temp\\calibre.exe")
+    else
+      return
+    end
+    end
+    executeprocess("\""+$extrasdata+"\\Calibre Portable\\Calibre\\ebook-convert.exe"+"\" \"#{src}\" \"#{dst}\"",true)
+    
+  end
 end
 end
 #Copyright (C) 2014-2019 Dawid Pieper

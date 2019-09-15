@@ -21,14 +21,14 @@ while(strlen($code)<6)
 $code.=rand(0,9);
 $params = array(
 'credentials' => array(
-'key' => 'AKIAJFWNRJW4DC7GLJ6Q',
-'secret' => '/Z2+cB6gBANuDNFIcgSuUQP3Ao/adWo8qmZ+0UHD',
+'key' => $aws_key,
+'secret' => $aws_secret,
 ),
 'region' => 'eu-west-1', // < your aws from SNS Topic region
 'version' => 'latest'
 );
 $message="Kod aktywujący dwuskładnikowe uwierzytelnianie w Eltenie: ".$code;
-if($_GET['lang']!="PL_PL")
+if($_GET['lang']!="pl_PL")
 $message="Elten Two-factor authentication activation code: ".$code;
 $sns = new \Aws\Sns\SnsClient($params);
 $result = $sns->publish([

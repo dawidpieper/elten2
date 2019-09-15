@@ -121,13 +121,13 @@ if $key[0x11] and $key[0x44]
 else
   ext=File.extname(@tree.selected)
   if @tree.filetype==1
-    t=AudioFile.new(@tree.selected)
-    d=t.sound.lenght/1000
+    t=Bass::Sound.new(@tree.selected)
+    d=t.length
     t.close
     if d<360000
         h=d/3600
-        m=(d-d/3600*3600)/60
-  s=d-d/60*60
+        m=d/60%60
+  s=d%60
   speech(sprintf("%02d:%02d:%02d",h,m,s))
   end          
   end
@@ -458,18 +458,18 @@ while name==""
        if ((space or enter) and form.index == 0)
          if rec == 0
            rec = 1
-           play("recording_start")
-           recording_start(@tree.path+name)
+                      @r=Recorder.start(@tree.path+name)
+                      play("recording_start")
          form.fields[0]=Button.new(_("General:str_save"))
            elsif rec == 1
-           recording_stop
+           @r.stop
            play("recording_stop")
            speech(_("General:info_saved"))
            break
                       end
          end
        if escape or ((enter or space) and form.index==1)
-         recording_stop if rec==1
+         @r.stop if rec==1
          break
          end
        end
@@ -547,6 +547,11 @@ return ind
 end
 def textmenu(submenu=false)
   file=@tree.selected
+        r=read(file,false,false)
+      if r[0]<200
+        r=futf8(r)
+        play 'signal'
+        end
       dialog_open if submenu==false
       sl=[_("Files:opt_edit"),_("Files:opt_readtofile")]
       sl.push(_("General:str_cancel")) if submenu==false
@@ -557,7 +562,7 @@ def textmenu(submenu=false)
     Audio.bgs_stop if submenu and ind != -1
     case ind
     when 0
-    form=Form.new([Edit.new(@tree.file,"MULTILINE",read(file,false,true)),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
+    form=Form.new([Edit.new(@tree.file,"MULTILINE",r),Button.new(_("General:str_save")),Button.new(_("General:str_cancel"))])
     loop do
       loop_update
       form.update
@@ -569,7 +574,7 @@ def textmenu(submenu=false)
               end
             end
             when 1
-              speechtofile(@tree.selected(true),"")
+              speechtofile("",r,File.basename(file))
             end
             return -1
             end
@@ -588,7 +593,7 @@ def textmenu(submenu=false)
     if ind<2 and ind>-1
       speech(_("Files:wait_processing"))
       waiting
-      executeprocess("bin\\blb2txt.exe -f \"#{@tree.selected}\" -v \"temp\\\" -p \"#{fid}\" -e \"utf8\"",true)
+      convert_book(@tree.selected, "temp\\#{fid}.txt")
             text=read("temp\\"+fid+".txt")
             waiting_end
       end
