@@ -175,7 +175,7 @@ alpha = readini(".\\elten.ini","Elten","Alpha","0").to_i
     $nalpha = nalpha
     $nversion = nversion
                 speech_stop
-    startmessage = "ELTEN: " + $version.to_s
+    startmessage = "ELTEN: " + $version.to_s.delete(".").split("").join(".")
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
 startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
             $playlist = []
@@ -237,6 +237,11 @@ if enter
                       $langs=load_data("Data/langs.dat")
                     else
                       $langs={}
+                    end
+                    if FileTest.exists?("Data/locations.dat")
+                      $locations=load_data("Data/locations.dat")
+                    else
+                      $locations=[]
                     end
                     if !FileTest.exists?("Data/locale.dat")
                     mod="\0"*1024

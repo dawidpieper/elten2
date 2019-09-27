@@ -121,8 +121,7 @@ end
   end
 case logintemp[0].to_i
 when 0
-    srvproc("active","name=#{$name}\&token=#{$token}")
-prtemp = srvproc("getprivileges","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+    prtemp = srvproc("getprivileges","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
 $rang_tester = prtemp[1].to_i
 $rang_moderator = prtemp[2].to_i
 $rang_media_administrator = prtemp[3].to_i

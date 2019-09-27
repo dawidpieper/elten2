@@ -83,6 +83,47 @@ for o in t
     s=self[0]
     self[1..-1].each {|a| s+=a}
     return s
+  end
+  def polsort
+    l="aAbBcCćĆdDeEęĘfFgGhHiIjJkKlLłŁmMnNńŃoOóÓpPqQrRsSśŚtTuUvVwWxXyYzZźŹżŻ"
+    poses=[]
+    for i in 0...l.split("").size
+      poses[i/2]||=[]
+      poses[i/2].push(l.split("")[i])
+    end
+        self.sort {|a,b|
+    if a==b
+      0
+      elsif a==""
+      -1
+    elsif b==""
+      1
+    elsif a.is_a?(String) and b.is_a?(String)
+      i1=-1
+      i2=-1
+      ind=0
+      while i1==i2 and ind<a.split("").size and ind<b.split("").size
+      for i in 0...poses.size
+        i1=i if poses[i].include?(a.split("")[ind])
+        i2=i if poses[i].include?(b.split("")[ind])
+      end
+      ind+=1
+      end
+      if i1!=-1 and i2!=-1
+      i1<=>i2
+    else
+      a<=>b
+    end
+  else
+    a<=>b
+      end
+    }
+  end
+  def polsort!
+    a=self.polsort
+    for i in 0...self.size
+      self[i]=a[i]
+      end
     end
   end
 

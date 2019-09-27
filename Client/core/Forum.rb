@@ -141,16 +141,17 @@ sgloc=false
           groupsopencnt=0
           groupsinvitedcnt=0
           groupsallcnt=0
+          groupsmoderatedcnt=0
           @groups.each {|g|
           groupsrecommendedcnt+=1 if g.recommended
           groupsopencnt+=1 if g.open&&!g.recommended
           groupsinvitedcnt+=1 if g.role==5
           groupsallcnt+=1 if g.open||g.public
+          groupsmoderatedcnt+=1 if g.role==2
           }
-                    grpselt = [[_("Forum:opt_followedthreads"), nil, ft.to_s, fp.to_s, (fp-fr).to_s], [_("Forum:opt_followedforums"), forfol.size.to_s, flt.to_s, flp.to_s, (flp-flr).to_s]]+grpselt+[[_("Forum:opt_groupsrecommended")+" (#{groupsrecommendedcnt.to_s})"],[_("Forum:opt_groupsopen")+" (#{groupsopencnt.to_s})"],[_("Forum:opt_groupsinvited")+" (#{groupsinvitedcnt.to_s})"],[_("Forum:opt_groupsall")+" (#{groupsallcnt.to_s})"],[_("Forum:opt_groupsrecent")], [_("Forum:opt_groupspopular")], [_("Forum:opt_threadspopular")],[_("Forum:opt_search")]]
-          s=0
-          @groups.each {|g| s+=1 if g.role==5}
-          grpselt[grpheadindex+sgroups.size+2]=[nil] if s==0
+                    grpselt = [[_("Forum:opt_followedthreads"), nil, ft.to_s, fp.to_s, (fp-fr).to_s], [_("Forum:opt_followedforums"), forfol.size.to_s, flt.to_s, flp.to_s, (flp-flr).to_s]]+grpselt+[[_("Forum:opt_groupsrecommended")+" (#{groupsrecommendedcnt.to_s})"],[_("Forum:opt_groupsopen")+" (#{groupsopencnt.to_s})"],[_("Forum:opt_groupsinvited")+" (#{groupsinvitedcnt.to_s})"],[_("Forum:opt_groupsmoderated")+" (#{groupsmoderatedcnt.to_s})"],[_("Forum:opt_groupsall")+" (#{groupsallcnt.to_s})"],[_("Forum:opt_groupsrecent")], [_("Forum:opt_groupspopular")], [_("Forum:opt_threadspopular")],[_("Forum:opt_search")]]
+                    grpselt[grpheadindex+sgroups.size+2]=[nil] if groupsinvitedcnt==0
+                    grpselt[grpheadindex+sgroups.size+3]=[nil] if groupsmoderatedcnt==0
                     grpselh= [nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
                     @grpindex[0]=grpheadindex+sgroups.size+ll-1 if ll>0
           when 1
@@ -200,7 +201,21 @@ sgloc=false
       grpselt.push([group.name,group.founder,group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
     end     
     grpselh= [nil, _("Forum:opt_phr_founder"), nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
-    when 4
+        when 4
+      sgroups=[]
+                              for g in @groups
+              if g.role==2
+                              sgroups.push(g)
+                              end
+            end
+            sgroups.sort! {|a,b| (b.posts*b.acmembers**2)<=>(a.posts*a.acmembers**2)}
+       grpheadindex=0
+        grpselt=[]
+        for group in sgroups
+      grpselt.push([group.name,group.founder,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
+    end     
+    grpselh= [nil, _("Forum:opt_phr_founder"), _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
+    when 5
                       sgroups=[]
                               for g in @groups
               if g.public||g.open
@@ -214,7 +229,7 @@ sgloc=false
       grpselt.push([group.name,group.founder,group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
     end     
     grpselh= [nil, _("Forum:opt_phr_founder"), nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
-    when 5
+    when 6
                             sgroups=[]
                               for g in @groups
               if g.public||g.open
@@ -228,7 +243,7 @@ sgloc=false
       grpselt.push([group.name,group.founder,group.description,group.forums.to_s,group.threads.to_s,group.posts.to_s,(group.posts-group.readposts).to_s])
     end     
     grpselh= [nil, _("Forum:opt_phr_founder"), nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
-    when 6
+    when 7
       grp=srvproc("forum_popular","name=#{$name}\&token=#{$token}\&type=groups")
                                         sgroups=[]
       if grp[0].to_i==0
@@ -277,8 +292,10 @@ sgloc=false
         elsif @grpsel.index==grpheadindex+sgroups.size+5
           return groupsmain(6)
           elsif @grpsel.index==grpheadindex+sgroups.size+6
-          return threadsmain(-8)
+          return groupsmain(7)
           elsif @grpsel.index==grpheadindex+sgroups.size+7
+          return threadsmain(-8)
+          elsif @grpsel.index==grpheadindex+sgroups.size+8
           @query=input_text(_("Forum:type_searchphrase"),"ACCEPTESCAPE")
           loop_update
           if @query!="\004ESCAPE\004"
@@ -1403,7 +1420,7 @@ end
 if ft[0].to_i == 0
   speech(_("Forum:info_thrcreated"))
 else
-  speech(_("General:error_thrcreation"))
+  speech(_("Forum:error_thrcreation"))
 end
 speech_wait
 end

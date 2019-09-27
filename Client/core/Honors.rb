@@ -55,7 +55,7 @@ class Scene_Honors
                 selt.push(h.enname+":\r\n"+h.endescription)
         end
     end
-    selt.push(_("Honors:new"))
+    selt.push(_("Honors:opt_new"))
     header=""
     if @user==nil
       header=_("Honors:head")

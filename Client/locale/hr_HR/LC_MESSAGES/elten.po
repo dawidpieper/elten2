@@ -320,35 +320,6 @@ msgctxt "Notes"
 msgid "Do you want to stop sharing this note with %{user}?"
 msgstr "Želiš li prestati dijeliti tu bilješku s %{user}?"
 
-#: FirstRun.rb:124
-msgctxt "FirstRun"
-msgid "Password:"
-msgstr "loyinka:"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "Characters"
-msgstr "znakovi"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "Words"
-msgstr "riječi"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "Characters and words"
-msgstr "znakovi i riječi"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "None"
-msgstr "ništa"
-
-msgctxt "FirstRun"
-msgid "Audio"
-msgstr "Audio"
-
 #: ForgotPassword.rb:34
 msgctxt "ForgotPassword"
 msgid "Password reset"
@@ -359,6 +330,7 @@ msgctxt "ForgotPassword"
 msgid "Enter the E-mail address used during the registration process"
 msgstr "Upiši e-mail adresu, koju si koristio prilikom procesa registracije."
 
+#: ForgotPassword.rb:30
 msgctxt "ForgotPassword"
 msgid "The typed E-mail address is not associated with the entered username."
 msgstr "Upisana e-mail adresa ne poklapa se sa korisničkim imenom."
@@ -383,6 +355,7 @@ msgctxt "ForgotPassword"
 msgid "Enter the generated password reset code"
 msgstr "Upiši generirani ključ povrata lozinke."
 
+#: ForgotPassword.rb:73
 msgctxt "ForgotPassword"
 msgid "The entered code is invalid."
 msgstr "Upisani ključ je nepravilan."
@@ -397,10 +370,12 @@ msgctxt "ForgotPassword"
 msgid "Repeat new password"
 msgstr "Upiši novu lozinku ponovo"
 
+#: ForgotPassword.rb:84
 msgctxt "ForgotPassword"
 msgid "The entered passwords are different."
 msgstr "Upisane lzinke se ne poklapaju."
 
+#: ForgotPassword.rb:87
 msgctxt "ForgotPassword"
 msgid "Empty password provided."
 msgstr "Upisana je prazna lozinka."
@@ -509,6 +484,7 @@ msgctxt "Honors"
 msgid "Grant a badge"
 msgstr "Daj značku"
 
+#: Honors.rb:58
 msgctxt "Honors"
 msgid "A new badge"
 msgstr "Nova značka"
@@ -745,9 +721,10 @@ msgid "Answer"
 msgstr "odgovor"
 
 #: Polls.rb:441
+#, fuzzy
 msgctxt "Polls"
-msgid "Poll results: #{%name%}"
-msgstr "Rezultati ankete: #{%name%}"
+msgid "Poll results: %{name}"
+msgstr "Poll results: %{name}"
 
 #: Polls.rb:128
 msgctxt "Polls"
@@ -768,10 +745,6 @@ msgstr "Pitanje jednostrukog izbora"
 msgctxt "Polls"
 msgid "Multiple choice question"
 msgstr "Pitanje višestrukog izbora"
-
-msgctxt "Uploads"
-msgid "Saved"
-msgstr "Spremljeno"
 
 #: Uploads.rb:112
 msgctxt "Uploads"
@@ -833,90 +806,71 @@ msgctxt "Admins"
 msgid "Administrators"
 msgstr "Vijeće starijih"
 
-#: WhatsNew.rb:115
+#: WhatsNew.rb:116
 msgctxt "WhatsNew"
 msgid "There is nothing new."
 msgstr "Nema ničeg novog"
 
-msgctxt "WhatsNew"
-msgid "open"
-msgstr "Otvori"
-
-msgctxt "WhatsNew"
-msgid "Delete this thread"
-msgstr "Izbriši temu"
-
-msgctxt "WhatsNew"
-msgid "The thread was removed from the list of followed threads"
-msgstr "Izbrisano sa spiska sljeđenih tema"
-
-msgctxt "WhatsNew"
-msgid "Remove from the list of followed threads"
-msgstr "Izbriši sa spiska sljeđenih tema"
-
-msgctxt "WhatsNew"
-msgid "No new posts in followed threads"
-msgstr "Nema novih zapisa u sljeđenim temama"
-
-#: WhatsNew.rb:40
+#: WhatsNew.rb:41
 msgctxt "WhatsNew"
 msgid "What's new"
 msgstr "Što je novo"
 
-#: WhatsNew.rb:115
+#: WhatsNew.rb:116
 msgctxt "WhatsNew"
 msgid "No new posts on the followed blogs"
 msgstr "Nema novih zapisa na sljeđenim blogovima."
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "New messages"
 msgstr "nove poruke"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "New posts in followed threads"
 msgstr "Novi zapisi u sljeđenim temama"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "New posts on the followed blogs"
 msgstr "Novi zapisi na sljeđenim blogovima"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "New comments on your blog"
 msgstr "Novi komentari  na tvojem blogu"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "New threads on followed forums"
 msgstr "Nove teme na sljeđenim forumima"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "New posts on followed forums"
 msgstr "Novi zapisi na sljeđenim forumima"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "New friends"
 msgstr "Novi prijatelji"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "Friends' birthday"
 msgstr "Rođendani prijatelja"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "Mentions"
 msgstr "Rođendani prijatelja"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
+#, fuzzy
 msgctxt "WhatsNew"
-msgid "Update available (%version)"
-msgstr "Nadogradnja (%version) je dostupna"
+msgid "Update available (%{version})"
+msgstr "Update available (%{version})"
 
 #: ShortKeys.rb:11
 msgctxt "ShortKeys"
@@ -968,10 +922,6 @@ msgctxt "Interface"
 msgid "Typing echo"
 msgstr "odziv tipkovnice"
 
-msgctxt "Interface"
-msgid "Run the program in full screen mode"
-msgstr "Pokreći program u načinu punog zaslona"
-
 #: Interface.rb:16
 msgctxt "Interface"
 msgid "Enable auto log in"
@@ -992,11 +942,6 @@ msgctxt "Interface"
 msgid "Auto log in is required to use auto start"
 msgstr "Automatska prijava je potrebna kako bi radilo automatsko pokretanje"
 
-#, fuzzy
-msgctxt "Interface"
-msgid " Attention! You are trying to enable the auto start function using a portable version of  Elten. When this program is inaccessible for Windows or its location is changed, the system will not be able to start it. Are you sure you want to continue?"
-msgstr " Attention! You are trying to enable the auto start function using a portable version of  Elten. When this program is inaccessible for Windows or its location is changed, the system will not be able to start it. Are you sure you want to continue?"
-
 #: Interface.rb:14
 msgctxt "Interface"
 msgid "Wrap long lines in text fields"
@@ -1012,87 +957,87 @@ msgctxt "ReadMe"
 msgid "Readme"
 msgstr "Čitaj me"
 
-#: Blog.rb:347
+#: Blog.rb:423
 msgctxt "Blog"
 msgid "New post"
 msgstr "Novi zapis"
 
-#: Blog.rb:606
+#: Blog.rb:684
 msgctxt "Blog"
 msgid "Deleted"
 msgstr "Izbrisano"
 
-#: Blog.rb:389
+#: Blog.rb:465
 msgctxt "Blog"
 msgid "Select"
 msgstr "Izaberi"
 
-#: Blog.rb:14
+#: Blog.rb:1306
 msgctxt "Blog"
 msgid "My blog"
 msgstr "Moj blog"
 
-#: Blog.rb:126
+#: Blog.rb:127
 msgctxt "Blog"
 msgid "New category"
 msgstr "Nova kategorija"
 
-#: Blog.rb:596
+#: Blog.rb:674
 msgctxt "Blog"
 msgid "Are you sure you want to delete this post?"
 msgstr "Jesi li siguran da želiš izbrisati ovaj zapis?"
 
-#: Blog.rb:981
+#: Blog.rb:1316
 msgctxt "Blog"
 msgid "Blogs"
 msgstr "Blogovi"
 
-#: Blog.rb:981
+#: Blog.rb:1316
 msgctxt "Blog"
 msgid "The list of blogs"
 msgstr "Spisak blogova"
 
-#: Blog.rb:864
+#: Blog.rb:957
 msgctxt "Blog"
 msgid "Send"
 msgstr "Pošalji"
 
-#: Blog.rb:853
+#: Blog.rb:946
 msgctxt "Blog"
 msgid "Return"
 msgstr "Nazad"
 
-#: Blog.rb:127
+#: Blog.rb:128
 msgctxt "Blog"
 msgid "Change the blog's name"
 msgstr "Promjeni naziv bloga"
 
-#: Blog.rb:843
+#: Blog.rb:936
 msgctxt "Blog"
 msgid "Your comment"
 msgstr "Tvoj komentar"
 
-#: Blog.rb:849
+#: Blog.rb:942
 msgctxt "Blog"
 msgid "Edit your post"
 msgstr "Modificiraj svoj zapis"
 
-#: Blog.rb:709
+#: Blog.rb:800
 msgctxt "Blog"
 msgid "Play"
 msgstr "Reproduciraj"
 
-#: Blog.rb:124
+#: Blog.rb:125
 msgctxt "Blog"
 msgid "All posts"
 msgstr "svi zapisi"
 
-#: Blog.rb:474
+#: Blog.rb:551
 msgctxt "Blog"
 msgid "Record a new post"
 msgstr "Snimi novi zapis"
 
-#: Blog.rb:482
+#: Blog.rb:559
 msgctxt "Blog"
 msgid "Stop recording"
 msgstr "Završi snimanje"
@@ -1112,57 +1057,57 @@ msgctxt "Blog"
 msgid "Frequently commented blogs"
 msgstr "Najčešće komentirani blogovi"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Post title"
 msgstr "Naslov zapisa"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Post"
 msgstr "Sadržaj zapisa"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Add to category"
 msgstr "Pridjeli u kategoriju"
 
-#: Blog.rb:161
+#: Blog.rb:229
 msgctxt "Blog"
 msgid "Category name"
 msgstr "Naziv kategorije"
 
-#: Blog.rb:181
+#: Blog.rb:249
 msgctxt "Blog"
 msgid "New blog name"
 msgstr "Novi naziv bloga"
 
-#: Blog.rb:738
+#: Blog.rb:831
 msgctxt "Blog"
 msgid "File is being converted..."
 msgstr "Konvertiranje datoteke"
 
-#: Blog.rb:197
+#: Blog.rb:265
 msgctxt "Blog"
 msgid "Rename"
 msgstr "Promjeni naziv"
 
-#: Blog.rb:389
+#: Blog.rb:465
 msgctxt "Blog"
 msgid "Edit"
 msgstr "Uredi"
 
-#: Blog.rb:1007
+#: Blog.rb:1104
 msgctxt "Blog"
 msgid "Open"
 msgstr "otvori"
 
-#: Blog.rb:1015
+#: Blog.rb:1112
 msgctxt "Blog"
 msgid "Add to followed blogs"
 msgstr "Dodaj u sljeđene blogove"
 
-#: Blog.rb:1013
+#: Blog.rb:1110
 msgctxt "Blog"
 msgid "Remove from the followed blogs"
 msgstr "Izbriši iz sljeđenih blogova"
@@ -1172,156 +1117,152 @@ msgctxt "Blog"
 msgid "Followed blogs"
 msgstr "Sljeđeni blogovi"
 
-#: Blog.rb:511
+#: Blog.rb:588
 msgctxt "Blog"
 msgid "Create an audiopost"
 msgstr "Stvori audiozapis"
 
-#: Blog.rb:474
+#: Blog.rb:551
 msgctxt "Blog"
 msgid "Use an existing file"
 msgstr "Koristi postojeću datoteku"
 
-msgctxt "Blog"
-msgid "The post has been modified"
-msgstr "Zapis je modificiran"
-
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Visibility"
 msgstr "Vidljivost"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Show to everyone"
 msgstr "Pokaži svima"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Do not show to unlogged users"
 msgstr "Sakrij pred neprijavljenim korisnicima"
 
-#: Blog.rb:693
+#: Blog.rb:770
 msgctxt "Blog"
 msgid "Audio post"
 msgstr "Audiozapis"
 
-#: Blog.rb:709
+#: Blog.rb:800
 msgctxt "Blog"
 msgid "Use another file"
 msgstr "Koristi drugu datoteku"
 
-#: Blog.rb:713
+#: Blog.rb:806
 msgctxt "Blog"
 msgid "Select audio file"
 msgstr "Izaberi audiozapis"
 
-#: Blog.rb:79
+#: Blog.rb:80
 msgctxt "Blog"
 msgid "The blog cannot be found."
 msgstr "Blog ne postoji."
 
-#: Blog.rb:169
+#: Blog.rb:237
 msgctxt "Blog"
 msgid "The category has been created."
 msgstr "Kategorija je stvorena."
 
-#: Blog.rb:187
+#: Blog.rb:255
 msgctxt "Blog"
 msgid "Your blog has been renamed"
 msgstr "Naziv bloga je promijenjen"
 
-#: Blog.rb:280
+#: Blog.rb:354
 msgctxt "Blog"
 msgid "You do not have any blog. Do you want to create one?"
 msgstr "Nemaš blog. Želiš li ga stvoriti?"
 
-#: Blog.rb:738
+#: Blog.rb:831
 msgctxt "Blog"
 msgid "Please wait..."
 msgstr "čekaj..."
 
-#: Blog.rb:301
+#: Blog.rb:377
 msgctxt "Blog"
 msgid "The blog has been created."
 msgstr "Blog je stvoren."
 
-#: Blog.rb:248
+#: Blog.rb:317
 msgctxt "Blog"
 msgid "The blog has been renamed."
 msgstr "Naziv je stvoren."
 
-#: Blog.rb:349
+#: Blog.rb:425
 msgctxt "Blog"
 msgid "No new comments on your blog."
 msgstr "Nema novih komentara na tvojem blogu."
 
-#: Blog.rb:583
+#: Blog.rb:660
 msgctxt "Blog"
 msgid "The post has been added."
 msgstr "Zapis je dodan."
 
-#: Blog.rb:904
+#: Blog.rb:997
 msgctxt "Blog"
 msgid "The comment has been added."
 msgstr "Komentar je dodan."
 
-#: Blog.rb:1040
+#: Blog.rb:1137
 msgctxt "Blog"
 msgid "Added to the followed blogs."
 msgstr "Dodano u sljeđene blogove."
 
-#: Blog.rb:1049
+#: Blog.rb:1146
 msgctxt "Blog"
 msgid "Removed from the followed blogs."
 msgstr "Izbrisano s popisa sljeđenih blogova."
 
-#: Blog.rb:1057
+#: Blog.rb:1154
 msgctxt "Blog"
 msgid "The blog has been marked as read."
 msgstr "Svi su zapisi na ovom blogu označeni kao pročitani."
 
-#: Blog.rb:1179
+#: Blog.rb:1277
 msgctxt "Blog"
 msgid "Recategorised"
 msgstr "Rekategoriziranje je gotovo"
 
-#: Blog.rb:261
+#: Blog.rb:331
 msgctxt "Blog"
 msgid "Are you sure you want to delete this category?"
 msgstr "Jesi li siguran da želiš izbrisati ovu kategoriju?"
 
-#: Blog.rb:286
+#: Blog.rb:359
 msgctxt "Blog"
 msgid "Type a blog name"
 msgstr "Upiši naziv stvorenog bloga."
 
-#: Blog.rb:241
+#: Blog.rb:310
 msgctxt "Blog"
 msgid "Type a new category name"
 msgstr "Upiši novi naziv ove kategorije"
 
-#: Blog.rb:503
+#: Blog.rb:580
 msgctxt "Blog"
 msgid "Create a text post"
 msgstr "Stvori tekstualni zapis"
 
-#: Blog.rb:1055
+#: Blog.rb:1152
 msgctxt "Blog"
 msgid "All posts on this blog will be marked as read. Do you want to continue?"
 msgstr "  Svi će zapisi na ovom blogu biti označeni kao pročitani. Jesi li siguran  da  želiš nastaviti?"
 
-#: Blog.rb:981
+#: Blog.rb:1078
 msgctxt "Blog"
 msgid "Author"
 msgstr "Autor"
 
-#: Blog.rb:1017
+#: Blog.rb:1114
 msgctxt "Blog"
 msgid "Mark the blog as read"
 msgstr "Označi sve zapise na ovom blogu kao pročitane"
 
-#: Blog.rb:128
+#: Blog.rb:129
 msgctxt "Blog"
 msgid "Recategorize"
 msgstr "Rekategoriziraj"
@@ -1330,14 +1271,17 @@ msgctxt "Blog"
 msgid "Show only to users in my contacts list"
 msgstr "Prikaži samo korisnicima u mojoj listi kontakata"
 
+#: Blog.rb:1315
 msgctxt "Blog"
 msgid "Create new blog"
 msgstr "Stvori novi blog"
 
+#: Blog.rb:205
 msgctxt "Blog"
 msgid "Add coworker"
 msgstr "dodaj suradnika"
 
+#: Blog.rb:131
 msgctxt "Blog"
 msgid "Coworkers"
 msgstr "suradnici"
@@ -1346,6 +1290,7 @@ msgctxt "Blog"
 msgid "Release this coworker"
 msgstr "izbaci ovog suradnika"
 
+#: Blog.rb:186
 msgctxt "Blog"
 msgid "What user you want to add to this blog?"
 msgstr "Kojeg korisnika želite dodati u ovaj blog?"
@@ -1354,7 +1299,7 @@ msgctxt "Blog"
 msgid "Are you sure you want to delete this comment?"
 msgstr "Jeste li sigurni da želite li izbrisati ovaj komentar?"
 
-#: Blog.rb:840
+#: Blog.rb:933
 msgctxt "Blog"
 msgid "Media"
 msgstr "Media"
@@ -1365,17 +1310,90 @@ msgctxt "Blog"
 msgid "Blogs popular with my friends"
 msgstr "Blogs popular with my friends"
 
-#: Blog.rb:689
+#: Blog.rb:768
 #, fuzzy
 msgctxt "Blog"
 msgid "Allow users to comment this post"
 msgstr "Allow users to comment this post"
 
-#: Blog.rb:721
+#: Blog.rb:814
 #, fuzzy
 msgctxt "Blog"
 msgid "Do you wish to delete all comments on this post? You can disable commenting on this post without deleting comments already posted."
 msgstr "Do you wish to delete all comments on this post? You can disable commenting on this post without deleting comments already posted."
+
+#: Blog.rb:768
+#, fuzzy
+msgctxt "Blog"
+msgid "Post type"
+msgstr "Post type"
+
+#: Blog.rb:768
+#, fuzzy
+msgctxt "Blog"
+msgid "Text post"
+msgstr "Text post"
+
+#: Blog.rb:768
+msgctxt "Blog"
+msgid "Audio post {opt_audiopost}"
+msgstr "Audio post"
+
+#: Blog.rb:130
+msgctxt "Blog"
+msgid "Followers"
+msgstr "Followers"
+
+#: Blog.rb:164
+msgctxt "Blog"
+msgid "Followers {head_followers}"
+msgstr "Followers"
+
+#: Blog.rb:159
+#, fuzzy
+msgctxt "Blog"
+msgid "This blog is not followed by any user"
+msgstr "This blog is not followed by any user"
+
+#: Blog.rb:14
+#, fuzzy
+msgctxt "Blog"
+msgid "Managed blogs"
+msgstr "Managed blogs"
+
+#: Blog.rb:181
+msgctxt "Blog"
+msgid "Coworkers {head_coworkers}"
+msgstr "Coworkers"
+
+#: Blog.rb:201
+#, fuzzy
+msgctxt "Blog"
+msgid "Are you sure you want to release this coworker?"
+msgstr "Are you sure you want to release this coworker?"
+
+#: Blog.rb:196
+#, fuzzy
+msgctxt "Blog"
+msgid "User not found"
+msgstr "User not found"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "%{user} has been added to this blog"
+msgstr "%{user} has been added to this blog"
+
+#: Blog.rb:132
+#, fuzzy
+msgctxt "Blog"
+msgid "Delete this blog"
+msgstr "Delete this blog"
+
+#: Blog.rb:213
+#, fuzzy
+msgctxt "Blog"
+msgid "Are you sure you want to delete this blog?"
+msgstr "Are you sure you want to delete this blog?"
 
 #: Ban.rb:27
 msgctxt "Ban"
@@ -1527,12 +1545,12 @@ msgctxt "Languages"
 msgid "Language packs have been updated"
 msgstr "Jezični paketi su ažurirani."
 
-#: Files.rb:532
+#: Files.rb:521
 msgctxt "Files"
 msgid "Files"
 msgstr "Datoteke"
 
-#: Files.rb:407
+#: Files.rb:396
 msgctxt "Files"
 msgid "Deleted"
 msgstr "Izbrisano"
@@ -1562,12 +1580,12 @@ msgctxt "Files"
 msgid "New folder"
 msgstr "Nova mapa"
 
-#: Files.rb:414
+#: Files.rb:403
 msgctxt "Files"
 msgid "Copied"
 msgstr "Kopirano"
 
-#: Files.rb:419
+#: Files.rb:408
 msgctxt "Files"
 msgid "Cut out"
 msgstr "izrezano"
@@ -1592,17 +1610,16 @@ msgctxt "Files"
 msgid "Add all audio files in this directory to playlist"
 msgstr "Dodaj sve snimke iz ove mape u popis za reprodukciju"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "Play"
 msgstr "Reproduciraj"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "Add to playlist"
 msgstr "Dodaj na popis za reprodukciju"
 
-#: Files.rb:311
 msgctxt "Files"
 msgid "Upload to the server"
 msgstr "Pošalji na poslužitelj"
@@ -1612,7 +1629,7 @@ msgctxt "Files"
 msgid "Open this directory"
 msgstr "Otvori ovu mapu"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "Set as avatar"
 msgstr "Postavi kao avatar"
@@ -1627,7 +1644,7 @@ msgctxt "Files"
 msgid "Rename"
 msgstr "Promjeni naziv"
 
-#: Files.rb:556
+#: Files.rb:545
 msgctxt "Files"
 msgid "Edit"
 msgstr "Uredi"
@@ -1637,12 +1654,11 @@ msgctxt "Files"
 msgid "pasted"
 msgstr "Zaljepljeno"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "convert"
 msgstr "Konvertiraj"
 
-#: Files.rb:359
 msgctxt "Files"
 msgid "Sent"
 msgstr "Poslano"
@@ -1652,7 +1668,7 @@ msgctxt "Files"
 msgid "This file cannot be played."
 msgstr "Nemoguće otvoriti ovu datoteku"
 
-#: Files.rb:583
+#: Files.rb:572
 msgctxt "Files"
 msgid "Read"
 msgstr "Čitaj"
@@ -1667,17 +1683,17 @@ msgctxt "Files"
 msgid "Extract"
 msgstr "raspakiraj"
 
-#: Files.rb:370
+#: Files.rb:359
 msgctxt "Files"
 msgid "Select archive format"
 msgstr "Izaberi format arhive"
 
-#: Files.rb:382
+#: Files.rb:371
 msgctxt "Files"
 msgid "Compressed"
 msgstr "Zapakirano"
 
-#: Files.rb:583
+#: Files.rb:572
 msgctxt "Files"
 msgid "Read to file"
 msgstr "Učitaj u datoteku"
@@ -1712,17 +1728,17 @@ msgctxt "Files"
 msgid "Audio"
 msgstr "Audio"
 
-#: Files.rb:428
+#: Files.rb:417
 msgctxt "Files"
 msgid "Enter a folder name"
 msgstr "upiši naziv mape"
 
-#: Files.rb:450
+#: Files.rb:439
 msgctxt "Files"
 msgid "Enter a file name"
 msgstr "Upiši naziv datoteke"
 
-#: Files.rb:453
+#: Files.rb:442
 msgctxt "Files"
 msgid "Record"
 msgstr "snimi"
@@ -1732,7 +1748,7 @@ msgctxt "Files"
 msgid "The file cannot be deleted, access denied."
 msgstr "Nije moguće izbrisati tu datoteku, Pristup odbijen."
 
-#: Files.rb:387
+#: Files.rb:376
 msgctxt "Files"
 msgid "Unpacked."
 msgstr "Raspakirano."
@@ -1742,42 +1758,42 @@ msgctxt "Files"
 msgid "The clipboard is empty"
 msgstr "međuspremnik prazan"
 
-#: Files.rb:397
+#: Files.rb:386
 msgctxt "Files"
 msgid "The file name has been changed."
 msgstr "Naziv je promijenjen."
 
-#: Files.rb:432
+#: Files.rb:421
 msgctxt "Files"
 msgid "The folder has been created."
 msgstr "Mapa je stvorena."
 
-#: Files.rb:476
+#: Files.rb:465
 msgctxt "Files"
 msgid "The file has been created."
 msgstr "Datoteka je stvorena."
 
-#: Files.rb:482
+#: Files.rb:471
 msgctxt "Files"
 msgid "Playlist cleared"
 msgstr "Popis za reprodukciju je izbrisa"
 
-#: Files.rb:535
+#: Files.rb:524
 msgctxt "Files"
 msgid "Please wait, the file is being converted."
 msgstr "Molim pričekaj... traje konverzija datoteke"
 
-#: Files.rb:541
+#: Files.rb:530
 msgctxt "Files"
 msgid "Converted."
 msgstr "Konverzija je gotova."
 
-#: Files.rb:594
+#: Files.rb:583
 msgctxt "Files"
 msgid "Processing..."
 msgstr "Procesiranje..."
 
-#: Files.rb:393
+#: Files.rb:382
 msgctxt "Files"
 msgid "A new file name"
 msgstr "Novi naziv"
@@ -1788,17 +1804,17 @@ msgctxt "Files"
 msgid " Do you want to run this Elten API script? Scripts coming from unknown sources can  harm your computer or give access to your account to unauthorised persons.  Continue if you trust a source this script comes from."
 msgstr " Do you want to run this Elten API script? Scripts coming from unknown sources can  harm your computer or give access to your account to unauthorised persons.  Continue if you trust a source this script comes from."
 
-#: Files.rb:522
+#: Files.rb:511
 msgctxt "Files"
 msgid "To which format do you want to convert this file?"
 msgstr "U koji format želiš konvertirati ovu datoteku?"
 
-#: Files.rb:401
+#: Files.rb:390
 msgctxt "Files"
 msgid "Do you really want to delete %{filename}?"
 msgstr "Jesi li siguran da želiš izbrisati %{filename}?"
 
-#: Files.rb:532
+#: Files.rb:521
 msgctxt "Files"
 msgid "Select sound quality"
 msgstr "Izaberi kvalitetu zvuka"
@@ -1808,7 +1824,7 @@ msgctxt "Files"
 msgid "Files added to playlist: %{count}."
 msgstr "%{count} datoteka dodano na popis za reprodukciju-"
 
-#: Files.rb:514
+#: Files.rb:503
 msgctxt "Files"
 msgid "Playing: %{file}"
 msgstr "Reproduciram: %{file}"
@@ -1833,79 +1849,10 @@ msgctxt "SoundThemes"
 msgid "default"
 msgstr "Podrazumjevana tema"
 
-msgctxt "SoundThemes"
-msgid "Audio"
-msgstr "Audio"
-
-#: Changes.rb:822
+#: Changes.rb:839
 msgctxt "Changes"
 msgid "Changelog"
 msgstr "Popis izmjena"
-
-#: Media.rb:43
-msgctxt "Media"
-msgid "Enter the URL"
-msgstr "Upiši URL"
-
-#: Media.rb:225
-msgctxt "Media"
-msgid "URL"
-msgstr "URL"
-
-#: Media.rb:43
-msgctxt "Media"
-msgid "New category"
-msgstr "Nova kategorija"
-
-#: Media.rb:135
-msgctxt "Media"
-msgid "New file"
-msgstr "Nova datoteka"
-
-#: Media.rb:227
-msgctxt "Media"
-msgid "Add"
-msgstr "Dodaj"
-
-#: Media.rb:226
-msgctxt "Media"
-msgid "Description"
-msgstr "Opis"
-
-#: Media.rb:224
-msgctxt "Media"
-msgid "Title"
-msgstr "Naslov"
-
-#: Media.rb:148
-msgctxt "Media"
-msgid "Play"
-msgstr "Reproduciraj"
-
-#: Media.rb:148
-msgctxt "Media"
-msgid "Add to playlist"
-msgstr "Dodaj na popis za reprodukciju"
-
-#: Media.rb:182
-msgctxt "Media"
-msgid "Category name"
-msgstr "Naziv kategorije"
-
-#: Media.rb:210
-msgctxt "Media"
-msgid "The category has been added."
-msgstr "Kategorija je dodana!"
-
-#: Media.rb:256
-msgctxt "Media"
-msgid "Added."
-msgstr "Dodano."
-
-#: Media.rb:183
-msgctxt "Media"
-msgid "Category description"
-msgstr "Opis kategorije"
 
 #: Account.rb:14
 msgctxt "Account"
@@ -1922,6 +1869,7 @@ msgctxt "Account"
 msgid "Repeat new password."
 msgstr "Ponovi novu lozinku"
 
+#: Account.rb:35
 msgctxt "Account"
 msgid "Fields: New Password and Repeat New Password have different values."
 msgstr "Polja: Nova lozinka i ponovi novu lozinku ne poklapaju se."
@@ -1931,245 +1879,370 @@ msgctxt "Account"
 msgid "Your password has been changed."
 msgstr "Lozinka je promijenjena."
 
+#: Account.rb:55
 msgctxt "Account"
 msgid "The old password is incorrect."
 msgstr "Upisana je pogrešna stara lozinka."
 
-#: Account.rb:500
+#: Account.rb:871
 msgctxt "Account"
 msgid "Enter your password."
 msgstr "Upiši lozinku"
 
-#: Account.rb:75
+#: Account.rb:74
 msgctxt "Account"
 msgid "Enter a new e-mail address."
 msgstr "Upiši novi e-mail"
 
-#: Account.rb:85
+#: Account.rb:84
 msgctxt "Account"
 msgid "E-mail has been changed."
 msgstr "E-mail je promijenjen."
 
-#: Account.rb:125
+#: Account.rb:249
 msgctxt "Account"
 msgid "Your visiting card:"
 msgstr "Tvoja vizitka:"
 
-#: Account.rb:167
+#: Account.rb:170
 msgctxt "Account"
 msgid "Change your status"
 msgstr "Izmjena statusa"
 
-#: Account.rb:171
+#: Account.rb:250
 msgctxt "Account"
 msgid "Enter a new status"
 msgstr "Upiši novi status"
 
-#: Account.rb:576
+#: Account.rb:706
 msgctxt "Account"
 msgid "Add"
 msgstr "Dodaj"
 
-#: Account.rb:190
 msgctxt "Account"
 msgid "Profile editor"
 msgstr "Uređivanje profila"
 
-#: Account.rb:211
+#: Account.rb:213
 msgctxt "Account"
 msgid "Full name"
 msgstr "Ime i prezime"
 
-#: Account.rb:212
+#: Account.rb:214
 msgctxt "Account"
 msgid "Gender"
 msgstr "Spol"
 
-#: Account.rb:217
+#: Account.rb:230
 msgctxt "Account"
 msgid "Hide my profile for strangers"
 msgstr "Sakrij moj profil pred osobama koje nisu u mojem spisku kontakata"
 
-#: Account.rb:265
+#: Account.rb:394
 msgctxt "Account"
 msgid "Your signature:"
 msgstr "Tvoj potpis:"
 
-#: Account.rb:369
+#: Account.rb:498
 msgctxt "Account"
 msgid "Set avatar"
 msgstr "Postavi avatar"
 
-#: Account.rb:476
+#: Account.rb:606
 msgctxt "Account"
 msgid "Auto log in tokens"
 msgstr "Ključevi automatske prijave"
 
-#: Account.rb:484
+#: Account.rb:614
 msgctxt "Account"
 msgid "Log out all sessions"
 msgstr "Odjavi sve sesije"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "New messages"
 msgstr "Nove poruke"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "New posts in followed threads"
 msgstr "Novi zapisi u sljedećim temama"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "New posts on the followed blogs"
 msgstr "Novi zapisi na sljeđenim blogovima"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "New comments on your blog"
 msgstr "Novi komentari na tvojem blogu"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "New threads on followed forums"
 msgstr "Nove teme na sljeđenim forumima"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "New posts on followed forums"
 msgstr "Novi zapisi na sljeđenim forumima"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "New friends"
 msgstr "Novi prijatelji"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Friends' birthday"
 msgstr "Rođendani prijatelja"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Mentions"
 msgstr "Spominjanja"
 
-#: Account.rb:395
+#: Account.rb:524
 msgctxt "Account"
 msgid "Notice and show in what's new"
 msgstr "Obavjesti i pokaži u rubrici što je novo"
 
-#: Account.rb:395
+#: Account.rb:524
 msgctxt "Account"
 msgid "Notice only"
 msgstr "Samo obavjesti"
 
-#: Account.rb:395
+#: Account.rb:524
 msgctxt "Account"
 msgid "Ignore"
 msgstr "ignoriraj"
 
-#: Account.rb:541
+#: Account.rb:671
 msgctxt "Account"
 msgid "Black list"
 msgstr "Crna lista"
 
-#: Account.rb:630
+#: Account.rb:760
 msgctxt "Account"
 msgid "Are you sure you want to remove this user from the black list?"
 msgstr "Jesi li siguran da želiš ukloniti ovog korisnika s crne liste?"
 
-#: Account.rb:635
+#: Account.rb:765
 msgctxt "Account"
 msgid "A user has been removed from the black list."
 msgstr "Korisnik je uklonjen s crne liste."
 
-#: Account.rb:604
+#: Account.rb:734
 #, fuzzy
 msgctxt "Account"
 msgid " The users added to your black list cannot send you private messages. Are you sure  you want to continue?"
 msgstr " The users added to your black list cannot send you private messages. Are you sure  you want to continue?"
 
+#: Account.rb:749
 msgctxt "Account"
 msgid "You cannot add an administrator to the black list."
 msgstr "Na crnu listu ne možeš dodavati članove administracije."
 
+#: Account.rb:751
 msgctxt "Account"
 msgid "This user is already on your black list."
 msgstr "Ovaj korisnik je dodan na crnu listu."
 
-#: Account.rb:498
+#: Account.rb:843
 #, fuzzy
 msgctxt "Account"
 msgid " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediately."
 msgstr " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediately."
 
-#: Account.rb:181
+#: Account.rb:184
 msgctxt "Account"
 msgid "Your status has been changed."
 msgstr "Status je promijenjen."
 
-#: Account.rb:508
+#: Account.rb:853
 #, fuzzy
 msgctxt "Account"
 msgid " An error occurred while authenticating the account. You might have provided an  incorrect password."
 msgstr " An error occurred while authenticating the account. You might have provided an  incorrect password."
 
-#: Account.rb:623
+#: Account.rb:753
 msgctxt "Account"
 msgid "The user cannot be found."
 msgstr "Korisnik ne postoji."
 
-#: Account.rb:213
+#: Account.rb:221
 msgctxt "Account"
 msgid "Birth date: year"
 msgstr "datum rođenja: godina"
 
-#: Account.rb:214
+#: Account.rb:283
 msgctxt "Account"
 msgid "Birth date: month"
 msgstr "Datum rođenja: mjesec"
 
-#: Account.rb:215
+#: Account.rb:297
 msgctxt "Account"
 msgid "Birth date: day"
 msgstr "Datum rođenja: dan"
 
-#: Account.rb:216
 msgctxt "Account"
 msgid "Location"
 msgstr "Mjesto"
 
-#: Account.rb:326
+#: Account.rb:455
 msgctxt "Account"
 msgid "Your welcome message:"
 msgstr "Tvoja poruka dobrodošlice:"
 
-#: Account.rb:597
+#: Account.rb:727
 msgctxt "Account"
 msgid "Type a username which you want to add to blacklist."
 msgstr "Upiši korisničko ime korisnika, kojeg želiš dodati na crnu listu"
 
-#: Account.rb:608
+#: Account.rb:738
 msgctxt "Account"
 msgid "User %{user} has been added to your blacklist"
 msgstr "Korisnik %{user} dodan je na tvoju crnu listu"
 
-#: Account.rb:474
+#: Account.rb:601
 msgctxt "Account"
 msgid "Computer"
 msgstr "Računalo"
 
-#: Account.rb:474
+#: Account.rb:601
 msgctxt "Account"
 msgid "Creation IP Address"
 msgstr "IP adresa stvaranja"
 
-#: Account.rb:474
+#: Account.rb:601
 msgctxt "Account"
 msgid "Generation date"
 msgstr "Datum stvaranja"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "January"
+msgstr "January"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "February"
+msgstr "February"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "March"
+msgstr "March"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "April"
+msgstr "April"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "May"
+msgstr "May"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "June"
+msgstr "June"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "July"
+msgstr "July"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "August"
+msgstr "August"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "September"
+msgstr "September"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "October"
+msgstr "October"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "November"
+msgstr "November"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "December"
+msgstr "December"
+
+#: Account.rb:313
+#, fuzzy
+msgctxt "Account"
+msgid "State / Province"
+msgstr "State / Province"
+
+#: Account.rb:329
+msgctxt "Account"
+msgid "City"
+msgstr "City"
+
+#: Account.rb:226
+msgctxt "Account"
+msgid "Country"
+msgstr "Country"
+
+#: Account.rb:833
+#, fuzzy
+msgctxt "Account"
+msgid "Last logins"
+msgstr "Last logins"
+
+#: Account.rb:881
+#, fuzzy
+msgctxt "Account"
+msgid "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
+msgstr "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
+
+#: Account.rb:914
+#, fuzzy
+msgctxt "Account"
+msgid "The verification code has been sent to you via E-mail. Please type it here."
+msgstr "The verification code has been sent to you via E-mail. Please type it here."
+
+#: Account.rb:901
+#, fuzzy
+msgctxt "Account"
+msgid "Enable mail events reporting"
+msgstr "Enable mail events reporting"
+
+#: Account.rb:901
+#, fuzzy
+msgctxt "Account"
+msgid "Disable mail events reporting"
+msgstr "Disable mail events reporting"
+
+#: Account.rb:902
+#, fuzzy
+msgctxt "Account"
+msgid "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
+msgstr "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
+
+#: Account.rb:902
+#, fuzzy
+msgctxt "Account"
+msgid "Mail events reporting is enabled."
+msgstr "Mail events reporting is enabled."
+
+#: Account.rb:100
+#, fuzzy
+msgctxt "Account"
+msgid "Error, you must disable mail events reporting first."
+msgstr "Error, you must disable mail events reporting first."
 
 #: UsersAddedMeToContacts.rb:36
 msgctxt "Contacts"
@@ -2311,10 +2384,6 @@ msgctxt "Voice"
 msgid "Select voice's rate"
 msgstr "Odaberi brzinu glasa."
 
-msgctxt "Voice"
-msgid "Saved"
-msgstr "spremljeno"
-
 #: Voice.rb:10
 msgctxt "Voice"
 msgid "Change voice volume"
@@ -2340,6 +2409,7 @@ msgctxt "Voice"
 msgid "Selected voice"
 msgstr "Izabrani glas"
 
+#: Messages.rb:614
 msgctxt "Messages"
 msgid "Unknown error"
 msgstr "Nepoznata pogreška."
@@ -2438,10 +2508,6 @@ msgstr "Poništi snimanje"
 msgctxt "Messages"
 msgid "Found items"
 msgstr "Rezultati pretrage"
-
-msgctxt "Messages"
-msgid "File is being converted..."
-msgstr "konvertiranje datoteke..."
 
 #: Messages.rb:812
 msgctxt "Messages"
@@ -2583,7 +2649,7 @@ msgctxt "Messages"
 msgid "New"
 msgstr "Nova"
 
-#: EAPI_EltenSRV.rb:109
+#: EAPI_EltenSRV.rb:111
 msgctxt "Messages"
 msgid "Sending: %{file}"
 msgstr "slanje: %{file}"
@@ -2653,36 +2719,6 @@ msgctxt "Messages"
 msgid "Are you sure you want to delete %{user} from %{conversation}?"
 msgstr "Jeste li sigurni da želite udaljiti %{user} iz %{conversation}?"
 
-#: MyPermissions.rb:13
-msgctxt "MyPermissions"
-msgid "Moderators"
-msgstr "Moderatori"
-
-#: MyPermissions.rb:14
-msgctxt "MyPermissions"
-msgid "Media administrators"
-msgstr "Administratori medijskog sadržaja"
-
-#: MyPermissions.rb:15
-msgctxt "MyPermissions"
-msgid "Translators"
-msgstr "Prevoditelji"
-
-#: MyPermissions.rb:16
-msgctxt "MyPermissions"
-msgid "Developers"
-msgstr "Programeri"
-
-#: MyPermissions.rb:31
-msgctxt "MyPermissions"
-msgid "You have no special permissions."
-msgstr "Nemaš niti jedno specijalno pravo."
-
-#: MyPermissions.rb:12
-msgctxt "MyPermissions"
-msgid "Betatesters"
-msgstr "Betatesteri"
-
 #: Online.rb:24
 msgctxt "Online"
 msgid "Who is on line?"
@@ -2693,13 +2729,13 @@ msgctxt "MainMenu"
 msgid "Programs installation"
 msgstr "Instaliraj nove programe"
 
-#: MainMenu.rb:495
+#: MainMenu.rb:487
 #, fuzzy
 msgctxt "MainMenu"
 msgid " Do you want to restore the last sarr version of this program? All settings stay  as they are."
 msgstr " Do you want to restore the last sarr version of this program? All settings stay  as they are."
 
-#: MainMenu.rb:503
+#: MainMenu.rb:495
 #, fuzzy
 msgctxt "MainMenu"
 msgid " Are you sure you want to reset all settings to their factory defaults? Elten will  restart."
@@ -2710,11 +2746,7 @@ msgctxt "MainMenu"
 msgid "&Community"
 msgstr "&Zajednica"
 
-msgctxt "MainMenu"
-msgid "&media"
-msgstr "&Mediji"
-
-#: MainMenu.rb:536
+#: MainMenu.rb:528
 msgctxt "MainMenu"
 msgid "&Files"
 msgstr "&Datoteke"
@@ -2789,7 +2821,7 @@ msgctxt "MainMenu"
 msgid "Cloc&k"
 msgstr "&Sat"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "Soun&dthemes"
 msgstr "&zvučne teme"
@@ -2839,7 +2871,7 @@ msgctxt "MainMenu"
 msgid "Po&lls"
 msgstr "&ankete"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "&Users"
 msgstr "&Korisnici"
@@ -2854,12 +2886,10 @@ msgctxt "MainMenu"
 msgid "Edit &profile"
 msgstr "&Uredi profil"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "Change &status"
 msgstr "Pro&mijeni status"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "My si&gnature"
 msgstr "Moj pot&pis"
@@ -2869,7 +2899,6 @@ msgctxt "MainMenu"
 msgid "My &welcome message"
 msgstr "Moja poruka &dobrodošlice"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "My &visiting card"
 msgstr "Moja &vizitka"
@@ -2879,7 +2908,6 @@ msgctxt "MainMenu"
 msgid "My &badges"
 msgstr "Moje &značke"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "My share&d files"
 msgstr "Moje dijeljene dato&teke"
@@ -2893,10 +2921,6 @@ msgstr "Postavi &avatar"
 msgctxt "MainMenu"
 msgid "WHat's &new configuration"
 msgstr "Postavke za što &je novo"
-
-msgctxt "MainMenu"
-msgid "My p&ermissions"
-msgstr "Moja p&rava"
 
 #: MainMenu.rb:287
 msgctxt "MainMenu"
@@ -2923,140 +2947,132 @@ msgctxt "MainMenu"
 msgid "Two-factor a&uthentication settings"
 msgstr "&Postavke dvofaktorne autentifikacije"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "Soundthemes &generator"
 msgstr "&generator zvučnih tema"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "Speed &test"
 msgstr "&Test brzine"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "P&rogram management"
 msgstr "&upravljanje programima"
 
-#: MainMenu.rb:536
+#: MainMenu.rb:528
 msgctxt "MainMenu"
 msgid "Read to &file"
 msgstr "&Čitaj u datoteku"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "&Console"
 msgstr "&Konzola"
 
-msgctxt "MainMenu"
-msgid "&Elten API compiler"
-msgstr "kompilator &eltenapi"
-
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "De&bugging"
 msgstr "&otkrivanje grešaka"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "Hide in &tray"
 msgstr "&sakrij u sistem traj"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "&Logout"
 msgstr "&odjava"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "E&xit"
 msgstr "&Izlaz"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "&Restart"
 msgstr "&ponovno pokretanje"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "Restart in de&bug mode"
 msgstr "&ponovno pokretanje u načinu otkrivanja grešaka"
 
-#: MainMenu.rb:476
+#: MainMenu.rb:468
 msgctxt "MainMenu"
 msgid "Search for &updates"
 msgstr "&Traži nadogradnje"
 
-#: MainMenu.rb:476
+#: MainMenu.rb:468
 msgctxt "MainMenu"
 msgid "&Reinstall"
 msgstr "&Reinstalacija"
 
-#: MainMenu.rb:478
+#: MainMenu.rb:470
 msgctxt "MainMenu"
 msgid "Create &Portable version"
 msgstr "Stvori &prijenosnu kopiju"
 
-#: MainMenu.rb:478
+#: MainMenu.rb:470
 msgctxt "MainMenu"
 msgid "Restore &default settings"
 msgstr "&vraćanje zaddanih postavki"
 
-#: MainMenu.rb:478
+#: MainMenu.rb:470
 msgctxt "MainMenu"
 msgid "&Install"
 msgstr "&Instaliraj"
 
-msgctxt "MainMenu"
-msgid "&Media catalog"
-msgstr "&Katalog medija"
-
-#: MainMenu.rb:536
+#: MainMenu.rb:528
 msgctxt "MainMenu"
 msgid "&YouTube"
 msgstr "&YouTube"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "My &contacts"
 msgstr "&moji prijatelji"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "Users who a&dded me to contacts"
 msgstr "&Korisnici koji su me dodali u prijatelje"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "WHo is &online?"
 msgstr "&Tko je na mreži"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "&Users list"
 msgstr "&Spisak korisnika"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "Ad&mins"
 msgstr "&Administratori"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "User searc&h"
 msgstr "&pretraga po korisnicima"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "Recently &actived users"
 msgstr "&zadnje aktivni korisnici"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "Recently &registered users"
 msgstr "&Posljednji registrirani korisnici"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "Recently changed a&vatars"
 msgstr "Posljednje izmijenjeni &avatari"
@@ -3076,515 +3092,520 @@ msgctxt "MainMenu"
 msgid "Sound device"
 msgstr "Zvučna kartica"
 
-#: Forum.rb:1075
+#: MainMenu.rb:287
+#, fuzzy
+msgctxt "MainMenu"
+msgid "Last logins"
+msgstr "Last logins"
+
+#: MainMenu.rb:287
+#, fuzzy
+msgctxt "MainMenu"
+msgid "Mail events reporting"
+msgstr "Mail events reporting"
+
+#: Forum.rb:1092
 msgctxt "Forum"
 msgid "New thread"
 msgstr "Nova tema"
 
-#: Forum.rb:2009
+#: Forum.rb:2026
 msgctxt "Forum"
 msgid "Added to the list of followed threads."
 msgstr "Dodano do sljeđenih tema."
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Go to last post"
 msgstr "Skoči na posljednji zapis"
 
-#: Forum.rb:1216
+#: Forum.rb:1233
 msgctxt "Forum"
 msgid "Thread's title"
 msgstr "Naslov teme"
 
-#: Forum.rb:1404
+#: Forum.rb:1421
 msgctxt "Forum"
 msgid "Thread has been created."
 msgstr "Tema je stvorena."
 
+#: Forum.rb:1423
 msgctxt "Forum"
 msgid "Error creating thread!"
 msgstr "Greška pri stvaranju teme!"
 
-#: Forum.rb:1900
+#: Forum.rb:1917
 msgctxt "Forum"
 msgid "The post was created."
 msgstr "Zapis je stvoren."
 
-#: Forum.rb:1166
+#: Forum.rb:1183
 msgctxt "Forum"
 msgid "This thread has been deleted."
 msgstr "Tema je izbrisana."
 
-#: Forum.rb:2138
+#: Forum.rb:2155
 msgctxt "Forum"
 msgid "This post has been deleted."
 msgstr "Zapis je izbrisan."
 
-#: Forum.rb:2154
+#: Forum.rb:2171
 msgctxt "Forum"
 msgid "Forum"
 msgstr "Forum"
 
-#: Forum.rb:1948
+#: Forum.rb:1965
 msgctxt "Forum"
 msgid "Reply"
 msgstr "odgovori"
 
-#: Forum.rb:1948
+#: Forum.rb:1965
 msgctxt "Forum"
 msgid "Reply with quote"
 msgstr "odgovori s citatom"
 
-#: Forum.rb:1953
+#: Forum.rb:1970
 msgctxt "Forum"
 msgid "Go to first new post"
 msgstr "Skoči na prvi novi zapis"
 
-#: Forum.rb:1863
+#: Forum.rb:1880
 msgctxt "Forum"
 msgid "Send"
 msgstr "Pošalji"
 
-#: Forum.rb:1004
+#: Forum.rb:1021
 msgctxt "Forum"
 msgid "No new posts in followed threads"
 msgstr "Nema novih zapisa u sljeđenim temama"
 
-#: Forum.rb:1706
+#: Forum.rb:1723
 msgctxt "Forum"
 msgid "Return"
 msgstr "Nazad"
 
-#: Forum.rb:1863
+#: Forum.rb:1880
 msgctxt "Forum"
 msgid "Add the post"
 msgstr "Dodaj zapis"
 
-#: Forum.rb:1699
+#: Forum.rb:1716
 msgctxt "Forum"
 msgid "Your answer"
 msgstr "Tvoj odgovor"
 
-#: Forum.rb:744
+#: Forum.rb:761
 msgctxt "Forum"
 msgid "Forums selection"
 msgstr "Izaberi forum"
 
-#: Forum.rb:1042
+#: Forum.rb:1059
 msgctxt "Forum"
 msgid "Threads selection"
 msgstr "Izaberi temu"
 
-#: Forum.rb:1701
+#: Forum.rb:1718
 msgctxt "Forum"
 msgid "Record a new post"
 msgstr "Snimi novi zapis"
 
-#: Forum.rb:1856
+#: Forum.rb:1873
 msgctxt "Forum"
 msgid "Stop recording"
 msgstr "Završi snimanje"
 
-#: Forum.rb:1861
+#: Forum.rb:1878
 msgctxt "Forum"
 msgid "Record a post once again"
 msgstr "Ponovno snimi"
 
-#: Forum.rb:1862
+#: Forum.rb:1879
 msgctxt "Forum"
 msgid "Play"
 msgstr "Reproduciraj"
 
-#: Forum.rb:1213
+#: Forum.rb:1230
 msgctxt "Forum"
 msgid "Post"
 msgstr "Sadržaj zapisa"
 
-msgctxt "Forum"
-msgid "Converting..."
-msgstr "Konvertiranje..."
-
-#: Forum.rb:1323
+#: Forum.rb:1340
 msgctxt "Forum"
 msgid "Record a post"
 msgstr "Snimi zapis"
 
-#: Forum.rb:1331
+#: Forum.rb:1348
 msgctxt "Forum"
 msgid "Play a post"
 msgstr "Reproduciraj zapis"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Search"
 msgstr "Traži"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Rename"
 msgstr "Promjeni naziv"
 
-#: Forum.rb:1974
+#: Forum.rb:1991
 msgctxt "Forum"
 msgid "Edit post"
 msgstr "Uredi zapis"
 
-#: Forum.rb:1975
+#: Forum.rb:1992
 msgctxt "Forum"
 msgid "Delete post"
 msgstr "Izbriši zapis"
 
-#: Forum.rb:1087
+#: Forum.rb:1104
 msgctxt "Forum"
 msgid "Open"
 msgstr "Otvori"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Move thread"
 msgstr "Prenesi temu"
 
-#: Forum.rb:2042
+#: Forum.rb:2059
 msgctxt "Forum"
 msgid "Enter a phrase to look for"
 msgstr "Upiši tekst pretrage"
 
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Add to followed threads list"
 msgstr "Dodaj u sljeđene postove"
 
-#: Forum.rb:1914
+#: Forum.rb:1931
 msgctxt "Forum"
 msgid "Unfollow this thread"
 msgstr "Ukloni iz sljeđenih postova"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Delete thread"
 msgstr "Ukloni temu"
 
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Navigation"
 msgstr "kretanje"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Go to post"
 msgstr "Skoči na zapis"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Search thread"
 msgstr "pretraži temu"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Go to first post"
 msgstr "Skoči na prvi zapis"
 
-#: Forum.rb:1913
+#: Forum.rb:1930
 msgctxt "Forum"
 msgid "Moderation"
 msgstr "Moderacija"
 
-#: Forum.rb:1975
+#: Forum.rb:1992
 msgctxt "Forum"
 msgid "Move post"
 msgstr "Prenesi zapis"
 
-#: Forum.rb:2076
+#: Forum.rb:2093
 msgctxt "Forum"
 msgid "edit your post here"
 msgstr "Uređivanje zapisa"
 
-#: Forum.rb:2085
+#: Forum.rb:2102
 msgctxt "Forum"
 msgid "The post has been modified"
 msgstr "Zapis je izmijenjen."
 
-#: Forum.rb:2180
+#: Forum.rb:2197
 msgctxt "Forum"
 msgid "Mention post"
 msgstr "Osvrni se na zapis"
 
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Listen to the thread"
 msgstr "Preslušaj temu"
 
-#: Forum.rb:756
+#: Forum.rb:773
 msgctxt "Forum"
 msgid "Follow this forum"
 msgstr "Počni pratiti ovaj forum"
 
-#: Forum.rb:757
+#: Forum.rb:774
 msgctxt "Forum"
 msgid "Unfollow this forum"
 msgstr "Ukloni sljeđene forume"
 
-#: Forum.rb:777
+#: Forum.rb:794
 msgctxt "Forum"
 msgid "Added to followed forums list."
 msgstr "Dodano u sljeđene forume."
 
-#: Forum.rb:784
+#: Forum.rb:801
 msgctxt "Forum"
 msgid "Removed from followed forums list."
 msgstr "Izbrisano iz sljeđenih foruma."
 
-#: Forum.rb:2016
+#: Forum.rb:2033
 msgctxt "Forum"
 msgid "Removed from followed threads list."
 msgstr "Izbrisano iz sljeđenih tema."
 
-#: Forum.rb:2180
+#: Forum.rb:2197
 msgctxt "Forum"
 msgid "Message"
 msgstr "Poruka"
 
-#: Forum.rb:756
+#: Forum.rb:773
 msgctxt "Forum"
 msgid "Mark this forum as read"
 msgstr "Označi ovaj forum kao pročitan"
 
-#: Forum.rb:797
+#: Forum.rb:814
 #, fuzzy
 msgctxt "Forum"
 msgid " All posts on this forum will be marked as read. Are you sure you want to continue?"
 msgstr " All posts on this forum will be marked as read. Are you sure you want to continue?"
 
-#: Forum.rb:805
+#: Forum.rb:822
 msgctxt "Forum"
 msgid "The forum has been marked as read."
 msgstr "Forum je označen kao pročitan."
 
-#: Forum.rb:1009
+#: Forum.rb:1026
 msgctxt "Forum"
 msgid "No new threads on the followed forums"
 msgstr "Nema novih tema na sljeđenim forumima"
 
-#: Forum.rb:1014
+#: Forum.rb:1031
 msgctxt "Forum"
 msgid "No new posts on the followed forums"
 msgstr "Nema novih zapisa na sljeđenom forumu"
 
-#: Forum.rb:1019
+#: Forum.rb:1036
 msgctxt "Forum"
 msgid "No new mentions"
 msgstr "Nema novih osvrta"
 
-#: Forum.rb:1141
+#: Forum.rb:1158
 msgctxt "Forum"
 msgid "The thread has been moved."
 msgstr "Tema je prenesena."
 
-#: Forum.rb:1154
+#: Forum.rb:1171
 msgctxt "Forum"
 msgid "The forum name has been changed."
 msgstr "Naziv je izmijenjen."
 
-#: Forum.rb:1874
+#: Forum.rb:1891
 msgctxt "Forum"
 msgid "Preparing..."
 msgstr "Priprema za slanje zapisa..."
 
-#: Forum.rb:1902
+#: Forum.rb:1919
 msgctxt "Forum"
 msgid "Post creation failure."
 msgstr "Greška pri stvaranju zapisa."
 
-#: Forum.rb:2062
+#: Forum.rb:2079
 msgctxt "Forum"
 msgid "The entered phrase cannot be found."
 msgstr "Upisana fraza nije nađena."
 
-#: Forum.rb:2121
+#: Forum.rb:2138
 msgctxt "Forum"
 msgid "The post has been moved."
 msgstr "Zapis je prenesen."
 
-#: Forum.rb:2157
+#: Forum.rb:2174
 msgctxt "Forum"
 msgid "The post has been slided."
 msgstr "Zapis je prebačen."
 
-#: Forum.rb:2176
+#: Forum.rb:2193
 msgctxt "Forum"
 msgid "Nobody added you to their contact list."
 msgstr "Nitko te nije dodao u kontakte."
 
-#: Forum.rb:2194
+#: Forum.rb:2211
 msgctxt "Forum"
 msgid "The mention has been sent."
 msgstr "Osvrt je poslan."
 
-#: Forum.rb:1214
+#: Forum.rb:1231
 msgctxt "Forum"
 msgid "Nick:"
 msgstr "Pseudonim:"
 
-#: Forum.rb:1149
+#: Forum.rb:1166
 msgctxt "Forum"
 msgid "Type a new thread name"
 msgstr "Upiši nuvi naziv teme"
 
-#: Forum.rb:1323
+#: Forum.rb:1340
 msgctxt "Forum"
 msgid "Stop recording a post"
 msgstr "Zaustavi snimanje zapisa"
 
-#: Forum.rb:2128
+#: Forum.rb:2145
 msgctxt "Forum"
 msgid "Are you sure you want to delete this post?"
 msgstr "Želiš li doista izbrisati ovaj zapis?"
 
-#: Forum.rb:1136
+#: Forum.rb:1153
 msgctxt "Forum"
 msgid "Where do you want to move this thread"
 msgstr "Gdje želiš prenijeti tu temu"
 
-#: Forum.rb:2057
+#: Forum.rb:2074
 msgctxt "Forum"
 msgid "Select a post"
 msgstr "Izaberi zapis"
 
-#: Forum.rb:2116
+#: Forum.rb:2133
 msgctxt "Forum"
 msgid "Where do you want to move this post?"
 msgstr "Gdje želiš prenijeti ovaj zapis?"
 
-msgctxt "Forum"
-msgid "Select a post to be slided with this post."
-msgstr "Izaberi zapis, sa kojim želiš zamijeniti postojeći zapis."
-
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Author"
 msgstr "Autor"
 
-#: Forum.rb:1162
+#: Forum.rb:1179
 msgctxt "Forum"
 msgid "Do you really want to delete thread %{thrname}?"
 msgstr "Jesi li suguran da želiš ukloniti temu pod nazivom %{thrname}?"
 
-#: Forum.rb:1029
+#: Forum.rb:1046
 msgctxt "Forum"
 msgid "New"
 msgstr "Nowi"
 
-#: Forum.rb:743
+#: Forum.rb:760
 msgctxt "Forum"
 msgid "Threads"
 msgstr "teme"
 
-#: Forum.rb:1044
+#: Forum.rb:1061
 msgctxt "Forum"
 msgid "posts"
 msgstr "zapisi"
 
-#: Forum.rb:1044
+#: Forum.rb:1061
 msgctxt "Forum"
 msgid "Unread"
 msgstr "Novo"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Followed threads"
 msgstr "sljeđene teme"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Followed forums"
 msgstr "sljeđeni forumi"
 
-#: Forum.rb:246
+#: Forum.rb:261
 msgctxt "Forum"
 msgid "Forums"
 msgstr "forumi"
 
-#: Forum.rb:1032
+#: Forum.rb:1049
 msgctxt "Forum"
 msgid "Montioned by"
 msgstr "osvrnuo se"
 
-#: Forum.rb:1975
+#: Forum.rb:1992
 msgctxt "Forum"
 msgid "Change post position"
 msgstr "Izmjeni poziciju posta"
 
-#: Forum.rb:314
+#: Forum.rb:331
 msgctxt "Forum"
 msgid "Group members"
 msgstr "Članovi grupa"
 
-#: Forum.rb:390
+#: Forum.rb:407
 msgctxt "Forum"
 msgid "Group Members"
 msgstr "Članovi grupe"
 
-#: Forum.rb:525
+#: Forum.rb:542
 msgctxt "Forum"
 msgid "Administrator"
 msgstr "Administrator"
 
-#: Forum.rb:469
+#: Forum.rb:486
 msgctxt "Forum"
 msgid "Moderator"
 msgstr "Moderator"
 
-#: Forum.rb:316
+#: Forum.rb:333
 msgctxt "Forum"
 msgid "Join"
 msgstr "Join"
 
-#: Forum.rb:319
+#: Forum.rb:336
 msgctxt "Forum"
 msgid "Leave"
 msgstr "Leave"
 
-#: Forum.rb:577
+#: Forum.rb:594
 msgctxt "Forum"
 msgid "Are you sure you want to join %{groupname}?"
 msgstr "jeste li sugurni da se želite pridružiti grupi %{groupname}?"
 
-#: Forum.rb:596
+#: Forum.rb:613
 msgctxt "Forum"
 msgid "Are you sure you want to leave %{groupname}?"
 msgstr "Jeste li sigurni da želite napustiti grupu %{groupname}?"
 
-#: Forum.rb:586
+#: Forum.rb:603
 msgctxt "Forum"
 msgid "You've just joined the group"
 msgstr "Upravo ste se pridružili grupi"
 
-#: Forum.rb:599
+#: Forum.rb:616
 msgctxt "Forum"
 msgid "You've just left the group"
 msgstr "Upravo ste napustili grupu"
 
-#: Forum.rb:411
+#: Forum.rb:428
 msgctxt "Forum"
 msgid "Pass administrative privileges"
 msgstr "Prenesi administratorska prava"
 
-#: Forum.rb:408
+#: Forum.rb:425
 msgctxt "Forum"
 msgid "Grant moderation privileges"
 msgstr "Daj moderatorska prava"
 
-#: Forum.rb:410
+#: Forum.rb:427
 msgctxt "Forum"
 msgid "Deny moderation privileges"
 msgstr "Oduzmi moderatorska prava"
 
-#: Forum.rb:425
+#: Forum.rb:442
 msgctxt "Forum"
 msgid "Ban in this group"
 msgstr "Baniraj u ovoj grupi"
 
-#: Forum.rb:430
+#: Forum.rb:447
 msgctxt "Forum"
 msgid "Unban"
 msgstr "Unban"
@@ -3598,12 +3619,12 @@ msgctxt "Forum"
 msgid "Are you sure you want to deny %{user}'s moderation privileges?"
 msgstr " Jeste li sigurni da želite oduzeti moderatorska prava korisniku %{user}?"
 
-#: Forum.rb:527
+#: Forum.rb:544
 msgctxt "Forum"
 msgid "Privileges of this user have been changed."
 msgstr "Prava ovog korisnika su izmijenjena"
 
-#: Forum.rb:517
+#: Forum.rb:534
 #, fuzzy
 msgctxt "Forum"
 msgid "Are you sure you want to resign your administrative privileges in %{groupname} and pass them to %{user}?"
@@ -3617,7 +3638,7 @@ msgctxt "Forum"
 msgid "Are you sure you want to unban %{user} in %{groupname}?"
 msgstr " Jeste li sigurni da želite odbanirati korisnika %{user} u grupi %{groupname}?"
 
-#: Forum.rb:427
+#: Forum.rb:444
 msgctxt "Forum"
 msgid "Kick"
 msgstr "Kick"
@@ -3626,262 +3647,262 @@ msgctxt "Forum"
 msgid "Are you sure you want to kick %{user} of %{groupname}?"
 msgstr " Jeste li sigurni da želite izbaciti korisnika %{user} iz grupe %{groupname}?"
 
-#: Forum.rb:762
+#: Forum.rb:779
 msgctxt "Forum"
 msgid "New forum"
 msgstr "Novi forum"
 
-#: Forum.rb:765
+#: Forum.rb:782
 msgctxt "Forum"
 msgid "Delete forum"
 msgstr "Izbriši forum"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum name"
 msgstr "Naziv foruma"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum description"
 msgstr "Opis foruma"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum type"
 msgstr "Tip foruma"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Text forum"
 msgstr "Tekstualni forum"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Voice forum"
 msgstr "Glasovni forum"
 
-#: Forum.rb:896
+#: Forum.rb:913
 msgctxt "Forum"
 msgid "Create forum"
 msgstr "Stvori forum"
 
-#: Forum.rb:912
+#: Forum.rb:929
 msgctxt "Forum"
 msgid "The forum has been created"
 msgstr "Forum je stvoren"
 
-#: Forum.rb:870
+#: Forum.rb:887
 msgctxt "Forum"
 msgid "Are you sure you want to delete this forum?"
 msgstr "Jeste li sigurni da želite izbrisati ovaj forum?"
 
-#: Forum.rb:875
+#: Forum.rb:892
 msgctxt "Forum"
 msgid "The forum has been deleted."
 msgstr "Forum je izbrisan."
 
-#: Forum.rb:764
+#: Forum.rb:781
 msgctxt "Forum"
 msgid "Edit forum"
 msgstr "Uredi forum"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Recommended groups"
 msgstr "Preporučene grupe"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Open groups"
 msgstr "Otvorene grupe"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "All groups"
 msgstr "Sve grupe"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Group name"
 msgstr "Naziv grupe"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Group description"
 msgstr "Opis grupe"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Group type"
 msgstr "Tip grupe"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Public"
 msgstr "Public"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Hidden"
 msgstr "Hidden"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Join method"
 msgstr "Metoda prijave"
 
-#: Forum.rb:699
+#: Forum.rb:716
 msgctxt "Forum"
 msgid "open (everyone can join)"
 msgstr "Otvorena (svatko se može prijaviti)"
 
-#: Forum.rb:699
+#: Forum.rb:716
 msgctxt "Forum"
 msgid "Moderated (everyone can request)"
 msgstr "Moderirano (svatko može zatražiti zahtjev za prijavu)"
 
-#: Forum.rb:697
+#: Forum.rb:714
 msgctxt "Forum"
 msgid "closed (only invited users can join)"
 msgstr "Zatvoreno (samo pozvani korisnici se mogu pridružiti)"
 
-#: Forum.rb:691
+#: Forum.rb:708
 msgctxt "Forum"
 msgid "Create group"
 msgstr "Stvori grupu"
 
-#: Forum.rb:855
+#: Forum.rb:872
 msgctxt "Forum"
 msgid "Change forum position"
 msgstr "Promjeni poziciju foruma"
 
-#: Forum.rb:855
+#: Forum.rb:872
 msgctxt "Forum"
 msgid "Above what forum do you want to move this forum?"
 msgstr "Iznad kojeg foruma želite premjestiti ovaj forum?"
 
-#: Forum.rb:855
+#: Forum.rb:872
 msgctxt "Forum"
 msgid "Move to the end"
 msgstr "Premjesti na kraj"
 
-#: Forum.rb:312
+#: Forum.rb:329
 msgctxt "Forum"
 msgid "New group"
 msgstr "Nova grupa"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Language"
 msgstr "Language"
 
-#: Forum.rb:706
+#: Forum.rb:723
 msgctxt "Forum"
 msgid "Group has been created"
 msgstr "Grupa je stvorena."
 
-#: Forum.rb:322
+#: Forum.rb:339
 msgctxt "Forum"
 msgid "Delete group"
 msgstr "Izbriši grupu"
 
-#: Forum.rb:653
+#: Forum.rb:670
 msgctxt "Forum"
 msgid "Are you sure you want to delete %{groupname}?"
 msgstr "Jeste li sigurni da želite izbrisati grupu %{groupname}?"
 
-#: Forum.rb:657
+#: Forum.rb:674
 msgctxt "Forum"
 msgid "Group has been deleted"
 msgstr "Grupa je izbrisana"
 
-#: Forum.rb:315
+#: Forum.rb:332
 msgctxt "Forum"
 msgid "Invite"
 msgstr "Invite"
 
-#: Forum.rb:546
+#: Forum.rb:563
 msgctxt "Forum"
 msgid "Type user to invite"
 msgstr "Napiši ime korisnika kojeg želiš pozvati"
 
-#: Forum.rb:556
+#: Forum.rb:573
 msgctxt "Forum"
 msgid "The user has been invited"
 msgstr "Korisnik je pozvan"
 
-#: Forum.rb:564
+#: Forum.rb:581
 msgctxt "Forum"
 msgid "This user does not exist"
 msgstr "Taj korisnik ne postoji"
 
-#: Forum.rb:566
+#: Forum.rb:583
 msgctxt "Forum"
 msgid "This user already belongs to this group"
 msgstr "Ovaj korisnik već pripada toj grupi"
 
-#: Forum.rb:317
+#: Forum.rb:334
 msgctxt "Forum"
 msgid "Accept invitation"
 msgstr "Prihvati pozivnicu"
 
-#: Forum.rb:320
+#: Forum.rb:337
 msgctxt "Forum"
 msgid "Refuse invitation"
 msgstr "Odbaci pozivnicu"
 
-#: Forum.rb:383
+#: Forum.rb:400
 msgctxt "Forum"
 msgid "Invited"
 msgstr "Invited"
 
-#: Forum.rb:507
+#: Forum.rb:524
 msgctxt "Forum"
 msgid "Banned"
 msgstr "Banned"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Invitations"
 msgstr "Invitations"
 
-#: Forum.rb:321
+#: Forum.rb:338
 msgctxt "Forum"
 msgid "Edit group"
 msgstr "Uredi grupu"
 
-#: Forum.rb:487
+#: Forum.rb:504
 msgctxt "Forum"
 msgid "Ask to be enrolled in this group"
 msgstr "Zatraži promociju u ovoj grupi"
 
-#: Forum.rb:575
+#: Forum.rb:592
 msgctxt "Forum"
 msgid "Do you wish to ask to be enrolled in %{groupname}"
 msgstr "Želite li stvarno zatražiti promociju u ovoj grupi %{groupname}"
 
-#: Forum.rb:583
+#: Forum.rb:600
 msgctxt "Forum"
 msgid "Request sent"
 msgstr "Zahtjevv je poslan"
 
-#: Forum.rb:508
+#: Forum.rb:525
 msgctxt "Forum"
 msgid "Waiting for review"
 msgstr "Čekam na odobravanje"
 
-#: Forum.rb:435
+#: Forum.rb:452
 msgctxt "Forum"
 msgid "Examine this application"
 msgstr "Provjeri ovaj zahtjev"
 
-#: Forum.rb:487
+#: Forum.rb:504
 msgctxt "Forum"
 msgid "Accept"
 msgstr "Accept"
 
-#: Forum.rb:487
+#: Forum.rb:504
 msgctxt "Forum"
 msgid "Refuse"
 msgstr "Refuse"
@@ -3894,119 +3915,125 @@ msgctxt "Forum"
 msgid "Do you want to refuse request of user %{user}"
 msgstr "Želite li odbaciti zahtjev korisnika %{user}"
 
-#: Forum.rb:1765
+#: Forum.rb:1782
 msgctxt "Forum"
 msgid "Attachments"
 msgstr "Attachments"
 
-#: Forum.rb:1688
+#: Forum.rb:1705
 msgctxt "Forum"
 msgid "Polls"
 msgstr "Polls"
 
-#: Forum.rb:1213
+#: Forum.rb:1230
 msgctxt "Forum"
 msgid "Attach a poll"
 msgstr "Priloži anketu"
 
-#: Forum.rb:1699
+#: Forum.rb:1716
 msgctxt "Forum"
 msgid "Attach a file"
 msgstr "Priloži datoteku"
 
-#: Forum.rb:1256
+#: Forum.rb:1273
 msgctxt "Forum"
 msgid "You haven't created any polls yet."
 msgstr "Još niste stvorili niti jednu anketu."
 
-#: Forum.rb:1242
+#: Forum.rb:1259
 msgctxt "Forum"
 msgid "Select poll to attach"
 msgstr "Odaberite anketu koju želite priložiti"
 
-#: Forum.rb:1252
+#: Forum.rb:1269
 msgctxt "Forum"
 msgid "Poll has been added"
 msgstr "Anketa je dodana"
 
-#: Forum.rb:1247
+#: Forum.rb:1264
 msgctxt "Forum"
 msgid "This poll has already been added"
 msgstr "Ova anketa je već dodana"
 
-#: Forum.rb:1767
+#: Forum.rb:1784
 msgctxt "Forum"
 msgid "The file has been attached"
 msgstr "Datoteka je dodana"
 
-#: Forum.rb:1759
+#: Forum.rb:1776
 msgctxt "Forum"
 msgid "This file has been already attached"
 msgstr "Ova datoteka je već dodana"
 
-#: Forum.rb:1756
+#: Forum.rb:1773
 msgctxt "Forum"
 msgid "Select file to attach"
 msgstr "Odaberite datoteku koju želote priložiti"
 
-#: Forum.rb:1762
+#: Forum.rb:1779
 msgctxt "Forum"
 msgid "This file is too large"
 msgstr "Ova datoteka je prevelika"
 
-#: Forum.rb:1744
+#: Forum.rb:1761
 msgctxt "Forum"
 msgid "Where to save this file?"
 msgstr "Gdje želite spremiti tu datoteku?"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Close thread"
 msgstr "Zatvori temu"
 
-#: Forum.rb:1087
+#: Forum.rb:1104
 msgctxt "Forum"
 msgid "Open thread"
 msgstr "Otvori temu"
 
-#: Forum.rb:1186
+#: Forum.rb:1203
 msgctxt "Forum"
 msgid "The thread has been closed"
 msgstr "Tema je zatvorena"
 
-#: Forum.rb:1182
+#: Forum.rb:1199
 msgctxt "Forum"
 msgid "The thread has been opened"
 msgstr "Tema je otvorena"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Recently created groups"
 msgstr "Zadnje stvorene grupe"
 
-#: Forum.rb:150
+#: Forum.rb:152
 #, fuzzy
 msgctxt "Forum"
 msgid "Threads popular with my friends"
 msgstr "Threads popular with my friends"
 
-#: Forum.rb:150
+#: Forum.rb:152
 #, fuzzy
 msgctxt "Forum"
 msgid "Groups popular with my friends"
 msgstr "Groups popular with my friends"
 
-#: Forum.rb:2153
+#: Forum.rb:2170
 #, fuzzy
 msgctxt "Forum"
 msgid "Move to end"
 msgstr "Move to end"
 
-#: Forum.rb:2154
+#: Forum.rb:2171
 #, fuzzy
 msgctxt "Forum"
 msgid "Where to slide this post?"
 msgstr "Where to slide this post?"
+
+#: Forum.rb:152
+#, fuzzy
+msgctxt "Forum"
+msgid "Moderated groups"
+msgstr "Moderated groups"
 
 #: Main.rb:94
 msgctxt "Main"
@@ -4058,43 +4085,39 @@ msgctxt "Main"
 msgid "Playlist removed."
 msgstr "Popis za reprodukciju je uklonjen."
 
-msgctxt "Main"
-msgid "test"
-msgstr "test"
-
 #: Login.rb:17
 msgctxt "Login"
 msgid "Username:"
 msgstr "Korisničko ime:"
 
-#: Login.rb:146
+#: Login.rb:145
 msgctxt "Login"
 msgid "Password:"
 msgstr "Lozinka:"
 
-#: Login.rb:134
+#: Login.rb:133
 msgctxt "Login"
 msgid "Do not ask again"
 msgstr "Ne pitaj me ponovno"
 
-#: Login.rb:172
+#: Login.rb:171
 msgctxt "Login"
 msgid "To reenable auto log in feature, proceed to the interface settings."
 msgstr " Kako biste uključili značajku automatske prijave, molimo uđite u postavke  sučelja."
 
-#: Login.rb:136
+#: Login.rb:135
 #, fuzzy
 msgctxt "Login"
 msgid " The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"
 msgstr " The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"
 
-#: Login.rb:161
+#: Login.rb:160
 #, fuzzy
 msgctxt "Login"
 msgid " Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."
 msgstr " Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."
 
-#: Login.rb:163
+#: Login.rb:162
 #, fuzzy
 msgctxt "Login"
 msgid " Login data has been updated. Automatic login will be proceeding until you log  out. Automatic login keys can be managed from the My Account tab in the Community  menu."
@@ -4116,33 +4139,33 @@ msgctxt "Login"
 msgid "The entered code is not valid, try again."
 msgstr "Upisani kod je netočan, Pokušaj ponovo još jednom"
 
-#: Login.rb:152
+#: Login.rb:151
 #, fuzzy
 msgctxt "Login"
 msgid " An error occurred while authenticating the identity. You might have provided an  incorrect password."
 msgstr " An error occurred while authenticating the identity. You might have provided an  incorrect password."
 
-#: Login.rb:235
+#: Login.rb:234
 msgctxt "Login"
 msgid "Invalid login or password."
 msgstr "Krivo korisničko ime ili lozinka."
 
-#: Login.rb:240
+#: Login.rb:239
 msgctxt "Login"
 msgid "Login failure."
 msgstr "Greška prijave."
 
-#: Login.rb:244
+#: Login.rb:243
 msgctxt "Login"
 msgid "Connection failure."
 msgstr "Greška veze sa serverom."
 
-#: Login.rb:192
+#: Login.rb:191
 msgctxt "Login"
 msgid "Logged in as: %{user}"
 msgstr "Prijavljen kao: %{user}"
 
-#: Login.rb:134
+#: Login.rb:133
 msgctxt "Login"
 msgid "Do you want to enable auto log in for account %{user}?"
 msgstr " Jeste li sigurni da želite uključiti automatsku prijavu za nalog korisnika  %{user}?"
@@ -4216,41 +4239,37 @@ msgctxt "Registration"
 msgid "Repeat your password"
 msgstr "Ponovi lozinku"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Log in"
 msgstr "Prijavi se"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Register"
 msgstr "Registracija"
 
-msgctxt "Loading"
-msgid "Exit"
-msgstr "Izlaz"
-
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Interface settings"
 msgstr "Postavke sučelja"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Password reset"
 msgstr "Povrat lozinke"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Use guest account"
 msgstr "Otvori kao gost"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Change speech synthesizer"
 msgstr "Promijeni govornu jedinicu"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Reinstall"
 msgstr "Prisilno ažuriraj ili reinstaliraj sa poslužitelja"
@@ -4261,7 +4280,7 @@ msgctxt "Loading"
 msgid " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."
 msgstr " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."
 
-#: Loading.rb:266
+#: Loading.rb:271
 msgctxt "Loading"
 msgid "A new version of the program is available."
 msgstr "Nova inačica programa je dostupna."
@@ -4464,16 +4483,12 @@ msgctxt "EAPI_Common"
 msgid "Add to contacts' list"
 msgstr "Dodaj u kontakte"
 
-#: EAPI_Common.rb:301
+#: EAPI_Common.rb:288
 msgctxt "EAPI_Common"
 msgid "There is nothing new."
 msgstr "Nema ničeg novog"
 
-msgctxt "EAPI_Common"
-msgid "Exit"
-msgstr "Izlaz"
-
-#: EAPI_Common.rb:498
+#: EAPI_Common.rb:485
 msgctxt "EAPI_Common"
 msgid "Empty list"
 msgstr "Prazan popis"
@@ -4498,38 +4513,38 @@ msgctxt "EAPI_Common"
 msgid "Hide program in Tray"
 msgstr "Sakrij program u system tray"
 
-#: EAPI_Common.rb:313
+#: EAPI_Common.rb:300
 msgctxt "EAPI_Common"
 msgid "Enter the name of the soundtheme"
 msgstr "Upiši naziv zvučne teme."
 
-#: EAPI_Common.rb:346
+#: EAPI_Common.rb:333
 #, fuzzy
 msgctxt "EAPI_Common"
 msgid " Soundtheme files created in %{dir}. Replace files of the default soundtheme in  the created folder with the appropriate files, which constitute the soundtheme."
 msgstr " Soundtheme files created in %{dir}. Replace files of the default soundtheme in  the created folder with the appropriate files, which constitute the soundtheme."
 
-#: EAPI_Common.rb:348
+#: EAPI_Common.rb:335
 msgctxt "EAPI_Common"
 msgid "What do you want to do?"
 msgstr "Što želiš učiniti?"
 
-#: EAPI_Common.rb:348
+#: EAPI_Common.rb:335
 msgctxt "EAPI_Common"
 msgid "Open the soundtheme's folder"
 msgstr "Otvori mapu teme u datotekama"
 
-#: EAPI_Common.rb:348
+#: EAPI_Common.rb:335
 msgctxt "EAPI_Common"
 msgid "Open the soundtheme's folder in windows explorer"
 msgstr "Otvori mapu teme u Windows exploreru"
 
-#: EAPI_Common.rb:446
+#: EAPI_Common.rb:433
 msgctxt "EAPI_Common"
 msgid "Describe the found error"
 msgstr "Opiši nađenu grešku"
 
-#: EAPI_Common.rb:462
+#: EAPI_Common.rb:449
 msgctxt "EAPI_Common"
 msgid "Sent."
 msgstr "Poslano"
@@ -4539,12 +4554,12 @@ msgctxt "EAPI_Common"
 msgid "Enter the command to execute"
 msgstr "Upiši komande, koje se trebaju izvršiti"
 
-#: EAPI_Common.rb:446
+#: EAPI_Common.rb:433
 msgctxt "EAPI_Common"
 msgid "Send"
 msgstr "pošalji"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Title"
 msgstr "naslov"
@@ -4559,12 +4574,11 @@ msgctxt "EAPI_Common"
 msgid "Play avatar"
 msgstr "reproduciraj avatar"
 
-#: EAPI_Common.rb:150
 msgctxt "EAPI_Common"
 msgid "Files shared by this user"
 msgstr "Datoteke koje dijeli ovaj korisnik"
 
-#: EAPI_Common.rb:662
+#: EAPI_Common.rb:645
 msgctxt "EAPI_Common"
 msgid "You are already up to date"
 msgstr "Nema dostupnih nadogradnji."
@@ -4574,27 +4588,27 @@ msgctxt "EAPI_Common"
 msgid "badges of this user"
 msgstr "Uloge ovog korisnika"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "voice"
 msgstr "glas"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "rate"
 msgstr "Brzina"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "destination location"
 msgstr "Ciljno odredište"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "preview"
 msgstr "redpregled"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "confirm"
 msgstr "potvrdi"
@@ -4604,37 +4618,37 @@ msgctxt "EAPI_Common"
 msgid "This file cannot be played."
 msgstr "Nije moguće otvoriti ovu datoteku."
 
-#: EAPI_Common.rb:1417
+#: EAPI_Common.rb:1400
 msgctxt "EAPI_Common"
 msgid "Compressing..."
 msgstr "pakiranje..."
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Output splitting"
 msgstr "Podjela teksta"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Create one file"
 msgstr "Stvori jednu datoteku"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Divide by paragraphs"
 msgstr "Podjela po odlomcima"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Divide every"
 msgstr "podjeli svakih"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Duration of one file (minutes)"
 msgstr "dužina fragmenta (minute)"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Read file number"
 msgstr "Pročitaj broj redka"
@@ -4643,15 +4657,6 @@ msgstr "Pročitaj broj redka"
 msgctxt "EAPI_Common"
 msgid "Downloading..."
 msgstr "Preuzimanje..."
-
-#, fuzzy
-msgctxt "EAPI_Common"
-msgid " Login failure. Probably, the password you entered is invalid or you have been  banned."
-msgstr " Login failure. Probably, the password you entered is invalid or you have been  banned."
-
-msgctxt "EAPI_Common"
-msgid "Operation completed successfully"
-msgstr "Operacija je uspješno završena"
 
 #: EAPI_UI.rb:504
 msgctxt "EAPI_Common"
@@ -4663,16 +4668,7 @@ msgctxt "EAPI_Common"
 msgid "Using a selected SAPI synthesizer"
 msgstr "Korištenje izabrane sapi govorne jedinice"
 
-msgctxt "EAPI_Common"
-msgid "Do you accept the user agreement of Elten software?"
-msgstr "Prihvaćaš li licenčni ugovor programa Elten?"
-
-#, fuzzy
-msgctxt "EAPI_Common"
-msgid "The user agreement, as well as Elten's and Elten Network's terms of service"
-msgstr "The user agreement, as well as Elten's and Elten Network's terms of service"
-
-#: EAPI_Common.rb:1330
+#: EAPI_Common.rb:1313
 msgctxt "EAPI_Common"
 msgid "Please wait, reading to file"
 msgstr "Čitanje datoteke, molim pričekah..."
@@ -4682,23 +4678,23 @@ msgctxt "EAPI_Common"
 msgid "Type a second to which you want to move."
 msgstr "Upiši sekundu na koju želiš preskoćiti"
 
-#: EAPI_Common.rb:682
+#: EAPI_Common.rb:665
 #, fuzzy
 msgctxt "EAPI_Common"
 msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
 msgstr "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
 
-#: EAPI_Common.rb:682
+#: EAPI_Common.rb:665
 msgctxt "EAPI_Common"
 msgid "I do not accept, exit"
 msgstr "Ne prihvaćam, Zatvori program"
 
-#: EAPI_Common.rb:1385
+#: EAPI_Common.rb:1368
 msgctxt "EAPI_Common"
 msgid "Please wait, file processing..."
 msgstr "Molim pričekati... traje procesiranje datoteka..."
 
-#: EAPI_Common.rb:721
+#: EAPI_Common.rb:704
 #, fuzzy
 msgctxt "EAPI_Common"
 msgid " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."
@@ -4709,152 +4705,152 @@ msgctxt "EAPI_Common"
 msgid "Where do you want to save this file?"
 msgstr "Gdje želiš spremiti ovu datoteku?"
 
-#: EAPI_Common.rb:578
+#: EAPI_Common.rb:550
 msgctxt "EAPI_Common"
 msgid "Gender"
 msgstr "spol"
 
-#: EAPI_Common.rb:594
+#: EAPI_Common.rb:566
 msgctxt "EAPI_Common"
 msgid "Age"
 msgstr "dob"
 
-#: EAPI_Common.rb:617
+#: EAPI_Common.rb:600
 msgctxt "EAPI_Common"
 msgid "Forum posts"
 msgstr "Tema na forumu"
 
-#: EAPI_Common.rb:618
+#: EAPI_Common.rb:601
 msgctxt "EAPI_Common"
 msgid "Polls answered"
 msgstr "Ispunjenih anketa"
 
-#: EAPI_Common.rb:619
+#: EAPI_Common.rb:602
 msgctxt "EAPI_Common"
 msgid "Used version"
 msgstr "Korištena inačica programa"
 
-#: EAPI_Common.rb:620
+#: EAPI_Common.rb:603
 msgctxt "EAPI_Common"
 msgid "Registered"
 msgstr "Nalog je registriran"
 
-#: EAPI_Common.rb:1259
+#: EAPI_Common.rb:1242
 msgctxt "EAPI_Common"
 msgid "No selected file to read"
 msgstr "Datoteka za čitanje nije izabrana"
 
-#: EAPI_Common.rb:1271
+#: EAPI_Common.rb:1254
 msgctxt "EAPI_Common"
 msgid "Type a file name"
 msgstr "Napiši naslov datoteke koju želiš stvoriti"
 
-#: EAPI_Common.rb:1273
+#: EAPI_Common.rb:1256
 msgctxt "EAPI_Common"
 msgid "Select file location"
 msgstr "Izaberi lokaciju na kojoj datoteka mora biti spremljena"
 
-#: EAPI_Common.rb:1275
+#: EAPI_Common.rb:1258
 msgctxt "EAPI_Common"
 msgid "Select source file"
 msgstr "Izaberi izvornu datoteku"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "Reading to file number"
 msgstr "Čitanje u datoteku broj"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "Sentence %{cursentence} z %{sentences}"
 msgstr "rečenica %{cursentence} od %{sentences}"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "Read"
 msgstr "pročitano"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "Estimated elapsed time"
 msgstr "Preostalo vrijeme"
 
-#: EAPI_Common.rb:628
+#: EAPI_Common.rb:611
 msgctxt "EAPI_Common"
 msgid "Visiting card: %{user}"
 msgstr "vizitka: %{user}"
 
-#: EAPI_Common.rb:1396
+#: EAPI_Common.rb:1379
 msgctxt "EAPI_Common"
 msgid "Reading to file finished."
 msgstr "Čitanje u datoteku je završeno."
 
-#: EAPI_Common.rb:607
+#: EAPI_Common.rb:590
 msgctxt "EAPI_Common"
 msgid "User has a blog"
 msgstr "Korisnik posjeduje blog"
 
-#: EAPI_Common.rb:604
+#: EAPI_Common.rb:587
 msgctxt "EAPI_Common"
 msgid "Last seen"
 msgstr "Zadnje viđeni"
 
-#: EAPI_Common.rb:600
+#: EAPI_Common.rb:583
 msgctxt "EAPI_Common"
 msgid "Last seen {txt_phr_lastseen_female}"
 msgstr "Zadnje viđena"
 
-#: EAPI_Common.rb:602
+#: EAPI_Common.rb:585
 msgctxt "EAPI_Common"
 msgid "Last seen {txt_phr_lastseen_male}"
 msgstr "Zadnje viđen"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "File to read"
 msgstr "Datoteka koju treba pročitati"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "Output format"
 msgstr "Izlazni format"
 
-#: EAPI_Common.rb:505
+#: EAPI_Common.rb:492
 msgctxt "EAPI_Common"
 msgid "Select contact"
 msgstr "Odaberi kontak"
 
-#: EAPI_Common.rb:614
+#: EAPI_Common.rb:597
 msgctxt "EAPI_Common"
 msgid "Known by %{count} users"
 msgstr "kojeg zna %{count} korisnika"
 
-#: EAPI_Common.rb:612
+#: EAPI_Common.rb:595
 msgctxt "EAPI_Common"
 msgid "Known by %{count} users {txt_phr_knownby_female}"
 msgstr "%{count} korisnika ju poznaju"
 
-#: EAPI_Common.rb:614
+#: EAPI_Common.rb:597
 msgctxt "EAPI_Common"
 msgid "Known by %{count} users {txt_phr_knownby_male}"
 msgstr "poznaje ga %{count} korisnika"
 
-#: EAPI_Common.rb:608
+#: EAPI_Common.rb:591
 msgctxt "EAPI_Common"
 msgid "Knows %{count} users"
 msgstr "zna %{count} korisnika"
 
-#: EAPI_Common.rb:722
+#: EAPI_Common.rb:705
 msgctxt "EAPI_Common"
 msgid "Please wait, the soundfont is being downloaded. It may take a while."
 msgstr "  Molimo pričekajte, zvučna tema se preuzima. Ovo može Potrajati nekoliko   minuta."
 
-#: EAPI_Common.rb:722
+#: EAPI_Common.rb:705
 msgctxt "EAPI_Common"
 msgid "Soundfont downloaded succesfully."
 msgstr "Zvučna tema je uspješno preuzeta.."
 
-#: EAPI_Common.rb:1391
+#: EAPI_Common.rb:1374
 msgctxt "EAPI_Common"
 msgid "Processing"
 msgstr "Procesiram"
@@ -4869,55 +4865,61 @@ msgctxt "EAPI_Common"
 msgid "Checked"
 msgstr "Checked"
 
-#: EAPI_Common.rb:679
+#: EAPI_Common.rb:662
 msgctxt "EAPI_Common"
 msgid "License agreement"
 msgstr "Ugovor o licenciranju"
 
-#: EAPI_Common.rb:680
+#: EAPI_Common.rb:663
 msgctxt "EAPI_Common"
 msgid "Terms and Conditions"
 msgstr "Uvjeti korištenja"
 
-#: EAPI_Common.rb:681
+#: EAPI_Common.rb:664
 msgctxt "EAPI_Common"
 msgid "Privacy Policy"
 msgstr "Politika privatnosti"
 
-#: EAPI_Common.rb:700
+#: EAPI_Common.rb:683
 #, fuzzy
 msgctxt "EAPI_Common"
 msgid "Do you accept Elten license agreement, terms and conditions and privacy policy?"
 msgstr "Do you accept Elten license agreement, terms and conditions and privacy policy?"
 
-#: EAPI_EltenSRV.rb:302
+#, fuzzy
+msgctxt "EAPI_Common"
+msgid "Call this user"
+msgstr "Call this user"
+
+#: EAPI_Common.rb:569
+msgctxt "EAPI_Common"
+msgid "Location"
+msgstr "Location"
+
+#: EAPI_EltenSRV.rb:304
 msgctxt "EAPI_EltenSRV"
 msgid "File is being converted..."
 msgstr "Konverzija datoteke..."
 
-#: EAPI_EltenSRV.rb:572
+#: EAPI_EltenSRV.rb:574
 msgctxt "EAPI_EltenSRV"
 msgid "Sent"
 msgstr "poslano"
 
-#: EAPI_EltenSRV.rb:278
+#: EAPI_EltenSRV.rb:280
 msgctxt "EAPI_EltenSRV"
 msgid "The user has no avatar."
 msgstr "Korisnik nema avatar."
 
-#: EAPI_EltenSRV.rb:301
+#: EAPI_EltenSRV.rb:303
 msgctxt "EAPI_EltenSRV"
 msgid "Please wait, this may take several minutes..."
 msgstr "Molimo pričekajte, Ovo može potrajati nekoliko minuta.."
 
-#: EAPI_EltenSRV.rb:608
+#: EAPI_EltenSRV.rb:610
 msgctxt "EAPI_EltenSRV"
 msgid "Select a user"
 msgstr "Izaberi korisnika"
-
-msgctxt "EAPI_EltenSRV"
-msgid "Session confirmation time:"
-msgstr "Vrijeme potvrđenosti sesije:"
 
 #: EAPI_Network.rb:68
 msgctxt "EAPI_Network"
@@ -5266,12 +5268,12 @@ msgctxt "EAPI_Form"
 msgid "Unchecked"
 msgstr "nije odabrano"
 
-#: WhatsNew.rb:109
+#: WhatsNew.rb:110
 msgctxt "General"
 msgid "Error"
 msgstr "Greška"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "General"
 msgid "Exit"
 msgstr "Izlaz"
@@ -5311,7 +5313,7 @@ msgctxt "General"
 msgid "Delete"
 msgstr "Izbriši"
 
-#: WhatsNew.rb:15
+#: WhatsNew.rb:16
 msgctxt "General"
 msgid "This function cannot be used on guest account."
 msgstr "Ova funkcija nije dostupna nalogu gost."
@@ -5341,12 +5343,12 @@ msgctxt "General"
 msgid "Yes"
 msgstr "da"
 
-#: EAPI_Common.rb:580
+#: EAPI_Common.rb:552
 msgctxt "General"
 msgid "Female"
 msgstr "žensko"
 
-#: EAPI_Common.rb:582
+#: EAPI_Common.rb:554
 msgctxt "General"
 msgid "male"
 msgstr "Muško"
@@ -5395,11 +5397,6 @@ msgstr "Signaliziraj svako povezivanje na server"
 msgctxt "Debug"
 msgid "OK"
 msgstr "U redu"
-
-#: MyPermissions.rb:17
-msgctxt "Permissions"
-msgid "You are participating in the following groups"
-msgstr "Pripadaš sljedećim grupama"
 
 #: SoundThemes.rb:106
 msgctxt "Soundthemes"
@@ -5490,4 +5487,99 @@ msgstr "Izlazni uređaj"
 msgctxt "SoundCard"
 msgid "Input device"
 msgstr "Ulazni uređaj"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "%{username} is calling"
+msgstr "%{username} is calling"
+
+msgctxt "VoIP"
+msgid "Answer"
+msgstr "Answer"
+
+msgctxt "VoIP"
+msgid "Reject"
+msgstr "Reject"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "New call"
+msgstr "New call"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Call history"
+msgstr "Call history"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Type user to call"
+msgstr "Type user to call"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Audio Quality"
+msgstr "Audio Quality"
+
+msgctxt "VoIP"
+msgid "Call"
+msgstr "Call"
+
+msgctxt "VoIP"
+msgid "Settings"
+msgstr "Postavke"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "End the call"
+msgstr "End the call"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Call refused"
+msgstr "Call refused"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Call with %{username}"
+msgstr "Call with %{username}"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Calling %{username}"
+msgstr "Calling %{username}"
+
+msgctxt "VoIP"
+msgid "Details"
+msgstr "Detalji"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Encryption status"
+msgstr "Encryption status"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Encrypted with %{algorithm}"
+msgstr "Encrypted with %{algorithm}"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Call duration"
+msgstr "Call duration"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Audio quality"
+msgstr "Audio quality"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Packets lost"
+msgstr "Packets lost"
+
+#, fuzzy
+msgctxt "VoIP"
+msgid "Packets received"
+msgstr "Packets received"
 

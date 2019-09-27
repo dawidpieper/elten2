@@ -14,6 +14,8 @@ module EltenAPI
     # @param param [String] & terminated parameters
     # @param output [Numeric] output type: 0 - Array of lines, 1 - string
         def srvproc(mod,param,output=0)
+          #speech(mod+": "+param.gsub("\&"," "))
+          #speech_wait
           if $agent!=nil and $netuseold!=true
         id=rand(1e8)
             $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>mod,'param'=>param,'id'=>id}))
@@ -627,6 +629,28 @@ def srvstate
     rescue Exception
       return "err::#{$!.to_s}"
       end
+    end
+    
+    def blogowners(user)
+      if ($blogownerstime||0)<Time.now.to_i-10
+        b=srvproc("blog_owners","name=#{$name}\&token=#{$token}")
+        return nil if b[0].to_i<0
+        $blogowners={}
+        k=nil
+        for i in 2...b.size
+          if i%2==0
+            k=b[i].delete("\r\n")
+          else
+            $blogowners[k]||=[]
+            $blogowners[k].push(b[i].delete("\r\n"))
+            end
+          end
+          $blogownerstime=Time.now.to_i
+        end
+      o=$blogowners[user]
+      o=[user] if o==nil and user_exist(user)
+      o=[] if o==nil
+      return o
       end
 
         end

@@ -611,7 +611,7 @@ class Scene_MessagesO
         $scene = Scene_Loading.new
         return
         when -3
-          speech(_("General:error_unknown"))
+          speech(_("Messages:error_unknown"))
           $scene = Scene_Main.new
           return
         end

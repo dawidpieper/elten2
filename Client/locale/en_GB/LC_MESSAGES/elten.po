@@ -313,35 +313,6 @@ msgctxt "Notes"
 msgid "Notes:alert_unshare"
 msgstr "Do you want to stop sharing this note with %{user}?"
 
-#: FirstRun.rb:124
-msgctxt "FirstRun"
-msgid "FirstRun:type_pass"
-msgstr "Password:"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "FirstRun:opt_chars"
-msgstr "Characters"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "FirstRun:opt_words"
-msgstr "Words"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "FirstRun:opt_charsandwords"
-msgstr "Characters and words"
-
-#: FirstRun.rb:102
-msgctxt "FirstRun"
-msgid "FirstRun:opt_none"
-msgstr "None"
-
-msgctxt "FirstRun"
-msgid "FirstRun:opt_audio"
-msgstr "Audio"
-
 #: ForgotPassword.rb:34
 msgctxt "ForgotPassword"
 msgid "ForgotPassword:head"
@@ -352,6 +323,7 @@ msgctxt "ForgotPassword"
 msgid "ForgotPassword:type_mail"
 msgstr "Enter the E-mail address used during the registration process"
 
+#: ForgotPassword.rb:30
 msgctxt "ForgotPassword"
 msgid "ForgotPassword:error_match"
 msgstr "The typed E-mail address is not associated with the entered username."
@@ -376,6 +348,7 @@ msgctxt "ForgotPassword"
 msgid "ForgotPassword:type_key"
 msgstr "Enter the generated password reset code"
 
+#: ForgotPassword.rb:73
 msgctxt "ForgotPassword"
 msgid "ForgotPassword:error_wrongkey"
 msgstr "The entered code is invalid."
@@ -390,10 +363,12 @@ msgctxt "ForgotPassword"
 msgid "ForgotPassword:type_newpassagain"
 msgstr "Repeat new password"
 
+#: ForgotPassword.rb:84
 msgctxt "ForgotPassword"
 msgid "ForgotPassword:error_difpass"
 msgstr "The entered passwords are different."
 
+#: ForgotPassword.rb:87
 msgctxt "ForgotPassword"
 msgid "ForgotPassword:error_emptypass"
 msgstr "Empty password provided."
@@ -498,6 +473,7 @@ msgctxt "Honors"
 msgid "Honors:opt_honor"
 msgstr "Grant a badge"
 
+#: Honors.rb:58
 msgctxt "Honors"
 msgid "Honors:opt_new"
 msgstr "A new badge"
@@ -735,7 +711,7 @@ msgstr "Answer"
 #: Polls.rb:441
 msgctxt "Polls"
 msgid "Polls:read_results"
-msgstr "Poll results: #{%name%}"
+msgstr "Poll results: %{name}"
 
 #: Polls.rb:128
 msgctxt "Polls"
@@ -756,10 +732,6 @@ msgstr "Single choice question"
 msgctxt "Polls"
 msgid "Polls:opt_phr_multiplechoice"
 msgstr "Multiple choice question"
-
-msgctxt "Uploads"
-msgid "Uploads:info_saved"
-msgstr "Saved"
 
 #: Uploads.rb:112
 msgctxt "Uploads"
@@ -821,90 +793,70 @@ msgctxt "Admins"
 msgid "Admins:head"
 msgstr "Administrators"
 
-#: WhatsNew.rb:115
+#: WhatsNew.rb:116
 msgctxt "WhatsNew"
 msgid "WhatsNew:info_nonew"
 msgstr "There is nothing new."
 
-msgctxt "WhatsNew"
-msgid "WhatsNew:opt_open"
-msgstr "open"
-
-msgctxt "WhatsNew"
-msgid "WhatsNew:opt_deletethread"
-msgstr "Delete this thread"
-
-msgctxt "WhatsNew"
-msgid "WhatsNew:info_followedel"
-msgstr "The thread was removed from the list of followed threads"
-
-msgctxt "WhatsNew"
-msgid "WhatsNew:opt_deletefollowed"
-msgstr "Remove from the list of followed threads"
-
-msgctxt "WhatsNew"
-msgid "WhatsNew:info_nonewfollowedposts"
-msgstr "No new posts in followed threads"
-
-#: WhatsNew.rb:40
+#: WhatsNew.rb:41
 msgctxt "WhatsNew"
 msgid "WhatsNew:head"
 msgstr "What's new"
 
-#: WhatsNew.rb:115
+#: WhatsNew.rb:116
 msgctxt "WhatsNew"
 msgid "WhatsNew:info_nonewonfollowedblogs"
 msgstr "No new posts on the followed blogs"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_messages"
 msgstr "New messages"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_followedthreads"
 msgstr "New posts in followed threads"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_followedblogs"
 msgstr "New posts on the followed blogs"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_blogcomments"
 msgstr "New comments on your blog"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_followedforums"
 msgstr "New threads on followed forums"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_followedforumsposts"
 msgstr "New posts on followed forums"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_contacts"
 msgstr "New friends"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_birthday"
 msgstr "Friends' birthday"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_mentions"
 msgstr "Mentions"
 
-#: WhatsNew.rb:50
+#: WhatsNew.rb:51
 msgctxt "WhatsNew"
 msgid "WhatsNew:opt_update"
-msgstr "Update available (%version)"
+msgstr "Update available (%{version})"
 
 #: ShortKeys.rb:11
 msgctxt "ShortKeys"
@@ -956,10 +908,6 @@ msgctxt "Interface"
 msgid "Interface:head_typingecho"
 msgstr "Typing echo"
 
-msgctxt "Interface"
-msgid "Interface:chk_fullscreen"
-msgstr "Run the program in full screen mode"
-
 #: Interface.rb:16
 msgctxt "Interface"
 msgid "Interface:chk_autologin"
@@ -980,10 +928,6 @@ msgctxt "Interface"
 msgid "Interface:error_autologinrequired"
 msgstr "Auto log in is required to use auto start"
 
-msgctxt "Interface"
-msgid "Interface:alert_Portableautostart"
-msgstr " Attention! You are trying to enable the auto start function using a portable version of  Elten. When this program is inaccessible for Windows or its location is changed, the system will not be able to start it. Are you sure you want to continue?"
-
 #: Interface.rb:14
 msgctxt "Interface"
 msgid "Interface:chk_linewrapping"
@@ -999,87 +943,87 @@ msgctxt "ReadMe"
 msgid "ReadMe:head"
 msgstr "Readme"
 
-#: Blog.rb:347
+#: Blog.rb:423
 msgctxt "Blog"
 msgid "Blog:opt_newpost"
 msgstr "New post"
 
-#: Blog.rb:606
+#: Blog.rb:684
 msgctxt "Blog"
 msgid "Blog:info_deleted"
 msgstr "Deleted"
 
-#: Blog.rb:389
+#: Blog.rb:465
 msgctxt "Blog"
 msgid "Blog:opt_select"
 msgstr "Select"
 
-#: Blog.rb:14
+#: Blog.rb:1306
 msgctxt "Blog"
 msgid "Blog:opt_myblog"
 msgstr "My blog"
 
-#: Blog.rb:126
+#: Blog.rb:127
 msgctxt "Blog"
 msgid "Blog:opt_newcat"
 msgstr "New category"
 
-#: Blog.rb:596
+#: Blog.rb:674
 msgctxt "Blog"
 msgid "Blog:alert_deletepost"
 msgstr "Are you sure you want to delete this post?"
 
-#: Blog.rb:981
+#: Blog.rb:1316
 msgctxt "Blog"
 msgid "Blog:head"
 msgstr "Blogs"
 
-#: Blog.rb:981
+#: Blog.rb:1316
 msgctxt "Blog"
 msgid "Blog:head_list"
 msgstr "The list of blogs"
 
-#: Blog.rb:864
+#: Blog.rb:957
 msgctxt "Blog"
 msgid "Blog:btn_send"
 msgstr "Send"
 
-#: Blog.rb:853
+#: Blog.rb:946
 msgctxt "Blog"
 msgid "Blog:btn_back"
 msgstr "Return"
 
-#: Blog.rb:127
+#: Blog.rb:128
 msgctxt "Blog"
 msgid "Blog:opt_renameblog"
 msgstr "Change the blog's name"
 
-#: Blog.rb:843
+#: Blog.rb:936
 msgctxt "Blog"
 msgid "Blog:type_comment"
 msgstr "Your comment"
 
-#: Blog.rb:849
+#: Blog.rb:942
 msgctxt "Blog"
 msgid "Blog:btn_modifypost"
 msgstr "Edit your post"
 
-#: Blog.rb:709
+#: Blog.rb:800
 msgctxt "Blog"
 msgid "Blog:btn_play"
 msgstr "Play"
 
-#: Blog.rb:124
+#: Blog.rb:125
 msgctxt "Blog"
 msgid "Blog:opt_allposts"
 msgstr "All posts"
 
-#: Blog.rb:474
+#: Blog.rb:551
 msgctxt "Blog"
 msgid "Blog:btn_recpost"
 msgstr "Record a new post"
 
-#: Blog.rb:482
+#: Blog.rb:559
 msgctxt "Blog"
 msgid "Blog:btn_stoprec"
 msgstr "Stop recording"
@@ -1099,57 +1043,57 @@ msgctxt "Blog"
 msgid "Blog:opt_frequentlycommentedblogs"
 msgstr "Frequently commented blogs"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Blog:type_posttitle"
 msgstr "Post title"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Blog:type_post"
 msgstr "Post"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Blog:head_postcategories"
 msgstr "Add to category"
 
-#: Blog.rb:161
+#: Blog.rb:229
 msgctxt "Blog"
 msgid "Blog:type_catname"
 msgstr "Category name"
 
-#: Blog.rb:181
+#: Blog.rb:249
 msgctxt "Blog"
 msgid "Blog:type_newblogname"
 msgstr "New blog name"
 
-#: Blog.rb:738
+#: Blog.rb:831
 msgctxt "Blog"
 msgid "Blog:wait_converting"
 msgstr "File is being converted..."
 
-#: Blog.rb:197
+#: Blog.rb:265
 msgctxt "Blog"
 msgid "Blog:opt_rename"
 msgstr "Rename"
 
-#: Blog.rb:389
+#: Blog.rb:465
 msgctxt "Blog"
 msgid "Blog:opt_edit"
 msgstr "Edit"
 
-#: Blog.rb:1007
+#: Blog.rb:1104
 msgctxt "Blog"
 msgid "Blog:opt_open"
 msgstr "Open"
 
-#: Blog.rb:1015
+#: Blog.rb:1112
 msgctxt "Blog"
 msgid "Blog:opt_followblog"
 msgstr "Add to followed blogs"
 
-#: Blog.rb:1013
+#: Blog.rb:1110
 msgctxt "Blog"
 msgid "Blog:opt_unfollowblog"
 msgstr "Remove from the followed blogs"
@@ -1159,156 +1103,152 @@ msgctxt "Blog"
 msgid "Blog:opt_followedblogs"
 msgstr "Followed blogs"
 
-#: Blog.rb:511
+#: Blog.rb:588
 msgctxt "Blog"
 msgid "Blog:btn_createaudiopost"
 msgstr "Create an audiopost"
 
-#: Blog.rb:474
+#: Blog.rb:551
 msgctxt "Blog"
 msgid "Blog:opt_useexistingfile"
 msgstr "Use an existing file"
 
-msgctxt "Blog"
-msgid "Blog:info_modified"
-msgstr "The post has been modified"
-
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Blog:head_visibility"
 msgstr "Visibility"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Blog:opt_viseveryone"
 msgstr "Show to everyone"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Blog:opt_vislogged"
 msgstr "Do not show to unlogged users"
 
-#: Blog.rb:693
+#: Blog.rb:770
 msgctxt "Blog"
 msgid "Blog:btn_audiopost"
 msgstr "Audio post"
 
-#: Blog.rb:709
+#: Blog.rb:800
 msgctxt "Blog"
 msgid "Blog:opt_changeaudiofile"
 msgstr "Use another file"
 
-#: Blog.rb:713
+#: Blog.rb:806
 msgctxt "Blog"
 msgid "Blog:head_selaudiofile"
 msgstr "Select audio file"
 
-#: Blog.rb:79
+#: Blog.rb:80
 msgctxt "Blog"
 msgid "Blog:error_blognotfound"
 msgstr "The blog cannot be found."
 
-#: Blog.rb:169
+#: Blog.rb:237
 msgctxt "Blog"
 msgid "Blog:info_categorycreated"
 msgstr "The category has been created."
 
-#: Blog.rb:187
+#: Blog.rb:255
 msgctxt "Blog"
 msgid "Blog:info_blogrenamed"
 msgstr "Your blog has been renamed"
 
-#: Blog.rb:280
+#: Blog.rb:354
 msgctxt "Blog"
 msgid "Blog:alert_noblog"
 msgstr "You do not have any blog. Do you want to create one?"
 
-#: Blog.rb:738
+#: Blog.rb:831
 msgctxt "Blog"
 msgid "Blog:wait"
 msgstr "Please wait..."
 
-#: Blog.rb:301
+#: Blog.rb:377
 msgctxt "Blog"
 msgid "Blog:info_blogcreated"
 msgstr "The blog has been created."
 
-#: Blog.rb:248
+#: Blog.rb:317
 msgctxt "Blog"
 msgid "Blog:info_renamed"
 msgstr "The blog has been renamed."
 
-#: Blog.rb:349
+#: Blog.rb:425
 msgctxt "Blog"
 msgid "Blog:info_nonewcommentsonyourblog"
 msgstr "No new comments on your blog."
 
-#: Blog.rb:583
+#: Blog.rb:660
 msgctxt "Blog"
 msgid "Blog:info_postcreated"
 msgstr "The post has been added."
 
-#: Blog.rb:904
+#: Blog.rb:997
 msgctxt "Blog"
 msgid "Blog:info_commentcreated"
 msgstr "The comment has been added."
 
-#: Blog.rb:1040
+#: Blog.rb:1137
 msgctxt "Blog"
 msgid "Blog:info_blogfollowed"
 msgstr "Added to the followed blogs."
 
-#: Blog.rb:1049
+#: Blog.rb:1146
 msgctxt "Blog"
 msgid "Blog:info_blogunfollowed"
 msgstr "Removed from the followed blogs."
 
-#: Blog.rb:1057
+#: Blog.rb:1154
 msgctxt "Blog"
 msgid "Blog:info_blogmarkedasread"
 msgstr "The blog has been marked as read."
 
-#: Blog.rb:1179
+#: Blog.rb:1277
 msgctxt "Blog"
 msgid "Blog:info_recategorized"
 msgstr "Recategorised"
 
-#: Blog.rb:261
+#: Blog.rb:331
 msgctxt "Blog"
 msgid "Blog:alert_deletecategory"
 msgstr "Are you sure you want to delete this category?"
 
-#: Blog.rb:286
+#: Blog.rb:359
 msgctxt "Blog"
 msgid "Blog:type_blogname"
 msgstr "Type a blog name"
 
-#: Blog.rb:241
+#: Blog.rb:310
 msgctxt "Blog"
 msgid "Blog:type_newcatname"
 msgstr "Type a new category name"
 
-#: Blog.rb:503
+#: Blog.rb:580
 msgctxt "Blog"
 msgid "Blog:btn_createtextpost"
 msgstr "Create a text post"
 
-#: Blog.rb:1055
+#: Blog.rb:1152
 msgctxt "Blog"
 msgid "Blog:alert_markblogasread"
 msgstr "All posts on this blog will be marked as read. Do you want to continue?"
 
-#: Blog.rb:981
+#: Blog.rb:1078
 msgctxt "Blog"
 msgid "Blog:opt_phr_author"
 msgstr "Author"
 
-#: Blog.rb:1017
+#: Blog.rb:1114
 msgctxt "Blog"
 msgid "Blog:opt_markallasread"
 msgstr "Mark the blog as read"
 
-#: Blog.rb:128
+#: Blog.rb:129
 msgctxt "Blog"
 msgid "Blog:opt_recategorize"
 msgstr "Recategorize"
@@ -1317,14 +1257,17 @@ msgctxt "Blog"
 msgid "Blog:opt_visfriends"
 msgstr "Show only to users in my contacts list"
 
+#: Blog.rb:1315
 msgctxt "Blog"
 msgid "Blog:opt_create"
 msgstr "Create new blog"
 
+#: Blog.rb:205
 msgctxt "Blog"
 msgid "Blog:opt_addcoworker"
 msgstr "Add coworker"
 
+#: Blog.rb:131
 msgctxt "Blog"
 msgid "Blog:opt_coworkers"
 msgstr "Coworkers"
@@ -1333,6 +1276,7 @@ msgctxt "Blog"
 msgid "Blog:opt_release"
 msgstr "Release this coworker"
 
+#: Blog.rb:186
 msgctxt "Blog"
 msgid "Blog:type_coworker"
 msgstr "What user you want to add to this blog?"
@@ -1341,7 +1285,7 @@ msgctxt "Blog"
 msgid "Blog:alert_commdelete"
 msgstr "Are you sure you want to delete this comment?"
 
-#: Blog.rb:840
+#: Blog.rb:933
 msgctxt "Blog"
 msgid "Blog:head_media"
 msgstr "Media"
@@ -1351,15 +1295,79 @@ msgctxt "Blog"
 msgid "Blog:opt_popularblogs"
 msgstr "Blogs popular with my friends"
 
-#: Blog.rb:689
+#: Blog.rb:768
 msgctxt "Blog"
 msgid "Blog:chk_comments"
 msgstr "Allow users to comment this post"
 
-#: Blog.rb:721
+#: Blog.rb:814
 msgctxt "Blog"
 msgid "Blog:alert_deletecomments"
 msgstr "Do you wish to delete all comments on this post? You can disable commenting on this post without deleting comments already posted."
+
+#: Blog.rb:768
+msgctxt "Blog"
+msgid "Blog:head_posttype"
+msgstr "Post type"
+
+#: Blog.rb:768
+msgctxt "Blog"
+msgid "Blog:opt_textpost"
+msgstr "Text post"
+
+#: Blog.rb:768
+msgctxt "Blog"
+msgid "Blog:opt_audiopost"
+msgstr "Audio post {opt_audiopost}"
+
+#: Blog.rb:130
+msgctxt "Blog"
+msgid "Blog:opt_followers"
+msgstr "Followers"
+
+#: Blog.rb:164
+msgctxt "Blog"
+msgid "Blog:head_followers"
+msgstr "Followers {head_followers}"
+
+#: Blog.rb:159
+msgctxt "Blog"
+msgid "Blog:info_nofollowers"
+msgstr "This blog is not followed by any user"
+
+#: Blog.rb:14
+msgctxt "Blog"
+msgid "Blog:opt_managedblogs"
+msgstr "Managed blogs"
+
+#: Blog.rb:181
+msgctxt "Blog"
+msgid "Blog:head_coworkers"
+msgstr "Coworkers {head_coworkers}"
+
+#: Blog.rb:201
+msgctxt "Blog"
+msgid "Blog:alert_release"
+msgstr "Are you sure you want to release this coworker?"
+
+#: Blog.rb:196
+msgctxt "Blog"
+msgid "Blog:error_usernotfound"
+msgstr "User not found"
+
+msgctxt "Blog"
+msgid "Blog:info_coworkeradded"
+msgstr "%{user} has been added to this blog"
+
+#: Blog.rb:132
+msgctxt "Blog"
+msgid "Blog:opt_deleteblog"
+msgstr "Delete this blog"
+
+#: Blog.rb:213
+msgctxt "Blog"
+msgid "Blog:alert_deleteblog"
+msgstr "Are you sure you want to delete this blog?"
 
 #: Ban.rb:27
 msgctxt "Ban"
@@ -1511,12 +1519,12 @@ msgctxt "Languages"
 msgid "Languages:info_downloaded"
 msgstr "Language packs have been updated"
 
-#: Files.rb:532
+#: Files.rb:521
 msgctxt "Files"
 msgid "Files:head"
 msgstr "Files"
 
-#: Files.rb:407
+#: Files.rb:396
 msgctxt "Files"
 msgid "Files:info_deleted"
 msgstr "Deleted"
@@ -1546,12 +1554,12 @@ msgctxt "Files"
 msgid "Files:opt_newdir"
 msgstr "New folder"
 
-#: Files.rb:414
+#: Files.rb:403
 msgctxt "Files"
 msgid "Files:info_copied"
 msgstr "Copied"
 
-#: Files.rb:419
+#: Files.rb:408
 msgctxt "Files"
 msgid "Files:info_cut"
 msgstr "Cut out"
@@ -1576,17 +1584,16 @@ msgctxt "Files"
 msgid "Files:opt_adddirtopls"
 msgstr "Add all audio files in this directory to playlist"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "Files:opt_play"
 msgstr "Play"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "Files:opt_addtopls"
 msgstr "Add to playlist"
 
-#: Files.rb:311
 msgctxt "Files"
 msgid "Files:opt_send"
 msgstr "Upload to the server"
@@ -1596,7 +1603,7 @@ msgctxt "Files"
 msgid "Files:opt_opendir"
 msgstr "Open this directory"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "Files:opt_avatar"
 msgstr "Set as avatar"
@@ -1611,7 +1618,7 @@ msgctxt "Files"
 msgid "Files:opt_rename"
 msgstr "Rename"
 
-#: Files.rb:556
+#: Files.rb:545
 msgctxt "Files"
 msgid "Files:opt_edit"
 msgstr "Edit"
@@ -1621,12 +1628,11 @@ msgctxt "Files"
 msgid "Files:info_pasted"
 msgstr "pasted"
 
-#: Files.rb:507
+#: Files.rb:496
 msgctxt "Files"
 msgid "Files:opt_convert"
 msgstr "convert"
 
-#: Files.rb:359
 msgctxt "Files"
 msgid "Files:info_sent"
 msgstr "Sent"
@@ -1636,7 +1642,7 @@ msgctxt "Files"
 msgid "Files:error_play"
 msgstr "This file cannot be played."
 
-#: Files.rb:583
+#: Files.rb:572
 msgctxt "Files"
 msgid "Files:opt_read"
 msgstr "Read"
@@ -1651,17 +1657,17 @@ msgctxt "Files"
 msgid "Files:opt_unpack"
 msgstr "Extract"
 
-#: Files.rb:370
+#: Files.rb:359
 msgctxt "Files"
 msgid "Files:head_archiveformat"
 msgstr "Select archive format"
 
-#: Files.rb:382
+#: Files.rb:371
 msgctxt "Files"
 msgid "Files:info_packed"
 msgstr "Compressed"
 
-#: Files.rb:583
+#: Files.rb:572
 msgctxt "Files"
 msgid "Files:opt_readtofile"
 msgstr "Read to file"
@@ -1696,17 +1702,17 @@ msgctxt "Files"
 msgid "Files:opt_audio"
 msgstr "Audio"
 
-#: Files.rb:428
+#: Files.rb:417
 msgctxt "Files"
 msgid "Files:type_dirname"
 msgstr "Enter a folder name"
 
-#: Files.rb:450
+#: Files.rb:439
 msgctxt "Files"
 msgid "Files:type_filename"
 msgstr "Enter a file name"
 
-#: Files.rb:453
+#: Files.rb:442
 msgctxt "Files"
 msgid "Files:btn_record"
 msgstr "Record"
@@ -1716,7 +1722,7 @@ msgctxt "Files"
 msgid "Files:error_deletefile"
 msgstr "The file cannot be deleted, access denied."
 
-#: Files.rb:387
+#: Files.rb:376
 msgctxt "Files"
 msgid "Files:info_unpacked"
 msgstr "Unpacked."
@@ -1726,42 +1732,42 @@ msgctxt "Files"
 msgid "Files:error_clipboardempty"
 msgstr "The clipboard is empty"
 
-#: Files.rb:397
+#: Files.rb:386
 msgctxt "Files"
 msgid "Files:info_renamed"
 msgstr "The file name has been changed."
 
-#: Files.rb:432
+#: Files.rb:421
 msgctxt "Files"
 msgid "Files:info_dircreated"
 msgstr "The folder has been created."
 
-#: Files.rb:476
+#: Files.rb:465
 msgctxt "Files"
 msgid "Files:info_filecreated"
 msgstr "The file has been created."
 
-#: Files.rb:482
+#: Files.rb:471
 msgctxt "Files"
 msgid "Files:info_plserased"
 msgstr "Playlist cleared"
 
-#: Files.rb:535
+#: Files.rb:524
 msgctxt "Files"
 msgid "Files:wait_converting"
 msgstr "Please wait, the file is being converted."
 
-#: Files.rb:541
+#: Files.rb:530
 msgctxt "Files"
 msgid "Files:info_converted"
 msgstr "Converted."
 
-#: Files.rb:594
+#: Files.rb:583
 msgctxt "Files"
 msgid "Files:wait_processing"
 msgstr "Processing..."
 
-#: Files.rb:393
+#: Files.rb:382
 msgctxt "Files"
 msgid "Files:type_newname"
 msgstr "A new file name"
@@ -1771,17 +1777,17 @@ msgctxt "Files"
 msgid "Files:alert_eltenapi"
 msgstr " Do you want to run this Elten API script? Scripts coming from unknown sources can  harm your computer or give access to your account to unauthorised persons.  Continue if you trust a source this script comes from."
 
-#: Files.rb:522
+#: Files.rb:511
 msgctxt "Files"
 msgid "Files:head_convertto"
 msgstr "To which format do you want to convert this file?"
 
-#: Files.rb:401
+#: Files.rb:390
 msgctxt "Files"
 msgid "Files:alert_delete"
 msgstr "Do you really want to delete %{filename}?"
 
-#: Files.rb:532
+#: Files.rb:521
 msgctxt "Files"
 msgid "Files:head_soundquality"
 msgstr "Select sound quality"
@@ -1791,7 +1797,7 @@ msgctxt "Files"
 msgid "Files:info_addedtoplscount"
 msgstr "Files added to playlist: %{count}."
 
-#: Files.rb:514
+#: Files.rb:503
 msgctxt "Files"
 msgid "Files:head_player"
 msgstr "Playing: %{file}"
@@ -1816,79 +1822,10 @@ msgctxt "SoundThemes"
 msgid "SoundThemes:opt_default"
 msgstr "default"
 
-msgctxt "SoundThemes"
-msgid "SoundThemes:opt_audio"
-msgstr "Audio"
-
-#: Changes.rb:822
+#: Changes.rb:839
 msgctxt "Changes"
 msgid "Changes:head"
 msgstr "Changelog"
-
-#: Media.rb:43
-msgctxt "Media"
-msgid "Media:opt_url"
-msgstr "Enter the URL"
-
-#: Media.rb:225
-msgctxt "Media"
-msgid "Media:type_url"
-msgstr "URL"
-
-#: Media.rb:43
-msgctxt "Media"
-msgid "Media:opt_newcat"
-msgstr "New category"
-
-#: Media.rb:135
-msgctxt "Media"
-msgid "Media:opt_newfile"
-msgstr "New file"
-
-#: Media.rb:227
-msgctxt "Media"
-msgid "Media:btn_add"
-msgstr "Add"
-
-#: Media.rb:226
-msgctxt "Media"
-msgid "Media:type_dsc"
-msgstr "Description"
-
-#: Media.rb:224
-msgctxt "Media"
-msgid "Media:type_name"
-msgstr "Title"
-
-#: Media.rb:148
-msgctxt "Media"
-msgid "Media:opt_play"
-msgstr "Play"
-
-#: Media.rb:148
-msgctxt "Media"
-msgid "Media:opt_addtopls"
-msgstr "Add to playlist"
-
-#: Media.rb:182
-msgctxt "Media"
-msgid "Media:type_catname"
-msgstr "Category name"
-
-#: Media.rb:210
-msgctxt "Media"
-msgid "Media:info_categorycreated"
-msgstr "The category has been added."
-
-#: Media.rb:256
-msgctxt "Media"
-msgid "Media:info_added"
-msgstr "Added."
-
-#: Media.rb:183
-msgctxt "Media"
-msgid "Media:type_categorydescription"
-msgstr "Category description"
 
 #: Account.rb:14
 msgctxt "Account"
@@ -1905,6 +1842,7 @@ msgctxt "Account"
 msgid "Account:type_newpassagain"
 msgstr "Repeat new password."
 
+#: Account.rb:35
 msgctxt "Account"
 msgid "Account:error_difpass"
 msgstr "Fields: New Password and Repeat New Password have different values."
@@ -1914,242 +1852,358 @@ msgctxt "Account"
 msgid "Account:info_passchanged"
 msgstr "Your password has been changed."
 
+#: Account.rb:55
 msgctxt "Account"
 msgid "Account:error_wrongoldpass"
 msgstr "The old password is incorrect."
 
-#: Account.rb:500
+#: Account.rb:871
 msgctxt "Account"
 msgid "Account:type_pass"
 msgstr "Enter your password."
 
-#: Account.rb:75
+#: Account.rb:74
 msgctxt "Account"
 msgid "Account:type_newmail"
 msgstr "Enter a new e-mail address."
 
-#: Account.rb:85
+#: Account.rb:84
 msgctxt "Account"
 msgid "Account:info_mailchanged"
 msgstr "E-mail has been changed."
 
-#: Account.rb:125
+#: Account.rb:249
 msgctxt "Account"
 msgid "Account:type_visitingcard"
 msgstr "Your visiting card:"
 
-#: Account.rb:167
+#: Account.rb:170
 msgctxt "Account"
 msgid "Account:head_status"
 msgstr "Change your status"
 
-#: Account.rb:171
+#: Account.rb:250
 msgctxt "Account"
 msgid "Account:type_status"
 msgstr "Enter a new status"
 
-#: Account.rb:576
+#: Account.rb:706
 msgctxt "Account"
 msgid "Account:opt_add"
 msgstr "Add"
 
-#: Account.rb:190
 msgctxt "Account"
 msgid "Account:head_profile"
 msgstr "Profile editor"
 
-#: Account.rb:211
+#: Account.rb:213
 msgctxt "Account"
 msgid "Account:type_fullname"
 msgstr "Full name"
 
-#: Account.rb:212
+#: Account.rb:214
 msgctxt "Account"
 msgid "Account:head_gender"
 msgstr "Gender"
 
-#: Account.rb:217
+#: Account.rb:230
 msgctxt "Account"
 msgid "Account:chk_hideprofile"
 msgstr "Hide my profile for strangers"
 
-#: Account.rb:265
+#: Account.rb:394
 msgctxt "Account"
 msgid "Account:type_signature"
 msgstr "Your signature:"
 
-#: Account.rb:369
+#: Account.rb:498
 msgctxt "Account"
 msgid "Account:head_avatar"
 msgstr "Set avatar"
 
-#: Account.rb:476
+#: Account.rb:606
 msgctxt "Account"
 msgid "Account:head_autologintokens"
 msgstr "Auto log in tokens"
 
-#: Account.rb:484
+#: Account.rb:614
 msgctxt "Account"
 msgid "Account:opt_logoutallsessions"
 msgstr "Log out all sessions"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_messages"
 msgstr "New messages"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_followedthreads"
 msgstr "New posts in followed threads"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_followedblogs"
 msgstr "New posts on the followed blogs"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_blogcomments"
 msgstr "New comments on your blog"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_followedforums"
 msgstr "New threads on followed forums"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_followedforumsposts"
 msgstr "New posts on followed forums"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_contacts"
 msgstr "New friends"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_birthday"
 msgstr "Friends' birthday"
 
-#: Account.rb:396
+#: Account.rb:525
 msgctxt "Account"
 msgid "Account:head_mentions"
 msgstr "Mentions"
 
-#: Account.rb:395
+#: Account.rb:524
 msgctxt "Account"
 msgid "Account:opt_notifyandshow"
 msgstr "Notice and show in what's new"
 
-#: Account.rb:395
+#: Account.rb:524
 msgctxt "Account"
 msgid "Account:opt_notify"
 msgstr "Notice only"
 
-#: Account.rb:395
+#: Account.rb:524
 msgctxt "Account"
 msgid "Account:opt_ignore"
 msgstr "Ignore"
 
-#: Account.rb:541
+#: Account.rb:671
 msgctxt "Account"
 msgid "Account:head_blacklist"
 msgstr "Black list"
 
-#: Account.rb:630
+#: Account.rb:760
 msgctxt "Account"
 msgid "Account:alert_deletefromblacklist"
 msgstr "Are you sure you want to remove this user from the black list?"
 
-#: Account.rb:635
+#: Account.rb:765
 msgctxt "Account"
 msgid "Account:info_deletedfromblacklist"
 msgstr "A user has been removed from the black list."
 
-#: Account.rb:604
+#: Account.rb:734
 msgctxt "Account"
 msgid "Account:alert_addtoblacklist"
 msgstr " The users added to your black list cannot send you private messages. Are you sure  you want to continue?"
 
+#: Account.rb:749
 msgctxt "Account"
 msgid "Account:error_blacklistadmin"
 msgstr "You cannot add an administrator to the black list."
 
+#: Account.rb:751
 msgctxt "Account"
 msgid "Account:error_blacklistalreadyadded"
 msgstr "This user is already on your black list."
 
-#: Account.rb:498
+#: Account.rb:843
 msgctxt "Account"
 msgid "Account:alert_logoutall"
 msgstr " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediately."
 
-#: Account.rb:181
+#: Account.rb:184
 msgctxt "Account"
 msgid "Account:info_statuschanged"
 msgstr "Your status has been changed."
 
-#: Account.rb:508
+#: Account.rb:853
 msgctxt "Account"
 msgid "Account:error_identity"
 msgstr " An error occurred while authenticating the account. You might have provided an  incorrect password."
 
-#: Account.rb:623
+#: Account.rb:753
 msgctxt "Account"
 msgid "Account:error_usernotfound"
 msgstr "The user cannot be found."
 
-#: Account.rb:213
+#: Account.rb:221
 msgctxt "Account"
-msgid "Account:type_birthdateyear"
+msgid "Account:head_birthdateyear"
 msgstr "Birth date: year"
 
-#: Account.rb:214
+#: Account.rb:283
 msgctxt "Account"
-msgid "Account:type_birthdatemonth"
+msgid "Account:head_birthdatemonth"
 msgstr "Birth date: month"
 
-#: Account.rb:215
+#: Account.rb:297
 msgctxt "Account"
-msgid "Account:type_birthdateday"
+msgid "Account:head_birthdateday"
 msgstr "Birth date: day"
 
-#: Account.rb:216
 msgctxt "Account"
 msgid "Account:type_location"
 msgstr "Location"
 
-#: Account.rb:326
+#: Account.rb:455
 msgctxt "Account"
 msgid "Account:type_greeting"
 msgstr "Your welcome message:"
 
-#: Account.rb:597
+#: Account.rb:727
 msgctxt "Account"
 msgid "Account:type_blacklistaddusername"
 msgstr "Type a username which you want to add to blacklist."
 
-#: Account.rb:608
+#: Account.rb:738
 msgctxt "Account"
 msgid "Account:info_phr_addedtoblacklist"
 msgstr "User %{user} has been added to your blacklist"
 
-#: Account.rb:474
+#: Account.rb:601
 msgctxt "Account"
 msgid "Account:opt_phr_computer"
 msgstr "Computer"
 
-#: Account.rb:474
+#: Account.rb:601
 msgctxt "Account"
 msgid "Account:opt_phr_creationip"
 msgstr "Creation IP Address"
 
-#: Account.rb:474
+#: Account.rb:601
 msgctxt "Account"
 msgid "Account:opt_phr_generationdate"
 msgstr "Generation date"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_january"
+msgstr "January"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_february"
+msgstr "February"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_march"
+msgstr "March"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_april"
+msgstr "April"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_may"
+msgstr "May"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_june"
+msgstr "June"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_july"
+msgstr "July"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_august"
+msgstr "August"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_september"
+msgstr "September"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_october"
+msgstr "October"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_november"
+msgstr "November"
+
+#: Account.rb:282
+msgctxt "Account"
+msgid "Account:opt_december"
+msgstr "December"
+
+#: Account.rb:313
+msgctxt "Account"
+msgid "Account:head_subcountry"
+msgstr "State / Province"
+
+#: Account.rb:329
+msgctxt "Account"
+msgid "Account:head_city"
+msgstr "City"
+
+#: Account.rb:226
+msgctxt "Account"
+msgid "Account:head_country"
+msgstr "Country"
+
+#: Account.rb:833
+msgctxt "Account"
+msgid "Account:head_logins"
+msgstr "Last logins"
+
+#: Account.rb:881
+msgctxt "Account"
+msgid "Account:alert_verifymail"
+msgstr "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
+
+#: Account.rb:914
+msgctxt "Account"
+msgid "Account:type_lvcode"
+msgstr "The verification code has been sent to you via E-mail. Please type it here."
+
+#: Account.rb:901
+msgctxt "Account"
+msgid "Account:opt_maileventsenable"
+msgstr "Enable mail events reporting"
+
+#: Account.rb:901
+msgctxt "Account"
+msgid "Account:opt_maileventsdisable"
+msgstr "Disable mail events reporting"
+
+#: Account.rb:902
+msgctxt "Account"
+msgid "Account:head_maileventsdisabled"
+msgstr "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
+
+#: Account.rb:902
+msgctxt "Account"
+msgid "Account:head_maileventsenabled"
+msgstr "Mail events reporting is enabled."
+
+#: Account.rb:100
+msgctxt "Account"
+msgid "Account:error_maileventsenabled"
+msgstr "Error, you must disable mail events reporting first."
 
 #: UsersAddedMeToContacts.rb:36
 msgctxt "Contacts"
@@ -2285,10 +2339,6 @@ msgctxt "Voice"
 msgid "Voice:head_changerate"
 msgstr "Select voice's rate"
 
-msgctxt "Voice"
-msgid "Voice:info_saved"
-msgstr "Saved"
-
 #: Voice.rb:10
 msgctxt "Voice"
 msgid "Voice:opt_changevol"
@@ -2314,6 +2364,7 @@ msgctxt "Voice"
 msgid "Voice:info_phr_selectedvoice"
 msgstr "Selected voice"
 
+#: Messages.rb:614
 msgctxt "Messages"
 msgid "Messages:error_unknown"
 msgstr "Unknown error"
@@ -2412,10 +2463,6 @@ msgstr "Cancel recording"
 msgctxt "Messages"
 msgid "Messages:head_searchresults"
 msgstr "Found items"
-
-msgctxt "Messages"
-msgid "Messages:wait_converting"
-msgstr "File is being converted..."
 
 #: Messages.rb:812
 msgctxt "Messages"
@@ -2557,7 +2604,7 @@ msgctxt "Messages"
 msgid "Messages:opt_phr_new"
 msgstr "New"
 
-#: EAPI_EltenSRV.rb:109
+#: EAPI_EltenSRV.rb:111
 msgctxt "Messages"
 msgid "Messages:wait_sendingfile"
 msgstr "Sending: %{file}"
@@ -2627,36 +2674,6 @@ msgctxt "Messages"
 msgid "Messages:alert_userdelete"
 msgstr "Are you sure you want to delete %{user} from %{conversation}?"
 
-#: MyPermissions.rb:13
-msgctxt "MyPermissions"
-msgid "MyPermissions:opt_moderators"
-msgstr "Moderators"
-
-#: MyPermissions.rb:14
-msgctxt "MyPermissions"
-msgid "MyPermissions:opt_mediaadministrators"
-msgstr "Media administrators"
-
-#: MyPermissions.rb:15
-msgctxt "MyPermissions"
-msgid "MyPermissions:opt_translators"
-msgstr "Translators"
-
-#: MyPermissions.rb:16
-msgctxt "MyPermissions"
-msgid "MyPermissions:opt_developers"
-msgstr "Developers"
-
-#: MyPermissions.rb:31
-msgctxt "MyPermissions"
-msgid "MyPermissions:info_nopermissions"
-msgstr "You have no special permissions."
-
-#: MyPermissions.rb:12
-msgctxt "MyPermissions"
-msgid "MyPermissions:opt_betatesters"
-msgstr "Betatesters"
-
 #: Online.rb:24
 msgctxt "Online"
 msgid "Online:head"
@@ -2667,12 +2684,12 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_installnewprograms"
 msgstr "Programs installation"
 
-#: MainMenu.rb:495
+#: MainMenu.rb:487
 msgctxt "MainMenu"
 msgid "MainMenu:alert_reinstall"
 msgstr " Do you want to restore the last sarr version of this program? All settings stay  as they are."
 
-#: MainMenu.rb:503
+#: MainMenu.rb:495
 msgctxt "MainMenu"
 msgid "MainMenu:alert_resetsettings"
 msgstr " Are you sure you want to reset all settings to their factory defaults? Elten will  restart."
@@ -2682,11 +2699,7 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_community"
 msgstr "&Community"
 
-msgctxt "MainMenu"
-msgid "MainMenu:opt_media"
-msgstr "&media"
-
-#: MainMenu.rb:536
+#: MainMenu.rb:528
 msgctxt "MainMenu"
 msgid "MainMenu:opt_files"
 msgstr "&Files"
@@ -2761,7 +2774,7 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_clock"
 msgstr "Cloc&k"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "MainMenu:opt_soundthemes"
 msgstr "Soun&dthemes"
@@ -2811,7 +2824,7 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_polls"
 msgstr "Po&lls"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_users"
 msgstr "&Users"
@@ -2826,12 +2839,10 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_profile"
 msgstr "Edit &profile"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "MainMenu:opt_status"
 msgstr "Change &status"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "MainMenu:opt_signature"
 msgstr "My si&gnature"
@@ -2841,7 +2852,6 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_greeting"
 msgstr "My &welcome message"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "MainMenu:opt_visitingcard"
 msgstr "My &visiting card"
@@ -2851,7 +2861,6 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_honors"
 msgstr "My &badges"
 
-#: MainMenu.rb:287
 msgctxt "MainMenu"
 msgid "MainMenu:opt_sharedfiles"
 msgstr "My share&d files"
@@ -2865,10 +2874,6 @@ msgstr "Set &avatar"
 msgctxt "MainMenu"
 msgid "MainMenu:opt_whatsnewconfig"
 msgstr "WHat's &new configuration"
-
-msgctxt "MainMenu"
-msgid "MainMenu:opt_mypermissions"
-msgstr "My p&ermissions"
 
 #: MainMenu.rb:287
 msgctxt "MainMenu"
@@ -2895,140 +2900,132 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_twofactor"
 msgstr "Two-factor a&uthentication settings"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "MainMenu:opt_soundthemesgenerator"
 msgstr "Soundthemes &generator"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "MainMenu:opt_speedtest"
 msgstr "Speed &test"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "MainMenu:opt_programmanagement"
 msgstr "P&rogram management"
 
-#: MainMenu.rb:536
+#: MainMenu.rb:528
 msgctxt "MainMenu"
 msgid "MainMenu:opt_readtofile"
 msgstr "Read to &file"
 
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "MainMenu:opt_console"
 msgstr "&Console"
 
-msgctxt "MainMenu"
-msgid "MainMenu:opt_compiler"
-msgstr "&Elten API compiler"
-
-#: MainMenu.rb:363
+#: MainMenu.rb:355
 msgctxt "MainMenu"
 msgid "MainMenu:opt_debug"
 msgstr "De&bugging"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "MainMenu:opt_tray"
 msgstr "Hide in &tray"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "MainMenu:opt_logout"
 msgstr "&Logout"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "MainMenu:opt_exit"
 msgstr "E&xit"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "MainMenu:opt_restart"
 msgstr "&Restart"
 
-#: MainMenu.rb:412
+#: MainMenu.rb:404
 msgctxt "MainMenu"
 msgid "MainMenu:opt_restarttodebug"
 msgstr "Restart in de&bug mode"
 
-#: MainMenu.rb:476
+#: MainMenu.rb:468
 msgctxt "MainMenu"
 msgid "MainMenu:opt_update"
 msgstr "Search for &updates"
 
-#: MainMenu.rb:476
+#: MainMenu.rb:468
 msgctxt "MainMenu"
 msgid "MainMenu:opt_reinstall"
 msgstr "&Reinstall"
 
-#: MainMenu.rb:478
+#: MainMenu.rb:470
 msgctxt "MainMenu"
 msgid "MainMenu:opt_portable"
 msgstr "Create &Portable version"
 
-#: MainMenu.rb:478
+#: MainMenu.rb:470
 msgctxt "MainMenu"
 msgid "MainMenu:opt_resetsettings"
 msgstr "Restore &default settings"
 
-#: MainMenu.rb:478
+#: MainMenu.rb:470
 msgctxt "MainMenu"
 msgid "MainMenu:opt_install"
 msgstr "&Install"
 
-msgctxt "MainMenu"
-msgid "MainMenu:opt_mediacatalog"
-msgstr "&Media catalog"
-
-#: MainMenu.rb:536
+#: MainMenu.rb:528
 msgctxt "MainMenu"
 msgid "MainMenu:opt_youtube"
 msgstr "&YouTube"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_contacts"
 msgstr "My &contacts"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_useraddedmetocontacts"
 msgstr "Users who a&dded me to contacts"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_online"
 msgstr "WHo is &online?"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_userslist"
 msgstr "&Users list"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_admins"
 msgstr "Ad&mins"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_usersearch"
 msgstr "User searc&h"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_recentlyactived"
 msgstr "Recently &actived users"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_recentlyregistered"
 msgstr "Recently &registered users"
 
-#: MainMenu.rb:569
+#: MainMenu.rb:561
 msgctxt "MainMenu"
 msgid "MainMenu:opt_lastavatars"
 msgstr "Recently changed a&vatars"
@@ -3048,514 +3045,517 @@ msgctxt "MainMenu"
 msgid "MainMenu:opt_soundcard"
 msgstr "Sound device"
 
-#: Forum.rb:1075
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "MainMenu:opt_logins"
+msgstr "Last logins"
+
+#: MainMenu.rb:287
+msgctxt "MainMenu"
+msgid "MainMenu:opt_mailevents"
+msgstr "Mail events reporting"
+
+#: Forum.rb:1092
 msgctxt "Forum"
 msgid "Forum:opt_newthr"
 msgstr "New thread"
 
-#: Forum.rb:2009
+#: Forum.rb:2026
 msgctxt "Forum"
 msgid "Forum:info_thrfollowed"
 msgstr "Added to the list of followed threads."
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Forum:opt_gotolast"
 msgstr "Go to last post"
 
-#: Forum.rb:1216
+#: Forum.rb:1233
 msgctxt "Forum"
 msgid "Forum:type_thrname"
 msgstr "Thread's title"
 
-#: Forum.rb:1404
+#: Forum.rb:1421
 msgctxt "Forum"
 msgid "Forum:info_thrcreated"
 msgstr "Thread has been created."
 
+#: Forum.rb:1423
 msgctxt "Forum"
 msgid "Forum:error_thrcreation"
 msgstr "Error creating thread!"
 
-#: Forum.rb:1900
+#: Forum.rb:1917
 msgctxt "Forum"
 msgid "Forum:info_postcreated"
 msgstr "The post was created."
 
-#: Forum.rb:1166
+#: Forum.rb:1183
 msgctxt "Forum"
 msgid "Forum:info_thrdeleted"
 msgstr "This thread has been deleted."
 
-#: Forum.rb:2138
+#: Forum.rb:2155
 msgctxt "Forum"
 msgid "Forum:info_postdeleted"
 msgstr "This post has been deleted."
 
-#: Forum.rb:2154
+#: Forum.rb:2171
 msgctxt "Forum"
 msgid "Forum:head"
 msgstr "Forum"
 
-#: Forum.rb:1948
+#: Forum.rb:1965
 msgctxt "Forum"
 msgid "Forum:opt_reply"
 msgstr "Reply"
 
-#: Forum.rb:1948
+#: Forum.rb:1965
 msgctxt "Forum"
 msgid "Forum:opt_quote"
 msgstr "Reply with quote"
 
-#: Forum.rb:1953
+#: Forum.rb:1970
 msgctxt "Forum"
 msgid "Forum:opt_gotounread"
 msgstr "Go to first new post"
 
-#: Forum.rb:1863
+#: Forum.rb:1880
 msgctxt "Forum"
 msgid "Forum:btn_send"
 msgstr "Send"
 
-#: Forum.rb:1004
+#: Forum.rb:1021
 msgctxt "Forum"
 msgid "Forum:info_nonewfollowedthr"
 msgstr "No new posts in followed threads"
 
-#: Forum.rb:1706
+#: Forum.rb:1723
 msgctxt "Forum"
 msgid "Forum:btn_back"
 msgstr "Return"
 
-#: Forum.rb:1863
+#: Forum.rb:1880
 msgctxt "Forum"
 msgid "Forum:btn_sendaudio"
 msgstr "Add the post"
 
-#: Forum.rb:1699
+#: Forum.rb:1716
 msgctxt "Forum"
 msgid "Forum:type_reply"
 msgstr "Your answer"
 
-#: Forum.rb:744
+#: Forum.rb:761
 msgctxt "Forum"
 msgid "Forum:head_selforum"
 msgstr "Forums selection"
 
-#: Forum.rb:1042
+#: Forum.rb:1059
 msgctxt "Forum"
 msgid "Forum:head_selthr"
 msgstr "Threads selection"
 
-#: Forum.rb:1701
+#: Forum.rb:1718
 msgctxt "Forum"
 msgid "Forum:btn_recnewpost"
 msgstr "Record a new post"
 
-#: Forum.rb:1856
+#: Forum.rb:1873
 msgctxt "Forum"
 msgid "Forum:btn_recstop"
 msgstr "Stop recording"
 
-#: Forum.rb:1861
+#: Forum.rb:1878
 msgctxt "Forum"
 msgid "Forum:btn_recagain"
 msgstr "Record a post once again"
 
-#: Forum.rb:1862
+#: Forum.rb:1879
 msgctxt "Forum"
 msgid "Forum:btn_play"
 msgstr "Play"
 
-#: Forum.rb:1213
+#: Forum.rb:1230
 msgctxt "Forum"
 msgid "Forum:type_postcontent"
 msgstr "Post"
 
-msgctxt "Forum"
-msgid "Forum:wait_converting"
-msgstr "Converting..."
-
-#: Forum.rb:1323
+#: Forum.rb:1340
 msgctxt "Forum"
 msgid "Forum:btn_recpost"
 msgstr "Record a post"
 
-#: Forum.rb:1331
+#: Forum.rb:1348
 msgctxt "Forum"
 msgid "Forum:btn_playpost"
 msgstr "Play a post"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Forum:opt_search"
 msgstr "Search"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Forum:opt_rename"
 msgstr "Rename"
 
-#: Forum.rb:1974
+#: Forum.rb:1991
 msgctxt "Forum"
 msgid "Forum:opt_edit"
 msgstr "Edit post"
 
-#: Forum.rb:1975
+#: Forum.rb:1992
 msgctxt "Forum"
 msgid "Forum:opt_deletepost"
 msgstr "Delete post"
 
-#: Forum.rb:1087
+#: Forum.rb:1104
 msgctxt "Forum"
 msgid "Forum:opt_open"
 msgstr "Open"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Forum:opt_movethr"
 msgstr "Move thread"
 
-#: Forum.rb:2042
+#: Forum.rb:2059
 msgctxt "Forum"
 msgid "Forum:type_searchphrase"
 msgstr "Enter a phrase to look for"
 
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Forum:opt_followthr"
 msgstr "Add to followed threads list"
 
-#: Forum.rb:1914
+#: Forum.rb:1931
 msgctxt "Forum"
 msgid "Forum:opt_unfollowthr"
 msgstr "Unfollow this thread"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Forum:opt_deletethr"
 msgstr "Delete thread"
 
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Forum:opt_navigation"
 msgstr "Navigation"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Forum:opt_gotopost"
 msgstr "Go to post"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Forum:opt_searchthr"
 msgstr "Search thread"
 
-#: Forum.rb:1952
+#: Forum.rb:1969
 msgctxt "Forum"
 msgid "Forum:opt_gotofirst"
 msgstr "Go to first post"
 
-#: Forum.rb:1913
+#: Forum.rb:1930
 msgctxt "Forum"
 msgid "Forum:opt_moderation"
 msgstr "Moderation"
 
-#: Forum.rb:1975
+#: Forum.rb:1992
 msgctxt "Forum"
 msgid "Forum:opt_movepost"
 msgstr "Move post"
 
-#: Forum.rb:2076
+#: Forum.rb:2093
 msgctxt "Forum"
 msgid "Forum:type_editpost"
 msgstr "edit your post here"
 
-#: Forum.rb:2085
+#: Forum.rb:2102
 msgctxt "Forum"
 msgid "Forum:info_postmodified"
 msgstr "The post has been modified"
 
-#: Forum.rb:2180
+#: Forum.rb:2197
 msgctxt "Forum"
 msgid "Forum:opt_mention"
 msgstr "Mention post"
 
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Forum:opt_listen"
 msgstr "Listen to the thread"
 
-#: Forum.rb:756
+#: Forum.rb:773
 msgctxt "Forum"
 msgid "Forum:opt_followforum"
 msgstr "Follow this forum"
 
-#: Forum.rb:757
+#: Forum.rb:774
 msgctxt "Forum"
 msgid "Forum:opt_unfollowforum"
 msgstr "Unfollow this forum"
 
-#: Forum.rb:777
+#: Forum.rb:794
 msgctxt "Forum"
 msgid "Forum:info_forumfollowed"
 msgstr "Added to followed forums list."
 
-#: Forum.rb:784
+#: Forum.rb:801
 msgctxt "Forum"
 msgid "Forum:info_forumunfollowed"
 msgstr "Removed from followed forums list."
 
-#: Forum.rb:2016
+#: Forum.rb:2033
 msgctxt "Forum"
 msgid "Forum:info_thrunfollowed"
 msgstr "Removed from followed threads list."
 
-#: Forum.rb:2180
+#: Forum.rb:2197
 msgctxt "Forum"
 msgid "Forum:info_message"
 msgstr "Message"
 
-#: Forum.rb:756
+#: Forum.rb:773
 msgctxt "Forum"
 msgid "Forum:opt_markforumasread"
 msgstr "Mark this forum as read"
 
-#: Forum.rb:797
+#: Forum.rb:814
 msgctxt "Forum"
 msgid "Forum:alert_markforumasread"
 msgstr " All posts on this forum will be marked as read. Are you sure you want to continue?"
 
-#: Forum.rb:805
+#: Forum.rb:822
 msgctxt "Forum"
 msgid "Forum:info_forummarkedasread"
 msgstr "The forum has been marked as read."
 
-#: Forum.rb:1009
+#: Forum.rb:1026
 msgctxt "Forum"
 msgid "Forum:info_nonewfollowedforumsthreads"
 msgstr "No new threads on the followed forums"
 
-#: Forum.rb:1014
+#: Forum.rb:1031
 msgctxt "Forum"
 msgid "Forum:info_nonewfollowedforumsposts"
 msgstr "No new posts on the followed forums"
 
-#: Forum.rb:1019
+#: Forum.rb:1036
 msgctxt "Forum"
 msgid "Forum:info_nonewmentions"
 msgstr "No new mentions"
 
-#: Forum.rb:1141
+#: Forum.rb:1158
 msgctxt "Forum"
 msgid "Forum:info_threadmoved"
 msgstr "The thread has been moved."
 
-#: Forum.rb:1154
+#: Forum.rb:1171
 msgctxt "Forum"
 msgid "Forum:info_renamed"
 msgstr "The forum name has been changed."
 
-#: Forum.rb:1874
+#: Forum.rb:1891
 msgctxt "Forum"
 msgid "Forum:wait_postsendpreparation"
 msgstr "Preparing..."
 
-#: Forum.rb:1902
+#: Forum.rb:1919
 msgctxt "Forum"
 msgid "Forum:error_postcreation"
 msgstr "Post creation failure."
 
-#: Forum.rb:2062
+#: Forum.rb:2079
 msgctxt "Forum"
 msgid "Forum:error_phrasenotfound"
 msgstr "The entered phrase cannot be found."
 
-#: Forum.rb:2121
+#: Forum.rb:2138
 msgctxt "Forum"
 msgid "Forum:info_postmoved"
 msgstr "The post has been moved."
 
-#: Forum.rb:2157
+#: Forum.rb:2174
 msgctxt "Forum"
 msgid "Forum:info_postslided"
 msgstr "The post has been slided."
 
-#: Forum.rb:2176
+#: Forum.rb:2193
 msgctxt "Forum"
 msgid "Forum:info_noonecontactedyou"
 msgstr "Nobody added you to their contact list."
 
-#: Forum.rb:2194
+#: Forum.rb:2211
 msgctxt "Forum"
 msgid "Forum:info_mentionsent"
 msgstr "The mention has been sent."
 
-#: Forum.rb:1214
+#: Forum.rb:1231
 msgctxt "Forum"
 msgid "Forum:type_nick"
 msgstr "Nick:"
 
-#: Forum.rb:1149
+#: Forum.rb:1166
 msgctxt "Forum"
 msgid "Forum:type_thrnewname"
 msgstr "Type a new thread name"
 
-#: Forum.rb:1323
+#: Forum.rb:1340
 msgctxt "Forum"
 msgid "Forum:btn_recpoststop"
 msgstr "Stop recording a post"
 
-#: Forum.rb:2128
+#: Forum.rb:2145
 msgctxt "Forum"
 msgid "Forum:alert_Deletepost"
 msgstr "Are you sure you want to delete this post?"
 
-#: Forum.rb:1136
+#: Forum.rb:1153
 msgctxt "Forum"
 msgid "Forum:head_movethrlocation"
 msgstr "Where do you want to move this thread"
 
-#: Forum.rb:2057
+#: Forum.rb:2074
 msgctxt "Forum"
 msgid "Forum:head_selpost"
 msgstr "Select a post"
 
-#: Forum.rb:2116
+#: Forum.rb:2133
 msgctxt "Forum"
 msgid "Forum:head_movepostlocation"
 msgstr "Where do you want to move this post?"
 
-msgctxt "Forum"
-msgid "Forum:head_postslidewith"
-msgstr "Select a post to be slided with this post."
-
-#: Forum.rb:1912
+#: Forum.rb:1929
 msgctxt "Forum"
 msgid "Forum:opt_phr_author"
 msgstr "Author"
 
-#: Forum.rb:1162
+#: Forum.rb:1179
 msgctxt "Forum"
 msgid "Forum:alert_thrdelete"
 msgstr "Do you really want to delete thread %{thrname}?"
 
-#: Forum.rb:1029
+#: Forum.rb:1046
 msgctxt "Forum"
 msgid "Forum:opt_phr_thrisnew"
 msgstr "New"
 
-#: Forum.rb:743
+#: Forum.rb:760
 msgctxt "Forum"
 msgid "Forum:opt_phr_threads"
 msgstr "Threads"
 
-#: Forum.rb:1044
+#: Forum.rb:1061
 msgctxt "Forum"
 msgid "Forum:opt_phr_posts"
 msgstr "posts"
 
-#: Forum.rb:1044
+#: Forum.rb:1061
 msgctxt "Forum"
 msgid "Forum:opt_phr_unreads"
 msgstr "Unread"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_followedthreads"
 msgstr "Followed threads"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_followedforums"
 msgstr "Followed forums"
 
-#: Forum.rb:246
+#: Forum.rb:261
 msgctxt "Forum"
 msgid "Forum:opt_phr_forums"
 msgstr "Forums"
 
-#: Forum.rb:1032
+#: Forum.rb:1049
 msgctxt "Forum"
 msgid "Forum:opt_phr_mentionedby"
 msgstr "Montioned by"
 
-#: Forum.rb:1975
+#: Forum.rb:1992
 msgctxt "Forum"
 msgid "Forum:opt_slidepost"
 msgstr "Change post position"
 
-#: Forum.rb:314
+#: Forum.rb:331
 msgctxt "Forum"
 msgid "Forum:opt_members"
 msgstr "Group members"
 
-#: Forum.rb:390
+#: Forum.rb:407
 msgctxt "Forum"
 msgid "Forum:head_members"
 msgstr "Group Members"
 
-#: Forum.rb:525
+#: Forum.rb:542
 msgctxt "Forum"
 msgid "Forum:opt_phr_founder"
 msgstr "Administrator"
 
-#: Forum.rb:469
+#: Forum.rb:486
 msgctxt "Forum"
 msgid "Forum:opt_phr_moderator"
 msgstr "Moderator"
 
-#: Forum.rb:316
+#: Forum.rb:333
 msgctxt "Forum"
 msgid "Forum:opt_join"
 msgstr "Join"
 
-#: Forum.rb:319
+#: Forum.rb:336
 msgctxt "Forum"
 msgid "Forum:opt_leave"
 msgstr "Leave"
 
-#: Forum.rb:577
+#: Forum.rb:594
 msgctxt "Forum"
 msgid "Forum:alert_join"
 msgstr "Are you sure you want to join %{groupname}?"
 
-#: Forum.rb:596
+#: Forum.rb:613
 msgctxt "Forum"
 msgid "Forum:alert_leave"
 msgstr "Are you sure you want to leave %{groupname}?"
 
-#: Forum.rb:586
+#: Forum.rb:603
 msgctxt "Forum"
 msgid "Forum:info_joined"
 msgstr "You've just joined the group"
 
-#: Forum.rb:599
+#: Forum.rb:616
 msgctxt "Forum"
 msgid "Forum:info_left"
 msgstr "You've just left the group"
 
-#: Forum.rb:411
+#: Forum.rb:428
 msgctxt "Forum"
 msgid "Forum:opt_passadmin"
 msgstr "Pass administrative privileges"
 
-#: Forum.rb:408
+#: Forum.rb:425
 msgctxt "Forum"
 msgid "Forum:opt_moderationgrant"
 msgstr "Grant moderation privileges"
 
-#: Forum.rb:410
+#: Forum.rb:427
 msgctxt "Forum"
 msgid "Forum:opt_moderationdeny"
 msgstr "Deny moderation privileges"
 
-#: Forum.rb:425
+#: Forum.rb:442
 msgctxt "Forum"
 msgid "Forum:opt_userban"
 msgstr "Ban in this group"
 
-#: Forum.rb:430
+#: Forum.rb:447
 msgctxt "Forum"
 msgid "Forum:opt_userunban"
 msgstr "Unban"
@@ -3568,12 +3568,12 @@ msgctxt "Forum"
 msgid "Forum:alert_moderationdeny"
 msgstr "Are you sure you want to deny %{user}'s moderation privileges?"
 
-#: Forum.rb:527
+#: Forum.rb:544
 msgctxt "Forum"
 msgid "Forum:info_privileges"
 msgstr "Privileges of this user have been changed."
 
-#: Forum.rb:517
+#: Forum.rb:534
 msgctxt "Forum"
 msgid "Forum:alert_passadmin"
 msgstr "Are you sure you want to resign your administrative privileges in %{groupname} and pass them to %{user}?"
@@ -3586,7 +3586,7 @@ msgctxt "Forum"
 msgid "Forum:alert_userunban"
 msgstr "Are you sure you want to unban %{user} in %{groupname}?"
 
-#: Forum.rb:427
+#: Forum.rb:444
 msgctxt "Forum"
 msgid "Forum:opt_userkick"
 msgstr "Kick"
@@ -3595,262 +3595,262 @@ msgctxt "Forum"
 msgid "Forum:alert_userkick"
 msgstr "Are you sure you want to kick %{user} of %{groupname}?"
 
-#: Forum.rb:762
+#: Forum.rb:779
 msgctxt "Forum"
 msgid "Forum:opt_newforum"
 msgstr "New forum"
 
-#: Forum.rb:765
+#: Forum.rb:782
 msgctxt "Forum"
 msgid "Forum:opt_deleteforum"
 msgstr "Delete forum"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum:type_forumname"
 msgstr "Forum name"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum:type_forumdescription"
 msgstr "Forum description"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum:head_forumtype"
 msgstr "Forum type"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum:opt_forumtypetext"
 msgstr "Text forum"
 
-#: Forum.rb:890
+#: Forum.rb:907
 msgctxt "Forum"
 msgid "Forum:opt_forumtypevoice"
 msgstr "Voice forum"
 
-#: Forum.rb:896
+#: Forum.rb:913
 msgctxt "Forum"
 msgid "Forum:btn_forumcreate"
 msgstr "Create forum"
 
-#: Forum.rb:912
+#: Forum.rb:929
 msgctxt "Forum"
 msgid "Forum:info_forumcreated"
 msgstr "The forum has been created"
 
-#: Forum.rb:870
+#: Forum.rb:887
 msgctxt "Forum"
 msgid "Forum:alert_deleteforum"
 msgstr "Are you sure you want to delete this forum?"
 
-#: Forum.rb:875
+#: Forum.rb:892
 msgctxt "Forum"
 msgid "Forum:info_forumdeleted"
 msgstr "The forum has been deleted."
 
-#: Forum.rb:764
+#: Forum.rb:781
 msgctxt "Forum"
 msgid "Forum:opt_editforum"
 msgstr "Edit forum"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_groupsrecommended"
 msgstr "Recommended groups"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_groupsopen"
 msgstr "Open groups"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_groupsall"
 msgstr "All groups"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Forum:type_groupname"
 msgstr "Group name"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Forum:type_groupdescription"
 msgstr "Group description"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Forum:head_grouptype"
 msgstr "Group type"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Forum:opt_grouptypepublic"
 msgstr "Public"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Forum:opt_grouptypehidden"
 msgstr "Hidden"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Forum:head_groupjointype"
 msgstr "Join method"
 
-#: Forum.rb:699
+#: Forum.rb:716
 msgctxt "Forum"
 msgid "Forum:opt_groupjointypeopen"
 msgstr "open (everyone can join)"
 
-#: Forum.rb:699
+#: Forum.rb:716
 msgctxt "Forum"
 msgid "Forum:opt_groupjointypemoderated"
 msgstr "Moderated (everyone can request)"
 
-#: Forum.rb:697
+#: Forum.rb:714
 msgctxt "Forum"
 msgid "Forum:opt_groupjointypeclosed"
 msgstr "closed (only invited users can join)"
 
-#: Forum.rb:691
+#: Forum.rb:708
 msgctxt "Forum"
 msgid "Forum:btn_groupcreate"
 msgstr "Create group"
 
-#: Forum.rb:855
+#: Forum.rb:872
 msgctxt "Forum"
 msgid "Forum:opt_changeforumpos"
 msgstr "Change forum position"
 
-#: Forum.rb:855
+#: Forum.rb:872
 msgctxt "Forum"
 msgid "Forum:head_changeforumpos"
 msgstr "Above what forum do you want to move this forum?"
 
-#: Forum.rb:855
+#: Forum.rb:872
 msgctxt "Forum"
 msgid "Forum:opt_changeforumposend"
 msgstr "Move to the end"
 
-#: Forum.rb:312
+#: Forum.rb:329
 msgctxt "Forum"
 msgid "Forum:opt_newgroup"
 msgstr "New group"
 
-#: Forum.rb:685
+#: Forum.rb:702
 msgctxt "Forum"
 msgid "Forum:head_language"
 msgstr "Language"
 
-#: Forum.rb:706
+#: Forum.rb:723
 msgctxt "Forum"
 msgid "Forum:info_groupcreated"
 msgstr "Group has been created"
 
-#: Forum.rb:322
+#: Forum.rb:339
 msgctxt "Forum"
 msgid "Forum:opt_deletegroup"
 msgstr "Delete group"
 
-#: Forum.rb:653
+#: Forum.rb:670
 msgctxt "Forum"
 msgid "Forum:alert_deletegroup"
 msgstr "Are you sure you want to delete %{groupname}?"
 
-#: Forum.rb:657
+#: Forum.rb:674
 msgctxt "Forum"
 msgid "Forum:info_groupdeleted"
 msgstr "Group has been deleted"
 
-#: Forum.rb:315
+#: Forum.rb:332
 msgctxt "Forum"
 msgid "Forum:opt_invite"
 msgstr "Invite"
 
-#: Forum.rb:546
+#: Forum.rb:563
 msgctxt "Forum"
 msgid "Forum:type_invite"
 msgstr "Type user to invite"
 
-#: Forum.rb:556
+#: Forum.rb:573
 msgctxt "Forum"
 msgid "Forum:info_invited"
 msgstr "The user has been invited"
 
-#: Forum.rb:564
+#: Forum.rb:581
 msgctxt "Forum"
 msgid "Forum:error_usernotfound"
 msgstr "This user does not exist"
 
-#: Forum.rb:566
+#: Forum.rb:583
 msgctxt "Forum"
 msgid "Forum:error_useralreadyingroup"
 msgstr "This user already belongs to this group"
 
-#: Forum.rb:317
+#: Forum.rb:334
 msgctxt "Forum"
 msgid "Forum:opt_invitationaccept"
 msgstr "Accept invitation"
 
-#: Forum.rb:320
+#: Forum.rb:337
 msgctxt "Forum"
 msgid "Forum:opt_invitationrefuse"
 msgstr "Refuse invitation"
 
-#: Forum.rb:383
+#: Forum.rb:400
 msgctxt "Forum"
 msgid "Forum:opt_phr_invited"
 msgstr "Invited"
 
-#: Forum.rb:507
+#: Forum.rb:524
 msgctxt "Forum"
 msgid "Forum:opt_phr_banned"
 msgstr "Banned"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_groupsinvited"
 msgstr "Invitations"
 
-#: Forum.rb:321
+#: Forum.rb:338
 msgctxt "Forum"
 msgid "Forum:opt_editgroup"
 msgstr "Edit group"
 
-#: Forum.rb:487
+#: Forum.rb:504
 msgctxt "Forum"
 msgid "Forum:opt_request"
 msgstr "Ask to be enrolled in this group"
 
-#: Forum.rb:575
+#: Forum.rb:592
 msgctxt "Forum"
 msgid "Forum:alert_request"
 msgstr "Do you wish to ask to be enrolled in %{groupname}"
 
-#: Forum.rb:583
+#: Forum.rb:600
 msgctxt "Forum"
 msgid "Forum:info_requested"
 msgstr "Request sent"
 
-#: Forum.rb:508
+#: Forum.rb:525
 msgctxt "Forum"
 msgid "Forum:opt_phr_requested"
 msgstr "Waiting for review"
 
-#: Forum.rb:435
+#: Forum.rb:452
 msgctxt "Forum"
 msgid "Forum:opt_requestexamine"
 msgstr "Examine this application"
 
-#: Forum.rb:487
+#: Forum.rb:504
 msgctxt "Forum"
 msgid "Forum:opt_requestaccept"
 msgstr "Accept"
 
-#: Forum.rb:487
+#: Forum.rb:504
 msgctxt "Forum"
 msgid "Forum:opt_requestrefuse"
 msgstr "Refuse"
@@ -3863,115 +3863,120 @@ msgctxt "Forum"
 msgid "Forum:alert_userrefuse"
 msgstr "Do you want to refuse request of user %{user}"
 
-#: Forum.rb:1765
+#: Forum.rb:1782
 msgctxt "Forum"
 msgid "Forum:head_attachments"
 msgstr "Attachments"
 
-#: Forum.rb:1688
+#: Forum.rb:1705
 msgctxt "Forum"
 msgid "Forum:head_polls"
 msgstr "Polls"
 
-#: Forum.rb:1213
+#: Forum.rb:1230
 msgctxt "Forum"
 msgid "Forum:btn_addpoll"
 msgstr "Attach a poll"
 
-#: Forum.rb:1699
+#: Forum.rb:1716
 msgctxt "Forum"
 msgid "Forum:btn_attach"
 msgstr "Attach a file"
 
-#: Forum.rb:1256
+#: Forum.rb:1273
 msgctxt "Forum"
 msgid "Forum:info_nopolls"
 msgstr "You haven't created any polls yet."
 
-#: Forum.rb:1242
+#: Forum.rb:1259
 msgctxt "Forum"
 msgid "Forum:head_polltoadd"
 msgstr "Select poll to attach"
 
-#: Forum.rb:1252
+#: Forum.rb:1269
 msgctxt "Forum"
 msgid "Forum:info_polladded"
 msgstr "Poll has been added"
 
-#: Forum.rb:1247
+#: Forum.rb:1264
 msgctxt "Forum"
 msgid "Forum:info_pollalreadyadded"
 msgstr "This poll has already been added"
 
-#: Forum.rb:1767
+#: Forum.rb:1784
 msgctxt "Forum"
 msgid "Forum:info_fileattached"
 msgstr "The file has been attached"
 
-#: Forum.rb:1759
+#: Forum.rb:1776
 msgctxt "Forum"
 msgid "Forum:info_filealreadyattached"
 msgstr "This file has been already attached"
 
-#: Forum.rb:1756
+#: Forum.rb:1773
 msgctxt "Forum"
 msgid "Forum:head_selattachment"
 msgstr "Select file to attach"
 
-#: Forum.rb:1762
+#: Forum.rb:1779
 msgctxt "Forum"
 msgid "Forum:error_filetoolarge"
 msgstr "This file is too large"
 
-#: Forum.rb:1744
+#: Forum.rb:1761
 msgctxt "Forum"
 msgid "Forum:head_attachmentsavelocation"
 msgstr "Where to save this file?"
 
-#: Forum.rb:1086
+#: Forum.rb:1103
 msgctxt "Forum"
 msgid "Forum:opt_closethr"
 msgstr "Close thread"
 
-#: Forum.rb:1087
+#: Forum.rb:1104
 msgctxt "Forum"
 msgid "Forum:opt_openthr"
 msgstr "Open thread"
 
-#: Forum.rb:1186
+#: Forum.rb:1203
 msgctxt "Forum"
 msgid "Forum:info_thrclosed"
 msgstr "The thread has been closed"
 
-#: Forum.rb:1182
+#: Forum.rb:1199
 msgctxt "Forum"
 msgid "Forum:info_thropened"
 msgstr "The thread has been opened"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_groupsrecent"
 msgstr "Recently created groups"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_threadspopular"
 msgstr "Threads popular with my friends"
 
-#: Forum.rb:150
+#: Forum.rb:152
 msgctxt "Forum"
 msgid "Forum:opt_groupspopular"
 msgstr "Groups popular with my friends"
 
-#: Forum.rb:2153
+#: Forum.rb:2170
 msgctxt "Forum"
 msgid "Forum:opt_changepostposend"
 msgstr "Move to end"
 
-#: Forum.rb:2154
+#: Forum.rb:2171
 msgctxt "Forum"
 msgid "Forum:head_postslideabove"
 msgstr "Where to slide this post?"
+
+#: Forum.rb:152
+msgctxt "Forum"
+msgid "Forum:opt_groupsmoderated"
+msgstr "Moderated groups"
 
 #: Main.rb:94
 msgctxt "Main"
@@ -4023,41 +4028,37 @@ msgctxt "Main"
 msgid "Main:info_plserased"
 msgstr "Playlist removed."
 
-msgctxt "Main"
-msgid "Main:type_test"
-msgstr "test"
-
 #: Login.rb:17
 msgctxt "Login"
 msgid "Login:type_login"
 msgstr "Username:"
 
-#: Login.rb:146
+#: Login.rb:145
 msgctxt "Login"
 msgid "Login:type_pass"
 msgstr "Password:"
 
-#: Login.rb:134
+#: Login.rb:133
 msgctxt "Login"
 msgid "Login:opt_asknomore"
 msgstr "Do not ask again"
 
-#: Login.rb:172
+#: Login.rb:171
 msgctxt "Login"
 msgid "Login:info_asknomore"
 msgstr "To reenable auto log in feature, proceed to the interface settings."
 
-#: Login.rb:136
+#: Login.rb:135
 msgctxt "Login"
 msgid "Login:alert_crpdeprecated"
 msgstr " The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"
 
-#: Login.rb:161
+#: Login.rb:160
 msgctxt "Login"
 msgid "Login:info_autologin"
 msgstr " Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."
 
-#: Login.rb:163
+#: Login.rb:162
 msgctxt "Login"
 msgid "Login:info_crpupdated"
 msgstr " Login data has been updated. Automatic login will be proceeding until you log  out. Automatic login keys can be managed from the My Account tab in the Community  menu."
@@ -4077,32 +4078,32 @@ msgctxt "Login"
 msgid "Login:type_authcodeagain"
 msgstr "The entered code is not valid, try again."
 
-#: Login.rb:152
+#: Login.rb:151
 msgctxt "Login"
 msgid "Login:error_identity"
 msgstr " An error occurred while authenticating the identity. You might have provided an  incorrect password."
 
-#: Login.rb:235
+#: Login.rb:234
 msgctxt "Login"
 msgid "Login:error_wrongdata"
 msgstr "Invalid login or password."
 
-#: Login.rb:240
+#: Login.rb:239
 msgctxt "Login"
 msgid "Login:error_logon"
 msgstr "Login failure."
 
-#: Login.rb:244
+#: Login.rb:243
 msgctxt "Login"
 msgid "Login:error_srv"
 msgstr "Connection failure."
 
-#: Login.rb:192
+#: Login.rb:191
 msgctxt "Login"
 msgid "Login:info_loggedinas"
 msgstr "Logged in as: %{user}"
 
-#: Login.rb:134
+#: Login.rb:133
 msgctxt "Login"
 msgid "Login:alert_autologin"
 msgstr "Do you want to enable auto log in for account %{user}?"
@@ -4172,41 +4173,37 @@ msgctxt "Registration"
 msgid "Registration:type_passagain"
 msgstr "Repeat your password"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Loading:opt_login"
 msgstr "Log in"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Loading:opt_register"
 msgstr "Register"
 
-msgctxt "Loading"
-msgid "Loading:opt_quit"
-msgstr "Exit"
-
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Loading:opt_interfacesettings"
 msgstr "Interface settings"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Loading:opt_forgottenpass"
 msgstr "Password reset"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Loading:opt_guest"
 msgstr "Use guest account"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Loading:opt_changesynth"
 msgstr "Change speech synthesizer"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "Loading"
 msgid "Loading:opt_reinstall"
 msgstr "Reinstall"
@@ -4216,7 +4213,7 @@ msgctxt "Loading"
 msgid "Loading:info_novoice"
 msgstr " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."
 
-#: Loading.rb:266
+#: Loading.rb:271
 msgctxt "Loading"
 msgid "Loading:alert_newversion"
 msgstr "A new version of the program is available."
@@ -4416,16 +4413,12 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_addcontact"
 msgstr "Add to contacts' list"
 
-#: EAPI_Common.rb:301
+#: EAPI_Common.rb:288
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_nothingnew"
 msgstr "There is nothing new."
 
-msgctxt "EAPI_Common"
-msgid "EAPI_Common:opt_quit"
-msgstr "Exit"
-
-#: EAPI_Common.rb:498
+#: EAPI_Common.rb:485
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_listempty"
 msgstr "Empty list"
@@ -4450,37 +4443,37 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_tray"
 msgstr "Hide program in Tray"
 
-#: EAPI_Common.rb:313
+#: EAPI_Common.rb:300
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:type_soundthemename"
 msgstr "Enter the name of the soundtheme"
 
-#: EAPI_Common.rb:346
+#: EAPI_Common.rb:333
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_soundthemecreation"
 msgstr " Soundtheme files created in %{dir}. Replace files of the default soundtheme in  the created folder with the appropriate files, which constitute the soundtheme."
 
-#: EAPI_Common.rb:348
+#: EAPI_Common.rb:335
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_whattodo"
 msgstr "What do you want to do?"
 
-#: EAPI_Common.rb:348
+#: EAPI_Common.rb:335
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_openthemedir"
 msgstr "Open the soundtheme's folder"
 
-#: EAPI_Common.rb:348
+#: EAPI_Common.rb:335
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_openthemedirinexplorer"
 msgstr "Open the soundtheme's folder in windows explorer"
 
-#: EAPI_Common.rb:446
+#: EAPI_Common.rb:433
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:type_errordsc"
 msgstr "Describe the found error"
 
-#: EAPI_Common.rb:462
+#: EAPI_Common.rb:449
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_sent"
 msgstr "Sent."
@@ -4490,12 +4483,12 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:type_console"
 msgstr "Enter the command to execute"
 
-#: EAPI_Common.rb:446
+#: EAPI_Common.rb:433
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:btn_send"
 msgstr "Send"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:type_title"
 msgstr "Title"
@@ -4510,12 +4503,11 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_playavatar"
 msgstr "Play avatar"
 
-#: EAPI_Common.rb:150
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_sharedfiles"
 msgstr "Files shared by this user"
 
-#: EAPI_Common.rb:662
+#: EAPI_Common.rb:645
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_noupdates"
 msgstr "You are already up to date"
@@ -4525,27 +4517,27 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_honors"
 msgstr "badges of this user"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_voice"
 msgstr "voice"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_rate"
 msgstr "rate"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_dst"
 msgstr "destination location"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:btn_preview"
 msgstr "preview"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:btn_confirm"
 msgstr "confirm"
@@ -4555,37 +4547,37 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:error_playing"
 msgstr "This file cannot be played."
 
-#: EAPI_Common.rb:1417
+#: EAPI_Common.rb:1400
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:wait_packing"
 msgstr "Compressing..."
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_textsplit"
 msgstr "Output splitting"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_onefile"
 msgstr "Create one file"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_splitbyparagraphs"
 msgstr "Divide by paragraphs"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_splitevery"
 msgstr "Divide every"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:type_splitevery"
 msgstr "Duration of one file (minutes)"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:chk_readfilenum"
 msgstr "Read file number"
@@ -4594,14 +4586,6 @@ msgstr "Read file number"
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:wait_downloading"
 msgstr "Downloading..."
-
-msgctxt "EAPI_Common"
-msgid "EAPI_Common:error_logon"
-msgstr " Login failure. Probably, the password you entered is invalid or you have been  banned."
-
-msgctxt "EAPI_Common"
-msgid "EAPI_Common:info_finished"
-msgstr "Operation completed successfully"
 
 #: EAPI_UI.rb:504
 msgctxt "EAPI_Common"
@@ -4613,15 +4597,7 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_usingsapi"
 msgstr "Using a selected SAPI synthesizer"
 
-msgctxt "EAPI_Common"
-msgid "EAPI_Common:alert_useragreement"
-msgstr "Do you accept the user agreement of Elten software?"
-
-msgctxt "EAPI_Common"
-msgid "EAPI_Common:read_useragreement"
-msgstr "The user agreement, as well as Elten's and Elten Network's terms of service"
-
-#: EAPI_Common.rb:1330
+#: EAPI_Common.rb:1313
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:read_readingtofile"
 msgstr "Please wait, reading to file"
@@ -4631,22 +4607,22 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:type_movetosec"
 msgstr "Type a second to which you want to move."
 
-#: EAPI_Common.rb:682
+#: EAPI_Common.rb:665
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:btn_agree"
 msgstr "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
 
-#: EAPI_Common.rb:682
+#: EAPI_Common.rb:665
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:btn_disagree"
 msgstr "I do not accept, exit"
 
-#: EAPI_Common.rb:1385
+#: EAPI_Common.rb:1368
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:read_waitprocessingfiles"
 msgstr "Please wait, file processing..."
 
-#: EAPI_Common.rb:721
+#: EAPI_Common.rb:704
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:alert_mididownloadsf"
 msgstr " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."
@@ -4656,152 +4632,152 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_savelocation"
 msgstr "Where do you want to save this file?"
 
-#: EAPI_Common.rb:578
+#: EAPI_Common.rb:550
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_gender"
 msgstr "Gender"
 
-#: EAPI_Common.rb:594
+#: EAPI_Common.rb:566
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_age"
 msgstr "Age"
 
-#: EAPI_Common.rb:617
+#: EAPI_Common.rb:600
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_forumposts"
 msgstr "Forum posts"
 
-#: EAPI_Common.rb:618
+#: EAPI_Common.rb:601
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_pollsanswered"
 msgstr "Polls answered"
 
-#: EAPI_Common.rb:619
+#: EAPI_Common.rb:602
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_usedversion"
 msgstr "Used version"
 
-#: EAPI_Common.rb:620
+#: EAPI_Common.rb:603
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_registered"
 msgstr "Registered"
 
-#: EAPI_Common.rb:1259
+#: EAPI_Common.rb:1242
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:error_nofiletoread"
 msgstr "No selected file to read"
 
-#: EAPI_Common.rb:1271
+#: EAPI_Common.rb:1254
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:error_nofilename"
 msgstr "Type a file name"
 
-#: EAPI_Common.rb:1273
+#: EAPI_Common.rb:1256
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:error_seldestination"
 msgstr "Select file location"
 
-#: EAPI_Common.rb:1275
+#: EAPI_Common.rb:1258
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:error_selsource"
 msgstr "Select source file"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_readtofilenum"
 msgstr "Reading to file number"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_sentencenumber"
 msgstr "Sentence %{cursentence} z %{sentences}"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_readtime"
 msgstr "Read"
 
-#: EAPI_Common.rb:1370
+#: EAPI_Common.rb:1353
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_timeremaining"
 msgstr "Estimated elapsed time"
 
-#: EAPI_Common.rb:628
+#: EAPI_Common.rb:611
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:read_visitingcardofuser"
 msgstr "Visiting card: %{user}"
 
-#: EAPI_Common.rb:1396
+#: EAPI_Common.rb:1379
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_readtofilefinished"
 msgstr "Reading to file finished."
 
-#: EAPI_Common.rb:607
+#: EAPI_Common.rb:590
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_userhasblog"
 msgstr "User has a blog"
 
-#: EAPI_Common.rb:604
+#: EAPI_Common.rb:587
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_lastseen"
 msgstr "Last seen"
 
-#: EAPI_Common.rb:600
+#: EAPI_Common.rb:583
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_lastseen_female"
 msgstr "Last seen {txt_phr_lastseen_female}"
 
-#: EAPI_Common.rb:602
+#: EAPI_Common.rb:585
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_lastseen_male"
 msgstr "Last seen {txt_phr_lastseen_male}"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_filetoread"
 msgstr "File to read"
 
-#: EAPI_Common.rb:1198
+#: EAPI_Common.rb:1181
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_outputformat"
 msgstr "Output format"
 
-#: EAPI_Common.rb:505
+#: EAPI_Common.rb:492
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:head_selcontact"
 msgstr "Select contact"
 
-#: EAPI_Common.rb:614
+#: EAPI_Common.rb:597
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_knownby"
 msgstr "Known by %{count} users"
 
-#: EAPI_Common.rb:612
+#: EAPI_Common.rb:595
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_knownby_female"
 msgstr "Known by %{count} users {txt_phr_knownby_female}"
 
-#: EAPI_Common.rb:614
+#: EAPI_Common.rb:597
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_knownby_male"
 msgstr "Known by %{count} users {txt_phr_knownby_male}"
 
-#: EAPI_Common.rb:608
+#: EAPI_Common.rb:591
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_knows"
 msgstr "Knows %{count} users"
 
-#: EAPI_Common.rb:722
+#: EAPI_Common.rb:705
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:wait_soundfont"
 msgstr "Please wait, the soundfont is being downloaded. It may take a while."
 
-#: EAPI_Common.rb:722
+#: EAPI_Common.rb:705
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:info_soundfontdownloaded"
 msgstr "Soundfont downloaded succesfully."
 
-#: EAPI_Common.rb:1391
+#: EAPI_Common.rb:1374
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:txt_phr_processing"
 msgstr "Processing"
@@ -4816,54 +4792,59 @@ msgctxt "EAPI_Common"
 msgid "EAPI_Common:opt_phr_checked"
 msgstr "Checked"
 
-#: EAPI_Common.rb:679
+#: EAPI_Common.rb:662
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:read_license"
 msgstr "License agreement"
 
-#: EAPI_Common.rb:680
+#: EAPI_Common.rb:663
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:read_rules"
 msgstr "Terms and Conditions"
 
-#: EAPI_Common.rb:681
+#: EAPI_Common.rb:664
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:read_privacypolicy"
 msgstr "Privacy Policy"
 
-#: EAPI_Common.rb:700
+#: EAPI_Common.rb:683
 msgctxt "EAPI_Common"
 msgid "EAPI_Common:alert_agreement"
 msgstr "Do you accept Elten license agreement, terms and conditions and privacy policy?"
 
-#: EAPI_EltenSRV.rb:302
+msgctxt "EAPI_Common"
+msgid "EAPI_Common:opt_call"
+msgstr "Call this user"
+
+#: EAPI_Common.rb:569
+msgctxt "EAPI_Common"
+msgid "EAPI_Common:txt_phr_location"
+msgstr "Location"
+
+#: EAPI_EltenSRV.rb:304
 msgctxt "EAPI_EltenSRV"
 msgid "EAPI_EltenSRV:wait_converting"
 msgstr "File is being converted..."
 
-#: EAPI_EltenSRV.rb:572
+#: EAPI_EltenSRV.rb:574
 msgctxt "EAPI_EltenSRV"
 msgid "EAPI_EltenSRV:info_sent"
 msgstr "Sent"
 
-#: EAPI_EltenSRV.rb:278
+#: EAPI_EltenSRV.rb:280
 msgctxt "EAPI_EltenSRV"
 msgid "EAPI_EltenSRV:error_noavatar"
 msgstr "The user has no avatar."
 
-#: EAPI_EltenSRV.rb:301
+#: EAPI_EltenSRV.rb:303
 msgctxt "EAPI_EltenSRV"
 msgid "EAPI_EltenSRV:wait_severalminutes"
 msgstr "Please wait, this may take several minutes..."
 
-#: EAPI_EltenSRV.rb:608
+#: EAPI_EltenSRV.rb:610
 msgctxt "EAPI_EltenSRV"
 msgid "EAPI_EltenSRV:head_seluser"
 msgstr "Select a user"
-
-msgctxt "EAPI_EltenSRV"
-msgid "EAPI_EltenSRV:info_phr_sessconftime"
-msgstr "Session confirmation time:"
 
 #: EAPI_Network.rb:68
 msgctxt "EAPI_Network"
@@ -5211,12 +5192,12 @@ msgctxt "EAPI_Form"
 msgid "EAPI_Form:info_unchecked"
 msgstr "Unchecked"
 
-#: WhatsNew.rb:109
+#: WhatsNew.rb:110
 msgctxt "General"
 msgid "General:error"
 msgstr "Error"
 
-#: Loading.rb:317
+#: Loading.rb:322
 msgctxt "General"
 msgid "General:str_quit"
 msgstr "Exit"
@@ -5256,7 +5237,7 @@ msgctxt "General"
 msgid "General:str_delete"
 msgstr "Delete"
 
-#: WhatsNew.rb:15
+#: WhatsNew.rb:16
 msgctxt "General"
 msgid "General:error_guest"
 msgstr "This function cannot be used on guest account."
@@ -5286,12 +5267,12 @@ msgctxt "General"
 msgid "General:str_yes"
 msgstr "Yes"
 
-#: EAPI_Common.rb:580
+#: EAPI_Common.rb:552
 msgctxt "General"
 msgid "General:female"
 msgstr "Female"
 
-#: EAPI_Common.rb:582
+#: EAPI_Common.rb:554
 msgctxt "General"
 msgid "General:male"
 msgstr "male"
@@ -5340,11 +5321,6 @@ msgstr "Report connections to the server"
 msgctxt "Debug"
 msgid "Debug:btn_ok"
 msgstr "OK"
-
-#: MyPermissions.rb:17
-msgctxt "Permissions"
-msgid "Permissions:head"
-msgstr "You are participating in the following groups"
 
 #: SoundThemes.rb:106
 msgctxt "Soundthemes"
@@ -5435,4 +5411,84 @@ msgstr "Output device"
 msgctxt "SoundCard"
 msgid "SoundCard:head_record"
 msgstr "Input device"
+
+msgctxt "VoIP"
+msgid "VoIP:head_calling"
+msgstr "%{username} is calling"
+
+msgctxt "VoIP"
+msgid "VoIP:btn_accept"
+msgstr "Answer"
+
+msgctxt "VoIP"
+msgid "VoIP:btn_reject"
+msgstr "Reject"
+
+msgctxt "VoIP"
+msgid "VoIP:opt_new"
+msgstr "New call"
+
+msgctxt "VoIP"
+msgid "VoIP:opt_history"
+msgstr "Call history"
+
+msgctxt "VoIP"
+msgid "VoIP:type_username"
+msgstr "Type user to call"
+
+msgctxt "VoIP"
+msgid "VoIP:head_quality"
+msgstr "Audio Quality"
+
+msgctxt "VoIP"
+msgid "VoIP:btn_call"
+msgstr "Call"
+
+msgctxt "VoIP"
+msgid "VoIP:btn_settings"
+msgstr "Settings"
+
+msgctxt "VoIP"
+msgid "VoIP:btn_interrupt"
+msgstr "End the call"
+
+msgctxt "VoIP"
+msgid "VoIP:info_refused"
+msgstr "Call refused"
+
+msgctxt "VoIP"
+msgid "VoIP:info_accepted"
+msgstr "Call with %{username}"
+
+msgctxt "VoIP"
+msgid "VoIP:wait_calling"
+msgstr "Calling %{username}"
+
+msgctxt "VoIP"
+msgid "VoIP:btn_details"
+msgstr "Details"
+
+msgctxt "VoIP"
+msgid "VoIP:read_encryption"
+msgstr "Encryption status"
+
+msgctxt "VoIP"
+msgid "VoIP:txt_phr_encrypted"
+msgstr "Encrypted with %{algorithm}"
+
+msgctxt "VoIP"
+msgid "VoIP:read_duration"
+msgstr "Call duration"
+
+msgctxt "VoIP"
+msgid "VoIP:read_quality"
+msgstr "Audio quality"
+
+msgctxt "VoIP"
+msgid "VoIP:read_packetslost"
+msgstr "Packets lost"
+
+msgctxt "VoIP"
+msgid "VoIP:read_packetsreceived"
+msgstr "Packets received"
 

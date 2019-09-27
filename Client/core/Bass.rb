@@ -16,6 +16,7 @@ module Bass
   BASS_SetConfigPtr = Win32API.new("bass","BASS_SetConfigPtr",'ip','l')
   BASS_SetDevice = Win32API.new("bass","BASS_SetDevice",'i','i')
   BASS_GetDeviceInfo = Win32API.new("bass","BASS_GetDeviceInfo",'ip','i')
+  BASS_RecordGetDeviceInfo = Win32API.new("bass","BASS_RecordGetDeviceInfo",'ip','i')
   BASS_PluginLoad = Win32API.new("bass","BASS_PluginLoad",'p','i')
   BASS_Free = Win32API.new("bass", "BASS_Free", "", "I")
   BASS_Apply3D = Win32API.new("bass","BASS_Apply3D",'','i')
@@ -77,8 +78,21 @@ module Bass
     return ret
     end
 
+    def self.default_microphone
+        index=0
+      tmp=[nil,nil,0].pack("ppi")
+      while BASS_RecordGetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("iii")
+                o="\0"*1024
+        Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
+        sc=futf8(o[0...o.index("\0")])
+        return sc if (a[2]&2)>0
+               index+=1
+      end
+    end
+    
     def self.setdevice(d,hWnd=nil, samplerate=44100)
-      $soundthemesounds.values.each {|g| g.close if g!=nil and !g.closed}
+      $soundthemesounds.values.each {|g| g.close if g!=nil and !g.closed} if $soundthemesounds!=nil
       $soundthemesounds={}
             hWnd||=$wnd
       BASS_Init.call(d, samplerate, 4, hWnd)
@@ -409,13 +423,13 @@ loc="temp\\plr#{rand(36**6).to_s(36)}.ogg"
          BASS_ChannelIsActive.call(@channel)
          end
      def play
-              @cls.play
+              @cls.play if @cls!=nil
      end
      def stop
-       @cls.stop
+       @cls.stop if @cls!=nil
      end
      def pause
-       BASS_ChannelPause.call(@channel)
+       BASS_ChannelPause.call(@channel) if @cls!=nil
        end
      def free
        @cls.free if @closed!=true and @cls!=nil

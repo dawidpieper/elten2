@@ -6,9 +6,10 @@
 #Open Public License is used to licensing this app!
 
 class Scene_WhatsNew
-  def initialize(init=false,agtemp=nil)
+  def initialize(init=false,agtemp=nil,bid=nil)
     @init = init
     @agtemp=agtemp
+    @bid=bid
     end
       def main
         if $name=="guest"
@@ -35,7 +36,7 @@ nversion=agtemp[2].to_f
     $nbeta = nbeta
     $nversion = nversion
     $nalpha = nalpha
-    bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i
+    @bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i if @bid==nil
                                                                                             if @init == true     and (posts > 0 or messages > 0)
 header = _("WhatsNew:head")
 else
@@ -57,8 +58,8 @@ else
     @sel.disable_item(6) if friends<= 0
     @sel.disable_item(7) if birthday<= 0
     @sel.disable_item(8) if mentions<= 0
-    @sel.disable_item(9) if bid==Elten.build_id
-        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and bid==Elten.build_id
+    @sel.disable_item(9) if @bid==Elten.build_id
+        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and @bid==Elten.build_id
       speech(_("WhatsNew:info_nonew"))
       speech_wait
       $scene = Scene_Main.new

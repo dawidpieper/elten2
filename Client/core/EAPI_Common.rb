@@ -147,7 +147,7 @@ if bt[0].to_i == 0
     end
     play("menu_open") if submenu != true
 play("menu_background") if submenu != true
-sel = [_("EAPI_Common:opt_message"),_("EAPI_Common:opt_visitingcard"),_("EAPI_Common:opt_blog"),_("EAPI_Common:opt_sharedfiles"),_("EAPI_Common:opt_honors")]
+sel = [_("EAPI_Common:opt_message"),_("EAPI_Common:opt_visitingcard"),_("EAPI_Common:opt_blog"),_("EAPI_Common:opt_honors")]
 if $name!="guest"
 if @incontacts == true
   sel.push(_("EAPI_Common:opt_delcontact"))
@@ -167,14 +167,6 @@ if $rang_moderator > 0
 else
   sel.push("")
   end
-  if $name!="guest"
-  fl = srvproc("uploads","name=#{$name}\&token=#{$token}\&searchname=#{user}")
-  if fl[0].to_i < 0
-    speech(_("General:error"))
-    speech_wait
-    return
-  end
-  end
     if $usermenuextra.is_a?(Array) and $name!="guest"
     sel+=$usermenuextra
     end
@@ -185,15 +177,14 @@ else
     end
   menu.disable_item(2) if @hasblog == false
 if $name!="guest"
-  menu.disable_item(3) if fl[1].to_i==0
+
 else
   menu.disable_item(0)
-  menu.disable_item(3)
-  menu.disable_item(5)
+    menu.disable_item(4)
   end
-menu.disable_item(4) if @hashonors==false
-menu.disable_item(6) if @hasavatar == false
-menu.disable_item(7) if $rang_moderator==0
+menu.disable_item(3) if @hashonors==false
+menu.disable_item(5) if @hasavatar == false
+menu.disable_item(6) if $rang_moderator==0
 menu.focus
 loop do
 loop_update
@@ -214,15 +205,11 @@ if enter
     loop_update
         return "ALT"
         break
-        when 3
-          insert_scene(Scene_Uploads.new(user,Scene_Main.new))
-    loop_update
-    return "ALT"
-    when 4
+    when 3
         insert_scene(Scene_Honors.new(user,Scene_Main.new))
     loop_update
     return "ALT"
-          when 5
+          when 4
       if @incontacts == true
         insert_scene(Scene_Contacts_Delete.new(user,Scene_Main.new))
       else
@@ -230,12 +217,12 @@ if enter
       end
     loop_update
     return "ALT"
-            when 6
+            when 5
       speech(_("EAPI_Common:wait_downloading"))
       avatar(user)
             return("ALT")
       break        
-      when 7
+      when 6
         if @isbanned == false
           insert_scene(Scene_Ban_Ban.new(user,Scene_Main.new))
         else
@@ -245,7 +232,7 @@ if enter
     return "ALT"
       else
                 if $usermenuextrascenes.is_a?(Array)
-                  insert_scene($usermenuextrascenes[menu.index-8].userevent(user))
+                  insert_scene($usermenuextrascenes[menu.index-7].userevent(user))
                                                                  return "ALT"
                   break                  
                   end
@@ -300,7 +287,7 @@ bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i
                                     if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and Elten.build_id==bid
   speech(_("EAPI_Common:info_nothingnew")) if quiet != true
 else
-    $scene = Scene_WhatsNew.new(true,agtemp)
+    $scene = Scene_WhatsNew.new(true,agtemp,bid)
 end
 speech_wait
 end
@@ -539,21 +526,6 @@ loop_update
       end
       dialog_open
       text = ""
-if prtemp[1].to_i > 0
-  text += "Betatester, "
-end
-if prtemp[2].to_i > 0
-  text += "Moderator, "
-end
-if prtemp[3].to_i > 0
-  text += "Administrator mediów, "
-end
-if prtemp[4].to_i > 0
-  text += "Tłumacz, "
-end
-if prtemp[5].to_i > 0
-  text += "Programista, "
-end
 honor=gethonor(user)
 text += "#{if honor==nil;"Użytkownik";else;honor;end}: #{user} \r\n"
 text += getstatus(user,false)
@@ -592,8 +564,19 @@ elsif Time.now.month == birthdatemonth.to_i
   end
   age -= 2000 if age > 2000      
   text += "#{_("EAPI_Common:txt_phr_age")}: #{age.to_s}\r\n"
+end
+if location!="" and (location.to_i>0 or $locations.map{|l| l['country']}.uniq.include?(location))
+  text+=_("EAPI_Common:txt_phr_location")+": "
+  if location.to_i>0
+    loc={}
+    $locations.each {|l| loc=l if l['geonameid']==location.to_i}
+    text+=loc['name']+", "+loc['country']
+  else
+    text+=location
   end
+  text+="\r\n"
   end
+end
   ui = userinfo(user)
 if ui != -1
 if gender == 0
@@ -615,8 +598,8 @@ elsif gender == 1
 end
 text += "\r\n"
 text += "#{_("EAPI_Common:txt_phr_forumposts")}: " + ui[4].to_s + "\r\n"
-text += "#{_("EAPI_Common:txt_phr_pollsanswered")}: " + ui[7].to_s + "\r\n"
-text += "#{_("EAPI_Common:txt_phr_usedversion")}: " + ui[5].to_s + "\r\n"
+text += "#{_("EAPI_Common:txt_phr_pollsanswered")}: " + ui[7].to_s.delete("\r\n") + "\r\n"
+text += "#{_("EAPI_Common:txt_phr_usedversion")}: " + ui[5].to_s.delete(".").split("").join(".") + "\r\n"
 text += "#{_("EAPI_Common:txt_phr_registered")}: " + ui[6].to_s.split(" ")[0] + "\r\n" if ui[6]!=""
 end
 if vc[1]!="     " and vc.size!=1

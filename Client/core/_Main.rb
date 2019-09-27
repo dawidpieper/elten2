@@ -9,12 +9,12 @@ class Object
   include EltenAPI
 end
 module Elten
-Version=2.33
+Version=2.34
 Beta=0
 Alpha=0
 IsBeta=0
-BuildID=20190915001
-BuildDate=1568576110
+BuildID=20190927001
+BuildDate=1569611803
 class <<self
 def version
   return Version

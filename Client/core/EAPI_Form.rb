@@ -791,7 +791,7 @@ def initialize(options,border=true,index=0,header="",quiet=false,multi=false,lr=
   options=options.deep_dup
       border=false if $interface_listtype == 1
       index = 0 if index == nil
-     index = 0 if index >= options.size
+           index = 0 if index >= options.size
       index+=options.size if index<0
       self.index = index
                         @lr=lr
@@ -1172,7 +1172,7 @@ end
                 # @param exts [Array] an array of file extensions to show
                 def initialize(header="",path="",hidefiles=false,quiet=false,file=nil,exts=nil,specialvoices=true)
                             $filestrees||={}
-                                                @id=path+"/"+(file||"")+":"+(exts||"")+":::"+header
+                                                @id=path+"/"+(file||"")+":"+(exts.join("")||"")+":::"+header
                 @hidefiles=hidefiles
         @header=header
         @specialvoices=specialvoices
@@ -1226,7 +1226,7 @@ if @hidefiles == true
   fls.delete(nil)
   end
 if @exts!=nil
-        for i in 0..fls.size-1
+          for i in 0..fls.size-1
           if File.file?(@path+fls[i])
           s=false
                     for e in @exts
@@ -1471,11 +1471,11 @@ def update
          def searchway(way=[],tway=[],index=0)
                                  return [index,tway] if way==tway
            t=@options.deep_dup
-           for l in tway
-             t=t[l][1..t[l].size-1]
+                      for l in tway
+             t=(t[l]==nil)?nil:(t[l][1..t[l].size-1])
            end
            return [index,tway] if t.is_a?(Array)==false
-                      for i in 0..t.size-1
+                                 for i in 0..t.size-1
                           x=searchway(way,tway+[i],index+1)
                if x[1]==way
                                  return x
@@ -1596,10 +1596,10 @@ lsel = menulr(options,true,0,"",true)
      # @param save [Boolean] hides a files, presents only directories
      # @param file [String] a file to focus
      # @return [String] an absolute path to a selected file or directory
-     def getfile(header="",path="",save=false,file=nil)
-       dialog_open
+     def getfile(header="",path="",save=false,file=nil,exts=nil)
+              dialog_open
        loop_update
-       ft=FilesTree.new(header,path,save,true)
+       ft=FilesTree.new(header,path,save,true,nil,exts)
        ft.file=file if file!=nil
                      ft.focus
        loop do

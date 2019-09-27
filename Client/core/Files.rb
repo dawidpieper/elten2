@@ -308,7 +308,7 @@ if @tree.file!=nil
   end
   play("menu_open")
   play("menu_background")
-  sel = [[_("Files:opt_file"),_("Files:opt_openassociated"),_("Files:opt_send"),_("Files:opt_pack"),_("Files:opt_rename"),_("General:str_delete")],[_("Files:opt_clipboard"),_("Files:opt_copy"),_("Files:opt_cut"),_("Files:opt_paste")],[_("Files:opt_create"),_("Files:opt_newdir"),_("Files:opt_newdoc"),_("Files:opt_newrec")],_("Files:opt_erasepls")]
+  sel = [[_("Files:opt_file"),_("Files:opt_openassociated"),nil,_("Files:opt_pack"),_("Files:opt_rename"),_("General:str_delete")],[_("Files:opt_clipboard"),_("Files:opt_copy"),_("Files:opt_cut"),_("Files:opt_paste")],[_("Files:opt_create"),_("Files:opt_newdir"),_("Files:opt_newdoc"),_("Files:opt_newrec")],_("Files:opt_erasepls")]
     sel[0][3]=_("Files:opt_unpack") if ext==".rar" or ext==".zip" or ext==".7z"
       sel.push(_("Files:opt_audio")) if @tree.filetype==1
   sel.push(_("Files:opt_text")) if @tree.filetype==2
@@ -353,17 +353,6 @@ when 1
            speech(s_("Files:info_addedtoplscount",{'count'=>aus.size.to_s}))
            $playlist+=aus
            speech_wait
-           else
-        if $name!="guest"
-             if sendfile(afile).is_a?(String)
-          speech(_("Files:info_sent"))
-        else
-          speech(_("General:error"))
-        end
-      else
-        speech(_("General:error_guest"))
-        end
-        speech_wait
         end
         when 3
       if ext != ".rar" and ext != ".zip" and ext != ".7z"

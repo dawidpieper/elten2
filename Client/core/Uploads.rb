@@ -129,7 +129,7 @@ class Scene_Uploads
                 Audio.bgs_stop
                                case d
        when 0
-dir = getfile(_("Uploads:head_dest"),getdirectory(40)+"\\",true,"Documents")         
+dir = getfile(_("Uploads:head_dest"),getdirectory(40)+"\\",true,"Documents")
        if dir == "\004ESCAPE\004"
          return
        end

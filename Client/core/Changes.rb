@@ -813,8 +813,25 @@ Wersja 2.33:
 - Dodano: możliwość wyłączania komentarzy pod określonymi wpisami na blogach
 
 2019-09-14
+","
+Wersja 2.34:
+- Dodano: możliwość zmiany typu wpisu na blogu
+- Dodano: historia logowań
+- Dodano: możliwość ustawienia raportowania zmian na koncie i nieznanych logowań poprzez wiadomości E-mail
+- Dodano: możliwość przeglądania listy osób śledzących naszego bloga
+- Dodano: możliwość tworzenia blogów współdzielonych z innymi użytkownikami
+- Dodano: lista moderowanych grup
+- Zmieniono: od tej pory wizytówka, sygnatura oraz status są ustawiane we wspólnej edycji profilu
+- Zmieniono: nowy system wyboru lokalizacji użytkownika
+- Zmieniono: kolejne elementy interfejsu są tabelami
+- Poprawiono: przełączanie karty dźwiękowej przy wyłączonym temacie dźwiękowym
+- Poprawiono: wykrywanie domyślnego mikrofonu
+- Usunięto: pliki udostępniane
+
+2019-09-27
 "]
 @changes.reverse!
+@changes.each{|c| c.gsub!(/Wersja (\d\.\d+)/) {"Wersja "+$1.delete(".").split("").join(".")}}
 @selt = []
 for i in 0..@changes.size - 1
   @selt.push(strbyline(@changes[i])[1].delete(":").sub("Wersja ",""))

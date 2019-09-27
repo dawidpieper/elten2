@@ -284,7 +284,7 @@ close
           end
         end
           def myaccount
-    @sel = Select.new([_("MainMenu:opt_profile"),_("MainMenu:opt_status"),_("MainMenu:opt_signature"),_("MainMenu:opt_greeting"),_("MainMenu:opt_visitingcard"),_("MainMenu:opt_honors"),_("MainMenu:opt_sharedfiles"),_("MainMenu:opt_avatar"),_("MainMenu:opt_whatsnewconfig"),_("MainMenu:opt_blacklist"),_("MainMenu:opt_autologintokens"),_("MainMenu:opt_changepassword"),_("MainMenu:opt_changemail"),_("MainMenu:opt_twofactor")])
+    @sel = Select.new([_("MainMenu:opt_profile"),_("MainMenu:opt_greeting"),_("MainMenu:opt_honors"),_("MainMenu:opt_avatar"),_("MainMenu:opt_whatsnewconfig"),_("MainMenu:opt_blacklist"),_("MainMenu:opt_autologintokens"),_("MainMenu:opt_logins"),_("MainMenu:opt_changepassword"),_("MainMenu:opt_changemail"),_("MainMenu:opt_twofactor"),_("MainMenu:opt_mailevents")])
     loop do
 loop_update
       if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape
@@ -301,57 +301,49 @@ loop_update
           close
           break
         when 1
-              $scene = Scene_Account_Status.new
-              close
-              break
-        when 2
-          $scene = Scene_Account_Signature.new
-          close
-          break
-          when 3
                         $scene = Scene_Account_Greeting.new
             close
             break
-          when 4
-            $scene = Scene_Account_VisitingCard.new
-            close
-            break
-            when 5
-              $scene=Scene_Honors.new($name)
+          when 2
+                          $scene=Scene_Honors.new($name)
               close
               break
-            when 6
-              $scene = Scene_Uploads.new
+            when 3
+                                          $scene=Scene_Account_Avatar.new
               close
               break
-              when 7
-              $scene=Scene_Account_Avatar.new
-              close
-              break
-            when 8
+            when 4
               $scene=Scene_Account_WhatsNew.new
               close
               break
-              when 9
+              when 5
                 $scene=Scene_Account_BlackList.new
                 close
                 break
-              when 10
+              when 6
                 $scene=Scene_Account_AutoLogins.new
                 close
                 break
-              when 11
+              when 7
+                $scene=Scene_Account_Logins.new
+                close
+                break
+                when 8
           $scene = Scene_Account_Password.new
           close
           break
-        when 12
+        when 9
           $scene = Scene_Account_Mail.new
           close
           break
-          when 13
+          when 10
             $scene = Scene_Authentication.new
           close
           break
+          when 11
+            $scene=Scene_Account_MailEvents.new
+            close
+            break
             end
           end
           if alt
@@ -465,8 +457,8 @@ if autologin.to_i>0
         end
   def close
     play("menu_close")
-Audio.bgs_fade(2000)
-delay(1)
+Audio.bgs_fade(1000)
+loop_update
     $scene = Scene_Main.new if $scene == self
               if $runprogram != nil
                                             $scene=$runprogram.new

@@ -32,7 +32,7 @@ class Scene_Account_Password
     return
   end
   if password != repeatpassword
-    speech(_("General:error_difpass"))
+    speech(_("Account:error_difpass"))
     speech_wait
     main
   end
@@ -42,8 +42,7 @@ class Scene_Account_Password
   when 0
     speech(_("Account:info_passchanged"))
     speech_wait
-    Win32API.new("kernel32","WritePrivateProfileString",'pppp','i').call("Login","AutoLogin","-1",$configdata + "\\login.ini")
-    $scene = Scene_Loading.new
+        $scene = Scene_Main.new
     when -1
       speech(_("General:error_db"))
       speech_wait
@@ -53,7 +52,7 @@ class Scene_Account_Password
         speech_wait
         $scene = Scene_Loading.new
         when -6
-          speech(_("General:error_wrongoldpass"))
+          speech(_("Account:error_wrongoldpass"))
           speech_wait
           $scene = Scene_Main.new
   end
@@ -97,6 +96,10 @@ class Scene_Account_Mail
           speech(_("General:error_wrongoldpass"))
           speech_wait
           $scene = Scene_Main.new
+          when -7
+speech(_("Account:error_maileventsenabled"))            
+            speech_wait
+            $scene = Scene_Main.new
   end
     end
 end
@@ -187,22 +190,21 @@ end
   
   class Scene_Account_Profile
     def main
-            speech(_("Account:head_profile"))
-      profile = srvproc("profile","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
+                  profile = srvproc("profile","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
                     fullname = ""
         gender = 0
-        birthdateyear = ""
-        birthdatemonth = ""
-        birthdateday = ""
+        birthdateyear = 0
+        birthdatemonth = 0
+        birthdateday = 0
         location = ""
         publicprofile = 0
         publicmail = 0
 if profile[0].to_i == 0
         fullname = profile[1].delete("\r\n")
         gender = profile[2].delete("\r\n").to_i
-        birthdateyear = profile[3].delete("\r\n")
-        birthdatemonth = profile[4].delete("\r\n")
-        birthdateday = profile[5].delete("\r\n")
+        birthdateyear = profile[3].to_i
+        birthdatemonth = profile[4].to_i
+        birthdateday = profile[5].to_i
         location = profile[6].delete("\r\n")
         publicprofile = profile[7].to_i
         publicmail = profile[8].to_i
@@ -210,23 +212,150 @@ if profile[0].to_i == 0
       fields = []
       fields.push(Edit.new(_("Account:type_fullname"),"",fullname,true))
       fields.push(Select.new([_("General:female"),_("General:male")],false,gender,_("Account:head_gender"),true))
-      fields.push(Edit.new(_("Account:type_birthdateyear"),"NUMBERS|LENGTH04",birthdateyear,true))
-      fields.push(Edit.new(_("Account:type_birthdatemonth"),"NUMBERS|LENGTH02",birthdatemonth,true))
-      fields.push(Edit.new(_("Account:type_birthdateday"),"NUMBERS|LENGTH02",birthdateday,true))
-      fields.push(Edit.new(_("Account:type_location"),"",location,true))
+      @years=[]
+      for i in 1900..Time.now.year
+        @years.push(i.to_s)
+      end
+      @years.push("")
+      @years.reverse!
+      fields.push(Select.new(@years,true,@years.find_index(birthdateyear.to_s)||0,_("Account:head_birthdateyear"),true))
+      fields.push(nil)
+      fields.push(nil)
+location_a={}
+      @countries=[""]+$locations.map {|c| location_a=c if c['geonameid']==location.to_i;c['country']}.uniq.polsort
+                                        fields.push(Select.new(@countries,true,@countries.find_index(location_a['country'])||0,_("Account:head_country"),true))
+                                        fields.last.index=@countries.find_index(location)||0 if fields.last.index==0 and location!=""
+      fields.push(nil)
+      fields.push(nil)
       fields.push(CheckBox.new(_("Account:chk_hideprofile"),publicprofile))
+      vc = srvproc("visitingcard","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+        err = vc[0].to_i
+    case err
+    when -1
+      speech(_("General:error_db"))
+      speech_wait
+      $scene = Scene_Main.new
+      return
+      when -2
+        speech(_("General:error_tokenexpired"))
+        speech_wait
+        $scene = Scene_Loading.new
+        return
+      end
+      text = ""
+      for i in 1..vc.size - 1
+text += vc[i]
+end
+fields.push(Edit.new(_("Account:type_visitingcard"),Edit::Flags::MultiLine,text,true))
+fields.push(Edit.new(_("Account:type_status"),"",getstatus($name,false),true))
+            sg = srvproc("signature","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
+        err = sg[0].to_i
+    case err
+    when -1
+      speech(_("General:error_db"))
+      speech_wait
+      $scene = Scene_Main.new
+      return
+      when -2
+        speech(_("General:error_tokenexpired"))
+        speech_wait
+        $scene = Scene_Loading.new
+        return
+      end
+      text = ""
+      for i in 1..sg.size - 1
+        text += sg[i]
+      end
+      fields.push(Edit.new(_("Account:type_signature"),"Edit::Flags::MultiLine",text,true))
       fields.push(Button.new(_("General:str_save")))
       fields.push(Button.new(_("General:str_cancel")))
-      speech_wait
-      @form = Form.new(fields)
+            @form = Form.new(fields)
       loop do
         loop_update
         @form.update
-        if ((space or enter) and @form.index == 7) or (enter and $key[0x11])
+        @oldmonth=fields[3].index if fields[3]!=nil
+        @oldday=fields[4].index if fields[4]!=nil
+        if fields[2].index>0 and fields[3]==nil
+          ind=0
+          ind=birthdatemonth.to_i if @months==nil
+          ind=@oldmonth if ind==0 and @oldmonth!=nil
+                    @months||=["",_("Account:opt_january"),_("Account:opt_february"),_("Account:opt_march"),_("Account:opt_april"),_("Account:opt_may"),_("Account:opt_june"),_("Account:opt_july"),_("Account:opt_august"),_("Account:opt_september"),_("Account:opt_october"),_("Account:opt_november"),_("Account:opt_december")]
+          fields[3]=Select.new(@months,true,ind,_("Account:head_birthdatemonth"),true)
+        elsif fields[2].index==0
+          fields[3]=nil
+        end
+        if fields[2].index>0 and fields[3].index>0
+          ind=0
+          ind=birthdateday if @olddate==nil
+          ind=@oldday if ind==0 and @oldday!=nil
+          if @olddate!=[fields[2].index,fields[3].index]
+            @olddate=[fields[2].index,fields[3].index]
+            @days=[""]
+            for i in 1..31
+              @days.push(i.to_s) if i<29 or (i==29 and (@years[fields[2].index].to_i!=1900 and @years[fields[2].index].to_i%4==0)) or (i<31 and fields[3].index!=2) or (i==31 and [1,3,5,7,8,10,12].include?(fields[3].index))
+            end
+            fields[4]=Select.new(@days,true,ind,_("Account:head_birthdateday"),true)
+          end
+        elsif fields[2].index==0 or fields[3].index==0
+          fields[4]=nil
+          end
+        if fields[5].index>0
+          if @oldcountryindex!=fields[5].index
+            ind=0
+            @oldcountryindex=fields[5].index
+            @oldsubcountryindex=nil
+            fields[6].index=0 if fields[6]!=nil
+            @subcountries=[""]+$locations.map {|c| (c['country']==@countries[fields[5].index])?(c['subcountry']):(nil)}.uniq
+            @subcountries.delete(nil)
+            @subcountries.polsort!
+            ind=@subcountries.find_index(location_a['subcountry'])||0 if @subcountryinit==nil
+            @subcountryinit=true
+            fields[6]=Select.new(@subcountries,true,ind,_("Account:head_subcountry"),true)
+          end
+        elsif fields[5].index==0
+          @oldcountryindex=nil
+          fields[6]=nil
+          end
+          if fields[5].index>0 and (fields[6]!=nil and fields[6].index>0)
+          if @oldsubcountryindex!=fields[6].index
+            ind=0
+            @oldsubcountryindex=fields[6].index
+            fields[7].index=0 if fields[7]!=nil
+            @cities=[""]+$locations.map {|c| (c['country']==@countries[fields[5].index]&&c['subcountry']==@subcountries[fields[6].index])?(c['name']):(nil)}.uniq
+            @cities.delete(nil)
+            @cities.polsort!
+            ind=@cities.find_index(location_a['name'])||0 if @cityinit==nil
+            @cityinit=true
+            fields[7]=Select.new(@cities,true,ind,_("Account:head_city"),true)
+          end
+        elsif fields[5].index==0 or (fields[6]!=nil and fields[6].index==0)
+          @oldsubcountryindex=nil
+          fields[7]=nil
+          end
+        if ((space or enter) and @form.index == 12) or (enter and $key[0x11])
 $fullname=fields[0].text_str
 $gender=fields[1].index
-          pr = srvproc("profile","name=#{$name}\&token=#{$token}\&mod=1\&fullname=#{fields[0].text_str}\&gender=#{fields[1].index.to_s}\&birthdateyear=#{fields[2].text_str.to_i.to_s}\&birthdatemonth=#{fields[3].text_str.to_i.to_s}\&birthdateday=#{fields[4].text_str.to_i.to_s}\&location=#{fields[5].text_str}\&publicprofile=#{fields[6].checked}")
-if pr[0].to_i < 0
+pro="fullname=#{fields[0].text_str}\&gender=#{fields[1].index.to_s}"
+pro+="\&birthdateyear=#{@years[fields[2].index]}\&birthdatemonth=#{fields[3].index.to_s}\&birthdateday=#{@days[fields[4].index].to_s}" if fields[2].index>0 and (fields[3]!=nil and fields[3].index>0) and (fields[4]!=nil and fields[4].index>0)
+if fields[7]!=nil
+  loc=0
+    $locations.each {|l| loc=l['geonameid'] if l['country']==@countries[fields[5].index] and l['subcountry']==@subcountries[fields[6].index] and l['name']==@cities[fields[7].index]}
+  pro+="\&location=#{loc.to_s}"
+elsif fields[5].index>0
+  pro+="\&location=#{@countries[fields[5].index]}"
+end
+pro+="\&publicprofile=#{fields[8].checked}"
+          pr = srvproc("profile","name=#{$name}\&token=#{$token}\&mod=1\&"+pro)
+          if pr[0].to_i==0
+            buf = buffer(fields[9].text_str)
+      pr = srvproc("visitingcard_mod","name=#{$name}\&token=#{$token}\&buffer=#{buf}"      )
+    end
+    pr=[setstatus(fields[10].text_str)] if pr[0].to_i==0
+    if pr[0].to_i==0
+            buf = buffer(fields[11].text_str)
+      pr = srvproc("signature","name=#{$name}\&token=#{$token}\&buffer=#{buf}\&set=1")
+    end
+          if pr[0].to_i < 0
     speech(_("General:error"))
   speech_wait
 else
@@ -235,7 +364,7 @@ else
 end
 $scene = Scene_Main.new
           end
-        $scene = Scene_Main.new if escape or ((space or enter) and @form.index == 8)
+        $scene = Scene_Main.new if escape or ((space or enter) and @form.index == 13)
         break if $scene != self
         end
           end
@@ -469,11 +598,12 @@ $scene=Scene_Main.new
           t=0
   end
 end
+selh=[_("Account:opt_phr_computer"),_("Account:opt_phr_creationip"),_("Account:opt_phr_generationdate")]
 selt=[]
 for s in als
-  selt.push("#{_("Account:opt_phr_computer")}: #{s[2]}, #{_("Account:opt_phr_creationip")}: #{s[1]}, #{_("Account:opt_phr_generationdate")}: #{s[0]}")
+  selt.push([s[2],s[1],s[0]])
 end
-@sel=Select.new(selt,true,0,_("Account:head_autologintokens"))
+@sel=TableSelect.new(selh,selt,0,_("Account:head_autologintokens"))
 loop do
   loop_update
   @sel.update
@@ -616,9 +746,9 @@ loop_update
                           $scene=Scene_Loading.new
                           return
                           when -3
-                            speech(_("General:error_blacklistadmin"))
+                            speech(_("Account:error_blacklistadmin"))
                             when -4
-                              speech(_("General:error_blacklistalreadyadded"))
+                              speech(_("Account:error_blacklistalreadyadded"))
                               when -5
                                 speech(_("Account:error_usernotfound"))
                     end
@@ -652,5 +782,146 @@ loop_update
 play("menu_close")
           Audio.bgs_fade(200)
                   end
+                end
+                
+                class Scene_Account_Logins
+  def main
+        lg=[]
+    loop do
+      password=input_text(_("Account:type_pass"),"PASSWORD|ACCEPTESCAPE")
+      if password=="\004ESCAPE\004"
+        return $scene=Scene_Main.new
+        break
+      else
+        lg=srvproc("lastlogins","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
+        if lg[0].to_i<0
+          speech(_("Account:error_identity"))
+          speech_wait
+        else
+          break
+          end
         end
+    end
+    lgs=[]
+    t=0
+        for l in lg[1...lg.size]
+              case t
+    when 0
+      ret=0
+      tim=""
+      begin
+        if ret<10        
+        tm=Time.at(l.to_i)
+        tim=sprintf("%04d-%02d-%02d %02d:%02d",tm.year,tm.month,tm.day,tm.hour,tm.min)
+      end
+    rescue Exception
+      ret+=1
+      retry
+        end
+              lgs.push([tim])
+      t+=1
+      when 1
+        lgs.last.push(l.delete("\r\n"))
+                  t=0
+  end
+end
+selh=["",""]
+selt=[]
+for s in lgs
+  selt.push([s[0],s[1]])
+end
+@sel=TableSelect.new(selh,selt,0,_("Account:head_logins"))
+loop do
+  loop_update
+  @sel.update
+  break if escape
+  globallogout if $key[0x2e] or enter
+  end
+$scene=Scene_Main.new
+  end
+def globallogout
+  confirm(_("Account:alert_logoutall")) do
+        loop do
+      password=input_text(_("Account:type_pass"),"PASSWORD|ACCEPTESCAPE")
+      if password=="\004ESCAPE\004"
+        @sel.focus
+        return
+        break
+      else
+        lg=srvproc("logout","global=1\&name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
+        if lg[0].to_i<0
+          speech(_("Account:error_identity"))
+          speech_wait
+        else
+          $name=""
+          $token=""
+          $restart=true
+          $scene=Scene_Loading.new
+          break
+          return
+          end
+        end
+    end
+    end
+  end
+end
+
+class Scene_Account_MailEvents
+  def main
+    @password=input_text(_("Account:type_pass"),"PASSWORD|ACCEPTESCAPE") if @password==nil
+    return $scene=Scene_Main.new if @password=="\004ESCAPE\004"
+          vr=srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=check")
+          if vr[0].to_i<0
+            speech(_("General:error"))
+            speech_wait
+            return $scene=Scene_Main.new
+          end
+chk=vr[1].to_i
+if chk==0
+  confirm(_("Account:alert_verifymail")) {
+  vf=srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=verify")
+  if vf[0].to_i<0
+    speech(_("General:error"))
+    speech_wait
+    return $scene=Scene_Main.new
+  end
+  code=input_text(_("Account:type_lvcode"))
+    vf=srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=verify\&code=#{code.urlenc}")
+  if vf[0].to_i<0
+    speech(_("General:error"))
+    speech_wait
+    return $scene=Scene_Main.new
+  else
+    return main
+  end
+  }
+  $scene=Scene_Main.new if $scene==self
+else
+enb=vr[2].to_i
+opt=(enb==0)?_("Account:opt_maileventsenable"):_("Account:opt_maileventsdisable")
+h=(enb==0)?_("Account:head_maileventsdisabled"):_("Account:head_maileventsenabled")
+@sel=menulr([opt,_("General:str_quit")],true,0,h)
+loop do
+  loop_update
+  @sel.update
+  if enter
+    case @sel.index
+    when 0
+e=0
+e=1 if enb==0
+srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=events\&enable=#{e.to_s}")
+if e==0
+  code=input_text(_("Account:type_lvcode"))
+  srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=events\&enable=#{e.to_s}\&code=#{code}")
+  end
+return main
+      when 1
+        $scene=Scene_Main.new
+      end
+      end
+  break if $scene!=self
+end  
+end
+    end
+  end
 #Copyright (C) 2014-2019 Dawid Pieper

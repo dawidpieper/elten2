@@ -15,7 +15,7 @@ module Recorder
       break if d.size>0
       end
       return if d.size==0
-      d.keys.each {|k| dev=k if d[k]==$interface_microphone}
+      d.keys.each {|k| dev=k if d[k]==$interface_microphone or (["",nil].include?($interface_microphone) and d[k]==Bass.default_microphone)}
       dev=d.keys[0] if dev==nil
       s="bin\\ffmpeg -y -f dshow -i audio=\"#{dev}\" "
       s+="-b:a #{quality.to_s}k" if quality>0

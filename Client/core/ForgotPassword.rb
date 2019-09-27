@@ -27,7 +27,7 @@ class Scene_ForgotPassword
     return $scene=Scene_Loading.new
   end
     if ut[2].to_i==0 or ut[1].to_i==0
-    speech(_("General:error_match"))
+    speech(_("ForgotPassword:error_match"))
     speech_wait
     return main
   end
@@ -70,7 +70,7 @@ fp=srvproc("resetpassword","name=#{@user}\&mail=#{@mail.urlenc}\&key=#{key}\&ste
 if fp[0].to_i==0
   break
 else
-  speech(_("General:error_wrongkey"))
+  speech(_("ForgotPassword:error_wrongkey"))
   speech_wait
 end
 end
@@ -81,10 +81,10 @@ loop do
   confirmpassword=input_text(_("ForgotPassword:type_newpassagain"),"ACCEPTESCAPE|PASSWORD")
   return if confirmpassword=="\004ESCAPE\004"
   if confirmpassword!=newpassword
-    speech(_("General:error_difpass"))
+    speech(_("ForgotPassword:error_difpass"))
     speech_wait
   elsif newpassword==""
-    speech(_("General:error_emptypass"))
+    speech(_("ForgotPassword:error_emptypass"))
     speech_wait
     else
     break
