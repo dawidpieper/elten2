@@ -585,7 +585,7 @@ Graphics.update if $ruby != true
          tr=true
 end
 if $agent!=nil and $agent.avail>0
-            str=StringIO.new($agent.read)
+              str=StringIO.new($agent.read)
       while str.pos<str.string.size-1
                                                                                                                                 d=Marshal.load(str)
                                                                                                                                                 if d['func']=="notif"
@@ -620,10 +620,9 @@ else
   $agentthr=Thread.new do
      $agentupst=0
   if $agent != nil
-  x="\0"*1024
+  x="\0"*4
 Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call($agent.pid,x)
-x.delete!("\0")
-if x != "\003\001"
+if x[0..1] != "\003\001"
                                     writefile("temp/agent.tmp","#{$name}\r\n#{$token}\r\n#{$wnd.to_s}")
     agent_start
 $agentloaded = true
@@ -632,29 +631,20 @@ $agentfails+=1
 $agentfaillasttime=0 if $agentfaillasttime==nil
 if $agentfaillasttime<Time.now.to_i-15
 play("right")
-$wnup=0
 end
 $agentfaillasttime=Time.now.to_i
   end
 end
-$procs=[] if $procs==nil  
-for o in $procs
-            x="\0"*2
-Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(o,x)
-if x != "\003\001"
-  $procs.delete(o)
-  end
 end
 end
-end
-$grphpd=0 if $grphpd==nil    
-if $ruby != true and $grphpd<=1
+#$grphpd=0 if $grphpd==nil    
+#if $ruby != true and $grphpd<=1
         Graphics.update
-                        $grphpd+=1
-      else
-                                                                        $grphpd=0
-    sleep(1.0/(Graphics.frame_rate*1.5))
-      end
+                        #$grphpd+=1
+      #else
+                                                                        #$grphpd=0
+    #sleep(1.0/(Graphics.frame_rate*1.5))
+      #end
 Input.update
       Keyboard::key_update
       keyprocs

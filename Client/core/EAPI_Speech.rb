@@ -145,6 +145,10 @@ text=((($interface_soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\
   play("list_closed")
   ""
   }
+  text.gsub!("\004PINNED\004") {
+  play("list_pinned")
+  ""
+  }
   text.gsub!("\004ATTACHMENT\004") {
   play("list_attachment")
   ""

@@ -93,7 +93,7 @@ class Scene_Account_Mail
         speech_wait
         $scene = Scene_Loading.new
         when -6
-          speech(_("General:error_wrongoldpass"))
+          speech(_("Account:error_wrongoldpass"))
           speech_wait
           $scene = Scene_Main.new
           when -7

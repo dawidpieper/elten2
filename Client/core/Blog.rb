@@ -462,9 +462,11 @@ def update
   def menu
     play("menu_open")
     play("menu_background")
-    @menu = menulr([_("Blog:opt_select"),_("Blog:opt_edit"),_("General:str_delete")])
+    @menu = menulr([_("Blog:opt_select"),_("Blog:opt_edit"),_("Blog:opt_movepost"),_("General:str_delete")],true,0,"",true)
     @menu.disable_item(1) if @sel.index >= @postname.size or !blogowners(@owner).include?($name)
     @menu.disable_item(2) if @sel.index >= @postname.size or !blogowners(@owner).include?($name)
+    @menu.disable_item(2) if @sel.index >= @postname.size or !blogowners(@owner).include?($name)
+    @menu.focus
     loop do
       loop_update
       @menu.update
@@ -482,8 +484,12 @@ def update
     when 1
       if @sel.index < @postname.size
       $scene = Scene_Blog_Post_Edit.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
-      end
+    end
     when 2
+    if @sel.index < @postname.size
+      $scene = Scene_Blog_Post_Move.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
+      end
+      when 3
       if @sel.index < @postname.size
       $scene = Scene_Blog_Post_Delete.new(@owner,@id,@postid[@sel.index],@categoryselindex)
       end
@@ -773,7 +779,7 @@ comm = pc[2].to_i
                 @postaudio=$1
         @postaudio.sub!("/",$url) if @postaudio[0..0]=="/"
         @fields[2]=@audiofield
-        @textfield.settext("")
+        @textfield.audiotext=""
         end    
 for i in 3..comm+2
   c = pc[i].to_i
@@ -1010,8 +1016,7 @@ def update
 if (enter or space) and @form.index == @form.fields.size - 2
   @form.fields[0].finalize
   txt = @form.fields[0].text_str
-  txt += "\r\nZmodyfikowany\r\n"
-  $scene = Scene_Blog_Post_Edit.new(@owner,@category,@postid,@categoryselindex,@postselindex)
+    $scene = Scene_Blog_Post_Edit.new(@owner,@category,@postid,@categoryselindex,@postselindex)
     end
   if escape or ((enter or space) and @form.index == @form.fields.size - 1)
 if @scene == nil
@@ -1101,7 +1106,7 @@ def update
       def menu
 play("menu_open")
 play("menu_background")
-sel = [@owners[@sel.index],_("Blog:opt_open")]
+sel = (b=blogowners(@owners[@sel.index]))+[_("Blog:opt_open")]
 isf = false
 for u in @followedblogs
   isf = true if u == @owners[@sel.index]
@@ -1118,17 +1123,16 @@ loop_update
 @menu.update
 break if $scene != self
 if enter
-  case @menu.index
-  when 0
-    if usermenu(@owners[@sel.index],true) != "ALT"
+  if @menu.index<b.size
+    if usermenu(b[@menu.index],true) != "ALT"
           @menu = menulr(sel)
         else
           break
         end
-when 1
+elsif @menu.index==b.size
   $bloglistindex = @sel.index
         $scene = Scene_Blog_Main.new(@owners[@sel.index],0,$scene)
-  when 2
+  elsif @menu.index==b.size+1
    if isf == false
 err = srvproc("blog_fb","name=#{$name}\&token=#{$token}\&add=1\&searchname=#{@owners[@sel.index]}")[0].to_i
 if err != 0
@@ -1148,7 +1152,7 @@ else
 end
 speech_wait
 end
-when 3
+elsif @menu.index==b.size+2
   confirm(_("Blog:alert_markblogasread")) do
     if srvproc("blog_markasread","name=#{$name}\&token=#{$token}\&user=#{@owners[@sel.index]}")[0].to_i==0
       speech(_("Blog:info_blogmarkedasread"))
@@ -1157,16 +1161,16 @@ when 3
     end
     speech_wait
     end
-        when 4
+        elsif @menu.index==b.size+3
           @main = true
-  when 5
+  elsif @menu.index==b.size+4
 $scene = Scene_Main.new
 end
 break
 end
-if Input.trigger?(Input::DOWN) and @menu.index == 0
+if Input.trigger?(Input::DOWN) and @menu.index<b.size
     Input.update
-  if usermenu(@owners[@sel.index],true) != "ALT"
+  if usermenu(b[@menu.index],true) != "ALT"
     @menu = menulr(sel)
   else
     break
@@ -1328,6 +1332,51 @@ class Scene_Blog_Managed
       $scene=Scene_Blog.new if Input.trigger?(Input::LEFT) or escape
       break if $scene!=self
       end
+  end
+end
+
+class Scene_Blog_Post_Move
+  def initialize(owner,category,post,categoryselindex=0,postselindex=0)
+    @owner=owner
+    @category=category
+    @post=post
+    @categoryselindex=categoryselindex
+    @postselindex=postselindex
+  end
+  def main
+    @blogids=[$name]
+    @blognames=[_("Blog:opt_myblog")]
+    b=srvproc("blog_managed","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+    if b[0].to_i>0
+      speech(_("General:error"))
+      speech_wait
+      $scene=Scene_Main.new
+      return
+      end
+        for i in 2...b.size
+      if i%2==0
+        @blogids.push(b[i].delete("\r\n"))
+      else
+        @blognames.push(b[i].delete("\r\n"))
+        end
+      end
+      @form=Form.new([Select.new(@blognames,true,@blogids.index(@owner)||0,_("Blog:head_postdestination"),true), Select.new([_("Blog:opt_moveall"),_("Blog:opt_moveonly")],true,0,_("Blog:head_movetype"),true), Button.new(_("Blog:btn_movepost")), Button.new(_("General:str_cancel"))])
+      loop do
+        loop_update
+        @form.update
+        if @form.fields[2].pressed?
+bl=srvproc("blog_move","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&postid=#{@post.to_s}\&destination=#{@blogids[@form.fields[0].index]}\&movetype=#{@form.fields[1].index.to_s}")
+if bl[0].to_i<0
+  speech(_("General:error"))
+else
+  speech(_("Blog:info_postmoved"))
+end
+speech_wait
+break
+          end
+        break if escape or @form.fields[3].pressed?
+                  end
+    $scene = Scene_Blog_Posts.new(@owner,@category,@categoryselindex,@postselindex)
   end
   end
 #Copyright (C) 2014-2019 Dawid Pieper

@@ -6,7 +6,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-Language: ru_RU\n
+"PO-Revision-Date: \n"
+"Last-Translator: Александр Яшин <a.jaszyn@ya.ru>\n"
+"Language: ru_RU\n"
+"X-Generator: Poedit 2.0.4\n"
 
 #: Authentication.rb:68
 msgctxt "Authentication"
@@ -709,10 +712,9 @@ msgid "Answer"
 msgstr "Ответ"
 
 #: Polls.rb:441
-#, fuzzy
 msgctxt "Polls"
 msgid "Poll results: %{name}"
-msgstr "Poll results: %{name}"
+msgstr "Результаты опроса %{name}"
 
 #: Polls.rb:128
 msgctxt "Polls"
@@ -855,10 +857,9 @@ msgid "Mentions"
 msgstr "Упоминания"
 
 #: WhatsNew.rb:51
-#, fuzzy
 msgctxt "WhatsNew"
 msgid "Update available (%{version})"
-msgstr "Update available (%{version})"
+msgstr "Доступно обновление до версии  (%{version})"
 
 #: ShortKeys.rb:11
 msgctxt "ShortKeys"
@@ -1272,7 +1273,7 @@ msgstr "Добавить соредактора"
 #: Blog.rb:131
 msgctxt "Blog"
 msgid "Coworkers"
-msgstr "Coworkers"
+msgstr "Соавторы"
 
 msgctxt "Blog"
 msgid "Release this coworker"
@@ -1308,21 +1309,19 @@ msgid "Do you wish to delete all comments on this post? You can disable commenti
 msgstr "Вы действительно хотите удалить все комментарии к этому посту? Вы можете просто запретить дальнейшее комментирование."
 
 #: Blog.rb:768
-#, fuzzy
 msgctxt "Blog"
 msgid "Post type"
-msgstr "Post type"
+msgstr "Тип поста"
 
 #: Blog.rb:768
-#, fuzzy
 msgctxt "Blog"
 msgid "Text post"
-msgstr "Text post"
+msgstr "Текстовый пост"
 
 #: Blog.rb:768
 msgctxt "Blog"
 msgid "Audio post {opt_audiopost}"
-msgstr "Audio post"
+msgstr "Аудио-пост"
 
 #: Blog.rb:130
 msgctxt "Blog"
@@ -1335,50 +1334,75 @@ msgid "Followers {head_followers}"
 msgstr "Followers"
 
 #: Blog.rb:159
-#, fuzzy
 msgctxt "Blog"
 msgid "This blog is not followed by any user"
-msgstr "This blog is not followed by any user"
+msgstr "Этот блог пока никто не читает"
 
 #: Blog.rb:14
-#, fuzzy
 msgctxt "Blog"
 msgid "Managed blogs"
-msgstr "Managed blogs"
+msgstr "Управление блогами"
 
 #: Blog.rb:181
 msgctxt "Blog"
 msgid "Coworkers {head_coworkers}"
-msgstr "Coworkers"
+msgstr "Соавторы"
 
 #: Blog.rb:201
-#, fuzzy
 msgctxt "Blog"
 msgid "Are you sure you want to release this coworker?"
-msgstr "Are you sure you want to release this coworker?"
+msgstr "Вы хотите добавить этого соавтора?"
 
 #: Blog.rb:196
-#, fuzzy
 msgctxt "Blog"
 msgid "User not found"
-msgstr "User not found"
+msgstr "Пользователь не существует"
 
-#, fuzzy
 msgctxt "Blog"
 msgid "%{user} has been added to this blog"
-msgstr "%{user} has been added to this blog"
+msgstr "Пользователь добавлен в список соавторов"
 
 #: Blog.rb:132
-#, fuzzy
 msgctxt "Blog"
 msgid "Delete this blog"
-msgstr "Delete this blog"
+msgstr "Удалить этот блог"
 
 #: Blog.rb:213
-#, fuzzy
 msgctxt "Blog"
 msgid "Are you sure you want to delete this blog?"
-msgstr "Are you sure you want to delete this blog?"
+msgstr "Вы действительно хотите удалить этот блог?"
+
+msgctxt "Blog"
+msgid "Move to another blog"
+msgstr "Переместить в другой блог"
+
+msgctxt "Blog"
+msgid "Destination blog"
+msgstr "Выберите блог"
+
+msgctxt "Blog"
+msgid "Move type"
+msgstr "Тип перемещения"
+
+msgctxt "Blog"
+msgid "Move only this post, delete all comments"
+msgstr "Переместить только пост и удалить все комментарии"
+
+msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr "Переместить и пост, и комментарии"
+
+msgctxt "Blog"
+msgid "Copy post to new blog, keep all comments on current blog"
+msgstr "Скопировать пост без комментариев"
+
+msgctxt "Blog"
+msgid "Move"
+msgstr "Переместить"
+
+msgctxt "Blog"
+msgid "The post has been moved."
+msgstr "Пост перемещён"
 
 #: Ban.rb:27
 msgctxt "Ban"
@@ -2104,126 +2128,117 @@ msgstr "Дата создания:"
 #: Account.rb:282
 msgctxt "Account"
 msgid "January"
-msgstr "January"
+msgstr "Январь"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "February"
-msgstr "February"
+msgstr "Февраль"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "March"
-msgstr "March"
+msgstr "март"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "April"
-msgstr "April"
+msgstr "Апрель"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "May"
-msgstr "May"
+msgstr "Май"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "June"
-msgstr "June"
+msgstr "Июнь"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "July"
-msgstr "July"
+msgstr "Июль"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "August"
-msgstr "August"
+msgstr "Август"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "September"
-msgstr "September"
+msgstr "Сентябрь"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "October"
-msgstr "October"
+msgstr "Октябрь"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "November"
-msgstr "November"
+msgstr "Ноябрь"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "December"
-msgstr "December"
+msgstr "Декабрь"
 
 #: Account.rb:313
-#, fuzzy
 msgctxt "Account"
 msgid "State / Province"
-msgstr "State / Province"
+msgstr "Регион или область"
 
 #: Account.rb:329
 msgctxt "Account"
 msgid "City"
-msgstr "City"
+msgstr "Город или район"
 
 #: Account.rb:226
 msgctxt "Account"
 msgid "Country"
-msgstr "Country"
+msgstr "Страна"
 
 #: Account.rb:833
-#, fuzzy
 msgctxt "Account"
 msgid "Last logins"
-msgstr "Last logins"
+msgstr "Недавние входы"
 
 #: Account.rb:881
-#, fuzzy
 msgctxt "Account"
 msgid "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
-msgstr "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
+msgstr "Вы можете сделать так, чтобы elten  информировал вас обо всех входах в аккаунт, отправляя письмо на Чe-mail. Чтобы сделать это, пожалуйста, подтвердите ваш e-mail. желаете продолжить?"
 
 #: Account.rb:914
-#, fuzzy
 msgctxt "Account"
 msgid "The verification code has been sent to you via E-mail. Please type it here."
-msgstr "The verification code has been sent to you via E-mail. Please type it here."
+msgstr "Код подтверждения был отправлен на вашу почту. Введите его здесь"
 
 #: Account.rb:901
-#, fuzzy
 msgctxt "Account"
 msgid "Enable mail events reporting"
-msgstr "Enable mail events reporting"
+msgstr "Разрешить информирование"
 
 #: Account.rb:901
-#, fuzzy
 msgctxt "Account"
 msgid "Disable mail events reporting"
-msgstr "Disable mail events reporting"
+msgstr "Отключить уведомления"
 
 #: Account.rb:902
-#, fuzzy
 msgctxt "Account"
 msgid "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
-msgstr "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
+msgstr "Уведомления о входе в ваш аккаунт с различных устройств выключены, но вы можете включить их, чтобы узнавать об изменениях в учётной записи, а также о том, когда осуществлялся вход."
 
 #: Account.rb:902
-#, fuzzy
 msgctxt "Account"
 msgid "Mail events reporting is enabled."
-msgstr "Mail events reporting is enabled."
+msgstr "Уведомления о событиях включены"
 
 #: Account.rb:100
-#, fuzzy
 msgctxt "Account"
 msgid "Error, you must disable mail events reporting first."
-msgstr "Error, you must disable mail events reporting first."
+msgstr "Ошибка, сначала необходимо выключить уведомления о событиях"
 
 #: UsersAddedMeToContacts.rb:36
 msgctxt "Contacts"
@@ -3066,16 +3081,14 @@ msgid "Sound device"
 msgstr "Параметры звуковых устройств"
 
 #: MainMenu.rb:287
-#, fuzzy
 msgctxt "MainMenu"
 msgid "Last logins"
-msgstr "Last logins"
+msgstr "Недавние  входы"
 
 #: MainMenu.rb:287
-#, fuzzy
 msgctxt "MainMenu"
 msgid "Mail events reporting"
-msgstr "Mail events reporting"
+msgstr "Уведомления о событиях по e-mail"
 
 #: Forum.rb:1092
 msgctxt "Forum"
@@ -3996,10 +4009,25 @@ msgid "Where to slide this post?"
 msgstr "Где перенести пост?"
 
 #: Forum.rb:152
-#, fuzzy
 msgctxt "Forum"
 msgid "Moderated groups"
-msgstr "Moderated groups"
+msgstr "Модерируемые группы"
+
+msgctxt "Forum"
+msgid "Pin thread"
+msgstr "Закрепить  тему"
+
+msgctxt "Forum"
+msgid "Unpin thread"
+msgstr "Открепить тему"
+
+msgctxt "Forum"
+msgid "Thread has been pinned"
+msgstr "Тема прикреплена"
+
+msgctxt "Forum"
+msgid "Thread has been unpinned"
+msgstr "Тема откреплена"
 
 #: Main.rb:94
 msgctxt "Main"
@@ -5514,4 +5542,3 @@ msgstr "Потеряно пакетов"
 msgctxt "VoIP"
 msgid "Packets received"
 msgstr "Получено пакетов"
-

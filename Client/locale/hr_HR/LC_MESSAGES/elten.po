@@ -593,7 +593,7 @@ msgstr "Priprema datoteke..."
 #: Portable.rb:10
 msgctxt "Portable"
 msgid "Create as a single exe file. (No settings will be saved."
-msgstr "  Stvori kao jednu datoteku .exe (Pozor! nikakve postavke neće biti  zapamćene.)"
+msgstr "   Stvori kao jednu datoteku .exe (Pozor! nikakve postavke neće biti   zapamćene.)"
 
 #: Polls.rb:153
 msgctxt "Polls"
@@ -1250,7 +1250,7 @@ msgstr "Stvori tekstualni zapis"
 #: Blog.rb:1152
 msgctxt "Blog"
 msgid "All posts on this blog will be marked as read. Do you want to continue?"
-msgstr "  Svi će zapisi na ovom blogu biti označeni kao pročitani. Jesi li siguran  da  želiš nastaviti?"
+msgstr "   Svi će zapisi na ovom blogu biti označeni kao pročitani. Jesi li siguran   da  želiš nastaviti?"
 
 #: Blog.rb:1078
 msgctxt "Blog"
@@ -1364,7 +1364,7 @@ msgstr "Managed blogs"
 #: Blog.rb:181
 msgctxt "Blog"
 msgid "Coworkers {head_coworkers}"
-msgstr "Coworkers"
+msgstr "suradnici"
 
 #: Blog.rb:201
 #, fuzzy
@@ -1394,6 +1394,45 @@ msgstr "Delete this blog"
 msgctxt "Blog"
 msgid "Are you sure you want to delete this blog?"
 msgstr "Are you sure you want to delete this blog?"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "Move to another blog"
+msgstr "Move to another blog"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "Destination blog"
+msgstr "Destination blog"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "Move type"
+msgstr "Move type"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "Move only this post, delete all comments"
+msgstr "Move only this post, delete all comments"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr "Move this post and all comments"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "Copy post to new blog, keep all comments on current blog"
+msgstr "Copy post to new blog, keep all comments on current blog"
+
+msgctxt "Blog"
+msgid "Move"
+msgstr "Move"
+
+#, fuzzy
+msgctxt "Blog"
+msgid "The post has been moved."
+msgstr "The post has been moved."
 
 #: Ban.rb:27
 msgctxt "Ban"
@@ -2341,7 +2380,7 @@ msgstr "Preuzimanje nadogradnje"
 #: Update.rb:88
 msgctxt "Update"
 msgid "Now, the update will be installed. The program will restart."
-msgstr "  Nadogradnja će sada biti instalirana. Program će ponovno biti pokrenut."
+msgstr "   Nadogradnja će sada biti instalirana. Program će ponovno biti pokrenut."
 
 #: Update.rb:133
 msgctxt "Update"
@@ -3617,7 +3656,7 @@ msgstr "Are you sure you want to grant moderation privileges in %{groupname} to 
 
 msgctxt "Forum"
 msgid "Are you sure you want to deny %{user}'s moderation privileges?"
-msgstr " Jeste li sigurni da želite oduzeti moderatorska prava korisniku %{user}?"
+msgstr "  Jeste li sigurni da želite oduzeti moderatorska prava korisniku %{user}?"
 
 #: Forum.rb:544
 msgctxt "Forum"
@@ -3632,11 +3671,11 @@ msgstr "Are you sure you want to resign your administrative privileges in %{grou
 
 msgctxt "Forum"
 msgid "Are you sure you want to ban %{user} in %{groupname}?"
-msgstr " Jeste li sugurni da želite banirati korisnika u %{user} u %{groupname}?"
+msgstr "  Jeste li sugurni da želite banirati korisnika u %{user} u %{groupname}?"
 
 msgctxt "Forum"
 msgid "Are you sure you want to unban %{user} in %{groupname}?"
-msgstr " Jeste li sigurni da želite odbanirati korisnika %{user} u grupi %{groupname}?"
+msgstr "  Jeste li sigurni da želite odbanirati korisnika %{user} u grupi  %{groupname}?"
 
 #: Forum.rb:444
 msgctxt "Forum"
@@ -3645,7 +3684,7 @@ msgstr "Kick"
 
 msgctxt "Forum"
 msgid "Are you sure you want to kick %{user} of %{groupname}?"
-msgstr " Jeste li sigurni da želite izbaciti korisnika %{user} iz grupe %{groupname}?"
+msgstr "  Jeste li sigurni da želite izbaciti korisnika %{user} iz grupe %{groupname}?"
 
 #: Forum.rb:779
 msgctxt "Forum"
@@ -4035,6 +4074,26 @@ msgctxt "Forum"
 msgid "Moderated groups"
 msgstr "Moderated groups"
 
+#, fuzzy
+msgctxt "Forum"
+msgid "Pin thread"
+msgstr "Pin thread"
+
+#, fuzzy
+msgctxt "Forum"
+msgid "Unpin thread"
+msgstr "Unpin thread"
+
+#, fuzzy
+msgctxt "Forum"
+msgid "Thread has been pinned"
+msgstr "Thread has been pinned"
+
+#, fuzzy
+msgctxt "Forum"
+msgid "Thread has been unpinned"
+msgstr "Thread has been unpinned"
+
 #: Main.rb:94
 msgctxt "Main"
 msgid "Press the alt key to open the menu."
@@ -4103,7 +4162,7 @@ msgstr "Ne pitaj me ponovno"
 #: Login.rb:171
 msgctxt "Login"
 msgid "To reenable auto log in feature, proceed to the interface settings."
-msgstr " Kako biste uključili značajku automatske prijave, molimo uđite u postavke  sučelja."
+msgstr "  Kako biste uključili značajku automatske prijave, molimo uđite u postavke   sučelja."
 
 #: Login.rb:135
 #, fuzzy
@@ -4168,12 +4227,12 @@ msgstr "Prijavljen kao: %{user}"
 #: Login.rb:133
 msgctxt "Login"
 msgid "Do you want to enable auto log in for account %{user}?"
-msgstr " Jeste li sigurni da želite uključiti automatsku prijavu za nalog korisnika  %{user}?"
+msgstr "  Jeste li sigurni da želite uključiti automatsku prijavu za nalog korisnika   %{user}?"
 
 #: Registration.rb:25
 msgctxt "Registration"
 msgid "User name can not contain slashes. Sign will be Omitted."
-msgstr "  Korisničko ime ne može sadržavati znak kosa crta. Znak će biti zaobiđen."
+msgstr "   Korisničko ime ne može sadržavati znak kosa crta. Znak će biti zaobiđen."
 
 #: Registration.rb:29
 msgctxt "Registration"
@@ -4843,7 +4902,7 @@ msgstr "zna %{count} korisnika"
 #: EAPI_Common.rb:705
 msgctxt "EAPI_Common"
 msgid "Please wait, the soundfont is being downloaded. It may take a while."
-msgstr "  Molimo pričekajte, zvučna tema se preuzima. Ovo može Potrajati nekoliko   minuta."
+msgstr "   Molimo pričekajte, zvučna tema se preuzima. Ovo može Potrajati nekoliko    minuta."
 
 #: EAPI_Common.rb:705
 msgctxt "EAPI_Common"
@@ -5488,98 +5547,83 @@ msgctxt "SoundCard"
 msgid "Input device"
 msgstr "Ulazni uređaj"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "%{username} is calling"
-msgstr "%{username} is calling"
+msgstr "%{username} zove"
 
 msgctxt "VoIP"
 msgid "Answer"
-msgstr "Answer"
+msgstr "Odgovori"
 
 msgctxt "VoIP"
 msgid "Reject"
-msgstr "Reject"
+msgstr "Odbij"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "New call"
-msgstr "New call"
+msgstr "Novi poziv"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Call history"
-msgstr "Call history"
+msgstr "Povijest poziva"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Type user to call"
-msgstr "Type user to call"
+msgstr "Upišite ime korisnika kojeg želite pozvati"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Audio Quality"
-msgstr "Audio Quality"
+msgstr "Kvaliteta zvuka"
 
 msgctxt "VoIP"
 msgid "Call"
-msgstr "Call"
+msgstr "Pozvati"
 
 msgctxt "VoIP"
 msgid "Settings"
 msgstr "Postavke"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "End the call"
-msgstr "End the call"
+msgstr "Završi poziv"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Call refused"
-msgstr "Call refused"
+msgstr "Poziv odbijen"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Call with %{username}"
-msgstr "Call with %{username}"
+msgstr "Poziv sa %{username}"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Calling %{username}"
-msgstr "Calling %{username}"
+msgstr "Zovem %{username}"
 
 msgctxt "VoIP"
 msgid "Details"
 msgstr "Detalji"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Encryption status"
-msgstr "Encryption status"
+msgstr "Status enkripcije"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Encrypted with %{algorithm}"
-msgstr "Encrypted with %{algorithm}"
+msgstr "Enkriptirano uz pomoć %{algorithm}"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Call duration"
-msgstr "Call duration"
+msgstr "Trajanje poziva"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Audio quality"
-msgstr "Audio quality"
+msgstr "Kvaliteta zvuka"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Packets lost"
-msgstr "Packets lost"
+msgstr "Paketa izgubljeno"
 
-#, fuzzy
 msgctxt "VoIP"
 msgid "Packets received"
-msgstr "Packets received"
+msgstr "Primljeno paketa"
 

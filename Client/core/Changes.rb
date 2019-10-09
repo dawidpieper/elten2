@@ -775,7 +775,7 @@ Wersja 2.3:
 
 2019-08-24
 ","
-Wersja 2.31
+Wersja 2.31:
 - Dodano: lista ostatnio utworzonych grup
 - Dodano: możliwość wyboru karty dźwiękowej
 - Zmieniono: przy odczycie książek używana jest od tej pory biblioteka Calibre
@@ -829,6 +829,17 @@ Wersja 2.34:
 - Usunięto: pliki udostępniane
 
 2019-09-27
+","
+Wersja 2.341:
+- Dodano: możliwość przenoszenia wpisów między blogami
+- Poprawiono: menu na liście blogów
+
+2019-09-28","
+Wersja 2.342:
+- Dodano: możliwość przypinania wątków
+- Dodano (eksperymentalnie): na listach klawisz F4 podaje numer wybranej pozycji oraz rozmiar listy
+
+2019-10-01
 "]
 @changes.reverse!
 @changes.each{|c| c.gsub!(/Wersja (\d\.\d+)/) {"Wersja "+$1.delete(".").split("").join(".")}}

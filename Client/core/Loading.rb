@@ -263,7 +263,7 @@ end
 speech(startmessage) if $silentstart != true
             $speech_wait = true if $silentstart != true
             bid=srvproc("bin/buildid","build_id=#{Elten.build_id.to_s}",1).to_i
-        if Elten.build_id!=bid and $denyupdate != true
+        if Elten.build_id!=bid and bid>0 and $denyupdate != true
 if $portable != 1
           $scene = Scene_Update_Confirmation.new
       return

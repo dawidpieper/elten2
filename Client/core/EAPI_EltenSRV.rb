@@ -19,6 +19,7 @@ module EltenAPI
           if $agent!=nil and $netuseold!=true
         id=rand(1e8)
             $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>mod,'param'=>param,'id'=>id}))
+            $agent_wait=true
             t=Time.now.to_f
             w=false
     while $eresps[id]==nil
@@ -53,7 +54,8 @@ end
 r=$eresps[id]['resp'].delete("\r").split("\n")
     for i in 0...r.size
       r[i]+="\r\n"
-      end
+    end
+    $agent_wait=false
       return r
     when 1
       return $eresps[id]['resp']
@@ -86,6 +88,7 @@ end
       def name_attachments(attachments, names=[])
   return names if names!=nil&&names.size>0
                       for at in attachments
+                        at
                       ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
                       if ati[0].to_i<0 or ati.size==1
                         attachments.delete(at)
@@ -645,6 +648,7 @@ def srvstate
             $blogowners[k].push(b[i].delete("\r\n"))
             end
           end
+          $blogowners[user]=[user] if $blogowners[user]==nil and user_exist(user)
           $blogownerstime=Time.now.to_i
         end
       o=$blogowners[user]

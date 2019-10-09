@@ -58,8 +58,8 @@ else
     @sel.disable_item(6) if friends<= 0
     @sel.disable_item(7) if birthday<= 0
     @sel.disable_item(8) if mentions<= 0
-    @sel.disable_item(9) if @bid==Elten.build_id
-        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and @bid==Elten.build_id
+    @sel.disable_item(9) if @bid==Elten.build_id or @bid<=0
+        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and (@bid==Elten.build_id or @bid<=0)
       speech(_("WhatsNew:info_nonew"))
       speech_wait
       $scene = Scene_Main.new
@@ -143,12 +143,15 @@ else
               t = 0
               id += 1
               end
-             end
+            end
+            selh=["",_("Blog:opt_phr_author")]
             sel = []
             for i in 0..@blogpostname.size-1
-              sel.push(@blogpostname[i] + "\r\nAutor " + @blogauthor[i])
+              o=@blogauthor[i]
+              o=blogowners(o).join(", ") if o[0..0]=="["
+              sel.push([@blogpostname[i], o])
             end
-            @sel = Select.new(sel)
+            @sel = TableSelect.new(selh,sel)
             loop do
               loop_update
               @sel.update
@@ -157,10 +160,10 @@ else
               end
             end
             def update
-              if escape or Input.trigger?(Input::LEFT)
+              if escape or (Input.trigger?(Input::LEFT) and !$keyr[0x10])
                 $scene = Scene_WhatsNew.new
               end
-             if enter or Input.trigger?(Input::RIGHT)
+             if enter or (Input.trigger?(Input::RIGHT) and !$keyr[0x10])
                $scene = Scene_Blog_Read.new(@blogauthor[@sel.index],@blogcategory[@sel.index],@blogpost[@sel.index],0,0,$scene)
                end
               end

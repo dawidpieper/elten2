@@ -843,7 +843,8 @@ end
                   if $focus == true
     focus
     $focus = false
-    end
+  end
+  speech((@index+1).to_s+" / "+@commandoptions.size.to_s) if $key[115]
     if $key[0x11]   and $key[0x12] and $key[82]
       for i in 0..@commandoptions.size-1
         @commandoptions[i]=@commandoptions[i].split("").reverse.join if @commandoptions[i].is_a?(String)
@@ -928,12 +929,15 @@ self.index = 0 if @border == false
   end
         end
         suc = false
-        k=getkeychar($key,!@lr)
-                if k != "" and k != " "
+        k=getkeychar
+                                  if k != "" and k != " "
+                                            k=@lastkey+k if @lastkey!=nil and @lastkeytime>Time.now.to_f-0.25 and k!=@lastkey and @lr==false
+            @lastkeytime=Time.now.to_f
+          @lastkey=k
           i=k.upcase[0]
           if @hotkeys[i]==nil
                   @run = true
-        for j in self.index + 1..options.size - 1
+        for j in self.index + (k.split("").size==1?1:0)..options.size - 1
           if suc == false              
           if options[j][0..k.size-1].upcase==k.upcase and @grayed[j]!=true
           suc = true
@@ -949,7 +953,7 @@ self.index = 0 if @border == false
         if suc == false          
         if options[j][0..k.size-1].upcase==k.upcase and @grayed[j]!=true
           suc = true
-          self.index = j
+                    self.index = j
           while @grayed[self.index] == true
     self.index += 1
     end
@@ -997,7 +1001,7 @@ end
   self.index = 0 if options.size == 1 or options[self.index] == nil
   play("list_focus") if @silent == false
 @run = false
-elsif oldindex == self.index and @run == true
+elsif oldindex == self.index and @run == true and (k.split("").size<=1 or (@commandoptions[self.index][0...k.size].upcase!=k.upcase))
     play("border") if @silent == false
     @run = false
   end

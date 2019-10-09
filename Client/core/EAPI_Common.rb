@@ -284,7 +284,7 @@ mentions=agtemp[16].to_i
 $nversion=agtemp[2].to_f
 $nbeta=agtemp[3].to_i
 bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i
-                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and Elten.build_id==bid
+                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and (Elten.build_id==bid or bid<=0)
   speech(_("EAPI_Common:info_nothingnew")) if quiet != true
 else
     $scene = Scene_WhatsNew.new(true,agtemp,bid)
@@ -570,7 +570,7 @@ if location!="" and (location.to_i>0 or $locations.map{|l| l['country']}.uniq.in
   if location.to_i>0
     loc={}
     $locations.each {|l| loc=l if l['geonameid']==location.to_i}
-    text+=loc['name']+", "+loc['country']
+    text+=loc['name']+", "+loc['country'] if loc!=nil
   else
     text+=location
   end
@@ -764,20 +764,14 @@ def getkeychar(keys=[],multi=false)
     if $key[i]
       c="\0"*8
   if Win32API.new("user32","ToUnicode",'iippii','i').call(i,0,$keybd,c,c.bytesize,0) > 0
-                                                                            buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,nil,0,nil,nil)
-Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,buf,buf.size,nil,nil)
-re=buf.delete("\0")
-ret=re.split("").last if re!="" and re[0]>=32
+                                                                            #buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,nil,0,nil,nil)
+#Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,buf,buf.size,nil,nil)
+re=deunicode(c)
+#re=buf.delete("\0")
+ret=re if re!="" and re[0]>=32
 end
 end
 end
-if multi == true
-  if $lastkeychar!=nil and ret!=""
-    if $lastkeychar[1]>Time.now.to_i*1000000+Time.now.usec.to_i-200000 and ret!=$lastkeychar[0]
-      ret=$lastkeychar[0]+ret
-      end
-    end
-    end
   $lastkeychar=[ret,Time.now.to_i*1000000+Time.now.usec.to_i] if ret!=""
           return ret
         end

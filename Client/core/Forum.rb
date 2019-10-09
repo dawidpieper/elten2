@@ -1014,6 +1014,18 @@ sthreads.push(t) if @popular.include?(t.id) and t.readposts<=t.posts/1.1
                     sthreads.push(t) if t.forum.name==id
       end
     end
+    if id.is_a?(String)
+   u=[]
+   d=[]
+   sthreads.each {|t|
+   if t.pinned
+   u.push(t)
+ else
+   d.push(t)
+   end
+   }
+   sthreads=u+d
+    end
     if id==-8
       sthreads.sort! {|a,b| @popular.index(a.id)<=>@popular.index(b.id)}
     end
@@ -1045,6 +1057,7 @@ sthreads.push(t) if @popular.include?(t.id) and t.readposts<=t.posts/1.1
         tmp=[thread.name]
                 tmp[0]+="\004INFNEW{#{_("Forum:opt_phr_thrisnew")}: }\004" if thread.readposts<thread.posts and (id!=-2 and id!=-4 and id!=-6 and id!=-7)
                 tmp[0]+="\004CLOSED\004" if thread.closed
+                tmp[0]+="\004PINNED\004" if thread.pinned
         if id==-7
           tmp[0]+=" . #{_("Forum:opt_phr_mentionedby")}: #{thread.mention.author} (#{thread.mention.message})"
         end
@@ -1100,8 +1113,9 @@ return
             mselt[1]=nil
           else
             mselt[1]=_("Forum:opt_unfollowthr") if sthreads[@thrsel.index].followed==true
-            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr"),_("Forum:opt_closethr")] if ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
+            mselt+=[_("Forum:opt_movethr"),_("Forum:opt_rename"),_("Forum:opt_deletethr"),_("Forum:opt_closethr"), _("Forum:opt_pinthr")] if ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
           mselt[8]=_("Forum:opt_openthr") if sthreads[@thrsel.index].closed and ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
+          mselt[9]=_("Forum:opt_unpinthr") if sthreads[@thrsel.index].pinned and ($rang_moderator==1&&sthreads[@thrsel.index].forum.group.recommended)||sthreads[@thrsel.index].forum.group.role==2
                           end
           case menuselector(mselt)
           when 0
@@ -1203,7 +1217,24 @@ getcache
                                 speech(_("Forum:info_thrclosed"))
                               end
              @thrsel.setcolumn(0)
+           end
+           when 9
+             pin=((sthreads[@thrsel.index].pinned)?0:1)
+                            f=srvproc("forum_mod","name=#{$name}\&token=#{$token}\&pinning=1\&pin=#{pin.to_s}\&threadid=#{sthreads[@thrsel.index].id.to_s}")
+                            if f[0].to_i<0
+                              speech(_("General:error"))
+                            else
+                              if sthreads[@thrsel.index].pinned
+                                sthreads[@thrsel.index].pinned=false
+                                @thrsel.rows[@thrsel.index][0].gsub!("\004PINNED\004","")
+                                speech(_("Forum:info_thrunpinned"))
+                              else
+                                sthreads[@thrsel.index].pinned=true
+                                @thrsel.rows[@thrsel.index][0]+="\004PINNED\004"
+                                speech(_("Forum:info_thrpinned"))
                               end
+             @thrsel.setcolumn(0)
+           end
                           end
           end
                 end
@@ -1821,7 +1852,7 @@ class Scene_Forum_Thread
       elsif $key[0x4A]
         selt=[]
           for i in 0..@posts.size-1
-    selt.push((i+1).to_s+" z "+@postscount.to_s+": "+@posts[i].author)
+    selt.push((i+1).to_s+" / "+@postscount.to_s+": "+@posts[i].author)
     end
   dialog_open
     @form.index=selector(selt,_("Forum:head_selpost"),@form.index/3,@form.index/3)*3
@@ -2049,7 +2080,7 @@ else
           when 6
             selt=[]
           for i in 0..@posts.size-1
-    selt.push((i+1).to_s+" z "+@postscount.to_s+": "+@posts[i].author)
+    selt.push((i+1).to_s+" / "+@postscount.to_s+": "+@posts[i].author)
     end
   dialog_open
     @form.index=selector(selt,_("Forum:head_selpost"),@form.index/3,@form.index/3)*3

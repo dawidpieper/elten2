@@ -85,12 +85,7 @@ for o in t
     return s
   end
   def polsort
-    l="aAbBcCćĆdDeEęĘfFgGhHiIjJkKlLłŁmMnNńŃoOóÓpPqQrRsSśŚtTuUvVwWxXyYzZźŹżŻ"
-    poses=[]
-    for i in 0...l.split("").size
-      poses[i/2]||=[]
-      poses[i/2].push(l.split("")[i])
-    end
+poses = [["a", "A"], ["b", "B"], ["c", "C"], ["ć", "Ć"], ["d", "D"], ["e", "E"], ["ę", "Ę"], ["f", "F"],["g", "G"], ["h", "H"], ["i", "I"], ["j", "J"], ["k", "K"], ["l", "L"], ["ł", "Ł"], ["m", "M"], ["n", "N"], ["ń", "Ń"], ["o", "O"], ["ó", "Ó"], ["p", "P"], ["q", "Q"], ["r", "R"], ["s", "S"], ["ś", "Ś"], ["t", "T"], ["u", "U"], ["v", "V"], ["w", "W"], ["x", "X"], ["y", "Y"], ["z","Z"], ["ź", "Ź"], ["ż", "Ż"]]
         self.sort {|a,b|
     if a==b
       0
@@ -102,10 +97,15 @@ for o in t
       i1=-1
       i2=-1
       ind=0
-      while i1==i2 and ind<a.split("").size and ind<b.split("").size
+      sz=a.split("").size
+      sz2=b.split("").size
+      sz=sz2 if sz2<sz
+      as=a.split("")
+      bs=b.split("")
+      while i1==i2 and ind<sz
       for i in 0...poses.size
-        i1=i if poses[i].include?(a.split("")[ind])
-        i2=i if poses[i].include?(b.split("")[ind])
+        i1=i if poses[i][0]==as[ind] or poses[i][1]==as[ind]
+        i2=i if poses[i][0]==bs[ind] or poses[i][1]==bs[ind]
       end
       ind+=1
       end

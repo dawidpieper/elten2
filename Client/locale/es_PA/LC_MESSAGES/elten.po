@@ -26,7 +26,7 @@ msgstr "La autenticación de dos factores está habilitada en esta cuenta."
 #: Authentication.rb:30
 msgctxt "Authentication"
 msgid " Type your phone number that will be used during verification. Remember to enter  the country code, for example, +48 for Poland"
-msgstr "Escriba su número de teléfono que se utilizará durante la verificación. Recuerde ingresar el código de país, por ejemplo, +48 para Polonia"
+msgstr "Escriba su número de teléfono que se utilizará durante la verificación. Recuerde ingresar el código de país, por ejemplo, +48 para Polonia o +507 para Panamá"
 
 #: Authentication.rb:32
 msgctxt "Authentication"
@@ -709,10 +709,9 @@ msgid "Answer"
 msgstr "Respuesta"
 
 #: Polls.rb:441
-#, fuzzy
 msgctxt "Polls"
 msgid "Poll results: %{name}"
-msgstr "Poll results: %{name}"
+msgstr "Resultados de la encuesta: %{name}"
 
 #: Polls.rb:128
 msgctxt "Polls"
@@ -855,10 +854,9 @@ msgid "Mentions"
 msgstr "Cumpleaños amistosos"
 
 #: WhatsNew.rb:51
-#, fuzzy
 msgctxt "WhatsNew"
 msgid "Update available (%{version})"
-msgstr "Update available (%{version})"
+msgstr "Actualización disponible: (%{version})"
 
 #: ShortKeys.rb:11
 msgctxt "ShortKeys"
@@ -1272,7 +1270,7 @@ msgstr "Añadir compañero de trabajo"
 #: Blog.rb:131
 msgctxt "Blog"
 msgid "Coworkers"
-msgstr "Coworkers"
+msgstr "Compañeros"
 
 msgctxt "Blog"
 msgid "Release this coworker"
@@ -1308,26 +1306,24 @@ msgid "Do you wish to delete all comments on this post? You can disable commenti
 msgstr "¿Desea eliminar todos los comentarios en esta publicación? Puedes desactivar los comentarios en esta publicación sin eliminar los comentarios ya publicados."
 
 #: Blog.rb:768
-#, fuzzy
 msgctxt "Blog"
 msgid "Post type"
-msgstr "Post type"
+msgstr "Tipo de mensaje"
 
 #: Blog.rb:768
-#, fuzzy
 msgctxt "Blog"
 msgid "Text post"
-msgstr "Text post"
+msgstr "Publicación de texto"
 
 #: Blog.rb:768
 msgctxt "Blog"
 msgid "Audio post {opt_audiopost}"
-msgstr "Audio post"
+msgstr "Publicación de audio"
 
 #: Blog.rb:130
 msgctxt "Blog"
 msgid "Followers"
-msgstr "Followers"
+msgstr "Seguidores"
 
 #: Blog.rb:164
 msgctxt "Blog"
@@ -1335,50 +1331,75 @@ msgid "Followers {head_followers}"
 msgstr "Followers"
 
 #: Blog.rb:159
-#, fuzzy
 msgctxt "Blog"
 msgid "This blog is not followed by any user"
-msgstr "This blog is not followed by any user"
+msgstr "Este blog no va seguido de ningún usuario"
 
 #: Blog.rb:14
-#, fuzzy
 msgctxt "Blog"
 msgid "Managed blogs"
-msgstr "Managed blogs"
+msgstr "Blogs gestionados"
 
 #: Blog.rb:181
 msgctxt "Blog"
 msgid "Coworkers {head_coworkers}"
-msgstr "Coworkers"
+msgstr "Compañeros de trabajo de la cabeza de los compañeros de trabajo"
 
 #: Blog.rb:201
-#, fuzzy
 msgctxt "Blog"
 msgid "Are you sure you want to release this coworker?"
-msgstr "Are you sure you want to release this coworker?"
+msgstr "¿Está seguro de que desea liberar a este compañero de trabajo?"
 
 #: Blog.rb:196
-#, fuzzy
 msgctxt "Blog"
 msgid "User not found"
-msgstr "User not found"
+msgstr "Usuario no encontrado"
 
-#, fuzzy
 msgctxt "Blog"
 msgid "%{user} has been added to this blog"
-msgstr "%{user} has been added to this blog"
+msgstr "%{user} se agregó a este blog"
 
 #: Blog.rb:132
-#, fuzzy
 msgctxt "Blog"
 msgid "Delete this blog"
-msgstr "Delete this blog"
+msgstr "Eliminar este blog"
 
 #: Blog.rb:213
-#, fuzzy
 msgctxt "Blog"
 msgid "Are you sure you want to delete this blog?"
-msgstr "Are you sure you want to delete this blog?"
+msgstr "Seguro que quieres eliminar este blog?"
+
+msgctxt "Blog"
+msgid "Move to another blog"
+msgstr "Muévete a otro blog"
+
+msgctxt "Blog"
+msgid "Destination blog"
+msgstr "Blog de destino"
+
+msgctxt "Blog"
+msgid "Move type"
+msgstr "Tipo de movimiento"
+
+msgctxt "Blog"
+msgid "Move only this post, delete all comments"
+msgstr "Mover sólo esta publicación, eliminar todos los comentarios"
+
+msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr "Mover este post y todos los comentarios"
+
+msgctxt "Blog"
+msgid "Copy post to new blog, keep all comments on current blog"
+msgstr "Copiar entrada a nuevo blog, mantener todos los comentarios en el blog actual"
+
+msgctxt "Blog"
+msgid "Move"
+msgstr "Mover"
+
+msgctxt "Blog"
+msgid "The post has been moved."
+msgstr "Publicación movida."
 
 #: Ban.rb:27
 msgctxt "Ban"
@@ -2104,126 +2125,117 @@ msgstr "Fecha de generación"
 #: Account.rb:282
 msgctxt "Account"
 msgid "January"
-msgstr "January"
+msgstr "Enero"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "February"
-msgstr "February"
+msgstr "Febrero"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "March"
-msgstr "March"
+msgstr "Marzo"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "April"
-msgstr "April"
+msgstr "Abril"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "May"
-msgstr "May"
+msgstr "Puede"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "June"
-msgstr "June"
+msgstr "Junio"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "July"
-msgstr "July"
+msgstr "Julio"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "August"
-msgstr "August"
+msgstr "Agosto"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "September"
-msgstr "September"
+msgstr "Septiembre"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "October"
-msgstr "October"
+msgstr "Octubre"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "November"
-msgstr "November"
+msgstr "Noviembre"
 
 #: Account.rb:282
 msgctxt "Account"
 msgid "December"
-msgstr "December"
+msgstr "Diciembre"
 
 #: Account.rb:313
-#, fuzzy
 msgctxt "Account"
 msgid "State / Province"
-msgstr "State / Province"
+msgstr "Estado / Provincia"
 
 #: Account.rb:329
 msgctxt "Account"
 msgid "City"
-msgstr "City"
+msgstr "Ciudad"
 
 #: Account.rb:226
 msgctxt "Account"
 msgid "Country"
-msgstr "Country"
+msgstr "País"
 
 #: Account.rb:833
-#, fuzzy
 msgctxt "Account"
 msgid "Last logins"
-msgstr "Last logins"
+msgstr "Ultimos inicios de sesión"
 
 #: Account.rb:881
-#, fuzzy
 msgctxt "Account"
 msgid "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
-msgstr "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
+msgstr "Si lo desea, puede configurar Elten para que informe de cualquier cambio e inicio de sesión en su cuenta desde nuevos dispositivos por correo electrónico. Para ello, debe verificar su dirección de correo electrónico. ¿Quieres hacerlo ahora?"
 
 #: Account.rb:914
-#, fuzzy
 msgctxt "Account"
 msgid "The verification code has been sent to you via E-mail. Please type it here."
-msgstr "The verification code has been sent to you via E-mail. Please type it here."
+msgstr "El código de verificación se le ha enviado por correo electrónico. Por favor, escríbelo aquí."
 
 #: Account.rb:901
-#, fuzzy
 msgctxt "Account"
 msgid "Enable mail events reporting"
-msgstr "Enable mail events reporting"
+msgstr "Habilitar informes de eventos de correo"
 
 #: Account.rb:901
-#, fuzzy
 msgctxt "Account"
 msgid "Disable mail events reporting"
-msgstr "Disable mail events reporting"
+msgstr "Deshabilitar los informes de eventos de correo"
 
 #: Account.rb:902
-#, fuzzy
 msgctxt "Account"
 msgid "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
-msgstr "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
+msgstr "Los informes de eventos de correo están deshabilitados. Si lo desea, puede habilitarlo para recibir información sobre los cambios realizados en su cuenta e inicios de sesión desde nuevos dispositivos a través de correo electrónico"
 
 #: Account.rb:902
-#, fuzzy
 msgctxt "Account"
 msgid "Mail events reporting is enabled."
-msgstr "Mail events reporting is enabled."
+msgstr "Los informes de eventos de correo están habilitados."
 
 #: Account.rb:100
-#, fuzzy
 msgctxt "Account"
 msgid "Error, you must disable mail events reporting first."
-msgstr "Error, you must disable mail events reporting first."
+msgstr "Error, primero debe deshabilitar los informes de eventos de correo."
 
 #: UsersAddedMeToContacts.rb:36
 msgctxt "Contacts"
@@ -3066,16 +3078,14 @@ msgid "Sound device"
 msgstr "Dispositivo de sonido"
 
 #: MainMenu.rb:287
-#, fuzzy
 msgctxt "MainMenu"
 msgid "Last logins"
-msgstr "Last logins"
+msgstr "Ultimos inicios de sesión"
 
 #: MainMenu.rb:287
-#, fuzzy
 msgctxt "MainMenu"
 msgid "Mail events reporting"
-msgstr "Mail events reporting"
+msgstr "Informes de eventos por correo"
 
 #: Forum.rb:1092
 msgctxt "Forum"
@@ -3996,10 +4006,29 @@ msgid "Where to slide this post?"
 msgstr "¿Dónde deslizar este post?"
 
 #: Forum.rb:152
-#, fuzzy
 msgctxt "Forum"
 msgid "Moderated groups"
-msgstr "Moderated groups"
+msgstr "Grupos moderados"
+
+#, fuzzy
+msgctxt "Forum"
+msgid "Pin thread"
+msgstr "Pin thread"
+
+#, fuzzy
+msgctxt "Forum"
+msgid "Unpin thread"
+msgstr "Unpin thread"
+
+#, fuzzy
+msgctxt "Forum"
+msgid "Thread has been pinned"
+msgstr "Thread has been pinned"
+
+#, fuzzy
+msgctxt "Forum"
+msgid "Thread has been unpinned"
+msgstr "Thread has been unpinned"
 
 #: Main.rb:94
 msgctxt "Main"
