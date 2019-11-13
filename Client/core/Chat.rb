@@ -26,7 +26,7 @@ class Scene_Chat
       return
       end
     $agent.write(Marshal.dump({'func'=>'chat_open'}))
-    ct=srvproc("chat","name=#{$name}\&token=#{$token}\&recv=1")
+    ct=srvproc("chat",{"recv"=>"1"})
     if ct[0].to_i<0
       speech(_("General:error"))
       speech_wait
@@ -37,7 +37,7 @@ class Scene_Chat
     if $chat != true
     play("chat_message")
     speech("#{_("Chat:info_phr_lastmessage")}: #{@msg}")
-              ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:joined").urlenc}")
+              ct=srvproc("chat",{"send"=>"1", "text"=>_("Chat:joined")})
     if ct[0].to_i<0
       speech(_("General:error"))
       speech_wait
@@ -51,7 +51,7 @@ class Scene_Chat
         @form.fields[1].silent=true
         @form.fields[1].update
         @form.fields[1].silent=false
-        ct=srvproc("chat","name=#{$name}\&token=#{$token}\&hst=1")
+        ct=srvproc("chat",{"hst"=>"1"})
         if ct[0].to_i<0
           speech(_("General:error"))
           speech_wait
@@ -61,7 +61,7 @@ class Scene_Chat
         hs=ct[1..ct.size-1].join
         @form.fields[1].settext(hs)
         @form.fields[1].index=@form.fields[1].text.size
-        onl=srvproc("chat_online","name=#{$name}\&token=#{$token}")
+        onl=srvproc("chat_online",{})
         if onl[0].to_i<0
           speech(_("General:error"))
           speech_wait
@@ -91,7 +91,7 @@ class Scene_Chat
       if upd > 120
                 upd=0 
                 if @form.index == 1
-                          ct=srvproc("chat","name=#{$name}\&token=#{$token}\&hst=1")
+                          ct=srvproc("chat",{"hst"=>"1"})
         if ct[0].to_i<0
           speech(_("General:error"))
           speech_wait
@@ -101,7 +101,7 @@ class Scene_Chat
         hs=ct[1..ct.size-1].join
         @form.fields[1].settext(hs,false)
                         elsif @form.index == 2
-                                onl=srvproc("chat_online","name=#{$name}\&token=#{$token}")
+                                onl=srvproc("chat_online",{})
         if onl[0].to_i<0
           speech(_("General:error"))
           speech_wait
@@ -118,7 +118,7 @@ class Scene_Chat
        if @form.index == 0 and @form.fields[0].text!=""
        txt=@form.fields[0].text_str
        @form.fields[0].settext("")
-       ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{txt}")
+       ct=srvproc("chat",{"send"=>"1", "text"=>txt})
        if ct[0].to_i < 0
          speech(_("General:error"))
        else
@@ -130,7 +130,7 @@ class Scene_Chat
               end
                 end
           if $chat!=true
-            ct=srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:left").urlenc}")
+            ct=srvproc("chat", {"send"=>"1", "text"=>_("Chat:left")})
     if ct[0].to_i<0
       speech(_("General:error"))
       speech_wait

@@ -12,9 +12,9 @@ class Scene_Honors
     end
   def main
     if @user==nil
-    hn=srvproc("honors","name=#{$name}\&token=#{$token}\&list=1")
+    hn=srvproc("honors",{"list"=>"1"})
   else
-    hn=srvproc("honors","name=#{$name}\&token=#{$token}\&list=1\&user=#{@user}")
+    hn=srvproc("honors",{"list"=>"1", "user"=>@user})
     end
     if hn[0].to_i<0
       speech(_("General:error"))
@@ -77,7 +77,7 @@ class Scene_Honors
                 $scene=Scene_Honors_New.new
               elsif enter and @user==$name
                 if simplequestion(_("Honors:alert_mainhonor"))==1
-                  hn=srvproc("honors","name=#{$name}\&token=#{$token}\&setmain=1\&honor=#{@honors[@sel.index].id}")
+                  hn=srvproc("honors",{"setmain"=>"1", "honor"=>@honors[@sel.index].id})
                   if hn[0].to_i<0
                     speech(_("General:error"))
                   else
@@ -117,7 +117,7 @@ class Scene_Honors
                               speech(_("Honors:error_usernotfound"))
                               speech_wait
                             else
-                              hn=srvproc("honors","name=#{$name}\&token=#{$token}\&user=#{user}\&award=1\&honor=#{@honors[@sel.index].id}")
+                              hn=srvproc("honors",{"user"=>user, "award"=>"1", "honor"=>@honors[@sel.index].id})
                               if hn[0].to_i<0
                                 speech(_("General:error"))
                               else
@@ -148,7 +148,7 @@ class Scene_Honors
             honordescription=@form.fields[1].text_str
                         honorenname=@form.fields[2].text_str
             honorendescription=@form.fields[3].text_str
-            hn=srvproc("honors","name=#{$name}\&token=#{$token}\&addhonor=1\&honorname=#{honorname}\&honordescription=#{honordescription}\&honorenname=#{honorenname}\&honorendescription=#{honorendescription}")
+            hn=srvproc("honors",{"addhonor"=>"1", "honorname"=>honorname, "honordescription"=>honordescription, "honorenname"=>honorenname, "honorendescription"=>honorendescription})
                         if hn[0].to_i<0
                             speech(_("General:error"))
             else

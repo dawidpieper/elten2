@@ -13,10 +13,10 @@ class Scene_Clock
   @field[2]=Select.new([_("Clock:btn_add")],true,0,_("Clock:head_alarms"),true)
 @field[3]=Button.new(_("General:str_save"))
 @field[4]=Button.new(_("General:str_cancel"))
-@field[0].index=readini($configdata+"\\interface.ini","Interface","SayTimeType","1").to_i
-@field[1].index=readini($configdata+"\\interface.ini","Interface","SayTimePeriod","1").to_i-1
+@field[0].index=readconfig("Clock","SayTimeType","1").to_i
+@field[1].index=readconfig("Clock","SayTimePeriod","1").to_i-1
 @alarms=[]
-@alarms=load_data($configdata+"\\alarms.dat") if FileTest.exists?($configdata+"\\alarms.dat")
+@alarms=load_data($eltendata+"\\alarms.dat") if FileTest.exists?($eltendata+"\\alarms.dat")
 sel=[]
 for a in @alarms
   sel.push("Godzina: #{sprintf("%02d:%02d",a[0],a[1])}, typ: #{if a[2]==0;_("Clock:opt_single");else;_("Clock:opt_multiple");end}")
@@ -74,9 +74,9 @@ loop_update
 speech(@field[2].commandoptions[@field[2].index])
 end
 if (space or enter) and @form.index==3
-  writeini($configdata+"\\interface.ini","Interface","SayTimeType",@field[0].index.to_s)
-writeini($configdata+"\\interface.ini","Interface","SayTimePeriod",@field[1].index+1)
-  save_data(@alarms,$configdata+"\\alarms.dat")
+  writeconfig("Clock","SayTimeType",@field[0].index.to_s)
+writeconfig("Clock","SayTimePeriod",@field[1].index+1)
+  save_data(@alarms,$eltendata+"\\alarms.dat")
   speech(_("General:info_saved"))
   speech_wait
   $scene=Scene_Main.new

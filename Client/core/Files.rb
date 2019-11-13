@@ -417,7 +417,7 @@ while name==""
       name=input_text(_("Files:type_dirname"),"ACCEPTESCAPE","")
       end
     if name != "\004ESCAPE\004"
-      Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(@tree.path+name),nil)
+      Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(@tree.path+name),nil)
       speech(_("Files:info_dircreated"))
       speech_wait
     end
@@ -583,6 +583,7 @@ def textmenu(submenu=false)
       speech(_("Files:wait_processing"))
       waiting
       convert_book(@tree.selected, "temp\\#{fid}.txt")
+      return if !FileTest.exists?("temp\\"+fid+".txt")
             text=read("temp\\"+fid+".txt")
             waiting_end
       end

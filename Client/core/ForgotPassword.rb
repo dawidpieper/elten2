@@ -20,7 +20,7 @@ class Scene_ForgotPassword
     return $scene=Scene_Loading.new if @mail=="\004ESCAPE\004"
               break
       end
-  ut=srvproc("user_exist","searchname=#{@user}\&searchmail=#{@mail.urlenc}")
+  ut=srvproc("user_exist", {"searchname"=>@user, "searchmail"=>@mail})
   if ut[0].to_i<0
     speech(_("General:error"))
     speech_wait
@@ -52,7 +52,7 @@ loop do
     end
   def request
         speech(_("ForgotPassword:wait"))
-    fp=srvproc("resetpassword","name=#{@user}\&mail=#{@mail.urlenc}\&step=1")
+    fp=srvproc("resetpassword",{"mail"=>@mail, "step"=>"1"})
     speech_wait
     if fp[0].to_i<0
       speech(_("ForgotPassword:error_unexpected"))
@@ -66,7 +66,7 @@ loop do
     loop do
     key=input_text(_("ForgotPassword:type_key"),"ACCEPTESCAPE")
     return if key=="\004ESCAPE\004"
-fp=srvproc("resetpassword","name=#{@user}\&mail=#{@mail.urlenc}\&key=#{key}\&step=2")
+fp=srvproc("resetpassword",{"mail"=>@mail, "key"=>key, "step"=>"2"})
 if fp[0].to_i==0
   break
 else
@@ -91,7 +91,7 @@ loop do
     end
 end
 speech(_("ForgotPassword:wait_changing"))
-fp=srvproc("resetpassword","name=#{@user}\&mail=#{@mail.urlenc}\&key=#{key}\&step=2\&change=1\&newpassword=#{newpassword.urlenc}")
+fp=srvproc("resetpassword",{"mail"=>@mail, "key"=>key, "step"=>"2", "change"=>"1", "newpassword"=>newpassword})
 speech_wait
 if fp[0].to_i<0
   speech(_("ForgotPassword:error_unexpected"))

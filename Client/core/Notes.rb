@@ -13,7 +13,7 @@ class Scene_Notes
       $scene=Scene_Main.new
       return
       end
-  nt=srvproc("notes","name=#{$name}\&token=#{$token}\&get=1")
+  nt=srvproc("notes",{"get"=>"1"})
   if nt[0].to_i<0
     speech(_("General:error"))
     speech_wait
@@ -112,7 +112,7 @@ class Scene_Notes
   def show(note,edit=false)
     id=note.id
     shares=[]
-nt=srvproc("notes","name=#{$name}\&token=#{$token}\&getshares=1\&noteid=#{id}")
+nt=srvproc("notes",{"getshares"=>"1", "noteid"=>id})
 if nt[0].to_i<0
   speech(_("General:error"))
   speech_wait
@@ -151,7 +151,7 @@ return
   else
     text=@form.fields[0].text_str
     bufid=buffer(text)
-    nt=srvproc("notes","name=#{$name}\&token=#{$token}\&edit=1\&buffer=#{bufid}\&noteid=#{note.id}")
+    nt=srvproc("notes",{"edit"=>"1", "buffer"=>bufid, "noteid"=>note.id})
                 if nt[0].to_i<0
           speech(_("General:error"))
         else
@@ -179,7 +179,7 @@ return
                 if user_exist(user) == false
           speech(_("Notes:error_usernotfound"))
         else
-          nt=srvproc("notes","name=#{$name}\&token=#{$token}\&noteid=#{note.id}\&addshare=1\&user=#{user}")
+          nt=srvproc("notes",{"noteid"=>note.id, "addshare"=>"1", "user"=>user})
           if nt[0].to_i<0
             speech(_("General:error"))
             speech_wait
@@ -200,7 +200,7 @@ return
 if $key[0x2e] and @form.index==2 and note.author==$name and @form.fields[2].index<shares.size
   if simplequestion(s_("Notes:alert_unshare",{'user'=>@form.fields[2].commandoptions[@form.fields[2].index]}))==1
   user=shares[@form.fields[2].index]
-            nt=srvproc("notes","name=#{$name}\&token=#{$token}\&noteid=#{note.id}\&delshare=1\&user=#{user}")
+            nt=srvproc("notes",{"noteid"=>note.id, "delshare"=>"1", "user"=>user})
           if nt[0].to_i<0
             speech(_("General:error"))
             speech_wait
@@ -231,7 +231,7 @@ def delete(note)
   if simplequestion(s_("Notes:alert_delete", {'name' => note.name})) == 0
     return false
   else
-    nt=srvproc("notes","name=#{$name}\&token=#{$token}\&delete=1\&noteid=#{id}")
+    nt=srvproc("notes",{"delete"=>"1", "noteid"=>id})
     if nt[0].to_i<0
       speech(_("General:error"))
       speech_wait
@@ -264,7 +264,7 @@ class Scene_Notes_New
         name=@form.fields[0].text_str
         text=@form.fields[1].text_str
         bufid=buffer(text)
-        nt=srvproc("notes","name=#{$name}\&token=#{$token}\&create=1\&notename=#{name}\&buffer=#{bufid}")
+        nt=srvproc("notes",{"create"=>"1", "notename"=>name, "buffer"=>bufid})
                 if nt[0].to_i<0
           speech(_("General:error"))
         else

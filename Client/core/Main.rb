@@ -35,44 +35,16 @@ class Scene_Main
       t = Thread::current
 loop_update
                   t.exit
-                  end
-            if $preinitialized == false
-              if $app == nil and $ruby != true
-                if FileTest.exists?($configdata+"\\apps.dat")==false
-      save_data([],$configdata+"\\apps.dat")
-    end
-    @installed=load_data($configdata+"\\apps.dat")
-                $app = []
-    for a in @installed
-            url = $url + "apps/inis/#{a.ini}"
-    download(url,$appsdata + "\\inis\\#{a.ini}")
-                        file=readini($appsdata + "\\inis\\#{a.ini}","App","File","")
-                        cls=readini($appsdata + "\\inis\\#{a.ini}","App","Class","")
-if cls != "" and file != ""
-  url = $url + "apps/#{file}"
-    download(url,"temp/#{file}.rb")
-    require("temp/#{file}")
-        eval(cls+".init") if eval("defined?(#{cls})")!=nil
-  end
-        end
-    $appfile = @appfile
-  $appversion = @appversion
-  $appdescription = @appdescription
-end
-  $preinitialized = true
+                end
+                if $preinitialized!=true
+                              $preinitialized = true
             if FileTest.exists?("#{$eltendata}\\playlist.eps")
       $playlist = load_data("#{$eltendata}\\playlist.eps")
       else
       $playlist = [] if $playlist == nil
-      end
-            $playlistindex = 0 if $playlistindex == nil
-            fm = readini($configdata + "\\interface.ini","Interface","Status","0").to_i
-            if fm == 0
-              writeini($configdata + "\\interface.ini","Interface","Status","1").to_i
-              $scene=Scene_FirstRun.new if $language=="pl_PL"
-              return
-              end
-            whatsnew(true)
+    end
+                $playlistindex = 0 if $playlistindex == nil
+                                    whatsnew(true)
       return
       end
             $thr1=Thread.new{thr1} if $thr1.alive? == false

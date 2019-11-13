@@ -17,9 +17,9 @@ class Scene_Users_AddedMeToContacts
       return
       end
       if @new==false          
-      @usr = srvproc("contacts_addedme","name=#{$name}\&token=#{$token}")
+      @usr = srvproc("contacts_addedme",{})
     else
-      @usr = srvproc("contacts_addedme","name=#{$name}\&token=#{$token}\&new=1")
+      @usr = srvproc("contacts_addedme",{"new"=>"1"})
       end
         for i in 0..@usr.size - 1
       @usr[i].delete!("\r")
@@ -41,7 +41,7 @@ class Scene_Users_AddedMeToContacts
 loop_update
       @sel.update
       if escape
-        srvproc("contacts_addedme","name=#{$name}\&token=#{$token}\&new=2")
+        srvproc("contacts_addedme",{"new"=>"2"})
         if @new==false
         $scene = Scene_Main.new
       else

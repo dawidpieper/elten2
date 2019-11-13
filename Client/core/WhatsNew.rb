@@ -19,7 +19,7 @@ class Scene_WhatsNew
       return
       end
       agtemp=@agtemp
-              agtemp = srvproc("agent","name=#{$name}\&token=#{$token}\&client=1") if agtemp == nil
+              agtemp = srvproc("agent",{"client"=>"1"}) if agtemp == nil
                       err = agtemp[0]
 messages = agtemp[8].to_i
 posts = agtemp[9].to_i
@@ -36,7 +36,7 @@ nversion=agtemp[2].to_f
     $nbeta = nbeta
     $nversion = nversion
     $nalpha = nalpha
-    @bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i if @bid==nil
+    @bid=srvproc("bin/buildid",{},1).to_i if @bid==nil
                                                                                             if @init == true     and (posts > 0 or messages > 0)
 header = _("WhatsNew:head")
 else
@@ -105,7 +105,7 @@ else
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
         class Scene_WhatsNew_BlogPosts
                     def main
-            bt = srvproc("blog_fb_news","name=#{$name}\&token=#{$token}")
+            bt = srvproc("blog_fb_news",{})
             if bt[0].to_i < 0
               speech(_("General:error"))
               speech_wait

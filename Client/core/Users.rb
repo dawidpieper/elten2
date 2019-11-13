@@ -7,7 +7,7 @@
 
 class Scene_Users
   def main
-            @users = srvproc("users","name=#{$name}\&token=#{$token}")
+            @users = srvproc("users",{})
         err = @users[0].to_i
     case err
     when -1

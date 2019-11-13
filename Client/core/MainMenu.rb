@@ -14,7 +14,7 @@ def initialize
   end
   def main
         srvstate
-        sel = [_("MainMenu:opt_community"),_("MainMenu:opt_addons"),_("MainMenu:opt_programs"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
+        sel = [_("MainMenu:opt_community"),_("MainMenu:opt_addons"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
                 @sel = menulr(sel,true,0,@header)
         @header = ""
         skiploop=false
@@ -31,15 +31,13 @@ def initialize
           s=community
           when 1
             s=addons
-                        when 2
-              s=programs
-          when 3
+          when 2
             s=tools
-            when 4
+            when 3
               s=settings
-            when 5
+            when 4
               s=help
-          when 6
+          when 5
             s=exit
           end
           if $scene == self
@@ -59,40 +57,8 @@ close
             end
           end
         end
-        def programs
-        sel=[]
-    $app=[] if $app==nil
-    for a in $app
-      sel.push(a[2])
-    end
-    sel.push(_("MainMenu:opt_installnewprograms"))
-    @sel = Select.new(sel)
-    loop do
-loop_update
-      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
-                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
-              end
-                    @sel.update
-      if $scene != self
-        break
-      end
-                    if enter
-  if @sel.index<@sel.commandoptions.size-1
-        $runprogram = $app[@sel.index][3]
-  $runprogram=nil if @sel.commandoptions.size==0
-else
-  $scene=Scene_Programs.new
-  end
-close
-break
-          end
-          if alt
-close
-            end
-          end
-        end
                   def help
-        @sel = Select.new([_("MainMenu:opt_changelog"),_("MainMenu:opt_version"),_("MainMenu:opt_readme"),_("MainMenu:opt_shortkeys"),_("MainMenu:opt_report"),_("MainMenu:opt_license")])
+        @sel = Select.new([_("MainMenu:opt_changelog"),_("MainMenu:opt_version"),_("MainMenu:opt_sounds"),_("MainMenu:opt_readme"),_("MainMenu:opt_shortkeys"),_("MainMenu:opt_report"),_("MainMenu:opt_license")])
     loop do
 loop_update
       if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
@@ -113,18 +79,22 @@ $scene=Scene_Version.new
           close
           break
           when 2
+            $scene=Scene_Sounds.new
+            close
+            break
+          when 3
             $scene = Scene_ReadMe.new
             close
             break
-            when 3
+            when 4
               $scene = Scene_ShortKeys.new
               close
               break
-            when 4
+            when 5
             $scene = Scene_Bug.new
             close
             break
-            when 5
+            when 6
               $scene = Scene_License.new
               close
               break
@@ -136,7 +106,7 @@ close
           end
         end
           def settings
-    @sel = Select.new([_("MainMenu:opt_interface"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundcard"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
+    @sel = Select.new([_("MainMenu:opt_general"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundcard"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
     loop do
 loop_update
       if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
@@ -149,7 +119,7 @@ loop_update
       if enter
         case @sel.index
         when 0
-          $scene = Scene_Interface.new
+          $scene = Scene_General.new
           close
           break
         when 1
@@ -359,7 +329,7 @@ loop_update
       if enter or (Input.trigger?(Input::RIGHT) and @sel.index == 2)
         case @sel.index
         when 0
-  $scene = Scene_SoundThemesGenerator.new
+  $scene = Scene_Sounds.new("")
   close
   break
     when 1
@@ -412,15 +382,15 @@ loop_update
     tray
   break
           when 1
-autologin=readini($configdata+"\\login.ini","Login","AutoLogin","0").to_i
+autologin=readconfig("Login","AutoLogin",0)
 if autologin==3
-  srvproc("logout","name=#{$name}\&token=#{$token}\&autologin=1\&autotoken=#{readini($configdata+"\\login.ini","Login","Token","")}")
+  srvproc("logout",{"autologin"=>"1", "computer"=>$computer})
 end
 if autologin.to_i>0
-  writeini($configdata+"\\login.ini","Login","AutoLogin","-1")
-  writeini($configdata+"\\login.ini","Login","Name",nil)
-  writeini($configdata+"\\login.ini","Login","Password",nil)
-  writeini($configdata+"\\login.ini","Login","Token",nil)
+  writeconfig("Login","AutoLogin",-1)
+  writeconfig("Login","Name",nil)
+  writeconfig("Login","Token",nil)
+  writeconfig("Login","TokenEncrypted",nil)
   end
                         play("logout")
             $scene = Scene_Loading.new
@@ -465,45 +435,29 @@ loop_update
                 end
               end
               def management
-sel=[_("MainMenu:opt_update"),_("MainMenu:opt_reinstall"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
+sel=[_("MainMenu:opt_reinstall"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
 if $portable == 1
-  sel=["",_("MainMenu:opt_install"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
+  sel=[_("MainMenu:opt_install"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
   end
      @sel = Select.new(sel)
-     if $portable == 1
-       @sel.index=1
-       @sel.focus
-       @sel.disable_item(0)
-       end
         loop do
       loop_update
       if enter
         case @sel.index
-        when 0
-          versioninfo
-          close
-          break
-          when 1
+                  when 0
             $scene = Scene_ReInstall.new if simplequestion(_("MainMenu:alert_reinstall")) == 1
                         close
             break
-            when 2
+            when 1
             $scene=Scene_Portable.new
             close
             break
-            when 3
+            when 2
               if simplequestion(_("MainMenu:alert_resetsettings")) == 0
                 close
                 break
                 else
-              dr = Dir.entries($configdata)
-              dr.delete(".")
-              dr.delete("..")
-              for file in dr
-                if File.extname(file).downcase == ".ini"
-                  File.delete($configdata+"\\"+file)
-                end
-                  end
+              File.delee($eltendata+"\\elten.ini")
               play("right")
                   $scene = Scene_Loading.new
                   close

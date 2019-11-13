@@ -7,7 +7,7 @@
 
 class Scene_Users_RecentlyRegistered
   def initialize
-            @users = srvproc("recentlyregistered","name=#{$name}\&token=#{$token}")
+            @users = srvproc("recentlyregistered",{})
             for i in 0..@users.size - 1
       @users[i].delete!("\r")
       @users[i].delete!("\r\n")

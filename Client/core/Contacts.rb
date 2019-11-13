@@ -13,9 +13,9 @@ class Scene_Contacts
       ct=["-4"]
       case type
       when 0
-      ct = srvproc("contacts","name=#{$name}\&token=#{$token}")
+      ct = srvproc("contacts",{})
       when 1
-        ct = srvproc("contacts","name=#{$name}\&token=#{$token}\&birthday=1")
+        ct = srvproc("contacts",{"birthday"=>"1"})
       end
         err = ct[0].to_i
     case err
@@ -73,7 +73,7 @@ loop_update
           when 0
           $scene = Scene_Main.new
           when 1
-            ct = srvproc("contacts","name=#{$name}\&token=#{$token}\&birthday=2")
+            ct = srvproc("contacts",{"birthday"=>"2"})
             $scene=Scene_WhatsNew.new
             end
         end
@@ -171,7 +171,7 @@ end
             ct=""
             user=finduser(user) if user.upcase==finduser(user).upcase
             if user_exist(user)            
-            ct = srvproc("contacts_mod","name=#{$name}\&token=#{$token}\&searchname=#{user}\&insert=1")
+            ct = srvproc("contacts_mod",{"searchname"=>user, "insert"=>"1"})
           else
             ct=[-5]
             end
@@ -212,7 +212,7 @@ end
             while user==""
               user = input_text(_("Contacts:type_blacklistremoveusername"))
             end
-                        ct = srvproc("contacts_mod","name=#{$name}\&token=#{$token}\&searchname=#{user}\&delete=1")
+                        ct = srvproc("contacts_mod",{"searchname"=>user, "delete"=>"1"})
                         err = ct[0].to_i
             case err
             when 0

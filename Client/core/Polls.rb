@@ -10,7 +10,7 @@ class Scene_Polls
     @lastpoll=lastpoll
     end
   def main
-    polls=srvproc("polls","name=#{$name}\&token=#{$token}\&list=1")
+    polls=srvproc("polls",{"list"=>"1"})
 if polls[0].to_i<0
   speech(_("General:error"))
   $scene=Scene_Main.new
@@ -79,7 +79,7 @@ sel.disable_item(2)
        end
        if @sel.commandoptions.size>0
        if $name!="guest"
-         v=srvproc("polls","name=#{$name}\&token=#{$token}\&voted=1\&poll=#{@polls[@sel.index].id}")
+         v=srvproc("polls",{"voted"=>"1", "poll"=>@polls[@sel.index].id})
        if v[0].to_i<0
          speech(_("General:error"))
          speech_wait
@@ -126,7 +126,7 @@ sel.disable_item(2)
              $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
              when 2
                if simplequestion(s_("Polls:alert_delete", {'name'=>@polls[@sel.index].name})) == 1
-                 pl=srvproc("polls","name=#{$name}\&token=#{$token}\&del=1\&id=#{@polls[@sel.index].id}")
+                 pl=srvproc("polls",{"del"=>"1", "id"=>@polls[@sel.index].id})
                  if pl[0].to_i<0
                    speech(_("General:error"))
                  else
@@ -246,7 +246,7 @@ for q in @questions
   qus.gsub!("\r\n","  ")
 dbuffer=buffer(@fields[1].text_str)
 qbuffer=buffer(qus)
-pl=srvproc("polls","name=#{$name}\&token=#{$token}\&create=1\&qbuffer=#{qbuffer.to_s}\&dbuffer=#{dbuffer.to_s}\&pollname=#{@fields[0].text_str}")
+pl=srvproc("polls",{"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text_str})
 if pl[0].to_i<0
   speech(_("General:error"))
   speech_wait
@@ -273,7 +273,7 @@ else
     @toscene=toscene
     end
   def main
-pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{@id.to_s}")
+pl=srvproc("polls", {"get"=>"1", "poll"=>@id.to_s})
 if pl[0].to_i<0
   speech(_("General:error"))
   speech_wait
@@ -344,7 +344,7 @@ end
     end
     ans.chop!
     buf=buffer(ans)    
-    pl=srvproc("polls","name=#{$name}\&token=#{$token}\&answer=1\&poll=#{@id.to_s}\&buffer=#{buf.to_s}")
+    pl=srvproc("polls", {"answer"=>1, "poll"=>@id.to_s, "buffer"=>buf.to_s})
     if pl[0].to_i<0
       speech(_("General:error"))
     else
@@ -379,7 +379,7 @@ end
       @toscene=toscene
     end
     def main
-      pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{@id.to_s}")
+      pl=srvproc("polls", {"get"=>"1", "poll"=>@id.to_s})
 if pl[0].to_i<0
   speech(_("General:error"))
   speech_wait
@@ -399,7 +399,7 @@ rescue Exception
     @description+=pl[i]
   end
   txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\n#{_("Polls:txt_phr_created")}: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}\r\n"
-     pl=srvproc("polls","name=#{$name}\&token=#{$token}\&results=1\&poll=#{@id.to_s}") 
+     pl=srvproc("polls", {"results"=>"1", "poll"=>@id.to_s}) 
 if pl[0].to_i<0
   speech(_("General:error"))
   speech_wait

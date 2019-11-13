@@ -7,7 +7,7 @@
 
 class Scene_Online
   def initialize
-                    @online = srvproc("online","name=#{$name}\&token=#{$token}")
+                    @online = srvproc("online",{})
        
             for i in 0..@online.size - 1
       @online[i].delete!("\r")

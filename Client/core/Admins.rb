@@ -7,7 +7,7 @@
 
 class Scene_Admins
   def initialize
-            @admins = srvproc("admins","name=#{$name}\&token=#{$token}")
+            @admins = srvproc("admins",{})
             for i in 0..@admins.size - 1
       @admins[i].delete!("\r")
       @admins[i].delete!("\r\n")

@@ -21,7 +21,7 @@ class Scene_Uploads
       $scene=Scene_Main.new
       return
       end
-    fl = srvproc("uploads","name=#{$name}\&token=#{$token}\&searchname=#{@name}")
+    fl = srvproc("uploads",{"searchname"=>@name})
     if fl[0].to_i < 0
       speech(_("General:error"))
       speech_wait
@@ -145,7 +145,7 @@ dir = getfile(_("Uploads:head_dest"),getdirectory(40)+"\\",true,"Documents")
         speech_wait
         when 3
         if simplequestion(s_("Uploads:alert_deletefile", {'filename'=>@filenames[@sel.index]})) == 1
-          ef = srvproc("uploads_mod","name=#{$name}\&token=#{$token}\&del=1\&file=#{@files[@sel.index]}")
+          ef = srvproc("uploads_mod",{"del"=>"1", "file"=>@files[@sel.index]})
           if ef[0].to_i < 0
             speech(_("General:error"))
             speech_wait

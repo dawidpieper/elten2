@@ -14,16 +14,32 @@ module EltenAPI
     # @param param [String] & terminated parameters
     # @param output [Numeric] output type: 0 - Array of lines, 1 - string
         def srvproc(mod,param,output=0)
+                              play("signal") if $netsignal
           #speech(mod+": "+param.gsub("\&"," "))
           #speech_wait
-          if $agent!=nil and $netuseold!=true
-        id=rand(1e8)
+          preparam=param
+                    if param.is_a?(Hash)
+            if $name!=nil and $token!=nil and param['name']==nil
+              param['name']=$name
+              param['token']=$token
+              end
+            prm=""
+            for k in param.keys
+                            prm+="\&" if prm!=""
+              prm+=k+"="+param[k].to_s.urlenc
+            end
+                        param=prm
+            end
+          if $agent!=nil
+                                                    id=rand(1e16)
             $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>mod,'param'=>param,'id'=>id}))
-            $agent_wait=true
+            $agids||=[]
+            $agids.push(id)
+                        $agent_wait=true
             t=Time.now.to_f
             w=false
-    while $eresps[id]==nil
-      loop_update
+                while $eresps[id]==nil
+            loop_update
       if Time.now.to_f-t>2 and w==false
         waiting
         w=true
@@ -38,30 +54,46 @@ module EltenAPI
           return ["-1"]
           when 1
             return "-1"
-        end
+            when 3
+              return 0
         end
       end
+      end
       waiting_end if w
-            if $eresps[id]==nil||$eresps[id]['resp']==nil
-              tid=rand(1e8)
-              $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>'active','param'=>"name=#{$name}\&token=#{$token}",'id'=>tid}))
-              delay(1)
-              $netuseold=true if $eresps[tid]!=nil
-              return srvproc(mod,param,output)        
-end
-    case output
+      rsp=$eresps[id]
+      rsp={'resp'=>'-4'} if rsp==nil
+                case output
     when 0
-r=$eresps[id]['resp'].delete("\r").split("\n")
+      r=rsp['resp'].delete("\r").split("\n")
     for i in 0...r.size
       r[i]+="\r\n"
     end
     $agent_wait=false
       return r
     when 1
-      return $eresps[id]['resp']
+      return rsp['resp']
+      when 3
+        return 0 if rsp['resptime']==nil
+        return rsp['resptime']-rsp['reqtime']
       end
     end
-        url = $url + mod + ".php?" + hexspecial(param)
+            if preparam.is_a?(String)
+                        rt={}
+                                                for r in preparam.split("\&")
+                          k,v=r.split("=")
+                          v="" if v==nil
+                          v=v.urldec if v.include?("%")
+                          rt[k]=v
+                        end
+                        param=rt
+                                                                      r=""
+                                                                      for k in param.keys
+                          r+="\&" if r!=""
+                          r+=k+"="+param[k].urlenc
+                        end
+                        param=r    
+                        end
+    url = $url + mod + ".php?" + param
 tmpname = "temp/eas#{(rand(36**2).to_s(36))}.tmp"
     #tm=Time.now.to_i*1000000+Time.now.usec
  if download(url,tmpname) != 0
@@ -89,7 +121,7 @@ end
   return names if names!=nil&&names.size>0
                       for at in attachments
                         at
-                      ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+                      ati=srvproc("attachments",{"info"=>"1", "id"=>at})
                       if ati[0].to_i<0 or ati.size==1
                         attachments.delete(at)
                         next
@@ -125,7 +157,7 @@ for i in 0..a.size - 1
   end
   sn = a[s..a.size - 1]
     a = nil
-        bt = strbyline(sn)
+        bt = sn.split("\r\n")
 err = bt[0].to_i
             speech_wait
                         if err < 0
@@ -145,7 +177,7 @@ end
   $statuslisttime = 0 if $statuslisttime == nil
   if Time.now.to_i - 15 > $statuslisttime
     $statuslisttime = Time.now.to_i
-  statustemp = srvproc("status_list","name=#{$name}\&token=#{$token}")
+  statustemp = srvproc("status_list",{})
     err = statustemp[0].to_i
   if err != 0
     speech(_("General:error"))
@@ -161,7 +193,7 @@ end
   usr = true
   $statususers = []
   $statustexts = []
-      tonline = srvproc("online","name=#{$name}\&token=#{$token}")
+      tonline = srvproc("online",{})
             for i in 0..tonline.size - 1
       tonline[i].delete!("\r\n")
           end
@@ -201,7 +233,7 @@ end
 #
 # @param text [String] the status to set
 def setstatus(text)
-  statustemp = srvproc("status_mod","name=#{$name}\&token=#{$token}\&text=#{text}")
+  statustemp = srvproc("status_mod",{"text"=>text})
     if statustemp[0].to_i != 0
     return statustemp[0].to_i
   else
@@ -253,7 +285,7 @@ def setstatus(text)
       i += 1
       break if i > dt.size
     end
-      buft = srvproc("buffer","name=#{$name}\&token=#{$token}\&ac=1\&id=#{bufid}\&data=#{bufdt[0]}")
+      buft = srvproc("buffer",{"ac"=>"1", "id"=>bufid, "data"=>bufdt[0]})
             if buft[0].to_i < 0
         speech(_("General:error"))
         speech_wait
@@ -261,7 +293,7 @@ def setstatus(text)
         return -1
       end
       for i in 1..bufdt.size - 1
-              buft = srvproc("buffer","name=#{$name}\&token=#{$token}\&ac=2\&id=#{bufid}\&data=#{bufdt[i]}")
+              buft = srvproc("buffer",{"ac"=>"2", "id"=>bufid, "data"=>bufdt[i]})
                           if buft[0].to_i < 0
         speech(_("General:error"))
         speech_wait
@@ -278,7 +310,7 @@ end
 # @param user [String] username
 def avatar(user)
     avatartemp = srvproc("avatar","name=#{$name}\&token=#{$token}\&searchname=#{user}\&checkonly=1",1)
-  case strbyline(avatartemp)[0].to_i
+  case avatartemp.split("\r\n")[0].to_i
   when -4
     speech(_("EAPI_EltenSRV:error_noavatar"))
     speech_wait
@@ -351,7 +383,7 @@ for i in 0..a.size - 1
   end
   sn = a[s..a.size - 1]
   a = nil
-        bt = strbyline(sn)
+        bt = sn.split("\r\n")
 avt = bt[1].to_i
             speech_wait
             waiting_end
@@ -394,7 +426,7 @@ for i in 0..a.size - 1
   a
   sn
   a = nil
-        bt = strbyline(sn)
+        bt = sn.split("\r\n")
 if bt[1].to_i < 0
   speech(_("General:error"))
   speech_wait
@@ -417,7 +449,7 @@ end
 #  6: registration date
                 def userinfo(user)
                   usrinf = []
-                                                      uit = srvproc("userinfo","name=#{$name}\&token=#{$token}\&searchname=#{user}")
+                                                      uit = srvproc("userinfo",{"searchname"=>user})
                                     if uit[0].to_i < 0
                     speech(_("General:error"))
                     return -1
@@ -439,7 +471,7 @@ end
                   end
 usrinf[2] = uit[3].to_i
 usrinf[3] = uit[4].to_i
-fp = srvproc("forum_posts","name=#{$name}\&token=#{$token}\&cat=3\&searchname=#{user}")
+fp = srvproc("forum_posts",{"cat"=>"3", "searchname"=>user})
 if fp[0].to_i == 0
 usrinf[4] = fp[1].to_i
 end
@@ -475,27 +507,12 @@ def bufferer(data)
   return bufid
 end
 
-
-        # @deprecated use {#sendfile} instead.      
-    def asendfile(file)
-      fl = read(file)
-      msg = "#{$name}\r\n#{$token}\r\n#{fl.size.to_s}\r\n#{fl}"
-      filedir = false
-      begin
-        filedir = connect($srv,2442,msg) if filedir == false
-      rescue SystemExit
-        Graphics.update
-        retry
-      end
-return filedir
-end
-
 # Checks if the specified user exists
 #
 # @param usr [String] user name
 # @return [Boolean] if the user with specified login exists, the return value is true. Otherwise, the return value is false.
 def user_exist(usr)
-  ut = srvproc("user_exist","name=#{$name}\&token=#{$token}\&searchname=#{usr}")
+  ut = srvproc("user_exist",{"searchname"=>usr})
     if ut[0].to_i < 0
     speech(_("General:error"))
     speech_wait
@@ -505,24 +522,13 @@ def user_exist(usr)
   ret = true if ut[1].to_i == 1
   return ret
 end
-
-# @deprecated use {#sendfile} instead.
-          def hexsendfile(file)
-            str = read(file)
-            play("list_focus")
-            loop_update
-                        s = str.urlenc(true)
-                        play("list_focus")
-                        loop_update
-                                                return buffer_post(s)
-                                              end
                                             
                                    # Returns the signature of a specified user
                                    #
                                    # @param user [String] a name of the user
                                    # @return [String] the signature of the specified user, if the user doesn't have a signature, the return value is an empty String.
                                def signature(user)
-                                 sg = srvproc("signature","name=#{$name}\&token=#{$token}\&get=1\&searchname=#{user}")
+                                 sg = srvproc("signature",{"get"=>"1", "searchname"=>user})
                                  if sg[0].to_i < 0
                                    speech(_("General:error"))
                                    speech_wait
@@ -567,7 +573,7 @@ for i in 0..a.size - 1
   end
   sn = a[s..a.size - 1]
   a = nil
-        bt = strbyline(sn)
+        bt = sn.split("\r\n")
 err = bt[0].to_i
             speech_wait
                         if err < 0
@@ -580,14 +586,14 @@ speech(_("EAPI_EltenSRV:info_sent")) if msg==true
         return nil
       end
   def isbanned(user=$name)
-    bt=srvproc("isbanned","name=#{$name}\&token=#{$token}\&searchname=#{user}")
+    bt=srvproc("isbanned",{"searchname"=>user})
     return false if bt[0].to_i<0
     return true if bt[1].to_i==1
     return false
   end
   
   def finduser(usr,type=0)
-usf=srvproc("user_search","name=#{$name}\&token=#{$token}\&search=#{usr}")    
+usf=srvproc("user_search",{"search"=>usr})    
 if usf[0].to_i<0
   speech(_("General:error"))
   speech_wait
@@ -636,7 +642,7 @@ def srvstate
     
     def blogowners(user)
       if ($blogownerstime||0)<Time.now.to_i-10
-        b=srvproc("blog_owners","name=#{$name}\&token=#{$token}")
+        b=srvproc("blog_owners",{})
         return nil if b[0].to_i<0
         $blogowners={}
         k=nil

@@ -168,7 +168,10 @@ focus if quiet==false
             if $focus==true
         $focus=false
         focus
-        end
+      end
+      if $speechindexedthr!=nil and $speechid==@speechindexed and @speechindexed!=nil and $speechindex!=@index and $speechindex>0
+        @index=$speechindex
+              end
 navupdate
       editupdate
       ctrlupdate
@@ -444,7 +447,7 @@ u[0]==1?edelete(u[1],u[1]+u[2].size,false):einsert(u[2],u[1],false)
   speech(_("EAPI_Form:info_nomatch"))
 else
   @index=ind
-  espeech(@text[@index..@text.size-1])
+  readtext(@index)
   end
     end
     
@@ -460,7 +463,7 @@ else
         speech(_("General:info_saved"))
         end
   end
-  espeech(@text[@index..@text.size-1].gsub("\n","\r\n")) if @index<@text.size and $key[115] and (@audiotext==nil or @index>0)
+  readtext(@index) if @index<@text.size and $key[115] and (@audiotext==nil or @index>0)
   esay
 end
 def mediaupdate
@@ -599,6 +602,8 @@ Audio.bgs_stop
 def esay
   if @tosay!="" and @tosay!=nil
         if (@flags&Flags::Password)==0
+          @speechindexed=nil
+          speech_stop
     speech(@tosay)
   else
     play("edit_password_char")
@@ -697,8 +702,28 @@ def text
       tp=_("EAPI_Form:fld_edit")
       tp=_("EAPI_Form:fld_text") if (@flags&Flags::ReadOnly)>0
       tp=_("EAPI_Form:fld_media") if @audiotext!=nil
-      speech(@header.to_s + " ... " + tp + ": " + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false)
+      head=@header.to_s + " ... " + tp + ": " + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"")
+                  return speak(head + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false) if @audiotext!=nil and @audiotext!=""
+                        readtext(0,head)
     end
+    def readtext(index=0,head="")
+      return speak(head) if @text=="" and head!="" and head!=nil
+      return if @text==""
+                        sents={}
+                  pi=index
+                  ch=["!","?","."]
+                                                (index...@text.size).find_all{|c| @text[c+1..c+1]==" " or @text[c+1..c+1]=="\n"}.each do |i|
+        if ch.include?(@text[i..i]) or @text[i+1..i+1]=="\n"
+          sents[pi]=@text[pi..i+1]
+          pi=i+2
+                                        end
+                                      end
+                                      sents[pi]=@text[pi..-1]
+                                      sents[0]=head+"\r\n"+(sents[0]||"") if head!=nil and head!=""
+                                      id=rand(1e6)
+        speak_indexed(sents,id)
+@speechindexed=id
+      end
     class Flags
 MultiLine=1
 ReadOnly=2
@@ -844,7 +869,7 @@ end
     focus
     $focus = false
   end
-  speech((@index+1).to_s+" / "+@commandoptions.size.to_s) if $key[115]
+  speech((@index+1).to_s+" / "+@commandoptions.size.to_s) if $key[115] and !$keyr[0x10]
     if $key[0x11]   and $key[0x12] and $key[82]
       for i in 0..@commandoptions.size-1
         @commandoptions[i]=@commandoptions[i].split("").reverse.join if @commandoptions[i].is_a?(String)
@@ -997,6 +1022,7 @@ o=("\004NEW\004"+" "+(($interface_soundthemeactivation==1)?"":$1+" ")+o).gsub(/\
   speech(o)
   play("list_checked") if @selected[self.index] == true
 end
+k=k.to_s if k.is_a?(Integer)
     if oldindex != self.index
   self.index = 0 if options.size == 1 or options[self.index] == nil
   play("list_focus") if @silent == false

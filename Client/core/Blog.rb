@@ -64,7 +64,7 @@ class Scene_Blog_Main
     end
   def main
     return $scene=Scene_Main.new if $eltsuspend
-    blogtemp = srvproc("blog_exist","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
+    blogtemp = srvproc("blog_exist",{"searchname"=>@owner})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -83,7 +83,7 @@ if exist == 0
     end
   return
 end
-blogtemp = srvproc("blog_name","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
+blogtemp = srvproc("blog_name",{"searchname"=>@owner})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -98,7 +98,7 @@ if err < 0
 end
 blogname = blogtemp[1].delete("\r\n")
 @blogname=blogname
-blogtemp = srvproc("blog_categories","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
+blogtemp = srvproc("blog_categories",{"searchname"=>@owner})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -151,7 +151,7 @@ blogrename
     elsif @sel.index == @postname.size + 2
 $scene = Scene_Blog_Recategorize.new(@owner,@scene)
 elsif @sel.index == @postname.size + 3
-b=srvproc("blog_followers","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
+b=srvproc("blog_followers",{"searchname"=>@owner})
 if b[0].to_i==0
   users=[]
   b[2..-1].each {|u| users.push(u.delete("\r\n"))}
@@ -174,7 +174,7 @@ if b[0].to_i==0
     speech_wait
   end
   @sel.focus
-elsif @sel.index==@postname.size+4
+  elsif @sel.index==@postname.size+4 and @owner[0..0]=="["
   owners=blogowners(@owner)
   selt=owners
   selt+=[_("Blog:opt_addcoworker")] if blogowners(@owner)[0]==$name
@@ -187,7 +187,7 @@ elsif @sel.index==@postname.size+4
               if cow!="\004ESCAPE\004"
                 cow=finduser(cow) if finduser(cow).downcase==cow.downcase
                 if user_exist(cow)
-                  srvproc("blog_coworkers","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&ac=add\&user=#{cow}")
+                  srvproc("blog_coworkers",{"searchname"=>@owner, "ac"=>"add", "user"=>cow})
                   $blogownerstime=0
                   owners=blogowners(@owner)
                   sel.commandoptions=selt=owners+[_("Blog:opt_addcoworker")]
@@ -199,7 +199,7 @@ elsif @sel.index==@postname.size+4
               end
               if $key[0x2e] and sel.index<owners.size and owners[sel.index]!=$name and blogowners(@owner)[0]==$name
                 confirm(_("Blog:alert_release")) {
-srvproc("blog_coworkers","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&ac=release\&user=#{owners[sel.index]}")                
+srvproc("blog_coworkers",{"searchname"=>@owner, "ac"=>"release", "user"=>owners[sel.index]})                
 $blogownerstime=0
 owners=blogowners(@owner)
                   sel.commandoptions=selt=owners+[_("Blog:opt_addcoworker")]
@@ -209,11 +209,11 @@ owners=blogowners(@owner)
     break if escape or Input.trigger?(Input::LEFT)
   end
   @sel.focus
-elsif @sel.index==@postname.size+5
+elsif @sel.index==@postname.size+5 or (@sel.index==@postname.size+4 and @owner==$name)
   confirm(_("Blog:alert_deleteblog")) {
-  b=srvproc("blog_delete","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
+  b=srvproc("blog_delete",{"searchname"=>@owner})
   return $scene=Scene_Blog_Managed.new
-  }
+  } 
                 else
 categorynew
                 end
@@ -229,7 +229,7 @@ categorynew
       name = input_text(_("Blog:type_catname"),"ACCEPTESCAPE")
     end
     if name != "\004ESCAPE\004" or name == "\004TAB\004"
-            blogtemp = srvproc("blog_categories_mod","name=#{$name}\&token=#{$token}\&add=1\&categoryid=#{@id.to_s}\&categoryname=#{name}\&searchname=#{@owner}")
+            blogtemp = srvproc("blog_categories_mod", {"add"=>"1", "categoryid"=>@id.to_s, "categoryname"=>name, "searchname"=>@owner})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -249,7 +249,7 @@ def blogrename
       blogname = input_text(_("Blog:type_newblogname"),"ACCEPTESCAPE",@blogname)
     end
     if blogname != "\004ESCAPE\004"
-      bt = srvproc("blog_rename","name=#{$name}\&token=#{$token}\&blogname=#{blogname}\&searchname=#{@owner}")
+      bt = srvproc("blog_rename",{"blogname"=>blogname, "searchname"=>@owner})
       if bt[0].to_i == 0
         @sel.header=@blogname=blogname
         speech(_("Blog:info_blogrenamed"))
@@ -310,7 +310,7 @@ $scene = Scene_Blog_Category_Delete.new(@owner,@postid[@sel.index])
     name=input_text(_("Blog:type_newcatname"),"ACCEPTESCAPE")
   end
   if name != "\004ESCAPE\004"
-    bt = srvproc("blog_categories_mod","name=#{$name}\&token=#{$token}\&rename=1\&categoryid=#{@categoryid.to_s}\&categoryname=#{name}\&searchname=#{@searchname}")
+    bt = srvproc("blog_categories_mod", {"rename"=>"1", "categoryid"=>@categoryid.to_s, "categoryname"=>name, "searchname"=>@searchname})
     if bt[0].to_i < 0
       speech(_("General:error"))
     else
@@ -331,7 +331,7 @@ $scene = Scene_Blog_Category_Delete.new(@owner,@postid[@sel.index])
         if simplequestion(_("Blog:alert_deletecategory")) == 0
       $scene = Scene_Blog_Main.new(@searchname)
     else
-      bt = srvproc("blog_categories_mod","name=#{$name}\&token=#{$token}\&categoryid=#{@id}\&del=1\&searchname=#{@searchname}")
+      bt = srvproc("blog_categories_mod",{"categoryid"=>@id, "del"=>"1", "searchname"=>@searchname})
             if bt[0].to_i < 0
         speech(_("General:error"))
         speech_wait
@@ -363,8 +363,8 @@ if name == "\004ESCAPE\004" or name == "\004TAB\004"
 end
 speech(_("Blog:wait"))
 speech_wait
-bp="name=#{$name}\&token=#{$token}\&blogname=#{name}"
-bp+="\&shared=1" if @shared==true
+bp={"blogname"=>name}
+bp["shared"]="1" if @shared==true
 $blogownerstime=0
 blogtemp = srvproc("blog_create",bp)
 err = blogtemp[0].to_i
@@ -390,7 +390,7 @@ class Scene_Blog_Posts
   def main
     return$scene=Scene_Main.new if $eltsuspend
     id = @id
-blogtemp = srvproc("blog_posts","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&categoryid=#{id}\&assignnew=1")
+blogtemp = srvproc("blog_posts",{"searchname"=>@owner, "categoryid"=>id, "assignnew"=>"1"})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -510,7 +510,7 @@ def initialize(owner,category,post,categoryselindex=0)
 @categoryselindex = categoryselindex
   end
 def main
-blogtemp = srvproc("blog_categories","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
+blogtemp = srvproc("blog_categories",{"searchname"=>@owner})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -620,7 +620,7 @@ if @recst == 0
 speech(_("Blog:wait"))
 speech_wait
 bufid = buffer(text)
-bt = "name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@post}\&postname=#{postname.urlenc}\&buffer=#{bufid}\&add=1\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&searchname=#{@owner}"
+bt = {"categoryid"=>cat, "postid"=>@post, "postname"=>postname, "buffer"=>bufid, "add"=>"1", "privacy"=>@form.fields[4].index.to_s, "comments"=>@form.fields[5].checked.to_s, "searchname"=>@owner}
    blogtemp = srvproc("blog_posts_mod",bt)
  else
    waiting
@@ -656,7 +656,7 @@ for i in 0..a.size - 1
   end
   sn = a[s..a.size - 1]
   a = nil
-        blogtemp = strbyline(sn)
+        blogtemp = sn.split("\r\n")
    end
 err = blogtemp[0].to_i
 waiting_end
@@ -680,7 +680,7 @@ class Scene_Blog_Post_Delete
             if simplequestion(_("Blog:alert_deletepost")) == 0
       $scene = Scene_Blog_Posts.new(@owner,@category,@categoryselindex,@postselindex)
     else
-      bt = srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&del=1\&searchname=#{@owner}")
+      bt = srvproc("blog_posts_mod",{"categoryid"=>@category, "postid"=>@postid, "del"=>"1", "searchname"=>@owner})
       if bt[0].to_i < 0
         speech(_("General:error"))
         speech_wait
@@ -703,7 +703,7 @@ class Scene_Blog_Post_Delete
     @postselindex = postselindex
   end
   def main
-    blogtemp = srvproc("blog_categories","name=#{$name}\&token=#{$token}\&searchname=#{@owner}")
+    blogtemp = srvproc("blog_categories",{"searchname"=>@owner})
 if blogtemp[0].to_i < 0
   speech(_("General:error"))
   speech_wait
@@ -723,7 +723,7 @@ for i in 0..lines - 1
   categorynames[i] = blogtemp[l]
   l += 1
 end
-    blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{@owner}\&details=4")
+    blogtemp = srvproc("blog_read",{"categoryid"=>@category, "postid"=>@postid, "searchname"=>@owner, "details"=>"4"})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -762,7 +762,7 @@ break if blogtemp[l] == "\004END\004" or l >= blogtemp.size or blogtemp[l] == "\
 end
 l += 1
 end
-pc = srvproc("blog_post_categories","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&postid=#{@postid}")
+pc = srvproc("blog_post_categories",{"searchname"=>@owner, "postid"=>@postid})
 if pc[0].to_i < 0
   speech(_("General:error"))
   speech_wait
@@ -818,7 +818,7 @@ loop do
 @form.fields[0].finalize
 if @postcomments[0]==1 and @form.fields[5].checked==0
   confirm(_("Blog:alert_deletecomments")) do
-    srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&postid=#{@postid.to_s}\&delcomments=1\&searchname=#{@owner}")
+    srvproc("blog_posts_mod",{"postid"=>@postid.to_s, "delcomments"=>"1", "searchname"=>@owner})
   end
   end
     cat = ""
@@ -829,9 +829,9 @@ bt=[]
 if @fields[1].index==0
 post = @form.fields[2].text_str
     buf = buffer(post)    
-bt = srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str.urlenc}\&buffer=#{buf.to_s}\&edit=1\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&searchname=#{@owner}")
+bt = srvproc("blog_posts_mod",{"categoryid"=>cat, "postid"=>@postid.to_s, "postname"=>@form.fields[0].text_str, "buffer"=>buf.to_s, "edit"=>"1", "privacy"=>@form.fields[4].index.to_s, "comments"=>@form.fields[5].checked.to_s, "searchname"=>@owner})
 elsif @postaudio!=nil&&@postaudio.include?($url)
-    bt = srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&categoryid=#{cat}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str.urlenc}\&edit=1\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&searchname=#{@owner}")
+    bt = srvproc("blog_posts_mod",{"categoryid"=>cat, "postid"=>@postid.to_s, "postname"=>@form.fields[0].text_str, "edit"=>"1", "privacy"=>@form.fields[4].index.to_s, "comments"=>@form.fields[5].checked.to_s, "searchname"=>@owner})
 elsif @postaudio!=nil
   waiting
                  speech(_("Blog:wait_converting"))
@@ -859,7 +859,7 @@ for i in 0..a.size - 1
   end
   sn = a[s..a.size - 1]
   a = nil
-        bt = strbyline(sn)
+        bt = sn.split("\r\n")
 waiting_end
         end
 if bt[0].to_i < 0
@@ -886,7 +886,7 @@ class Scene_Blog_Read
       end
   def main
     return $scene=Scene_Main.new if $eltsuspend
-    blogtemp = srvproc("blog_read","name=#{$name}\&token=#{$token}\&categoryid=#{@category}\&postid=#{@postid}\&searchname=#{@owner}&details=5")
+    blogtemp = srvproc("blog_read",{"categoryid"=>@category, "postid"=>@postid, "searchname"=>@owner, "details"=>"5"})
 blogtemp.each {|l| l.delete!("\r\n")}
 err = blogtemp[0].to_i
 if err < 0
@@ -997,7 +997,7 @@ def update
       return
     end
     buf = buffer(txt)
-    bt = srvproc("blog_posts_comment","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&categoryid=#{@category.to_s}\&postid=#{@postid.to_s}\&buffer=#{buf.to_s}")
+    bt = srvproc("blog_posts_comment",{"searchname"=>@owner, "categoryid"=>@category.to_s, "postid"=>@postid.to_s, "buffer"=>buf.to_s})
     case bt[0].to_i
     when 0
       speech(_("Blog:info_commentcreated"))
@@ -1025,6 +1025,43 @@ if @scene == nil
     $scene = @scene
     end
   end
+  menu if alt
+end
+def menu
+  return if @form.index>@post.size or (@form.index==1 and @post.size==1)
+      ind=@form.index-1
+    ind+=1 if ind<0
+    pst=@post[ind]
+    mn=[pst.author]
+    mn.push(_("Blog:opt_commdelete")) if ind>0 and blogowners(@owner).include?($name)
+    play("menu_open")
+    play("menu_background")
+    menu=menulr(mn)
+    loop do
+      loop_update
+      menu.update
+      break if alt or escape
+     if enter or (Input.trigger?(Input::DOWN) and menu.index==0)
+       case menu.index
+       when 0
+       if usermenu(pst.author,true)!="ALT"
+         menu.focus
+       else
+         break
+         end
+       when 1
+         confirm(_("Blog:alert_commdelete")) {
+         srvproc("blog_posts_mod",{"delcomment"=>"1", "searchname"=>@owner, "postid"=>@postid, "commentnumber"=>(ind).to_s})
+         play("menu_close")
+         Audio.bgs_stop
+         return main
+         }
+         break
+end         
+       end
+    end
+    play("menu_close")
+    Audio.bgs_stop
   end
 end
   
@@ -1037,7 +1074,7 @@ class Scene_Blog_List
     $blogsorderby=orderby
     end
   def main
-        blogtemp = srvproc("blog_list","name=#{$name}\&token=#{$token}\&orderby=#{$blogsorderby}")
+        blogtemp = srvproc("blog_list",{"orderby"=>$blogsorderby})
       if blogtemp[0].to_i < 0
      speech(_("General:error"))
      speech_wait
@@ -1061,7 +1098,7 @@ loop do
     end
   break if i >= blogtemp.size - 1
 end
-fol = srvproc("blog_fb","name=#{$name}\&token=#{$token}\&get=1")
+fol = srvproc("blog_fb",{"get"=>"1"})
 if fol[0].to_i < 0
   speech(_("General:error"))
   speech_wait
@@ -1134,7 +1171,7 @@ elsif @menu.index==b.size
         $scene = Scene_Blog_Main.new(@owners[@sel.index],0,$scene)
   elsif @menu.index==b.size+1
    if isf == false
-err = srvproc("blog_fb","name=#{$name}\&token=#{$token}\&add=1\&searchname=#{@owners[@sel.index]}")[0].to_i
+err = srvproc("blog_fb",{"add"=>"1", "searchname"=>@owners[@sel.index]})[0].to_i
 if err != 0
   speech(_("General:error"))
 else
@@ -1143,7 +1180,7 @@ else
 end
 speech_wait
 else
-  err = srvproc("blog_fb","name=#{$name}\&token=#{$token}\&remove=1\&searchname=#{@owners[@sel.index]}")[0].to_i
+  err = srvproc("blog_fb",{"remove"=>"1", "searchname"=>@owners[@sel.index]})[0].to_i
 if err != 0
   speech(_("General:error"))
 else
@@ -1154,7 +1191,7 @@ speech_wait
 end
 elsif @menu.index==b.size+2
   confirm(_("Blog:alert_markblogasread")) do
-    if srvproc("blog_markasread","name=#{$name}\&token=#{$token}\&user=#{@owners[@sel.index]}")[0].to_i==0
+    if srvproc("blog_markasread",{"user"=>@owners[@sel.index]})[0].to_i==0
       speech(_("Blog:info_blogmarkedasread"))
     else
       speech(_("General:error"))
@@ -1193,7 +1230,7 @@ class Scene_Blog_Recategorize
     @scene=scene
     end
   def main
-    blogtemp = srvproc("blog_categories","name=#{$name}\&token=#{$token}\&searchname=#{@searchname}")
+    blogtemp = srvproc("blog_categories",{"searchname"=>@searchname})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -1214,7 +1251,7 @@ for i in 0..lines - 1
   categorynames[i] = blogtemp[l]
   l += 1
 end
-blogtemp = srvproc("blog_posts","name=#{$name}\&token=#{$token}\&searchname=#{@searchname}\&categoryid=0\&assignnew=1\&listcategories=1\&reverse=1")
+blogtemp = srvproc("blog_posts",{"searchname"=>@searchname, "categoryid"=>"0", "assignnew"=>"1", "listcategories"=>"1", "reverse"=>"1"})
 err = blogtemp[0].to_i
 if err < 0
   speech(_("General:error"))
@@ -1274,7 +1311,7 @@ for i in 0..@postid.size-1
   ou+=@postid[i].to_s+":"+ch.join(",")+"|" if ch.size>0
 end
 buf=buffer(ou)
-bt=srvproc("blog_posts_mod","name=#{$name}\&token=#{$token}\&recategorize=1\&buffer=#{buf}\&searchname=#{@searchname}")
+bt=srvproc("blog_posts_mod",{"recategorize"=>"1", "buffer"=>buf, "searchname"=>@searchname})
 if bt[0].to_i<0
   speech(_("General:error"))
   else
@@ -1301,7 +1338,7 @@ end
 
 class Scene_Blog_Managed
   def main
-    b=srvproc("blog_managed","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+    b=srvproc("blog_managed",{"searchname"=>$name})
     if b[0].to_i<0
       speech(_("General:error"))
       speech_wait
@@ -1346,7 +1383,7 @@ class Scene_Blog_Post_Move
   def main
     @blogids=[$name]
     @blognames=[_("Blog:opt_myblog")]
-    b=srvproc("blog_managed","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+    b=srvproc("blog_managed",{"searchname"=>$name})
     if b[0].to_i>0
       speech(_("General:error"))
       speech_wait
@@ -1365,7 +1402,7 @@ class Scene_Blog_Post_Move
         loop_update
         @form.update
         if @form.fields[2].pressed?
-bl=srvproc("blog_move","name=#{$name}\&token=#{$token}\&searchname=#{@owner}\&postid=#{@post.to_s}\&destination=#{@blogids[@form.fields[0].index]}\&movetype=#{@form.fields[1].index.to_s}")
+bl=srvproc("blog_move", {"searchname"=>@owner, "postid"=>@post.to_s, "destination"=>@blogids[@form.fields[0].index], "movetype"=>@form.fields[1].index.to_s})
 if bl[0].to_i<0
   speech(_("General:error"))
 else

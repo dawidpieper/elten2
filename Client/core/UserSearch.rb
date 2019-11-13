@@ -15,7 +15,7 @@ class Scene_UserSearch
       $scene=Scene_Main.new
       return
       end
-    usf=srvproc("user_search","name=#{$name}\&token=#{$token}\&search=#{usr}")    
+    usf=srvproc("user_search",{"search"=>usr})    
 if usf[0].to_i<0
   speech(_("General:error"))
   speech_wait

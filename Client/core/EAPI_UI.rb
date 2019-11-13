@@ -460,7 +460,7 @@ end
         if $key[0x75]
   if !$keyr[0x10] and $volume < 100
   $volume += 5 if $volume < 100
-  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
+  writeconfig("Interface","MainVolume",$volume)
   play("list_focus")
 elsif $keyr[0x10]
   $playlistvolume = 0.8 if $playlistvolume == nil
@@ -474,7 +474,7 @@ if $key[0x74]
   if !$keyr[0x10] and $volume > 5
   $volume -= 5 if $volume > 5
   play("list_focus")
-  writeini($configdata + "\\interface.ini","Interface","MainVolume",$volume.to_s)
+  writeconfig("Interface","MainVolume",$volume)
 elsif $keyr[0x10]
     $playlistvolume = 0.8 if $playlistvolume == nil
   if $playlistvolume > 0.01
@@ -496,7 +496,7 @@ if $key[0x73]
   if $key[0x70]
   if $keyr[0x10]
         if $voice==-1
-      $voice=readini($configdata+"\\sapi.ini","Sapi","Voice","-1").to_i
+      $voice=readconfig("Voice","Voice",-1)
           elsif Win32API.new("screenreaderapi","getCurrentScreenReader",'','i').call>0
       $voice=-1
       end
@@ -534,8 +534,7 @@ else
   run("bin\\elten_tray.bin")
   Win32API.new("user32","SetFocus",'i','i').call($wnd)
   Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
-  Graphics.update  
-  Graphics.update
+  delay(0.1)
   play("login")
     speech("ELTEN")
     Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)
@@ -587,7 +586,7 @@ end
 if $agent!=nil and $agent.avail>0
               str=StringIO.new($agent.read)
       while str.pos<str.string.size-1
-                                                                                                                                d=Marshal.load(str)
+                                                                                                                                        d=Marshal.load(str)
                                                                                                                                                 if d['func']=="notif"
                                     if $notifications_callback!=nil
                     $notifications_callback.call(d)
@@ -595,8 +594,9 @@ if $agent!=nil and $agent.avail>0
                     process_notification(d)
                     end
                   elsif d['func']=='srvproc'
+                    $agids.delete(d['id'])
                                                   $eresps[d['id']]=d
-        elsif d['func']=='tray'
+                                                                                                            elsif d['func']=='tray'
                     $trayreturn=true
                   elsif d['func']=='msg'
                                         $agent_msg=d['msgs'].to_i
@@ -629,9 +629,9 @@ $agentloaded = true
 $agentfails=0 if $agentfails==nil
 $agentfails+=1
 $agentfaillasttime=0 if $agentfaillasttime==nil
-if $agentfaillasttime<Time.now.to_i-15
+#if $agentfaillasttime<Time.now.to_i-15
 play("right")
-end
+#end
 $agentfaillasttime=Time.now.to_i
   end
 end
@@ -657,8 +657,7 @@ if tr == true
   $trayreturn=false
       $key=[0]*256
     $keyms=[0]*256
-        Graphics.update
-  Graphics.update
+        delay(0.5)
   play("login")
   speech("ELTEN")
   Win32API.new("user32","ShowWindow",'ii','i').call($wnd,1)

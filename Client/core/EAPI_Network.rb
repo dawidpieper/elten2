@@ -117,47 +117,6 @@ sock.close
 b
 return b
 end
-
-# @deprecated use {#urlenc} instead.
-          def hexspecial(t)
-            if $advanced_hexspecial == 1
-            t = t.gsub("ą","%C4%85")
-            t = t.gsub("ć","%C4%87")
-            t = t.gsub("ę","%C4%99")
-            t = t.gsub("ł","%C5%82")
-            t = t.gsub("ń","%C5%84")
-            t = t.gsub("ó","%C3%B3")
-            t = t.gsub("ś","%C5%9B")
-            t = t.gsub("ź","%C5%BA")
-            t = t.gsub("ż","%C5%BC")
-            t = t.gsub("Ą","%C4%84")
-            t = t.gsub("Ć","%C4%86")
-            t = t.gsub("Ę","%C4%98")
-            t = t.gsub("Ł","%C5%81")
-            t = t.gsub("Ń","%C5%83")
-            t = t.gsub("Ó","%C3%B2")
-            t = t.gsub("Ś","%C5%9A")
-            t = t.gsub("Ź","%C5%B9")
-            t = t.gsub("Ż","%C5%BB")
-            end
-            return t
-          end
-          
-          # @deprecated use {#urlenc} instead.
-          def hexstring(stri)
-            stro = ""
-t = 0
-            for i in 0..stri.size-1
-              t = t + 1
-              if t > 10000
-                loop_update
-                play("list_focus")
-                t = 0
-                end
-              stro += "%" + stri[i].to_s(16)
-              end
-            return stro
-          end
           
           # Downloads a file, creates download progress dialog
           #
@@ -203,7 +162,7 @@ key=""
   end
       l=ans["content-length"].to_i
       tx=""
-waiting
+waiting if msg!=nil
 speech(msg)
 sptm=Time.now.to_i
 i=0
@@ -243,7 +202,7 @@ while i<l
         end
   Win32API.new("kernel32","CloseHandle",'i','i').call(handle)
   #writefile(destination,tx)
-  waiting_end
+  waiting_end if msg!=nil
   speech(msgcomplete) if msgcomplete!=nil
 end
   end

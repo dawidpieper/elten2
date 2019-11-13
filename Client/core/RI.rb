@@ -186,22 +186,7 @@ foundlines = 1
       end
       return ret.to_s
     end
-    def strbyline
-str = self
-  byline = []
-  index = 0
-  byline[index] = ""
-  for i in 0..str.size - 1
-    if str[i..i] != "\n" and str[i..i] != "\r"
-    byline[index] += str[i..i]
-  elsif str[i..i] == "\n"
-    index += 1
-    byline[index] = ""
-    end
-  end
-  return byline
-end
-def rdelete!(i)
+    def rdelete!(i)
     b = i[0]
   x = 0
   for i in 1..self.size
@@ -274,23 +259,20 @@ string=r
     end.tr(' ', '_')
     return r
   end
-  def bigletter(type=0)
-    if self.size==1
-    return true if self[0]>64 and self[0]<91 and type==0
-    elsif self.bytesize==2
-    return true if self=="Ą" or self=="Ć" or self=="Ę" or self=="Ł" or self == "Ń" or self=="Ó" or self=="Ś" or self=="Ź" or self=="Ż"
-  end
-  return true if lngkeys(1)[self]==1
-    return false
+  def bigletter
+    return self!=self.downcase
+          return false
     end
   alias strupcase upcase
   def upcase
-    src=["ą","ć","ę","ł","ń","ó","ś","ź","ż"]
-    dst=["Ą","Ć","Ę","Ł","Ń","Ó","Ś","Ź","Ż"]
-    for i in 0..src.size-1
-    self.gsub!(src[i],dst[i])
-    end
-    strupcase
+d=unicode(self)
+                        Win32API.new("user32", "CharUpperBuffW", 'pi', 'i').call(d, d.size/2)
+                return deunicode(d)
+      end
+      def downcase
+            d=unicode(self)
+                        Win32API.new("user32", "CharLowerBuffW", 'pi', 'i').call(d, d.size/2)
+                return deunicode(d)
   end
   if $ruby != true
       def bytesize
@@ -383,17 +365,15 @@ end
 end
 
 module FileTest
-  class <<self
-def self.exists?(file)
+  def self.exists?(file)
 self.exist?(file)
 end
 def self.exist?(file)
-attrib=Win32API.new("kernel32","GetFileAttributes",'p','i').call(utf8(file))
+attrib=Win32API.new("kernel32","GetFileAttributesW",'p','i').call(unicode(file))
 if attrib==-1
 return false
 else
 return true
-end
 end
 end
 end

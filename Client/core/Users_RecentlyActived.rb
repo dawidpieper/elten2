@@ -7,7 +7,7 @@
 
 class Scene_Users_RecentlyActived
   def initialize
-            @users = srvproc("online","name=#{$name}\&token=#{$token}\&period=86400")
+            @users = srvproc("online",{"period"=>"86400"})
             for i in 0..@users.size - 1
       @users[i].delete!("\r")
       @users[i].delete!("\r\n")

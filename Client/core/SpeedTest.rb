@@ -15,7 +15,7 @@ class Scene_SpeedTest
       $scene=Scene_Main.new if ((space or enter) and @form.index==3) or escape
       if (space or enter) and @form.index==2
         mod=""
-        params="name=#{$name}\&token=#{$token}"
+        params={}
         case @form.fields[0].index
         when 0
           mod="active"
@@ -32,9 +32,8 @@ class Scene_SpeedTest
       n=@form.fields[1].text.to_i
       times=[]
       n.times {
-      t=Time.now.to_f
-      srvproc(mod,params)
-     times.push(Time.now.to_f-t)
+            t=srvproc(mod,params,3)
+     times.push(t)
      loop_update
            }
       result="#{_("SpeedTest:txt_phr_avgtime")}: #{((times.sum).to_f/n.to_f*1000).round}ms

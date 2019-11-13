@@ -6,18 +6,20 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Login
+  def initialize(skipauto=false)
+    @skipauto=skipauto
+    end
   def main
     token=""
     name = ""
     password = ""
-    crp = ""
-    autologin = readini($configdata + "\\login.ini","Login","AutoLogin","-1").to_i
-            if autologin.to_i <= 0
+        autologin = readconfig("Login","AutoLogin",-1)
+            if autologin.to_i <= 0 or @skipauto==true
     while name == ""
     name = input_text(_("Login:type_login"),"ACCEPTESCAPE")
       end
               if name == "\004ESCAPE\004"
-    $scene = Scene_Loading.new
+    $scene = Scene_Loading.new(true)
     return
     end
   password=""
@@ -30,57 +32,53 @@ if password=="\004ESCAPE\004"
 end
 name=finduser(name) if finduser(name).upcase==name.upcase
 else
-      name = readini($configdata + "\\login.ini","Login","Name","")
-                  if autologin.to_i == 1
-    password_c = readini($configdata + "\\login.ini","Login","Password","")
-    password = password_c
-                    password = ""
-l = false
-mn = password[password.size - 1..password.size - 1]
-mn = mn.to_i
-mn += 1
-l = false
-for i in 0..password.size - 1 - mn
-  if l == true
-    l = false
-  else
-    password += password[i..i]
-    l = true
+      name = readconfig("Login","Name","")
+if autologin == 3
+  token=readconfig("Login","Token","")
+    tokenenc=readconfig("Login","TokenEncrypted",-1)
+    tokenenc=-1 if tokenenc>0 and token.bytesize<=130
+    suc=false
+    while suc==false and tokenenc>=1
+    pin=nil
+    pin=input_text(_("Login:type_pin"),"PASSWORD|ACCEPTESCAPE") if tokenenc==2
+      if pin=="\004ESCAPE\004"
+       @skipauto=true
+       return main
+        end
+      t=decrypt(Base64.strict_decode64(token),pin) if tokenenc>0
+      if t=="" and pin==nil
+        @skipauto=true
+        return main
+      elsif t!=""
+        token=t
+        break
+      end
+      end
+  if tokenenc==-1
+    if confirm(_("Login:alert_encryption"))==0
+      writeconfig("Login","TokenEncrypted",0)
+    else
+      writeconfig("Login","TokenEncrypted",1)
+      pin=makepin
+      writeconfig("Login","Token",Base64.strict_encode64(crypt(token,pin)))
+      writeconfig("Login","TokenEncrypted",2) if pin!=nil
+      end
     end
-  end
-      password = decrypt(password)
-    password = password.gsub("a`","ą")
-password = password.gsub("c`","ć")
-password = password.gsub("e`","ę")
-password = password.gsub("l`","ł")
-password = password.gsub("n`","ń")
-password = password.gsub("o`","ó")
-password = password.gsub("s`","ś")
-password = password.gsub("x`","ź")
-password = password.gsub("z`","ż")
-elsif autologin == 2
-  password_c = readini($configdata + "\\login.ini","Login","Password","")
-    password = password_c
-  crp=password
-elsif autologin == 3
-  token=readini($configdata + "\\login.ini","Login","Token","")
   end
   end
   ver = $version.to_s
   ver += " BETA" if $isbeta == 1
-  ver += " RC" if $isbeta == 2
-b=0
+    ver += " RC" if $isbeta == 2
+  b=0
   b=$beta if $isbeta==1
   b=$alpha if $isbeta==2
   password="" if autologin.to_i==2
   suc=false
   while suc==false
-  if token=="" and crp!=""
-  logintemp = srvproc("login","login=1\&name=#{name}\&crp=#{crp}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}&lang=#{$language}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
-elsif token!=""
-    logintemp = srvproc("login","login=1\&name=#{name}\&token=#{token}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
+  if token!=""
+    logintemp = srvproc("login", {"login"=>"1", "name"=>name, "token"=>token, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>$language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i}))})
 else
-  logintemp = srvproc("login","login=1\&name=#{name}\&password=#{password.urlenc}\&version=#{ver.to_s}\&beta=#{b.to_s}\&appid=#{$appid}\&lang=#{$language}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
+  logintemp = srvproc("login",{"login"=>"1", "name"=>name, "password"=>password, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>$language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i}))})
 end
 suc=true
 if logintemp[0].to_i==-5
@@ -90,17 +88,17 @@ label=_("Login:type_authcode")
 while tries<3
   code=input_text(label,"ACCEPTESCAPE").delete("\r\n")
   if code=="\004ESCAPE\004"
-    writeini($configdata+"\\login.ini","Login","AutoLogin","0")
+    writeconfig("Login","AutoLogin",0)
     return $scene=Scene_Loading.new
     break
   end
-  ath=srvproc("authentication","authenticate=1\&appid=#{$appid}\&name=#{name}\&code=#{code}")[0].to_i
+  ath=srvproc("authentication", {"authenticate"=>"1", "appid"=>$appid, "name"=>name, "code"=>code})[0].to_i
   if ath<0
     tries+=1
     if tries>=3
       speech(_("Login:error_verification"))
       speech_wait
-      writeini($configdata+"\\login.ini","Login","AutoLogin","0")
+      writeconfig("Login","AutoLogin",0)
     return $scene=Scene_Loading.new
     break
     else
@@ -121,7 +119,7 @@ end
   end
 case logintemp[0].to_i
 when 0
-    prtemp = srvproc("getprivileges","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+    prtemp = srvproc("getprivileges",{"searchname"=>$name})
 $rang_tester = prtemp[1].to_i
 $rang_moderator = prtemp[2].to_i
 $rang_media_administrator = prtemp[3].to_i
@@ -146,17 +144,26 @@ loop_update
           if password=="\004ESCAPE\004"
             break
           else
-            lt=srvproc("login","login=2\&name=#{name}\&password=#{password.urlenc}\&computer=#{$computer.urlenc}\&appid=#{$appid}\&crp=#{cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})).urlenc}")
+            lt=srvproc("login", {"login"=>2, "name"=>name, "password"=>password, "computer"=>$computer, "appid"=>$appid, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i}))})
             if lt[0].to_i<0
               speech(_("Login:error_identity"))
               speech_wait
               password = ""
             else
-writeini($configdata+"\\login.ini","Login","AutoLogin","3")
-              writeini($configdata+"\\login.ini","Login","Name",name)
-              writeini($configdata+"\\login.ini","Login","Token",lt[1].delete("\r\n"))
-              writeini($configdata+"\\login.ini","Login","password",nil)
-                            if autologin.to_i==-1
+              token=lt[1].delete("\r\n")
+              n=0
+              confirm(_("Login:alert_encryption")) {
+              pin=makepin
+              token=Base64.strict_encode64(crypt(token,pin))
+              writeconfig("Login","Token",token)
+              n=1
+              n=2 if pin!=nil
+                            }
+                            writeconfig("Login","TokenEncrypted",n)
+writeconfig("Login","AutoLogin",3)
+              writeconfig("Login","Name",name)
+              writeconfig("Login","Token",token)
+                                          if autologin.to_i==-1
               speech(_("Login:info_autologin"))
             else
               speech(_("Login:info_crpupdated"))
@@ -167,7 +174,7 @@ writeini($configdata+"\\login.ini","Login","AutoLogin","3")
                         end
           end
        when 2
-         writeini($configdata+"\\login.ini","Login","AutoLogin","0")
+         writeconfig("Login","AutoLogin",0)
          speech(_("Login:info_asknomore"))
          speech_wait
          end
@@ -197,7 +204,7 @@ else
   $token.delete!("\r\n")
   $event = logintemp[2]
   $greeting = logintemp[3]
-  pr = srvproc("profile","name=#{$name}\&token=#{$token}\&get=1\&searchname=#{$name}")
+  pr = srvproc("profile",{"get"=>"1", "searchname"=>$name})
 $fullname = ""
 $gender = -1
 $birthdateyear = 0
@@ -229,16 +236,20 @@ elsif Time.now.month == $birthdatemonth.to_i
         speech(_("General:error_db"))
     $token = nil
     speech_wait
+    @skipauto=true
+    return main
     when -2
-      writeini($configdata+"\\login.ini","Login","AutoLogin","0")
-      speech(_("Login:error_wrongdata")) if autologin.to_i==0
+            speech(_("Login:error_wrongdata")) if autologin.to_i==0
       $token = nil
       speech_wait
+      @skipauto=true
+      return main
       when -3
-        writeini($configdata+"\\login.ini","Login","AutoLogin","0")
-        speech(_("Login:error_logon"))
+                speech(_("Login:error_logon"))
         $token = nil
         speech_wait
+        @skipauto=true
+      return main
         when -4
           speech(_("Login:error_srv"))
           $token = nil
@@ -252,6 +263,25 @@ elsif Time.now.month == $birthdatemonth.to_i
           else
         $scene = Scene_Main.new if $token != nil
         end
-  end
+      end
+      def makepin
+        pin=""
+        while pin==""
+          if confirm(_("Login:alert_pin"))==0
+            return nil
+          else
+            p1=input_text(_("Login:type_pin"),"PASSWORD|ACCEPTESCAPE")
+            next if p1=="\004ESCAPE\004"
+            p2=input_text(_("Login:type_pinrepeat"),"PASSWORD|ACCEPTESCAPE")
+            next if p2=="\004ESCAPE\004"
+            if p1==p2
+              return p1
+            else
+              speech(_("Login:error_difcodes"))
+              speech_wait
+              end
+            end
+          end
+        end
 end
 #Copyright (C) 2014-2019 Dawid Pieper

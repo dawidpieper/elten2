@@ -36,7 +36,7 @@ class Scene_Account_Password
     speech_wait
     main
   end
-    act = srvproc("account_mod","changepassword=1\&name=#{$name}\&token=#{$token}\&oldpassword=#{oldpassword.urlenc}\&password=#{password.urlenc}")
+    act = srvproc("account_mod", {"changepassword"=>"1", "oldpassword"=>oldpassword, "password"=>password})
     err = act[0].to_i
   case err
   when 0
@@ -77,7 +77,7 @@ class Scene_Account_Mail
         $scene = Scene_Main.new
     return
   end
-    act = srvproc("account_mod","changemail=1\&name=#{$name}\&token=#{$token}\&oldpassword=#{password.urlenc}\&mail=#{mail.urlenc}")
+    act = srvproc("account_mod", {"changemail"=>"1", "oldpassword"=>password, "mail"=>mail})
     err = act[0].to_i
   case err
   when 0
@@ -107,7 +107,7 @@ end
 class Scene_Account_VisitingCard
   def main
     dialog_open
-            vc = srvproc("visitingcard","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+            vc = srvproc("visitingcard",{"searchname"=>$name})
         err = vc[0].to_i
     case err
     when -1
@@ -145,7 +145,7 @@ loop do
         return
       end
 buf = buffer(visitingcard)
-      vc = srvproc("visitingcard_mod","name=#{$name}\&token=#{$token}\&buffer=#{buf}"      )
+      vc = srvproc("visitingcard_mod",{"buffer"=>buf}      )
 err = vc[0].to_i
 case err
 when 0
@@ -190,7 +190,7 @@ end
   
   class Scene_Account_Profile
     def main
-                  profile = srvproc("profile","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
+                  profile = srvproc("profile",{"searchname"=>$name, "get"=>"1"})
                     fullname = ""
         gender = 0
         birthdateyear = 0
@@ -228,7 +228,7 @@ location_a={}
       fields.push(nil)
       fields.push(nil)
       fields.push(CheckBox.new(_("Account:chk_hideprofile"),publicprofile))
-      vc = srvproc("visitingcard","name=#{$name}\&token=#{$token}\&searchname=#{$name}")
+      vc = srvproc("visitingcard",{"searchname"=>$name})
         err = vc[0].to_i
     case err
     when -1
@@ -248,7 +248,7 @@ text += vc[i]
 end
 fields.push(Edit.new(_("Account:type_visitingcard"),Edit::Flags::MultiLine,text,true))
 fields.push(Edit.new(_("Account:type_status"),"",getstatus($name,false),true))
-            sg = srvproc("signature","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
+            sg = srvproc("signature",{"searchname"=>$name, "get"=>"1"})
         err = sg[0].to_i
     case err
     when -1
@@ -335,25 +335,30 @@ fields.push(Edit.new(_("Account:type_status"),"",getstatus($name,false),true))
         if ((space or enter) and @form.index == 12) or (enter and $key[0x11])
 $fullname=fields[0].text_str
 $gender=fields[1].index
-pro="fullname=#{fields[0].text_str}\&gender=#{fields[1].index.to_s}"
-pro+="\&birthdateyear=#{@years[fields[2].index]}\&birthdatemonth=#{fields[3].index.to_s}\&birthdateday=#{@days[fields[4].index].to_s}" if fields[2].index>0 and (fields[3]!=nil and fields[3].index>0) and (fields[4]!=nil and fields[4].index>0)
+pro={"fullname"=>fields[0].text_str, "gender"=>fields[1].index.to_s}
+if fields[2].index>0 and (fields[3]!=nil and fields[3].index>0) and (fields[4]!=nil and fields[4].index>0)
+pro["birthdateyear"]=@years[fields[2].index]
+pro["birthdatemonth"]=fields[3].index.to_s
+pro["birthdateday"]=@days[fields[4].index].to_s
+end
 if fields[7]!=nil
   loc=0
     $locations.each {|l| loc=l['geonameid'] if l['country']==@countries[fields[5].index] and l['subcountry']==@subcountries[fields[6].index] and l['name']==@cities[fields[7].index]}
-  pro+="\&location=#{loc.to_s}"
+  pro["location"]=loc.to_s
 elsif fields[5].index>0
-  pro+="\&location=#{@countries[fields[5].index]}"
+  pro["location"]=@countries[fields[5].index]
 end
-pro+="\&publicprofile=#{fields[8].checked}"
-          pr = srvproc("profile","name=#{$name}\&token=#{$token}\&mod=1\&"+pro)
+pro["publicprofile"]=fields[8].checked
+pro["mod"]=1
+          pr = srvproc("profile",pro)
           if pr[0].to_i==0
             buf = buffer(fields[9].text_str)
-      pr = srvproc("visitingcard_mod","name=#{$name}\&token=#{$token}\&buffer=#{buf}"      )
+      pr = srvproc("visitingcard_mod",{"buffer"=>buf}      )
     end
     pr=[setstatus(fields[10].text_str)] if pr[0].to_i==0
     if pr[0].to_i==0
             buf = buffer(fields[11].text_str)
-      pr = srvproc("signature","name=#{$name}\&token=#{$token}\&buffer=#{buf}\&set=1")
+      pr = srvproc("signature",{"buffer"=>buf, "set"=>"1"})
     end
           if pr[0].to_i < 0
     speech(_("General:error"))
@@ -373,7 +378,7 @@ $scene = Scene_Main.new
         class Scene_Account_Signature
   def main
     dialog_open
-            sg = srvproc("signature","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
+            sg = srvproc("signature",{"searchname"=>$name, "get"=>"1"})
         err = sg[0].to_i
     case err
     when -1
@@ -411,7 +416,7 @@ loop do
         return
       end
 buf = buffer(signature)
-      sg = srvproc("signature","name=#{$name}\&token=#{$token}\&buffer=#{buf}\&set=1")
+      sg = srvproc("signature",{"buffer"=>buf, "set"=>"1"})
 err = sg[0].to_i
 case err
 when 0
@@ -434,7 +439,7 @@ end
 class Scene_Account_Greeting
   def main
     dialog_open
-            gt = srvproc("greetings","name=#{$name}\&token=#{$token}\&searchname=#{$name}\&get=1")
+            gt = srvproc("greetings",{"searchname"=>$name, "get"=>"1"})
         err = gt[0].to_i
     case err
     when -1
@@ -472,7 +477,7 @@ loop do
         return
       end
 buf = buffer(greeting)
-      gt = srvproc("greetings","name=#{$name}\&token=#{$token}\&buffer=#{buf}\&set=1")
+      gt = srvproc("greetings",{"buffer"=>buf, "set"=>"1"})
 err = gt[0].to_i
 case err
 when 0
@@ -515,7 +520,7 @@ class Scene_Account_Avatar
   
   class Scene_Account_WhatsNew
     def main
-      wnc=srvproc("whatsnew_config","name=#{$name}\&token=#{$token}\&get=1")
+      wnc=srvproc("whatsnew_config",{"get"=>"1"})
       if wnc[0].to_i<0
         speech(_("General:error"))
         speech_wait
@@ -538,7 +543,7 @@ class Scene_Account_Avatar
           for i in 0..heads.size-1
             t+="&"+heads[i]+"="+@fields[i].index.to_s
           end
-          prm="name=#{$name}\&token=#{$token}\&set=1"+t
+          prm={"set"=>"1"}+t
                     if srvproc("whatsnew_config",prm)[0].to_i<0
             speech(_("General:error"))
           else
@@ -563,7 +568,7 @@ $scene=Scene_Main.new
         return $scene=Scene_Main.new
         break
       else
-        al=srvproc("autologins","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
+        al=srvproc("autologins",{"password"=>password})
         if al[0].to_i<0
           speech(_("Account:error_identity"))
           speech_wait
@@ -633,7 +638,7 @@ def globallogout
         return
         break
       else
-        lg=srvproc("logout","global=1\&name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
+        lg=srvproc("logout", {"global"=>"1", "password"=>password})
         if lg[0].to_i<0
           speech(_("Account:error_identity"))
           speech_wait
@@ -653,7 +658,7 @@ end
 
 class Scene_Account_BlackList
   def main
-            bt = srvproc("blacklist","name=#{$name}\&token=#{$token}\&get=1")
+            bt = srvproc("blacklist",{"get"=>"1"})
             if bt[0].to_i<00
           speech(_("General:error"))
       speech_wait
@@ -684,7 +689,7 @@ loop_update
                             if $key[0x2e]
           if @blacklist.size >= 1
           if simplequestion(_("Account:alert_deletefromblacklist")) == 1
-            if srvproc("blacklist","name=#{$name}\&token=#{$token}\&del=1\&user=#{@blacklist[@sel.index]}")[0].to_i<0
+            if srvproc("blacklist",{"del"=>"1", "user"=>@blacklist[@sel.index]})[0].to_i<0
               speech(_("General:error"))
             else
               play("edit_delete")
@@ -732,7 +737,7 @@ loop_update
                     speech_wait
                                       else
                   confirm(_("Account:alert_addtoblacklist")) do
-                    bl=srvproc("blacklist","name=#{$name}\&token=#{$token}\&add=1\&user=#{user}")
+                    bl=srvproc("blacklist",{"add"=>"1", "user"=>user})
                     case bl[0].to_i
                     when 0
                       speech(s_("Account:info_phr_addedtoblacklist",{'user'=>user}))
@@ -758,7 +763,7 @@ loop_update
                   break
                   when 2
                                         confirm(_("Account:alert_deletefromblacklist")) do
-            if srvproc("blacklist","name=#{$name}\&token=#{$token}\&del=1\&user=#{@blacklist[@sel.index]}")[0].to_i<0
+            if srvproc("blacklist",{"del"=>"1", "user"=>@blacklist[@sel.index]})[0].to_i<0
               speech(_("General:error"))
             else
               play("edit_delete")
@@ -793,7 +798,7 @@ play("menu_close")
         return $scene=Scene_Main.new
         break
       else
-        lg=srvproc("lastlogins","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
+        lg=srvproc("lastlogins",{"password"=>password})
         if lg[0].to_i<0
           speech(_("Account:error_identity"))
           speech_wait
@@ -848,7 +853,7 @@ def globallogout
         return
         break
       else
-        lg=srvproc("logout","global=1\&name=#{$name}\&token=#{$token}\&password=#{password.urlenc}")
+        lg=srvproc("logout", {"global"=>"1", "password"=>password})
         if lg[0].to_i<0
           speech(_("Account:error_identity"))
           speech_wait
@@ -870,7 +875,7 @@ class Scene_Account_MailEvents
   def main
     @password=input_text(_("Account:type_pass"),"PASSWORD|ACCEPTESCAPE") if @password==nil
     return $scene=Scene_Main.new if @password=="\004ESCAPE\004"
-          vr=srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=check")
+          vr=srvproc("mailevents",{"password"=>@password, "ac"=>"check"})
           if vr[0].to_i<0
             speech(_("General:error"))
             speech_wait
@@ -879,14 +884,14 @@ class Scene_Account_MailEvents
 chk=vr[1].to_i
 if chk==0
   confirm(_("Account:alert_verifymail")) {
-  vf=srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=verify")
+  vf=srvproc("mailevents",{"password"=>@password, "ac"=>"verify"})
   if vf[0].to_i<0
     speech(_("General:error"))
     speech_wait
     return $scene=Scene_Main.new
   end
   code=input_text(_("Account:type_lvcode"))
-    vf=srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=verify\&code=#{code.urlenc}")
+    vf=srvproc("mailevents",{"password"=>@password, "ac"=>"verify", "code"=>code})
   if vf[0].to_i<0
     speech(_("General:error"))
     speech_wait
@@ -909,10 +914,10 @@ loop do
     when 0
 e=0
 e=1 if enb==0
-srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=events\&enable=#{e.to_s}")
+srvproc("mailevents", {"password"=>@password, "ac"=>"events", "enable"=>e.to_s})
 if e==0
   code=input_text(_("Account:type_lvcode"))
-  srvproc("mailevents","name=#{$name}\&token=#{$token}\&password=#{@password.urlenc}\&ac=events\&enable=#{e.to_s}\&code=#{code}")
+  srvproc("mailevents", {"password"=>@password, "ac"=>"events", "enable"=>e.to_s, "code"=>code})
   end
 return main
       when 1

@@ -59,7 +59,7 @@ def update
                        totime += 365 * 24 * 60 * 60
                              end
            info=buffer(@form.fields[2].text_str)
-                             bantemp = srvproc("ban","name=#{$name}\&token=#{$token}\&searchname=#{@user}\&totime=#{totime}\&ban=1\&reason=#{@form.fields[1].text_str.urlenc}\&info=#{info.to_s}")
+                             bantemp = srvproc("ban",{"searchname"=>@user, "totime"=>totime, "ban"=>"1", "reason"=>@form.fields[1].text_str, "info"=>info.to_s})
       err = bantemp[0]
 err = err.to_i
 if err == 0
@@ -95,7 +95,7 @@ class Scene_Ban_Unban
         $scene = @scene
         end
     end
-                  bantemp = srvproc("isbanned","name=#{$name}\&token=#{$token}\&searchname=#{@user}")
+                  bantemp = srvproc("isbanned",{"searchname"=>@user})
                   if bantemp[0].to_i<0
                     speech(_("General:error"))
                     speech_wait
@@ -117,7 +117,7 @@ class Scene_Ban_Unban
       @form.update
       break if ((space or enter) and @form.index==4) or escape
       if (space or enter) and @form.index==3
-                    bantemp = srvproc("ban","name=#{$name}\&token=#{$token}\&searchname=#{@user}\&unban=1\&reason=#{@form.fields[2].text_str}")
+                    bantemp = srvproc("ban",{"searchname"=>@user, "unban"=>"1", "reason"=>@form.fields[2].text_str})
       err = bantemp[0]
 err = err.to_i
 if err == 0

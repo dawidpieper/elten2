@@ -840,12 +840,35 @@ Wersja 2.342:
 - Dodano (eksperymentalnie): na listach klawisz F4 podaje numer wybranej pozycji oraz rozmiar listy
 
 2019-10-01
+","
+Wersja 2.35:
+- Dodano: możliwość szyfrowania klucza automatycznego logowania
+- Dodano: usuwanie komentarzy na blogu
+- Dodano: (eksperymentalnie i wstępnie) konwersacje grupowe
+- Dodano: obsługa przewijania tekstu podczas czytania (tylko SAPI5)
+- Zmieniono: nowy domyślny temat dźwiękowy przygotowany przez użytkownika daszekmdn
+- Poprawiono: przekazywanie wiadomości głosowych
+- Poprawiono: Elten nie podaje informacji o aktualizacji, gdy nie udaje się połączyć z serwerem
+- Poprawiono: kolejkowanie zapytań
+
+2019-10-14
+","
+Wersja 2.36:
+- Dodano: przewodnik po dźwiękach
+- Dodano: nowe okno edycji tematu dźwiękowego
+- Zmieniono: zmiana układu niektórych ustawień
+- Zmieniono: nowa lokalizacja i format ustawień
+- Zmieniono: ujednolicenie kodu odpowiedzialnego za zapytania do serwera
+- Usunięto (tymczasowo): programy
+- Poprawiono: obsługa unikodu w niektórych funkcjach
+
+
 "]
 @changes.reverse!
 @changes.each{|c| c.gsub!(/Wersja (\d\.\d+)/) {"Wersja "+$1.delete(".").split("").join(".")}}
 @selt = []
 for i in 0..@changes.size - 1
-  @selt.push(strbyline(@changes[i])[1].delete(":").sub("Wersja ",""))
+  @selt.push((@changes[i]).split("\n")[1].delete(":").sub("Wersja ",""))
   end
 @sel = Select.new(@selt,true,0,_("Changes:head"))
 loop do

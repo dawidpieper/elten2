@@ -58,7 +58,7 @@ end
       end
 if @form.fields[2].checked == 1
   speech(_("Portable:wait_settings"))
-  copier(".","/eltendata/config",".ini",$configdata+"/")
+  Win32API.new("kernel32","CopyFileW",'ppi','i').call(unicode($eltendata+"\\elten.ini"),unicode(@destdir+"\\eltendata/elten.ini"),0)
   speech_wait
   if $voice != -1 and $voice != -3
     waiting_end
@@ -68,9 +68,9 @@ if @form.fields[2].checked == 1
   value=-1 if v==0
   value=-2 if v==1
   value=-3 if v==2
-  writeini("#{@destdir}/eltendata/config/sapi.ini","Sapi","Voice",value.to_s) if value != 0
+  writeini("#{@destdir}/eltendata/elten.ini","Voice","Voice",value.to_s) if value != 0
   if @form.fields[3].checked==0
-    writeini("#{@destdir}/config/soundtheme.ini","SoundTheme","Path","")
+    writeini("#{@destdir}/elten.ini","Interface","SoundTheme","")
   end
   dialog_close
   waiting

@@ -7,7 +7,7 @@
 
 class Scene_Authentication
   def main
-    auth=srvproc("authentication","name=#{$name}\&token=#{$token}\&state=1")
+    auth=srvproc("authentication",{"state"=>"1"})
     if auth[0].to_i<0
       speech(_("General:error"))
       speech_wait
@@ -33,7 +33,7 @@ return main if confirm(_("Authentication:alert_support"))==0
 return main if input_text(_("Authentication:alert_checkphone"),"ACCEPTESCAPE|READONLY",phone)=="\004ESCAPE\004"
 if suc==true
 speech(_("Authentication:wait"))
-enb=srvproc("authentication","name=#{$name}\&token=#{$token}\&password=#{password.urlenc}\&phone=#{phone.urlenc}\&enable=1&lang=#{$language}")
+enb=srvproc("authentication",{"password"=>password, "phone"=>phone, "enable"=>"1", "lang"=>$language})
 speech_wait
 if enb[0].to_i<0||enb[0].include?("-")
   speech(_("General:error"))
@@ -44,7 +44,7 @@ else
   label=_("Authentication:type_code")
   while tries<3
   code=input_text(label,"NUMBERS").delete("\r\n") while code==""
-    cnf=srvproc("authentication","name=#{$name}\&token=#{$token}\&verify=1\&code=#{code}\&appid=#{$appid}")
+    cnf=srvproc("authentication",{"verify"=>"1", "code"=>code, "appid"=>$appid})
   if cnf[0].to_i<0||cnf[0].include?("-")
         tries+=1
         code=""
@@ -67,7 +67,7 @@ elsif state==1
   password=""
   password=input_text(_("Authentication:type_pass"),"PASSWORD|ACCEPTESCAPE") while password==""
   if password!="\004ESCAPE\004" and confirm(_("Authentication:alert_disable"))==1
-    dsb=srvproc("authentication","name=#{$name}\&token=#{$token}\&disable=1\&password=#{password.urlenc}")
+    dsb=srvproc("authentication",{"disable"=>"1", "password"=>password})
     if dsb[0].to_i==0
       speech(_("Authentication:info_disabled"))
     elsif dsb[0].to_i==-2

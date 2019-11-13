@@ -19,7 +19,7 @@ class Scene_SoundCard
         soundcard=soundcards[@form.fields[0].index]
         soundcard=nil if @form.fields[0].index==0
         $interface_soundcard=soundcard
-                writeini($configdata + "\\interface.ini","Interface","SoundCard",$interface_soundcard)
+                writeconfig("SoundCard","SoundCard",$interface_soundcard)
                         ind=@form.fields[0].index
         ind=-1 if ind==0
         Bass.setdevice(ind)
@@ -27,7 +27,7 @@ class Scene_SoundCard
         microphone=microphones[@form.fields[1].index]
         microphone=nil if @form.fields[1].index==0
         $interface_microphone=microphone
-                writeini($configdata + "\\interface.ini","Interface","Microphone",$interface_microphone)
+                writeconfig("SoundCard","Microphone",$interface_microphone)
         speech(_("General:info_saved"))
         speech_wait
         break

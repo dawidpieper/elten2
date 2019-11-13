@@ -73,14 +73,14 @@ def ASCII(code)
 end
 
 # @note this function is reserved.
-def crypt(msg)
+def oldcrypt(msg)
   cipher = Cipher.new ar = ["K","D","w","H","X","3","e","1","S","B","g","a","y","v","I","6","u","W","C","0","9","b","z","T","A","q","U","4","O","o","E","N","r","n","m","d","k","x","P","t","R","s","J","L","f","h","Z","j","Y","5","7","l","p","c","2","8","M","V","G","i"," ","Q","F","?",">","<","\"",":","/",".",",","'",":","[","]","{","}","-","=","_","+","\\","|","@","\#","!","`","$","^","\%","\&","*",")","(","\001","\002","\003","\004","\005","\006","\007","\008","\009","\0"]
 crypted = cipher.encrypt msg
 return(crypted)
 end
 
 # @note this function is reserved.
-def decrypt(msg)
+def olddecrypt(msg)
  cipher = Cipher.new ar = ["K","D","w","H","X","3","e","1","S","B","g","a","y","v","I","6","u","W","C","0","9","b","z","T","A","q","U","4","O","o","E","N","r","n","m","d","k","x","P","t","R","s","J","L","f","h","Z","j","Y","5","7","l","p","c","2","8","M","V","G","i"," ","Q","F","?",">","<","\"",":","/",".",",","'",":","[","]","{","}","-","=","_","+","\\","|","@","\#","!","`","$","^","\%","\&","*",")","(","\001","\002","\003","\004","\005","\006","\007","\008","\009","\0"]
 decrypted = cipher.decrypt msg
 return(decrypted)
@@ -158,8 +158,8 @@ def writefile(file,text,utf=false)
     end
     text = t
     end
-  cf = Win32API.new("kernel32","CreateFile",'piipiip','i')
-handle = cf.call(utf8(file),2,1|2|4,nil,2,0,nil)
+  cf = Win32API.new("kernel32","CreateFileW",'piipiip','i')
+handle = cf.call(unicode(file),2,1|2|4,nil,2,0,nil)
 writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
 bp = "\0" * text.size
 text=utf8(text) if utf
@@ -234,48 +234,14 @@ Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
 x.delete!("\0")
 return x
             end
-          
-          # @deprecated this class is deprecated.
-          class IOT
-    def self.readlines(file)
-    createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
-handler = createfile.call(file,1,1|2|4,nil,4,0,0)
-if handler < 64
-  speech(_("General:error"))
-  speech_wait
-  end
-readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
-b = "\0" * 1048576
-bp = "\0" * 1048576
-handleref = readfile.call(handler,b,b.size,bp,nil)
-Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
-handler = 0
-b.delete!("\0")
-bp.delete!("\0")
-r = []
-c = 0
-r[c] = ""
-for i in 0..b.size - 1
-  b = b.sub("\004LINE\004","\n")
-  end
-for i in 0..b.size - 1
-  r[c] += b[i..i]
-  if b[i..i] == "\n"
-    c += 1
-    r[c] = ""
-    end
-  end
-return(r.to_s)
-end
-end
 
 # Reads a file
 #
 # @param file [String] a file to read
 # @return [String] a file text
   def read(file,sizeonly=false,reencode=false)
-        createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
-handler = createfile.call(utf8(file),1,1|2|4,nil,4,0,0)
+        createfile = Win32API.new("kernel32","CreateFileW",'piipili','l')
+handler = createfile.call(unicode(file),1,1|2|4,nil,4,0,0)
 if handler < 64
   return nil
   end
@@ -328,6 +294,16 @@ else
   end
 end
 
+def readconfig(group, key, val="")
+  r=readini($eltendata+"\\elten.ini", group, key, val.to_s)
+  return r.to_i if val.is_a?(Integer)
+  return r
+end
+
+def writeconfig(group, key, val)
+  writeini($eltendata+"\\elten.ini", group, key, val.to_s)
+    end
+
 # Reads an ini value
 #
 # @param file [String] a file to read
@@ -337,10 +313,9 @@ end
 # @return [String] the ini value of a specified key
             def readini(file,group,key,default="\0")
         default = default.to_s if default.is_a?(Integer)
-        r = "\0" * 16384
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call(group,key,default,r,r.size,utf8(file))
-    r.delete!("\0")
-    return futf8(r.to_s    )
+        r="\0"*16384
+            sz=Win32API.new("kernel32","GetPrivateProfileStringW",'pppplp','i').call(unicode(group),unicode(key),unicode(default),r,r.size*2,unicode(file))
+            return deunicode(r[0...sz*2])
   end
   
   # Writes a specified value to an INI file
@@ -350,48 +325,15 @@ end
   # @param key [String] an INI key to write
   # @param value [String] a value to write
   def writeini(file,group,key,value)
+    value.delete!("\r\n") if value.is_a?(String)
     if value != nil
-    iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call(group,key,utf8(value.to_s),utf8(file))
+    iniw = Win32API.new('kernel32','WritePrivateProfileStringW','pppp','i')
+                iniw.call(unicode(group),unicode(key),unicode(value.to_s),unicode(file))
               else
-                iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call(group,key,nil,utf8(file))
+                iniw = Win32API.new('kernel32','WritePrivateProfileStringW','pppp','i')
+                iniw.call(unicode(group),unicode(key),nil,unicode(file))
                 end
               end
-              
-              # @deprecated use {#split} insted
-              def strbyline(str)
-  byline = []
-  index = 0
-  byline[index] = ""
-  for i in 0..str.size - 1
-    if str[i..i] != "\n" and str[i..i] != "\r"
-    byline[index] += str[i..i]
-  elsif str[i..i] == "\n"
-    index += 1
-    byline[index] = ""
-    end
-  end
-  return byline
-end
-
-# @deprecated use {#read} instead.
-def readfile(file,maxsize=1048576)
-createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
-handler = createfile.call(utf8(file),1,1|2|4,nil,4,0,0)
-if handler < 64
-raise(RuntimeError)
-end
-readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
-b = "\0" * maxsize
-bp = "\0" * maxsize
-handleref = readfile.call(handler,b,b.size,bp,nil)
-Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
-handler = 0
-b.rdelete!("\0")
-bp.delete!("\0")
-return b
-end
 
 # Calls a SHGetFilePath from shell32 library
 #
@@ -402,50 +344,6 @@ def getdirectory(type)
   Win32API.new("shell32","SHGetFolderPathW",'iiiip','i').call(0,type,0,0,dr)
     fdr=deunicode(dr)
         return fdr
-  end
-  
-  # @note this function is reserved
-def preproc(string,dir=".")
-  cdc = strbyline(string)
-for i in 0..cdc.size - 1
-  if cdc[i].size > 0
-    if cdc[i][0..8] == "#include "
-      fl = cdc[i][9..cdc[i].size-1].delete("\r\n")
-      if FileTest.exists?(fl) or FileTest.exists?(dir+"/"+fl)
-        a = IO.readlines(fl) if FileTest.exists?(fl)
-        a = IO.readlines(dir+"/"+fl) if FileTest.exists?(dir+"/"+fl)
-        b = ""
-        for j in 0..a.size-1
-          b += a[j]
-          end
-        c = preproc(b,dir)
-                cdc[i] = c
-        end
-      end
-    if cdc[i][0..0] == "*"
-    s = ""
-    a = 0
-    for j in 1..cdc[i].size-1
-      s += cdc[i][j..j] if cdc[i][j..j] != " "
-      a += 1
-      break if cdc[i][j..j] == " "
-          end
-    if eval("defined?(#{s})") != nil
-      prm = ""
-      for j in a+1..cdc[i].size-1
-        prm += cdc[i][j..j]
-      end
-      prm.gsub!("\"","\\\"")
-      cdc[i] = "#{s}(\"#{prm}\")"
-      end
-    end
-  end
-  end
-    r = ""
-for i in 0..cdc.size - 1
-    r += cdc[i] + "\r\n"
-end
-return r
   end
 
   # evaluates a code
@@ -465,7 +363,34 @@ def insert_scene(scene)
   $scenes.insert(0,scene)
   t=Time.now.to_f
   loop_update while Time.now.to_f-t<0.2
-  end
+end
+
+      def crypt(data,code=nil)
+        pin=[data.size,data].pack("ip")
+pout=[0,nil].pack("ip")
+pcode=nil
+pcode=[code.size,code].pack("ip") if code!=nil
+Win32API.new("crypt32", "CryptProtectData", 'pppppip','i').call(pin,nil,pcode,nil,nil,0,pout)
+s,t = pout.unpack("ii")
+m="\0"*s
+Win32API.new("kernel32","RtlMoveMemory",'pii','i').call(m,t,s)
+Win32API.new("kernel32","LocalFree",'i','i').call(t)
+return m
+        end
+        
+        def decrypt(data,code=nil)
+        pin=[data.size,data].pack("ip")
+pout=[0,nil].pack("ip")
+pcode=nil
+pcode=[code.size,code].pack("ip") if code!=nil
+Win32API.new("crypt32", "CryptUnprotectData", 'pppppip','i').call(pin,nil,pcode,nil,nil,0,pout)
+s,t = pout.unpack("ii")
+m="\0"*s
+Win32API.new("kernel32","RtlMoveMemory",'pii','i').call(m,t,s)
+Win32API.new("kernel32","LocalFree",'i','i').call(t)  
+return m
+          end
+      
 
   include UI
   include UI::Keyboard
@@ -479,15 +404,6 @@ def insert_scene(scene)
 end
 class Reset < Exception
 end
-class OClipboard
-  def self.text
-    futf8(Win32API.new($eltenlib,"PasteFromClipboard",'','p').call)
-  end
-  def self.text=(txt)
-    Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(utf8(txt),utf8(txt).size+1)
-    return txt
-        end
-  end
 if $ruby == true
   module Input
           attr_reader :A
@@ -574,6 +490,6 @@ writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
       end
       def close
        
-        end
+      end
       end
 #Copyright (C) 2014-2019 Dawid Pieper

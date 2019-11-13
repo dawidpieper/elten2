@@ -7,7 +7,7 @@
 
 class Scene_Users_LastAvatars
   def main
-    avt=srvproc("lastavatars","name=#{$name}\&token=#{$token}")
+    avt=srvproc("lastavatars",{})
     if avt[0].to_i<0
       speech(_("General:error"))
       speech_wait

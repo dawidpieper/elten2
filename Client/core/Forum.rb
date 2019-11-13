@@ -56,7 +56,7 @@ else
     @grpindex[0]=@groups.size+2
     @results=[]    
         if @query!=""
-    sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
+    sr=srvproc("forum_search",{"query"=>@query})
     if sr[0].to_i<0
             speech(_("General:error"))
           else
@@ -244,7 +244,7 @@ sgloc=false
     end     
     grpselh= [nil, _("Forum:opt_phr_founder"), nil, _("Forum:opt_phr_forums"), _("Forum:opt_phr_threads"), _("Forum:opt_phr_posts"), _("Forum:opt_phr_unreads")]
     when 7
-      grp=srvproc("forum_popular","name=#{$name}\&token=#{$token}\&type=groups")
+      grp=srvproc("forum_popular",{"type"=>"groups"})
                                         sgroups=[]
       if grp[0].to_i==0
         for l in grp[1..-1]
@@ -301,7 +301,7 @@ sgloc=false
           if @query!="\004ESCAPE\004"
           @results=[]
           if @query!=""
-          sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
+          sr=srvproc("forum_search",{"query"=>@query})
           if sr[0].to_i<0
             speech(_("General:error"))
           else
@@ -355,7 +355,7 @@ sgloc=false
           loop_update
           if @query!="\004ESCAPE\004"
           @results=[]
-          sr=srvproc("forum_search","name=#{$name}\&token=#{$token}\&query=#{@query.urlenc}")
+          sr=srvproc("forum_search",{"query"=>@query})
           if sr[0].to_i<0
             speech(_("General:error"))
           else
@@ -378,7 +378,7 @@ sgloc=false
           when 1
 
           when 2
-          m=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=members\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+          m=srvproc("forum_groups",{"ac"=>"members", "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s})
           if m[0].to_i<0
             speech(_("General:error"))
             speech_wait
@@ -474,7 +474,7 @@ sgloc=false
                       cat="moderationdeny"
                       end
                       confirm(s_("Forum:alert_#{cat}", {'user'=>users[sel.index], 'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-                      r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=privileges\&pr=#{cat}\&user=#{users[sel.index]}\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+                      r=srvproc("forum_groups",{"ac"=>"privileges", "pr"=>cat, "user"=>users[sel.index], "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s})
 if r[0].to_i<0
   speech(_("General:error"))
 else
@@ -513,7 +513,7 @@ speech(_("Forum:info_privileges"))
                                                                                               end
                                                                                               if cat!=nil
                                             confirm(s_("Forum:alert_user#{cat}", {'user'=>users[sel.index], 'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-                      r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=user\&pr=#{cat}\&user=#{users[sel.index]}\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+                      r=srvproc("forum_groups",{"ac"=>"user", "pr"=>cat, "user"=>users[sel.index], "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s})
                                             if r[0].to_i<0
   speech(_("General:error"))
 else
@@ -532,7 +532,7 @@ speech(_("Forum:info_privileges"))
                                           end
                                         else
                                                                                       confirm(s_("Forum:alert_passadmin", {'user'=>users[sel.index], 'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-                      r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=privileges\&pr=passadmin\&user=#{users[sel.index]}\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+                      r=srvproc("forum_groups",{"ac"=>"privileges", "pr"=>"passadmin", "user"=>users[sel.index], "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s})
                                             if r[0].to_i<0
   speech(_("General:error"))
 else
@@ -567,7 +567,7 @@ end
                               speech(_("Forum:error_usernotfound"))
                               speech_wait
                               else
-                                                          r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=invite\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}\&user=#{u}")
+                                                          r=srvproc("forum_groups",{"ac"=>"invite", "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s, "user"=>u})
                                                           case r[0].to_i
                                                           when 0
                                                             speech(_("Forum:info_invited"))
@@ -594,7 +594,7 @@ end
                 s="Forum:alert_join"
                 end
                 confirm(s_(s, {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-                            g=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=join\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+                            g=srvproc("forum_groups",{"ac"=>"join", "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s})
               if g[0].to_i==0
                 if sgroups[@grpsel.index-grpheadindex].role==0&&((sgroups[@grpsel.index-grpheadindex].public&&!sgroups[@grpsel.index-grpheadindex].open)||(sgroups[@grpsel.index-grpheadindex].open&&!sgroups[@grpsel.index-grpheadindex].public))
                   speech(_("Forum:info_requested"))
@@ -611,7 +611,7 @@ end
             @grpsel.focus
             when 5
               confirm(s_("Forum:alert_leave", {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-              g=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=leave\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")
+              g=srvproc("forum_groups",{"ac"=>"leave", "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s})
               if g[0].to_i==0
                 speech(_("Forum:info_left"))
                 sgroups[@grpsel.index-grpheadindex].role=0
@@ -653,7 +653,7 @@ end
                             form.fields[3].commandoptions=[_("Forum:opt_groupjointypemoderated"),_("Forum:opt_groupjointypeopen")]
             end
             if form.fields[4]!=nil and form.fields[4].pressed?
-                                                        r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=edit\&groupid=#{g.id.to_s}\&groupname=#{form.fields[0].text.urlenc}\&bufdescription=#{buffer(form.fields[1].text).to_s}\&public=#{form.fields[2].index.to_s}\&open=#{form.fields[3].index.to_s}")
+                                                        r=srvproc("forum_groups",{"ac"=>"edit", "groupid"=>g.id.to_s, "groupname"=>form.fields[0].text, "bufdescription"=>buffer(form.fields[1].text).to_s, "public"=>form.fields[2].index.to_s, "open"=>form.fields[3].index.to_s})
                                           if r[0].to_i<0
                                             speech(_("General:error"))
                                           else
@@ -668,7 +668,7 @@ end
           loop_update
             when 10
               confirm(s_("Forum:alert_deletegroup", {'groupname'=>sgroups[@grpsel.index-grpheadindex].name})) {
-              if srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=delete\&groupid=#{sgroups[@grpsel.index-grpheadindex].id.to_s}")[0].to_i<0
+              if srvproc("forum_groups",{"ac"=>"delete", "groupid"=>sgroups[@grpsel.index-grpheadindex].id.to_s})[0].to_i<0
                 speech(_("General:error"))
               else
                 speech(_("Forum:info_groupdeleted"))
@@ -716,7 +716,7 @@ end
                             form.fields[4].commandoptions=[_("Forum:opt_groupjointypemoderated"),_("Forum:opt_groupjointypeopen")]
             end
             if form.fields[5]!=nil and form.fields[5].pressed?
-                                          r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=create\&groupname=#{form.fields[0].text.urlenc}\&bufdescription=#{buffer(form.fields[1].text).to_s}\&lang=#{$langs.keys[form.fields[2].index].to_s}\&public=#{form.fields[3].index.to_s}\&open=#{form.fields[4].index.to_s}")
+                                          r=srvproc("forum_groups",{"ac"=>"create", "groupname"=>form.fields[0].text, "bufdescription"=>buffer(form.fields[1].text).to_s, "lang"=>$langs.keys[form.fields[2].index].to_s, "public"=>form.fields[3].index.to_s, "open"=>form.fields[4].index.to_s})
                                           if r[0].to_i<0
                                             speech(_("General:error"))
                                           else
@@ -788,14 +788,14 @@ for g in @groups
           return threadsmain(sforums[@frmsel.index].name)
           when 1
             if sforums[@frmsel.index].followed==false
-                if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&add=2\\&forum=#{sforums[@frmsel.index].name}")[0].to_i<0
+                if srvproc("forum_ft",{"add"=>"2", "forum"=>sforums[@frmsel.index].name})[0].to_i<0
   speech(_("General:error"))
 else
   speech(_("Forum:info_forumfollowed"))
   sforums[@frmsel.index].followed=true
   end
 else
-  if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&remove=2\\&forum=#{sforums[@frmsel.index].name}")[0].to_i<0
+  if srvproc("forum_ft",{"remove"=>"2", "forum"=>sforums[@frmsel.index].name})[0].to_i<0
     speech(_("General:error"))
   else
     speech(_("Forum:info_forumunfollowed"))
@@ -812,7 +812,7 @@ else
       end
       when 2
         confirm(_("Forum:alert_markforumasread")) do
-          if srvproc("forum_markasread","name=#{$name}\&token=#{$token}\&forum=#{sforums[@frmsel.index].name}")[0].to_i==0
+          if srvproc("forum_markasread",{"forum"=>sforums[@frmsel.index].name})[0].to_i==0
             for t in @threads
               t.readposts=t.posts if t.forum.name==sforums[@frmsel.index].name
             end
@@ -847,12 +847,12 @@ else
                       form.fields[2]=nil
                     end
                     if form.fields[2]!=nil and form.fields[2].pressed?
-                                    u="ac=forumedit\&forum=#{sforums[@frmsel.index].name.urlenc}\&forumname=#{form.fields[0].text.urlenc}"
+                                    u={"ac"=>"forumedit", "forum"=>sforums[@frmsel.index].name, "forumname"=>form.fields[0].text}
               if form.fields[1].text!=""
                 b=buffer(form.fields[1].text)
-                u+="\&bufforumdescription=#{b.to_s}"
+                u["bufforumdescription"]=b.to_s
               end
-              f=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&#{u}")
+              f=srvproc("forum_groups",u)
               if f[0].to_i<0
                 speech(_("General:error"))
               else
@@ -871,7 +871,7 @@ else
                     sforums.each {|f| selt.push(f.fullname)}
                     ind=selector(selt+[_("Forum:opt_changeforumposend")],_("Forum:head_changeforumpos"),0,-1)
                     if ind!=-1
-                      r=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=forumchangepos\&forum=#{sforums[@frmsel.index].name}\&position=#{ind.to_s}")
+                      r=srvproc("forum_groups",{"ac"=>"forumchangepos", "forum"=>sforums[@frmsel.index].name, "position"=>ind.to_s})
                       if r[0].to_i<0
                                                 speech(_("General:error"))
                       else
@@ -885,7 +885,7 @@ else
                       end
                 when 8
                   confirm(_("Forum:alert_deleteforum")) {
-                                    f=srvproc("forum_groups","name=#{$name}\&token=#{$token}\&ac=forumdelete\&forum=#{sforums[@frmsel.index].name}")
+                                    f=srvproc("forum_groups",{"ac"=>"forumdelete", "forum"=>sforums[@frmsel.index].name})
                   if f[0].to_i<0
                     speech(_("General:error"))
                   else
@@ -945,7 +945,7 @@ else
         end
       sthreads=[]
       if id==-7
-                  mnt=srvproc("mentions","name=#{$name}\&token=#{$token}\&list=1")
+                  mnt=srvproc("mentions",{"list"=>"1"})
           @mentions=[]
           if mnt[0].to_i==0
 t=0
@@ -972,7 +972,7 @@ end
 end
 if id==-8
   @popular=[]
-                    frm=srvproc("forum_popular","name=#{$name}\&token=#{$token}\&type=threads")
+                    frm=srvproc("forum_popular",{"type"=>"threads"})
                   if frm[0].to_i==0
                                         for t in frm[1..-1]
                       @popular.push(t.to_i)
@@ -1124,14 +1124,14 @@ return
             return
             when 1
               if sthreads[@thrsel.index].followed==false
-                if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&add=1\\&thread=#{sthreads[@thrsel.index].id}")[0].to_i<0
+                if srvproc("forum_ft",{"add"=>"1", "thread"=>sthreads[@thrsel.index].id})[0].to_i<0
   speech(_("General:error"))
 else
   speech(_("Forum:info_thrfollowed"))
   sthreads[@thrsel.index].followed=true
   end
 else
-  if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&remove=1\\&thread=#{sthreads[@thrsel.index].id}")[0].to_i<0
+  if srvproc("forum_ft",{"remove"=>"1", "thread"=>sthreads[@thrsel.index].id})[0].to_i<0
     speech(_("General:error"))
   else
     speech(_("Forum:info_thrunfollowed"))
@@ -1166,7 +1166,7 @@ for f in @forums
   end
 destination=selector(selt,_("Forum:head_movethrlocation"),ind,-1)
 if destination!=-1
-  if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=1\&threadid=#{sthreads[@thrsel.index].id}\&destination=#{mforums[destination].name}")[0].to_i<0
+  if srvproc("forum_mod",{"move"=>"1", "threadid"=>sthreads[@thrsel.index].id, "destination"=>mforums[destination].name})[0].to_i<0
     speech(_("General:error"))
   else
         speech(_("Forum:info_threadmoved"))
@@ -1179,7 +1179,7 @@ getcache
                       when 6
                         name=input_text(_("Forum:type_thrnewname"),"ACCEPTESCAPE",sthreads[@thrsel.index].name)
                         if name!="\004ESCAPE\004"
-                          if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&rename=1\&threadid=#{sthreads[@thrsel.index].id}\&threadname=#{name.urlenc}")[0].to_i<0
+                          if srvproc("forum_mod",{"rename"=>"1", "threadid"=>sthreads[@thrsel.index].id, "threadname"=>name})[0].to_i<0
                             speech(_("General:error"))
                           else
                             speech(_("Forum:info_renamed"))
@@ -1191,7 +1191,7 @@ getcache
                           end
                         when 7
                           confirm(s_("Forum:alert_thrdelete", {'thrname'=>sthreads[@thrsel.index].name})) do
-                          if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&delete=1\&threadid=#{sthreads[@thrsel.index].id}")[0].to_i<0
+                          if srvproc("forum_mod",{"delete"=>"1", "threadid"=>sthreads[@thrsel.index].id})[0].to_i<0
                             speech(_("General:error"))
                           else
                             speech(_("Forum:info_thrdeleted"))
@@ -1203,7 +1203,7 @@ getcache
                           end
                           when 8
                             clo=((sthreads[@thrsel.index].closed)?0:1)
-                            f=srvproc("forum_mod","name=#{$name}\&token=#{$token}\&closing=1\&close=#{clo.to_s}\&threadid=#{sthreads[@thrsel.index].id.to_s}")
+                            f=srvproc("forum_mod",{"closing"=>"1", "close"=>clo.to_s, "threadid"=>sthreads[@thrsel.index].id.to_s})
                             if f[0].to_i<0
                               speech(_("General:error"))
                             else
@@ -1220,7 +1220,7 @@ getcache
            end
            when 9
              pin=((sthreads[@thrsel.index].pinned)?0:1)
-                            f=srvproc("forum_mod","name=#{$name}\&token=#{$token}\&pinning=1\&pin=#{pin.to_s}\&threadid=#{sthreads[@thrsel.index].id.to_s}")
+                            f=srvproc("forum_mod",{"pinning"=>"1", "pin"=>pin.to_s, "threadid"=>sthreads[@thrsel.index].id.to_s})
                             if f[0].to_i<0
                               speech(_("General:error"))
                             else
@@ -1276,7 +1276,7 @@ forumindex=0
                                                           end
                                                           form.update
                                                           if (enter or space) and form.index==4 and polls.size<3
-                                                            pls=srvproc("polls","name=#{$name}\&token=#{$token}\&list=1\&byme=1")
+                                                            pls=srvproc("polls",{"list"=>"1", "byme"=>"1"})
                                                             if pls[0].to_i==0
                                                               if pls[1].to_i>0
                                                             ids=[]
@@ -1398,15 +1398,19 @@ fields[9]=Button.new(_("Forum:btn_send"))
                               end
                               if @forumtype == 0                          
                                                               buf = buffer(text).to_s
-                            addtourl=""
-                                                              addtourl = "\&uselore=1\&lore=#{form.fields[11].text_str}" if form.fields[11] != nil
-                                                              addtourl += "&follow=1" if form.fields[7].checked==1
+                                                              prm={"forumname"=>forumclasses[form.fields[8].index].name, "threadname"=>thread, "buffer"=>buf}
+                                                              if form.fields[11] != nil                            
+                                                              prm["uselore"]="1"
+                                                              prm["lore"]=form.fields[11].text_str
+                                                              end
+                                                              prm["follow"]="1" if form.fields[7].checked==1
                                                               if polls.size>0
-                                                                addtourl+="\&polls="
+                                                                pls=""
                                                                 for i in 0...polls.size
-                                                                  addtourl+="," if i>0
-                                                                  addtourl+=polls[i].to_s
-                                                                  end
+                                                                  pls+="," if i>0
+                                                                  pls+=polls[i].to_s
+                                                                end
+                                                                prm['polls']=pls
                                                                 end
                                                                 if files.size>0
                                                                 atts=""
@@ -1414,10 +1418,15 @@ fields[9]=Button.new(_("Forum:btn_send"))
                                                                   atts+=send_attachment(f)+","
                                                                 end
                                                                 atts.chop! if atts[-1..-1]==","
-                                                                addtourl+="\&bufatt="+buffer(atts).to_s
+                                                                prm['bufatt']=buffer(atts).to_s
                                                                 end
-                            ft = srvproc("forum_edit","name=" + $name + "&token=" + $token + "&forumname=" + forumclasses[form.fields[8].index].name + "&threadname=" + thread.urlenc + "&buffer=" + buf + addtourl)
+                            ft = srvproc("forum_edit",prm)
                           else
+                            addtourl=""
+                            for k in prm.keys
+                              addtourl+="\&" if addtourl!=""
+                              addtourl+=k+"="+prm[k].urlenc
+                              end
                             waiting
                                                   flp=read("temp/audiothreadpost.opus")
                                                   if flp[0..3]!='OggS'
@@ -1444,7 +1453,7 @@ for i in 0..a.size - 1
   end
   sn = a[s..a.size - 1]
   a = nil
-        bt = strbyline(sn)
+        bt = sn.split("\r\n")
 ft = bt[1].to_i
 waiting_end
 end
@@ -1582,7 +1591,7 @@ end
   end
   end
     def agetcache
-c=srvproc("forum_list","name=#{$name}\&token=#{$token}")
+c=srvproc("forum_list",{})
 if c[0].to_i<0
   speech(_("General:error"))
   return $scene=Scene_Main.new
@@ -1705,7 +1714,7 @@ class Scene_Forum_Thread
         @query=query
     @mention=mention
     @thread=@threadclass.id
-    srvproc("mentions","name=#{$name}\&token=#{$token}\&notice=1\&id=#{mention.id}") if mention!=nil
+    srvproc("mentions",{"notice"=>"1", "id"=>mention.id}) if mention!=nil
     end
   def main
     #return $scene=Scene_Main.new if $eltsuspend
@@ -1730,7 +1739,7 @@ class Scene_Forum_Thread
       if post.polls.size>0
                 names=[]
         for o in post.polls
-          pl=srvproc("polls","name=#{$name}\&token=#{$token}\&get=1\&poll=#{o.to_s}")
+          pl=srvproc("polls",{"get"=>"1", "poll"=>o.to_s})
           names.push(pl[2].delete("\r\n")) if pl[0].to_i==0 and pl.size>1
         end
         @fields[-2]=Select.new(names,true,0,_("Forum:head_polls"),true) if names.size==post.polls.size
@@ -1774,7 +1783,7 @@ class Scene_Forum_Thread
       if enter and @form.index<@postscount*3 and @form.index%3==1
         pl=@posts[@form.index/3].polls[@form.fields[@form.index].index]
         voted=false
-        voted=true if srvproc("polls","name=#{$name}\&token=#{$token}\&voted=1\&poll=#{pl.to_s}")[1].to_i==1
+        voted=true if srvproc("polls",{"voted"=>"1", "poll"=>pl.to_s})[1].to_i==1
         selt=[_("Polls:btn_vote"),_("Polls:opt_results")]
         selt[0]=nil if voted
         case menuselector(selt)
@@ -1875,6 +1884,7 @@ class Scene_Forum_Thread
           end
           if ((enter or space) and @form.index==@postscount*3+2) or (enter and $key[0x11] and @form.index==@postscount*3)
             buf = buffer(@form.fields[@postscount*3].text_str).to_s
+            prm = {"threadid"=>@thread.to_s, "buffer"=>buf}
             addtourl=""
             if @attachments.size>0
                                                                 atts=""
@@ -1882,9 +1892,9 @@ class Scene_Forum_Thread
                                                                   atts+=send_attachment(f)+","
                                                                 end
                                                                 atts.chop! if atts[-1..-1]==","
-                                                                addtourl+="\&bufatt="+buffer(atts).to_s
+                                                                prm['bufatt']=buffer(atts).to_s
                                                                 end
-            st=srvproc("forum_edit","name=#{$name}&token=#{$token}\&threadid=#{@thread.to_s}\&buffer=#{buf}\&#{addtourl}")
+            st=srvproc("forum_edit",prm)
 if st[0].to_i<0
   speech(_("General:error"))
 else
@@ -1942,7 +1952,7 @@ for i in 0..a.size - 1
   end
 return speech(_("General:error")) if s==nil
   sn = a[s..a.size - 1]
-          ft = strbyline(sn)
+          ft = sn.split("\r\n")
                 waiting_end
                 if ft[0].to_i == 0
   speech(_("Forum:info_postcreated"))
@@ -2051,14 +2061,14 @@ break
   case res
   when 1
                   if @followed==false
-                if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&add=1\\&thread=#{@thread}")[0].to_i<0
+                if srvproc("forum_ft",{"add"=>"1", "thread"=>@thread})[0].to_i<0
   speech(_("General:error"))
 else
   speech(_("Forum:info_thrfollowed"))
   @followed=true
   end
 else
-  if srvproc("forum_ft","name=#{$name}\&token=#{$token}\&remove=1\\&thread=#{@thread}")[0].to_i<0
+  if srvproc("forum_ft",{"remove"=>"1", "thread"=>@thread})[0].to_i<0
     speech(_("General:error"))
   else
     speech(_("Forum:info_thrunfollowed"))
@@ -2127,7 +2137,7 @@ dialog_open
                         form.update
                         if form.fields[0].text_str.size>1 and (((enter or space) and form.index==1) or (enter and $key[0x11] and form.index<2))
                           buf=buffer(form.fields[0].text_str)
-if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&edit=1\&postid=#{@posts[@form.index/3].id.to_s}\&threadid=#{@thread.to_s}\&buffer=#{buf}")[0].to_i<0
+if srvproc("forum_mod",{"edit"=>"1", "postid"=>@posts[@form.index/3].id.to_s, "threadid"=>@thread.to_s, "buffer"=>buf})[0].to_i<0
   speech(_("General:error"))
 else
   speech(_("Forum:info_postmodified"))
@@ -2163,7 +2173,7 @@ for t in mthreads
 end
 destination=selector(selt,_("Forum:head_movepostlocation"),curr,-1)
 if destination!=-1
-    if srvproc("forum_mod","name=#{$name}\&token=#{$token}\&move=2\&postid=#{@posts[@form.index/3].id}\&destination=#{mthreads[destination].id}\&threadid=#{@thread}")[0].to_i<0
+    if srvproc("forum_mod",{"move"=>"2", "postid"=>@posts[@form.index/3].id, "destination"=>mthreads[destination].id, "threadid"=>@thread})[0].to_i<0
     speech(_("General:error"))
   else
     speech(_("Forum:info_postmoved"))
@@ -2180,7 +2190,7 @@ when                        13
                                                     else
                                                       prm="name=#{$name}\&token=#{$token}\&postid=#{@posts[@form.index/3].id}\&threadid=#{@thread}\&delete=2"
                                                     end
-                                                    if srvproc("forum_mod",prm)[0].to_i<0
+                                                                                                        if srvproc("forum_mod",prm)[0].to_i<0
                                                       speech(_("General:error"))
                                                     else
                                                       speech(_("Forum:info_postdeleted"))
@@ -2211,7 +2221,7 @@ return main
                                                         end
                                                     when 15
                                                         users=[]
-                                                        us=srvproc("contacts_addedme","name=#{$name}\&token=#{$token}")
+                                                        us=srvproc("contacts_addedme",{})
                                                         if us[0].to_i<0
                                                           speech(_("General:error"))
                                                           speech_wait
@@ -2235,7 +2245,7 @@ return main
                                                             break
                                                           end
                                                           if (enter or space) and form.index==2
-                                                            mt=srvproc("mentions","name=#{$name}\&token=#{$token}\&add=1\&user=#{users[form.fields[0].index]}\&message=#{form.fields[1].text_str}\&thread=#{@thread}\&post=#{@posts[@form.index/3].id}")
+                                                            mt=srvproc("mentions",{"add"=>"1", "user"=>users[form.fields[0].index], "message"=>form.fields[1].text_str, "thread"=>@thread, "post"=>@posts[@form.index/3].id})
                                                             if mt[0].to_i<0
                                                               speech(_("General:error"))
                                                             else
@@ -2292,7 +2302,7 @@ return main
   loop_update  
   end
   def getcache
-    c=srvproc("forum_thread","name=#{$name}\&token=#{$token}\&thread=#{@thread.to_s}\&atts=1")
+    c=srvproc("forum_thread",{"thread"=>@thread.to_s, "atts"=>"1"})
         return if c[0].to_i<0
     @cache=c
     @cachetime=c[1].to_i

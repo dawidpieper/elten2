@@ -90,11 +90,6 @@ speech_wait
 $scene = Scene_Main.new if $scene == self
 end
 
-# @deprecated use rescue instead.
-def error_ignore
-  $scene = Scene_Main.restart
-end
-
 
 # Opens a menu of a specified user
 #
@@ -103,7 +98,7 @@ end
 # @return [String] returns ALT if menu was closed using an alt menu
     def usermenu(user,submenu=false)
       if $name!="guest"      
-      ct = srvproc("contacts_mod","name=#{$name}\&token=#{$token}\&searchname=#{user}")
+      ct = srvproc("contacts_mod",{"searchname"=>user})
       err = ct[0].to_i
 if err == -3
   @incontacts = true
@@ -111,21 +106,21 @@ else
   @incontacts = false
 end
 end
-av = srvproc("avatar","name=#{$name}\&token=#{$token}\&searchname=#{user}\&checkonly=1")
+av = srvproc("avatar",{"searchname"=>user, "checkonly"=>"1"})
       err = av[0].to_i
 if err < 0
   @hasavatar = false
 else
   @hasavatar = true
 end
-bt = srvproc("isbanned","name=#{$name}\&token=#{$token}\&searchname=#{user}")
+bt = srvproc("isbanned",{"searchname"=>user})
 @isbanned = false
 if bt[0].to_i == 0
   if bt[1].to_i == 1
     @isbanned = true
     end
   end
-  bl = srvproc("blog_exist","name=#{$name}\&token=#{$token}\&searchname=#{user}")
+  bl = srvproc("blog_exist",{"searchname"=>user})
     if bl[0].to_i < 0
     @hasblog = false
     else
@@ -135,7 +130,7 @@ if bt[0].to_i == 0
     @hasblog = true
     end
     end
-  hn=srvproc("honors","name=#{$name}\&token=#{$token}\&user=#{user}\&list=1")
+  hn=srvproc("honors",{"user"=>user, "list"=>"1"})
   if hn[0].to_i<0
     @hashonors=false
   else
@@ -270,7 +265,7 @@ end
 #
 # @param quiet [Boolean] if true, no text is read if there's nothing new
      def whatsnew(quiet=false)
-       agtemp = srvproc("agent","name=#{$name}\&token=#{$token}\&client=1")
+       agtemp = srvproc("agent",{"client"=>"1"})
        err = agtemp[0]
 messages = agtemp[8].to_i
 posts = agtemp[9].to_i
@@ -440,7 +435,7 @@ def bug(getinfo=true,info="")
   info += di
   info.gsub!("\r\n","\004LINE\004")
   buf = buffer(info)
-  bugtemp = srvproc("bug","name=#{$name}\&token=#{$token}\&buffer=#{buf}")
+  bugtemp = srvproc("bug",{"buffer"=>buf})
       err = bugtemp[0].to_i
   if err != 0
     speech(_("General:error"))
@@ -459,7 +454,7 @@ end
 #
 # @return [String] returns a selected contact name, if cancelled, the return value is nil
   def selectcontact
-                ct = srvproc("contacts","name=#{$name}\&token=#{$token}")
+                ct = srvproc("contacts",{})
         err = ct[0].to_i
     case err
     when -1
@@ -511,8 +506,8 @@ loop_update
 #
 # @param user [String] user whose visitingcard you want to open
   def visitingcard(user=$name)
-    prtemp = srvproc("getprivileges","name=#{$name}\&token=#{$token}\&searchname=#{user}")
-        vc = srvproc("visitingcard","name=#{$name}\&token=#{$token}\&searchname=#{user}")
+    prtemp = srvproc("getprivileges",{"searchname"=>user})
+        vc = srvproc("visitingcard",{"searchname"=>user})
     err = vc[0].to_i
     case err
     when -1
@@ -530,7 +525,7 @@ honor=gethonor(user)
 text += "#{if honor==nil;"Użytkownik";else;honor;end}: #{user} \r\n"
 text += getstatus(user,false)
 text += "\r\n"
-pr = srvproc("profile","name=#{$name}\&token=#{$token}\&get=1\&searchname=#{user}")
+pr = srvproc("profile",{"get"=>"1", "searchname"=>user})
 fullname = ""
 gender = -1
 birthdateyear = 0
@@ -599,7 +594,16 @@ end
 text += "\r\n"
 text += "#{_("EAPI_Common:txt_phr_forumposts")}: " + ui[4].to_s + "\r\n"
 text += "#{_("EAPI_Common:txt_phr_pollsanswered")}: " + ui[7].to_s.delete("\r\n") + "\r\n"
-text += "#{_("EAPI_Common:txt_phr_usedversion")}: " + ui[5].to_s.delete(".").split("").join(".") + "\r\n"
+v=""
+ui[5].split(" ").each {|e|
+if v==""
+e=e.delete(".").split("").join(".")
+else
+v+=" "
+end
+v+=e
+}
+text += "#{_("EAPI_Common:txt_phr_usedversion")}: " + v + "\r\n"
 text += "#{_("EAPI_Common:txt_phr_registered")}: " + ui[6].to_s.split(" ")[0] + "\r\n" if ui[6]!=""
 end
 if vc[1]!="     " and vc.size!=1
@@ -619,38 +623,7 @@ text += "\r\n\r\n"
       dialog_close
       return 0
     end
-    
-
-# Checks for possible updates
-def versioninfo
-    download($url + "/bin/elten.ini",$bindata + "\\newest.ini")
-        nversion = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Version","0",nversion,nversion.size,utf8($bindata + "\\newest.ini"))
-    nversion.delete!("\0")
-    nversion = nversion.to_f
-            nbeta = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Beta","0",nbeta,nbeta.size,utf8($bindata + "\\newest.ini"))
-    nbeta.delete!("\0")
-    nbeta = nbeta.to_i
-    nalpha = "\0" * 16
-    Win32API.new("kernel32","GetPrivateProfileString",'pppplp','i').call("Elten","Alpha","0",nalpha,nalpha.size,utf8($bindata + "\\newest.ini"))
-    nalpha.delete!("\0")
-    nalpha = nalpha.to_i    
-    $nbeta = nbeta
-    $nversion = nversion
-    $nalpha = nalpha
-    if $nversion > $version or $nbeta > $beta or $nalpha > $alpha or ($nalpha == 0 and $alpha != 0)
-      $scene = Scene_Update_Confirmation.new
-    else
-      speech(_("EAPI_Common:info_noupdates"))
-      speech_wait
-    end
-  end
-  
-
-          
-
-          
+              
 # Shows user agreement
 #
 # @param omit [Boolean] determines whether to allow user to close the window without accepting
@@ -974,42 +947,6 @@ end
 return rdr
 end    
 
-
-
-# @deprecated use {#filec} instead.
-  def afilec(dr)
-        used={}        
-        for b in 0..dr.size-1               
-          d=dr[b]
-        d.gsub!("/","\\")
-        s=d.split("\\")
-        pllet=["ą","ć","ę","ł","ń","ó","ś","ź","ż","Ą","Ć","Ę","Ł","Ń","Ó","Ś","Ź","Ż"]
-        for i in 0..s.size-1
-          suc=false
-          for l in pllet
-            suc=true if s[i].include?(l)
-            end
-          if suc == true
-            for j in 0..s[i].size-2
-  for l in pllet
-  if s[i][j..j+1]==l
-        s[i][j]=0
-    s[i][j+1]=0
-          s[i][s[i].size-1]=0
-    s[i].delete!("\0")
-    used[s[i]]=0 if used[s[i]]==nil
-    used[s[i]]+=1
-    s[i]+="~"+used[s[i]].to_s
-        break
-    end
-    end
-  end
-  end                
-  end
-                                    dr[b]=s.join("\\")
-        end
-          return dr
-        end
         
         # @note this function is reserved for Elten usage
         def rcwelcome
@@ -1057,7 +994,13 @@ def getsize(location,upd=true)
     return sz
     end
                       return Dir.size(location)
-  end
+                    end
+                    
+                    def createdirifneeded(dir)
+                      if !FileTest.exists?(dir)
+                        Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(dir), nil)
+                        end
+                      end
 
 # Deletes a specified directory with all subdirectories
 #
@@ -1085,10 +1028,10 @@ def deldir(dir,with=true)
   def copydir(source,destination,esource=nil,edestination=nil)
     if esource==nil
       esource=source
-      edestionation=destination
+      edestination=destination
       end
   loop_update
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(destination),nil)
+  Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(destination),nil)
   e=Dir.entries(esource)
   e.delete("..")
   e.delete(".")
@@ -1100,7 +1043,7 @@ def deldir(dir,with=true)
       copydir(source+"\\"+e[i],destination+"\\"+e[i],esource+"\\"+ec[i],edestination+"\\"+ec[i])
     else
       begin
-      Win32API.new("kernel32","CopyFile",'ppi','i').call(utf8(source+"\\"+e[i]),utf8(destination+"\\"+e[i]),0)
+      Win32API.new("kernel32","CopyFileW",'ppi','i').call(unicode(source+"\\"+e[i]),unicode(destination+"\\"+e[i]),0)
     rescue Exception
       end
       end
@@ -1127,7 +1070,7 @@ def deldir(dir,with=true)
   # @param user [String] user name
   # @return [String] return a honor, if no honor selected, returns nil
   def gethonor(user)
-    hn=srvproc("honors","name=#{$name}\&token=#{$token}\&list=1\&user=#{user}\&main=1")
+    hn=srvproc("honors",{"list"=>"1", "user"=>user, "main"=>"1"})
     if hn[0].to_i<0 or hn[1].to_i==0
       return nil
     end
@@ -1137,29 +1080,6 @@ def deldir(dir,with=true)
           return hn[5].delete("\r\n")
           end
         end
-        
-        # A shortname list of files in dir
-        #
-        # @param dir [String] a location to the dir
-        # @return [Array] an array of files
-        def filesindir(dir)
-          begin
-          dr=Dir.entries(dir)
-        rescue Exception
-          return []
-          end
-          dr.delete(".")
-dr.delete("..")
-o=[]
-for f in dr
-tmp="\0"*1024
-Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(dir+"\\"+f),tmp,tmp.size)
-tmp.delete!("\0")
-tmp.gsub!("/","\\")
-o.push(tmp.split("\\").last)
-end
-return o
-end
 def speechtofile(file="",text="",name="")
   text=read(file) if text=="" and file!=""
   text = futf8(text[3..-1]) if text[0] == 239 and text[1] == 187 and text[2] == 191
@@ -1206,6 +1126,7 @@ if (enter or space)
         if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
         fid="txe#{rand(36**8).to_s(36)}"
                     convert_book(fields[4].selected, "temp\\"+fid+".txt")
+                    next if !FileTest.exists?("temp\\"+fid+".txt")
             File.rename("temp\\"+fid+".txt","temp\\"+fid+".tmp")
             impfile="temp\\#{fid}.tmp"
             ttext=read(impfile)
@@ -1288,6 +1209,7 @@ if fields[5]!=nil
         if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
         fid="txe#{rand(36**8).to_s(36)}"
             convert_book(fields[4].selected, "temp\\"+fid+".txt")
+            next if !FileTest.exists?("temp\\"+fid+".txt")
             File.rename("temp\\"+fid+".txt","temp\\"+fid+".tmp")
             impfile="temp\\#{fid}.tmp"
             end

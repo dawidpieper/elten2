@@ -9,12 +9,12 @@ class Object
   include EltenAPI
 end
 module Elten
-Version=2.342
-Beta=0
+Version=2.36
+Beta=1
 Alpha=0
-IsBeta=0
-BuildID=20191001001
-BuildDate=1569943436
+IsBeta=1
+BuildID=20191111001
+BuildDate=1573646997
 class <<self
 def version
   return Version
@@ -130,6 +130,8 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
     exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
     end
       exit
+    end
+    begin
           rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true

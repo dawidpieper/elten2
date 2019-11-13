@@ -234,12 +234,8 @@ $fmodid=@@id
     attr_reader :id
     attr_reader :channel
     def initialize filename,thr=true
-      if $advanced_soundstreaming==0
-      @id = System.createSound filename
-    else
-      @id = System.createStream filename
-    end
-      if lenght<5 and thr
+            @id = System.createStream filename
+          if lenght<5 and thr
       Thread.new do
         sleep(10)
         if @channel != nil and @channel.playing? ==false

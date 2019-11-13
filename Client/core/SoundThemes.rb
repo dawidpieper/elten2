@@ -8,15 +8,18 @@
 class Scene_SoundThemes
   def main(canceled=false)
     @return = false
-st=Dir.entries($soundthemesdata + "\\inis")
+st=Dir.entries($soundthemesdata)
 st.delete("..")
 st.delete(".")
-@st = st
-$soundtheme = [0..st.size - 1]
-for i in 0..st.size - 1
-      $soundtheme[i] = readini($soundthemesdata + "\\inis\\" + st[i],"SoundTheme","Name")
+@soundthemes = []
+for s in st
+      d=$soundthemesdata+"\\"+s
+      if File.directory?(d) and FileTest.exists?(d+"\\__name.txt")
+        t=Struct_SoundThemes_SoundTheme.new(s, read(d+"\\__name.txt"))
+        @soundthemes.push(t)
+        end
       end
-  if st.size <= 0
+  if @soundthemes.size==0
     speech(_("SoundThemes:info_nothemes"))
     speech_wait
     if canceled == false
@@ -26,61 +29,67 @@ for i in 0..st.size - 1
     end
 return
   end
-  @stsize = $soundtheme.size
-  $soundtheme.push(_("SoundThemes:opt_default"))
+    @soundthemes.push(Struct_SoundThemes_SoundTheme.new("", _("SoundThemes:opt_default")))
   loop_update
-    @selt = $soundtheme
+    @selt = @soundthemes.map{|s| s.name}
   @selt.push(_("SoundThemes:opt_download"))
-  @sel = Select.new(@selt,false,0,_("SoundThemes:head"))
+  @sel = Select.new(@selt,true,0,_("SoundThemes:head"))
   loop do
 loop_update
     @sel.update
     update
-    if $scene != self or @return == true
-      break
-      end
-    end
+    break if $scene != self or @return == true
+          end
   end
   def update
-    if escape
-            $scene = Scene_Main.new
-    end
+    $scene = Scene_Main.new if escape
+    return menu if alt
     if enter
-            if @sel.index < @stsize
-      $soundthemepath = readini($soundthemesdata + "\\inis\\" + @st[@sel.index],"SoundTheme","Path")
-        tmp = $soundthemesdata + "\\" + $soundthemepath
-    @name = $soundthemepath
-    if $soundthemepath.size < 1
-      $soundthemepath = ""
-      @name = ""
-      speech(_("General:error"))
-      speech_wait
-          else
-      $soundthemepath = tmp
-      end
-    elsif @sel.index == @st.size
-            $soundthemepath = ""
-            @name = ""
-          else
+            if @sel.index < @soundthemes.size
+              seltheme(@soundthemes[@sel.index])
+              $scene=Scene_Main.new
+              else
             stdownload
             @return = true
             return
-    end
-                   iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('SoundTheme','Path',@name,utf8($configdata + "\\soundtheme.ini"))
+          end
+        end
+        end
+        def menu
+          m=[_("SoundThemes:opt_select")]
+          m+=[_("SoundThemes:opt_edit"), _("SoundThemes:opt_delete")] if @sel.index<@soundthemes.size-1
+          mn=menuselector(m)
+          case mn
+          when 0
+            if @sel.index<@soundthemes.size
+              seltheme(@soundthemes[@sel.index])
+            else
+              stdownload
+              @return=true
+              end
+            when 1
+              $scene=Scene_Sounds.new(@soundthemes[@sel.index].path)
+              when 2
+                confirm(_("SoundThemes:alert_delete")) {
+                deldir($soundthemesdata+"\\"+@soundthemes[@sel.index].path)
+                @return=true
+                return main
+                }
+          end
+          end
+    def seltheme(theme)
+              if theme.path!=""
+                                                $soundthemepath = $soundthemesdata + "\\" + theme.path
+                                  else
+              $soundthemepath=""                    
+      end
+                                   writeconfig("Interface", "SoundTheme", theme.path)
                 speech(_("General:info_saved"))
                 speech_wait
-                          $soundthemespath = @name
-        if $soundthemespath.size > 0
-    $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
-  else
-    $soundthemepath = "Audio"
-    end
-    $scene = Scene_Main.new
-      end
-    end
+                          $soundthemespath = theme.path
+end
     def stdownload
-      sttemp = srvproc("soundthemes","name=#{$name}\&token=#{$token}")
+      sttemp = srvproc("soundthemes",{"type"=>"1"})
             err = sttemp[0].to_i
       if err < 0
         speech(_("General:error"))
@@ -88,22 +97,11 @@ loop_update
         $scene = Scene_Main.new
         return
       end
-      @st_name = []
-      @st_path = []
-      @st_file = []
-   for i in 1..sttemp.size - 1
-     sttemp[i].delete!("\r\n")
-     download($url + sttemp[i],"st.ini")
-     @st_file[i] = sttemp[i]
-         st_name = readini(".\\st.ini","SoundTheme","Name")
-   st_path = readini(".\\st.ini","SoundTheme","Path")
-   @st_name[i] = st_name
-   @st_path[i] = st_path
-   @st_name[i].delete!("\0")
-   @st_path[i].delete!("\0")
-   File.delete("st.ini") if $DEBUG != true
- end
-   @sel = Select.new(@st_name,false,0,_("Soundthemes:head_themetodownload"))
+      @std=[]
+      for i in 0...sttemp.size/2
+        @std.push(Struct_SoundThemes_SoundTheme.new(sttemp[i*2+1].delete("\r\n"), sttemp[i*2+2].delete("\r\n")))
+      end
+         @sel = Select.new(@std.map{|s| s.name},true,0,_("Soundthemes:head_themetodownload"))
   loop do
    loop_update
    @sel.update
@@ -112,50 +110,33 @@ loop_update
      return
    end
    if enter
-          downloadtheme(@st_file[@sel.index],@st_name[@sel.index],@st_path[@sel.index])
+          downloadtheme(@std[@sel.index].path)
      return
      end
    end
  end
- def downloadtheme(ini,name,path)
-   bgm=Dir.entries(".\\Audio\\BGM")
-bgs=Dir.entries(".\\Audio\\BGS")
-me=Dir.entries(".\\Audio\\ME")
-se=Dir.entries(".\\Audio\\SE")
-bgm.delete("..")
-bgm.delete(".")
-bgs.delete("..")
-bgs.delete(".")
-me.delete("..")
-me.delete(".")
-se.delete("..")
-se.delete(".")
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path), nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGM"),nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\BGS"), nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\ME"), nil)
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8($soundthemesdata + "\\" + path + "\\SE"), nil)
-  for i in 0..bgm.size - 1
-    download(url = $url + "soundthemes/" + path + "/BGM/" + bgm[i],$soundthemesdata + "\\" + path + "\\BGM\\" + bgm[i])
-    loop_update
-  end
-  for i in 0..bgs.size - 1
-    download(url = $url + "soundthemes/" + path + "/BGS/" + bgs[i],$soundthemesdata + "\\" + path + "\\BGS\\" + bgs[i])
-    loop_update
-  end
-    for i in 0..me.size - 1
-    download(url = $url + "soundthemes/" + path + "/ME/" + me[i],$soundthemesdata + "\\" + path + "\\ME\\" + me[i])
-    loop_update
-  end
-    for i in 0..se.size - 1
-    download(url = $url + "soundthemes/" + path + "/SE/" + se[i],$soundthemesdata + "\\" + path + "\\SE\\" + se[i])
-    loop_update
-  end
-  download(url = $url + ini,$eltendata + "/" + ini)
+ def downloadtheme(path)
+     Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode($soundthemesdata + "\\" + path), nil)
+    Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode($soundthemesdata + "\\" + path + "\\BGS"), nil)
+    Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode($soundthemesdata + "\\" + path + "\\SE"), nil)
+    st=srvproc("soundthemes",{"listfiles"=>path})
+    waiting
+    for s in st[1..-1]
+      s=s.delete!("\r\n").gsub("../","").gsub("..\\","")
+            downloadfile($url+"/soundthemes/"+s, $soundthemesdata+"/"+s,nil)
+          end
+         waiting_end
   speech(_("General:info_saved"))
   speech_wait
   main
   return
    end
-end
+ end
+ 
+ class Struct_SoundThemes_SoundTheme
+   attr_accessor :path, :name
+   def initialize(path=nil, name=nil)
+     @path, @name = path, name
+     end
+   end
 #Copyright (C) 2014-2019 Dawid Pieper

@@ -32,8 +32,7 @@ loop_update
          when 2
            $scene = Scene_Voice_Volume.new
          when 3
-                      iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Voice',-1.to_s,utf8($configdata + "\\sapi.ini"))
+                      writeconfig("Voice", "Voice", -1)
                                 $voice = -1
                 speech(_("Voice:info_useddefault"))
        end
@@ -87,8 +86,7 @@ loop_update
                 menu
         end
       if enter or $selectedvoice == true
-                iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Voice',$curnum.to_s,utf8($configdata + "\\sapi.ini")) if $voice != -3 or @settings != 0
+                                writeconfig("Voice", "Voice", $curnum)
                 $voice = $curnum.to_i
                                       mow = "#{_("Voice:info_phr_selectedvoice")}: " + futf8($voicename.call($curnum))
         speech(mow)
@@ -165,8 +163,7 @@ if @rate - 1 != @sel.index
         $scene = Scene_Voice.new
       end
       if enter
-                     iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Rate',@rate.to_s,utf8($configdata + "\\sapi.ini"))
+                     writeconfig("Voice", "Rate", @rate)
      speech(_("General:info_saved"))
      speech_wait
      $scene = Scene_Voice.new
@@ -204,8 +201,7 @@ if @volume - 1 != @sel.index
         $scene = Scene_Voice.new
       end
       if enter
-                     iniw = Win32API.new('kernel32','WritePrivateProfileString','pppp','i')
-                iniw.call('Sapi','Volume',@volume.to_s,utf8($configdata + "\\sapi.ini"))
+                                     writeconfig("Voice", "Volume", @volume)
      speech(_("General:info_saved"))
      speech_wait
      $scene = Scene_Voice.new

@@ -63,12 +63,25 @@ end
 def import(arr)
     @wn,@cat,@users,@sel_users,@conversations,@conversations_user,@conversations_sp,@sel_conversations,@messages,@messages_subject,@messages_user,@messages_sp,@sel_messages,@form_messages=arr
   end
+  def name_conversation(conv)
+        if $conversations==nil or ($conversationstime||0)>Time.now.to_f-5
+          $conversations={}
+      $conversationstime=Time.now.to_f
+      c=srvproc("messages_groups",{"ac"=>"name"})
+      if c[0].to_i==0
+        for i in 0...c[1].to_i
+          $conversations[c[i*2+2].delete("\r\n")]=c[i*2+3].delete("\r\n")
+          end
+        end
+    end
+    $conversations[conv]||conv
+    end
  def load_users(limit=@users_limit||20)
    @lastuser=nil
    @lastuser=@users[@sel_users.index] if @users.is_a?(Array) and @sel_users.is_a?(Select)
    @users=[]
    @users_limit=limit
-    msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&limit=#{@users_limit}")
+    msg=srvproc("messages_conversations",{"limit"=>@users_limit})
     if msg[0].to_i<0
       speech(_("General:error"))
       speech_wait
@@ -98,7 +111,9 @@ for i in 3..msg.size-1
     selt=[]
     ind=0
     for u in @users
-            selt.push(u.user+":\r\n"+_("Messages:opt_phr_lastmsg")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",u.lastdate.year,u.lastdate.month,u.lastdate.day,u.lastdate.hour,u.lastdate.min)+"\r\n")
+      user=u.user
+      user=name_conversation(user) if user[0..0]=="["
+            selt.push(user+":\r\n"+_("Messages:opt_phr_lastmsg")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",u.lastdate.year,u.lastdate.month,u.lastdate.day,u.lastdate.hour,u.lastdate.min)+"\r\n")
       selt[-1]+="\004INFNEW{#{_("Messages:opt_phr_new")}: }\004" if u.read==0 and u.lastuser==u.user
       ind=selt.size-1 if u.user==@lastuser.user if @lastuser!=nil
     end
@@ -123,8 +138,9 @@ end
 def menu_users
 play("menu_open")
 play("menu_background")
-@menu = menulr([_("Messages:opt_answer"),_("Messages:opt_compose"),_("Messages:opt_markallasread"),_("Messages:opt_search"),_("Messages:opt_showflagged"),_("General:str_refresh")],true,0,"",true)
+@menu = menulr([_("Messages:opt_answer"),_("Messages:opt_leavegroup"),_("Messages:opt_newgroup"),_("Messages:opt_compose"),_("Messages:opt_markallasread"),_("Messages:opt_search"),_("Messages:opt_showflagged"),_("General:str_refresh")],true,0,"",true)
 @menu.disable_item(0) if @users.size ==0 or @sel_users.index>=@users.size
+@menu.disable_item(1) if @users[@sel_users.index].user[0..0]!="["
 @menu.focus
 loop do
 loop_update
@@ -133,10 +149,19 @@ if enter
 case @menu.index
 when 0
   $scene = Scene_Messages_New.new(@users[@sel_users.index].user,"","",export)
-when 1
+  when 1
+    confirm(_("Messages:alert_leavegroup")) {
+    srvproc("messages_groups",{"ac"=>"leave", "groupid"=>@users[@sel_users.index].user})
+    }
+    load_users
+    @sel_users.focus
+  when 2
+    new_conversation
+    @sel_users.focus
+when 3
 $scene = Scene_Messages_New.new("","","",export)
-when 2
-  msgtemp = srvproc("message_allread","name=#{$name}\&token=#{$token}")
+when 4
+  msgtemp = srvproc("message_allread",{})
     if msgtemp[0].to_i < 0
     speech(_("General:error"))
     speech_wait
@@ -151,13 +176,13 @@ if @wn == true
 else
   return main
   end
-  when 3
+  when 5
     load_messages("","","search")
 @cat=2
-    when 4
+    when 6
 load_messages("","","flagged")
 @cat=2
-when 5
+when 7
     play("menu_close")
   Audio.bgs_stop
   return main
@@ -172,6 +197,56 @@ end
 Audio.bgs_stop
 play("menu_close")
 end
+def new_conversation
+  form=Form.new([
+  Edit.new(_("Messages:type_groupname"),"","",true),
+  Select.new([$name,_("Messages:opt_adduser")],true,0,_("Messages:head_groupusers")),
+  Button.new(_("Messages:btn_groupcreate")),
+  Button.new(_("General:str_cancel"))
+  ])
+  cre=form.fields[2]
+  form.fields[2]=nil
+  users=[$name]
+  loop do
+    loop_update
+    form.update
+    break if form.fields[3].pressed? or escape
+    if enter and form.index==1 and form.fields[1].index==users.size and users.size<10
+      user=input_text(_("Messages:type_usertoadd"),"ACCEPTESCAPE")
+      if user!="\004ESCAPE\004"
+        user=finduser(user) if finduser(user).downcase==user.downcase
+        if user_exist(user) and !users.include?(user)
+          users.push(user)
+         form.fields[1].commandoptions.insert(users.size-1,user)
+       end
+       form.fields[1].focus
+        end
+    end
+    if form.index==1 and $key[0x2e] and form.fields[1].index>0 and form.fields[1].index<users.size
+      play("edit_delete")
+      users.delete_at(form.fields[1].index)
+      form.fields[1].commandoptions.delete_at(form.fields[1].index)
+      speak(form.fields[1].commandoptions[form.fields[1].index])
+    end
+    if users.size>1 and form.fields[0].text.size>0
+      form.fields[2]=cre
+    else
+      form.fields[2]=nil
+    end
+if form.fields[2]!=nil and form.fields[2].pressed?
+  p r=srvproc("messages_groups",{"ac"=>"create", "groupname"=>form.fields[0].text, "users"=>users.join},")}")
+  if r[0].to_i<0
+    speak(_("General:error"))
+  else
+    speak(_("Messages:info_groupcreated"))
+  end
+  speech_wait
+  load_users
+  break
+  end
+    end
+    loop_update
+  end
   def load_conversations(user,sp=nil,limit=@conversations_limit||20)
     msg=""
     if sp==nil
@@ -182,13 +257,13 @@ end
    @conversations=[]
    @conversations_user=user
    @conversations_limit=limit
-msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&user=#{user.urlenc}\&limit=#{@conversations_limit.to_i}")
+msg=srvproc("messages_conversations",{"user"=>user, "limit"=>@conversations_limit.to_i})
    else
    @conversations_sp=sp
    @conversations=[]
-   msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&sp=#{sp}")
+   msg=srvproc("messages_conversations",{"sp"=>sp})
  end
-        if msg[0].to_i<0
+         if msg[0].to_i<0
       speech(_("General:error"))
       speech_wait
       return $scene=Scene_WhatsNew.new
@@ -225,7 +300,9 @@ for i in 4..msg.size-1
       ind=selt.size-1 if c.subject==@lastconversation.subject and user==@lastconversation_user if @lastconversation!=nil and @lastconversation_user!=nil
     end
     selt.push(_("Messages:opt_showmore")) if @conversations_more
-    @sel_conversations=Select.new(selt,true,ind,((sp==nil)?s_("Messages:head_conversations",{'user'=>user}):""))
+    u=user
+    u=name_conversation(user) if user[0..0]=="["
+    @sel_conversations=Select.new(selt,true,ind,((sp==nil)?s_("Messages:head_conversations",{'user'=>u}):""))
   end
   def update_conversations
     @sel_conversations.update
@@ -283,14 +360,14 @@ Audio.bgs_stop
 play("menu_close")
 end
     def load_messages(user,subject,sp=nil,limit=@messages_limit||50,complete=false)
-               @messages=[] if !complete
+                     @messages=[] if !complete
    @messages_user=user
    @messages_subject=subject
    @messages_sp=sp
    @messages_limit=limit if !complete
    msg=""
    if sp=="flagged"
-     msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&sp=flagged")
+     msg=srvproc("messages_conversations",{"sp"=>"flagged"})
    elsif sp=="search"
      term=input_text(_("Messages:type_searchphrase"),"ACCEPTESCAPE",@lastsearch||"")
      if term=="\004ESCAPE\004"
@@ -298,9 +375,9 @@ end
        return
        end
                    @lastsearch=term
-     msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&sp=search&search=#{term.urlenc}")
+     msg=srvproc("messages_conversations",{"sp"=>"search", "search"=>term})
      else
-   msg=srvproc("messages_conversations","name=#{$name}\&token=#{$token}\&user=#{user.urlenc}\&subj=#{subject.urlenc}&limit=#{@messages_limit.to_s}")
+   msg=srvproc("messages_conversations",{"user"=>user, "subj"=>subject, "limit"=>@messages_limit.to_s})
    end
 @messages_wn=0
    if $agent_msg!=nil
@@ -372,7 +449,9 @@ when 2
     end
     selt.push(_("Messages:opt_showmore")) if @messages_more and !complete
     if !complete
-    head=s_("Messages:head_messages",{'subject'=>subject,'user'=>user})
+      u=user
+    u=name_conversation(user) if user[0..0]=="["
+    head=s_("Messages:head_messages",{'subject'=>subject,'user'=>u})
     head=_("Messages:head_flagged") if sp=='flagged'
     head=_("Messages:head_searchresults") if sp=='search'
     @sel_messages=Select.new(selt,true,0,head)
@@ -445,7 +524,7 @@ elsif @form_messages.fields[2].text!="" and @form_messages.fields[3]==nil
   end
     if ((enter or space) and @form_messages.index==3) or ((enter and $key[0x11]) and @form_messages.index==2)
       bufid=buffer(@form_messages.fields[2].text)
-      msgtemp = srvproc("message_send","name=#{$name}\&token=#{$token}\&to=#{@messages_user}\&subject=#{("RE: "+@messages_subject).urlenc}\&buffer=#{bufid}")
+      msgtemp = srvproc("message_send", {"to"=>@messages_user, "subject"=>("RE: "+@messages_subject), "buffer"=>bufid})
 if msgtemp[0].to_i<0
       speech(_("General:error"))
     else
@@ -475,6 +554,10 @@ if @messages.size==0 or @sel_messages.index>=@messages.size
 @menu.disable_item(2)
 @menu.disable_item(4)
 end
+if @messages_user[0..0]=="["
+  @menu.disable_item(1)
+  @menu.disable_item(2)
+  end
 @menu.focus
 loop do
 loop_update
@@ -487,7 +570,7 @@ when 0
   $scene = Scene_Messages_New.new(rec,"RE: " + @messages[@sel_messages.index].subject.sub("RE: ",""),"",export)
 when 1
   if @messages[@sel_messages.index].marked==0
-    if srvproc("messages","name=#{$name}\&token=#{$token}\&mark=1\&id=#{@messages[@sel_messages.index].id}")[0].to_i<0
+    if srvproc("messages",{"mark"=>"1", "id"=>@messages[@sel_messages.index].id})[0].to_i<0
       speech(_("General:error"))
       speech_wait
     else
@@ -496,7 +579,7 @@ when 1
       @messages[@sel_messages.index].marked=1
       end
     else
-if srvproc("messages","name=#{$name}\&token=#{$token}\&unmark=1\&id=#{@messages[@sel_messages.index].id}")[0].to_i<0
+if srvproc("messages",{"unmark"=>"1", "id"=>@messages[@sel_messages.index].id})[0].to_i<0
       speech(_("General:error"))
       speech_wait
     else
@@ -511,7 +594,9 @@ if srvproc("messages","name=#{$name}\&token=#{$token}\&unmark=1\&id=#{@messages[
 when 3
 $scene = Scene_Messages_New.new("","","",export)
 when 4
-  $scene = Scene_Messages_New.new("","FW: " + @messages[@sel_messages.index].subject,"#{@messages[@sel_messages.index].sender}: \r\n" + @messages[@sel_messages.index].text,export)
+  t="#{@messages[@sel_messages.index].sender}: \r\n" + @messages[@sel_messages.index].text
+  #t=@messages[@sel_messages.index].text+"\r\n\r\n"+@messages[@sel_messages.index].sender if @messages[@sel_messages.index].text.include?("\004AUDIO\004")
+    $scene = Scene_Messages_New.new("","FW: " + @messages[@sel_messages.index].subject, t, export)
 when 5
     play("menu_close")
   Audio.bgs_stop
@@ -540,7 +625,7 @@ end
                                         dialog_close
                                         end
                        def download_attachment(at)
-                                 ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+                                 ati=srvproc("attachments",{"info"=>"1", "id"=>at})
                       if ati[0].to_i<0
                         speech(_("General:error"))
                         $scene=Scene_Main.new
@@ -560,8 +645,9 @@ end
     end
                          end
                        def deletemessage
+                         return if @messages_user[0..0]=="["
   confirm(_("Messages:alert_delete")) do
-    if srvproc("messages","name=#{$name}\&token=#{$token}\&delete=1\&id=#{@messages[@sel_messages.index].id.to_s}")[0].to_i<0
+    if srvproc("messages",{"delete"=>"1", "id"=>@messages[@sel_messages.index].id.to_s})[0].to_i<0
       speech(_("General:error"))
       speech_wait
             return
@@ -599,8 +685,14 @@ class Scene_MessagesO
       speech_wait
       $scene=Scene_Main.new
       return
+    end
+    prm={}
+    if @wn==true
+      prm['unread']="1"
+    elsif @wn!=0
+      prm['limit']=@wn.to_s
       end
-          @msg = srvproc("messages","name=#{$name}\&token=#{$token}\&list=1#{if @wn==true;"\&unread=1";elsif @wn==0;"";else;"\&limit=#{@wn}";end}")
+          @msg = srvproc("messages",prm)
             case @msg[0].to_i
     when -1
       speech(_("General:error_db"))
@@ -717,7 +809,7 @@ loop_update
              $scene=Scene_Messages.new(newwn)
              else
                     if @message[@msgcur].text==""
-           msgtemp = srvproc("messages","name=#{$name}\&token=#{$token}\&id=#{@message[@msgcur].id}\&read=1")
+           msgtemp = srvproc("messages",{"id"=>@message[@msgcur].id, "read"=>"1"})
                   if msgtemp[0].to_i < 0
            speech(_("General:error"))
            speech_wait
@@ -747,7 +839,7 @@ loop_update
                   if @message[@msgcur].attachments.size>0
                     att=[]
                     for at in @message[@msgcur].attachments
-                      ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+                      ati=srvproc("attachments",{"info"=>"1", "id"=>at})
                       if ati[0].to_i<0
                         speech(_("General:error"))
                         $scene=Scene_Main.new
@@ -764,7 +856,7 @@ loop do
   form.update
   if enter and form.index==1
     at=@message[@msgcur].attachments[form.fields[1].index]
-    ati=srvproc("attachments","name=#{$name}\&token=#{$token}\&info=1\&id=#{at}")
+    ati=srvproc("attachments",{"info"=>"1", "id"=>at})
                       if ati[0].to_i<0
                         speech(_("General:error"))
                         $scene=Scene_Main.new
@@ -844,7 +936,7 @@ when 0
   $scene = Scene_Messages_New.new(rec,"RE: " + @message[@msgcur].subject.sub("RE: ",""),"",export)
 when 1
   if @message[@msgcur].marked==0
-    if srvproc("messages","name=#{$name}\&token=#{$token}\&mark=1\&id=#{@message[@msgcur].id}")[0].to_i<0
+    if srvproc("messages",{"mark"=>"1", "id"=>@message[@msgcur].id})[0].to_i<0
       speech(_("General:error"))
       speech_wait
     else
@@ -853,7 +945,7 @@ when 1
       @message[@msgcur].marked=1
       end
     else
-if srvproc("messages","name=#{$name}\&token=#{$token}\&unmark=1\&id=#{@message[@msgcur].id}")[0].to_i<0
+if srvproc("messages",{"unmark"=>"1", "id"=>@message[@msgcur].id})[0].to_i<0
       speech(_("General:error"))
       speech_wait
     else
@@ -870,7 +962,7 @@ when 3
 $scene = Scene_Messages_New.new("","","",@wn)
 when 4
          if @message[@msgcur].text==""
-           msgtemp = srvproc("messages","name=#{$name}\&token=#{$token}\&id=#{@message[@msgcur].id}\&read=1")
+           msgtemp = srvproc("messages",{"id"=>@message[@msgcur].id, "read"=>"1"})
                   if msgtemp[0].to_i < 0
            speech(_("General:error"))
            speech_wait
@@ -881,7 +973,7 @@ when 4
          end
   $scene = Scene_Messages_New.new("","FW: " + @message[@msgcur].subject,"#{@message[@msgcur].sender}: \r\n" + @message[@msgcur].text,@wn)
 when 5
-  msgtemp = srvproc("message_allread","name=#{$name}\&token=#{$token}")
+  msgtemp = srvproc("message_allread",{})
     if msgtemp[0].to_i < 0
     speech(_("General:error"))
     speech_wait
@@ -902,7 +994,7 @@ else
   if sr!="\004ESCAPE\004"
   @search=true
   @lastindex=@sel.index
-msgtemp=srvproc("messages","name=#{$name}\&token=#{$token}\&search=1\&query=#{sr}")
+msgtemp=srvproc("messages",{"search"=>"1", "query"=>sr})
 if msgtemp[0].to_i<0
   speech(_("General:error"))
   speech_wait
@@ -976,7 +1068,7 @@ play("menu_close")
 end
 def deletemessage
   confirm(_("Messages:alert_delete")) do
-    if srvproc("messages","name=#{$name}\&token=#{$token}\&delete=1\&id=#{@message[@sel.index].id.to_s}")[0].to_i<0
+    if srvproc("messages",{"delete"=>"1", "id"=>@message[@sel.index].id.to_s})[0].to_i<0
       speech(_("General:error"))
       speech_wait
       @sel.focus
@@ -1008,9 +1100,10 @@ def deletemessage
          text=@text.text_str if @text.is_a?(Edit)
          @fields = []
            @fields[0] = Edit.new(_("Messages:type_receiver"),"",receiver,true)
+           @fields[0]=nil if receiver[0..0]=="["
 @fields[1] = Edit.new(_("Messages:type_subject"),"",subject,true)
-           @fields[2] = ((@text.is_a?(Edit))?@text:Edit.new(_("Messages:type_content"),"MULTILINE",text,true))
-           @fields[3] = Button.new(_("Messages:btn_recmessage"))
+           @fields[2] = ((@text.is_a?(Edit))?@text:Edit.new(_("Messages:type_content"),"MULTILINE",text,true)) if !(@text.is_a?(String) and @text.include?("\004AUDIO\004"))
+           @fields[3] = Button.new(_("Messages:btn_recmessage")) if !(@text.is_a?(String) and @text.include?("\004AUDIO\004"))
            @fields[4]=nil
            @fields[5]=nil
            @fields[6] = Button.new(_("General:str_cancel"))
@@ -1043,7 +1136,7 @@ rec=0
                sc=false
                if rec == 2
                  sc=true
-               elsif rec == 0 and @form.fields[2].text!=""
+               elsif rec == 0 and (@form.fields[2]==nil or @form.fields[2].text!="")
                  sc=true
                  end
                if sc == true
@@ -1055,7 +1148,7 @@ rec=0
            sc=false
                if rec == 1
                  sc=true
-               elsif rec == 0 and @form.fields[2].text==""
+               elsif rec == 0 and (@form.fields[2]!=nil and @form.fields[2].text=="")
                  sc=true
                  end
            if sc == true
@@ -1129,24 +1222,26 @@ rec=0
                      end
                    end
                  if (enter or space) and ((@form.index == 4 or @form.index == 7 or @form.index == 8) or ($key[0x11] == true and enter))
-                                   @form.fields[0].finalize
+                                   @form.fields[0].finalize if @form.fields[0]!=nil
                                                           @form.fields[1].finalize
-                       @form.fields[2].finalize if rec==0
-                       receiver = @form.fields[0].text_str
+                       @form.fields[2].finalize if rec==0 and @form.fields[2]!=nil
+                       receiver = @form.fields[0].text_str if @form.fields[0]!=nil
+                       receiver=@receiver if @form.fields[0]==nil
                        receiver.sub!("@elten-net.eu","")
                        receiver=finduser(receiver) if receiver.include?("@")==false and finduser(receiver).upcase==receiver.upcase
-                       if user_exist(receiver) == false or @form.index == 8 and (/^[a-zA-Z0-9.\-_\+]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)==nil
+                       if (user_exist(receiver) == false or @form.index == 8 and (/^[a-zA-Z0-9.\-_\+]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)==nil) and @form.fields[0]!=nil
                          speech(_("Messages:info_receivernotfound"))
                        elsif (/^[a-zA-Z0-9.\-_\+]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)!=nil
                          if simplequestion(_("Messages:alert_mail")) == 1
                            subject = @form.fields[1].text_str
-                       text = @form.fields[2].text_str if rec == 0
+                       text = @form.fields[2].text_str if rec == 0 and @form.fields[2]!=nil
                        play("list_select")
                        break
                        end
                          else
                        subject = @form.fields[1].text_str
-                       text = @form.fields[2].text_str if rec == 0
+                       text = @form.fields[2].text_str if rec == 0 and @form.fields[2]!=nil
+                       text=@text if @form.fields[2]==nil
                        play("list_select")
                        break
                        end
@@ -1177,14 +1272,14 @@ rec=0
          tmp = "admin_" if @form.index == 7
          msgtemp = ""
          if @form.index != 8
-                 ex=""
-            if @att!="" and @att!=nil
+                 prm={"to"=>receiver, "subject"=>subject, "buffer"=>bufid}
+                       if @att!="" and @att!=nil
                                   bufatt=buffer(@att)
-      ex="\&bufatt="+bufatt.to_s
+      prm['bufatt']=bufatt.to_s
               end         
-           msgtemp = srvproc("message_#{tmp}send","name=#{$name}\&token=#{$token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&buffer=#{bufid}#{ex}")
+           msgtemp = srvproc("message_#{tmp}send",prm)
        else
-             @users = srvproc("users","name=#{$name}\&token=#{$token}")
+             @users = srvproc("users",{})
         err = @users[0].to_i
     case err
     when -1
@@ -1216,11 +1311,12 @@ rec=0
     for receiver in usr
       loop_update
       ex=""
+      prm={"to"=>receiver, "subject"=>subject, "buffer"=>bufid}
             if @att!="" and @att!=nil
       bufatt=buffer(@att)
-      ex="\&bufatt="+bufatt.to_s
+      prm['bufatt']=bufatt.to_s
     end
-    msgtemp = srvproc("message_send","name=#{$name}\&token=#{$token}\&to=#{receiver}\&subject=#{subject}\&buffer=#{bufid}#{ex}")
+    msgtemp = srvproc("message_send",prm)
       end
     end
   else
@@ -1262,7 +1358,7 @@ for i in 0..a.size - 1
   end
   sn = a[s..a.size - 1]
   a = nil
-        bt = strbyline(sn)
+        bt = sn.split("\r\n")
 msgtemp = bt[1].to_i
 waiting_end
                                       end

@@ -66,7 +66,7 @@ if loc.is_a?(Array) and loc.size>0
     end
   speech_wait
           if $nbeta > $beta and $isbeta==1
-downloadfile($url + "bin/beta.php?"+hexspecial("name=#{$name}\&token=#{$token}\&download=2\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}"),$bindata + "\\eltenup.exe",_("Update:wait_downloading"))
+downloadfile($url + "bin/beta.php?name=#{$name}\&token=#{$token}\&download=2\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}",$bindata + "\\eltenup.exe",_("Update:wait_downloading"))
   else
   downloadfile($url + "bin/eltenup.exe",$bindata + "\\eltenup.exe",_("Update:wait_downloading"))
 end
@@ -100,36 +100,8 @@ end
   def main
         $updating = true
         speech(_("Update:wait"))
-        if $downloadstarted != true
-        $downloadstarted = true
-    Graphics.update
-  end
-  speech_wait
-  speech(_("Update:wait_languages"))  
-  $l = false
-  langtemp = srvproc("languages","langtemp")
-    err = langtemp[0].to_i
-  case err
-  when 0
-    $l = true
-  when -1
-    speech(_("General:error_db"))
-    speech_wait
-        when -2
-      speech(_("General:error_tokenexpired"))
+                $downloadstarted = true
       speech_wait
-    end
-    if $l == true
-    langs = []
-for i in 1..langtemp.size - 1    
-  langtemp[i].delete!("\r\n")
-  langs.push(langtemp[i]) if langtemp[i].size > 0
-end
-for i in 0..langs.size - 1
-  download($url + "lng/" + langs[i].to_s + ".elg",$langdata + "\\" + langs[i].to_s + ".elg")
-  end
-speech_wait
-end  
         speech(_("Update:wait_reinstallationdownloading"))
 download($url + "bin/download_elten.exe",$bindata + "\\download_elten.exe")
     speech_wait

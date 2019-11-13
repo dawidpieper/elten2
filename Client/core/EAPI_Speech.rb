@@ -9,11 +9,16 @@
 module EltenAPI
   # Speech related functions
   module Speech
-  # Says a text
+    
+      # Says a text
   #
   # @param text [String] a text to speak
   # @param method [Numeric] 0 - wait for the previous message to say, 1 - abord the previous message, 2 - use synthesizer config
-    def speech(text,method=1,usedict=true,id=nil)
+    def speak(text,method=1,usedict=true,id=nil,closethr=true)
+      if closethr and $speechindexedthr!=nil
+        $speechindexedthr.exit
+        $speechindexedthr=nil
+        end
       id=rand(2**32) if id==nil
       $speechid=id
                   if $speech_waiter==true
@@ -94,12 +99,10 @@ prei=0
     return if speechaudio==""
   end
   if text.size!=0
-  if text.size==1 or (text.size<=2 and text[0]>100)
-    if text[0..0].bigletter or text[0..1].bigletter
+      if ((l=text.split("")).size==1) and l[0].bigletter
       play("edit_bigletter")
       end
-    end
-    end
+        end
   if $password == true
     speech_stop
     play("edit_password_char")
@@ -153,14 +156,14 @@ text=((($interface_soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\
   play("list_attachment")
   ""
   }
-  polecenie = "sapiSayString"
-polecenie = "sayString" if $voice == -1
+  func = "sapiSayString"
+func = "sayString" if $voice == -1
 text_d = text
 text_d.gsub!("\r\n\r\n","\004SLINE\004")
 text_d.gsub!("\r\n"," ")
 text_d.gsub!("\004SLINE\004","\r\n\r\n")
 buf=unicode(text_d)
-Win32API.new("screenreaderapi",polecenie+"W",'pi','i').call(buf,method) if $password != true
+Win32API.new("screenreaderapi",func+"W",'pi','i').call(buf,method) if $password != true
 $speech_lasttext = text_d
 if text.size>=5
   if Thread::current==$mainthread
@@ -181,14 +184,16 @@ text_d = text if text_d == nil
 return text_d
 end
 
+alias speech speak
+
 # Determines if the speech is used
 #
 # @param ignoreaudio [Boolean] ignores the played speechaudio
 # @return [Boolean] if the speech is ued, returns true, otherwise the return value is false
 def speech_actived(ignoreaudio=false)
-    polecenie = "sapiIsSpeaking"
+    func = "sapiIsSpeaking"
         return true if $speechaudio!=nil and ignoreaudio==false
-  if Win32API.new("screenreaderapi",polecenie,'','i').call() == 0
+  if Win32API.new("screenreaderapi",func,'','i').call() == 0
     return(false)
   else
     return(true)
@@ -202,9 +207,13 @@ def speech_actived(ignoreaudio=false)
     $speechaudio.close
     $speechaudio=nil
     end
-    polecenie = "sapiStopSpeech"
-    polecenie = "stopSpeech" if $voice == -1
-    Win32API.new("screenreaderapi",polecenie,'','i').call()
+    func = "sapiStopSpeech"
+    func = "stopSpeech" if $voice == -1
+    Win32API.new("screenreaderapi",func,'','i').call()
+    if $speechindexedthr!=nil
+      $speechindexedthr.exit
+      $speechindexedthr=nil
+      end
   end
   
   # Waits for a speech to finish reading of the previous message
@@ -318,6 +327,36 @@ when "ß"
   end
   end
 
+  def speak_indexed(h,id=nil)
+        return if !h.is_a?(Hash)
+    if $voice==-1
+      txt=""
+      h.keys.sort.each {|i| txt+=h[i]+"\r\n"}
+      return speak(txt)
+      end
+        speech_stop
+            $speechindex=nil
+    $speechindexedthr=Thread.new {
+    lst=""
+    h.keys.sort.each {|i|
+        next if h[i]=="\n" or h[i]==" "
+    $speechindex=i
+    lc=""
+    for j in 1..(lst.size)
+      lc=lst[(lst.size-j)..(lst.size-j)]
+      break if lc!="\r" and lc!="\n" and lc!=" "
+    end
+    if lc=="."
+      sleep(0.25)
+    elsif "\"-,)".include?(lc)
+      sleep(0.05)
+      end
+        speak(h[i],1,true,id,false)
+    lst=h[i] if h[i]!=nil
+    sleep(0.01) while speech_actived
+    }
+    }
+    end
   end
 end
 #Copyright (C) 2014-2019 Dawid Pieper
