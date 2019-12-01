@@ -15,13 +15,12 @@ st.delete(".")
 for s in st
       d=$soundthemesdata+"\\"+s
       if File.directory?(d) and FileTest.exists?(d+"\\__name.txt")
-        t=Struct_SoundThemes_SoundTheme.new(s, read(d+"\\__name.txt"))
+        t=Struct_SoundThemes_SoundTheme.new(s, readfile(d+"\\__name.txt"))
         @soundthemes.push(t)
         end
       end
   if @soundthemes.size==0
-    speech(_("SoundThemes:info_nothemes"))
-    speech_wait
+    alert(_("SoundThemes:info_nothemes"))
     if canceled == false
     stdownload
   else
@@ -56,7 +55,7 @@ loop_update
         end
         end
         def menu
-          m=[_("SoundThemes:opt_select")]
+          m=[_("SoundThemes:opt_select"), _("SoundThemes:opt_new")]
           m+=[_("SoundThemes:opt_edit"), _("SoundThemes:opt_delete")] if @sel.index<@soundthemes.size-1
           mn=menuselector(m)
           case mn
@@ -66,10 +65,12 @@ loop_update
             else
               stdownload
               @return=true
-              end
+            end
             when 1
+              $scene=Scene_Sounds.new("")
+            when 2
               $scene=Scene_Sounds.new(@soundthemes[@sel.index].path)
-              when 2
+              when 3
                 confirm(_("SoundThemes:alert_delete")) {
                 deldir($soundthemesdata+"\\"+@soundthemes[@sel.index].path)
                 @return=true
@@ -84,16 +85,14 @@ loop_update
               $soundthemepath=""                    
       end
                                    writeconfig("Interface", "SoundTheme", theme.path)
-                speech(_("General:info_saved"))
-                speech_wait
+                alert(_("General:info_saved"))
                           $soundthemespath = theme.path
 end
     def stdownload
       sttemp = srvproc("soundthemes",{"type"=>"1"})
             err = sttemp[0].to_i
       if err < 0
-        speech(_("General:error"))
-        speech_wait
+        alert(_("General:error"))
         $scene = Scene_Main.new
         return
       end
@@ -123,11 +122,10 @@ end
     waiting
     for s in st[1..-1]
       s=s.delete!("\r\n").gsub("../","").gsub("..\\","")
-            downloadfile($url+"/soundthemes/"+s, $soundthemesdata+"/"+s,nil)
+            downloadfile($url+"/soundthemes/"+s, $soundthemesdata+"/"+s,nil,nil,true)
           end
          waiting_end
-  speech(_("General:info_saved"))
-  speech_wait
+  alert(_("General:info_saved"))
   main
   return
    end

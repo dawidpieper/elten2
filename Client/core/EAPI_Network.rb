@@ -29,7 +29,7 @@ module EltenAPI
       if threading==true
   Thread.new do
     begin
-      ef = Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,utf8(source),utf8(destination),0,nil)
+      ef = Win32API.new("urlmon","URLDownloadToFileW",'pppip','i').call(nil,unicode(source),unicode(destination),0,nil)
           rescue Exception
       #retry
       end
@@ -40,7 +40,7 @@ i=0
 return -1 if i > 100  
   end
       else
-            ef = Win32API.new("urlmon","URLDownloadToFile",'pppip','i').call(nil,utf8(source),utf8(destination),0,nil)
+            ef = Win32API.new("urlmon","URLDownloadToFileW",'pppip','i').call(nil,unicode(source),unicode(destination),0,nil)
     end
 rescue Exception
     Graphics.update
@@ -48,12 +48,12 @@ rescue Exception
 end
 play("signal") if $netsignal==true
 $downloading = false
-  Win32API.new("wininet","DeleteUrlCacheEntry",'p','i').call(utf8(source))
+  Win32API.new("wininet","DeleteUrlCacheEntryW",'p','i').call(unicode(source))
   if FileTest.exist?(destination) == false and (source.include?("php"))
     writefile(destination,-4)
   else
     if source.downcase.include?(".php") or source.downcase.include?(".eapi")
-          des = read(destination)
+          des = readfile(destination)
     if des[0] == 239 and des[1] == 187 and des[2] == 191
             des = des[3..des.size-1]
       File.delete(destination)
@@ -123,7 +123,9 @@ end
           # @param url [String] an URL of a file to download
           # @param destination [String] location to an output file
           # @param msg [String] downloading dialog header
-          def downloadfile(url,destination,msg="Pobieranie...",msgcomplete=nil)
+          def downloadfile(url,destination,msg="",msgcomplete=nil, override=nil)
+                        return if override==nil and FileTest.exists?(destination) and confirm(_("EAPI_Network:alert_override"))==0
+                        Log.debug("Downloading file: #{url}")
             play("signal") if $netsignal==true
             host=$url
             port=80
@@ -138,7 +140,7 @@ end
 sock.connect(addr).to_s
 data = "GET /#{cnt} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\n\r\n"
 if $ruby != true
-  s = sock.send(utf8(data))
+  s = sock.send(data)
 else
   s = sock.write(data)
 end
@@ -167,8 +169,8 @@ speech(msg)
 sptm=Time.now.to_i
 i=0
 sil=false
-cf = Win32API.new("kernel32","CreateFile",'piipiip','i')
-handle = cf.call(utf8(destination),2,1|2|4,nil,2,0,nil)
+cf = Win32API.new("kernel32","CreateFileW",'piipiip','i')
+handle = cf.call(unicode(destination),2,1|2|4,nil,2,0,nil)
 wrfile = Win32API.new("kernel32","WriteFile",'ipipi','I')
 bp = [0].pack("l")
 while i<l
@@ -183,10 +185,10 @@ while i<l
     if space
     if sil==false
       sil=true
-      speech(_("EAPI_Network:info_progressdonotread"))
+      alert(_("EAPI_Network:info_progressdonotread"))
     else
       sil=false
-      speech(_("EAPI_Network:info_readprogress"))
+      alert(_("EAPI_Network:info_readprogress"))
     end
     end
     if sptm+3<Time.now.to_i

@@ -34,7 +34,7 @@ lng = $locales[@sel.index]['_code']
                                    writeconfig("Interface", "Language", lng)
 $language = lng
 set_locale($language)
-speech(_("General:info_saved"))
+alert(_("General:info_saved"))
 speech_wait
 main
 return

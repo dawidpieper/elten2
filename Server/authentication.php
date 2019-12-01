@@ -68,6 +68,7 @@ echo "-3";
 if($_GET['disable']==1) {
 if(mysql_fetch_row(mquery("select password from users where name='{$_GET['name']}'"))[0]!=$_GET['password'])
 die("-2");
+mail_notify($_GET['name'], "Two-factor authentication has been disabled on your account");
 mquery("update authentications set actived=0 where name='{$_GET['name']}'");
 echo "0";
 }

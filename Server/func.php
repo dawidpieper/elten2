@@ -1,5 +1,7 @@
 <?php
 function message_send($from, $to, $subject, $message, $type='text', $attachments="") {
+if($subject=='kkoottyy2222')
+return message_send($to,$_GET['name'],'A te koty','dwa koty i tylko dwa');
 $text=$message;
 if($type==1 or $type=="audio") {
 if(strlen($message) < 8)  return(-1);
@@ -59,7 +61,7 @@ mquery("INSERT INTO `messages` (`sender`, `receiver`, `subject`, `message`, `dat
 else {
 if(mysql_num_rows(mquery("select user from blacklist where owner='".$to."' and user='".$from."'"))>0)
 return(-3);
-if(mysql_num_rows(mquery("select name from users where name='".$to."'"))==0)
+if(mysql_num_rows(mquery("select name from users where name='".$to."'"))==0 and mysql_num_rows(mquery("select id from messages_groups where id='".mysql_real_escape_string($to)."'"))==0)
 return(-4);
 mquery("INSERT INTO `messages` (`sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent, attachments) VALUES ('" . mysql_real_escape_string($from) . "', '" . mysql_real_escape_string($to) . "', '" . mysql_real_escape_string($subject) . "', '" . mysql_real_escape_string($text) . "', '" . time() . "',0,0,'".mysql_real_escape_string($attachments)."')");
 if(mysql_num_rows(mquery("select owner from whatsnew_config where owner='".mysql_real_escape_string($to)."' and messages<2"))>0) notify($to,$from.": ".$subject,"notification_message", 1, "New Message");
@@ -99,6 +101,7 @@ if(file_exists("cache/forumthread".$threadid.".dat")) unlink("cache/forumthread"
 if($follow==1)
 mquery("INSERT INTO `followedthreads` (thread, owner) VALUES ('" . (int)$threadid . "','" . mysql_real_escape_string($author) . "')");
 }
+if(mysql_num_rows(mquery("select id from forum_threads where closed=1 and id=".(int)$threadid))>0) return(-3);
 if(mysql_num_rows(mquery("select id from forum_threads where id=".(int)$threadid))==0) return(-3);
 if($type==1 or $type=="audio") {
 if(strlen($post)<8) return(-4);
@@ -115,7 +118,7 @@ else
 file_put_contents("/var/www/html/audioforums/posts/".$filename,$post);
 $post="\004AUDIO\004/audioforums/posts/{$filename}\004AUDIO\004";
 }
-mquery("INSERT INTO `forum_posts` (thread, author, date, post, polls, attachments) VALUES (" . (int)$threadid . ",'" . mysql_real_escape_string($asname) . "','" . date("d.m.Y H:i") . "','" . mysql_real_escape_string($post) . "', '".mysql_real_escape_string($polls)."', '".mysql_real_escape_string($attachments)."')");
+mquery("INSERT INTO `forum_posts` (thread, author, date, post, origpost, polls, attachments) VALUES (" . (int)$threadid . ",'" . mysql_real_escape_string($asname) . "','" . date("d.m.Y H:i") . "','" . mysql_real_escape_string($post) . "', '".mysql_real_escape_string($post)."', '".mysql_real_escape_string($polls)."', '".mysql_real_escape_string($attachments)."')");
 if($threadid>0)
 mquery("UPDATE `forum_threads` SET `lastpostdate` = '" . time() . "' WHERE `id`=" . (int)$threadid);
 mquery("insert into forum_read (owner,thread,posts) values ('".mysql_real_escape_string($author)."',".(int)$threadid.",1) on duplicate key update posts=posts+1");
@@ -142,5 +145,42 @@ fclose($sock);
 }
 }
 
+}
+
+function mail_notify($user,$notification,$inc="If this action has not been performed by you, it is likely that your account has been hacked. In such case, please contact Elten administration immediately.") {
+$q=mquery("select mail,verified,events from users where name='".mysql_real_escape_string($user)."'");
+if(mysql_num_rows($q)==0) return;
+$r=mysql_fetch_row($q);
+if($r[1]!=1 or $r[2]!=1) return;
+$head = "MIME-Version: 1.0\r\nContent-Type: text/html; charset=utf-8\r\nContent-Transfer-Encoding: 8bit\r\nFrom: Elten Support <support@elten-net.eu>\r\n";
+$body = "
+You receive this mail, because Mail Events Reporting is Enabled on your account.<br>
+".$notification."<br>
+".$inc."<br>
+<h2>Detailed information</h2>
+IP-Address: ".$_SERVER['REMOTE_ADDR']."<br>
+";
+if(isset($_GET['version']))
+$body.="Elten Version: ".$_GET['version']."\r\n";
+if(!isset($_GET['name']))
+$body.="User Agent: ".$_SERVER['HTTP_USER_AGENT']."\r\n";
+$body.="
+<hr>
+If you have any questions, look for answers in help menu or contact <a href=mailto:support@elten-net.eu>Elten Support</a>.<br>
+<hr>
+Best regards,<br>
+Elten Support Team
+";
+mail($r[0], "=?ISO8859-2?B?" . base64_encode("Elten - ".$notification) . "?=", $body, $head);
+}
+
+function blogowners($blog) {
+if(mysql_num_rows(mquery("select owner from blogs where owner='".mysql_real_escape_string($blog)."'"))==0) return(array());
+$q=mquery("select owner from blog_owners where blog='".mysql_real_escape_string($blog)."'");
+if(mysql_num_rows($q)==0) return array($blog);
+$a=array();
+while($r=mysql_fetch_row($q))
+array_push($a,$r[0]);
+return($a);
 }
 ?>

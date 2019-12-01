@@ -85,6 +85,17 @@ for o in t
     return s
   end
   def polsort
+    cs=Win32API.new("kernel32", "CompareStringW", 'iipipi', 'i')
+    a=self.sort {|a,b|
+    if !a.is_a?(String) || !b.is_a?(String)
+      a<=>b
+    else
+      ua=unicode(a)
+      ub=unicode(b)
+      cs.call(0x400, 0x10|8, ua, ua.size/2, ub, ub.size/2)-2
+              end
+    }
+    return a
 poses = [["a", "A"], ["b", "B"], ["c", "C"], ["ć", "Ć"], ["d", "D"], ["e", "E"], ["ę", "Ę"], ["f", "F"],["g", "G"], ["h", "H"], ["i", "I"], ["j", "J"], ["k", "K"], ["l", "L"], ["ł", "Ł"], ["m", "M"], ["n", "N"], ["ń", "Ń"], ["o", "O"], ["ó", "Ó"], ["p", "P"], ["q", "Q"], ["r", "R"], ["s", "S"], ["ś", "Ś"], ["t", "T"], ["u", "U"], ["v", "V"], ["w", "W"], ["x", "X"], ["y", "Y"], ["z","Z"], ["ź", "Ź"], ["ż", "Ż"]]
         self.sort {|a,b|
     if a==b
@@ -126,43 +137,6 @@ poses = [["a", "A"], ["b", "B"], ["c", "C"], ["ć", "Ć"], ["d", "D"], ["e", "E"
       end
     end
   end
-
-class Fixnum
-  alias greater >
-  alias less <
-  alias greaterq >=
-  alias lessq <=
-  def >(i)
-        greater(i.to_f)
-  end
-  def <(i)
-    less(i.to_f)
-    end
-  def >=(i)
-    greaterq(i.to_f)
-  end
-  def <=(i)
-    lessq(i.to_f)
-    end
-  end
-  class Float
-  alias greater >
-  alias less <
-  alias greaterq >=
-  alias lessq <=
-  def >(i)
-        greater(i.to_f)
-  end
-  def <(i)
-    less(i.to_f)
-    end
-  def >=(i)
-    greaterq(i.to_f)
-  end
-  def <=(i)
-    lessq(i.to_f)
-    end
-    end
 
 class String
   def to_b
@@ -325,30 +299,28 @@ end
     class Dir
 def self.entries(dir)
 files=[]
-      finddata = [0, 0,0, 0,0, 0,0, 0,0,0,0].pack("IIIIIIIIIII")
-      len = finddata.length
-      finddata = finddata + '\0'*260 + '\0'*14
-dirf=utf8(dir+"\\*")
-handle = Win32API.new("kernel32","FindFirstFile",'pp','i').call(dirf,finddata)
+      finddata = ([0, 0,0, 0,0, 0,0, 0]+[0]*260*2+[0]*14*2).pack("IIIIIIII"+"C"*2*260+"C"*2*14)
+      len=44
+      dirf=unicode(dir+"\\*")
+handle = Win32API.new("kernel32","FindFirstFileW",'pp','i').call(dirf,finddata)
 return []  if handle==-1
 loop do
-basename = futf8(finddata[len,260].gsub(/\0.*/,""))
-files.push(basename)
-break if Win32API.new("kernel32","FindNextFile",'ip','i').call(handle,finddata)==0
+    basename = deunicode(finddata[len,260*2])
+    files.push(basename)
+break if Win32API.new("kernel32","FindNextFileW",'ip','i').call(handle,finddata)==0
 end
 Win32API.new("kernel32","FindClose",'i','i').call(handle)
 return files
 end
 def self.size(dir)
-        finddata = [0, 0,0, 0,0, 0,0, 0,0,0,0].pack("IIIIIIIIIII")
-      len = finddata.length
-      finddata = finddata + '\0'*260 + '\0'*14
-dirf=utf8(dir+"\\*")
-handle = Win32API.new("kernel32","FindFirstFile",'pp','i').call(dirf,finddata)
+        finddata = ([0, 0,0, 0,0, 0,0, 0]+[0]*260*2+[0]*14*2).pack("IIIIIIII"+"C"*2*260+"C"*2*14)
+      len=44
+      dirf=unicode(dir+"\\*")
+handle = Win32API.new("kernel32","FindFirstFileW",'pp','i').call(dirf,finddata)
 return 0 if handle==-1
 size=0
 loop do
-  basename=futf8(finddata[len,260].gsub(/\0.*/,""))
+  basename=deunicode(finddata[len,260*2])
     if basename!="." and basename!=".."
     fd=finddata.unpack("iiiiiiiiii")
 if (fd[0]&16)>0
@@ -357,7 +329,7 @@ else
   size+=(fd[7]*(0xffffffff+1)+fd[8])
   end
 end
-  break if Win32API.new("kernel32","FindNextFile",'ip','i').call(handle,finddata)==0
+  break if Win32API.new("kernel32","FindNextFileW",'ip','i').call(handle,finddata)==0
 end
 Win32API.new("kernel32","FindClose",'i','i').call(handle)
 return size
@@ -380,7 +352,7 @@ end
 
 class File
 def self.directory?(file)
-  attrib=Win32API.new("kernel32","GetFileAttributes",'p','i').call(utf8(file))
+  attrib=Win32API.new("kernel32","GetFileAttributesW",'p','i').call(unicode(file))
 if attrib==-1
 return false
 else
@@ -392,7 +364,7 @@ end
 end
 end
 def self.file?(file)
-attrib=Win32API.new("kernel32","GetFileAttributes",'p','i').call(utf8(file))
+attrib=Win32API.new("kernel32","GetFileAttributesW",'p','i').call(unicode(file))
 if attrib==-1
 return false
 else
@@ -404,15 +376,15 @@ end
 end
 end
 def self.delete(file)
-if Win32API.new("kernel32","DeleteFile",'p','i').call(utf8(file))==0
+if Win32API.new("kernel32","DeleteFileW",'p','i').call(unicode(file))==0
 return false
 else
 return true
 end
 end
 def self.size(file)
-  createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
-handler = createfile.call(utf8(file),1,1|2|4,nil,4,0,0)
+  createfile = Win32API.new("kernel32","CreateFileW",'piipili','l')
+handler = createfile.call(unicode(file),1,1|2|4,nil,4,0,0)
 return -1 if handler == -1
   readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
 sz = "\0"*8

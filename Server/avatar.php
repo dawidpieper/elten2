@@ -1,5 +1,7 @@
 <?php
 require("init.php");
+if(strpos("/",$_GET['searchname']) !== false) die;
+if(strpos("\\",$_GET['searchname']) !== false) die;
 if(file_exists("avatars/".$_GET['searchname']) == false) {
 echo "-4";
 die;

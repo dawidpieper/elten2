@@ -8,28 +8,24 @@
 class Scene_Chat
   def main
     if $name=="guest"
-      speech(_("General:error_guest"))
-      speech_wait
+      alert(_("General:error_guest"))
       $scene=Scene_Main.new
       return
       end
     if isbanned($name)
-      speech(_("Chat:error_banned"))
-      speech_wait
+      alert(_("Chat:error_banned"))
       $scene=Scene_Main.new
       return
       end
     if $ruby == true
-      speech(_("General:error_platform"))
-      speech_wait
+      alert(_("General:error_platform"))
       $scene=Scene_Main.new
       return
       end
     $agent.write(Marshal.dump({'func'=>'chat_open'}))
     ct=srvproc("chat",{"recv"=>"1"})
     if ct[0].to_i<0
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       $scene=Scene_Main.new
       return
     end
@@ -39,8 +35,7 @@ class Scene_Chat
     speech("#{_("Chat:info_phr_lastmessage")}: #{@msg}")
               ct=srvproc("chat",{"send"=>"1", "text"=>_("Chat:joined")})
     if ct[0].to_i<0
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       $scene=Scene_Main.new
       return
     end   
@@ -53,8 +48,7 @@ class Scene_Chat
         @form.fields[1].silent=false
         ct=srvproc("chat",{"hst"=>"1"})
         if ct[0].to_i<0
-          speech(_("General:error"))
-          speech_wait
+          alert(_("General:error"))
           $scene=Scene_Main.new
           return
         end
@@ -63,8 +57,7 @@ class Scene_Chat
         @form.fields[1].index=@form.fields[1].text.size
         onl=srvproc("chat_online",{})
         if onl[0].to_i<0
-          speech(_("General:error"))
-          speech_wait
+          alert(_("General:error"))
           $scene=Scene_Main.new
           return
         end
@@ -93,8 +86,7 @@ class Scene_Chat
                 if @form.index == 1
                           ct=srvproc("chat",{"hst"=>"1"})
         if ct[0].to_i<0
-          speech(_("General:error"))
-          speech_wait
+          alert(_("General:error"))
           $scene=Scene_Main.new
           return
         end
@@ -103,8 +95,7 @@ class Scene_Chat
                         elsif @form.index == 2
                                 onl=srvproc("chat_online",{})
         if onl[0].to_i<0
-          speech(_("General:error"))
-          speech_wait
+          alert(_("General:error"))
           $scene=Scene_Main.new
           return
         end
@@ -120,7 +111,7 @@ class Scene_Chat
        @form.fields[0].settext("")
        ct=srvproc("chat",{"send"=>"1", "text"=>txt})
        if ct[0].to_i < 0
-         speech(_("General:error"))
+         alert(_("General:error"))
        else
          play("signal")
                 end
@@ -132,8 +123,7 @@ class Scene_Chat
           if $chat!=true
             ct=srvproc("chat", {"send"=>"1", "text"=>_("Chat:left")})
     if ct[0].to_i<0
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       $scene=Scene_Main.new
       return
     end   

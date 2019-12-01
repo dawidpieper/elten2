@@ -133,7 +133,7 @@ return file
     volume = volume.to_i
     pitch = pitch.to_i
     file = searchaudiofileextension(file)
-$se.push(Bass::Sound.new(utf8(file),1))
+$se.push(Bass::Sound.new(file,1))
 if volume < 100
   $se[$se.size - 1].volume = (volume.to_f / 100.to_f).to_f
 end
@@ -201,7 +201,7 @@ end
 if suc == true
   return found
 else
-  return utf8(file)
+  return file
   end
 end
   end

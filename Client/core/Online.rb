@@ -6,28 +6,19 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Online
-  def initialize
+  def main
                     @online = srvproc("online",{})
-       
-            for i in 0..@online.size - 1
-      @online[i].delete!("\r")
-      @online[i].delete!("\r\n")
+    @onl=[]
+            for o in @online[1..-1]
+      @onl.push(o.delete("\r\n"))
     end
-        onl = []
-    for i in 1..@online.size - 1
-      onl.push(@online[i]) if @online[i].size > 0
-    end
-        selt = []
-    for i in 0..onl.size - 1
-      selt[i] = onl[i] + "." + " " + getstatus(onl[i],false)
+    @onl.polsort!
+                selt = []
+    for u in @onl
+      selt.push(u + ". " + getstatus(u,false))
       end
-    @sel = Select.new(selt,true,0,_("Online:head"),true)
-    speech_stop
-    @onl = onl
-    end
-    def main
-                  @sel.focus
-    loop do
+    @sel = Select.new(selt,true,0,_("Online:head"))
+            loop do
 loop_update
       @sel.update
       if escape
@@ -67,8 +58,8 @@ $scene = Scene_Main.new
 end
 break
 end
-if Input.trigger?(Input::DOWN) and @menu.index == 0
-    Input.update
+if arrow_down and @menu.index == 0
+    loop_update
   if usermenu(@onl[@sel.index],true) != "ALT"
     @menu = menulr(sel)
   else

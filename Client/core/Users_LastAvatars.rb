@@ -9,8 +9,7 @@ class Scene_Users_LastAvatars
   def main
     avt=srvproc("lastavatars",{})
     if avt[0].to_i<0
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       return $scene=Scene_Main.new
     end
     @users=[]
@@ -21,13 +20,9 @@ class Scene_Users_LastAvatars
         @users.push(l.delete("\r\n"))
         t=1
       else
-        begin
-        t=Time.at(l.to_i)
+                t=Time.at(l.to_i)
           @times.push(sprintf("%04d-%02d-%02d %02d:%02d",t.year,t.month,t.day,t.hour,t.min))
-      rescue Exception
-        retry
-        end
-        t=0
+              t=0
         end
     end
     selt=[]

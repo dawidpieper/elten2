@@ -19,10 +19,12 @@ class Scene_Version
     loop_update while f.avail==0
     delay(0.1)
     txt+=f.read.split("\n")[0].delete("\r")+"\r\n"
-    f=ChildProc.new("bin\\youtube-dl --version")
+    if FileTest.exists?($extrasdata+"\\youtube-dl.exe")
+    f=ChildProc.new("\"#{$extrasdata}\\youtube-dl\" --version")
     loop_update while f.avail==0
     delay(0.1)
-    txt+="Youtube-DL "+f.read.split("\n")[0].delete("\r")+"\r\n"
+        txt+="Youtube-DL "+f.read.split("\n")[0].delete("\r")+"\r\n"
+        end
     f=ChildProc.new("bin\\7z")
     loop_update while f.avail==0
     delay(0.1)

@@ -6,85 +6,103 @@
 #Open Public License is used to licensing this app!
 
 class Scene_Admins
-  def initialize
-            @admins = srvproc("admins",{})
-            for i in 0..@admins.size - 1
-      @admins[i].delete!("\r")
-      @admins[i].delete!("\r\n")
-    end
-        adm = []
-    for i in 1..@admins.size - 1
-      adm.push(@admins[i]) if @admins[i].size > 0
-    end
-        selt = []
-    for i in 0..adm.size - 1
-      selt[i] = adm[i] + "." + " " + getstatus(adm[i])
-      end
-    @sel = Select.new(selt,true,0,_("Admins:head"),true)
-    speech_stop
-    @adm = adm
-    end
-    def main
-                        @sel.focus
-    loop do
-loop_update
-      @sel.update
-      if escape
-        $scene = Scene_Main.new
-        break
-      end
-      if alt
-                menu
-                loop_update
-              end
-      if enter
-                usermenu(@adm[@sel.index],false)
+  def main(cat=0, subcat=0)
+    @indexes||=[]
+    @selt=[]
+    @users=[]
+    @subcats=[]
+        case cat
+    when 0
+        @selt=[_("Admins:opt_developers"), _("Admins:opt_translators"), _("Admins:opt_administrators"), _("Admins:opt_moderators")]
+    @users=[]
+    when 1
+adm = srvproc("admins",{"cat"=>"developers"})
+        @users= []
+    adm[1..-1].each {|a| @users.push(a.delete("\r\n")) }      
+    @users.polsort!
+    @selt=@users.deep_dup
+    when 2
+      if subcat==0
+      for i in 0...$locales.size
+        l=$locales[i]
+      if l.is_a?(Hash) and l["_authors"]!=nil
+                            @selt.push(l["_name"])
+                            @subcats.push(i+1)
         end
-      break if $scene != self
       end
-    end
-    def menu
-play("menu_open")
-play("menu_background")
-@menu = menulr(sel = [@adm[@sel.index],_("General:str_refresh"),_("General:str_cancel")])
-loop do
-loop_update
-@menu.update
-break if $scene != self
-if enter
-  case @menu.index
-  when 0
-    if usermenu(@adm[@sel.index],true) != "ALT"
-          @menu = menulr(sel)
+    else
+      @users=$locales[subcat-1]["_authors"].polsort
+      @selt=@users.deep_dup
+            end
+    when 3
+      adm=srvproc("admins", {"cat"=>"administrators"})
+      for i in 0...adm.size/2
+        @users.push(adm[i*2+2].delete("\r\n"))
+        @selt.push(@users.last+" ("+adm[i*2+1].delete("\r\n")+")")
+        end
+    when 4
+      if subcat==0
+      adm = srvproc("admins",{"cat"=>"moderators"})
+        @groups={}
+        i=1
+    loop do
+        break if i>=adm.size
+        id=adm[i].to_i
+        i+=1
+        name=adm[i].delete("\r\n")
+        i+=1
+        @groups[id]=[adm[i].delete("\r\n")]
+        i+=1
+        c=adm[i].to_i
+        u=[]
+                        for j in 0...c
+          u.push(adm[i+1+j].delete("\r\n"))
+        end
+        @groups[id]+=u.polsort
+        i+=1+c
+        @selt.push(name)
+        @subcats.push(id)
+        end
+      else
+        @users=@groups[subcat]
+        @selt=@users.deep_dup
+        end
+      end
+      for i in 0...@users.size
+        @selt[i]+=".\r\n"+getstatus(@users[i])
+        end
+    h=""
+    h=_("Admins:head") if cat==0
+    ind=@indexes[cat]||0
+    ind=0 if subcat>0
+    @sel=Select.new(@selt,true,ind,h)
+    loop do
+      loop_update
+      @sel.update
+      if enter or (arrow_right and @sel.index>=@users.size) or (alt and @sel.index<@users.size)
+        if cat==0
+          @indexes={0=>@sel.index}
+          return main(@sel.index+1)
+          else
+        if @sel.index>=@users.size
+          @indexes[cat]=@sel.index
+          return main(cat,@subcats[@sel.index])
+                  else
+          usermenu(@users[@sel.index])
+          end
+          end
+        end
+      if escape or (arrow_left and cat>0)
+        if subcat>0
+          return main(cat)
+        elsif cat>0
+          return main(0)
         else
           break
+          end
         end
-        when 1
-          @main = true
-  when 2
-$scene = Scene_Main.new
-end
-break
-end
-if Input.trigger?(Input::DOWN) and @menu.index == 0
-    Input.update
-  if usermenu(@adm[@sel.index],true) != "ALT"
-    @menu = menulr(sel)
-  else
-    break
     end
+    $scene=Scene_Main.new
   end
-if alt or escape
-break
-end
-end
-Audio.bgs_stop
-play("menu_close")
-if @main == true
-  initialize
-  main
   end
-return
-end
-end
 #Copyright (C) 2014-2019 Dawid Pieper

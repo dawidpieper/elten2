@@ -7,11 +7,16 @@
 
 class Scene_Contacts
   def initialize(type=0)
-    if $name=="guest"
-            return
+    @type=type
+  end
+      def main
+      if $name=="guest"
+      alert(_("General:error_guest"))
+      $scene=Scene_Main.new
+      return
       end
       ct=["-4"]
-      case type
+      case @type
       when 0
       ct = srvproc("contacts",{})
       when 1
@@ -20,13 +25,11 @@ class Scene_Contacts
         err = ct[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         return
       end
@@ -37,28 +40,18 @@ class Scene_Contacts
             for i in 1..ct.size - 1
         @contact.push(ct[i]) if ct[i].size > 1
       end
+      @contact.polsort!
       if @contact.size < 1
-        speech(_("Contacts:info_empty"))
+        alert(_("Contacts:info_empty"))
               end
       selt = []
       for i in 0..@contact.size - 1
         selt[i] = @contact[i] + ". " + getstatus(@contact[i])
         end
       header=_("Contacts:head")
-      header="" if type>0
-      @type=type
-        @sel = Select.new(selt,true,0,header,true)
-      speech_stop
-    end
-    def main
-      if $name=="guest"
-      speech(_("General:error_guest"))
-      speech_wait
-      $scene=Scene_Main.new
-      return
-      end
-                        @sel.focus
-      loop do
+      header="" if @type>0
+              @sel = Select.new(selt,true,0,header)
+            loop do
 loop_update
         @sel.update if @contact.size > 0
         update
@@ -79,7 +72,7 @@ loop_update
         end
         if $key[0x2e] and @type==0
           if @contact.size >= 1
-          if simplequestion(_("Contacts:alert_delcontact")) == 1
+          if confirm(_("Contacts:alert_delcontact")) == 1
             $scene = Scene_Contacts_Delete.new(@contact[@sel.index],self)
             @sel.disable_item(@sel.index)
 loop_update            
@@ -137,7 +130,7 @@ loop_update
             if alt or escape
                             break
               end
-            if enter or (Input.trigger?(Input::DOWN) and @menu.index == 0)
+            if enter or (arrow_down and @menu.index == 0)
               case @menu.index
 when 0
 if usermenu(@contact[@sel.index],true) != "ALT"
@@ -178,24 +171,19 @@ end
                         err = ct[0].to_i
             case err
             when 0
-              speech(_("Contacts:info_contactadded"))
-              speech_wait
+              alert(_("Contacts:info_contactadded"))
               $scene = @scene
               when -1
-                speech(_("General:error_db"))
-                speech_wait
+                alert(_("General:error_db"))
                 $scene = Scene_Main.new
                 when -2
-                  speech(_("General:error_tokenexpired"))
-                  speech_wait
+                  alert(_("General:error_tokenexpired"))
                   $scene = Scene_Loading.new
                   when -3
-                    speech(_("Contacts:error_contactalreadyadded"))
-                    speech_wait
+                    alert(_("Contacts:error_contactalreadyadded"))
                     $scene = @scene
                     when -5
-                      speech(_("Contacts:error_usernotfound"))
-                      speech_wait
+                      alert(_("Contacts:error_usernotfound"))
                       $scene = Scene_Contacts.new
                     end
                                       $scene = Scene_Contacts.new if $scene == nil
@@ -216,24 +204,19 @@ end
                         err = ct[0].to_i
             case err
             when 0
-              speech(_("Contacts:info_contactdeleted"))
-              speech_wait
+              alert(_("Contacts:info_contactdeleted"))
               $scene = @scene
               when -1
-                speech(_("General:error_db"))
-                speech_wait
+                alert(_("General:error_db"))
                 $scene = Scene_Main.new
                 when -2
-                  speech(_("General:error_tokenexpired"))
-                  speech_wait
+                  alert(_("General:error_tokenexpired"))
                   $scene = Scene_Loading.new
                   when -3
-                    speech(_("Contacts:error_usernotadded"))
-                    speech_wait
+                    alert(_("Contacts:error_usernotadded"))
                     $scene = @scene
                     when -5
-                      speech(_("Contacts:error_usernotfound"))
-                      speech_wait
+                      alert(_("Contacts:error_usernotfound"))
                       $scene = Scene_Contacts.new
                     end
                     $scene = Scene_Contacts.new if $scene == nil

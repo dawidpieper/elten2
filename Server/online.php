@@ -4,14 +4,14 @@ $period=90;
 if($_GET['period']!=NULL)
 $period=$_GET['period'];
 $error = 0;
-$zapytanie = "SELECT `name`, `date` FROM `actived`";
+$qt = "SELECT `name`, `date` FROM `actived`";
 if($period==90)
-$zapytanie.=" ORDER BY `name`";
+$qt.=" ORDER BY `name` COLLATE utf8_polish_ci";
 else
-$zapytanie.=" ORDER BY `date` DESC";
-$q = mysql_query($zapytanie);
+$qt.=" ORDER BY `date` DESC";
+$q = mysql_query($qt);
 if($q == false) {
-echo "-1\r\n" . $zapytanie;
+echo "-1\r\n" . $qt;
 die;
 }
 echo "0";

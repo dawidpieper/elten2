@@ -17,8 +17,7 @@ class Scene_Honors
     hn=srvproc("honors",{"list"=>"1", "user"=>@user})
     end
     if hn[0].to_i<0
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       $scene=Scene_Main.new
       return
     end
@@ -63,8 +62,7 @@ class Scene_Honors
       header=s_("Honors:head_user",{'user'=>@user})
     end
     if @user!=nil and @honors==[]
-      speech(_("Honors:info_nobadges"))
-      speech_wait
+      alert(_("Honors:info_nobadges"))
       $scene=Scene_Main.new
       return
       end
@@ -76,12 +74,12 @@ class Scene_Honors
       if enter and @sel.index==@sel.commandoptions.size-1
                 $scene=Scene_Honors_New.new
               elsif enter and @user==$name
-                if simplequestion(_("Honors:alert_mainhonor"))==1
+                if confirm(_("Honors:alert_mainhonor"))==1
                   hn=srvproc("honors",{"setmain"=>"1", "honor"=>@honors[@sel.index].id})
                   if hn[0].to_i<0
-                    speech(_("General:error"))
+                    alert(_("General:error"))
                   else
-                    speech(_("Honors:info_defaulted"))
+                    alert(_("Honors:info_defaulted"))
                   end
                                     end
               end
@@ -114,15 +112,13 @@ class Scene_Honors
                           user=input_text(_("Honors:type_honoruser"),"ACCEPTESCAPE")
                           if user!="\004ESCAPE\004"
                             if user_exist(user)==false
-                              speech(_("Honors:error_usernotfound"))
-                              speech_wait
+                              alert(_("Honors:error_usernotfound"))
                             else
                               hn=srvproc("honors",{"user"=>user, "award"=>"1", "honor"=>@honors[@sel.index].id})
                               if hn[0].to_i<0
-                                speech(_("General:error"))
+                                alert(_("General:error"))
                               else
-                                speech(_("Honors:info_honored"))
-                                                            speech_wait
+                                alert(_("Honors:info_honored"))
                               end
                               end
                             end
@@ -150,9 +146,9 @@ class Scene_Honors
             honorendescription=@form.fields[3].text_str
             hn=srvproc("honors",{"addhonor"=>"1", "honorname"=>honorname, "honordescription"=>honordescription, "honorenname"=>honorenname, "honorendescription"=>honorendescription})
                         if hn[0].to_i<0
-                            speech(_("General:error"))
+                            alert(_("General:error"))
             else
-              speech(_("Honors:info_honorcreated"))
+              alert(_("Honors:info_honorcreated"))
             end
             speech_wait
             break

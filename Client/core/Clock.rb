@@ -77,8 +77,7 @@ if (space or enter) and @form.index==3
   writeconfig("Clock","SayTimeType",@field[0].index.to_s)
 writeconfig("Clock","SayTimePeriod",@field[1].index+1)
   save_data(@alarms,$eltendata+"\\alarms.dat")
-  speech(_("General:info_saved"))
-  speech_wait
+  alert(_("General:info_saved"))
   $scene=Scene_Main.new
   break
   end

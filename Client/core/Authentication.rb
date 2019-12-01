@@ -9,7 +9,7 @@ class Scene_Authentication
   def main
     auth=srvproc("authentication",{"state"=>"1"})
     if auth[0].to_i<0
-      speech(_("General:error"))
+      speak(_("General:error"))
       speech_wait
       return $scene=Scene_Main.new
     end
@@ -32,12 +32,11 @@ return main if phone=="\004ESCAPE\004"
 return main if confirm(_("Authentication:alert_support"))==0
 return main if input_text(_("Authentication:alert_checkphone"),"ACCEPTESCAPE|READONLY",phone)=="\004ESCAPE\004"
 if suc==true
-speech(_("Authentication:wait"))
+alert(_("Authentication:wait"))
 enb=srvproc("authentication",{"password"=>password, "phone"=>phone, "enable"=>"1", "lang"=>$language})
 speech_wait
 if enb[0].to_i<0||enb[0].include?("-")
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
 else
   code=""
   tries=0
@@ -51,12 +50,11 @@ else
         if tries<3
           label=_("Authentication:type_wrongcode")
         else
-          speech(_("Authentication:error_wrongcode"))
+          alert(_("Authentication:error_wrongcode"))
           end
     speech_wait
   else
-    speech(_("Authentication:info_enabled"))
-    speech_wait
+    alert(_("Authentication:info_enabled"))
     break
   end
 end
@@ -69,11 +67,11 @@ elsif state==1
   if password!="\004ESCAPE\004" and confirm(_("Authentication:alert_disable"))==1
     dsb=srvproc("authentication",{"disable"=>"1", "password"=>password})
     if dsb[0].to_i==0
-      speech(_("Authentication:info_disabled"))
+      alert(_("Authentication:info_disabled"))
     elsif dsb[0].to_i==-2
-      speech(_("Authentication:error_wrongpass"))
+      alert(_("Authentication:error_wrongpass"))
       else
-      speech(_("General:error"))
+      alert(_("General:error"))
     end
     speech_wait
     end

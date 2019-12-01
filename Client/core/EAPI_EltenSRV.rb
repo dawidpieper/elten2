@@ -14,6 +14,7 @@ module EltenAPI
     # @param param [String] & terminated parameters
     # @param output [Numeric] output type: 0 - Array of lines, 1 - string
         def srvproc(mod,param,output=0)
+          Log.debug("Server request to module #{mod}")
                               play("signal") if $netsignal
           #speech(mod+": "+param.gsub("\&"," "))
           #speech_wait
@@ -44,10 +45,12 @@ module EltenAPI
         waiting
         w=true
       elsif Time.now.to_f-t>15
+        Log.warning("Session timed out for request to module #{mod}")
         waiting_end
         break
       end
       if escape and w
+        Log.debug("Server request to module #{mod} cancelled by user")
         waiting_end
                 case output
         when 0
@@ -94,7 +97,7 @@ module EltenAPI
                         param=r    
                         end
     url = $url + mod + ".php?" + param
-tmpname = "temp/eas#{(rand(36**2).to_s(36))}.tmp"
+tmpname = $tempdir+"/eas#{(rand(36**2).to_s(36))}.tmp"
     #tm=Time.now.to_i*1000000+Time.now.usec
  if download(url,tmpname) != 0
    case output
@@ -104,15 +107,12 @@ when 1
   return "-1"
 end
 end
-        #speech("#{read(tmpname,true)}B pobrano w "+((Time.now.to_i*1000000+Time.now.usec-tm)/1000).to_s+"ms (#{mod})");speech_wait
-        case output
+                case output
     when 0
           r = IO.readlines(tmpname)
           when 1
-      r = read(tmpname)
-      when 2
-        r = readlines(tmpname)
-      end
+      r = readfile(tmpname)
+            end
     File.delete(tmpname) if $DEBUG==false
         return r
       end
@@ -135,7 +135,7 @@ end
            data = ""
                                       host = $srv
   host.delete!("/")
-        fl=read(file)
+        fl=readfile(file)
     boundary=""
         while fl.include?(boundary)
         boundary="----EltBoundary"+rand(36**32).to_s(36)
@@ -152,7 +152,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech(_("General:error"))
+    alert(_("General:error"))
     return nil
   end
   sn = a[s..a.size - 1]
@@ -161,8 +161,7 @@ for i in 0..a.size - 1
 err = bt[0].to_i
             speech_wait
                         if err < 0
-      speech(_("General:error"))
-    speech_wait
+      alert(_("General:error"))
 return nil
 else
       return bt[1].delete("\r\n")
@@ -180,8 +179,7 @@ end
   statustemp = srvproc("status_list",{})
     err = statustemp[0].to_i
   if err != 0
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     $scene = Scene_Main.new
     return
   end
@@ -240,70 +238,6 @@ def setstatus(text)
     return 0
     end
   end
-  
-  # Creates a server buffer
-  #
-  # @param data [String] buffer input
-  # @return [Numeric] a buffer id
-  def buffer(data)
-                                    return buffer_post(data)
-        s=false
-    while s==false
-      s=true
-      if dt[dt.size - 1..dt.size - 1] == "\004" and dt[dt.size - 6..dt.size - 6] == "\004"
-        s=false
-        for i in 1..6
-        dt.chop!
-        end
-        end
-      end
-    bdt = dt
-    bdt.gsub!("`","\006")
-    bdt.gsub!("'","\007")
-    bdt.gsub!("\\","\\\\")
-    dt = bdt
-        bufid = rand(2147483000) + 1
-    bufdt = []
-    r = 0
-    t = 0
-    bufdt[r] = ""
-    i = 0
-    loop do
-            t += 1
-      if dt[i..i+5] == "\004LINE\004"
-                t -= 6
-                end
-                    bufdt[r] += dt[i..i] if dt[i..i] != nil
-            if utf8(dt[i..i + 1]) != dt[i..i + 1] and dt[i - 1..i] == dt[i - 1..i] and utf8(dt[i..i]) == "?"
-              t -= 1
-                    end
-      if t >= 200
-        r += 1
-        bufdt[r] = ""
-        t = 0
-      end
-      i += 1
-      break if i > dt.size
-    end
-      buft = srvproc("buffer",{"ac"=>"1", "id"=>bufid, "data"=>bufdt[0]})
-            if buft[0].to_i < 0
-        speech(_("General:error"))
-        speech_wait
-        $scene = Scene_Main.new
-        return -1
-      end
-      for i in 1..bufdt.size - 1
-              buft = srvproc("buffer",{"ac"=>"2", "id"=>bufid, "data"=>bufdt[i]})
-                          if buft[0].to_i < 0
-        speech(_("General:error"))
-        speech_wait
-        $scene = Scene_Main.new
-        return -1
-      end
-      end
-  return bufid    
-end
-
 
 # Opens a player with an avatar of specified user
 #
@@ -312,17 +246,14 @@ def avatar(user)
     avatartemp = srvproc("avatar","name=#{$name}\&token=#{$token}\&searchname=#{user}\&checkonly=1",1)
   case avatartemp.split("\r\n")[0].to_i
   when -4
-    speech(_("EAPI_EltenSRV:error_noavatar"))
-    speech_wait
+    alert(_("EAPI_EltenSRV:error_noavatar"))
     return
     when -2
-      speech(_("General:error_tokenexpired"))
-      speech_wait
+      alert(_("General:error_tokenexpired"))
       $scene = Scene_Loading.new
       return
       when -1
-        speech(_("General:error_db"))
-        speech_wait
+        alert(_("General:error_db"))
         return
       end
       a = $url+"avatars/"+user
@@ -335,9 +266,9 @@ def avatar(user)
                         # @param file [String] a file location
     def avatar_set(file)
       waiting
-      speech(_("EAPI_EltenSRV:wait_severalminutes"))
-      speech(_("EAPI_EltenSRV:wait_converting"),0)
-      File.delete("temp\\avatartemp.opus") if FileTest.exists?("temp\\avatartemp.opus")
+      alert(_("EAPI_EltenSRV:wait_severalminutes"))
+      alert(_("EAPI_EltenSRV:wait_converting"),0)
+      File.delete($tempdir+"\\avatartemp.opus") if FileTest.exists?($tempdir+"\\avatartemp.opus")
       h = run("bin\\ffmpeg.exe -y -i \"#{file}\" -b:a 96K temp\\avatartemp.opus",true)
       t = 0
       tmax = File.size(file)/10000.0
@@ -351,14 +282,14 @@ if x != "\003\001"
   end
 t += 10.0/Graphics.frame_rate
 if t > tmax
-  speech(_("General:error"))
+  alert(_("General:error"))
   return -1
   break
   end
         end
               data=""
-                        fl = read("temp\\avatartemp.opus")
-                    File.delete("temp\\avatartemp.opus")              
+                        fl = readfile($tempdir+"\\avatartemp.opus")
+                    File.delete($tempdir+"\\avatartemp.opus")              
             host = $srv
   host.delete!("/")
               boundary=""
@@ -377,7 +308,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech(_("General:error"))
+    alert(_("General:error"))
     waiting_end
     return
   end
@@ -388,9 +319,9 @@ avt = bt[1].to_i
             speech_wait
             waiting_end
             if avt < 0
-      speech(_("General:error"))
+      alert(_("General:error"))
     else
-      speech(_("General:info_saved"))
+      alert(_("General:info_saved"))
     end
     speech_wait
     return
@@ -398,7 +329,7 @@ avt = bt[1].to_i
   
 
 # @note this function is reserved
-def buffer_post(data)
+def buffer(data)
     id = rand(2000000000)
   host = $srv
   host.delete!("/")
@@ -419,7 +350,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech(_("General:error"))
+    alert(_("General:error"))
     return
   end
   sn = a[s..a.size - 1]
@@ -428,8 +359,7 @@ for i in 0..a.size - 1
   a = nil
         bt = sn.split("\r\n")
 if bt[1].to_i < 0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
   return
 end
 return id
@@ -451,7 +381,7 @@ end
                   usrinf = []
                                                       uit = srvproc("userinfo",{"searchname"=>user})
                                     if uit[0].to_i < 0
-                    speech(_("General:error"))
+                    alert(_("General:error"))
                     return -1
                   end
                   if uit[1].to_i > 1000000000 and uit[1].to_i < 2000000000
@@ -490,23 +420,6 @@ usrinf[7]=uit[7]
 return usrinf
 end
 
-# @note this function is reserved
-def bufferer(data)
-  msg = ""
-  msg += $name
-  msg += "\r\n"
-  msg += $token
-  msg += "\r\n"
-  bufid = rand(2147483)+1
-  msg += bufid.to_s
-  msg += "\r\n"
-  msg += data.size.to_s
-  msg += "\r\n"
-  msg += data.to_s
-  connect($srv,2431,msg)
-  return bufid
-end
-
 # Checks if the specified user exists
 #
 # @param usr [String] user name
@@ -514,8 +427,7 @@ end
 def user_exist(usr)
   ut = srvproc("user_exist",{"searchname"=>usr})
     if ut[0].to_i < 0
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     return false
   end
   ret = false
@@ -530,8 +442,7 @@ end
                                def signature(user)
                                  sg = srvproc("signature",{"get"=>"1", "searchname"=>user})
                                  if sg[0].to_i < 0
-                                   speech(_("General:error"))
-                                   speech_wait
+                                   alert(_("General:error"))
                                    return ""
                                  end
                                  text = ""
@@ -551,7 +462,7 @@ end
                                     data = ""
                                       host = $srv
   host.delete!("/")
-        fl=read(file)
+        fl=readfile(file)
     boundary=""
         while fl.include?(boundary)
         boundary="----EltBoundary"+rand(36**32).to_s(36)
@@ -568,7 +479,7 @@ for i in 0..a.size - 1
     end
   end
   if s == nil
-    speech(_("General:error"))
+    alert(_("General:error"))
     return nil
   end
   sn = a[s..a.size - 1]
@@ -577,10 +488,9 @@ for i in 0..a.size - 1
 err = bt[0].to_i
             speech_wait
                         if err < 0
-      speech(_("General:error"))
-    speech_wait
+      alert(_("General:error"))
       else
-speech(_("EAPI_EltenSRV:info_sent")) if msg==true
+alert(_("EAPI_EltenSRV:info_sent")) if msg==true
         return bt[1].delete("\r\n")
     end
         return nil
@@ -595,8 +505,7 @@ speech(_("EAPI_EltenSRV:info_sent")) if msg==true
   def finduser(usr,type=0)
 usf=srvproc("user_search",{"search"=>usr})    
 if usf[0].to_i<0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
   if type<2
   return ""
 else
@@ -624,10 +533,7 @@ else
   end
 end
 
-def srvstate
-      $eltsuspend=false
-      end
-  
+ 
 
   def cryptmessage(msg)
     b="\0"*20

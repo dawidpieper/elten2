@@ -7,7 +7,7 @@
 
 class Scene_Bug
   def main
-    speech(_("Bug:head"))
+    speak(_("Bug:head"))
     speech_wait
     bug
     $scene = Scene_Main.new

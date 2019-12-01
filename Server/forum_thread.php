@@ -22,10 +22,7 @@ $readposts=count($posts);
 if($_GET['name']!="guest") {
 $readposts= (int) mysql_fetch_row(mquery("select posts from forum_read where thread=".(int) $_GET['thread']." and owner='".$_GET['name']."'"))[0];
 if($readposts!=count($posts))
-if($readposts==0)
-mquery("insert into forum_read (owner,thread,posts) values ('".$_GET['name']."',".((int) $_GET['thread']).",".count($posts).")");
-else
-mquery("update forum_read set posts=".count($posts)." where owner='".$_GET['name']."' and thread=".((int) $_GET['thread']));
+mquery("insert into forum_read (owner,thread,posts) values ('".$_GET['name']."',".((int) $_GET['thread']).",".count($posts).") on duplicate key update posts=values(posts)");
 }
 echo "0\r\n".time()."\r\n".count($posts)."\r\n".$readposts."\r\n";
 if($_GET['name']=="guest")

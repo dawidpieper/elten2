@@ -10,6 +10,12 @@ module EltenAPI
   # Speech related functions
   module Speech
     
+    def alert(text, wait=true)
+      speak(text)
+      NVDA.braille_alert(text) if NVDA.check
+      speech_wait if wait
+      end
+    
       # Says a text
   #
   # @param text [String] a text to speak
@@ -21,16 +27,15 @@ module EltenAPI
         end
       id=rand(2**32) if id==nil
       $speechid=id
-                  if $speech_waiter==true
+      swait=false
+                  if $speech_wait==true
       method=0
-      $speech_waiter=false
-      end
-        Win32API.new("screenreaderAPI","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0
-        if $speech_wait == true
-    speech_wait
-    $speech_wait = false
-  end
-  if $speechaudio!=nil
+      $speech_wait=false
+      swait=true
+      speech_wait if $voice!=-1
+    end
+            Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0
+          if $speechaudio!=nil
     $speechaudiothread.kill if $speechaudiothread!=nil
     $speechaudio.close
     $speechaudio=nil
@@ -90,7 +95,7 @@ prei=0
     if $interface_soundthemeactivation != 0
     play("edit_space")
   else
-    speech(_("EAPI_Speech:chr_space"))
+    speak(_("EAPI_Speech:chr_space"))
     end
     return if speechaudio==""
   end
@@ -162,8 +167,13 @@ text_d = text
 text_d.gsub!("\r\n\r\n","\004SLINE\004")
 text_d.gsub!("\r\n"," ")
 text_d.gsub!("\004SLINE\004","\r\n\r\n")
+if $voice==-1 && NVDA.check
+  NVDA.stop   if !swait
+  NVDA.speak(text_d)
+                    else
 buf=unicode(text_d)
-Win32API.new("screenreaderapi",func+"W",'pi','i').call(buf,method) if $password != true
+            Win32API.new("bin\\screenreaderapi",func+"W",'pi','i').call(buf,method) if $password != true
+end
 $speech_lasttext = text_d
 if text.size>=5
   if Thread::current==$mainthread
@@ -177,7 +187,7 @@ end
 end
 end
   sleep(0.02)
-Win32API.new("screenreaderapi","sapiSayString",'pi','i').call(" ",1) if $voice == -1
+Win32API.new("bin\\screenreaderapi","sapiSayString",'pi','i').call(" ",1) if $voice == -1
 end
 end
 text_d = text if text_d == nil
@@ -193,7 +203,7 @@ alias speech speak
 def speech_actived(ignoreaudio=false)
     func = "sapiIsSpeaking"
         return true if $speechaudio!=nil and ignoreaudio==false
-  if Win32API.new("screenreaderapi",func,'','i').call() == 0
+          if Win32API.new("bin\\screenreaderapi",func,'','i').call() == 0
     return(false)
   else
     return(true)
@@ -202,26 +212,36 @@ def speech_actived(ignoreaudio=false)
 
   # Stops the speech
   def speech_stop(audio=true)
+        $speech_wait=false
     if $speechaudio!=nil and audio
     $speechaudiothread.kill if $speechaudiothread!=nil
     $speechaudio.close
     $speechaudio=nil
-    end
-    func = "sapiStopSpeech"
-    func = "stopSpeech" if $voice == -1
-    Win32API.new("screenreaderapi",func,'','i').call()
-    if $speechindexedthr!=nil
+  end
+      if $speechindexedthr!=nil
       $speechindexedthr.exit
       $speechindexedthr=nil
       end
+    func = "sapiStopSpeech"
+    if $voice==-1
+    func = "stopSpeech"
+    if $voice==-1 && NVDA.check
+      NVDA.stop
+      return
+      end
+        end
+    Win32API.new("bin\\screenreaderapi",func,'','i').call()
   end
   
   # Waits for a speech to finish reading of the previous message
       def speech_wait
+        if $voice!=-1
     while speech_actived == true
 loop_update
 end
-  $speech_waiter = true if $voice == -1 and $speechaudio==nil
+else
+  $speech_wait = true
+  end
   return
 end
 
@@ -320,19 +340,46 @@ when "ß"
                       
                       # Toggles the speech pause
      def speech_togglepause
-  if Win32API.new("screenreaderAPI","sapiIsPaused",'','i').call==0
-  Win32API.new("screenreaderAPI","sapiSetPaused",'i','i').call(1)
+  if Win32API.new("bin\\screenreaderapi","sapiIsPaused",'','i').call==0
+  Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(1)
     else
-  Win32API.new("screenreaderAPI","sapiSetPaused",'i','i').call(0)
+  Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(0)
   end
   end
 
   def speak_indexed(h,id=nil)
+    id=rand(10**24) if id==nil
+    $speechindexedthr.exit if $speechindexedthr!=nil
         return if !h.is_a?(Hash)
-    if $voice==-1
+    if $voice==-1 && !NVDA.check
       txt=""
       h.keys.sort.each {|i| txt+=h[i]+"\r\n"}
       return speak(txt)
+    end
+    if $voice==-1
+            $speechindexedthr=Thread.new do
+                  NVDA.stop if !$speech_wait
+                  stp=10+rand(100)
+                                                        texts=[]
+      indexes=[]
+      h.keys.sort.each {|k|
+      texts.push(h[k])
+      indexes.push(k+stp)
+      }
+            NVDA.speakindexed(texts, indexes, id)
+              sleep(0.01) until NVDA.getindex[1]==id
+            loop {
+      ind,indid=NVDA.getindex
+            $speechid=indid
+      break if indid!=id || (ind||0)<stp || (id!=nil && $speechid!=id)
+      $speechindex=ind-stp
+      sleep(0.1)
+      }
+    sleep(1)
+      play 'signal'
+      $speechindexedthr=nil
+          end
+    return
       end
         speech_stop
             $speechindex=nil
@@ -351,12 +398,12 @@ when "ß"
     elsif "\"-,)".include?(lc)
       sleep(0.05)
       end
-        speak(h[i],1,true,id,false)
-    lst=h[i] if h[i]!=nil
-    sleep(0.01) while speech_actived
-    }
-    }
+      lst=h[i] if h[i]!=nil  
+      speak(h[i],1,true,id,false)
+        sleep(0.01) while speech_actived
+   }
+   }
     end
-  end
+end
 end
 #Copyright (C) 2014-2019 Dawid Pieper

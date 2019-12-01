@@ -1,10 +1,15 @@
 <?php
 require("header.php");
+$searchname=$_GET['name'];
+if(isset($_GET['searchname'])) {
+$searchname=$_GET['searchname'];
+if(!in_array($_GET['name'],blogowners($searchname))) die("-3");
+}
 if($_GET['add'] == 1){
 $postid=1;
 $comments=1;
 if(isset($_GET['comments'])) $comments=$_GET['comments'];
-$q = mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'");
+$q = mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$searchname."'");
 while($wiersz = mysql_fetch_row($q)) {
 if($wiersz[0]>=$postid)
 $postid = $wiersz[0]+1;
@@ -33,22 +38,22 @@ $post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004";
 if($_GET['buffer'] != null) {
 $post = buffer_get($_GET['buffer']);
 }
-mquery("INSERT INTO `blog_posts` (`owner`,`author`,`postid`,`posttype`,`name`,`post`,`date`,`privacy`,`comments`) VALUES ('" . $_GET['name'] . "','".$_GET['name']."'," . (int)$postid . ",0,'".mysql_real_escape_string($_GET['postname'])."','" . mysql_real_escape_string($post) . "',".time().",".((int)$_GET['privacy']).",".(int)$comments.")");
-mquery("INSERT INTO `blog_read` (`owner`,`author`,`post`,`posts`) VALUES ('" . $_GET['name'] . "','".$_GET['name']."'," . (int)$postid . ",1)");
+mquery("INSERT INTO `blog_posts` (`owner`,`author`,`postid`,`posttype`,`name`,`post`,`date`,`privacy`,`comments`) VALUES ('" . $searchname . "','".$_GET['name']."'," . (int)$postid . ",0,'".mysql_real_escape_string($_GET['postname'])."','" . mysql_real_escape_string($post) . "',".time().",".((int)$_GET['privacy']).",".(int)$comments.")");
+mquery("INSERT INTO `blog_read` (`owner`,`author`,`post`,`posts`) VALUES ('" . $_GET['name'] . "','".$searchname."'," . (int)$postid . ",1)");
 $cats = explode(",",$_GET['categoryid']);
 $i = 0;
 while($i<count($cats)) {
 if($cats[$i]>0 AND $cats[$i] != NULL) {
-mquery("INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$_GET['name']."',".(int)$cats[$i].",".(int)$postid.")");
+mquery("INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$searchname."',".(int)$cats[$i].",".(int)$postid.")");
 }
 $i=$i+1;
 }
-mquery("UPDATE `blogs` SET `lastupdate`=".time()." WHERE `owner`='".$_GET['name']."'");
+mquery("UPDATE `blogs` SET `lastupdate`=".time()." WHERE `owner`='".$searchname."'");
 }
 if($_GET['del'] == 1){
-mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " AND `owner`='".$_GET['name']."'");
-mquery("DELETE FROM `blog_assigning` WHERE `owner`='".$_GET['name']."' AND `postid`=".(int)$_GET['postid']);
-mquery("DELETE FROM `blog_read` WHERE `author`='".$_GET['name']."' AND `post`=".(int)$_GET['postid']);
+mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " AND `owner`='".$searchname."'");
+mquery("DELETE FROM `blog_assigning` WHERE `owner`='".$searchname."' AND `postid`=".(int)$_GET['postid']);
+mquery("DELETE FROM `blog_read` WHERE `author`='".$searchname."' AND `post`=".(int)$_GET['postid']);
 }
 if($_GET['mod'] == 1){
 $post = $_GET['post'];
@@ -77,16 +82,16 @@ $post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004";
 if($_GET['buffer'] != null)
 $post=buffer_get($_GET['buffer']);
 if($post==NULL)
-$post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$_GET['name']."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
-mquery("UPDATE `blog_posts` SET `post`='" . mysql_real_escape_string($post) . "', `moddate`=".time().", `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$_GET['name']."'");
+$post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$searchname."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
+mquery("UPDATE `blog_posts` SET `post`='" . mysql_real_escape_string($post) . "', `moddate`=".time().", `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$searchname."'");
 }
 if($_GET['addassigning'] == 1) {
-$q = mquery("SELECT `postid` FROM `blog_assigning` WHERE `postid`=".(int)$_GET['postid']." AND `categoryid`=".(int)$_GET['categoryid']." AND `owner`='".$_GET['name']."'");
+$q = mquery("SELECT `postid` FROM `blog_assigning` WHERE `postid`=".(int)$_GET['postid']." AND `categoryid`=".(int)$_GET['categoryid']." AND `owner`='".$searchname."'");
 if(mysql_num_rows($q)>0) {
 echo "-3";
 die;
 }
-$zapytanie = "SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."' AND `postid`=".$_GET['postid'];
+$zapytanie = "SELECT `postid` FROM `blog_posts` WHERE `owner`='".$searchname."' AND `postid`=".$_GET['postid'];
 $q = mysql_query($zapytanie);
 if($q == false) {
 echo "-1";
@@ -96,7 +101,7 @@ if(mysql_num_row($q)==0) {
 echo "-4";
 die;
 }
-$zapytanie = "INSERT INTO `blog_assigning` (owner, postid, categoryid) VALUES ('".$_GET['name']."',".$_GET['postid'].",".$_GET['categoryid'].")";
+$zapytanie = "INSERT INTO `blog_assigning` (owner, postid, categoryid) VALUES ('".$searchname."',".$_GET['postid'].",".$_GET['categoryid'].")";
 $q = mysql_query($zapytanie);
 if($q == false) {
 echo "-1";
@@ -104,7 +109,7 @@ die;
 }
 }
 if($_GET['removeassigning']==1) {
-$zapytanie = "DELETE FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `categoryid`=".$_GET['categoryid']." AND `owner`='".$_GET['name']."'";
+$zapytanie = "DELETE FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `categoryid`=".$_GET['categoryid']." AND `owner`='".$searchname."'";
 if($q == false) {
 echo "-1";
 die;
@@ -128,11 +133,11 @@ $post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004";
 if($_GET['buffer'] != null)
 $post=buffer_get($_GET['buffer']);
 if($post==NULL)
-$post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$_GET['name']."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
-mquery("UPDATE `blog_posts` SET `moddate`=".time().", `post`='" . mysql_real_escape_string($post) . "', `name`='".mysql_real_escape_string($_GET['postname'])."', `privacy`='".((int) $_GET['privacy'])."', `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$_GET['name']."'");
+$post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$searchname."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
+mquery("UPDATE `blog_posts` SET `moddate`=".time().", `post`='" . mysql_real_escape_string($post) . "', `name`='".mysql_real_escape_string($_GET['postname'])."', `privacy`='".((int) $_GET['privacy'])."', `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$searchname."'");
 $categories = [];
 $cats = explode(",",$_GET['categoryid']);
-$zapytanie = "DELETE FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `owner`='".$_GET['name']."'";
+$zapytanie = "DELETE FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `owner`='".$searchname."'";
 $q = mysql_query($zapytanie);
 if($q == false) {
 echo "-1";
@@ -141,7 +146,7 @@ die;
 $i = 0;
 while($i<count($cats)) {
 if($cats[$i]>0 AND $cats[$i] != NULL) {
-$zapytanie = "INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$_GET['name']."',".$cats[$i].",".$_GET['postid'].")";
+$zapytanie = "INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$searchname."',".$cats[$i].",".$_GET['postid'].")";
 $q = mysql_query($zapytanie);
 if($q == false) {
 echo "-1";
@@ -157,7 +162,7 @@ if($_GET['buffer'] != NULL)
 $data=buffer_get($_GET['buffer']);
 else
 $data=$_GET['data'];
-mquery("DELETE FROM `blog_assigning` WHERE `owner`='".$_GET['name']."'");
+mquery("DELETE FROM `blog_assigning` WHERE `owner`='".$searchname."'");
 $posts=explode('|',$data);
 foreach($posts as $post) {
 $tmp=explode(":",$post);
@@ -165,13 +170,24 @@ $postid=$tmp[0];
 $cats=explode(",",$tmp[1]);
 foreach($cats as $cat) {
 if($cat!=NULL and $cat!="")
-mquery("INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$_GET['name']."',".(int)$cat.",".$postid.")");
+mquery("INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$searchname."',".(int)$cat.",".$postid.")");
 }
 }
 }
 if($_GET['delcomments'] == 1){
-mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " AND `owner`='".$_GET['name']."' and posttype=1");
-mquery("update `blog_read` set posts=1 WHERE `author`='".$_GET['name']."' AND `post`=".(int)$_GET['postid']);
+mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " AND `owner`='".$searchname."' and posttype=1");
+mquery("update `blog_read` set posts=1 WHERE `author`='".$searchname."' AND `post`=".(int)$_GET['postid']);
+}
+if($_GET['delcomment'] == 1){
+$id=0;
+$q=mquery("select id FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " and `owner`='".$searchname."' and posttype=1");
+$i=0;
+while($r=mysql_fetch_row($q)) {
+++$i;
+if($i==$_GET['commentnumber']) $id=$r[0];
+}
+mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " and id=".(int)$id." AND `owner`='".$searchname."' and posttype=1");
+mquery("update `blog_read` set posts=posts-1 WHERE `author`='".$searchname."' and posts>".(int)$_GET['commentnumber']." AND `post`=".(int)$_GET['postid']);
 }
 echo "0";
 ?>

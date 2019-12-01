@@ -1,62 +1,91 @@
-#define MyAppName "ELTEN"
-#define MyAppVersion "2.0"
-#define MyAppPublisher "Dawid Pieper"
-#define MyAppURL "https://elten-net.eu"
-#define MyAppExeName "elten.exe"
-
 [Setup]
 AppId={{9FE2B24B-49F4-4D0B-A36B-31F267F9B114}
-AppName={#MyAppName}
-AppVersion={#MyAppVersion}
-;AppVerName={#MyAppName} {#MyAppVersion}
-AppPublisher={#MyAppPublisher}
-AppPublisherURL={#MyAppURL}
-AppSupportURL={#MyAppURL}
-AppUpdatesURL={#MyAppURL}
-DefaultDirName={pf}\{#MyAppName}
-DefaultGroupName={#MyAppName}
+AppName=ELTEN
+AppVersion=2.3.6
+AppVerName=Elten 2.3.6
+AppPublisher=Dawid Pieper
+AppPublisherURL=https://elten-net.eu
+AppSupportURL=https://elten-net.eu/
+AppUpdatesURL=https://elten-net.eu/download
+DefaultDirName={pf}\ELTEN
+DefaultGroupName=ELTEN
 AllowNoIcons=yes
 OutputDir=C:\Users\dawid\Documents\rpgxp\elten\installer
 OutputBaseFilename=elten_setup
 Compression=lzma2/max
 SolidCompression=yes
+RestartIfNeededByRun=no
+PrivilegesRequiredOverridesAllowed=commandline dialog
 
 #define Use_UninsHs_Default_CustomMessages
 
 [Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"
-Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"
+Name: "en"; MessagesFile: "compiler:Default.isl"; LicenseFile: "elten\license_en.txt"
+Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"; LicenseFile: "elten\license_pl.txt"
+Name: "de"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "elten\license_de.txt"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 Name: "ext_update"; Description: "{cm:EltenUpdate}"; GroupDescription: "{cm:EltenUpdate}";
+Name: "ext_vc"; Description: "{cm:VCInstall}"; GroupDescription: "{cm:VCInstall}";
 
 [Files]
-Source: "elten\elten.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "elten\download_elten.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "elten\elten.exe"; DestDir: "{userappdata}\elten\bin"; Flags: ignoreversion
-Source: "elten\download_elten.exe"; DestDir: "{userappdata}\elten\bin"; Flags: ignoreversion
-Source: "elten\elten.7z"; DestDir: "{userappdata}\elten\bin"; Flags: ignoreversion; DestName: "eltenc.7z"
-Source: "{tmp}\elten.7z"; DestDir: "{userappdata}\elten\bin"; Tasks: ext_update; \
+Source: "elten\eltenc\*"; DestDir: "{app}"; Flags: "ignoreversion createallsubdirs recursesubdirs"
+Source: "{tmp}\elten.7z"; DestDir: "{app}"; Tasks: ext_update; \
   Flags: external; Check: DwinsHs_Check(ExpandConstant('{tmp}\elten.7z'), \
-    'https://elten-net.eu/bin/download/elten.7z', 'My_App_2', 'get', 0, 0) 
-//Source: "{tmp}\download_elten.exe"; DestDir: "{userappdata}\elten\bin"; Tasks: ext_update; \
-//  Flags: external; Check: DwinsHs_Check(ExpandConstant('{tmp}\download_elten.exe'), \
-//    'https://elten-net.eu/bin/download_elten.exe', 'My_App_2', 'get', 0, 0) 
+    'http://elten-net.eu/bin/download/elten.7z', 'INSTELTEN', 'get', 0, 0) 
 Source: "7za.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
+Source: "elten/vcredist_x86.exe"; Tasks: ext_vc; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
-Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{group}\{cm:ProgramOnTheWeb,{#MyAppName}}"; Filename: "{#MyAppURL}"
-Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
+Name: "{group}\ELTEN"; Filename: "{app}\elten.exe"
+Name: "{group}\{cm:ProgramOnTheWeb,ELTEN}"; Filename: "https://elten-net.eu"
+Name: "{group}\{cm:UninstallProgram,ELTEN}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\ELTEN"; Filename: "{app}\elten.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{tmp}\7za.exe"; Parameters: "x {userappdata}\elten\bin\eltenc.7z -oelten -y"; WorkingDir: "{userappdata}\elten\bin"; StatusMsg: "{cm:extractingelten}"; Flags: runhidden
 Filename: "{tmp}\7za.exe"; Parameters: "x {userappdata}\elten\bin\elten.7z -oelten -y"; WorkingDir: "{userappdata}\elten\bin"; StatusMsg: "{cm:extractingelten}"; Flags: runhidden; tasks: ext_update
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: {tmp}\vcredist_x86.exe; Parameters: "/passive /norestart "; Tasks: ext_vc; StatusMsg: "Installing VC++ 2008 Redistributables..."
+Filename: "{app}\elten.exe"; Description: "{cm:LaunchProgram,{#StringChange("ELTEN", '&', '&&')}}"; Flags: nowait postinstall
+
+[INI]
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "en_GB"; Languages: en
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "de_DE"; Languages: de
 
 [Code]
+
+#IFDEF UNICODE
+  #DEFINE AW "W"
+#ELSE
+  #DEFINE AW "A"
+#ENDIF
+type
+  INSTALLSTATE = Longint;
+const
+  INSTALLSTATE_INVALIDARG = -2;  { An invalid parameter was passed to the function. }
+  INSTALLSTATE_UNKNOWN = -1;     { The product is neither advertised or installed. }
+  INSTALLSTATE_ADVERTISED = 1;   { The product is advertised but not installed. }
+  INSTALLSTATE_ABSENT = 2;       { The product is installed for a different user. }
+  INSTALLSTATE_DEFAULT = 5;      { The product is installed for the current user. }
+
+  VC_2008 = '{AA783A14-A7A3-3D33-95F0-9A351D530011}';
+  VC_2008_5677 = '{DE2C306F-A067-38EF-B86C-03DE4B0312F9}';
+  VC_2008_SP1 = '{9a25302d-30c0-39d9-bd6f-21e6ec160475}';
+
+
+function MsiQueryProductState(szProduct: string): INSTALLSTATE; 
+  external 'MsiQueryProductState{#AW}@msi.dll stdcall';
+
+function VCVersionInstalled(const ProductID: string): Boolean;
+begin
+  Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
+end;
+
+function VCRedistNeedsInstall: Boolean;
+begin
+  Result := not (VCVersionInstalled(VC_2008) and VCVersionInstalled(VC_2008_SP1) and VCVersionInstalled(VC_2008_5677));
+end;
+
 #define DwinsHs_Use_Predefined_Downloading_WizardPage
 #define DwinsHs_Auto_Continue
 #include "dwinshs.iss"
@@ -96,7 +125,11 @@ end;
 
 [CustomMessages]
 pl.DwinsHs_PageCaption =Pobieranie aktualizacji
+en.DwinsHs_PageCaption =Downloading the update
+de.DwinsHs_PageCaption =Das Update herunterladen
 pl.DwinsHs_PageDescription =Proszê czekaæ, trwa konfigurowanie programu Elten...  Instalator pobiera dodatkowe pliki...
+en.DwinsHs_PageDescription =Please wait while Elten is being preconfigured ... The installer is downloading additional files ...
+de.DwinsHs_PageDescription =Bitte warten Sie, während der Elten vorkonfiguriert ist ... Der Installer lädt weitere Dateien ...
 pl.DwinsHs_TotalProgress =Postêp:
 pl.DwinsHs_CurrentFile =Bierz¹cy plik:
 pl.DwinsHs_File =Plik:
@@ -141,5 +174,9 @@ pl.DwinsHs_Status_HTTP503 =Us³uga nie jest dostêpna
 pl.DwinsHs_Status_HTTPxxx =Nieznany b³¹d
 pl.EltenUpdate =Pobierz najnowsz¹ wersjê programu z serwera
 en.EltenUpdate =Download the newest Elten version from the server
+de.EltenUpdate =Neueste Elten-Version vom Server laden
 pl.extractingelten =Proszê czekaæ, trwa przygotowywanie programu Elten do pierwszego uruchomienia
 en.extractingelten =Please wait, preparing Elten for the first run
+de.extractingelten =Bitte warten Sie, der Installateur bereitet Elten auf den ersten Lauf vor
+pl.VCInstall =Zainstaluj komponenty niezbêdne do poprawnego dzia³ania programu (Microsoft Visual C++ Redistributable 2008)
+en.VCInstall =Install required components (Microsoft Visual C++ Redistributable 2008)

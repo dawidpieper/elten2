@@ -213,7 +213,7 @@ if enter
     loop_update
     return "ALT"
             when 5
-      speech(_("EAPI_Common:wait_downloading"))
+      speak(_("EAPI_Common:wait_downloading"))
       avatar(user)
             return("ALT")
       break        
@@ -243,6 +243,7 @@ else
 end
 end
 if escape
+  loop_update
   if submenu == true
         return
     break
@@ -250,8 +251,8 @@ if escape
         break
     end
   end
-  if Input.trigger?(Input::UP) and submenu == true and menu.index==0
-        Input.update
+  if arrow_up and submenu == true and menu.index==0
+        loop_update
     return
     break
   end
@@ -280,75 +281,11 @@ $nversion=agtemp[2].to_f
 $nbeta=agtemp[3].to_i
 bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i
                                     if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and (Elten.build_id==bid or bid<=0)
-  speech(_("EAPI_Common:info_nothingnew")) if quiet != true
+  alert(_("EAPI_Common:info_nothingnew")) if quiet != true
 else
     $scene = Scene_WhatsNew.new(true,agtemp,bid)
 end
 speech_wait
-end
-
-# Opens a soundthemes generator
-#
-# @param name [String] a soundtheme name
-def createsoundtheme(name="")
-  while name == ""
-    name = input_text(_("EAPI_Common:type_soundthemename"),"ACCEPTESCAPE")
-  end
-  return if name == "\004ESCAPE\004"
-  pathname = name
-  pathname.gsub!(" ","_")
-  pathname.gsub!("/","_")
-  pathname.gsub!("\\","_")
-  pathname.gsub!("?","")
-  pathname.gsub!("*","")
-  pathname.gsub!(":","__")
-  pathname.gsub!("<","")
-  pathname.gsub!(">","")
-  pathname.gsub!("\"","'")
-  stp = $soundthemesdata + "\\" + pathname
-  Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp,nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp + "\\SE",nil)
-Win32API.new("kernel32","CreateDirectory",'pp','i').call(stp + "\\BGS",nil)
-dir = Dir.entries("Audio/BGS")
-dir.delete("..")
-dir.delete(".")
-for i in 0..dir.size - 1
-Win32API.new("kernel32","CopyFile",'ppi','i').call(".\\Audio\\BGS\\" + dir[i],stp + "\\BGS\\" + dir[i],0)
-end
-Graphics.update
-dir = Dir.entries("Audio/SE")
-dir.delete("..")
-dir.delete(".")
-for i in 0..dir.size - 1
-Win32API.new("kernel32","CopyFile",'ppi','i').call(".\\Audio\\SE\\" + dir[i],stp + "\\SE\\" + dir[i],0)
-end
-Graphics.update
-writeini($soundthemesdata + "\\inis\\" + pathname + ".ini","SoundTheme","Name","#{name} by #{$name}")
-writeini($soundthemesdata + "\\inis\\" + pathname + ".ini","SoundTheme","Path",pathname)
-speech(s_("EAPI_Common:info_soundthemecreation",{'dir'=>stp}))
-speech_wait
-sel = menulr([_("EAPI_Common:opt_openthemedir"),_("EAPI_Common:opt_openthemedirinexplorer"),_("General:str_quit")],true,0,_("EAPI_Common:head_whattodo"))
-loop do
-  loop_update
-  sel.update
-  if escape
-        return
-    break
-  end
-  if enter
-    case sel.index
-    when 0
-      $scene = Scene_Files.new(stp)
-      return
-      break
-      when 1
-        run("explorer " + stp)
-        when 2
-          return
-          break
-    end
-    end
-  end
 end
 
 # Creates a debug info
@@ -363,7 +300,7 @@ end
           end
           end
             di +="\r\n[Computer]\r\n"
-            di += "OS version: " + Win32API.new($eltenlib,"WindowsVersion",'','i').call.to_s + "\r\n"
+            di += "OS version: " + (Win32API.new("kernel32","GetVersion",'','i').call>>16).to_s + "\r\n"
                         di += "Elten data path: " + $eltendata.to_s + "\r\n"
                 procid = "\0" * 16384
 Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("PROCESSOR_IDENTIFIER",procid,procid.size)
@@ -408,7 +345,10 @@ di += "\r\n[Configuration]\r\n"
 di += "Language: " + $language + "\r\n"
 di += "Sound theme's path: " + $soundthemespath + "\r\n"
 if $voice >= 0
-voice = futf8(Win32API.new("screenreaderapi","sapiGetVoiceName",'i','p').call($voice.to_i))
+  voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
+              vc="\0"*1024
+              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,voicename.call($voice))
+voice = deunicode(vc)
 di += "Voice name: " + voice.to_s + "\r\n"
 end
 di += "Voice id: " + $voice.to_s + "\r\n"
@@ -438,10 +378,10 @@ def bug(getinfo=true,info="")
   bugtemp = srvproc("bug",{"buffer"=>buf})
       err = bugtemp[0].to_i
   if err != 0
-    speech(_("General:error"))
+    alert(_("General:error"))
     r = err
   else
-    speech(_("EAPI_Common:info_sent"))
+    alert(_("EAPI_Common:info_sent"))
     r = 0
   end
   speech_wait
@@ -458,13 +398,11 @@ end
         err = ct[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         return
       end
@@ -477,7 +415,7 @@ end
         $contact.push(ct[i]) if ct[i].size > 1
       end
       if $contact.size < 1
-        speech(_("EAPI_Common:info_listempty"))
+        speak(_("EAPI_Common:info_listempty"))
         speech_wait
       end
       selt = []
@@ -511,12 +449,10 @@ loop_update
     err = vc[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       return -1
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         return -2
       end
       dialog_open
@@ -653,7 +589,7 @@ loop do
         form.index+=1
         form.focus
         else
-    q = simplequestion(_("EAPI_Common:alert_agreement"))
+    q = confirm(_("EAPI_Common:alert_agreement"))
     if q == 0
       exit
     else
@@ -677,7 +613,7 @@ def player(file,label="",wait=false,control=true,trydownload=false,stream=false)
     if confirm(_("EAPI_Common:alert_mididownloadsf"))==1
     downloadfile($url+"extras/soundfont.sf2",$extrasdata+"\\soundfont.sf2",_("EAPI_Common:wait_soundfont"),_("EAPI_Common:info_soundfontdownloaded"))
     speech_wait
-    Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,utf8($extrasdata+"\\soundfont.sf2"))
+    Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,$extrasdata+"\\soundfont.sf2")
   else
     return
     end
@@ -731,16 +667,13 @@ end
   #   break if escape
   #  end
 def getkeychar(keys=[],multi=false)
-  ret=""
+    ret=""
   lng=Win32API.new("user32","GetKeyboardLayout",'i','l').call(0).to_s(2)[16..31].to_i(2)
-  for i in 32..255
+          for i in 32..255
     if $key[i]
       c="\0"*8
   if Win32API.new("user32","ToUnicode",'iippii','i').call(i,0,$keybd,c,c.bytesize,0) > 0
-                                                                            #buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,nil,0,nil,nil)
-#Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,c,c.size,buf,buf.size,nil,nil)
-re=deunicode(c)
-#re=buf.delete("\0")
+                                                                            re=deunicode(c)
 ret=re if re!="" and re[0]>=32
 end
 end
@@ -748,20 +681,6 @@ end
   $lastkeychar=[ret,Time.now.to_i*1000000+Time.now.usec.to_i] if ret!=""
           return ret
         end
-        
-        # @note this function is reserved for Elten usage
-    def lngkeys(param=0)
-      lng = Win32API.new("user32","GetKeyboardLayout",'i','l').call(0).to_s(2)[16..31].to_i(2)
-      case lng
-      when 1031
-        return {"@"=>"\"","#"=>"§","^"=>"\&","\&"=>"/","*"=>"(","("=>")",")"=>"=","<"=>";",">"=>":","`"=>"ö","~"=>"Ö","'"=>"ä","\""=>"Ä","/"=>"#","?"=>"'",";"=>"ü",":"=>"Ü","="=>"+","+"=>"*","["=>"ß","{"=>"?","]"=>"´","}"=>"`","\\"=>"^","|"=>"°"} if param==0
-return {"Ö"=>1,"Ä"=>1,"Ü"=>1} if param==1
-when 2057
-  return {"@"=>"\"","\""=>"@"}
-end
-return lng if param==2
-      return {}
-    end
     
       # @note this function is reserved for Elten usage
                   def thr1
@@ -769,8 +688,8 @@ return lng if param==2
             begin
             sleep(0.1)
               if $voice != -1 and ($ruby != true or $windowminimized != true)
-                if Win32API.new("screenreaderapi","getCurrentScreenReader",'','i').call>0
-Win32API.new("screenreaderapi","stopSpeech",'','i').call
+                if Win32API.new("bin\\screenreaderapi","getCurrentScreenReader",'','i').call>0 and (!NVDA.check or !NVDA.sleepmode)
+Win32API.new("bin\\screenreaderapi","stopSpeech",'','i').call
 end
                       end
               rescue Exception
@@ -843,13 +762,16 @@ end
                                                                 $scene = newsc
                       $stopmainthread = true
                                             while $scene != nil and $scene.is_a?(Scene_Main) == false
-                        $scene.main
+                                              
+Log.debug("Loading parallel scene: #{$scene.class.to_s}")
+$scene.main
                       end
                                             $stopmainthread = false
                       $scene = sc
 $scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
 $key[0..255]=[false]*256
 $focus = true if $scene.is_a?(Scene_Main) == false                    
+Log.info("Exiting parallel scenes thread")
 end
 rescue Exception
       stopct=true
@@ -858,6 +780,7 @@ rescue Exception
 $scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
 loop_update
 $focus = true if $scene.is_a?(Scene_Main) == false                    
+Log.error("Parallel scene: #{$!.to_s} #{$@.to_s}")
   retry
 end
 sleep(0.1)
@@ -890,92 +813,10 @@ end
               retry
        end
      end
-     
-     # @note this function is reserved for Elten usage
-def thr4
-                         begin
-    loop do
-      if $mproc==true
-      $messageproc = true
-@message = "\0" * 3072 if @message==nil
-      if Win32API.new("user32","PeekMessage",'piiii','i').call(@message,$wnd,0,0,0) != 0
-            hwnd, message, wparam, lparam, time, pt = @message.unpack('lllll')
-if message == 0x20a
-            $mouse_wheel=0 if $mouse_wheel==nil
-                                    $mouse_wheel+=1 if wparam>0 and $mouse_wheel<1000000
-                                    $mouse_wheel-=1 if wparam<0 and $mouse_wheel>-1000000
-            end
-                                      end
-      $messageproc = false
-      sleep(0.1)
-      else
-    sleep(0.5)
-  end
-  end
-      rescue Exception
-      fail
-    end
-  end
-  
-  # converts the return of Dir.entries to support diacretics
-  #
-  # @param dr [Array] the files list
-  # @return [Array] the converted files list
-  def filec(dr)
-        rdr=[]
-for f in dr
-n=f.split(".")
-n=n[0..n.size-2].join(".")
-  fch=n.split("")
-if fch.size<n.size
-rf=""
-for c in fch
-if c.size==1 and c!=" " and c!="." and rf.size<6
-rf+=c.to_s
-end
-end
-e=File::extname(f)
-idn=1
-while rdr.include?(rf+"~"+idn.to_s+e)
-idn+=1
-end
-rdr.push(rf+"~"+idn.to_s+e)
-else
-rdr.push(f)
-end
-end
-return rdr
-end    
-
-        
-        # @note this function is reserved for Elten usage
-        def rcwelcome
-          msg=""
-          if $language == "pl_PL"
-            msg="Witajcie w wersji 2.0 RC.
-Po betatestach trwających od sierpnia 2016 roku, mogę wreszcie zaprezentować efekty naszych prac.
-Ta wersja to RC, release candidate.
-Faktyczny Elten 2.0 ukaże się 24 sierpnia 2017 - tak, jak zapowiadałem na forum.
-Już dzisiaj jednak udostępniam pierwszą wersję przedpremierową. Jeśli zabraknie czasu na dodawanie kolejnych funkcji, właśnie ta wersja stanie się wersją ostateczną.
-Podobnie jak dotychczas, prosiłbym o zgłaszanie wszelkich błędów, uwag i sugestii.
-Z pozdrowieniami,
-Dawid Pieper"
-else
-msg="Welcome to Elten 2.0 RC!
-We've been developing and testing it since August 2016 and, now, I can finally present you effects of our work.
-This version is called RC, which means release candidate.
-The final version of Elten 2.0 will be released on 24th August 2017, as I've written on forum.
-I hope I'll have time to add some extra features.
-However, this version includes a most of new functions.
-As always, I'll be grateful for your bug reports and suggestions.
-Best regards,
-Dawid Pieper"
-end
-input_text("","MULTILINE|READONLY|ACCEPTESCAPE|ACCEPTTAB",msg)
-end
 
 # @note this function is reserved for Elten usage
 def agent_start
+  Log.info("Starting Agent")
     #return if $ruby
                 $agent = ChildProc.new("bin\\rubyw -Cbin agent.dat\"")
                 $agent.write($name+"\r\n"+$token+"\r\n"+$wnd.to_s+"\r\n")
@@ -998,6 +839,7 @@ def getsize(location,upd=true)
                     
                     def createdirifneeded(dir)
                       if !FileTest.exists?(dir)
+                        Log.debug("Dir not exists so creating: #{dir}")
                         Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(dir), nil)
                         end
                       end
@@ -1007,6 +849,8 @@ def getsize(location,upd=true)
 # @param dir [String] a directory location
 # @param with [Boolean] if false, deletes all subentries of the directory, but does not delete that directory
 def deldir(dir,with=true)
+  return if !File.directory?(dir)
+  Log.debug("Deleting directory #{dir}")
   dr=Dir.entries(dir)
   dr.delete("..")
   dr.delete(".")
@@ -1015,17 +859,25 @@ def deldir(dir,with=true)
     if File.directory?(f)
       deldir(f)
     else
-      Win32API.new("kernel32","DeleteFile",'p','i').call(utf8(f))
+      File.delete(f)
       end
     end
-    Win32API.new("kernel32","RemoveDirectory",'p','i').call(utf8(dir)) if with == true
+    Win32API.new("kernel32","RemoveDirectoryW",'p','i').call(unicode(dir)) if with == true
   end
+  
+  def copyfile(source,destination,override=true)
+    Log.debug("Copying file: (#{source}, #{destination})")
+    c=1
+    c=0 if override
+    Win32API.new("kernel32","CopyFileW",'ppi','i').call(unicode(source), unicode(destination), c)
+    end
   
   # Copies a directory with all files and subdirectories
   #
   # @param source [String] a location of directory to copy
   # @param destination [String] destination
   def copydir(source,destination,esource=nil,edestination=nil)
+    Log.debug("Copying directory (#{source}, #{destination})")
     if esource==nil
       esource=source
       edestination=destination
@@ -1043,7 +895,7 @@ def deldir(dir,with=true)
       copydir(source+"\\"+e[i],destination+"\\"+e[i],esource+"\\"+ec[i],edestination+"\\"+ec[i])
     else
       begin
-      Win32API.new("kernel32","CopyFileW",'ppi','i').call(unicode(source+"\\"+e[i]),unicode(destination+"\\"+e[i]),0)
+      copyfile(source+"\\"+e[i],destination+"\\"+e[i])
     rescue Exception
       end
       end
@@ -1053,10 +905,10 @@ def deldir(dir,with=true)
   # @note this function is reserved for Elten usage
   def tray
     if $ruby==true
-      speech(_("General:error_platform"))
-      speech_wait
+      alert(_("General:error_platform"))
       return
-      end
+    end
+        Log.info("Minimalizing to tray")
     run("bin\\elten_tray.bin")
   Win32API.new("user32","SetFocus",'i','i').call($wnd)
   Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
@@ -1081,12 +933,14 @@ def deldir(dir,with=true)
           end
         end
 def speechtofile(file="",text="",name="")
-  text=read(file) if text=="" and file!=""
-  text = futf8(text[3..-1]) if text[0] == 239 and text[1] == 187 and text[2] == 191
-              name=File.basename(file).gsub(File.extname(file),"") if file!="" and name==""
+  text=readfile(file) if text=="" and file!=""
+                name=File.basename(file).gsub(File.extname(file),"") if file!="" and name==""
   voices=[]
-  for i in 0..Win32API.new("screenreaderapi","sapiGetNumVoices",'','i').call-1
-    voices.push(futf8(Win32API.new("screenreaderapi","sapiGetVoiceName",'i','p').call(i)))
+  voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
+                for i in 0..Win32API.new("bin\\screenreaderapi","sapiGetNumVoices",'','i').call-1
+    vc="\0"*1024
+              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,voicename.call(i))
+                  voices.push(deunicode(vc))
     end
   scl=[]
   for i in 0..100
@@ -1125,14 +979,14 @@ if (enter or space)
               ext=File.extname(fields[4].selected(false))
         if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
         fid="txe#{rand(36**8).to_s(36)}"
-                    convert_book(fields[4].selected, "temp\\"+fid+".txt")
-                    next if !FileTest.exists?("temp\\"+fid+".txt")
-            File.rename("temp\\"+fid+".txt","temp\\"+fid+".tmp")
-            impfile="temp\\#{fid}.tmp"
-            ttext=read(impfile)
+                    convert_book(fields[4].selected, $tempdir+"\\"+fid+".txt")
+                    next if !FileTest.exists?($tempdir+"\\"+fid+".txt")
+            File.rename($tempdir+"\\"+fid+".txt",$tempdir+"\\"+fid+".tmp")
+            impfile=$tempdir+"\\#{fid}.tmp"
+            ttext=readfile(impfile)
           File.delete(impfile)
             else
-            ttext=read(fields[4].selected,false,true)
+            ttext=readfile(fields[4].selected)
             end
                 end
     if ttext!=""
@@ -1140,8 +994,8 @@ if (enter or space)
     r=$rate
     $voice=fields[1].index
     $rate=fields[2].index
-    Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
-    Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
+    Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice)
+    Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
     t=ttext[0..9999]
     speech(t)
     while speech_actived
@@ -1151,10 +1005,10 @@ if (enter or space)
     loop_update
     $voice=v
     $rate=r
-    Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice)
-    Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
+    Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice)
+    Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
   else
-    speech(_("EAPI_Common:error_nofiletoread"))
+    alert(_("EAPI_Common:error_nofiletoread"))
   end
 end
 if form.index==10
@@ -1163,14 +1017,14 @@ if form.index==10
       ttext=text
     end
     if ttext==""
-      ttext=read(fields[4].selected) if File.file?(fields[4].selected(false))
+      ttext=readfile(fields[4].selected) if File.file?(fields[4].selected(false))
     end
   if fields[0].text==""
-    speech(_("EAPI_Common:error_nofilename"))
+    alert(_("EAPI_Common:error_nofilename"))
   elsif File.directory?(fields[3].selected(false))==false
-    speech(_("EAPI_Common:error_seldestination"))
+    alert(_("EAPI_Common:error_seldestination"))
   elsif ttext==""
-    speech(_("EAPI_Common:error_selsource"))
+    alert(_("EAPI_Common:error_selsource"))
   else
     cmd="bin\\rubyw bin/sapi.dat "
     cmd+="/v #{fields[1].index} "
@@ -1188,7 +1042,7 @@ if fields[5]!=nil
     if fields[5]!=nil
     if fields[5].index>0
       outd+="\\#{cname}"
-      Win32API.new("kernel32","CreateDirectory",'pp','i').call(utf8(outd),nil)
+      Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(outd),nil)
     end
     end
     outd+="\\#{cname}.wav"
@@ -1201,25 +1055,25 @@ if fields[5]!=nil
         impfile=fields[4].selected
         ext=File.extname(fields[4].selected(false))
       else
-        impfile="temp\\txi#{rand(36**8).to_s(36)}.txt"
+        impfile=$tempdir+"\\txi#{rand(36**8).to_s(36)}.txt"
         writefile(impfile,text)
         ext="txt"
         end
         fid=""
         if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
         fid="txe#{rand(36**8).to_s(36)}"
-            convert_book(fields[4].selected, "temp\\"+fid+".txt")
-            next if !FileTest.exists?("temp\\"+fid+".txt")
-            File.rename("temp\\"+fid+".txt","temp\\"+fid+".tmp")
-            impfile="temp\\#{fid}.tmp"
+            convert_book(fields[4].selected, $tempdir+"\\"+fid+".txt")
+            next if !FileTest.exists?($tempdir+"\\"+fid+".txt")
+            File.rename($tempdir+"\\"+fid+".txt",$tempdir+"\\"+fid+".tmp")
+            impfile=$tempdir+"\\#{fid}.tmp"
             end
-            text=read("temp\\"+fid+".tmp")
+            text=readfile($tempdir+"\\"+fid+".tmp")
               cmd+="/i \"#{impfile}\" "
         end
     else
       cmd+="/i \"#{file}\" "
       end
-            outfl="temp/sapiout"+rand(36**2).to_s(36)+".tmp"
+            outfl=$tempdir+"/sapiout"+rand(36**2).to_s(36)+".tmp"
       cmd+="/l \"#{outfl}\" "
       $ovoice=$voice
       #$voice=-1
@@ -1253,7 +1107,7 @@ th=Thread.new do
     if FileTest.exists?(b)
       c="bin\\ffmpeg -y -i \"#{b}\" \"#{b.gsub(".wav",fr)}\""
       executeprocess(c,true,0,false)
-      Win32API.new("kernel32","DeleteFile",'p','i').call(utf8(b))
+      File.delete(b) if FileTest.exists?(b)
     end
     rf+=1
   else
@@ -1263,7 +1117,7 @@ th=Thread.new do
   end
 loop do
         loop_update
-        tx=read(outfl)
+        tx=readfile(outfl)
                 if /(\d+):(\d+)\/(\d+):(\d+)\/(\d+):(\d+)\/(\d+)/=~tx
                   if $4.to_i>0 and $5.to_i>0
                   edt.settext("#{($4.to_f/($5.to_f+1.0)*100.0).to_i}%\r\n#{_("EAPI_Common:txt_phr_readtofilenum")} #{$1}#{if maxd==0;"";else;" ("+(($6.to_f/maxd.to_f*100.0).to_i%101).to_s+"%)";end}\r\n#{s_("EAPI_Common:txt_phr_sentencenumber",{'cursentence'=>$2,'sentences'=>$3})}\r\n#{_("EAPI_Common:txt_phr_readtime")} #{sprintf("%02d:%02d:%02d",$7.to_i/3600,($7.to_i/60)%60,$7.to_i%60)}#{if Time.now.to_i>starttm;"\r\n#{_("EAPI_Common:txt_phr_timeremaining")}"+sprintf("%02d:%02d:%02d",((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/3600,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/60%60,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i%60);else;"";end}",false)
@@ -1292,8 +1146,7 @@ if x != "\003\001"
    edt.update
    end
   waiting_end
-   speech(_("EAPI_Common:info_readtofilefinished"))
-  speech_wait
+   alert(_("EAPI_Common:info_readtofilefinished"))
   break
   end
 end
@@ -1307,7 +1160,7 @@ break
   break if escape
       end
     end
-       def decompress(source,destination,msg="Rozpakowywanie...")
+       def decompress(source,destination,msg="")
          speech(msg)
          waiting
          executeprocess("bin\\7z x \"#{source}\" -y -o\"#{destination}\"",true)

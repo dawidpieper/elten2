@@ -8,77 +8,6 @@
 module EltenAPI
   # Functions using external APIs
   module External
-    # Translates a string to another language using Yandex
-    #
-    # @param from [String]
-    # @param to [String]
-    # @param text [String]
-    # Uses Google Api GTX Translate API to translate a text
-    #
-    # @param from [String] an input language code
-    # @param to [String] an output language code
-    # @param text [String] a text to translate
-    # @return [String] a translated text
-    def gtranslate(from,to,text)
-                  from="auto" if from==0
-                  textc = "q=" + text.to_s.urlenc
-                  if textc.size>5000
-                                        plc=[]
-res=""
-ind=0
-places=[]
-textct=textc[2..textc.size]
-until textct.empty?
-places << textct.slice!(0..4990)
-i=places.size-1
-pl=places[i]
-  if pl[pl.size-1]==37
-  places[i]+=textct[0..1]
-  textct[0..1]=""
-         elsif pl[pl.size-2]==37
-  places[i]+=textct[0..0]
-  textct[0..0]=""
-      end
-end
-    for pl in places
-res+=gtranslate(from,to,pl.urldec)+"\r\n"
-end
-return res
-                    end
-                                                    data = "POST /translate_a/single?client=gtx\&sl=#{from}\&tl=#{to}\&dt=t\&ie=utf-8\&oe=utf-8\&dt=bd HTTP/1.1\r\nAccept-Encoding: identity\r\nContent-Length: #{textc.size.to_s}\r\nHost: www.google.com\r\nContent-Type: application/x-www-form-urlencoded\r\nConnection: close\r\nUser-Agent: Elten/#{$version.to_s}\r\n\r\n#{textc}"
-                           tt = connect("translate.google.com",80,data,1024+(4*textc.size))
-        errc=200
-        if (/HTTP\/1.1 (\d\d\d)/=~tt)!=nil
-          errc=$1.to_i
-        end
-        if errc!=200
-                    return ""
-          end
-                          r = ""
-    tt = [] if tt == nil
-    ind = 0
-        for i in 3..tt.size - 1
-      ind += 1
-      break if tt[i-3..i] == "\r\n\r\n"
-    end
-    ind += 1
-    r=""
-    for i in ind..tt.size - 1
-                      r += tt[i..i]
-            end
-     null=nil
-          begin
-       e=JSON.load(r)
-       t=""
-              for l in e[0]
-                  t+=l[0]+"\r\n"
-         end
-         t.chop! if t[t.size-1..t.size-1]==" "
-         return t
-        rescue Exception
-          return ""
-          end
-   end
    
    # Translates a string to another language using Yandex
     #
@@ -98,25 +27,25 @@ text.gsub!("-"," ")
                text[0]=0 if text[0..0]=="+"
                text.delete!("\0")
                               if from == 0
-       download("https://translate.yandex.net/api/v1.5/tr.json/detect?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&text=#{text}","temp/trans")
-               a = read("temp/trans")
-File.delete("temp/trans")
+       download("https://translate.yandex.net/api/v1.5/tr.json/detect?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&text=#{text}",$tempdir+"/trans")
+               a = readfile($tempdir+"/trans")
+File.delete($tempdir+"/trans")
  c = JSON.load(a)
 return "" if c==nil
 if c['code']!=200
-  speech(_("EAPI_External:error_translation")) if quiet==false
+  alert(_("EAPI_External:error_translation")) if quiet==false
   return c['code']
 end
 from = c['lang']       
 end
 to=to.downcase
-download("https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&text=#{text}\&lang=#{from}-#{to}","temp/trans")
-          a =  read("temp/trans")
-     File.delete("temp/trans")
+download("https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&text=#{text}\&lang=#{from}-#{to}",$tempdir+"/trans")
+          a =  readfile($tempdir+"/trans")
+     File.delete($tempdir+"/trans")
      c = JSON.load(a)
 if c.is_a?(Hash)
 if c['code']!=200
-  speech(_("EAPI_External:error_translation")) if quiet==false
+  alert(_("EAPI_External:error_translation")) if quiet==false
   return c['code']
 end
 r = ""
@@ -138,11 +67,10 @@ else
 def translatetext(from,to,text,api=0)
   case api
   when 0
-    t=gtranslate(from,to,text)
-        t=ytranslate(from,to,text) if t == "" or t == nil
+            t=ytranslate(from,to,text)
     return t
   when 1
-    return gtranslate(from,to,text)
+    return ""
     when 2
       return ytranslate(from,to,text)
   end
@@ -153,9 +81,9 @@ def translatetext(from,to,text,api=0)
 # @param text [String] a text to translate
      def translator(text)
   dialog_open
-  download("https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&ui=#{$language[0..1]}","temp/trans")
-  a = read("temp/trans")
- File.delete("temp/trans")
+  download("https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&ui=#{$language[0..1]}",$tempdir+"/trans")
+  a = readfile($tempdir+"/trans")
+ File.delete($tempdir+"/trans")
   c = JSON.load(a)
  langs=c['langs']
   from=Select.new([_("EAPI_External:opt_langdetection")]+langs.values,true,0,_("EAPI_External:head_langsrc"),true)
@@ -203,13 +131,12 @@ if query == nil
   query = input_text(_("EAPI_External:type_ytsearch"),"ACCEPTESCAPE")
   return -1 if query == "\004ESCAPE\004"
   end
-  download("https://www.googleapis.com/youtube/v3/search?part=snippet&q=#{(query).urlenc}&type=video&maxResults=50&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
-    x=read("temp/yttemp")
-  File.delete("temp/yttemp")
+  download("https://www.googleapis.com/youtube/v3/search?part=snippet&q=#{(query).urlenc}&type=video&maxResults=50&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M",$tempdir+"/yttemp")
+    x=readfile($tempdir+"/yttemp")
+  File.delete($tempdir+"/yttemp")
   e = JSON.load(x)
       if e['error'] != nil or e['errors'] != nil
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     return
   end
   o=[]
@@ -234,9 +161,9 @@ loop do
   if $key[0x9]
     if details[sel.index]==nil
     vid=ids[sel.index]
-    download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
-    vx=read("temp/yttemp")
-  File.delete("temp/yttemp")
+    download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M",$tempdir+"/yttemp")
+    vx=readfile($tempdir+"/yttemp")
+  File.delete($tempdir+"/yttemp")
   details[sel.index]=ve = JSON.load(vx)
   end
   di=details[sel.index]['items'][0]['contentDetails']['duration']
@@ -260,10 +187,10 @@ dete.settext(text)
   if $key[0x11] and $key[68]
     if details[sel.index]==nil
     vid=ids[sel.index]
-    download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
-    download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
-    vx=read("temp/yttemp")
-  File.delete("temp/yttemp")
+    download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M",$tempdir+"/yttemp")
+    download("https://www.googleapis.com/youtube/v3/videos?part=id,snippet,contentDetails&id=#{vid}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M",$tempdir+"/yttemp")
+    vx=readfile($tempdir+"/yttemp")
+  File.delete($tempdir+"/yttemp")
   details[sel.index]=ve = JSON.load(vx)
   end
 di=details[sel.index]['items'][0]['contentDetails']['duration']
@@ -287,7 +214,7 @@ speech(sprintf("%02d:%02d:%02d",h,m,s))
     return 0
         break
   end
-  if space and form.index==0
+  if space and form.index==0 and FileTest.exists?($extrasdata+"\\youtube-dl.exe")
     if previewed==sel.index
       preview.close
       preview=nil
@@ -296,14 +223,13 @@ speech(sprintf("%02d:%02d:%02d",h,m,s))
     if urls[sel.index]==nil
         waiting
     if e==nil
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       $scene=Scene_Main.new
       return
       end
           suc=false
-      statustempfile="temp/ytp"+rand(36**2).to_s(36)+".tmp"
-            h = run("cmd /c bin\\youtube-dl.exe -g -f bestaudio --extract-audio \"https://youtube.com/watch?v=#{ids[sel.index]}\" 1> #{statustempfile} 2>\&1",true)
+      statustempfile=$tempdir+"/ytp"+rand(36**2).to_s(36)+".tmp"
+            h = run("cmd /c #{$extrasdata}\\youtube-dl.exe --ffmpeg-location bin -g -f bestaudio --extract-audio \"https://youtube.com/watch?v=#{ids[sel.index]}\" 1> #{statustempfile} 2>\&1",true)
                   prc=0
       starttm=Time.now.to_i
       lastcheck=Time.now.to_i
@@ -341,28 +267,41 @@ end
 end
   
 def ytfile(url,upd=false)
+  if !FileTest.exists?($extrasdata+"\\youtube-dl.exe")
+    confirm(_("EAPI_External:alert_youtubedl")) {
+    waiting
+    begin
+download("http://youtube-dl.org/downloads/latest/youtube-dl.exe", $extrasdata+"\\youtube-dl.exe")
+rescue Exception
+  retry
+end
+waiting_end
+    }
+    end
+  return if !FileTest.exists?($extrasdata+"\\youtube-dl.exe")
     e=url if url.is_a?(Hash)
     id=e['id']
     id=id['videoId'] if id.is_a?(Hash)
     waiting
-    destination = "temp/"+e['snippet']['title'].delspecial+"_"+e['snippet']['channelTitle'].delspecial+".tmp"
+    fname=e['snippet']['title'].delspecial+"_"+e['snippet']['channelTitle'].delspecial+".tmp"
+    destination = $tempdir+"/"+fname
           suc=false
-          d=Dir.entries("temp")
+          d=Dir.entries($tempdir)
   for f in d
-    if destination.gsub(File.extname(destination),"")=="temp/"+f.gsub(File.extname(f),"")
+    if fname.gsub(File.extname(fname),"")==f.gsub(File.extname(f),"")
             ext=File.extname(f).downcase
-                  if ext != ".part" and ext!=".tmp"
+                              if ext != ".part" and ext!=".tmp"
         suc=true
-        destination="temp\\"+f
-              end
+        destination=$tempdir+"\\"+f
+      end
                                 end
 end
 if suc == true
   suc = true
 else
-            statustempfile="temp/yts"+rand(36**2).to_s(36)+".tmp"
-            h = run("cmd /c bin\\youtube-dl.exe --no-check-certificate -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{id}\" 1> #{statustempfile} 2>\&1",true)
-                        speech(_("EAPI_External:wait_connecting"))
+            statustempfile=$tempdir+"/yts"+rand(36**2).to_s(36)+".tmp"
+            h = run("cmd /c #{$extrasdata}\\youtube-dl.exe --no-check-certificate --ffmpeg-location bin -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{id}\" 1> #{statustempfile} 2>\&1",true)
+                        alert(_("EAPI_External:wait_connecting"))
       prc=0
       starttm=Time.now.to_i
       lastcheck=Time.now.to_i
@@ -373,16 +312,16 @@ else
         if space
           if sil==false
             sil=true
-            speech(_("EAPI_External:info_donotreadprogress"))
+            alert(_("EAPI_External:info_donotreadprogress"))
           else
             sil=false
-            speech(_("EAPI_External:info_readprogress"))
+            alert(_("EAPI_External:info_readprogress"))
           end
           end
         x="\0"*1024
 Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
 x.delete!("\0")
-yst=read(statustempfile)
+yst=readfile(statustempfile)
 if yst != nil and yst != ""
   yst.gsub(/\[download\]( *)(\d+.\d)%/,'')
 prc=$2.to_f
@@ -392,18 +331,18 @@ end
     speech(prc.round.to_s+"%") if prc<100 and sil==false
     end
   if x != "\003\001"
-  yst=read(statustempfile)
+  yst=readfile(statustempfile)
     break
   end
 end
-  d=Dir.entries("temp")
+  d=Dir.entries($tempdir+"")
   suc=false
   for f in d
-    if destination.gsub(File.extname(destination),"")=="temp/"+f.gsub(File.extname(f),"")
+    if destination.gsub(File.extname(destination),"")==$tempdir+"/"+f.gsub(File.extname(f),"")
             ext=File.extname(f).downcase
                   if ext != ".part" and ext!=".tmp"
         suc=true
-        destination="temp\\"+f
+        destination=$tempdir+"\\"+f
               end
                                 end
 end
@@ -421,7 +360,7 @@ if suc == true
       player(destination,e['snippet']['title'],false,true,false)
 when 1
   $playlist.push(destination)
-speech(_("EAPI_External:info_addedtopls"))
+alert(_("EAPI_External:info_addedtopls"))
 when 2
   avatar_set(destination)
 when 3
@@ -432,10 +371,10 @@ fl = getfile(_("EAPI_External:head_dst"),getdirectory(40)+"\\",true,"Documents")
 if fl!=""
 if type == 0
 fl += "\\"+e['snippet']['title'].delspecial+".mp4"
-    h = run("bin\\youtube-dl.exe -o \"#{fl}\" \"https://youtube.com/watch?v=#{id}\"",true)
+    h = run("#{$extrasdata}\\youtube-dl.exe --ffmpeg-location bin -o \"#{fl}\" \"https://youtube.com/watch?v=#{id}\"",true)
       t = 0
       tmax = 600
-      speech(_("EAPI_External:wait_downloading"))
+      alert(_("EAPI_External:wait_downloading"))
       loop do
         loop_update
         x="\0"*1024
@@ -446,15 +385,14 @@ if x != "\003\001"
   end
 t += 10.0/Graphics.frame_rate
 if t > tmax
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
   return -1
   break
   end
         end
-    speech(_("General:info_saved"))
+    alert(_("General:info_saved"))
         elsif type == 1
-          fl += "\\"+destination.sub("temp\\","")
+          fl += "\\"+destination.sub($tempdir+"\\","")
           formats=[File.extname(destination).delete("."),"mp3","wav","ogg"]
           dialog_open
           format=selector(formats,_("EAPI_External:head_saveformat"),0,-1,1)
@@ -465,41 +403,40 @@ if t > tmax
           else
             fl.gsub!(File.extname(fl),"."+formats[format])
             waiting
-            speech(_("EAPI_External:wait"))
+            alert(_("EAPI_External:wait"))
             executeprocess("bin/ffmpeg -y -i \"#{destination}\" \"#{fl}\"",true)
             waiting_end
             end
-  speech(_("General:info_saved"))      
+  alert(_("General:info_saved"))      
   end
       end
     end
     end
 when 4
   url="https://youtube.com/watch?v=#{id}"
-  Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(url,url.size+1)
-  speech(_("EAPI_External:info_copiedtoclip"))
-  speech_wait
+  Clipboard.set_data(url)
+  alert(_("EAPI_External:info_copiedtoclip"))
     when 5
 end
 else
  if upd==false
-   speech(_("EAPI_External:wait_youtubedl"))
+   alert(_("EAPI_External:wait_youtubedl"))
    waiting
-      executeprocess("bin\\youtube-dl.exe -U",true)
+      executeprocess("#{$extrasdata}\\youtube-dl.exe -U",true)
       delay(1)
-      if FileTest.exists?("bin\\youtube-dl.exe.new")
-        Win32API.new("kernel32","DeleteFile",'p','i').call("bin\\youtube-dl.exe")
-        Win32API.new("kernel32","MoveFile",'pp','i').call(".\\bin\\youtube-dl.exe.new",".\\bin\\youtube-dl.exe") 
+      if FileTest.exists?("#{$extrasdata}\\youtube-dl.exe.new")
+        File.delete("#{$extrasdata}\\youtube-dl.exe")
+        Win32API.new("kernel32","MoveFile",'pp','i').call("#{$extrasdata}\\youtube-dl.exe.new","#{$extrasdata}\\youtube-dl.exe") 
         end
    waiting_end
    ytfile(url,true)
    else
   if FileTest.exists?(destination.gsub($advanced_ytformat,"mp4"))
-       if simplequestion(_("EAPI_External:alert_audioreport")) == 1
+       if confirm(_("EAPI_External:alert_audioreport")) == 1
          bug(true,yst)
          end
     else
-  if simplequestion(_("EAPI_External:alert_ytreport")) == 1
+  if confirm(_("EAPI_External:alert_ytreport")) == 1
     bug(true,yst)
   end
   end
@@ -509,13 +446,12 @@ end
 
 def ytlist(ids)
   ids=[ids] if ids.is_a?(String)
-  download("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=#{ids.join(",")}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M","temp/yttemp")
-    x=read("temp/yttemp")
-  File.delete("temp/yttemp")
+  download("https://www.googleapis.com/youtube/v3/videos?part=snippet&id=#{ids.join(",")}&key=AIzaSyDHzxuKr4G6bENMzQLbUbC1FcWwzyrgr1M",$tempdir+"/yttemp")
+    x=readfile($tempdir+"/yttemp")
+  File.delete($tempdir+"/yttemp")
   e = JSON.load(x)
       if e['error'] != nil or e['errors'] != nil
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     return {'items'=>[]}
   end
   return e
@@ -524,22 +460,21 @@ end
 
 def convert_book(src,dst)
   if src[-3..-1].downcase=="txt" and dst[-3..-1].downcase=="txt"
-    r=read(src)
-    r=futf8(r) if r[0]<200
-    writefile(dst,r)
+    r=readfile(src)
+        writefile(dst,r)
     end
   if !FileTest.exists?($extrasdata+"\\Calibre Portable\\Calibre\\ebook-convert.exe")
     s=confirm(_("EAPI_External:alert_calibre"))
     if s==1
-      downloadfile("http://download.calibre-ebook.com/3.46.0/calibre-portable-installer-3.46.0.exe","temp\\calibre.exe",_("EAPI_External:wait_calibredownloading"))
-      return if !FileTest.exists?("temp\\calibre.exe") or read("temp\\calibre.exe",true)<1048576
-      speech(_("EAPI_External:wait_calibreextracting"))
+      downloadfile("http://download.calibre-ebook.com/3.46.0/calibre-portable-installer-3.46.0.exe",$tempdir+"\\calibre.exe",_("EAPI_External:wait_calibredownloading"))
+      return if !FileTest.exists?($tempdir+"\\calibre.exe") or File.size($tempdir+"\\calibre.exe")<1048576
+      alert(_("EAPI_External:wait_calibreextracting"))
       waiting
-      executeprocess("temp\\calibre.exe \"temp\"",true)
-      copydir("temp/Calibre Portable",$extrasdata+"/Calibre Portable")
-      deldir("temp/Calibre Portable")
+      executeprocess($tempdir+"\\calibre.exe \"#{$tempdir}\"",true)
+      copydir($tempdir+"/Calibre Portable",$extrasdata+"/Calibre Portable")
+      deldir($tempdir+"/Calibre Portable")
       waiting_end
-      File.delete("temp\\calibre.exe")
+      File.delete($tempdir+"\\calibre.exe")
     else
       return
     end

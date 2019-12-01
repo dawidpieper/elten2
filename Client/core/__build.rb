@@ -8,6 +8,9 @@
 require 'zlib'
 
 data=[
+[72236366,"Log",Zlib::deflate(IO.read("Log.rb"))],
+[21836863,"Log",Zlib::deflate(IO.read("Log.rb"))],
+[42030440,"NVDA",Zlib::deflate(IO.read("NVDA.rb"))],
 [54356934,"Sounds",Zlib::deflate(IO.read("Sounds.rb"))],
 [81165628,"Recorder",Zlib::deflate(IO.read("Recorder.rb"))],
 [73382195,"Version",Zlib::deflate(IO.read("Version.rb"))],
@@ -44,12 +47,10 @@ data=[
 [42289542,"WhatsNew",Zlib::deflate(IO.read("WhatsNew.rb"))],
 [49922755,"ShortKeys",Zlib::deflate(IO.read("ShortKeys.rb"))],
 [48266778,"General",Zlib::deflate(IO.read("General.rb"))],
-[58182033,"Events",Zlib::deflate(IO.read("Events.rb"))],
 [91142161,"RI_WINSOCK",Zlib::deflate(IO.read("RI_WINSOCK.rb"))],
 [86005065,"Bug",Zlib::deflate(IO.read("Bug.rb"))],
 [92009633,"UsersAddedMeToContacts",Zlib::deflate(IO.read("UsersAddedMeToContacts.rb"))],
 [23428019,"Audio",Zlib::deflate(IO.read("Audio.rb"))],
-[10940112,"GEM_FMOD",Zlib::deflate(IO.read("GEM_FMOD.rb"))],
 [3378667,"ReadMe",Zlib::deflate(IO.read("ReadMe.rb"))],
 [4417910,"Blog",Zlib::deflate(IO.read("Blog.rb"))],
 [36025832,"Ban",Zlib::deflate(IO.read("Ban.rb"))],

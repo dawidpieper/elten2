@@ -9,7 +9,7 @@ class Object
   include EltenAPI
 end
 module Elten
-Version=2.36
+Version=2.4
 Beta=1
 Alpha=0
 IsBeta=1
@@ -37,9 +37,11 @@ def build_date
   end
 end
 end
+Log.head("Starting Elten")
+Log.head("Version: #{Elten.version.to_s}")
+Log.head("Beta: #{Elten.beta.to_s}") if Elten.isbeta==1
   begin
-    _("")
-  $volume=100 if $volume==nil
+      $volume=100 if $volume==nil
       $mainthread = Thread::current
 $stopmainthread         = false
   #main
@@ -64,6 +66,7 @@ $toscene = false
   $scene=Scene_Loading.new if $restart==true
           if $scene != nil
         $notifications_callback = nil
+        Log.debug("Loading scene: #{$scene.class.to_s}")
                               $scene.main
   else
     break
@@ -74,6 +77,7 @@ $toscene = false
     srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{_("Chat:left").urlenc}") if $chat==true
     play("logout")
   speech_wait
+  Log.debug("Closing processes")
   if $procs!=nil  
   for o in $procs
 Win32API.new("kernel32","TerminateProcess",'ip','i').call(o,"")
@@ -85,7 +89,8 @@ $t=false
       $playlistpaused=true    
       $playlistbuffer.pause if $t==false
     
-      rescue Exception
+    rescue Exception
+      Log.warning("Failed to free playlist buffer")
     $t=true
     retry
     end
@@ -96,12 +101,12 @@ $t=false
         if FileTest.exists?("#{$eltendata}\\playlist.eps")
       pls = load_data("#{$eltendata}\\playlist.eps")
       if pls != $playlist
-        if simplequestion(_("*Main:alert_changepls")) == 1
+        if confirm(_("*Main:alert_changepls")) == 1
 save_data($playlist,"#{$eltendata}\\playlist.eps")
           end
         end
       else
-        if simplequestion(_("*Main:alert_savepls")) == 1
+        if confirm(_("*Main:alert_savepls")) == 1
           save_data($playlist,"#{$eltendata}\\playlist.eps")
           end
         end
@@ -110,25 +115,22 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
         $playlistbuffer=nil
         else
     if FileTest.exists?("#{$eltendata}\\playlist.eps")
-      if simplequestion(_("*Main:alert_deletepls")) == 1
+      if confirm(_("*Main:alert_deletepls")) == 1
         File.delete("#{$eltendata}\\playlist.eps")
         end
             end
   end
-  deldir("temp",false)
-    if $recproc!=nil
-    writefile("record_stop.tmp","")
-    $recproc=nil
-    end
-    delay(1)
+  deldir($tempdir)
+        delay(1)
   # Fade out
   Graphics.transition(120)
     $exit = true
   if $exitupdate==true
     writefile($eltendata+"\\update.last",Zlib::Deflate.deflate([$version.to_s,$beta.to_s,$alpha.to_s,$isbeta.to_s].join(" ")))
     writefile($eltendata+"\\bin\\Data\\update.last",Marshal.dump(Time.now.to_f))
-    exit(run("\"#{$bindata}\\eltenup.exe\" /silent"))
-    end
+    exit(run("\"#{$eltendata}\\eltenup.exe\" /tasks=\"\" /silent"))
+  end
+  Log.info("Exiting Elten")
       exit
     end
     begin
@@ -211,7 +213,7 @@ loop do
     break
   else
     msg = $!.to_s+"\r\n"+$@.to_s
-    Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(msg,msg.size+1)
+    Clipboard.set_data(msg)
     speech("Copied to clipboard")
     end
   end

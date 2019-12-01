@@ -45,11 +45,11 @@ loop do
       @form.update
 if @form.fields[6].checked==1
   if @form.fields[5].checked==0
-  speech(_("General:error_autologinrequired"))
+  alert(_("General:error_autologinrequired"))
   @form.fields[6].checked=0
 end
 if $portable == 1 and autoportalert == false
-  if simplequestion(_("General:alert_guestautostart"))==0
+  if confirm(_("General:alert_guestautostart"))==0
   @form.fields[6].checked=0
   else
   autoportalert = true
@@ -87,7 +87,7 @@ elsif @autostart == true and @form.fields[6].checked==0
   @runkey.delete("elten")
   end
 @runkey.close
-speech(_("General:info_saved"))
+alert(_("General:info_saved"))
 speech_wait
 if $name != nil and $name != "" and $token != nil and $token != ""
 $scene = Scene_Main.new

@@ -34,7 +34,7 @@ loop_update
          when 3
                       writeconfig("Voice", "Voice", -1)
                                 $voice = -1
-                speech(_("Voice:info_useddefault"))
+                alert(_("Voice:info_useddefault"))
        end
        end
      end
@@ -45,14 +45,16 @@ class Scene_Voice_Voice
     @settings = settings
     end
     def main
-      $selectedvoice = false
-      nv = Win32API.new("screenreaderapi", "sapiGetNumVoices", '', 'i')
-      $numvoice = nv.call() - 1
-      $setvoice = Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i')
-      $setvoice.call(0)
-      $voicename = Win32API.new("screenreaderapi", "sapiGetVoiceName", 'i', 'p')
-            speech(futf8($voicename.call(0)))
-      $curnum = 0
+      @selectedvoice = false
+      nv = Win32API.new("bin\\screenreaderapi", "sapiGetNumVoices", '', 'i')
+      @numvoice = nv.call() - 1
+      @@setvoice = Win32API.new("bin\\screenreaderapi", "sapiSetVoice", 'i', 'i')
+      @@setvoice.call(0)
+      @@voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
+              vc="\0"*1024
+              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,@@voicename.call(0))
+      speech(deunicode(vc))
+      @curnum = 0
       loop do
 loop_update
     update
@@ -62,33 +64,39 @@ loop_update
     end
                   end
     def update
-      if Input.trigger?(Input::DOWN)
+      if arrow_down
         speech_stop
-        if $curnum + 1 <= $numvoice
-          $curnum = $curnum + 1
+        if @curnum + 1 <= @numvoice
+          @curnum = @curnum + 1
         else
-          $curnum = 0
+          @curnum = 0
         end
-        $setvoice.call($curnum)
-        speech(futf8($voicename.call($curnum)))
+        @@setvoice.call(@curnum)
+        vc="\0"*1024
+              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,@@voicename.call(@curnum))
+        speech(deunicode(vc))
       end
-            if Input.trigger?(Input::UP)
+            if arrow_up
         speech_stop
-        if $curnum - 1 >= 0
-          $curnum = $curnum - 1
+        if @curnum - 1 >= 0
+          @curnum = @curnum - 1
         else
-          $curnum = $numvoice
+          @curnum = @numvoice
         end
-        $setvoice.call($curnum)
-        speech(futf8($voicename.call($curnum)))
+        @@setvoice.call(@curnum)
+        vc="\0"*1024
+              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,@@voicename.call(@curnum))
+        speech(deunicode(vc))
       end
       if alt
                 menu
         end
-      if enter or $selectedvoice == true
-                                writeconfig("Voice", "Voice", $curnum)
-                $voice = $curnum.to_i
-                                      mow = "#{_("Voice:info_phr_selectedvoice")}: " + futf8($voicename.call($curnum))
+      if enter or @selectedvoice == true
+                                writeconfig("Voice", "Voice", @curnum)
+                $voice = @curnum.to_i
+                vc="\0"*1024
+              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,@@voicename.call(@curnum))
+                                      mow = "#{_("Voice:info_phr_selectedvoice")}: " + deunicode(vc)
         speech(mow)
 speech_wait
 if @settings == 0
@@ -113,7 +121,7 @@ loop_update
 if enter
   case @menu.index
   when 0
-$selectedvoice = true
+@selectedvoice = true
 break
 when 1
   if @settings != 0
@@ -135,13 +143,12 @@ end
 class Scene_Voice_Rate
   def main
         sel = []
-    for i in 1..100
-      sel.push(i.to_s)
+    for i in 0..100
+      sel.push((100-i).to_s)
     end
-    Graphics.update
-    @rate = Win32API.new("screenreaderapi","sapiGetRate",'','i').call
+        @rate = Win32API.new("bin\\screenreaderapi","sapiGetRate",'','i').call
     @startrate = @rate
-    @sel = Select.new(sel,true,@rate - 1,_("Voice:head_changerate"))
+    @sel = Select.new(sel,true,(100-@rate),_("Voice:head_changerate"))
             loop do
 loop_update
       @sel.update
@@ -152,20 +159,18 @@ loop_update
       end
     end
     def update
-if @rate - 1 != @sel.index
-  @rate = @sel.index + 1
-  Win32API.new("screenreaderapi","sapiSetRate",'i','i').call(@rate)
+if @rate != 100-@sel.index
+  @rate = 100-@sel.index
+  Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call(@rate)
   end
-      @rate = @sel.index + 1
-      if escape
+            if escape
                 @rate = @startrate
-        Win32API.new("screenreaderapi","sapiSetRate",'i','i').call(@rate)
+        Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call(@rate)
         $scene = Scene_Voice.new
       end
       if enter
                      writeconfig("Voice", "Rate", @rate)
-     speech(_("General:info_saved"))
-     speech_wait
+     alert(_("General:info_saved"))
      $scene = Scene_Voice.new
         end
       end
@@ -174,12 +179,12 @@ if @rate - 1 != @sel.index
     class Scene_Voice_Volume
   def main
         sel = []
-    for i in 1..100
-      sel.push(i.to_s)
+    for i in 0..100
+      sel.push((100-i).to_s)
     end
-        @volume = Win32API.new("screenreaderapi","sapiGetVolume",'','i').call
+        @volume = Win32API.new("bin\\screenreaderapi","sapiGetVolume",'','i').call
     @startvolume = @volume
-    @sel = Select.new(sel,true,@volume - 1,_("Voice:head_changevol"))
+    @sel = Select.new(sel,true,(100-@volume),_("Voice:head_changevol"))
             loop do
 loop_update
       @sel.update
@@ -190,22 +195,20 @@ loop_update
       end
     end
     def update
-if @volume - 1 != @sel.index
-  @volume = @sel.index + 1
-  Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call(@volume)
+if @volume != 100-@sel.index
+  @volume = 100-@sel.index
+  Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call(@volume)
   end
-      @volume = @sel.index + 1
-      if escape
+            if escape
                 @volume = @startvolume
-        Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call(@volume)
+        Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call(@volume)
         $scene = Scene_Voice.new
       end
       if enter
                                      writeconfig("Voice", "Volume", @volume)
-     speech(_("General:info_saved"))
-     speech_wait
+     alert(_("General:info_saved"))
      $scene = Scene_Voice.new
         end
       end
-  end
+    end
 #Copyright (C) 2014-2019 Dawid Pieper

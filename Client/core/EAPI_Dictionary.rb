@@ -8,6 +8,7 @@
 module EltenAPI
   module Dictionary
 def load_locale(file,lang='en_GB')
+  Log.info("Loading locale data: #{file}")
   if FileTest.exists?(file)
   fp=File.open(file,"rb")
   $locales=Marshal.load(Zlib::Inflate.inflate(fp.read))
@@ -17,6 +18,7 @@ def load_locale(file,lang='en_GB')
   end
     
   def set_locale(lang)
+    Log.info("Changing locale: #{lang}")
   if $locales!=nil
     for locale in $locales
       $dict=locale if locale['_code'][0..1].downcase==lang[0..1].downcase
@@ -26,7 +28,8 @@ def load_locale(file,lang='en_GB')
     end
   
     def load_dict(file,reset=false)
-    r=IO.read(file)
+      Log.info("Loading GetText dictionary from file: #{file}")
+    r=readfile(file)
     r.gsub!("\"\r\n\"","\r\n")
     r.gsub!("\"\n\"","\n")
     li = r.split("\n")
@@ -54,7 +57,9 @@ end
 
   def _(msg)
   $dict={} if $dict==nil
-    return ((($dict!=nil)?($dict[msg]):nil)||(($locales.is_a?(Array) and $locales.size>0)?($locales[0][msg]):nil)||msg).deep_dup
+    r=((($dict!=nil)?($dict[msg]):nil)||(($locales.is_a?(Array) and $locales.size>0)?($locales[0][msg]):nil)||msg).deep_dup
+    Log.warning("Message not in locale dictionary: #{msg}") if r==msg
+    return r
 end
 
 def s_(msg, params)

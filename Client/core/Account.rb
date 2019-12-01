@@ -32,28 +32,23 @@ class Scene_Account_Password
     return
   end
   if password != repeatpassword
-    speech(_("Account:error_difpass"))
-    speech_wait
+    alert(_("Account:error_difpass"))
     main
   end
     act = srvproc("account_mod", {"changepassword"=>"1", "oldpassword"=>oldpassword, "password"=>password})
     err = act[0].to_i
   case err
   when 0
-    speech(_("Account:info_passchanged"))
-    speech_wait
+    alert(_("Account:info_passchanged"))
         $scene = Scene_Main.new
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         when -6
-          speech(_("Account:error_wrongoldpass"))
-          speech_wait
+          alert(_("Account:error_wrongoldpass"))
           $scene = Scene_Main.new
   end
     end
@@ -81,23 +76,19 @@ class Scene_Account_Mail
     err = act[0].to_i
   case err
   when 0
-    speech(_("Account:info_mailchanged"))
-    speech_wait
+    alert(_("Account:info_mailchanged"))
     $scene = Scene_Main.new
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         when -6
-          speech(_("Account:error_wrongoldpass"))
-          speech_wait
+          alert(_("Account:error_wrongoldpass"))
           $scene = Scene_Main.new
           when -7
-speech(_("Account:error_maileventsenabled"))            
+alert(_("Account:error_maileventsenabled"))            
             speech_wait
             $scene = Scene_Main.new
   end
@@ -111,13 +102,11 @@ class Scene_Account_VisitingCard
         err = vc[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         return
       end
@@ -149,16 +138,13 @@ buf = buffer(visitingcard)
 err = vc[0].to_i
 case err
 when 0
-  speech(_("General:info_saved"))
-  speech_wait
+  alert(_("General:info_saved"))
   $scene = Scene_Main.new
   when -1
-    speech(_("General:error_db"))
-    speech_wait
+    alert(_("General:error_db"))
     $scene = Scene_Main.new
     when -2
-      speech(_("General:error_tokenexpired"))
-      speech_wait
+      alert(_("General:error_tokenexpired"))
       $scene = Scene_Loading.new
 end
 dialog_close    
@@ -167,8 +153,7 @@ end
   
   class Scene_Account_Status
     def main
-            speech(_("Account:head_status"))
-      speech_wait
+            alert(_("Account:head_status"))
       text = ""
       while text == ""
       text = input_text(_("Account:type_status"),"ACCEPTESCAPE")
@@ -179,9 +164,9 @@ end
     end
     ef = setstatus(text)
     if ef != 0
-      speech(_("General:error"))
+      alert(_("General:error"))
     else
-      speech(_("Account:info_statuschanged"))
+      alert(_("Account:info_statuschanged"))
     end
     speech_wait
     $scene = Scene_Main.new
@@ -232,13 +217,11 @@ location_a={}
         err = vc[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         return
       end
@@ -252,13 +235,11 @@ fields.push(Edit.new(_("Account:type_status"),"",getstatus($name,false),true))
         err = sg[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         return
       end
@@ -361,11 +342,9 @@ pro["mod"]=1
       pr = srvproc("signature",{"buffer"=>buf, "set"=>"1"})
     end
           if pr[0].to_i < 0
-    speech(_("General:error"))
-  speech_wait
+    alert(_("General:error"))
 else
-  speech(_("General:info_saved"))
-  speech_wait
+  alert(_("General:info_saved"))
 end
 $scene = Scene_Main.new
           end
@@ -382,13 +361,11 @@ $scene = Scene_Main.new
         err = sg[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         return
       end
@@ -420,16 +397,13 @@ buf = buffer(signature)
 err = sg[0].to_i
 case err
 when 0
-  speech(_("General:info_saved"))
-  speech_wait
+  alert(_("General:info_saved"))
   $scene = Scene_Main.new
   when -1
-    speech(_("General:error_db"))
-    speech_wait
+    alert(_("General:error_db"))
     $scene = Scene_Main.new
     when -2
-      speech(_("General:error_tokenexpired"))
-      speech_wait
+      alert(_("General:error_tokenexpired"))
       $scene = Scene_Loading.new
 end
 dialog_close    
@@ -443,13 +417,11 @@ class Scene_Account_Greeting
         err = gt[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Loading.new
         return
       end
@@ -481,16 +453,13 @@ buf = buffer(greeting)
 err = gt[0].to_i
 case err
 when 0
-  speech(_("General:info_saved"))
-  speech_wait
+  alert(_("General:info_saved"))
   $scene = Scene_Main.new
   when -1
-    speech(_("General:error_db"))
-    speech_wait
+    alert(_("General:error_db"))
     $scene = Scene_Main.new
     when -2
-      speech(_("General:error_tokenexpired"))
-      speech_wait
+      alert(_("General:error_tokenexpired"))
       $scene = Scene_Loading.new
 end
 dialog_close    
@@ -522,8 +491,7 @@ class Scene_Account_Avatar
     def main
       wnc=srvproc("whatsnew_config",{"get"=>"1"})
       if wnc[0].to_i<0
-        speech(_("General:error"))
-        speech_wait
+        alert(_("General:error"))
         return $scene=Scene_Main.new
       end
       options=[_("Account:opt_notifyandshow"),_("Account:opt_notify"),_("Account:opt_ignore")]
@@ -545,10 +513,9 @@ class Scene_Account_Avatar
           end
           prm={"set"=>"1"}+t
                     if srvproc("whatsnew_config",prm)[0].to_i<0
-            speech(_("General:error"))
+            alert(_("General:error"))
           else
-            speech(_("General:info_saved"))
-            speech_wait
+            alert(_("General:info_saved"))
             break
             end
           end
@@ -570,8 +537,7 @@ $scene=Scene_Main.new
       else
         al=srvproc("autologins",{"password"=>password})
         if al[0].to_i<0
-          speech(_("Account:error_identity"))
-          speech_wait
+          alert(_("Account:error_identity"))
         else
           break
           end
@@ -584,15 +550,8 @@ $scene=Scene_Main.new
     when 0
       ret=0
       tim=""
-      begin
-        if ret<10        
-        tm=Time.at(a.to_i)
+              tm=Time.at(a.to_i)
         tim=sprintf("%04d-%02d-%02d %02d:%02d",tm.year,tm.month,tm.day,tm.hour,tm.min)
-      end
-    rescue Exception
-      ret+=1
-      retry
-        end
               als.push([tim])
       t+=1
       when 1
@@ -640,8 +599,7 @@ def globallogout
       else
         lg=srvproc("logout", {"global"=>"1", "password"=>password})
         if lg[0].to_i<0
-          speech(_("Account:error_identity"))
-          speech_wait
+          alert(_("Account:error_identity"))
         else
           $name=""
           $token=""
@@ -660,8 +618,7 @@ class Scene_Account_BlackList
   def main
             bt = srvproc("blacklist",{"get"=>"1"})
             if bt[0].to_i<00
-          speech(_("General:error"))
-      speech_wait
+          alert(_("General:error"))
       $scene = Scene_Main.new
       return
       end
@@ -688,12 +645,12 @@ loop_update
         $scene = Scene_Main.new if escape
                             if $key[0x2e]
           if @blacklist.size >= 1
-          if simplequestion(_("Account:alert_deletefromblacklist")) == 1
+          if confirm(_("Account:alert_deletefromblacklist")) == 1
             if srvproc("blacklist",{"del"=>"1", "user"=>@blacklist[@sel.index]})[0].to_i<0
-              speech(_("General:error"))
+              alert(_("General:error"))
             else
               play("edit_delete")
-              speech(_("Account:info_deletedfromblacklist"))
+              alert(_("Account:info_deletedfromblacklist"))
             end
             speech_wait
             @blacklist.delete_at(@sel.index)
@@ -719,7 +676,7 @@ loop_update
             loop_update
             @menu.update
             break if escape or alt or $scene!=self
-            if enter or (@menu.index==0 and Input.trigger?(Input::DOWN))
+            if enter or (@menu.index==0 and arrow_down)
               case @menu.index
               when 0
                 loop_update
@@ -733,8 +690,7 @@ loop_update
                   user=finduser(user) if user!="\004ESCAPE\004" and finduser(user).downcase==user.downcase
                   if user=="\004ESCAPE\004"
                                       elsif user_exist(user)==false
-                    speech(_("Account:error_usernotfound"))
-                    speech_wait
+                    alert(_("Account:error_usernotfound"))
                                       else
                   confirm(_("Account:alert_addtoblacklist")) do
                     bl=srvproc("blacklist",{"add"=>"1", "user"=>user})
@@ -744,18 +700,17 @@ loop_update
                       @sel.commandoptions.push(user)
                       @blacklist.push(user)
                       when -1
-                        speech(_("General:error_db"))
+                        alert(_("General:error_db"))
                         when -2
-                          speech(_("General:error_tokenexpired"))
-                          speech_wait
+                          alert(_("General:error_tokenexpired"))
                           $scene=Scene_Loading.new
                           return
                           when -3
-                            speech(_("Account:error_blacklistadmin"))
+                            alert(_("Account:error_blacklistadmin"))
                             when -4
-                              speech(_("Account:error_blacklistalreadyadded"))
+                              alert(_("Account:error_blacklistalreadyadded"))
                               when -5
-                                speech(_("Account:error_usernotfound"))
+                                alert(_("Account:error_usernotfound"))
                     end
                   speech_wait
                     end
@@ -764,10 +719,10 @@ loop_update
                   when 2
                                         confirm(_("Account:alert_deletefromblacklist")) do
             if srvproc("blacklist",{"del"=>"1", "user"=>@blacklist[@sel.index]})[0].to_i<0
-              speech(_("General:error"))
+              alert(_("General:error"))
             else
               play("edit_delete")
-              speech(_("Account:info_deletedfromblacklist"))
+              alert(_("Account:info_deletedfromblacklist"))
             end
             speech_wait
             @blacklist.delete_at(@sel.index)
@@ -800,8 +755,7 @@ play("menu_close")
       else
         lg=srvproc("lastlogins",{"password"=>password})
         if lg[0].to_i<0
-          speech(_("Account:error_identity"))
-          speech_wait
+          alert(_("Account:error_identity"))
         else
           break
           end
@@ -814,15 +768,8 @@ play("menu_close")
     when 0
       ret=0
       tim=""
-      begin
-        if ret<10        
-        tm=Time.at(l.to_i)
+              tm=Time.at(l.to_i)
         tim=sprintf("%04d-%02d-%02d %02d:%02d",tm.year,tm.month,tm.day,tm.hour,tm.min)
-      end
-    rescue Exception
-      ret+=1
-      retry
-        end
               lgs.push([tim])
       t+=1
       when 1
@@ -855,8 +802,7 @@ def globallogout
       else
         lg=srvproc("logout", {"global"=>"1", "password"=>password})
         if lg[0].to_i<0
-          speech(_("Account:error_identity"))
-          speech_wait
+          alert(_("Account:error_identity"))
         else
           $name=""
           $token=""
@@ -877,8 +823,7 @@ class Scene_Account_MailEvents
     return $scene=Scene_Main.new if @password=="\004ESCAPE\004"
           vr=srvproc("mailevents",{"password"=>@password, "ac"=>"check"})
           if vr[0].to_i<0
-            speech(_("General:error"))
-            speech_wait
+            alert(_("General:error"))
             return $scene=Scene_Main.new
           end
 chk=vr[1].to_i
@@ -886,15 +831,13 @@ if chk==0
   confirm(_("Account:alert_verifymail")) {
   vf=srvproc("mailevents",{"password"=>@password, "ac"=>"verify"})
   if vf[0].to_i<0
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     return $scene=Scene_Main.new
   end
   code=input_text(_("Account:type_lvcode"))
     vf=srvproc("mailevents",{"password"=>@password, "ac"=>"verify", "code"=>code})
   if vf[0].to_i<0
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     return $scene=Scene_Main.new
   else
     return main

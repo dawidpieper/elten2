@@ -31,17 +31,17 @@ update
       $scene=Scene_Main.new if escape
      menu if alt
      if $key[0x10] and @played!=nil
-       if Input.repeat?(Input::RIGHT)
-         @played.position+=5
-       elsif Input.repeat?(Input::LEFT)
-                  if @played.position<5
+       if arrow_right(true)
+         @played.position+=1
+       elsif arrow_left(true)
+                  if @played.position<1
          @played.position=0
        else
-         @played.position-=5
+         @played.position-=1
        end
-     elsif Input.repeat?(Input::UP)
+     elsif arrow_up
        @played.volume+=0.05 if @played.volume<1
-       elsif Input.repeat?(Input::DOWN)
+       elsif arrow_down
        @played.volume-=0.05 if @played.volume>0.05
          end
        end
@@ -71,7 +71,7 @@ update
          @played.play
      @playedpause=false
        rescue Exception
-         speech(_("Files:error_play"))
+         alert(_("Files:error_play"))
          end
        end
         else
@@ -93,15 +93,15 @@ update
        @played=nil
      end
      if $key[0x2e]
-         if simplequestion(s_("Files:alert_delete", {'filename'=>@tree.file})) == 1
+         if confirm(s_("Files:alert_delete", {'filename'=>@tree.file})) == 1
     if File.directory?(@tree.selected(false))
       deldir(@tree.selected(false))
-speech(_("Files:info_deleted"))
+alert(_("Files:info_deleted"))
       else
       begin
       File.delete(@tree.selected(false))
     rescue Exception
-      speech(_("Files:error_deletefile"))
+      alert(_("Files:error_deletefile"))
       end
     end
         @tree.refresh
@@ -112,7 +112,7 @@ speech(_("Files:info_deleted"))
               @clp_type = 1
 @clp_file = @tree.selected
 @clp_name = @tree.file
-speech(_("Files:opt_copied"))
+alert(_("Files:opt_copied"))
 end
 if $key[0x11] and $key[0x44]
   if File.directory?(@tree.selected(false))
@@ -168,7 +168,7 @@ end
                      @clp_type = 2
 @clp_file = @tree.selected
 @clp_name = @tree.file
-speech(_("Files:info_cut"))
+alert(_("Files:info_cut"))
 end
        if enter
        file=@tree.selected(true)
@@ -200,7 +200,7 @@ elsif @tree.filetype==4
 documentmenu            
 elsif @tree.filetype==5
   confirm(_("Files:alert_eltenapi")) do
-    eval(read(@tree.selected),nil,@tree.file)
+    eval(readfile(@tree.selected),nil,@tree.file)
     @tree.focus
     end
 elsif @tree.filetype==3
@@ -209,7 +209,7 @@ elsif @tree.filetype==3
             dialog_close
             if ind == 0
                             decompress("#{@tree.selected}","#{@tree.path}*")
-              speech(_("Files:info_unpacked"))
+              alert(_("Files:info_unpacked"))
               @tree.refresh
               speech_wait
               end
@@ -237,11 +237,8 @@ rescue Exception
     exts = [".mp3",".ogg",".wav",".mid",".wma",".opus",".m4a",".aac",".flac"]
         for f in files
           d=path+"\\"+f
-          if Win32API.new("shlwapi","PathIsDirectory",'p','i').call(utf8(d))>0
-            pth="\0"*2048
-            Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(d),pth,pth.size)
-            pth.delete!("\0")
-            nextsearchs.push(pth)
+          if File.directory?(d)
+                        nextsearchs.push(d)
             else
                  if exts.include?(File.extname(f.downcase))
               results.push(d)
@@ -259,9 +256,9 @@ def paste
   if @clp_type>0
   if File.file?(@clp_file)
   if @clp_type==1
-Win32API.new("kernel32","CopyFile",'ppi','i').call(utf8(@clp_file),utf8(@tree.path + @clp_name),0)
+copyfile(@clp_file,@tree.path + @clp_name)
 elsif @clp_type==2
-Win32API.new("kernel32","MoveFile",'pp','i').call(utf8(@clp_file),utf8(@tree.path + @clp_name))
+Win32API.new("kernel32","MoveFileW",'pp','i').call(unicode(@clp_file),unicode(@tree.path + @clp_name))
 end
 else
   copydir(@clp_file,@tree.path + @clp_name)
@@ -269,9 +266,9 @@ if @clp_type==2
   deldir(@clp_file)
   end
 end
-speech(_("Files:info_pasted"))
+alert(_("Files:info_pasted"))
 else
-  speech(_("Files:error_clipboardempty"))
+  alert(_("Files:error_clipboardempty"))
 end
 end
 def countsub(dir)
@@ -317,14 +314,14 @@ if @tree.file!=nil
     sel[0][0]=_("Files:opt_dir")
 sel[0][2]=_("Files:opt_adddirtopls")
 end
-@menu=Tree.new(sel,0,"",false,true)
+@menu=Tree.new(sel,0,"",false,2)
   loop do
     loop_update
         @menu.update
     if alt or escape
       break
     end
-    if Input.trigger?(Input::DOWN) and @menu.index==15
+    if arrow_down and @menu.index==15
       d=-1
       if ext==".mp3" or ext==".wav" or ext==".ogg" or ext==".flac" or ext==".mid" or ext==".wma"
       d=audiomenu(true)
@@ -368,13 +365,11 @@ when 1
               dest+=".7z"
         end
         compress(file,dest)
-        speech(_("Files:info_packed"))
-        speech_wait
+        alert(_("Files:info_packed"))
       end
     else
       decompress(@tree.selected,@tree.path+"*")
-              speech(_("Files:info_unpacked"))
-                            speech_wait
+              alert(_("Files:info_unpacked"))
       end
 when 4
     name=""
@@ -382,30 +377,28 @@ when 4
     name=input_text(_("Files:type_newname"),"ACCEPTESCAPE",@tree.file)
     end
     if name != "\004ESCAPE\004"
-    Win32API.new("kernel32","MoveFile",'pp','i').call(utf8(file),utf8(@tree.path+name))
-    speech(_("Files:info_renamed"))
-    speech_wait
+    Win32API.new("kernel32","MoveFileW",'pp','i').call(unicode(file),unicode(@tree.path+name))
+    alert(_("Files:info_renamed"))
   end
 when 5
-  if simplequestion(s_("Files:alert_delete", {'filename'=>@tree.file})) == 1
+  if confirm(s_("Files:alert_delete", {'filename'=>@tree.file})) == 1
     if File.directory?(afile)
       deldir(afile)
     else
       File.delete(afile)
     end
-    speech(_("Files:info_deleted"))
-    speech_wait
+    alert(_("Files:info_deleted"))
   end
           when 7
 @clp_type = 1
 @clp_file = afile
 @clp_name = @tree.file
-speech(_("Files:info_copied"))
+alert(_("Files:info_copied"))
 when 8
               @clp_type = 2
 @clp_file = afile
 @clp_name = @tree.file
-speech(_("Files:info_cut"))
+alert(_("Files:info_cut"))
 speech_wait
 when 9
   paste
@@ -418,8 +411,7 @@ while name==""
       end
     if name != "\004ESCAPE\004"
       Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(@tree.path+name),nil)
-      speech(_("Files:info_dircreated"))
-      speech_wait
+      alert(_("Files:info_dircreated"))
     end
           when 12
   pr=".txt"
@@ -429,8 +421,7 @@ while name==""
   end
   if name!="\004ESCAPE\004"            
   writefile(@tree.path+name,"")
-        speech(_("Files:info_filecreated"))
-      speech_wait
+        alert(_("Files:info_filecreated"))
   end
       when 13
         pr=".wav"
@@ -453,7 +444,7 @@ while name==""
            elsif rec == 1
            @r.stop
            play("recording_stop")
-           speech(_("General:info_saved"))
+           alert(_("General:info_saved"))
            break
                       end
          end
@@ -462,14 +453,12 @@ while name==""
          break
          end
        end
-            speech(_("Files:info_filecreated"))
-      speech_wait
+            alert(_("Files:info_filecreated"))
         end
         when 14
       $playlist=[]
       $playlistindex = 0
-      speech(_("Files:info_plserased"))
-      speech_wait
+      alert(_("Files:info_plserased"))
       when 15
         d=-1
       if ext==".mp3" or ext==".wav" or ext==".ogg" or ext==".flac" or ext==".mid" or ext==".wma"
@@ -521,13 +510,13 @@ if format!=".wav" and format!=".flac"
   bt=selector(btrs,_("Files:head_soundquality"),5)
   extra="-b:a #{bts[bt]}K "
     end
-speech(_("Files:wait_converting"))
+alert(_("Files:wait_converting"))
 waiting
 c="bin/ffmpeg -y -i \"#{@tree.selected}\" #{extra}\"#{@tree.selected.gsub(File.extname(@tree.selected),format)}\""
 executeprocess(c,true)
 speech_wait
 waiting_end
-speech(_("Files:info_converted"))
+alert(_("Files:info_converted"))
 speech_wait
 @tree.refresh
 end
@@ -536,12 +525,8 @@ return ind
 end
 def textmenu(submenu=false)
   file=@tree.selected
-        r=read(file,false,false)
-      if r[0]<200
-        r=futf8(r)
-        play 'signal'
-        end
-      dialog_open if submenu==false
+        r=readfile(file)
+            dialog_open if submenu==false
       sl=[_("Files:opt_edit"),_("Files:opt_readtofile")]
       sl.push(_("General:str_cancel")) if submenu==false
    ck=nil
@@ -558,7 +543,7 @@ def textmenu(submenu=false)
       break if escape or ((space or enter) and form.index == 2)
       if ((space or enter) and form.index == 1) or (enter and $key[0x11])
         writefile(@tree.path+@tree.file,form.fields[0].text_str.gsub("\004LINE\004","\r\n"))
-        speech(_("General:info_saved"))
+        alert(_("General:info_saved"))
         break
               end
             end
@@ -580,16 +565,16 @@ def textmenu(submenu=false)
     fid=0
     fid="tx"+rand(36**8).to_s(36)+""
     if ind<2 and ind>-1
-      speech(_("Files:wait_processing"))
+      alert(_("Files:wait_processing"))
       waiting
-      convert_book(@tree.selected, "temp\\#{fid}.txt")
-      return if !FileTest.exists?("temp\\"+fid+".txt")
-            text=read("temp\\"+fid+".txt")
+      convert_book(@tree.selected, $tempdir+"\\#{fid}.txt")
+      return if !FileTest.exists?($tempdir+"\\"+fid+".txt")
+            text=readfile($tempdir+"\\"+fid+".txt")
             waiting_end
       end
     case ind
     when 0
-          File.delete("temp\\"+fid+".txt")
+          File.delete($tempdir+"\\"+fid+".txt")
           form=Form.new([Edit.new(@tree.file,"MULTILINE|READONLY",text),Button.new(_("General:str_quit"))])
     loop do
       loop_update
@@ -597,9 +582,9 @@ def textmenu(submenu=false)
       break if escape or ((space or enter) and form.index == 1)
                   end
             when 1
-              speechtofile("temp\\#{fid}.txt","",File.basename(@tree.file).gsub(File.extname(@tree.file),""))
+              speechtofile($tempdir+"\\#{fid}.txt","",File.basename(@tree.file).gsub(File.extname(@tree.file),""))
                           end
-            File.delete("temp\\"+fid+".txt") if FileTest.exists?("temp\\"+fid+".txt")
+            File.delete($tempdir+"\\"+fid+".txt") if FileTest.exists?($tempdir+"\\"+fid+".txt")
                           return -1
             end
           

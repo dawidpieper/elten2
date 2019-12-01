@@ -12,11 +12,11 @@ class Scene_Sounds
   def main
     if @theme!=nil
       if @theme!="" and FileTest.exists?($soundthemesdata+"\\"+@theme+"\\__name.txt")
-        @name=read($soundthemesdata+"\\"+@theme+"\\__name.txt")
+        @name=readfile($soundthemesdata+"\\"+@theme+"\\__name.txt")
         @changed=false
       else
         @name=input_text(_("Sounds:type_name"), "ACCEPTESCAPE", " by #{$name}")
-        return $scene=Scene_Main.new if @name=="\004ESCAPE\004"
+        return $scene=Scene_SoundThemes.new if @name=="\004ESCAPE\004"
         n=@name.split(" ")
         ind=n.size
         for i in 0...n.size
@@ -51,7 +51,7 @@ class Scene_Sounds
     h=_("Sounds:head")
     h=s_("Sounds:head_editor", {'theme'=>@name}) if @theme!=nil
     @sel=Select.new(@snd.map{|o| o.description}, true, 0, h, true, false, false, true)
-    @fields = [@sel, Button.new(_("Sounds:btn_play"))]
+    @fields = [@sel, Button.new(_("Sounds:btn_play")), Button.new(_("Sounds:btn_stop"))]
     if @theme!=nil
       @fields.push(Button.new(_("Sounds:btn_change")))
       @fields.push(Button.new(_("Sounds:btn_save")))
@@ -69,24 +69,30 @@ class Scene_Sounds
               a.volume=0.01*$volume
                 a.play
               end
+              if @form.fields[2].pressed?
+                if a!=nil
+                  a.close
+                  a=nil
+                end
+                end
               if @theme!=nil
-                if (enter and @form.index==0) or @form.fields[2].pressed?
+                if (enter and @form.index==0) or @form.fields[3].pressed?
                 file=getfile(_("Sounds:head_newsond"),"",false,nil,[".ogg", ".mp3", ".wav", ".opus", ".aac", ".wma", ".m4a"])
                 loop_update
 if file!=nil
   @snd[@sel.index].path=file
-  @form.fields[4]=nil
+  @form.fields[5]=nil
   @changed=true
 end
 @form.fields[@form.index].focus
 end
-if @form.fields[3].pressed?
+if @form.fields[4].pressed?
   save
   @changed=false
-  @form.fields[4]=Button.new(_("Sounds:btn_export"))
+  @form.fields[5]=Button.new(_("Sounds:btn_export"))
   @form.fields[@form.index].focus
 end
-if @form.fields[4]!=nil and @form.fields[4].pressed?
+if @form.fields[5]!=nil and @form.fields[5].pressed?
   loc=getfile(_("Sounds:head_export"), getdirectory(40)+"\\", true, "Documents")
   if loc!=nil
     compress($soundthemesdata+"\\"+@theme, loc+"\\"+@theme+".7z")
@@ -99,7 +105,11 @@ if @form.fields[4]!=nil and @form.fields[4].pressed?
                 confirm(_("Sounds:alert_save")) {save}
                 end
     a.close if a!=nil
+    if @theme==nil
     $scene=Scene_Main.new
+  else
+    $scene=Scene_SoundThemes.new
+    end
   end
   
     def save
@@ -110,9 +120,9 @@ if @form.fields[4]!=nil and @form.fields[4].pressed?
   @snd.each {|s|
   if s.path!=s.defpath
     if File.extname(s.defpath).downcase==".ogg"
-      Win32API.new("kernel32","CopyFileW",'ppi','i').call(unicode(s.path), unicode($soundthemesdata+"\\"+@theme+"\\"+s.stfile+""),0)
+      copyfile(s.path, $soundthemesdata+"\\"+@theme+"\\"+s.stfile+"")
     else
-      executeprocess("ffmpeg -i \"#{s.path}\" \"#{$soundthemesdata}\\#{@theme}\\#{s.stfile}\"")
+      executeprocess("bin\\ffmpeg -i \"#{s.path}\" \"#{$soundthemesdata}\\#{@theme}\\#{s.stfile}\"")
     end
     s.path=$soundthemesdata+"\\"+@theme+"\\"+s.stfile
     s.defpath=s.path

@@ -96,8 +96,7 @@ while tries<3
   if ath<0
     tries+=1
     if tries>=3
-      speech(_("Login:error_verification"))
-      speech_wait
+      alert(_("Login:error_verification"))
       writeconfig("Login","AutoLogin",0)
     return $scene=Scene_Loading.new
     break
@@ -146,8 +145,7 @@ loop_update
           else
             lt=srvproc("login", {"login"=>2, "name"=>name, "password"=>password, "computer"=>$computer, "appid"=>$appid, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i}))})
             if lt[0].to_i<0
-              speech(_("Login:error_identity"))
-              speech_wait
+              alert(_("Login:error_identity"))
               password = ""
             else
               token=lt[1].delete("\r\n")
@@ -164,9 +162,9 @@ writeconfig("Login","AutoLogin",3)
               writeconfig("Login","Name",name)
               writeconfig("Login","Token",token)
                                           if autologin.to_i==-1
-              speech(_("Login:info_autologin"))
+              alert(_("Login:info_autologin"))
             else
-              speech(_("Login:info_crpupdated"))
+              alert(_("Login:info_crpupdated"))
               end
          speech_wait
          break   
@@ -175,8 +173,7 @@ writeconfig("Login","AutoLogin",3)
           end
        when 2
          writeconfig("Login","AutoLogin",0)
-         speech(_("Login:info_asknomore"))
-         speech_wait
+         alert(_("Login:info_asknomore"))
          end
        break
         end
@@ -233,36 +230,32 @@ elsif Time.now.month == $birthdatemonth.to_i
     end
   end
     when -1
-        speech(_("General:error_db"))
+        alert(_("General:error_db"))
     $token = nil
     speech_wait
     @skipauto=true
     return main
     when -2
-            speech(_("Login:error_wrongdata")) if autologin.to_i==0
+            alert(_("Login:error_wrongdata")) if autologin.to_i==0
       $token = nil
       speech_wait
       @skipauto=true
       return main
       when -3
-                speech(_("Login:error_logon"))
+                alert(_("Login:error_logon"))
         $token = nil
         speech_wait
         @skipauto=true
       return main
         when -4
-          speech(_("Login:error_srv"))
+          alert(_("Login:error_srv"))
           $token = nil
           speech_wait
         end
                 $speech_wait = true
         $scene = Scene_Loading.new
         $preinitialized = false
-        if $event.to_i > 0
-          $scene = Scene_Events.new($event.to_i)
-          else
-        $scene = Scene_Main.new if $token != nil
-        end
+                $scene = Scene_Main.new if $token != nil
       end
       def makepin
         pin=""
@@ -277,8 +270,7 @@ elsif Time.now.month == $birthdatemonth.to_i
             if p1==p2
               return p1
             else
-              speech(_("Login:error_difcodes"))
-              speech_wait
+              alert(_("Login:error_difcodes"))
               end
             end
           end

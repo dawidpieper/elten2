@@ -46,14 +46,10 @@ arsort($res);
 $qt="select owner,name from blogs where owner in ('".implode("','",array_keys($res))."') order by field(owner,'".implode("','",array_keys($res))."')";
 break;
 }
-$idzapytania = mysql_query($qt);
-if($idzapytania == false) {
-echo "-1";
-die;
-}
+$q = mysql_query($qt);
 $text = "";
 $wiersze = 0;
-while ($wiersz = mysql_fetch_row($idzapytania)){
+while ($wiersz = mysql_fetch_row($q)){
 $wiersze = $wiersze + 1;
 $text .= $wiersz[0] . "\r\n" . $wiersz[1] . "\r\n";
 }

@@ -1,7 +1,7 @@
 <?php
 require("init.php");
 $error = 0;
-$zapytanie = "SELECT `name` FROM `users`";
+$zapytanie = "SELECT `name` FROM `users` order by name COLLATE utf8_polish_ci";
 $idzapytania = mysql_query($zapytanie);
 if($idzapytania == false) {
 echo "-1\r\n" . $zapytanie;

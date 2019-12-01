@@ -30,7 +30,7 @@ writeconfig("Advanced","AgentRefreshTime",@form.fields[1].text_str)
 $advanced_keyms = @form.fields[0].text_str.to_i
 $advanced_refreshtime = @form.fields[1].text_str.to_i
 $advanced_synctime = @form.fields[2].checked.to_i
-speech(_("General:info_saved"))
+alert(_("General:info_saved"))
 speech_wait
 if $name != nil and $name != "" and $token != nil and $token != ""
 $scene = Scene_Main.new

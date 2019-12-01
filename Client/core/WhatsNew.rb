@@ -13,8 +13,7 @@ class Scene_WhatsNew
     end
       def main
         if $name=="guest"
-      speech(_("General:error_guest"))
-      speech_wait
+      alert(_("General:error_guest"))
       $scene=Scene_Main.new
       return
       end
@@ -60,8 +59,7 @@ else
     @sel.disable_item(8) if mentions<= 0
     @sel.disable_item(9) if @bid==Elten.build_id or @bid<=0
         if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and (@bid==Elten.build_id or @bid<=0)
-      speech(_("WhatsNew:info_nonew"))
-      speech_wait
+      alert(_("WhatsNew:info_nonew"))
       $scene = Scene_Main.new
       return
     end
@@ -72,7 +70,7 @@ else
       if escape
                 $scene = Scene_Main.new
       end
-      if enter or Input.trigger?(Input::RIGHT)
+      if enter or arrow_right
         case @sel.index
         when 0
           $scene = Scene_Messages.new(true)
@@ -107,14 +105,12 @@ else
                     def main
             bt = srvproc("blog_fb_news",{})
             if bt[0].to_i < 0
-              speech(_("General:error"))
-              speech_wait
+              alert(_("General:error"))
               $scene = Scene_WhatsNew.new
               return
             end
             if bt[1].to_i == 0
-              speech(_("WhatsNew:info_nonewonfollowedblogs"))
-              speech_wait
+              alert(_("WhatsNew:info_nonewonfollowedblogs"))
               $scene = Scene_WhatsNew.new
               return
             end
@@ -160,10 +156,10 @@ else
               end
             end
             def update
-              if escape or (Input.trigger?(Input::LEFT) and !$keyr[0x10])
+              if escape or (arrow_left and !$keyr[0x10])
                 $scene = Scene_WhatsNew.new
               end
-             if enter or (Input.trigger?(Input::RIGHT) and !$keyr[0x10])
+             if enter or (arrow_right and !$keyr[0x10])
                $scene = Scene_Blog_Read.new(@blogauthor[@sel.index],@blogcategory[@sel.index],@blogpost[@sel.index],0,0,$scene)
                end
               end

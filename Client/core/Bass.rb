@@ -7,54 +7,56 @@
 
 $usebass=true
 module Bass
-  BASS_GetVersion = Win32API.new("bass", "BASS_GetVersion", "", "I")
-  BASS_ErrorGetCode = Win32API.new("bass", "BASS_ErrorGetCode", "", "I")
-  BASS_Init = Win32API.new("bass", "BASS_Init", "IIII", "I")
-  BASS_RecordInit = Win32API.new("bass", "BASS_RecordInit", "I", "I")
-  BASS_GetConfig = Win32API.new("bass", "BASS_GetConfig", "I", "I")
-  BASS_SetConfig = Win32API.new("bass", "BASS_SetConfig", "II", "I")
-  BASS_SetConfigPtr = Win32API.new("bass","BASS_SetConfigPtr",'ip','l')
-  BASS_SetDevice = Win32API.new("bass","BASS_SetDevice",'i','i')
-  BASS_GetDeviceInfo = Win32API.new("bass","BASS_GetDeviceInfo",'ip','i')
-  BASS_RecordGetDeviceInfo = Win32API.new("bass","BASS_RecordGetDeviceInfo",'ip','i')
-  BASS_PluginLoad = Win32API.new("bass","BASS_PluginLoad",'p','i')
-  BASS_Free = Win32API.new("bass", "BASS_Free", "", "I")
-  BASS_Apply3D = Win32API.new("bass","BASS_Apply3D",'','i')
-  BASS_Start = Win32API.new("bass", "BASS_Start", "", "I")
-  BASS_Stop = Win32API.new("bass", "BASS_Stop", "", "I")
-  BASS_Pause = Win32API.new("bass", "BASS_Pause", "", "I")
-  BASS_SetVolume = Win32API.new("bass", "BASS_SetVolume", "I", "I")
-  BASS_GetVolume = Win32API.new("bass", "BASS_GetVolume", "", "I")
-  BASS_RecordStart = Win32API.new("bass", "BASS_RecordStart", "IIIIII", "I")
-  BASS_Encode_Start = Win32API.new("bassenc", "BASS_Encode_Start", "IPIPI", "I")
-  BASS_Encode_SetPaused = Win32API.new("bassenc", "BASS_Encode_SetPaused", "II", "I")
-  BASS_Encode_Stop = Win32API.new("bassenc", "BASS_Encode_Stop", "I", "I")
-    BASS_Encode_StopEx = Win32API.new("bassenc", "BASS_Encode_StopEx", "II", "I")
-  BASS_SampleLoad = Win32API.new("bass", "BASS_SampleLoad", "IPIIIII", "I")
-  BASS_SampleCreate = Win32API.new("bass", "BASS_SampleCreate", "IIIII", "I")
-  BASS_SampleFree = Win32API.new("bass", "BASS_SampleFree", "I", "I")
-  BASS_SampleGetChannel = Win32API.new("bass", "BASS_SampleGetChannel", "II", "I")
-  BASS_SampleStop = Win32API.new("bass", "BASS_SampleStop", "I", "I")
-  BASS_StreamCreateFile = Win32API.new("bass", "BASS_StreamCreateFile", "IPLIIII", "I")
-  BASS_StreamCreateURL = Win32API.new("bass", "BASS_StreamCreateURL", "PIIII", "I")
-  BASS_StreamFree = Win32API.new("bass", "BASS_StreamFree", "I", "I")
-  BASS_ChannelFlags = Win32API.new("bass", "BASS_ChannelFlags", "III", "I")
-  BASS_ChannelPlay = Win32API.new("bass", "BASS_ChannelPlay", "II", "I")
-  BASS_ChannelStop = Win32API.new("bass", "BASS_ChannelStop", "I", "I")
-  BASS_ChannelPause = Win32API.new("bass", "BASS_ChannelPause", "I", "I")
-  BASS_ChannelGetData = Win32API.new("bass", "BASS_ChannelGetData", "IPI", "I")
-  BASS_ChannelGetLength = Win32API.new("bass", "BASS_ChannelGetLength", "II", "I")
-  BASS_ChannelGetAttribute = Win32API.new("bass", "BASS_ChannelGetAttribute", "IIP", "I")
-  BASS_ChannelSetAttribute = Win32API.new("bass", "BASS_ChannelSetAttribute", "III", "I")
-  BASS_ChannelSlideAttribute = Win32API.new("bass", "BASS_ChannelSlideAttribute", "IIII", "I")
-  BASS_ChannelIsSliding = Win32API.new("bass", "BASS_ChannelIsSliding", "II", "I")
-  BASS_ChannelIsActive = Win32API.new("bass", "BASS_ChannelIsActive", "I", "I")
-  BASS_ChannelSeconds2Bytes = Win32API.new("bass", "BASS_ChannelSeconds2Bytes", "II", "I")
-  BASS_ChannelBytes2Seconds = Win32API.new("bass", "BASS_ChannelBytes2Seconds", "IL", "I")
-  BASS_ChannelGetPosition = Win32API.new("bass", "BASS_ChannelGetPosition", "II", "I")
-  BASS_ChannelSetPosition = Win32API.new("bass", "BASS_ChannelSetPosition", "III", "I")
-  BASS_ChannelSet3DPosition = Win32API.new("bass", "BASS_ChannelSet3DPosition", "IPPP", "I")
-  BASS_StreamGetFilePosition = Win32API.new("bass", "BASS_StreamGetFilePosition", "II", "I")
+  BassLib="bin\\bass"
+  BassencLib="bin\\bassenc"
+  BASS_GetVersion = Win32API.new(BassLib, "BASS_GetVersion", "", "I")
+  BASS_ErrorGetCode = Win32API.new(BassLib, "BASS_ErrorGetCode", "", "I")
+  BASS_Init = Win32API.new(BassLib, "BASS_Init", "IIII", "I")
+  BASS_RecordInit = Win32API.new(BassLib, "BASS_RecordInit", "I", "I")
+  BASS_GetConfig = Win32API.new(BassLib, "BASS_GetConfig", "I", "I")
+  BASS_SetConfig = Win32API.new(BassLib, "BASS_SetConfig", "II", "I")
+  BASS_SetConfigPtr = Win32API.new(BassLib,"BASS_SetConfigPtr",'ip','l')
+  BASS_SetDevice = Win32API.new(BassLib,"BASS_SetDevice",'i','i')
+  BASS_GetDeviceInfo = Win32API.new(BassLib,"BASS_GetDeviceInfo",'ip','i')
+  BASS_RecordGetDeviceInfo = Win32API.new(BassLib,"BASS_RecordGetDeviceInfo",'ip','i')
+  BASS_PluginLoad = Win32API.new(BassLib,"BASS_PluginLoad",'p','i')
+  BASS_Free = Win32API.new(BassLib, "BASS_Free", "", "I")
+  BASS_Apply3D = Win32API.new(BassLib,"BASS_Apply3D",'','i')
+  BASS_Start = Win32API.new(BassLib, "BASS_Start", "", "I")
+  BASS_Stop = Win32API.new(BassLib, "BASS_Stop", "", "I")
+  BASS_Pause = Win32API.new(BassLib, "BASS_Pause", "", "I")
+  BASS_SetVolume = Win32API.new(BassLib, "BASS_SetVolume", "I", "I")
+  BASS_GetVolume = Win32API.new(BassLib, "BASS_GetVolume", "", "I")
+  BASS_RecordStart = Win32API.new(BassLib, "BASS_RecordStart", "IIIIII", "I")
+  BASS_Encode_Start = Win32API.new(BassencLib, "BASS_Encode_Start", "IPIPI", "I")
+  BASS_Encode_SetPaused = Win32API.new(BassencLib, "BASS_Encode_SetPaused", "II", "I")
+  BASS_Encode_Stop = Win32API.new(BassencLib, "BASS_Encode_Stop", "I", "I")
+    BASS_Encode_StopEx = Win32API.new(BassencLib, "BASS_Encode_StopEx", "II", "I")
+  BASS_SampleLoad = Win32API.new(BassLib, "BASS_SampleLoad", "IPIIIII", "I")
+  BASS_SampleCreate = Win32API.new(BassLib, "BASS_SampleCreate", "IIIII", "I")
+  BASS_SampleFree = Win32API.new(BassLib, "BASS_SampleFree", "I", "I")
+  BASS_SampleGetChannel = Win32API.new(BassLib, "BASS_SampleGetChannel", "II", "I")
+  BASS_SampleStop = Win32API.new(BassLib, "BASS_SampleStop", "I", "I")
+  BASS_StreamCreateFile = Win32API.new(BassLib, "BASS_StreamCreateFile", "IPLIIII", "I")
+  BASS_StreamCreateURL = Win32API.new(BassLib, "BASS_StreamCreateURL", "PIIII", "I")
+  BASS_StreamFree = Win32API.new(BassLib, "BASS_StreamFree", "I", "I")
+  BASS_ChannelFlags = Win32API.new(BassLib, "BASS_ChannelFlags", "III", "I")
+  BASS_ChannelPlay = Win32API.new(BassLib, "BASS_ChannelPlay", "II", "I")
+  BASS_ChannelStop = Win32API.new(BassLib, "BASS_ChannelStop", "I", "I")
+  BASS_ChannelPause = Win32API.new(BassLib, "BASS_ChannelPause", "I", "I")
+  BASS_ChannelGetData = Win32API.new(BassLib, "BASS_ChannelGetData", "IPI", "I")
+  BASS_ChannelGetLength = Win32API.new(BassLib, "BASS_ChannelGetLength", "II", "I")
+  BASS_ChannelGetAttribute = Win32API.new(BassLib, "BASS_ChannelGetAttribute", "IIP", "I")
+  BASS_ChannelSetAttribute = Win32API.new(BassLib, "BASS_ChannelSetAttribute", "III", "I")
+  BASS_ChannelSlideAttribute = Win32API.new(BassLib, "BASS_ChannelSlideAttribute", "IIII", "I")
+  BASS_ChannelIsSliding = Win32API.new(BassLib, "BASS_ChannelIsSliding", "II", "I")
+  BASS_ChannelIsActive = Win32API.new(BassLib, "BASS_ChannelIsActive", "I", "I")
+  BASS_ChannelSeconds2Bytes = Win32API.new(BassLib, "BASS_ChannelSeconds2Bytes", "II", "I")
+  BASS_ChannelBytes2Seconds = Win32API.new(BassLib, "BASS_ChannelBytes2Seconds", "IL", "I")
+  BASS_ChannelGetPosition = Win32API.new(BassLib, "BASS_ChannelGetPosition", "II", "I")
+  BASS_ChannelSetPosition = Win32API.new(BassLib, "BASS_ChannelSetPosition", "III", "I")
+  BASS_ChannelSet3DPosition = Win32API.new(BassLib, "BASS_ChannelSet3DPosition", "IPPP", "I")
+  BASS_StreamGetFilePosition = Win32API.new(BassLib, "BASS_StreamGetFilePosition", "II", "I")
   Errmsg = {
     1=>"MEM",2=>"FILEOPEN",3=>"DRIVER",4=>"BUFLOST",5=>"HANDLE",6=>"FORMAT",7=>"POSITION",8=>"INIT",
     9=>"START",14=>"ALREADY",18=>"NOCHAN",19=>"ILLTYPE",20=>"ILLPARAM",21=>"NO3D",22=>"NOEAX",23=>"DEVICE",
@@ -70,8 +72,8 @@ module Bass
       while BASS_GetDeviceInfo.call(index,tmp)>0
         a=tmp.unpack("ii")
         o="\0"*1024
-        Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
-        sc=futf8(o[0...o.index("\0")])
+        Win32API.new("msvcrt","wcscpy",'pp','i').call(o,a[0])
+                sc=(o)
        ret.push(sc)
         index+=1
       end
@@ -84,8 +86,8 @@ module Bass
       while BASS_RecordGetDeviceInfo.call(index,tmp)>0
         a=tmp.unpack("iii")
                 o="\0"*1024
-        Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
-        sc=futf8(o[0...o.index("\0")])
+        Win32API.new("msvcrt","wcscpy",'pp','i').call(o,a[0])
+                sc=(o)
         return sc if (a[2]&2)>0
                index+=1
       end
@@ -101,6 +103,7 @@ module Bass
     
   def self.init(hWnd, samplerate = 44100)
 return if @init==true
+BASS_SetConfig.call(42, 1)
     @init=true
     if (BASS_GetVersion.call >> 16) != 0x0204 then
       raise("bass.dllバージョン2.4系以外には対応しておりません")
@@ -113,8 +116,8 @@ return if @init==true
       while BASS_GetDeviceInfo.call(index,tmp)>0
         a=tmp.unpack("ii")
         o="\0"*1024
-        Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
-               sc=futf8(o[0...o.index("\0")])
+        Win32API.new("msvcrt","wcscpy",'pp','i').call(o,a[0])
+               sc=(o)
                 card=index if sc==$interface_soundcard
         index+=1
       end
@@ -122,13 +125,13 @@ return if @init==true
       if BASS_Init.call(card, samplerate, 4, hWnd) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-      if BASS_PluginLoad.call("bassopus.dll") == 0 then
+      if BASS_PluginLoad.call("bin\\bassopus.dll") == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-if BASS_PluginLoad.call("bassmidi.dll") == 0 then
+if BASS_PluginLoad.call("bin\\bassmidi.dll") == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-    if BASS_PluginLoad.call("basswma.dll") == 0 then
+    if BASS_PluginLoad.call("bin\\basswma.dll") == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
     #if BASS_RecordInit.call(-1) == 0 then
@@ -165,7 +168,7 @@ BASS_SetConfig.call(10, 2)
       if filename[0..3]=="http"
         return Bass::Stream.new(filename)
       else
-        @handle = BASS_SampleLoad.call(0, utf8(filename), 0, 0, 0, max, 0x20000)
+        @handle = BASS_SampleLoad.call(0, unicode(filename), 0, 0, 0, max, 0x20000|0x80000000)
           end
       @ch=BASS_SampleGetChannel.call(@handle,0)
       if @handle == 0 then
@@ -244,12 +247,12 @@ BASS_SetConfig.call(10, 2)
     def initialize(filename,pos=0,tries=10, u3d=false)
       pos=pos.to_i          
             if filename[0..3]=="http"
-        @ch = BASS_StreamCreateURL.call(utf8(filename), pos, 0, 0, 0)
+        @ch = BASS_StreamCreateURL.call(unicode(filename), pos, 0x80000000, 0, 0)
                 else
                   for i in 1..10      
                     flags=0
                     flags=8|2 if u3d
-                                      @ch = BASS_StreamCreateFile.call(0, utf8(filename), pos, 0, 0, 0, flags)
+                                      @ch = BASS_StreamCreateFile.call(0, unicode(filename), pos, 0, 0, 0, flags|0x80000000)
                   if @ch==0
                                         Bass.init($wnd)
                   else
@@ -315,7 +318,7 @@ BASS_SetConfig.call(10, 2)
     end
     
     def seek(pt,flags=0)
-      print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}") if Win32API.new("bass","BASS_ChannelSetPosition",'iil','i').call(@ch,0,flags)==0
+      print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}") if Win32API.new(BassLib,"BASS_ChannelSetPosition",'iil','i').call(@ch,0,flags)==0
       end
     end
     
@@ -379,12 +382,13 @@ BASS_SetConfig.call(10, 2)
        when 1         
          begin
          @cls=Bass.loadStream(file,0,u3d)
-         rescue Exception
+       rescue Exception
+         Log.error("Cannot play audio file: #{file}")
        end
          if @cls==nil or (@cl != nil and @cls.ch==nil)
          if FileTest.exists?(file)
            waiting
-loc="temp\\plr#{rand(36**6).to_s(36)}.ogg"
+loc=$tempdir+"\\plr#{rand(36**6).to_s(36)}.ogg"
            executeprocess("bin\\ffmpeg -y -i \"#{file}\" \"#{loc}\"",true)
                       waiting_end
            if FileTest.exists?(loc)

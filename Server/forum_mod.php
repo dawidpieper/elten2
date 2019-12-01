@@ -151,7 +151,7 @@ if(mysql_num_rows($grm)>0)
 $role=mysql_fetch_row($grm)[1];
 if($role!=2 and !($moderator==1 and $gr[1]==1))
 die("-3");
-mquery("update `forum_threads` WHERE `id`=" . ((int) $_GET['threadid']) . " set pinned=".(int)$_GET['pin']);
+mquery("update `forum_threads` set pinned=".(int)$_GET['pin']." WHERE `id`=" . ((int) $_GET['threadid']));
 }
 
 echo "0";

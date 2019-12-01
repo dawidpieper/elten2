@@ -16,15 +16,13 @@ class Scene_Uploads
   end
   def main
     if $name=="guest"
-      speech(_("General:error_guest"))
-      speech_wait
+      alert(_("General:error_guest"))
       $scene=Scene_Main.new
       return
       end
     fl = srvproc("uploads",{"searchname"=>@name})
     if fl[0].to_i < 0
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       $scene = Scene_Main.new
       return
     end
@@ -93,7 +91,7 @@ class Scene_Uploads
        end
        dir.chop! if dir[dir.size-1] == 92
               downloadfile($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")))
-       speech(_("General:info_saved"))
+       alert(_("General:info_saved"))
        when 1
                   player($url+"uploads/"+@files[@sel.index],@filenames[@sel.index],true,true,true)
                 end
@@ -135,23 +133,20 @@ dir = getfile(_("Uploads:head_dest"),getdirectory(40)+"\\",true,"Documents")
        end
        dir.chop! if dir[dir.size-1] == 92
               downloadfile($url+"uploads/"+@files[@sel.index],dir+"\\"+(@filenames[@sel.index].gsub("~","_")))
-       speech(_("General:info_saved"))
+       alert(_("General:info_saved"))
        when 1
          player($url+"uploads/"+@files[@sel.index],@filenames[@sel.index],true,true,true)
       when 2
         u=$url+"downloadfile.php\?fileid="+@files[@sel.index]
-        Win32API.new($eltenlib,"CopyToClipboard",'pi','i').call(u,u.size+1)
-        speech(_("Uploads:info_copiedtoclip"))
-        speech_wait
+        Clipboard.set_data(u)
+        alert(_("Uploads:info_copiedtoclip"))
         when 3
-        if simplequestion(s_("Uploads:alert_deletefile", {'filename'=>@filenames[@sel.index]})) == 1
+        if confirm(s_("Uploads:alert_deletefile", {'filename'=>@filenames[@sel.index]})) == 1
           ef = srvproc("uploads_mod",{"del"=>"1", "file"=>@files[@sel.index]})
           if ef[0].to_i < 0
-            speech(_("General:error"))
-            speech_wait
+            alert(_("General:error"))
           else
-            speech(_("Uploads:info_deleted"))
-            speech_wait
+            alert(_("Uploads:info_deleted"))
             @sel.disable_item(@sel.index)
             end
           end

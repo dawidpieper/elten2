@@ -37,6 +37,7 @@
           @index-=1 while @fields[@index]==nil and @index>0
       @index+=1 while @fields[@index]==nil and @index<@fields.size-1
                                       if $key[0x09] == true
+                                        speech_stop
             if $key[0x10] == false and @fields[@index].subindex==@fields[@index].maxsubindex
               ind=@index
               @index += 1
@@ -169,13 +170,18 @@ focus if quiet==false
         $focus=false
         focus
       end
-      if $speechindexedthr!=nil and $speechid==@speechindexed and @speechindexed!=nil and $speechindex!=@index and $speechindex>0
+      oldindex=@index
+      oldtext=@text
+      if $speechindexedthr!=nil and $speechid==@speechindexed and @speechindexed!=nil and $speechindex!=@index and ($speechindex||0)>0
         @index=$speechindex
               end
 navupdate
       editupdate
       ctrlupdate
       mediaupdate if @audiotext!="" and @audiotext!=nil                                                            
+      if oldindex!=@index or oldtext!=@text
+          NVDA.braille(@text, @index) if NVDA.check
+        end
             esay
         end
 def editupdate
@@ -183,12 +189,12 @@ def editupdate
       if (c=getkeychar)!="" and (c.to_i.to_s==c or (@flags&Flags::Numbers)==0) and (@flags&Flags::ReadOnly)==0
                 speech_stop
         einsert(c)
-        play("edit_space") if c==" "
-               if ((wordendings=" ,./;'\\\[\]-=<>?:\"|\{\}_+`!@\#$%^&*()_+").include?(c)) and (($interface_typingecho == 1 or $interface_typingecho == 2))
+                               if ((wordendings=" ,./;'\\\[\]-=<>?:\"|\{\}_+`!@\#$%^&*()_+").include?(c)) and (($interface_typingecho == 1 or $interface_typingecho == 2))
                  s=@text[(@index>50?@index-50:0)...@index]
                                   w=(s[(0 ... s.length).find_all { |i| wordendings.include?(s[i..i]) or s[i..i]=="\n"}.sort[-2]||0..(s.size-1)])
 if (w=~/([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+)/)!=nil
   espeech(w)
+  play("edit_space") if c==" "
 else
   espeech(c) if @interface_typingecho!=1
   end
@@ -237,7 +243,7 @@ url=nil
 @elements.each {|e| url=e.param[1] if (e.bindex<=@index and e.eindex>=@index) and e.type==Element::Link}
 @elements.each {|e| url=e.param[1] if (e.bindex>=linebeginning and e.eindex<=lineending) and e.type==Element::Link} if url==nil
               if url!=nil
-                                      espeech(_("EAPI_Form:wait_link"))
+                                      speak(_("EAPI_Form:wait_link"))
         run("explorer \"#{url}\"")
         loop_update
         end
@@ -264,7 +270,7 @@ url=nil
                     def navupdate
             @vindex=$key[0x10]?@check:@index
             @ch=false
-          if Input.repeat?(Input::RIGHT) and ($key[0x10]==false or $speechaudio==nil)
+          if arrow_right and ($key[0x10]==false or $speechaudio==nil)
                                   @vindex+=1 while @vindex<@text.size-1 and @text[@vindex..@vindex+1].split("").size==1
           if @vindex>=@text.size
                     play("border")
@@ -284,7 +290,7 @@ url=nil
                                                                                                 (@vindex==@text.size)?play("edit_endofline"):espeech(@text[($key[0x10]?((0 .. @vindex).find_all { |i| @text[i..i]==" " or @text[i..i]=="\n"}.sort.last||0):@vindex)..(@vindex+1 ... @text.length).find_all { |i| @text[i..i]==" " or @text[i..i]=="\n"}.sort[0]||@text.size-1])
                                                                                               end
                               end
-                                              elsif Input.repeat?(Input::LEFT) and ($key[0x10]==false or $speechaudio==nil)
+                                              elsif arrow_left and ($key[0x10]==false or $speechaudio==nil)
         if @vindex<=0
                     play("border")
                   else
@@ -299,7 +305,7 @@ url=nil
                 espeech(@text[@vindex..(@vindex+1 ... @text.length).find_all { |i| @text[i..i]==" " or @text[i..i]=="\n"}.sort[0]||@text.size-1])
                 end
               end
-            elsif Input.trigger?(Input::UP)
+            elsif arrow_up
               b=linebeginning
               e=lineending
                             if b==0
@@ -314,7 +320,7 @@ url=nil
                                 @vindex=bm+l
                 espeech(em>0?(@text[bm..em-1]):"")
                 end
-            elsif Input.trigger?(Input::DOWN)
+            elsif arrow_down
               b=linebeginning
               e=lineending
               if e==@text.size
@@ -409,31 +415,31 @@ def ctrlupdate
 if $key[0x11]   and $key[0x12]==false
   if $key[67]
     Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
-    speech(_("EAPI_Form:info_copied"))
+    alert(_("EAPI_Form:info_copied"), false)
   end
   if $key[88] and (@flags&Flags::ReadOnly)==0
     Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
     c=[@index,@check].sort
     edelete(c[0],c[1])
-    speech(_("EAPI_Form:info_cut"))
+    alert(_("EAPI_Form:info_cut"), false)
   end
   if $key[86]
     einsert(Clipboard.get_unic.delete("\r"))
-    speech(_("EAPI_Form:info_pasted"))
+    alert(_("EAPI_Form:info_pasted"), false)
   end
     if $key[90] and @undo.size>0
       u=@undo.last
         @undo.delete_at(@undo.size-1)
 u[0]==1?edelete(u[1],u[1]+u[2].size,false):einsert(u[2],u[1],false)
                     @redo.push(u)
-          speech(_("EAPI_Form:info_undone"))
+          alert(_("EAPI_Form:info_undone"), false)
     end
       if $key[89] and @redo.size>0
       r=@redo.last
         @redo.delete_at(@redo.size-1)
                 r[0]==2?edelete(r[1],r[1]+r[2].size,false):einsert(r[2],r[1],false)
                     @undo.push(r)          
-          speech(_("EAPI_Form:info_repeated"))
+          alert(_("EAPI_Form:info_repeated"), false)
     end
         $key[0x10]?translator(getcheck):espeech(translatetext(0,$language,getcheck)) if $key[84]
     if $key[70]
@@ -444,7 +450,7 @@ u[0]==1?edelete(u[1],u[1]+u[2].size,false):einsert(u[2],u[1],false)
       ind+=@index+1 if ind!=nil
   ind=@text[0..@index].downcase.index(search.downcase) if ind==nil
     if ind==nil
-  speech(_("EAPI_Form:info_nomatch"))
+  alert(_("EAPI_Form:info_nomatch"), false)
 else
   @index=ind
   readtext(@index)
@@ -453,17 +459,17 @@ else
     
     end
     speechtofile("",getcheck.gsub("\n","\r\n")) if $key[80]
-    if $key[82] and FileTest.exists?("temp/savedtext.tmp") and @readonly!=true and (@flags&Flags::ReadOnly)==0 and @audiotext==nil
+    if $key[82] and FileTest.exists?($tempdir+"/savedtext.tmp") and @readonly!=true and (@flags&Flags::ReadOnly)==0 and @audiotext==nil
       @undo=[]  
-      settext(read("temp/savedtext.tmp"))
-  speech(_("EAPI_Form:info_loaded"))
+      settext(readfile($tempdir+"/savedtext.tmp"))
+  alert(_("EAPI_Form:info_loaded"), false)
   end
       if $key[83]
-                writefile("temp\\savedtext.tmp",@text)
-        speech(_("General:info_saved"))
+                writefile($tempdir+"\\savedtext.tmp",@text)
+        alert(_("General:info_saved"), false)
         end
   end
-  readtext(@index) if @index<@text.size and $key[115] and (@audiotext==nil or @index>0)
+  readtext(@index) if @index<@text.size and ($key[115]) and (@audiotext==nil or @index>0)
   esay
 end
 def mediaupdate
@@ -479,12 +485,13 @@ def mediaupdate
             dest=form.fields[0].selected+"\\"+form.fields[1].text_str
             sou=@audiotext
             sou.sub!("/",$url) if sou[0..0]=="/"
-                        speech(_("EAPI_Form:wait_downloading"))
+                        speak(_("EAPI_Form:wait_downloading"))
+                        if !FileTest.exists?(dest) or confirm("EAPI_Form:alert_override")==1
                         waiting
                         executeprocess("bin\\ffmpeg -y -i \"#{sou}\" \"#{dest}\"",true)
                         waiting_end
-                        speech(_("EAPI_Form:info_downloaded"))
-                        speech_wait
+                        alert(_("EAPI_Form:info_downloaded"))
+                        end
                                     break
             end
           end
@@ -507,10 +514,10 @@ def mediaupdate
     end
 return if $speechaudio==nil    
                   if $speechaudio!=nil and $key[0x10]==true
-      if Input.repeat?(Input::LEFT)
+      if arrow_left
       $speechaudio.position-=5
       delay(0.1)
-    elsif Input.repeat?(Input::RIGHT)
+    elsif arrow_right
       $speechaudio.position+=5
       delay(0.1)
         end
@@ -697,14 +704,15 @@ end
 def text
   @text.gsub("\n","\r\n")
   end
-  def focus
-      play("edit_marker")
+  def focus(spk=true)
+      play("edit_marker") if spk
       tp=_("EAPI_Form:fld_edit")
       tp=_("EAPI_Form:fld_text") if (@flags&Flags::ReadOnly)>0
       tp=_("EAPI_Form:fld_media") if @audiotext!=nil
       head=@header.to_s + " ... " + tp + ": " + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"")
-                  return speak(head + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false) if @audiotext!=nil and @audiotext!=""
-                        readtext(0,head)
+                  return speak(head + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false) if @audiotext!=nil and @audiotext!="" and spk
+                        readtext(0,head) if spk
+                        NVDA.braille(@header.to_s+"  "+@text, @header.to_s.size+2+@index) if NVDA.check
     end
     def readtext(index=0,head="")
       return speak(head) if @text=="" and head!="" and head!=nil
@@ -720,7 +728,7 @@ def text
                                       end
                                       sents[pi]=@text[pi..-1]
                                       sents[0]=head+"\r\n"+(sents[0]||"") if head!=nil and head!=""
-                                      id=rand(1e6)
+                                      id=rand(1e9)
         speak_indexed(sents,id)
 @speechindexed=id
       end
@@ -878,46 +886,67 @@ end
       end
     oldindex = self.index
       options = @commandoptions
-if (($ruby != true and ((Input.repeat?(Input::UP) and @lr==false) or (Input.repeat?(Input::LEFT) and @lr==true)) or ($ruby == true and (($key[0x26] and @lr == false) or ($key[0x25] and @lr == true)) ) and $key[0x10]==false))
+if ((@lr and arrow_left) or (!@lr and arrow_up)) and !$keyr[0x10]
   @run = true
   self.index -= 1
-        while @grayed[self.index] == true
+        while ishidden(self.index) == true
     self.index -= 1
   end
     if self.index < 0
     oldindex = -1 if @border == false
     self.index = 0
-    while @grayed[self.index] == true
+    while ishidden(self.index) == true
       self.index += 1
       end
 self.index = options.size - 1 if @border == false
   end  
-  elsif (($ruby != true and ((Input.repeat?(Input::DOWN) and @lr==false) or (Input.repeat?(Input::RIGHT) and @lr==true)) or ($ruby == true and (($key[0x28] and @lr == false) or ($key[0x27] and @lr == true)) ) and $key[0x10]==false))
+  elsif ((@lr and arrow_right) or (!@lr and arrow_down)) and !$keyr[0x10]
 @run = true
     self.index += 1
-    while @grayed[self.index] == true
+    while ishidden(self.index) == true
     self.index += 1
   end
   if self.index >= options.size
     oldindex = -1 if @border == false
     self.index = options.size - 1
-    while @grayed[self.index] == true
+    while ishidden(self.index) == true
       self.index -= 1
       end
 self.index = 0 if @border == false
   end  
+end
+if $keyr[0x10] and (arrow_up or arrow_down)
+  tgs=tags
+  ind=(tgs.index(@tag)||-1)+1
+  
+      if arrow_up
+      ind-=1
+    elsif arrow_down
+      ind+=1
+    end
+            ind=ind%(tgs.size+1)
+              if ind==0
+    @tag=nil
+    speak(_("EAPI_Form:opt_phr_alltags"))
+  else
+    @tag=tgs[ind-1]
+    self.index+=1 while ishidden(self.index) and self.index<options.size-1
+    self.index-=1 while ishidden(self.index) and self.index>0
+    o=options[self.index].gsub(/\[#{Regexp.escape(@tag)}\]/i, "")
+    speak(@tag+": "+o)
+    end
   end
   if $key[0x23] == true
 @run = true
         self.index = options.size - 1
-      while @grayed[self.index] == true
+      while ishidden(self.index) == true
     self.index -= 1
     end
     end
   if $key[0x24] == true
 @run = true
         self.index = 0
-      while @grayed[self.index] == true
+      while ishidden(self.index) == true
     self.index += 1
     end
     end
@@ -925,7 +954,7 @@ self.index = 0 if @border == false
     if self.index > 14
             for i in 1..15
               self.index-=1
-              while @grayed[self.index] == true and self.index>15-i
+              while ishidden(self.index) == true and self.index>15-i
     self.index -= 1
   end
               end
@@ -933,7 +962,7 @@ self.index = 0 if @border == false
             self.index = 0
             end
             @run = true
-        while @grayed[self.index] == true
+        while ishidden(self.index) == true
     self.index += 1
   end
     end
@@ -941,7 +970,7 @@ self.index = 0 if @border == false
        if self.index < (options.size - 15)
             for i in 1..15
               self.index+=1
-                  while @grayed[self.index] == true and self.index<@commandoptions.size-i
+                  while ishidden(self.index) == true and self.index<@commandoptions.size-i
     self.index += 1
   end              
               end
@@ -949,7 +978,7 @@ self.index = 0 if @border == false
             self.index = options.size-1
             end
             @run = true
-  while @grayed[self.index] == true and self.index<@commandoptions.size
+  while ishidden(self.index) == true and self.index<@commandoptions.size
     self.index += 1
   end
         end
@@ -960,14 +989,14 @@ self.index = 0 if @border == false
             @lastkeytime=Time.now.to_f
           @lastkey=k
           i=k.upcase[0]
-          if @hotkeys[i]==nil
+          if @hotkeys[i]==nil and @hotkeys.size<=@commandoptions.size/2
                   @run = true
         for j in self.index + (k.split("").size==1?1:0)..options.size - 1
           if suc == false              
-          if options[j][0..k.size-1].upcase==k.upcase and @grayed[j]!=true
+          if options[j][0..k.size-1].upcase==k.upcase and ishidden(j)!=true
           suc = true
           self.index = j
-          while @grayed[self.index] == true
+          while ishidden(self.index) == true
     self.index += 1
     end
   end
@@ -976,10 +1005,10 @@ self.index = 0 if @border == false
                 for j in 0..self.index
         options[j]=" " if options[j]==nil
         if suc == false          
-        if options[j][0..k.size-1].upcase==k.upcase and @grayed[j]!=true
+        if options[j][0..k.size-1].upcase==k.upcase and ishidden(j)!=true
           suc = true
                     self.index = j
-          while @grayed[self.index] == true
+          while ishidden(self.index) == true
     self.index += 1
     end
   end
@@ -988,7 +1017,7 @@ self.index = 0 if @border == false
       if suc == false
       else
       end
-    else
+          elsif @hotkeys[i]!=nil
       @index = @hotkeys[i]
       $enter = 2
       end
@@ -998,12 +1027,12 @@ self.index = 0 if @border == false
     end
     self.index = 0 if self.index >= options.size
   if self.index == -1
-        while @grayed[self.index] == true
+        while ishidden(self.index) == true
     self.index += 1
   end
   end
 if self.index >= @commandoptions.size
-      while @grayed[self.index] == true
+      while ishidden(self.index) == true
     self.index -= 1
     end
   end
@@ -1013,14 +1042,16 @@ o = options[self.index]
 for k in @hotkeys.keys
   ss = k if @hotkeys[k] == self.index
   end
-o += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}: " + ASCII(ss) if ss.is_a?(Integer)
+o += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}" + ASCII(ss) if ss.is_a?(Integer)
 o += "\r\n\r\n(#{_("EAPI_Common:opt_phr_checked")})" if @selected[self.index] == true
 o||=""
 o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
 o=("\004NEW\004"+" "+(($interface_soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
 }
+o=o.gsub(/\[#{Regexp.escape(@tag)}\]/i, "") if @tag!=nil
   speech(o)
   play("list_checked") if @selected[self.index] == true
+  focus(@header, false)
 end
 k=k.to_s if k.is_a?(Integer)
     if oldindex != self.index
@@ -1035,29 +1066,33 @@ elsif oldindex == self.index and @run == true and (k.split("").size<=1 or (@comm
     if @selected[@index] == false
       @selected[@index] = true
       play("list_checked")
-      speech(_("EAPI_Form:info_checked"))
+      alert(_("EAPI_Form:info_checked") ,false)
     else
       @selected[@index] = false
       play("list_unchecked")
-      speech(_("EAPI_Form:info_unchecked"))
+      alert(_("EAPI_Form:info_unchecked"), false)
       end
     end
   end
   
   
-def focus(header=@header)
-   play("list_marker") if @lr==false
-              while @grayed[self.index] == true
+def focus(header=@header, spk=true)
+   play("list_marker") if @lr==false and spk
+              while ishidden(self.index) == true
                             self.index += 1
             end
             if self.index > @commandoptions.size - 1
-              while @grayed[self.index] == true
+              while ishidden(self.index) == true
               self.index -= 1
               end
               end
             options=@commandoptions
-              sp = header + ": " if @header!=nil and @header!=""
-              sp="" if sp==nil
+            sp=""
+            if @header!=nil and @header!=""  
+            sp = header
+                            sp+=": " if !" .:?!,".include?(sp[-1..-1])
+              sp+=" " if sp[-1..-1]!=" "
+              end
             if options.size>0
               o = options[self.index].delete("&")
               o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
@@ -1068,10 +1103,11 @@ ss = false
 for k in @hotkeys.keys
   ss = k if @hotkeys[k] == self.index
   end
-sp += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}: " + ASCII(ss) if ss.is_a?(Integer)
+sp += "...\r\n#{_("EAPI_Form:opt_phr_shortkey")}" + ASCII(ss) if ss.is_a?(Integer)
 end            
 sp += _("EAPI_Form:info_listempty") if @commandoptions.size==0
-speech(sp)
+speech(sp) if spk
+NVDA.braille(sp) if NVDA.check
 end
 
 # Hides a specified item
@@ -1080,13 +1116,13 @@ end
     def disable_item(id)
   @grayed[id] = true
   options = @commandoptions
-  while @grayed[self.index] == true
+  while ishidden(self.index) == true
     self.index += 1
   end
   if self.index >= options.size
     oldindex = -1 if @border == false
     self.index = options.size - 1
-    while @grayed[self.index] == true
+    while ishidden(self.index) == true
       self.index -= 1
       end
 self.index = 0 if @border == false
@@ -1095,14 +1131,31 @@ end
 def enable_item(id)
   @grayed[id]=false
 end
+def ishidden(id)
+  return false if id<0 || id>=@commandoptions.size
+  r=@grayed[id]==true
+  r=true if @tag!=nil and !@commandoptions[id].downcase.include?("["+@tag.downcase+"]")
+  return r
+end
+def tags
+  tgs=[]
+  @commandoptions.each {|t|
+tgs+=t.scan(/\[([^[\[\]]]+)\]/).map{|x| x[0].downcase}
+  }
+ tgs.delete(nil) 
+  return tgs.uniq
+end
+def settag(tag)
+  
+  end
 def selected?
   return enter
 end
 def expanded?
-  return ~$keyr[0x10] && Input.trigger?(Input::RIGHT)
+  return !$keyr[0x10] && ((@lr && arrow_down) || (!@lr && arrow_right))
 end
 def collapsed?
-  return ~$keyr[0x10] && Input.trigger?(Input::LEFT)
+  return !$keyr[0x10] && ((@lr && arrow_up) || (!@lr && arrow_left))
 end
 end
 
@@ -1130,6 +1183,7 @@ end
         def focus
           play("button_marker")
           speech(@label + "... " + _("EAPI_Form:fld_button"))
+          NVDA.braille(@label) if NVDA.check
         end
         def pressed?
           return @pressed
@@ -1161,16 +1215,17 @@ end
           if space or enter
             if @checked == 1
               @checked = 0
-              speech(_("EAPI_Form:st_unchecked"))
+              alert(_("EAPI_Form:st_unchecked"), false)
             else
               @checked = 1
-              speech(_("EAPI_Form:st_checked"))
-              end
+              alert(_("EAPI_Form:st_checked"), false)
+            end
+            focus(false)
             end
           end
         
-                    def focus
-          play("checkbox_marker")
+                    def focus(spk=true)
+          play("checkbox_marker") if spk
           text = @label + " ... "
           if @checked == 0
             text += _("EAPI_Form:st_unchecked")
@@ -1179,7 +1234,8 @@ end
           end
           text += " "
           text += _("EAPI_Form:fld_checkbox")
-          speech(text)
+          speech(text) if spk
+          NVDA.braille(text)
         end
       end        
       
@@ -1211,11 +1267,9 @@ end
             f=$filestrees[@id]
             @file=f[1]
             @path=f[0]
-            @cpath=f[0]
-            #@file=nil if !FileTest.exists?(@path+"/"+@file)
+                        #@file=nil if !FileTest.exists?(@path+"/"+@file)
           else
                     @path=path
-        @cpath=path
         @file=""
                           @file=file if file!=nil
                         end
@@ -1246,7 +1300,7 @@ h=@header if init==true
       @sel.silent=true if @specialvoices
       @files=@disks+@addfiles
 else
-  fls=Dir.entries(@cpath)
+  fls=Dir.entries(@path).polsort
 fls.delete("..")
 fls.delete(".")
 if @hidefiles == true
@@ -1309,36 +1363,31 @@ elsif filetype==4
 end
   end
   if $key[0x10]==false
-if (Input.trigger?(Input::RIGHT) or @go == true) and File.directory?(cfile(true,true))
+if (arrow_right or @go == true) and File.directory?(cfile(true))
   @lastfile=nil
   @go = false
     s=true
         begin
-    Dir.entries(cfile(true,true)) if s == true
+    Dir.entries(cfile(true)) if s == true
   rescue Exception
     s=false
     retry
       end
   if s == true
         if @path!=""
-    @path=cfile(false,true)+"\\"
-      @cpath=cfile(true,true)+"\\"
-    else
-      @path=cfile(false,true)+"\\"
-      @cpath=cfile(true,true)+"\\"
-      end
+    @path=cfile(true)+"\\"
+          else
+      @path=cfile(true)+"\\"
+            end
   @file=""
         @sel=nil
   end
     end
-if Input.trigger?(Input::LEFT) and @path.size>0
+if arrow_left and @path.size>0
   t=@path.split("\\")
   @file=t.last
   t[t.size-1]=""
 @path=t.join("\\")
-t=@cpath.split("\\")
-    t[t.size-1]=""
-@cpath=t.join("\\")
 @sel=nil
 end
 end
@@ -1346,9 +1395,9 @@ $filestrees[@id]=[@path,@file]
 end
 
 def filetype
-  return 0 if File.directory?(cfile(true,true))
+  return 0 if File.directory?(cfile(true))
   ext=File.extname(selected).downcase
-  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts"
+  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts" or ext==".aiff"
     return 1
   elsif ext==".txt"
     return 2
@@ -1367,7 +1416,7 @@ def filetype
 # @return [String] an opened path
       def path(c=false)
         return @path if c==false
-        return @cpath if c
+        return @path
       end
       
       # Opens a specified path
@@ -1375,7 +1424,6 @@ def filetype
       # @param pt [String] a path to open
       def path=(pt)
         @path=pt
-        @cpath=pt
         @sel=nil
       end
       
@@ -1387,17 +1435,10 @@ def filetype
         
         # Gets the current file
         # @return [String] current file
-        def cfile(c=true,fulllocation=false)
+        def cfile(fulllocation=false)
           return "" if @file==nil
-                    tmp="\0"*8192
-if c==true
-                    Win32API.new("kernel32","GetShortPathName",'ppi','i').call(utf8(@cpath+@file),tmp,tmp.size)
-                  else
-                    Win32API.new("kernel32","GetLongPathName",'ppi','i').call(utf8(@cpath+@file),tmp,tmp.size)
-                                        end
-tmp.delete!("\0")
+                    tmp=@path+@file
 tmp.gsub!("/","\\")
-tmp=futf8(tmp)
 if fulllocation==false
 return tmp.split("\\").last
 else
@@ -1421,7 +1462,7 @@ end
             r = @path + @file
           else
             if cfile!=nil
-            r = @cpath + cfile
+            r = @path + cfile
           else
             return ""
             end
@@ -1438,6 +1479,7 @@ end
           hin=@header+": \r\n" if @header!=""
                   hin += @file
         speech(hin)
+        NVDA.braille(hin) if NVDA.check
         end
         end
       end
@@ -1451,6 +1493,7 @@ end
         end
         def focus
           speech(@label)
+          NVDA.braille(@label) if NVDA.check
         end
         end
       
@@ -1471,10 +1514,8 @@ end
 focus
 end
 def update
-  @sel.update
-  @index=getwayindex(@way+[@sel.index])-1
   @opfocused=false
-      if (Input.trigger?(Input::RIGHT) and @lr == false) or (Input.trigger?(Input::DOWN) and @lr == true) or enter
+        if @sel.selected? or @sel.expanded?
     o=@options.deep_dup
     for l in @way
       o=o[l][1..o[l].size-1]
@@ -1482,21 +1523,33 @@ def update
         if o[@sel.index].is_a?(Array)
             @way.push(@sel.index)
             @sel=createselect(@way)
+            return
                   elsif enter
           @opfocused=true
           end
     end
-              if ((Input.trigger?(Input::LEFT) and @lr == false) or (Input.trigger?(Input::UP) and @lr == true)) and @way.size>0
+              if @way.size>0 and (@lr!=2 and @sel.collapsed?) or (arrow_up and sel.index==0)
       ind=@way.last
       @way.delete_at(@way.size-1)
       @sel=createselect(@way,ind)
-            end
+      return
+    end
+    @sel.update
+  @index=getwayindex(@way+[@sel.index])-1
     end
        def createselect(way=[],selindex=0,quiet=false)
          opt=getelements(way)
-         s=Select.new(opt,true,selindex,@header,true,false,@lr,@silent)
+         lr=@lr
+         if lr==2
+           if way.size==0
+             lr=true
+           else
+             lr=false
+             end
+           end
+         s=Select.new(opt,true,selindex,@header,true,false,lr,@silent)
          speech(s.commandoptions[s.index]) if quiet!=true
-         return s
+                  return s
          end
          def searchway(way=[],tway=[],index=0)
                                  return [index,tway] if way==tway
@@ -1570,7 +1623,7 @@ lsel=""
             return lsel.index
             break
           end
-          if (escape or (cancelkey!=nil and Input.trigger?(cancelkey))) and escapeindex!=nil
+          if (escape or (cancelkey!=nil and $key[cancelkey])) and escapeindex!=nil
             loop_update
             return escapeindex
             break
@@ -1637,7 +1690,7 @@ lsel = menulr(options,true,0,"",true)
          ft.update
          if escape
            dialog_close
-           return ""
+           return nil
            break
          end
          if enter
@@ -1716,12 +1769,12 @@ lsel = menulr(options,true,0,"",true)
            end
          def update
            if $keyr[0x10]&&@rows.size>0
-             if Input.trigger?(Input::RIGHT)
+             if arrow_right
                c=@column
                setcolumn((@column+1)%(@columns.size))
                               setcolumn((@column+1)%(@columns.size)) while (@rows[index][@column]==nil||@rows[index][@column]=="") and c!=@column
                speech (@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")"
-             elsif Input.trigger?(Input::LEFT)
+             elsif arrow_left
                c=@column
                            setcolumn((@column-1)%(@columns.size))
                            setcolumn((@column-1)%(@columns.size)) while (@rows[index][@column]==nil||@rows[index][@column]=="") and c!=@column
@@ -1757,37 +1810,26 @@ else
     end
     end
 def setsound(file)
-    begin
-#if file[0..3]=="http"
 @sound = Bass::Sound.new(file,1)
-#else
-  #@sound = Bass::Sound.new(file)
-#end
 @basefrequency=@sound.frequency
 @file=file
 @sound.volume=0.8
 rescue Exception
   @sound=nil
   @file=nil
-  speech(_("EAPI_Common:error_playing"))
-  speech_wait
-  end
+  alert(_("EAPI_Common:error_playing"))
 end   
 
 def update
   return if @sound==nil
       if space
-        if @pause!=true
+                if @pause!=true
         @ppos=@sound.position
           @sound.pause
         @pause=true
               else
                         @sound.play
-                        if @sound.position<@ppos
-                        for i in 1..20
-                        @sound.position=@ppos
-                      end
-                      end
+                                                                        @sound.position=@ppos if @sound.position<@ppos
         @pos=0
         @pause=false
                 end
@@ -1820,7 +1862,7 @@ h=d/3600
       end
       loop_update
       end
-    if ($key[0x53] or ($key[0x10] and enter)) and @file.include?("http")
+    if ($key[0x53] or ($keyr[0x10] and enter)) and @file.include?("http")
     tf=@file.gsub("\\","/")
     fs=tf.split("/")
     nm=fs.last.split("?")[0]
@@ -1838,43 +1880,45 @@ h=d/3600
       end
     loc=getfile(_("EAPI_Common:head_savelocation"),getdirectory(40)+"\\",true,"Music")
     if loc!=nil
-            speech(_("EAPI_Common:wait_downloading"))
+            speak(_("EAPI_Common:wait_downloading"))
                         waiting
                         executeprocess("bin\\ffmpeg -y -i \"#{@file}\" \"#{loc}\\#{nm}\"",true)
                         waiting_end
-                                    speech(_("General:info_saved"))
+                                    alert(_("General:info_saved"))
       end
     end
-    if $key[0x10]              ==false
-    if Input.repeat?(Input::RIGHT)
-                                @ppos=(@sound.position += 5)
+    if $keyr[0x10]              ==false
+    if arrow_right
+                                            @ppos=@sound.position + 1
+                                            10.times {@sound.position=@ppos}
               end
-      if Input.repeat?(Input::LEFT)
-        @ppos=(@sound.position -= 5)
+      if arrow_left
+                @ppos=@sound.position - 1
+                10.times {@sound.position=@ppos}
       end
-            if Input.repeat?(Input::UP)
-                      @sound.volume += 0.05
+            if arrow_up(true)
+                      @sound.volume += 0.01
 @sound.volume = 0.95 if @sound.volume > 0.95
       end
-      if Input.repeat?(Input::DOWN)
-        @sound.volume -= 0.05
+      if arrow_down(true)
+        @sound.volume -= 0.01
 @sound.volume = 0.05 if @sound.volume < 0.05
 end
 else
-  if Input.repeat?(Input::RIGHT)
-        @sound.pan += 0.1
+  if arrow_right(true)
+        @sound.pan += 0.02
         @sound.pan = 1 if @sound.pan > 1
       end
-      if Input.repeat?(Input::LEFT)
-        @sound.pan -= 0.1
+      if arrow_left(true)
+        @sound.pan -= 0.02
         @sound.pan = -1 if @sound.pan < -1
       end
-            if Input.repeat?(Input::UP)
-        @sound.frequency += @basefrequency.to_f/100.0*2.0
+            if arrow_up(true)
+        @sound.frequency += @basefrequency.to_f/500.0*2.0
       @sound.frequency=@basefrequency*2 if @sound.frequency>@basefrequency*2
         end
-      if Input.repeat?(Input::DOWN)
-        @sound.frequency -= @basefrequency.to_f/100.0*2.0
+      if arrow_down(true)
+        @sound.frequency -= @basefrequency.to_f/500.0*2.0
       @sound.frequency=@basefrequency/2 if @sound.frequency<@basefrequency/2
 end
 end

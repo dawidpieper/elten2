@@ -658,7 +658,7 @@ module JSON
         obj = nil
         while !eos? && skip(IGNORE) do end
         if eos?
-          raise ParserError, "source is not valid JSON!"
+         raise ParserError, "source is not valid JSON!"
         else
           obj = parse_value
           UNPARSED.equal?(obj) and raise ParserError,

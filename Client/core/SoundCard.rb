@@ -28,8 +28,7 @@ class Scene_SoundCard
         microphone=nil if @form.fields[1].index==0
         $interface_microphone=microphone
                 writeconfig("SoundCard","Microphone",$interface_microphone)
-        speech(_("General:info_saved"))
-        speech_wait
+        alert(_("General:info_saved"))
         break
         end
       break if escape or ((enter or space) and @form.index==3)

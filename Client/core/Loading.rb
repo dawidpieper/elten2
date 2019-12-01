@@ -15,18 +15,13 @@ class Scene_Loading
                                 $volume=70
             $preinitialized = false
     $eltenlib = "./eltenvc"
-    begin
-          $hook = Win32API.new($eltenlib,"hook",'','i').call
-        rescue Exception
-          p 'eltenvc'
-    $eltenlib = "elten"
-    begin
-      $hook = Win32API.new($eltenlib,"hook",'','i').call
-    rescue Exception
-      $hook=0
-      end
-      end
-      $scenes = []
+    h=Win32API.new($eltenlib, "hook", '', 'i').call
+        if h!=0
+        print("Failed to setup Window Hook")
+            exit
+          end
+          Log.info("Window hook registered")
+          $scenes = []
     $volume = 70
     $speech_to_utf = true
     $instance = Win32API.new("kernel32","GetModuleHandle",'i','i').call(0)
@@ -34,7 +29,7 @@ class Scene_Loading
     $path="\0"*1024
     Win32API.new("kernel32","GetModuleFileName",'ipi','i').call($instance,$path,$path.size)
     $path.delete!("\0")
-  
+  Log.info("Exec path: #{$path}")
     if $wnd==nil
     $wnd = Win32API.new("user32","FindWindow",'pp','i').call("RGSS Player",nil)
   
@@ -49,11 +44,13 @@ class Scene_Loading
         $wnd = $cwnd
         end
       end
-      end      
+    end      
+    Log.info("HWND: #{$wnd.to_s}")
       $computer="\0"*128
       siz=[$computer.size].pack("i")
       Win32API.new("kernel32","GetComputerName",'pp','i').call($computer,siz)
       $computer.delete!("\0")
+      Log.info("Computer: #{$computer}")
                   if $ruby != true
             $sprite = Sprite.new
     $sprite.bitmap = Bitmap.new("elten.jpg") if FileTest.exists?("elten.jpg")
@@ -78,16 +75,16 @@ $commandline=Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
                 $reld=$1
         $eltendata=$reld
             end    
-      $bindata = $eltendata + "\\bin"
-$extrasdata = $eltendata + "\\extras"
+      $extrasdata = $eltendata + "\\extras"
 $soundthemesdata = $eltendata + "\\soundthemes"
+$tempdir=$eltendata+"\\temp"
 createdirifneeded($eltendata)
-createdirifneeded($bindata)
 createdirifneeded($extrasdata)
 createdirifneeded($soundthemesdata)
-createdirifneeded(".\\temp")
+createdirifneeded($tempdir)
 #upd
 deldir($eltendata+"\\apps") if FileTest.exists?($eltendata+"\\apps")
+deldir($eltendata+"\\bin") if FileTest.exists?($eltendata+"\\bin")
 if FileTest.exists?($eltendata+"\\config")
 v={
 'Advanced'=>[['KeyUpdateTime'], ['RefreshTime'], ['SyncTime'], ['AgentRefreshTime']],
@@ -107,10 +104,9 @@ for k in v.keys
     end
   end
 rescue Exception
-  p $!
-  exit
+  Log.error("UPD: #{$!.to_s} #{$@.to_s}")
 end
-Win32API.new("kernel32", "CopyFileW", 'ppi', 'i').call(unicode($eltendata+"\\config\\appid.dat"), unicode($eltendata+"\\appid.dat"), 0)
+copyfile($eltendata+"\\config\\appid.dat", $eltendata+"\\appid.dat")
 deldir($eltendata+"\\config")
 end
 begin
@@ -128,8 +124,9 @@ rescue Exception
   end
 #endupd
 if FileTest.exists?($eltendata+"\\appid.dat")
-$appid=read($eltendata+"\\appid.dat")
+$appid=readfile($eltendata+"\\appid.dat")
 else
+  Log.info("Generating new AppID")
   $appid = ""
   chars = ("A".."Z").to_a+("a".."z").to_a+("0".."9").to_a
   64.times do
@@ -137,6 +134,7 @@ else
   end
     writefile($eltendata+"\\appid.dat",$appid)
   end
+  Log.info("Loading configuration")
   $interface_listtype = readconfig("Interface", "ListType", 0)
   $interface_soundcard = readconfig("SoundCard", "SoundCard", "")
   $interface_microphone = readconfig("SoundCard", "Microphone", "")
@@ -148,10 +146,15 @@ $interface_linewrapping = readconfig("Interface", "LineWrapping", 1)
 $interface_hidewindow = readconfig("Interface", "HideWindow", 0)
 $advanced_refreshtime = readconfig("Advanced", "AgentRefreshTime", 1)
 $advanced_synctime = readconfig("Advanced", "SyncTime", 1)
+Log.info("Initializing Bass")
 Bass.init($wnd) if $usebass==true
-if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
+Log.info("Initializing NVDA Support")
+NVDA.init
+loop_update while !NVDA.prepared?
+Log.info("Connecting to Elten server")
+if srvproc("init",{})[0].to_i<0
           $url = "http://elten-net.eu/srv/"
-      if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
+      if srvproc("init",{})[0].to_i<0
           $neterror=true
   else
     #sslerror
@@ -165,33 +168,24 @@ if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
       $neterror = false
       rdr = IO.readlines("redirect")
             File.delete("redirect") if $DEBUG != true and FileTest.exists?
-      ("redirect") if $DEBUG != true
-      if rdr.size > 0
+            if rdr.size > 0
           if rdr[0].size > 0
-            $url = rdr[0].delete("\r\n")
+                        $url = rdr[0].delete("\r\n")
+                        Log.info("Elten redirected to: #{$url}")
             end
         end
-if download($url + "bin/elten.ini",$bindata + "\\newest.ini") != 0
+if srvproc("init",{})[0].to_i<0
+  Log.error("Failed to connect to Elten server")
 $neterror = true
 end
         end
       end  
-Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,utf8($extrasdata+"\\soundfont.sf2")) if FileTest.exists?($extrasdata+"\\soundfont.sf2")
-      version = readini(".\\elten.ini","Elten","Version",0).to_f
-                beta = readini(".\\elten.ini","Elten","Beta","0").to_i
-                                isbeta = readini(".\\elten.ini","Elten","IsBeta","0").to_i
-alpha = readini(".\\elten.ini","Elten","Alpha","0").to_i
-                      nversion = readini($bindata + "\\newest.ini","Elten","Version","0").to_f
-                    nbeta = readini($bindata + "\\newest.ini","Elten","Beta",0).to_i
-                    nalpha = readini($bindata + "\\newest.ini","Elten","Alpha",0).to_i
-        $beta = Elten.beta
+      Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,$extrasdata+"\\soundfont.sf2") if FileTest.exists?($extrasdata+"\\soundfont.sf2")
+                                    $beta = Elten.beta
         $alpha = Elten.alpha
     $version = Elten.version
     $isbeta = Elten.isbeta
-    $nbeta = nbeta
-    $nalpha = nalpha
-    $nversion = nversion
-                speech_stop
+                    speech_stop
     startmessage = "ELTEN: " + $version.to_s.delete(".").split("").join(".")
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
 startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
@@ -201,7 +195,6 @@ $start = Time.now.to_i
 $thr1=Thread.new{thr1} if $thr1==nil
 $thr2=Thread.new{thr2} if $thr2==nil
 $thr3=Thread.new{thr3} if $thr3==nil
-$thr4=Thread.new{thr4} if $thr4==nil
 $voice = readconfig("Voice","Voice",-2)
 if $rvc==nil
       if (/\/voice (-?)(\d+)/=~$commandline) != nil
@@ -238,7 +231,7 @@ set_locale($language)
           if $voice == -2 or $voice == -3
           v=$voice
           $voice=-1
-          speech(_("Loading:info_novoice"))
+          alert(_("Loading:info_novoice"))
           until enter or escape
             loop_update
           end
@@ -251,7 +244,7 @@ if enter
       end
       return
     else
-      Win32API.new("screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
+      Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
                   $rate = readconfig("Voice","Rate",50)
         if $rvcr==nil
       if (/\/voicerate (\d+)/=~$commandline) != nil
@@ -259,15 +252,15 @@ if enter
         $rate=$rvcr.to_i
             end    
     end
-                  Win32API.new("screenreaderapi","sapiSetRate",'i','i').call($rate)
-    $sapivolume = readconfig("Voice","Volume",100)
+                  Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
+                      $sapivolume = readconfig("Voice","Volume",100)
     if $rvcv==nil
       if (/\/voicevolume (\d+)/=~$commandline) != nil
         $rvcv=$1
         $sapivolume=$rvcv.to_i
             end    
     end
-    Win32API.new("screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
+    Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
   end
           $soundthemespath = readconfig("Interface","SoundTheme","")
             if $soundthemespath.size > 0
@@ -278,16 +271,45 @@ if enter
                                                                                                                                                                   if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
+v=13
+if Win32API.new("bin\\screenreaderapi", "getCurrentScreenReader", '', 'i').call==2 && (!NVDA.check || NVDA.getversion!=v)
+  if !NVDA.check
+  str=_("Loading:alert_nvdaaddon")
+elsif NVDA.getversion!=v
+  str=_("Loading:alert_nvdaaddonupdate")
+    end
+  if FileTest.exists?($appdata+"\\nvda")
+ confirm(str) {
+ File.delete($tempdir+"\\nvda.pipe")
+ decompress("Data/ELTEN.nvda-addon", $appdata+"\\nvda\\addons\\ELTEN")
+ pth=getdirectory(38)+"\\nvda\\nvda.exe"
+ if FileTest.exists?(pth)
+ s="\"\"#{pth}\" \"#{pth}\" -r\""
+   run("cmd /c "+s, true)
+ waiting
+  t=Time.now.to_f
+  loop_update while Time.now.to_f-t<10 and Win32API.new("bin\\screenreaderapi", "getCurrentScreenReader", '', 'i').call==2
+  t=Time.now.to_f
+  loop_update while Time.now.to_f-t<10 and Win32API.new("bin\\screenreaderapi", "getCurrentScreenReader", '', 'i').call!=2
+ delay(3)
+ NVDA.init
+ loop_update while !NVDA.prepared?
+  waiting_end
+ end
+ }
+  end
+end
+Log.info("NVDA Version: "+NVDA.getnvdaversion.to_s) if NVDA.check
 speech(startmessage) if $silentstart != true
             $speech_wait = true if $silentstart != true
             bid=srvproc("bin/buildid","build_id=#{Elten.build_id.to_s}",1).to_i
-        if Elten.build_id!=bid and bid>0 and $denyupdate != true
+                    if Elten.build_id!=bid and bid>0 and $denyupdate != true
+                      Log.info("New update available (BuildID: #{bid.to_s})")
 if $portable != 1
-          $scene = Scene_Update_Confirmation.new
+              $scene = Scene_Update_Confirmation.new
       return
     else
-      speech(_("Loading:alert_newversion"))
-      speech_wait
+      alert(_("Loading:alert_newversion"))
       end
     end
             if $neterror == true
@@ -295,7 +317,7 @@ if $portable != 1
         File.delete("testtemp") if FileTest.exists?("testtemp")
         $neterror = false
       else
-        speech(_("General:error"))
+        alert(_("General:error"))
         $offline=true
         delay(3)
         speech_wait
@@ -309,8 +331,9 @@ license
                 writefile($eltendata+"\\license_agreed.dat","\001")
         end
               if FileTest.exists?($eltendata+"\\update.last")
-        l=Zlib::Inflate.inflate(read($eltendata+"\\update.last")).split(" ")
+                        l=Zlib::Inflate.inflate(readfile($eltendata+"\\update.last")).split(" ")
         lversion,lbeta,lalpha,lisbeta=l[0].to_f,l[1].to_i,l[2].to_i,l[3].to_i
+        Log.info("Update completed from version #{lversion.to_s}")
         if lversion<2.35
           @runkey=Win32::Registry::HKEY_CURRENT_USER.create("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
 begin
@@ -357,8 +380,7 @@ for fi in $dfiles
     begin
       File.delete(fi)
     rescue Exception
-      Win32API.new("kernel32","DeleteFile",'p','i').call(fi)
-      end
+            end
     end
   end
             rescue Exception
@@ -384,13 +406,12 @@ end
         end
         autologin = readconfig("Login", "AutoLogin", 0)
         if autologin.to_i > 0 and $offline!=true and @skiplogin==false
+          Log.info("Processing with autologin")
             $scene = Scene_Login.new
       return
     end
-    srvstate
-    $cw = Select.new([_("Loading:opt_login"),_("Loading:opt_register"),_("Loading:opt_forgottenpass"),_("Loading:opt_guest"),_("Loading:opt_generalsettings"),_("Loading:opt_changesynth"),"Language / Język",_("Loading:opt_reinstall"),_("General:str_quit")])
-    $cw.disable_item(1) if $eltsuspend
-    loop do
+        $cw = Select.new([_("Loading:opt_login"),_("Loading:opt_register"),_("Loading:opt_forgottenpass"),_("Loading:opt_guest"),_("Loading:opt_generalsettings"),_("Loading:opt_changesynth"),"Language / Język",_("Loading:opt_reinstall"),_("General:str_quit")])
+        loop do
 loop_update
       $cw.update
       update

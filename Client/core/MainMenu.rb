@@ -13,8 +13,7 @@ def initialize
     @header = _("MainMenu:head")
   end
   def main
-        srvstate
-        sel = [_("MainMenu:opt_community"),_("MainMenu:opt_addons"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
+                sel = [_("MainMenu:opt_community"),_("MainMenu:opt_addons"),_("MainMenu:opt_tools"),_("MainMenu:opt_settings"),_("MainMenu:opt_help"),_("MainMenu:opt_quit")]
                 @sel = menulr(sel,true,0,@header)
         @header = ""
         skiploop=false
@@ -24,7 +23,7 @@ def initialize
       if $scene != self
         break
       end
-      if enter or (Input.trigger?(Input::DOWN)) or skiploop
+      if enter or (arrow_down) or skiploop
         index = @sel.index
         case @sel.index
         when 0
@@ -61,8 +60,8 @@ close
         @sel = Select.new([_("MainMenu:opt_changelog"),_("MainMenu:opt_version"),_("MainMenu:opt_sounds"),_("MainMenu:opt_readme"),_("MainMenu:opt_shortkeys"),_("MainMenu:opt_report"),_("MainMenu:opt_license")])
     loop do
 loop_update
-      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
-                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+      if arrow_left or arrow_right or escape or (arrow_up and @sel.index==0)
+                return (arrow_left or arrow_right)
               end
                     @sel.update
       if $scene != self
@@ -109,8 +108,8 @@ close
     @sel = Select.new([_("MainMenu:opt_general"),_("MainMenu:opt_voice"),_("MainMenu:opt_clock"),_("MainMenu:opt_soundcard"),_("MainMenu:opt_soundthemes"),_("MainMenu:opt_languages"),_("MainMenu:opt_advanced")])
     loop do
 loop_update
-      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
-                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+      if arrow_left or arrow_right or escape or (arrow_up and @sel.index==0)
+                return (arrow_left or arrow_right)
               end
                     @sel.update
       if $scene != self
@@ -155,12 +154,11 @@ close
         end
   def community
     @sel = Select.new(sel = [_("MainMenu:opt_messages"),_("MainMenu:opt_blogs"),_("MainMenu:opt_forum"),_("MainMenu:opt_chat"),_("MainMenu:opt_notes"),_("MainMenu:opt_whatsnew"),_("MainMenu:opt_polls"),_("MainMenu:opt_users"),_("MainMenu:opt_account")])
-      [1,2].each {|i| @sel.disable_item(i)} if $eltsuspend
-    @sel.disable_item(8) if $name=="guest"
+          @sel.disable_item(8) if $name=="guest"
     loop do
       loop_update
-      if (Input.trigger?(Input::RIGHT) and @sel.index!=7 and @sel.index!=8) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
-                return (Input.trigger?(Input::RIGHT))
+      if (arrow_right and @sel.index!=7 and @sel.index!=8) or escape or (arrow_up and @sel.index==0)
+                return (arrow_right)
               end
                     @sel.update
       if $scene != self
@@ -223,7 +221,7 @@ close
                             end
             end
           end
-                    if Input.trigger?(Input::RIGHT) and @sel.index == 7
+                    if arrow_right and @sel.index == 7
             index = @sel.index
             s=users
             return s if s==true
@@ -236,7 +234,7 @@ close
             return
             end
                        end
-          if Input.trigger?(Input::RIGHT) and @sel.index == 8
+          if arrow_right and @sel.index == 8
             index = @sel.index
             s=myaccount
             return s if s==true
@@ -257,8 +255,8 @@ close
     @sel = Select.new([_("MainMenu:opt_profile"),_("MainMenu:opt_greeting"),_("MainMenu:opt_honors"),_("MainMenu:opt_avatar"),_("MainMenu:opt_whatsnewconfig"),_("MainMenu:opt_blacklist"),_("MainMenu:opt_autologintokens"),_("MainMenu:opt_logins"),_("MainMenu:opt_changepassword"),_("MainMenu:opt_changemail"),_("MainMenu:opt_twofactor"),_("MainMenu:opt_mailevents")])
     loop do
 loop_update
-      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape
-                return (Input.trigger?(Input::RIGHT))
+      if arrow_left or arrow_right or escape
+                return (arrow_right)
               end
                     @sel.update
       if $scene != self
@@ -322,44 +320,42 @@ close
           end
         end
                   def tools
-    @sel = Select.new(sel=[_("MainMenu:opt_soundthemesgenerator"),_("MainMenu:opt_speedtest"),_("MainMenu:opt_programmanagement"),_("MainMenu:opt_console"),_("MainMenu:opt_debug")])
-    @sel.disable_item(6) if $DEBUG!=true
+                    sel=[_("MainMenu:opt_speedtest"),_("MainMenu:opt_portable"),_("MainMenu:opt_reinstall"),_("MainMenu:opt_log"),_("MainMenu:opt_console"),_("MainMenu:opt_debug")]
+                    sel[2]=_("MainMenu:opt_install") if $portable!=0
+    @sel = Select.new(sel)
+        @sel.disable_item(6) if $DEBUG!=true
         loop do
 loop_update
-      if enter or (Input.trigger?(Input::RIGHT) and @sel.index == 2)
+      if enter
         case @sel.index
-        when 0
-  $scene = Scene_Sounds.new("")
-  close
-  break
-    when 1
+            when 0
       $scene=Scene_SpeedTest.new
       close
       break
-      when 2
-    index = @sel.index
-    s=management
-    return s if s==true
-        if $scene == self
-               loop_update
-                  @sel = Select.new(sel)
-                @sel.index = index
-                            @sel.focus
-                          else
-                            return
-                          end
+      when 1
+        $scene=Scene_Portable.new
+        close
+        break
+        when 2
+          $scene=Scene_Update.new
+          close
+          break
        when 3
+         $scene=Scene_Log.new
+         close
+         break
+         when 4
      $scene = Scene_Console.new
      close
      break
-       when 4
+       when 5
          $scene=Scene_Debug.new
          close
          break
                end
           end
-          if Input.trigger?(Input::LEFT) or (Input.trigger?(Input::RIGHT) and @sel.index!=2) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
-                        return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+          if arrow_left or (arrow_right and @sel.index!=2) or escape or (arrow_up and @sel.index==0)
+                        return (arrow_left or arrow_right)
                       end
                             @sel.update
       if $scene != self
@@ -413,8 +409,8 @@ if autologin.to_i>0
               break
             end
           end
-          if Input.trigger?(Input::LEFT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
-                        return (Input.trigger?(Input::LEFT))
+          if arrow_left or escape or (arrow_up and @sel.index==0)
+                        return (arrow_left)
                       end
                             @sel.update
       if $scene != self
@@ -434,57 +430,13 @@ loop_update
                                             $scene=$runprogram.new
                 end
               end
-              def management
-sel=[_("MainMenu:opt_reinstall"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
-if $portable == 1
-  sel=[_("MainMenu:opt_install"),_("MainMenu:opt_portable"),_("MainMenu:opt_resetsettings")]
-  end
-     @sel = Select.new(sel)
-        loop do
-      loop_update
-      if enter
-        case @sel.index
-                  when 0
-            $scene = Scene_ReInstall.new if simplequestion(_("MainMenu:alert_reinstall")) == 1
-                        close
-            break
-            when 1
-            $scene=Scene_Portable.new
-            close
-            break
-            when 2
-              if simplequestion(_("MainMenu:alert_resetsettings")) == 0
-                close
-                break
-                else
-              File.delee($eltendata+"\\elten.ini")
-              play("right")
-                  $scene = Scene_Loading.new
-                  close
-              break
-              end
-          end
-          end
-      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape
-        return (Input.trigger?(Input::RIGHT))
-      end
-            @sel.update
-      if $scene != self
-        break
-      end
-      if alt
-        close
-      end
-      
-      end
-    end
     def addons
     @sel = Select.new([_("MainMenu:opt_files"),_("MainMenu:opt_readtofile"),_("MainMenu:opt_youtube")],true,0,"",true)
         @sel.focus
     loop do
 loop_update
-      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape or (Input.trigger?(Input::UP) and @sel.index==0)
-                return (Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT))
+      if arrow_left or arrow_right or escape or (arrow_up and @sel.index==0)
+                return (arrow_left or arrow_right)
               end
                     @sel.update
       if $scene != self
@@ -515,8 +467,8 @@ close
     @sel = Select.new([_("MainMenu:opt_contacts"),_("MainMenu:opt_useraddedmetocontacts"),_("MainMenu:opt_online"),_("MainMenu:opt_userslist"),_("MainMenu:opt_admins"),_("MainMenu:opt_usersearch"),_("MainMenu:opt_recentlyactived"),_("MainMenu:opt_recentlyregistered"),_("MainMenu:opt_lastavatars")])
     loop do
 loop_update
-      if Input.trigger?(Input::LEFT) or Input.trigger?(Input::RIGHT) or escape
-                return (Input.trigger?(Input::RIGHT))
+      if arrow_left or arrow_right or escape
+                return (arrow_right)
               end
                     @sel.update
       if $scene != self

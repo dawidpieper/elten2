@@ -7,21 +7,21 @@
 
 class Scene_Portable
   def main
-    @form=Form.new([FilesTree.new(_("Portable:head_dest"),getdirectory(40),true,true,"Documents"),CheckBox.new(_("Portable:chk_langs")),CheckBox.new(_("Portable:chk_settings")),CheckBox.new(_("Portable:chk_soundthemes")),CheckBox.new(_("Portable:chk_sfx")),Button.new(_("Portable:btn_continue")),Button.new(_("General:str_cancel"))])    
+    @form=Form.new([FilesTree.new(_("Portable:head_dest"),getdirectory(40),true,true,"Documents"),CheckBox.new(_("Portable:chk_settings")),CheckBox.new(_("Portable:chk_soundthemes")),CheckBox.new(_("Portable:chk_sfx")),Button.new(_("Portable:btn_continue")),Button.new(_("General:str_cancel"))])    
 loop do
   loop_update
   @form.update
-  if escape or ((enter or space) and @form.index==6)
+  if escape or ((enter or space) and @form.index==5)
     $scene=Scene_Main.new
     return
     break
   end
-  if (enter or space) and @form.index==5
+  if (enter or space) and @form.index==4
     break
     end
 end
 waiting
-speech(_("Portable:wait"))
+speak(_("Portable:wait"))
 @destdir=@form.fields[0].path+"\\"+@form.fields[0].file+"\\Elten_#{$version.to_s}_#{if $alpha > 0;"_RC"+$alpha.to_s;elsif $beta > 0;"_B"+$beta.to_s;else;"";end}_portable"
 copier
     loop_update
@@ -29,36 +29,8 @@ copier
         if @form.fields[1].checked==1 or @form.fields[2].checked==1 or @form.fields[3].checked==1
       Dir.mkdir("#{@destdir}/eltendata") if FileTest.exists?("#{@destdir}/eltendata")==false
     if @form.fields[1].checked == 1
-      Dir.mkdir("#{@destdir}/eltendata/lng") if FileTest.exists?("#{@destdir}/eltendata/lng")==false
-      speech(_("Portable:wait_languages"))
-      $l = false
-  langtemp = srvproc("languages","langtemp")
-    err = langtemp[0].to_i
-  case err
-  when 0
-    $l = true
-  when -1
-    speech(_("General:error_db"))
-    speech_wait
-        when -2
-      speech(_("General:error_tokenexpired"))
-      speech_wait
-    end
-    if $l == true
-    langs = []
-for i in 1..langtemp.size - 1    
-  langtemp[i].delete!("\r\n")
-  langs.push(langtemp[i]) if langtemp[i].size > 0
-end
-for i in 0..langs.size - 1
-  download($url + "lng/" + langs[i].to_s + ".elg", "#{@destdir}/eltendata/lng/"+langs[i].to_s + ".elg")
-end
-speech_wait
-end  
-      end
-if @form.fields[2].checked == 1
-  speech(_("Portable:wait_settings"))
-  Win32API.new("kernel32","CopyFileW",'ppi','i').call(unicode($eltendata+"\\elten.ini"),unicode(@destdir+"\\eltendata/elten.ini"),0)
+  speak(_("Portable:wait_settings"))
+  copyfile($eltendata+"\\elten.ini",@destdir+"\\eltendata/elten.ini")
   speech_wait
   if $voice != -1 and $voice != -3
     waiting_end
@@ -76,16 +48,16 @@ if @form.fields[2].checked == 1
   waiting
 end
 end
-if @form.fields[3].checked == 1
-  speech(_("Portable:wait_soundthemes"))
+if @form.fields[2].checked == 1
+  speak(_("Portable:wait_soundthemes"))
   copier(".","/eltendata/soundthemes","",$soundthemesdata+"/")
   speech_wait
   end
       end        
       writeini("#{@destdir}\\elten.ini","Elten","Portable","1")
       writeini("#{@destdir}\\elten.ini","Elten","SFX","2")
-      if @form.fields[4].checked==1
- writefile("temp\\portxfs.tmp","sfx configuration
+      if @form.fields[3].checked==1
+ writefile($tempdir+"\\portxfs.tmp","sfx configuration
 Setup="+File.basename(@destdir)+"\\"+File.basename($path)+"
 TempMode
 Silent=1
@@ -95,13 +67,12 @@ Text
 {
 Please wait while Elten files are being extracted...
 }")
-speech(_("Portable:wait_preparingfile"))
-executeprocess("bin\\rar.exe a -r -ep1 -df -ma -sfx -z\"temp\\portxfs.tmp\" \"#{@destdir}.exe\" \"#{@destdir}\" -y",true)
+speak(_("Portable:wait_preparingfile"))
+executeprocess("bin\\rar.exe a -r -ep1 -df -ma -sfx -z\"#{$tempdir}\\portxfs.tmp\" \"#{@destdir}.exe\" \"#{@destdir}\" -y",true)
 speech_wait
         end
       waiting_end
-        speech(_("Portable:info_created"))
-      speech_wait
+        alert(_("Portable:info_created"))
       $scene=Scene_Main.new
     end
   def copier(dir=".",dest="",incl="",start="")
@@ -115,9 +86,9 @@ loop_update
       f=dir+"/"+t
       f=t if dir=="."
       if File.file?(start+f)
-      Win32API.new("kernel32","CopyFile",'ppi','i').call(start+f,"#{@destdir}"+dest+"/"+f,0) if f.include?("tmp")==false and f.include?("temp") == false and t.include?(incl)
+      Win32API.new("kernel32","CopyFile",'ppi','i').call(start+f,"#{@destdir}"+dest+"/"+f,0) if f.include?("tmp")==false and f.include?($tempdir+"") == false and t.include?(incl)
     elsif File.directory?(start+f)
-      if f!="temp" and f.downcase.include?("kopia")==false
+      if f!=$tempdir+"" and f.downcase.include?("kopia")==false
       copier(f,dest,incl,start)
       end
     end

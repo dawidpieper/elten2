@@ -28,7 +28,7 @@ class Scene_SpeedTest
                 when 4
                   mod="blog_list"
                 end
-                speech(_("SpeedTest:wait"))
+                speak(_("SpeedTest:wait"))
       n=@form.fields[1].text.to_i
       times=[]
       n.times {

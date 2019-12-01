@@ -8,15 +8,13 @@
 class Scene_Notes
   def main(index=0)
     if $name=="guest"
-      speech(_("General:error_guest"))
-      speech_wait
+      alert(_("General:error_guest"))
       $scene=Scene_Main.new
       return
       end
   nt=srvproc("notes",{"get"=>"1"})
   if nt[0].to_i<0
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     $scene=Scene_Main.new
     return
     end
@@ -114,8 +112,7 @@ class Scene_Notes
     shares=[]
 nt=srvproc("notes",{"getshares"=>"1", "noteid"=>id})
 if nt[0].to_i<0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
     return
 end
 if nt.size>1
@@ -153,10 +150,9 @@ return
     bufid=buffer(text)
     nt=srvproc("notes",{"edit"=>"1", "buffer"=>bufid, "noteid"=>note.id})
                 if nt[0].to_i<0
-          speech(_("General:error"))
+          alert(_("General:error"))
         else
-          speech(_("Notes:info_notemodified"))
-          speech_wait
+          alert(_("Notes:info_notemodified"))
           @refresh=true
           break
           end
@@ -172,17 +168,16 @@ return
         dialog_close
         break
         end
-      inpt.settext(selectcontact) if Input.trigger?(Input::UP) or Input.trigger?(Input::DOWN)
+      inpt.settext(selectcontact) if arrow_up or arrow_down
       if enter
         user=inpt.text_str.delete("\r\n").gsub("\004LINE\004","")
                 user=finduser(user) if finduser(user).upcase==user.upcase
                 if user_exist(user) == false
-          speech(_("Notes:error_usernotfound"))
+          alert(_("Notes:error_usernotfound"))
         else
           nt=srvproc("notes",{"noteid"=>note.id, "addshare"=>"1", "user"=>user})
           if nt[0].to_i<0
-            speech(_("General:error"))
-            speech_wait
+            alert(_("General:error"))
           else
             speech(s_("Notes:info_sharedwith",{'user'=>user}))
             speech_wait
@@ -198,12 +193,11 @@ return
     loop_update
   end
 if $key[0x2e] and @form.index==2 and note.author==$name and @form.fields[2].index<shares.size
-  if simplequestion(s_("Notes:alert_unshare",{'user'=>@form.fields[2].commandoptions[@form.fields[2].index]}))==1
+  if confirm(s_("Notes:alert_unshare",{'user'=>@form.fields[2].commandoptions[@form.fields[2].index]}))==1
   user=shares[@form.fields[2].index]
             nt=srvproc("notes",{"noteid"=>note.id, "delshare"=>"1", "user"=>user})
           if nt[0].to_i<0
-            speech(_("General:error"))
-            speech_wait
+            alert(_("General:error"))
           else
             speech(s_("Notes:info_unsharedwith",{'user'=>user}))
                         shares.delete(user)
@@ -228,16 +222,15 @@ else
         end
 def delete(note)
   id=note.id
-  if simplequestion(s_("Notes:alert_delete", {'name' => note.name})) == 0
+  if confirm(s_("Notes:alert_delete", {'name' => note.name})) == 0
     return false
   else
     nt=srvproc("notes",{"delete"=>"1", "noteid"=>id})
     if nt[0].to_i<0
-      speech(_("General:error"))
-      speech_wait
+      alert(_("General:error"))
       return false
     end
-    speech(_("Notes:info_notedeleted"))
+    alert(_("Notes:info_notedeleted"))
     @refresh=true
     speech_wait
     return true
@@ -266,10 +259,9 @@ class Scene_Notes_New
         bufid=buffer(text)
         nt=srvproc("notes",{"create"=>"1", "notename"=>name, "buffer"=>bufid})
                 if nt[0].to_i<0
-          speech(_("General:error"))
+          alert(_("General:error"))
         else
-          speech(_("Notes:info_notecreated"))
-          speech_wait
+          alert(_("Notes:info_notecreated"))
           break
           end
         end

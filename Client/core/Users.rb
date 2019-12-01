@@ -11,17 +11,15 @@ class Scene_Users
         err = @users[0].to_i
     case err
     when -1
-      speech(_("General:error_db"))
-      speech_wait
+      alert(_("General:error_db"))
       $scene = Scene_Main.new
       return
       when -2
-        speech(_("General:error_tokenexpired"))
-        speech_wait
+        alert(_("General:error_tokenexpired"))
         $scene = Scene_Main.new
         return
         when -3
-          speech(_("General:error_permissions"))
+          alert(_("General:error_permissions"))
           $scene = Scene_Main.new
           return
     end
@@ -33,11 +31,12 @@ class Scene_Users
     for i in 1..@users.size - 1
       usr.push(@users[i]) if @users[i].size > 0
     end
+    usr.polsort!
         selt = []
     for i in 0..usr.size - 1
       selt[i] = usr[i] + ". " + getstatus(usr[i])
       end
-    @sel = Select.new(selt,false,0,_("Users:head"))
+    @sel = Select.new(selt,true,0,_("Users:head"))
     @usr = usr
     loop do
 loop_update
@@ -79,8 +78,8 @@ $scene = Scene_Main.new
 end
 break
 end
-if Input.trigger?(Input::DOWN) and @menu.index == 0
-    Input.update
+if arrow_down and @menu.index == 0
+    loop_update
   if usermenu(@usr[@sel.index],true) != "ALT"
     @menu = menulr(sel)
   else

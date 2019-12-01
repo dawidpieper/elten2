@@ -7,6 +7,7 @@
 
 class Scene_Main
   def main
+    NVDA.braille("") if NVDA.check
    if $remauth!=nil
      r=$remauth
      $remauth=nil
@@ -50,20 +51,18 @@ loop_update
             $thr1=Thread.new{thr1} if $thr1.alive? == false
                                     $thr2=Thread.new{thr2} if $thr2.alive? == false
                                     $thr3=Thread.new{thr3} if $thr3.alive? == false
-                                    $thr4=Thread.new{thr4} if $thr4.alive? == false
-                                                                                                  if (($nbeta > $beta) and $isbeta==1) and $denyupdate != true
+                                                                                                                                      if (($nbeta > $beta) and $isbeta==1) and $denyupdate != true
                             if $portable != 1
       #$scene = Scene_Update_Confirmation.new($scene)
       #return
     else
-      speech(_("Main:alert_newbeta"))
-      speech_wait
-      end
+      alert(_("Main:alert_newbeta"))
+            end
     end                                                                                                              
               $speech_lasttext = ""
         $ctrldisable = false
         key_update
-        speech(_("Main:info_pressalt"))
+        speak(_("Main:info_pressalt"))
         ci = 0
 plsinfo = false
     loop do
@@ -98,10 +97,10 @@ end
       $scene=Scene_SkyJet.new
       end
       end
-if Input.repeat?(Input::LEFT) and @sel != nil and @form.index == 0
+if arrow_left and @sel != nil and @form.index == 0
   $playlistbuffer.position -= 5
 end
-if Input.repeat?(Input::RIGHT) and @sel != nil and @form.index == 0
+if arrow_right and @sel != nil and @form.index == 0
   $playlistbuffer.position += 5
 end
 if enter and @sel != nil and @form != nil
@@ -124,7 +123,7 @@ for i in 0..$playlist.size - 1
   selt.push(File.basename($playlist[i]))
 end
 @form.fields[0]=@sel=Select.new(selt,true,$playlistindex,_("Main:head_pls"),true)
-speech(_("Main:info_shuffled"))
+alert(_("Main:info_shuffled"))
   elsif @form.index == 5
   $playlist=[]
   $scene=Scene_Main.new
@@ -155,7 +154,7 @@ for i in 0..$playlist.size - 1
   selt.push(File.basename($playlist[i]))
 end
 @form.fields[0]=@sel=Select.new(selt,true,$playlistindex,_("Main:head_pls"),true)
-speech(_("Main:info_shuffled"))
+alert(_("Main:info_shuffled"))
   elsif @form.index==5
   $playlist=[]
   $scene=Scene_Main.new
@@ -178,16 +177,16 @@ else
   $playlistbuffer.pause
   $playlistbuffer = nil
   @sel = nil
-  speech(_("Main:info_plserased"))
+  alert(_("Main:info_plserased"))
   end
   end
   if @form != nil and @form.index == 0 and $key[0x10]==true
 s=false
-    if Input.trigger?(Input::UP) and @sel.index>0
+    if arrow_up and @sel.index>0
       $playlist[@sel.index],$playlist[@sel.index-1]=$playlist[@sel.index-1],$playlist[@sel.index]
       s=true
       @sel.index-=1
-    elsif Input.trigger?(Input::DOWN) and @sel.index<$playlist.size-1
+    elsif arrow_down and @sel.index<$playlist.size-1
       $playlist[@sel.index],$playlist[@sel.index+1]=$playlist[@sel.index+1],$playlist[@sel.index]
       s=true
     @sel.index+=1
@@ -224,7 +223,7 @@ if $keyr[0x27] or $keyr[0x25]
 else
     rp=60
   end
-              if Input.repeat?(Input::RIGHT)
+              if arrow_right
                         pp=$playlistbuffer.position
         $playlistbuffer.position += 5
         if $playlistbuffer.position==pp
@@ -237,33 +236,33 @@ else
         $playlistvolume=v
         end
       end
-      if Input.repeat?(Input::LEFT)
+      if arrow_left
         pp=$playlistbuffer.position
         $playlistbuffer.position -= 5
                 $playlistbuffer.position = 0 if $playlistbuffer.position < 5
       end
-            if Input.repeat?(Input::UP)
+            if arrow_up
         $playlistvolume += 0.05
 $playlistvolume = 0.5 if $playlistvolume == 0.6
       end
-      if Input.repeat?(Input::DOWN)
+      if arrow_down
         $playlistvolume -= 0.05
 $playlistvolume = 0.01 if $playlistvolume == 0
 end
 else
-  if Input.repeat?(Input::RIGHT)
+  if arrow_right
         $playlistbuffer.pan += 0.1
         $playlistbuffer.pan = 1 if $playlistbuffer.pan > 1
       end
-      if Input.repeat?(Input::LEFT)
+      if arrow_left
         $playlistbuffer.pan -= 0.1
         $playlistbuffer.pan = -1 if $playlistbuffer.pan < -1
       end
-            if Input.repeat?(Input::UP)
+            if arrow_up
         $playlistbuffer.frequency += $playlistbuffer.basefreq.to_f/100.0*2.0
       $playlistbuffer.frequency=$playlistbuffer.basefreq*1.5 if $playlistbuffer.frequency>$playlistbuffer.basefreq*1.5
         end
-      if Input.repeat?(Input::DOWN)
+      if arrow_down
         $playlistbuffer.frequency -= $playlistbuffer.basefreq.to_f/100.0*2.0
       $playlistbuffer.frequency=$playlistbuffer.basefreq/1.5 if $playlistbuffer.frequency<$playlistbuffer.basefreq/1.5
 end

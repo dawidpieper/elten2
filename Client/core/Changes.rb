@@ -853,12 +853,15 @@ Wersja 2.35:
 
 2019-10-14
 ","
-Wersja 2.36:
+Wersja 2.4:
 - Dodano: przewodnik po dźwiękach
 - Dodano: nowe okno edycji tematu dźwiękowego
+- Dodano: możliwość skakania po tagach
+- Dodano: dodatek dla NVDA zapewniający wsparcie dla przewijania tekstu i linijek brajlowskich
 - Zmieniono: zmiana układu niektórych ustawień
 - Zmieniono: nowa lokalizacja i format ustawień
 - Zmieniono: ujednolicenie kodu odpowiedzialnego za zapytania do serwera
+- Zmieniono: nowe okno rady starszych
 - Usunięto (tymczasowo): programy
 - Poprawiono: obsługa unikodu w niektórych funkcjach
 

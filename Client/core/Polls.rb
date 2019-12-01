@@ -12,7 +12,7 @@ class Scene_Polls
   def main
     polls=srvproc("polls",{"list"=>"1"})
 if polls[0].to_i<0
-  speech(_("General:error"))
+  alert(_("General:error"))
   $scene=Scene_Main.new
   return
 end
@@ -81,8 +81,7 @@ sel.disable_item(2)
        if $name!="guest"
          v=srvproc("polls",{"voted"=>"1", "poll"=>@polls[@sel.index].id})
        if v[0].to_i<0
-         speech(_("General:error"))
-         speech_wait
+         alert(_("General:error"))
          $scene=Scene_Main.new
          return
        end
@@ -125,12 +124,12 @@ sel.disable_item(2)
            when 1
              $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
              when 2
-               if simplequestion(s_("Polls:alert_delete", {'name'=>@polls[@sel.index].name})) == 1
+               if confirm(s_("Polls:alert_delete", {'name'=>@polls[@sel.index].name})) == 1
                  pl=srvproc("polls",{"del"=>"1", "id"=>@polls[@sel.index].id})
                  if pl[0].to_i<0
-                   speech(_("General:error"))
+                   alert(_("General:error"))
                  else
-                   speech(_("Polls:info_deleted"))
+                   alert(_("Polls:info_deleted"))
                    @sel.disable_item(@sel.index)
                    @sel.focus
                  end
@@ -210,9 +209,9 @@ when 3
   @questions[q][1]=@qfields[1].index
   break
 elsif @questions[q].size==2
-  speech(_("Polls:error_noanswer"))
+  alert(_("Polls:error_noanswer"))
 else
-  speech(_("Polls:error_questiononeanswer"))
+  alert(_("Polls:error_questiononeanswer"))
   end
         when 4
           @questions[q]=qs
@@ -248,11 +247,9 @@ dbuffer=buffer(@fields[1].text_str)
 qbuffer=buffer(qus)
 pl=srvproc("polls",{"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text_str})
 if pl[0].to_i<0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
 else
-  speech(_("Polls:info_pollcreated"))
-  speech_wait
+  alert(_("Polls:info_pollcreated"))
   $scene=Scene_Polls.new
   return
   break
@@ -275,8 +272,7 @@ else
   def main
 pl=srvproc("polls", {"get"=>"1", "poll"=>@id.to_s})
 if pl[0].to_i<0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
   if @toscene==nil
                $scene=Scene_Polls.new
              else
@@ -286,11 +282,7 @@ if pl[0].to_i<0
 end
 @name=pl[2].to_s.delete("\r\n")
 @author=pl[3].to_s.delete("\r\n")
-begin
 @created=Time.at(pl[4].to_i)
-rescue Exception
-  retry
-  end
     @questions=JSON.load(pl[5].to_s.delete("\r\n").delete(";"))
     @description=""
   for i in 6..pl.size-1
@@ -346,10 +338,9 @@ end
     buf=buffer(ans)    
     pl=srvproc("polls", {"answer"=>1, "poll"=>@id.to_s, "buffer"=>buf.to_s})
     if pl[0].to_i<0
-      speech(_("General:error"))
+      alert(_("General:error"))
     else
-      speech(_("Polls:info_voted"))
-      speech_wait
+      alert(_("Polls:info_voted"))
       if @toscene==nil
                $scene=Scene_Polls.new(@id)
              else
@@ -381,19 +372,14 @@ end
     def main
       pl=srvproc("polls", {"get"=>"1", "poll"=>@id.to_s})
 if pl[0].to_i<0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
   $scene=Scene_Polls.new
   return
 end
 @name=pl[2].to_s.delete("\r\n")
 @author=pl[3].to_s.delete("\r\n")
-begin
 @created=Time.at(pl[4].to_i)
-rescue Exception
-  retry
-  end
-  @questions=JSON.load(pl[5].to_s.delete("\r\n").delete(";"))
+    @questions=JSON.load(pl[5].to_s.delete("\r\n").delete(";"))
     @description=""
   for i in 6..pl.size-1
     @description+=pl[i]
@@ -401,8 +387,7 @@ rescue Exception
   txt="#{@name}\r\n#{_("Polls:opt_phr_author")}: #{@author}\r\n#{_("Polls:txt_phr_created")}: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}\r\n"
      pl=srvproc("polls", {"results"=>"1", "poll"=>@id.to_s}) 
 if pl[0].to_i<0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
   if @toscene==nil
                $scene=Scene_Polls.new
              else

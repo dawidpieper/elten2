@@ -8,8 +8,7 @@
 class Program
       def finish
             close
-    speech(_("Program:info_exited"))
-    speech_wait
+    alert(_("Program:info_exited"))
     $scene = Scene_Main.new
     return
   end

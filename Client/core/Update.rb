@@ -15,7 +15,7 @@ class Scene_Update_Confirmation
           if $nbeta > $beta and $isbeta==1
     msg = _("Update:alert_newbeta")
       end
-                 case simplequestion(msg)
+                 case confirm(msg)
         when 0
           if $preinitialized != true
           $denyupdate = true
@@ -26,7 +26,7 @@ class Scene_Update_Confirmation
           end
           when 1
             if $nbeta > $beta and $isbeta==1
-    if simplequestion(_("Update:alert_betawarning")) == 0
+    if confirm(_("Update:alert_betawarning")) == 0
       if $preinitialized != true
           $denyupdate = true
           $scene = Scene_Loading.new
@@ -45,34 +45,20 @@ class Scene_Update_Confirmation
 class Scene_Update
   def main
         $updating = true
-        speech(_("Update:wait"))
+        speak(_("Update:wait"))
         if $downloadstarted != true
         $started = true
     Graphics.update
   end
   speech_wait
-  speech(_("Update:wait_languages"))  
-  downloadfile($url+"locale.dat","temp/locale_new.dat")
-  begin
-    fp=File.open("temp/locale_new.dat","rb")
-  loc =Marshal.load(Zlib::Inflate.inflate(fp.read))
-  fp.close
-if loc.is_a?(Array) and loc.size>0
-  $locales=loc
-  set_locale($language)
-  writefile("Data/locale.dat",read("temp/locale_new.dat"))
-    end
-    rescue Exception
-    end
-  speech_wait
           if $nbeta > $beta and $isbeta==1
-downloadfile($url + "bin/beta.php?name=#{$name}\&token=#{$token}\&download=2\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}",$bindata + "\\eltenup.exe",_("Update:wait_downloading"))
+downloadfile($url + "bin/beta.php?name=#{$name}\&token=#{$token}\&download=2\&version=#{$nversion.to_s}\&beta=#{$nbeta.to_s}",$eltendata + "\\eltenup.exe",_("Update:wait_downloading"),nil,true)
   else
-  downloadfile($url + "bin/eltenup.exe",$bindata + "\\eltenup.exe",_("Update:wait_downloading"))
+  downloadfile($url + "bin/eltenup.exe",$eltendata + "\\eltenup.exe",_("Update:wait_downloading"),nil,true)
 end
     speech_wait
     if $name!="" and $name!=nil
-    speech(_("Update:info_downloaded"))
+    alert(_("Update:info_downloaded"))
     cn=true
     for i in 1..Graphics.frame_rate*30
       loop_update
@@ -85,8 +71,7 @@ end
       end
     else
       cn=true
-      speech(_("Update:info_updatewillinstall"))
-      speech_wait
+      alert(_("Update:info_updatewillinstall"))
       end
       if cn == true                      
       $exit=true  
@@ -99,15 +84,14 @@ end
   class Scene_ReInstall
   def main
         $updating = true
-        speech(_("Update:wait"))
+        speak(_("Update:wait"))
                 $downloadstarted = true
       speech_wait
-        speech(_("Update:wait_reinstallationdownloading"))
-download($url + "bin/download_elten.exe",$bindata + "\\download_elten.exe")
+        speak(_("Update:wait_reinstallationdownloading"))
+download($url + "bin/download_elten.exe",$eltendata + "\\download_elten.exe")
     speech_wait
-    speech(_("Update:info_reinstall"))
-    speech_wait
-  run($bindata + "\\download_elten.exe /wait")
+    alert(_("Update:info_reinstall"))
+  run($eltendata + "\\download_elten.exe /wait")
   exit!
     end
   end

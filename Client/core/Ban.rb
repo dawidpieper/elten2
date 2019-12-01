@@ -63,9 +63,9 @@ def update
       err = bantemp[0]
 err = err.to_i
 if err == 0
-  speech(_("Ban:info_banned"))
+  alert(_("Ban:info_banned"))
 else
-  speech(_("General:error"))
+  alert(_("General:error"))
 end
 speech_wait
 if @scene == nil
@@ -97,21 +97,16 @@ class Scene_Ban_Unban
     end
                   bantemp = srvproc("isbanned",{"searchname"=>@user})
                   if bantemp[0].to_i<0
-                    speech(_("General:error"))
-                    speech_wait
+                    alert(_("General:error"))
                     $scene=Scene_Main.new
                     return
                   end
                   if bantemp[1].to_i==1
                     
                     bantotime=""
-                    begin
                     t=Time.at(bantemp[2].to_i)
                     bantotime=sprintf("%04d-%02d-%02d %02d:%02d:%02d",t.year,t.month,t.day,t.hour,t.min,t.sec)
-                  rescue Exception
-                    retry
-                    end
-                    @form=Form.new([Edit.new(_("Ban:read_reason"),"READONLY",bantemp[3],true),Edit.new(_("Ban:read_validuntil"),"READONLY",bantotime,true),Edit.new(_("Ban:type_cancelreason"),"","",true),Button.new(_("Ban:btn_unban")),Button.new(_("General:str_cancel"))])
+                                      @form=Form.new([Edit.new(_("Ban:read_reason"),"READONLY",bantemp[3],true),Edit.new(_("Ban:read_validuntil"),"READONLY",bantotime,true),Edit.new(_("Ban:type_cancelreason"),"","",true),Button.new(_("Ban:btn_unban")),Button.new(_("General:str_cancel"))])
     loop do
       loop_update
       @form.update
@@ -121,11 +116,11 @@ class Scene_Ban_Unban
       err = bantemp[0]
 err = err.to_i
 if err == 0
-  speech(_("Ban:info_unbanned"))
+  alert(_("Ban:info_unbanned"))
 speech_wait
 break
   else
-  speech(_("General:error"))
+  alert(_("General:error"))
 end
 end
 end

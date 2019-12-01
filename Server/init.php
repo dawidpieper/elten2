@@ -1,4 +1,36 @@
 <?php
+$sus=array("../",".php");
+$msgsus=false;
+foreach($_GET as $k=>$v) {
+foreach($sus as $s)
+if(strpos(strtolower($v),$s) !== false)
+$msgsus=true;
+}
+
+/*
+if(!isset($_GET['name'])) {
+$ch = curl_init();
+$ipServeur = $_SERVER['SERVER_ADDR'];
+$ipUser = $_SERVER['REMOTE_ADDR'];
+if($_SERVER['HTTPS'] == "")
+$portServeur = 80 ;
+else
+$portServeur = 443 ;
+curl_setopt($ch, CURLOPT_URL, "https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=" . $ipServeur . "&port=" . $portServeur);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+$output = curl_exec($ch);
+if(strlen($output) != 0){
+if(strpos($output, $ipUser)){
+die;
+}else{
+
+}
+}else{
+
+}
+curl_close($ch);
+}
+*/
 require("secret.php");
 $sql = mysql_connect("localhost", "elten", $db_pass)
 or die("-1\r\nsql");

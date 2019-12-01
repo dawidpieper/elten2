@@ -1,5 +1,20 @@
 <?php
+if((strpos($_GET['token'],'Mattbit'))!==false)
+die("-1");
 require("header.php");
+function utf8ize($d) {
+    if (is_array($d)) 
+        foreach ($d as $k => $v) 
+            $d[$k] = utf8ize($v);
+
+     else if(is_object($d))
+        foreach ($d as $k => $v) 
+            $d->$k = utf8ize($v);
+     else if (is_string ($d))
+return mb_convert_encoding($d, "UTF-8");
+
+    return $d;
+}
 $shown=0;
 $lasttime=(int)$_GET['lasttime'];
 if($_GET['shown']==1) $shown=1;
@@ -69,6 +84,7 @@ $qi=mquery("select mentions.id, mentions.author, mentions.message, forum_threads
 while($r=mysql_fetch_row($qi))
 array_push($ret['wn'],array('id'=>'mnt_'.$r[0],'alert'=>$r[1].': '.substr($r[2],0,64).' - '.$r[3],'sound'=>'notification_mention'));
 }
+$ret=utf8ize($ret);
 header("content-type: application/json");
 if($_GET['gz']==1) {
 header("Content-Encoding: gzip");

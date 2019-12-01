@@ -22,13 +22,11 @@ class Scene_ForgotPassword
       end
   ut=srvproc("user_exist", {"searchname"=>@user, "searchmail"=>@mail})
   if ut[0].to_i<0
-    speech(_("General:error"))
-    speech_wait
+    alert(_("General:error"))
     return $scene=Scene_Loading.new
   end
     if ut[2].to_i==0 or ut[1].to_i==0
-    speech(_("ForgotPassword:error_match"))
-    speech_wait
+    alert(_("ForgotPassword:error_match"))
     return main
   end
 @sel=Select.new([_("ForgotPassword:opt_genkey"),_("ForgotPassword:opt_typekey"),_("General:str_quit")],true,0,_("ForgotPassword:head"))
@@ -51,13 +49,13 @@ loop do
   end
     end
   def request
-        speech(_("ForgotPassword:wait"))
+        alert(_("ForgotPassword:wait"))
     fp=srvproc("resetpassword",{"mail"=>@mail, "step"=>"1"})
     speech_wait
     if fp[0].to_i<0
-      speech(_("ForgotPassword:error_unexpected"))
+      alert(_("ForgotPassword:error_unexpected"))
     else
-      speech(_("ForgotPassword:info_keysent"))
+      alert(_("ForgotPassword:info_keysent"))
     end
     speech_wait
   end
@@ -70,8 +68,7 @@ fp=srvproc("resetpassword",{"mail"=>@mail, "key"=>key, "step"=>"2"})
 if fp[0].to_i==0
   break
 else
-  speech(_("ForgotPassword:error_wrongkey"))
-  speech_wait
+  alert(_("ForgotPassword:error_wrongkey"))
 end
 end
 newpassword=""
@@ -81,22 +78,20 @@ loop do
   confirmpassword=input_text(_("ForgotPassword:type_newpassagain"),"ACCEPTESCAPE|PASSWORD")
   return if confirmpassword=="\004ESCAPE\004"
   if confirmpassword!=newpassword
-    speech(_("ForgotPassword:error_difpass"))
-    speech_wait
+    alert(_("ForgotPassword:error_difpass"))
   elsif newpassword==""
-    speech(_("ForgotPassword:error_emptypass"))
-    speech_wait
+    alert(_("ForgotPassword:error_emptypass"))
     else
     break
     end
 end
-speech(_("ForgotPassword:wait_changing"))
+alert(_("ForgotPassword:wait_changing"))
 fp=srvproc("resetpassword",{"mail"=>@mail, "key"=>key, "step"=>"2", "change"=>"1", "newpassword"=>newpassword})
 speech_wait
 if fp[0].to_i<0
-  speech(_("ForgotPassword:error_unexpected"))
+  alert(_("ForgotPassword:error_unexpected"))
 else
-  speech(_("ForgotPassword:info_changed"))
+  alert(_("ForgotPassword:info_changed"))
 end
 speech_wait
 return

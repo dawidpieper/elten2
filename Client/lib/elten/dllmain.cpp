@@ -1,5 +1,7 @@
+#ifndef UNICODE
 #define UNICODE
 #define _UNICODE
+#endif
 //#define _WIN32_WINNT 0x0501
 //#ifdef VS
 //#include "stdafx.h"
@@ -19,7 +21,7 @@
 #include "autogen_sig.h"
 #include "autogen_secr.h"
 
-
+char keys[256];
 
 HINSTANCE hinstanceDLL;
 
@@ -52,93 +54,68 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 	return TRUE;
 }
 
-
-int CopyToClipboard(LPSTR 	data, int size) {
-	        if (!OpenClipboard(0)) 
-            return -1; 
-            EmptyClipboard();
-            if(data == NULL) {
-            	CloseClipboard();
-            return 0;
-        }
-				 HGLOBAL clipBuffer = GlobalAlloc(GMEM_DDESHARE, size);
-				 char * buffer = (char*) GlobalLock(clipBuffer);
-				 strcpy(buffer, data);
-				 GlobalUnlock(clipBuffer);
-            HANDLE r = SetClipboardData(CF_TEXT,clipBuffer);
-            CloseClipboard();
-            return 0;
-}
-
-LPSTR PasteFromClipboard() {
-LPSTR r;
-if(!OpenClipboard(0))
-return (LPSTR)"";
-r = (LPSTR)GetClipboardData(CF_TEXT);
-CloseClipboard();
-if(r == NULL)
-r = (LPSTR)"\0";
-return r;
-}
-
-int WindowsVersion() {
-	    DWORD dwVersion = 0; 
-    DWORD dwMajorVersion = 0;
-    DWORD dwMinorVersion = 0; 
-    DWORD dwBuild = 0;
-        dwVersion = GetVersion();
-            dwMajorVersion = (DWORD)(LOBYTE(LOWORD(dwVersion)));
-    dwMinorVersion = (DWORD)(HIBYTE(LOWORD(dwVersion)));
-            dwBuild = (DWORD)(HIWORD(dwVersion));
-            return dwBuild;
-}
-
 LRESULT CALLBACK messageHandling(int nCode, WPARAM wParam, LPARAM lParam) {
-	BYTE keyboardState[256];
-	GetKeyboardState(keyboardState);
-		if (wParam == VK_F1)
-			return 1;
-//		if (wParam == VK_RETURN && keyboardState[VK_MENU] != 0)
-//			return 1;
+if(nCode<0)
+return CallNextHookEx(0, nCode, wParam, lParam);
+MSG *msg = (MSG*) lParam;
+if(msg->message>=0x100 && msg->message<=0x108) {
+char k=0;
+if(msg->message==WM_KEYDOWN || msg->message==WM_SYSKEYDOWN)
+k|=1;
+if(msg->message==WM_KEYUP || msg->message==WM_SYSKEYUP)
+k|=2;
+if(msg->lParam&(1<<30))
+k|=4;
+if(k!=0) keys[msg->wParam]|=k;
+}
 	return CallNextHookEx(0, nCode, wParam, lParam);
 }
 
+LRESULT CALLBACK keyFiltering(int nCode, WPARAM wParam, LPARAM lParam) {
+if(nCode<0)
+	return CallNextHookEx(0, nCode, wParam, lParam);
+if(wParam==VK_F1) {
+if(lParam&(1<<31))
+keys[VK_F1]|=2;
+else
+keys[VK_F1]|=1;
+return 1;
+}
+if(0&&wParam==VK_F12) {
+if(lParam&(1<<31))
+keys[VK_F12]|=2;
+else
+keys[VK_F12]|=1;
+return 1;
+}
+if(wParam==VK_RETURN && lParam&(1<<29))
+return 1;
+	return CallNextHookEx(0, nCode, wParam, lParam);
+}
+
+char setkey(char id, char val) {
+return keys[id]=val;
+}
+
+int DLLIMPORT getkeys(char *k) {
+memcpy(k,keys,256);
+for(int i=0; i<256; ++i) keys[i]=0;
+return 0;
+}
+
 int hook(void) {
-	HOOKPROC hookProc;
-	static HHOOK hhook;;
-	
-	hookProc = (HOOKPROC)GetProcAddress(hinstanceDLL, "_messageHandling@12");
-	if (hookProc == NULL) {
-		LPVOID lpMsgBuf;
-		LPVOID lpDisplayBuf;
-		DWORD dw = GetLastError();
-		FormatMessage(
-			FORMAT_MESSAGE_ALLOCATE_BUFFER |
-			FORMAT_MESSAGE_FROM_SYSTEM |
-			FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL,
-			dw,
-			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			(LPTSTR)&lpMsgBuf,
-			0, NULL);
-		return 1;;
-	}
-	hhook = SetWindowsHookEx(WH_KEYBOARD, hookProc, hinstanceDLL, GetCurrentThreadId());
-	if (hhook == NULL) {
-		LPVOID lpMsgBuf;
-		LPVOID lpDisplayBuf;
-		DWORD dw = GetLastError();
-		FormatMessage(
-			FORMAT_MESSAGE_ALLOCATE_BUFFER |
-			FORMAT_MESSAGE_FROM_SYSTEM |
-			FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL,
-			dw,
-			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			(LPTSTR)&lpMsgBuf,
-			0, NULL);
-return 2;;
-			}
+	HOOKPROC hookProc = (HOOKPROC)GetProcAddress(hinstanceDLL, "_messageHandling@12");
+	if (hookProc == NULL)
+		return 1;
+	static HHOOK hhook = SetWindowsHookEx(WH_GETMESSAGE, hookProc, hinstanceDLL, GetCurrentThreadId());
+	if (hhook == NULL)
+return 2;
+	HOOKPROC khookProc = (HOOKPROC)GetProcAddress(hinstanceDLL, "_keyFiltering@12");
+	if (khookProc == NULL)
+		return 3;
+	static HHOOK khhook = SetWindowsHookEx(WH_KEYBOARD, khookProc, hinstanceDLL, GetCurrentThreadId());
+	if (khhook == NULL)
+return 4;
 return 0;
 }
 
@@ -177,7 +154,7 @@ GlobalFree(b);
 
 if(strncmp(digest,SHA_SIG4,SHA_DIGEST_LENGTH)!=0 && strncmp(digest,SHA_SIG3,SHA_DIGEST_LENGTH)!=0 && strncmp(digest,SHA_SIG2,SHA_DIGEST_LENGTH)!=0 && strncmp(digest,SHA_SIG1,SHA_DIGEST_LENGTH)!=0) return 0;
 
-if(size<AES_BLOCK_SIZE+2+strlen(msg)) return 0;
+if((unsigned int)size<(unsigned int)AES_BLOCK_SIZE+2+strlen(msg)) return 0;
 
 unsigned char IV[AES_BLOCK_SIZE];
 do {
@@ -195,8 +172,8 @@ AES_cfb8_encrypt((const unsigned char*)msg, (unsigned char*)b, (size_t)strlen(ms
 memcpy(buf,(char*)IVc,AES_BLOCK_SIZE);
 buf[AES_BLOCK_SIZE]=58;
 buf[AES_BLOCK_SIZE+1]=58;
-for(int i=0; i<strlen(msg); ++i) {
-if(i+AES_BLOCK_SIZE+2>size)
+for(unsigned int i=0; i<(unsigned int)strlen(msg); ++i) {
+if(i+AES_BLOCK_SIZE+2>(unsigned int)size)
 return 0;
 buf[i+AES_BLOCK_SIZE+2]=b[i];
 }

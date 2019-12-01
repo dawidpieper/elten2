@@ -11,8 +11,7 @@ class Scene_Users_AddedMeToContacts
     end
   def main
     if $name=="guest"
-      speech(_("UsersAddedMeToGeneral:error_guest"))
-      speech_wait
+      alert(_("UsersAddedMeToGeneral:error_guest"))
       $scene=Scene_Main.new
       return
       end
@@ -29,6 +28,7 @@ class Scene_Users_AddedMeToContacts
     for i in 1..@usr.size - 1
       usr.push(@usr[i]) if @usr[i].size > 0
     end
+    usr.polsort!
     selt = []
     for i in 0..usr.size - 1
       selt[i] = usr[i] + "." + " " + getstatus(usr[i])
@@ -82,8 +82,8 @@ $scene = Scene_Main.new
 end
 break
 end
-if Input.trigger?(Input::DOWN) and @menu.index == 0
-    Input.update
+if arrow_down and @menu.index == 0
+    loop_update
   if usermenu(@user[@sel.index],true) != "ALT"
     @menu = menulr(sel)
   else

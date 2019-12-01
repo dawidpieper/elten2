@@ -16,6 +16,15 @@ $searchname = $r[0];
 }
 if($suc == true)
 mquery("DELETE FROM `banned` WHERE name='" . $searchname . "'");
+mquery("update forum_groups_members set role=1 where role=2 and user='".mysql_real_escape_string($searchname)."' and groupid in (select id from forum_groups where recommended=1)");
+$q=mquery("select id from forum_groups where recommended=1 and founder='".mysql_real_escape_string($searchname)."'");
+while($r=mysql_fetch_row($q)) {
+$q2=mquery("select user from forum_groups_members where role=2 and groupid=".$r[0]);
+if(mysql_num_rows($q2)>0) {
+$n=mysql_fetch_row($q2)[0];
+mquery("update forum_groups set founder='".mysql_real_escape_string($n)."' where id=".$r[0]);
+}
+}
 $reason=$_GET['reason'];
 $info=buffer_get($_GET['info']);
 mquery("INSERT INTO `banned` (name, totime, reason) VALUES ('" . mysql_real_escape_string($_GET['searchname']) . "'," . (int)$_GET['totime'] . ",'".mysql_real_escape_string($reason)."')");

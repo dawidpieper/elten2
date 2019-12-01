@@ -9,8 +9,10 @@
 module EltenAPI
 
   def unicode(str)
+    str=str+"" if str.frozen?
     buf="\0"*Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)*2
-Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.size,buf,buf.bytesize/2)
+    $multibytetowidechar||=Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i')
+$multibytetowidechar.call(65001,0,str,str.size,buf,buf.bytesize/2)
 return buf<<0
 end
   
@@ -20,47 +22,10 @@ end
     sz=str.bytesize/2
     sz=-1 if nulled
                 buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,nil,0,nil,nil)
-                                                                Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,buf,buf.size,nil,nil)
+                $widechartomultibyte||=Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i')
+                                                                $widechartomultibyte.call(65001,0,str,sz,buf,buf.size,nil,nil)
                                                                     return buf[0..(buf.index("\0")||0)-1]
                                   end
-                                  
-  # Converts a text from UTF8 to CP852
-  #
-  # @param text [String] a text to convert
-  # @return [String] a converted text
-    def futf8(text)
-            mw = Win32API.new("kernel32", "MultiByteToWideChar", "ilpipi", "i")
-    wm = Win32API.new("kernel32", "WideCharToMultiByte", "ilpipipp", "i")
-    len = mw.call(0, 0, text, -1, nil, 0)
-    buf = "\0" * (len*2)
-    mw.call(0, 0, text, -1, buf, buf.size/2)
-        len = wm.call(65001, 0, buf, -1, nil, 0, nil, nil)
-    ret = "\0" * len
-    wm.call(65001, 0, buf, -1, ret, ret.size, nil, nil)
-    for i in 0..ret.size - 1
-      ret[i..i] = "\0" if ret[i] == 0
-    end
-    ret.delete!("\0")
-    return ret
-  end
-
-  # Converts a text from CP852 to UTF8
-  #
-  # @param text [String] a text to convert
-  # @return [String] a converted text
-def utf8(text)
-    text = "" if text == nil or text == false
-ext = "\0" if text == nil
-to_char = Win32API.new("kernel32", "MultiByteToWideChar", 'ilpipi', 'i') 
-to_byte = Win32API.new("kernel32", "WideCharToMultiByte", 'ilpipipp', 'i')
-w = to_char.call(65001, 0, text.to_s, text.bytesize, nil, 0)
-b = "\0" * w*2
-w = to_char.call(65001, 0, text.to_s, text.bytesize, b, b.bytesize/2)
-w = to_byte.call(0, 0, b, b.bytesize, nil, 0, nil, nil)
-b2 = "\0" * w
-w = to_byte.call(0, 0, b, b.bytesize/2, b2, b2.bytesize, nil, nil)
-  return(b2).delete("\0")
-end
 
 # Returns an ASCII character of a specified code
 #
@@ -72,85 +37,12 @@ def ASCII(code)
   return r
 end
 
-# @note this function is reserved.
-def oldcrypt(msg)
-  cipher = Cipher.new ar = ["K","D","w","H","X","3","e","1","S","B","g","a","y","v","I","6","u","W","C","0","9","b","z","T","A","q","U","4","O","o","E","N","r","n","m","d","k","x","P","t","R","s","J","L","f","h","Z","j","Y","5","7","l","p","c","2","8","M","V","G","i"," ","Q","F","?",">","<","\"",":","/",".",",","'",":","[","]","{","}","-","=","_","+","\\","|","@","\#","!","`","$","^","\%","\&","*",")","(","\001","\002","\003","\004","\005","\006","\007","\008","\009","\0"]
-crypted = cipher.encrypt msg
-return(crypted)
-end
-
-# @note this function is reserved.
-def olddecrypt(msg)
- cipher = Cipher.new ar = ["K","D","w","H","X","3","e","1","S","B","g","a","y","v","I","6","u","W","C","0","9","b","z","T","A","q","U","4","O","o","E","N","r","n","m","d","k","x","P","t","R","s","J","L","f","h","Z","j","Y","5","7","l","p","c","2","8","M","V","G","i"," ","Q","F","?",">","<","\"",":","/",".",",","'",":","[","]","{","}","-","=","_","+","\\","|","@","\#","!","`","$","^","\%","\&","*",")","(","\001","\002","\003","\004","\005","\006","\007","\008","\009","\0"]
-decrypted = cipher.decrypt msg
-return(decrypted)
-end
-
-# @note this function is reserved.
-def exceptionlist
-  errors=""
-exceptions = []
-tree = {}
-ObjectSpace.each_object(Class) do |cls|
-  next unless cls.ancestors.include? Exception
-  next if exceptions.include? cls
-  next if cls.superclass == SystemCallError # avoid dumping Errno's
-  exceptions << cls
-  cls.ancestors.delete_if {|e| [Object, Kernel].include? e }.reverse.inject(tree) {|memo,cls| memo[cls] ||= {}}
-end
-indent = 0
-tree_printer = Proc.new do |t|
-  t.keys.sort { |c1,c2| c1.name <=> c2.name }.each do |k|
-    space = (' ' * indent); space ||= ''
-    errors += space + k.to_s + "\r\n"
-    indent += 2; tree_printer.call t[k]; indent -= 2
-  end
-end
-tree_printer.call tree
-p tree
-end
-
-# Reads a file and returns it as an array of lines
-#
-# @param file [String] a file name or path
-# @return [Array] an array of lines
-  def readlines(file)
-    createfile = Win32API.new("kernel32","CreateFile",'piipili','l')
-handler = createfile.call(file,1,1|2|4,nil,4,0,0)
-if handler < 64
-  speech(_("General:error"))
-  speech_wait
-  end
-readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
-sz = "\0"*8
-Win32API.new("kernel32","GetFileSizeEx",'ip','l').call(handler,sz)
-size = sz.unpack("L")[0]
-b = "\0" * size
-bp = "\0" * size
-handleref = readfile.call(handler,b,b.size,bp,nil)
-Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
-handler = 0
-r = []
-c = 0
-r[c] = ""
-for i in 0..b.size - 1
-  b = b.sub("\004LINE\004","\n")
-  end
-b.delete("\r")
-  lin=b.split("\n")
-  for i in 0..lin.size-1
-  lin[i]+="\r\n"
-  end
-return lin
-end
-
 # Writes a specified text to a file
 #
 # @param file [String] a file name or path
 # @param text [String] a text to write
-# @param utf [Boolean] encode in UTF8
 # @return [Numeric] a number of written characters
-def writefile(file,text,utf=false)
+def writefile(file,text)
   if text.is_a?(Array)
     t = ""
     for i in text
@@ -162,7 +54,6 @@ def writefile(file,text,utf=false)
 handle = cf.call(unicode(file),2,1|2|4,nil,2,0,nil)
 writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
 bp = "\0" * text.size
-text=utf8(text) if utf
 r = writefile.call(handle,text,text.size,bp,0)
 bp = nil
 Win32API.new("kernel32","CloseHandle",'i','i').call(handle)
@@ -176,6 +67,7 @@ end
 # @param hide [Boolean] if true, the new process's window is hidden
 # @return [Numeric] the pid of a created process
 def  run(file,hide=false,stdinrd=nil,stdinwr=nil,stdoutrd=nil,stdoutwr=nil)
+  Log.debug("Running process: #{file}")
   cp=Win32API.new("kernel32","CreatePipe",'pppi','i')
   shi=Win32API.new("kernel32","SetHandleInformation",'iii','i')
    if stdoutrd!=nil and stdoutwr!=nil
@@ -187,7 +79,7 @@ def  run(file,hide=false,stdinrd=nil,stdinwr=nil,stdoutrd=nil,stdoutwr=nil)
   shi.call(stdinrd.unpack("I")[0],1,0)
   end
     params = 'LPLLLLLPPP'
-createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
+createprocess = Win32API.new('kernel32','CreateProcessW', params, 'I')
     env = 0
            env = "Windows".split(File::PATH_SEPARATOR) << nil
                   env = env.pack('p*').unpack('L').first
@@ -196,7 +88,7 @@ createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
          startinfo = [0,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,(stdinwr||"").unpack("i")[0],(stdoutwr||"").unpack("i")[0],0] if hide
     startinfo = startinfo.pack('LLLLLLLLLLLLSSLLLL')
     procinfo  = [0,0,0,0].pack('LLLL')
-        pr = createprocess.call(0, utf8(file), 0, 0, 0, 0, 0, $path[0...$path.size-($path.reverse.index("\\"))], startinfo, procinfo)
+        pr = createprocess.call(0, unicode(file), 0, 0, 0, 0, 0, unicode($path[0...$path.size-($path.reverse.index("\\"))]), startinfo, procinfo)
             procinfo[0,4].unpack('L').first # pid
             $procs=[] if $procs==nil
             $procs.push(procinfo.unpack('llll')[0])
@@ -239,35 +131,23 @@ return x
 #
 # @param file [String] a file to read
 # @return [String] a file text
-  def read(file,sizeonly=false,reencode=false)
+  def readfile(file)
         createfile = Win32API.new("kernel32","CreateFileW",'piipili','l')
 handler = createfile.call(unicode(file),1,1|2|4,nil,4,0,0)
 if handler < 64
   return nil
   end
 readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
-file
 sz = "\0"*8
 Win32API.new("kernel32","GetFileSizeEx",'ip','l').call(handler,sz)
 size = sz.unpack("L")[0]
-if sizeonly
-  Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
-  return size
-  end
 b = "\0" * (size.to_i)
 bp = "\0" * (size.to_i)
 handleref = readfile.call(handler,b,b.size,bp,nil)
 Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
 handler = 0
-bp.delete!("\0") if $ruby != true
-b=fixencoding(b) if reencode==true
 return b
 end
-
-      def fixencoding(text)
-        text=futf8(text) if futf8(text).size>text.size and futf8(text).split("").size==text.split("").size
-        return text
-        end
 
 # Wait for a specified time
 #
@@ -301,6 +181,7 @@ def readconfig(group, key, val="")
 end
 
 def writeconfig(group, key, val)
+  Log.debug("Changing configuration: (#{group}:#{key}): #{val.to_s}")
   writeini($eltendata+"\\elten.ini", group, key, val.to_s)
     end
 
@@ -346,20 +227,13 @@ def getdirectory(type)
         return fdr
   end
 
-  # evaluates a code
-  #
-  # @param string [String] a code to eval
-  # @return [Object] a return value of the code
-  def codeeval(string , binding , filename ,lineno)  
-  eval(string , binding , filename ,lineno)
-end
-
 
 def insert_scene(scene)
   return if ($scenes[0]!=nil and $scenes[0].is_a?(scene.class)) or $scene.is_a?(scene.class)
-  if $scene.is_a?(Scene_Main) and $scenes.size==0
+    if $scene.is_a?(Scene_Main) and $scenes.size==0
     return $scene=scene
-    end
+  end
+  Log.info("Inserting new parallel scenes thread (#{($scenes.size+1).to_s}")
   $scenes.insert(0,scene)
   t=Time.now.to_f
   loop_update while Time.now.to_f-t<0.2
@@ -388,6 +262,7 @@ s,t = pout.unpack("ii")
 m="\0"*s
 Win32API.new("kernel32","RtlMoveMemory",'pii','i').call(m,t,s)
 Win32API.new("kernel32","LocalFree",'i','i').call(t)  
+Log.warning("Failed to decrypt data") if m==""||m==nil
 return m
           end
       

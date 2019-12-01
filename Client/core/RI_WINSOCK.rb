@@ -489,7 +489,7 @@ class SocketError < StandardError
   
   def self.check
     errno = Winsock.WSAGetLastError
-    raise utf8(Errno.const_get(Errno.constants.detect { |c| Errno.const_get(c).new.errno == errno }))
+    raise Errno.const_get(Errno.constants.detect { |c| Errno.const_get(c).new.errno == errno })
   end
   
 end

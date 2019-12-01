@@ -21,9 +21,13 @@ $open=$type[0];
 $recommended=$type[1];
 $public=$type[2];
 $groupname=$type[3];
-if(($open==0&&$public==0)&&(mysql_num_rows(mquery("select id from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=5"))==0)) die("-3");
+$status=0;
+if(($open==0&&$public==0)&&(mysql_num_rows(mquery("select id from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=5"))==0))
+die("-3");
+if(mysql_num_rows(mquery("select id from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=5"))>0)
 $status=1;
-if(($open==0&&$public==1)||($open==1&&$public==0)) $status=4;
+if($status==0 && (($open==0&&$public==1)||($open==1&&$public==0))) $status=4;
+if($status==0) $status=1;
 mquery("delete from forum_groups_members  where user='".$_GET['name']."' and groupid=".(int)$_GET['groupid']);
 mquery("insert into forum_groups_members (user,groupid,role,joined) values ('".$_GET['name']."', ".(int)$_GET['groupid'].", ".(int)$status.", ".time().")");
 if($recommended==0) {
@@ -87,7 +91,7 @@ mquery("update forum_groups_members set role=3 where id=".(int)$u[0]);
 elseif($_GET['pr']=="unban")
 mquery("update forum_groups_members set role=1 where id=".(int)$u[0]);
 elseif($_GET['pr']=="kick") {
-message_send("elten",$_GET['user'],"You were kicked out of the group","You were kicked out of {$gr[2]}.");
+message_send("elten",$_GET['user'],"You were kicked out of the group","{$_GET['name']} has kicked you out of {$gr[2]}.");
 mquery("delete from forum_groups_members where id=".(int)$u[0]);
 }
 elseif($_GET['pr']=="accept") {
@@ -243,5 +247,30 @@ $desc="";
 if(isset($_GET['bufdescription']))
 $desc=buffer_get($_GET['bufdescription']);
 mquery("update forum_groups set name='".mysql_real_escape_string($_GET['groupname'])."', description='".mysql_real_escape_string($desc)."', open=".(int)$_GET['open'].", public=".(int)$_GET['public']." where id=".(int)$_GET['groupid']);
+}
+
+if($_GET['ac'] == "size") {
+$ausize=0;
+$atsize=0;
+$tsize=0;
+$q=mquery("select post,attachments from forum_posts where thread in (select id from forum_threads where forum in (select name from forums where groupid=".(int)$_GET['groupid']."))");
+while($r=mysql_fetch_row($q)) {
+if(strpos($r[0],"\004AUDIO\004")===0)
+$ausize+=filesize(preg_replace("~\004AUDIO\004/audioforums/posts/([a-zA-Z0-9\/]+)\004AUDIO\004~","audioforums/posts/$1",$r[0]));
+if($r[1]!="")
+foreach(explode(",", $r[1]) as $at)
+$atsize+=filesize("attachments/".$at);
+$tsize+=strlen($r[0]);
+}
+echo "0\r\n".$ausize."\r\n".$atsize."\r\n".$tsize;
+}
+
+if($_GET['ac']=="mostactive") {
+$mc=date("m.Y");
+$mp=date("m.Y",time()-30*86400);
+$q=mquery("select author, count(author) as cnt from forum_posts where length(post)>50 and (date like '%$mc %' or date like '%$mp %') and thread in (select id from forum_threads where forum in (select name from forums where groupid=".(int)$_GET['groupid'].")) group by author order by cnt desc limit 0,10");
+echo "0";
+while($r=mysql_fetch_row($q))
+echo "\r\n".$r[0];
 }
 ?>

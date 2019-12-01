@@ -17,15 +17,13 @@ class Scene_UserSearch
       end
     usf=srvproc("user_search",{"search"=>usr})    
 if usf[0].to_i<0
-  speech(_("General:error"))
-  speech_wait
+  alert(_("General:error"))
     $scene=Scene_Main.new
     return
   end
 @results=[]
 if usf[1].to_i==0
-  speech(_("UserSearch:error_noresults"))
-  speech_wait
+  alert(_("UserSearch:error_noresults"))
   $scene=Scene_Main.new
   return
 end
@@ -69,8 +67,8 @@ $scene = Scene_Main.new
 end
 break
 end
-if Input.trigger?(Input::DOWN) and @menu.index == 0
-    Input.update
+if arrow_down and @menu.index == 0
+    loop_update
   if usermenu(@results[@sel.index],true) != "ALT"
     @menu = menulr(sel)
   else
