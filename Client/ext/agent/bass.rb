@@ -3,8 +3,12 @@ module Bass
   BASS_GetVersion = Fiddle::Function.new(BASS["BASS_GetVersion"], [], Fiddle::TYPE_INT)
   BASS_ErrorGetCode = Fiddle::Function.new(BASS["BASS_ErrorGetCode"], [], Fiddle::TYPE_INT)
   BASS_Init = Fiddle::Function.new(BASS["BASS_Init"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_RecordInit = Fiddle::Function.new(BASS["BASS_RecordInit"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_RecordStart = Fiddle::Function.new(BASS["BASS_RecordStart"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_GetConfig = Fiddle::Function.new(BASS["BASS_GetConfig"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_SetConfig = Fiddle::Function.new(BASS["BASS_SetConfig"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_GetDeviceInfo = Fiddle::Function.new(BASS["BASS_GetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_SetConfigPtr = Fiddle::Function.new(BASS["BASS_SetConfigPtr"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_Free = Fiddle::Function.new(BASS["BASS_Free"], [], Fiddle::TYPE_INT)
   BASS_Start = Fiddle::Function.new(BASS["BASS_Start"], [], Fiddle::TYPE_INT)
@@ -44,6 +48,32 @@ module Bass
     45 => "ENDED", -1 => " UNKNOWN",
   }
 
+def self.set_card(card, hWnd, samplerate = 44100)
+      devs=[]
+      c=-1
+      if card!=nil
+      index=1
+      tmp=[nil,nil,0].pack("ppi")
+      while BASS_GetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("ii")
+        o="\0"*1024
+        $strcpy.call(o,a[0])
+       sc=o[0...o.index("\0")]
+Encoding.list.each {|a|
+begin
+b=sc.force_encoding(a).encode("UTF-8")
+        c=index if card==b
+rescue Exception
+end
+}
+        index+=1
+end
+end
+c=-1 if c==0
+BASS_Init.call(c, samplerate, 4, hWnd, nil)
+BASS_SetDevice.call(c)
+end
+
   def self.init(hWnd, samplerate = 44100)
     return if @init == true
     @init = true
@@ -53,6 +83,7 @@ module Bass
     if BASS_Init.call(-1, samplerate, 4, hWnd, nil) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
+
     BASS_SetConfig.call(0, 1000)
     BASS_SetConfig.call(1, 100)
     BASS_SetConfig.call(11, 10000)
@@ -80,11 +111,15 @@ module Bass
   class Sample
     attr_reader :ch
 
+def set_card(name)
+
+end
+
     def initialize(filename, max = 1)
       if filename[0..3] == "http"
         return Bass::Stream.new(filename)
       else
-        p @handle = BASS_SampleLoad.call(0, (filename), 0, 0, 0, max, 0x20000)
+        @handle = BASS_SampleLoad.call(0, (filename), 0, 0, 0, max, 0x20000)
       end
       @ch = @handle
       if @handle == 0
@@ -235,9 +270,6 @@ module Bass
 
   def stop(ch = nil)
     if BASS_ChannelStop.call(ch) == 0
-      raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-    end
-    if BASS_Encode_Stop.call(@encoder) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
   end

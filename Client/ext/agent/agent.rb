@@ -54,20 +54,27 @@ $setcurrentdirectory.call("..\\..") if FileTest.exists?("../../elten.ini") and !
 $setdlldirectory.call(".")
 $eltendata=getdirectory(26)+"\\elten"
 $eltendata=".\\eltendata" if readini("elten.ini","Elten","Portable","0").to_i.to_i!=0
-$configdata=$eltendata+"\\config"
 $soundthemesdata=$eltendata+"\\soundthemes"
 $bindata=$eltendata+"\\bin"
-if !FileTest.exists?($configdata+"\\appid.dat")
+$tempdir=$eltendata+"\\temp"
+if !FileTest.exists?($eltendata+"\\appid.dat")
 $appid = ""
   chars = ("A".."Z").to_a+("a".."z").to_a+("0".."9").to_a
   64.times { $appid += chars[rand(chars.length)] }
-IO.write($configdata+"\\appid.dat",$appid)
+IO.write($eltendata+"\\appid.dat",$appid)
 else
-$appid=IO.read($configdata+"\\appid.dat")
+$appid=IO.read($eltendata+"\\appid.dat")
 end
 if $*.include?("/autostart")
-$name=readini($configdata+"\\login.ini","Login","Name","")
-erequest("login","login=1\&name=#{$name}\&token=#{readini($configdata+"\\login.ini","Login","Token","")}\&version=#{readini("elten.ini","Elten","Version","")}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}\&crp=#{Base64.urlsafe_encode64(cryptmessage(JSON.generate({'name'=>$name,'time'=>Time.now.to_i})))}") {|ans|
+$name=readconfig("Login","Name","")
+token=readconfig("Login","Token","")
+tokenenc = readconfig("Login","TokenEncrypted","-1").to_i
+token=decrypt(Base64.strict_decode64(token)) if tokenenc==1
+if tokenenc==2
+$messagebox.call(0,"Cannot start Elten automatically, because the autologin token is protected with a pin code","Elten autostart failed",16)
+exit
+end
+erequest("login","login=1\&name=#{$name}\&token=#{token}\&version=#{readini("elten.ini","Elten","Version","")}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}\&crp=#{Base64.urlsafe_encode64(cryptmessage(JSON.generate({'name'=>$name,'time'=>Time.now.to_i})))}") {|ans|
 if ans!=nil
 d=ans.split("\r\n")
 if d[0].to_i==0
@@ -92,6 +99,8 @@ $upd['beta']=readini("./elten.ini","Elten","Beta","0").to_i
 $upd['isbeta']=readini("./elten.ini","Elten","IsBeta","0").to_i
 $wn={}
 $li=0
+$soundcard=nil
+log(0, "Agent initialized")
 loop do
 if ($li%20)==0
 exit if $*.include?("/autostart") and $findwindow.call("RGSS PLAYER","ELTEN")!=0
@@ -99,8 +108,9 @@ if $hwnd
 exit if !$iswindow.call($hwnd)
 if ($phwnd=$getforegroundwindow.call)!=$hwnd and $getparent.call($phwnd)!=$hwnd
 $shown=false
+log(0, "Elten window minimized")
 if $hidewindow == 1
-if $tray != true and FileTest.exists?("bin/elten_tray.bin") and FileTest.exists?("temp/agent_disabletray.tmp") == false
+if $tray != true and FileTest.exists?("bin/elten_tray.bin")
 play("minimize")
 run("bin\\elten_tray.bin")
 $showwindow.call($hwnd,0)
@@ -110,24 +120,30 @@ $tray=true
 end
 end
 else
+log(0, "Elten window restored") if $shown==false
 $shown = true
-$tray = false if FileTest.exists?("temp/agent_tray.tmp") == false
+$tray = false
 end
 end
 end
 while STDIN.ready? and ($istream==nil||$istream.eof?)
-#for i in 0..0#until $istream.eof?
 data=Marshal.load(STDIN)
 if data['func']=='srvproc'
-erequest(data['mod'],data['param']) {|resp|
-if resp==nil
-data['resp']=resp
+data['reqtime']=Time.now.to_f
+erequest(data['mod'],data['param'],data) {|resp,d|
+if resp==:error
+log(2,"Request error: #{d['func']}")
+d['resptime']=Time.now.to_f
+d['resp']='-4'
 else
-data['resp']=resp.force_encoding("utf-8")
-end
-STDOUT.binmode.write((Marshal.dump(data)))
+d['resp']=(resp||"").force_encoding("utf-8")
+d['resptime']=Time.now.to_f
+STDOUT.binmode.write((Marshal.dump(d)))
 STDOUT.flush
+end
 }
+elsif data['func']=="alarm_stop"
+$alarmstop=true
 elsif data['func']=="chat_open"
 $chat=true
 elsif data['func']=="chat_close"
@@ -138,7 +154,6 @@ $token=data['token']
 elsif data['func']=='msg_suppress'
 $msg_suppress=true
 end
-#end
 end
 $msg||=0
 if $li==0
@@ -146,14 +161,21 @@ $lasttime||=Time.now.to_i
 $lastvoice=$voice
 $lastrate=$rate
 $lastvolume=$volume
-$voice=readini($configdata+"\\sapi.ini","Sapi","Voice","-1").to_i
-$rate=readini($configdata+"\\sapi.ini","Sapi","Rate","50").to_i
+$lastsoundcard=$soundcard
+$voice=readconfig("Voice","Voice","-1").to_i
+$rate=readconfig("Voice","Rate","50").to_i
 $sapisetvoice.call($voice) if $voice>=0 and $lastvoice!=$voice
-$sapisetrate.call(readini($configdata+"\\sapi.ini","Sapi","Rate","50").to_i) if $lastrate!=$rate
-$hidewindow = readini($configdata + "\\interface.ini","Interface","HideWindow","0").to_i
-$refreshtime = readini($configdata + "\\advanced.ini","Advanced","AgentRefreshTime","1").to_i
-$volume = readini($configdata + "\\interface.ini","Interface","MainVolume","80").to_i
-$soundthemespath = readini($configdata + "\\soundtheme.ini","SoundTheme","Path","")
+$sapisetrate.call(readconfig("Voice","Rate","50").to_i) if $lastrate!=$rate
+$hidewindow = readconfig("Interface","HideWindow","0").to_i
+$refreshtime = readconfig("Advanced","AgentRefreshTime","1").to_i
+$volume = readconfig("Interface","MainVolume","70").to_i
+$soundcard = readconfig("SoundCard","SoundCard",nil)
+$soundcard=nil if $soundcard==""
+if $lastsoundcard!=$soundcard
+log(0, "SoundCard changed: #{$soundcard}")
+Bass.set_card($soundcard, $hwnd||0)
+end
+$soundthemespath = readconfig("Interface","SoundTheme","")
 if $soundthemespath.size > 0
 $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
 else
@@ -163,7 +185,8 @@ pr="name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime||0}"
 pr+="\&shown=1" if $shown==true
 pr+="\&chat=1" if $chat==true
 pr+="\&upd=1" if ($updlasttime||0)<Time.now.to_i-60
-erequest("wn_agent",pr) {|ans|
+begin
+erequest("wn_agent",pr, nil, true) {|ans|
 if ans!=nil
 begin
 rsp=JSON.load(Zlib.inflate(ans))
@@ -195,9 +218,11 @@ else
 $wn_agent||=1
 end
 rescue JSON::ParserError => e
+log(2, "JSON Parse Error")
 end
 end
 }
+end
 q=Notifications.queue
 if q.size>10
 play 'new'
@@ -205,6 +230,7 @@ else
 2.times {$getasynckeystate.call(0x11)}
 if $wn_agent!=1
 q.each do |n|
+log(0, "New notification: #{n.id.to_s}, #{n.alert.to_s}")
 speech n.alert
 play n.sound if n.sound!=nil
 while speech_actived
@@ -225,16 +251,16 @@ $tm=Time.now.to_i if $synctime==0 or $tm==nil
 tim=Time.at($tm)
 m=tim.min
 if $timelastsay!=tim.hour*60+tim.min
-$saytimeperiod = readini($configdata + "\\interface.ini","Interface","SayTimePeriod","1").to_i
-$saytimetype = readini($configdata + "\\interface.ini","Interface","SayTimeType","1").to_i
-$synctime = readini($configdata + "\\advanced.ini","Advanced","SyncTime","1").to_i
+$saytimeperiod = readconfig("Clock","SayTimePeriod","1").to_i
+$saytimetype = readconfig("Clock","SayTimeType","1").to_i
+$synctime = readconfig("Advanced","SyncTime","1").to_i
 if (($saytimeperiod>0 and m==0) or ($saytimeperiod>1 and m==30) or ($saytimeperiod>=2 and (m==15 or m==45)))
 play("clock") if $saytimetype==1 or $saytimetype==3
 speech(sprintf("%02d:%02d",tim.hour,tim.min)) if $saytimetype==1 or $saytimetype==2
 end
 alarms=[]
- if FileTest.exists?($configdata+"\\alarms.dat")
-alarms=Marshal.load(IO.binread($configdata+"\\alarms.dat"))
+ if FileTest.exists?($eltendata+"\\alarms.dat")
+alarms=Marshal.load(IO.binread($eltendata+"\\alarms.dat"))
 end
 asc=nil
 for i in 0..alarms.size-1
@@ -247,17 +273,22 @@ if asc != nil
 a=alarms[asc]
 if a[2]==0
 alarms.delete_at(asc)
-IO.binwrite($configdata+"\\alarms.dat",Marshal.dump(alarms))
+IO.binwrite($eltendata+"\\alarms.dat",Marshal.dump(alarms))
 end
 @alarmplaying=true
-bgplay("alarm")
-IO.write("temp/agent_alarm.tmp",asc.to_s)
+play("alarm",true)
+STDOUT.binmode.write((Marshal.dump({'func'=>'alarm'})))
+STDOUT.flush
 end
 $timelastsay=tim.hour*60+tim.min
 end
-if @alarmplaying == true and FileTest.exists?("temp/agent_alarm.tmp") == false
+if @alarmplaying == true and $alarmstop==true
+$alarmstop=false
 @alarmplaying=false
-bgstop
+if $bgplayer!=nil
+$bgplayer.close
+$bgplayer=nil
+end
 end
 
 end

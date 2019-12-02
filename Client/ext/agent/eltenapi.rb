@@ -11,6 +11,7 @@ end
 end
 
 def unicode(str)
+return nil if str==nil
 buf="\0"*$multibytetowidechar.call(65001,0,str,str.bytesize,nil,0)*2
 $multibytetowidechar.call(65001,0,str,str.bytesize,buf,buf.bytesize/2)
 return buf    <<"\0"
@@ -27,6 +28,11 @@ def readini(file,group,key,default="")
 sz=$getprivateprofilestring.call(unicode(group),unicode(key),unicode(default),r,r.bytesize,unicode(file))
     return deunicode(r[0..(sz*2)]).delete("\0")
   end
+def readconfig(group, key, val="")
+  r=readini($eltendata+"\\elten.ini", group, key, val.to_s)
+  return r.to_i if val.is_a?(Integer)
+  return r
+end
 def speech(text,method=0)
   text = text.to_s
     text = text.gsub("\004LINE\004") {"\r\n"}
@@ -65,39 +71,43 @@ end
 
 def init
 $http = NetHttp2::Client.new("https://elten-net.eu", connect_timeout: 5)
-$http.on(:error) { |error|
-init if error.is_a?(Errno::ECONNRESET) or error.is_a?(SocketError)
-}
+$http.on(:error) { |error| init if error.is_a?(Errno::ECONNRESET) or error.is_a?(SocketError) }
 end
 
-def erequest(mod, param, data=nil, &b)
+def erequest(mod, param, data=nil, ign=false, &b)
 init if $http==nil
 tries=0
 $lastrep||=Time.now.to_i
-init if $lastrep<Time.now.to_i-10
+init if $lastrep<Time.now.to_i-20
+$equeue||=[]
+id=($equeue.max||0)+1
 begin
+return if ign and ($eropened!=nil and $eropened>Time.now.to_f-15)
+$equeue.push(id) if !ign
+sleep(0.01) while $eropened!=nil and $eropened>Time.now.to_f-15 and (!ign or $equeue.first!=id)
+$eropened=Time.now.to_f
+if !ign and ((t=Time.now).min%15==14 and t.sec==59)
+sleep(60-t.sec+2)
+end
 request = $http.prepare_request(:get, "/srv/#{mod}.php?#{param}")
 body=""
 request.on(:body_chunk) {|ch| body+=ch}
-request.on(:close) {$lastrep=Time.now.to_i ;b.call(body)}
-request.on(:error) {b.call(nil)}
+request.on(:close) {$eropened=nil;$lastrep=Time.now.to_i;$equeue.delete(id) if !ign;b.call(body,data)}
+request.on(:error) {$eropened=nil;$equeue.delete(id) if !ign;b.call(:error,data)}
 $http.call_async request
 rescue Exception
-sleep(1)
 init
-sleep(0.5)
-if tries<3
+$equeue.delete(id) if id!=nil
 retry
-else
-b.call(nil)
-end
 end
 end
 
-def play(file)
+def play(file, looper=false)
+begin
 if file[0..3]!="http"
-f=$soundthemepath+"\\SE\\#{file}.ogg"
+f=($soundthemepath||"Audio")+"\\SE\\#{file}.ogg"
 f="Audio/SE/#{file}.ogg" if FileTest.exists?(f)==false
+f="Audio/BGS/#{file}.ogg" if FileTest.exists?(f)==false
 else
 f=file
 end
@@ -106,26 +116,56 @@ $plid||=0
 $players||=[]
 $plid=($plid+1)%128
 plid=$plid
+begin
+pl=Bass::Sound.new(f, 1, looper)
+pl.volume=($volume.to_f/100.0)
+pl.play
+if looper
+$bgplayer.close if $bgplayer!=nil
+$bgplayer=$players[plid]
+else
 $players[plid].close if $players[plid]!=nil
-$players[plid]=Bass::Sound.new(f)
-$players[plid].volume=($volume.to_f/100.0)
-$players[plid].play
+$players[plid]=pl
+end
+rescue Exception
+begin
+Bass.init($hwnd||0)
+rescue Exception
+end
+end
 #rescue Exception
 #end
-end
-
-def bgplay(file)
-begin
-@bgplayer.close if @bgplayer
-@bgplayer=Bass::Sound.new($soundthemespath+"\\SE\\#{file}.ogg",1,true)
-@bgplayer.play
 rescue Exception
 end
 end
 
-def bgstop
-if @bgplayer!=nil
-@bgplayer.close
-@bgplayer=nil
+def log(level,msg)
+STDOUT.binmode.write((Marshal.dump({'func'=>'log', 'level'=>level, 'msg'=>msg, 'time'=>Time.now.to_f})))
+STDOUT.flush
 end
-end
+
+def decrypt(data,code=nil)
+        pin=[data.size,data].pack("ip")
+pout=[0,nil].pack("ip")
+pcode=nil
+pcode=[code.size,code].pack("ip") if code!=nil
+$cryptunprotectdata.call(pin,nil,pcode,nil,nil,0,pout)
+s,t = pout.unpack("ii")
+m="\0"*s
+$rtlmovememory.call(m,t,s)
+$localfree.call(t)  
+return m
+          end
+
+def crypt(data,code=nil)
+        pin=[data.size,data].pack("ip")
+pout=[0,nil].pack("ip")
+pcode=nil
+pcode=[code.size,code].pack("ip") if code!=nil
+$cryptprotectdata.call(pin,nil,pcode,nil,nil,0,pout)
+s,t = pout.unpack("ii")
+m="\0"*s
+$rtlmovememory.call(m,t,s)
+$localfree.call(t)  
+return m
+          end

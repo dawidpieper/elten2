@@ -1,9 +1,9 @@
-if FileTest.exists?("screenreaderapi.dll") and FileTest.exists?("bass.dll")
-$dlldir="."
-elsif FileTest.exists?("..\\screenreaderapi.dll") and FileTest.exists?("..\\bass.dll")
-$dlldir=".."
+if FileTest.exists?("bin\\screenreaderapi.dll") and FileTest.exists?("bin\\bass.dll")
+$dlldir=".\\bin"
+elsif FileTest.exists?("..\\bin\\screenreaderapi.dll") and FileTest.exists?("..\\bin\\bass.dll")
+$dlldir="..\\bin"
 elsif FileTest.exists?("..\\..\\screenreaderapi.dll") and FileTest.exists?("..\\..\\bass.dll")
-$dlldir="..\\.."
+$dlldir="..\\..\\bin"
 end
 
 $kernel32 = Fiddle.dlopen('kernel32.dll')
@@ -14,8 +14,11 @@ $widechartomultibyte = Fiddle::Function.new($kernel32['WideCharToMultiByte'], [F
 $getprivateprofilestring = Fiddle::Function.new($kernel32['GetPrivateProfileStringW'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 $writeprivateprofilestring = Fiddle::Function.new($kernel32['WritePrivateProfileStringW'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 $createprocess = Fiddle::Function.new($kernel32['CreateProcess'], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, ], Fiddle::TYPE_INT)
+$rtlmovememory = Fiddle::Function.new($kernel32['RtlMoveMemory'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$localfree = Fiddle::Function.new($kernel32['LocalFree'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 
 $user32 = Fiddle.dlopen("user32")
+$messagebox = Fiddle::Function.new($user32['MessageBox'], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 $showwindow = Fiddle::Function.new($user32['ShowWindow'], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 $getforegroundwindow = Fiddle::Function.new($user32['GetForegroundWindow'], [], Fiddle::TYPE_INT)
 $getparent = Fiddle::Function.new($user32['GetParent'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
@@ -25,6 +28,13 @@ $getasynckeystate = Fiddle::Function.new($user32['GetAsyncKeyState'], [Fiddle::T
 
 $shell32 = Fiddle.dlopen("shell32")
 $shgetfolderpath = Fiddle::Function.new($shell32['SHGetFolderPathW'], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+
+$msvcrt=Fiddle.dlopen("msvcrt")
+$strcpy = Fiddle::Function.new($msvcrt['strcpy'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+
+$crypt32 = Fiddle.dlopen("crypt32")
+$cryptprotectdata = Fiddle::Function.new($crypt32['CryptProtectData'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+$cryptunprotectdata = Fiddle::Function.new($crypt32['CryptUnprotectData'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 
 $setdlldirectory.call($dlldir)
 
