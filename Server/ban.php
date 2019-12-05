@@ -2,19 +2,9 @@
 require("header.php");
 $moderator=getprivileges($_GET['name'])[1];
 $dmoderator=getprivileges($_GET['searchname'])[1];
-if($moderator <= 0)
+if($moderator <= 0 or $dmoderator<=0)
 die("-3");
 if($_GET['ban'] == 1) {
-if($dmoderator <= 0) {
-$q = mquery("SELECT `name` FROM `banned`");
-$suc = false;
-while ($r = mysql_fetch_row($q)){
-if($r[0] == $_GET['searchname']) {
-$suc = true;
-$searchname = $r[0];
-}
-}
-if($suc == true)
 mquery("DELETE FROM `banned` WHERE name='" . $searchname . "'");
 mquery("update forum_groups_members set role=1 where role=2 and user='".mysql_real_escape_string($searchname)."' and groupid in (select id from forum_groups where recommended=1)");
 $q=mquery("select id from forum_groups where recommended=1 and founder='".mysql_real_escape_string($searchname)."'");
@@ -34,10 +24,6 @@ while($r=mysql_fetch_row($q))
 message_send("elten", $r[0], "User ".$_GET['searchname']." has been banned by ".$_GET['name'], "User ".$_GET['searchname']." has been banned by ".$_GET['name'].".\r\nReason: ".$reason."\r\nBanned until: ".date("Y-m-d H:i:s",$_GET['totime'])."\r\nRegards,\r\nElten Support");
 echo "0";
 }
-else {
-die("-3");
-}
-}
 if($_GET['unban'] == 1) {
 $q = mquery("SELECT `name` FROM `banned`");
 $suc = false;
@@ -56,8 +42,7 @@ while($r=mysql_fetch_row($q))
 message_send("elten", $r[0], "User ".$_GET['searchname']." has been unbanned by ".$_GET['name'], "The ban of user ".$_GET['searchname']." has been cancelled by ".$_GET['name'].".\r\nReason: ".$reason."\r\nRegards,\r\nElten Support");
 echo "0";
 }
-else {
+else
 die("-4");
-}
 }
 ?>

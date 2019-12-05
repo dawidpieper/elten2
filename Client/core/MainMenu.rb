@@ -423,7 +423,7 @@ if autologin.to_i>0
         end
   def close
     play("menu_close")
-Audio.bgs_fade(1000)
+Audio.bgs_fade(100)
 loop_update
     $scene = Scene_Main.new if $scene == self
               if $runprogram != nil

@@ -85,7 +85,7 @@ loop do
     break
     end
 end
-alert(_("ForgotPassword:wait_changing"))
+speak(_("ForgotPassword:wait_changing"))
 fp=srvproc("resetpassword",{"mail"=>@mail, "key"=>key, "step"=>"2", "change"=>"1", "newpassword"=>newpassword})
 speech_wait
 if fp[0].to_i<0

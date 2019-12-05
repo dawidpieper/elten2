@@ -266,8 +266,8 @@ def avatar(user)
                         # @param file [String] a file location
     def avatar_set(file)
       waiting
-      alert(_("EAPI_EltenSRV:wait_severalminutes"))
-      alert(_("EAPI_EltenSRV:wait_converting"),0)
+      speak(_("EAPI_EltenSRV:wait_severalminutes"))
+      speak(_("EAPI_EltenSRV:wait_converting"),0)
       File.delete($tempdir+"\\avatartemp.opus") if FileTest.exists?($tempdir+"\\avatartemp.opus")
       h = run("bin\\ffmpeg.exe -y -i \"#{file}\" -b:a 96K temp\\avatartemp.opus",true)
       t = 0
@@ -342,7 +342,6 @@ def buffer(data)
   q = "POST /srv/buffer_post.php?name=#{$name}\&token=#{$token}&id=#{id.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{data.size}\r\n\r\n#{data}"
 a = connect(host,80,q)
 a.delete!("\0")
-a
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
     s = i+4
@@ -354,8 +353,6 @@ for i in 0..a.size - 1
     return
   end
   sn = a[s..a.size - 1]
-  a
-  sn
   a = nil
         bt = sn.split("\r\n")
 if bt[1].to_i < 0
@@ -377,46 +374,40 @@ end
 #  4: the amount of forum posts
 #  5: used Elten version
 #  6: registration date
-                def userinfo(user)
+#   7. polls voted
+#  8. is in contacts
+#  9. has avatar
+#  10. is banned
+#  11. honors count
+                def userinfo(user, stateonly=false)
                   usrinf = []
-                                                      uit = srvproc("userinfo",{"searchname"=>user})
-                                    if uit[0].to_i < 0
+                                                      uit = srvproc("userinfo",{"searchname"=>user, 'stateonly'=>stateonly.to_i})
+                                    if uit[0].to_i < 0 || uit.size<9
                     alert(_("General:error"))
                     return -1
                   end
                   if uit[1].to_i > 1000000000 and uit[1].to_i < 2000000000
-                    begin                  
-                    uitt = Time.at(uit[1].to_i)
-                  rescue Exception
-                    retry
-                    end
-                  usrinf[0] = sprintf("%04d-%02d-%02d %02d:%02d",uitt.year,uitt.month,uitt.day,uitt.hour,uitt.min)
+                                        uitt = Time.at(uit[1].to_i)
+                                    usrinf[0] = sprintf("%04d-%02d-%02d %02d:%02d",uitt.year,uitt.month,uitt.day,uitt.hour,uitt.min)
                 else
-                  usrinf[0] = "Konto nie zostało aktywowane."
+                  usrinf[0] = ""
                   end
-                  if uit[2].to_i == 1
-                    usrinf[1] = true
-                  else
-                    usrinf[1] = false
-                  end
+                    usrinf[1] = uit[2].to_b
 usrinf[2] = uit[3].to_i
 usrinf[3] = uit[4].to_i
-fp = srvproc("forum_posts",{"cat"=>"3", "searchname"=>user})
-if fp[0].to_i == 0
-usrinf[4] = fp[1].to_i
-end
-usrinf[5] = uit[5].delete("\r\n") if uit[5]
-if uit[6].to_i == 0
+usrinf[4] = uit[8].to_i
+usrinf[5] = uit[5].delete("\r\n")
+if uit[6].to_i>0 and uit[6]!=nil
   usrinf[6]=""
-  else
-begin                  
-                    uitt = Time.at(uit[6].to_i)
-                  rescue Exception
-                    retry
-                    end
-                  usrinf[6] = sprintf("%04d-%02d-%02d %02d:%02d",uitt.year,uitt.month,uitt.day,uitt.hour,uitt.min)
+else
+                                       uitt = Time.at(uit[6].to_i)
+                                    usrinf[6] = sprintf("%04d-%02d-%02d %02d:%02d",uitt.year,uitt.month,uitt.day,uitt.hour,uitt.min)
 end
 usrinf[7]=uit[7]
+usrinf[8]=uit[9].to_b
+usrinf[9]=uit[10].to_b
+usrinf[10]=uit[11].to_b
+usrinf[11]=uit[12].to_i
 return usrinf
 end
 

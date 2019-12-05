@@ -123,7 +123,7 @@ end
     for s in st[1..-1]
       s=s.delete!("\r\n").gsub("../","").gsub("..\\","")
             downloadfile($url+"/soundthemes/"+s, $soundthemesdata+"/"+s,nil,nil,true)
-          end
+                      end
          waiting_end
   alert(_("General:info_saved"))
   main

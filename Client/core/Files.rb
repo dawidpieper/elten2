@@ -510,7 +510,7 @@ if format!=".wav" and format!=".flac"
   bt=selector(btrs,_("Files:head_soundquality"),5)
   extra="-b:a #{bts[bt]}K "
     end
-alert(_("Files:wait_converting"))
+speak(_("Files:wait_converting"))
 waiting
 c="bin/ffmpeg -y -i \"#{@tree.selected}\" #{extra}\"#{@tree.selected.gsub(File.extname(@tree.selected),format)}\""
 executeprocess(c,true)
@@ -565,7 +565,7 @@ def textmenu(submenu=false)
     fid=0
     fid="tx"+rand(36**8).to_s(36)+""
     if ind<2 and ind>-1
-      alert(_("Files:wait_processing"))
+      speak(_("Files:wait_processing"))
       waiting
       convert_book(@tree.selected, $tempdir+"\\#{fid}.txt")
       return if !FileTest.exists?($tempdir+"\\"+fid+".txt")

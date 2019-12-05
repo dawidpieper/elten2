@@ -10,7 +10,7 @@ class Object
 end
 module Elten
 Version=2.4
-Beta=1
+Beta=2
 Alpha=0
 IsBeta=1
 BuildID=20191111001

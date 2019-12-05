@@ -740,7 +740,7 @@ loop_update
               end
             end
 play("menu_close")
-          Audio.bgs_fade(200)
+          Audio.bgs_fade(100)
                   end
                 end
                 

@@ -27,6 +27,9 @@ class TrueClass
   end
   def to_i
     return 1
+  end
+  def to_b
+    return true
     end
 end
 
@@ -36,6 +39,9 @@ class FalseClass
   end
   def to_i
     return 0
+  end
+  def to_b
+    return false
     end
 end
 
@@ -80,6 +86,7 @@ for o in t
     return self
   end
   def sum
+    return 0 if self.size==0
     s=self[0]
     self[1..-1].each {|a| s+=a}
     return s

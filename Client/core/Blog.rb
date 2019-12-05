@@ -816,7 +816,7 @@ elsif @postaudio!=nil&&@postaudio.include?($url)
     bt = srvproc("blog_posts_mod",{"categoryid"=>cat, "postid"=>@postid.to_s, "postname"=>@form.fields[0].text_str, "edit"=>"1", "privacy"=>@form.fields[4].index.to_s, "comments"=>@form.fields[5].checked.to_s, "searchname"=>@owner})
 elsif @postaudio!=nil
   waiting
-                 alert(_("Blog:wait_converting"))
+                 speak(_("Blog:wait_converting"))
       File.delete($tempdir+"/audioblogpost.opus") if FileTest.exists?($tempdir+"/audioblogpost.opus")
       executeprocess("bin\\ffmpeg.exe -y -i \"#{@postaudio}\" -b:a 128K \"#{$tempdir}/audioblogpost.opus\"",true)
               fl=readfile($tempdir+"/audioblogpost.opus")
@@ -1167,6 +1167,7 @@ speech_wait
 end
 elsif @menu.index==b.size+2
   confirm(_("Blog:alert_markblogasread")) do
+    srvproc("blog_markasread",{"user"=>@owners[@sel.index]})
     if srvproc("blog_markasread",{"user"=>@owners[@sel.index]})[0].to_i==0
       alert(_("Blog:info_blogmarkedasread"))
     else

@@ -13,7 +13,11 @@ case 1:
 $qt = "SELECT b.owner, b.name, (SELECT COUNT(*) AS cnt FROM blog_posts p WHERE p.owner = b.owner AND p.posttype = 0 and p.date>(unix_timestamp()-86400*30)) AS order_col FROM blogs b where lastupdate>(unix_timestamp()-86400*3) ORDER BY order_col DESC";
 break;
 case 2:
-$qt = "SELECT b.owner, b.name, (select (select count(*) from blog_posts c where c.owner=b.owner and c.posttype=1 and c.date>unix_timestamp()-30*86400) / (select count(*) from blog_posts p where p.owner=b.owner and p.posttype=0 and p.date>unix_timestamp()-30*86400) as cnt) AS order_col FROM blogs b where b.owner in (SELECT owner FROM blog_posts where posttype=0 GROUP BY owner HAVING count(owner) > 10) ORDER BY order_col DESC";
+$qt = "SELECT b.owner, b.name, (select(
+(SELECT COUNT(*) AS cnt FROM blog_posts p WHERE p.owner=b.owner AND p.posttype!=0)
+/
+(SELECT COUNT(*) AS cnt FROM blog_posts p WHERE p.owner=b.owner AND p.posttype=0)
+)) AS order_col FROM blogs b where lastupdate>(unix_timestamp()-86400*3) ORDER BY order_col DESC";
 break;
 case 3:
 $qt = "SELECT `owner`, `name` FROM `blogs` WHERE `owner` IN (SELECT `author` FROM `followedblogs` WHERE `owner`='".$_GET['name']."') ORDER BY `lastupdate` DESC";

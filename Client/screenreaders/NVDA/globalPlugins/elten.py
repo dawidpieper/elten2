@@ -16,6 +16,7 @@ import braille
 import appModuleHandler
 import queueHandler
 import buildVersion
+import types
 
 eltenindex=None
 eltenindexid=None
@@ -36,6 +37,15 @@ if is_python_3_or_above:
 
 eltenmod=None
 eltenbraille = braille.BrailleBuffer(braille.handler)
+eltenqueue=[]
+
+ostc = speech.speakTypedCharacters
+def stc(ch):
+	global eltenmod
+	if(appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())!=eltenmod):
+		return ostc(ch)
+
+speech.speakTypedCharacters=stc
 
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
@@ -61,8 +71,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 						w=json.dumps(j)+"\n"
 						if(is_python_3_or_above): w=w.encode("utf-8")
 						nvdapipeout.write(w)
-				else:
-					time.sleep(0.1)
+					else:
+						time.sleep(0.1)
 				if(os.path.isfile(nvdapipefile)):
 					file = open(nvdapipefile,mode='r')
 					pipeid = file.read()
@@ -81,7 +91,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					nvdapipeout=None
 			except Exception as e:
 				tones.beep(1320, 100)
-				pass
+#				pass
 
 	def elten_braille_thread(threadName=None):
 		global eltenmod
@@ -109,6 +119,7 @@ def elten_command(ac):
 	global eltenbraille
 	global eltenindex
 	global eltenindexid
+	global eltenqueue
 	try:
 		if(('ac' in ac)==False): return {}
 		if(ac['ac']=="speak"):
@@ -145,29 +156,37 @@ def elten_command(ac):
 			eltenmod.sleepMode=st
 			return {'st': st}
 		if(ac['ac']=='init'):
-			if(is_python_3_or_above):
-				globalCommands.GlobalCommands.script_braille_toggleTether.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_toggleFocusContextPresentation.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_scrollBack.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_scrollForward.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_routeTo.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_previousLine.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_nextLine.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_dots.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_toFocus.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_eraseLastCell.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_enter.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_translate.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_toggleShift.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_toggleControl.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_toggleAlt.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_toggleWindows.allowInSleepMode=True
-				globalCommands.GlobalCommands.script_braille_toggleNVDAKey.allowInSleepMode=True
+#			if(is_python_3_or_above):
+#				globalCommands.GlobalCommands.script_braille_toggleTether.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_toggleFocusContextPresentation.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_scrollBack.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_scrollForward.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_routeTo.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_previousLine.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_nextLine.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_dots.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_toFocus.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_eraseLastCell.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_enter.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_translate.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_toggleShift.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_toggleControl.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_toggleAlt.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_toggleWindows.allowInSleepMode=True
+#				globalCommands.GlobalCommands.script_braille_toggleNVDAKey.allowInSleepMode=True
 			pid=0
 			if('pid' in ac): pid=ac['pid']
 			eltenmod = appModuleHandler.getAppModuleFromProcessID(pid)
-			if(is_python_3_or_above):
-				eltenmod.sleepMode=True
+			def script_eltengesture(self, gesture):
+				global eltenqueue
+				eltenqueue+=gesture.identifiers
+			eltenmod.__class__.script_eltengesture = types.MethodType(script_eltengesture, eltenmod.__class__)
+			eltenmod.bindGesture('kb(laptop):NVDA+A', 'eltengesture')
+			eltenmod.bindGesture('kb(laptop):NVDA+L', 'eltengesture')
+			eltenmod.bindGesture('kb(desktop):NVDA+downArrow', 'eltengesture')
+			eltenmod.bindGesture('kb(desktop):NVDA+upArrow', 'eltengesture')
+#			if(is_python_3_or_above):
+#				eltenmod.sleepMode=True
 		if(ac['ac']=='braille'):
 			text=""
 			if('text' in ac): text=ac['text']
@@ -183,9 +202,14 @@ def elten_command(ac):
 			poses = eltenbraille.rawToBraillePos
 			if(ac['pos']<len(poses)): eltenbraille.scrollTo(eltenbraille.regions[0], poses[ac['pos']])
 		if(ac['ac']=='getversion'):
-			return {'version': 13}
+			return {'version': 14}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
+		if(ac['ac']=='getgestures'):
+			r=eltenqueue[:]
+			eltenqueue=[]
+			return {'queue':r}
+			return r
 		if(ac['ac']=='getindex'):
 			if(is_python_3_or_above):
 				return {'index': eltenindex, 'indid': eltenindexid}

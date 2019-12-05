@@ -182,14 +182,14 @@ writeconfig("Login","AutoLogin",3)
  end
     if $agentloaded != true
   agent_start
-$agentloaded = true
+  $agentloaded = true
 else
   $agent.write(Marshal.dump({'func'=>'relogin','name'=>$name,'token'=>$token}))
 end
 if $speech_wait == true
   $speech_wait = false
   speech_wait
-  end
+end
 play("login")
 if $greeting == "" or $greeting == "\r\n" or $greeting == nil or $greeting == " "
 speech(s_("Login:info_loggedinas", {'user'=>name})) if $silentstart != true
@@ -199,9 +199,9 @@ else
   $name = name
   $token = logintemp[1]
   $token.delete!("\r\n")
-  $event = logintemp[2]
-  $greeting = logintemp[3]
-  pr = srvproc("profile",{"get"=>"1", "searchname"=>$name})
+    $greeting = logintemp[3]
+delay(0.1)
+    pr = srvproc("profile",{"get"=>"1", "searchname"=>$name})
 $fullname = ""
 $gender = -1
 $birthdateyear = 0

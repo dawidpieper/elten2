@@ -13,7 +13,7 @@ class Scene_SpeedTest
       @form.update
       break if $scene!=self
       $scene=Scene_Main.new if ((space or enter) and @form.index==3) or escape
-      if (space or enter) and @form.index==2
+      if @form.fields[2].pressed? and @form.fields[1].text_str.to_i>0
         mod=""
         params={}
         case @form.fields[0].index

@@ -214,7 +214,7 @@ def speech_actived(ignoreaudio=false)
   def speech_stop(audio=true)
         $speech_wait=false
     if $speechaudio!=nil and audio
-    $speechaudiothread.kill if $speechaudiothread!=nil
+    $speechaudiothread.exit if $speechaudiothread!=nil
     $speechaudio.close
     $speechaudio=nil
   end

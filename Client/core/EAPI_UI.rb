@@ -151,8 +151,20 @@ end
           k="\0"*256
 Win32API.new($eltenlib, "getkeys", 'p', 'i').call(k)
 d=k.unpack("c"*256)
+tokeys=[]
+if NVDA.check
+  g=NVDA.getgestures
+  for k in g
+        k=k.downcase
+        if k=='kb(laptop):nvda+a' or k=='kb(desktop):nvda+downarrow'
+          tokeys.push(0x2D,0x28)
+          elsif k=='kb(laptop):nvda+l' or k=='kb(desktop):nvda+uparrow'
+          tokeys.push(0x2D,0x26)
+            end
+  end
+  end
   for i in 0..255
-      if (d[i]&1)>0
+      if (d[i]&1)>0 or tokeys.include?(i)
     $key[i]=true
             $keypr[i]=true if (d[i]&4)==0
                   else
@@ -164,9 +176,9 @@ d=k.unpack("c"*256)
   else
     $keyu[i]=false
     end
-  if bd[i]<0
+  if bd[i]<0 or tokeys.include?(i)
    $keyr[i]=true
- elsif $key[i]
+ elsif $key[i] and i<32
 bd[i]=-128
 else
   $keyr[i]=false
@@ -176,8 +188,8 @@ else
           $key[0x10]=true if $keyr[0x10]
           $key[0x11]=true if $keyr[0x11]
           $keybd=bd.pack("c"*256)
-                      end                      
-   end
+        end                      
+           end
                     
                     def keyprocs
                   if $ruby != true or $windowminimized != true

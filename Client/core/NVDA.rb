@@ -47,8 +47,8 @@ PeekNamedPipe=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
               w=JSON.generate(@writes.first)+"\n"
                                   WriteFile.call(@pipeout, w, w.bytesize, dwritten, 0)
                                   @writes.delete_at(0)
-        end
-        if @pipein!=nil and (lv=avail)>0
+                                end
+                                        if @pipein!=nil and (lv=avail)>0
                     r=read(lv)
                     while r[-1..-1]!="\n"
                       sleep(0.001)
@@ -57,9 +57,9 @@ PeekNamedPipe=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
                       b=r.split("\n")
                       for l in b
               j=JSON.load(l)
-              @reads[j['id']]=j
-            end
-          else
+                                         @reads[j['id']]=j
+                                         end
+                                    else
                         end
             sleep(0.001)
       }
@@ -153,6 +153,21 @@ PeekNamedPipe=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
             version=nil
             version=a['version'] if a!=nil
             return version
+          end
+          def getgestures
+            if @gesturesthr==nil
+              g=@gestures.deep_dup
+              @gesturesthr=Thread.new {
+            a=write({'ac'=>'getgestures'})
+                        @gestures=a['queue'] if a!=nil
+            @gesturesthr=nil
+            }
+            g=[] if g==nil
+            @gestures=[] if @gestures==g
+            return g
+                                            else
+            return []
+            end
             end
           def prepared?
             @prepared==true
@@ -209,7 +224,8 @@ PeekNamedPipe=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
             return if !@initialized or !ac.is_a?(Hash) or @checked==false
       sleep(0.1) while !@prepared
       st=nil
-                                                                                                                                                                              ac['id']=rand(10**24) if ac['id']==nil
+                                                                                                                                                                              ac['tp']=1
+      ac['id']=rand(10**24) if ac['id']==nil
                                                                                                                                                                                                 @writes.push(ac)
                   @waiting+=1
                                                 tm=Time.now.to_f

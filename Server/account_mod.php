@@ -1,18 +1,7 @@
 <?php
 require("header.php");
-$q = mquery("SELECT `name`, `password`, `resetpassword` FROM `users`");
-$suc = false;
-while ($r = mysql_fetch_row($q)){
-if($r[0] == $_GET['name'])
-if(($r[1] == $_GET['oldpassword']) or (($r[2] != NULL) and ($r[2]==$_GET['oldpassword'])))
-$suc = true;
-else
-$error = -2;
-}
-if($suc == false) {
-echo "-6";
-die;
-}
+if(mysql_num_rows(mquery("SELECT `name` FROM `users` where name='".mysql_real_escape_string($_GET['name'])."' and (password='".mysql_real_escape_string($_GET['oldpassword'])."' or (resetpassword='".mysql_real_escape_string($_GET['oldpassword'])."' and resetpassword is not null and resetpassword!=''))"))==0)
+die("-6");
 if($_GET['changepassword'] == 1) {
 mquery("UPDATE `users` SET `password`='" . mysql_real_escape_string($_GET['password']) . "' WHERE name='" . mysql_real_escape_string($_GET['name']) . "'");
 mquery("UPDATE users SET `resetpassword`=NULL where `name`='".mysql_real_escape_string($_GET['name'])."'");

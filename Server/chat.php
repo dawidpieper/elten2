@@ -1,16 +1,14 @@
 ﻿<?php
 require("header.php");
-if(mysql_num_rows(mquery("SELECT name FROM banned WHERE name='".$_GET['name']."' AND totime<".time()))>0)
-die(-3);
+if(mysql_num_rows(mquery("SELECT name FROM banned WHERE name='".$_GET['name']."' AND totime<".time()))>0) die(-3);
 if($_GET['recv'] == 1) {
 $q = mquery("SELECT `name`, `date` FROM `chat_actived`");
 $suc = false;
-while ($r=mysql_fetch_row($q)){
+while ($r=mysql_fetch_row($q))
 if($r[0] == $_GET['name']) {
 $name = $r[0];
 $date_t = $r[1];
 $suc = true;
-}
 }
 if($suc == false)
 mquery("INSERT INTO `chat_actived` (name, date) VALUES ('" . $_GET['name'] . "','" . $cdate . "')");
@@ -33,9 +31,8 @@ if($_GET['hst']==1) {
 $q=mquery("SELECT sender,message from chat where `time`>".(time()-3600)." order by id asc");
 $cnt=0;
 $text="";
-while($r=mysql_fetch_row($q)) {
+while($r=mysql_fetch_row($q))
 $text.="\r\n".$r[0].": ".$r[1];
-}
 echo "0".$text;
 }
 ?>

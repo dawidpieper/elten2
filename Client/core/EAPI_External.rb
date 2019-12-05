@@ -144,6 +144,7 @@ if query == nil
   durations=[]
     for i in 0..e['items'].size-1
     o.push(e['items'][i]['snippet']['title']+" .\r\n"+e['items'][i]['snippet']['channelTitle']+" .\r\n"+e['items'][i]['snippet']['description'])
+    o.last.gsub!(/\&[\w]+\;/,"")
     ids.push(e['items'][i]['id']['videoId'])
   end
   $ytdh=[]
@@ -284,6 +285,7 @@ waiting_end
     id=id['videoId'] if id.is_a?(Hash)
     waiting
     fname=e['snippet']['title'].delspecial+"_"+e['snippet']['channelTitle'].delspecial+".tmp"
+    fname.gsub!(/\&[\w]+\;/,"")
     destination = $tempdir+"/"+fname
           suc=false
           d=Dir.entries($tempdir)
@@ -301,7 +303,7 @@ if suc == true
 else
             statustempfile=$tempdir+"/yts"+rand(36**2).to_s(36)+".tmp"
             h = run("cmd /c #{$extrasdata}\\youtube-dl.exe --no-check-certificate --ffmpeg-location bin -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{id}\" 1> #{statustempfile} 2>\&1",true)
-                        alert(_("EAPI_External:wait_connecting"))
+                        speak(_("EAPI_External:wait_connecting"))
       prc=0
       starttm=Time.now.to_i
       lastcheck=Time.now.to_i
@@ -354,10 +356,10 @@ suc=false
 end
 waiting_end
 if suc == true
-        ind=selector([_("EAPI_External:btn_play"),_("EAPI_External:opt_addtopls"),_("EAPI_External:opt_avatar"),_("EAPI_External:opt_download"),_("EAPI_External:opt_copyurl"),_("General:str_cancel")],e['snippet']['title'],0,5,1)
+        ind=selector([_("EAPI_External:btn_play"),_("EAPI_External:opt_addtopls"),_("EAPI_External:opt_avatar"),_("EAPI_External:opt_download"),_("EAPI_External:opt_copyurl"),_("General:str_cancel")],e['snippet']['title'].gsub(/\&[\w]+\;/,""),0,5,1)
         case ind
     when 0
-      player(destination,e['snippet']['title'],false,true,false)
+      player(destination,e['snippet']['title'].gsub(/\&[\w]+\;/,""),false,true,false)
 when 1
   $playlist.push(destination)
 alert(_("EAPI_External:info_addedtopls"))
@@ -370,11 +372,11 @@ fl = ""
 fl = getfile(_("EAPI_External:head_dst"),getdirectory(40)+"\\",true,"Documents")
 if fl!=""
 if type == 0
-fl += "\\"+e['snippet']['title'].delspecial+".mp4"
+fl += "\\"+e['snippet']['title'].delspecial.gsub(/\&[\w]+\;/)+".mp4"
     h = run("#{$extrasdata}\\youtube-dl.exe --ffmpeg-location bin -o \"#{fl}\" \"https://youtube.com/watch?v=#{id}\"",true)
       t = 0
       tmax = 600
-      alert(_("EAPI_External:wait_downloading"))
+      speak(_("EAPI_External:wait_downloading"))
       loop do
         loop_update
         x="\0"*1024
@@ -420,7 +422,7 @@ when 4
 end
 else
  if upd==false
-   alert(_("EAPI_External:wait_youtubedl"))
+   speak(_("EAPI_External:wait_youtubedl"))
    waiting
       executeprocess("#{$extrasdata}\\youtube-dl.exe -U",true)
       delay(1)
@@ -468,7 +470,7 @@ def convert_book(src,dst)
     if s==1
       downloadfile("http://download.calibre-ebook.com/3.46.0/calibre-portable-installer-3.46.0.exe",$tempdir+"\\calibre.exe",_("EAPI_External:wait_calibredownloading"))
       return if !FileTest.exists?($tempdir+"\\calibre.exe") or File.size($tempdir+"\\calibre.exe")<1048576
-      alert(_("EAPI_External:wait_calibreextracting"))
+      speak(_("EAPI_External:wait_calibreextracting"))
       waiting
       executeprocess($tempdir+"\\calibre.exe \"#{$tempdir}\"",true)
       copydir($tempdir+"/Calibre Portable",$extrasdata+"/Calibre Portable")

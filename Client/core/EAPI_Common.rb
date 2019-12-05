@@ -97,49 +97,12 @@ end
 # @param submenu [Boolean] specifies if the menu is a submenu
 # @return [String] returns ALT if menu was closed using an alt menu
     def usermenu(user,submenu=false)
-      if $name!="guest"      
-      ct = srvproc("contacts_mod",{"searchname"=>user})
-      err = ct[0].to_i
-if err == -3
-  @incontacts = true
-else
-  @incontacts = false
-end
-end
-av = srvproc("avatar",{"searchname"=>user, "checkonly"=>"1"})
-      err = av[0].to_i
-if err < 0
-  @hasavatar = false
-else
-  @hasavatar = true
-end
-bt = srvproc("isbanned",{"searchname"=>user})
-@isbanned = false
-if bt[0].to_i == 0
-  if bt[1].to_i == 1
-    @isbanned = true
-    end
-  end
-  bl = srvproc("blog_exist",{"searchname"=>user})
-    if bl[0].to_i < 0
-    @hasblog = false
-    else
-  if bl[1].to_i == 0
-    @hasblog = false
-  else
-    @hasblog = true
-    end
-    end
-  hn=srvproc("honors",{"user"=>user, "list"=>"1"})
-  if hn[0].to_i<0
-    @hashonors=false
-  else
-    if hn[1].to_i==0
-      @hashonors=false
-    else
-      @hashonors=true
-    end
-    end
+      ui=userinfo(user, true)
+            @incontacts = ui[8].to_b if $name!="guest"      
+  @hasavatar = ui[9].to_b
+@isbanned = ui[10].to_b
+      @hasblog = ui[1]
+    @hashonors=(ui[11]>0)
     play("menu_open") if submenu != true
 play("menu_background") if submenu != true
 sel = [_("EAPI_Common:opt_message"),_("EAPI_Common:opt_visitingcard"),_("EAPI_Common:opt_blog"),_("EAPI_Common:opt_honors")]
@@ -444,16 +407,11 @@ loop_update
 #
 # @param user [String] user whose visitingcard you want to open
   def visitingcard(user=$name)
-    prtemp = srvproc("getprivileges",{"searchname"=>user})
-        vc = srvproc("visitingcard",{"searchname"=>user})
-    err = vc[0].to_i
-    case err
-    when -1
+            vc = srvproc("visitingcard",{"searchname"=>user})
+            pr = srvproc("profile",{"get"=>"1", "searchname"=>user})
+    if vc[0].to_i<0
       alert(_("General:error_db"))
       return -1
-      when -2
-        alert(_("General:error_tokenexpired"))
-        return -2
       end
       dialog_open
       text = ""
@@ -461,7 +419,6 @@ honor=gethonor(user)
 text += "#{if honor==nil;"Użytkownik";else;honor;end}: #{user} \r\n"
 text += getstatus(user,false)
 text += "\r\n"
-pr = srvproc("profile",{"get"=>"1", "searchname"=>user})
 fullname = ""
 gender = -1
 birthdateyear = 0
@@ -684,12 +641,14 @@ end
     
       # @note this function is reserved for Elten usage
                   def thr1
+                    gcs=Win32API.new("bin\\screenreaderapi","getCurrentScreenReader",'','i')
+                    ss=Win32API.new("bin\\screenreaderapi","stopSpeech",'','i')
                                         loop do
             begin
             sleep(0.1)
               if $voice != -1 and ($ruby != true or $windowminimized != true)
-                if Win32API.new("bin\\screenreaderapi","getCurrentScreenReader",'','i').call>0 and (!NVDA.check or !NVDA.sleepmode)
-Win32API.new("bin\\screenreaderapi","stopSpeech",'','i').call
+                if !NVDA.check and gcs.call>0
+ss.call
 end
                       end
               rescue Exception

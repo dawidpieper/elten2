@@ -57,7 +57,7 @@ else
   if @preparam==-3
     @grpindex[0]=@groups.size+2
     @results=[]    
-        if @query!=""
+        if @query!="" and @query.is_a?(String)
     sr=srvproc("forum_search",{"query"=>@query})
     if sr[0].to_i<0
             alert(_("General:error"))
@@ -72,7 +72,7 @@ else
                 end
               end
             end
-          else
+                                  else
             @threads.each {|t| @results.push(t.id)}
             end
     end
@@ -326,7 +326,16 @@ sgloc=false
                     end
           else
         g=sgroups[@grpsel.index-grpheadindex]
+        if g.role==1 or g.role==2 or g.public
+          if $keyr[0x10]
+            @query=g
+            @results=[]
+                        @threads.each {|t| @results.push(t.id) if t.forum.group==@query}
+            return threadsmain(-3)
+            else
                             return forumsmain(g.id) if g.role==1 or g.role==2 or g.public
+                            end
+                            end
         end
         end
       if alt
@@ -343,7 +352,7 @@ sgloc=false
                 menut.push(_("Forum:opt_editgroup")) if sgroups[@grpsel.index-grpheadindex].founder==$name
         menut.push(_("Forum:opt_deletegroup")) if sgroups[@grpsel.index-grpheadindex].forums==0 and sgroups[@grpsel.index-grpheadindex].founder==$name
       end
-                     sel = menuselector(menut)
+                           sel = menuselector(menut)
                 case sel
         when 0
                         @grpindex[type]=@grpsel.index
@@ -466,43 +475,34 @@ loop_update
                 end
               usermenu(users[sel.index]) if enter
               if alt
-                ment=[users[sel.index], "", "", _("General:str_cancel")]
-                men=menulr(ment)
-                if sgroups[@grpsel.index-grpheadindex].founder!=$name or users[sel.index]==$name
-                men.disable_item(1)
-                                              else
-                if roles[sel.index]==1
-                men.commandoptions[1]=_("Forum:opt_moderationgrant")
+                ment=[users[sel.index], nil, nil, _("General:str_cancel")]
+                                if !((sgroups[@grpsel.index-grpheadindex].founder!=$name or users[sel.index]==$name))
+                                                              if roles[sel.index]==1
+                ment[1]=_("Forum:opt_moderationgrant")
                                               elsif roles[sel.index]==2
-                men.commandoptions[1]=_("Forum:opt_moderationdeny")
-                men.commandoptions[2] = _("Forum:opt_passadmin")
+                ment[1]=_("Forum:opt_moderationdeny")
+                ment[2] = _("Forum:opt_passadmin")
               elsif roles[sel.index]==3
-                men.disable_item(1)
-                men.commandoptions[2]=_("Forum:opt_userunban")
+                                ment[2]=_("Forum:opt_userunban")
                 elsif roles[sel.index]==4
-                men.disable_item(1)
-                men.commandoptions[2]=_("Forum:opt_requestexamine")
+                                ment[2]=_("Forum:opt_requestexamine")
                 end
               end
-              if (sgroups[@grpsel.index-grpheadindex].founder!=$name and sgroups[@grpsel.index-grpheadindex].role!=2) or $name==users[sel.index]
-                                men.disable_item(2)
-                else
-                if roles[sel.index]==1
+              if !((sgroups[@grpsel.index-grpheadindex].founder!=$name and sgroups[@grpsel.index-grpheadindex].role!=2) or $name==users[sel.index])
+                                                                if roles[sel.index]==1
                   if sgroups[@grpsel.index-grpheadindex].open&&sgroups[@grpsel.index-grpheadindex].public
-                    men.commandoptions[2] = _("Forum:opt_userban")
+                    ment[2] = _("Forum:opt_userban")
                     else
-                 men.commandoptions[2] = _("Forum:opt_userkick")
+                 ment[2] = _("Forum:opt_userkick")
                  end
                elsif roles[sel.index]==3
-                 men.commandoptions[2] = _("Forum:opt_userunban")
-               elsif roles[sel.index]==3
-                 men.disable_item(2) if sgroups[@grpsel.index-grpheadindex].founder!=$name
-                 elsif roles[sel.index]==4
-                men.disable_item(1)
-                men.commandoptions[2]=_("Forum:opt_requestexamine")
+                 ment[2] = _("Forum:opt_userunban")
+                                                 elsif roles[sel.index]==4
+                ment[2]=_("Forum:opt_requestexamine")
                   end
                 end
-                                play("menu_open")
+                men=menulr(ment)                
+                play("menu_open")
                 play("menu_background")
                 brm=false
                 loop do
@@ -935,7 +935,7 @@ else
           end
                 if (enter or (arrow_right and !$keyr[0x10])) and sforums.size>0
           @frmindex=@frmsel.index
-          return threadsmain(sforums[@frmsel.index].name)
+                    return threadsmain(sforums[@frmsel.index].name)
           end
           end
         end
@@ -1609,116 +1609,6 @@ end
     end
   end
   end
-    def agetcache
-c=srvproc("forum_list",{})
-if c[0].to_i<0
-  alert(_("General:error"))
-  return $scene=Scene_Main.new
-  end
-@cache=c
-@time=c[1].to_i
-index=0
-@tgroups=[]
-@tforums=[]
-@tthreads=[]
-t=0
-for i in 2..c.size-1
-o=c[i].delete("\r\n")
-if o=="\004GROUPS\004"
-t=1
-elsif o=="\004FORUMS\004"
-t=2
-elsif o=="\004THREADS\004"
-t=3
-else
-case t
-when 1
-@tgroups.push(c[i])
-when 2
-@tforums.push(c[i])
-when 3
-@tthreads.push(c[i])
-end
-end
-end
-@groups=[]
-t=0
-for l in @tgroups
-case t
-when 0
-@groups.push(Struct_Forum_Group.new(l.to_i))
-when 1
-@groups.last.name=l.delete("\r\n")
-when 2
-@groups.last.forums=l.to_i
-when 3
-@groups.last.threads=l.to_i
-when 4
-@groups.last.posts=l.to_i
-when 5
-@groups.last.readposts=l.to_i
-      end
-t+=1
-t=0 if t==6
-end
-@forums=[]
-t=0
-for l in @tforums
-case t
-when 0
-@forums.push(Struct_Forum_Forum.new(l.delete("\r\n")))
-when 1
-@forums.last.fullname=l.delete("\r\n")
-when 2
-g=nil
-for gr in @groups
-  g=gr if l.to_i==gr.id
-end
-  @forums.last.group=g
-when 3
-@forums.last.type=l.to_i
-when 4
-@forums.last.threads=l.to_i
-when 5
-@forums.last.posts=l.to_i
-when 6
-@forums.last.readposts=l.to_i
-when 7
-  @forums.last.followed=l.to_b
-end
-t+=1
-t=0 if t==8
-end
-@threads=[]
-t=0
-for l in @tthreads
-case t
-when 0
-@threads.push(Struct_Forum_Thread.new(l.to_i))
-when 1
-@threads.last.name=l.delete("\r\n")
-when 2
-f=nil
-for fr in @forums
-  f=fr if fr.name==l.delete("\r\n")
-end
-f=Struct_Forum_Forum.new(l.delete("\r\n")) if f==nil
-  @threads.last.forum=f
-when 3
-@threads.last.posts=l.to_i
-when 4
-@threads.last.author=l.delete("\r\n")
-when 5
-@threads.last.readposts=l.to_i
-when 6
-@threads.last.followed=l.to_b
-when 7
-@threads.last.lastupdate=l.to_i
-end
-t+=1
-t=0 if t==8
-end
-end
 def getstruct
   getcache
   return {'groups'=>@groups,'forums'=>@forums,'threads'=>@threads}
@@ -1794,7 +1684,8 @@ class Scene_Forum_Thread
           end
       end
       menu if alt    
-      if escape or ((space or enter) and @form.index==@fields.size-1)
+      if escape or @form.fields[-1].pressed?
+        speech_stop
         $scene=Scene_Forum.new(@thread,@param,@cat,@query)
         return
       end
@@ -1944,7 +1835,7 @@ return main
       @r.stop
     end
 waiting
-                  alert(_("Forum:wait_postsendpreparation"))
+                  speak(_("Forum:wait_postsendpreparation"))
         data = ""
                         fl = readfile($tempdir+"/audiopost.opus")
                         if fl[0..3]!='OggS'

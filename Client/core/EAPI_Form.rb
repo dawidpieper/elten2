@@ -216,9 +216,9 @@ elsif $interface_typingecho==0 or $interface_typingecho==2
           if $key[0x2e] and (@index<@text.size or @check<@text.size) and (@flags&Flags::ReadOnly)==0
             play("edit_delete")
             c=[@index,@check].sort
-                                                                  c[0]-=1 while c[0]>0 and @text[c[0]-1..c[0]].split("").size==@text[c[0]..c[0]].split("").size
-                              c[1]+=1 while c[1]<@text.size-1 and @text[c[1]..c[1]+1].split("").size==@text[c[1]..c[1]].split("").size
-                                                                          edelete(c[0],c[1])
+                                                                  c[0]=charborders(c[0])[0]
+                              c[1]=charborders(c[1])[1]
+                                                                                                        edelete(c[0],c[1])
                                                                           espeech(@text[@index..@index+1].split("")[0])
           end
           if $key[0x08] and (@index>0 or @check>0) and (@flags&Flags::ReadOnly)==0
@@ -226,11 +226,11 @@ play("edit_delete")
 c=[]
 if @index!=@check
 c=[@index,@check].sort
-c[0]-=1 while c[0]>0 and @text[c[0]-1..c[0]].split("").size==@text[c[0]..c[0]].split("").size
-                              c[1]+=1 while c[1]<@text.size-1 and @text[c[1]..c[1]+1].split("").size==@text[c[1]..c[1]].split("").size
+c[0]=charborders(c[0])[0]
+                              c[1]=charborders(c[1])[1]
 else
   oind=ind=@index-1
-  ind-=1 while ind>0 and @text[ind..ind].split("").size==@text[ind-1..ind].split("").size
+  ind=charborders(ind)[0]
   c=[ind,oind]
   end
                                                                                                                                 espeech(@text[c[0]..c[1]].split("")[0])
@@ -271,7 +271,7 @@ url=nil
             @vindex=$key[0x10]?@check:@index
             @ch=false
           if arrow_right and ($key[0x10]==false or $speechaudio==nil)
-                                  @vindex+=1 while @vindex<@text.size-1 and @text[@vindex..@vindex+1].split("").size==1
+                                  @vindex=charborders(@vindex)[1]
           if @vindex>=@text.size
                     play("border")
                                       elsif @vindex==@text.size-1
@@ -281,7 +281,7 @@ url=nil
                     if $key[0x11]==false
                               ind=@vindex+1
         oi=ind
-        ind+=1 while ind<@text.size-1 and @text[ind..ind+1].split("").size==1
+        ind=charborders(ind)[1]
                 espeech(@text[@vindex+1..ind])
                 @vindex=oi
               else
@@ -296,7 +296,7 @@ url=nil
                   else
         if $key[0x11]==false
                     ind=@vindex-1
-                  ind-=1 while ind>0 and @text[ind-1..ind].split("").size==1
+                  ind=charborders(ind)[0]
                                             espeech(@text[ind..@vindex-1])
                 @vindex=ind
               else
@@ -305,7 +305,7 @@ url=nil
                 espeech(@text[@vindex..(@vindex+1 ... @text.length).find_all { |i| @text[i..i]==" " or @text[i..i]=="\n"}.sort[0]||@text.size-1])
                 end
               end
-            elsif arrow_up
+            elsif arrow_up and !$keyr[0x2d]
               b=linebeginning
               e=lineending
                             if b==0
@@ -320,7 +320,7 @@ url=nil
                                 @vindex=bm+l
                 espeech(em>0?(@text[bm..em-1]):"")
                 end
-            elsif arrow_down
+            elsif arrow_down and !$keyr[0x2D]
               b=linebeginning
               e=lineending
               if e==@text.size
@@ -410,8 +410,8 @@ end
           end
           Audio.bgs_stop if escape or (enter and $key[0x11]) or $key[0x9]
             esay
-  end
-def ctrlupdate
+          end
+          def ctrlupdate
 if $key[0x11]   and $key[0x12]==false
   if $key[67]
     Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
@@ -469,7 +469,8 @@ else
         alert(_("General:info_saved"), false)
         end
   end
-  readtext(@index) if @index<@text.size and ($key[115]) and (@audiotext==nil or @index>0)
+  readtext(@index) if @index<@text.size and (($key[115] or ($keyr[0x2d] and arrow_down))) and (@audiotext==nil or @index>0)
+  espeech(@text[linebeginning..lineending]) if $keyr[0x2d] and arrow_up
   esay
 end
 def mediaupdate
@@ -548,6 +549,22 @@ def lineending(index=@vindex)
   ind=ls[ln+1]-1            
     return ind
   end
+  def charborders(ind)
+    left=0
+    right=0
+    for i in 0..3
+      for j in 0..3
+        t=@text[ind-i..ind+j]
+        if ind-i>=0 && ind+j<@text.size && t!=nil && t.split("").size==1
+          left=i
+          right=j
+          end
+      end
+    end
+    left+=1 while left>ind
+    right-=1 while ind+right>=@text.size
+    return [ind-left, ind+right]
+    end
 def getvlines(l,r)
     return [l,r+1] if r-l<120 or (@flags&Flags::MultiLine)==0 or (@flags&Flags::DisableLineWrapping)>0 or $interface_linewrapping==0
   ls=[l]
@@ -583,11 +600,15 @@ if @text[oc..oc]!=" "
   st=[@index,@check].sort
   from=st[0]
   to=st[1]
-  to+=1 while to<@text.size and @text[from..to+1].split("").size==@text[from..to].split("").size
+  to=charborders(to)[1]
   return @text[from..to]
   end
   def einsert(text,index=@index,toundo=true)
     text.delete!("\n") if (@flags&Flags::ReadOnly)!=0
+    if (@flags&Edit::Flags::Numbers)>0
+    text=text.to_i.to_s
+    text="" if text!="0" and text.to_i==0
+    end
   @undo.push([1,index,text]) if toundo==true
 @undo.delete_at(0) if @undo.size>100
 @redo=[] if toundo==true
@@ -886,7 +907,7 @@ end
       end
     oldindex = self.index
       options = @commandoptions
-if ((@lr and arrow_left) or (!@lr and arrow_up)) and !$keyr[0x10]
+if ((@lr and arrow_left) or (!@lr and arrow_up)) and !$keyr[0x10] and !$keyr[0x2D]
   @run = true
   self.index -= 1
         while ishidden(self.index) == true
@@ -900,7 +921,7 @@ if ((@lr and arrow_left) or (!@lr and arrow_up)) and !$keyr[0x10]
       end
 self.index = options.size - 1 if @border == false
   end  
-  elsif ((@lr and arrow_right) or (!@lr and arrow_down)) and !$keyr[0x10]
+  elsif ((@lr and arrow_right) or (!@lr and arrow_down)) and !$keyr[0x10]  and !$keyr[0x2D]
 @run = true
     self.index += 1
     while ishidden(self.index) == true
@@ -915,7 +936,8 @@ self.index = options.size - 1 if @border == false
 self.index = 0 if @border == false
   end  
 end
-if $keyr[0x10] and (arrow_up or arrow_down)
+speech(@commandoptions[@index]) if $keyr[0x2D] and arrow_up
+  if $keyr[0x10] and (arrow_up or arrow_down)
   tgs=tags
   ind=(tgs.index(@tag)||-1)+1
   
@@ -1178,6 +1200,7 @@ end
     focus
     $focus = false
   end
+  speech(@label) if $keyr[0x2D] and arrow_up
   @pressed = (enter||space)
           end
         def focus
@@ -1211,7 +1234,8 @@ end
           if $focus == true
     focus
     $focus = false
-    end
+  end
+  focus(true,false) if $keyr[0x2D] and arrow_up
           if space or enter
             if @checked == 1
               @checked = 0
@@ -1224,8 +1248,8 @@ end
             end
           end
         
-                    def focus(spk=true)
-          play("checkbox_marker") if spk
+                    def focus(spk=true, snd=true)
+          play("checkbox_marker") if spk and snd
           text = @label + " ... "
           if @checked == 0
             text += _("EAPI_Form:st_unchecked")
@@ -1850,7 +1874,7 @@ h=d/3600
     end
     if $key[74]
       @ppos=@sound.position.to_i
-      @sound.pause
+            @sound.pause
       dpos=input_text(_("EAPI_Common:type_movetosec"),"ACCEPTESCAPE",@ppos.to_s)
       dpos=@ppos if dpos=="\004ESCAPE\004"
       dpos=dpos.to_i
@@ -1889,12 +1913,18 @@ h=d/3600
     end
     if $keyr[0x10]              ==false
     if arrow_right
-                                            @ppos=@sound.position + 1
-                                            10.times {@sound.position=@ppos}
+                                            @ppos=@sound.position + 5
+                                            10.times {
+                @sound.position=@ppos
+                break if ((@sound.position*10).to_i-(@ppos*10).to_i)==0
+                }
               end
       if arrow_left
-                @ppos=@sound.position - 1
-                10.times {@sound.position=@ppos}
+                @ppos=@sound.position - 5
+                10.times {
+                @sound.position=@ppos
+                break if ((@sound.position*10).to_i-(@ppos*10).to_i)==0
+                }
       end
             if arrow_up(true)
                       @sound.volume += 0.01

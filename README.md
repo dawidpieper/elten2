@@ -9,7 +9,7 @@ This repository contains code of Desktop Elten Client and its Server API Impleme
 Elten Core (basic application) is based on RGSS Engine. Elten3 is going to use its own engine (conspect in client/core/engine).
 Although Elten uses official RGSS implementation from Enterbrain, it is possible to run Elten using one of open implementations, for instance [one created by bluepixelmike](https://github.com/bluepixelmike/rpg-maker-rgss).
 For testing purposes, it is recommended to override scripts file (Data/elten.edb) of existing installation with the newly generated. Build scripts are included in client/core directory and can be modified as needed.
-### ext/agent
+### agent
 Elten agent written in Ruby, responsible for background operations, including server requests and notifications processing. Agent communicates with Elten using stdin/stdout pipes.
 Ruby 2.6 x86 is required to run it.
 ### screenreaders/nvda

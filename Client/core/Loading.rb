@@ -271,7 +271,7 @@ if enter
                                                                                                                                                                   if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
-v=13
+v=14
 if Win32API.new("bin\\screenreaderapi", "getCurrentScreenReader", '', 'i').call==2 && (!NVDA.check || NVDA.getversion!=v)
   if !NVDA.check
   str=_("Loading:alert_nvdaaddon")
