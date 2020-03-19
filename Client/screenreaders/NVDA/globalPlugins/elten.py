@@ -18,6 +18,7 @@ import queueHandler
 import buildVersion
 import types
 
+stopThreads=False
 eltenindex=None
 eltenindexid=None
 
@@ -29,15 +30,21 @@ if is_python_3_or_above:
 		def run(self):
 			global eltenindex
 			global eltenindexid
+			global eltenqueue
 			eltenindex=self.index
 			eltenindexid=self.indid
+			eltenqueue['indexes'].append({'index':self.index, 'indid':self.indid})
 		def __repr__(self):
 			return "EltenIndexCallback({index}, {indid})".format(
 				index=self.index,indid=self.indid)
 
 eltenmod=None
 eltenbraille = braille.BrailleBuffer(braille.handler)
-eltenqueue=[]
+eltenbrailletext=""
+eltenqueue={'gestures':[], 'indexes':[], 'statuses':[]}
+eltenpipein=None
+eltenpipeout=None
+eltenpipest=None
 
 ostc = speech.speakTypedCharacters
 def stc(ch):
@@ -50,53 +57,78 @@ speech.speakTypedCharacters=stc
 class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def elten_thread(threadName=None):
+		global stopThreads
+		wrongpipeid=""
 		global eltenmod
+		global eltenqueue
 		nvdapipeid=""
-		nvdapipein=None
-		nvdapipeout=None
+		global eltenpipein
+		global eltenpipeout
+		global eltenpipest
+		eltenpipein=None
+		eltenpipeout=None
+		eltenpipest=None
 		eltendata = os.getenv("appdata")+"\\elten"
 		nvdapipefile = eltendata+"\\temp\\nvda.pipe"
 		while(1):
+			if(stopThreads): break
 			try:
 				if(nvdapipeid!=""):
 					if(appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())==eltenmod): time.sleep(0.001)
 					else: time.sleep(0.1)
-					str=nvdapipein.readline()
+					str=eltenpipein.readline()
 					if(len(str)>0):
 						if(is_python_3_or_above): str=str.decode("utf-8", errors="ignore")
 						j = json.loads(str)
 						id=j['id']
+						asnc=False
+						if('async' in j): asnc=j['async']
 						j=elten_command(j)
 						j['id']=id
+						if(asnc!=False): j['msgtype']=1
 						w=json.dumps(j)+"\n"
 						if(is_python_3_or_above): w=w.encode("utf-8")
-						nvdapipeout.write(w)
-					else:
-						time.sleep(0.1)
+						if(asnc==False): eltenpipeout.write(w)
+						else: eltenpipest.write(w)
+				else:
+					time.sleep(0.1)
 				if(os.path.isfile(nvdapipefile)):
 					file = open(nvdapipefile,mode='r')
 					pipeid = file.read()
 					file.close()
-					if(pipeid!=nvdapipeid):
+					if(pipeid!=nvdapipeid and pipeid!=wrongpipeid):
 						try:
 							nvdapipeid=pipeid
-							nvdapipein=open("\\\\.\\pipe\\"+nvdapipeid+"out", 'rb', 0)
-							nvdapipeout=open("\\\\.\\pipe\\"+nvdapipeid+"in", 'wb', 0)
-						except: nvdapipeid=""
+							eltenpipein=open("\\\\.\\pipe\\"+nvdapipeid+"out", 'rb', 0)
+							eltenpipeout=open("\\\\.\\pipe\\"+nvdapipeid+"in", 'wb', 0)
+							eltenpipest=open("\\\\.\\pipe\\"+nvdapipeid+"st", 'wb', 0)
+							eltenqueue['statuses'].append("connected")
+							if(is_python_3_or_above): 							eltenqueue['statuses'].append("cbckindexing")
+						except:
+							wrongpipeid=pipeid
+							nvdapipeid=""
+							try: os.remove(nvdapipefile)
+							except: pass
 				elif(nvdapipeid!=""):
 					nvdapipeid=""
-					nvdapipein.close()
-					nvdapipeout.close()
-					nvdapipein=None
-					nvdapipeout=None
-			except Exception as e:
+					eltenpipein.close()
+					eltenpipeout.close()
+					eltenpipest.close()
+					eltenpipein=None
+					eltenpipeout=None
+					eltenpipest=None
+			except:
 				tones.beep(1320, 100)
-#				pass
+				pass
 
 	def elten_braille_thread(threadName=None):
+		global stopThreads
 		global eltenmod
 		global eltenbraille
+		global eltenbrailletext
+		oldbraille=eltenbrailletext
 		while(True):
+			if(stopThreads): break
 			time.sleep(0.1)
 			if(eltenmod!=None and eltenbraille!=None):
 				if(appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())==eltenmod and eltenbraille!=None and braille.handler.buffer!=eltenbraille and braille.handler.buffer!=braille.handler.messageBuffer):
@@ -105,18 +137,77 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				elif(braille.handler!=None and appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())!=eltenmod and braille.handler.buffer==eltenbraille):
 					braille.handler.buffer=braille.handler.mainBuffer
 					braille.handler.update()
-				braille.handler.update()
+				if oldbraille!=eltenbrailletext:
+					oldbraille=eltenbrailletext
+					braille.handler.update()
+
+	def elten_queue_thread(threadName=None):
+		global stopThreads
+		global eltenqueue
+		global eltenpipest
+		global eltenindex
+		global eltenindexid
+		global eltenmod
+		lastSend=0
+		while(True):
+			if(stopThreads): break
+			time.sleep(0.01)
+			try:
+				if(eltenpipest!=None and eltenpipest!=-1 and len(eltenqueue['gestures'])>0):
+					r=eltenqueue['gestures'][:]
+					eltenqueue['gestures']=[]
+					j={'msgtype':2, 'gestures':r}
+					w=json.dumps(j)+"\n"
+					if(is_python_3_or_above): w=w.encode("utf-8")
+					eltenpipest.write(w)
+					lastSend=time.time()
+				if(eltenpipest!=None and eltenpipest!=-1 and len(eltenqueue['indexes'])>0):
+					r=eltenqueue['indexes'][:]
+					eltenqueue['indexes']=[]
+					j={'msgtype':3, 'indexes':r}
+					w=json.dumps(j)+"\n"
+					if(is_python_3_or_above): w=w.encode("utf-8")
+					eltenpipest.write(w)
+					lastSend=time.time()
+				if(eltenpipest!=None and eltenpipest!=-1 and len(eltenqueue['statuses'])>0):
+					r=eltenqueue['statuses'][:]
+					eltenqueue['statuses']=[]
+					j={'msgtype':4, 'statuses':r}
+					w=json.dumps(j)+"\n"
+					if(is_python_3_or_above): w=w.encode("utf-8")
+					eltenpipest.write(w)
+					lastSend=time.time()
+				if(lastSend<time.time()-1 and appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())==eltenmod):
+					eltenqueue['statuses'].append("noop")
+					lastSend=time.time()
+			except:
+				time.sleep(0.05)
+				eltenqueue={'gestures':[], 'indexes':[], 'statuses':[]}
+				pass
 
 	if is_python_3_or_above:
-		threading.Thread(target=elten_thread).start()
-		threading.Thread(target=elten_braille_thread).start()
+		t1=threading.Thread(target=elten_thread)
+		t1.daemon=True
+		t1.start()
+		t2=threading.Thread(target=elten_braille_thread)
+		t2.daemon=True
+		t2.start()
+		t3=threading.Thread(target=elten_queue_thread)
+		t3.daemon=True
+		t3.start()
 	else:
 		thread.start_new_thread ( elten_thread, ('elten', ))
 		thread.start_new_thread ( elten_braille_thread, ('elten_braille', ))
+		thread.start_new_thread ( elten_queue_thread, ('elten_queue', ))
+
+	def terminate(self):
+		stopThreads=True
+		time.sleep(0.1)
 
 def elten_command(ac):
 	global eltenmod
 	global eltenbraille
+	global eltenbrailletext
 	global eltenindex
 	global eltenindexid
 	global eltenqueue
@@ -127,7 +218,7 @@ def elten_command(ac):
 			eltenindexid=None
 			text=""
 			if('text' in ac): text=ac['text']
-			queueHandler.queueFunction(queueHandler.eventQueue,speech.speakText,text)
+			if(speech.isBlank(text)==False): queueHandler.queueFunction(queueHandler.eventQueue,speech.speakText,text)
 		if(ac['ac']=="speakindexed"):
 			eltenindex=None
 			eltenindexid=None
@@ -140,11 +231,14 @@ def elten_command(ac):
 			v=[]
 			for i in range(0, len(texts)):
 				if is_python_3_or_above:
+					if(speech.isBlank(texts[i])): continue
 					if(i<len(indexes)): v.append(EltenIndexCallback(indexes[i], indid))
+					if(i<len(indexes) and texts[i-1][-1]=="\n"): v.append(speech.EndUtteranceCommand())
 				else:
 					eltenindexid=indid
 					if(i<len(indexes)): v.append(speech.IndexCommand(indexes[i]))
 				v.append(texts[i])
+			speech.cancelSpeech()
 			speech.speak(v)
 		if(ac['ac']=='stop'):
 			speech.cancelSpeech()
@@ -156,60 +250,46 @@ def elten_command(ac):
 			eltenmod.sleepMode=st
 			return {'st': st}
 		if(ac['ac']=='init'):
-#			if(is_python_3_or_above):
-#				globalCommands.GlobalCommands.script_braille_toggleTether.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_toggleFocusContextPresentation.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_scrollBack.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_scrollForward.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_routeTo.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_previousLine.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_nextLine.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_dots.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_toFocus.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_eraseLastCell.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_enter.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_translate.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_toggleShift.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_toggleControl.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_toggleAlt.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_toggleWindows.allowInSleepMode=True
-#				globalCommands.GlobalCommands.script_braille_toggleNVDAKey.allowInSleepMode=True
 			pid=0
 			if('pid' in ac): pid=ac['pid']
 			eltenmod = appModuleHandler.getAppModuleFromProcessID(pid)
 			def script_eltengesture(self, gesture):
 				global eltenqueue
-				eltenqueue+=gesture.identifiers
+				eltenqueue['gestures']+=gesture.identifiers
 			eltenmod.__class__.script_eltengesture = types.MethodType(script_eltengesture, eltenmod.__class__)
 			eltenmod.bindGesture('kb(laptop):NVDA+A', 'eltengesture')
 			eltenmod.bindGesture('kb(laptop):NVDA+L', 'eltengesture')
 			eltenmod.bindGesture('kb(desktop):NVDA+downArrow', 'eltengesture')
 			eltenmod.bindGesture('kb(desktop):NVDA+upArrow', 'eltengesture')
-#			if(is_python_3_or_above):
-#				eltenmod.sleepMode=True
 		if(ac['ac']=='braille'):
 			text=""
 			if('text' in ac): text=ac['text']
+			if('type' in ac and 'index' in ac):
+				if ac['type']==-1: text=eltenbrailletext[:ac['index']]+eltenbrailletext[ac['index']+1:]
+				elif ac['type']==1: text=eltenbrailletext[:ac['index']]+text+eltenbrailletext[ac['index']:]
+			eltenbrailletext=text+" "
 			region = braille.TextRegion(text)
 			eltenbraille.regions=[region]
 			region.update()
 			if('pos' in ac): 
 				poses = eltenbraille.rawToBraillePos
-				if(ac['pos']<len(text) and ac['pos']<len(poses)): eltenbraille.scrollTo(region, poses[ac['pos']])
+				if(ac['pos']<len(text) and ac['pos']<len(poses)):
+					eltenbraille.scrollTo(region, poses[ac['pos']])
+				region.cursorPos=ac['cursor']
+				region.update()
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='braillepos' and 'pos' in ac and len(eltenbraille.regions)>0):
 			poses = eltenbraille.rawToBraillePos
 			if(ac['pos']<len(poses)): eltenbraille.scrollTo(eltenbraille.regions[0], poses[ac['pos']])
+			eltenbraille.regions[0].cursorPos=ac['cursor']
+			eltenbraille.regions[0].update()
+			eltenbraille.update()
+			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 14}
+			return {'version': 21}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
-		if(ac['ac']=='getgestures'):
-			r=eltenqueue[:]
-			eltenqueue=[]
-			return {'queue':r}
-			return r
 		if(ac['ac']=='getindex'):
 			if(is_python_3_or_above):
 				return {'index': eltenindex, 'indid': eltenindexid}

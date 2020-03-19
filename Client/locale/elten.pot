@@ -1,0 +1,6070 @@
+# Copyright (C) 2020 "Dawid Pieper"
+# This file is distributed under the same license as the Elten package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Elten 2.4\n"
+"Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
+"POT-Creation-Date: 2020-03-19 23:44+0100\n"
+"PO-Revision-Date: 2020-03-19 23:44+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ../src/Account.rb:11
+msgctxt "Account"
+msgid "Enter your old password."
+msgstr ""
+
+#: ../src/Account.rb:18
+msgctxt "Account"
+msgid "Enter your new password."
+msgstr ""
+
+#: ../src/Account.rb:26
+msgctxt "Account"
+msgid "Repeat new password."
+msgstr ""
+
+#: ../src/Account.rb:33
+msgctxt "Account"
+msgid "Fields: New Password and Repeat New Password have different values."
+msgstr ""
+
+#: ../src/Account.rb:40
+msgctxt "Account"
+msgid "Your password has been changed."
+msgstr ""
+
+#: ../src/Account.rb:43 ../src/Account.rb:80 ../src/Account.rb:103
+#: ../src/Account.rb:142 ../src/Account.rb:218 ../src/Account.rb:236
+#: ../src/Account.rb:363 ../src/Account.rb:402 ../src/Account.rb:419
+#: ../src/Account.rb:458 ../src/Account.rb:660 ../src/Blog.rb:950
+#: ../src/Contacts.rb:25 ../src/Contacts.rb:121 ../src/Contacts.rb:154
+#: ../src/EAPI_Common.rb:375 ../src/EAPI_Common.rb:424 ../src/Forum.rb:480
+#: ../src/Login.rb:230 ../src/Messages.rb:805 ../src/Messages.rb:894
+#: ../src/Users.rb:11
+msgid "Database Error"
+msgstr ""
+
+#: ../src/Account.rb:46 ../src/Account.rb:83 ../src/Account.rb:107
+#: ../src/Account.rb:145 ../src/Account.rb:222 ../src/Account.rb:240
+#: ../src/Account.rb:367 ../src/Account.rb:405 ../src/Account.rb:423
+#: ../src/Account.rb:461 ../src/Account.rb:662 ../src/Blog.rb:952
+#: ../src/Contacts.rb:29 ../src/Contacts.rb:124 ../src/Contacts.rb:157
+#: ../src/EAPI_Common.rb:379 ../src/Forum.rb:482 ../src/Messages.rb:810
+#: ../src/Messages.rb:899 ../src/Users.rb:15
+msgid "Token expired"
+msgstr ""
+
+#: ../src/Account.rb:49 ../src/Account.rb:86
+msgctxt "Account"
+msgid "The old password is incorrect."
+msgstr ""
+
+#: ../src/Account.rb:60 ../src/Account.rb:511 ../src/Account.rb:569
+#: ../src/Account.rb:702 ../src/Account.rb:748 ../src/Account.rb:773
+msgctxt "Account"
+msgid "Enter your password."
+msgstr ""
+
+#: ../src/Account.rb:67
+msgctxt "Account"
+msgid "Enter a new e-mail address."
+msgstr ""
+
+#: ../src/Account.rb:77
+msgctxt "Account"
+msgid "E-mail has been changed."
+msgstr ""
+
+#: ../src/Account.rb:89
+msgctxt "Account"
+msgid "Error, you must disable mail events reporting first."
+msgstr ""
+
+#: ../src/Account.rb:115 ../src/Account.rb:250 ../src/Account.rb:375
+#: ../src/Account.rb:431 ../src/Account.rb:481 ../src/Advanced.rb:11
+#: ../src/Blog.rb:718 ../src/Blog.rb:1178 ../src/Clock.rb:11 ../src/Clock.rb:39
+#: ../src/EAPI_Controls.rb:579 ../src/Files.rb:420 ../src/Files.rb:506
+#: ../src/Forum.rb:554 ../src/Forum.rb:937 ../src/Forum.rb:2202
+#: ../src/General.rb:15 ../src/Honors.rb:188 ../src/Honors.rb:223
+#: ../src/Notes.rb:117 ../src/Notes.rb:133 ../src/Polls.rb:158
+#: ../src/SoundCard.rb:11
+msgid "Save"
+msgstr ""
+
+#: ../src/Account.rb:115 ../src/Account.rb:230
+msgctxt "Account"
+msgid "Your visiting card:"
+msgstr ""
+
+#: ../src/Account.rb:115 ../src/Account.rb:251 ../src/Account.rb:375
+#: ../src/Account.rb:431 ../src/Account.rb:481 ../src/Advanced.rb:12
+#: ../src/Ban.rb:24 ../src/Ban.rb:106 ../src/Blog.rb:493 ../src/Blog.rb:506
+#: ../src/Blog.rb:718 ../src/Blog.rb:750 ../src/Blog.rb:1178
+#: ../src/Blog.rb:1278 ../src/Clock.rb:12 ../src/Clock.rb:39
+#: ../src/EAPI_Common.rb:14 ../src/EAPI_Common.rb:913
+#: ../src/EAPI_Controls.rb:579 ../src/EAPI_External.rb:94
+#: ../src/EAPI_External.rb:212 ../src/EAPI_External.rb:220
+#: ../src/EAPI_UI.rb:510 ../src/Files.rb:174 ../src/Files.rb:205
+#: ../src/Files.rb:410 ../src/Files.rb:455 ../src/Files.rb:498
+#: ../src/Files.rb:506 ../src/Files.rb:525 ../src/Forum.rb:544
+#: ../src/Forum.rb:706 ../src/Forum.rb:775 ../src/Forum.rb:932
+#: ../src/Forum.rb:1002 ../src/Forum.rb:1403 ../src/Forum.rb:2112
+#: ../src/Forum.rb:2202 ../src/General.rb:16 ../src/Honors.rb:188
+#: ../src/Honors.rb:224 ../src/Honors.rb:305 ../src/Messages.rb:187
+#: ../src/Messages.rb:628 ../src/Notes.rb:113 ../src/Notes.rb:229
+#: ../src/Polls.rb:133 ../src/Polls.rb:158 ../src/Polls.rb:289
+#: ../src/Portable.rb:7 ../src/SoundCard.rb:11 ../src/SpeedTest.rb:7
+msgid "Cancel"
+msgstr ""
+
+#: ../src/Account.rb:139 ../src/Account.rb:346 ../src/Account.rb:399
+#: ../src/Account.rb:455 ../src/Account.rb:496 ../src/Advanced.rb:30
+#: ../src/Blog.rb:812 ../src/Clock.rb:77 ../src/EAPI_Controls.rb:568
+#: ../src/EAPI_Controls.rb:1995 ../src/EAPI_External.rb:246
+#: ../src/EAPI_External.rb:263 ../src/Files.rb:424 ../src/Files.rb:513
+#: ../src/Forum.rb:569 ../src/Forum.rb:951 ../src/Forum.rb:970
+#: ../src/Forum.rb:1816 ../src/General.rb:87 ../src/Honors.rb:214
+#: ../src/Languages.rb:41 ../src/SoundCard.rb:28 ../src/SoundThemes.rb:86
+#: ../src/SoundThemes.rb:126 ../src/Voice.rb:138 ../src/Voice.rb:174
+msgid "Saved"
+msgstr ""
+
+#: ../src/Account.rb:154
+msgctxt "Account"
+msgid "Change your status"
+msgstr ""
+
+#: ../src/Account.rb:157 ../src/Account.rb:231
+msgctxt "Account"
+msgid "Enter a new status"
+msgstr ""
+
+#: ../src/Account.rb:165 ../src/Account.rb:344 ../src/Account.rb:472
+#: ../src/Account.rb:494 ../src/Account.rb:596 ../src/Account.rb:626
+#: ../src/Account.rb:680 ../src/Account.rb:777 ../src/Account.rb:785
+#: ../src/Account.rb:791 ../src/Authentication.rb:9 ../src/Authentication.rb:36
+#: ../src/Authentication.rb:71 ../src/Ban.rb:65 ../src/Ban.rb:97
+#: ../src/Ban.rb:120 ../src/Blog.rb:65 ../src/Blog.rb:83 ../src/Blog.rb:97
+#: ../src/Blog.rb:171 ../src/Blog.rb:228 ../src/Blog.rb:251 ../src/Blog.rb:288
+#: ../src/Blog.rb:309 ../src/Blog.rb:343 ../src/Blog.rb:365 ../src/Blog.rb:466
+#: ../src/Blog.rb:582 ../src/Blog.rb:603 ../src/Blog.rb:613 ../src/Blog.rb:634
+#: ../src/Blog.rb:655 ../src/Blog.rb:675 ../src/Blog.rb:712 ../src/Blog.rb:801
+#: ../src/Blog.rb:810 ../src/Blog.rb:836 ../src/Blog.rb:939 ../src/Blog.rb:998
+#: ../src/Blog.rb:1021 ../src/Blog.rb:1077 ../src/Blog.rb:1086
+#: ../src/Blog.rb:1099 ../src/Blog.rb:1118 ../src/Blog.rb:1138
+#: ../src/Blog.rb:1196 ../src/Blog.rb:1223 ../src/Blog.rb:1267
+#: ../src/Blog.rb:1285 ../src/Chat.rb:25 ../src/Chat.rb:35 ../src/Chat.rb:48
+#: ../src/Chat.rb:57 ../src/Chat.rb:86 ../src/Chat.rb:95 ../src/Chat.rb:111
+#: ../src/Chat.rb:123 ../src/EAPI_Common.rb:355 ../src/EAPI_EltenSRV.rb:194
+#: ../src/EAPI_EltenSRV.rb:203 ../src/EAPI_EltenSRV.rb:221
+#: ../src/EAPI_EltenSRV.rb:286 ../src/EAPI_EltenSRV.rb:313
+#: ../src/EAPI_EltenSRV.rb:348 ../src/EAPI_EltenSRV.rb:363
+#: ../src/EAPI_EltenSRV.rb:386 ../src/EAPI_External.rb:241
+#: ../src/EAPI_External.rb:313 ../src/ForgotPassword.rb:22 ../src/Forum.rb:518
+#: ../src/Forum.rb:535 ../src/Forum.rb:567 ../src/Forum.rb:583
+#: ../src/Forum.rb:607 ../src/Forum.rb:675 ../src/Forum.rb:722
+#: ../src/Forum.rb:741 ../src/Forum.rb:794 ../src/Forum.rb:886
+#: ../src/Forum.rb:893 ../src/Forum.rb:917 ../src/Forum.rb:949
+#: ../src/Forum.rb:968 ../src/Forum.rb:983 ../src/Forum.rb:1022
+#: ../src/Forum.rb:1222 ../src/Forum.rb:1237 ../src/Forum.rb:1244
+#: ../src/Forum.rb:1295 ../src/Forum.rb:1308 ../src/Forum.rb:1320
+#: ../src/Forum.rb:1335 ../src/Forum.rb:1355 ../src/Forum.rb:1444
+#: ../src/Forum.rb:1563 ../src/Forum.rb:1580 ../src/Forum.rb:1599
+#: ../src/Forum.rb:1737 ../src/Forum.rb:1957 ../src/Forum.rb:1994
+#: ../src/Forum.rb:2010 ../src/Forum.rb:2102 ../src/Forum.rb:2124
+#: ../src/Forum.rb:2183 ../src/Forum.rb:2190 ../src/Forum.rb:2209
+#: ../src/Forum.rb:2247 ../src/Forum.rb:2264 ../src/Forum.rb:2287
+#: ../src/Forum.rb:2363 ../src/Forum.rb:2375 ../src/Honors.rb:18
+#: ../src/Honors.rb:136 ../src/Honors.rb:150 ../src/Honors.rb:167
+#: ../src/Honors.rb:212 ../src/Honors.rb:317 ../src/Loading.rb:325
+#: ../src/Messages.rb:83 ../src/Messages.rb:159 ../src/Messages.rb:221
+#: ../src/Messages.rb:249 ../src/Messages.rb:353 ../src/Messages.rb:484
+#: ../src/Messages.rb:513 ../src/Messages.rb:520 ../src/Messages.rb:564
+#: ../src/Messages.rb:583 ../src/Messages.rb:847 ../src/Messages.rb:873
+#: ../src/Notes.rb:14 ../src/Notes.rb:101 ../src/Notes.rb:139
+#: ../src/Notes.rb:166 ../src/Notes.rb:186 ../src/Notes.rb:216
+#: ../src/Notes.rb:248 ../src/Polls.rb:12 ../src/Polls.rb:67 ../src/Polls.rb:93
+#: ../src/Polls.rb:111 ../src/Polls.rb:231 ../src/Polls.rb:256
+#: ../src/Polls.rb:322 ../src/Polls.rb:356 ../src/Polls.rb:371
+#: ../src/SoundThemes.rb:93 ../src/UserSearch.rb:17 ../src/WhatsNew.rb:105
+#: ../src/Youtube.rb:93 ../src/Youtube.rb:151
+msgid "Error"
+msgstr ""
+
+#: ../src/Account.rb:167
+msgctxt "Account"
+msgid "Your status has been changed."
+msgstr ""
+
+#: ../src/Account.rb:196
+msgctxt "Account"
+msgid "Full name"
+msgstr ""
+
+#: ../src/Account.rb:197
+msgctxt "Account"
+msgid "Gender"
+msgstr ""
+
+#: ../src/Account.rb:197 ../src/EAPI_Common.rb:453
+msgid "male"
+msgstr ""
+
+#: ../src/Account.rb:197 ../src/EAPI_Common.rb:451
+msgid "Female"
+msgstr ""
+
+#: ../src/Account.rb:204
+msgctxt "Account"
+msgid "Birth date: year"
+msgstr ""
+
+#: ../src/Account.rb:209
+msgctxt "Account"
+msgid "Country"
+msgstr ""
+
+#: ../src/Account.rb:213
+msgctxt "Account"
+msgid "Hide my profile for strangers"
+msgstr ""
+
+#: ../src/Account.rb:248 ../src/Account.rb:375
+msgctxt "Account"
+msgid "Your signature:"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "May"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "June"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "July"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "April"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "September"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "October"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "November"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "December"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "February"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "March"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "August"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "January"
+msgstr ""
+
+#: ../src/Account.rb:263
+msgctxt "Account"
+msgid "Birth date: month"
+msgstr ""
+
+#: ../src/Account.rb:277
+msgctxt "Account"
+msgid "Birth date: day"
+msgstr ""
+
+#: ../src/Account.rb:293
+msgctxt "Account"
+msgid "State / Province"
+msgstr ""
+
+#: ../src/Account.rb:309
+msgctxt "Account"
+msgid "City"
+msgstr ""
+
+#: ../src/Account.rb:431
+msgctxt "Account"
+msgid "Your welcome message:"
+msgstr ""
+
+#: ../src/Account.rb:475
+msgctxt "Account"
+msgid "Ignore"
+msgstr ""
+
+#: ../src/Account.rb:475
+msgctxt "Account"
+msgid "Notice only"
+msgstr ""
+
+#: ../src/Account.rb:475
+msgctxt "Account"
+msgid "Notice and show in what's new"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New comments on your blog"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New posts in followed threads"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New posts on the followed blogs"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "Mentions"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "Friends' birthday"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New friends"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New threads on followed forums"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New messages"
+msgstr ""
+
+#: ../src/Account.rb:518 ../src/Account.rb:577 ../src/Account.rb:709
+#: ../src/Account.rb:756
+msgctxt "Account"
+msgid ""
+" An error occurred while authenticating the account. You might have provided a"
+"n  incorrect password."
+msgstr ""
+
+#: ../src/Account.rb:543
+msgctxt "Account"
+msgid "Computer"
+msgstr ""
+
+#: ../src/Account.rb:543
+msgctxt "Account"
+msgid "Generation date"
+msgstr ""
+
+#: ../src/Account.rb:543
+msgctxt "Account"
+msgid "Creation IP Address"
+msgstr ""
+
+#: ../src/Account.rb:548
+msgctxt "Account"
+msgid "Auto log in tokens"
+msgstr ""
+
+#: ../src/Account.rb:550
+msgctxt "Account"
+msgid "Log out all sessions"
+msgstr ""
+
+#: ../src/Account.rb:553 ../src/Account.rb:692 ../src/Blog.rb:1103
+#: ../src/Forum.rb:597 ../src/Forum.rb:995 ../src/Forum.rb:1372
+#: ../src/Forum.rb:2295 ../src/Honors.rb:176 ../src/Honors.rb:297
+#: ../src/Messages.rb:178 ../src/Messages.rb:324 ../src/Messages.rb:545
+#: ../src/Notes.rb:92 ../src/Online.rb:34 ../src/Polls.rb:125
+#: ../src/Users.rb:54 ../src/UsersAddedMeToContacts.rb:58
+#: ../src/Users_RecentlyActived.rb:38 ../src/Users_RecentlyRegistered.rb:38
+msgid "Refresh"
+msgstr ""
+
+#: ../src/Account.rb:567 ../src/Account.rb:746
+msgctxt "Account"
+msgid ""
+" Are you sure you want to remove all auto log in tokens and log out all sessio"
+"ns?  You will be logged off immediately."
+msgstr ""
+
+#: ../src/Account.rb:608
+msgctxt "Account"
+msgid "Black list"
+msgstr ""
+
+#: ../src/Account.rb:624 ../src/Account.rb:678
+msgctxt "Account"
+msgid "Are you sure you want to remove this user from the black list?"
+msgstr ""
+
+#: ../src/Account.rb:629 ../src/Account.rb:683
+msgctxt "Account"
+msgid "A user has been removed from the black list."
+msgstr ""
+
+#: ../src/Account.rb:645
+msgctxt "Account"
+msgid "Add"
+msgstr ""
+
+#: ../src/Account.rb:646
+msgctxt "Account"
+msgid "Type a username which you want to add to blacklist."
+msgstr ""
+
+#: ../src/Account.rb:650 ../src/Account.rb:670
+msgctxt "Account"
+msgid "The user cannot be found."
+msgstr ""
+
+#: ../src/Account.rb:652
+msgctxt "Account"
+msgid ""
+" The users added to your black list cannot send you private messages. Are you "
+"sure  you want to continue?"
+msgstr ""
+
+#: ../src/Account.rb:656
+msgctxt "Account"
+msgid "User %{user} has been added to your blacklist"
+msgstr ""
+
+#: ../src/Account.rb:666
+msgctxt "Account"
+msgid "You cannot add an administrator to the black list."
+msgstr ""
+
+#: ../src/Account.rb:668
+msgctxt "Account"
+msgid "This user is already on your black list."
+msgstr ""
+
+#: ../src/Account.rb:677 ../src/Blog.rb:267 ../src/Blog.rb:446
+#: ../src/Files.rb:352 ../src/Messages.rb:530 ../src/Notes.rb:87
+#: ../src/Notes.rb:119 ../src/Polls.rb:107
+msgid "Delete"
+msgstr ""
+
+#: ../src/Account.rb:736
+msgctxt "Account"
+msgid "Last logins"
+msgstr ""
+
+#: ../src/Account.rb:782
+msgctxt "Account"
+msgid ""
+"If you wish, you can configure Elten to report any changes and logins  on your"
+" account from new devices to you by E-mail. To do this, you must verify your E"
+"-mail address. Do you want to do it now?"
+msgstr ""
+
+#: ../src/Account.rb:788 ../src/Account.rb:813
+msgctxt "Account"
+msgid "The verification code has been sent to you via E-mail. Please type it here."
+msgstr ""
+
+#: ../src/Account.rb:800
+msgctxt "Account"
+msgid "Enable mail events reporting"
+msgstr ""
+
+#: ../src/Account.rb:800
+msgctxt "Account"
+msgid "Disable mail events reporting"
+msgstr ""
+
+#: ../src/Account.rb:801
+msgctxt "Account"
+msgid "Mail events reporting is enabled."
+msgstr ""
+
+#: ../src/Account.rb:801
+msgctxt "Account"
+msgid ""
+"Mail events reporting is disabled. If you wish, you can enable it to receive i"
+"nformation about changes made on your account and logins from new devices via "
+"E-mail"
+msgstr ""
+
+#: ../src/Account.rb:802 ../src/Authentication.rb:16
+#: ../src/Authentication.rb:18 ../src/Chat.rb:42 ../src/EAPI_Common.rb:14
+#: ../src/Files.rb:544 ../src/ForgotPassword.rb:29 ../src/Loading.rb:419
+msgid "Exit"
+msgstr ""
+
+#: ../src/Admins.rb:13
+msgctxt "Admins"
+msgid "Developers"
+msgstr ""
+
+#: ../src/Admins.rb:13
+msgctxt "Admins"
+msgid "Translators"
+msgstr ""
+
+#: ../src/Admins.rb:13
+msgctxt "Admins"
+msgid "Community Administrators"
+msgstr ""
+
+#: ../src/Admins.rb:13
+msgctxt "Admins"
+msgid "Recommended groups Moderators"
+msgstr ""
+
+#: ../src/Admins.rb:81
+msgctxt "Admins"
+msgid "Administrators"
+msgstr ""
+
+#: ../src/Advanced.rb:8
+msgctxt "Advanced"
+msgid ""
+" Key state refresh time (ms) (Note: it is not recommended to change this value"
+"!)"
+msgstr ""
+
+#: ../src/Advanced.rb:9
+msgctxt "Advanced"
+msgid ""
+" Session refresh time (s) (Attention! It is not recommended to change this val"
+"ue!)"
+msgstr ""
+
+#: ../src/Advanced.rb:10
+msgctxt "Advanced"
+msgid "Synchronize time with server"
+msgstr ""
+
+#: ../src/Authentication.rb:16
+msgctxt "Authentication"
+msgid ""
+" Two-factor authentication enables better account security by requiring the  c"
+"onfirmation of each login with your phone. When activated, a text message with"
+" a  verification code will be sent to you each time you log in from a new devi"
+"ce.  Entering this code will be required to sign in to the program."
+msgstr ""
+
+#: ../src/Authentication.rb:16
+msgid "Enable"
+msgstr ""
+
+#: ../src/Authentication.rb:18
+msgid "Disable"
+msgstr ""
+
+#: ../src/Authentication.rb:18
+msgctxt "Authentication"
+msgid "Two-factor authentication is enabled on this account."
+msgstr ""
+
+#: ../src/Authentication.rb:25 ../src/Authentication.rb:63
+msgctxt "Authentication"
+msgid "Type your password"
+msgstr ""
+
+#: ../src/Authentication.rb:27
+msgctxt "Authentication"
+msgid ""
+" Type your phone number that will be used during verification. Remember to ent"
+"er  the country code, for example, +48 for Poland"
+msgstr ""
+
+#: ../src/Authentication.rb:29
+msgctxt "Authentication"
+msgid ""
+" Two-factor authentication was introduced in Elten 2.28. After activating it, "
+"it  will not be possible to log in from the older versions of the program. DO "
+"you  wish to continue anyway?"
+msgstr ""
+
+#: ../src/Authentication.rb:30
+msgctxt "Authentication"
+msgid "Is this phone number correct? Press enter to continue or escape to cancel."
+msgstr ""
+
+#: ../src/Authentication.rb:32
+msgctxt "Authentication"
+msgid "Please wait, connecting to the server ..."
+msgstr ""
+
+#: ../src/Authentication.rb:40
+msgctxt "Authentication"
+msgid ""
+" On the phone number indicated, you will receive a text message with the code "
+" activating two-factor authentication. Enter this code"
+msgstr ""
+
+#: ../src/Authentication.rb:48
+msgctxt "Authentication"
+msgid "The entered code is not correct. Try again."
+msgstr ""
+
+#: ../src/Authentication.rb:50
+msgctxt "Authentication"
+msgid "The entered code is not correct."
+msgstr ""
+
+#: ../src/Authentication.rb:54
+msgctxt "Authentication"
+msgid "Two-factor authentication has been activated on this account."
+msgstr ""
+
+#: ../src/Authentication.rb:64
+msgctxt "Authentication"
+msgid "Are you sure you want to disable two-factor authentication?"
+msgstr ""
+
+#: ../src/Authentication.rb:67
+msgctxt "Authentication"
+msgid "Two-factor authentication has been disabled."
+msgstr ""
+
+#: ../src/Authentication.rb:69
+msgctxt "Authentication"
+msgid "Invalid password"
+msgstr ""
+
+#: ../src/Ban.rb:14
+msgctxt "Ban"
+msgid "Enter a username to ban"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "Day"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "Three days"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "Week"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "30 days"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "90 days"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "Year"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "2 weeks"
+msgstr ""
+
+#: ../src/Ban.rb:24
+msgctxt "Ban"
+msgid "An additional message to the user"
+msgstr ""
+
+#: ../src/Ban.rb:24
+msgctxt "Ban"
+msgid "Ban"
+msgstr ""
+
+#: ../src/Ban.rb:24
+msgctxt "Ban"
+msgid "The reason"
+msgstr ""
+
+#: ../src/Ban.rb:63
+msgctxt "Ban"
+msgid "Banned."
+msgstr ""
+
+#: ../src/Ban.rb:86
+msgctxt "Ban"
+msgid "Enter a username to unban."
+msgstr ""
+
+#: ../src/Ban.rb:106
+msgctxt "Ban"
+msgid "The ban reason"
+msgstr ""
+
+#: ../src/Ban.rb:106
+msgctxt "Ban"
+msgid "Ban valid until"
+msgstr ""
+
+#: ../src/Ban.rb:106
+msgctxt "Ban"
+msgid "Unban"
+msgstr ""
+
+#: ../src/Ban.rb:106
+msgctxt "Ban"
+msgid "The ban cancel reason"
+msgstr ""
+
+#: ../src/Ban.rb:116
+msgctxt "Ban"
+msgid "Unbanned."
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Frequently updated blogs"
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Frequently commented blogs"
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Recently updated blogs"
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Managed blogs"
+msgstr ""
+
+#: ../src/Blog.rb:10 ../src/Blog.rb:900
+msgctxt "Blog"
+msgid "Blogs"
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Blogs popular with my friends"
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Followed blogs"
+msgstr ""
+
+#: ../src/Blog.rb:74
+msgctxt "Blog"
+msgid "The blog cannot be found."
+msgstr ""
+
+#: ../src/Blog.rb:117
+msgctxt "Blog"
+msgid "All posts"
+msgstr ""
+
+#: ../src/Blog.rb:119
+msgctxt "Blog"
+msgid "New category"
+msgstr ""
+
+#: ../src/Blog.rb:120
+msgctxt "Blog"
+msgid "Change the blog's name"
+msgstr ""
+
+#: ../src/Blog.rb:121
+msgctxt "Blog"
+msgid "Recategorize"
+msgstr ""
+
+#: ../src/Blog.rb:122 ../src/Blog.rb:162
+msgctxt "Blog"
+msgid "Followers"
+msgstr ""
+
+#: ../src/Blog.rb:123 ../src/Blog.rb:178
+msgctxt "Blog"
+msgid "Coworkers"
+msgstr ""
+
+#: ../src/Blog.rb:124
+msgctxt "Blog"
+msgid "Delete this blog"
+msgstr ""
+
+#: ../src/Blog.rb:158
+msgctxt "Blog"
+msgid "This blog is not followed by any user"
+msgstr ""
+
+#: ../src/Blog.rb:177 ../src/Blog.rb:190 ../src/Blog.rb:202
+msgctxt "Blog"
+msgid "Add coworker"
+msgstr ""
+
+#: ../src/Blog.rb:183
+msgctxt "Blog"
+msgid "What user you want to add to this blog?"
+msgstr ""
+
+#: ../src/Blog.rb:193
+msgctxt "Blog"
+msgid "User not found"
+msgstr ""
+
+#: ../src/Blog.rb:198
+msgctxt "Blog"
+msgid "Are you sure you want to release this coworker?"
+msgstr ""
+
+#: ../src/Blog.rb:210
+msgctxt "Blog"
+msgid "Are you sure you want to delete this blog?"
+msgstr ""
+
+#: ../src/Blog.rb:222
+msgctxt "Blog"
+msgid "Category name"
+msgstr ""
+
+#: ../src/Blog.rb:230
+msgctxt "Blog"
+msgid "The category has been created."
+msgstr ""
+
+#: ../src/Blog.rb:243
+msgctxt "Blog"
+msgid "New blog name"
+msgstr ""
+
+#: ../src/Blog.rb:249
+msgctxt "Blog"
+msgid "Your blog has been renamed"
+msgstr ""
+
+#: ../src/Blog.rb:258 ../src/Blog.rb:428
+msgctxt "Blog"
+msgid "Select"
+msgstr ""
+
+#: ../src/Blog.rb:262
+msgctxt "Blog"
+msgid "Rename"
+msgstr ""
+
+#: ../src/Blog.rb:283
+msgctxt "Blog"
+msgid "Type a new category name"
+msgstr ""
+
+#: ../src/Blog.rb:290
+msgctxt "Blog"
+msgid "The blog has been renamed."
+msgstr ""
+
+#: ../src/Blog.rb:304
+msgctxt "Blog"
+msgid "Are you sure you want to delete this category?"
+msgstr ""
+
+#: ../src/Blog.rb:313 ../src/Blog.rb:638
+msgctxt "Blog"
+msgid "Deleted"
+msgstr ""
+
+#: ../src/Blog.rb:325
+msgctxt "Blog"
+msgid "You do not have any blog. Do you want to create one?"
+msgstr ""
+
+#: ../src/Blog.rb:330
+msgctxt "Blog"
+msgid "Type a blog name"
+msgstr ""
+
+#: ../src/Blog.rb:335 ../src/Blog.rb:569 ../src/Blog.rb:576
+msgctxt "Blog"
+msgid "Please wait..."
+msgstr ""
+
+#: ../src/Blog.rb:347
+msgctxt "Blog"
+msgid "The blog has been created."
+msgstr ""
+
+#: ../src/Blog.rb:391
+msgctxt "Blog"
+msgid "New post"
+msgstr ""
+
+#: ../src/Blog.rb:393
+msgctxt "Blog"
+msgid "No new comments on your blog."
+msgstr ""
+
+#: ../src/Blog.rb:436
+msgctxt "Blog"
+msgid "Edit"
+msgstr ""
+
+#: ../src/Blog.rb:441
+msgctxt "Blog"
+msgid "Move to another blog"
+msgstr ""
+
+#: ../src/Blog.rb:486 ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Post title"
+msgstr ""
+
+#: ../src/Blog.rb:487 ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Post"
+msgstr ""
+
+#: ../src/Blog.rb:488 ../src/Blog.rb:543
+msgctxt "Blog"
+msgid "Create an audiopost"
+msgstr ""
+
+#: ../src/Blog.rb:489 ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Post categories"
+msgstr ""
+
+#: ../src/Blog.rb:490 ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Do not show to unlogged users"
+msgstr ""
+
+#: ../src/Blog.rb:490 ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Visibility"
+msgstr ""
+
+#: ../src/Blog.rb:490 ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Show to everyone"
+msgstr ""
+
+#: ../src/Blog.rb:491 ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Allow users to comment this post"
+msgstr ""
+
+#: ../src/Blog.rb:492 ../src/Blog.rb:906
+msgctxt "Blog"
+msgid "Send"
+msgstr ""
+
+#: ../src/Blog.rb:506
+msgctxt "Blog"
+msgid "Use an existing file"
+msgstr ""
+
+#: ../src/Blog.rb:506
+msgctxt "Blog"
+msgid "Record a new post"
+msgstr ""
+
+#: ../src/Blog.rb:514
+msgctxt "Blog"
+msgid "Stop recording"
+msgstr ""
+
+#: ../src/Blog.rb:524 ../src/Blog.rb:534 ../src/Blog.rb:750
+msgctxt "Blog"
+msgid "Play"
+msgstr ""
+
+#: ../src/Blog.rb:525 ../src/Blog.rb:535
+msgctxt "Blog"
+msgid "Create a text post"
+msgstr ""
+
+#: ../src/Blog.rb:615
+msgctxt "Blog"
+msgid "The post has been added."
+msgstr ""
+
+#: ../src/Blog.rb:629
+msgctxt "Blog"
+msgid "Are you sure you want to delete this post?"
+msgstr ""
+
+#: ../src/Blog.rb:718 ../src/Blog.rb:720
+msgctxt "Blog"
+msgid "Audio post"
+msgstr ""
+
+#: ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Post type"
+msgstr ""
+
+#: ../src/Blog.rb:718
+msgctxt "Blog"
+msgid "Text post"
+msgstr ""
+
+#: ../src/Blog.rb:750
+msgctxt "Blog"
+msgid "Use another file"
+msgstr ""
+
+#: ../src/Blog.rb:756
+msgctxt "Blog"
+msgid "Select audio file"
+msgstr ""
+
+#: ../src/Blog.rb:764
+msgctxt "Blog"
+msgid ""
+"Do you wish to delete all comments on this post? You can disable commenting on"
+" this post without deleting comments already posted."
+msgstr ""
+
+#: ../src/Blog.rb:781
+msgctxt "Blog"
+msgid "File is being converted..."
+msgstr ""
+
+#: ../src/Blog.rb:881
+msgctxt "Blog"
+msgid "Media"
+msgstr ""
+
+#: ../src/Blog.rb:884
+msgctxt "Blog"
+msgid "Your comment"
+msgstr ""
+
+#: ../src/Blog.rb:890
+msgctxt "Blog"
+msgid "Edit your post"
+msgstr ""
+
+#: ../src/Blog.rb:894
+msgctxt "Blog"
+msgid "Return"
+msgstr ""
+
+#: ../src/Blog.rb:946
+msgctxt "Blog"
+msgid "The comment has been added."
+msgstr ""
+
+#: ../src/Blog.rb:977
+msgctxt "Blog"
+msgid "Delete this comment"
+msgstr ""
+
+#: ../src/Blog.rb:978
+msgctxt "Blog"
+msgid "Are you sure you want to delete this comment?"
+msgstr ""
+
+#: ../src/Blog.rb:1037 ../src/WhatsNew.rb:140
+msgctxt "Blog"
+msgid "Author"
+msgstr ""
+
+#: ../src/Blog.rb:1037 ../src/Blog.rb:1236
+msgctxt "Blog"
+msgid "Blogs list"
+msgstr ""
+
+#: ../src/Blog.rb:1059
+msgctxt "Blog"
+msgid "Open"
+msgstr ""
+
+#: ../src/Blog.rb:1069
+msgctxt "Blog"
+msgid "Remove from the followed blogs"
+msgstr ""
+
+#: ../src/Blog.rb:1071
+msgctxt "Blog"
+msgid "Add to followed blogs"
+msgstr ""
+
+#: ../src/Blog.rb:1079
+msgctxt "Blog"
+msgid "Added to the followed blogs."
+msgstr ""
+
+#: ../src/Blog.rb:1088
+msgctxt "Blog"
+msgid "Removed from the followed blogs."
+msgstr ""
+
+#: ../src/Blog.rb:1093
+msgctxt "Blog"
+msgid "Mark the blog as read"
+msgstr ""
+
+#: ../src/Blog.rb:1094
+msgctxt "Blog"
+msgid "All posts on this blog will be marked as read. Do you want to continue?"
+msgstr ""
+
+#: ../src/Blog.rb:1097
+msgctxt "Blog"
+msgid "The blog has been marked as read."
+msgstr ""
+
+#: ../src/Blog.rb:1198
+msgctxt "Blog"
+msgid "Recategorised"
+msgstr ""
+
+#: ../src/Blog.rb:1226 ../src/Blog.rb:1264
+msgctxt "Blog"
+msgid "My blog"
+msgstr ""
+
+#: ../src/Blog.rb:1235
+msgctxt "Blog"
+msgid "Create new blog"
+msgstr ""
+
+#: ../src/Blog.rb:1278
+msgctxt "Blog"
+msgid "Move type"
+msgstr ""
+
+#: ../src/Blog.rb:1278
+msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr ""
+
+#: ../src/Blog.rb:1278
+msgctxt "Blog"
+msgid "Post destination"
+msgstr ""
+
+#: ../src/Blog.rb:1278
+msgctxt "Blog"
+msgid "Move only this post, delete all comments"
+msgstr ""
+
+#: ../src/Blog.rb:1278
+msgctxt "Blog"
+msgid "Move"
+msgstr ""
+
+#: ../src/Blog.rb:1287
+msgctxt "Blog"
+msgid "The post has been moved."
+msgstr ""
+
+#: ../src/Changes.rb:885
+msgctxt "Changes"
+msgid "Changelog"
+msgstr ""
+
+#: ../src/Chat.rb:8 ../src/Contacts.rb:11 ../src/Notes.rb:8
+#: ../src/WhatsNew.rb:13
+msgid "This section is unavailable for guests"
+msgstr ""
+
+#: ../src/Chat.rb:13
+msgctxt "Chat"
+msgid "You have been banned."
+msgstr ""
+
+#: ../src/Chat.rb:18 ../src/EAPI_Common.rb:878
+msgid "Function not supported on this platform"
+msgstr ""
+
+#: ../src/Chat.rb:32
+msgctxt "Chat"
+msgid "Last message"
+msgstr ""
+
+#: ../src/Chat.rb:33
+msgctxt "Chat"
+msgid "Joined the discussion"
+msgstr ""
+
+#: ../src/Chat.rb:42
+msgctxt "Chat"
+msgid "Your message"
+msgstr ""
+
+#: ../src/Chat.rb:42
+msgctxt "Chat"
+msgid "Messages history"
+msgstr ""
+
+#: ../src/Chat.rb:42
+msgctxt "Chat"
+msgid "Users online"
+msgstr ""
+
+#: ../src/Chat.rb:42
+msgctxt "Chat"
+msgid "Hide the chat window"
+msgstr ""
+
+#: ../src/Chat.rb:121 ../src/_Main.rb:78
+msgctxt "Chat"
+msgid "Left the discussion."
+msgstr ""
+
+#: ../src/Clock.rb:8
+msgctxt "Clock"
+msgid "None"
+msgstr ""
+
+#: ../src/Clock.rb:8
+msgctxt "Clock"
+msgid "Voice and sound"
+msgstr ""
+
+#: ../src/Clock.rb:8
+msgctxt "Clock"
+msgid "Voice only"
+msgstr ""
+
+#: ../src/Clock.rb:8
+msgctxt "Clock"
+msgid "Sound only"
+msgstr ""
+
+#: ../src/Clock.rb:8
+msgctxt "Clock"
+msgid "Auto timereading"
+msgstr ""
+
+#: ../src/Clock.rb:9
+msgctxt "Clock"
+msgid "every half hour"
+msgstr ""
+
+#: ../src/Clock.rb:9
+msgctxt "Clock"
+msgid "announce time"
+msgstr ""
+
+#: ../src/Clock.rb:9
+msgctxt "Clock"
+msgid "every quarter of an hour"
+msgstr ""
+
+#: ../src/Clock.rb:9
+msgctxt "Clock"
+msgid "every hour"
+msgstr ""
+
+#: ../src/Clock.rb:10 ../src/Clock.rb:21 ../src/Clock.rb:53 ../src/Clock.rb:67
+msgctxt "Clock"
+msgid "Add"
+msgstr ""
+
+#: ../src/Clock.rb:10
+msgctxt "Clock"
+msgid "Alarms"
+msgstr ""
+
+#: ../src/Clock.rb:19 ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
+msgctxt "Clock"
+msgid "Type"
+msgstr ""
+
+#: ../src/Clock.rb:19 ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
+msgctxt "Clock"
+msgid "One time"
+msgstr ""
+
+#: ../src/Clock.rb:19
+msgctxt "Clock"
+msgid "repeated"
+msgstr ""
+
+#: ../src/Clock.rb:19 ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
+msgctxt "Clock"
+msgid "Hour"
+msgstr ""
+
+#: ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
+msgctxt "Clock"
+msgid "Repeated"
+msgstr ""
+
+#: ../src/Clock.rb:39
+msgctxt "Clock"
+msgid "Minute"
+msgstr ""
+
+#: ../src/Contacts.rb:42
+msgctxt "Contacts"
+msgid "Empty list"
+msgstr ""
+
+#: ../src/Contacts.rb:48
+msgctxt "Contacts"
+msgid "Contacts"
+msgstr ""
+
+#: ../src/Contacts.rb:73
+msgctxt "Contacts"
+msgid "Are you sure you want to delete this contact?"
+msgstr ""
+
+#: ../src/Contacts.rb:91
+msgctxt "Contacts"
+msgid "New contact"
+msgstr ""
+
+#: ../src/Contacts.rb:106
+msgctxt "Contacts"
+msgid "Enter the name of the user you want to add to your contacts' list."
+msgstr ""
+
+#: ../src/Contacts.rb:118
+msgctxt "Contacts"
+msgid "Contact was added."
+msgstr ""
+
+#: ../src/Contacts.rb:127
+msgctxt "Contacts"
+msgid "This user is already added to your contacts' list."
+msgstr ""
+
+#: ../src/Contacts.rb:130 ../src/Contacts.rb:163
+msgctxt "Contacts"
+msgid "This user does not exist."
+msgstr ""
+
+#: ../src/Contacts.rb:145
+msgctxt "Contacts"
+msgid "Type a username which you want to remove from your contact list."
+msgstr ""
+
+#: ../src/Contacts.rb:151
+msgctxt "Contacts"
+msgid "Contact has been deleted."
+msgstr ""
+
+#: ../src/Contacts.rb:160
+msgctxt "Contacts"
+msgid "This user is not added to your contacts' list."
+msgstr ""
+
+#: ../src/Debug.rb:7
+msgctxt "Debug"
+msgid "OK"
+msgstr ""
+
+#: ../src/Debug.rb:7
+msgctxt "Debug"
+msgid "A report"
+msgstr ""
+
+#: ../src/Debug.rb:7
+msgctxt "Debug"
+msgid "Report connections to the server"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:12
+msgctxt "EAPI_Common"
+msgid "Exit..."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:14
+msgctxt "EAPI_Common"
+msgid "Hide program in Tray"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:69
+msgctxt "EAPI_Common"
+msgid "Enter the command to execute"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:70
+msgctxt "EAPI_Common"
+msgid "Output"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:71
+msgctxt "EAPI_Common"
+msgid "Execute"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:121
+msgctxt "EAPI_Common"
+msgid "Visiting card"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:121
+msgctxt "EAPI_Common"
+msgid "Open user's blog"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:121
+msgctxt "EAPI_Common"
+msgid "badges of this user"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:121
+msgctxt "EAPI_Common"
+msgid "Write a private message"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:124
+msgctxt "EAPI_Common"
+msgid "Remove from contacts' list"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:126
+msgctxt "EAPI_Common"
+msgid "Add to contacts' list"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:133
+msgctxt "EAPI_Common"
+msgid "Ban"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:135
+msgctxt "EAPI_Common"
+msgid "Unban"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:258
+msgctxt "EAPI_Common"
+msgid "There is nothing new."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:342
+msgctxt "EAPI_Common"
+msgid "Send"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:342
+msgctxt "EAPI_Common"
+msgid "Describe the found error"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:358
+msgctxt "EAPI_Common"
+msgid "Sent."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:392
+msgctxt "EAPI_Common"
+msgid "Empty list"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:399
+msgctxt "EAPI_Common"
+msgid "Select contact"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:449
+msgctxt "EAPI_Common"
+msgid "Gender"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:465
+msgctxt "EAPI_Common"
+msgid "Age"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:468
+msgctxt "EAPI_Common"
+msgid "Location"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:482
+msgctxt "EAPI_Common_female"
+msgid "Last seen"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:484
+msgctxt "EAPI_Common_male"
+msgid "Last seen"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:486
+msgctxt "EAPI_Common"
+msgid "Last seen"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:489
+msgctxt "EAPI_Common"
+msgid "User has a blog"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:490
+msgctxt "EAPI_Common"
+msgid "Knows %{count} users"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:492
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:494
+msgctxt "EAPI_Common_female"
+msgid "Known by %{count} users"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:496
+msgctxt "EAPI_Common_male"
+msgid "Known by %{count} users"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:499
+msgctxt "EAPI_Common"
+msgid "Forum posts"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:500
+msgctxt "EAPI_Common"
+msgid "Polls answered"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:510
+msgctxt "EAPI_Common"
+msgid "Used version"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:511
+msgctxt "EAPI_Common"
+msgid "Registered"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:519
+msgctxt "EAPI_Common"
+msgid "Visiting card of %{user}:"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:539
+msgctxt "EAPI_Common"
+msgid "License agreement"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:540
+msgctxt "EAPI_Common"
+msgid "Terms and Conditions"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:541
+msgctxt "EAPI_Common"
+msgid "Privacy Policy"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:542
+msgctxt "EAPI_Common"
+msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:542
+msgctxt "EAPI_Common"
+msgid "I do not accept, exit"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:560
+msgctxt "EAPI_Common"
+msgid ""
+"Do you accept Elten license agreement, terms and conditions and privacy policy"
+"?"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:581
+msgctxt "EAPI_Common"
+msgid ""
+" You are trying to play a midi file. In order to play such files, Elten needs "
+"an  external base of instruments. Do you want to download the base from the se"
+"rver  now? It may take several minutes."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:582
+msgctxt "EAPI_Common"
+msgid "Soundfont downloaded succesfully."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:582
+msgctxt "EAPI_Common"
+msgid "Please wait, the soundfont is being downloaded. It may take a while."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Create one file"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "preview"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Output splitting"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Duration of one file (minutes)"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Divide by paragraphs"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "rate"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "voice"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Title"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Read file number"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "File to read"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Divide every"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "destination location"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "confirm"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Output format"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:975
+msgctxt "EAPI_Common"
+msgid "No selected file to read"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:987
+msgctxt "EAPI_Common"
+msgid "Type a file name"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:989
+msgctxt "EAPI_Common"
+msgid "Select file location"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:991
+msgctxt "EAPI_Common"
+msgid "Select source file"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1047
+msgctxt "EAPI_Common"
+msgid "Please wait, reading to file"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1087
+msgctxt "EAPI_Common"
+msgid "Sentence %{cursentence} of %{sentences}"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1087
+msgctxt "EAPI_Common"
+msgid "Reading to file number"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1087
+msgctxt "EAPI_Common"
+msgid "Estimated elapsed time"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1087
+msgctxt "EAPI_Common"
+msgid "Read"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1102
+msgctxt "EAPI_Common"
+msgid "Please wait, file processing..."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1108
+msgctxt "EAPI_Common"
+msgid "Processing"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1113
+msgctxt "EAPI_Common"
+msgid "Reading to file finished."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:1133
+msgctxt "EAPI_Common"
+msgid "Compressing..."
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:345
+msgctxt "EAPI_Form"
+msgid "Opening a link..."
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:504
+msgctxt "EAPI_Common"
+msgid "Checked: %{check}"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:517
+msgctxt "EAPI_Form"
+msgid "copied"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:523
+msgctxt "EAPI_Form"
+msgid "Cut out"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:527
+msgctxt "EAPI_Form"
+msgid "pasted"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:534
+msgctxt "EAPI_Form"
+msgid "undone"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:541
+msgctxt "EAPI_Form"
+msgid "Repeated"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:545
+msgctxt "EAPI_Form"
+msgid "Enter a phrase to look for"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:552
+msgctxt "EAPI_Form"
+msgid "No match found."
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:564
+msgctxt "EAPI_Form"
+msgid "Loaded"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:579
+msgctxt "EAPI_Form"
+msgid "File name"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:579
+msgctxt "EAPI_Form"
+msgid "Destination"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:588
+msgctxt "EAPI_Form"
+msgid "Downloading..."
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:589
+msgctxt "EAPI_Form"
+msgid "The file already exists. Do you want to override it?"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:593
+msgctxt "EAPI_Form"
+msgid "Downloaded"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:829
+msgctxt "EAPI_Form"
+msgid "Edit box"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:830
+msgctxt "EAPI_Form"
+msgid "Text"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:831
+msgctxt "EAPI_Form"
+msgid "Media"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1046
+msgctxt "EAPI_Form"
+msgid "All tags"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1162 ../src/EAPI_Controls.rb:1225
+msgctxt "EAPI_Form"
+msgid "Shortcut: "
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1163
+msgctxt "EAPI_Common"
+msgid "Checked"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1188 ../src/EAPI_Controls.rb:1337
+#: ../src/EAPI_Controls.rb:1350
+msgctxt "EAPI_Form"
+msgid "Checked"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1192
+msgctxt "EAPI_Form"
+msgid "Unchecked"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1227
+msgctxt "EAPI_Form"
+msgid "Empty list"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1303
+msgctxt "EAPI_Form"
+msgid "Button"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1334 ../src/EAPI_Controls.rb:1348
+msgctxt "EAPI_Form"
+msgid "unchecked"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1353
+msgctxt "EAPI_Form"
+msgid "Checkbox"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1407
+msgctxt "EAPI_Form"
+msgid "Music"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1407
+msgctxt "EAPI_Form"
+msgid "Documents"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1407
+msgctxt "EAPI_Form"
+msgid "Desktop"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1832
+msgctxt "EAPI_Form"
+msgid "Choose a path"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1934
+msgctxt "EAPI_Common"
+msgid "This file cannot be played."
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1965
+msgctxt "EAPI_Common"
+msgid "Type a second to which you want to move."
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1989
+msgctxt "EAPI_Common"
+msgid "Where do you want to save this file?"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1991
+msgctxt "EAPI_Common"
+msgid "Downloading..."
+msgstr ""
+
+#: ../src/EAPI_EltenSRV.rb:185
+msgctxt "Messages"
+msgid "Sending: %{file}"
+msgstr ""
+
+#: ../src/EAPI_EltenSRV.rb:406
+msgctxt "EAPI_EltenSRV"
+msgid "Select a user"
+msgstr ""
+
+#: ../src/EAPI_External.rb:34 ../src/EAPI_External.rb:46
+msgctxt "EAPI_External"
+msgid "An error occurred while translating."
+msgstr ""
+
+#: ../src/EAPI_External.rb:87
+msgctxt "EAPI_External"
+msgid "recognize automatically"
+msgstr ""
+
+#: ../src/EAPI_External.rb:87
+msgctxt "EAPI_External"
+msgid "source language"
+msgstr ""
+
+#: ../src/EAPI_External.rb:92
+msgctxt "EAPI_External"
+msgid "destination language"
+msgstr ""
+
+#: ../src/EAPI_External.rb:93
+msgctxt "EAPI_External"
+msgid "Translate"
+msgstr ""
+
+#: ../src/EAPI_External.rb:125
+msgctxt "EAPI_External"
+msgid ""
+"To play Youtube videos, Elten uses external Youtube-DL library. Do you want to"
+" download it now?"
+msgstr ""
+
+#: ../src/EAPI_External.rb:159
+msgctxt "EAPI_External"
+msgid "Connecting to server, please wait..."
+msgstr ""
+
+#: ../src/EAPI_External.rb:170
+msgctxt "EAPI_External"
+msgid "Do not read progress bar changes."
+msgstr ""
+
+#: ../src/EAPI_External.rb:173
+msgctxt "EAPI_External"
+msgid "Read progress bar changes."
+msgstr ""
+
+#: ../src/EAPI_External.rb:212
+msgctxt "EAPI_External"
+msgid "Add to playlist"
+msgstr ""
+
+#: ../src/EAPI_External.rb:212
+msgctxt "EAPI_External"
+msgid "Play"
+msgstr ""
+
+#: ../src/EAPI_External.rb:212
+msgctxt "EAPI_External"
+msgid "Download"
+msgstr ""
+
+#: ../src/EAPI_External.rb:212
+msgctxt "EAPI_External"
+msgid "Copy URL to the clipboard"
+msgstr ""
+
+#: ../src/EAPI_External.rb:218
+msgctxt "EAPI_External"
+msgid "Added to playlist"
+msgstr ""
+
+#: ../src/EAPI_External.rb:220
+msgctxt "EAPI_External"
+msgid "Download as audio"
+msgstr ""
+
+#: ../src/EAPI_External.rb:220
+msgctxt "EAPI_External"
+msgid "How do you want to download this file?"
+msgstr ""
+
+#: ../src/EAPI_External.rb:220
+msgctxt "EAPI_External"
+msgid "Download as video"
+msgstr ""
+
+#: ../src/EAPI_External.rb:223
+msgctxt "EAPI_External"
+msgid "Where you want to save this file?"
+msgstr ""
+
+#: ../src/EAPI_External.rb:230
+msgctxt "EAPI_External"
+msgid "Downloading, please wait..."
+msgstr ""
+
+#: ../src/EAPI_External.rb:251
+msgctxt "EAPI_External"
+msgid "Select the format"
+msgstr ""
+
+#: ../src/EAPI_External.rb:259
+msgctxt "EAPI_External"
+msgid "Please wait..."
+msgstr ""
+
+#: ../src/EAPI_External.rb:271
+msgctxt "EAPI_External"
+msgid "Copied to clipboard."
+msgstr ""
+
+#: ../src/EAPI_External.rb:276
+msgctxt "EAPI_External"
+msgid "Please wait, downloadingYoutubeDL..."
+msgstr ""
+
+#: ../src/EAPI_External.rb:288
+msgctxt "EAPI_External"
+msgid ""
+" An error occurred while audiotrack capturing. Do you want to send a bug repor"
+"t?  It may help us solve the problem."
+msgstr ""
+
+#: ../src/EAPI_External.rb:292
+msgctxt "EAPI_External"
+msgid ""
+" The file cannot be played. Do you want to report this bug? It may help us fix"
+" the  issue."
+msgstr ""
+
+#: ../src/EAPI_External.rb:326
+msgctxt "EAPI_External"
+msgid ""
+"The file you're trying to open was saved in format that Elten does not support"
+". Do you want to download and install Calibre Library that will allow Elten to"
+" read Ebooks?"
+msgstr ""
+
+#: ../src/EAPI_External.rb:328
+msgctxt "EAPI_External"
+msgid "Please wait, downloading Calibre..."
+msgstr ""
+
+#: ../src/EAPI_External.rb:330
+msgctxt "EAPI_External"
+msgid "Please wait, extracting Calibre..."
+msgstr ""
+
+#: ../src/EAPI_Network.rb:66
+msgctxt "EAPI_Network"
+msgid "sending..."
+msgstr ""
+
+#: ../src/EAPI_Network.rb:125
+msgctxt "EAPI_Network"
+msgid "The file already exists. Do you want to override it?"
+msgstr ""
+
+#: ../src/EAPI_Network.rb:186
+msgctxt "EAPI_Network"
+msgid "Do not report progress bar changes."
+msgstr ""
+
+#: ../src/EAPI_Network.rb:189
+msgctxt "EAPI_Network"
+msgid "Read progress bar changes."
+msgstr ""
+
+#: ../src/EAPI_Program.rb:121
+msgctxt "Program"
+msgid "The program has been closed."
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:96
+msgctxt "EAPI_Speech"
+msgid "Space"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:254
+msgctxt "EAPI_Speech"
+msgid "dot"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:256
+msgctxt "EAPI_Speech"
+msgid "comma"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:258
+msgctxt "EAPI_Speech"
+msgid "slash"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:260
+msgctxt "EAPI_Speech"
+msgid "semi"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:262
+msgctxt "EAPI_Speech"
+msgid "tick"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:264
+msgctxt "EAPI_Speech"
+msgid "left bracket"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:266
+msgctxt "EAPI_Speech"
+msgid "right bracket"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:268
+msgctxt "EAPI_Speech"
+msgid "backslash"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:270
+msgctxt "EAPI_Speech"
+msgid "dash"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:272
+msgctxt "EAPI_Speech"
+msgid "equals"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:274
+msgctxt "EAPI_Speech"
+msgid "graav"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:276
+msgctxt "EAPI_Speech"
+msgid "less"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:278
+msgctxt "EAPI_Speech"
+msgid "greater"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:280
+msgctxt "EAPI_Speech"
+msgid "question"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:282
+msgctxt "EAPI_Speech"
+msgid "colon"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:284
+msgctxt "EAPI_Speech"
+msgid "quote"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:286
+msgctxt "EAPI_Speech"
+msgid "left brace"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:288
+msgctxt "EAPI_Speech"
+msgid "right brace"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:290
+msgctxt "EAPI_Speech"
+msgid "bar"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:292
+msgctxt "EAPI_Speech"
+msgid "line"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:294
+msgctxt "EAPI_Speech"
+msgid "plus"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:296
+msgctxt "EAPI_Speech"
+msgid "bang"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:298
+msgctxt "EAPI_Speech"
+msgid "at"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:300
+msgctxt "EAPI_Speech"
+msgid "hash"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:302
+msgctxt "EAPI_Speech"
+msgid "dollar"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:304
+msgctxt "EAPI_Speech"
+msgid "percent"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:306
+msgctxt "EAPI_Speech"
+msgid "caret"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:308
+msgctxt "EAPI_Speech"
+msgid "and"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:310
+msgctxt "EAPI_Speech"
+msgid "star"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:312
+msgctxt "EAPI_Speech"
+msgid "left paren"
+msgstr ""
+
+#: ../src/EAPI_Speech.rb:314
+msgctxt "EAPI_Speech"
+msgid "right paren"
+msgstr ""
+
+#: ../src/EAPI_UI.rb:274
+msgctxt "EAPI_Common"
+msgid "Using a screenreader"
+msgstr ""
+
+#: ../src/EAPI_UI.rb:276
+msgctxt "EAPI_Common"
+msgid "Using a selected SAPI synthesizer"
+msgstr ""
+
+#: ../src/EAPI_UI.rb:378
+msgctxt "EAPI_UI"
+msgid ""
+" An unexpected error of Elten agent occurred. Do you want to report this event"
+"? It  may definitely help us solve the problem."
+msgstr ""
+
+#: ../src/EAPI_UI.rb:381
+msgctxt "EAPI_UI"
+msgid "The program is trying to recover from the frozen state."
+msgstr ""
+
+#: ../src/EAPI_UI.rb:450
+msgctxt "EAPI_UI"
+msgid "Alert!"
+msgstr ""
+
+#: ../src/EAPI_UI.rb:478 ../src/Login.rb:127 ../src/Login.rb:129
+#: ../src/_Main.rb:164
+msgid "Yes"
+msgstr ""
+
+#: ../src/EAPI_UI.rb:478 ../src/Login.rb:127 ../src/Login.rb:129
+#: ../src/_Main.rb:164
+msgid "No"
+msgstr ""
+
+#: ../src/Files.rb:14
+msgctxt "Files"
+msgid "Files"
+msgstr ""
+
+#: ../src/Files.rb:71
+msgctxt "Files"
+msgid "This file cannot be played."
+msgstr ""
+
+#: ../src/Files.rb:93 ../src/Files.rb:353
+msgctxt "Files"
+msgid "Do you really want to delete %{filename}?"
+msgstr ""
+
+#: ../src/Files.rb:96 ../src/Files.rb:359
+msgctxt "Files"
+msgid "Deleted"
+msgstr ""
+
+#: ../src/Files.rb:101
+msgctxt "Files"
+msgid "The file cannot be deleted, access denied."
+msgstr ""
+
+#: ../src/Files.rb:112
+msgctxt "Files"
+msgid "copied"
+msgstr ""
+
+#: ../src/Files.rb:168 ../src/Files.rb:374
+msgctxt "Files"
+msgid "Cut out"
+msgstr ""
+
+#: ../src/Files.rb:174
+msgctxt "Files"
+msgid "Open this directory"
+msgstr ""
+
+#: ../src/Files.rb:174 ../src/Files.rb:331
+msgctxt "Files"
+msgid "Add all audio files in this directory to playlist"
+msgstr ""
+
+#: ../src/Files.rb:182 ../src/Files.rb:336
+msgctxt "Files"
+msgid "Files added to playlist: %{count}."
+msgstr ""
+
+#: ../src/Files.rb:199
+msgctxt "Files"
+msgid ""
+" Do you want to run this Elten API script? Scripts coming from unknown sources"
+" can  harm your computer or give access to your account to unauthorised person"
+"s.  Continue if you trust a source this script comes from."
+msgstr ""
+
+#: ../src/Files.rb:205 ../src/Files.rb:308
+msgctxt "Files"
+msgid "Extract"
+msgstr ""
+
+#: ../src/Files.rb:209 ../src/Files.rb:310
+msgctxt "Files"
+msgid "Unpacked."
+msgstr ""
+
+#: ../src/Files.rb:266
+msgctxt "Files"
+msgid "pasted"
+msgstr ""
+
+#: ../src/Files.rb:268
+msgctxt "Files"
+msgid "The clipboard is empty"
+msgstr ""
+
+#: ../src/Files.rb:303
+msgctxt "Files"
+msgid "File"
+msgstr ""
+
+#: ../src/Files.rb:304
+msgctxt "Files"
+msgid "Open in an associated application"
+msgstr ""
+
+#: ../src/Files.rb:313
+msgctxt "Files"
+msgid "Compress"
+msgstr ""
+
+#: ../src/Files.rb:314
+msgctxt "Files"
+msgid "Select archive format"
+msgstr ""
+
+#: ../src/Files.rb:326
+msgctxt "Files"
+msgid "Compressed"
+msgstr ""
+
+#: ../src/Files.rb:342
+msgctxt "Files"
+msgid "Rename"
+msgstr ""
+
+#: ../src/Files.rb:345
+msgctxt "Files"
+msgid "A new file name"
+msgstr ""
+
+#: ../src/Files.rb:349
+msgctxt "Files"
+msgid "The file name has been changed."
+msgstr ""
+
+#: ../src/Files.rb:363
+msgctxt "Files"
+msgid "Clipboard"
+msgstr ""
+
+#: ../src/Files.rb:364
+msgctxt "Files"
+msgid "Copy"
+msgstr ""
+
+#: ../src/Files.rb:368
+msgctxt "Files"
+msgid "Copied"
+msgstr ""
+
+#: ../src/Files.rb:370
+msgctxt "Files"
+msgid "Cut"
+msgstr ""
+
+#: ../src/Files.rb:376
+msgctxt "Files"
+msgid "Paste"
+msgstr ""
+
+#: ../src/Files.rb:381
+msgctxt "Files"
+msgid "Create"
+msgstr ""
+
+#: ../src/Files.rb:382
+msgctxt "Files"
+msgid "New folder"
+msgstr ""
+
+#: ../src/Files.rb:385
+msgctxt "Files"
+msgid "Enter a folder name"
+msgstr ""
+
+#: ../src/Files.rb:389
+msgctxt "Files"
+msgid "The folder has been created."
+msgstr ""
+
+#: ../src/Files.rb:392
+msgctxt "Files"
+msgid "New text file"
+msgstr ""
+
+#: ../src/Files.rb:396 ../src/Files.rb:407
+msgctxt "Files"
+msgid "Enter a file name"
+msgstr ""
+
+#: ../src/Files.rb:400 ../src/Files.rb:433
+msgctxt "Files"
+msgid "The file has been created."
+msgstr ""
+
+#: ../src/Files.rb:403
+msgctxt "Files"
+msgid "New record"
+msgstr ""
+
+#: ../src/Files.rb:410
+msgctxt "Files"
+msgid "Record"
+msgstr ""
+
+#: ../src/Files.rb:437
+msgctxt "Files"
+msgid "Delete the playlist"
+msgstr ""
+
+#: ../src/Files.rb:440
+msgctxt "Files"
+msgid "Playlist cleared"
+msgstr ""
+
+#: ../src/Files.rb:443
+msgctxt "Files"
+msgid "Audio"
+msgstr ""
+
+#: ../src/Files.rb:446
+msgctxt "Files"
+msgid "Text"
+msgstr ""
+
+#: ../src/Files.rb:449
+msgctxt "Files"
+msgid "Document"
+msgstr ""
+
+#: ../src/Files.rb:454
+msgctxt "Files"
+msgid "Add to playlist"
+msgstr ""
+
+#: ../src/Files.rb:454
+msgctxt "Files"
+msgid "convert"
+msgstr ""
+
+#: ../src/Files.rb:454
+msgctxt "Files"
+msgid "Play"
+msgstr ""
+
+#: ../src/Files.rb:462
+msgctxt "Files"
+msgid "Playing: %{file}"
+msgstr ""
+
+#: ../src/Files.rb:467
+msgctxt "Files"
+msgid "Convert to"
+msgstr ""
+
+#: ../src/Files.rb:477
+msgctxt "Files"
+msgid "Sound quality"
+msgstr ""
+
+#: ../src/Files.rb:480
+msgctxt "Files"
+msgid "Please wait, the file is being converted."
+msgstr ""
+
+#: ../src/Files.rb:486
+msgctxt "Files"
+msgid "Converted."
+msgstr ""
+
+#: ../src/Files.rb:497 ../src/Files.rb:524
+msgctxt "Files"
+msgid "Read to file"
+msgstr ""
+
+#: ../src/Files.rb:497
+msgctxt "Files"
+msgid "Edit"
+msgstr ""
+
+#: ../src/Files.rb:524
+msgctxt "Files"
+msgid "Read"
+msgstr ""
+
+#: ../src/Files.rb:534
+msgctxt "Files"
+msgid "Processing..."
+msgstr ""
+
+#: ../src/ForgotPassword.rb:9
+msgctxt "ForgotPassword"
+msgid ""
+"If you lose your password, you can still reset it via the E-mail address provi"
+"ded  during the registration process. This way you shall generate the password"
+" reset  code which will be used to verify your identity. The code will be sent"
+" to your e- mail address. Warning! Two-factor authentication will be disabled "
+"on your  account. To continue, enter your username"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:16
+msgctxt "ForgotPassword"
+msgid "Enter the E-mail address used during the registration process"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:26
+msgctxt "ForgotPassword"
+msgid "The typed E-mail address is not associated with the entered username."
+msgstr ""
+
+#: ../src/ForgotPassword.rb:29
+msgctxt "ForgotPassword"
+msgid "Generate password reset code"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:29
+msgctxt "ForgotPassword"
+msgid "Enter password reset code"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:29
+msgctxt "ForgotPassword"
+msgid "Password reset"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:49
+msgctxt "ForgotPassword"
+msgid "Please wait while the password reset key is being generated."
+msgstr ""
+
+#: ../src/ForgotPassword.rb:53 ../src/ForgotPassword.rb:89
+msgctxt "ForgotPassword"
+msgid "An unexpected error"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:55
+msgctxt "ForgotPassword"
+msgid ""
+" Password reset key has been sent to your specified E-mail address. To continu"
+"e,  select the option for entering key."
+msgstr ""
+
+#: ../src/ForgotPassword.rb:62
+msgctxt "ForgotPassword"
+msgid "Enter the generated password reset code"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:68
+msgctxt "ForgotPassword"
+msgid "The entered code is invalid."
+msgstr ""
+
+#: ../src/ForgotPassword.rb:73
+msgctxt "ForgotPassword"
+msgid "Type a new password"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:75
+msgctxt "ForgotPassword"
+msgid "Type a new password again"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:78
+msgctxt "ForgotPassword"
+msgid "The entered passwords are different."
+msgstr ""
+
+#: ../src/ForgotPassword.rb:80
+msgctxt "ForgotPassword"
+msgid "Empty password provided."
+msgstr ""
+
+#: ../src/ForgotPassword.rb:85
+msgctxt "ForgotPassword"
+msgid "Please wait while the password is being changed"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:91
+msgctxt "ForgotPassword"
+msgid ""
+" The password has been changed. You can log in to your account using the new d"
+"ata."
+msgstr ""
+
+#: ../src/Forum.rb:85
+msgctxt "Forum"
+msgid "Sort"
+msgstr ""
+
+#: ../src/Forum.rb:86
+msgctxt "Forum"
+msgid "Default"
+msgstr ""
+
+#: ../src/Forum.rb:87
+msgctxt "Forum"
+msgid "By name (ascending)"
+msgstr ""
+
+#: ../src/Forum.rb:88
+msgctxt "Forum"
+msgid "By name (descending)"
+msgstr ""
+
+#: ../src/Forum.rb:89
+msgctxt "Forum"
+msgid "By unread posts (ascending)"
+msgstr ""
+
+#: ../src/Forum.rb:90
+msgctxt "Forum"
+msgid "By unread posts (descending)"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Open groups"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Invitations"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Moderated groups"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Recommended groups"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Recently created groups"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Threads popular with my friends"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "My threads"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Search"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Marked threads"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Followed forums"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Followed threads"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "All groups"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Groups popular with my friends"
+msgstr ""
+
+#: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
+#: ../src/Forum.rb:264 ../src/Forum.rb:284 ../src/Forum.rb:304
+#: ../src/Forum.rb:318 ../src/Forum.rb:334 ../src/Forum.rb:854
+msgctxt "Forum"
+msgid "Threads"
+msgstr ""
+
+#: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
+#: ../src/Forum.rb:264 ../src/Forum.rb:284 ../src/Forum.rb:304
+#: ../src/Forum.rb:318 ../src/Forum.rb:334 ../src/Forum.rb:854
+#: ../src/Forum.rb:1169
+msgctxt "Forum"
+msgid "posts"
+msgstr ""
+
+#: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
+#: ../src/Forum.rb:264 ../src/Forum.rb:284 ../src/Forum.rb:304
+#: ../src/Forum.rb:318 ../src/Forum.rb:334 ../src/Forum.rb:854
+#: ../src/Forum.rb:914 ../src/Forum.rb:1169
+msgctxt "Forum"
+msgid "Unread"
+msgstr ""
+
+#: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
+#: ../src/Forum.rb:264 ../src/Forum.rb:284 ../src/Forum.rb:304
+#: ../src/Forum.rb:318 ../src/Forum.rb:334
+msgctxt "Forum"
+msgid "Forums"
+msgstr ""
+
+#: ../src/Forum.rb:244 ../src/Forum.rb:264 ../src/Forum.rb:284
+#: ../src/Forum.rb:304 ../src/Forum.rb:318 ../src/Forum.rb:334
+#: ../src/Forum.rb:617 ../src/Forum.rb:744 ../src/Forum.rb:746
+msgctxt "Forum"
+msgid "Administrator"
+msgstr ""
+
+#: ../src/Forum.rb:342 ../src/Forum.rb:344 ../src/Forum.rb:857
+#: ../src/Forum.rb:1172 ../src/Forum.rb:1403 ../src/Forum.rb:1901
+msgctxt "Forum"
+msgid "Forum"
+msgstr ""
+
+#: ../src/Forum.rb:390 ../src/Forum.rb:2057
+msgctxt "Forum"
+msgid "Enter a phrase to look for"
+msgstr ""
+
+#: ../src/Forum.rb:411 ../src/Forum.rb:877 ../src/Forum.rb:1213
+msgctxt "Forum"
+msgid "Open"
+msgstr ""
+
+#: ../src/Forum.rb:415 ../src/Forum.rb:461
+msgctxt "Forum"
+msgid "Group summary"
+msgstr ""
+
+#: ../src/Forum.rb:418 ../src/Forum.rb:775
+msgctxt "Forum"
+msgid "Language"
+msgstr ""
+
+#: ../src/Forum.rb:419 ../src/Forum.rb:630
+msgctxt "Forum"
+msgid "Members"
+msgstr ""
+
+#: ../src/Forum.rb:420
+msgctxt "Forum"
+msgid "Founder"
+msgstr ""
+
+#: ../src/Forum.rb:423
+msgctxt "Forum"
+msgid "Founded at"
+msgstr ""
+
+#: ../src/Forum.rb:426
+msgctxt "Forum"
+msgid "The most active members"
+msgstr ""
+
+#: ../src/Forum.rb:430
+msgctxt "Forum"
+msgid "Group size"
+msgstr ""
+
+#: ../src/Forum.rb:440
+msgctxt "Forum"
+msgid "Audio posts"
+msgstr ""
+
+#: ../src/Forum.rb:442 ../src/Forum.rb:1471 ../src/Forum.rb:1833
+#: ../src/Forum.rb:1872
+msgctxt "Forum"
+msgid "Attachments"
+msgstr ""
+
+#: ../src/Forum.rb:444
+msgctxt "Forum"
+msgid "Text"
+msgstr ""
+
+#: ../src/Forum.rb:446
+msgctxt "Forum"
+msgid "Overall size"
+msgstr ""
+
+#: ../src/Forum.rb:464
+msgctxt "Forum"
+msgid "Group members"
+msgstr ""
+
+#: ../src/Forum.rb:468
+msgctxt "Forum"
+msgid "Invite"
+msgstr ""
+
+#: ../src/Forum.rb:469
+msgctxt "Forum"
+msgid "Type user to invite"
+msgstr ""
+
+#: ../src/Forum.rb:473 ../src/Forum.rb:486
+msgctxt "Forum"
+msgid "This user does not exist"
+msgstr ""
+
+#: ../src/Forum.rb:478
+msgctxt "Forum"
+msgid "The user has been invited"
+msgstr ""
+
+#: ../src/Forum.rb:484 ../src/Messages.rb:815 ../src/Messages.rb:904
+#: ../src/Users.rb:19
+msgid "You haven't permissions to do this"
+msgstr ""
+
+#: ../src/Forum.rb:488
+msgctxt "Forum"
+msgid "This user already belongs to this group"
+msgstr ""
+
+#: ../src/Forum.rb:497
+msgctxt "Forum"
+msgid "Join"
+msgstr ""
+
+#: ../src/Forum.rb:498 ../src/Forum.rb:706
+msgctxt "Forum"
+msgid "Accept invitation"
+msgstr ""
+
+#: ../src/Forum.rb:499
+msgctxt "Forum"
+msgid "Ask to be enrolled in this group"
+msgstr ""
+
+#: ../src/Forum.rb:503
+msgctxt "Forum"
+msgid "Do you wish to ask to be enrolled in %{groupname}"
+msgstr ""
+
+#: ../src/Forum.rb:505
+msgctxt "Forum"
+msgid "Are you sure you want to join %{groupname}?"
+msgstr ""
+
+#: ../src/Forum.rb:511
+msgctxt "Forum"
+msgid "Request sent"
+msgstr ""
+
+#: ../src/Forum.rb:514
+msgctxt "Forum"
+msgid "You've just joined the group"
+msgstr ""
+
+#: ../src/Forum.rb:525
+msgctxt "Forum"
+msgid "Leave"
+msgstr ""
+
+#: ../src/Forum.rb:526 ../src/Forum.rb:706
+msgctxt "Forum"
+msgid "Refuse invitation"
+msgstr ""
+
+#: ../src/Forum.rb:529
+msgctxt "Forum"
+msgid "Are you sure you want to leave %{groupname}?"
+msgstr ""
+
+#: ../src/Forum.rb:532
+msgctxt "Forum"
+msgid "You've just left the group"
+msgstr ""
+
+#: ../src/Forum.rb:542
+msgctxt "Forum"
+msgid "Edit group"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:775
+msgctxt "Forum"
+msgid "Group type"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:775
+msgctxt "Forum"
+msgid "Group name"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:775
+msgctxt "Forum"
+msgid "Group description"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:775
+msgctxt "Forum"
+msgid "Hidden"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:775
+msgctxt "Forum"
+msgid "Public"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:775
+msgctxt "Forum"
+msgid "Group join type"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:562 ../src/Forum.rb:775
+#: ../src/Forum.rb:789
+msgctxt "Forum"
+msgid "open (everyone can join)"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:560 ../src/Forum.rb:562
+#: ../src/Forum.rb:775 ../src/Forum.rb:787 ../src/Forum.rb:789
+msgctxt "Forum"
+msgid "Moderated (everyone can request)"
+msgstr ""
+
+#: ../src/Forum.rb:560 ../src/Forum.rb:787
+msgctxt "Forum"
+msgid "closed (only invited users can join)"
+msgstr ""
+
+#: ../src/Forum.rb:580
+msgctxt "Forum"
+msgid "Delete group"
+msgstr ""
+
+#: ../src/Forum.rb:581
+msgctxt "Forum"
+msgid "Are you sure you want to delete %{groupname}?"
+msgstr ""
+
+#: ../src/Forum.rb:585
+msgctxt "Forum"
+msgid "Group has been deleted"
+msgstr ""
+
+#: ../src/Forum.rb:594
+msgctxt "Forum"
+msgid "New group"
+msgstr ""
+
+#: ../src/Forum.rb:619 ../src/Forum.rb:679 ../src/Forum.rb:682
+msgctxt "Forum"
+msgid "Moderator"
+msgstr ""
+
+#: ../src/Forum.rb:621 ../src/Forum.rb:728
+msgctxt "Forum"
+msgid "Banned"
+msgstr ""
+
+#: ../src/Forum.rb:623
+msgctxt "Forum"
+msgid "Invited"
+msgstr ""
+
+#: ../src/Forum.rb:625 ../src/Forum.rb:729
+msgctxt "Forum"
+msgid "Waiting for review"
+msgstr ""
+
+#: ../src/Forum.rb:638
+msgctxt "Forum"
+msgid "Grant moderation privileges"
+msgstr ""
+
+#: ../src/Forum.rb:640
+msgctxt "Forum"
+msgid "Deny moderation privileges"
+msgstr ""
+
+#: ../src/Forum.rb:641
+msgctxt "Forum"
+msgid "Pass administrative privileges"
+msgstr ""
+
+#: ../src/Forum.rb:643 ../src/Forum.rb:656
+msgctxt "Forum"
+msgid "Unban"
+msgstr ""
+
+#: ../src/Forum.rb:645 ../src/Forum.rb:658
+msgctxt "Forum"
+msgid "Examine"
+msgstr ""
+
+#: ../src/Forum.rb:651
+msgctxt "Forum"
+msgid "Ban in this group"
+msgstr ""
+
+#: ../src/Forum.rb:653
+msgctxt "Forum"
+msgid "Kick"
+msgstr ""
+
+#: ../src/Forum.rb:667
+msgctxt "Forum"
+msgid ""
+"Are you sure you want to grant moderation privileges in %{groupname} to user %"
+"{user}?"
+msgstr ""
+
+#: ../src/Forum.rb:670
+msgctxt "Forum"
+msgid "Are you sure you want to deny %{user}'s moderation privileges?"
+msgstr ""
+
+#: ../src/Forum.rb:684 ../src/Forum.rb:733 ../src/Forum.rb:748
+msgctxt "Forum"
+msgid "Privileges of this user have been changed."
+msgstr ""
+
+#: ../src/Forum.rb:697
+msgctxt "Forum"
+msgid "Are you sure you want to ban %{user} in %{groupname}?"
+msgstr ""
+
+#: ../src/Forum.rb:700
+msgctxt "Forum"
+msgid "Are you sure you want to kick %{user} of %{groupname}?"
+msgstr ""
+
+#: ../src/Forum.rb:704
+msgctxt "Forum"
+msgid "Are you sure you want to unban %{user} in %{groupname}?"
+msgstr ""
+
+#: ../src/Forum.rb:710
+msgctxt "Forum"
+msgid "Do you want to accept request of user %{user}"
+msgstr ""
+
+#: ../src/Forum.rb:713
+msgctxt "Forum"
+msgid "Do you want to refuse request of user %{user}"
+msgstr ""
+
+#: ../src/Forum.rb:738
+msgctxt "Forum"
+msgid ""
+"Are you sure you want to resign your administrative privileges in %{groupname}"
+" and pass them to %{user}?"
+msgstr ""
+
+#: ../src/Forum.rb:781
+msgctxt "Forum"
+msgid "Create group"
+msgstr ""
+
+#: ../src/Forum.rb:796
+msgctxt "Forum"
+msgid "Group has been created"
+msgstr ""
+
+#: ../src/Forum.rb:855
+msgctxt "Forum"
+msgid "Select forum"
+msgstr ""
+
+#: ../src/Forum.rb:881
+msgctxt "Forum"
+msgid "Follow this forum"
+msgstr ""
+
+#: ../src/Forum.rb:882
+msgctxt "Forum"
+msgid "Unfollow this forum"
+msgstr ""
+
+#: ../src/Forum.rb:888
+msgctxt "Forum"
+msgid "Added to followed forums list."
+msgstr ""
+
+#: ../src/Forum.rb:895
+msgctxt "Forum"
+msgid "Removed from followed forums list."
+msgstr ""
+
+#: ../src/Forum.rb:906
+msgctxt "Forum"
+msgid "Mark this forum as read"
+msgstr ""
+
+#: ../src/Forum.rb:907
+msgctxt "Forum"
+msgid ""
+" All posts on this forum will be marked as read. Are you sure you want to cont"
+"inue?"
+msgstr ""
+
+#: ../src/Forum.rb:915
+msgctxt "Forum"
+msgid "The forum has been marked as read."
+msgstr ""
+
+#: ../src/Forum.rb:925
+msgctxt "Forum"
+msgid "New forum"
+msgstr ""
+
+#: ../src/Forum.rb:931
+msgctxt "Forum"
+msgid "Edit forum"
+msgstr ""
+
+#: ../src/Forum.rb:932 ../src/Forum.rb:1002
+msgctxt "Forum"
+msgid "Forum description"
+msgstr ""
+
+#: ../src/Forum.rb:932 ../src/Forum.rb:1002
+msgctxt "Forum"
+msgid "Forum name"
+msgstr ""
+
+#: ../src/Forum.rb:961
+msgctxt "Forum"
+msgid "Change forum position"
+msgstr ""
+
+#: ../src/Forum.rb:964 ../src/Forum.rb:2281
+msgctxt "Forum"
+msgid "Move to end"
+msgstr ""
+
+#: ../src/Forum.rb:964
+msgctxt "Forum"
+msgid "Move forum"
+msgstr ""
+
+#: ../src/Forum.rb:979
+msgctxt "Forum"
+msgid "Delete forum"
+msgstr ""
+
+#: ../src/Forum.rb:980
+msgctxt "Forum"
+msgid "Are you sure you want to delete this forum?"
+msgstr ""
+
+#: ../src/Forum.rb:985
+msgctxt "Forum"
+msgid "The forum has been deleted."
+msgstr ""
+
+#: ../src/Forum.rb:1002
+msgctxt "Forum"
+msgid "Text forum"
+msgstr ""
+
+#: ../src/Forum.rb:1002
+msgctxt "Forum"
+msgid "Voice forum"
+msgstr ""
+
+#: ../src/Forum.rb:1002
+msgctxt "Forum"
+msgid "Forum type"
+msgstr ""
+
+#: ../src/Forum.rb:1008
+msgctxt "Forum"
+msgid "Create forum"
+msgstr ""
+
+#: ../src/Forum.rb:1024
+msgctxt "Forum"
+msgid "The forum has been created"
+msgstr ""
+
+#: ../src/Forum.rb:1132
+msgctxt "Forum"
+msgid "No new posts in followed threads"
+msgstr ""
+
+#: ../src/Forum.rb:1136
+msgctxt "Forum"
+msgid "No new threads on the followed forums"
+msgstr ""
+
+#: ../src/Forum.rb:1140
+msgctxt "Forum"
+msgid "No new posts on the followed forums"
+msgstr ""
+
+#: ../src/Forum.rb:1144
+msgctxt "Forum"
+msgid "No new mentions"
+msgstr ""
+
+#: ../src/Forum.rb:1153
+msgctxt "Forum"
+msgid "New"
+msgstr ""
+
+#: ../src/Forum.rb:1157
+msgctxt "Forum"
+msgid "Montioned by"
+msgstr ""
+
+#: ../src/Forum.rb:1167
+msgctxt "Forum"
+msgid "Select thread"
+msgstr ""
+
+#: ../src/Forum.rb:1169
+msgctxt "Forum"
+msgid "Author"
+msgstr ""
+
+#: ../src/Forum.rb:1216
+msgctxt "Forum"
+msgid "Mark this thread"
+msgstr ""
+
+#: ../src/Forum.rb:1217
+msgctxt "Forum"
+msgid "Unmark this thread"
+msgstr ""
+
+#: ../src/Forum.rb:1225
+msgctxt "Forum"
+msgid "Thread unmarked"
+msgstr ""
+
+#: ../src/Forum.rb:1227
+msgctxt "Forum"
+msgid "Thread marked"
+msgstr ""
+
+#: ../src/Forum.rb:1232 ../src/Forum.rb:1403 ../src/Forum.rb:2178
+msgctxt "Forum"
+msgid "Add to followed threads list"
+msgstr ""
+
+#: ../src/Forum.rb:1233 ../src/Forum.rb:2179
+msgctxt "Forum"
+msgid "Unfollow this thread"
+msgstr ""
+
+#: ../src/Forum.rb:1239 ../src/Forum.rb:2185
+msgctxt "Forum"
+msgid "Added to the list of followed threads."
+msgstr ""
+
+#: ../src/Forum.rb:1246 ../src/Forum.rb:2192
+msgctxt "Forum"
+msgid "Removed from followed threads list."
+msgstr ""
+
+#: ../src/Forum.rb:1254
+msgctxt "Forum"
+msgid "Thread statistics"
+msgstr ""
+
+#: ../src/Forum.rb:1258
+msgctxt "Forum"
+msgid "Followers: %{count_followers}"
+msgstr ""
+
+#: ../src/Forum.rb:1259
+msgctxt "Forum"
+msgid "All mentions: %{count_mentions}"
+msgstr ""
+
+#: ../src/Forum.rb:1260
+msgctxt "Forum"
+msgid "Unique authors: %{count_authors}"
+msgstr ""
+
+#: ../src/Forum.rb:1261
+msgctxt "Forum"
+msgid "Readers: %{count_readers}"
+msgstr ""
+
+#: ../src/Forum.rb:1262
+msgctxt "Forum"
+msgid "Users that have read less than 50 percent of posts: %{count_readers}"
+msgstr ""
+
+#: ../src/Forum.rb:1263
+msgctxt "Forum"
+msgid "Users that have read over 90 percent of posts: %{count_readers}"
+msgstr ""
+
+#: ../src/Forum.rb:1264
+msgctxt "Forum"
+msgid "Users that have read all posts: %{count_readers}"
+msgstr ""
+
+#: ../src/Forum.rb:1266
+msgctxt "Forum"
+msgid "Thread statistics summary"
+msgstr ""
+
+#: ../src/Forum.rb:1272
+msgctxt "Forum"
+msgid "New thread"
+msgstr ""
+
+#: ../src/Forum.rb:1280 ../src/Forum.rb:2198
+msgctxt "Forum"
+msgid "Moderation"
+msgstr ""
+
+#: ../src/Forum.rb:1281
+msgctxt "Forum"
+msgid "Move thread"
+msgstr ""
+
+#: ../src/Forum.rb:1292
+msgctxt "Forum"
+msgid "Thread destination"
+msgstr ""
+
+#: ../src/Forum.rb:1297
+msgctxt "Forum"
+msgid "The thread has been moved."
+msgstr ""
+
+#: ../src/Forum.rb:1304
+msgctxt "Forum"
+msgid "Rename"
+msgstr ""
+
+#: ../src/Forum.rb:1305
+msgctxt "Forum"
+msgid "Type a new thread name"
+msgstr ""
+
+#: ../src/Forum.rb:1310
+msgctxt "Forum"
+msgid "The forum name has been changed."
+msgstr ""
+
+#: ../src/Forum.rb:1317
+msgctxt "Forum"
+msgid "Delete thread"
+msgstr ""
+
+#: ../src/Forum.rb:1318
+msgctxt "Forum"
+msgid "Do you really want to delete thread %{thrname}?"
+msgstr ""
+
+#: ../src/Forum.rb:1322
+msgctxt "Forum"
+msgid "This thread has been deleted."
+msgstr ""
+
+#: ../src/Forum.rb:1329
+msgctxt "Forum"
+msgid "Close thread"
+msgstr ""
+
+#: ../src/Forum.rb:1330
+msgctxt "Forum"
+msgid "Open thread"
+msgstr ""
+
+#: ../src/Forum.rb:1340
+msgctxt "Forum"
+msgid "The thread has been opened"
+msgstr ""
+
+#: ../src/Forum.rb:1344
+msgctxt "Forum"
+msgid "The thread has been closed"
+msgstr ""
+
+#: ../src/Forum.rb:1349
+msgctxt "Forum"
+msgid "Pin thread"
+msgstr ""
+
+#: ../src/Forum.rb:1350
+msgctxt "Forum"
+msgid "Unpin thread"
+msgstr ""
+
+#: ../src/Forum.rb:1360
+msgctxt "Forum"
+msgid "Thread has been unpinned"
+msgstr ""
+
+#: ../src/Forum.rb:1364
+msgctxt "Forum"
+msgid "Thread has been pinned"
+msgstr ""
+
+#: ../src/Forum.rb:1398 ../src/Forum.rb:1401
+msgctxt "Forum"
+msgid "Thread's title"
+msgstr ""
+
+#: ../src/Forum.rb:1398 ../src/Forum.rb:1890
+msgctxt "Forum"
+msgid "Attach a file"
+msgstr ""
+
+#: ../src/Forum.rb:1398
+msgctxt "Forum"
+msgid "Post"
+msgstr ""
+
+#: ../src/Forum.rb:1398
+msgctxt "Forum"
+msgid "Attach a poll"
+msgstr ""
+
+#: ../src/Forum.rb:1399
+msgctxt "Forum"
+msgid "Nick:"
+msgstr ""
+
+#: ../src/Forum.rb:1401
+msgctxt "Forum"
+msgid "Record a post"
+msgstr ""
+
+#: ../src/Forum.rb:1410 ../src/Forum.rb:1515 ../src/Forum.rb:1942
+#: ../src/Forum.rb:1979
+msgctxt "Forum"
+msgid "Send"
+msgstr ""
+
+#: ../src/Forum.rb:1427
+msgctxt "Forum"
+msgid "Poll to attach"
+msgstr ""
+
+#: ../src/Forum.rb:1432
+msgctxt "Forum"
+msgid "This poll has already been added"
+msgstr ""
+
+#: ../src/Forum.rb:1435 ../src/Forum.rb:1879
+msgctxt "Forum"
+msgid "Polls"
+msgstr ""
+
+#: ../src/Forum.rb:1437
+msgctxt "Forum"
+msgid "Poll has been added"
+msgstr ""
+
+#: ../src/Forum.rb:1441
+msgctxt "Forum"
+msgid "You haven't created any polls yet."
+msgstr ""
+
+#: ../src/Forum.rb:1462 ../src/Forum.rb:1824
+msgctxt "Forum"
+msgid "Select file to attach"
+msgstr ""
+
+#: ../src/Forum.rb:1465 ../src/Forum.rb:1827
+msgctxt "Forum"
+msgid "This file has been already attached"
+msgstr ""
+
+#: ../src/Forum.rb:1468 ../src/Forum.rb:1830
+msgctxt "Forum"
+msgid "This file is too large"
+msgstr ""
+
+#: ../src/Forum.rb:1473 ../src/Forum.rb:1835
+msgctxt "Forum"
+msgid "The file has been attached"
+msgstr ""
+
+#: ../src/Forum.rb:1506 ../src/Forum.rb:1972
+msgctxt "Forum"
+msgid "Stop recording"
+msgstr ""
+
+#: ../src/Forum.rb:1513 ../src/Forum.rb:1977
+msgctxt "Forum"
+msgid "Record a post once again"
+msgstr ""
+
+#: ../src/Forum.rb:1514
+msgctxt "Forum"
+msgid "Play post"
+msgstr ""
+
+#: ../src/Forum.rb:1590
+msgctxt "Forum"
+msgid "Thread has been created."
+msgstr ""
+
+#: ../src/Forum.rb:1592
+msgctxt "Forum"
+msgid "Error creating thread!"
+msgstr ""
+
+#: ../src/Forum.rb:1799 ../src/Polls.rb:63 ../src/Polls.rb:98
+#: ../src/Polls.rb:289
+msgctxt "Polls"
+msgid "Vote"
+msgstr ""
+
+#: ../src/Forum.rb:1799 ../src/Polls.rb:63 ../src/Polls.rb:103
+msgctxt "Polls"
+msgid "Show results"
+msgstr ""
+
+#: ../src/Forum.rb:1813
+msgctxt "Forum"
+msgid "Where to save this file?"
+msgstr ""
+
+#: ../src/Forum.rb:1890
+msgctxt "Forum"
+msgid "Your answer"
+msgstr ""
+
+#: ../src/Forum.rb:1892
+msgctxt "Forum"
+msgid "Record a new post"
+msgstr ""
+
+#: ../src/Forum.rb:1897
+msgctxt "Forum"
+msgid "Return"
+msgstr ""
+
+#: ../src/Forum.rb:1923 ../src/Forum.rb:2051 ../src/Forum.rb:2072
+msgctxt "Forum"
+msgid "Select post"
+msgstr ""
+
+#: ../src/Forum.rb:1959 ../src/Forum.rb:2015
+msgctxt "Forum"
+msgid "The post was created."
+msgstr ""
+
+#: ../src/Forum.rb:1978
+msgctxt "Forum"
+msgid "Play"
+msgstr ""
+
+#: ../src/Forum.rb:1990
+msgctxt "Forum"
+msgid "Preparing..."
+msgstr ""
+
+#: ../src/Forum.rb:2017
+msgctxt "Forum"
+msgid "Post creation failure."
+msgstr ""
+
+#: ../src/Forum.rb:2028 ../src/Forum.rb:2029
+msgctxt "Forum"
+msgid "Reply"
+msgstr ""
+
+#: ../src/Forum.rb:2033
+msgctxt "Forum"
+msgid "Reply with quote"
+msgstr ""
+
+#: ../src/Forum.rb:2041
+msgctxt "Forum"
+msgid "Navigation"
+msgstr ""
+
+#: ../src/Forum.rb:2042 ../src/Forum.rb:2319
+msgctxt "Forum"
+msgid "Bookmarks"
+msgstr ""
+
+#: ../src/Forum.rb:2045
+msgctxt "Forum"
+msgid "Go to post"
+msgstr ""
+
+#: ../src/Forum.rb:2056
+msgctxt "Forum"
+msgid "Search in thread"
+msgstr ""
+
+#: ../src/Forum.rb:2077
+msgctxt "Forum"
+msgid "The entered phrase cannot be found."
+msgstr ""
+
+#: ../src/Forum.rb:2082
+msgctxt "Forum"
+msgid "Go to first post"
+msgstr ""
+
+#: ../src/Forum.rb:2086
+msgctxt "Forum"
+msgid "Go to last post"
+msgstr ""
+
+#: ../src/Forum.rb:2091
+msgctxt "Forum"
+msgid "Go to first new post"
+msgstr ""
+
+#: ../src/Forum.rb:2098 ../src/Forum.rb:2112
+msgctxt "Forum"
+msgid "Mention post"
+msgstr ""
+
+#: ../src/Forum.rb:2109
+msgctxt "Forum"
+msgid "Nobody added you to their contact list."
+msgstr ""
+
+#: ../src/Forum.rb:2112
+msgctxt "Forum"
+msgid "Message"
+msgstr ""
+
+#: ../src/Forum.rb:2126
+msgctxt "Forum"
+msgid "The mention has been sent."
+msgstr ""
+
+#: ../src/Forum.rb:2135
+msgctxt "Forum"
+msgid "Listen to the thread"
+msgstr ""
+
+#: ../src/Forum.rb:2200
+msgctxt "Forum"
+msgid "Edit post"
+msgstr ""
+
+#: ../src/Forum.rb:2202
+msgctxt "Forum"
+msgid "edit your post here"
+msgstr ""
+
+#: ../src/Forum.rb:2211
+msgctxt "Forum"
+msgid "The post has been modified"
+msgstr ""
+
+#: ../src/Forum.rb:2223
+msgctxt "Forum"
+msgid "Move post"
+msgstr ""
+
+#: ../src/Forum.rb:2244
+msgctxt "Forum"
+msgid "Post destination"
+msgstr ""
+
+#: ../src/Forum.rb:2249
+msgctxt "Forum"
+msgid "The post has been moved."
+msgstr ""
+
+#: ../src/Forum.rb:2255
+msgctxt "Forum"
+msgid "Delete post"
+msgstr ""
+
+#: ../src/Forum.rb:2256
+msgctxt "Forum"
+msgid "Are you sure you want to delete this post?"
+msgstr ""
+
+#: ../src/Forum.rb:2266
+msgctxt "Forum"
+msgid "This post has been deleted."
+msgstr ""
+
+#: ../src/Forum.rb:2276
+msgctxt "Forum"
+msgid "Change post position"
+msgstr ""
+
+#: ../src/Forum.rb:2282
+msgctxt "Forum"
+msgid "Place post above"
+msgstr ""
+
+#: ../src/Forum.rb:2285
+msgctxt "Forum"
+msgid "The post has been slided."
+msgstr ""
+
+#: ../src/Forum.rb:2319
+msgctxt "Forum"
+msgid "Post %{postnumber} by %{author}"
+msgstr ""
+
+#: ../src/Forum.rb:2322
+msgctxt "Forum"
+msgid "Delete bookmark"
+msgstr ""
+
+#: ../src/Forum.rb:2328
+msgctxt "Forum"
+msgid "New bookmark"
+msgstr ""
+
+#: ../src/Forum.rb:2361
+msgctxt "Forum"
+msgid "Bookmark deleted"
+msgstr ""
+
+#: ../src/Forum.rb:2370
+msgctxt "Forum"
+msgid "Bookmark description"
+msgstr ""
+
+#: ../src/Forum.rb:2373
+msgctxt "Forum"
+msgid "Bookmark created"
+msgstr ""
+
+#: ../src/General.rb:8
+msgctxt "General"
+msgid "Circular"
+msgstr ""
+
+#: ../src/General.rb:8
+msgctxt "General"
+msgid "The display method of selection lists"
+msgstr ""
+
+#: ../src/General.rb:8
+msgctxt "General"
+msgid "Linear"
+msgstr ""
+
+#: ../src/General.rb:9
+msgctxt "General"
+msgid "Play sounds of soundthemes"
+msgstr ""
+
+#: ../src/General.rb:10
+msgctxt "General"
+msgid "Words"
+msgstr ""
+
+#: ../src/General.rb:10
+msgctxt "General"
+msgid "Characters and words"
+msgstr ""
+
+#: ../src/General.rb:10
+msgctxt "General"
+msgid "None"
+msgstr ""
+
+#: ../src/General.rb:10
+msgctxt "General"
+msgid "Characters"
+msgstr ""
+
+#: ../src/General.rb:10
+msgctxt "General"
+msgid "Typing echo"
+msgstr ""
+
+#: ../src/General.rb:11
+msgctxt "General"
+msgid "Wrap long lines in text fields"
+msgstr ""
+
+#: ../src/General.rb:12
+msgctxt "General"
+msgid "Automatically minimize Elten Window to system tray"
+msgstr ""
+
+#: ../src/General.rb:13
+msgctxt "General"
+msgid "Enable auto log in"
+msgstr ""
+
+#: ../src/General.rb:14
+msgctxt "General"
+msgid "Automatically start Elten after I log on to Windows"
+msgstr ""
+
+#: ../src/General.rb:45
+msgctxt "General"
+msgid "Auto log in is required to use auto start"
+msgstr ""
+
+#: ../src/General.rb:49
+msgctxt "General"
+msgid "Are you sure you want to enable autostart of portable version?"
+msgstr ""
+
+#: ../src/Honors.rb:64
+msgctxt "Honors"
+msgid "A new badge"
+msgstr ""
+
+#: ../src/Honors.rb:67
+msgctxt "Honors"
+msgid "Badges"
+msgstr ""
+
+#: ../src/Honors.rb:69
+msgctxt "Honors"
+msgid "Badges of %{user}"
+msgstr ""
+
+#: ../src/Honors.rb:72
+msgctxt "Honors"
+msgid "The user has been given no badges."
+msgstr ""
+
+#: ../src/Honors.rb:105 ../src/Honors.rb:120 ../src/Honors.rb:221
+msgctxt "Honors"
+msgid "Level"
+msgstr ""
+
+#: ../src/Honors.rb:133
+msgctxt "Honors"
+msgid "Set as main honor"
+msgstr ""
+
+#: ../src/Honors.rb:138
+msgctxt "Honors"
+msgid "The badge has been set as default."
+msgstr ""
+
+#: ../src/Honors.rb:142
+msgctxt "Honors"
+msgid "Grant a badge"
+msgstr ""
+
+#: ../src/Honors.rb:143
+msgctxt "Honors"
+msgid "Who should be granted this badge?"
+msgstr ""
+
+#: ../src/Honors.rb:146
+msgctxt "Honors"
+msgid "The user cannot be found"
+msgstr ""
+
+#: ../src/Honors.rb:152
+msgctxt "Honors"
+msgid "The badge has been granted"
+msgstr ""
+
+#: ../src/Honors.rb:157
+msgctxt "Honors"
+msgid "Edit challenges"
+msgstr ""
+
+#: ../src/Honors.rb:163
+msgctxt "Honors"
+msgid "Delete"
+msgstr ""
+
+#: ../src/Honors.rb:164
+msgctxt "Honors"
+msgid ""
+"Are you sure you want to delete this badge? All users granted with this badge "
+"will loose it."
+msgstr ""
+
+#: ../src/Honors.rb:169
+msgctxt "Honors"
+msgid "Honor deleted"
+msgstr ""
+
+#: ../src/Honors.rb:187 ../src/Honors.rb:200 ../src/Honors.rb:239
+msgctxt "Honors"
+msgid "Add challenge"
+msgstr ""
+
+#: ../src/Honors.rb:188
+msgctxt "Honors"
+msgid "Challenges"
+msgstr ""
+
+#: ../src/Honors.rb:222
+msgctxt "Honors"
+msgid "English level"
+msgstr ""
+
+#: ../src/Honors.rb:264
+msgctxt "Honors"
+msgid "level"
+msgstr ""
+
+#: ../src/Honors.rb:305
+msgctxt "Honors"
+msgid "Badge name"
+msgstr ""
+
+#: ../src/Honors.rb:305
+msgctxt "Honors"
+msgid "Badge description"
+msgstr ""
+
+#: ../src/Honors.rb:305
+msgctxt "Honors"
+msgid "Badge name in English"
+msgstr ""
+
+#: ../src/Honors.rb:305
+msgctxt "Honors"
+msgid "Badge description in English"
+msgstr ""
+
+#: ../src/Honors.rb:305
+msgctxt "Honors"
+msgid "Add"
+msgstr ""
+
+#: ../src/Honors.rb:319
+msgctxt "Honors"
+msgid "The badge has been added"
+msgstr ""
+
+#: ../src/Languages.rb:17
+msgctxt "Languages"
+msgid "Manage languages"
+msgstr ""
+
+#: ../src/Loading.rb:246
+msgctxt "Loading"
+msgid ""
+" No speech output selected. Press enter to select the SAPI synthesiser or esca"
+"pe  to use the installed screenreader."
+msgstr ""
+
+#: ../src/Loading.rb:289
+msgctxt "Loading"
+msgid ""
+"Elten detected that you are using NVDA. To support some features of this scree"
+"nreader, it is necessary to install Elten addon. Do you want to do it now?"
+msgstr ""
+
+#: ../src/Loading.rb:291
+msgctxt "Loading"
+msgid ""
+"New version of NVDA Elten addon is available. The version you're using is no l"
+"onger supported in this Elten release and may cause some errors. Do you want t"
+"o update it now?"
+msgstr ""
+
+#: ../src/Loading.rb:317
+msgctxt "Loading"
+msgid "A new version of the program is available."
+msgstr ""
+
+#: ../src/Loading.rb:419
+msgctxt "Loading"
+msgid "Log in"
+msgstr ""
+
+#: ../src/Loading.rb:419
+msgctxt "Loading"
+msgid "Register"
+msgstr ""
+
+#: ../src/Loading.rb:419
+msgctxt "Loading"
+msgid "Password reset"
+msgstr ""
+
+#: ../src/Loading.rb:419
+msgctxt "Loading"
+msgid "Use guest account"
+msgstr ""
+
+#: ../src/Loading.rb:419
+msgctxt "Loading"
+msgid "General settings"
+msgstr ""
+
+#: ../src/Loading.rb:419
+msgctxt "Loading"
+msgid "Change speech synthesizer"
+msgstr ""
+
+#: ../src/Loading.rb:419
+msgctxt "Loading"
+msgid "Reinstall"
+msgstr ""
+
+#: ../src/Log.rb:8
+msgctxt "Log"
+msgid "Log level"
+msgstr ""
+
+#: ../src/Log.rb:9
+msgctxt "Log"
+msgid "Show event level"
+msgstr ""
+
+#: ../src/Log.rb:10
+msgctxt "Log"
+msgid "Show event time"
+msgstr ""
+
+#: ../src/Log.rb:11
+msgctxt "Log"
+msgid "Log"
+msgstr ""
+
+#: ../src/Log.rb:12
+msgctxt "Log"
+msgid "Close"
+msgstr ""
+
+#: ../src/Login.rb:16
+msgctxt "Login"
+msgid "Username:"
+msgstr ""
+
+#: ../src/Login.rb:24 ../src/Login.rb:139
+msgctxt "Login"
+msgid "Password:"
+msgstr ""
+
+#: ../src/Login.rb:40 ../src/Login.rb:263
+msgctxt "Login"
+msgid "Enter pin code"
+msgstr ""
+
+#: ../src/Login.rb:55 ../src/Login.rb:150
+msgctxt "Login"
+msgid ""
+"Do you want to enable auto-Login-key encryption? When encrypted, the Auto-Logi"
+"n Key will be readable only on this computer, and its copying or exporting wil"
+"l not allow other devices to access your account. Note: If you encrypt your Au"
+"to-Login Key, the created portable versions will not be able to automatically "
+"log into your account from other devices, even if you copy your settings, and "
+"you will be prompted to enter your password. You can create as many auto-login"
+"-keys as you wish for all other computers you are using."
+msgstr ""
+
+#: ../src/Login.rb:84
+msgctxt "Login"
+msgid ""
+" Two-factor authentication is enabled on this account. Enter the code sent to "
+"you  by text message to allow this device to login. If you do not have access "
+"to the  phone number used, select the password reset option to disable two-fac"
+"tor  authentication."
+msgstr ""
+
+#: ../src/Login.rb:96
+msgctxt "Login"
+msgid "Verification failed."
+msgstr ""
+
+#: ../src/Login.rb:101
+msgctxt "Login"
+msgid "The entered code is wrong, please try again"
+msgstr ""
+
+#: ../src/Login.rb:127
+msgctxt "Login"
+msgid "Do you want to enable auto log in for account %{user}?"
+msgstr ""
+
+#: ../src/Login.rb:127
+msgctxt "Login"
+msgid "Do not ask again"
+msgstr ""
+
+#: ../src/Login.rb:129
+msgctxt "Login"
+msgid ""
+" The saved login data uses the old account authentication method in which  sus"
+"ceptibility to hacker attacks has been detected. New, safer automatic login  a"
+"lgorithms have been introduced in Elten 2.2. It is recommended that you conver"
+"t  the saved information into a new system in order to improve the security of"
+" your  account. Do you want to update the saved information now?"
+msgstr ""
+
+#: ../src/Login.rb:145
+msgctxt "Login"
+msgid ""
+" An error occurred while authenticating the identity. You might have provided "
+"an  incorrect password."
+msgstr ""
+
+#: ../src/Login.rb:162
+msgctxt "Login"
+msgid ""
+" Automatic login will be proceeding until you log out.Automatic login keys can"
+" be  managed from the My Account tab in the Community menu."
+msgstr ""
+
+#: ../src/Login.rb:164
+msgctxt "Login"
+msgid ""
+" Login data has been updated. Automatic login will be proceeding until you log"
+"  out. Automatic login keys can be managed from the My Account tab in the Comm"
+"unity  menu."
+msgstr ""
+
+#: ../src/Login.rb:173
+msgctxt "Login"
+msgid "To reenable auto log in feature, proceed to the general settings."
+msgstr ""
+
+#: ../src/Login.rb:192
+msgctxt "Login"
+msgid "Logged in as: %{user}"
+msgstr ""
+
+#: ../src/Login.rb:236
+msgctxt "Login"
+msgid "Invalid login or password."
+msgstr ""
+
+#: ../src/Login.rb:242
+msgctxt "Login"
+msgid "Login failure."
+msgstr ""
+
+#: ../src/Login.rb:248
+msgctxt "Login"
+msgid "Connection failure."
+msgstr ""
+
+#: ../src/Login.rb:260
+msgctxt "Login"
+msgid ""
+"Do you want to encrypt this key with a custom pin code? You will be prompted f"
+"or this code everytime you start Elten to unlock your account, but it will not"
+" be saved on the server and will be valid only for the auto-login-key stored o"
+"n this device."
+msgstr ""
+
+#: ../src/Login.rb:265
+msgctxt "Login"
+msgid "Enter pin code again"
+msgstr ""
+
+#: ../src/Login.rb:270
+msgctxt "Login"
+msgid "The pin codes entered are different, please try again."
+msgstr ""
+
+#: ../src/Main.rb:56
+msgctxt "Main"
+msgid "A new beta version of the program is available."
+msgstr ""
+
+#: ../src/Main.rb:62
+msgctxt "Main"
+msgid "Press the alt key to open the menu."
+msgstr ""
+
+#: ../src/Main.rb:74 ../src/Main.rb:106 ../src/Main.rb:132
+msgctxt "Main"
+msgid "Playlist"
+msgstr ""
+
+#: ../src/Main.rb:75
+msgctxt "Main"
+msgid "Delete the playlist"
+msgstr ""
+
+#: ../src/Main.rb:75
+msgctxt "Main"
+msgid "Shuffle"
+msgstr ""
+
+#: ../src/Main.rb:75
+msgctxt "Main"
+msgid "Player"
+msgstr ""
+
+#: ../src/Main.rb:107
+msgctxt "Main"
+msgid "Playlist shuffled"
+msgstr ""
+
+#: ../src/Main.rb:139
+msgctxt "Main"
+msgid "Playlist removed."
+msgstr ""
+
+#: ../src/MainMenu.rb:17
+msgctxt "MainMenu"
+msgid "Menu"
+msgstr ""
+
+#: ../src/MainMenu.rb:29
+msgctxt "MainMenu"
+msgid "&Community"
+msgstr ""
+
+#: ../src/MainMenu.rb:30
+msgctxt "MainMenu"
+msgid "&Messages"
+msgstr ""
+
+#: ../src/MainMenu.rb:33
+msgctxt "MainMenu"
+msgid "&Blogs"
+msgstr ""
+
+#: ../src/MainMenu.rb:36
+msgctxt "MainMenu"
+msgid "&Forum"
+msgstr ""
+
+#: ../src/MainMenu.rb:39
+msgctxt "MainMenu"
+msgid "&Chat"
+msgstr ""
+
+#: ../src/MainMenu.rb:42
+msgctxt "MainMenu"
+msgid "No&tes"
+msgstr ""
+
+#: ../src/MainMenu.rb:45
+msgctxt "MainMenu"
+msgid "What's &new?"
+msgstr ""
+
+#: ../src/MainMenu.rb:48
+msgctxt "MainMenu"
+msgid "Po&lls"
+msgstr ""
+
+#: ../src/MainMenu.rb:51
+msgctxt "MainMenu"
+msgid "&Users"
+msgstr ""
+
+#: ../src/MainMenu.rb:52
+msgctxt "MainMenu"
+msgid "My &contacts"
+msgstr ""
+
+#: ../src/MainMenu.rb:55
+msgctxt "MainMenu"
+msgid "Users who a&dded me to contacts"
+msgstr ""
+
+#: ../src/MainMenu.rb:58
+msgctxt "MainMenu"
+msgid "WHo is &online?"
+msgstr ""
+
+#: ../src/MainMenu.rb:61 ../src/MainMenu.rb:88
+msgctxt "MainMenu"
+msgid "My &badges"
+msgstr ""
+
+#: ../src/MainMenu.rb:64
+msgctxt "MainMenu"
+msgid "&Users list"
+msgstr ""
+
+#: ../src/MainMenu.rb:67
+msgctxt "MainMenu"
+msgid "Ad&mins"
+msgstr ""
+
+#: ../src/MainMenu.rb:70
+msgctxt "MainMenu"
+msgid "User searc&h"
+msgstr ""
+
+#: ../src/MainMenu.rb:73
+msgctxt "MainMenu"
+msgid "Recently &actived users"
+msgstr ""
+
+#: ../src/MainMenu.rb:76
+msgctxt "MainMenu"
+msgid "Recently &registered users"
+msgstr ""
+
+#: ../src/MainMenu.rb:81
+msgctxt "MainMenu"
+msgid "My &account"
+msgstr ""
+
+#: ../src/MainMenu.rb:82
+msgctxt "MainMenu"
+msgid "Edit &profile"
+msgstr ""
+
+#: ../src/MainMenu.rb:85
+msgctxt "MainMenu"
+msgid "My &welcome message"
+msgstr ""
+
+#: ../src/MainMenu.rb:91
+msgctxt "MainMenu"
+msgid "What's &new configuration"
+msgstr ""
+
+#: ../src/MainMenu.rb:94
+msgctxt "MainMenu"
+msgid "Black l&ist"
+msgstr ""
+
+#: ../src/MainMenu.rb:97
+msgctxt "MainMenu"
+msgid "Auto &log in tokens"
+msgstr ""
+
+#: ../src/MainMenu.rb:100
+msgctxt "MainMenu"
+msgid "Last logins"
+msgstr ""
+
+#: ../src/MainMenu.rb:103
+msgctxt "MainMenu"
+msgid "Change passw&ord"
+msgstr ""
+
+#: ../src/MainMenu.rb:106
+msgctxt "MainMenu"
+msgid "Change e-&mail"
+msgstr ""
+
+#: ../src/MainMenu.rb:109
+msgctxt "MainMenu"
+msgid "Two-factor a&uthentication settings"
+msgstr ""
+
+#: ../src/MainMenu.rb:112
+msgctxt "MainMenu"
+msgid "Mail events reporting"
+msgstr ""
+
+#: ../src/MainMenu.rb:118
+msgctxt "MainMenu"
+msgid "&Addons"
+msgstr ""
+
+#: ../src/MainMenu.rb:119
+msgctxt "MainMenu"
+msgid "&Files"
+msgstr ""
+
+#: ../src/MainMenu.rb:122
+msgctxt "MainMenu"
+msgid "Read to &file"
+msgstr ""
+
+#: ../src/MainMenu.rb:125
+msgctxt "MainMenu"
+msgid "&YouTube"
+msgstr ""
+
+#: ../src/MainMenu.rb:129
+msgctxt "MainMenu"
+msgid "Pro&grams"
+msgstr ""
+
+#: ../src/MainMenu.rb:136
+msgctxt "MainMenu"
+msgid "Programs installation"
+msgstr ""
+
+#: ../src/MainMenu.rb:140
+msgctxt "MainMenu"
+msgid "&Tools"
+msgstr ""
+
+#: ../src/MainMenu.rb:141
+msgctxt "MainMenu"
+msgid "Speed &test"
+msgstr ""
+
+#: ../src/MainMenu.rb:144
+msgctxt "MainMenu"
+msgid "Create &Portable version"
+msgstr ""
+
+#: ../src/MainMenu.rb:147
+msgctxt "MainMenu"
+msgid "&Reinstall"
+msgstr ""
+
+#: ../src/MainMenu.rb:148
+msgctxt "MainMenu"
+msgid "&Install"
+msgstr ""
+
+#: ../src/MainMenu.rb:152
+msgctxt "MainMenu"
+msgid "&Log viewer"
+msgstr ""
+
+#: ../src/MainMenu.rb:155
+msgctxt "MainMenu"
+msgid "&Console"
+msgstr ""
+
+#: ../src/MainMenu.rb:158
+msgctxt "MainMenu"
+msgid "De&bugging"
+msgstr ""
+
+#: ../src/MainMenu.rb:162
+msgctxt "MainMenu"
+msgid "&Settings"
+msgstr ""
+
+#: ../src/MainMenu.rb:163
+msgctxt "MainMenu"
+msgid "G&eneral settings"
+msgstr ""
+
+#: ../src/MainMenu.rb:166
+msgctxt "MainMenu"
+msgid "&Voice settings"
+msgstr ""
+
+#: ../src/MainMenu.rb:169
+msgctxt "MainMenu"
+msgid "Cloc&k"
+msgstr ""
+
+#: ../src/MainMenu.rb:172
+msgctxt "MainMenu"
+msgid "Sound device"
+msgstr ""
+
+#: ../src/MainMenu.rb:175
+msgctxt "MainMenu"
+msgid "Soun&dthemes"
+msgstr ""
+
+#: ../src/MainMenu.rb:178
+msgctxt "MainMenu"
+msgid "Manage &languages"
+msgstr ""
+
+#: ../src/MainMenu.rb:181
+msgctxt "MainMenu"
+msgid "&Advanced settings"
+msgstr ""
+
+#: ../src/MainMenu.rb:185
+msgctxt "MainMenu"
+msgid "&Help"
+msgstr ""
+
+#: ../src/MainMenu.rb:186
+msgctxt "MainMenu"
+msgid "&Changelog"
+msgstr ""
+
+#: ../src/MainMenu.rb:189
+msgctxt "MainMenu"
+msgid "Program &version"
+msgstr ""
+
+#: ../src/MainMenu.rb:192
+msgctxt "MainMenu"
+msgid "Sounds &guide"
+msgstr ""
+
+#: ../src/MainMenu.rb:195
+msgctxt "MainMenu"
+msgid "&Read me"
+msgstr ""
+
+#: ../src/MainMenu.rb:198
+msgctxt "MainMenu"
+msgid "&Shortkeys"
+msgstr ""
+
+#: ../src/MainMenu.rb:201
+msgctxt "MainMenu"
+msgid "User &agreement"
+msgstr ""
+
+#: ../src/MainMenu.rb:205
+msgctxt "MainMenu"
+msgid "&Quit"
+msgstr ""
+
+#: ../src/MainMenu.rb:206
+msgctxt "MainMenu"
+msgid "Hide in &tray"
+msgstr ""
+
+#: ../src/MainMenu.rb:209
+msgctxt "MainMenu"
+msgid "&Logout"
+msgstr ""
+
+#: ../src/MainMenu.rb:223
+msgctxt "MainMenu"
+msgid "E&xit"
+msgstr ""
+
+#: ../src/MainMenu.rb:226
+msgctxt "MainMenu"
+msgid "&Restart"
+msgstr ""
+
+#: ../src/MainMenu.rb:231
+msgctxt "MainMenu"
+msgid "Restart in de&bug mode"
+msgstr ""
+
+#: ../src/Messages.rb:112 ../src/Messages.rb:280
+msgctxt "Messages"
+msgid "Last message"
+msgstr ""
+
+#: ../src/Messages.rb:113 ../src/Messages.rb:281 ../src/Messages.rb:401
+msgctxt "Messages"
+msgid "New"
+msgstr ""
+
+#: ../src/Messages.rb:116 ../src/Messages.rb:284 ../src/Messages.rb:405
+msgctxt "Messages"
+msgid "Show older"
+msgstr ""
+
+#: ../src/Messages.rb:117
+msgctxt "Messages"
+msgid "Messages"
+msgstr ""
+
+#: ../src/Messages.rb:136 ../src/Messages.rb:315 ../src/Messages.rb:501
+msgctxt "Messages"
+msgid "Reply"
+msgstr ""
+
+#: ../src/Messages.rb:141
+msgctxt "Messages"
+msgid "Leave"
+msgstr ""
+
+#: ../src/Messages.rb:142
+msgctxt "Messages"
+msgid "Are you sure you want to leave this group?"
+msgstr ""
+
+#: ../src/Messages.rb:149
+msgctxt "Messages"
+msgid "Create new conversation"
+msgstr ""
+
+#: ../src/Messages.rb:153 ../src/Messages.rb:320 ../src/Messages.rb:535
+msgctxt "Messages"
+msgid "Send a new message"
+msgstr ""
+
+#: ../src/Messages.rb:156
+msgctxt "Messages"
+msgid "Mark all messages as read"
+msgstr ""
+
+#: ../src/Messages.rb:162
+msgctxt "Messages"
+msgid "All messages have been marked as read."
+msgstr ""
+
+#: ../src/Messages.rb:170
+msgctxt "Messages"
+msgid "Search"
+msgstr ""
+
+#: ../src/Messages.rb:174
+msgctxt "Messages"
+msgid "Show flagged messages"
+msgstr ""
+
+#: ../src/Messages.rb:184
+msgctxt "Messages"
+msgid "Conversation name"
+msgstr ""
+
+#: ../src/Messages.rb:185
+msgctxt "Messages"
+msgid "Conversation members"
+msgstr ""
+
+#: ../src/Messages.rb:185
+msgctxt "Messages"
+msgid "Add user to this conversation"
+msgstr ""
+
+#: ../src/Messages.rb:186
+msgctxt "Messages"
+msgid "Create"
+msgstr ""
+
+#: ../src/Messages.rb:197
+msgctxt "Messages"
+msgid "User to add"
+msgstr ""
+
+#: ../src/Messages.rb:223
+msgctxt "Messages"
+msgid "Conversation has been created"
+msgstr ""
+
+#: ../src/Messages.rb:253
+msgctxt "Messages"
+msgid "There are no new messages"
+msgstr ""
+
+#: ../src/Messages.rb:280 ../src/Messages.rb:553
+msgctxt "Messages"
+msgid "From"
+msgstr ""
+
+#: ../src/Messages.rb:280
+msgctxt "Messages"
+msgid "No subject"
+msgstr ""
+
+#: ../src/Messages.rb:287
+msgctxt "Messages"
+msgid "Conversations with %{user}"
+msgstr ""
+
+#: ../src/Messages.rb:338
+msgctxt "Messages"
+msgid "Enter a phrase to look for"
+msgstr ""
+
+#: ../src/Messages.rb:400
+msgctxt "Messages"
+msgid "Read more"
+msgstr ""
+
+#: ../src/Messages.rb:409
+msgctxt "Messages"
+msgid "Messages in conversation %{subject} with %{user}"
+msgstr ""
+
+#: ../src/Messages.rb:410
+msgctxt "Messages"
+msgid "Flagged messages"
+msgstr ""
+
+#: ../src/Messages.rb:411
+msgctxt "Messages"
+msgid "Found items"
+msgstr ""
+
+#: ../src/Messages.rb:413
+msgctxt "Messages"
+msgid "Your reply"
+msgstr ""
+
+#: ../src/Messages.rb:413
+msgctxt "Messages"
+msgid "Compose"
+msgstr ""
+
+#: ../src/Messages.rb:459 ../src/Messages.rb:647
+msgctxt "Messages"
+msgid "Attachments"
+msgstr ""
+
+#: ../src/Messages.rb:478 ../src/Messages.rb:662
+msgctxt "Messages"
+msgid "Send"
+msgstr ""
+
+#: ../src/Messages.rb:488 ../src/Messages.rb:884
+msgctxt "Messages"
+msgid "Message has been sent"
+msgstr ""
+
+#: ../src/Messages.rb:508
+msgctxt "Messages"
+msgid "Flag"
+msgstr ""
+
+#: ../src/Messages.rb:509
+msgctxt "Messages"
+msgid "Remove flag"
+msgstr ""
+
+#: ../src/Messages.rb:515
+msgctxt "Messages"
+msgid "The message has been flagged."
+msgstr ""
+
+#: ../src/Messages.rb:522
+msgctxt "Messages"
+msgid "The message is no longer flagged."
+msgstr ""
+
+#: ../src/Messages.rb:540
+msgctxt "Messages"
+msgid "Forward"
+msgstr ""
+
+#: ../src/Messages.rb:570
+msgctxt "Messages"
+msgid "Where do you want to save this file?"
+msgstr ""
+
+#: ../src/Messages.rb:573
+msgctxt "Messages"
+msgid "The attachment has been downloaded."
+msgstr ""
+
+#: ../src/Messages.rb:581
+msgctxt "Messages"
+msgid "Are you sure you want to delete this message?"
+msgstr ""
+
+#: ../src/Messages.rb:586
+msgctxt "Messages"
+msgid "The message has been deleted."
+msgstr ""
+
+#: ../src/Messages.rb:621
+msgctxt "Messages"
+msgid "Recipient"
+msgstr ""
+
+#: ../src/Messages.rb:623
+msgctxt "Messages"
+msgid "Subject:"
+msgstr ""
+
+#: ../src/Messages.rb:624
+msgctxt "Messages"
+msgid "Message:"
+msgstr ""
+
+#: ../src/Messages.rb:625 ../src/Messages.rb:709
+msgctxt "Messages"
+msgid "Record an audio message"
+msgstr ""
+
+#: ../src/Messages.rb:631
+msgctxt "Messages"
+msgid "Attach a file"
+msgstr ""
+
+#: ../src/Messages.rb:663
+msgctxt "Messages"
+msgid "Send as admin"
+msgstr ""
+
+#: ../src/Messages.rb:664
+msgctxt "Messages"
+msgid "Send to all users"
+msgstr ""
+
+#: ../src/Messages.rb:691
+msgctxt "Messages"
+msgid "An audio message"
+msgstr ""
+
+#: ../src/Messages.rb:692
+msgctxt "Messages"
+msgid "Stop recording"
+msgstr ""
+
+#: ../src/Messages.rb:699
+msgctxt "Messages"
+msgid "Play"
+msgstr ""
+
+#: ../src/Messages.rb:700
+msgctxt "Messages"
+msgid "Cancel recording"
+msgstr ""
+
+#: ../src/Messages.rb:715
+msgctxt "Messages"
+msgid "You cannot add more attachments to this message."
+msgstr ""
+
+#: ../src/Messages.rb:717
+msgctxt "Messages"
+msgid "Select a file to attach"
+msgstr ""
+
+#: ../src/Messages.rb:721
+msgctxt "Messages"
+msgid "The file is too large."
+msgstr ""
+
+#: ../src/Messages.rb:724
+msgctxt "Messages"
+msgid "File attached."
+msgstr ""
+
+#: ../src/Messages.rb:752 ../src/Messages.rb:906
+msgctxt "Messages"
+msgid "The recipient cannot be found."
+msgstr ""
+
+#: ../src/Messages.rb:754
+msgctxt "Messages"
+msgid "Do you want to send this message as e-mail?"
+msgstr ""
+
+#: ../src/Notes.rb:49
+msgctxt "Notes"
+msgid "Author"
+msgstr ""
+
+#: ../src/Notes.rb:49
+msgctxt "Notes"
+msgid "Modified"
+msgstr ""
+
+#: ../src/Notes.rb:51
+msgctxt "Notes"
+msgid "New note"
+msgstr ""
+
+#: ../src/Notes.rb:52
+msgctxt "Notes"
+msgid "Notes"
+msgstr ""
+
+#: ../src/Notes.rb:80
+msgctxt "Notes"
+msgid "Read"
+msgstr ""
+
+#: ../src/Notes.rb:83 ../src/Notes.rb:113
+msgctxt "Notes"
+msgid "Edit"
+msgstr ""
+
+#: ../src/Notes.rb:112 ../src/Notes.rb:171 ../src/Notes.rb:190
+#: ../src/Notes.rb:229
+msgctxt "Notes"
+msgid "Add"
+msgstr ""
+
+#: ../src/Notes.rb:113
+msgctxt "Notes"
+msgid "Note shared with"
+msgstr ""
+
+#: ../src/Notes.rb:141
+msgctxt "Notes"
+msgid "The note has been modified."
+msgstr ""
+
+#: ../src/Notes.rb:149
+msgctxt "Notes"
+msgid "Who do you want to share this note with?"
+msgstr ""
+
+#: ../src/Notes.rb:162
+msgctxt "Notes"
+msgid "User cannot be found"
+msgstr ""
+
+#: ../src/Notes.rb:168
+msgctxt "Notes"
+msgid "From now on you share this note with %{user}"
+msgstr ""
+
+#: ../src/Notes.rb:182
+msgctxt "Notes"
+msgid "Do you want to stop sharing this note with %{user}?"
+msgstr ""
+
+#: ../src/Notes.rb:188
+msgctxt "Notes"
+msgid "You no longer share this note with %{user}"
+msgstr ""
+
+#: ../src/Notes.rb:211
+msgctxt "Notes"
+msgid "Do you really want to delete %{name}?"
+msgstr ""
+
+#: ../src/Notes.rb:219
+msgctxt "Notes"
+msgid "The note has been deleted."
+msgstr ""
+
+#: ../src/Notes.rb:229
+msgctxt "Notes"
+msgid "note title"
+msgstr ""
+
+#: ../src/Notes.rb:229
+msgctxt "Notes"
+msgid "Note content"
+msgstr ""
+
+#: ../src/Notes.rb:250
+msgctxt "Notes"
+msgid "The note has been created"
+msgstr ""
+
+#: ../src/Online.rb:17
+msgctxt "Online"
+msgid "Who is on line?"
+msgstr ""
+
+#: ../src/Polls.rb:47 ../src/Polls.rb:272 ../src/Polls.rb:368
+msgctxt "Polls"
+msgid "Author"
+msgstr ""
+
+#: ../src/Polls.rb:56
+msgctxt "Polls"
+msgid "Polls"
+msgstr ""
+
+#: ../src/Polls.rb:108
+msgctxt "Polls"
+msgid "Do you really want to delete %{name}?"
+msgstr ""
+
+#: ../src/Polls.rb:113
+msgctxt "Polls"
+msgid "deleted"
+msgstr ""
+
+#: ../src/Polls.rb:122
+msgctxt "Polls"
+msgid "New poll"
+msgstr ""
+
+#: ../src/Polls.rb:133
+msgctxt "Polls"
+msgid "Poll name"
+msgstr ""
+
+#: ../src/Polls.rb:133
+msgctxt "Polls"
+msgid "Create"
+msgstr ""
+
+#: ../src/Polls.rb:133
+msgctxt "Polls"
+msgid "Description"
+msgstr ""
+
+#: ../src/Polls.rb:133 ../src/Polls.rb:208
+msgctxt "Polls"
+msgid "New question"
+msgstr ""
+
+#: ../src/Polls.rb:133
+msgctxt "Polls"
+msgid "Questions"
+msgstr ""
+
+#: ../src/Polls.rb:158
+msgctxt "Polls"
+msgid "Question"
+msgstr ""
+
+#: ../src/Polls.rb:158
+msgctxt "Polls"
+msgid "Single choice"
+msgstr ""
+
+#: ../src/Polls.rb:158
+msgctxt "Polls"
+msgid "Multiple choice"
+msgstr ""
+
+#: ../src/Polls.rb:158 ../src/Polls.rb:164
+msgctxt "Polls"
+msgid "Answers"
+msgstr ""
+
+#: ../src/Polls.rb:158 ../src/Polls.rb:164 ../src/Polls.rb:185
+msgctxt "Polls"
+msgid "New answer"
+msgstr ""
+
+#: ../src/Polls.rb:158
+msgctxt "Polls"
+msgid "Question type"
+msgstr ""
+
+#: ../src/Polls.rb:158
+msgctxt "Polls"
+msgid "Edit box"
+msgstr ""
+
+#: ../src/Polls.rb:184
+msgctxt "Polls"
+msgid "Answer"
+msgstr ""
+
+#: ../src/Polls.rb:193
+msgctxt "Polls"
+msgid "There are no answers to this question"
+msgstr ""
+
+#: ../src/Polls.rb:195
+msgctxt "Polls"
+msgid "There is only one answer to this question."
+msgstr ""
+
+#: ../src/Polls.rb:233
+msgctxt "Polls"
+msgid "The poll has been created."
+msgstr ""
+
+#: ../src/Polls.rb:272 ../src/Polls.rb:368
+msgctxt "Polls"
+msgid "Created"
+msgstr ""
+
+#: ../src/Polls.rb:281
+msgctxt "Polls"
+msgid "Single choice question"
+msgstr ""
+
+#: ../src/Polls.rb:284
+msgctxt "Polls"
+msgid "Multiple choice question"
+msgstr ""
+
+#: ../src/Polls.rb:289
+msgctxt "Polls"
+msgid "Poll"
+msgstr ""
+
+#: ../src/Polls.rb:324
+msgctxt "Polls"
+msgid "Your vote has been saved."
+msgstr ""
+
+#: ../src/Polls.rb:379
+msgctxt "Polls"
+msgid "The number of votes"
+msgstr ""
+
+#: ../src/Polls.rb:407
+msgctxt "Polls"
+msgid "Poll results: %{name}"
+msgstr ""
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "Destination"
+msgstr ""
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "Copy downloaded soundthemes"
+msgstr ""
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "Create as a single exe file. (No settings will be saved."
+msgstr ""
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "Copy current settings"
+msgstr ""
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "continue"
+msgstr ""
+
+#: ../src/Portable.rb:21
+msgctxt "Portable"
+msgid "Please wait while files are being prepared"
+msgstr ""
+
+#: ../src/Portable.rb:29
+msgctxt "Portable"
+msgid "Copying settings"
+msgstr ""
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid ""
+" If you use a created copy of Elten on another computer, the voice settings ma"
+"y  not work properly. This is especially noticeable in a situation when anothe"
+"r  computer has other voices installed. How do you want to configure the gener"
+"ated  version?"
+msgstr ""
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid "Use current setting"
+msgstr ""
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid "Ask each time"
+msgstr ""
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid "Reset synthesizer settings"
+msgstr ""
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid "Use a screenreader or a system default voice"
+msgstr ""
+
+#: ../src/Portable.rb:49
+msgctxt "Portable"
+msgid "Copying sound themes"
+msgstr ""
+
+#: ../src/Portable.rb:67
+msgctxt "Portable"
+msgid "Preparing SFX"
+msgstr ""
+
+#: ../src/Portable.rb:72
+msgctxt "Portable"
+msgid "Elten Portable version created successfully."
+msgstr ""
+
+#: ../src/Programs.rb:40
+msgctxt "Programs"
+msgid "not installed"
+msgstr ""
+
+#: ../src/Programs.rb:43
+msgctxt "Programs"
+msgid "Programs installation"
+msgstr ""
+
+#: ../src/Programs.rb:57
+msgctxt "Programs"
+msgid "Install"
+msgstr ""
+
+#: ../src/Programs.rb:63
+msgctxt "Programs"
+msgid "Reinstall"
+msgstr ""
+
+#: ../src/Programs.rb:65
+msgctxt "Programs"
+msgid "Update"
+msgstr ""
+
+#: ../src/Programs.rb:83
+msgctxt "Programs"
+msgid "Do you want to install the program %{name}?"
+msgstr ""
+
+#: ../src/Programs.rb:115
+msgctxt "Programs"
+msgid "Installation completed."
+msgstr ""
+
+#: ../src/Programs.rb:123
+msgctxt "Programs"
+msgid "Remove"
+msgstr ""
+
+#: ../src/Programs.rb:124
+msgctxt "Programs"
+msgid "Are you sure you want to remove program %{name}?"
+msgstr ""
+
+#: ../src/Programs.rb:127
+msgctxt "Programs"
+msgid "Program removed"
+msgstr ""
+
+#: ../src/ReadMe.rb:8
+msgctxt "ReadMe"
+msgid "Readme"
+msgstr ""
+
+#: ../src/Registration.rb:11
+msgctxt "Registration"
+msgid ""
+" Enter your username. It will be used for identification.The maximum length of"
+" the  username is 64 characters"
+msgstr ""
+
+#: ../src/Registration.rb:14
+msgctxt "Registration"
+msgid "A username cannot contain an at. The character will be ignored."
+msgstr ""
+
+#: ../src/Registration.rb:17 ../src/Registration.rb:20
+msgctxt "Registration"
+msgid "User name can not contain slashes. Sign will be Omitted."
+msgstr ""
+
+#: ../src/Registration.rb:23
+msgctxt "Registration"
+msgid "User name can not contain spaces. Sign will be Omitted"
+msgstr ""
+
+#: ../src/Registration.rb:29
+msgctxt "Registration"
+msgid ""
+" Enter your password. It is recommended to use a strong password, which consis"
+"ts  of numbers and letters. Maximum length of the password is 256 characters."
+msgstr ""
+
+#: ../src/Registration.rb:30
+msgctxt "Registration"
+msgid " Reenter your password"
+msgstr ""
+
+#: ../src/Registration.rb:32
+msgctxt "Registration"
+msgid "The entered passwords differ"
+msgstr ""
+
+#: ../src/Registration.rb:36
+msgctxt "Registration"
+msgid ""
+" Enter your e-mail address. It will be used in case you forget your password a"
+"nd  to send important information."
+msgstr ""
+
+#: ../src/Registration.rb:42
+msgctxt "Registration"
+msgid ""
+" Registration is successful, thank you. You can log in using your username and"
+"  password."
+msgstr ""
+
+#: ../src/Registration.rb:44
+msgctxt "Registration"
+msgid "An unknown error occurred while using database"
+msgstr ""
+
+#: ../src/Registration.rb:46
+msgctxt "Registration"
+msgid "Account with the specified username already exists."
+msgstr ""
+
+#: ../src/Registration.rb:48
+msgctxt "Registration"
+msgid "An error occurred while trying to write data."
+msgstr ""
+
+#: ../src/Registration.rb:50
+msgctxt "Registration"
+msgid "An error occurred while connecting to the server."
+msgstr ""
+
+#: ../src/ShortKeys.rb:8
+msgctxt "ShortKeys"
+msgid "List of keyboard shortcuts"
+msgstr ""
+
+#: ../src/SoundCard.rb:9 ../src/SoundCard.rb:10
+msgctxt "SoundCard"
+msgid "Use Default"
+msgstr ""
+
+#: ../src/SoundCard.rb:11
+msgctxt "SoundCard"
+msgid "Output device"
+msgstr ""
+
+#: ../src/SoundCard.rb:11
+msgctxt "SoundCard"
+msgid "Input device"
+msgstr ""
+
+#: ../src/SoundThemes.rb:20
+msgctxt "SoundThemes"
+msgid "No sound themes."
+msgstr ""
+
+#: ../src/SoundThemes.rb:28
+msgctxt "SoundThemes"
+msgid "default"
+msgstr ""
+
+#: ../src/SoundThemes.rb:31
+msgctxt "SoundThemes"
+msgid "Download sound themes"
+msgstr ""
+
+#: ../src/SoundThemes.rb:32
+msgctxt "SoundThemes"
+msgid "Sound themes"
+msgstr ""
+
+#: ../src/SoundThemes.rb:55
+msgctxt "SoundThemes"
+msgid "Select"
+msgstr ""
+
+#: ../src/SoundThemes.rb:63
+msgctxt "SoundThemes"
+msgid "New"
+msgstr ""
+
+#: ../src/SoundThemes.rb:67
+msgctxt "SoundThemes"
+msgid "Edit"
+msgstr ""
+
+#: ../src/SoundThemes.rb:70
+msgctxt "SoundThemes"
+msgid "Delete"
+msgstr ""
+
+#: ../src/SoundThemes.rb:71
+msgctxt "SoundThemes"
+msgid "Are you sure you want to delete this soundtheme?"
+msgstr ""
+
+#: ../src/SoundThemes.rb:101
+msgctxt "Soundthemes"
+msgid "Select theme to download"
+msgstr ""
+
+#: ../src/Sounds.rb:11
+msgctxt "Sounds"
+msgid "Background of dialog windows"
+msgstr ""
+
+#: ../src/Sounds.rb:12
+msgctxt "Sounds"
+msgid "Dialog window opened"
+msgstr ""
+
+#: ../src/Sounds.rb:13
+msgctxt "Sounds"
+msgid "Dialog window closed"
+msgstr ""
+
+#: ../src/Sounds.rb:14
+msgctxt "Sounds"
+msgid "Menu Background"
+msgstr ""
+
+#: ../src/Sounds.rb:15
+msgctxt "Sounds"
+msgid "Menu opened"
+msgstr ""
+
+#: ../src/Sounds.rb:16
+msgctxt "Sounds"
+msgid "Menu closed"
+msgstr ""
+
+#: ../src/Sounds.rb:17
+msgctxt "Sounds"
+msgid "Marker of a form"
+msgstr ""
+
+#: ../src/Sounds.rb:18
+msgctxt "Sounds"
+msgid "Focus move on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:19
+msgctxt "Sounds"
+msgid "Border of a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:20
+msgctxt "Sounds"
+msgid "Expandable item on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:21
+msgctxt "Sounds"
+msgid "Item expanded"
+msgstr ""
+
+#: ../src/Sounds.rb:22
+msgctxt "Sounds"
+msgid "Item collapsed"
+msgstr ""
+
+#: ../src/Sounds.rb:23
+msgctxt "Sounds"
+msgid "Item selected"
+msgstr ""
+
+#: ../src/Sounds.rb:24
+msgctxt "Sounds"
+msgid "Checked item on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:25
+msgctxt "Sounds"
+msgid "Unchecked item on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:26
+msgctxt "Sounds"
+msgid "New or updated item on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:27
+msgctxt "Sounds"
+msgid "Item with attachment on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:28
+msgctxt "Sounds"
+msgid "Closed item on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:29
+msgctxt "Sounds"
+msgid "Pinned item on a listbox"
+msgstr ""
+
+#: ../src/Sounds.rb:30
+msgctxt "Sounds"
+msgid "Compressed file on a files tree"
+msgstr ""
+
+#: ../src/Sounds.rb:31
+msgctxt "Sounds"
+msgid "Audio file on a files tree"
+msgstr ""
+
+#: ../src/Sounds.rb:32
+msgctxt "Sounds"
+msgid "Directory on a files tree"
+msgstr ""
+
+#: ../src/Sounds.rb:33
+msgctxt "Sounds"
+msgid "Document on a files tree"
+msgstr ""
+
+#: ../src/Sounds.rb:34
+msgctxt "Sounds"
+msgid "Text file on a files tree"
+msgstr ""
+
+#: ../src/Sounds.rb:35
+msgctxt "Sounds"
+msgid "Marker of an editbox in a form"
+msgstr ""
+
+#: ../src/Sounds.rb:36
+msgctxt "Sounds"
+msgid "A piece of text in an editbox is checked"
+msgstr ""
+
+#: ../src/Sounds.rb:37
+msgctxt "Sounds"
+msgid "Capitalized letter in an editbox"
+msgstr ""
+
+#: ../src/Sounds.rb:38
+msgctxt "Sounds"
+msgid "Delete of a text in an editbox"
+msgstr ""
+
+#: ../src/Sounds.rb:39
+msgctxt "Sounds"
+msgid "End of line in an editbox"
+msgstr ""
+
+#: ../src/Sounds.rb:40
+msgctxt "Sounds"
+msgid "Password character in an editbox"
+msgstr ""
+
+#: ../src/Sounds.rb:41
+msgctxt "Sounds"
+msgid "Space in an editbox"
+msgstr ""
+
+#: ../src/Sounds.rb:42
+msgctxt "Sounds"
+msgid "Marker of a button in a form"
+msgstr ""
+
+#: ../src/Sounds.rb:43
+msgctxt "Sounds"
+msgid "Marker of a checkbox in a form"
+msgstr ""
+
+#: ../src/Sounds.rb:44
+msgctxt "Sounds"
+msgid "User signed in or Elten window focused"
+msgstr ""
+
+#: ../src/Sounds.rb:45
+msgctxt "Sounds"
+msgid "User signed out or Elten closed"
+msgstr ""
+
+#: ../src/Sounds.rb:46
+msgctxt "Sounds"
+msgid "Elten minimized into tray"
+msgstr ""
+
+#: ../src/Sounds.rb:47
+msgctxt "Sounds"
+msgid "New chat message"
+msgstr ""
+
+#: ../src/Sounds.rb:48
+msgctxt "Sounds"
+msgid "Messages window updated"
+msgstr ""
+
+#: ../src/Sounds.rb:49
+msgctxt "Sounds"
+msgid "New event"
+msgstr ""
+
+#: ../src/Sounds.rb:50
+msgctxt "Sounds"
+msgid "Notification: birthday of a friend"
+msgstr ""
+
+#: ../src/Sounds.rb:51
+msgctxt "Sounds"
+msgid "Notification: new comment on your blog"
+msgstr ""
+
+#: ../src/Sounds.rb:52
+msgctxt "Sounds"
+msgid "Notification: new post on a followed blog"
+msgstr ""
+
+#: ../src/Sounds.rb:53
+msgctxt "Sounds"
+msgid "Notification: new thread on a followed forum"
+msgstr ""
+
+#: ../src/Sounds.rb:54
+msgctxt "Sounds"
+msgid "Notification: new post on a followed forum"
+msgstr ""
+
+#: ../src/Sounds.rb:55
+msgctxt "Sounds"
+msgid "Notification: new post in a followed thread"
+msgstr ""
+
+#: ../src/Sounds.rb:56
+msgctxt "Sounds"
+msgid "Notification: new friend"
+msgstr ""
+
+#: ../src/Sounds.rb:57
+msgctxt "Sounds"
+msgid "Notification: new mention"
+msgstr ""
+
+#: ../src/Sounds.rb:58
+msgctxt "Sounds"
+msgid "Notification: new message"
+msgstr ""
+
+#: ../src/Sounds.rb:59
+msgctxt "Sounds"
+msgid "Recording started"
+msgstr ""
+
+#: ../src/Sounds.rb:60
+msgctxt "Sounds"
+msgid "Recording stopped"
+msgstr ""
+
+#: ../src/Sounds.rb:61
+msgctxt "Sounds"
+msgid "Error"
+msgstr ""
+
+#: ../src/Sounds.rb:62
+msgctxt "Sounds"
+msgid "Clock sound"
+msgstr ""
+
+#: ../src/Sounds.rb:63
+msgctxt "Sounds"
+msgid "Alarm Sound"
+msgstr ""
+
+#: ../src/Sounds.rb:64
+msgctxt "Sounds"
+msgid "Waiting for an action to be completed"
+msgstr ""
+
+#: ../src/Sounds.rb:65
+msgctxt "Sounds"
+msgid "Signal"
+msgstr ""
+
+#: ../src/Sounds.rb:72
+msgctxt "Sounds"
+msgid "Type name of the soundtheme"
+msgstr ""
+
+#: ../src/Sounds.rb:97
+msgctxt "Sounds"
+msgid "Sounds guide, press space to play"
+msgstr ""
+
+#: ../src/Sounds.rb:98
+msgctxt "Sounds"
+msgid "Editing sound theme %{theme}"
+msgstr ""
+
+#: ../src/Sounds.rb:100
+msgctxt "Sounds"
+msgid "Play"
+msgstr ""
+
+#: ../src/Sounds.rb:100
+msgctxt "Sounds"
+msgid "Stop"
+msgstr ""
+
+#: ../src/Sounds.rb:102
+msgctxt "Sounds"
+msgid "Change"
+msgstr ""
+
+#: ../src/Sounds.rb:103
+msgctxt "Sounds"
+msgid "Save"
+msgstr ""
+
+#: ../src/Sounds.rb:104 ../src/Sounds.rb:138
+msgctxt "Sounds"
+msgid "Export"
+msgstr ""
+
+#: ../src/Sounds.rb:126
+msgctxt "Sounds"
+msgid "Select new sound"
+msgstr ""
+
+#: ../src/Sounds.rb:142
+msgctxt "Sounds"
+msgid "Where to save this theme"
+msgstr ""
+
+#: ../src/Sounds.rb:151
+msgctxt "Sounds"
+msgid "Do you want to save this soundtheme?"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Session refresh"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "What's new"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Forum structure"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Messages recipients"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Blogs list"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Unit to test"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Number of attempts to perform"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Start"
+msgstr ""
+
+#: ../src/SpeedTest.rb:28
+msgctxt "SpeedTest"
+msgid "Performing test, please wait"
+msgstr ""
+
+#: ../src/SpeedTest.rb:36
+msgctxt "SpeedTest"
+msgid "Average time"
+msgstr ""
+
+#: ../src/SpeedTest.rb:37
+msgctxt "SpeedTest"
+msgid "Minimum time"
+msgstr ""
+
+#: ../src/SpeedTest.rb:38
+msgctxt "SpeedTest"
+msgid "Maximum time"
+msgstr ""
+
+#: ../src/SpeedTest.rb:44
+msgctxt "SpeedTest"
+msgid "Test results"
+msgstr ""
+
+#: ../src/Update.rb:11
+msgctxt "Update"
+msgid ""
+" A new version of this program is available. Do you want to download and insta"
+"l it?"
+msgstr ""
+
+#: ../src/Update.rb:34 ../src/Update.rb:63 ../src/Update.rb:65
+msgctxt "Update"
+msgid "Please wait while files are downloaded."
+msgstr ""
+
+#: ../src/Update.rb:37
+msgctxt "Update"
+msgid ""
+" The update has been downloaded. To install it, the program must be restarted."
+"  Press enter to continue or escape to cancel."
+msgstr ""
+
+#: ../src/Update.rb:50
+msgctxt "Update"
+msgid "Now, the update will be installed. The program will restart."
+msgstr ""
+
+#: ../src/Update.rb:68
+msgctxt "Update"
+msgid ""
+" The program will be now reverted to the latest stable version. Elten will res"
+"tart.  It may take several minutes."
+msgstr ""
+
+#: ../src/UserSearch.rb:9
+msgctxt "UserSearch"
+msgid "Search users"
+msgstr ""
+
+#: ../src/UserSearch.rb:23
+msgctxt "UserSearch"
+msgid "No match found."
+msgstr ""
+
+#: ../src/UserSearch.rb:34
+msgctxt "UserSearch"
+msgid "Found items"
+msgstr ""
+
+#: ../src/UserSearch.rb:46
+msgctxt "UserSearch"
+msgid "Search again"
+msgstr ""
+
+#: ../src/Users.rb:36
+msgctxt "Users"
+msgid "List of users"
+msgstr ""
+
+#: ../src/UsersAddedMeToContacts.rb:11
+msgid "UsersAddedMeToThis section is unavailable for guests"
+msgstr ""
+
+#: ../src/UsersAddedMeToContacts.rb:33
+msgctxt "UsersAddedMeToContacts"
+msgid "Users who added me to their contacts list"
+msgstr ""
+
+#: ../src/Users_RecentlyActived.rb:20
+msgctxt "Users_RecentlyActived"
+msgid "Recently active users"
+msgstr ""
+
+#: ../src/Users_RecentlyRegistered.rb:20
+msgctxt "Users_RecentlyRegistered"
+msgid "Recently registered users"
+msgstr ""
+
+#: ../src/Voice.rb:7
+msgctxt "Voice"
+msgid "Change synthesizer's rate"
+msgstr ""
+
+#: ../src/Voice.rb:7
+msgctxt "Voice"
+msgid "Change voice volume"
+msgstr ""
+
+#: ../src/Voice.rb:7
+msgctxt "Voice"
+msgid "Use screenreader or system default voice"
+msgstr ""
+
+#: ../src/Voice.rb:7
+msgctxt "Voice"
+msgid "Change synthesizer"
+msgstr ""
+
+#: ../src/Voice.rb:8
+msgctxt "Voice"
+msgid "Voice settings"
+msgstr ""
+
+#: ../src/Voice.rb:34
+msgctxt "Voice"
+msgid "Screen reader selected as speech synthesizer."
+msgstr ""
+
+#: ../src/Voice.rb:93
+msgctxt "Voice"
+msgid "Selected voice"
+msgstr ""
+
+#: ../src/Voice.rb:116
+msgctxt "Voice"
+msgid "Change speech rate"
+msgstr ""
+
+#: ../src/Voice.rb:152
+msgctxt "Voice"
+msgid "Change speech volume"
+msgstr ""
+
+#: ../src/WhatsNew.rb:37
+msgctxt "WhatsNew"
+msgid "What's new"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New posts in followed threads"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "Update available (%{version})"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "Mentions"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "Friends' birthday"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New friends"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New threads on followed forums"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New comments on your blog"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New posts on the followed blogs"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New messages"
+msgstr ""
+
+#: ../src/WhatsNew.rb:59
+msgctxt "WhatsNew"
+msgid "There is nothing new."
+msgstr ""
+
+#: ../src/WhatsNew.rb:110
+msgctxt "WhatsNew"
+msgid "There is nothing new on followedblogs."
+msgstr ""
+
+#: ../src/Youtube.rb:7
+msgctxt "Youtube"
+msgid "Search Youtube"
+msgstr ""
+
+#: ../src/Youtube.rb:21 ../src/Youtube.rb:136
+msgctxt "Youtube"
+msgid "Load more"
+msgstr ""
+
+#: ../src/Youtube.rb:22
+msgctxt "Youtube"
+msgid "Search results"
+msgstr ""
+
+#: ../src/Youtube.rb:23
+msgctxt "Youtube"
+msgid "Details"
+msgstr ""
+
+#: ../src/Youtube.rb:51
+msgctxt "Youtube"
+msgid "Keywords"
+msgstr ""
+
+#: ../src/Youtube.rb:51
+msgctxt "Youtube"
+msgid "Duration"
+msgstr ""
+
+#: ../src/Youtube.rb:51
+msgctxt "Youtube"
+msgid "Published on"
+msgstr ""
+
+#: ../src/_Main.rb:105
+msgctxt "*Main"
+msgid "Your playlist has been changed. Save current changes?"
+msgstr ""
+
+#: ../src/_Main.rb:110
+msgctxt "*Main"
+msgid "Do you want to save your playlist?"
+msgstr ""
+
+#: ../src/_Main.rb:119
+msgctxt "*Main"
+msgid "Do you want to delete the saved playlist?"
+msgstr ""

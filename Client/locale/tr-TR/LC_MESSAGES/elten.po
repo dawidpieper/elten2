@@ -1,0 +1,6082 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Elten 2.4\n"
+"POT-Creation-Date: \n"
+"Language-Team: Kumandan\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Burak <burakyuksek94@gmail.com>\n"
+"Language: tr\n"
+"X-Generator: Poedit 1.8.11\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: Authentication.rb:66
+msgctxt "Authentication"
+msgid "Type your password"
+msgstr "Şifrenizi yazın"
+
+#: Authentication.rb:19
+msgctxt "Authentication"
+msgid " Two-factor authentication enables better account security by requiring the  confirmation of each login with your phone. When activated, a text message with a  verification code will be sent to you each time you log in from a new device.  Entering this code will be required to sign in to the program."
+msgstr "İki öğeli kimlik doğrulaması her girişin telefonunuzla onaylanmasını gerektirerek daha iyi hesap güvenliği sağlar. Etkinleştirildiğinde, yeni bir aygıttan her giriş yaptığınızda size doğrulama kodu içeren bir SMS gönderilecektir. Programa giriş yapmak için bu kodu girmeniz gerekecek."
+
+#: Authentication.rb:21
+msgctxt "Authentication"
+msgid "Two-factor authentication is enabled on this account."
+msgstr "İki öğeli kimlik doğrulaması bu hesapta etkin."
+
+#: Authentication.rb:30
+msgctxt "Authentication"
+msgid " Type your phone number that will be used during verification. Remember to enter  the country code, for example, +48 for Poland"
+msgstr "Doğrulama sırasında kullanılacak olan telefon numarasını yazın. ülke kodunu girmeyi unutmayın, örneğin Türkiye için +90"
+
+#: Authentication.rb:32
+msgctxt "Authentication"
+msgid " Two-factor authentication was introduced in Elten 2.28. After activating it, it  will not be possible to log in from the older versions of the program. DO you  wish to continue anyway?"
+msgstr "İki öğeli kimlik doğrulama Elten 2.28'de kullanılmaya başlanmıştır. Etkinleştirildikten sonra, programın eski sürümlerinden giriş yapmak mümkün olmayacak. Buna ramen devam etmek istediğinizden emin misiniz?"
+
+#: Authentication.rb:33
+msgctxt "Authentication"
+msgid "Is this phone number correct? Press enter to continue or escape to cancel."
+msgstr "Bu telefon numarası doğru mu? Devam etmek için enter'a iptal etmek için escape'e basın."
+
+#: Authentication.rb:35
+msgctxt "Authentication"
+msgid "Please wait, connecting to the server ..."
+msgstr "Lütfen bekleyin, sunucuya bağlanılıyor..."
+
+#: Authentication.rb:43
+msgctxt "Authentication"
+msgid " On the phone number indicated, you will receive a text message with the code  activating two-factor authentication. Enter this code"
+msgstr "Belirtilen telefon numarasına iki öğeli kimlik doğrulamasını etkinleştirmek için kodu içeren bir SMS alacaksınız. Bu kodu girin"
+
+#: Authentication.rb:51
+msgctxt "Authentication"
+msgid "The entered code is not correct. Try again."
+msgstr "Girilen kod doğru değil. Tekrar deneyin."
+
+#: Authentication.rb:53
+msgctxt "Authentication"
+msgid "The entered code is not correct."
+msgstr "Girilen kod doğru değil."
+
+#: Authentication.rb:57
+msgctxt "Authentication"
+msgid "Two-factor authentication has been activated on this account."
+msgstr "İki öğeli kimlik doğrulaması bu hesapta etkinleştirildi."
+
+#: Authentication.rb:67
+msgctxt "Authentication"
+msgid "Are you sure you want to disable two-factor authentication?"
+msgstr "İki öğeli kimlik doğrulamasını devredışı bırakmak istediğinizden emin misiniz?"
+
+#: Authentication.rb:70
+msgctxt "Authentication"
+msgid "Two-factor authentication has been disabled."
+msgstr "İki öğeli kimlik doğrulaması devredışı bırakıldı."
+
+#: Authentication.rb:72
+msgctxt "Authentication"
+msgid "Invalid password"
+msgstr "Yanlış şifre"
+
+#: Users_LastAvatars.rb:32
+msgctxt "Users_LastAvatars"
+msgid "recently changed avatars"
+msgstr "Yakın zamanda değiştirilen avatarlar"
+
+#: Users_RecentlyRegistered.rb:23
+msgctxt "Users_RecentlyRegistered"
+msgid "Recently registered users"
+msgstr "Yakın zamanda kaydolan kullanıcılar"
+
+#: Users_RecentlyActived.rb:23
+msgctxt "Users_RecentlyActived"
+msgid "Recently active users"
+msgstr "Yakın zamanda aktif olan kullanıcılar"
+
+#: UserSearch.rb:37
+msgctxt "UserSearch"
+msgid "Found items"
+msgstr "Bulunan öğeler"
+
+#: UserSearch.rb:37
+msgctxt "UserSearch"
+msgid "Search users"
+msgstr "Kullanıcıları ara"
+
+#: UserSearch.rb:26
+msgctxt "UserSearch"
+msgid "No match found."
+msgstr "Eşleşme bulunamadı."
+
+#: UserSearch.rb:50
+msgctxt "UserSearch"
+msgid "Search again"
+msgstr "Tekrar ara"
+
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Hour"
+msgstr "Saat"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "None"
+msgstr "Hiçbiri"
+
+#: Clock.rb:70
+msgctxt "Clock"
+msgid "Add"
+msgstr "Ekle"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Auto timereading"
+msgstr "Otomatik zaman okuması"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Voice and sound"
+msgstr "Seslendirme ve ses"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Voice only"
+msgstr "Sadece seslendirme"
+
+#: Clock.rb:11
+msgctxt "Clock"
+msgid "Sound only"
+msgstr "Sadece ses"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "announce time"
+msgstr "Zamanı duyur"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every hour"
+msgstr "Her saatte"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every half hour"
+msgstr "Her yarım saatte"
+
+#: Clock.rb:12
+msgctxt "Clock"
+msgid "every quarter of an hour"
+msgstr "Her çeğrek saatte"
+
+#: Clock.rb:13
+msgctxt "Clock"
+msgid "Alarms"
+msgstr "Alarmlar"
+
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Minute"
+msgstr "Dakika"
+
+#: Clock.rb:42
+msgctxt "Clock"
+msgid "Type"
+msgstr "Tür"
+
+#: Clock.rb:68
+msgctxt "Clock"
+msgid "One time"
+msgstr "Bir kez"
+
+#: Clock.rb:68
+msgctxt "Clock"
+msgid "Repeated"
+msgstr "Tekrar edilen"
+
+#: Advanced.rb:11
+msgctxt "Advanced"
+msgid " Key state refresh time (ms) (Note: it is not recommended to change this value!)"
+msgstr " Tuş durumu yenileme süresi (ms) (not: bu değeri değiştirmeniz önerilmez!)"
+
+msgctxt "Advanced"
+msgid "Hexagonal processing of diacritics (advanced)"
+msgstr "Ayırıcıların heksagonal olarak işlenmesi (gelişmiş)"
+
+#: Advanced.rb:12
+msgctxt "Advanced"
+msgid " Session refresh time (s) (Attention! It is not recommended to change this value!)"
+msgstr " Oturum yenileme süresi (s) (uyarı! Bu değeri değiştirmeniz önerilmez!)"
+
+msgctxt "Advanced"
+msgid "Use audiostreaming if supported"
+msgstr "Destekleniyorsa ses canlı oynatmayı kullan"
+
+#: Advanced.rb:13
+msgctxt "Advanced"
+msgid "Synchronize time with server"
+msgstr "Zamanı sunucuyla senkronize et"
+
+#: Notes.rb:243
+msgctxt "Notes"
+msgid "Add"
+msgstr "Ekle"
+
+#: Notes.rb:127
+msgctxt "Notes"
+msgid "Edit"
+msgstr "Düzenle"
+
+#: Notes.rb:127
+msgctxt "Notes"
+msgid "Notes"
+msgstr "Notlar"
+
+#: Notes.rb:54
+msgctxt "Notes"
+msgid "New note"
+msgstr "Yeni not"
+
+#: Notes.rb:127
+msgctxt "Notes"
+msgid "Shared with"
+msgstr "Şununla paylaşılan"
+
+#: Notes.rb:86
+msgctxt "Notes"
+msgid "Read"
+msgstr "Oku"
+
+#: Notes.rb:52
+msgctxt "Notes"
+msgid "Author"
+msgstr "Oluşturan"
+
+#: Notes.rb:52
+msgctxt "Notes"
+msgid "Modified"
+msgstr "Ddeğiştirilmiş"
+
+#: Notes.rb:155
+msgctxt "Notes"
+msgid "The note has been modified."
+msgstr "Not değiştirildi."
+
+#: Notes.rb:176
+msgctxt "Notes"
+msgid "User cannot be found"
+msgstr "Kullanıcı bulunamadı."
+
+#: Notes.rb:233
+msgctxt "Notes"
+msgid "The note has been deleted."
+msgstr "Not silindi."
+
+#: Notes.rb:264
+msgctxt "Notes"
+msgid "The note has been created"
+msgstr "Not oluşturuldu."
+
+#: Notes.rb:163
+msgctxt "Notes"
+msgid "Who do you want to share this note with?"
+msgstr "Bu notu kiminle paylaşmak istiyorsunuz?"
+
+#: Notes.rb:243
+msgctxt "Notes"
+msgid "note title"
+msgstr "Not başlığı"
+
+#: Notes.rb:243
+msgctxt "Notes"
+msgid "Note content"
+msgstr "Not içeriği"
+
+#: Notes.rb:225
+msgctxt "Notes"
+msgid "Do you really want to delete %{name}?"
+msgstr "%{name} öğesini silmek istediğinizden emin misiniz?"
+
+#: Notes.rb:182
+msgctxt "Notes"
+msgid "From now on you share this note with %{user}"
+msgstr "Artık bu notu %{user} ile paylaşıyorsunuz"
+
+#: Notes.rb:202
+msgctxt "Notes"
+msgid "You no longer share this note with %{user}"
+msgstr "Artık bu notu %{user} ile paylaşmıyorsunuz"
+
+#: Notes.rb:196
+msgctxt "Notes"
+msgid "Do you want to stop sharing this note with %{user}?"
+msgstr "Bu notun %{user} ile paylaşımını durdurmak istediğinizden emin misiniz?"
+
+#: ForgotPassword.rb:32
+msgctxt "ForgotPassword"
+msgid "Password reset"
+msgstr "Şifre sıfırla"
+
+#: ForgotPassword.rb:19
+msgctxt "ForgotPassword"
+msgid "Enter the E-mail address used during the registration process"
+msgstr "Kayıt işlemi sırasında kullanılan e-posta adresini girin"
+
+#: ForgotPassword.rb:29
+msgctxt "ForgotPassword"
+msgid "The typed E-mail address is not associated with the entered username."
+msgstr "Yazılan e-posta adresi girilen kullanıcı adıyla ilişkili değil."
+
+#: ForgotPassword.rb:32
+msgctxt "ForgotPassword"
+msgid "Generate password reset code"
+msgstr "Şifre sıfırlama kodu oluştur"
+
+#: ForgotPassword.rb:32
+msgctxt "ForgotPassword"
+msgid "Enter password reset code"
+msgstr "Şifre sıfırlama kodunu girin"
+
+#: ForgotPassword.rb:88
+msgctxt "ForgotPassword"
+msgid "Please wait while the password reset key is being generated."
+msgstr "Şifre sıfırlama anahtarı oluşturulurken lütfen bekleyin."
+
+#: ForgotPassword.rb:65
+msgctxt "ForgotPassword"
+msgid "Enter the generated password reset code"
+msgstr "Oluşturulan şifre sıfırlama kodunu girin"
+
+#: ForgotPassword.rb:71
+msgctxt "ForgotPassword"
+msgid "The entered code is invalid."
+msgstr "Girilen kod yanlış."
+
+#: ForgotPassword.rb:78
+msgctxt "ForgotPassword"
+msgid "Type a new password"
+msgstr "Yeni şifre yazın"
+
+#: ForgotPassword.rb:78
+msgctxt "ForgotPassword"
+msgid "Repeat new password"
+msgstr "Yeni şifreyi tekrarlayın"
+
+#: ForgotPassword.rb:81
+msgctxt "ForgotPassword"
+msgid "The entered passwords are different."
+msgstr "Girilen şifreler farklı."
+
+#: ForgotPassword.rb:83
+msgctxt "ForgotPassword"
+msgid "Empty password provided."
+msgstr "Boş şifre girildi."
+
+#: ForgotPassword.rb:88
+msgctxt "ForgotPassword"
+msgid "Please wait while the password is being changed."
+msgstr "Şifre değiştirilirken lütfen bekleyin."
+
+#: ForgotPassword.rb:94
+msgctxt "ForgotPassword"
+msgid " The password has been changed. You can log in to your account using the new data."
+msgstr "Şifre değiştirildi. Yeni bilgiyi kullanarak hesabınıza giriş yapabilirsiniz."
+
+#: ForgotPassword.rb:12
+msgctxt "ForgotPassword"
+msgid " If you lose your password, you can still reset it via the E-mail address provided  during the registration process. This way you shall generate the password reset  code which will be used to verify your identity. The code will be sent to your e- mail address. Warning! Two-factor authentication will be disabled on your  account. To continue, enter your username:"
+msgstr "Şifrenizi kaybederseniz, kayıt işlemi sırasında sağlanan e-posta adresiyle sıfırlayabilirsiniz. Bu şekilde kimliğinizi doğrulamak için kullanılacak olan şifre sıfırlama kodunu oluşturursunuz. Kod e-posta adresinize gönderilecektir. Uyarı! hesabınızda iki öğeli kimlik doğrulaması devredışı bırakılacak. Devam etmek için, kullanıcı adınızı girin:"
+
+#: ForgotPassword.rb:92
+msgctxt "ForgotPassword"
+msgid "An unexpected error"
+msgstr "Beklenmeyen hata"
+
+#: ForgotPassword.rb:58
+msgctxt "ForgotPassword"
+msgid " Password reset key has been sent to your specified E-mail address. To continue,  select the option for entering key."
+msgstr "Şifre sıfırlama anahtarı belirtilen e-posta adresinize gönderildi. Devam etmek için, anahtarı girmek için kullanılan seçeneği seçin."
+
+#: Honors.rb:137
+msgctxt "Honors"
+msgid "Add"
+msgstr "Ekle"
+
+#: Honors.rb:65
+msgctxt "Honors"
+msgid "The user has been given no badges."
+msgstr "Kullanıcıya rozet verilmemiş."
+
+#: Honors.rb:82
+msgctxt "Honors"
+msgid "The badge has been set as default."
+msgstr "Rozet varsayılan olarak ayarlandı."
+
+#: Honors.rb:115
+msgctxt "Honors"
+msgid "The user cannot be found"
+msgstr "Kullanıcı bulunamadı"
+
+#: Honors.rb:121
+msgctxt "Honors"
+msgid "The badge has been granted"
+msgstr "Rozet verildi"
+
+#: Honors.rb:151
+msgctxt "Honors"
+msgid "The badge has been added"
+msgstr "Rozet eklendi"
+
+#: Honors.rb:77
+msgctxt "Honors"
+msgid " Do you want to set this badge as your main badge? The main badge will show in  your visiting card."
+msgstr "Bu rozeti ana rozetiniz olarak ayarlamak istiyor musunuz? Ana rozet kartvizitinizde gösterilir."
+
+#: Honors.rb:137
+msgctxt "Honors"
+msgid "Badge name"
+msgstr "Rozet adı"
+
+#: Honors.rb:137
+msgctxt "Honors"
+msgid "Badge description"
+msgstr "Rozet açıklaması"
+
+#: Honors.rb:137
+msgctxt "Honors"
+msgid "Badge name in English"
+msgstr "İngilizce rozet adı"
+
+#: Honors.rb:137
+msgctxt "Honors"
+msgid "Badge description in English"
+msgstr "İngilizce rozet açıklaması"
+
+#: Honors.rb:112
+msgctxt "Honors"
+msgid "Who should be granted this badge?"
+msgstr "Bu rozet kime verilsin?"
+
+#: Honors.rb:62
+msgctxt "Honors"
+msgid "Badges"
+msgstr "Rozetler"
+
+#: Honors.rb:62
+msgctxt "Honors"
+msgid "Badges of %{user}"
+msgstr "%{user} kişisinin rozetleri"
+
+#: Honors.rb:100
+msgctxt "Honors"
+msgid "Grant a badge"
+msgstr "Rozet ver"
+
+#: Honors.rb:57
+msgctxt "Honors"
+msgid "A new badge"
+msgstr "Yeni rozet"
+
+msgctxt "Honors"
+msgid "Set as main badge"
+msgstr "Ana rozet olarak ayarla"
+
+msgctxt "Honors"
+msgid "Delete this badge"
+msgstr "Bu rozeti sil"
+
+msgctxt "Honors"
+msgid "Are you sure you want to delete this badge? All users granted with this badge will loose it."
+msgstr "Bu rozeti silmek istediğinizden emin misiniz? Bu rozeti alan bütün kullanıcılar rozeti kaybedecek."
+
+msgctxt "Honors"
+msgid "Deleted."
+msgstr "Silindi."
+
+msgctxt "Honors"
+msgid "Edit challenges"
+msgstr "Meydan okumaları düzenle"
+
+msgctxt "Honors"
+msgid "Add challenge"
+msgstr "Meydan okuma ekle"
+
+msgctxt "Honors"
+msgid "Level"
+msgstr "Seviye"
+
+msgctxt "Honors"
+msgid "Challenges"
+msgstr "Meydan okumalar"
+
+msgctxt "Honors"
+msgid "Level challenge"
+msgstr "Seviye meydan okuması"
+
+msgctxt "Honors"
+msgid "English level challenge"
+msgstr "İngilizce seviye meydan okuması"
+
+msgctxt "Programs"
+msgid "Programs installation"
+msgstr "Program kur"
+
+msgctxt "Programs"
+msgid "The program has already been installed."
+msgstr "Program zaten kurulmuş."
+
+msgctxt "Programs"
+msgid "Finished installation."
+msgstr "Kurulum bitti."
+
+msgctxt "Programs"
+msgid "Do you want to install the program %{name}?"
+msgstr "%{name} programını kurmak istiyor musunuz?"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Destination"
+msgstr "Konum"
+
+msgctxt "Portable"
+msgid "Include another languages"
+msgstr "Diğer dilleri dahil et"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Copy current settings"
+msgstr "Geçerli ayarları kopyala"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Copy downloaded soundthemes"
+msgstr "İndirilen ses temalarını kopyala"
+
+#: Portable.rb:70
+msgctxt "Portable"
+msgid "Please wait while files are being prepared"
+msgstr "Dosyalar hazırlanırken lütfen bekleyin"
+
+#: Portable.rb:32
+msgctxt "Portable"
+msgid "Copying configuration"
+msgstr "Konfigürasyon kopyalanıyor"
+
+#: Portable.rb:52
+msgctxt "Portable"
+msgid "Copying soundthemes"
+msgstr "Ses temaları kopyalanıyor"
+
+#: Portable.rb:38
+msgctxt "Portable"
+msgid "Reset synthesizer settings"
+msgstr "Sentezleyici ayarlarını sıfırla"
+
+#: Portable.rb:38
+msgctxt "Portable"
+msgid "Ask each time"
+msgstr "Her zaman"
+
+#: Portable.rb:38
+msgctxt "Portable"
+msgid "Use current setting"
+msgstr "Geçerli ayarı kullan"
+
+#: Portable.rb:38
+msgctxt "Portable"
+msgid " If you use a created copy of Elten on another computer, the voice settings may  not work properly. This is especially noticeable in a situation when another  computer has other voices installed. How do you want to configure the generated  version?"
+msgstr "Elten'in oluşturulmuş kopyasını başka bir bilgisayarda kullanırsanız, ses ayarları düzgün çalışmayabilir. Bu özellikle başka bilgisayarda başka sesler kurulu olduğunda meydana gelir. Oluşturulan sürümü nasıl ayarlamak istersiniz?"
+
+#: Portable.rb:75
+msgctxt "Portable"
+msgid "Elten Portable version created successfully."
+msgstr "Elten taşınabilir sürümü başarıyla oluşturuldu."
+
+#: Portable.rb:38
+msgctxt "Portable"
+msgid "Use a screenreader or a system default voice"
+msgstr "Ekran okuyucu ya da sistem varsayılan sesini kullan"
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "continue"
+msgstr "Devam et"
+
+msgctxt "Portable"
+msgid "Downloading of the language packs..."
+msgstr "Dil paketleri indiriliyor..."
+
+#: Portable.rb:70
+msgctxt "Portable"
+msgid "Processing the file..."
+msgstr "Dosya işleniyor..."
+
+#: Portable.rb:10
+msgctxt "Portable"
+msgid "Create as a single exe file. (No settings will be saved."
+msgstr "Tek exe dosyası olarak oluştur. (Ayarlar kaydedilmez."
+
+#: Polls.rb:152
+msgctxt "Polls"
+msgid "Description"
+msgstr "Açıklama"
+
+#: Polls.rb:183
+msgctxt "Polls"
+msgid "Polls"
+msgstr "Anketler"
+
+#: Polls.rb:308
+msgctxt "Polls"
+msgid "Vote"
+msgstr "Oyla"
+
+#: Polls.rb:73
+msgctxt "Polls"
+msgid "Show results"
+msgstr "Sonuçları göster"
+
+#: Polls.rb:227
+msgctxt "Polls"
+msgid "New poll"
+msgstr "Yeni anket"
+
+#: Polls.rb:152
+msgctxt "Polls"
+msgid "Poll name"
+msgstr "Anket adı"
+
+#: Polls.rb:152
+msgctxt "Polls"
+msgid "Questions"
+msgstr "Sorular"
+
+#: Polls.rb:227
+msgctxt "Polls"
+msgid "Add a new question"
+msgstr "Yeni soru ekle"
+
+#: Polls.rb:183
+msgctxt "Polls"
+msgid "Answers"
+msgstr "Yanıtlar"
+
+#: Polls.rb:204
+msgctxt "Polls"
+msgid "Add a new answer"
+msgstr "Yeni yanıt ekle"
+
+#: Polls.rb:152
+msgctxt "Polls"
+msgid "Create"
+msgstr "Oluştur"
+
+#: Polls.rb:177
+msgctxt "Polls"
+msgid "Question"
+msgstr "Soru"
+
+#: Polls.rb:177
+msgctxt "Polls"
+msgid "Single choice"
+msgstr "Tek seçimli"
+
+#: Polls.rb:177
+msgctxt "Polls"
+msgid "Multiple choice"
+msgstr "Çoklu seçimli"
+
+#: Polls.rb:177
+msgctxt "Polls"
+msgid "Edit box"
+msgstr "Metin kutusu"
+
+#: Polls.rb:177
+msgctxt "Polls"
+msgid "Question type"
+msgstr "Soru türü"
+
+#: Polls.rb:132
+msgctxt "Polls"
+msgid "deleted"
+msgstr "Silindi"
+
+#: Polls.rb:387
+msgctxt "Polls"
+msgid "Author"
+msgstr "Oluşturan"
+
+#: Polls.rb:398
+msgctxt "Polls"
+msgid "The number of votes"
+msgstr "Oy sayısı"
+
+#: Polls.rb:212
+msgctxt "Polls"
+msgid "There are no answers to this question"
+msgstr "Bu soruya yanıt verilmemiş"
+
+#: Polls.rb:214
+msgctxt "Polls"
+msgid "There is only one answer to this question."
+msgstr "Bu soru için sadece bir yanıt var."
+
+#: Polls.rb:252
+msgctxt "Polls"
+msgid "The poll has been created."
+msgstr "Anket oluşturuldu."
+
+#: Polls.rb:343
+msgctxt "Polls"
+msgid "Your vote has been saved."
+msgstr "Oyunuz kaydedildi."
+
+#: Polls.rb:308
+msgctxt "Polls"
+msgid "Poll"
+msgstr "Anket"
+
+#: Polls.rb:203
+msgctxt "Polls"
+msgid "Answer"
+msgstr "Yanıt"
+
+#: Polls.rb:426
+msgctxt "Polls"
+msgid "Poll results: %{name}"
+msgstr "Anket sonuçları: %{name}"
+
+#: Polls.rb:127
+msgctxt "Polls"
+msgid "Do you really want to delete %{name}?"
+msgstr "%{name} öğesini silmek istediğinizden emin misiniz?"
+
+#: Polls.rb:387
+msgctxt "Polls"
+msgid "Created"
+msgstr "Oluşturuldu"
+
+#: Polls.rb:300
+msgctxt "Polls"
+msgid "Single choice question"
+msgstr "Tek seçimli soru"
+
+#: Polls.rb:303
+msgctxt "Polls"
+msgid "Multiple choice question"
+msgstr "Çoklu seçimli soru"
+
+#: Uploads.rb:110
+msgctxt "Uploads"
+msgid "Add"
+msgstr "Ekle"
+
+#: Uploads.rb:110
+msgctxt "Uploads"
+msgid "Play"
+msgstr "Oynat"
+
+#: Uploads.rb:110
+msgctxt "Uploads"
+msgid "Download"
+msgstr "İndir"
+
+#: Uploads.rb:130
+msgctxt "Uploads"
+msgid "Where do you want to save this file?"
+msgstr "Bu dosyayı nereye kaydetmek istiyorsunuz?"
+
+#: Uploads.rb:149
+msgctxt "Uploads"
+msgid "deleted"
+msgstr "Silindi"
+
+#: Uploads.rb:142
+msgctxt "Uploads"
+msgid "Copied to clipboard"
+msgstr "Panoya kopyalandı"
+
+#: Uploads.rb:154
+msgctxt "Uploads"
+msgid "Choose a file to be sent to the server"
+msgstr "Sunucuya gönderilecek dosya seçin"
+
+#: Uploads.rb:44
+msgctxt "Uploads"
+msgid "Files of %{user}"
+msgstr "%{user} kişisinin dosyaları"
+
+#: Uploads.rb:144
+msgctxt "Uploads"
+msgid "Do you really want to delete %{filename}?"
+msgstr "%{filename} dosyasını silmek istediğinizden emin misiniz?"
+
+#: Uploads.rb:110
+msgctxt "Uploads"
+msgid "Copy link"
+msgstr "Bağlantıyı kopyala"
+
+msgctxt "Compiler"
+msgid "destination location"
+msgstr "Konum yeri"
+
+#: Admins.rb:75
+msgctxt "Admins"
+msgid "Administrators"
+msgstr "Yöneticiler"
+
+#: Admins.rb:16
+msgctxt "Admins"
+msgid "Community Administrators"
+msgstr "Topluluk yöneticileri"
+
+#: Admins.rb:16
+msgctxt "Admins"
+msgid "Recommended groups Moderators"
+msgstr "Önerilen grup moderatörleri"
+
+#: Admins.rb:16
+msgctxt "Admins"
+msgid "Translators"
+msgstr "Çevirmenler"
+
+#: Admins.rb:16
+msgctxt "Admins"
+msgid "Developers"
+msgstr "Üreticiler"
+
+#: WhatsNew.rb:113
+msgctxt "WhatsNew"
+msgid "There is nothing new."
+msgstr "Yeni bir şey yok."
+
+#: WhatsNew.rb:40
+msgctxt "WhatsNew"
+msgid "What's new"
+msgstr "Ne yeni"
+
+#: WhatsNew.rb:113
+msgctxt "WhatsNew"
+msgid "No new posts on the followed blogs"
+msgstr "Takip edilen bloglarda yeni gönderi yok"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New messages"
+msgstr "Yeni mesajlar"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts in followed threads"
+msgstr "Takip edilen konularda yeni gönderiler"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts on the followed blogs"
+msgstr "Takip edilen bloglarda yeni gönderiler"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New comments on your blog"
+msgstr "Bloğunuza yapılan yeni yorumlar"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New threads on followed forums"
+msgstr "Takip edilen forumlarda yeni konular"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New posts on followed forums"
+msgstr "Takip edilen forumlarda yeni gönderiler"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "New friends"
+msgstr "Yeni arkadaşlar"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Friends' birthday"
+msgstr "Arkadaşın doğum günü"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Mentions"
+msgstr "Bahsedilenler"
+
+#: WhatsNew.rb:50
+msgctxt "WhatsNew"
+msgid "Update available (%{version})"
+msgstr "Güncelleme mevcut (%{version})"
+
+#: ShortKeys.rb:11
+msgctxt "ShortKeys"
+msgid "List of keyboard shortcuts"
+msgstr "Klavye kısayol listesi"
+
+#: General.rb:11
+msgctxt "General"
+msgid "Linear"
+msgstr "Doğrusal"
+
+#: General.rb:11
+msgctxt "General"
+msgid "Circular"
+msgstr "Dairesel"
+
+#: General.rb:11
+msgctxt "General"
+msgid "The display method of selection lists"
+msgstr "Seçim listelerinin görüntülenme şekli"
+
+#: General.rb:12
+msgctxt "General"
+msgid "Play sounds of soundthemes"
+msgstr "Ses temalarının seslerini çal"
+
+#: General.rb:13
+msgctxt "General"
+msgid "Characters"
+msgstr "Karakterler"
+
+#: General.rb:13
+msgctxt "General"
+msgid "Words"
+msgstr "Sözcükler"
+
+#: General.rb:13
+msgctxt "General"
+msgid "Characters and words"
+msgstr "Karakterler ve sözcükler"
+
+#: General.rb:13
+msgctxt "General"
+msgid "None"
+msgstr "Hiçbiri"
+
+#: General.rb:13
+msgctxt "General"
+msgid "Typing echo"
+msgstr "Yazım seslendirmesi"
+
+#: General.rb:16
+msgctxt "General"
+msgid "Enable auto log in"
+msgstr "Otomatik girişi etkinleştir"
+
+#: General.rb:15
+msgctxt "General"
+msgid "Automatically minimize Elten Window to system tray"
+msgstr "Elten penceresini otomatik olarak sistem tepsisine küçült"
+
+#: General.rb:17
+msgctxt "General"
+msgid "Automatically start Elten after I log on to Windows"
+msgstr "Ben windows'a giriş yaptığımda Elten'ı otomatik olarak başlat"
+
+#: General.rb:48
+msgctxt "General"
+msgid "Auto log in is required to use auto start"
+msgstr "Otomatik başlatmayı kullanmak için otomatik giriş gerekir"
+
+#: General.rb:14
+msgctxt "General"
+msgid "Wrap long lines in text fields"
+msgstr "Metin alanlarında uzun satırları kaydır"
+
+#: WhatsNew.rb:108
+msgctxt "General"
+msgid "Error"
+msgstr "Hata"
+
+#: Loading.rb:413
+msgctxt "General"
+msgid "Exit"
+msgstr "Çık"
+
+#: Authentication.rb:19
+msgctxt "General"
+msgid "Enable"
+msgstr "Etkinleştir"
+
+#: Authentication.rb:21
+msgctxt "General"
+msgid "Disable"
+msgstr "Devredışı bırak"
+
+#: Voice.rb:116
+msgctxt "General"
+msgid "Cancel"
+msgstr "İptal"
+
+#: Users_RecentlyRegistered.rb:45
+msgctxt "General"
+msgid "Refresh"
+msgstr "Yenile"
+
+#: SoundCard.rb:14
+msgctxt "General"
+msgid "Save"
+msgstr "Kaydet"
+
+#: Voice.rb:209
+msgctxt "General"
+msgid "Saved"
+msgstr "Kaydedildi"
+
+#: Uploads.rb:110
+msgctxt "General"
+msgid "Delete"
+msgstr "Sil"
+
+#: WhatsNew.rb:16
+msgctxt "General"
+msgid "This function cannot be used on guest account."
+msgstr "Bu fonksiyon konuk hesabında kullanılamaz."
+
+#: Users.rb:18
+msgctxt "General"
+msgid "The session key has expired."
+msgstr "Oturum anahtarının süresi doldu."
+
+#: Users.rb:14
+msgctxt "General"
+msgid "Error connecting to the database."
+msgstr "Veri tabanına bağlanırken hata oluştu."
+
+#: Users.rb:22
+msgctxt "General"
+msgid "You do not have sufficient permissions to perform this operation."
+msgstr "Bu işlemi gerçekleştirmek için yeterli izniniz yok."
+
+#: _Main.rb:166
+msgctxt "General"
+msgid "No"
+msgstr "Hayır"
+
+#: _Main.rb:166
+msgctxt "General"
+msgid "Yes"
+msgstr "Evet"
+
+#: EAPI_Common.rb:440
+msgctxt "General"
+msgid "Female"
+msgstr "Kadın"
+
+#: EAPI_Common.rb:442
+msgctxt "General"
+msgid "male"
+msgstr "Erkek"
+
+#: EAPI_Common.rb:867
+msgctxt "General"
+msgid "This feature is not available on this platform."
+msgstr "Bu özellik bu platformda mevcut değil."
+
+#: UsersAddedMeToContacts.rb:36
+msgctxt "UsersAddedMeToContacts"
+msgid "Users who added me to their contacts list"
+msgstr "Beni kişiler listesine eklemiş olan kullanıcılar"
+
+#: ReadMe.rb:11
+msgctxt "ReadMe"
+msgid "Readme"
+msgstr "Benioku"
+
+#: Blog.rb:412
+msgctxt "Blog"
+msgid "New post"
+msgstr "Yeni gönderi"
+
+#: Blog.rb:676
+msgctxt "Blog"
+msgid "Deleted"
+msgstr "Silindi"
+
+#: Blog.rb:453
+msgctxt "Blog"
+msgid "Select"
+msgstr "Seç"
+
+#: Blog.rb:1359
+msgctxt "Blog"
+msgid "My blog"
+msgstr "Bloğum"
+
+#: Blog.rb:122
+msgctxt "Blog"
+msgid "New category"
+msgstr "Yeni kategori"
+
+#: Blog.rb:667
+msgctxt "Blog"
+msgid "Are you sure you want to delete this post?"
+msgstr "Bu gönderiyi silmek istediğinizden emin misiniz?"
+
+#: Blog.rb:1373
+msgctxt "Blog"
+msgid "Blogs"
+msgstr "Bloglar"
+
+#: Blog.rb:1331
+msgctxt "Blog"
+msgid "The list of blogs"
+msgstr "Blog listesi"
+
+#: Blog.rb:943
+msgctxt "Blog"
+msgid "Send"
+msgstr "Gönder"
+
+#: Blog.rb:932
+msgctxt "Blog"
+msgid "Return"
+msgstr "Geri dön"
+
+#: Blog.rb:123
+msgctxt "Blog"
+msgid "Change the blog's name"
+msgstr "Bloğun adını değiştir"
+
+#: Blog.rb:922
+msgctxt "Blog"
+msgid "Your comment"
+msgstr "Yorumunuz"
+
+#: Blog.rb:928
+msgctxt "Blog"
+msgid "Edit your post"
+msgstr "Gönderinizi düzenleyin"
+
+#: Blog.rb:788
+msgctxt "Blog"
+msgid "Play"
+msgstr "Oynat"
+
+#: Blog.rb:120
+msgctxt "Blog"
+msgid "All posts"
+msgstr "Tüm gönderiler"
+
+#: Blog.rb:544
+msgctxt "Blog"
+msgid "Record a new post"
+msgstr "Yeni gönderi kaydet"
+
+#: Blog.rb:552
+msgctxt "Blog"
+msgid "Stop recording"
+msgstr "Kaydı durdur"
+
+#: Blog.rb:13
+msgctxt "Blog"
+msgid "Recently updated blogs"
+msgstr "Yakın zamanda güncellenen bloglar"
+
+#: Blog.rb:13
+msgctxt "Blog"
+msgid "Frequently updated blogs"
+msgstr "Sıklıkla güncellenen bloglar"
+
+#: Blog.rb:13
+msgctxt "Blog"
+msgid "Frequently commented blogs"
+msgstr "Sıklıkla yorum yapılan bloglar"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Post title"
+msgstr "Gönderi başlığı"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Post"
+msgstr "Gönder"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Add to category"
+msgstr "Kategoriye ekle"
+
+#: Blog.rb:222
+msgctxt "Blog"
+msgid "Category name"
+msgstr "Kategori adı"
+
+#: Blog.rb:243
+msgctxt "Blog"
+msgid "New blog name"
+msgstr "Yeni blog adı"
+
+#: Blog.rb:819
+msgctxt "Blog"
+msgid "File is being converted..."
+msgstr "Dosya dönüştürülüyor..."
+
+#: Blog.rb:259
+msgctxt "Blog"
+msgid "Rename"
+msgstr "Yeniden adlandır"
+
+#: Blog.rb:453
+msgctxt "Blog"
+msgid "Edit"
+msgstr "Düzenle"
+
+#: Blog.rb:1122
+msgctxt "Blog"
+msgid "Open"
+msgstr "Aç"
+
+#: Blog.rb:1130
+msgctxt "Blog"
+msgid "Add to followed blogs"
+msgstr "Takip edilen bloglara ekle"
+
+#: Blog.rb:1128
+msgctxt "Blog"
+msgid "Remove from the followed blogs"
+msgstr "Takip edilen bloglardan kaldır"
+
+#: Blog.rb:13
+msgctxt "Blog"
+msgid "Followed blogs"
+msgstr "Takip edilen bloglar"
+
+#: Blog.rb:581
+msgctxt "Blog"
+msgid "Create an audiopost"
+msgstr "Sesli gönderi oluştur"
+
+#: Blog.rb:544
+msgctxt "Blog"
+msgid "Use an existing file"
+msgstr "Varolan dosya kullan"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Visibility"
+msgstr "Görülebilirlik"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Show to everyone"
+msgstr "Herkese göster"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Do not show to unlogged users"
+msgstr "Konuk kullanıcılara gösterme"
+
+#: Blog.rb:758
+msgctxt "Blog"
+msgid "Audio post"
+msgstr "Sesli gönderi"
+
+#: Blog.rb:788
+msgctxt "Blog"
+msgid "Use another file"
+msgstr "Başka dosya kullan"
+
+#: Blog.rb:794
+msgctxt "Blog"
+msgid "Select audio file"
+msgstr "Ses dosyası seç"
+
+#: Blog.rb:77
+msgctxt "Blog"
+msgid "The blog cannot be found."
+msgstr "Blog bulunamadı"
+
+#: Blog.rb:230
+msgctxt "Blog"
+msgid "The category has been created."
+msgstr "Kategori oluşturuldu"
+
+#: Blog.rb:249
+msgctxt "Blog"
+msgid "Your blog has been renamed"
+msgstr "Bloğunuzun adı değiştirildi"
+
+#: Blog.rb:346
+msgctxt "Blog"
+msgid "You do not have any blog. Do you want to create one?"
+msgstr "Hiçbir bloğunuz yok. Bir tane oluşturmak ister misiniz?"
+
+#: Blog.rb:819
+msgctxt "Blog"
+msgid "Please wait..."
+msgstr "Lütfen bekleyin..."
+
+#: Blog.rb:368
+msgctxt "Blog"
+msgid "The blog has been created."
+msgstr "Blog oluşturuldu."
+
+#: Blog.rb:311
+msgctxt "Blog"
+msgid "The blog has been renamed."
+msgstr "Bloğun adı değiştirildi."
+
+#: Blog.rb:414
+msgctxt "Blog"
+msgid "No new comments on your blog."
+msgstr "Bloğunuza yeni yorum yapılmamış."
+
+#: Blog.rb:653
+msgctxt "Blog"
+msgid "The post has been added."
+msgstr "Gönderi eklendi."
+
+#: Blog.rb:983
+msgctxt "Blog"
+msgid "The comment has been added."
+msgstr "Yorum eklendi."
+
+#: Blog.rb:1154
+msgctxt "Blog"
+msgid "Added to the followed blogs."
+msgstr "Takip edilen bloglara eklendi."
+
+#: Blog.rb:1163
+msgctxt "Blog"
+msgid "Removed from the followed blogs."
+msgstr "Takip edilen bloglardan kaldırıldı."
+
+#: Blog.rb:1172
+msgctxt "Blog"
+msgid "The blog has been marked as read."
+msgstr "Blog okundu olarak işaretlendi."
+
+#: Blog.rb:1293
+msgctxt "Blog"
+msgid "Recategorised"
+msgstr "Kategori değiştirildi"
+
+#: Blog.rb:325
+msgctxt "Blog"
+msgid "Are you sure you want to delete this category?"
+msgstr "Bu kategoriyi silmek istediğinizden emin misiniz?"
+
+#: Blog.rb:351
+msgctxt "Blog"
+msgid "Type a blog name"
+msgstr "Blog adı yazın"
+
+#: Blog.rb:304
+msgctxt "Blog"
+msgid "Type a new category name"
+msgstr "Yeni kategori ismi yazın"
+
+#: Blog.rb:573
+msgctxt "Blog"
+msgid "Create a text post"
+msgstr "Metinli gönderi oluştur"
+
+#: Blog.rb:1169
+msgctxt "Blog"
+msgid "All posts on this blog will be marked as read. Do you want to continue?"
+msgstr "Bu blogdaki bütün gönderiler okundu olarak işaretlenecektir. Devam etmek istediğinizden emin misiniz?"
+
+#: WhatsNew.rb:143
+msgctxt "Blog"
+msgid "Author"
+msgstr "Oluşturan"
+
+#: Blog.rb:1132
+msgctxt "Blog"
+msgid "Mark the blog as read"
+msgstr "Bloğu okundu olarak işaretle"
+
+#: Blog.rb:124
+msgctxt "Blog"
+msgid "Recategorize"
+msgstr "Kategori değiştir"
+
+msgctxt "Blog"
+msgid "Show only to users in my contacts list"
+msgstr "Sadece kişiler listemdeki kullanıcılara göster"
+
+#: Blog.rb:1330
+msgctxt "Blog"
+msgid "Create new blog"
+msgstr "Yeni blog oluştur"
+
+#: Blog.rb:198
+msgctxt "Blog"
+msgid "Add coworker"
+msgstr "İş arkadaşı ekle"
+
+#: Blog.rb:126
+msgctxt "Blog"
+msgid "Coworkers"
+msgstr "İş arkadaşları"
+
+msgctxt "Blog"
+msgid "Release this coworker"
+msgstr "Bu iş arkadaşını çıkart"
+
+#: Blog.rb:179
+msgctxt "Blog"
+msgid "What user you want to add to this blog?"
+msgstr "Bu bloğa hangi kullanıcıyı eklemek istiyorsunuz?"
+
+#: Blog.rb:1031
+msgctxt "Blog"
+msgid "Are you sure you want to delete this comment?"
+msgstr "Bu yorumu silmek istediğinizden emin misiniz?"
+
+#: Blog.rb:919
+msgctxt "Blog"
+msgid "Media"
+msgstr "Medya"
+
+#: Blog.rb:13
+msgctxt "Blog"
+msgid "Blogs popular with my friends"
+msgstr "Arkadaşlarım arasında popüler olan bloglar"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Allow users to comment this post"
+msgstr "Bu gönderiye kullanıcıların yorum yapmasına izin ver"
+
+#: Blog.rb:802
+msgctxt "Blog"
+msgid "Do you wish to delete all comments on this post? You can disable commenting on this post without deleting comments already posted."
+msgstr "Bu gönderideki bütün yorumları silmek istediğinizden emin misiniz? Bu gönderiye yorum yapılmasını yapılmış olan yorumları silmeden devredışı bırakabilirsiniz."
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Post type"
+msgstr "Gönderi türü"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Text post"
+msgstr "Metinli gönderi"
+
+#: Blog.rb:756
+msgctxt "Blog"
+msgid "Audio post {opt_audiopost}"
+msgstr "Sesli gönderi"
+
+#: Blog.rb:125
+msgctxt "Blog"
+msgid "Followers"
+msgstr "Takipçiler"
+
+#: Blog.rb:158
+msgctxt "Blog"
+msgid "Followers {head_followers}"
+msgstr "Takipçiler {head_followers}"
+
+#: Blog.rb:154
+msgctxt "Blog"
+msgid "This blog is not followed by any user"
+msgstr "Bu blog hiçbir kullanıcı tarafından takip edilmiyor"
+
+#: Blog.rb:13
+msgctxt "Blog"
+msgid "Managed blogs"
+msgstr "Yönetilen bloglar"
+
+#: Blog.rb:174
+msgctxt "Blog"
+msgid "Coworkers {head_coworkers}"
+msgstr "İş arkadaşları {head_coworkers}"
+
+#: Blog.rb:194
+msgctxt "Blog"
+msgid "Are you sure you want to release this coworker?"
+msgstr "Bu iş arkadaşını çıkartmak istediğinizden emin misiniz?"
+
+#: Blog.rb:189
+msgctxt "Blog"
+msgid "User not found"
+msgstr "Kullanıcı bulunamadı"
+
+msgctxt "Blog"
+msgid "%{user} has been added to this blog"
+msgstr "%{user} bu bloğa eklendiDodałeś użytkownika %{user} do tego bloga"
+
+#: Blog.rb:127
+msgctxt "Blog"
+msgid "Delete this blog"
+msgstr "Bu bloğu sil"
+
+#: Blog.rb:206
+msgctxt "Blog"
+msgid "Are you sure you want to delete this blog?"
+msgstr "Bu bloğu silmek istediğinizden emin misiniz?"
+
+#: Blog.rb:453
+msgctxt "Blog"
+msgid "Move to another blog"
+msgstr "Başka bloğa taşı"
+
+#: Blog.rb:1373
+msgctxt "Blog"
+msgid "Destination blog"
+msgstr "Hedef blog"
+
+#: Blog.rb:1373
+msgctxt "Blog"
+msgid "Move type"
+msgstr "Taşıma türü"
+
+#: Blog.rb:1373
+msgctxt "Blog"
+msgid "Move only this post, delete all comments"
+msgstr "Sadece bu gönderiyi taşı, tüm yorumlarını sil"
+
+#: Blog.rb:1373
+msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr "Bu gönderiyi ve tüm yorumlarını taşı"
+
+msgctxt "Blog"
+msgid "Copy post to new blog, keep all comments on current blog"
+msgstr "Gönderiyi yeni bloğa kopyala, tüm yorumları şu anki blogda tut"
+
+#: Blog.rb:1373
+msgctxt "Blog"
+msgid "Move"
+msgstr "Taşı"
+
+#: Blog.rb:1382
+msgctxt "Blog"
+msgid "The post has been moved."
+msgstr "Gönderi taşındı."
+
+#: Blog.rb:1014
+msgctxt "Blog"
+msgid "Delete this comment"
+msgstr "Bu yorumu sil"
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "Ban"
+msgstr "Banla"
+
+#: Ban.rb:109
+msgctxt "Ban"
+msgid "Unban"
+msgstr "Banı kaldır"
+
+#: Ban.rb:17
+msgctxt "Ban"
+msgid "Enter a username to ban"
+msgstr "Banlanacak kullanıcı adını girin"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Week"
+msgstr "Hafta"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "2 weeks"
+msgstr "2 hafta"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "30 days"
+msgstr "30 gün"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "90 days"
+msgstr "90 gün"
+
+#: Ban.rb:66
+msgctxt "Ban"
+msgid "Banned."
+msgstr "Banlandı."
+
+#: Ban.rb:89
+msgctxt "Ban"
+msgid "Enter a username to unban."
+msgstr "Banı kaldırılacak kullanıcı adını girin."
+
+#: Ban.rb:119
+msgctxt "Ban"
+msgid "Unbanned."
+msgstr "Ban kaldırıldı."
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "The reason"
+msgstr "Neden"
+
+#: Ban.rb:27
+msgctxt "Ban"
+msgid "An additional message to the user"
+msgstr "Kullanıcıya ek mesaj"
+
+#: Ban.rb:109
+msgctxt "Ban"
+msgid "The ban reason"
+msgstr "Ban nedeni"
+
+#: Ban.rb:109
+msgctxt "Ban"
+msgid "Ban valid until"
+msgstr "Ban süresi"
+
+#: Ban.rb:109
+msgctxt "Ban"
+msgid "The ban cancel reason"
+msgstr "Ban iptal nedeni"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Day"
+msgstr "Gün"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Three days"
+msgstr "3 gün"
+
+#: Ban.rb:26
+msgctxt "Ban"
+msgid "Year"
+msgstr "Yıl"
+
+#: Users.rb:39
+msgctxt "Users"
+msgid "List of users"
+msgstr "Kullanıcı listesi"
+
+#: Chat.rb:45
+msgctxt "Chat"
+msgid "Your message"
+msgstr "Mesajınız"
+
+#: Chat.rb:45
+msgctxt "Chat"
+msgid "Messages history"
+msgstr "Mesaj geçmişi"
+
+#: Chat.rb:45
+msgctxt "Chat"
+msgid "Users online"
+msgstr "Çevrimiçi kullanıcılar"
+
+#: Chat.rb:45
+msgctxt "Chat"
+msgid "Hide the chat window"
+msgstr "Sohbet penceresini gizle"
+
+#: Chat.rb:16
+msgctxt "Chat"
+msgid "You have been banned."
+msgstr "Banlandınız"
+
+#: Chat.rb:35
+msgctxt "Chat"
+msgid "Last message"
+msgstr "Son mesaj"
+
+#: Chat.rb:36
+msgctxt "Chat"
+msgid "Joined the discussion"
+msgstr "Tartışmaya katıldı"
+
+#: _Main.rb:77
+msgctxt "Chat"
+msgid "Left the discussion."
+msgstr "Tartışmadan ayrıldı."
+
+#: Languages.rb:12
+msgctxt "Languages"
+msgid "Manage languages"
+msgstr "Dilleri yönet"
+
+msgctxt "Languages"
+msgid "Download the translation from the server"
+msgstr "Çeviriyi sunucudan indir"
+
+msgctxt "Languages"
+msgid "Language packs have been updated"
+msgstr "Dil paketleri güncellendi"
+
+#: Files.rb:510
+msgctxt "Files"
+msgid "Files"
+msgstr "Dosyalar"
+
+#: Files.rb:390
+msgctxt "Files"
+msgid "Deleted"
+msgstr "Silindi"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Open in an associated application"
+msgstr "İlişkilendirilen uygulamada aç"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Copy"
+msgstr "Kopyala"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Cut"
+msgstr "Kes"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Paste"
+msgstr "Yapıştır"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "New folder"
+msgstr "Yeni klasör"
+
+#: Files.rb:396
+msgctxt "Files"
+msgid "Copied"
+msgstr "Kopyalandı"
+
+#: Files.rb:401
+msgctxt "Files"
+msgid "Cut out"
+msgstr "Kesildi"
+
+#: Files.rb:115
+msgctxt "Files"
+msgid "copied"
+msgstr "Kopyalandı"
+
+#: Files.rb:311
+msgctxt "Files"
+msgid "Text"
+msgstr "Metin"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Delete the playlist"
+msgstr "Oynatma listesini sil"
+
+#: Files.rb:315
+msgctxt "Files"
+msgid "Add all audio files in this directory to playlist"
+msgstr "Bu klasördeki tüm ses dosyalarını oynatma listesine ekle"
+
+#: Files.rb:485
+msgctxt "Files"
+msgid "Play"
+msgstr "Oynat"
+
+#: Files.rb:485
+msgctxt "Files"
+msgid "Add to playlist"
+msgstr "Oynatma listesine ekle"
+
+msgctxt "Files"
+msgid "Upload to the server"
+msgstr "Sunucuya yükle"
+
+#: Files.rb:177
+msgctxt "Files"
+msgid "Open this directory"
+msgstr "Bu klasörü aç"
+
+#: Files.rb:485
+msgctxt "Files"
+msgid "Set as avatar"
+msgstr "Avatar olarak ayarla"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Create"
+msgstr "Oluştur"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Rename"
+msgstr "Yeniden adlandır"
+
+#: Files.rb:530
+msgctxt "Files"
+msgid "Edit"
+msgstr "Düzenle"
+
+#: Files.rb:269
+msgctxt "Files"
+msgid "pasted"
+msgstr "Yapıştırıldı"
+
+#: Files.rb:485
+msgctxt "Files"
+msgid "convert"
+msgstr "Dönüştür"
+
+msgctxt "Files"
+msgid "Sent"
+msgstr "Gönderildi"
+
+#: Files.rb:74
+msgctxt "Files"
+msgid "This file cannot be played."
+msgstr "Bu dosya oynatılamadı."
+
+#: Files.rb:557
+msgctxt "Files"
+msgid "Read"
+msgstr "Oku"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Compress"
+msgstr "Sıkıştır"
+
+#: Files.rb:309
+msgctxt "Files"
+msgid "Extract"
+msgstr "Çıkart"
+
+#: Files.rb:356
+msgctxt "Files"
+msgid "Select archive format"
+msgstr "Arşiv formatı seçin"
+
+#: Files.rb:368
+msgctxt "Files"
+msgid "Compressed"
+msgstr "Sıkıştırıldı"
+
+#: Files.rb:557
+msgctxt "Files"
+msgid "Read to file"
+msgstr "Dosyaya oku"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "File"
+msgstr "Dosya"
+
+#: Files.rb:314
+msgctxt "Files"
+msgid "Directory"
+msgstr "Klasör"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "Clipboard"
+msgstr "Pano"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "New text file"
+msgstr "Yeni metin dosyası"
+
+#: Files.rb:308
+msgctxt "Files"
+msgid "New record"
+msgstr "Yeni kayıt"
+
+#: Files.rb:310
+msgctxt "Files"
+msgid "Audio"
+msgstr "Ses"
+
+#: Files.rb:410
+msgctxt "Files"
+msgid "Enter a folder name"
+msgstr "Klasör adı girin"
+
+#: Files.rb:430
+msgctxt "Files"
+msgid "Enter a file name"
+msgstr "Dosya adı girin"
+
+#: Files.rb:433
+msgctxt "Files"
+msgid "Record"
+msgstr "Kaydet"
+
+#: Files.rb:104
+msgctxt "Files"
+msgid "The file cannot be deleted, access denied."
+msgstr "Dosya silinemedi, erişim engellendi."
+
+#: Files.rb:372
+msgctxt "Files"
+msgid "Unpacked."
+msgstr "Çıkartıldı"
+
+#: Files.rb:271
+msgctxt "Files"
+msgid "The clipboard is empty"
+msgstr "Pano boş"
+
+#: Files.rb:381
+msgctxt "Files"
+msgid "The file name has been changed."
+msgstr "Dosya adı değiştirildi."
+
+#: Files.rb:414
+msgctxt "Files"
+msgid "The folder has been created."
+msgstr "Klasör oluşturuldu."
+
+#: Files.rb:456
+msgctxt "Files"
+msgid "The file has been created."
+msgstr "Dosya oluşturuldu."
+
+#: Files.rb:461
+msgctxt "Files"
+msgid "Playlist cleared"
+msgstr "Oynatma listesi temizlendi"
+
+#: Files.rb:513
+msgctxt "Files"
+msgid "Please wait, the file is being converted."
+msgstr "Lütfen bekleyin, dosya dönüştürülüyor."
+
+#: Files.rb:519
+msgctxt "Files"
+msgid "Converted."
+msgstr "Dönüştürüldü."
+
+#: Files.rb:568
+msgctxt "Files"
+msgid "Processing..."
+msgstr "İşleniyor..."
+
+#: Files.rb:377
+msgctxt "Files"
+msgid "A new file name"
+msgstr "Yeni dosya adı"
+
+#: Files.rb:202
+msgctxt "Files"
+msgid " Do you want to run this Elten API script? Scripts coming from unknown sources can  harm your computer or give access to your account to unauthorised persons.  Continue if you trust a source this script comes from."
+msgstr "Bu Elten API skriptini çalıştırmak istiyor musunuz? Güvenilmeyen kaynaklardan gelen skriptler bilgisayarınıza zarar verebilir veya izin verilmeyen kişilerin hesabınıza erişmesine neden olabilir. Bu skriptin geldiği kaynağa güveniyorsanız devam edin."
+
+#: Files.rb:500
+msgctxt "Files"
+msgid "To which format do you want to convert this file?"
+msgstr "Bu dosyayı hangi formata dönüştürmek istiyorsunuz?"
+
+#: Files.rb:384
+msgctxt "Files"
+msgid "Do you really want to delete %{filename}?"
+msgstr "%{filename} öğesini gerçekten silmek istiyor musunuz?"
+
+#: Files.rb:510
+msgctxt "Files"
+msgid "Select sound quality"
+msgstr "Ses kalitesini seçin"
+
+#: Files.rb:350
+msgctxt "Files"
+msgid "Files added to playlist: %{count}."
+msgstr "Oynatma listesine eklenen dosyalar: %{count}"
+
+#: Files.rb:492
+msgctxt "Files"
+msgid "Playing: %{file}"
+msgstr "Oynatılıyor: %{file}"
+
+#: SoundThemes.rb:35
+msgctxt "SoundThemes"
+msgid "Sound themes"
+msgstr "Ses temaları"
+
+#: SoundThemes.rb:23
+msgctxt "SoundThemes"
+msgid "No sound themes."
+msgstr "Ses teması yok."
+
+#: SoundThemes.rb:34
+msgctxt "SoundThemes"
+msgid "Download sound themes"
+msgstr "Ses temaları indir"
+
+#: SoundThemes.rb:31
+msgctxt "SoundThemes"
+msgid "default"
+msgstr "Varsayılan"
+
+#: SoundThemes.rb:58
+msgctxt "SoundThemes"
+msgid "Select"
+msgstr "Seçin"
+
+#: SoundThemes.rb:59
+msgctxt "SoundThemes"
+msgid "Edit"
+msgstr "Düzenle"
+
+#: SoundThemes.rb:59
+msgctxt "SoundThemes"
+msgid "Delete"
+msgstr "Sil"
+
+#: SoundThemes.rb:74
+msgctxt "SoundThemes"
+msgid "Are you sure you want to delete this soundtheme?"
+msgstr "Bu ses temasını silmek istediğinizden emin misiniz?"
+
+#: SoundThemes.rb:58
+msgctxt "SoundThemes"
+msgid "New"
+msgstr "Yeni"
+
+#: Changes.rb:876
+msgctxt "Changes"
+msgid "Changelog"
+msgstr "Değişiklikler"
+
+#: Account.rb:14
+msgctxt "Account"
+msgid "Enter your old password."
+msgstr "Eski şifrenizi girin."
+
+#: Account.rb:28
+msgctxt "Account"
+msgid "Enter your new password."
+msgstr "Yeni şifrenizi girin."
+
+#: Account.rb:28
+msgctxt "Account"
+msgid "Repeat new password."
+msgstr "Yeni şifreyi tekrarlayın."
+
+#: Account.rb:35
+msgctxt "Account"
+msgid "Fields: New Password and Repeat New Password have different values."
+msgstr "Yeni şifre ve yeni şifreyi tekrarlayın alanlarının değerleri farklı."
+
+#: Account.rb:42
+msgctxt "Account"
+msgid "Your password has been changed."
+msgstr "Şifreniz değiştirildi."
+
+#: Account.rb:88
+msgctxt "Account"
+msgid "The old password is incorrect."
+msgstr "Eski şifre yanlış."
+
+#: Account.rb:822
+msgctxt "Account"
+msgid "Enter your password."
+msgstr "Şifrenizi girin."
+
+#: Account.rb:69
+msgctxt "Account"
+msgid "Enter a new e-mail address."
+msgstr "Yeni e-posta adresi girin."
+
+#: Account.rb:79
+msgctxt "Account"
+msgid "E-mail has been changed."
+msgstr "E-posta değiştirildi."
+
+#: Account.rb:232
+msgctxt "Account"
+msgid "Your visiting card:"
+msgstr "Kartvizitiniz:"
+
+#: Account.rb:156
+msgctxt "Account"
+msgid "Change your status"
+msgstr "Durumunuzu değiştirin"
+
+#: Account.rb:233
+msgctxt "Account"
+msgid "Enter a new status"
+msgstr "Yeni durum girin"
+
+#: Account.rb:668
+msgctxt "Account"
+msgid "Add"
+msgstr "Ekle"
+
+msgctxt "Account"
+msgid "Profile editor"
+msgstr "Profil düzenleyicisi"
+
+#: Account.rb:198
+msgctxt "Account"
+msgid "Full name"
+msgstr "Tam ad"
+
+#: Account.rb:199
+msgctxt "Account"
+msgid "Gender"
+msgstr "Cinsiyet"
+
+#: Account.rb:215
+msgctxt "Account"
+msgid "Hide my profile for strangers"
+msgstr "Yabancılar için profilimi gizle"
+
+#: Account.rb:376
+msgctxt "Account"
+msgid "Your signature:"
+msgstr "İmzanız:"
+
+#: Account.rb:472
+msgctxt "Account"
+msgid "Set avatar"
+msgstr "Avatar ayarla"
+
+#: Account.rb:570
+msgctxt "Account"
+msgid "Auto log in tokens"
+msgstr "Otomatik giriş belirteçleri"
+
+#: Account.rb:578
+msgctxt "Account"
+msgid "Log out all sessions"
+msgstr "Bütün oturumları kapat"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "New messages"
+msgstr "Yeni mesajlar"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "New posts in followed threads"
+msgstr "Takip edilen konularda yeni gönderiler"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "New posts on the followed blogs"
+msgstr "Takip edilen bloglarda yeni gönderiler"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "New comments on your blog"
+msgstr "Bloğunuza yapılan yeni yorumlar"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "New threads on followed forums"
+msgstr "Takip edilen forumlarda yeni konular"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "New posts on followed forums"
+msgstr "Takip edilen forumlarda yeni gönderiler"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "New friends"
+msgstr "Yeni arkadaşlar"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "Friends' birthday"
+msgstr "Arkadaşın doğum günü"
+
+#: Account.rb:498
+msgctxt "Account"
+msgid "Mentions"
+msgstr "Bahsedilenler"
+
+#: Account.rb:497
+msgctxt "Account"
+msgid "Notice and show in what's new"
+msgstr "Neler yeni bildir ve göster"
+
+#: Account.rb:497
+msgctxt "Account"
+msgid "Notice only"
+msgstr "Sadece bildir"
+
+#: Account.rb:497
+msgctxt "Account"
+msgid "Ignore"
+msgstr "Yoksay"
+
+#: Account.rb:633
+msgctxt "Account"
+msgid "Black list"
+msgstr "Kara liste"
+
+#: Account.rb:720
+msgctxt "Account"
+msgid "Are you sure you want to remove this user from the black list?"
+msgstr "Bu kullanıcıyı kara listeden kaldırmak istediğinizden emin misiniz?"
+
+#: Account.rb:725
+msgctxt "Account"
+msgid "A user has been removed from the black list."
+msgstr "Kara listeden kullanıcı kaldırıldı."
+
+#: Account.rb:695
+msgctxt "Account"
+msgid " The users added to your black list cannot send you private messages. Are you sure  you want to continue?"
+msgstr "Kara listenize eklenen kullanıcılar size özel mesaj gönderemez. Devam etmek istediğinizden emin misiniz?"
+
+#: Account.rb:709
+msgctxt "Account"
+msgid "You cannot add an administrator to the black list."
+msgstr "Yöneticiyi kara listeye ekleyemezsiniz."
+
+#: Account.rb:711
+msgctxt "Account"
+msgid "This user is already on your black list."
+msgstr "Bu kullanıcı zaten kara listenizde."
+
+#: Account.rb:795
+msgctxt "Account"
+msgid " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediately."
+msgstr "Bütün otomatik giriş belirteçlerini kaldırmak ve tüm oturumları kapatmak istediğinizden emin misiniz? Oturumunuz hemen kapatılacak."
+
+#: Account.rb:169
+msgctxt "Account"
+msgid "Your status has been changed."
+msgstr "Durumunuz değiştirildi."
+
+#: Account.rb:805
+msgctxt "Account"
+msgid " An error occurred while authenticating the account. You might have provided an  incorrect password."
+msgstr "Hesaba izin verilirken bir hata oluştu. Yanlış şifre girmiş olabilirsiniz."
+
+#: Account.rb:713
+msgctxt "Account"
+msgid "The user cannot be found."
+msgstr "Kullanıcı bulunamadı"
+
+#: Account.rb:206
+msgctxt "Account"
+msgid "Birth date: year"
+msgstr "Doğum tarihi: Yıl"
+
+#: Account.rb:264
+msgctxt "Account"
+msgid "Birth date: month"
+msgstr "Doğum tarihi: Ay"
+
+#: Account.rb:278
+msgctxt "Account"
+msgid "Birth date: day"
+msgstr "Doğum tarihi: Gün"
+
+msgctxt "Account"
+msgid "Location"
+msgstr "Konum"
+
+#: Account.rb:432
+msgctxt "Account"
+msgid "Your welcome message:"
+msgstr "Karşılama mesajınız:"
+
+#: Account.rb:689
+msgctxt "Account"
+msgid "Type a username which you want to add to blacklist."
+msgstr "Kara listeye eklemek istediğiniz kullanıcı adını yazın."
+
+#: Account.rb:699
+msgctxt "Account"
+msgid "User %{user} has been added to your blacklist"
+msgstr "%{user} kullanıcısı kara listenize eklendi"
+
+#: Account.rb:565
+msgctxt "Account"
+msgid "Computer"
+msgstr "Bilgisayar"
+
+#: Account.rb:565
+msgctxt "Account"
+msgid "Creation IP Address"
+msgstr "Oluşturma IP adresi"
+
+#: Account.rb:565
+msgctxt "Account"
+msgid "Generation date"
+msgstr "Oluşturulma tarihi"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "January"
+msgstr "Ocak"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "February"
+msgstr "Şubat"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "March"
+msgstr "Mart"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "April"
+msgstr "Nisan"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "May"
+msgstr "Mayıs"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "June"
+msgstr "Haziran"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "July"
+msgstr "Temmuz"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "August"
+msgstr "Ağustos"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "September"
+msgstr "Eylül"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "October"
+msgstr "Ekim"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "November"
+msgstr "Kasım"
+
+#: Account.rb:263
+msgctxt "Account"
+msgid "December"
+msgstr "Aralık"
+
+#: Account.rb:294
+msgctxt "Account"
+msgid "State / Province"
+msgstr "İl/eyalet"
+
+#: Account.rb:310
+msgctxt "Account"
+msgid "City"
+msgstr "Şehir"
+
+#: Account.rb:211
+msgctxt "Account"
+msgid "Country"
+msgstr "Ülke"
+
+#: Account.rb:785
+msgctxt "Account"
+msgid "Last logins"
+msgstr "Son girişler"
+
+#: Account.rb:831
+msgctxt "Account"
+msgid "If you wish, you can configure Elten to report any changes and logins  on your account from new devices to you by E-mail. To do this, you must verify your E-mail address. Do you want to do it now?"
+msgstr "İsterseniz, elten'ı hesabınıza yapılan değişiklikleri ve diğer cihazlardan girişleri e-posta ile bildirmek üzere ayarlayabilirsiniz. Bunu yapmak için, e-posta adresinizi doğrulamanız gerekir. Bunu şimdi yapmak ister misiniz?"
+
+#: Account.rb:862
+msgctxt "Account"
+msgid "The verification code has been sent to you via E-mail. Please type it here."
+msgstr "Doğrulama kodu e-posta ile size gönderildi. Lütfen onu buraya yazın. "
+
+#: Account.rb:849
+msgctxt "Account"
+msgid "Enable mail events reporting"
+msgstr "E-posta ile olay raporlamasını etkinleştir"
+
+#: Account.rb:849
+msgctxt "Account"
+msgid "Disable mail events reporting"
+msgstr "E-posta ile olay raporlamasını devredışı bırak"
+
+#: Account.rb:850
+msgctxt "Account"
+msgid "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail"
+msgstr "E-posta ile olay raporlama devredışı. İsterseniz, e-postayla hesabınızda yapılan değişiklikler ve diğer cihazlardan girişler hakkında bilgi almak için etkinleştirebilirsiniz"
+
+#: Account.rb:850
+msgctxt "Account"
+msgid "Mail events reporting is enabled."
+msgstr "Olay raporlama etkinleştirildi."
+
+#: Account.rb:91
+msgctxt "Account"
+msgid "Error, you must disable mail events reporting first."
+msgstr "Hata, ilk önce e-postayla olay raporlamayı devredışı bırakmalısınız."
+
+#: UsersAddedMeToContacts.rb:36
+msgctxt "Contacts"
+msgid "Contacts"
+msgstr "Kişiler"
+
+#: Contacts.rb:45
+msgctxt "Contacts"
+msgid "Empty list"
+msgstr "Boş liste"
+
+#: Contacts.rb:122
+msgctxt "Contacts"
+msgid "New contact"
+msgstr "Yeni kişi"
+
+#: Contacts.rb:162
+msgctxt "Contacts"
+msgid "Enter the name of the user you want to add to your contacts' list."
+msgstr "Kişiler listenize eklemek istediğiniz kullanıcının adını girin."
+
+#: Contacts.rb:174
+msgctxt "Contacts"
+msgid "Contact was added."
+msgstr "Kişi eklendi."
+
+#: Contacts.rb:183
+msgctxt "Contacts"
+msgid "This user is already added to your contacts' list."
+msgstr "Bu kullanıcı zaten kişi listenizde ekli."
+
+#: Contacts.rb:219
+msgctxt "Contacts"
+msgid "This user does not exist."
+msgstr "Bu kullanıcı yok."
+
+#: Contacts.rb:207
+msgctxt "Contacts"
+msgid "Contact has been deleted."
+msgstr "Kişi silindi."
+
+#: Contacts.rb:216
+msgctxt "Contacts"
+msgid "This user is not added to your contacts' list."
+msgstr "Bu kişi kişiler listenize eklenmemiş."
+
+#: Contacts.rb:75
+msgctxt "Contacts"
+msgid "Are you sure you want to delete this contact?"
+msgstr "Bu kişiyi silmek istediğinizden emin misiniz?"
+
+#: Contacts.rb:201
+msgctxt "Contacts"
+msgid "Type a username which you want to remove from your contact list."
+msgstr "Kişi listenizden kaldırmak istediğiniz kullanıcı adını yazın."
+
+#: Update.rb:14
+msgctxt "Update"
+msgid " A new version of this program is available. Do you want to download and instal it?"
+msgstr "Bu programın yeni sürümü mevcut. İndirmek ve kurmak ister misiniz?"
+
+#: Update.rb:16
+msgctxt "Update"
+msgid " A new beta version of this program is available. Do you want to download and  instal it?"
+msgstr "Bu programın yeni beta sürümü mevcut. İndirmek ve kurmak ister misiniz?"
+
+#: Update.rb:90
+msgctxt "Update"
+msgid "Please wait while files are downloaded."
+msgstr "Dosyalar indirilirken lütfen bekleyin."
+
+msgctxt "Update"
+msgid "updating language packs"
+msgstr "Dil paketleri güncelleniyor"
+
+#: Update.rb:29
+msgctxt "Update"
+msgid " Warning! You are about to install a beta version of elten. Such a version can be  unstable or other errors can occur. Do you really wish to continue?"
+msgstr "Uyarı! Elten'ın beta olan bir sürümünü kurmak üzeresiniz. Bu tür sürümler kararsız olabilir veya başka hatalar oluşabilir. Gerçekten devam etmek istiyor musunuz?"
+
+#: Update.rb:61
+msgctxt "Update"
+msgid " The update has been downloaded. To install it, the program must be restarted.  Press enter to continue or escape to cancel."
+msgstr "Güncelleme indirildi. Kurmak için, program yeniden başlatılmalıdır. Devam etmek için enter'a veya iptal etmek için escape'e basın."
+
+#: Update.rb:57
+msgctxt "Update"
+msgid "Downloading update"
+msgstr "Güncelleme indiriliyor"
+
+#: Update.rb:74
+msgctxt "Update"
+msgid "Now, the update will be installed. The program will restart."
+msgstr "Şimdi, güncelleme kurulacak. Program yeniden başlayacak."
+
+#: Update.rb:90
+msgctxt "Update"
+msgid "Downloading of the instructions for reinstallation"
+msgstr "Yeniden kurulum için yönergelerin indirilmesi"
+
+#: Update.rb:93
+msgctxt "Update"
+msgid " The program will be now reverted to the latest stable version. Elten will restart.  It may take several minutes."
+msgstr "Program en son kararlı sürümüne düşürülecek. Elten yeniden başlayacak. Birkaç dakika sürebilir."
+
+msgctxt "Update"
+msgid " You are not participating in Elten open insider program. Do you want to join it  now, to download beta version?"
+msgstr "Elten açık insider programına katılmıyorsunuz. Beta sürümü indirmek için şimdi katılmak ister misiniz?"
+
+#: Voice.rb:187
+msgctxt "Voice"
+msgid "Voice settings"
+msgstr "Ses ayarları"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change synthesizer"
+msgstr "Sentezleyici değiştir"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change synthesizer's rate"
+msgstr "Sentezleyici hızını değiştir"
+
+#: Voice.rb:115
+msgctxt "Voice"
+msgid "Select"
+msgstr "Seçin"
+
+#: Voice.rb:151
+msgctxt "Voice"
+msgid "Select voice's rate"
+msgstr "Ses hızı seçin"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Change voice volume"
+msgstr "Ses seviyesini değiştir"
+
+#: Voice.rb:10
+msgctxt "Voice"
+msgid "Use screenreader or system default voice"
+msgstr "Ekran okuyucu veya sistem varsayılan sesini kullan"
+
+#: Voice.rb:187
+msgctxt "Voice"
+msgid "Select voice volume"
+msgstr "Ses seviyesi seçin"
+
+#: Voice.rb:37
+msgctxt "Voice"
+msgid "Screen reader selected as speech synthesizer."
+msgstr "Sentezleyici olarak ekran okuyucu seçildi."
+
+#: Voice.rb:99
+msgctxt "Voice"
+msgid "Selected voice"
+msgstr "Seçilen ses"
+
+#: Messages.rb:692
+msgctxt "Messages"
+msgid "Unknown error"
+msgstr "Bilinmeyen hata"
+
+#: Messages.rb:724
+msgctxt "Messages"
+msgid "You have no messages."
+msgstr "Mesajınız yok."
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Reply"
+msgstr "Yanıtla"
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Send a new message"
+msgstr "Yeni mesaj gönder"
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Forward"
+msgstr "İlet"
+
+#: Messages.rb:1070
+msgctxt "Messages"
+msgid "Subject:"
+msgstr "Konu:"
+
+#: Messages.rb:1071
+msgctxt "Messages"
+msgid "Message:"
+msgstr "Mesaj:"
+
+#: Messages.rb:1331
+msgctxt "Messages"
+msgid "Message has been sent"
+msgstr "Mesaj göndderildi"
+
+#: Messages.rb:1038
+msgctxt "Messages"
+msgid "Are you sure you want to delete this message?"
+msgstr "Bu mesajı silmek istediğinizden emin misiniz?"
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Mark all messages as read"
+msgstr "Tüm mesajları okundu olarak işaretle"
+
+#: Messages.rb:1068
+msgctxt "Messages"
+msgid "Recipient"
+msgstr "Alıcı"
+
+#: Messages.rb:1111
+msgctxt "Messages"
+msgid "Send"
+msgstr "Gönder"
+
+#: Messages.rb:726
+msgctxt "Messages"
+msgid "There are no new messages"
+msgstr "Yeni mesaj yok"
+
+#: Messages.rb:768
+msgctxt "Messages"
+msgid "Received messages"
+msgstr "Alınan mesajlar"
+
+#: Messages.rb:1017
+msgctxt "Messages"
+msgid "Sent messages"
+msgstr "Gönderilen mesajlar"
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Show sent messages"
+msgstr "Gönderilen mesajları göster"
+
+#: Messages.rb:1139
+msgctxt "Messages"
+msgid "Stop recording"
+msgstr "Kaydı durdur"
+
+#: Messages.rb:1146
+msgctxt "Messages"
+msgid "Play"
+msgstr "Oynat"
+
+#: Messages.rb:1147
+msgctxt "Messages"
+msgid "Cancel recording"
+msgstr "Kaydı iptal et"
+
+#: Messages.rb:980
+msgctxt "Messages"
+msgid "Found items"
+msgstr "Bulunan öğeler"
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Search"
+msgstr "Ara"
+
+#: Messages.rb:1156
+msgctxt "Messages"
+msgid "Record an audio message"
+msgstr "Sesli mesaj kaydet"
+
+#: Messages.rb:1078
+msgctxt "Messages"
+msgid "Attach a file"
+msgstr "Dosya ekle"
+
+#: Messages.rb:1164
+msgctxt "Messages"
+msgid "Select a file to attach"
+msgstr "Eklenecek dosya seçin"
+
+#: Messages.rb:1171
+msgctxt "Messages"
+msgid "File attached."
+msgstr "Dosya eklendi."
+
+#: Messages.rb:1162
+msgctxt "Messages"
+msgid "You cannot add more attachments to this message."
+msgstr "Bu mesaja daha fazla ek ekleyemezsiniz."
+
+#: Messages.rb:1094
+msgctxt "Messages"
+msgid "Attachments"
+msgstr "Ekler"
+
+#: Messages.rb:962
+msgctxt "Messages"
+msgid "Enter a phrase to look for"
+msgstr "Aranacak sözcük grubu girin"
+
+#: Messages.rb:1201
+msgctxt "Messages"
+msgid "Do you want to send this message as e-mail?"
+msgstr "Bu mesajı e-posta olarak göndermek istiyor musunuz?"
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Flag"
+msgstr "İşaretle"
+
+#: Messages.rb:890
+msgctxt "Messages"
+msgid "Remove flag"
+msgstr "İşareti kaldır"
+
+#: Messages.rb:879
+msgctxt "Messages"
+msgid "Show flagged messages"
+msgstr "İşaretlenmiş mesajları göster"
+
+#: Messages.rb:917
+msgctxt "Messages"
+msgid "The message has been flagged."
+msgstr "Mesaj işaretlendi."
+
+#: Messages.rb:924
+msgctxt "Messages"
+msgid "The message is no longer flagged."
+msgstr "Mesaj artık işaretli değil."
+
+#: Messages.rb:999
+msgctxt "Messages"
+msgid "Flagged messages"
+msgstr "İşaretlenen mesajlar"
+
+#: Messages.rb:753
+msgctxt "Messages"
+msgid "Load more messages"
+msgstr "Daha fazla mesaj yükle"
+
+#: Messages.rb:847
+msgctxt "Messages"
+msgid "The attachment has been downloaded."
+msgstr "Ek indirildi"
+
+#: Messages.rb:952
+msgctxt "Messages"
+msgid "All messages have been marked as read."
+msgstr "Tüm mesajlar okundu olarak işaretlendi."
+
+#: Messages.rb:1044
+msgctxt "Messages"
+msgid "The message has been deleted."
+msgstr "Mesaj silindi."
+
+#: Messages.rb:1168
+msgctxt "Messages"
+msgid "The file is too large."
+msgstr "Dosya çok büyük."
+
+#: Messages.rb:1353
+msgctxt "Messages"
+msgid "The recipient cannot be found."
+msgstr "Alıcı bulunamadı."
+
+#: Messages.rb:1110
+msgctxt "Messages"
+msgid "Send as an admin"
+msgstr "Yönetici olarak gönder"
+
+#: Messages.rb:1111
+msgctxt "Messages"
+msgid "Send to all"
+msgstr "Tümüne gönder"
+
+#: Messages.rb:1138
+msgctxt "Messages"
+msgid "An audio message"
+msgstr "Sesli mesaj"
+
+#: Messages.rb:844
+msgctxt "Messages"
+msgid "Where do you want to save this file?"
+msgstr "Bu dosyayı nereye kaydetmek istiyorsunuz?"
+
+#: Messages.rb:815
+msgctxt "Messages"
+msgid "From"
+msgstr "Kimden"
+
+#: Messages.rb:736
+msgctxt "Messages"
+msgid "to:"
+msgstr "Kime"
+
+#: Messages.rb:738
+msgctxt "Messages"
+msgid "New"
+msgstr "Yeni"
+
+#: EAPI_EltenSRV.rb:146
+msgctxt "Messages"
+msgid "Sending: %{file}"
+msgstr "Gönderiliyor: %{file}"
+
+#: Messages.rb:1164
+msgctxt "Messages"
+msgid "Messages"
+msgstr "Mesajlar"
+
+#: Messages.rb:294
+msgctxt "Messages"
+msgid "Last message"
+msgstr "Son mesaj"
+
+#: Messages.rb:294
+msgctxt "Messages"
+msgid "No subject"
+msgstr "Konu yok"
+
+#: Messages.rb:440
+msgctxt "Messages"
+msgid "Read more"
+msgstr "Daha fazla oku"
+
+#: Messages.rb:301
+msgctxt "Messages"
+msgid "Conversations with %{user}"
+msgstr "%{user} ile konuşmalar"
+
+#: Messages.rb:449
+msgctxt "Messages"
+msgid "Messages in topic %{subject} with %{user}"
+msgstr "%{subject} konusunda %{user} ile mesajlar"
+
+#: Messages.rb:445
+msgctxt "Messages"
+msgid "Show older"
+msgstr "Daha eskiyi göster"
+
+#: Messages.rb:453
+msgctxt "Messages"
+msgid "Your reply"
+msgstr "Yanıtınız"
+
+#: Messages.rb:453
+msgctxt "Messages"
+msgid "Compose"
+msgstr "Oluştur"
+
+#: Messages.rb:140
+msgctxt "Messages"
+msgid "Create new conversation"
+msgstr "Yeni konuşma oluştur"
+
+#: Messages.rb:201
+msgctxt "Messages"
+msgid "Add user to this conversation"
+msgstr "Konuşmaya kullanıcı ekle"
+
+msgctxt "Messages"
+msgid "Conversation users"
+msgstr "Konuşma kullanıcıları"
+
+msgctxt "Messages"
+msgid "Delete this user from the conversation"
+msgstr "Bu kullanıcıyı konuşmadan sil"
+
+msgctxt "Messages"
+msgid "Are you sure you want to delete %{user} from %{conversation}?"
+msgstr "%{user} kişisini %{conversation} konuşmasından silmek istediğinizden emin misiniz?"
+
+#: Messages.rb:200
+msgctxt "Messages"
+msgid "Conversation name"
+msgstr "Konuşma adı"
+
+#: Messages.rb:201
+msgctxt "Messages"
+msgid "Users"
+msgstr "Kullanıcılar"
+
+#: Messages.rb:202
+msgctxt "Messages"
+msgid "Create"
+msgstr "Oluştur"
+
+#: Messages.rb:213
+msgctxt "Messages"
+msgid "User to add"
+msgstr "Eklenecek kullanıcı"
+
+#: Messages.rb:239
+msgctxt "Messages"
+msgid "Conversation has been created"
+msgstr "Konuşma oluşturuldu"
+
+#: Messages.rb:140
+msgctxt "Messages"
+msgid "Leave"
+msgstr "Çık"
+
+#: Messages.rb:152
+msgctxt "Messages"
+msgid "Are you sure you want to leave this group?"
+msgstr "Bu gruptan çıkmak istediğinizden emin misiniz?"
+
+#: Online.rb:20
+msgctxt "Online"
+msgid "Who is on line?"
+msgstr "Kim çevrimiçi"
+
+msgctxt "MainMenu"
+msgid "Programs installation"
+msgstr "Program yükle"
+
+msgctxt "MainMenu"
+msgid " Do you want to restore the last stable version of this program? All settings stay  as they are."
+msgstr "Bu programın en son kararlı sürümünü geri yüklemek istiyor musunuz? Bütün ayarlar olduğu gibi kalır."
+
+msgctxt "MainMenu"
+msgid " Are you sure you want to reset all settings to their factory defaults? Elten will  restart."
+msgstr "Bütün ayarları fabrika ayarlarına sıfırlamak istediğinizden emin misiniz? Elten yeniden başlayacak."
+
+#: MainMenu.rb:16
+msgctxt "MainMenu"
+msgid "&Community"
+msgstr "&Topluluk"
+
+#: MainMenu.rb:434
+msgctxt "MainMenu"
+msgid "&Files"
+msgstr "&Dosyalar"
+
+msgctxt "MainMenu"
+msgid "Pro&grams"
+msgstr "&Programlar"
+
+#: MainMenu.rb:16
+msgctxt "MainMenu"
+msgid "&Tools"
+msgstr "&Araçlar"
+
+#: MainMenu.rb:16
+msgctxt "MainMenu"
+msgid "&Settings"
+msgstr "A&yarlar"
+
+#: MainMenu.rb:16
+msgctxt "MainMenu"
+msgid "&Help"
+msgstr "Ya&rdım"
+
+#: MainMenu.rb:16
+msgctxt "MainMenu"
+msgid "&Quit"
+msgstr "&Çıkış"
+
+#: MainMenu.rb:60
+msgctxt "MainMenu"
+msgid "&Changelog"
+msgstr "&Değişiklikler"
+
+#: MainMenu.rb:60
+msgctxt "MainMenu"
+msgid "Program &version"
+msgstr "&Program sürümü"
+
+#: MainMenu.rb:60
+msgctxt "MainMenu"
+msgid "&Read me"
+msgstr "&Benioku"
+
+#: MainMenu.rb:60
+msgctxt "MainMenu"
+msgid "&Shortkeys"
+msgstr "&Kısayollar"
+
+#: MainMenu.rb:60
+msgctxt "MainMenu"
+msgid "Report a &bug"
+msgstr "&Hata raporla"
+
+#: MainMenu.rb:60
+msgctxt "MainMenu"
+msgid "User &agreement"
+msgstr "&Kullanıcı anlaşması"
+
+#: MainMenu.rb:108
+msgctxt "MainMenu"
+msgid "G&eneral settings"
+msgstr "&Genel ayarlar"
+
+#: MainMenu.rb:108
+msgctxt "MainMenu"
+msgid "&Voice settings"
+msgstr "&Ses ayarları"
+
+#: MainMenu.rb:108
+msgctxt "MainMenu"
+msgid "Cloc&k"
+msgstr "&Saat"
+
+#: MainMenu.rb:108
+msgctxt "MainMenu"
+msgid "Soun&dthemes"
+msgstr "&Ses temaları"
+
+#: MainMenu.rb:108
+msgctxt "MainMenu"
+msgid "Manage &languages"
+msgstr "&Dilleri yönet"
+
+#: MainMenu.rb:108
+msgctxt "MainMenu"
+msgid "&Advanced settings"
+msgstr "&Gelişmiş ayarlar"
+
+#: MainMenu.rb:156
+msgctxt "MainMenu"
+msgid "&Messages"
+msgstr "&Mesajlar"
+
+#: MainMenu.rb:156
+msgctxt "MainMenu"
+msgid "&Blogs"
+msgstr "&Bloglar"
+
+#: MainMenu.rb:156
+msgctxt "MainMenu"
+msgid "&Forum"
+msgstr "&Forum"
+
+#: MainMenu.rb:156
+msgctxt "MainMenu"
+msgid "&Chat"
+msgstr "&Sohbet"
+
+#: MainMenu.rb:156
+msgctxt "MainMenu"
+msgid "No&tes"
+msgstr "&Notlar"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "What's &new?"
+msgstr "N&e yeni?"
+
+#: MainMenu.rb:156
+msgctxt "MainMenu"
+msgid "Po&lls"
+msgstr "&Anketler"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "&Users"
+msgstr "&Kullanıcılar"
+
+#: MainMenu.rb:156
+msgctxt "MainMenu"
+msgid "My &account"
+msgstr "&Hesabım"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Edit &profile"
+msgstr "&Profili düzenle"
+
+msgctxt "MainMenu"
+msgid "Change &status"
+msgstr "&Durum değiştir"
+
+msgctxt "MainMenu"
+msgid "My si&gnature"
+msgstr "&İmzam"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "My &welcome message"
+msgstr "&Karşılama mesajım"
+
+msgctxt "MainMenu"
+msgid "My &visiting card"
+msgstr "&Kartvizitim"
+
+msgctxt "MainMenu"
+msgid "My &badges"
+msgstr "&Rozetlerim"
+
+msgctxt "MainMenu"
+msgid "My share&d files"
+msgstr "&Paylaşılan dosyalarım"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Set &avatar"
+msgstr "&Avatar ayarla"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "What's &new configuration"
+msgstr "&Ne yeni ayarları"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Black l&ist"
+msgstr "&Kara liste"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Auto &log in tokens"
+msgstr "&Otomatik giriş belirteçleri"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Change passw&ord"
+msgstr "&Şifre değiştir"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Change e-&mail"
+msgstr "&E-posta değiştir"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Two-factor a&uthentication settings"
+msgstr "&İki öğeli kimlik doğrulaması ayarları"
+
+msgctxt "MainMenu"
+msgid "Soundthemes &generator"
+msgstr "&Ses teması oluşturucu"
+
+#: MainMenu.rb:323
+msgctxt "MainMenu"
+msgid "Speed &test"
+msgstr "&Hız testi"
+
+msgctxt "MainMenu"
+msgid "P&rogram management"
+msgstr "&Program yönetimi"
+
+#: MainMenu.rb:434
+msgctxt "MainMenu"
+msgid "Read to &file"
+msgstr "&Dosyaya oku"
+
+#: MainMenu.rb:323
+msgctxt "MainMenu"
+msgid "&Console"
+msgstr "&Konsol"
+
+#: MainMenu.rb:323
+msgctxt "MainMenu"
+msgid "De&bugging"
+msgstr "&Hata ayıklama"
+
+#: MainMenu.rb:370
+msgctxt "MainMenu"
+msgid "Hide in &tray"
+msgstr "&Sistem tepsisine gizle"
+
+#: MainMenu.rb:370
+msgctxt "MainMenu"
+msgid "&Logout"
+msgstr "&Oturumu kapat"
+
+#: MainMenu.rb:370
+msgctxt "MainMenu"
+msgid "E&xit"
+msgstr "&Çık"
+
+#: MainMenu.rb:370
+msgctxt "MainMenu"
+msgid "&Restart"
+msgstr "&Yeniden başlat"
+
+#: MainMenu.rb:370
+msgctxt "MainMenu"
+msgid "Restart in de&bug mode"
+msgstr "&Hata ayıklama modunda yeniden başlat"
+
+msgctxt "MainMenu"
+msgid "Search for &updates"
+msgstr "&Güncelleme ara"
+
+#: MainMenu.rb:323
+msgctxt "MainMenu"
+msgid "&Reinstall"
+msgstr "&Yeniden kur"
+
+#: MainMenu.rb:323
+msgctxt "MainMenu"
+msgid "Create &Portable version"
+msgstr "&Taşınabilir sürüm oluştur"
+
+msgctxt "MainMenu"
+msgid "Restore &default settings"
+msgstr "&Varsayılan ayarları geri yükle"
+
+#: MainMenu.rb:324
+msgctxt "MainMenu"
+msgid "&Install"
+msgstr "&Kur"
+
+#: MainMenu.rb:434
+msgctxt "MainMenu"
+msgid "&YouTube"
+msgstr "&YouTube"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "My &contacts"
+msgstr "&Kişilerim"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "Users who a&dded me to contacts"
+msgstr "&Beni kişi listesine ekleyen kullanıcılar"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "WHo is &online?"
+msgstr "&Kim çevrimiçi?"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "&Users list"
+msgstr "&Kullanıcı listesi"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "Ad&mins"
+msgstr "&Yöneticiler"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "User searc&h"
+msgstr "&Kullanıcı arama"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "Recently &actived users"
+msgstr "&Yakın zamanda aktif olan kullanıcılar"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "Recently &registered users"
+msgstr "&Yakın zamanda kaydolan kullanıcılar"
+
+#: MainMenu.rb:467
+msgctxt "MainMenu"
+msgid "Recently changed a&vatars"
+msgstr "&Yakın zamanda değiştirilen avatarlar"
+
+#: MainMenu.rb:16
+msgctxt "MainMenu"
+msgid "&Addons"
+msgstr "&Eklentiler"
+
+#: MainMenu.rb:13
+msgctxt "MainMenu"
+msgid "Menu"
+msgstr "Menü"
+
+#: MainMenu.rb:108
+msgctxt "MainMenu"
+msgid "Sound device"
+msgstr "Ses aygıtı"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Last logins"
+msgstr "Son girişler"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Mail events reporting"
+msgstr "E-posta ile olay raporlama"
+
+#: MainMenu.rb:60
+msgctxt "MainMenu"
+msgid "Sounds &guide"
+msgstr "&Ses rehberi"
+
+#: MainMenu.rb:370
+msgctxt "MainMenu"
+msgid "&Log viewer"
+msgstr "&Günlük görüntüleyici"
+
+#: MainMenu.rb:255
+msgctxt "MainMenu"
+msgid "Bad&ges"
+msgstr "&Rozetler"
+
+#: Forum.rb:1138
+msgctxt "Forum"
+msgid "New thread"
+msgstr "Yeni konu"
+
+#: Forum.rb:1971
+msgctxt "Forum"
+msgid "Added to the list of followed threads."
+msgstr "Takip edilen konular listesine eklendi."
+
+#: Forum.rb:1914
+msgctxt "Forum"
+msgid "Go to last post"
+msgstr "Son gönderiye git"
+
+#: Forum.rb:1293
+msgctxt "Forum"
+msgid "Thread's title"
+msgstr "Konu başlığı"
+
+#: Forum.rb:1482
+msgctxt "Forum"
+msgid "Thread has been created."
+msgstr "Konu oluşturuldu"
+
+#: Forum.rb:1484
+msgctxt "Forum"
+msgid "Error creating thread!"
+msgstr "Konu oluşturulurken hata oluştu!"
+
+#: Forum.rb:1863
+msgctxt "Forum"
+msgid "The post was created."
+msgstr "Gönderi oluşturuldu."
+
+#: Forum.rb:1227
+msgctxt "Forum"
+msgid "This thread has been deleted."
+msgstr "Konu silindi."
+
+#: Forum.rb:2098
+msgctxt "Forum"
+msgid "This post has been deleted."
+msgstr "Gönderi silindi."
+
+#: Forum.rb:2113
+msgctxt "Forum"
+msgid "Forum"
+msgstr "Forum"
+
+#: Forum.rb:1910
+msgctxt "Forum"
+msgid "Reply"
+msgstr "Yanıtla"
+
+#: Forum.rb:1910
+msgctxt "Forum"
+msgid "Reply with quote"
+msgstr "Odpowiedz z cytatem"
+
+#: Forum.rb:1915
+msgctxt "Forum"
+msgid "Go to first new post"
+msgstr "Przejdź do pierwszego nowego wpisu"
+
+#: Forum.rb:1827
+msgctxt "Forum"
+msgid "Send"
+msgstr "Wyślij"
+
+#: Forum.rb:1070
+msgctxt "Forum"
+msgid "No new posts in followed threads"
+msgstr "Takip edilen konularda yeni gönderi yok"
+
+#: Forum.rb:1671
+msgctxt "Forum"
+msgid "Return"
+msgstr "Geri dön"
+
+#: Forum.rb:1827
+msgctxt "Forum"
+msgid "Add the post"
+msgstr "Gönderiyi ekle"
+
+#: Forum.rb:1664
+msgctxt "Forum"
+msgid "Your answer"
+msgstr "Yanıtınız"
+
+#: Forum.rb:804
+msgctxt "Forum"
+msgid "Forums selection"
+msgstr "Forum seçimi"
+
+#: Forum.rb:1105
+msgctxt "Forum"
+msgid "Threads selection"
+msgstr "Konu seçimi"
+
+#: Forum.rb:1666
+msgctxt "Forum"
+msgid "Record a new post"
+msgstr "Yeni gönderi kaydet"
+
+#: Forum.rb:1820
+msgctxt "Forum"
+msgid "Stop recording"
+msgstr "Kaydı durdur"
+
+#: Forum.rb:1825
+msgctxt "Forum"
+msgid "Record a post once again"
+msgstr "Tekrar gönderi kaydet"
+
+#: Forum.rb:1826
+msgctxt "Forum"
+msgid "Play"
+msgstr "Oynat"
+
+#: Forum.rb:1290
+msgctxt "Forum"
+msgid "Post"
+msgstr "Gönderi"
+
+#: Forum.rb:1398
+msgctxt "Forum"
+msgid "Record a post"
+msgstr "Gönderi kaydet"
+
+#: Forum.rb:1406
+msgctxt "Forum"
+msgid "Play a post"
+msgstr "Gönderi oynat"
+
+#: Forum.rb:1914
+msgctxt "Forum"
+msgid "Search"
+msgstr "Ara"
+
+#: Forum.rb:1149
+msgctxt "Forum"
+msgid "Rename"
+msgstr "Yeniden adlandır"
+
+#: Forum.rb:1936
+msgctxt "Forum"
+msgid "Edit post"
+msgstr "Gönderiyi düzenle"
+
+#: Forum.rb:1937
+msgctxt "Forum"
+msgid "Delete post"
+msgstr "Gönderiyi sil"
+
+#: Forum.rb:1150
+msgctxt "Forum"
+msgid "Open"
+msgstr "Aç"
+
+#: Forum.rb:1149
+msgctxt "Forum"
+msgid "Move thread"
+msgstr "Konuyu taşı"
+
+#: Forum.rb:2004
+msgctxt "Forum"
+msgid "Enter a phrase to look for"
+msgstr "Aranacak sözcük grubu girin"
+
+#: Forum.rb:1874
+msgctxt "Forum"
+msgid "Add to followed threads list"
+msgstr "Takip edilen konular listesine ekle"
+
+#: Forum.rb:1876
+msgctxt "Forum"
+msgid "Unfollow this thread"
+msgstr "Bu konuyu takibi bırak"
+
+#: Forum.rb:1149
+msgctxt "Forum"
+msgid "Delete thread"
+msgstr "Konuyu sil"
+
+#: Forum.rb:1874
+msgctxt "Forum"
+msgid "Navigation"
+msgstr "Dolaşım"
+
+#: Forum.rb:1914
+msgctxt "Forum"
+msgid "Go to post"
+msgstr "Gönderiye git"
+
+#: Forum.rb:1914
+msgctxt "Forum"
+msgid "Search thread"
+msgstr "Konuda ara"
+
+#: Forum.rb:1914
+msgctxt "Forum"
+msgid "Go to first post"
+msgstr "İlk gönderiye git"
+
+#: Forum.rb:1875
+msgctxt "Forum"
+msgid "Moderation"
+msgstr "Yönetim"
+
+#: Forum.rb:1937
+msgctxt "Forum"
+msgid "Move post"
+msgstr "Gönderiyi taşı"
+
+#: Forum.rb:2038
+msgctxt "Forum"
+msgid "edit your post here"
+msgstr "Burada gönderinizi düzenleyin"
+
+#: Forum.rb:2047
+msgctxt "Forum"
+msgid "The post has been modified"
+msgstr "Gönderi değiştirildi"
+
+#: Forum.rb:2136
+msgctxt "Forum"
+msgid "Mention post"
+msgstr "Gönderiden bahset"
+
+#: Forum.rb:1874
+msgctxt "Forum"
+msgid "Listen to the thread"
+msgstr "Konuyu dinle"
+
+#: Forum.rb:816
+msgctxt "Forum"
+msgid "Follow this forum"
+msgstr "Bu forumu takip et"
+
+#: Forum.rb:817
+msgctxt "Forum"
+msgid "Unfollow this forum"
+msgstr "Bu forumu takibi bırak"
+
+#: Forum.rb:837
+msgctxt "Forum"
+msgid "Added to followed forums list."
+msgstr "Takip edilen forumlar listesine eklendi"
+
+#: Forum.rb:844
+msgctxt "Forum"
+msgid "Removed from followed forums list."
+msgstr "Takip edilen forumlar listesinden kaldırıldı"
+
+#: Forum.rb:1978
+msgctxt "Forum"
+msgid "Removed from followed threads list."
+msgstr "Takip edilen konular listesinden kaldırıldı"
+
+#: Forum.rb:2136
+msgctxt "Forum"
+msgid "Message"
+msgstr "Mesaj"
+
+#: Forum.rb:816
+msgctxt "Forum"
+msgid "Mark this forum as read"
+msgstr "Bu forumu okundu olarak işaretle"
+
+#: Forum.rb:855
+msgctxt "Forum"
+msgid " All posts on this forum will be marked as read. Are you sure you want to continue?"
+msgstr "Bu forumdaki tüm konular okundu olarak işaretlenecektir. Devam etmek istediğinizden emin misiniz?"
+
+#: Forum.rb:863
+msgctxt "Forum"
+msgid "The forum has been marked as read."
+msgstr "Forum okundu olarak işaretlendi."
+
+#: Forum.rb:1074
+msgctxt "Forum"
+msgid "No new threads on the followed forums"
+msgstr "Takip edilen forumlarda yeni konu yok"
+
+#: Forum.rb:1078
+msgctxt "Forum"
+msgid "No new posts on the followed forums"
+msgstr "Takip edilen forumlarda yeni gönderi yok"
+
+#: Forum.rb:1082
+msgctxt "Forum"
+msgid "No new mentions"
+msgstr "Yeni bahsetme yok"
+
+#: Forum.rb:1204
+msgctxt "Forum"
+msgid "The thread has been moved."
+msgstr "Konu taşındı"
+
+#: Forum.rb:1216
+msgctxt "Forum"
+msgid "The forum name has been changed."
+msgstr "Forum adı değiştirildi"
+
+#: Forum.rb:1838
+msgctxt "Forum"
+msgid "Preparing..."
+msgstr "Hazırlanıyor..."
+
+#: Forum.rb:1865
+msgctxt "Forum"
+msgid "Post creation failure."
+msgstr "Gönderi oluşturma başarısız oldu."
+
+#: Forum.rb:2024
+msgctxt "Forum"
+msgid "The entered phrase cannot be found."
+msgstr "Girilen sözcük grubu bulunamadı."
+
+#: Forum.rb:2082
+msgctxt "Forum"
+msgid "The post has been moved."
+msgstr "Gönderi taşındı."
+
+#: Forum.rb:2116
+msgctxt "Forum"
+msgid "The post has been slided."
+msgstr "Gönderi kaydırıldı."
+
+#: Forum.rb:2133
+msgctxt "Forum"
+msgid "Nobody added you to their contact list."
+msgstr "Kimse sizi kişi listesine eklemedi."
+
+#: Forum.rb:2150
+msgctxt "Forum"
+msgid "The mention has been sent."
+msgstr "Bahsetme gönderildi."
+
+#: Forum.rb:1291
+msgctxt "Forum"
+msgid "Nick:"
+msgstr "Rumuz:"
+
+#: Forum.rb:1211
+msgctxt "Forum"
+msgid "Type a new thread name"
+msgstr "Yeni konu ismi yazın"
+
+#: Forum.rb:1398
+msgctxt "Forum"
+msgid "Stop recording a post"
+msgstr "Gönderi kaydetmeyi durdur"
+
+#: Forum.rb:2088
+msgctxt "Forum"
+msgid "Are you sure you want to delete this post?"
+msgstr "Bu gönderiyi silmek istediğinizden emin misiniz?"
+
+#: Forum.rb:1199
+msgctxt "Forum"
+msgid "Where do you want to move this thread"
+msgstr "Bu konuyu nereye taşımak istersiniz?"
+
+#: Forum.rb:2019
+msgctxt "Forum"
+msgid "Select a post"
+msgstr "Gönderi seçin"
+
+#: Forum.rb:2077
+msgctxt "Forum"
+msgid "Where do you want to move this post?"
+msgstr "Bu gönderiyi nereye taşımak istersiniz?"
+
+#: Forum.rb:1874
+msgctxt "Forum"
+msgid "Author"
+msgstr "Oluşturan"
+
+#: Forum.rb:1223
+msgctxt "Forum"
+msgid "Do you really want to delete thread %{thrname}?"
+msgstr "Gerçekten %{thrname} konusunu silmek istiyor musunuz?"
+
+#: Forum.rb:1091
+msgctxt "Forum"
+msgid "New"
+msgstr "Yeni"
+
+#: Forum.rb:803
+msgctxt "Forum"
+msgid "Threads"
+msgstr "Konular"
+
+#: Forum.rb:1107
+msgctxt "Forum"
+msgid "posts"
+msgstr "Gönderiler"
+
+#: Forum.rb:1107
+msgctxt "Forum"
+msgid "Unread"
+msgstr "Okunmamış"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Followed threads"
+msgstr "Takip edilen konular"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Followed forums"
+msgstr "Takip edilen forumlar"
+
+#: Forum.rb:263
+msgctxt "Forum"
+msgid "Forums"
+msgstr "Forumlar"
+
+#: Forum.rb:1095
+msgctxt "Forum"
+msgid "Montioned by"
+msgstr "Şu kişi tarafından bahsedildi"
+
+#: Forum.rb:1937
+msgctxt "Forum"
+msgid "Change post position"
+msgstr "Gönderi konumunu değiştir"
+
+#: Forum.rb:345
+msgctxt "Forum"
+msgid "Group members"
+msgstr "Grup üyeleri"
+
+#: Forum.rb:466
+msgctxt "Forum"
+msgid "Group Members"
+msgstr "Grup Üyeleri"
+
+#: Forum.rb:592
+msgctxt "Forum"
+msgid "Administrator"
+msgstr "Yönetici"
+
+#: Forum.rb:536
+msgctxt "Forum"
+msgid "Moderator"
+msgstr "Moderatör"
+
+#: Forum.rb:347
+msgctxt "Forum"
+msgid "Join"
+msgstr "Katıl"
+
+#: Forum.rb:350
+msgctxt "Forum"
+msgid "Leave"
+msgstr "Çık"
+
+#: Forum.rb:642
+msgctxt "Forum"
+msgid "Are you sure you want to join %{groupname}?"
+msgstr "%{groupname} grubuna katılmak istediğinizdden emin misiniz?"
+
+#: Forum.rb:660
+msgctxt "Forum"
+msgid "Are you sure you want to leave %{groupname}?"
+msgstr "%{groupname} grubundan çıkmak istediğinizden emin misiniz?"
+
+#: Forum.rb:651
+msgctxt "Forum"
+msgid "You've just joined the group"
+msgstr "Gruba katıldınız"
+
+#: Forum.rb:663
+msgctxt "Forum"
+msgid "You've just left the group"
+msgstr "Gruptan çıktınız"
+
+#: Forum.rb:484
+msgctxt "Forum"
+msgid "Pass administrative privileges"
+msgstr "Yönetici izinlerini devret"
+
+#: Forum.rb:481
+msgctxt "Forum"
+msgid "Grant moderation privileges"
+msgstr "Moderasyon izinleri ver"
+
+#: Forum.rb:483
+msgctxt "Forum"
+msgid "Deny moderation privileges"
+msgstr "Moderasyon izinlerini al"
+
+#: Forum.rb:494
+msgctxt "Forum"
+msgid "Ban in this group"
+msgstr "Bu gruptan banla"
+
+#: Forum.rb:499
+msgctxt "Forum"
+msgid "Unban"
+msgstr "Banı kaldır"
+
+msgctxt "Forum"
+msgid "Are you sure you want to grant moderation privileges in %{groupname} to user %{user}?"
+msgstr "%{groupname} grubunda %{user} kullanıcısına moderasyon izinleri vermek istediğinizden emin misiniz?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to deny %{user}'s moderation privileges?"
+msgstr "%{user} kişisinin moderasyon yetkilerini almak istediğinizden emin misiniz?"
+
+#: Forum.rb:594
+msgctxt "Forum"
+msgid "Privileges of this user have been changed."
+msgstr "Bu kullanıcının izinleri değiştirildi."
+
+#: Forum.rb:584
+msgctxt "Forum"
+msgid "Are you sure you want to resign your administrative privileges in %{groupname} and pass them to %{user}?"
+msgstr "%{groupname} grubunda yönetici izinlerinizden vazgeçip onları %{user} kişisine devretmek istediğinizden emin misiniz?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to ban %{user} in %{groupname}?"
+msgstr "%{groupname} grubunda %{user} kişisini banlamak istediğinizden emin misiniz?"
+
+msgctxt "Forum"
+msgid "Are you sure you want to unban %{user} in %{groupname}?"
+msgstr "%{groupname} grubunda %{user} kişisinin banını kaldırmak istediğinizden emin misiniz?"
+
+#: Forum.rb:496
+msgctxt "Forum"
+msgid "Kick"
+msgstr "Çıkart"
+
+msgctxt "Forum"
+msgid "Are you sure you want to kick %{user} of %{groupname}?"
+msgstr "%{groupname} grubunun üyesi %{username} kişisini çıkartmak istediğinizden emin misiniz?"
+
+#: Forum.rb:822
+msgctxt "Forum"
+msgid "New forum"
+msgstr "Yeni forum"
+
+#: Forum.rb:825
+msgctxt "Forum"
+msgid "Delete forum"
+msgstr "Forumu sil"
+
+#: Forum.rb:943
+msgctxt "Forum"
+msgid "Forum name"
+msgstr "Forum adı"
+
+#: Forum.rb:943
+msgctxt "Forum"
+msgid "Forum description"
+msgstr "Forum açıklaması"
+
+#: Forum.rb:943
+msgctxt "Forum"
+msgid "Forum type"
+msgstr "Forum türü"
+
+#: Forum.rb:943
+msgctxt "Forum"
+msgid "Text forum"
+msgstr "Metinli forum"
+
+#: Forum.rb:943
+msgctxt "Forum"
+msgid "Voice forum"
+msgstr "Sesli forum"
+
+#: Forum.rb:949
+msgctxt "Forum"
+msgid "Create forum"
+msgstr "Forum oluştur"
+
+#: Forum.rb:965
+msgctxt "Forum"
+msgid "The forum has been created"
+msgstr "Forum oluşturuldu"
+
+#: Forum.rb:924
+msgctxt "Forum"
+msgid "Are you sure you want to delete this forum?"
+msgstr "Bu forumu silmek istediğinizden emin misiniz?"
+
+#: Forum.rb:929
+msgctxt "Forum"
+msgid "The forum has been deleted."
+msgstr "Forum silindi."
+
+#: Forum.rb:824
+msgctxt "Forum"
+msgid "Edit forum"
+msgstr "Forumu düzenle"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Recommended groups"
+msgstr "Önerilen gruplar"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Open groups"
+msgstr "Açık gruplar"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "All groups"
+msgstr "Tüm gruplar"
+
+#: Forum.rb:746
+msgctxt "Forum"
+msgid "Group name"
+msgstr "Grup adı"
+
+#: Forum.rb:746
+msgctxt "Forum"
+msgid "Group description"
+msgstr "Grup açıklaması"
+
+#: Forum.rb:746
+msgctxt "Forum"
+msgid "Group type"
+msgstr "Grup türü"
+
+#: Forum.rb:746
+msgctxt "Forum"
+msgid "Public"
+msgstr "Açık"
+
+#: Forum.rb:746
+msgctxt "Forum"
+msgid "Hidden"
+msgstr "Gizli"
+
+#: Forum.rb:746
+msgctxt "Forum"
+msgid "Join method"
+msgstr "Katılım yöntemi"
+
+#: Forum.rb:760
+msgctxt "Forum"
+msgid "open (everyone can join)"
+msgstr "Açık (herkes katılabilir)"
+
+#: Forum.rb:760
+msgctxt "Forum"
+msgid "Moderated (everyone can request)"
+msgstr "Yönetilen (herkes istek gönderebilir)"
+
+#: Forum.rb:758
+msgctxt "Forum"
+msgid "closed (only invited users can join)"
+msgstr "Kapalı (sadece davet edilen kullanıcılar katılabilir)"
+
+#: Forum.rb:752
+msgctxt "Forum"
+msgid "Create group"
+msgstr "Grup oluştur"
+
+#: Forum.rb:910
+msgctxt "Forum"
+msgid "Change forum position"
+msgstr "Forum konumunu değiştir"
+
+#: Forum.rb:910
+msgctxt "Forum"
+msgid "Above what forum do you want to move this forum?"
+msgstr "Bu forumu hangi forumun yukarısına taşımak istersiniz?"
+
+#: Forum.rb:910
+msgctxt "Forum"
+msgid "Move to the end"
+msgstr "Sona taşı"
+
+#: Forum.rb:342
+msgctxt "Forum"
+msgid "New group"
+msgstr "Yeni grup"
+
+#: Forum.rb:746
+msgctxt "Forum"
+msgid "Language"
+msgstr "Dil"
+
+#: Forum.rb:767
+msgctxt "Forum"
+msgid "Group has been created"
+msgstr "Grup oluşturuldu"
+
+#: Forum.rb:353
+msgctxt "Forum"
+msgid "Delete group"
+msgstr "Grubu sil"
+
+#: Forum.rb:715
+msgctxt "Forum"
+msgid "Are you sure you want to delete %{groupname}?"
+msgstr "%{groupname} grubunu silmek istediğinizden emin misiniz?"
+
+#: Forum.rb:719
+msgctxt "Forum"
+msgid "Group has been deleted"
+msgstr "Grup silindi"
+
+#: Forum.rb:346
+msgctxt "Forum"
+msgid "Invite"
+msgstr "Davet et"
+
+#: Forum.rb:613
+msgctxt "Forum"
+msgid "Type user to invite"
+msgstr "Davet edilecek kullanıcıyı yazın"
+
+#: Forum.rb:622
+msgctxt "Forum"
+msgid "The user has been invited"
+msgstr "Kullanıcı davet edildi"
+
+#: Forum.rb:630
+msgctxt "Forum"
+msgid "This user does not exist"
+msgstr "Bu kullanıcı yok"
+
+#: Forum.rb:632
+msgctxt "Forum"
+msgid "This user already belongs to this group"
+msgstr "Bu kullanıcı zaten bu grupta"
+
+#: Forum.rb:348
+msgctxt "Forum"
+msgid "Accept invitation"
+msgstr "Daveti kabul et"
+
+#: Forum.rb:351
+msgctxt "Forum"
+msgid "Refuse invitation"
+msgstr "Daveti reddet"
+
+#: Forum.rb:459
+msgctxt "Forum"
+msgid "Invited"
+msgstr "Davet edildi"
+
+#: Forum.rb:574
+msgctxt "Forum"
+msgid "Banned"
+msgstr "Banlandı"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Invitations"
+msgstr "Davetler"
+
+#: Forum.rb:352
+msgctxt "Forum"
+msgid "Edit group"
+msgstr "Grubu düzenle"
+
+#: Forum.rb:554
+msgctxt "Forum"
+msgid "Ask to be enrolled in this group"
+msgstr "Bu gruba katılım isteği gönder"
+
+#: Forum.rb:640
+msgctxt "Forum"
+msgid "Do you wish to ask to be enrolled in %{groupname}"
+msgstr "%{groupname} grubuna katılım isteği göndermek istediğinizden emin misiniz?"
+
+#: Forum.rb:648
+msgctxt "Forum"
+msgid "Request sent"
+msgstr "İstek gönderildi"
+
+#: Forum.rb:575
+msgctxt "Forum"
+msgid "Waiting for review"
+msgstr "İnceleme için bekleniyor"
+
+#: Forum.rb:501
+msgctxt "Forum"
+msgid "Examine this application"
+msgstr "Bu isteği incele"
+
+#: Forum.rb:554
+msgctxt "Forum"
+msgid "Accept"
+msgstr "Kabul et"
+
+#: Forum.rb:554
+msgctxt "Forum"
+msgid "Refuse"
+msgstr "Reddet"
+
+msgctxt "Forum"
+msgid "Do you want to accept request of user %{user}"
+msgstr "%{user} kullanıcısının isteğini kabul etmek istiyor musunuz?"
+
+msgctxt "Forum"
+msgid "Do you want to refuse request of user %{user}"
+msgstr "%{user} kişisinin isteğini reddetmek istiyor musunuz?"
+
+#: Forum.rb:1730
+msgctxt "Forum"
+msgid "Attachments"
+msgstr "Ekler"
+
+#: Forum.rb:1653
+msgctxt "Forum"
+msgid "Polls"
+msgstr "Anketler"
+
+#: Forum.rb:1290
+msgctxt "Forum"
+msgid "Attach a poll"
+msgstr "Anket ekle"
+
+#: Forum.rb:1664
+msgctxt "Forum"
+msgid "Attach a file"
+msgstr "Dosya ekle"
+
+#: Forum.rb:1333
+msgctxt "Forum"
+msgid "You haven't created any polls yet."
+msgstr "Henüz hiçbir anket oluşturmadınız."
+
+#: Forum.rb:1319
+msgctxt "Forum"
+msgid "Select poll to attach"
+msgstr "Eklenecek anket seçin"
+
+#: Forum.rb:1329
+msgctxt "Forum"
+msgid "Poll has been added"
+msgstr "Anket eklendi"
+
+#: Forum.rb:1324
+msgctxt "Forum"
+msgid "This poll has already been added"
+msgstr "Bu anket zaten eklenmiş"
+
+#: Forum.rb:1732
+msgctxt "Forum"
+msgid "The file has been attached"
+msgstr "Dosya eklendi"
+
+#: Forum.rb:1724
+msgctxt "Forum"
+msgid "This file has been already attached"
+msgstr "Bu dosya zaten eklenmiş"
+
+#: Forum.rb:1721
+msgctxt "Forum"
+msgid "Select file to attach"
+msgstr "Eklenecek dosya seçin"
+
+#: Forum.rb:1727
+msgctxt "Forum"
+msgid "This file is too large"
+msgstr "Bu dosya çok büyük"
+
+#: Forum.rb:1710
+msgctxt "Forum"
+msgid "Where to save this file?"
+msgstr "Bu dosya nereye kaydedilsin?"
+
+#: Forum.rb:1149
+msgctxt "Forum"
+msgid "Close thread"
+msgstr "Konuyu kapat"
+
+#: Forum.rb:1150
+msgctxt "Forum"
+msgid "Open thread"
+msgstr "Konuyu aç"
+
+#: Forum.rb:1246
+msgctxt "Forum"
+msgid "The thread has been closed"
+msgstr "Konu kapatıldı"
+
+#: Forum.rb:1242
+msgctxt "Forum"
+msgid "The thread has been opened"
+msgstr "Konu açıldı"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Recently created groups"
+msgstr "Yakın zamanda oluşturulan gruplar"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Threads popular with my friends"
+msgstr "Arkadaşlarım arasında popüler olan konular"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Groups popular with my friends"
+msgstr "Arkadaşlarım arasında popüler olan gruplar"
+
+#: Forum.rb:2112
+msgctxt "Forum"
+msgid "Move to end"
+msgstr "Sona taşı"
+
+#: Forum.rb:2113
+msgctxt "Forum"
+msgid "Where to slide this post?"
+msgstr "Bu gönderi nereye kaydırılsın?"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "Moderated groups"
+msgstr "Yönetilen gruplar"
+
+#: Forum.rb:1149
+msgctxt "Forum"
+msgid "Pin thread"
+msgstr "Konuyu sabitle"
+
+#: Forum.rb:1151
+msgctxt "Forum"
+msgid "Unpin thread"
+msgstr "Konunun sabitlemesini kaldır"
+
+#: Forum.rb:1263
+msgctxt "Forum"
+msgid "Thread has been pinned"
+msgstr "Konu sabitlendi"
+
+#: Forum.rb:1259
+msgctxt "Forum"
+msgid "Thread has been unpinned"
+msgstr "Konunun sabitlenmesi kaldırıldı"
+
+#: Forum.rb:154
+msgctxt "Forum"
+msgid "My threads"
+msgstr "Konularım"
+
+#: Forum.rb:344
+msgctxt "Forum"
+msgid "Group summary"
+msgstr "Grup özeti"
+
+#: Forum.rb:396
+msgctxt "Forum"
+msgid "Members"
+msgstr "Üyeler"
+
+#: Forum.rb:397
+msgctxt "Forum"
+msgid "Founder"
+msgstr "Kurucu"
+
+#: Forum.rb:400
+msgctxt "Forum"
+msgid "Founded at"
+msgstr "Şu zamanda kuruldu"
+
+#: Forum.rb:395
+msgctxt "Forum"
+msgid "Language {txt_phr_lang}"
+msgstr "Dil {txt_phr_lang}"
+
+#: Forum.rb:403
+msgctxt "Forum"
+msgid "The most active members"
+msgstr "En aktif üyeler"
+
+#: Forum.rb:407
+msgctxt "Forum"
+msgid "Group size"
+msgstr "Grup boyutu"
+
+#: Forum.rb:417
+msgctxt "Forum"
+msgid "Audio posts"
+msgstr "Sesli gönderiler"
+
+#: Forum.rb:419
+msgctxt "Forum"
+msgid "Attachments {txt_phr_sizeattachments}"
+msgstr "Ekler {txt_phr_sizeattachments}"
+
+#: Forum.rb:421
+msgctxt "Forum"
+msgid "Text"
+msgstr "Metin"
+
+#: Forum.rb:423
+msgctxt "Forum"
+msgid "Overall size"
+msgstr "Ortalama boyut"
+
+#: Forum.rb:438
+msgctxt "Forum"
+msgid "Group summary {read_groupsummary}"
+msgstr "Grup özeti {read_groupsummary}"
+
+#: Main.rb:65
+msgctxt "Main"
+msgid "Press the alt key to open the menu."
+msgstr "Menüyü açmak için alt tuşuna basın."
+
+#: Main.rb:78
+msgctxt "Main"
+msgid "Delete the playlist"
+msgstr "Oynatma listesini sil"
+
+#: Main.rb:173
+msgctxt "Main"
+msgid "Playlist"
+msgstr "Oynatma listesi"
+
+#: Main.rb:78
+msgctxt "Main"
+msgid "Upload to the server"
+msgstr "Sunucuya yükle"
+
+#: Main.rb:78
+msgctxt "Main"
+msgid "Set as avatar"
+msgstr "Avatar olarak ayarla"
+
+#: Main.rb:78
+msgctxt "Main"
+msgid "Player"
+msgstr "Oynatıcı"
+
+#: Main.rb:78
+msgctxt "Main"
+msgid "Shuffle"
+msgstr "Karıştır"
+
+#: Main.rb:157
+msgctxt "Main"
+msgid "Playlist shuffled"
+msgstr "Oynatma listesi karıştırıldı"
+
+#: Main.rb:59
+msgctxt "Main"
+msgid "A new beta version of the program is available."
+msgstr "Programın yeni beta sürümü mevcut."
+
+#: Main.rb:180
+msgctxt "Main"
+msgid "Playlist removed."
+msgstr "Oynatma listesi kaldırıldı."
+
+#: Login.rb:19
+msgctxt "Login"
+msgid "Username:"
+msgstr "Kullanıcı adı:"
+
+#: Login.rb:142
+msgctxt "Login"
+msgid "Password:"
+msgstr "Şifre:"
+
+#: Login.rb:130
+msgctxt "Login"
+msgid "Do not ask again"
+msgstr "Bir daha sorma"
+
+#: Login.rb:176
+msgctxt "Login"
+msgid "To reenable auto log in feature, proceed to the general settings."
+msgstr "Otomatik girişi yeniden etkinleştirmek için, genel ayarlara gidin."
+
+#: Login.rb:132
+msgctxt "Login"
+msgid " The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"
+msgstr "Kayıtlı giriş bilgisi hacker saldırılarına karşı savunmasızlığın algılandığı eski hesap izin yöntemini kullanıyor. Elten 2.2'de yeni, daha güvenli otomatik giriş algoritmaları oluşturulmuştur. Hesabınızın güvenliğini arttırmak için kayıtlı bilgiyi yeni sisteme dönüştürmeniz önerilir. Kayıtlı bilgiyi şimdi güncellemek istiyor musunuz?"
+
+#: Login.rb:165
+msgctxt "Login"
+msgid " Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."
+msgstr "Otomatik giriş siz çıkış yapana kadar devam edecek. Otomatik giriş anahtarları topluluk menüsündeki hesabım sekmesinden yönetilebilir."
+
+#: Login.rb:167
+msgctxt "Login"
+msgid " Login data has been updated. Automatic login will be proceeding until you log  out. Automatic login keys can be managed from the My Account tab in the Community  menu."
+msgstr "Giriş verisi güncellendi. Otomatik giriş siz çıkış yapana kadar devam edecek. Otomatik giriş anahtarları topluluk menüsündeki hesabım sekmesinden yönetilebilir. "
+
+#: Login.rb:104
+msgctxt "Login"
+msgid " Two-factor authentication is enabled on this account. Enter the code sent to you  by text message to allow this device to login. If you do not have access to the  phone number used, select the password reset option to disable two-factor  authentication."
+msgstr "Bu hesapta iki öğeli kimlik doğrulaması etkin. Bu cihazın giriş yapmasına izin vermek için size SMS ile gönderilen kodu girin. Kullanılan telefon numarasına erişiminiz yoksa, iki öğeli kimlik doğrulamasını devredışı bırakmak için şifreyi sıfırla seçeneğini seçin."
+
+#: Login.rb:99
+msgctxt "Login"
+msgid "Verification failed."
+msgstr "Doğrulama başarısız oldu."
+
+#: Login.rb:104
+msgctxt "Login"
+msgid "The entered code is not valid, try again."
+msgstr "Girilen kod doğru değil, yeniden deneyin."
+
+#: Login.rb:148
+msgctxt "Login"
+msgid " An error occurred while authenticating the identity. You might have provided an  incorrect password."
+msgstr "Kimliğe izin verilirken hata oluştu. Yanlış şifre girmiş olabilirsiniz."
+
+#: Login.rb:239
+msgctxt "Login"
+msgid "Invalid login or password."
+msgstr "Yanlış kullanıcı adı veya şifre."
+
+#: Login.rb:245
+msgctxt "Login"
+msgid "Login failure."
+msgstr "Giriş başarısız oldu."
+
+#: Login.rb:251
+msgctxt "Login"
+msgid "Connection failure."
+msgstr "Bağlantı başarısız oldu."
+
+#: Login.rb:195
+msgctxt "Login"
+msgid "Logged in as: %{user}"
+msgstr "%{user} olarak giriş yapıldı"
+
+#: Login.rb:130
+msgctxt "Login"
+msgid "Do you want to enable auto log in for account %{user}?"
+msgstr "%{user} hesabı için otomatik girişi etkinleştirmek istiyor musunuz?"
+
+#: Login.rb:153
+msgctxt "Login"
+msgid "Do you want to enable auto-Login-key encryption? When encrypted, the Auto-Login Key will be readable only on this computer, and its copying or exporting will not allow other devices to access your account. Note: If you encrypt your Auto-Login Key, the created portable versions will not be able to automatically log into your account from other devices, even if you copy your settings, and you will be prompted to enter your password. You can create as many auto-login-keys as you wish for all other computers you are using."
+msgstr ""
+"Otomatik giriş anahtar şifrelemesini etkinleştirmek istiyor musunuz? Şifrelendiğinde, otomatik giriş anahtarı sadece bu bilgisayarda okunabilir hâle gelecek ve onun dışarıya aktarılması diğer cihazların hesabınıza erişimine izin vermeyecek.\n"
+"Not: Otomatik giriş anahtarınızı şifrelerseniz, ayarlarınızı kopyalasanız bile, oluşturulan taşınabilir sürümler diğer cihazlarda şifrenizi otomatik olarak giremeyecek ve şifrenizi girmeniz istenecek. Kullandığınız diğer bilgisayarlar için istediğiniz miktarda otomatik giriş şifresi oluşturabilirsiniz."
+
+#: Login.rb:263
+msgctxt "Login"
+msgid "Do you want to encrypt this key with a custom pin code? You will be prompted for this code everytime you start Elten to unlock your account, but it will not be saved on the server and will be valid only for the auto-login-key stored on this device."
+msgstr "Bu anahtarı özgün bir pin koduyla şifrelemek istiyor musunuz? Elten'ı her başlatışınızda hesabınızın kilidini açmak için bu kod sorulacak, ancak bu kod sunucuya kaydedilmeyecek ve sadece bu cihazdaki otomatik giriş anahtarı için geçerli olacak."
+
+#: Login.rb:268
+msgctxt "Login"
+msgid "Enter pin code"
+msgstr "Pin kodunu girin"
+
+#: Login.rb:268
+msgctxt "Login"
+msgid "Reenter pin code"
+msgstr "Pin kodunu tekrar girin"
+
+#: Login.rb:273
+msgctxt "Login"
+msgid "The pin codes entered are different, please try again."
+msgstr "Girilen pin kodları farklı, lütfen tekrar deneyin."
+
+#: Registration.rb:23
+msgctxt "Registration"
+msgid "User name can not contain slashes. Sign will be Omitted."
+msgstr "Kullanıcı adı bölü içeremez. İşaret silinecek."
+
+#: Registration.rb:26
+msgctxt "Registration"
+msgid "User name can not contain spaces. Sign will be Omitted"
+msgstr "Kullanıcı adı boşluk içeremez. İşaret silinecek."
+
+#: Registration.rb:14
+msgctxt "Registration"
+msgid " Enter your username. It will be used for identification.The maximum length of the  username is 64 characters"
+msgstr "Kullanıcı adınızı girin. Tanımlama için kullanılacak. Kullanıcı adı uzunluğu en fazla 64 karakterdir"
+
+#: Registration.rb:33
+msgctxt "Registration"
+msgid " Enter your password. It is recommended to use a strong password, which consists  of numbers and letters. Maximum length of the password is 256 characters."
+msgstr ""
+"Şifrenizi girin. Sayılar ve harfler içeren güçlü şifreler kullanmanız önerilir.\n"
+". Şifre uzunluğu en fazla 256 karakterdir"
+
+#: Registration.rb:39
+msgctxt "Registration"
+msgid " Enter your e-mail address. It will be used in case you forget your password and  to send important information."
+msgstr "E-posta adresinizi girin. Şifrenizi unutmanız durumunda ve önemli bilgiler göndermek için kullanılacak."
+
+#: Registration.rb:45
+msgctxt "Registration"
+msgid " Registration is successful, thank you. You can log in using your username and  password."
+msgstr "Kayıt başarılı, teşekkürler. Kullanıcı adınızı ve şifrenizi kullanarak giriş yapabilirsiniz."
+
+#: Registration.rb:47
+msgctxt "Registration"
+msgid "An unknown error occurred while using database"
+msgstr "Veritabanını kullanırken bilinmeyen hata oluştu."
+
+#: Registration.rb:49
+msgctxt "Registration"
+msgid "Account with the specified username already exists."
+msgstr "Verilen kullanıcı adıyla zaten bir hesap var."
+
+#: Registration.rb:51
+msgctxt "Registration"
+msgid "An error occurred while trying to write data."
+msgstr "Veri yazmaya çalışırken hata oluştu."
+
+#: Registration.rb:53
+msgctxt "Registration"
+msgid "An error occurred while connecting to the server."
+msgstr "Sunucuya bağlanırken hata oluştu."
+
+#: Registration.rb:17
+msgctxt "Registration"
+msgid "A username cannot contain an at. The character will be ignored."
+msgstr "Kullanıcı adı et işareti içeremez. Karakter yoksayılacak."
+
+#: Registration.rb:35
+msgctxt "Registration"
+msgid "The entered passwords differ"
+msgstr "Girilen şifreler farklı"
+
+#: Registration.rb:33
+msgctxt "Registration"
+msgid "Repeat your password"
+msgstr "Şifrenizi tekrarlayın"
+
+#: Loading.rb:413
+msgctxt "Loading"
+msgid "Log in"
+msgstr "Giriş yap"
+
+#: Loading.rb:413
+msgctxt "Loading"
+msgid "Register"
+msgstr "Kaydol"
+
+#: Loading.rb:413
+msgctxt "Loading"
+msgid "General settings"
+msgstr "Genel ayarlar"
+
+#: Loading.rb:413
+msgctxt "Loading"
+msgid "Password reset"
+msgstr "Şifre sıfırlama"
+
+#: Loading.rb:413
+msgctxt "Loading"
+msgid "Use guest account"
+msgstr "Konuk hesabı kullan"
+
+#: Loading.rb:413
+msgctxt "Loading"
+msgid "Change speech synthesizer"
+msgstr "Sentezleyiciyi değiştir"
+
+#: Loading.rb:413
+msgctxt "Loading"
+msgid "Reinstall"
+msgstr "Yeniden kur"
+
+#: Loading.rb:234
+msgctxt "Loading"
+msgid " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."
+msgstr "Hiçbir konuşma çıkışı seçilmedi. Sapi sentezleyicisini seçmek için enter'a veya kurulu ekran okuyucuyu kullanmak için escape'e basın."
+
+#: Loading.rb:312
+msgctxt "Loading"
+msgid "A new version of the program is available."
+msgstr "Programın yeni sürümü mevcut."
+
+#: Loading.rb:279
+msgctxt "Loading"
+msgid "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?"
+msgstr "Elten NVDA kullandığınızı algıladı. Bu ekran okuyucunun bazı özelliklerini desteklemek için, elten eklentisini kurmanız gereklidir. Bunu şimdi yapmak istiyor musunuz?"
+
+#: Loading.rb:279
+msgctxt "Loading"
+msgid "New version of NVDA Elten addon is available. The version you're using is no longer supported in this Elten release and may cause some errors. Do you want to update it now?"
+msgstr "Elten NVDA eklentisinin yeni sürümü mevcut. Şu an kullandığınız sürüm bu Elten sürümünde desteklenmiyor ve hatalara sebep olabilir. Eklentiyi şimdi güncellemek istiyor musunuz?"
+
+#: EAPI_External.rb:359
+msgctxt "EAPI_External"
+msgid "Play"
+msgstr "Oynat"
+
+#: EAPI_External.rb:359
+msgctxt "EAPI_External"
+msgid "Add to playlist"
+msgstr "Çalma listesine ekle"
+
+#: EAPI_External.rb:359
+msgctxt "EAPI_External"
+msgid "Set as avatar"
+msgstr "Avatar olarak ayarla"
+
+#: EAPI_External.rb:131
+msgctxt "EAPI_External"
+msgid "Search YouTube"
+msgstr "Youtube'u ara"
+
+#: EAPI_External.rb:153
+msgctxt "EAPI_External"
+msgid "Found items"
+msgstr "Bulunan öğeler"
+
+#: EAPI_External.rb:306
+msgctxt "EAPI_External"
+msgid "Connecting to server, please wait..."
+msgstr "Sunucuya bağlanılıyor, lütfen bekleyin..."
+
+#: EAPI_External.rb:369
+msgctxt "EAPI_External"
+msgid "Download"
+msgstr "İndir"
+
+#: EAPI_External.rb:359
+msgctxt "EAPI_External"
+msgid "Copy URL to the clipboard"
+msgstr "Web adresini panoya kopyala"
+
+#: EAPI_External.rb:369
+msgctxt "EAPI_External"
+msgid "How do you want to download this file?"
+msgstr "Bu dosyayı nasıl indirmek istiyorsunuz?"
+
+#: EAPI_External.rb:369
+msgctxt "EAPI_External"
+msgid "Download as a video file"
+msgstr "Video dosyası olarak indir"
+
+#: EAPI_External.rb:369
+msgctxt "EAPI_External"
+msgid "Download as an audio file"
+msgstr "Ses dosyası olarak indir"
+
+#: EAPI_External.rb:379
+msgctxt "EAPI_External"
+msgid "Downloading, please wait..."
+msgstr "İndiriliyor, lütfen bekleyin..."
+
+#: EAPI_External.rb:372
+msgctxt "EAPI_External"
+msgid "Where you want to save this file?"
+msgstr "Bu dosyayı nereye kaydetmek istersiniz?"
+
+#: EAPI_External.rb:94
+msgctxt "EAPI_External"
+msgid "destination language"
+msgstr "Hedef dil"
+
+#: EAPI_External.rb:89
+msgctxt "EAPI_External"
+msgid "source language"
+msgstr "Kaynak dil"
+
+#: EAPI_External.rb:89
+msgctxt "EAPI_External"
+msgid "recognize automatically"
+msgstr "Otomatik olarak algıla"
+
+#: EAPI_External.rb:400
+msgctxt "EAPI_External"
+msgid "Select the format"
+msgstr "Formatı seçin"
+
+#: EAPI_External.rb:95
+msgctxt "EAPI_External"
+msgid "Translate"
+msgstr "Çevir"
+
+#: EAPI_External.rb:48
+msgctxt "EAPI_External"
+msgid "An error occurred while translating."
+msgstr "Çevirirken hata oluştu."
+
+#: EAPI_External.rb:317
+msgctxt "EAPI_External"
+msgid "Do not read progress bar changes."
+msgstr "Aşama çubuğu değişikliklerini okuma."
+
+#: EAPI_External.rb:320
+msgctxt "EAPI_External"
+msgid "Read progress bar changes."
+msgstr "Aşama çubuğu değişikliklerini oku."
+
+#: EAPI_External.rb:365
+msgctxt "EAPI_External"
+msgid "Added to playlist"
+msgstr "Oynatma listesine eklendi"
+
+#: EAPI_External.rb:473
+msgctxt "EAPI_External"
+msgid "Please wait..."
+msgstr "Lütfen bekleyin..."
+
+#: EAPI_External.rb:420
+msgctxt "EAPI_External"
+msgid "Copied to clipboard."
+msgstr "Panoya kopyalandı."
+
+#: EAPI_External.rb:437
+msgctxt "EAPI_External"
+msgid " An error occurred while audiotrack capturing. Do you want to send a bug report?  It may help us solve the problem."
+msgstr "Ses yakalanırken hata oluştu. Hata raporu göndermek ister misiniz? Bize sorunu çözmede yardımcı olabilir."
+
+#: EAPI_External.rb:441
+msgctxt "EAPI_External"
+msgid " The file cannot be played. Do you want to report this bug? It may help us fix the  issue."
+msgstr "Dosya oynatılamadı. Bu hatayı raporlamak ister misiniz? Bu sorunu düzeltmede bize yardımcı olabilir."
+
+#: EAPI_External.rb:154
+msgctxt "EAPI_External"
+msgid "Details"
+msgstr "Ayrıntılar"
+
+#: EAPI_External.rb:184
+msgctxt "EAPI_External"
+msgid "Duration"
+msgstr "Süre"
+
+#: EAPI_External.rb:184
+msgctxt "EAPI_External"
+msgid "Published on"
+msgstr "Yayımlanma tarihi"
+
+#: EAPI_External.rb:184
+msgctxt "EAPI_External"
+msgid "Key words"
+msgstr "Anahtar sözcükler"
+
+#: EAPI_External.rb:425
+msgctxt "EAPI_External"
+msgid "Updating Youtube-DL"
+msgstr "Youtube-DL güncelleniyor"
+
+#: EAPI_External.rb:469
+msgctxt "EAPI_External"
+msgid "The file you're trying to open was saved in format that Elten does not support. Do you want to download and install Calibre Library that will allow Elten to read Ebooks?"
+msgstr "Açmaya çalıştığınız dosya Elten'ın desteklemediği bir formatta kaydedillmiş. Elten'ın elektronik kitap okumasına yarayan Calibre kütüphanesini indirmek ve kurmak istiyor musunuz?"
+
+#: EAPI_External.rb:471
+msgctxt "EAPI_External"
+msgid "Downloading Calibre, please wait..."
+msgstr "Calibre indiriliyor, lütfen bekleyin..."
+
+#: EAPI_External.rb:473
+msgctxt "EAPI_External"
+msgid "Extracting Calibre, please wait..."
+msgstr "Calibre çıkartılıyor, lütfen bekleyin..."
+
+#: EAPI_External.rb:272
+msgctxt "EAPI_External"
+msgid "To play Youtube videos, Elten uses external Youtube-DL library. Do you want to download it now?"
+msgstr "Youtube videolarını oynatmak için, Elten dış Youtube-DL kütüphanesini kullanır. Onu şimdi indirmek istiyor musunuz?"
+
+#: EAPI_Common.rb:85
+msgctxt "EAPI_Common"
+msgid "An error occured while processing the command"
+msgstr "Komutu işlerken hata oluştu"
+
+#: EAPI_Common.rb:108
+msgctxt "EAPI_Common"
+msgid "Write a private message"
+msgstr "Özel mesaj yaz"
+
+#: EAPI_Common.rb:108
+msgctxt "EAPI_Common"
+msgid "Visiting card"
+msgstr "Kartvizit"
+
+#: EAPI_Common.rb:111
+msgctxt "EAPI_Common"
+msgid "Remove from contacts' list"
+msgstr "Kişiler listesinden kaldır"
+
+#: EAPI_Common.rb:113
+msgctxt "EAPI_Common"
+msgid "Add to contacts' list"
+msgstr "Kişiler listesine ekle"
+
+#: EAPI_Common.rb:247
+msgctxt "EAPI_Common"
+msgid "There is nothing new."
+msgstr "Yeni bir şey yok."
+
+#: EAPI_Common.rb:381
+msgctxt "EAPI_Common"
+msgid "Empty list"
+msgstr "Boş liste"
+
+#: EAPI_Common.rb:121
+msgctxt "EAPI_Common"
+msgid "Ban"
+msgstr "Banla"
+
+#: EAPI_Common.rb:123
+msgctxt "EAPI_Common"
+msgid "Unban"
+msgstr "Banı kaldır"
+
+#: EAPI_Common.rb:108
+msgctxt "EAPI_Common"
+msgid "Open user's blog"
+msgstr "Kullanıcı bloğunu aç"
+
+#: EAPI_Common.rb:16
+msgctxt "EAPI_Common"
+msgid "Hide program in Tray"
+msgstr "Programı sistem tepsisine gizle"
+
+msgctxt "EAPI_Common"
+msgid "Enter the name of the soundtheme"
+msgstr "Ses teması adını girin"
+
+msgctxt "EAPI_Common"
+msgid " Soundtheme files created in %{dir}. Replace files of the default soundtheme in  the created folder with the appropriate files, which constitute the soundtheme."
+msgstr "%{dir} klasöründe ses teması dosyaları oluşturuldu. Oluşturulan klasördeki varsayılan tema dosyalarını ses temanıza denk gelen dosyalarla değiştirin."
+
+msgctxt "EAPI_Common"
+msgid "What do you want to do?"
+msgstr "Ne yapmak istiyorsunuz?"
+
+msgctxt "EAPI_Common"
+msgid "Open the soundtheme's folder"
+msgstr "Ses temasının klasörünü aç"
+
+msgctxt "EAPI_Common"
+msgid "Open the soundtheme's folder in windows explorer"
+msgstr "Ses temasının klasörünü Windows gezgininde aç"
+
+#: EAPI_Common.rb:331
+msgctxt "EAPI_Common"
+msgid "Describe the found error"
+msgstr "Bulduğunuz hatayı açıklayın"
+
+#: EAPI_Common.rb:347
+msgctxt "EAPI_Common"
+msgid "Sent."
+msgstr "Gönderildi."
+
+#: EAPI_Common.rb:60
+msgctxt "EAPI_Common"
+msgid "Enter the command to execute"
+msgstr "Uygulanacak komutu girin"
+
+#: EAPI_Common.rb:331
+msgctxt "EAPI_Common"
+msgid "Send"
+msgstr "Gönder"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Title"
+msgstr "Başlık"
+
+#: EAPI_Common.rb:14
+msgctxt "EAPI_Common"
+msgid "Exit..."
+msgstr "Çık..."
+
+#: EAPI_Common.rb:118
+msgctxt "EAPI_Common"
+msgid "Play avatar"
+msgstr "Avatarı oynat"
+
+msgctxt "EAPI_Common"
+msgid "Files shared by this user"
+msgstr "Bu kullanıcı tarafından paylaşılan dosyalar"
+
+msgctxt "EAPI_Common"
+msgid "You are already up to date"
+msgstr "Zaten güncelsiniz"
+
+#: EAPI_Common.rb:108
+msgctxt "EAPI_Common"
+msgid "badges of this user"
+msgstr "Bu kullanıcının rozetleri"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "voice"
+msgstr "Ses"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "rate"
+msgstr "Hız"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "destination location"
+msgstr "Hedef konum"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "preview"
+msgstr "Önizle"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "confirm"
+msgstr "Onayla"
+
+#: EAPI_Form.rb:1844
+msgctxt "EAPI_Common"
+msgid "This file cannot be played."
+msgstr "Bu dosya oynatılamadı."
+
+#: EAPI_Common.rb:1128
+msgctxt "EAPI_Common"
+msgid "Compressing..."
+msgstr "Sıkıştırılıyor..."
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Output splitting"
+msgstr "Çıktı bölmesi"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Create one file"
+msgstr "Bir dosya oluştur"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Divide by paragraphs"
+msgstr "Paragraf paragraf böl"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Divide every"
+msgstr "Şu oranda böl"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Duration of one file (minutes)"
+msgstr "Bir dosya süresi (dakika)"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Read file number"
+msgstr "Dosya numarasını oku"
+
+#: EAPI_Form.rb:1907
+msgctxt "EAPI_Common"
+msgid "Downloading..."
+msgstr "İndiriliyor..."
+
+#: EAPI_UI.rb:268
+msgctxt "EAPI_Common"
+msgid "Using a screenreader"
+msgstr "Ekran okuyucu kullanılıyor"
+
+#: EAPI_UI.rb:270
+msgctxt "EAPI_Common"
+msgid "Using a selected SAPI synthesizer"
+msgstr "Seçilen SAPI sentezleyicisi kullanılıyor"
+
+#: EAPI_Common.rb:1042
+msgctxt "EAPI_Common"
+msgid "Please wait, reading to file"
+msgstr "Lütfen bekleyin, dosyaya okunuyor"
+
+#: EAPI_Form.rb:1878
+msgctxt "EAPI_Common"
+msgid "Type a second to which you want to move."
+msgstr "Gitmek istediğiniz saniyeyi yazın"
+
+#: EAPI_Common.rb:531
+msgctxt "EAPI_Common"
+msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
+msgstr "Elten lisans sözleşmesini, kullanım şartlarını ve gizlilik kurallarını kabul ediyorum"
+
+#: EAPI_Common.rb:531
+msgctxt "EAPI_Common"
+msgid "I do not accept, exit"
+msgstr "Kabul etmiyorum, çık"
+
+#: EAPI_Common.rb:1097
+msgctxt "EAPI_Common"
+msgid "Please wait, file processing..."
+msgstr "Lütfen bekleyin, dosya işleniyor..."
+
+#: EAPI_Common.rb:570
+msgctxt "EAPI_Common"
+msgid " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."
+msgstr "Midi dosyası oynatmaya çalışıyorsunuz. Böyle dosyaları oynatmak için, Elten'ın dış enstruman tabanına ihtiyacı var. Tabanı sunucudan indirmek istiyor musunuz? Birkaç dakika alabilir."
+
+#: EAPI_Form.rb:1905
+msgctxt "EAPI_Common"
+msgid "Where do you want to save this file?"
+msgstr "Bu dosyayı nereye kaydetmek istersiniz?"
+
+#: EAPI_Common.rb:438
+msgctxt "EAPI_Common"
+msgid "Gender"
+msgstr "Cinsiyet"
+
+#: EAPI_Common.rb:454
+msgctxt "EAPI_Common"
+msgid "Age"
+msgstr "Yaş"
+
+#: EAPI_Common.rb:488
+msgctxt "EAPI_Common"
+msgid "Forum posts"
+msgstr "Forum gönderileri"
+
+#: EAPI_Common.rb:489
+msgctxt "EAPI_Common"
+msgid "Polls answered"
+msgstr "Yanıtlanan anketler"
+
+#: EAPI_Common.rb:499
+msgctxt "EAPI_Common"
+msgid "Used version"
+msgstr "Kullanılan sürüm"
+
+#: EAPI_Common.rb:500
+msgctxt "EAPI_Common"
+msgid "Registered"
+msgstr "Kayıt tarihi"
+
+#: EAPI_Common.rb:970
+msgctxt "EAPI_Common"
+msgid "No selected file to read"
+msgstr "Okunacak dosya seçilmemiş"
+
+#: EAPI_Common.rb:982
+msgctxt "EAPI_Common"
+msgid "Type a file name"
+msgstr "Dosya adı türü"
+
+#: EAPI_Common.rb:984
+msgctxt "EAPI_Common"
+msgid "Select file location"
+msgstr "Dosya konumu seçin"
+
+#: EAPI_Common.rb:986
+msgctxt "EAPI_Common"
+msgid "Select source file"
+msgstr "Dosya kaynağı seçin"
+
+#: EAPI_Common.rb:1082
+msgctxt "EAPI_Common"
+msgid "Reading to file number"
+msgstr "Şu numaralı dosyaya okunuyor"
+
+#: EAPI_Common.rb:1082
+msgctxt "EAPI_Common"
+msgid "Sentence %{cursentence} z %{sentences}"
+msgstr "Cümle %{cursentence} z %{sentences}"
+
+#: EAPI_Common.rb:1082
+msgctxt "EAPI_Common"
+msgid "Read"
+msgstr "Oku"
+
+#: EAPI_Common.rb:1082
+msgctxt "EAPI_Common"
+msgid "Estimated elapsed time"
+msgstr "Yaklaşık geçen zaman"
+
+#: EAPI_Common.rb:508
+msgctxt "EAPI_Common"
+msgid "Visiting card: %{user}"
+msgstr "Kartvizit: %{user}"
+
+#: EAPI_Common.rb:1108
+msgctxt "EAPI_Common"
+msgid "Reading to file finished."
+msgstr "Dosyaya okuma bitti."
+
+#: EAPI_Common.rb:478
+msgctxt "EAPI_Common"
+msgid "User has a blog"
+msgstr "Kullanıcının bloğu var"
+
+#: EAPI_Common.rb:475
+msgctxt "EAPI_Common"
+msgid "Last seen"
+msgstr "Son görülme"
+
+#: EAPI_Common.rb:471
+msgctxt "EAPI_Common"
+msgid "Last seen {txt_phr_lastseen_female}"
+msgstr "Son görülme"
+
+#: EAPI_Common.rb:473
+msgctxt "EAPI_Common"
+msgid "Last seen {txt_phr_lastseen_male}"
+msgstr "Son görülme"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "File to read"
+msgstr "Okunacak dosya"
+
+#: EAPI_Common.rb:908
+msgctxt "EAPI_Common"
+msgid "Output format"
+msgstr "Çıkış formatı"
+
+#: EAPI_Common.rb:388
+msgctxt "EAPI_Common"
+msgid "Select contact"
+msgstr "Kişi seçin"
+
+#: EAPI_Common.rb:485
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users"
+msgstr "%{count} kullanıcı tarafından tanınıyor"
+
+#: EAPI_Common.rb:483
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users {txt_phr_knownby_female}"
+msgstr "%{count} kullanıcı tarafından tanınıyor"
+
+#: EAPI_Common.rb:485
+msgctxt "EAPI_Common"
+msgid "Known by %{count} users {txt_phr_knownby_male}"
+msgstr "%{count} kullanıcı tarafından tanınıyor"
+
+#: EAPI_Common.rb:479
+msgctxt "EAPI_Common"
+msgid "Knows %{count} users"
+msgstr "%{count} kullanıcı tanıyor"
+
+#: EAPI_Common.rb:571
+msgctxt "EAPI_Common"
+msgid "Please wait, the soundfont is being downloaded. It may take a while."
+msgstr "Lütfen bekleyin, ses fontu indiriliyor. Bir süre alabilir."
+
+#: EAPI_Common.rb:571
+msgctxt "EAPI_Common"
+msgid "Soundfont downloaded succesfully."
+msgstr "Ses fontu başarıyla indirildi."
+
+#: EAPI_Common.rb:1103
+msgctxt "EAPI_Common"
+msgid "Processing"
+msgstr "İşleniyor"
+
+#: EAPI_Form.rb:405
+msgctxt "EAPI_Common"
+msgid "Checked: %{check}"
+msgstr "Seçildi: %{check}"
+
+#: EAPI_Form.rb:1068
+msgctxt "EAPI_Common"
+msgid "Checked"
+msgstr "Seçildi"
+
+#: EAPI_Common.rb:528
+msgctxt "EAPI_Common"
+msgid "License agreement"
+msgstr "Lisans sözleşmesi"
+
+#: EAPI_Common.rb:529
+msgctxt "EAPI_Common"
+msgid "Terms and Conditions"
+msgstr "Kullanım şartları"
+
+#: EAPI_Common.rb:530
+msgctxt "EAPI_Common"
+msgid "Privacy Policy"
+msgstr "Gizlilik sözleşmesi"
+
+#: EAPI_Common.rb:549
+msgctxt "EAPI_Common"
+msgid "Do you accept Elten license agreement, terms and conditions and privacy policy?"
+msgstr "Elten lisans anlaşmasını, kullanım şartlarını ve gizlilik sözleşmesini kabul ediyor musunuz?"
+
+msgctxt "EAPI_Common"
+msgid "Call this user"
+msgstr "Bu kullanıcıyı ara"
+
+#: EAPI_Common.rb:457
+msgctxt "EAPI_Common"
+msgid "Location"
+msgstr "Konum"
+
+msgctxt "EAPI_Common"
+msgid "Output"
+msgstr "Çıkış"
+
+msgctxt "EAPI_Common"
+msgid "Execute"
+msgstr "Uygula"
+
+#: EAPI_EltenSRV.rb:270
+msgctxt "EAPI_EltenSRV"
+msgid "File is being converted..."
+msgstr "Dosya dönüştürülüyor..."
+
+#: EAPI_EltenSRV.rb:484
+msgctxt "EAPI_EltenSRV"
+msgid "Sent"
+msgstr "Gönderildi"
+
+#: EAPI_EltenSRV.rb:249
+msgctxt "EAPI_EltenSRV"
+msgid "The user has no avatar."
+msgstr "Kullanıcının avatarı yok."
+
+#: EAPI_EltenSRV.rb:269
+msgctxt "EAPI_EltenSRV"
+msgid "Please wait, this may take several minutes..."
+msgstr "Lütfen bekleyin, bu birkaç dakika alabilir..."
+
+#: EAPI_EltenSRV.rb:519
+msgctxt "EAPI_EltenSRV"
+msgid "Select a user"
+msgstr "Kullanıcı seçin"
+
+#: EAPI_Network.rb:68
+msgctxt "EAPI_Network"
+msgid "sending..."
+msgstr "Gönderiliyor..."
+
+#: EAPI_Network.rb:188
+msgctxt "EAPI_Network"
+msgid "Do not report progress bar changes."
+msgstr "Aşama çubuğu değişimlerini bildirme."
+
+#: EAPI_Network.rb:191
+msgctxt "EAPI_Network"
+msgid "Read progress bar changes."
+msgstr "Aşama çubuğu değişimlerini oku."
+
+#: EAPI_Network.rb:127
+msgctxt "EAPI_Network"
+msgid "The file already exists. Do you want to override it?"
+msgstr "Dosya zaten var. Üzerine yazmak istiyor musunuz?"
+
+msgctxt "EAPI_UI"
+msgid "You have received a new message."
+msgstr "Yeni mesaj aldınız."
+
+#: EAPI_UI.rb:387
+msgctxt "EAPI_UI"
+msgid "The program is trying to recover from the frozen state."
+msgstr "Program donma hâlinden kurtulmaya çalışıyor."
+
+msgctxt "EAPI_UI"
+msgid "You received a new message."
+msgstr "Yeni mesaj aldınız."
+
+msgctxt "EAPI_UI"
+msgid "A new post in a followed thread."
+msgstr "Takip edilen konuda yeni gönderi."
+
+msgctxt "EAPI_UI"
+msgid "A new post on a followed blog."
+msgstr "Takip edilen blogda yeni gönderi"
+
+#: EAPI_UI.rb:384
+msgctxt "EAPI_UI"
+msgid " An unexpected error of Elten agent occurred. Do you want to report this event? It  may definitely help us solve the problem."
+msgstr "Elten aracısında beklenmedik hatayla karşılaşıldı. Bu olayı bildirmek ister misiniz? Kesinlikle sorunu çözmemize yardımcı olabilir."
+
+#: EAPI_UI.rb:443
+msgctxt "EAPI_UI"
+msgid "Alert!"
+msgstr "Uyarı!"
+
+#: EAPI_Speech.rb:256
+msgctxt "EAPI_Speech"
+msgid "dot"
+msgstr "Nokta"
+
+#: EAPI_Speech.rb:258
+msgctxt "EAPI_Speech"
+msgid "comma"
+msgstr "Virgül"
+
+#: EAPI_Speech.rb:260
+msgctxt "EAPI_Speech"
+msgid "slash"
+msgstr "Bölü"
+
+#: EAPI_Speech.rb:262
+msgctxt "EAPI_Speech"
+msgid "semi"
+msgstr "Noktalı virgül"
+
+#: EAPI_Speech.rb:264
+msgctxt "EAPI_Speech"
+msgid "tick"
+msgstr "Kesme işareti"
+
+#: EAPI_Speech.rb:268
+msgctxt "EAPI_Speech"
+msgid "right bracket"
+msgstr "Kapa köşeli parantez"
+
+#: EAPI_Speech.rb:270
+msgctxt "EAPI_Speech"
+msgid "backslash"
+msgstr "Tersbölü"
+
+#: EAPI_Speech.rb:272
+msgctxt "EAPI_Speech"
+msgid "dash"
+msgstr "Eksi"
+
+#: EAPI_Speech.rb:274
+msgctxt "EAPI_Speech"
+msgid "equals"
+msgstr "Eşittir"
+
+#: EAPI_Speech.rb:276
+msgctxt "EAPI_Speech"
+msgid "graav"
+msgstr "Vurgu"
+
+#: EAPI_Speech.rb:278
+msgctxt "EAPI_Speech"
+msgid "less"
+msgstr "Küçüktür"
+
+#: EAPI_Speech.rb:280
+msgctxt "EAPI_Speech"
+msgid "greater"
+msgstr "Büyüktür"
+
+#: EAPI_Speech.rb:282
+msgctxt "EAPI_Speech"
+msgid "question"
+msgstr "Soru işareti"
+
+#: EAPI_Speech.rb:284
+msgctxt "EAPI_Speech"
+msgid "colon"
+msgstr "İkinokta"
+
+#: EAPI_Speech.rb:286
+msgctxt "EAPI_Speech"
+msgid "quote"
+msgstr "Tırnak işareti"
+
+#: EAPI_Speech.rb:288
+msgctxt "EAPI_Speech"
+msgid "left brace"
+msgstr "Aç büyük parantez"
+
+#: EAPI_Speech.rb:290
+msgctxt "EAPI_Speech"
+msgid "right brace"
+msgstr "Kapa büyük parantez"
+
+#: EAPI_Speech.rb:292
+msgctxt "EAPI_Speech"
+msgid "bar"
+msgstr "Dikçizgi"
+
+#: EAPI_Speech.rb:294
+msgctxt "EAPI_Speech"
+msgid "line"
+msgstr "Altçizgi"
+
+#: EAPI_Speech.rb:296
+msgctxt "EAPI_Speech"
+msgid "plus"
+msgstr "Artı"
+
+#: EAPI_Speech.rb:298
+msgctxt "EAPI_Speech"
+msgid "bang"
+msgstr "Ünlem işareti"
+
+#: EAPI_Speech.rb:300
+msgctxt "EAPI_Speech"
+msgid "at"
+msgstr "Et işareti"
+
+#: EAPI_Speech.rb:302
+msgctxt "EAPI_Speech"
+msgid "hash"
+msgstr "Numara işareti"
+
+#: EAPI_Speech.rb:304
+msgctxt "EAPI_Speech"
+msgid "dollar"
+msgstr "Dolar işareti"
+
+#: EAPI_Speech.rb:306
+msgctxt "EAPI_Speech"
+msgid "percent"
+msgstr "Yüzde işareti"
+
+#: EAPI_Speech.rb:308
+msgctxt "EAPI_Speech"
+msgid "caret"
+msgstr "Düzeltme işareti"
+
+#: EAPI_Speech.rb:310
+msgctxt "EAPI_Speech"
+msgid "and"
+msgstr "Ve"
+
+#: EAPI_Speech.rb:312
+msgctxt "EAPI_Speech"
+msgid "star"
+msgstr "Yıldız"
+
+#: EAPI_Speech.rb:314
+msgctxt "EAPI_Speech"
+msgid "left paren"
+msgstr "Aç parantez"
+
+#: EAPI_Speech.rb:316
+msgctxt "EAPI_Speech"
+msgid "right paren"
+msgstr "Kapa parantez"
+
+#: EAPI_Speech.rb:98
+msgctxt "EAPI_Speech"
+msgid "Space"
+msgstr "Boşluk"
+
+#: EAPI_Speech.rb:266
+msgctxt "EAPI_Speech"
+msgid "left bracket"
+msgstr "Aç köşeli parantez"
+
+#: EAPI_Form.rb:732
+msgctxt "EAPI_Form"
+msgid "Media"
+msgstr "Medya"
+
+#: EAPI_Form.rb:424
+msgctxt "EAPI_Form"
+msgid "Cut out"
+msgstr "Kesildi"
+
+#: EAPI_Form.rb:418
+msgctxt "EAPI_Form"
+msgid "copied"
+msgstr "Kopyalandı"
+
+#: EAPI_Form.rb:1257
+msgctxt "EAPI_Form"
+msgid "Checked"
+msgstr "İşaretli"
+
+#: EAPI_Form.rb:1255
+msgctxt "EAPI_Form"
+msgid "unchecked"
+msgstr "işaretsiz"
+
+#: EAPI_Form.rb:1260
+msgctxt "EAPI_Form"
+msgid "Checkbox"
+msgstr "Onay kutusu"
+
+#: EAPI_Form.rb:730
+msgctxt "EAPI_Form"
+msgid "Edit box"
+msgstr "Metin kutusu"
+
+#: EAPI_Form.rb:731
+msgctxt "EAPI_Form"
+msgid "Text"
+msgstr "Metin"
+
+#: EAPI_Form.rb:1208
+msgctxt "EAPI_Form"
+msgid "Button"
+msgstr "Düğme"
+
+#: EAPI_Form.rb:480
+msgctxt "EAPI_Form"
+msgid "Destination"
+msgstr "Konum"
+
+#: EAPI_Form.rb:428
+msgctxt "EAPI_Form"
+msgid "pasted"
+msgstr "Yapıştırıldı"
+
+#: EAPI_Form.rb:1317
+msgctxt "EAPI_Form"
+msgid "Desktop"
+msgstr "Masaüstü"
+
+#: EAPI_Form.rb:1317
+msgctxt "EAPI_Form"
+msgid "Documents"
+msgstr "Belgeler"
+
+#: EAPI_Form.rb:1317
+msgctxt "EAPI_Form"
+msgid "Music"
+msgstr "Müzik"
+
+#: EAPI_Form.rb:446
+msgctxt "EAPI_Form"
+msgid "Enter a phrase to look for"
+msgstr "Aranacak sözcük grubu girin"
+
+#: EAPI_Form.rb:435
+msgctxt "EAPI_Form"
+msgid "undone"
+msgstr "Geri alındı"
+
+#: EAPI_Form.rb:1130
+msgctxt "EAPI_Form"
+msgid "Empty list"
+msgstr "Boş liste"
+
+#: EAPI_Form.rb:453
+msgctxt "EAPI_Form"
+msgid "No match found."
+msgstr "Eşleşme bulunamadı."
+
+#: EAPI_Form.rb:442
+msgctxt "EAPI_Form"
+msgid "Repeated"
+msgstr "Tekrarlandı"
+
+#: EAPI_Form.rb:465
+msgctxt "EAPI_Form"
+msgid "Loaded"
+msgstr "Yüklendi"
+
+#: EAPI_Form.rb:480
+msgctxt "EAPI_Form"
+msgid "File name"
+msgstr "Dosya adı"
+
+#: EAPI_Form.rb:1743
+msgctxt "EAPI_Form"
+msgid "Choose a path"
+msgstr "Yol seçin"
+
+#: EAPI_Form.rb:1128
+msgctxt "EAPI_Form"
+msgid "Shortcut: "
+msgstr "Kısayol: "
+
+#: EAPI_Form.rb:246
+msgctxt "EAPI_Form"
+msgid "Opening a link..."
+msgstr "Bağlantı açılıyor..."
+
+#: EAPI_Form.rb:489
+msgctxt "EAPI_Form"
+msgid "Downloading..."
+msgstr "İndiriliyor..."
+
+#: EAPI_Form.rb:494
+msgctxt "EAPI_Form"
+msgid "Downloaded"
+msgstr "İndirildi"
+
+#: EAPI_Form.rb:1091
+msgctxt "EAPI_Form"
+msgid "Checked {info_checked}"
+msgstr "{info_checked} seçildi"
+
+#: EAPI_Form.rb:1095
+msgctxt "EAPI_Form"
+msgid "Unchecked"
+msgstr "Seçim iptal edildi"
+
+#: EAPI_Form.rb:952
+msgctxt "EAPI_Form"
+msgid "All tags"
+msgstr "Tüm etiketler"
+
+#: EAPI_Form.rb:490
+msgctxt "EAPI_Form"
+msgid "The file already exists. Do you want to override it?"
+msgstr "Dosya zaten var. Üzerine yazmak istiyor musunuz?"
+
+#: Bug.rb:10
+msgctxt "Bug"
+msgid "Reporting a bug"
+msgstr "Hata bildirme"
+
+#: Program.rb:11
+msgctxt "Program"
+msgid "The program has been closed."
+msgstr "Program kapatıldı"
+
+#: _Main.rb:104
+msgctxt "*Main"
+msgid "Your playlist has been changed. Save current changes?"
+msgstr "Oynatma listeniz değiştirildi. Değişiklikler kaydedilsin mi?"
+
+#: _Main.rb:109
+msgctxt "*Main"
+msgid "Do you want to save your playlist?"
+msgstr "Oynatma listenizi kaydetmek istiyor musunuz?"
+
+#: _Main.rb:118
+msgctxt "*Main"
+msgid "Do you want to delete the saved playlist?"
+msgstr "Kaydedilen oynatma listesini silmek istiyor musunuz?"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "A report"
+msgstr "Bildir"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "Report connections to the server"
+msgstr "Sunucuya bağlantıları bildir"
+
+#: Debug.rb:10
+msgctxt "Debug"
+msgid "OK"
+msgstr "Tamam"
+
+#: SoundThemes.rb:103
+msgctxt "Soundthemes"
+msgid "Select theme to download"
+msgstr "İndirilecek tema seçin"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Unit to test"
+msgstr "Test edilecek birim"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Session refresh"
+msgstr "Oturum yenileme"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "What's new"
+msgstr "Ne yeni"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Forum structure"
+msgstr "Forum yapısı"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Messages recipients"
+msgstr "Mesaj alıcıları"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Blogs list"
+msgstr "Bloglar"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Number of attempts to perform"
+msgstr "Test sayısı"
+
+#: SpeedTest.rb:10
+msgctxt "SpeedTest"
+msgid "Start"
+msgstr "Başla"
+
+#: SpeedTest.rb:47
+msgctxt "SpeedTest"
+msgid "Test results"
+msgstr "Test sonuçları"
+
+#: SpeedTest.rb:39
+msgctxt "SpeedTest"
+msgid "Average time"
+msgstr "Ortalama süre"
+
+#: SpeedTest.rb:40
+msgctxt "SpeedTest"
+msgid "Minimum time"
+msgstr "Minimum süre"
+
+#: SpeedTest.rb:41
+msgctxt "SpeedTest"
+msgid "Maximum time"
+msgstr "Maksimum süre"
+
+#: SpeedTest.rb:31
+msgctxt "SpeedTest"
+msgid "Performing test, please wait"
+msgstr "Test yapılıyor, lütfen bekleyin"
+
+#: SoundCard.rb:14
+msgctxt "SoundCard"
+msgid "Sound Device"
+msgstr "Ses cihazı"
+
+#: SoundCard.rb:13
+msgctxt "SoundCard"
+msgid "Use Default"
+msgstr "Varsayılanı kullan"
+
+#: SoundCard.rb:14
+msgctxt "SoundCard"
+msgid "Output device"
+msgstr "Çıkış cihazı"
+
+#: SoundCard.rb:14
+msgctxt "SoundCard"
+msgid "Input device"
+msgstr "Giriş cihazı"
+
+msgctxt "VoIP"
+msgid "%{username} is calling"
+msgstr "%{username} arıyor"
+
+msgctxt "VoIP"
+msgid "Answer"
+msgstr "Cevapla"
+
+msgctxt "VoIP"
+msgid "Reject"
+msgstr "Reddet"
+
+msgctxt "VoIP"
+msgid "New call"
+msgstr "Yeni çağrı"
+
+msgctxt "VoIP"
+msgid "Call history"
+msgstr "Çağrı geçmişi"
+
+msgctxt "VoIP"
+msgid "Type user to call"
+msgstr "Çağrı yapılacak kullanıcı yazın"
+
+msgctxt "VoIP"
+msgid "Audio Quality"
+msgstr "Ses kalitesi"
+
+msgctxt "VoIP"
+msgid "Call"
+msgstr "Çağrı"
+
+msgctxt "VoIP"
+msgid "Settings"
+msgstr "Ayarlar"
+
+msgctxt "VoIP"
+msgid "End the call"
+msgstr "Çağrıyı bitir"
+
+msgctxt "VoIP"
+msgid "Call refused"
+msgstr "Çağrı reddedildi"
+
+msgctxt "VoIP"
+msgid "Call with %{username}"
+msgstr "%{username} ile çağrı"
+
+msgctxt "VoIP"
+msgid "Calling %{username}"
+msgstr "%{username} aranıyor"
+
+msgctxt "VoIP"
+msgid "Details"
+msgstr "Ayrıntılar"
+
+msgctxt "VoIP"
+msgid "Encryption status"
+msgstr "Şifreleme durumu"
+
+msgctxt "VoIP"
+msgid "Encrypted with %{algorithm}"
+msgstr "%{algorithm} algoritmasyıla şifrelendi"
+
+msgctxt "VoIP"
+msgid "Call duration"
+msgstr "Çağrı süresi"
+
+msgctxt "VoIP"
+msgid "Audio quality"
+msgstr "Ses kalitesi"
+
+msgctxt "VoIP"
+msgid "Packets lost"
+msgstr "Kaybedilen paketler"
+
+msgctxt "VoIP"
+msgid "Packets received"
+msgstr "Alınan paketler"
+
+msgctxt "Sounds"
+msgid "Alarm Sound"
+msgstr "Alarm sesi"
+
+msgctxt "Sounds"
+msgid "Background of dialog windows"
+msgstr "İletişim pencerelerinin arkaplanı"
+
+msgctxt "Sounds"
+msgid "A piece of text in an editbox is checked"
+msgstr "Metin kutusunda metnin bir kısmı seçildi"
+
+msgctxt "Sounds"
+msgid "Menu Background"
+msgstr "Menü arkaplanı"
+
+msgctxt "Sounds"
+msgid "Waiting for an action to be completed"
+msgstr "Bir eylemin tamamlanması bekleniyor"
+
+msgctxt "Sounds"
+msgid "Border of a listbox"
+msgstr "Liste kutusunun sınırı"
+
+msgctxt "Sounds"
+msgid "Marker of a button in a form"
+msgstr "Formda düğme işaretçisi"
+
+msgctxt "Sounds"
+msgid "New chat message"
+msgstr "Yeni sohbet mesajı"
+
+msgctxt "Sounds"
+msgid "Marker of a checkbox in a form"
+msgstr "Formda onay kutusu işaretçisi"
+
+msgctxt "Sounds"
+msgid "Clock sound"
+msgstr "Saat seçi"
+
+msgctxt "Sounds"
+msgid "Dialog window closed"
+msgstr "İletişim penceresi kapandı"
+
+msgctxt "Sounds"
+msgid "Dialog window opened"
+msgstr "İletişim penceresi açıldı"
+
+msgctxt "Sounds"
+msgid "Capitalized letter in an editbox"
+msgstr "Metin kutusunda büyük harf"
+
+msgctxt "Sounds"
+msgid "Delete of a text in an editbox"
+msgstr "Metin kutusunda metin silme"
+
+msgctxt "Sounds"
+msgid "End of line in an editbox"
+msgstr "Metin kutusunda satır sonu"
+
+msgctxt "Sounds"
+msgid "Marker of an editbox in a form"
+msgstr "Formda metin kutusu işaretçisi"
+
+msgctxt "Sounds"
+msgid "Password character in an editbox"
+msgstr "Metin kutusunda şifre karakteri"
+
+msgctxt "Sounds"
+msgid "Space in an editbox"
+msgstr "Metin kutusunda boşluk"
+
+msgctxt "Sounds"
+msgid "Compressed file on a files tree"
+msgstr "Dosyalar ağacında sıkıştırılmış dosya"
+
+msgctxt "Sounds"
+msgid "Audio file on a files tree"
+msgstr "Dosyalar ağacında ses dosyası"
+
+msgctxt "Sounds"
+msgid "Directory on a files tree"
+msgstr "Dosyalar ağacında klasör"
+
+msgctxt "Sounds"
+msgid "Document on a files tree"
+msgstr "Dosyalar ağacında belge"
+
+msgctxt "Sounds"
+msgid "Text file on a files tree"
+msgstr "Dosyalar ağacında metin dosyası"
+
+msgctxt "Sounds"
+msgid "Marker of a form"
+msgstr "Form işaretçisi"
+
+msgctxt "Sounds"
+msgid "Item with attachment on a listbox"
+msgstr "Liste kutusunda ekli öğe"
+
+msgctxt "Sounds"
+msgid "Checked item on a listbox"
+msgstr "Liste kutusunda işaretli öğe"
+
+msgctxt "Sounds"
+msgid "Closed item (ie. thread) on a listbox"
+msgstr "Liste kutusunda kapalı öğe (örneğin konu)"
+
+msgctxt "Sounds"
+msgid "Focus move on a listbox"
+msgstr "Liste kutusunda odak hareketi"
+
+msgctxt "Sounds"
+msgid "New or updated item (IE. new message, thread) on a listbox"
+msgstr "Liste kutusunda yeni veya güncellenen öğe (örneğin yeni mesaj, konu)"
+
+msgctxt "Sounds"
+msgid "Pinned item (IE. thread) on a listbox"
+msgstr "Liste kutusunda sabit öğe (örneğin konu)"
+
+msgctxt "Sounds"
+msgid "Item selected"
+msgstr "Öğe seçildi"
+
+msgctxt "Sounds"
+msgid "Unchecked item on a listbox"
+msgstr "Liste kutusunda işaretsiz öğe"
+
+msgctxt "Sounds"
+msgid "User signed in or Elten window focused"
+msgstr "Kullanıcı oturum açtı veya Elten penceresine odaklanıldı"
+
+msgctxt "Sounds"
+msgid "User signed out or Elten closed"
+msgstr "Kullanıcı oturumu kapattı veya Elten kapandı"
+
+msgctxt "Sounds"
+msgid "Menu closed"
+msgstr "Menü kapandı"
+
+msgctxt "Sounds"
+msgid "Menu opened"
+msgstr "Menü açıldı"
+
+msgctxt "Sounds"
+msgid "Messages window updated"
+msgstr "Mesajlar penceresi güncellendi"
+
+msgctxt "Sounds"
+msgid "Elten minimized into tray"
+msgstr "Elten sistem tepsisine küçültüldü"
+
+msgctxt "Sounds"
+msgid "New event"
+msgstr "Yeni olay"
+
+msgctxt "Sounds"
+msgid "Notification: birthday of a friend"
+msgstr "Bildirim: Arkadaşın doğum günü"
+
+msgctxt "Sounds"
+msgid "Notification: new comment on your blog"
+msgstr "Bildirim: Bloğunuza yeni yorum"
+
+msgctxt "Sounds"
+msgid "Notification: new post on a followed blog"
+msgstr "Bildirim: Takip edilen blogda yeni mesaj "
+
+msgctxt "Sounds"
+msgid "Notification: new thread on a followed forum"
+msgstr "Bildirim: Takip edilen forumda yeni konu"
+
+msgctxt "Sounds"
+msgid "Notification: new post on a followed forum"
+msgstr "Bildirim: takip edilen forumda yeni gönderi"
+
+msgctxt "Sounds"
+msgid "Notification: new post in a followed thread"
+msgstr "Bildirim: Takip edilen konuda yeni gönderi"
+
+msgctxt "Sounds"
+msgid "Notification: new friend"
+msgstr "Bildirim: Yeni arkadaş"
+
+msgctxt "Sounds"
+msgid "Notification: new mention"
+msgstr "Bildirim: Yeni bahsetme"
+
+msgctxt "Sounds"
+msgid "Notification: new message"
+msgstr "Bildirim: Yeni mesaj"
+
+msgctxt "Sounds"
+msgid "Recording started"
+msgstr "Kayıt başladı"
+
+msgctxt "Sounds"
+msgid "Recording stopped"
+msgstr "Kayıt bitti"
+
+msgctxt "Sounds"
+msgid "Error"
+msgstr "Hata"
+
+msgctxt "Sounds"
+msgid "Signal"
+msgstr "Sinyal"
+
+#: Sounds.rb:96
+msgctxt "Sounds"
+msgid "Sounds guide, press space to play"
+msgstr "Ses rehberi, oynatmak için boşluğa basın"
+
+#: Sounds.rb:54
+msgctxt "Sounds"
+msgid "Play"
+msgstr "Oynat"
+
+#: Sounds.rb:18
+msgctxt "Sounds"
+msgid "Type name of the soundtheme"
+msgstr "Ses temasının adını yazın"
+
+#: Sounds.rb:57
+msgctxt "Sounds"
+msgid "Save"
+msgstr "Kaydet"
+
+#: Sounds.rb:56
+msgctxt "Sounds"
+msgid "Change"
+msgstr "Değiştir"
+
+msgctxt "Sounds"
+msgid "Select file to use"
+msgstr "Kullanacak dosya seçin"
+
+#: Sounds.rb:105
+msgctxt "Sounds"
+msgid "Do you want to save this soundtheme?"
+msgstr "Bu ses temasını kaydetmek istiyor musunuz?"
+
+#: Sounds.rb:92
+msgctxt "Sounds"
+msgid "Export"
+msgstr "Dışa aktar"
+
+#: Sounds.rb:52
+msgctxt "Sounds"
+msgid "Editing Sound Theme %{theme}"
+msgstr "%{theme} ses teması düzenleniyor"
+
+#: Sounds.rb:96
+msgctxt "Sounds"
+msgid "Where to save this soundtheme?"
+msgstr "Bu ses teması nereye kaydedilsin?"
+
+#: Sounds.rb:54
+msgctxt "Sounds"
+msgid "Stop"
+msgstr "Dur"
+
+msgctxt "Log"
+msgid "Log level"
+msgstr "Günlük seviyesi"
+
+msgctxt "Log"
+msgid "Show event level"
+msgstr "Olay seviyesini göster"
+
+msgctxt "Log"
+msgid "Log"
+msgstr "Günlük"
+
+msgctxt "Log"
+msgid "Close"
+msgstr "Kapat"

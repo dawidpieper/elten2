@@ -16,6 +16,7 @@ mquery("DELETE FROM `forum_posts` WHERE `thread`=" . (int)$_GET['threadid']);
 mquery("UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".mysql_real_escape_string($_GET['forumname'])."'");
 mquery("DELETE FROM `followedthreads` WHERE `thread`=" . (int)$_GET['threadid']);
 mquery("DELETE FROM forum_read WHERE `thread`=" . (int)$_GET['threadid']);
+mquery("DELETE FROM forum_bookmarks WHERE `thread`=" . (int)$_GET['threadid']);
 }
 if($_GET['delete'] == 2) {
 $gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$_GET['threadid']."))"));

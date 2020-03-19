@@ -34,7 +34,7 @@ $ret['threads']=array();
 $threadids=array();
 $q=mquery("select id, name, forum, pinned, closed from forum_threads order by lastpostdate desc");
 while($r=mysql_fetch_row($q)) {
-$t=array('id'=>(int)$r[0], 'name'=>$r[1], 'author'=>null, 'forumid'=>$r[2], 'followed'=>0, 'cnt_posts'=>0, 'cnt_readposts'=>0, 'pinned'=>$r[3], 'closed'=>$r[4]);
+$t=array('id'=>(int)$r[0], 'name'=>$r[1], 'author'=>null, 'forumid'=>$r[2], 'followed'=>0, 'cnt_posts'=>0, 'cnt_readposts'=>0, 'pinned'=>$r[3], 'closed'=>$r[4], 'marked'=>0);
 $t['type']=$ret['forums'][$t['forumid']]['type'];
 $threads[$r[0]]=$t;
 if(in_array($r[2],$forumids)) {
@@ -65,6 +65,10 @@ $q=mquery("select thread from followedthreads where owner='".mysql_real_escape_s
 while($r=mysql_fetch_row($q))
 if(in_array($r[0],$threadids))
 $ret['threads'][$r[0]]['followed']=1;
+$q=mquery("select thread from forum_threads_marked where user='".mysql_real_escape_string($_GET['name'])."' and thread in (".implode(",",$threadids).")");
+while($r=mysql_fetch_row($q))
+if(in_array($r[0],$threadids))
+$ret['threads'][$r[0]]['marked']=1;
 $q=mquery("select forum from followedforums where owner='".mysql_real_escape_string($_GET['name'])."' and forum in ('".implode("','",$forumids)."')");
 while($r=mysql_fetch_row($q))
 if(in_array($r[0],$forumids))
