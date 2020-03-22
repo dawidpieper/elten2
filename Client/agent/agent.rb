@@ -20,6 +20,8 @@ def initialize(alert=nil,sound=nil, id="nocat".rand(10**16).to_s)
 end
 end
 
+$sigids=[]
+
 module Notifications
 class <<self
 def notifications
@@ -65,6 +67,7 @@ IO.write($eltendata+"\\appid.dat",$appid)
 else
 $appid=IO.read($eltendata+"\\appid.dat")
 end
+$version=readini("./elten.ini","Elten","Version","").to_f
 if $*.include?("/autostart")
 $name=readconfig("Login","Name","")
 token=readconfig("Login","Token","")
@@ -74,7 +77,7 @@ if tokenenc==2
 $messagebox.call(0,"Cannot start Elten automatically, because the autologin token is protected with a pin code","Elten autostart failed",16)
 exit
 end
-erequest("login","login=1\&name=#{$name}\&token=#{token}\&version=#{readini("elten.ini","Elten","Version","")}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}\&crp=#{Base64.urlsafe_encode64(cryptmessage(JSON.generate({'name'=>$name,'time'=>Time.now.to_i})))}") {|ans|
+erequest("login","login=1\&name=#{$name}\&token=#{token}\&version={$version}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}\&crp=#{Base64.urlsafe_encode64(cryptmessage(JSON.generate({'name'=>$name,'time'=>Time.now.to_i})))}") {|ans|
 if ans!=nil
 d=ans.split("\r\n")
 if d[0].to_i==0
@@ -107,8 +110,8 @@ exit if $*.include?("/autostart") and $findwindow.call("RGSS PLAYER","ELTEN")!=0
 if $hwnd
 exit if !$iswindow.call($hwnd)
 if ($phwnd=$getforegroundwindow.call)!=$hwnd and $getparent.call($phwnd)!=$hwnd
+log(0, "Elten window minimized") if $shown==true
 $shown=false
-log(0, "Elten window minimized")
 if $hidewindow == 1
 if $tray != true and FileTest.exists?("bin/elten_tray.bin")
 play("minimize")
@@ -130,7 +133,7 @@ while STDIN.ready? and ($istream==nil||$istream.eof?)
 data=Marshal.load(STDIN)
 if data['func']=='srvproc'
 data['reqtime']=Time.now.to_f
-erequest(data['mod'],data['param'],data) {|resp,d|
+erequest(data['mod'],data['param'],data['post'],data['headers'],data) {|resp,d|
 if resp==:error
 log(2,"Request error: #{d['func']}")
 d['resptime']=Time.now.to_f
@@ -186,7 +189,7 @@ pr+="\&shown=1" if $shown==true
 pr+="\&chat=1" if $chat==true
 pr+="\&upd=1" if ($updlasttime||0)<Time.now.to_i-60
 begin
-erequest("wn_agent",pr, nil, true) {|ans|
+erequest("wn_agent",pr, nil,nil,nil, true) {|ans|
 if ans!=nil
 begin
 rsp=JSON.load(Zlib.inflate(ans))
@@ -197,6 +200,15 @@ if $ag_msg<(rsp['msg'].to_i||0)
 $ag_msg=rsp['msg'].to_i
 STDOUT.binmode.write((Marshal.dump({'func'=>'msg','msgs'=>$ag_msg})))
 STDOUT.flush
+end
+if rsp['signals'].is_a?(Array)
+for sig in rsp['signals']
+if !$sigids.include?(sig['id'])
+STDOUT.binmode.write((Marshal.dump({'func'=>'sig','appid'=>sig['appid'],'time'=>sig['time'],'packet'=>sig['packet'],'sender'=>sig['sender'], 'id'=>sig['id']})))
+STDOUT.flush
+$sigids.push(sig['id'])
+end
+end
 end
 begin
 if rsp['upd'].is_a?(Hash)

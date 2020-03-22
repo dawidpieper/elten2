@@ -365,7 +365,6 @@ createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
       buf=""
       @@peeknamedpipe||=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
       @@peeknamedpipe.call(@stdout_rd.unpack("I").first,buf,0,dread,dtotal,dleft)
-    
       return dtotal.unpack("I").first
       end
           def read(size=nil)

@@ -8,6 +8,7 @@ class Scene_Sounds
     end
   def main
 @soundnames={
+'SE/cancel' => p_("Sounds", "Operation cancelled"),
 'BGS/dialog_background' => p_("Sounds", "Background of dialog windows"),
 'SE/dialog_open' => p_("Sounds", "Dialog window opened"),
 'SE/dialog_close' => p_("Sounds", "Dialog window closed"),

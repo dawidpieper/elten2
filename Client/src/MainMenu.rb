@@ -219,6 +219,7 @@ if autologin.to_i>0
   end
                         play("logout")
             $restart=true
+            $scene=Scene_Loading.new
     }
     m.option(p_("MainMenu", "E&xit")) {
     $scene=nil

@@ -2230,7 +2230,6 @@ refresh
               groups[group.id] = group.name
             end
             forums = {}
-            forum @sgroups = {}
             selt = []
             mthreads = []
             curr = 0

@@ -62,6 +62,7 @@ post=txt
         break
       end
       if escape and w
+        play("cancel")
         Log.debug("Server request to module #{mod} cancelled by user")
         waiting_end
                 case output

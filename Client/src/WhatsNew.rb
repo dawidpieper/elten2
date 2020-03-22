@@ -44,7 +44,7 @@ else
         elsif $isbeta==2
           nv=$version.to_s+" RC "+$nalpha.to_s
           end
-        @sel = Select.new(["#{p_("WhatsNew", "New messages")} (#{messages.to_s})","#{p_("WhatsNew", "New posts in followed threads")} (#{posts.to_s})","#{p_("WhatsNew", "New posts on the followed blogs")} (#{blogposts.to_s})","#{p_("WhatsNew", "New comments on your blog")} (#{blogcomments.to_s})","#{p_("WhatsNew", "New threads on followed forums")} (#{forums.to_s})","#{p_("WhatsNew", "New threads on followed forums")} (#{forumsposts.to_s})","#{p_("WhatsNew", "New friends")} (#{friends.to_s})","#{p_("WhatsNew", "Friends' birthday")} (#{birthday.to_s})","#{p_("WhatsNew", "Mentions")} (#{mentions.to_s})",p_("WhatsNew", "Update available (%{version})")%{'version'=>"Elten #{nv}"}],true,0,header,true)
+        @sel = Select.new(["#{p_("WhatsNew", "New messages")} (#{messages.to_s})","#{p_("WhatsNew", "New posts in followed threads")} (#{posts.to_s})","#{p_("WhatsNew", "New posts on the followed blogs")} (#{blogposts.to_s})","#{p_("WhatsNew", "New comments on your blog")} (#{blogcomments.to_s})","#{p_("WhatsNew", "New threads on followed forums")} (#{forums.to_s})","#{p_("WhatsNew", "New posts on followed forums")} (#{forumsposts.to_s})","#{p_("WhatsNew", "New friends")} (#{friends.to_s})","#{p_("WhatsNew", "Friends' birthday")} (#{birthday.to_s})","#{p_("WhatsNew", "Mentions")} (#{mentions.to_s})",p_("WhatsNew", "Update available (%{version})")%{'version'=>"Elten #{nv}"}],true,0,header,true)
     @sel.disable_item(0) if messages <= 0
     @sel.disable_item(1) if posts <= 0
     @sel.disable_item(2) if blogposts <= 0

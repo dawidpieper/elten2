@@ -130,7 +130,7 @@ end
 
 class Scene_Polls_Create
   def main
-  @fields=[Edit.new(p_("Polls", "Poll name"),"","",true),Edit.new(p_("Polls", "Description"),"MULTILINE","",true),Select.new([p_("Polls", "New question")],true,0,p_("Polls", "Questions"),true),Button.new(p_("Polls", "Create")),Button.new(_("Cancel"))]
+  @fields=[Edit.new(p_("Polls", "Poll name"),"","",true),Edit.new(p_("Polls", "Description"),"MULTILINE","",true),Select.new([p_("Polls", "New question")],true,0,p_("Polls", "Questions"),true),CheckBox.new(p_("Polls", "Hide this poll")),Button.new(p_("Polls", "Create")),Button.new(_("Cancel"))]
   @form=Form.new(@fields)
   @questions=[]
   loop do
@@ -148,7 +148,7 @@ loop_update
                    return
       break
     end
-   if enter
+   if enter or (space and @form.index>3)
      loop_update
      case @form.index
      when 2
@@ -207,7 +207,7 @@ qu=[]
   end
   @fields[2].commandoptions = qu+[p_("Polls", "New question")]
   @fields[2].focus
-           when 3
+           when 4
 qus="["
 for q in @questions
   qus+="["
@@ -226,7 +226,7 @@ for q in @questions
   qus.gsub!("\r\n","  ")
 dbuffer=buffer(@fields[1].text_str)
 qbuffer=buffer(qus)
-pl=srvproc("polls",{"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text_str})
+pl=srvproc("polls",{"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text_str, "hide"=>@fields[3].checked.to_i})
 if pl[0].to_i<0
   alert(_("Error"))
 else
@@ -235,7 +235,7 @@ else
   return
   break
   end
-       when 4
+       when 5
            $scene=Scene_Polls.new
            return
            break
