@@ -16,6 +16,7 @@ module EltenAPI
 # EltenAPI functions
 
   def unicode(str)
+    return nil if str==nil
     str=str+"" if str.frozen?
     buf="\0"*Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)*2
     $multibytetowidechar||=Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i')
@@ -24,6 +25,7 @@ return buf<<0
 end
   
   def deunicode(str,nulled=false)
+    return nil if str==nil
                     str.chop! if str[-1..-1]=="\0" and (str.bytesize.to_i/2!=str.bytesize.to_f/2.0)
         str<<"\0\0" if nulled and str[-2..-1]!="\0\0"
     sz=str.bytesize/2
@@ -173,7 +175,10 @@ else
 end
 
 def readconfig(group, key, val="")
-  r=readini($eltendata+"\\elten.ini", group, key, val.to_s)
+  r=readini($eltendata+"\\elten.ini", group, key, val)
+  if r==val.to_s
+    writeconfig(group, key, val)
+    end
   return r.to_i if val.is_a?(Integer)
   return r
 end
@@ -387,4 +392,79 @@ writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
       end
 
     end
+    
+    def load_configuration
+        Log.info("Loading configuration")
+        lang=$language
+  $interface_listtype = readconfig("Interface", "ListType", 0)
+  $interface_soundcard = readconfig("SoundCard", "SoundCard", "")
+  $interface_microphone = readconfig("SoundCard", "Microphone", "")
+$advanced_keyms = readconfig("Advanced", "KeyUpdateTime", 75)
+$advanced_ackeyms = $advanced_keyms * 3
+$interface_soundthemeactivation = readconfig("Interface", "SoundThemeActivation", 1)
+$interface_typingecho = readconfig("Interface", "TypingEcho", 0)
+$interface_linewrapping = readconfig("Interface", "LineWrapping", 1)
+$interface_hidewindow = readconfig("Interface", "HideWindow", 0)
+$advanced_refreshtime = readconfig("Advanced", "AgentRefreshTime", 1)
+$advanced_synctime = readconfig("Advanced", "SyncTime", 1)
+c_autostart=readconfig("System", "AutoStart", 0)
+autostart=false
+runkey=Win32::Registry::HKEY_CURRENT_USER.create("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
+begin
+  runkey['elten']
+autostart=true
+  rescue Exception
+  autostart=false
+end
+if autostart.to_i!=c_autostart
+  if c_autostart==1
+      path="\0"*1025
+Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,path,path.size)
+path.delete!("\0")
+dr="\""+File.dirname(path)+"\\bin\\rubyw.exe\" \""+File.dirname(path)+"\\bin\\agent.dat\" /autostart"
+runkey['elten']=dr
+else
+  runkey.delete("elten")
+    end
+  end
+  runkey.close
+$voice = readconfig("Voice","Voice",-2)
+if $rvc==nil
+      if (/\/voice (-?)(\d+)/=~$commandline) != nil
+        $rvc=$1+$2
+        $voice=$rvc.to_i
+            end    
+
+          end
+          $language = readconfig("Interface", "Language", "")
+          if $language.include?("_")
+            $language.gsub!("_","-")
+            writeconfig("Interface", "Language", "", $language)
+            end
+      Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
+$rate = readconfig("Voice","Rate",50)
+        if $rvcr==nil
+      if (/\/voicerate (\d+)/=~$commandline) != nil
+        $rvcr=$1
+        $rate=$rvcr.to_i
+            end    
+    end
+                  Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
+                      $sapivolume = readconfig("Voice","Volume",100)
+    if $rvcv==nil
+      if (/\/voicevolume (\d+)/=~$commandline) != nil
+        $rvcv=$1
+        $sapivolume=$rvcv.to_i
+            end    
+    end
+    Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
+          $soundthemespath = readconfig("Interface","SoundTheme","")
+            if $soundthemespath.size > 0
+    $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
+  else
+    $soundthemepath = "Audio"
+    end
+                          $volume = readconfig("Interface", "MainVolume", 50)
+                          setlocale($language) if lang!=$language
+      end
     end

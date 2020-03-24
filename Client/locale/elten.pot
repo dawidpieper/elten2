@@ -1,3 +1,4 @@
+# SOME DESCRIPTIVE TITLE.
 # Copyright (C) 2020 "Dawid Pieper"
 # This file is distributed under the same license as the Elten package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
@@ -7,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2020-03-19 23:44+0100\n"
-"PO-Revision-Date: 2020-03-19 23:44+0100\n"
+"POT-Creation-Date: 2020-03-24 22:57+0100\n"
+"PO-Revision-Date: 2020-03-24 22:57+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -89,15 +90,24 @@ msgctxt "Account"
 msgid "Error, you must disable mail events reporting first."
 msgstr ""
 
-#: ../src/Account.rb:115 ../src/Account.rb:250 ../src/Account.rb:375
-#: ../src/Account.rb:431 ../src/Account.rb:481 ../src/Advanced.rb:11
-#: ../src/Blog.rb:718 ../src/Blog.rb:1178 ../src/Clock.rb:11 ../src/Clock.rb:39
-#: ../src/EAPI_Controls.rb:579 ../src/Files.rb:420 ../src/Files.rb:506
-#: ../src/Forum.rb:554 ../src/Forum.rb:937 ../src/Forum.rb:2202
-#: ../src/General.rb:15 ../src/Honors.rb:188 ../src/Honors.rb:223
-#: ../src/Notes.rb:117 ../src/Notes.rb:133 ../src/Polls.rb:158
-#: ../src/SoundCard.rb:11
-msgid "Save"
+#: ../src/Account.rb:115 ../src/Account.rb:251 ../src/Account.rb:375
+#: ../src/Account.rb:431 ../src/Account.rb:481 ../src/Ban.rb:24
+#: ../src/Ban.rb:106 ../src/Blog.rb:493 ../src/Blog.rb:506 ../src/Blog.rb:718
+#: ../src/Blog.rb:750 ../src/Blog.rb:1178 ../src/Blog.rb:1278
+#: ../src/Clock.rb:10 ../src/Clock.rb:63 ../src/EAPI_Common.rb:14
+#: ../src/EAPI_Common.rb:913 ../src/EAPI_Controls.rb:596
+#: ../src/EAPI_External.rb:94 ../src/EAPI_External.rb:212
+#: ../src/EAPI_External.rb:220 ../src/EAPI_UI.rb:521 ../src/Files.rb:174
+#: ../src/Files.rb:205 ../src/Files.rb:410 ../src/Files.rb:455
+#: ../src/Files.rb:498 ../src/Files.rb:506 ../src/Files.rb:525
+#: ../src/Forum.rb:544 ../src/Forum.rb:706 ../src/Forum.rb:775
+#: ../src/Forum.rb:932 ../src/Forum.rb:1002 ../src/Forum.rb:1403
+#: ../src/Forum.rb:2112 ../src/Forum.rb:2202 ../src/Honors.rb:188
+#: ../src/Honors.rb:224 ../src/Honors.rb:305 ../src/Messages.rb:187
+#: ../src/Messages.rb:628 ../src/Notes.rb:113 ../src/Notes.rb:229
+#: ../src/Polls.rb:133 ../src/Polls.rb:158 ../src/Polls.rb:289
+#: ../src/Portable.rb:7 ../src/Settings.rb:95 ../src/SpeedTest.rb:7
+msgid "Cancel"
 msgstr ""
 
 #: ../src/Account.rb:115 ../src/Account.rb:230
@@ -105,36 +115,23 @@ msgctxt "Account"
 msgid "Your visiting card:"
 msgstr ""
 
-#: ../src/Account.rb:115 ../src/Account.rb:251 ../src/Account.rb:375
-#: ../src/Account.rb:431 ../src/Account.rb:481 ../src/Advanced.rb:12
-#: ../src/Ban.rb:24 ../src/Ban.rb:106 ../src/Blog.rb:493 ../src/Blog.rb:506
-#: ../src/Blog.rb:718 ../src/Blog.rb:750 ../src/Blog.rb:1178
-#: ../src/Blog.rb:1278 ../src/Clock.rb:12 ../src/Clock.rb:39
-#: ../src/EAPI_Common.rb:14 ../src/EAPI_Common.rb:913
-#: ../src/EAPI_Controls.rb:579 ../src/EAPI_External.rb:94
-#: ../src/EAPI_External.rb:212 ../src/EAPI_External.rb:220
-#: ../src/EAPI_UI.rb:510 ../src/Files.rb:174 ../src/Files.rb:205
-#: ../src/Files.rb:410 ../src/Files.rb:455 ../src/Files.rb:498
-#: ../src/Files.rb:506 ../src/Files.rb:525 ../src/Forum.rb:544
-#: ../src/Forum.rb:706 ../src/Forum.rb:775 ../src/Forum.rb:932
-#: ../src/Forum.rb:1002 ../src/Forum.rb:1403 ../src/Forum.rb:2112
-#: ../src/Forum.rb:2202 ../src/General.rb:16 ../src/Honors.rb:188
-#: ../src/Honors.rb:224 ../src/Honors.rb:305 ../src/Messages.rb:187
-#: ../src/Messages.rb:628 ../src/Notes.rb:113 ../src/Notes.rb:229
-#: ../src/Polls.rb:133 ../src/Polls.rb:158 ../src/Polls.rb:289
-#: ../src/Portable.rb:7 ../src/SoundCard.rb:11 ../src/SpeedTest.rb:7
-msgid "Cancel"
+#: ../src/Account.rb:115 ../src/Account.rb:250 ../src/Account.rb:375
+#: ../src/Account.rb:431 ../src/Account.rb:481 ../src/Blog.rb:718
+#: ../src/Blog.rb:1178 ../src/Clock.rb:9 ../src/Clock.rb:63
+#: ../src/EAPI_Controls.rb:596 ../src/Files.rb:420 ../src/Files.rb:506
+#: ../src/Forum.rb:554 ../src/Forum.rb:937 ../src/Forum.rb:2202
+#: ../src/Honors.rb:188 ../src/Honors.rb:223 ../src/Notes.rb:117
+#: ../src/Notes.rb:133 ../src/Polls.rb:158 ../src/Settings.rb:94
+msgid "Save"
 msgstr ""
 
 #: ../src/Account.rb:139 ../src/Account.rb:346 ../src/Account.rb:399
-#: ../src/Account.rb:455 ../src/Account.rb:496 ../src/Advanced.rb:30
-#: ../src/Blog.rb:812 ../src/Clock.rb:77 ../src/EAPI_Controls.rb:568
-#: ../src/EAPI_Controls.rb:1995 ../src/EAPI_External.rb:246
-#: ../src/EAPI_External.rb:263 ../src/Files.rb:424 ../src/Files.rb:513
-#: ../src/Forum.rb:569 ../src/Forum.rb:951 ../src/Forum.rb:970
-#: ../src/Forum.rb:1816 ../src/General.rb:87 ../src/Honors.rb:214
-#: ../src/Languages.rb:41 ../src/SoundCard.rb:28 ../src/SoundThemes.rb:86
-#: ../src/SoundThemes.rb:126 ../src/Voice.rb:138 ../src/Voice.rb:174
+#: ../src/Account.rb:455 ../src/Account.rb:496 ../src/Blog.rb:812
+#: ../src/Clock.rb:36 ../src/EAPI_Controls.rb:585 ../src/EAPI_Controls.rb:2023
+#: ../src/EAPI_External.rb:246 ../src/EAPI_External.rb:263 ../src/Files.rb:424
+#: ../src/Files.rb:513 ../src/Forum.rb:569 ../src/Forum.rb:951
+#: ../src/Forum.rb:970 ../src/Forum.rb:1816 ../src/Honors.rb:214
+#: ../src/Settings.rb:237 ../src/SoundThemes.rb:86 ../src/SoundThemes.rb:129
 msgid "Saved"
 msgstr ""
 
@@ -164,11 +161,11 @@ msgstr ""
 #: ../src/Blog.rb:1196 ../src/Blog.rb:1223 ../src/Blog.rb:1267
 #: ../src/Blog.rb:1285 ../src/Chat.rb:25 ../src/Chat.rb:35 ../src/Chat.rb:48
 #: ../src/Chat.rb:57 ../src/Chat.rb:86 ../src/Chat.rb:95 ../src/Chat.rb:111
-#: ../src/Chat.rb:123 ../src/EAPI_Common.rb:355 ../src/EAPI_EltenSRV.rb:194
-#: ../src/EAPI_EltenSRV.rb:203 ../src/EAPI_EltenSRV.rb:221
-#: ../src/EAPI_EltenSRV.rb:286 ../src/EAPI_EltenSRV.rb:313
-#: ../src/EAPI_EltenSRV.rb:348 ../src/EAPI_EltenSRV.rb:363
-#: ../src/EAPI_EltenSRV.rb:386 ../src/EAPI_External.rb:241
+#: ../src/Chat.rb:123 ../src/EAPI_Common.rb:355 ../src/EAPI_EltenSRV.rb:195
+#: ../src/EAPI_EltenSRV.rb:204 ../src/EAPI_EltenSRV.rb:222
+#: ../src/EAPI_EltenSRV.rb:287 ../src/EAPI_EltenSRV.rb:314
+#: ../src/EAPI_EltenSRV.rb:349 ../src/EAPI_EltenSRV.rb:364
+#: ../src/EAPI_EltenSRV.rb:387 ../src/EAPI_External.rb:241
 #: ../src/EAPI_External.rb:313 ../src/ForgotPassword.rb:22 ../src/Forum.rb:518
 #: ../src/Forum.rb:535 ../src/Forum.rb:567 ../src/Forum.rb:583
 #: ../src/Forum.rb:607 ../src/Forum.rb:675 ../src/Forum.rb:722
@@ -182,10 +179,10 @@ msgstr ""
 #: ../src/Forum.rb:1737 ../src/Forum.rb:1957 ../src/Forum.rb:1994
 #: ../src/Forum.rb:2010 ../src/Forum.rb:2102 ../src/Forum.rb:2124
 #: ../src/Forum.rb:2183 ../src/Forum.rb:2190 ../src/Forum.rb:2209
-#: ../src/Forum.rb:2247 ../src/Forum.rb:2264 ../src/Forum.rb:2287
-#: ../src/Forum.rb:2363 ../src/Forum.rb:2375 ../src/Honors.rb:18
+#: ../src/Forum.rb:2246 ../src/Forum.rb:2263 ../src/Forum.rb:2286
+#: ../src/Forum.rb:2362 ../src/Forum.rb:2374 ../src/Honors.rb:18
 #: ../src/Honors.rb:136 ../src/Honors.rb:150 ../src/Honors.rb:167
-#: ../src/Honors.rb:212 ../src/Honors.rb:317 ../src/Loading.rb:325
+#: ../src/Honors.rb:212 ../src/Honors.rb:317 ../src/Loading.rb:283
 #: ../src/Messages.rb:83 ../src/Messages.rb:159 ../src/Messages.rb:221
 #: ../src/Messages.rb:249 ../src/Messages.rb:353 ../src/Messages.rb:484
 #: ../src/Messages.rb:513 ../src/Messages.rb:520 ../src/Messages.rb:564
@@ -195,7 +192,7 @@ msgstr ""
 #: ../src/Notes.rb:248 ../src/Polls.rb:12 ../src/Polls.rb:67 ../src/Polls.rb:93
 #: ../src/Polls.rb:111 ../src/Polls.rb:231 ../src/Polls.rb:256
 #: ../src/Polls.rb:322 ../src/Polls.rb:356 ../src/Polls.rb:371
-#: ../src/SoundThemes.rb:93 ../src/UserSearch.rb:17 ../src/WhatsNew.rb:105
+#: ../src/SoundThemes.rb:96 ../src/UserSearch.rb:17 ../src/WhatsNew.rb:105
 #: ../src/Youtube.rb:93 ../src/Youtube.rb:151
 msgid "Error"
 msgstr ""
@@ -215,12 +212,12 @@ msgctxt "Account"
 msgid "Gender"
 msgstr ""
 
-#: ../src/Account.rb:197 ../src/EAPI_Common.rb:453
-msgid "male"
-msgstr ""
-
 #: ../src/Account.rb:197 ../src/EAPI_Common.rb:451
 msgid "Female"
+msgstr ""
+
+#: ../src/Account.rb:197 ../src/EAPI_Common.rb:453
+msgid "male"
 msgstr ""
 
 #: ../src/Account.rb:204
@@ -245,6 +242,26 @@ msgstr ""
 
 #: ../src/Account.rb:262
 msgctxt "Account"
+msgid "January"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "February"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "March"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
+msgid "April"
+msgstr ""
+
+#: ../src/Account.rb:262
+msgctxt "Account"
 msgid "May"
 msgstr ""
 
@@ -260,7 +277,7 @@ msgstr ""
 
 #: ../src/Account.rb:262
 msgctxt "Account"
-msgid "April"
+msgid "August"
 msgstr ""
 
 #: ../src/Account.rb:262
@@ -270,7 +287,7 @@ msgstr ""
 
 #: ../src/Account.rb:262
 msgctxt "Account"
-msgid "October"
+msgid "December"
 msgstr ""
 
 #: ../src/Account.rb:262
@@ -280,27 +297,7 @@ msgstr ""
 
 #: ../src/Account.rb:262
 msgctxt "Account"
-msgid "December"
-msgstr ""
-
-#: ../src/Account.rb:262
-msgctxt "Account"
-msgid "February"
-msgstr ""
-
-#: ../src/Account.rb:262
-msgctxt "Account"
-msgid "March"
-msgstr ""
-
-#: ../src/Account.rb:262
-msgctxt "Account"
-msgid "August"
-msgstr ""
-
-#: ../src/Account.rb:262
-msgctxt "Account"
-msgid "January"
+msgid "October"
 msgstr ""
 
 #: ../src/Account.rb:263
@@ -330,12 +327,12 @@ msgstr ""
 
 #: ../src/Account.rb:475
 msgctxt "Account"
-msgid "Ignore"
+msgid "Notice only"
 msgstr ""
 
 #: ../src/Account.rb:475
 msgctxt "Account"
-msgid "Notice only"
+msgid "Ignore"
 msgstr ""
 
 #: ../src/Account.rb:475
@@ -345,17 +342,7 @@ msgstr ""
 
 #: ../src/Account.rb:476
 msgctxt "Account"
-msgid "New comments on your blog"
-msgstr ""
-
-#: ../src/Account.rb:476
-msgctxt "Account"
-msgid "New posts in followed threads"
-msgstr ""
-
-#: ../src/Account.rb:476
-msgctxt "Account"
-msgid "New posts on the followed blogs"
+msgid "New friends"
 msgstr ""
 
 #: ../src/Account.rb:476
@@ -370,12 +357,22 @@ msgstr ""
 
 #: ../src/Account.rb:476
 msgctxt "Account"
-msgid "New friends"
+msgid "New threads on followed forums"
 msgstr ""
 
 #: ../src/Account.rb:476
 msgctxt "Account"
-msgid "New threads on followed forums"
+msgid "New comments on your blog"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New posts on the followed blogs"
+msgstr ""
+
+#: ../src/Account.rb:476
+msgctxt "Account"
+msgid "New posts in followed threads"
 msgstr ""
 
 #: ../src/Account.rb:476
@@ -418,7 +415,7 @@ msgstr ""
 
 #: ../src/Account.rb:553 ../src/Account.rb:692 ../src/Blog.rb:1103
 #: ../src/Forum.rb:597 ../src/Forum.rb:995 ../src/Forum.rb:1372
-#: ../src/Forum.rb:2295 ../src/Honors.rb:176 ../src/Honors.rb:297
+#: ../src/Forum.rb:2294 ../src/Honors.rb:176 ../src/Honors.rb:297
 #: ../src/Messages.rb:178 ../src/Messages.rb:324 ../src/Messages.rb:545
 #: ../src/Notes.rb:92 ../src/Online.rb:34 ../src/Polls.rb:125
 #: ../src/Users.rb:54 ../src/UsersAddedMeToContacts.rb:58
@@ -511,12 +508,12 @@ msgstr ""
 
 #: ../src/Account.rb:800
 msgctxt "Account"
-msgid "Enable mail events reporting"
+msgid "Disable mail events reporting"
 msgstr ""
 
 #: ../src/Account.rb:800
 msgctxt "Account"
-msgid "Disable mail events reporting"
+msgid "Enable mail events reporting"
 msgstr ""
 
 #: ../src/Account.rb:801
@@ -534,18 +531,18 @@ msgstr ""
 
 #: ../src/Account.rb:802 ../src/Authentication.rb:16
 #: ../src/Authentication.rb:18 ../src/Chat.rb:42 ../src/EAPI_Common.rb:14
-#: ../src/Files.rb:544 ../src/ForgotPassword.rb:29 ../src/Loading.rb:419
+#: ../src/Files.rb:544 ../src/ForgotPassword.rb:29 ../src/Loading.rb:376
 msgid "Exit"
 msgstr ""
 
 #: ../src/Admins.rb:13
 msgctxt "Admins"
-msgid "Developers"
+msgid "Translators"
 msgstr ""
 
 #: ../src/Admins.rb:13
 msgctxt "Admins"
-msgid "Translators"
+msgid "Developers"
 msgstr ""
 
 #: ../src/Admins.rb:13
@@ -563,23 +560,8 @@ msgctxt "Admins"
 msgid "Administrators"
 msgstr ""
 
-#: ../src/Advanced.rb:8
-msgctxt "Advanced"
-msgid ""
-" Key state refresh time (ms) (Note: it is not recommended to change this value"
-"!)"
-msgstr ""
-
-#: ../src/Advanced.rb:9
-msgctxt "Advanced"
-msgid ""
-" Session refresh time (s) (Attention! It is not recommended to change this val"
-"ue!)"
-msgstr ""
-
-#: ../src/Advanced.rb:10
-msgctxt "Advanced"
-msgid "Synchronize time with server"
+#: ../src/Authentication.rb:16
+msgid "Enable"
 msgstr ""
 
 #: ../src/Authentication.rb:16
@@ -591,17 +573,13 @@ msgid ""
 "ce.  Entering this code will be required to sign in to the program."
 msgstr ""
 
-#: ../src/Authentication.rb:16
-msgid "Enable"
+#: ../src/Authentication.rb:18
+msgctxt "Authentication"
+msgid "Two-factor authentication is enabled on this account."
 msgstr ""
 
 #: ../src/Authentication.rb:18
 msgid "Disable"
-msgstr ""
-
-#: ../src/Authentication.rb:18
-msgctxt "Authentication"
-msgid "Two-factor authentication is enabled on this account."
 msgstr ""
 
 #: ../src/Authentication.rb:25 ../src/Authentication.rb:63
@@ -678,6 +656,11 @@ msgstr ""
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
+msgid "2 weeks"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
 msgid "Day"
 msgstr ""
 
@@ -704,11 +687,6 @@ msgstr ""
 #: ../src/Ban.rb:23
 msgctxt "Ban"
 msgid "Year"
-msgstr ""
-
-#: ../src/Ban.rb:23
-msgctxt "Ban"
-msgid "2 weeks"
 msgstr ""
 
 #: ../src/Ban.rb:24
@@ -748,17 +726,27 @@ msgstr ""
 
 #: ../src/Ban.rb:106
 msgctxt "Ban"
-msgid "Unban"
+msgid "The ban cancel reason"
 msgstr ""
 
 #: ../src/Ban.rb:106
 msgctxt "Ban"
-msgid "The ban cancel reason"
+msgid "Unban"
 msgstr ""
 
 #: ../src/Ban.rb:116
 msgctxt "Ban"
 msgid "Unbanned."
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Managed blogs"
+msgstr ""
+
+#: ../src/Blog.rb:10
+msgctxt "Blog"
+msgid "Recently updated blogs"
 msgstr ""
 
 #: ../src/Blog.rb:10
@@ -773,17 +761,7 @@ msgstr ""
 
 #: ../src/Blog.rb:10
 msgctxt "Blog"
-msgid "Recently updated blogs"
-msgstr ""
-
-#: ../src/Blog.rb:10
-msgctxt "Blog"
-msgid "Managed blogs"
-msgstr ""
-
-#: ../src/Blog.rb:10 ../src/Blog.rb:900
-msgctxt "Blog"
-msgid "Blogs"
+msgid "Followed blogs"
 msgstr ""
 
 #: ../src/Blog.rb:10
@@ -791,9 +769,9 @@ msgctxt "Blog"
 msgid "Blogs popular with my friends"
 msgstr ""
 
-#: ../src/Blog.rb:10
+#: ../src/Blog.rb:10 ../src/Blog.rb:900
 msgctxt "Blog"
-msgid "Followed blogs"
+msgid "Blogs"
 msgstr ""
 
 #: ../src/Blog.rb:74
@@ -1036,14 +1014,14 @@ msgctxt "Blog"
 msgid "Are you sure you want to delete this post?"
 msgstr ""
 
-#: ../src/Blog.rb:718 ../src/Blog.rb:720
-msgctxt "Blog"
-msgid "Audio post"
-msgstr ""
-
 #: ../src/Blog.rb:718
 msgctxt "Blog"
 msgid "Post type"
+msgstr ""
+
+#: ../src/Blog.rb:718 ../src/Blog.rb:720
+msgctxt "Blog"
+msgid "Audio post"
 msgstr ""
 
 #: ../src/Blog.rb:718
@@ -1108,14 +1086,14 @@ msgctxt "Blog"
 msgid "Are you sure you want to delete this comment?"
 msgstr ""
 
-#: ../src/Blog.rb:1037 ../src/WhatsNew.rb:140
-msgctxt "Blog"
-msgid "Author"
-msgstr ""
-
 #: ../src/Blog.rb:1037 ../src/Blog.rb:1236
 msgctxt "Blog"
 msgid "Blogs list"
+msgstr ""
+
+#: ../src/Blog.rb:1037 ../src/WhatsNew.rb:140
+msgctxt "Blog"
+msgid "Author"
 msgstr ""
 
 #: ../src/Blog.rb:1059
@@ -1175,7 +1153,7 @@ msgstr ""
 
 #: ../src/Blog.rb:1278
 msgctxt "Blog"
-msgid "Move type"
+msgid "Move"
 msgstr ""
 
 #: ../src/Blog.rb:1278
@@ -1185,17 +1163,17 @@ msgstr ""
 
 #: ../src/Blog.rb:1278
 msgctxt "Blog"
-msgid "Post destination"
-msgstr ""
-
-#: ../src/Blog.rb:1278
-msgctxt "Blog"
 msgid "Move only this post, delete all comments"
 msgstr ""
 
 #: ../src/Blog.rb:1278
 msgctxt "Blog"
-msgid "Move"
+msgid "Post destination"
+msgstr ""
+
+#: ../src/Blog.rb:1278
+msgctxt "Blog"
+msgid "Move type"
 msgstr ""
 
 #: ../src/Blog.rb:1287
@@ -1244,12 +1222,12 @@ msgstr ""
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Users online"
+msgid "Hide the chat window"
 msgstr ""
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Hide the chat window"
+msgid "Users online"
 msgstr ""
 
 #: ../src/Chat.rb:121 ../src/_Main.rb:78
@@ -1259,85 +1237,50 @@ msgstr ""
 
 #: ../src/Clock.rb:8
 msgctxt "Clock"
-msgid "None"
-msgstr ""
-
-#: ../src/Clock.rb:8
-msgctxt "Clock"
-msgid "Voice and sound"
-msgstr ""
-
-#: ../src/Clock.rb:8
-msgctxt "Clock"
-msgid "Voice only"
-msgstr ""
-
-#: ../src/Clock.rb:8
-msgctxt "Clock"
-msgid "Sound only"
-msgstr ""
-
-#: ../src/Clock.rb:8
-msgctxt "Clock"
-msgid "Auto timereading"
-msgstr ""
-
-#: ../src/Clock.rb:9
-msgctxt "Clock"
-msgid "every half hour"
-msgstr ""
-
-#: ../src/Clock.rb:9
-msgctxt "Clock"
-msgid "announce time"
-msgstr ""
-
-#: ../src/Clock.rb:9
-msgctxt "Clock"
-msgid "every quarter of an hour"
-msgstr ""
-
-#: ../src/Clock.rb:9
-msgctxt "Clock"
-msgid "every hour"
-msgstr ""
-
-#: ../src/Clock.rb:10 ../src/Clock.rb:21 ../src/Clock.rb:53 ../src/Clock.rb:67
-msgctxt "Clock"
-msgid "Add"
-msgstr ""
-
-#: ../src/Clock.rb:10
-msgctxt "Clock"
 msgid "Alarms"
 msgstr ""
 
-#: ../src/Clock.rb:19 ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
-msgctxt "Clock"
-msgid "Type"
-msgstr ""
-
-#: ../src/Clock.rb:19 ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
-msgctxt "Clock"
-msgid "One time"
-msgstr ""
-
-#: ../src/Clock.rb:19
+#: ../src/Clock.rb:15
 msgctxt "Clock"
 msgid "repeated"
 msgstr ""
 
-#: ../src/Clock.rb:19 ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
+#: ../src/Clock.rb:15 ../src/Clock.rb:63 ../src/Clock.rb:75 ../src/Clock.rb:88
+msgctxt "Clock"
+msgid "One time"
+msgstr ""
+
+#: ../src/Clock.rb:15 ../src/Clock.rb:63 ../src/Clock.rb:75 ../src/Clock.rb:88
+msgctxt "Clock"
+msgid "Type"
+msgstr ""
+
+#: ../src/Clock.rb:15 ../src/Clock.rb:63 ../src/Clock.rb:75 ../src/Clock.rb:88
 msgctxt "Clock"
 msgid "Hour"
 msgstr ""
 
-#: ../src/Clock.rb:39 ../src/Clock.rb:51 ../src/Clock.rb:65
+#: ../src/Clock.rb:44
+msgctxt "Clock"
+msgid "Edit alarm"
+msgstr ""
+
+#: ../src/Clock.rb:47
+msgctxt "Clock"
+msgid "Delete alarm"
+msgstr ""
+
+#: ../src/Clock.rb:51
+msgctxt "Clock"
+msgid "New alarm"
+msgstr ""
+
+#: ../src/Clock.rb:63 ../src/Clock.rb:75 ../src/Clock.rb:88
 msgctxt "Clock"
 msgid "Repeated"
 msgstr ""
 
-#: ../src/Clock.rb:39
+#: ../src/Clock.rb:63
 msgctxt "Clock"
 msgid "Minute"
 msgstr ""
@@ -1404,12 +1347,12 @@ msgstr ""
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
-msgid "A report"
+msgid "Report connections to the server"
 msgstr ""
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
-msgid "Report connections to the server"
+msgid "A report"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:12
@@ -1439,6 +1382,11 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:121
 msgctxt "EAPI_Common"
+msgid "Write a private message"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:121
+msgctxt "EAPI_Common"
 msgid "Visiting card"
 msgstr ""
 
@@ -1450,11 +1398,6 @@ msgstr ""
 #: ../src/EAPI_Common.rb:121
 msgctxt "EAPI_Common"
 msgid "badges of this user"
-msgstr ""
-
-#: ../src/EAPI_Common.rb:121
-msgctxt "EAPI_Common"
-msgid "Write a private message"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:124
@@ -1484,12 +1427,12 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:342
 msgctxt "EAPI_Common"
-msgid "Send"
+msgid "Describe the found error"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:342
 msgctxt "EAPI_Common"
-msgid "Describe the found error"
+msgid "Send"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:358
@@ -1629,12 +1572,22 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:582
 msgctxt "EAPI_Common"
-msgid "Soundfont downloaded succesfully."
+msgid "Please wait, the soundfont is being downloaded. It may take a while."
 msgstr ""
 
 #: ../src/EAPI_Common.rb:582
 msgctxt "EAPI_Common"
-msgid "Please wait, the soundfont is being downloaded. It may take a while."
+msgid "Soundfont downloaded succesfully."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Divide by paragraphs"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Divide every"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:913
@@ -1644,22 +1597,12 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:913
 msgctxt "EAPI_Common"
-msgid "preview"
+msgid "File to read"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:913
 msgctxt "EAPI_Common"
-msgid "Output splitting"
-msgstr ""
-
-#: ../src/EAPI_Common.rb:913
-msgctxt "EAPI_Common"
-msgid "Duration of one file (minutes)"
-msgstr ""
-
-#: ../src/EAPI_Common.rb:913
-msgctxt "EAPI_Common"
-msgid "Divide by paragraphs"
+msgid "destination location"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:913
@@ -1674,7 +1617,12 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:913
 msgctxt "EAPI_Common"
-msgid "Title"
+msgid "Output splitting"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:913
+msgctxt "EAPI_Common"
+msgid "Duration of one file (minutes)"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:913
@@ -1684,17 +1632,12 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:913
 msgctxt "EAPI_Common"
-msgid "File to read"
+msgid "Output format"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:913
 msgctxt "EAPI_Common"
-msgid "Divide every"
-msgstr ""
-
-#: ../src/EAPI_Common.rb:913
-msgctxt "EAPI_Common"
-msgid "destination location"
+msgid "preview"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:913
@@ -1704,7 +1647,7 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:913
 msgctxt "EAPI_Common"
-msgid "Output format"
+msgid "Title"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:975
@@ -1739,12 +1682,12 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:1087
 msgctxt "EAPI_Common"
-msgid "Reading to file number"
+msgid "Estimated elapsed time"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:1087
 msgctxt "EAPI_Common"
-msgid "Estimated elapsed time"
+msgid "Reading to file number"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:1087
@@ -1772,188 +1715,188 @@ msgctxt "EAPI_Common"
 msgid "Compressing..."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:345
+#: ../src/EAPI_Controls.rb:362
 msgctxt "EAPI_Form"
 msgid "Opening a link..."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:504
+#: ../src/EAPI_Controls.rb:521
 msgctxt "EAPI_Common"
 msgid "Checked: %{check}"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:517
+#: ../src/EAPI_Controls.rb:534
 msgctxt "EAPI_Form"
 msgid "copied"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:523
+#: ../src/EAPI_Controls.rb:540
 msgctxt "EAPI_Form"
 msgid "Cut out"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:527
+#: ../src/EAPI_Controls.rb:544
 msgctxt "EAPI_Form"
 msgid "pasted"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:534
+#: ../src/EAPI_Controls.rb:551
 msgctxt "EAPI_Form"
 msgid "undone"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:541
+#: ../src/EAPI_Controls.rb:558
 msgctxt "EAPI_Form"
 msgid "Repeated"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:545
+#: ../src/EAPI_Controls.rb:562
 msgctxt "EAPI_Form"
 msgid "Enter a phrase to look for"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:552
+#: ../src/EAPI_Controls.rb:569
 msgctxt "EAPI_Form"
 msgid "No match found."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:564
+#: ../src/EAPI_Controls.rb:581
 msgctxt "EAPI_Form"
 msgid "Loaded"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:579
+#: ../src/EAPI_Controls.rb:596
 msgctxt "EAPI_Form"
 msgid "File name"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:579
+#: ../src/EAPI_Controls.rb:596
 msgctxt "EAPI_Form"
 msgid "Destination"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:588
+#: ../src/EAPI_Controls.rb:605
 msgctxt "EAPI_Form"
 msgid "Downloading..."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:589
+#: ../src/EAPI_Controls.rb:606
 msgctxt "EAPI_Form"
 msgid "The file already exists. Do you want to override it?"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:593
+#: ../src/EAPI_Controls.rb:610
 msgctxt "EAPI_Form"
 msgid "Downloaded"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:829
+#: ../src/EAPI_Controls.rb:849
 msgctxt "EAPI_Form"
 msgid "Edit box"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:830
+#: ../src/EAPI_Controls.rb:850
 msgctxt "EAPI_Form"
 msgid "Text"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:831
+#: ../src/EAPI_Controls.rb:851
 msgctxt "EAPI_Form"
 msgid "Media"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1046
+#: ../src/EAPI_Controls.rb:1070
 msgctxt "EAPI_Form"
 msgid "All tags"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1162 ../src/EAPI_Controls.rb:1225
+#: ../src/EAPI_Controls.rb:1186 ../src/EAPI_Controls.rb:1249
 msgctxt "EAPI_Form"
 msgid "Shortcut: "
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1163
+#: ../src/EAPI_Controls.rb:1187
 msgctxt "EAPI_Common"
 msgid "Checked"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1188 ../src/EAPI_Controls.rb:1337
-#: ../src/EAPI_Controls.rb:1350
+#: ../src/EAPI_Controls.rb:1212 ../src/EAPI_Controls.rb:1361
+#: ../src/EAPI_Controls.rb:1378
 msgctxt "EAPI_Form"
 msgid "Checked"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1192
+#: ../src/EAPI_Controls.rb:1216
 msgctxt "EAPI_Form"
 msgid "Unchecked"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1227
+#: ../src/EAPI_Controls.rb:1251
 msgctxt "EAPI_Form"
 msgid "Empty list"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1303
+#: ../src/EAPI_Controls.rb:1327
 msgctxt "EAPI_Form"
 msgid "Button"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1334 ../src/EAPI_Controls.rb:1348
+#: ../src/EAPI_Controls.rb:1358 ../src/EAPI_Controls.rb:1376
 msgctxt "EAPI_Form"
 msgid "unchecked"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1353
+#: ../src/EAPI_Controls.rb:1381
 msgctxt "EAPI_Form"
 msgid "Checkbox"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1407
-msgctxt "EAPI_Form"
-msgid "Music"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:1407
-msgctxt "EAPI_Form"
-msgid "Documents"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:1407
+#: ../src/EAPI_Controls.rb:1435
 msgctxt "EAPI_Form"
 msgid "Desktop"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1832
+#: ../src/EAPI_Controls.rb:1435
+msgctxt "EAPI_Form"
+msgid "Documents"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1435
+msgctxt "EAPI_Form"
+msgid "Music"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:1860
 msgctxt "EAPI_Form"
 msgid "Choose a path"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1934
+#: ../src/EAPI_Controls.rb:1962
 msgctxt "EAPI_Common"
 msgid "This file cannot be played."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1965
+#: ../src/EAPI_Controls.rb:1993
 msgctxt "EAPI_Common"
 msgid "Type a second to which you want to move."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1989
+#: ../src/EAPI_Controls.rb:2017
 msgctxt "EAPI_Common"
 msgid "Where do you want to save this file?"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:1991
+#: ../src/EAPI_Controls.rb:2019
 msgctxt "EAPI_Common"
 msgid "Downloading..."
 msgstr ""
 
-#: ../src/EAPI_EltenSRV.rb:185
+#: ../src/EAPI_EltenSRV.rb:186
 msgctxt "Messages"
 msgid "Sending: %{file}"
 msgstr ""
 
-#: ../src/EAPI_EltenSRV.rb:406
+#: ../src/EAPI_EltenSRV.rb:407
 msgctxt "EAPI_EltenSRV"
 msgid "Select a user"
 msgstr ""
@@ -2007,17 +1950,12 @@ msgstr ""
 
 #: ../src/EAPI_External.rb:212
 msgctxt "EAPI_External"
-msgid "Add to playlist"
-msgstr ""
-
-#: ../src/EAPI_External.rb:212
-msgctxt "EAPI_External"
 msgid "Play"
 msgstr ""
 
 #: ../src/EAPI_External.rb:212
 msgctxt "EAPI_External"
-msgid "Download"
+msgid "Add to playlist"
 msgstr ""
 
 #: ../src/EAPI_External.rb:212
@@ -2025,9 +1963,19 @@ msgctxt "EAPI_External"
 msgid "Copy URL to the clipboard"
 msgstr ""
 
+#: ../src/EAPI_External.rb:212
+msgctxt "EAPI_External"
+msgid "Download"
+msgstr ""
+
 #: ../src/EAPI_External.rb:218
 msgctxt "EAPI_External"
 msgid "Added to playlist"
+msgstr ""
+
+#: ../src/EAPI_External.rb:220
+msgctxt "EAPI_External"
+msgid "Download as video"
 msgstr ""
 
 #: ../src/EAPI_External.rb:220
@@ -2038,11 +1986,6 @@ msgstr ""
 #: ../src/EAPI_External.rb:220
 msgctxt "EAPI_External"
 msgid "How do you want to download this file?"
-msgstr ""
-
-#: ../src/EAPI_External.rb:220
-msgctxt "EAPI_External"
-msgid "Download as video"
 msgstr ""
 
 #: ../src/EAPI_External.rb:223
@@ -2292,41 +2235,41 @@ msgctxt "EAPI_Speech"
 msgid "right paren"
 msgstr ""
 
-#: ../src/EAPI_UI.rb:274
+#: ../src/EAPI_UI.rb:279
 msgctxt "EAPI_Common"
 msgid "Using a screenreader"
 msgstr ""
 
-#: ../src/EAPI_UI.rb:276
+#: ../src/EAPI_UI.rb:281
 msgctxt "EAPI_Common"
 msgid "Using a selected SAPI synthesizer"
 msgstr ""
 
-#: ../src/EAPI_UI.rb:378
+#: ../src/EAPI_UI.rb:383
 msgctxt "EAPI_UI"
 msgid ""
 " An unexpected error of Elten agent occurred. Do you want to report this event"
 "? It  may definitely help us solve the problem."
 msgstr ""
 
-#: ../src/EAPI_UI.rb:381
+#: ../src/EAPI_UI.rb:386
 msgctxt "EAPI_UI"
 msgid "The program is trying to recover from the frozen state."
 msgstr ""
 
-#: ../src/EAPI_UI.rb:450
+#: ../src/EAPI_UI.rb:455
 msgctxt "EAPI_UI"
 msgid "Alert!"
 msgstr ""
 
-#: ../src/EAPI_UI.rb:478 ../src/Login.rb:127 ../src/Login.rb:129
-#: ../src/_Main.rb:164
-msgid "Yes"
+#: ../src/EAPI_UI.rb:489 ../src/Login.rb:127 ../src/Login.rb:129
+#: ../src/_Main.rb:165
+msgid "No"
 msgstr ""
 
-#: ../src/EAPI_UI.rb:478 ../src/Login.rb:127 ../src/Login.rb:129
-#: ../src/_Main.rb:164
-msgid "No"
+#: ../src/EAPI_UI.rb:489 ../src/Login.rb:127 ../src/Login.rb:129
+#: ../src/_Main.rb:165
+msgid "Yes"
 msgstr ""
 
 #: ../src/Files.rb:14
@@ -2364,14 +2307,14 @@ msgctxt "Files"
 msgid "Cut out"
 msgstr ""
 
-#: ../src/Files.rb:174
-msgctxt "Files"
-msgid "Open this directory"
-msgstr ""
-
 #: ../src/Files.rb:174 ../src/Files.rb:331
 msgctxt "Files"
 msgid "Add all audio files in this directory to playlist"
+msgstr ""
+
+#: ../src/Files.rb:174
+msgctxt "Files"
+msgid "Open this directory"
 msgstr ""
 
 #: ../src/Files.rb:182 ../src/Files.rb:336
@@ -2544,17 +2487,17 @@ msgstr ""
 
 #: ../src/Files.rb:454
 msgctxt "Files"
-msgid "Add to playlist"
-msgstr ""
-
-#: ../src/Files.rb:454
-msgctxt "Files"
 msgid "convert"
 msgstr ""
 
 #: ../src/Files.rb:454
 msgctxt "Files"
 msgid "Play"
+msgstr ""
+
+#: ../src/Files.rb:454
+msgctxt "Files"
+msgid "Add to playlist"
 msgstr ""
 
 #: ../src/Files.rb:462
@@ -2582,14 +2525,14 @@ msgctxt "Files"
 msgid "Converted."
 msgstr ""
 
-#: ../src/Files.rb:497 ../src/Files.rb:524
-msgctxt "Files"
-msgid "Read to file"
-msgstr ""
-
 #: ../src/Files.rb:497
 msgctxt "Files"
 msgid "Edit"
+msgstr ""
+
+#: ../src/Files.rb:497 ../src/Files.rb:524
+msgctxt "Files"
+msgid "Read to file"
 msgstr ""
 
 #: ../src/Files.rb:524
@@ -2629,12 +2572,12 @@ msgstr ""
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
-msgid "Enter password reset code"
+msgid "Password reset"
 msgstr ""
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
-msgid "Password reset"
+msgid "Enter password reset code"
 msgstr ""
 
 #: ../src/ForgotPassword.rb:49
@@ -2728,7 +2671,27 @@ msgstr ""
 
 #: ../src/Forum.rb:197
 msgctxt "Forum"
+msgid "Followed forums"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Marked threads"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
 msgid "Open groups"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Search"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Followed threads"
 msgstr ""
 
 #: ../src/Forum.rb:197
@@ -2743,12 +2706,17 @@ msgstr ""
 
 #: ../src/Forum.rb:197
 msgctxt "Forum"
-msgid "Recommended groups"
+msgid "All groups"
 msgstr ""
 
 #: ../src/Forum.rb:197
 msgctxt "Forum"
 msgid "Recently created groups"
+msgstr ""
+
+#: ../src/Forum.rb:197
+msgctxt "Forum"
+msgid "Groups popular with my friends"
 msgstr ""
 
 #: ../src/Forum.rb:197
@@ -2763,32 +2731,7 @@ msgstr ""
 
 #: ../src/Forum.rb:197
 msgctxt "Forum"
-msgid "Search"
-msgstr ""
-
-#: ../src/Forum.rb:197
-msgctxt "Forum"
-msgid "Marked threads"
-msgstr ""
-
-#: ../src/Forum.rb:197
-msgctxt "Forum"
-msgid "Followed forums"
-msgstr ""
-
-#: ../src/Forum.rb:197
-msgctxt "Forum"
-msgid "Followed threads"
-msgstr ""
-
-#: ../src/Forum.rb:197
-msgctxt "Forum"
-msgid "All groups"
-msgstr ""
-
-#: ../src/Forum.rb:197
-msgctxt "Forum"
-msgid "Groups popular with my friends"
+msgid "Recommended groups"
 msgstr ""
 
 #: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
@@ -2801,17 +2744,17 @@ msgstr ""
 #: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
 #: ../src/Forum.rb:264 ../src/Forum.rb:284 ../src/Forum.rb:304
 #: ../src/Forum.rb:318 ../src/Forum.rb:334 ../src/Forum.rb:854
-#: ../src/Forum.rb:1169
+#: ../src/Forum.rb:914 ../src/Forum.rb:1169
 msgctxt "Forum"
-msgid "posts"
+msgid "Unread"
 msgstr ""
 
 #: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
 #: ../src/Forum.rb:264 ../src/Forum.rb:284 ../src/Forum.rb:304
 #: ../src/Forum.rb:318 ../src/Forum.rb:334 ../src/Forum.rb:854
-#: ../src/Forum.rb:914 ../src/Forum.rb:1169
+#: ../src/Forum.rb:1169
 msgctxt "Forum"
-msgid "Unread"
+msgid "posts"
 msgstr ""
 
 #: ../src/Forum.rb:203 ../src/Forum.rb:224 ../src/Forum.rb:244
@@ -2997,7 +2940,7 @@ msgstr ""
 
 #: ../src/Forum.rb:544 ../src/Forum.rb:775
 msgctxt "Forum"
-msgid "Group type"
+msgid "Group join type"
 msgstr ""
 
 #: ../src/Forum.rb:544 ../src/Forum.rb:775
@@ -3007,7 +2950,13 @@ msgstr ""
 
 #: ../src/Forum.rb:544 ../src/Forum.rb:775
 msgctxt "Forum"
-msgid "Group description"
+msgid "Group type"
+msgstr ""
+
+#: ../src/Forum.rb:544 ../src/Forum.rb:562 ../src/Forum.rb:775
+#: ../src/Forum.rb:789
+msgctxt "Forum"
+msgid "open (everyone can join)"
 msgstr ""
 
 #: ../src/Forum.rb:544 ../src/Forum.rb:775
@@ -3022,13 +2971,7 @@ msgstr ""
 
 #: ../src/Forum.rb:544 ../src/Forum.rb:775
 msgctxt "Forum"
-msgid "Group join type"
-msgstr ""
-
-#: ../src/Forum.rb:544 ../src/Forum.rb:562 ../src/Forum.rb:775
-#: ../src/Forum.rb:789
-msgctxt "Forum"
-msgid "open (everyone can join)"
+msgid "Group description"
 msgstr ""
 
 #: ../src/Forum.rb:544 ../src/Forum.rb:560 ../src/Forum.rb:562
@@ -3243,14 +3186,14 @@ msgctxt "Forum"
 msgid "Change forum position"
 msgstr ""
 
-#: ../src/Forum.rb:964 ../src/Forum.rb:2281
-msgctxt "Forum"
-msgid "Move to end"
-msgstr ""
-
 #: ../src/Forum.rb:964
 msgctxt "Forum"
 msgid "Move forum"
+msgstr ""
+
+#: ../src/Forum.rb:964 ../src/Forum.rb:2280
+msgctxt "Forum"
+msgid "Move to end"
 msgstr ""
 
 #: ../src/Forum.rb:979
@@ -3513,9 +3456,9 @@ msgctxt "Forum"
 msgid "Thread has been pinned"
 msgstr ""
 
-#: ../src/Forum.rb:1398 ../src/Forum.rb:1401
+#: ../src/Forum.rb:1398
 msgctxt "Forum"
-msgid "Thread's title"
+msgid "Attach a poll"
 msgstr ""
 
 #: ../src/Forum.rb:1398 ../src/Forum.rb:1890
@@ -3528,9 +3471,9 @@ msgctxt "Forum"
 msgid "Post"
 msgstr ""
 
-#: ../src/Forum.rb:1398
+#: ../src/Forum.rb:1398 ../src/Forum.rb:1401
 msgctxt "Forum"
-msgid "Attach a poll"
+msgid "Thread's title"
 msgstr ""
 
 #: ../src/Forum.rb:1399
@@ -3690,7 +3633,7 @@ msgctxt "Forum"
 msgid "Navigation"
 msgstr ""
 
-#: ../src/Forum.rb:2042 ../src/Forum.rb:2319
+#: ../src/Forum.rb:2042 ../src/Forum.rb:2318
 msgctxt "Forum"
 msgid "Bookmarks"
 msgstr ""
@@ -3770,149 +3713,74 @@ msgctxt "Forum"
 msgid "Move post"
 msgstr ""
 
-#: ../src/Forum.rb:2244
+#: ../src/Forum.rb:2243
 msgctxt "Forum"
 msgid "Post destination"
 msgstr ""
 
-#: ../src/Forum.rb:2249
+#: ../src/Forum.rb:2248
 msgctxt "Forum"
 msgid "The post has been moved."
 msgstr ""
 
-#: ../src/Forum.rb:2255
+#: ../src/Forum.rb:2254
 msgctxt "Forum"
 msgid "Delete post"
 msgstr ""
 
-#: ../src/Forum.rb:2256
+#: ../src/Forum.rb:2255
 msgctxt "Forum"
 msgid "Are you sure you want to delete this post?"
 msgstr ""
 
-#: ../src/Forum.rb:2266
+#: ../src/Forum.rb:2265
 msgctxt "Forum"
 msgid "This post has been deleted."
 msgstr ""
 
-#: ../src/Forum.rb:2276
+#: ../src/Forum.rb:2275
 msgctxt "Forum"
 msgid "Change post position"
 msgstr ""
 
-#: ../src/Forum.rb:2282
+#: ../src/Forum.rb:2281
 msgctxt "Forum"
 msgid "Place post above"
 msgstr ""
 
-#: ../src/Forum.rb:2285
+#: ../src/Forum.rb:2284
 msgctxt "Forum"
 msgid "The post has been slided."
 msgstr ""
 
-#: ../src/Forum.rb:2319
+#: ../src/Forum.rb:2318
 msgctxt "Forum"
 msgid "Post %{postnumber} by %{author}"
 msgstr ""
 
-#: ../src/Forum.rb:2322
+#: ../src/Forum.rb:2321
 msgctxt "Forum"
 msgid "Delete bookmark"
 msgstr ""
 
-#: ../src/Forum.rb:2328
+#: ../src/Forum.rb:2327
 msgctxt "Forum"
 msgid "New bookmark"
 msgstr ""
 
-#: ../src/Forum.rb:2361
+#: ../src/Forum.rb:2360
 msgctxt "Forum"
 msgid "Bookmark deleted"
 msgstr ""
 
-#: ../src/Forum.rb:2370
+#: ../src/Forum.rb:2369
 msgctxt "Forum"
 msgid "Bookmark description"
 msgstr ""
 
-#: ../src/Forum.rb:2373
+#: ../src/Forum.rb:2372
 msgctxt "Forum"
 msgid "Bookmark created"
-msgstr ""
-
-#: ../src/General.rb:8
-msgctxt "General"
-msgid "Circular"
-msgstr ""
-
-#: ../src/General.rb:8
-msgctxt "General"
-msgid "The display method of selection lists"
-msgstr ""
-
-#: ../src/General.rb:8
-msgctxt "General"
-msgid "Linear"
-msgstr ""
-
-#: ../src/General.rb:9
-msgctxt "General"
-msgid "Play sounds of soundthemes"
-msgstr ""
-
-#: ../src/General.rb:10
-msgctxt "General"
-msgid "Words"
-msgstr ""
-
-#: ../src/General.rb:10
-msgctxt "General"
-msgid "Characters and words"
-msgstr ""
-
-#: ../src/General.rb:10
-msgctxt "General"
-msgid "None"
-msgstr ""
-
-#: ../src/General.rb:10
-msgctxt "General"
-msgid "Characters"
-msgstr ""
-
-#: ../src/General.rb:10
-msgctxt "General"
-msgid "Typing echo"
-msgstr ""
-
-#: ../src/General.rb:11
-msgctxt "General"
-msgid "Wrap long lines in text fields"
-msgstr ""
-
-#: ../src/General.rb:12
-msgctxt "General"
-msgid "Automatically minimize Elten Window to system tray"
-msgstr ""
-
-#: ../src/General.rb:13
-msgctxt "General"
-msgid "Enable auto log in"
-msgstr ""
-
-#: ../src/General.rb:14
-msgctxt "General"
-msgid "Automatically start Elten after I log on to Windows"
-msgstr ""
-
-#: ../src/General.rb:45
-msgctxt "General"
-msgid "Auto log in is required to use auto start"
-msgstr ""
-
-#: ../src/General.rb:49
-msgctxt "General"
-msgid "Are you sure you want to enable autostart of portable version?"
 msgstr ""
 
 #: ../src/Honors.rb:64
@@ -4014,6 +3882,16 @@ msgstr ""
 
 #: ../src/Honors.rb:305
 msgctxt "Honors"
+msgid "Add"
+msgstr ""
+
+#: ../src/Honors.rb:305
+msgctxt "Honors"
+msgid "Badge name in English"
+msgstr ""
+
+#: ../src/Honors.rb:305
+msgctxt "Honors"
 msgid "Badge name"
 msgstr ""
 
@@ -4024,17 +3902,7 @@ msgstr ""
 
 #: ../src/Honors.rb:305
 msgctxt "Honors"
-msgid "Badge name in English"
-msgstr ""
-
-#: ../src/Honors.rb:305
-msgctxt "Honors"
 msgid "Badge description in English"
-msgstr ""
-
-#: ../src/Honors.rb:305
-msgctxt "Honors"
-msgid "Add"
 msgstr ""
 
 #: ../src/Honors.rb:319
@@ -4042,26 +3910,21 @@ msgctxt "Honors"
 msgid "The badge has been added"
 msgstr ""
 
-#: ../src/Languages.rb:17
-msgctxt "Languages"
-msgid "Manage languages"
-msgstr ""
-
-#: ../src/Loading.rb:246
+#: ../src/Loading.rb:228
 msgctxt "Loading"
 msgid ""
 " No speech output selected. Press enter to select the SAPI synthesiser or esca"
 "pe  to use the installed screenreader."
 msgstr ""
 
-#: ../src/Loading.rb:289
+#: ../src/Loading.rb:247
 msgctxt "Loading"
 msgid ""
 "Elten detected that you are using NVDA. To support some features of this scree"
 "nreader, it is necessary to install Elten addon. Do you want to do it now?"
 msgstr ""
 
-#: ../src/Loading.rb:291
+#: ../src/Loading.rb:249
 msgctxt "Loading"
 msgid ""
 "New version of NVDA Elten addon is available. The version you're using is no l"
@@ -4069,44 +3932,44 @@ msgid ""
 "o update it now?"
 msgstr ""
 
-#: ../src/Loading.rb:317
+#: ../src/Loading.rb:275
 msgctxt "Loading"
 msgid "A new version of the program is available."
 msgstr ""
 
-#: ../src/Loading.rb:419
-msgctxt "Loading"
-msgid "Log in"
-msgstr ""
-
-#: ../src/Loading.rb:419
-msgctxt "Loading"
-msgid "Register"
-msgstr ""
-
-#: ../src/Loading.rb:419
-msgctxt "Loading"
-msgid "Password reset"
-msgstr ""
-
-#: ../src/Loading.rb:419
+#: ../src/Loading.rb:376
 msgctxt "Loading"
 msgid "Use guest account"
 msgstr ""
 
-#: ../src/Loading.rb:419
+#: ../src/Loading.rb:376
 msgctxt "Loading"
 msgid "General settings"
 msgstr ""
 
-#: ../src/Loading.rb:419
+#: ../src/Loading.rb:376
 msgctxt "Loading"
 msgid "Change speech synthesizer"
 msgstr ""
 
-#: ../src/Loading.rb:419
+#: ../src/Loading.rb:376
 msgctxt "Loading"
 msgid "Reinstall"
+msgstr ""
+
+#: ../src/Loading.rb:376
+msgctxt "Loading"
+msgid "Register"
+msgstr ""
+
+#: ../src/Loading.rb:376
+msgctxt "Loading"
+msgid "Log in"
+msgstr ""
+
+#: ../src/Loading.rb:376
+msgctxt "Loading"
+msgid "Password reset"
 msgstr ""
 
 #: ../src/Log.rb:8
@@ -4182,12 +4045,12 @@ msgstr ""
 
 #: ../src/Login.rb:127
 msgctxt "Login"
-msgid "Do you want to enable auto log in for account %{user}?"
+msgid "Do not ask again"
 msgstr ""
 
 #: ../src/Login.rb:127
 msgctxt "Login"
-msgid "Do not ask again"
+msgid "Do you want to enable auto log in for account %{user}?"
 msgstr ""
 
 #: ../src/Login.rb:129
@@ -4283,17 +4146,17 @@ msgstr ""
 
 #: ../src/Main.rb:75
 msgctxt "Main"
+msgid "Player"
+msgstr ""
+
+#: ../src/Main.rb:75
+msgctxt "Main"
 msgid "Delete the playlist"
 msgstr ""
 
 #: ../src/Main.rb:75
 msgctxt "Main"
 msgid "Shuffle"
-msgstr ""
-
-#: ../src/Main.rb:75
-msgctxt "Main"
-msgid "Player"
 msgstr ""
 
 #: ../src/Main.rb:107
@@ -4493,140 +4356,110 @@ msgstr ""
 
 #: ../src/MainMenu.rb:141
 msgctxt "MainMenu"
-msgid "Speed &test"
+msgid "&Settings"
 msgstr ""
 
 #: ../src/MainMenu.rb:144
 msgctxt "MainMenu"
-msgid "Create &Portable version"
+msgid "Soun&dthemes"
 msgstr ""
 
 #: ../src/MainMenu.rb:147
 msgctxt "MainMenu"
+msgid "Speed &test"
+msgstr ""
+
+#: ../src/MainMenu.rb:150
+msgctxt "MainMenu"
+msgid "Create &Portable version"
+msgstr ""
+
+#: ../src/MainMenu.rb:153
+msgctxt "MainMenu"
 msgid "&Reinstall"
 msgstr ""
 
-#: ../src/MainMenu.rb:148
+#: ../src/MainMenu.rb:154
 msgctxt "MainMenu"
 msgid "&Install"
 msgstr ""
 
-#: ../src/MainMenu.rb:152
+#: ../src/MainMenu.rb:158
 msgctxt "MainMenu"
 msgid "&Log viewer"
 msgstr ""
 
-#: ../src/MainMenu.rb:155
+#: ../src/MainMenu.rb:161
 msgctxt "MainMenu"
 msgid "&Console"
 msgstr ""
 
-#: ../src/MainMenu.rb:158
+#: ../src/MainMenu.rb:164
 msgctxt "MainMenu"
 msgid "De&bugging"
 msgstr ""
 
-#: ../src/MainMenu.rb:162
-msgctxt "MainMenu"
-msgid "&Settings"
-msgstr ""
-
-#: ../src/MainMenu.rb:163
-msgctxt "MainMenu"
-msgid "G&eneral settings"
-msgstr ""
-
-#: ../src/MainMenu.rb:166
-msgctxt "MainMenu"
-msgid "&Voice settings"
-msgstr ""
-
-#: ../src/MainMenu.rb:169
-msgctxt "MainMenu"
-msgid "Cloc&k"
-msgstr ""
-
-#: ../src/MainMenu.rb:172
-msgctxt "MainMenu"
-msgid "Sound device"
-msgstr ""
-
-#: ../src/MainMenu.rb:175
-msgctxt "MainMenu"
-msgid "Soun&dthemes"
-msgstr ""
-
-#: ../src/MainMenu.rb:178
-msgctxt "MainMenu"
-msgid "Manage &languages"
-msgstr ""
-
-#: ../src/MainMenu.rb:181
-msgctxt "MainMenu"
-msgid "&Advanced settings"
-msgstr ""
-
-#: ../src/MainMenu.rb:185
+#: ../src/MainMenu.rb:168
 msgctxt "MainMenu"
 msgid "&Help"
 msgstr ""
 
-#: ../src/MainMenu.rb:186
+#: ../src/MainMenu.rb:169
 msgctxt "MainMenu"
 msgid "&Changelog"
 msgstr ""
 
-#: ../src/MainMenu.rb:189
+#: ../src/MainMenu.rb:172
 msgctxt "MainMenu"
 msgid "Program &version"
 msgstr ""
 
-#: ../src/MainMenu.rb:192
+#: ../src/MainMenu.rb:175
 msgctxt "MainMenu"
 msgid "Sounds &guide"
 msgstr ""
 
-#: ../src/MainMenu.rb:195
+#: ../src/MainMenu.rb:178
 msgctxt "MainMenu"
 msgid "&Read me"
 msgstr ""
 
-#: ../src/MainMenu.rb:198
+#: ../src/MainMenu.rb:181
 msgctxt "MainMenu"
 msgid "&Shortkeys"
 msgstr ""
 
-#: ../src/MainMenu.rb:201
+#: ../src/MainMenu.rb:184
 msgctxt "MainMenu"
 msgid "User &agreement"
 msgstr ""
 
-#: ../src/MainMenu.rb:205
+#: ../src/MainMenu.rb:188
 msgctxt "MainMenu"
 msgid "&Quit"
 msgstr ""
 
-#: ../src/MainMenu.rb:206
+#: ../src/MainMenu.rb:189
 msgctxt "MainMenu"
 msgid "Hide in &tray"
 msgstr ""
 
-#: ../src/MainMenu.rb:209
+#: ../src/MainMenu.rb:192
 msgctxt "MainMenu"
 msgid "&Logout"
 msgstr ""
 
-#: ../src/MainMenu.rb:223
+#: ../src/MainMenu.rb:207
 msgctxt "MainMenu"
 msgid "E&xit"
 msgstr ""
 
-#: ../src/MainMenu.rb:226
+#: ../src/MainMenu.rb:210
 msgctxt "MainMenu"
 msgid "&Restart"
 msgstr ""
 
-#: ../src/MainMenu.rb:231
+#: ../src/MainMenu.rb:215
 msgctxt "MainMenu"
 msgid "Restart in de&bug mode"
 msgstr ""
@@ -4703,12 +4536,12 @@ msgstr ""
 
 #: ../src/Messages.rb:185
 msgctxt "Messages"
-msgid "Conversation members"
+msgid "Add user to this conversation"
 msgstr ""
 
 #: ../src/Messages.rb:185
 msgctxt "Messages"
-msgid "Add user to this conversation"
+msgid "Conversation members"
 msgstr ""
 
 #: ../src/Messages.rb:186
@@ -4773,12 +4606,12 @@ msgstr ""
 
 #: ../src/Messages.rb:413
 msgctxt "Messages"
-msgid "Your reply"
+msgid "Compose"
 msgstr ""
 
 #: ../src/Messages.rb:413
 msgctxt "Messages"
-msgid "Compose"
+msgid "Your reply"
 msgstr ""
 
 #: ../src/Messages.rb:459 ../src/Messages.rb:647
@@ -4928,12 +4761,12 @@ msgstr ""
 
 #: ../src/Notes.rb:49
 msgctxt "Notes"
-msgid "Author"
+msgid "Modified"
 msgstr ""
 
 #: ../src/Notes.rb:49
 msgctxt "Notes"
-msgid "Modified"
+msgid "Author"
 msgstr ""
 
 #: ../src/Notes.rb:51
@@ -5054,12 +4887,7 @@ msgstr ""
 
 #: ../src/Polls.rb:133
 msgctxt "Polls"
-msgid "Poll name"
-msgstr ""
-
-#: ../src/Polls.rb:133
-msgctxt "Polls"
-msgid "Create"
+msgid "Hide this poll"
 msgstr ""
 
 #: ../src/Polls.rb:133
@@ -5074,12 +4902,17 @@ msgstr ""
 
 #: ../src/Polls.rb:133
 msgctxt "Polls"
+msgid "Poll name"
+msgstr ""
+
+#: ../src/Polls.rb:133
+msgctxt "Polls"
 msgid "Questions"
 msgstr ""
 
-#: ../src/Polls.rb:158
+#: ../src/Polls.rb:133
 msgctxt "Polls"
-msgid "Question"
+msgid "Create"
 msgstr ""
 
 #: ../src/Polls.rb:158
@@ -5089,17 +4922,12 @@ msgstr ""
 
 #: ../src/Polls.rb:158
 msgctxt "Polls"
-msgid "Multiple choice"
+msgid "Question"
 msgstr ""
 
-#: ../src/Polls.rb:158 ../src/Polls.rb:164
+#: ../src/Polls.rb:158
 msgctxt "Polls"
-msgid "Answers"
-msgstr ""
-
-#: ../src/Polls.rb:158 ../src/Polls.rb:164 ../src/Polls.rb:185
-msgctxt "Polls"
-msgid "New answer"
+msgid "Edit box"
 msgstr ""
 
 #: ../src/Polls.rb:158
@@ -5107,9 +4935,19 @@ msgctxt "Polls"
 msgid "Question type"
 msgstr ""
 
+#: ../src/Polls.rb:158 ../src/Polls.rb:164 ../src/Polls.rb:185
+msgctxt "Polls"
+msgid "New answer"
+msgstr ""
+
+#: ../src/Polls.rb:158 ../src/Polls.rb:164
+msgctxt "Polls"
+msgid "Answers"
+msgstr ""
+
 #: ../src/Polls.rb:158
 msgctxt "Polls"
-msgid "Edit box"
+msgid "Multiple choice"
 msgstr ""
 
 #: ../src/Polls.rb:184
@@ -5169,7 +5007,17 @@ msgstr ""
 
 #: ../src/Portable.rb:7
 msgctxt "Portable"
+msgid "Copy current settings"
+msgstr ""
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
 msgid "Destination"
+msgstr ""
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "continue"
 msgstr ""
 
 #: ../src/Portable.rb:7
@@ -5180,16 +5028,6 @@ msgstr ""
 #: ../src/Portable.rb:7
 msgctxt "Portable"
 msgid "Create as a single exe file. (No settings will be saved."
-msgstr ""
-
-#: ../src/Portable.rb:7
-msgctxt "Portable"
-msgid "Copy current settings"
-msgstr ""
-
-#: ../src/Portable.rb:7
-msgctxt "Portable"
-msgid "continue"
 msgstr ""
 
 #: ../src/Portable.rb:21
@@ -5204,21 +5042,12 @@ msgstr ""
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid ""
-" If you use a created copy of Elten on another computer, the voice settings ma"
-"y  not work properly. This is especially noticeable in a situation when anothe"
-"r  computer has other voices installed. How do you want to configure the gener"
-"ated  version?"
-msgstr ""
-
-#: ../src/Portable.rb:35
-msgctxt "Portable"
 msgid "Use current setting"
 msgstr ""
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Ask each time"
+msgid "Use a screenreader or a system default voice"
 msgstr ""
 
 #: ../src/Portable.rb:35
@@ -5228,7 +5057,16 @@ msgstr ""
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Use a screenreader or a system default voice"
+msgid "Ask each time"
+msgstr ""
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid ""
+" If you use a created copy of Elten on another computer, the voice settings ma"
+"y  not work properly. This is especially noticeable in a situation when anothe"
+"r  computer has other voices installed. How do you want to configure the gener"
+"ated  version?"
 msgstr ""
 
 #: ../src/Portable.rb:49
@@ -5374,24 +5212,203 @@ msgctxt "Registration"
 msgid "An error occurred while connecting to the server."
 msgstr ""
 
-#: ../src/ShortKeys.rb:8
-msgctxt "ShortKeys"
-msgid "List of keyboard shortcuts"
+#: ../src/Settings.rb:92
+msgctxt "Settings"
+msgid "Category"
 msgstr ""
 
-#: ../src/SoundCard.rb:9 ../src/SoundCard.rb:10
-msgctxt "SoundCard"
+#: ../src/Settings.rb:93
+msgid "Apply"
+msgstr ""
+
+#: ../src/Settings.rb:98
+msgctxt "Settings"
+msgid "General"
+msgstr ""
+
+#: ../src/Settings.rb:109
+msgctxt "Settings"
+msgid "Language"
+msgstr ""
+
+#: ../src/Settings.rb:110
+msgctxt "Settings"
+msgid "Automatically minimize Elten Window to system tray"
+msgstr ""
+
+#: ../src/Settings.rb:114
+msgctxt "Settings"
+msgid "Enable auto log in"
+msgstr ""
+
+#: ../src/Settings.rb:115
+msgctxt "Settings"
+msgid "Automatically start Elten after I log on to Windows"
+msgstr ""
+
+#: ../src/Settings.rb:118
+msgctxt "Settings"
+msgid "Interface"
+msgstr ""
+
+#: ../src/Settings.rb:119
+msgctxt "Settings"
+msgid "Play sounds of soundthemes"
+msgstr ""
+
+#: ../src/Settings.rb:120
+msgctxt "Settings"
+msgid "Use default"
+msgstr ""
+
+#: ../src/Settings.rb:130
+msgctxt "Settings"
+msgid "Sound theme"
+msgstr ""
+
+#: ../src/Settings.rb:131
+msgctxt "Settings"
+msgid "Manage sound themes"
+msgstr ""
+
+#: ../src/Settings.rb:132
+msgctxt "Settings"
+msgid "Wrap long lines in text fields"
+msgstr ""
+
+#: ../src/Settings.rb:133
+msgctxt "Settings"
+msgid "The display method of selection lists"
+msgstr ""
+
+#: ../src/Settings.rb:133
+msgctxt "Settings"
+msgid "Linear"
+msgstr ""
+
+#: ../src/Settings.rb:133
+msgctxt "Settings"
+msgid "Circular"
+msgstr ""
+
+#: ../src/Settings.rb:148 ../src/Settings.rb:150
+msgctxt "Settings"
+msgid "Voice"
+msgstr ""
+
+#: ../src/Settings.rb:149
+msgctxt "Settings"
+msgid "Use screenreader"
+msgstr ""
+
+#: ../src/Settings.rb:151
+msgctxt "Settings"
+msgid "Speech rate"
+msgstr ""
+
+#: ../src/Settings.rb:152
+msgctxt "Settings"
+msgid "Speech volume"
+msgstr ""
+
+#: ../src/Settings.rb:153
+msgctxt "Settings"
+msgid "Characters"
+msgstr ""
+
+#: ../src/Settings.rb:153
+msgctxt "Settings"
+msgid "Words"
+msgstr ""
+
+#: ../src/Settings.rb:153
+msgctxt "Settings"
+msgid "Characters and words"
+msgstr ""
+
+#: ../src/Settings.rb:153 ../src/Settings.rb:193
+msgctxt "Settings"
+msgid "None"
+msgstr ""
+
+#: ../src/Settings.rb:153
+msgctxt "Settings"
+msgid "Typing echo"
+msgstr ""
+
+#: ../src/Settings.rb:192
+msgctxt "Settings"
+msgid "Clock"
+msgstr ""
+
+#: ../src/Settings.rb:193
+msgctxt "Settings"
+msgid "Clock information"
+msgstr ""
+
+#: ../src/Settings.rb:193
+msgctxt "Settings"
+msgid "Voice and sound"
+msgstr ""
+
+#: ../src/Settings.rb:193
+msgctxt "Settings"
+msgid "Voice only"
+msgstr ""
+
+#: ../src/Settings.rb:193
+msgctxt "Settings"
+msgid "Sound only"
+msgstr ""
+
+#: ../src/Settings.rb:194
+msgctxt "Settings"
+msgid "every hour"
+msgstr ""
+
+#: ../src/Settings.rb:194
+msgctxt "Settings"
+msgid "every quarter of an hour"
+msgstr ""
+
+#: ../src/Settings.rb:194
+msgctxt "Settings"
+msgid "every half hour"
+msgstr ""
+
+#: ../src/Settings.rb:194
+msgctxt "Settings"
+msgid "announcement time"
+msgstr ""
+
+#: ../src/Settings.rb:195
+msgctxt "Settings"
+msgid "Alarms"
+msgstr ""
+
+#: ../src/Settings.rb:208
+msgctxt "Settings"
+msgid "Sound devices"
+msgstr ""
+
+#: ../src/Settings.rb:212 ../src/Settings.rb:213
+msgctxt "Settings"
 msgid "Use Default"
 msgstr ""
 
-#: ../src/SoundCard.rb:11
-msgctxt "SoundCard"
+#: ../src/Settings.rb:220
+msgctxt "Settings"
 msgid "Output device"
 msgstr ""
 
-#: ../src/SoundCard.rb:11
-msgctxt "SoundCard"
+#: ../src/Settings.rb:221
+msgctxt "Settings"
 msgid "Input device"
+msgstr ""
+
+#: ../src/ShortKeys.rb:8
+msgctxt "ShortKeys"
+msgid "List of keyboard shortcuts"
 msgstr ""
 
 #: ../src/SoundThemes.rb:20
@@ -5414,362 +5431,372 @@ msgctxt "SoundThemes"
 msgid "Sound themes"
 msgstr ""
 
-#: ../src/SoundThemes.rb:55
+#: ../src/SoundThemes.rb:54
 msgctxt "SoundThemes"
 msgid "Select"
 msgstr ""
 
-#: ../src/SoundThemes.rb:63
+#: ../src/SoundThemes.rb:62
 msgctxt "SoundThemes"
 msgid "New"
 msgstr ""
 
-#: ../src/SoundThemes.rb:67
+#: ../src/SoundThemes.rb:66
 msgctxt "SoundThemes"
 msgid "Edit"
 msgstr ""
 
-#: ../src/SoundThemes.rb:70
+#: ../src/SoundThemes.rb:69
 msgctxt "SoundThemes"
 msgid "Delete"
 msgstr ""
 
-#: ../src/SoundThemes.rb:71
+#: ../src/SoundThemes.rb:70
 msgctxt "SoundThemes"
 msgid "Are you sure you want to delete this soundtheme?"
 msgstr ""
 
-#: ../src/SoundThemes.rb:101
+#: ../src/SoundThemes.rb:79
+msgctxt "SoundThemes"
+msgid "Do you wish to use this sound theme?"
+msgstr ""
+
+#: ../src/SoundThemes.rb:104
 msgctxt "Soundthemes"
 msgid "Select theme to download"
 msgstr ""
 
 #: ../src/Sounds.rb:11
 msgctxt "Sounds"
-msgid "Background of dialog windows"
+msgid "Operation cancelled"
 msgstr ""
 
 #: ../src/Sounds.rb:12
 msgctxt "Sounds"
-msgid "Dialog window opened"
+msgid "Background of dialog windows"
 msgstr ""
 
 #: ../src/Sounds.rb:13
 msgctxt "Sounds"
-msgid "Dialog window closed"
+msgid "Dialog window opened"
 msgstr ""
 
 #: ../src/Sounds.rb:14
 msgctxt "Sounds"
-msgid "Menu Background"
+msgid "Dialog window closed"
 msgstr ""
 
 #: ../src/Sounds.rb:15
 msgctxt "Sounds"
-msgid "Menu opened"
+msgid "Menu Background"
 msgstr ""
 
 #: ../src/Sounds.rb:16
 msgctxt "Sounds"
-msgid "Menu closed"
+msgid "Menu opened"
 msgstr ""
 
 #: ../src/Sounds.rb:17
 msgctxt "Sounds"
-msgid "Marker of a form"
+msgid "Menu closed"
 msgstr ""
 
 #: ../src/Sounds.rb:18
 msgctxt "Sounds"
-msgid "Focus move on a listbox"
+msgid "Marker of a form"
 msgstr ""
 
 #: ../src/Sounds.rb:19
 msgctxt "Sounds"
-msgid "Border of a listbox"
+msgid "Focus move on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:20
 msgctxt "Sounds"
-msgid "Expandable item on a listbox"
+msgid "Border of a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:21
 msgctxt "Sounds"
-msgid "Item expanded"
+msgid "Expandable item on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:22
 msgctxt "Sounds"
-msgid "Item collapsed"
+msgid "Item expanded"
 msgstr ""
 
 #: ../src/Sounds.rb:23
 msgctxt "Sounds"
-msgid "Item selected"
+msgid "Item collapsed"
 msgstr ""
 
 #: ../src/Sounds.rb:24
 msgctxt "Sounds"
-msgid "Checked item on a listbox"
+msgid "Item selected"
 msgstr ""
 
 #: ../src/Sounds.rb:25
 msgctxt "Sounds"
-msgid "Unchecked item on a listbox"
+msgid "Checked item on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:26
 msgctxt "Sounds"
-msgid "New or updated item on a listbox"
+msgid "Unchecked item on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:27
 msgctxt "Sounds"
-msgid "Item with attachment on a listbox"
+msgid "New or updated item on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:28
 msgctxt "Sounds"
-msgid "Closed item on a listbox"
+msgid "Item with attachment on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:29
 msgctxt "Sounds"
-msgid "Pinned item on a listbox"
+msgid "Closed item on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:30
 msgctxt "Sounds"
-msgid "Compressed file on a files tree"
+msgid "Pinned item on a listbox"
 msgstr ""
 
 #: ../src/Sounds.rb:31
 msgctxt "Sounds"
-msgid "Audio file on a files tree"
+msgid "Compressed file on a files tree"
 msgstr ""
 
 #: ../src/Sounds.rb:32
 msgctxt "Sounds"
-msgid "Directory on a files tree"
+msgid "Audio file on a files tree"
 msgstr ""
 
 #: ../src/Sounds.rb:33
 msgctxt "Sounds"
-msgid "Document on a files tree"
+msgid "Directory on a files tree"
 msgstr ""
 
 #: ../src/Sounds.rb:34
 msgctxt "Sounds"
-msgid "Text file on a files tree"
+msgid "Document on a files tree"
 msgstr ""
 
 #: ../src/Sounds.rb:35
 msgctxt "Sounds"
-msgid "Marker of an editbox in a form"
+msgid "Text file on a files tree"
 msgstr ""
 
 #: ../src/Sounds.rb:36
 msgctxt "Sounds"
-msgid "A piece of text in an editbox is checked"
+msgid "Marker of an editbox in a form"
 msgstr ""
 
 #: ../src/Sounds.rb:37
 msgctxt "Sounds"
-msgid "Capitalized letter in an editbox"
+msgid "A piece of text in an editbox is checked"
 msgstr ""
 
 #: ../src/Sounds.rb:38
 msgctxt "Sounds"
-msgid "Delete of a text in an editbox"
+msgid "Capitalized letter in an editbox"
 msgstr ""
 
 #: ../src/Sounds.rb:39
 msgctxt "Sounds"
-msgid "End of line in an editbox"
+msgid "Delete of a text in an editbox"
 msgstr ""
 
 #: ../src/Sounds.rb:40
 msgctxt "Sounds"
-msgid "Password character in an editbox"
+msgid "End of line in an editbox"
 msgstr ""
 
 #: ../src/Sounds.rb:41
 msgctxt "Sounds"
-msgid "Space in an editbox"
+msgid "Password character in an editbox"
 msgstr ""
 
 #: ../src/Sounds.rb:42
 msgctxt "Sounds"
-msgid "Marker of a button in a form"
+msgid "Space in an editbox"
 msgstr ""
 
 #: ../src/Sounds.rb:43
 msgctxt "Sounds"
-msgid "Marker of a checkbox in a form"
+msgid "Marker of a button in a form"
 msgstr ""
 
 #: ../src/Sounds.rb:44
 msgctxt "Sounds"
-msgid "User signed in or Elten window focused"
+msgid "Marker of a checkbox in a form"
 msgstr ""
 
 #: ../src/Sounds.rb:45
 msgctxt "Sounds"
-msgid "User signed out or Elten closed"
+msgid "User signed in or Elten window focused"
 msgstr ""
 
 #: ../src/Sounds.rb:46
 msgctxt "Sounds"
-msgid "Elten minimized into tray"
+msgid "User signed out or Elten closed"
 msgstr ""
 
 #: ../src/Sounds.rb:47
 msgctxt "Sounds"
-msgid "New chat message"
+msgid "Elten minimized into tray"
 msgstr ""
 
 #: ../src/Sounds.rb:48
 msgctxt "Sounds"
-msgid "Messages window updated"
+msgid "New chat message"
 msgstr ""
 
 #: ../src/Sounds.rb:49
 msgctxt "Sounds"
-msgid "New event"
+msgid "Messages window updated"
 msgstr ""
 
 #: ../src/Sounds.rb:50
 msgctxt "Sounds"
-msgid "Notification: birthday of a friend"
+msgid "New event"
 msgstr ""
 
 #: ../src/Sounds.rb:51
 msgctxt "Sounds"
-msgid "Notification: new comment on your blog"
+msgid "Notification: birthday of a friend"
 msgstr ""
 
 #: ../src/Sounds.rb:52
 msgctxt "Sounds"
-msgid "Notification: new post on a followed blog"
+msgid "Notification: new comment on your blog"
 msgstr ""
 
 #: ../src/Sounds.rb:53
 msgctxt "Sounds"
-msgid "Notification: new thread on a followed forum"
+msgid "Notification: new post on a followed blog"
 msgstr ""
 
 #: ../src/Sounds.rb:54
 msgctxt "Sounds"
-msgid "Notification: new post on a followed forum"
+msgid "Notification: new thread on a followed forum"
 msgstr ""
 
 #: ../src/Sounds.rb:55
 msgctxt "Sounds"
-msgid "Notification: new post in a followed thread"
+msgid "Notification: new post on a followed forum"
 msgstr ""
 
 #: ../src/Sounds.rb:56
 msgctxt "Sounds"
-msgid "Notification: new friend"
+msgid "Notification: new post in a followed thread"
 msgstr ""
 
 #: ../src/Sounds.rb:57
 msgctxt "Sounds"
-msgid "Notification: new mention"
+msgid "Notification: new friend"
 msgstr ""
 
 #: ../src/Sounds.rb:58
 msgctxt "Sounds"
-msgid "Notification: new message"
+msgid "Notification: new mention"
 msgstr ""
 
 #: ../src/Sounds.rb:59
 msgctxt "Sounds"
-msgid "Recording started"
+msgid "Notification: new message"
 msgstr ""
 
 #: ../src/Sounds.rb:60
 msgctxt "Sounds"
-msgid "Recording stopped"
+msgid "Recording started"
 msgstr ""
 
 #: ../src/Sounds.rb:61
 msgctxt "Sounds"
-msgid "Error"
+msgid "Recording stopped"
 msgstr ""
 
 #: ../src/Sounds.rb:62
 msgctxt "Sounds"
-msgid "Clock sound"
+msgid "Error"
 msgstr ""
 
 #: ../src/Sounds.rb:63
 msgctxt "Sounds"
-msgid "Alarm Sound"
+msgid "Clock sound"
 msgstr ""
 
 #: ../src/Sounds.rb:64
 msgctxt "Sounds"
-msgid "Waiting for an action to be completed"
+msgid "Alarm Sound"
 msgstr ""
 
 #: ../src/Sounds.rb:65
 msgctxt "Sounds"
+msgid "Waiting for an action to be completed"
+msgstr ""
+
+#: ../src/Sounds.rb:66
+msgctxt "Sounds"
 msgid "Signal"
 msgstr ""
 
-#: ../src/Sounds.rb:72
+#: ../src/Sounds.rb:73
 msgctxt "Sounds"
 msgid "Type name of the soundtheme"
 msgstr ""
 
-#: ../src/Sounds.rb:97
+#: ../src/Sounds.rb:98
 msgctxt "Sounds"
 msgid "Sounds guide, press space to play"
 msgstr ""
 
-#: ../src/Sounds.rb:98
+#: ../src/Sounds.rb:99
 msgctxt "Sounds"
 msgid "Editing sound theme %{theme}"
 msgstr ""
 
-#: ../src/Sounds.rb:100
-msgctxt "Sounds"
-msgid "Play"
-msgstr ""
-
-#: ../src/Sounds.rb:100
+#: ../src/Sounds.rb:101
 msgctxt "Sounds"
 msgid "Stop"
 msgstr ""
 
-#: ../src/Sounds.rb:102
+#: ../src/Sounds.rb:101
 msgctxt "Sounds"
-msgid "Change"
+msgid "Play"
 msgstr ""
 
 #: ../src/Sounds.rb:103
 msgctxt "Sounds"
+msgid "Change"
+msgstr ""
+
+#: ../src/Sounds.rb:104
+msgctxt "Sounds"
 msgid "Save"
 msgstr ""
 
-#: ../src/Sounds.rb:104 ../src/Sounds.rb:138
+#: ../src/Sounds.rb:105 ../src/Sounds.rb:139
 msgctxt "Sounds"
 msgid "Export"
 msgstr ""
 
-#: ../src/Sounds.rb:126
+#: ../src/Sounds.rb:127
 msgctxt "Sounds"
 msgid "Select new sound"
 msgstr ""
 
-#: ../src/Sounds.rb:142
+#: ../src/Sounds.rb:143
 msgctxt "Sounds"
 msgid "Where to save this theme"
 msgstr ""
 
-#: ../src/Sounds.rb:151
+#: ../src/Sounds.rb:152
 msgctxt "Sounds"
 msgid "Do you want to save this soundtheme?"
 msgstr ""
@@ -5914,69 +5941,9 @@ msgctxt "Users_RecentlyRegistered"
 msgid "Recently registered users"
 msgstr ""
 
-#: ../src/Voice.rb:7
-msgctxt "Voice"
-msgid "Change synthesizer's rate"
-msgstr ""
-
-#: ../src/Voice.rb:7
-msgctxt "Voice"
-msgid "Change voice volume"
-msgstr ""
-
-#: ../src/Voice.rb:7
-msgctxt "Voice"
-msgid "Use screenreader or system default voice"
-msgstr ""
-
-#: ../src/Voice.rb:7
-msgctxt "Voice"
-msgid "Change synthesizer"
-msgstr ""
-
-#: ../src/Voice.rb:8
-msgctxt "Voice"
-msgid "Voice settings"
-msgstr ""
-
-#: ../src/Voice.rb:34
-msgctxt "Voice"
-msgid "Screen reader selected as speech synthesizer."
-msgstr ""
-
-#: ../src/Voice.rb:93
-msgctxt "Voice"
-msgid "Selected voice"
-msgstr ""
-
-#: ../src/Voice.rb:116
-msgctxt "Voice"
-msgid "Change speech rate"
-msgstr ""
-
-#: ../src/Voice.rb:152
-msgctxt "Voice"
-msgid "Change speech volume"
-msgstr ""
-
 #: ../src/WhatsNew.rb:37
 msgctxt "WhatsNew"
 msgid "What's new"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New posts in followed threads"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "Update available (%{version})"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "Mentions"
 msgstr ""
 
 #: ../src/WhatsNew.rb:47
@@ -5991,12 +5958,22 @@ msgstr ""
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
-msgid "New threads on followed forums"
+msgid "Mentions"
 msgstr ""
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
-msgid "New comments on your blog"
+msgid "Update available (%{version})"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New messages"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New posts in followed threads"
 msgstr ""
 
 #: ../src/WhatsNew.rb:47
@@ -6006,7 +5983,17 @@ msgstr ""
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
-msgid "New messages"
+msgid "New comments on your blog"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New threads on followed forums"
+msgstr ""
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New posts on followed forums"
 msgstr ""
 
 #: ../src/WhatsNew.rb:59
@@ -6046,12 +6033,12 @@ msgstr ""
 
 #: ../src/Youtube.rb:51
 msgctxt "Youtube"
-msgid "Duration"
+msgid "Published on"
 msgstr ""
 
 #: ../src/Youtube.rb:51
 msgctxt "Youtube"
-msgid "Published on"
+msgid "Duration"
 msgstr ""
 
 #: ../src/_Main.rb:105

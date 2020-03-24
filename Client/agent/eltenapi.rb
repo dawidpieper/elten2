@@ -74,7 +74,9 @@ $http = NetHttp2::Client.new("https://elten-net.eu", connect_timeout: 5)
 $http.on(:error) { |error| init if error.is_a?(Errno::ECONNRESET) or error.is_a?(SocketError) }
 end
 
-def erequest(mod, param, data=nil, ign=false, &b)
+def erequest(mod, param, post=nil, headers={}, data=nil, ign=false, &b)
+headers={} if headers==nil
+headers['User-Agent']="Elten #{$version} agent"
 init if $http==nil
 tries=0
 $lastrep||=Time.now.to_i
@@ -89,7 +91,11 @@ $eropened=Time.now.to_f
 if !ign and ((t=Time.now).min%15==14 and t.sec==59)
 sleep(60-t.sec+2)
 end
-request = $http.prepare_request(:get, "/srv/#{mod}.php?#{param}")
+if post==nil
+request = $http.prepare_request(:get, "/srv/#{mod}.php?#{param}", headers: headers)
+else
+request = $http.prepare_request(:post, "/srv/#{mod}.php?#{param}", body: post, headers: headers)
+end
 body=""
 request.on(:body_chunk) {|ch| body+=ch}
 request.on(:close) {$eropened=nil;$lastrep=Time.now.to_i;$equeue.delete(id) if !ign;b.call(body,data)}
@@ -111,7 +117,6 @@ f="Audio/BGS/#{file}.ogg" if FileTest.exists?(f)==false
 else
 f=file
 end
-#begin
 $plid||=0
 $players||=[]
 $plid=($plid+1)%128
@@ -122,7 +127,7 @@ pl.volume=($volume.to_f/100.0)
 pl.play
 if looper
 $bgplayer.close if $bgplayer!=nil
-$bgplayer=$players[plid]
+$bgplayer=pl
 else
 $players[plid].close if $players[plid]!=nil
 $players[plid]=pl
@@ -133,8 +138,6 @@ Bass.init($hwnd||0)
 rescue Exception
 end
 end
-#rescue Exception
-#end
 rescue Exception
 end
 end

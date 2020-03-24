@@ -42,8 +42,7 @@ loop_update
     $scene = Scene_Main.new if escape
     if enter
             if @sel.index < @soundthemes.size
-              seltheme(@soundthemes[@sel.index])
-              $scene=Scene_Main.new
+                            seltheme(@soundthemes[@sel.index])
               else
             stdownload
             @return = true
@@ -77,6 +76,7 @@ loop_update
           end
           end
     def seltheme(theme)
+      confirm(p_("SoundThemes", "Do you wish to use this sound theme?")) {
               if theme.path!=""
                                                 $soundthemepath = $soundthemesdata + "\\" + theme.path
                                   else
@@ -85,6 +85,9 @@ loop_update
                                    writeconfig("Interface", "SoundTheme", theme.path)
                 alert(_("Saved"))
                           $soundthemespath = theme.path
+                          return true
+                          }
+                          return false
 end
     def stdownload
       sttemp = srvproc("soundthemes",{"type"=>"1"})

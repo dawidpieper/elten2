@@ -890,7 +890,7 @@ def deldir(dir,with=true)
     if hn[0].to_i<0 or hn[1].to_i==0
       return nil
     end
-        if $language=="pl_PL"
+        if $language=="pl-PL"
           return hn[3].delete("\r\n")
         else
           return hn[5].delete("\r\n")

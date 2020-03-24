@@ -141,6 +141,11 @@ end
   
   # Updates the keyboard state
        def key_update
+         if $nextkey!=nil and $nextkeyr!=nil and $nextkeypr!=nil
+           $key, $keyr, $keypr = $nextkey, $nextkeyr, $nextkeypr
+           $nextkey, $nextkeyr, $nextkeypr = nil, nil, nil
+           return
+           end
          lkey=$key
               $key = Array.new(256)
               $keyu = Array.new(256)
@@ -450,9 +455,9 @@ if $agalarm==true and $alarmproc!=true
   alert(p_("EAPI_UI", "Alert!"))
     until escape or enter or space
       loop_update
-      $agalarm=false
-      $agent.write(Marshal.dump({'func'=>'alarm_stop'}))
     end
+          $agalarm=false
+      $agent.write(Marshal.dump({'func'=>'alarm_stop'}))
     play("dialog_close")
     loop_update
     $alarmproc=false
@@ -467,13 +472,19 @@ rescue Reset=>r
 rescue Hangup
   rescue Interrupt
   end
+  
+  def keys_copyvalues
+    $nextkey=$key
+    $nextkeyr=$keyr
+    $nextkeypr=$keypr
+    end
 
   # Creates a simple dialog with options yes and no and returns the user's decision
 #
 # @param text [String] a question to ask
 # @return [Numeric] return 0 if user selected no or pressed escape, returns 1 if selected yes.
 def confirm(text="")
-  text.gsub!("jesteś pewien","jesteś pewna") if $language=="pl_PL" and $gender==0
+  text.gsub!("jesteś pewien","jesteś pewna") if $language=="pl-PL" and $gender==0
   dialog_open  
   sel = menulr([_("No"),_("Yes")],true,0,text)
     loop do

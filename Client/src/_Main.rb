@@ -8,11 +8,11 @@ end
 
 module Elten
 Version=2.4
-Beta=19
+Beta=20
 Alpha=0
 IsBeta=1
 BuildID=20200201002
-BuildDate=1584868772
+BuildDate=1585086293
 class <<self
   def version
   return Version
@@ -132,6 +132,7 @@ save_data($playlist,"#{$eltendata}\\playlist.eps")
     exit(run("\"#{$eltendata}\\eltenup.exe\" /tasks=\"\" /silent"))
   end
   Log.info("Exiting Elten")
+  end;begin
           rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true

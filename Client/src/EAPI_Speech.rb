@@ -313,21 +313,21 @@ def char_dict(text)
                                                               when ")"
                                                                 r=p_("EAPI_Speech", "right paren")
                                                                 when "ü"
-                                                                                                                                    r="u umlaut" if $language=="pl_PL"
+                                                                                                                                    r="u umlaut" if $language=="pl-PL"
                                                                   when "Ü"
-                                                                    r="U umlaut" if $language=="pl_PL"
+                                                                    r="U umlaut" if $language=="pl-PL"
                                                                     when "ä"
-                                                                      r="a umlaut" if $language=="pl_PL"
+                                                                      r="a umlaut" if $language=="pl-PL"
                                                                       when "Ä"
-                                                                 r="A umlaut" if $language=="pl_PL"
+                                                                 r="A umlaut" if $language=="pl-PL"
                                                                  when "ö"
-                                                                   r="o umlaut" if $language=="pl_PL"
+                                                                   r="o umlaut" if $language=="pl-PL"
                                                                    when "Ö"
-                                                                     r="O umlaut" if $language=="pl_PL"
+                                                                     r="O umlaut" if $language=="pl-PL"
 when "ß"
-                                                                     r="długie s" if $language=="pl_PL"
+                                                                     r="długie s" if $language=="pl-PL"
                                                                      when "´"
-                                                                     r="ostry akcent" if $language=="pl_PL"
+                                                                     r="ostry akcent" if $language=="pl-PL"
                                                                                          end
                       if r==""
                         return(text)
@@ -408,5 +408,17 @@ when "ß"
    }
    }
  end
-end
+ 
+ def listsapivoices
+   voices=[]
+   voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
+   wcscpy=Win32API.new("msvcrt", "wcscpy", 'pp', 'i')
+   for i in 0...Win32API.new("bin\\screenreaderapi", "sapiGetNumVoices", '', 'i').call
+                       vc="\0"*1024
+              wcscpy.call(vc,voicename.call(i))
+              voices.push(deunicode(vc))
+            end
+            return voices
+   end
+ end
 end

@@ -56,7 +56,7 @@
       else
         if @preparam == -3
           @grpindex[0] = @groups.size + 2
-          @grpindex[0] = 3 + @groups.find_index(@query) if @query.is_a?(Struct_Forum_Group)
+          @grpsetindex = @query.id if @query.is_a?(Struct_Forum_Group)
           usequery
         end
         threadsmain(@preparam)

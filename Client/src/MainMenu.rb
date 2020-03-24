@@ -138,6 +138,12 @@ module GlobalMenu
     }
     }
     @menu.submenu(p_("MainMenu", "&Tools")) {|m|
+    m.option(p_("MainMenu", "&Settings")) {
+    $scene=Scene_Settings.new
+    }
+        m.option(p_("MainMenu", "Soun&dthemes")) {
+    makescene  Scene_SoundThemes.new
+    }
     m.option(p_("MainMenu", "Speed &test")) {
     makescene Scene_SpeedTest.new
     }
@@ -157,29 +163,6 @@ module GlobalMenu
     }
     m.option(p_("MainMenu", "De&bugging")) {
     makescene Scene_Debug.new
-    }
-    }
-    @menu.submenu(p_("MainMenu", "&Settings")) {|m|
-    m.option(p_("MainMenu", "G&eneral settings")) {
-    makescene  Scene_General.new
-    }
-    m.option(p_("MainMenu", "&Voice settings")) {
-    makescene  Scene_Voice.new
-    }
-    m.option(p_("MainMenu", "Cloc&k")) {
-    makescene Scene_Clock.new
-    }
-    m.option(p_("MainMenu", "Sound device")) {
-    makescene Scene_SoundCard.new
-    }
-    m.option(p_("MainMenu", "Soun&dthemes")) {
-    makescene  Scene_SoundThemes.new
-    }
-    m.option(p_("MainMenu", "Manage &languages")) {
-    makescene  Scene_Languages.new
-    }
-    m.option(p_("MainMenu", "&Advanced settings")) {
-    makescene Scene_Advanced.new
     }
     }
     @menu.submenu(p_("MainMenu", "&Help")) {|m|

@@ -30,16 +30,23 @@ module EltenAPI
     
       class FormBase
         attr_accessor :header
-        def on(event, time=0, &block)
+        def params
+          @params||={}
+          @params
+          end
+        def on(event, time=0, getparams=false, &block)
       @events||=[]
-      @events.push([event,time,0,block])
+      @events.push([event,time,0,getparams,block])
     end
     def trigger(event, *params)
       return if @events==nil
       @events.each {|e|
 if e[0]==event and e[2]<=Time.now.to_f-e[1]
 e[2]=Time.now.to_f
-e[3].call(*params)
+a=*params
+a||=[]
+a.insert(0, params) if e[3]==true
+e[4].call(a)
 end
 }
     end
@@ -102,6 +109,7 @@ end
           @fields = fields
           @index = index
           @silent=silent
+          @hidden=[]
           if @fields[@index].is_a?(Array)
             if @fields[@index][0] == 0
               @fields[@index] = Edit.new(@fields[@index][1],@fields[@index][2],@fields[@index][3],false,@fields[@index][4])
@@ -118,14 +126,14 @@ end
         # Updates a form
         def update
           super
-          @index-=1 while @fields[@index]==nil and @index>0
-      @index+=1 while @fields[@index]==nil and @index<@fields.size-1
+          @index-=1 while (@fields[@index]==nil or @hidden[@index]==true) and @index>0
+      @index+=1 while (@fields[@index]==nil or @hidden[@index]==true) and @index<@fields.size-1
                                       if $key[0x09] == true
                                         speech_stop
             if $key[0x10] == false and @fields[@index].subindex==@fields[@index].maxsubindex
               ind=@index
               @index += 1
-              while @fields[@index] == nil and @index<@fields.size
+              while (@fields[@index] == nil or @hidden[@index]==true) and @index<@fields.size
                 @index+=1
               end
               if @index >= @fields.size
@@ -136,7 +144,7 @@ end
           elsif $key[0x10] and @fields[@index].subindex==0
 ind=@index
             @index-=1
-            while @fields[@index]==nil
+            while @fields[@index]==nil or @hidden[@index]==true
               @index-=1
               end
             if @index < 0
@@ -158,6 +166,15 @@ ind=@index
                 end
                 def append(field)
                   @fields.push(field)
+                end
+                def show_all
+                  @hidden=[]
+                  end
+                def hide(index)
+                  @hidden[index]=true
+                end
+                def show(index)
+                  @hidden[index]=false
                   end
                 def focus
                   @fields[@index].focus if @fields[@index]!=nil
@@ -823,6 +840,9 @@ def finalize
 end
 def text
   @text.gsub("\n","\r\n")
+end
+def value
+  text
   end
   def focus(spk=true)
       play("edit_marker") if spk
@@ -990,6 +1010,10 @@ end
 @grayed[@commandoptions.size-1]=true if ((opt==nil)&&!lr)||gray
 end            
 end
+
+def value
+  self.index
+  end
             
             # Update the listbox
     def update
@@ -1340,6 +1364,10 @@ super
             trigger(:change)
             end
           end
+          
+          def value
+            return @checked.to_i
+            end
         
                     def focus(spk=true, snd=true)
           play("checkbox_marker") if spk and snd
@@ -1511,7 +1539,7 @@ end
 def filetype
   return 0 if File.directory?(cfile(true))
   ext=File.extname(selected).downcase
-  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts" or ext==".aiff" or ext==".m4v"
+  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts" or ext==".aiff" or ext==".m4v" or ext==".mkv"
     return 1
   elsif ext==".txt"
     return 2
@@ -2148,6 +2176,7 @@ class Menu
           s-=1
         end
       end
+      return if opts.size==0
     sel=Select.new(opts,true,0, h, false, false, (@type==:menubar)&&index==0, true)
     sel.on(:border) {play("border")}
     sel.on(:move) {

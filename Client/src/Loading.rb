@@ -147,18 +147,7 @@ else
   end
     writefile($eltendata+"\\appid.dat",$appid)
   end
-  Log.info("Loading configuration")
-  $interface_listtype = readconfig("Interface", "ListType", 0)
-  $interface_soundcard = readconfig("SoundCard", "SoundCard", "")
-  $interface_microphone = readconfig("SoundCard", "Microphone", "")
-$advanced_keyms = readconfig("Advanced", "KeyUpdateTime", 75)
-$advanced_ackeyms = $advanced_keyms * 3
-$interface_soundthemeactivation = readconfig("Interface", "SoundThemeActivation", 1)
-$interface_typingecho = readconfig("Interface", "TypingEcho", 0)
-$interface_linewrapping = readconfig("Interface", "LineWrapping", 1)
-$interface_hidewindow = readconfig("Interface", "HideWindow", 0)
-$advanced_refreshtime = readconfig("Advanced", "AgentRefreshTime", 1)
-$advanced_synctime = readconfig("Advanced", "SyncTime", 1)
+  load_configuration
 Log.info("Initializing Bass")
 Bass.init($wnd) if $usebass==true
 Log.info("Initializing NVDA Support")
@@ -208,14 +197,6 @@ $start = Time.now.to_i
 $thr1=Thread.new{thr1} if $thr1==nil
 $thr2=Thread.new{thr2} if $thr2==nil
 $thr3=Thread.new{thr3} if $thr3==nil
-$voice = readconfig("Voice","Voice",-2)
-if $rvc==nil
-      if (/\/voice (-?)(\d+)/=~$commandline) != nil
-        $rvc=$1+$2
-        $voice=$rvc.to_i
-            end    
-          end
-          $language = readconfig("Interface", "Language", "")
                     if FileTest.exists?("Data/langs.dat")
                       $langs=load_data("Data/langs.dat")
                     else
@@ -238,6 +219,7 @@ if $language==""
                                           lcid=Win32API.new("kernel32","GetUserDefaultLCID",'','i').call
                                                                                   $language="\0"*5
                                                                                   Win32API.new("kernel32", "GetLocaleInfo", 'iipi', 'i').call(lcid, 92, $language, $language.size)
+                                                                                  writeconfig("Interface", "Language", "", $language)
                                                                                 end
                                                                                 setlocale($language)
           if $voice == -2 or $voice == -3
@@ -255,31 +237,7 @@ if enter
             writeconfig("Voice","Voice",-1) if $voice != -3
       end
       return
-    else
-      Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
-                  $rate = readconfig("Voice","Rate",50)
-        if $rvcr==nil
-      if (/\/voicerate (\d+)/=~$commandline) != nil
-        $rvcr=$1
-        $rate=$rvcr.to_i
-            end    
-    end
-                  Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
-                      $sapivolume = readconfig("Voice","Volume",100)
-    if $rvcv==nil
-      if (/\/voicevolume (\d+)/=~$commandline) != nil
-        $rvcv=$1
-        $sapivolume=$rvcv.to_i
-            end    
-    end
-    Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
-  end
-          $soundthemespath = readconfig("Interface","SoundTheme","")
-            if $soundthemespath.size > 0
-    $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
-  else
-    $soundthemepath = "Audio"
-    end
+                    end
                                                                                                                                                                   if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
@@ -328,7 +286,6 @@ if $portable != 1
         speech_wait
                       end
                     end
-                          $volume = readconfig("Interface", "MainVolume", 50)
       if !FileTest.exists?($eltendata+"\\license_agreed.dat")
         $exit = true
 license

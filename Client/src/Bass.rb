@@ -69,9 +69,9 @@ module Bass
       while BASS_GetDeviceInfo.call(index,tmp)>0
         a=tmp.unpack("ii")
         o="\0"*1024
-        Win32API.new("msvcrt","wcscpy",'pp','i').call(o,a[0])
-                sc=(o)
-       ret.push(sc)
+        Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
+                sc=(o[0...o.index("\0")])
+       ret.push(sc.delete("\0"))
         index+=1
       end
     return ret
