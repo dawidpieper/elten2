@@ -18,9 +18,9 @@ else {
 function list_files($d) {
 $ret=array();
 foreach(glob($d.'/BGS/*.ogg', GLOB_BRACE) as $file)
-array_push($ret, str_replace($d,"",$file));
+array_push($ret, str_replace($d."/","",$file));
 foreach(glob($d.'/SE/*', GLOB_BRACE) as $file)
-array_push($ret, str_replace($d,"",$file));
+array_push($ret, str_replace($d."/","",$file));
 if(file_exists($d."/__name.txt")) array_push($ret,"__name.txt");
 return $ret;
 }

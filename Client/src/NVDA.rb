@@ -109,14 +109,16 @@ elsif j['msgtype']==4
                         text=text+""
                         realtext=""
                         @oldbraille="" if @oldbraille==nil
-                                                case type
+                                                                        case type
                         when -1
+                          return if index>=@oldbraille.size
                                                     indexb=index
-                          indexb+=1 while @oldbraille[indexb]>0xBF && indexb<@oldbraille.size-1
+                          indexb+=1 while indexb<@oldbraille.size-1 && @oldbraille[indexb]>0xBF
                                                     realtext=@oldbraille[0...index]+@oldbraille[(indexb+1)..-1]
                                                     index=realtext[0...index].chrsize
                           @oldrawbraille=""
                                                 when 1
+                                                  return if index>@oldbraille.size
                                                                                                     realtext=@oldbraille[0...index]+text+@oldbraille[index..-1]
                           index=realtext[0...index].chrsize
                           @oldrawbraille=""

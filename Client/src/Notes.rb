@@ -2,9 +2,9 @@
 #Copyright (C) 2014-2020 Dawid Pieper
 #All rights reserved.
 
-class Scene_Notes
+    class Scene_Notes
   def main(index=0)
-    if $name=="guest"
+    if Session.name=="guest"
       alert(_("This section is unavailable for guests"))
       $scene=Scene_Main.new
       return
@@ -48,22 +48,17 @@ class Scene_Notes
   for n in @notes
     selt.push(n.name+"\r\n#{p_("Notes", "Author")}: "+n.author+"\r\n#{p_("Notes", "Modified")}: "+sprintf("%04d-%02d-%02d %02d:%02d",n.modified.year,n.modified.month,n.modified.day,n.modified.hour,n.modified.min))
   end
-  selt.push(p_("Notes", "New note"))
   @sel=Select.new(selt,true,index,p_("Notes", "Notes"))
   @sel.bind_context{|menu|context(menu)}
   loop do
     loop_update
     @sel.update
     $scene=Scene_Main.new if escape
-    if enter
-      if @sel.index==@notes.size
-        $scene=Scene_Notes_New.new
-      else
+    if enter and @notes.size>0
         show(@notes[@sel.index])
         @sel.focus if @refresh!=true
-        end
               end
-                        if $key[0x2e] and @sel.index<@notes.size and @notes[@sel.index].author==$name
+                        if $key[0x2e] and @notes.size>0 and @notes[@sel.index].author==Session.name
       delete(@notes[@sel.index])
       end
               if @refresh == true
@@ -83,11 +78,14 @@ class Scene_Notes
     menu.option(p_("Notes", "Edit")) {
                 show(note,true)
     }
-    if note.author==$name
+    if note.author==Session.name
     menu.option(_("Delete")) {
                   delete(note)
     }
   end
+  menu.option(p_("Notes", "New note")) {
+          $scene=Scene_Notes_New.new
+  }
   end
   menu.option(_("Refresh")) {
   main
@@ -104,19 +102,55 @@ end
 if nt.size>1
 for t in nt[1..nt.size-1]
   sh=t.delete("\r\n")
-  sh=note.author if sh==$name
+  sh=note.author if sh==Session.name
   shares.push(sh)
 end
 end
 sharest=shares+[]
-sharest.push(p_("Notes", "Add")) if note.author==$name
 @fields=[Edit.new(note.name,"MULTILINE|READONLY",note.text,true),Button.new(p_("Notes", "Edit")),Select.new(sharest,true,0,p_("Notes", "Note shared with"),true),nil,Button.new(_("Cancel"))]
 @form=Form.new(@fields)
+@form.bind_context{|menu|
+if note.author==Session.name
+menu.option(p_("Notes", "Share")) {
+    dialog_open
+    inpt=Edit.new(p_("Notes", "Who do you want to share this note with?"))
+    loop do
+      loop_update
+      inpt.update
+      if escape
+        dialog_close
+        break
+        end
+      inpt.settext(selectcontact) if arrow_up or arrow_down
+      if enter
+        user=inpt.text_str.delete("\r\n").gsub("\004LINE\004","")
+                user=finduser(user) if finduser(user).upcase==user.upcase
+                if user_exist(user) == false
+          alert(p_("Notes", "User cannot be found"))
+        else
+          nt=srvproc("notes",{"noteid"=>note.id, "addshare"=>"1", "user"=>user})
+          if nt[0].to_i<0
+            alert(_("Error"))
+          else
+            speech(p_("Notes", "From now on you share this note with %{user}")%{'user'=>user})
+            speech_wait
+            shares.push(user)
+            sharest=shares
+            @form.fields[2].commandoptions=sharest
+            dialog_close
+            break
+            end
+          end
+        end
+    end
+}
+end
+}
 if edit == true
 @form.fields[0].flags=Edit::Flags::MultiLine
 @form.fields[1]=Button.new(_("Save"))
 end
-@form.fields[3]=Button.new(_("Delete")) if note.author==$name
+@form.fields[3]=Button.new(_("Delete")) if note.author==Session.name
     dialog_open
 loop do
   loop_update
@@ -144,41 +178,7 @@ break
           end
     end
         end
-  if enter and @form.index==2 and @form.fields[2].index==shares.size
-    dialog_open
-    inpt=Edit.new(p_("Notes", "Who do you want to share this note with?"))
-    loop do
-      loop_update
-      inpt.update
-      if escape
-        dialog_close
-        break
-        end
-      inpt.settext(selectcontact) if arrow_up or arrow_down
-      if enter
-        user=inpt.text_str.delete("\r\n").gsub("\004LINE\004","")
-                user=finduser(user) if finduser(user).upcase==user.upcase
-                if user_exist(user) == false
-          alert(p_("Notes", "User cannot be found"))
-        else
-          nt=srvproc("notes",{"noteid"=>note.id, "addshare"=>"1", "user"=>user})
-          if nt[0].to_i<0
-            alert(_("Error"))
-          else
-            speech(p_("Notes", "From now on you share this note with %{user}")%{'user'=>user})
-            speech_wait
-            shares.push(user)
-            sharest=shares+[p_("Notes", "Add")]
-            @form.fields[2].commandoptions=sharest
-            dialog_close
-            break
-            end
-          end
-        end
-    end
-    loop_update
-  end
-if $key[0x2e] and @form.index==2 and note.author==$name and @form.fields[2].index<shares.size
+  if $key[0x2e] and @form.index==2 and note.author==Session.name and @form.fields[2].index<shares.size
   if confirm(p_("Notes", "Do you want to stop sharing this note with %{user}?")%{'user'=>@form.fields[2].commandoptions[@form.fields[2].index]})==1
   user=shares[@form.fields[2].index]
             nt=srvproc("notes",{"noteid"=>note.id, "delshare"=>"1", "user"=>user})
@@ -187,7 +187,7 @@ if $key[0x2e] and @form.index==2 and note.author==$name and @form.fields[2].inde
           else
             speech(p_("Notes", "You no longer share this note with %{user}")%{'user'=>user})
                         shares.delete(user)
-            sharest=shares+[p_("Notes", "Add")]
+            sharest=shares
 @form.fields[2].index-=1
 @form.fields[2].index=0 if @form.fields[2].index<0
             @form.fields[2].commandoptions=sharest
@@ -267,7 +267,7 @@ def initialize(id=0)
   @id=id
   @created=Time.now
   @modified=Time.now
-  @author=$name
+  @author=Session.name
   @text=""
   @name=""
 end

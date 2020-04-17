@@ -4,12 +4,12 @@
 
 class Scene_Chat
   def main
-    if $name=="guest"
+    if Session.name=="guest"
       alert(_("This section is unavailable for guests"))
       $scene=Scene_Main.new
       return
       end
-    if isbanned($name)
+    if isbanned(Session.name)
       alert(p_("Chat", "You have been banned."))
       $scene=Scene_Main.new
       return

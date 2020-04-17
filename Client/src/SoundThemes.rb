@@ -5,12 +5,12 @@
 class Scene_SoundThemes
   def main(canceled=false)
     @return = false
-st=Dir.entries($soundthemesdata)
+st=Dir.entries(Dirs.soundthemes)
 st.delete("..")
 st.delete(".")
 @soundthemes = []
 for s in st
-      d=$soundthemesdata+"\\"+s
+      d=Dirs.soundthemes+"\\"+s
       if File.directory?(d) and FileTest.exists?(d+"\\__name.txt")
         t=Struct_SoundThemes_SoundTheme.new(s, readfile(d+"\\__name.txt"))
         @soundthemes.push(t)
@@ -68,7 +68,7 @@ loop_update
           }
           menu.option(p_("SoundThemes", "Delete")) {
                           confirm(p_("SoundThemes", "Are you sure you want to delete this soundtheme?")) {
-                deldir($soundthemesdata+"\\"+@soundthemes[@sel.index].path)
+                deldir(Dirs.soundthemes+"\\"+@soundthemes[@sel.index].path)
                 @return=true
                 main
                 }
@@ -78,7 +78,7 @@ loop_update
     def seltheme(theme)
       confirm(p_("SoundThemes", "Do you wish to use this sound theme?")) {
               if theme.path!=""
-                                                $soundthemepath = $soundthemesdata + "\\" + theme.path
+                                                $soundthemepath = Dirs.soundthemes + "\\" + theme.path
                                   else
               $soundthemepath=""                    
       end
@@ -116,14 +116,14 @@ end
    end
  end
  def downloadtheme(path)
-     Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode($soundthemesdata + "\\" + path), nil)
-    Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode($soundthemesdata + "\\" + path + "\\BGS"), nil)
-    Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode($soundthemesdata + "\\" + path + "\\SE"), nil)
+     Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(Dirs.soundthemes + "\\" + path), nil)
+    Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(Dirs.soundthemes + "\\" + path + "\\BGS"), nil)
+    Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(Dirs.soundthemes + "\\" + path + "\\SE"), nil)
     st=srvproc("soundthemes",{"listfiles"=>path})
     waiting
     for s in st[1..-1]
       s=s.delete!("\r\n").gsub("../","").gsub("..\\","")
-            downloadfile($url+"/soundthemes/"+s, $soundthemesdata+"/"+s,nil,nil,true)
+            downloadfile($url+"/soundthemes/"+s, Dirs.soundthemes+"/"+s,nil,nil,true)
                       end
          waiting_end
   alert(_("Saved"))

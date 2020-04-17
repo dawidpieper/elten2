@@ -8,11 +8,11 @@ end
 
 module Elten
 Version=2.4
-Beta=20
+Beta=30
 Alpha=0
 IsBeta=1
-BuildID=20200201002
-BuildDate=1585086293
+BuildID=20200402001
+BuildDate=1586641595
 class <<self
   def version
   return Version
@@ -63,7 +63,7 @@ $toscene = false
   $dialogopened = false
   loop do
   $scene=Scene_Loading.new if $restart==true
-          if $scene != nil
+          if $scene != nil and $exit!=true
         $notifications_callback = nil
         Log.debug("Loading scene: #{$scene.class.to_s}")
                               $scene.main
@@ -71,12 +71,14 @@ $toscene = false
     break
     end
   end
+      play("logout")
+  register_activity if $privacy_registeractivity==1
+  delay(1)
   NVDA.join
   NVDA.destroy
     Win32API.new("kernel32","TerminateProcess",'ip','i').call($agent.pid,"") if $agent!=nil
     $agent=nil
-    srvproc("chat","name=#{$name}\&token=#{$token}\&send=1\&text=#{p_("Chat", "Left the discussion.").urlenc}") if $chat==true
-    play("logout")
+    srvproc("chat", {"send"=>1, "text"=>p_("Chat", "Left the discussion.")}) if $chat==true
   speech_wait
   Log.debug("Closing processes")
   if $procs!=nil  
@@ -99,101 +101,55 @@ $t=false
   $playlist = [] if $playlist == nil
   if $playlist.size > 0
     $playlistpaused = true
-        if FileTest.exists?("#{$eltendata}\\playlist.eps")
-      pls = load_data("#{$eltendata}\\playlist.eps")
+        if FileTest.exists?("#{Dirs.eltendata}\\playlist.eps")
+      pls = load_data("#{Dirs.eltendata}\\playlist.eps")
       if pls != $playlist
         if confirm(p_("*Main", "Your playlist has been changed. Save current changes?")) == 1
-save_data($playlist,"#{$eltendata}\\playlist.eps")
+save_data($playlist,"#{Dirs.eltendata}\\playlist.eps")
           end
         end
       else
         if confirm(p_("*Main", "Do you want to save your playlist?")) == 1
-          save_data($playlist,"#{$eltendata}\\playlist.eps")
+          save_data($playlist,"#{Dirs.eltendata}\\playlist.eps")
           end
         end
         $playlist=[]
         $playlistbuffer.close if $playlistbuffer==nil
         $playlistbuffer=nil
         else
-    if FileTest.exists?("#{$eltendata}\\playlist.eps")
+    if FileTest.exists?("#{Dirs.eltendata}\\playlist.eps")
       if confirm(p_("*Main", "Do you want to delete the saved playlist?")) == 1
-        File.delete("#{$eltendata}\\playlist.eps")
+        File.delete("#{Dirs.eltendata}\\playlist.eps")
         end
             end
   end
   deldir($tempdir)
-        delay(1)
-  # Fade out
-  Graphics.transition(120)
     $exit = true
   if $exitupdate==true
-    writefile($eltendata+"\\update.last",Zlib::Deflate.deflate([$version.to_s,$beta.to_s,$alpha.to_s,$isbeta.to_s].join(" ")))
-    writefile($eltendata+"\\bin\\Data\\update.last",Marshal.dump(Time.now.to_f))
-    exit(run("\"#{$eltendata}\\eltenup.exe\" /tasks=\"\" /silent"))
+    writefile(Dirs.eltendata+"\\update.last",Zlib::Deflate.deflate([$version.to_s,$beta.to_s,$alpha.to_s,$isbeta.to_s].join(" ")))
+    writefile(Dirs.eltendata+"\\bin\\Data\\update.last",Marshal.dump(Time.now.to_f))
+    exit(run("\"#{Dirs.eltendata}\\eltenup.exe\" /tasks=\"\" /silent"))
   end
   Log.info("Exiting Elten")
-  end;begin
           rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true
   retry
-  #rescue Errno::ENOENT
-  # Supplement Errno::ENOENT exception
-  # If unable to open file, display message and end
-  #filename = $!.message.sub("No such file or directory - ", "")
-  #print("Unable to find file #{filename}.")
-  #retry
 rescue Reset
 key_update
   $DEBUG=true if $key[0x10]
   play("signal") if $key[0x10]
   retry
-rescue RuntimeError
-  if $ruby != true
-  $ruer = 0 if $ruer == nil
-  $ruer += 1
-  if $ruer <= 10 and $DEBUG != true
-    Win32API.new("kernel32","Beep",'ii','i').call(440,100)
-    Graphics.update
-    retry
-  else
-    speech("Critical error occurred: "+$!.message)
-    speech_wait
-    sleep(0.5)
-    speech("Do you wish to send the error report?")
-    speech_wait
-    @sel = menulr([_("No"),_("Yes")])
-    loop do
-      loop_update
-      @sel.update
-      break if enter
-    end
-    if @sel.index == 1
-      sleep(0.15)
-      bug
-    end
-    speech_wait
-        fail
-      end
-    else
-      fail
-end
   rescue SystemExit
   loop_update
   quit if $keyr[0x73]
           play("list_focus") if $exit==nil
   $toscene = true
     retry if $exit == nil
+    end;begin
   rescue Exception
       if $ruby != true
-    if $consoleused == true
-    print $!.message.to_s + "   |   " + $@.to_s if $DEBUG
-    speech("Error occurred")
-        speech_wait
-    $console_used = false
-    $tomain = true
-    retry
-  elsif $updating != true and $beta_downloading != true and $start != nil and $downloading != true
+  if $updating != true and $beta_downloading != true and $start != nil and $downloading != true
         speech("Critical error occurred: "+$!.message)
     speech_wait
     sleep(0.5)
@@ -228,7 +184,7 @@ loop do
       speech("Rescue mode")
       speech_wait
       @sels = ["Quit", "Reinstall"]
-      @sels += ["Try to open forum", "Try to open messages"] if $name != nil and $name != ""
+      @sels += ["Try to open forum", "Try to open messages"] if Session.name != nil and Session.name != ""
       @sel = menulr(@sels)
       loop do
         loop_update

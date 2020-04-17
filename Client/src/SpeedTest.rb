@@ -4,7 +4,7 @@
 
 class Scene_SpeedTest
   def main
-    @form=Form.new([Select.new([p_("SpeedTest", "Session refresh"),p_("SpeedTest", "What's new"),p_("SpeedTest", "Forum structure"),p_("SpeedTest", "Messages recipients"),p_("SpeedTest", "Blogs list")],true,0,p_("SpeedTest", "Unit to test"),true),Edit.new(p_("SpeedTest", "Number of attempts to perform"),Edit::Flags::Numbers,"10",true),Button.new(p_("SpeedTest", "Start")),Button.new(_("Cancel"))])
+    @form=Form.new([Select.new([p_("SpeedTest", "Session refresh"),p_("SpeedTest", "What's new"),p_("SpeedTest", "Forum structure (uncompressed)"),p_("SpeedTest", "Forum structure (compressed)"),p_("SpeedTest", "Messages recipients"),p_("SpeedTest", "Blogs list")],true,0,p_("SpeedTest", "Unit to test"),true),Edit.new(p_("SpeedTest", "Number of attempts to perform"),Edit::Flags::Numbers,"10",true),Button.new(p_("SpeedTest", "Start")),Button.new(_("Cancel"))])
     loop do
       loop_update
       @form.update
@@ -21,8 +21,11 @@ class Scene_SpeedTest
             when 2
               mod="forum_struct"
               when 3
+                mod="forum_struct"
+                params={'gz'=>1, 'useflags'=>1}
+              when 4
                 mod="messages_conversations"
-                when 4
+                when 5
                   mod="blog_list"
                 end
                 speak(p_("SpeedTest", "Performing test, please wait"))

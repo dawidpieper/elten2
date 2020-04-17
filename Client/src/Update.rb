@@ -31,9 +31,9 @@ class Scene_Update
         $started = true
     Graphics.update
   end
-            downloadfile($url + "bin/eltenup.exe",$eltendata + "\\eltenup.exe",p_("Update", "Please wait while files are downloaded."),nil,true)
+            downloadfile($url + "bin/eltenup.exe",Dirs.eltendata + "\\eltenup.exe",p_("Update", "Please wait while files are downloaded."),nil,true)
     speech_wait
-    if $name!="" and $name!=nil
+    if Session.name!="" and Session.name!=nil
     alert(p_("Update", " The update has been downloaded. To install it, the program must be restarted.  Press enter to continue or escape to cancel."))
     cn=true
     for i in 1..Graphics.frame_rate*30
@@ -63,10 +63,10 @@ class Scene_Update
         speak(p_("Update", "Please wait while files are downloaded."))
                 $downloadstarted = true
         speak(p_("Update", "Please wait while files are downloaded."))
-download($url + "bin/download_elten.exe",$eltendata + "\\download_elten.exe")
+download($url + "bin/download_elten.exe",Dirs.eltendata + "\\download_elten.exe")
     speech_wait
     alert(p_("Update", " The program will be now reverted to the latest stable version. Elten will restart.  It may take several minutes."))
-  run($eltendata + "\\download_elten.exe /wait")
+  run(Dirs.eltendata + "\\download_elten.exe /wait")
   exit!
     end
   end

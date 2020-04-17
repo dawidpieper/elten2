@@ -14,8 +14,6 @@
   @durations=[]
   @items=[]
   @token=search(query)
-  $ytdh=[]
-  $ytds=[]
       dialog_open
       o=@o.deep_dup
       o.push(p_("Youtube", "Load more")) if @token!=nil
@@ -81,7 +79,7 @@ speech(sprintf("%02d:%02d:%02d",h,m,s))
     return main
         break
   end
-  if space and form.index==0 and FileTest.exists?($extrasdata+"\\youtube-dl.exe") and sel.index<@items.size
+  if space and form.index==0 and FileTest.exists?(Dirs.extras+"\\youtube-dl.exe") and sel.index<@items.size
     if previewed==sel.index
       preview.close
       preview=nil
@@ -96,7 +94,7 @@ speech(sprintf("%02d:%02d:%02d",h,m,s))
       end
           suc=false
       statustempfile=$tempdir+"/ytp"+rand(36**2).to_s(36)+".tmp"
-            h = run("cmd /c #{$extrasdata}\\youtube-dl.exe --ffmpeg-location bin -g -f bestaudio --extract-audio \"https://youtube.com/watch?v=#{@ids[sel.index]}\" 1> #{statustempfile} 2>\&1",true)
+            h = run("cmd /c #{Dirs.extras}\\youtube-dl.exe --ffmpeg-location bin -g -f bestaudio --extract-audio \"https://youtube.com/watch?v=#{@ids[sel.index]}\" 1> #{statustempfile} 2>\&1",true)
                   prc=0
       starttm=Time.now.to_i
       lastcheck=Time.now.to_i

@@ -5,11 +5,11 @@
 class Scene_Programs
   def main
     @installed=[]
-    d=Dir.entries($appsdata)
+    d=Dir.entries(Dirs.apps)
     d.delete(".")
     d.delete("..")
     for path in d
-      @installed.push(Struct_Programs_Program.load(path)) if FileTest.exists?($appsdata+"\\"+path+"\\__app.ini")
+      @installed.push(Struct_Programs_Program.load(path)) if FileTest.exists?(Dirs.apps+"\\"+path+"\\__app.ini")
     end
     @programs=[]
     l=srvproc("apps_list", {})
@@ -83,17 +83,17 @@ class Scene_Programs
            confirm(p_("Programs", "Do you want to install the program %{name}?")%{'name'=>program.name, 'size'=>size.to_s}) {
            path=program.realpath
            if path==nil
-             bpath=$appsdata+"\\"+program.path
+             bpath=Dirs.apps+"\\"+program.path
                       path=bpath+""
            i=0
            loop {
            path=bpath+""
            path+="(#{i})" if i>0
-           break if !FileTest.exists?($appsdata+"\\"+path)
+           break if !FileTest.exists?(Dirs.apps+"\\"+path)
            i+=1
            }
          else
-           path=$appsdata+"\\"+path
+           path=Dirs.apps+"\\"+path
            end
            waiting
            ds=[]
@@ -101,9 +101,9 @@ class Scene_Programs
                           src=$url+d[2+i*2+1].delete("\r\n")
              dst=path+"\\"+d[2+i*2].delete("\r\n").gsub("/","\\").delete(":")
              next if dst.include?("..\\")
-                          pr=dst.sub($appsdata,"").split("\\")[0...-1]
+                          pr=dst.sub(Dirs.apps,"").split("\\")[0...-1]
              for i in 0...pr.size
-               t=$appsdata+"\\"+pr[0..i].join("\\")
+               t=Dirs.apps+"\\"+pr[0..i].join("\\")
                if !ds.include?(t)
                createdirifneeded(t)
                ds.push(t)
@@ -114,7 +114,7 @@ class Scene_Programs
            waiting_end
            alert(p_("Programs", "Installation completed."))
            Programs.delete(program.realpath) if program.realpath!=nil
-           Programs.load_sig(path.sub($appsdata+"\\",""))
+           Programs.load_sig(path.sub(Dirs.apps+"\\",""))
            @refresh=true
            }
          end
@@ -122,7 +122,7 @@ class Scene_Programs
          if inst==true
            menu.option(p_("Programs", "Remove")) {
            confirm(p_("Programs", "Are you sure you want to remove program %{name}?")%{'name'=>program.name}) {
-           deldir($appsdata+"\\"+program.realpath)
+           deldir(Dirs.apps+"\\"+program.realpath)
            Programs.delete(program.realpath)
            alert(p_("Programs", "Program removed"))
            @refresh=true
@@ -136,7 +136,7 @@ class Scene_Programs
     attr_accessor :name, :file, :version, :author, :path
     attr_reader :realpath
 def self.load(path)
-  f=$appsdata+"\\"+path+"\\__app.ini"
+  f=Dirs.apps+"\\"+path+"\\__app.ini"
   return if !FileTest.exists?(f)
     name=readini(f,"App","Name","")
   version=readini(f,"App","Version","")

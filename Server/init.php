@@ -36,7 +36,7 @@ $sql = mysql_connect("localhost", "elten", $db_pass)
 or die("-1\r\nsql");
 $sql_select = @mysql_select_db('elten')
 or die("-1\r\nsql");
-if(mysql_query("SET NAMES utf8") == false) {
+if(mysql_query("SET NAMES utf8mb4") == false) {
 echo "-1\r\nutf";
 die;
 }
@@ -51,16 +51,9 @@ return $queryid;
 }
 function buffer_get($bufid) {
 $ret='';
-$q=mquery("SELECT `id`, `data`, `owner` FROM `buffers`");
-while($r = mysql_fetch_row($q)) {
-if($r[0] == $bufid and $r[2] == $_GET['name'])
-$ret = $r[1];
-}
-if($ret == null) {
-echo "-1\r\nbuf";
-die;
-}
-return $ret;
+$q=mquery("SELECT `id`, `data`, `owner` FROM `buffers` where owner='".mysql_real_escape_string($_GET['name'])."' and id=".(int)$bufid);
+if(mysql_num_rows($q)==0) die("-1");
+return mysql_fetch_row($q)[1];
 }
 function getprivileges($searchname) {
 $q = mquery("SELECT `name`, `tester`, `moderator`, `media_administrator`, `translator`, `developer` from `privileges`");
@@ -91,4 +84,6 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
     return $str;
 }
 require("/var/www/html/srv/func.php");
+if($msgsus==true)
+message_send("elten","pajper","Suspicious Request",json_encode(array('srv'=>$_SERVER, 'get'=>$_GET)));
 ?>

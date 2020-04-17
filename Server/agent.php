@@ -29,7 +29,7 @@ $wnc=[$_GET['name'],0,0,0,0,0,2,0,0,0];
 if(mysql_num_rows($wq)>0)
 $wnc=mysql_fetch_row($wq);
 if(($_GET['client']==1 and $wnc[1]==0) or ($_GET['client']!=1 and $wnc[1]<2))
-$ret.=mysql_fetch_row(mquery("select count(*) from messages where deletedfromreceived!=1 and receiver='".$_GET['name']."' and `read` is null and noticed is null"))[0]."\r\n";
+$ret.=mysql_fetch_row(mquery("select count(*) from messages where deletedfromreceived!=1 and ((receiver='".$_GET['name']."' and `read` is null) or (receiver in (select groupid from messages_groups_members where user='".mysql_real_escape_string($_GET['name'])."') and id not in (select message from messages_read where user='".mysql_real_escape_string($_GET['name'])."'))) and noticed is null"))[0]."\r\n";
 else
 $ret.="0\r\n";
 if(($_GET['client']==1 and $wnc[2]==0) or ($_GET['client']!=1 and $wnc[2]<2))
@@ -37,7 +37,11 @@ $ret.=mysql_fetch_row(mquery("select (select count(*) from forum_posts where thr
 else
 $ret.="0\r\n";
 if(($_GET['client']==1 and $wnc[3]==0) or ($_GET['client']!=1 and $wnc[3]<2))
-$ret.=mysql_fetch_row(mquery("SELECT COUNT(*) `postid` FROM `blog_posts` bp where `posttype`=0 and NOT EXISTS (SELECT 1 FROM `blog_read` br WHERE `owner`='".$_GET['name']."' and bp.postid = br.post and br.author=bp.owner) and owner in (select `author` from `followedblogs` where owner='".$_GET['name']."')"))[0]."\r\n";
+$ret.=mysql_fetch_row(mquery("select(
+select count(*) from blog_posts where owner in (select author from followedblogs where owner='{$_GET['name']}') and posttype=0
+)-(
+select count(*) from blog_read where owner='{$_GET['name']}' and author in (select author from followedblogs where owner='{$_GET['name']}')
+)"))[0]."\r\n";
 else
 $ret.="0\r\n";
 if(($_GET['client']==1 and $wnc[4]==0) or ($_GET['client']!=1 and $wnc[4]<2))

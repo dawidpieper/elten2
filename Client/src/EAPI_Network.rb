@@ -63,25 +63,27 @@ end
       end
       
       # @deprecated use WinSock interface instead
-      def connect(ip,port,data,len=2048,msg=p_("EAPI_Network", "sending..."))
-            addr = Socket.sockaddr_in(port.to_i, ip)
-          sock = Socket.new(2,0,0)
-sock.connect(addr).to_s
-sock
+      def elconnect(data,len=2048,msg=p_("EAPI_Network", "sending..."))
+id=rand(10**8)
+$eltsocks_create||={}
+$eltsocks_write||={}
+$eltsocks_read||={}
+$eltsocks_close||={}
+$agent.write(Marshal.dump({'func'=>'eltsock_create', 'id'=>id}))
+while $eltsocks_create[id]==nil
+  loop_update
+end
+sockid=$eltsocks_create[id]['sockid']
+$eltsocks_create[id]=nil
 t = 0
 ti = Time.now.to_i
 s = false
 if data.size <= 1048576
-  begin
-if $ruby != true
-  s = sock.send(data) if s == false
-else
-  s = sock.write(data) if s == false
-  end
-#rescue Exception
-  #loop_update
-  #retry
+$agent.write(Marshal.dump({'func'=>'eltsock_write', 'sockid'=>sockid, 'message'=>data, 'id'=>id}))
+while $eltsocks_write[id]==nil
+  loop_update
 end
+$eltsocks_write[id]=nil
 else
   speech(msg)
   waiting  
@@ -90,29 +92,31 @@ until data.empty?
   places << data.slice!(0..524287)
 end
   sent = ""
-begin
 for i in 0..places.size-1
     loop_update
         speech(((i.to_f/(places.size.to_f+1.0))*100.0).to_i.to_s+"%") if speech_actived == false
-        if $ruby != true                    
-        s = sock.send(places[i])
-              else
-        s = sock.write(places[i])
-        end
-        end
-rescue Exception
-loop_update
-sock = Socket.new(2,0,0)
-sock.connect(addr).to_s
-retry
+        $agent.write(Marshal.dump({'func'=>'eltsock_write', 'id'=>id, 'message'=>places[i], 'sockid'=>sockid}))
+while $eltsocks_write[id]==nil
+  loop_update
 end
+$eltsocks_write[id]=nil
+play 'signal'
+        end
 waiting_end
 end
 b = ""
 t = 0
-b = sock.recv(len)
-sock.close
-b
+$agent.write(Marshal.dump({'func'=>'eltsock_read', 'sockid'=>sockid, 'id'=>id, 'size'=>len}))
+while $eltsocks_read[id]==nil
+  loop_update
+end
+b=$eltsocks_read[id]['message']
+$eltsocks_read[id]=nil
+$agent.write(Marshal.dump({'func'=>'eltsock_close', 'sockid'=>sockid, 'id'=>id}))
+while $eltsocks_close[id]==nil
+  loop_update
+end
+$eltsocks_close[id]=nil
 return b
 end
           

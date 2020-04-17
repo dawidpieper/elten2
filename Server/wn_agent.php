@@ -27,7 +27,14 @@ $ret['upd']['version']=(float)$versionini['Version'];
 $ret['upd']['beta']=(int)$versionini['Beta'];
 $ret['upd']['alpha']=(int)$versionini['Alpha'];
 }
-$ret['msg']=mysql_fetch_row(mquery("select id from messages where receiver='".mysql_real_escape_string($_GET['name'])."' order by id desc limit 0,1"))[0];
+$ret['msg']=mysql_fetch_row(mquery("select max(id) from messages where receiver='".mysql_real_escape_string($_GET['name'])."' or receiver in (select groupid from messages_groups_members where user='".mysql_real_escape_string($_GET['name'])."')"))[0];
+$ret['signals']=array();
+$q=mquery("select id,sender,time,appid,packet from apps_signals where time>unix_timestamp()-10 and receiver='{$_GET['name']}'");
+if(mysql_num_rows($q)>0) {
+mquery("update apps_signals set received=1 where received=0 and receiver='{$_GET['name']}'");
+while($r=mysql_fetch_row($q))
+array_push($ret['signals'], array('id'=>(int)$r[0], 'sender'=>$r[1], 'time'=>(int)$r[2], 'appid'=>(int)$r[3], 'packet'=>$r[4]));
+}
 $ret['wn']=array();
 if($_GET['chat']==1) {
 mquery("INSERT INTO `chat_actived` (name, date) VALUES ('" . $_GET['name'] . "','".time()."') ON DUPLICATE KEY UPDATE name=VALUES(name),date=VALUES(DATE)");
@@ -40,7 +47,7 @@ $wnc=[$_GET['name'],0,0,0,0,0,2,0,0,0];
 if(mysql_num_rows($wq)>0)
 $wnc=mysql_fetch_row($wq);
 if(($_GET['client']==1 and $wnc[1]==0) or ($_GET['client']!=1 and $wnc[1]<2)) {
-$qi=mquery("select id,sender,subject from messages where receiver='".mysql_real_escape_string($_GET['name'])."' and `read` is null and deletedfromreceived=0 and `date`>={$lasttime} order by id desc limit 0,10");
+$qi=mquery("select id,sender,subject from messages where ((receiver='".mysql_real_escape_string($_GET['name'])."' and `read` is null) or (receiver like '[%]' and receiver in (select groupid from messages_groups_members where user='".mysql_real_escape_string($_GET['name'])."') and id not in (select message from messages_read where user='".mysql_real_escape_string($_GET['name'])."'))) and deletedfromreceived=0 and `date`>={$lasttime} order by id desc limit 0,10");
 while($r=mysql_fetch_row($qi))
 array_push($ret['wn'],array('id'=>'msg_'.$r[0],'alert'=>$r[1].': '.substr($r[2],0,64),'sound'=>'notification_message'));
 }
@@ -55,7 +62,7 @@ while($r=mysql_fetch_row($qi))
 array_push($ret['wn'],array('id'=>'blg_'.$r[1].'_'.$r[0],'alert'=>$r[1].': '.substr($r[2],0,64),'sound'=>'notification_followedblog'));
 }
 if(($_GET['client']==1 and $wnc[4]==0) or ($_GET['client']!=1 and $wnc[4]<2)) {
-$qi=mquery("select postid,name,id from blog_posts where owner='".mysql_real_escape_string($_GET['name'])."' and postid in (select post from blog_read r where owner='".mysql_real_escape_string($_GET['name'])."' and author='".mysql_real_escape_string($_GET['name'])."' and posts<(select count(*) from blog_posts where owner='".mysql_real_escape_string($_GET['name'])."' and postid=r.post)) and `date`>={$lasttime} order by id desc limit 0,10");
+$qi=mquery("select p.postid, o.name, p.id from blog_posts p left join blog_posts o on p.postid=o.postid and p.owner=o.owner where p.owner='".mysql_real_escape_string($_GET['name'])."' and p.postid in (select post from blog_read r where owner='".mysql_real_escape_string($_GET['name'])."' and author='".mysql_real_escape_string($_GET['name'])."' and posts<(select count(*) from blog_posts where owner='".mysql_real_escape_string($_GET['name'])."' and postid=r.post)) and p.`date`>={$lasttime} order by id desc limit 0,10");
 while($r=mysql_fetch_row($qi))
 array_push($ret['wn'],array('id'=>'blc_'.$r[0]."_".$r[2],'alert'=>substr($r[1],0,64),'sound'=>'notification_blogcomment'));
 }

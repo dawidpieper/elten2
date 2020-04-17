@@ -2,10 +2,12 @@
 #Copyright (C) 2014-2020 Dawid Pieper
 #All rights reserved.
 
-$usebass=true
 module Bass
+  ENV['path']+=";.\\bin"
   BassLib="bin\\bass"
   BassencLib="bin\\bassenc"
+  BassfxLib="bin\\bass_fx"
+  BASS_FX_TempoCreate = Win32API.new(BassfxLib, "BASS_FX_TempoCreate", 'ii', 'i')
   BASS_GetVersion = Win32API.new(BassLib, "BASS_GetVersion", "", "I")
   BASS_ErrorGetCode = Win32API.new(BassLib, "BASS_ErrorGetCode", "", "I")
   BASS_Init = Win32API.new(BassLib, "BASS_Init", "IIII", "I")
@@ -140,6 +142,9 @@ if BASS_PluginLoad.call("bin\\bassmidi.dll") == 0 then
     end
     if BASS_PluginLoad.call("bin\\basswma.dll") == 0 then
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+    end
+    if BASS_PluginLoad.call("bin\\bass_ac3.dll") == 0 then
+      raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
     #if BASS_RecordInit.call(-1) == 0 then
       #print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
@@ -175,7 +180,7 @@ BASS_SetConfig.call(10, 2)
       if filename[0..3]=="http"
         return Bass::Stream.new(filename)
       else
-        @handle = BASS_SampleLoad.call(0, unicode(filename), 0, 0, 0, max, 0x20000|0x80000000)
+        @handle = BASS_SampleLoad.call(0, unicode(filename), 0, 0, 0, max, 0x20000|0x80000000|0x200000)
           end
       @ch=BASS_SampleGetChannel.call(@handle,0)
       if @handle == 0 then
@@ -259,23 +264,23 @@ BASS_SetConfig.call(10, 2)
     def initialize(filename,pos=0,tries=10, u3d=false)
       pos=pos.to_i          
             if filename[0..3]=="http"
-        @ch = BASS_StreamCreateURL.call(unicode(filename), pos, 0x80000000, 0, 0)
+        @cha = BASS_StreamCreateURL.call(unicode(filename), pos, 0x80000000|0x200000, 0, 0)
                 else
                   for i in 1..10      
                     flags=0
-                    flags=8|2 if u3d
-                                      @ch = BASS_StreamCreateFile.call(0, unicode(filename), pos, 0, 0, 0, flags|0x80000000)
-                  if @ch==0
+                                      @cha = BASS_StreamCreateFile.call(0, unicode(filename), pos, 0, 0, 0, flags|0x80000000|0x200000)
+                  if @cha==0
                                         Bass.init($wnd)
                   else
                     break
                   end
                   end
       end
-      if @ch == 0
+      if @cha == 0
         return initialize(filename,pos=0,tries-1) if tries>0 and !$DEBUG
                 print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
               end
+                      @ch = BASS_FX_TempoCreate.call(@cha, 0)
                                                                   end
 
     def free
@@ -415,7 +420,8 @@ loc=$tempdir+"\\plr#{rand(36**6).to_s(36)}.ogg"
                     return nil if @cls==nil
                   @channel=@cls.ch
                                     @basefrequency=frequency
-                                    BASS_ChannelFlags.call(channel, 4, 4) if looper==true
+                                    BASS_ChannelFlags.call(@channel, 0x200000, 0x200000)
+                                                                               BASS_ChannelFlags.call(channel, 4, 4) if looper==true
        end
        def playing?
                   playing
@@ -434,10 +440,11 @@ loc=$tempdir+"\\plr#{rand(36**6).to_s(36)}.ogg"
        def status
          @lastupdate=0 if @lastupdate==nil
          return 1 if @lastupdate<Time.now.to_i*1000000+Time.now.usec+50000
-         BASS_ChannelIsActive.call(@channel)
+         BASS_ChannelIsActive.call(@cls)
          end
      def play
-              @cls.play if @cls!=nil
+              #@cls.play if @cls!=nil
+              BASS_ChannelPlay.call(@channel, 0) if @cls!=nil
      end
      def stop
        @cls.stop if @cls!=nil
@@ -446,7 +453,10 @@ loc=$tempdir+"\\plr#{rand(36**6).to_s(36)}.ogg"
        BASS_ChannelPause.call(@channel) if @cls!=nil
        end
      def free
-       @cls.free if @closed!=true and @cls!=nil
+       if @closed!=true and @cls!=nil
+         BASS_StreamFree.call(@channel)
+         @cls.free
+         end
        @closed=true
      end
      def close
@@ -482,6 +492,11 @@ loc=$tempdir+"\\plr#{rand(36**6).to_s(36)}.ogg"
        return tm.unpack("f")[0]
        end
      def tempo=(n)
+       if @tempo==nil
+         @tempo=n
+         BASS_ChannelSetAttribute.call(@channel, 65555, 60)
+         BASS_ChannelSetAttribute.call(@channel, 65554, 1)
+         end
               tm=[n].pack('f').unpack('i')[0]
        BASS_ChannelSetAttribute.call(@channel,0x10000,tm)
        return tm

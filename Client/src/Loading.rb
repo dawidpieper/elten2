@@ -22,7 +22,6 @@
           Log.info("Window hook registered")
           $scenes = []
     $volume = 50
-    $speech_to_utf = true
     $instance = Win32API.new("kernel32","GetModuleHandle",'i','i').call(0)
     $process = Win32API.new("kernel32","GetCurrentProcess",'','i').call
     $path="\0"*1024
@@ -32,15 +31,15 @@
     if $wnd==nil
     $wnd = Win32API.new("user32","FindWindow",'pp','i').call("RGSS Player",nil)
   
-    $cwnd = Win32API.new("user32","GetActiveWindow",'','i').call
-    if $cwnd != $wnd
-      $ccwnd = Win32API.new("user32","GetForegroundWindow",'','i').call
-      if $ccwnd == $wnd
-        $wnd = $ccwnd
-      elsif $cwnd == $wnd
-        $wnd = $cwnd
-      elsif $ccwnd == $cwnd
-        $wnd = $cwnd
+    cwnd = Win32API.new("user32","GetActiveWindow",'','i').call
+    if cwnd != $wnd
+      ccwnd = Win32API.new("user32","GetForegroundWindow",'','i').call
+      if ccwnd == $wnd
+        $wnd = ccwnd
+      elsif cwnd == $wnd
+        $wnd = cwnd
+      elsif ccwnd == cwnd
+        $wnd = cwnd
         end
       end
     end      
@@ -56,37 +55,36 @@
     Graphics.freeze
     Graphics.transition(0)
     end
-        $name = ""
-    $token = ""
+        Session.name = ""
+    Session.token = ""
     $url = "https://elten-net.eu/srv/"
     $srv = "elten-net.eu"
     Graphics.frame_rate = 60 if $ruby != true
-              $appdata = getdirectory(26)
-$userprofile = getdirectory(40)
+              Dirs.appdata = getdirectory(26)
 $portable=readini("./elten.ini","Elten","Portable","0").to_i
 if $portable == 0
-$eltendata = $appdata + "\\elten"
+Dirs.eltendata = Dirs.appdata + "\\elten"
 else
-  $eltendata = ".\\eltendata"
+  Dirs.eltendata = ".\\eltendata"
 end
 $commandline=Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
           if (/\/datadir \"([a-zA-Z0-9\\:\/ ]+)\"/=~$commandline) != nil
                 $reld=$1
-        $eltendata=$reld
+        Dirs.eltendata=$reld
       end    
-      $appsdata = $eltendata + "\\apps"
-      $extrasdata = $eltendata + "\\extras"
-$soundthemesdata = $eltendata + "\\soundthemes"
-$tempdir=$eltendata+"\\temp"
-createdirifneeded($eltendata)
-createdirifneeded($extrasdata)
-createdirifneeded($soundthemesdata)
-createdirifneeded($appsdata)
+      Dirs.apps = Dirs.eltendata + "\\apps"
+      Dirs.extras = Dirs.eltendata + "\\extras"
+Dirs.soundthemes = Dirs.eltendata + "\\soundthemes"
+$tempdir=Dirs.eltendata+"\\temp"
+createdirifneeded(Dirs.eltendata)
+createdirifneeded(Dirs.extras)
+createdirifneeded(Dirs.soundthemes)
+createdirifneeded(Dirs.apps)
 createdirifneeded($tempdir)
 #upd
-deldir($eltendata+"\\apps\\inis") if FileTest.exists?($eltendata+"\\apps\\inis")
-deldir($eltendata+"\\bin") if FileTest.exists?($eltendata+"\\bin")
-if FileTest.exists?($eltendata+"\\config")
+deldir(Dirs.eltendata+"\\apps\\inis") if FileTest.exists?(Dirs.eltendata+"\\apps\\inis")
+deldir(Dirs.eltendata+"\\bin") if FileTest.exists?(Dirs.eltendata+"\\bin")
+if FileTest.exists?(Dirs.eltendata+"\\config")
 v={
 'Advanced'=>[['KeyUpdateTime'], ['RefreshTime'], ['SyncTime'], ['AgentRefreshTime']],
 'Interface' => [['ListType'], ['SoundThemeActivation'], ['TypingEcho'], ['HideWindow'], ['MainVolume'], ['SayTimePeriod','Clock'], ['SayTimeType','Clock'], ['LineWrapping'], ['SoundCard', 'SoundCard'], ['Microphone', 'SoundCard']],
@@ -100,7 +98,7 @@ for k in v.keys
   for o in v[k]
     o[1]=k if o[1]==nil
     o[2]=o[0] if o[2]==nil
-        val=readini($eltendata+"\\config\\"+(k+"")+".ini", k+"", o[0], "")
+        val=readini(Dirs.eltendata+"\\config\\"+(k+"")+".ini", k+"", o[0], "")
     writeconfig(o[1]+"", o[2]+"", val) if val!=""
     end
   end
@@ -108,18 +106,18 @@ rescue Exception
   Log.error("UPD: #{$!.to_s} #{$@.to_s}")
 end
 
-copyfile($eltendata+"\\config\\appid.dat", $eltendata+"\\appid.dat") if !FileTest.exists?($eltendata+"\\appid.dat")
-deldir($eltendata+"\\config")
+copyfile(Dirs.eltendata+"\\config\\appid.dat", Dirs.eltendata+"\\appid.dat") if !FileTest.exists?(Dirs.eltendata+"\\appid.dat")
+deldir(Dirs.eltendata+"\\config")
 end
 begin
-deldir($eltendata+"\\lng")
-if FileTest.exists?($soundthemesdata+"\\inis")
-d=Dir.entries($soundthemesdata+"\\inis")
+deldir(Dirs.eltendata+"\\lng")
+if FileTest.exists?(Dirs.soundthemes+"\\inis")
+d=Dir.entries(Dirs.soundthemes+"\\inis")
 for f in d
   next if !f.include?(".ini")
-  name=readini($soundthemesdata+"\\inis\\"+f, "SoundTheme", "Name", "")
-  path=readini($soundthemesdata+"\\inis\\"+f, "SoundTheme", "Path", "")
-  writefile($soundthemesdata+"\\"+path+"\\__name.txt", name)
+  name=readini(Dirs.soundthemes+"\\inis\\"+f, "SoundTheme", "Name", "")
+  path=readini(Dirs.soundthemes+"\\inis\\"+f, "SoundTheme", "Path", "")
+  writefile(Dirs.soundthemes+"\\"+path+"\\__name.txt", name)
 end
 end
 rescue Exception
@@ -136,8 +134,8 @@ if l>0
   
   end
 #endupd
-if FileTest.exists?($eltendata+"\\appid.dat")
-$appid=readfile($eltendata+"\\appid.dat")
+if FileTest.exists?(Dirs.eltendata+"\\appid.dat")
+$appid=readfile(Dirs.eltendata+"\\appid.dat")
 else
   Log.info("Generating new AppID")
   $appid = ""
@@ -145,14 +143,20 @@ else
   64.times do
     $appid << chars[rand(chars.length-1)]
   end
-    writefile($eltendata+"\\appid.dat",$appid)
+    writefile(Dirs.eltendata+"\\appid.dat",$appid)
   end
   load_configuration
 Log.info("Initializing Bass")
-Bass.init($wnd) if $usebass==true
+Bass.init($wnd)
 Log.info("Initializing NVDA Support")
 NVDA.init
 loop_update while !NVDA.waiting?
+if $agentloaded!=true
+  agent_start
+  $agentloaded = true
+else
+  $agent.write(Marshal.dump('func'=>'relogin', 'name'=>nil, 'token'=>nil))
+end
 Log.info("Connecting to Elten server")
 if srvproc("init",{})[0].to_i<0
           $url = "http://elten-net.eu/srv/"
@@ -182,7 +186,7 @@ $neterror = true
 end
         end
       end  
-      Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,$extrasdata+"\\soundfont.sf2") if FileTest.exists?($extrasdata+"\\soundfont.sf2")
+      Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,Dirs.extras+"\\soundfont.sf2") if FileTest.exists?(Dirs.extras+"\\soundfont.sf2")
                                     $beta = Elten.beta
         $alpha = Elten.alpha
     $version = Elten.version
@@ -198,14 +202,14 @@ $thr1=Thread.new{thr1} if $thr1==nil
 $thr2=Thread.new{thr2} if $thr2==nil
 $thr3=Thread.new{thr3} if $thr3==nil
                     if FileTest.exists?("Data/langs.dat")
-                      $langs=load_data("Data/langs.dat")
+                      Lists.langs=load_data("Data/langs.dat")
                     else
-                      $langs={}
+                      Lists.langs={}
                     end
                     if FileTest.exists?("Data/locations.dat")
-                      $locations=load_data("Data/locations.dat")
+                      Lists.locations=load_data("Data/locations.dat")
                     else
-                      $locations=[]
+                      Lists.locations=[]
 
                     end
                     if !FileTest.exists?("Data/locale.dat")
@@ -219,36 +223,24 @@ if $language==""
                                           lcid=Win32API.new("kernel32","GetUserDefaultLCID",'','i').call
                                                                                   $language="\0"*5
                                                                                   Win32API.new("kernel32", "GetLocaleInfo", 'iipi', 'i').call(lcid, 92, $language, $language.size)
-                                                                                  writeconfig("Interface", "Language", "", $language)
+                                                                                  writeconfig("Interface", "Language", $language)
                                                                                 end
                                                                                 setlocale($language)
           if $voice == -2 or $voice == -3
           v=$voice
           $voice=-1
-          alert(p_("Loading", " No speech output selected. Press enter to select the SAPI synthesiser or escape  to use the installed screenreader."))
-          until enter or escape
-            loop_update
-          end
-if enter
-          $voice=v
-      $scene = Scene_Voice_Voice.new
-    else
-      $voice=-1
-            writeconfig("Voice","Voice",-1) if $voice != -3
-      end
-      return
                     end
                                                                                                                                                                   if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
-v=21
+v=22
 if Win32API.new("bin\\screenreaderapi", "getCurrentScreenReader", '', 'i').call==2 && (!NVDA.check || NVDA.getversion!=v)
   if !NVDA.check
   str=p_("Loading", "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?")
 elsif NVDA.getversion!=v
   str=p_("Loading", "New version of NVDA Elten addon is available. The version you're using is no longer supported in this Elten release and may cause some errors. Do you want to update it now?")
     end
-  if FileTest.exists?($appdata+"\\nvda")
+  if FileTest.exists?(Dirs.appdata+"\\nvda")
  confirm(str) {
   path=$path[0...$path.size-($path.reverse.index("\\"))]
   Win32API.new("bin\\nvdaHelperRemote.dll", "nvdaControllerInternal_installAddonPackageFromPath", 'p', 'i').call(unicode(path+"\\data\\elten.nvda-addon"))
@@ -286,14 +278,14 @@ if $portable != 1
         speech_wait
                       end
                     end
-      if !FileTest.exists?($eltendata+"\\license_agreed.dat")
+      if !FileTest.exists?(Dirs.eltendata+"\\license_agreed.dat")
         $exit = true
 license
                 $exit = nil
-                writefile($eltendata+"\\license_agreed.dat","\001")
+                writefile(Dirs.eltendata+"\\license_agreed.dat","\001")
         end
-              if FileTest.exists?($eltendata+"\\update.last")
-                        l=Zlib::Inflate.inflate(readfile($eltendata+"\\update.last")).split(" ")
+              if FileTest.exists?(Dirs.eltendata+"\\update.last")
+                        l=Zlib::Inflate.inflate(readfile(Dirs.eltendata+"\\update.last")).split(" ")
         lversion,lbeta,lalpha,lisbeta=l[0].to_f,l[1].to_i,l[2].to_i,l[3].to_i
         Log.info("Update completed from version #{lversion.to_s}")
         if lversion<2.35
@@ -306,65 +298,8 @@ begin
 end
 @runkey['elten']=@runkey['elten'].gsub("agentc.dat","agent.dat") if @autostart==true and @runkey['elten'].include?("agentc.dat")
 @runkey.close
-          if $language[0..1].downcase=='pl'
-            s="Przez pięć lat od wydania pierwszej wersji programu, Elten wielokrotnie się zmieniał. W rezultacie wiele plików przez niego utworzonych nie jest już używanych. Czy chcesz usunąć te pliki?"
-          else
-            s="During five years of development, Elten has changed many times. As a result, many of the files included in previous versions are no longer used. Do you want to delete thesem?"
-          end
-          confirm(s) {
-          begin
-          $ofiles=load_data("Data/files.dat")
-          for i in 0...$ofiles.size
-            $ofiles[i].downcase!
-            end
-          $files=[]
-def getfiles(dir)
-d=Dir.entries(dir)
-d.delete(".")
-d.delete("..")
-for f in d
-fi=dir+"/"+f
-if !File.directory?(fi)
-$files.push(fi.downcase)
-else
-getfiles(fi)
-end
-end
-end
-getfiles(".")
-$dfiles=[]
-for fi in $files
-  $dfiles.push(fi) if !$ofiles.include?(fi.downcase)
-end
-for fi in $dfiles
-  pth=fi.split("/")
-  if (pth[1].downcase!='audio' or (pth[2].downcase=='bgs' or pth[2].downcase=='se')) and pth[1].downcase!='temp'
-    begin
-      File.delete(fi)
-    rescue Exception
-            end
-    end
-  end
-            rescue Exception
-            end
-          }
-          if $language[0..1].downcase=='pl'
-            speech('Drodzy Eltenowicze.
-W związku z rosnącymi kosztami utrzymywania serwera Eltena, których nie jestem w stanie dalej pokrywać samodzielnie, rozwój aplikacji został uzależniony od możliwości złożenia się na serwer za rok 2020. Jeśli nie uda się zrealizować tego celu do 31 grudnia, rozwój aplikacji zostanie zakończony, a Elten zamknięty.
-Więcej szczegółów można odnaleźć na forum "Elten Network" grupy "Rozwój Eltena".
-Naciśnij enter, aby kontynuować.')
-          else
-            speech('Dear users.
-            Due to the increasing costs of leasing the Elten server, which I am no longer able to cover on my own, the development of the application was made dependent on the possibility to concur to maintain the server for the year 2020. If this goal is not achieved by 31 December, the development of the application will be finished and Elten will be closed.
-            More details can be found in the "Elten" forum of "English Elten Community" group.
-Press enter to continue.')
-end
-loop do
-loop_update
-break if enter
-end
                     end
-        File.delete($eltendata+"\\update.last")
+        File.delete(Dirs.eltendata+"\\update.last")
       end
       Programs.load_all
         autologin = readconfig("Login", "AutoLogin", 0)
@@ -373,7 +308,7 @@ end
             $scene = Scene_Login.new
       return
     end
-        $cw = Select.new([p_("Loading", "Log in"),p_("Loading", "Register"),p_("Loading", "Password reset"),p_("Loading", "Use guest account"),p_("Loading", "General settings"),p_("Loading", "Change speech synthesizer"),"Language / Język",p_("Loading", "Reinstall"),_("Exit")])
+        $cw = Select.new([p_("Loading", "Log in"),p_("Loading", "Register"),p_("Loading", "Password reset"),p_("Loading", "Use guest account"),p_("Loading", "Settings"),p_("Loading", "Reinstall"),_("Exit")])
         loop do
 loop_update
       $cw.update
@@ -393,8 +328,8 @@ loop_update
             when 2
               $scene=Scene_ForgotPassword.new
               when 3
-                $name="guest"
-                $token="guest"
+                Session.name="guest"
+                Session.token="guest"
                 $rang_moderator=0
                 $rang_tester=0
                 $rang_developer=0
@@ -402,14 +337,10 @@ loop_update
                 $rang_mediaadministrator=0
                 $scene=Scene_Main.new
                 when 4
-              $scene = Scene_General.new
-              when 5
-                $scene = Scene_Voice_Voice.new
-              when 6
-                $scene = Scene_Languages.new
-                when 7
+              $scene = Scene_Settings.new
+                when 5
                   $scene = Scene_Update.new
-              when 8
+              when 6
                 $scene = nil
         end
         end

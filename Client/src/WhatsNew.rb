@@ -9,7 +9,7 @@ class Scene_WhatsNew
     @bid=bid
     end
       def main
-        if $name=="guest"
+        if Session.name=="guest"
       alert(_("This section is unavailable for guests"))
       $scene=Scene_Main.new
       return
@@ -76,7 +76,7 @@ else
             when 2
               $scene = Scene_WhatsNew_BlogPosts.new
               when 3
-                $scene = Scene_Blog_Posts.new($name,"NEW")
+                $scene = Scene_Blog_Posts.new(Session.name,"NEW")
                 when 4
                   $scene = Scene_Forum.new(0,-4)
                   when 5

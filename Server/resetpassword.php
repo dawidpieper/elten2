@@ -1,14 +1,14 @@
 ﻿<?php
 require("init.php");
-if(isset($_GET['step'])==false) {
+if(!isset($_GET['step'])) {
 $error=-2;
 $mail="";
 $q = mquery("SELECT `name`, `mail` FROM `users`");
 $mail=$_GET['mail'];
-while ($wiersz = mysql_fetch_row($q)) {
-if($wiersz[0] == $_GET['name'] and $wiersz[1] == $_GET['mail']) {
-$name=$wiersz[0];
-$mail=$wiersz[1];
+while ($r = mysql_fetch_row($q)) {
+if($r[0] == $_GET['name'] and $r[1] == $_GET['mail']) {
+$name=$r[0];
+$mail=$r[1];
 $error = 0;
 }
 }
@@ -33,7 +33,7 @@ Hasło: " . $password . "\r\n
 Pozdrawiamy / Best Regards !\r\n
 Administracja Elten / Elten Support
 ";
-mail($mail, "=?ISO8859-2?B?" . base64_encode("Elten - Forgot Password!") . "?=", $body, $head);
+mail($mail, "Elten - Forgot Password!", $body, $head);
 echo "0\r\n".$name."\r\n".$mail;
 }
 if($_GET['step']==1) {
@@ -41,8 +41,8 @@ $q = mquery("SELECT `name`, `mail` FROM `users`");
 $suc=false;
 while ($r = mysql_fetch_row($q)){
 if($r[0] == $_GET['name'] and $r[1] == $_GET['mail']) {
-$name=$wiersz[0];
-$mail=$wiersz[1];
+$name=$r[0];
+$mail=$r[1];
 $suc=true;
 }
 }

@@ -27,7 +27,7 @@ copier
       Dir.mkdir("#{@destdir}/eltendata") if FileTest.exists?("#{@destdir}/eltendata")==false
     if @form.fields[1].checked == 1
   speak(p_("Portable", "Copying settings"))
-  copyfile($eltendata+"\\elten.ini",@destdir+"\\eltendata/elten.ini")
+  copyfile(Dirs.eltendata+"\\elten.ini",@destdir+"\\eltendata/elten.ini")
   speech_wait
   if $voice != -1 and $voice != -3
     waiting_end
@@ -47,7 +47,7 @@ end
 end
 if @form.fields[2].checked == 1
   speak(p_("Portable", "Copying sound themes"))
-  copier(".","/eltendata/soundthemes","",$soundthemesdata+"/")
+  copier(".","/eltendata/soundthemes","",Dirs.soundthemes+"/")
   speech_wait
   end
       end        

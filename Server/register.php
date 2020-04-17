@@ -1,5 +1,6 @@
 ﻿<?php
 require("init.php");
+sleep(1);
 if($_GET['register'] == "1") {
 
 $q = mquery("SELECT `name` FROM `users`");

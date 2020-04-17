@@ -7,7 +7,7 @@ class Scene_Contacts
     @type=type
   end
       def main
-      if $name=="guest"
+      if Session.name=="guest"
       alert(_("This section is unavailable for guests"))
       $scene=Scene_Main.new
       return

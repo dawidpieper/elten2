@@ -24,6 +24,7 @@ module EltenAPI
      for e in ks.keys
        k.push(("key_"+ks[e]).to_sym) if $key[e]
        k.push(("keyr_"+ks[e]).to_sym) if $keyr[e]
+       k.push(("keyup_"+ks[e]).to_sym) if $keyu[e]
        end
       return k
       end
@@ -51,6 +52,7 @@ end
 }
     end
     def wait
+      focus
       @wait=true
       while @wait==true
         loop_update
@@ -68,16 +70,31 @@ end
     end
     def menu_enabled?
       @disable_menu!=true
+    end
+    def disable_contextinglobal
+      @disable_contextinglobal=true
+    end
+        def enable_contextinglobal
+      @disable_contextinglobal=false
+    end
+    def contextinglobal_enabled?
+      @disable_contextinglobal!=true
       end
                  def bind_context(h="", &b)
                                   @contexts||=[]
                @contexts.push([b, h])
                end
     def context(menu, submenu=true)
+      return if submenu && @disable_contextinglobal==true
       @contexts||=[]
       @contexts.each{|c|
       s=c[1]
       s=@header if s=="" and @header.is_a?(String)
+      if s==""
+        s=_("Context menu")
+      else
+        s+=" ("+_("Context menu")+")"
+        end
       if submenu
       menu.submenu(s) {|m|
       c[0].call(m)
@@ -92,13 +109,15 @@ end
       $activecontrols.push(self) if $activecontrols.is_a?(Array)
     end
     def focus
+    end
+    def blur
       end
     end
     
     # A form class  
     class Form < FormBase
       # @return   [Numeric] a form index
-      attr_accessor :index
+      attr_reader :index
       # @return [Array] an array of form fields
         attr_accessor :fields
         # Creates a form
@@ -128,7 +147,8 @@ end
           super
           @index-=1 while (@fields[@index]==nil or @hidden[@index]==true) and @index>0
       @index+=1 while (@fields[@index]==nil or @hidden[@index]==true) and @index<@fields.size-1
-                                      if $key[0x09] == true
+                oldindex=@index                                
+      if $key[0x09] == true
                                         speech_stop
             if $key[0x10] == false and @fields[@index].subindex==@fields[@index].maxsubindex
               ind=@index
@@ -157,7 +177,9 @@ ind=@index
             if @fields[@index][0] == 0
 @fields[@index] = Edit.new(@fields[@index][1],@fields[@index][2],@fields[@index][3],false,@fields[@index][4])
             end
-            end
+          end
+          @fields[oldindex].trigger(:blur)
+          @fields[oldindex].blur
             @fields[@index].focus
             @fields[@index].trigger(:focus)
         else
@@ -167,6 +189,17 @@ ind=@index
                 def append(field)
                   @fields.push(field)
                 end
+                def index=(ind)
+                  if @fields[@index].is_a?(FormBase)
+                  @fields[@index].blur
+                  @fields[@index].trigger(:blur)
+                end
+                @index=ind
+                if @fields[@index].is_a?(FormBase)
+                  @fields[@index].blur
+                  @fields[@index].trigger(:blur)
+                end
+                  end
                 def show_all
                   @hidden=[]
                   end
@@ -286,15 +319,27 @@ focus if quiet==false
     end
     def update
 super
+focus if @audioplayer==nil and @audiotext!="" and @audiotext!=nil
       oldindex=@index
       oldtext=@text
       if $speechindexedthr!=nil and $speechid==@speechindexed and @speechindexed!=nil and $speechindex!=@index and ($speechindex||0)>0
         @index=$speechindex
-              end
+      end
+      if @audioplayer!=nil and escape
+        blur
+      elsif @audioplayer!=nil and @audioplayed==false
+      if $voice==-1 or !speech_actived
+      @audioplayer.play
+      @audioplayed=true
+    end
+        end
+      if @audioplayer!=nil && ((@audioplayer.pause==false && @audioplayer.completed == false) || ($key[0x20]))
+          @audioplayer.update
+                    return
+        end
 navupdate
       editupdate
       ctrlupdate
-      mediaupdate if @audiotext!="" and @audiotext!=nil                                                            
       if oldindex!=@index or oldtext!=@text
           NVDA.braille(@text, @index, false, 0, nil, @index) if NVDA.check
         end
@@ -318,7 +363,7 @@ elsif $interface_typingecho==0 or $interface_typingecho==2
          espeech(c)
       end
     elsif c!=""
-            play("border") if (c!=" " or $speechaudio==nil)
+            play("border") if c!=" "
       end
     if enter
       speech_stop
@@ -386,7 +431,7 @@ url=nil
                     def navupdate
             @vindex=$key[0x10]?@check:@index
             @ch=false
-          if arrow_right and ($key[0x10]==false or $speechaudio==nil)
+          if arrow_right
                                   @vindex=charborders(@vindex)[1]
           if @vindex>=@text.size
                     play("border")
@@ -406,7 +451,7 @@ url=nil
                                                                                                 (@vindex==@text.size)?play("edit_endofline"):espeech(@text[($key[0x10]?((0 .. @vindex).find_all { |i| @text[i..i]==" " or @text[i..i]=="\n"}.sort.last||0):@vindex)..(@vindex+1 ... @text.length).find_all { |i| @text[i..i]==" " or @text[i..i]=="\n"}.sort[0]||@text.size-1])
                                                                                               end
                               end
-                                              elsif arrow_left and ($key[0x10]==false or $speechaudio==nil)
+                                              elsif arrow_left
         if @vindex<=0
                     play("border")
                   else
@@ -530,49 +575,25 @@ end
           def ctrlupdate
 if $key[0x11]   and $key[0x12]==false
   if $key[67]
-    Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
-    alert(p_("EAPI_Form", "copied"), false)
-  end
-  if $key[88] and (@flags&Flags::ReadOnly)==0
-    Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
-    c=[@index,@check].sort
-    edelete(c[0],c[1])
-    alert(p_("EAPI_Form", "Cut out"), false)
+copy
+end
+ if (@flags&Flags::ReadOnly)==0
+  if $key[88]
+cut
   end
   if $key[86]
-    einsert(Clipboard.get_unic.delete("\r"))
-    alert(p_("EAPI_Form", "pasted"), false)
+paste
   end
     if $key[90] and @undo.size>0
-      u=@undo.last
-        @undo.delete_at(@undo.size-1)
-u[0]==1?edelete(u[1],u[1]+u[2].size,false):einsert(u[2],u[1],false)
-                    @redo.push(u)
-          alert(p_("EAPI_Form", "undone"), false)
+undo
     end
       if $key[89] and @redo.size>0
-      r=@redo.last
-        @redo.delete_at(@redo.size-1)
-                r[0]==2?edelete(r[1],r[1]+r[2].size,false):einsert(r[2],r[1],false)
-                    @undo.push(r)          
-          alert(p_("EAPI_Form", "Repeated"), false)
-    end
+redo
+end
+end
         $key[0x10]?translator(getcheck):espeech(translatetext(0,$language,getcheck)) if $key[84]
     if $key[70]
-      search=input_text(p_("EAPI_Form", "Enter a phrase to look for"),"ACCEPTESCAPE",@lastsearch||"")
-      if search!="\004ESCAPE\004"
-        @lastsearch=search
-            ind=@index<@text.size-1?@text[@index+1..@text.size-1].downcase.index(search.downcase):0
-      ind+=@index+1 if ind!=nil
-  ind=@text[0..@index].downcase.index(search.downcase) if ind==nil
-    if ind==nil
-  alert(p_("EAPI_Form", "No match found."), false)
-else
-  @index=ind
-  readtext(@index)
-  end
-    end
-    
+      search
     end
     speechtofile("",getcheck.gsub("\n","\r\n")) if $key[80]
     if $key[82] and FileTest.exists?($tempdir+"/savedtext.tmp") and @readonly!=true and (@flags&Flags::ReadOnly)==0 and @audiotext==nil
@@ -589,58 +610,88 @@ else
   espeech(@text[linebeginning..lineending]) if $keyr[0x2d] and arrow_up
   esay
 end
-def mediaupdate
-  return if @audiotext==nil or @audiotext=="" 
-  if $key[0x11] and $key[83]
-            dialog_open
-        form=Form.new([FilesTree.new(p_("EAPI_Form", "Destination"),getdirectory(40)+"\\",true,true,"Music"),Edit.new(p_("EAPI_Form", "File name"),"",@header.delete("\r\n").delete("\"").delete("/").delete("\\")+".mp3"),Button.new(_("Save")),Button.new(_("Cancel"))])
-        loop do
-          loop_update
-          form.update
-          break if escape or ((space or enter) and form.index==3)
-          if (space or enter) and form.index==2
-            dest=form.fields[0].selected+"\\"+form.fields[1].text_str
-            sou=@audiotext
-            sou.sub!("/",$url) if sou[0..0]=="/"
-                        speak(p_("EAPI_Form", "Downloading..."))
-                        if !FileTest.exists?(dest) or confirm(p_("EAPI_Form", "The file already exists. Do you want to override it?"))==1
-                        waiting
-                        executeprocess("bin\\ffmpeg -y -i \"#{sou}\" \"#{dest}\"",true)
-                        waiting_end
-                        alert(p_("EAPI_Form", "Downloaded"))
-                        end
-                                    break
-            end
-          end
-          dialog_close
-    end
-    ($speechaudio==nil)?speech("\004AUDIO\004"+@audiotext+"\004AUDIO\004"+@text.gsub("\n","\r\n")):$speechaudio.position+=5 if $key[115]
-    if $key[0x20]
-      if $speechaudio!=nil and $speechaudio.closed==false
-      if $speechaudiopaused!=true
-          $speechaudio.pause
-          $speechaudiopaused=true
-        else
-          $speechaudio.play
-          $speechaudiopaused=false
-        end
-      else
-        $speechaudiopaused=false
-        speech("\004AUDIO\004#{@audiotext}\004AUDIO\004")
-        end
-    end
-return if $speechaudio==nil    
-                  if $speechaudio!=nil and $key[0x10]==true
-      if arrow_left
-      $speechaudio.position-=5
-      delay(0.1)
-    elsif arrow_right
-      $speechaudio.position+=5
-      delay(0.1)
-        end
-  end      
-  
+def context(menu, submenu=false)
+  c=Proc.new {|menu|
+  menu.option(p_("EAPI_Form", "Copy")) {
+copy
+  }
+  if (@flags&Flags::ReadOnly)==0
+    menu.option(p_("EAPI_Form", "Cut")) {
+cut
+  }
+  menu.option(p_("EAPI_Form", "Paste")) {
+paste
+  }
+  menu.option(p_("EAPI_Form", "Undo")) {
+undo
+  }
+  menu.option(p_("EAPI_Form", "Redo")) {
+redo
+  }
   end
+  menu.option(p_("EAPI_Form", "Find")) {
+search
+  }
+  menu.option(p_("EAPI_Form", "Translate")) {
+  translator(getcheck)
+  }
+  menu.option(p_("EAPI_Form", "Speech to file")) {
+    speechtofile("",getcheck.gsub("\n","\r\n"))
+  }
+  }
+  s=@header+" ("+_("Context menu")+")"
+  s=p_("EAPI_Form", "Edit") if submenu==false
+    menu.submenu(s) {|m|c.call(m)}
+  super(menu, submenu)
+end
+def copy
+      Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
+    alert(p_("EAPI_Form", "copied"), false)
+  end
+  def cut
+        Clipboard.set_data(unicode(getcheck.gsub("\n","\r\n")),13)
+    c=[@index,@check].sort
+    edelete(c[0],c[1])
+    alert(p_("EAPI_Form", "Cut out"), false)
+
+  end
+  def paste
+        einsert(Clipboard.get_unic.delete("\r"))
+    alert(p_("EAPI_Form", "pasted"), false)
+  end
+  def undo
+          u=@undo.last
+        @undo.delete_at(@undo.size-1)
+u[0]==1?edelete(u[1],u[1]+u[2].size,false):einsert(u[2],u[1],false)
+                    @redo.push(u)
+          alert(p_("EAPI_Form", "undone"), false)
+
+        end
+        def redo
+                r=@redo.last
+        @redo.delete_at(@redo.size-1)
+                r[0]==2?edelete(r[1],r[1]+r[2].size,false):einsert(r[2],r[1],false)
+                    @undo.push(r)          
+          alert(p_("EAPI_Form", "Repeated"), false)
+
+        end
+        def search
+                search=input_text(p_("EAPI_Form", "Enter a phrase to look for"),"ACCEPTESCAPE",@lastsearch||"")
+      if search!="\004ESCAPE\004"
+        @lastsearch=search
+            ind=@index<@text.size-1?@text[@index+1..@text.size-1].downcase.index(search.downcase):0
+      ind+=@index+1 if ind!=nil
+  ind=@text[0..@index].downcase.index(search.downcase) if ind==nil
+    if ind==nil
+  alert(p_("EAPI_Form", "No match found."), false)
+else
+  @index=ind
+  readtext(@index)
+  end
+    end
+
+  end
+  
   def linebeginning(index=@vindex)
                   return 0 if index==0
     return 0 if @text.size==0
@@ -845,15 +896,31 @@ def value
   text
   end
   def focus(spk=true)
-      play("edit_marker") if spk
+      play("edit_marker") if spk && $interface_controlspresentation!=2
       tp=p_("EAPI_Form", "Edit box")
       tp=p_("EAPI_Form", "Text") if (@flags&Flags::ReadOnly)>0
       tp=p_("EAPI_Form", "Media") if @audiotext!=nil
-      head=@header.to_s + " ... " + tp + ": " + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"")
+      tph=tp+": "
+      tph="" if $interface_controlspresentation==1
+      head=@header.to_s + "... " + tph
+                              NVDA.braille(@header.to_s+"  "+@text, @header.to_s.size+2+@index-1,false,0,nil,@header.to_s.size+2+@index-1) if NVDA.check
+                              if @audiotext!=nil
+                                @audioplayer = Player.new(@audiotext, @header, false, true)
+                                @audioplayed=false
+                              end
+                              if @audioplayer!=nil
+                                speak(head)
+                                return
+                                end
                   return speak(head + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false) if @audiotext!=nil and @audiotext!="" and spk
                         readtext(0,head) if spk
-                        NVDA.braille(@header.to_s+"  "+@text, @header.to_s.size+2+@index-1,false,0,nil,@header.to_s.size+2+@index-1) if NVDA.check
-    end
+                      end
+                      def blur
+                        if @audioplayer!=nil
+                        @audioplayer.close
+                        @audioplayer=nil
+                        end
+                        end
     def readtext(index=0,head="")
       return speak(head) if @text=="" and head!="" and head!=nil
       return if @text==""
@@ -949,6 +1016,7 @@ attr_reader :grayed
 attr_reader :selected
 attr_accessor :silent
 attr_accessor :header
+attr_accessor :prevent_indexspeaking
 # Creates a listbox
 #
 # @param options [Array] an options list
@@ -1018,7 +1086,7 @@ def value
             # Update the listbox
     def update
 super
-  speech((@index+1).to_s+" / "+@commandoptions.size.to_s) if $key[115] and !$keyr[0x10]
+  speech((@index+1).to_s+" / "+@commandoptions.size.to_s) if $key[115] and !$keyr[0x10] and @prevent_indexspeaking!=true
     if $key[0x11]   and $key[0x12] and $key[82]
       for i in 0..@commandoptions.size-1
         @commandoptions[i]=@commandoptions[i].split("").reverse.join if @commandoptions[i].is_a?(String)
@@ -1220,7 +1288,13 @@ elsif oldindex == self.index and @run == true and (k.chrsize<=1 or (@commandopti
   
   
 def focus(header=@header, spk=true)
-   play("list_marker") if @lr==false and spk
+  if spk && $interface_controlspresentation!=2
+    if @multi==false
+  play("list_marker")  if @silent == false
+else
+  play("list_multimarker")
+end
+end
               while ishidden(self.index) == true
                             self.index += 1
             end
@@ -1323,8 +1397,10 @@ super
   trigger(:press) if @pressed
           end
         def focus
-          play("button_marker")
-          speech(@label + "... " + p_("EAPI_Form", "Button"))
+          play("button_marker") if $interface_controlspresentation!=2
+          tph="... " + p_("EAPI_Form", "Button")
+          tph="" if $interface_controlspresentation==1
+          speak(@label + tph)
           NVDA.braille(@label) if NVDA.check
         end
         def pressed?
@@ -1370,15 +1446,17 @@ super
             end
         
                     def focus(spk=true, snd=true)
-          play("checkbox_marker") if spk and snd
+          play("checkbox_marker") if spk and snd && $interface_controlspresentation!=2
           text = @label + " ... "
           if @checked == 0
             text += p_("EAPI_Form", "unchecked")
           else
             text += p_("EAPI_Form", "Checked")
           end
+          if $interface_controlspresentation!=1
           text += " "
           text += p_("EAPI_Form", "Checkbox")
+          end
           speech(text) if spk
           NVDA.braille(text)
         end
@@ -1539,7 +1617,7 @@ end
 def filetype
   return 0 if File.directory?(cfile(true))
   ext=File.extname(selected).downcase
-  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts" or ext==".aiff" or ext==".m4v" or ext==".mkv"
+  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts" or ext==".aiff" or ext==".m4v" or ext==".mkv" or ext==".vob"
     return 1
   elsif ext==".txt"
     return 2
@@ -1936,6 +2014,7 @@ super
            attr_reader :pause
            attr_accessor :label
                         def initialize(file,label="", autoplay=true, quiet=false)
+                          file=$url+file[1..-1] if FileTest.exists?(file)==false && file[0..0]=="/"
                           @label=label
                                                       speech(label) if label!="" and quiet==false
                                                       if file.is_a?(String)
@@ -2002,6 +2081,7 @@ h=d/3600
     tf=@file.gsub("\\","/")
     fs=tf.split("/")
     nm=fs.last.split("?")[0]
+    nm=@label.delete("\r\n\\/:!@\#*?<>\'\"|+=`") if @label!="" and @label!=nil
     if File.extname(nm)==""
       l=@label.downcase
       if l.include?("mp3")
@@ -2014,16 +2094,27 @@ h=d/3600
         nm+=".mp3"
         end
       end
-    loc=getfile(p_("EAPI_Common", "Where do you want to save this file?"),getdirectory(40)+"\\",true,"Music")
-    if loc!=nil
-            speak(p_("EAPI_Common", "Downloading..."))
+            dialog_open
+        form=Form.new([FilesTree.new(p_("EAPI_Form", "Destination"),getdirectory(40)+"\\",true,true,"Music"),Edit.new(p_("EAPI_Form", "File name"),"",nm),Button.new(_("Save")),Button.new(_("Cancel"))])
+        loop do
+          loop_update
+          form.update
+          break if escape or ((space or enter) and form.index==3)
+          if (space or enter) and form.index==2
+            dest=form.fields[0].selected+"\\"+form.fields[1].text_str
+                        speak(p_("EAPI_Form", "Downloading..."))
+                        if !FileTest.exists?(dest) or confirm(p_("EAPI_Form", "The file already exists. Do you want to override it?"))==1
                         waiting
-                        executeprocess("bin\\ffmpeg -y -i \"#{@file}\" \"#{loc}\\#{nm}\"",true)
+                        executeprocess("bin\\ffmpeg -y -i \"#{@file}\" \"#{dest}\"",true)
                         waiting_end
-                                    alert(_("Saved"))
-      end
+                        alert(p_("EAPI_Form", "Downloaded"))
+                        end
+                                    break
+            end
+          end
+          dialog_close
     end
-    if $keyr[0x10]              ==false
+    if $keyr[0x10]              ==false && $keyr[0x11]==false
     if arrow_right
                 @sound.position+=5
                               end
@@ -2038,7 +2129,16 @@ h=d/3600
         @sound.volume -= 0.01
 @sound.volume = 0.05 if @sound.volume < 0.05
 end
-else
+elsif $keyr[0x11]==true and $keyr[0x10]==false
+  if arrow_up(true)
+                      @sound.tempo += 2
+@sound.tempo = 100 if @sound.tempo > 100
+      end
+      if arrow_down(true)
+        @sound.tempo -= 2
+@sound.tempo = -50 if @sound.tempo < -50
+end
+elsif $keyr[0x10]==true and $keyr[0x11]==false
   if arrow_right(true)
         @sound.pan += 0.02
         @sound.pan = 1 if @sound.pan > 1
@@ -2060,9 +2160,25 @@ if $key[0x08] == true
   reset=10
   @sound.volume=0.8
   @sound.pan=0
+  @sound.tempo=0
   @sound.frequency=@basefrequency
   end
 end
+
+def play
+  @sound.play if @sound!=nil
+  @pause=false
+end
+
+def stop
+  @sound.stop if @sound!=nil
+  @pause=true
+end
+
+def completed
+  return true if @sound==nil
+  @sound.position(true)>=@sound.length(true)-1024 and @sound.length(true)>0
+  end
 
 def fade
   return if @sound==nil
@@ -2106,6 +2222,12 @@ class Menu
   def option(opt, v=nil, &block)
     @options.push([opt, block, v])
   end
+  def scene(opt, scene)
+    @options.push([opt, :scene, scene])
+  end
+  def quickaction(opt, action)
+    @options.push([opt, :quickaction, action])
+    end
   def customoption(opt, &block)
     @options.push([opt, :custom, block])
   end
@@ -2245,12 +2367,18 @@ class Menu
     elsif sel.selected?
       close if @type!=:returning and opt[1]!=:user
       loop_update
+      if opt[1]==:scene
+        insert_scene(opt[2].new, true)
+      elsif opt[1]==:quickaction
+        opt[2].call
+        else
       if opt[2]!=nil or @instance==0
       opt[1].call(opt[2])
     else
       @caller.instance_eval(&opt[1])
       end
-      end
+    end
+    end
       end
     }
   end
@@ -2264,6 +2392,20 @@ class Menu
   end
   def opened?
     !@closed
+  end
+  def scenes
+    sc=[]
+    @options.each{|o|
+    sc.push([o[0].delete("&"),o[2]]) if o.is_a?(Array) && o[1]==:scene
+    }
+    return sc
+    end
+  def items
+    it={}
+    @options.each{|o|
+    it[o[0].delete("&")]=o[1]
+    }
+    return it
     end
   end
   

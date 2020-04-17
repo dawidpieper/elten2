@@ -107,15 +107,15 @@ while tries<3
   end
 end
     if logintemp.size > 1
-  $token = logintemp[1] if logintemp.size > 1
-  $token.delete!("\r\n")
+  Session.token = logintemp[1] if logintemp.size > 1
+  Session.token.delete!("\r\n")
   $event = logintemp[2]
   $greeting = logintemp[3]
-  $name = name
+  Session.name = name
   end
 case logintemp[0].to_i
 when 0
-    prtemp = srvproc("getprivileges",{"searchname"=>$name})
+    prtemp = srvproc("getprivileges",{"searchname"=>Session.name})
 $rang_tester = prtemp[1].to_i
 $rang_moderator = prtemp[2].to_i
 $rang_media_administrator = prtemp[3].to_i
@@ -177,12 +177,7 @@ writeconfig("Login","AutoLogin",3)
       end
       dialog_close
  end
-    if $agentloaded != true
-  agent_start
-  $agentloaded = true
-else
-  $agent.write(Marshal.dump({'func'=>'relogin','name'=>$name,'token'=>$token}))
-end
+  $agent.write(Marshal.dump({'func'=>'relogin','name'=>Session.name,'token'=>Session.token, 'hwnd'=>$wnd}))
 if $speech_wait == true
   $speech_wait = false
   speech_wait
@@ -193,66 +188,45 @@ speech(p_("Login", "Logged in as: %{user}")%{'user'=>name}) if $silentstart != t
 else
   speech($greeting) if $silentstart != true
   end
-  $name = name
-  $token = logintemp[1]
-  $token.delete!("\r\n")
+  Session.name = name
+  Session.token = logintemp[1]
+  Session.token.delete!("\r\n")
     $greeting = logintemp[3]
 delay(0.1)
-    pr = srvproc("profile",{"get"=>"1", "searchname"=>$name})
-$fullname = ""
-$gender = -1
-$birthdateyear = 0
-$birthdatemonth = 0
-$birthdateday = 0
-$location = ""
+    pr = srvproc("profile",{"get"=>"1", "searchname"=>Session.name})
+Session.fullname = ""
+Session.gender = -1
 if pr[0].to_i == 0
-  $fullname = pr[1].delete("\r\n")
-        $gender = pr[2].delete("\r\n").to_i
-        if pr[3].to_i>1900 and pr[4].to_i > 0 and pr[4].to_i < 13 and pr[5].to_i > 0 and pr[5].to_i < 32
-        $birthdateyear = pr[3].delete("\r\n")
-        $birthdatemonth = pr[4].delete("\r\n")
-        $birthdateday = pr[5].delete("\r\n")
-        end
-        $location = pr[6].delete("\r\n")
-                        if $birthdateyear.to_i>0
-        $age = Time.now.year-$birthdateyear.to_i
-if Time.now.month < $birthdatemonth.to_i
-  $age -= 1
-elsif Time.now.month == $birthdatemonth.to_i
-  if Time.now.day < $birthdateday.to_i
-    $age -= 1
-    end
-  end
-  $age -= 2000 if $age > 2000      
-    end
+  Session.fullname = pr[1].delete("\r\n")
+        Session.gender = pr[2].delete("\r\n").to_i
   end
     when -1
         alert(_("Database Error"))
-    $token = nil
+    Session.token = nil
     speech_wait
     @skipauto=true
     return main
     when -2
             alert(p_("Login", "Invalid login or password.")) if autologin.to_i==0
-      $token = nil
+      Session.token = nil
       speech_wait
       @skipauto=true
       return main
       when -3
                 alert(p_("Login", "Login failure."))
-        $token = nil
+        Session.token = nil
         speech_wait
         @skipauto=true
       return main
         when -4
           alert(p_("Login", "Connection failure."))
-          $token = nil
+          Session.token = nil
           speech_wait
         end
                 $speech_wait = true
         $scene = Scene_Loading.new
         $preinitialized = false
-                $scene = Scene_Main.new if $token != nil
+                $scene = Scene_Main.new if Session.token != nil
       end
       def makepin
         pin=""

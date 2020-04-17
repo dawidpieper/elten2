@@ -1,7 +1,5 @@
 ﻿<?php
 require("header.php");
-if(file_exists("cache/forumlist.dat")) unlink("cache/forumlist.dat");
-if(file_exists("cache/forumthread".$_GET['threadid'].".dat")) unlink("cache/forumthread".$_GET['threadid'].".dat");
 if(mysql_num_rows(mquery("SELECT name FROM banned WHERE name='".$_GET['name']."' AND totime>".time()))>0) die("-3");
 $moderator=getprivileges($_GET['name'])[1];
 $post="";

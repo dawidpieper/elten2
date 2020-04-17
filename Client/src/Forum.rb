@@ -18,7 +18,7 @@
   end
   
   def main
-    if $name == "guest"
+    if Session.name == "guest"
       @noteditable = true
     else
       @noteditable = false
@@ -26,7 +26,13 @@
     getcache
     return if $scene != self
     if @pre == nil
+      if @preparam.is_a?(Integer)
+return forumsmain(@preparam)
+elsif @preparam.is_a?(String)
+  return threadsmain(@preparam)
+      else
       groupsmain(@cat)
+      end
     else
       if @preparam.is_a?(String) or @preparam == nil or @preparam == -5
         foll = false
@@ -521,8 +527,14 @@ return result
           @grpsel.focus
         }
       end
+      if @sgroups[@grpsel.index - @grpheadindex].role == 1 or @sgroups[@grpsel.index - @grpheadindex].role == 2 or @sgroups[@grpsel.index-@grpheadindex].public or @sgroups[@grpsel.index-@grpheadindex].open
+        menu.option(p_("Forum", "Add this group to quick actions")) {
+        QuickActions.create(Scene_Forum, @sgroups[@grpsel.index-@grpheadindex].name+" (#{p_("Forum", "Group")})", [nil, @sgroups[@grpsel.index-@grpheadindex].id])
+        alert(p_("Forum", "Group added to quick actions"), false)
+        }
+        end
       s = ""
-      s = p_("Forum", "Leave") if (@sgroups[@grpsel.index - @grpheadindex].role == 1 or @sgroups[@grpsel.index - @grpheadindex].role == 2 or @sgroups[@grpsel.index - @grpheadindex].role == 4) and @sgroups[@grpsel.index - @grpheadindex].founder != $name
+      s = p_("Forum", "Leave") if (@sgroups[@grpsel.index - @grpheadindex].role == 1 or @sgroups[@grpsel.index - @grpheadindex].role == 2 or @sgroups[@grpsel.index - @grpheadindex].role == 4) and @sgroups[@grpsel.index - @grpheadindex].founder != Session.name
       s = p_("Forum", "Refuse invitation") if @sgroups[@grpsel.index - @grpheadindex].role == 5
       if s != ""
         menu.option(s) {
@@ -538,7 +550,7 @@ return result
           @grpsel.focus
         }
       end
-      if @sgroups[@grpsel.index - @grpheadindex].founder == $name
+      if @sgroups[@grpsel.index - @grpheadindex].founder == Session.name
         menu.option(p_("Forum", "Edit group")) {
           g = @sgroups[@grpsel.index - @grpheadindex]
           fields = [Edit.new(p_("Forum", "Group name"), "", g.name, true), Edit.new(p_("Forum", "Group description"), "multiline", g.description, true), Select.new([p_("Forum", "Hidden"), p_("Forum", "Public")], true, g.public.to_i, p_("Forum", "Group type"), true), Select.new([p_("Forum", "open (everyone can join)"), p_("Forum", "Moderated (everyone can request)")], true, g.open.to_i, p_("Forum", "Group join type"), true), nil, Button.new(_("Cancel"))]
@@ -569,14 +581,14 @@ return result
                 alert(_("Saved"))
               end
               getcache
-              return groupsmain(@lastlist)
+              groupsmain(@lastlist)
             end
             break if escape or form.fields[5].pressed?
           end
           loop_update
         }
       end
-      if @sgroups[@grpsel.index - @grpheadindex].forums == 0 and @sgroups[@grpsel.index - @grpheadindex].founder == $name
+      if @sgroups[@grpsel.index - @grpheadindex].forums == 0 and @sgroups[@grpsel.index - @grpheadindex].founder == Session.name
         menu.option(p_("Forum", "Delete group")) {
           confirm(p_("Forum", "Are you sure you want to delete %{groupname}?")%{ "groupname" => @sgroups[@grpsel.index - @grpheadindex].name }) {
             if srvproc("forum_groups", { "ac" => "delete", "groupid" => @sgroups[@grpsel.index - @grpheadindex].id.to_s })[0].to_i < 0
@@ -633,7 +645,7 @@ return result
         menu.useroption(users[sel.index])
         m1 = nil
         m2 = nil
-        if !((group.founder != $name or users[sel.index] == $name))
+        if !((group.founder != Session.name or users[sel.index] == Session.name))
           if roles[sel.index] == 1
             m1 = p_("Forum", "Grant moderation privileges")
           elsif roles[sel.index] == 2
@@ -645,7 +657,7 @@ return result
             m2 = p_("Forum", "Examine")
           end
         end
-        if !((group.founder != $name and group.role != 2) or $name == users[sel.index])
+        if !((group.founder != Session.name and group.role != 2) or Session.name == users[sel.index])
           if roles[sel.index] == 1
             if group.open && group.public
               m2 = p_("Forum", "Ban in this group")
@@ -743,7 +755,7 @@ return result
                   group.founder = users[sel.index]
                   sel.commandoptions[sel.index].sub!(" ", " (#{p_("Forum", "Administrator")}) ")
                   for i in 0...users.size
-                    sel.commandoptions[i].sub!(p_("Forum", "Administrator"), "") if users[i] == $name
+                    sel.commandoptions[i].sub!(p_("Forum", "Administrator"), "") if users[i] == Session.name
                   end
                   alert(p_("Forum", "Privileges of this user have been changed."))
                 end
@@ -767,8 +779,8 @@ return result
   def newgroup
     ln = []
     lnindex = 0
-    for lk in $langs.keys
-      l = $langs[lk]
+    for lk in Lists.langs.keys
+      l = Lists.langs[lk]
       ln.push(l["name"] + " (" + l["nativeName"] + ")")
       lnindex = ln.size - 1 if $language.downcase[0..1] == lk.downcase[0..1]
     end
@@ -789,7 +801,7 @@ return result
         form.fields[4].commandoptions = [p_("Forum", "Moderated (everyone can request)"), p_("Forum", "open (everyone can join)")]
       end
       if form.fields[5] != nil and form.fields[5].pressed?
-        r = srvproc("forum_groups", { "ac" => "create", "groupname" => form.fields[0].text, "bufdescription" => buffer(form.fields[1].text).to_s, "lang" => $langs.keys[form.fields[2].index].to_s, "public" => form.fields[3].index.to_s, "open" => form.fields[4].index.to_s })
+        r = srvproc("forum_groups", { "ac" => "create", "groupname" => form.fields[0].text, "bufdescription" => buffer(form.fields[1].text).to_s, "lang" => Lists.langs.keys[form.fields[2].index].to_s, "public" => form.fields[3].index.to_s, "open" => form.fields[4].index.to_s })
         if r[0].to_i < 0
           alert(_("Error"))
         else
@@ -814,6 +826,7 @@ return result
       @frmsel.update
       @@forumfrmselcol = @frmsel.column
       if (arrow_left and !$keyr[0x10]) or escape
+        return $scene=Scene_Main.new if @pre==nil && @preparam.is_a?(Integer)
         @frmindex = nil
         return groupsmain
       end
@@ -848,6 +861,7 @@ return result
       end
       ftm += [forum.description, forum.threads.to_s, forum.posts.to_s, (forum.posts - forum.readposts).to_s]
       ftm[0] += "\004INFNEW{ }\004" if forum.posts - forum.readposts > 0
+      ftm[0] += "\004CLOSED\004" if forum.closed
       frmselt.push(ftm)
     end
     @frmindex = 0 if @frmindex == nil
@@ -918,17 +932,22 @@ end
           end
         end
       }
+      menu.option(p_("Forum", "Add this forum to quick actions")) {
+        QuickActions.create(Scene_Forum, @sforums[@frmsel.index].fullname+" (#{p_("Forum", "Forum")})", [nil, @sforums[@frmsel.index].name])
+        alert(p_("Forum", "Forum added to quick actions"), false)
+        }
     end
     groupclass = Struct_Forum_Group.new
     @groups.each { |g| groupclass = g if g.id == @group }
-    if groupclass.founder == $name or groupclass.role == 2
-      menu.option(p_("Forum", "New forum")) {
+    if groupclass.founder == Session.name or groupclass.role == 2
+      menu.submenu(p_("Forum", "Moderation")) {|m|
+      m.option(p_("Forum", "New forum")) {
         newforum
         getcache
         forumsmain(@group)
       }
       if @sforums.size > 0
-        menu.option(p_("Forum", "Edit forum")) {
+        m.option(p_("Forum", "Edit forum")) {
           form = Form.new([Edit.new(p_("Forum", "Forum name"), "", @sforums[@frmsel.index].fullname, true), Edit.new(p_("Forum", "Forum description"), "multiline", @sforums[@frmsel.index].description, true), nil, Button.new(_("Cancel"))])
           loop do
             loop_update
@@ -958,7 +977,27 @@ end
           loop_update
           @frmsel.focus
         }
-        menu.option(p_("Forum", "Change forum position")) {
+        s = p_("Forum", "Close forum")
+        s = p_("Forum", "Open forum") if @sforums[@frmsel.index].closed
+        m.option(s) {
+          clo = ((@sforums[@frmsel.index].closed) ? 0 : 1)
+          f = srvproc("forum_mod", { "closing" => 2, "close" => clo.to_s, "forum" => @sforums[@frmsel.index].name })
+          if f[0].to_i < 0
+            alert(_("Error"))
+          else
+            if @sforums[@frmsel.index].closed
+              @sforums[@frmsel.index].closed = false
+              @frmsel.rows[@frmsel.index][0].gsub!("\004CLOSED\004", "")
+              alert(p_("Forum", "The forum has been opened"))
+            else
+              @sforums[@frmsel.index].closed = true
+              @frmsel.rows[@frmsel.index][0] += "\004CLOSED\004"
+              alert(p_("Forum", "The forum has been closed"))
+            end
+            @frmsel.setcolumn(0)
+          end
+        }
+        m.option(p_("Forum", "Change forum position")) {
           selt = []
           @sforums.each { |f| selt.push(f.fullname) }
           ind = selector(selt + [p_("Forum", "Move to end")], p_("Forum", "Move forum"), 0, -1)
@@ -976,7 +1015,7 @@ end
           end
         }
         if @sforums[@frmsel.index].posts == 0
-          menu.option(p_("Forum", "Delete forum")) {
+          m.option(p_("Forum", "Delete forum")) {
             confirm(p_("Forum", "Are you sure you want to delete this forum?")) {
               f = srvproc("forum_groups", { "ac" => "forumdelete", "forum" => @sforums[@frmsel.index].name })
               if f[0].to_i < 0
@@ -990,6 +1029,7 @@ end
           }
         end
       end
+      }
     end
     sortermenu(1, @group, menu)
     menu.option(_("Refresh")) {
@@ -1012,12 +1052,12 @@ end
       if form.fields[3] != nil and form.fields[3].pressed?
         groupclass = Struct_Forum_Group.new
         @groups.each { |g| groupclass = g if g.id == @group }
-        u = "ac=forumcreate\&groupid=#{groupclass.id.to_s}\&forumname=#{fields[0].text.urlenc}\&forumtype=#{form.fields[2].index.to_s}"
+        u = {"ac"=>"forumcreate", "groupid"=>groupclass.id, "forumname"=>fields[0].text, "forumtype"=>form.fields[2].index}
         if form.fields[1].text != ""
           b = buffer(form.fields[1].text)
-          u += "\&bufforumdescription=#{b.to_s}"
+          u["bufforumdescription"] =b
         end
-        f = srvproc("forum_groups", "name=#{$name}\&token=#{$token}\&#{u}")
+        f = srvproc("forum_groups", u)
         if f[0].to_i < 0
           alert(_("Error"))
         else
@@ -1079,7 +1119,7 @@ end
               when -10
         @sthreads.push(t) if t.marked == true
       when -9
-        @sthreads.push(t) if t.author == $name
+        @sthreads.push(t) if t.author == Session.name
               when -8
         @sthreads.push(t) if @popular.include?(t.id) and t.readposts <= t.posts / 1.1
       when -7
@@ -1162,8 +1202,10 @@ end
       tmp += [thread.author.lore, thread.posts.to_s, (thread.posts - thread.readposts).to_s]
       thrselt.push(tmp)
     end
+    if !(@pre==nil&&@preparam!=nil)
     @pre = nil
     @preparam = nil
+    end
     header = p_("Forum", "Select thread")
     header = "" if id == -2 or id == -4 or id == -6 or id == -7
     thrselh = [nil, p_("Forum", "Author"), p_("Forum", "posts"), p_("Forum", "Unread")]
@@ -1176,6 +1218,7 @@ end
       @thrsel.update
       @@forumthrselcol = @thrsel.column
       if (arrow_left and !$keyr[0x10]) or escape
+        return $scene=Scene_Main.new if @pre==nil && @preparam.is_a?(String)
         if id.is_a?(String)
           return forumsmain
         elsif id == -2 or id == -4 or id == -6 or id == -7
@@ -1184,7 +1227,6 @@ end
           return groupsmain
         end
       end
-      break if $scene!=self
       if enter or (arrow_right and !$keyr[0x10]) and @sthreads.size > 0
 threadopen(@thrsel.index)
       end
@@ -1268,7 +1310,7 @@ threadopen(@thrsel.index)
     end
     forum=@forum
     @forums.each {|f| forum=f if f.name==@forum}
-    if forum.is_a?(String)==false and forum.is_a?(Integer)==false and @noteditable!=true and ((forum.group.public==true and forum.group.open==true) or [1,2].include?(forum.group.role)) and forum.group.role!=3
+    if forum.is_a?(String)==false and forum.is_a?(Integer)==false and @noteditable!=true and ((forum.group.public==true and forum.group.open==true) or [1,2].include?(forum.group.role)) and forum.group.role!=3 and forum.closed==false
       menu.option(p_("Forum", "New thread")) {
         newthread
         getcache
@@ -1568,8 +1610,8 @@ threadopen(@thrsel.index)
       data = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{flp}\r\n--#{boundary}--"
       length = data.size
       host = $srv.delete("/")
-      q = "POST /srv/forum_edit.php?name=#{$name}\&token=#{$token}\&threadname=#{form.fields[0].text_str.urlenc}\&forumname=#{forumclasses[form.fields[8].index].name.urlenc}\&audio=1\&follow=#{form.fields[7].checked.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-      a = connect(host, 80, q).delete("\0")
+      q = "POST /srv/forum_edit.php?name=#{Session.name}\&token=#{Session.token}\&threadname=#{form.fields[0].text_str.urlenc}\&forumname=#{forumclasses[form.fields[8].index].name.urlenc}\&audio=1\&follow=#{form.fields[7].checked.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+      a = elconnect(q).delete("\0")
       for i in 0..a.size - 1
         if a[i..i + 3] == "\r\n\r\n"
           s = i + 4
@@ -1592,133 +1634,133 @@ threadopen(@thrsel.index)
       alert(p_("Forum", "Error creating thread!"))
     end
   end
-
+  
   def getcache
-    c = srvproc("forum_struct", "name=#{$name}\&token=#{$token}", 1).split("\r\n")
-    if c[0].to_i < 0
-      alert(_("Error"))
-      @groups = []
-      @forums = []
-      @threads = []
-      $scene = Scene_Main.new
-      return
+    self.class.getcache
+    @groups, @forums, @threads = @@groups, @@forums, @@threads
     end
-    l = 1
-    while l < c.size
-      objs = c[l + 1].to_i
-      strobjs = c[l + 2].to_i
-      if c[l] == "groups"
-        groupscache(c[(l + 3)..(l + 3 + objs * strobjs)], objs, strobjs)
-      elsif c[l] == "forums"
-        forumscache(c[(l + 3)..(l + 3 + objs * strobjs)], objs, strobjs)
-      elsif c[l] == "threads"
-        threadscache(c[(l + 3)..(l + 3 + objs * strobjs)], objs, strobjs)
+
+  def self.getcache
+    c = srvproc("forum_struct", {'useflags'=>1, 'gz'=>1}, 1)
+    if c[0..(c.index("\r\n")||-1)].to_i < 0
+      alert(_("Error"))
+      @@groups = []
+      @@forums = []
+      @@threads = []
+    end
+    ch=Zlib::Inflate.inflate(c[3..-1]).split("\r")
+    l = 0
+    while l < ch.size
+      objs = ch[l + 1].to_i
+      strobjs = ch[l + 2].to_i
+      if ch[l] == "groups"
+        self.groupscache(ch[(l + 3)..(l + 3 + objs * strobjs)], objs, strobjs)
+      elsif ch[l] == "forums"
+        self.forumscache(ch[(l + 3)..(l + 3 + objs * strobjs)], objs, strobjs)
+      elsif ch[l] == "threads"
+        self.threadscache(ch[(l + 3)..(l + 3 + objs * strobjs)], objs, strobjs)
       end
       l += 3 + objs * strobjs
     end
-  end
+      end
 
-  def groupscache(c, objs, strobjs)
-    @groups = []
+  def self.groupscache(c, objs, strobjs)
+    @@groups = []
     for i in 0...objs
       for j in 0...strobjs
         line = c[i * strobjs + j]
         case j
         when 0
-          @groups.push(Struct_Forum_Group.new(line.to_i))
+          @@groups.push(Struct_Forum_Group.new(line.to_i))
         when 1
-          @groups.last.name = line
+          @@groups.last.name = line
         when 2
-          @groups.last.founder = line
+          @@groups.last.founder = line
         when 3
-          @groups.last.description = line.gsub("$", "\r\n")
+          @@groups.last.description = line.gsub("$", "\r\n")
         when 4
-          @groups.last.lang = line
+          @@groups.last.lang = line
         when 5
-          @groups.last.recommended = true if line.to_i == 1
+          @@groups.last.recommended = true if (line.to_i&1)>0
+          @@groups.last.open = true if (line.to_i&2)>0
+          @@groups.last.public = true if (line.to_i&4)>0
         when 6
-          @groups.last.open = true if line.to_i == 1
+          @@groups.last.role = line.to_i
         when 7
-          @groups.last.public = true if line.to_i == 1
+          @@groups.last.forums = line.to_i
         when 8
-          @groups.last.role = line.to_i
+          @@groups.last.threads = line.to_i
         when 9
-          @groups.last.forums = line.to_i
+          @@groups.last.posts = line.to_i
         when 10
-          @groups.last.threads = line.to_i
+          @@groups.last.readposts = line.to_i
         when 11
-          @groups.last.posts = line.to_i
-        when 12
-          @groups.last.readposts = line.to_i
+          @@groups.last.acmembers = line.to_i
+          @@groups.last.name + ": " + @@groups.last.acmembers.to_s
         when 13
-          @groups.last.acmembers = line.to_i
-          @groups.last.name + ": " + @groups.last.acmembers.to_s
-        when 14
-          @groups.last.created = line.to_i
+          @@groups.last.created = line.to_i
         end
       end
     end
   end
 
-  def forumscache(c, objs, strobjs)
+  def self.forumscache(c, objs, strobjs)
     groupids = {}
-    @groups.each { |g| groupids[g.id] = g }
-    @forums = []
+    @@groups.each { |g| groupids[g.id] = g }
+    @@forums = []
     for i in 0...objs
       for j in 0...strobjs
         line = c[i * strobjs + j]
         case j
         when 0
-          @forums.push(Struct_Forum_Forum.new(line))
+          @@forums.push(Struct_Forum_Forum.new(line))
         when 1
-          @forums.last.fullname = line
+          @@forums.last.fullname = line
         when 2
-          @forums.last.type = line.to_i
+          @@forums.last.type = line.to_i
         when 3
-          @forums.last.group = groupids[line.to_i]
+          @@forums.last.group = groupids[line.to_i]
         when 4
-          @forums.last.description = line.gsub("$", "\r\n")
+          @@forums.last.description = line.gsub("$", "\r\n")
         when 5
-          @forums.last.followed = true if line.to_i > 0
+@@forums.last.closed = true if (line.to_i&1) > 0
+          @@forums.last.followed = true if (line.to_i&2) > 0
         when 6
-          @forums.last.threads = line.to_i
+          @@forums.last.threads = line.to_i
         when 7
-          @forums.last.posts = line.to_i
+          @@forums.last.posts = line.to_i
         when 8
-          @forums.last.readposts = line.to_i
+          @@forums.last.readposts = line.to_i
         end
       end
     end
   end
 
-  def threadscache(c, objs, strobjs)
+  def self.threadscache(c, objs, strobjs)
     forumids = {}
-    @forums.each { |f| forumids[f.id] = f }
-    @threads = []
+    @@forums.each { |f| forumids[f.id] = f }
+    @@threads = []
     for i in 0...objs
       for j in 0...strobjs
         line = c[i * strobjs + j]
         case j
         when 0
-          @threads.push(Struct_Forum_Thread.new(line.to_i))
+          @@threads.push(Struct_Forum_Thread.new(line.to_i))
         when 1
-          @threads.last.name = line
+          @@threads.last.name = line
         when 2
-          @threads.last.author = line
+          @@threads.last.author = line
         when 3
-          @threads.last.forum = forumids[line]
+          @@threads.last.forum = forumids[line]
         when 4
-          @threads.last.followed = true if line.to_i > 0
+          @@threads.last.posts = line.to_i
         when 5
-          @threads.last.posts = line.to_i
+          @@threads.last.readposts = line.to_i
         when 6
-          @threads.last.readposts = line.to_i
-        when 7
-          @threads.last.pinned = true if line.to_i > 0
-        when 8
-          @threads.last.closed = true if line.to_i > 0
-          when 9
-            @threads.last.marked = true if line.to_i > 0
+          @@threads.last.pinned = true if (line.to_i&1) > 0
+          @@threads.last.closed = true if (line.to_i&2) > 0
+          @@threads.last.followed = true if (line.to_i&4) > 0
+          @@threads.last.marked = true if (line.to_i&8) > 0
         end
       end
     end
@@ -1727,6 +1769,11 @@ threadopen(@thrsel.index)
   def getstruct
     getcache
     return { "groups" => @groups, "forums" => @forums, "threads" => @threads }
+  end
+  
+  def self.getstruct
+    self.getcache
+    return { "groups" => @@groups, "forums" => @@forums, "threads" => @@threads }
   end
 
   def usequery
@@ -1755,18 +1802,24 @@ threadopen(@thrsel.index)
 end
 
 class Scene_Forum_Thread
-  def initialize(thread, param = nil, cat = 0, query = "", mention = nil)
-    @threadclass = thread
+  def initialize(thread, param = nil, cat = 0, query = "", mention = nil, scene=nil)
+    @threadclass=thread
     @param = param
     @cat = cat
     @query = query
     @mention = mention
-    @thread = @threadclass.id
+    @scene=scene
     srvproc("mentions", { "notice" => "1", "id" => mention.id }) if mention != nil
   end
 
   def main
-    if $name == "guest"
+    if @threadclass.is_a?(Integer)
+      Scene_Forum.getstruct['threads'].each{|t|
+      @threadclass=t if t.id==@threadclass
+      }
+    end
+    @thread=@threadclass.id
+    if Session.name == "guest"
       @noteditable = true
     elsif @threadclass.closed
       @noteditable = true
@@ -1789,7 +1842,11 @@ refresh
       end
       if escape or @form.fields[-1].pressed?
         speech_stop
+        if @scene==nil
         $scene = Scene_Forum.new(@thread, @param, @cat, @query)
+      else
+        $scene=@scene
+        end
         return
       end
       if enter and @form.index < @postscount * 3 and @form.index % 3 == 1
@@ -1999,8 +2056,8 @@ refresh
       boundary = "----EltBoundary" + rand(36 ** 32).to_s(36) while fl.include?(boundary)
       data = "--" + boundary + "\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
       length = data.size
-      q = "POST /srv/forum_edit.php?name=#{$name}\&token=#{$token}\&threadid=#{@thread.to_s}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-      a = connect(host, 80, q).delete("\0")
+      q = "POST /srv/forum_edit.php?name=#{Session.name}\&token=#{Session.token}\&threadid=#{@thread.to_s}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+      a = elconnect(q).delete("\0")
       for i in 0..a.size - 1
         if a[i..i + 3] == "\r\n\r\n"
           s = i + 4
@@ -2194,7 +2251,7 @@ refresh
         end
       end
     }
-    if @form.index < @postscount * 3 && ((($rang_moderator == 1 && @threadclass.forum.group.recommended) || (@threadclass != nil && @threadclass.forum.group.role == 2)) || (@posts[@form.index / 3].author == $name))
+    if @form.index < @postscount * 3 && ((($rang_moderator == 1 && @threadclass.forum.group.recommended) || (@threadclass != nil && @threadclass.forum.group.role == 2)) || (@posts[@form.index / 3].author == Session.name))
       menu.submenu(p_("Forum", "Moderation")) { |m|
         if @type != 1
           m.option(p_("Forum", "Edit post")) {
@@ -2255,16 +2312,20 @@ refresh
             confirm(p_("Forum", "Are you sure you want to delete this post?")) do
               prm = ""
               if @posts.size == 1
-                prm = "name=#{$name}\&token=#{$token}\&threadid=#{@thread}\&delete=1"
-              else
-                prm = "name=#{$name}\&token=#{$token}\&postid=#{@posts[@form.index / 3].id}\&threadid=#{@thread}\&delete=2"
+                prm = {"threadid"=>@thread, "delete"=>1}
+                else
+                prm = {"postid"=>@posts[@form.index / 3].id, "threadid"=>@thread, "delete"=>2}
               end
               if srvproc("forum_mod", prm)[0].to_i < 0
                 alert(_("Error"))
               else
-                alert(p_("Forum", "This post has been deleted."))
+                alert(p_("Forum", "Are you sure you want to delete this post?"))
                 if @posts.size == 1
+                  if @scene==nil
                   $scene = Scene_Forum.new(@thread, @param, @cat, @query)
+                else
+                  $scene=@scene
+                  end
                 else
                   @lastpostindex = @form.index
                   main
@@ -2280,7 +2341,7 @@ refresh
             sels.push(p_("Forum", "Move to end"))
             dest = selector(sels, p_("Forum", "Place post above"), @form.index, -1)
             if dest != -1
-              if srvproc("forum_mod", "name=#{$name}\&token=#{$token}\&move=3\&source=#{@posts[@form.index / 3].id.to_s}\&destination=#{if dest < @posts.size; @posts[dest].id.to_s; else; 0.to_s; end}")[0].to_i == 0
+              if srvproc("forum_mod", {"move"=>3, "source"=>@posts[@form.index / 3].id, "destination"=>((dest<@posts.size)?(@posts[dest].id):(0))})[0].to_i == 0
                 alert(p_("Forum", "The post has been slided."))
               else
                 alert(_("Error"))
@@ -2467,6 +2528,7 @@ class Struct_Forum_Forum
   attr_accessor :readposts
   attr_accessor :followed
   attr_accessor :description
+  attr_accessor :closed
 
   def initialize(name = "")
     @name = name
@@ -2478,6 +2540,7 @@ class Struct_Forum_Forum
     @readposts = 0
     @followed = false
     @description = ""
+    @closed=false
   end
 
   def id

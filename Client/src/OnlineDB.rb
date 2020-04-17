@@ -144,7 +144,7 @@ end
     return nil if s[0].to_i<0
     id=s[1].to_i
     @vals.push(v)
-    @creators.push($name)
+    @creators.push(Session.name)
     @keys.push(id)
     return self
   end

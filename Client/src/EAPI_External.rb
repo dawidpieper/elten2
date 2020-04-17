@@ -121,18 +121,18 @@ loop do
 
 
 def ytfile(url,upd=false)
-  if !FileTest.exists?($extrasdata+"\\youtube-dl.exe")
+  if !FileTest.exists?(Dirs.extras+"\\youtube-dl.exe")
     confirm(p_("EAPI_External", "To play Youtube videos, Elten uses external Youtube-DL library. Do you want to download it now?")) {
     waiting
     begin
-download("http://youtube-dl.org/downloads/latest/youtube-dl.exe", $extrasdata+"\\youtube-dl.exe")
+download("http://youtube-dl.org/downloads/latest/youtube-dl.exe", Dirs.extras+"\\youtube-dl.exe")
 rescue Exception
   retry
 end
 waiting_end
     }
     end
-  return if !FileTest.exists?($extrasdata+"\\youtube-dl.exe")
+  return if !FileTest.exists?(Dirs.extras+"\\youtube-dl.exe")
     e=url if url.is_a?(Hash)
     id=e['id']
     id=id['videoId'] if id.is_a?(Hash)
@@ -155,7 +155,7 @@ if suc == true
   suc = true
 else
             statustempfile=$tempdir+"/yts"+rand(36**2).to_s(36)+".tmp"
-            h = run("cmd /c #{$extrasdata}\\youtube-dl.exe --no-check-certificate --ffmpeg-location bin -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{id}\" 1> #{statustempfile} 2>\&1",true)
+            h = run("cmd /c #{Dirs.extras}\\youtube-dl.exe --no-check-certificate --ffmpeg-location bin -f bestaudio --extract-audio -o \"#{destination}\" \"https://youtube.com/watch?v=#{id}\" 1> #{statustempfile} 2>\&1",true)
                         speak(p_("EAPI_External", "Connecting to server, please wait..."))
       prc=0
       starttm=Time.now.to_i
@@ -224,7 +224,7 @@ fl = getfile(p_("EAPI_External", "Where you want to save this file?"),getdirecto
 if fl!=""
 if type == 0
 fl += "\\"+e['snippet']['title'].delspecial.gsub(/\&[\w]+\;/)+".mp4"
-    h = run("#{$extrasdata}\\youtube-dl.exe --ffmpeg-location bin -o \"#{fl}\" \"https://youtube.com/watch?v=#{id}\"",true)
+    h = run("#{Dirs.extras}\\youtube-dl.exe --ffmpeg-location bin -o \"#{fl}\" \"https://youtube.com/watch?v=#{id}\"",true)
       t = 0
       tmax = 600
       speak(p_("EAPI_External", "Downloading, please wait..."))
@@ -275,11 +275,11 @@ else
  if upd==false
    speak(p_("EAPI_External", "Please wait, downloadingYoutubeDL..."))
    waiting
-      executeprocess("#{$extrasdata}\\youtube-dl.exe -U",true)
+      executeprocess("#{Dirs.extras}\\youtube-dl.exe -U",true)
       delay(1)
-      if FileTest.exists?("#{$extrasdata}\\youtube-dl.exe.new")
-        File.delete("#{$extrasdata}\\youtube-dl.exe")
-        Win32API.new("kernel32","MoveFile",'pp','i').call("#{$extrasdata}\\youtube-dl.exe.new","#{$extrasdata}\\youtube-dl.exe") 
+      if FileTest.exists?("#{Dirs.extras}\\youtube-dl.exe.new")
+        File.delete("#{Dirs.extras}\\youtube-dl.exe")
+        Win32API.new("kernel32","MoveFile",'pp','i').call("#{Dirs.extras}\\youtube-dl.exe.new","#{Dirs.extras}\\youtube-dl.exe") 
         end
    waiting_end
    ytfile(url,true)
@@ -322,7 +322,7 @@ def convert_book(src,dst)
     r=readfile(src)
         writefile(dst,r)
     end
-  if !FileTest.exists?($extrasdata+"\\Calibre Portable\\Calibre\\ebook-convert.exe")
+  if !FileTest.exists?(Dirs.extras+"\\Calibre Portable\\Calibre\\ebook-convert.exe")
     s=confirm(p_("EAPI_External", "The file you're trying to open was saved in format that Elten does not support. Do you want to download and install Calibre Library that will allow Elten to read Ebooks?"))
     if s==1
       downloadfile("http://download.calibre-ebook.com/3.46.0/calibre-portable-installer-3.46.0.exe",$tempdir+"\\calibre.exe",p_("EAPI_External", "Please wait, downloading Calibre..."))
@@ -330,7 +330,7 @@ def convert_book(src,dst)
       speak(p_("EAPI_External", "Please wait, extracting Calibre..."))
       waiting
       executeprocess($tempdir+"\\calibre.exe \".\"",true,0,true,"C:\\")
-      copydir("C:\\Calibre Portable",$extrasdata+"/Calibre Portable")
+      copydir("C:\\Calibre Portable",Dirs.extras+"/Calibre Portable")
       deldir("C:\\Calibre Portable")
       waiting_end
       File.delete($tempdir+"\\calibre.exe")
@@ -338,7 +338,7 @@ def convert_book(src,dst)
       return
     end
     end
-    executeprocess("\""+$extrasdata+"\\Calibre Portable\\Calibre\\ebook-convert.exe"+"\" \"#{src}\" \"#{dst}\"",true)
+    executeprocess("\""+Dirs.extras+"\\Calibre Portable\\Calibre\\ebook-convert.exe"+"\" \"#{src}\" \"#{dst}\"",true)
     
   end
 end

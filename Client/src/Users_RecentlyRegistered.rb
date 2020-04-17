@@ -34,7 +34,7 @@ loop_update
       end
     end
     def context(menu)
-menu.useroption(onl[@sel.index])
+menu.useroption(@onl[@sel.index])
 menu.option(_("Refresh")) {
 initialize
 main

@@ -8,7 +8,7 @@
     end
   def main
         @sel = Select.new([p_("Blog", "Managed blogs"),p_("Blog", "Recently updated blogs"),p_("Blog", "Frequently updated blogs"),p_("Blog", "Frequently commented blogs"),p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends")],true,@index,p_("Blog", "Blogs"),true)
-  if $name=="guest"
+  if Session.name=="guest"
     @sel.disable_item(0)
     @sel.index=1
     @sel.disable_item(4)
@@ -29,8 +29,8 @@
     if enter or arrow_right
      case @sel.index
      when 0
-       $blogmanagedindex=0
-      $scene = Scene_Blog_Managed.new
+       $bloglistindex=0
+      $scene = Scene_Blog_List.new(5)
       when 1
         $bloglistindex=0        
         $scene = Scene_Blog_List.new
@@ -52,7 +52,7 @@
 end
 
 class Scene_Blog_Main
-  def initialize(owner=$name,categoryselindex=0,scene=nil)
+  def initialize(owner=Session.name,categoryselindex=0,scene=nil)
     @owner=owner
     @categoryselindex = categoryselindex
     @postselindex = 0
@@ -68,12 +68,12 @@ if err < 0
 end
 exist = blogtemp[1].to_i
 if exist == 0
-    if @owner==$name
+    if @owner==Session.name
     $scene = Scene_Blog_Create.new
   else
     alert(p_("Blog", "The blog cannot be found."))
     $scene=$blogreturnscene
-    $scene=Scene_Blog.new if $scene==nil
+    $scene=Scene_main.new if $scene==nil
     end
   return
 end
@@ -116,12 +116,6 @@ end
 @postid = [0]+@postid
 @postname = [p_("Blog", "All posts")]+@postname
 sel = @postname+[]
-sel.push(p_("Blog", "New category")) if blogowners(@owner).include?($name)
-sel.push(p_("Blog", "Change the blog's name")) if blogowners(@owner).include?($name)
-sel.push(p_("Blog", "Recategorize")) if blogowners(@owner).include?($name)
-sel.push(p_("Blog", "Followers")) if blogowners(@owner).include?($name)
-sel.push(p_("Blog", "Coworkers")) if blogowners(@owner).include?($name) and @owner[0..0]=="["
-sel.push(p_("Blog", "Delete this blog")) if blogowners(@owner)[0]==$name and @postname.size==1
 @sel = Select.new(sel,true,@categoryselindex,blogname)
   @sel.bind_context{|menu|context(menu)}
 loop do
@@ -134,87 +128,15 @@ end
 def update
   if escape or arrow_left
     $scene=$blogreturnscene    
-    $scene = Scene_Blog.new if $scene==nil
+    $scene = Scene_Main.new if $scene==nil
   end
   if enter or arrow_right
     bopen
             end
-              $scene = Scene_Blog_Category_Delete.new(@owner,@postid[@sel.index]) if $key[0x2e] and @sel.index < @postid.size and @sel.index != 0 and blogowners(@owner).include?($name)
+              $scene = Scene_Blog_Category_Delete.new(@owner,@postid[@sel.index]) if $key[0x2e] and @sel.index < @postid.size and @sel.index != 0 and blogowners(@owner).include?(Session.name)
             end
             def bopen
-              
-    if @sel.index < @postname.size
       $scene = Scene_Blog_Posts.new(@owner,@postid[@sel.index],@sel.index)
-    elsif @sel.index == @postname.size + 1
-blogrename
-    elsif @sel.index == @postname.size + 2
-$scene = Scene_Blog_Recategorize.new(@owner,@scene)
-elsif @sel.index == @postname.size + 3
-b=srvproc("blog_followers",{"searchname"=>@owner})
-if b[0].to_i==0
-  users=[]
-  b[2..-1].each {|u| users.push(u.delete("\r\n"))}
-  if users.size==0
-    alert(p_("Blog", "This blog is not followed by any user"))
-  else
-    selt=[]
-    users.each{|u| selt.push(u+".\r\n"+getstatus(u))}
-        sel=Select.new(selt,true,0,p_("Blog", "Followers"))
-    loop do
-      loop_update
-      sel.update
-      break if escape or arrow_left
-      usermenu(users[sel.index]) if enter
-      end
-    end
-  else
-    alert(_("Error"))
-  end
-  @sel.focus
-  elsif @sel.index==@postname.size+4 and @owner[0..0]=="["
-  owners=blogowners(@owner)
-  selt=owners
-  selt+=[p_("Blog", "Add coworker")] if blogowners(@owner)[0]==$name
-  sel=Select.new(selt,true,0,p_("Blog", "Coworkers"))
-  loop do
-    loop_update
-    sel.update
-    if enter and sel.index==owners.size
-              cow=input_text(p_("Blog", "What user you want to add to this blog?"),"ACCEPTESCAPE")
-              if cow!="\004ESCAPE\004"
-                cow=finduser(cow) if finduser(cow).downcase==cow.downcase
-                if user_exist(cow)
-                  srvproc("blog_coworkers",{"searchname"=>@owner, "ac"=>"add", "user"=>cow})
-                  $blogownerstime=0
-                  owners=blogowners(@owner)
-                  sel.commandoptions=selt=owners+[p_("Blog", "Add coworker")]
-                  sel.focus
-                else
-                  alert(p_("Blog", "User not found"))
-                  end
-                end
-              end
-              if $key[0x2e] and sel.index<owners.size and owners[sel.index]!=$name and blogowners(@owner)[0]==$name
-                confirm(p_("Blog", "Are you sure you want to release this coworker?")) {
-srvproc("blog_coworkers",{"searchname"=>@owner, "ac"=>"release", "user"=>owners[sel.index]})                
-$blogownerstime=0
-owners=blogowners(@owner)
-                  sel.commandoptions=selt=owners+[p_("Blog", "Add coworker")]
-                  sel.focus
-                }
-                end
-    break if escape or arrow_left
-  end
-  @sel.focus
-elsif @sel.index==@postname.size+5 or (@sel.index==@postname.size+4 and @owner==$name)
-  confirm(p_("Blog", "Are you sure you want to delete this blog?")) {
-  b=srvproc("blog_delete",{"searchname"=>@owner})
-  return $scene=Scene_Blog_Managed.new
-  } 
-                else
-categorynew
-                end
-
                 end
   def categorynew
                           name = ""
@@ -228,7 +150,7 @@ if err < 0
   alert(_("Error"))
 else
   alert(p_("Blog", "The category has been created."))
-  @sel.commandoptions.insert(-4,name)
+  @sel.commandoptions.push(name)
   @postname.push(name)
     @postid.push(blogtemp[1].to_i)
 end
@@ -237,35 +159,23 @@ return main
 end
 @sel.focus
 end
-def blogrename
-          blogname = ""
-    while blogname == ""
-      blogname = input_text(p_("Blog", "New blog name"),"ACCEPTESCAPE",@blogname)
-    end
-    if blogname != "\004ESCAPE\004"
-      bt = srvproc("blog_rename",{"blogname"=>blogname, "searchname"=>@owner})
-      if bt[0].to_i == 0
-        @sel.header=@blogname=blogname
-        alert(p_("Blog", "Your blog has been renamed"))
-      else
-        alert(_("Error"))
-      end
-      speech_wait
-    end
-    @sel.focus
-    end
 def context(menu)
     menu.option(p_("Blog", "Select")) {
     bopen
     }
-    if !(@sel.index > @postid.size - 1 or @sel.index == 0 or !blogowners(@owner).include?($name))
+    if !(@sel.index > @postid.size - 1 or @sel.index == 0 or !blogowners(@owner).include?(Session.name))
     menu.option(p_("Blog", "Rename")) {
           $scene = Scene_Blog_Category_Rename.new(@owner,@postid[@sel.index],@sel.index)
     }
     end
-if !(@sel.index > @postid.size - 1 or @sel.index == 0 or !blogowners(@owner).include?($name))
+if !(@sel.index > @postid.size - 1 or @sel.index == 0 or !blogowners(@owner).include?(Session.name))
     menu.option(_("Delete")) {
     $scene = Scene_Blog_Category_Delete.new(@owner,@postid[@sel.index])      
+    }
+  end
+  if blogowners(@owner).include?(Session.name)
+    menu.option(p_("Blog", "New category")) {
+    categorynew
     }
     end
             end
@@ -317,19 +227,21 @@ if !(@sel.index > @postid.size - 1 or @sel.index == 0 or !blogowners(@owner).inc
  end
 
 class Scene_Blog_Create
-  def initialize(shared=false)
+  def initialize(shared=false, scene=nil)
     @shared=shared
+    @scene=scene
+    @scene=Scene_Blog.new if @scene==nil
     end
   def main
     if @shared==false
 if confirm(p_("Blog", "You do not have any blog. Do you want to create one?")) == 0
-  $scene = Scene_Blog_Managed.new
+  $scene = @scene
   return
 end
 end
 name = input_text(p_("Blog", "Type a blog name"),"ACCEPTESCAPE")
 if name == "\004ESCAPE\004" or name == "\004TAB\004"
-    $scene = Scene_Blog_Managed.new
+    $scene = @scene
   return
 end
 alert(p_("Blog", "Please wait..."))
@@ -341,12 +253,12 @@ blogtemp = srvproc("blog_create",bp)
 err = blogtemp[0].to_i
 if err < 0
   alert(_("Error"))
-  $scene = Scene_Main.new
+  $scene = @scene
   return
 end
 alert(p_("Blog", "The blog has been created."))
 speech_wait
-$scene = Scene_Blog_Managed.new
+$scene = @scene
   end
 end
 
@@ -388,7 +300,6 @@ for i in 0..lines - 1
   l += 1
 end
 sel = @postname+[]
-sel.push(p_("Blog", "New post")) if blogowners(@owner).include?($name) and @id != "NEW"
 if sel.size==0 and @id=="NEW"
   alert(p_("Blog", "No new comments on your blog."))
   $scene=Scene_WhatsNew.new
@@ -412,27 +323,17 @@ def update
     end
   end
   if enter or arrow_right
-        if @sel.index < @postname.size
       $scene = Scene_Blog_Read.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
-    elsif @sel.commandoptions.size>0
-      $scene = Scene_Blog_Post_New.new(@owner,@id.to_i,@postmaxid + 1,@categoryselindex)
-      end
     end
-  if $key[0x2e] and blogowners(@owner).include?($name)
-    if @sel.index < @postname.size
+  if $key[0x2e] and blogowners(@owner).include?(Session.name)
       $scene = Scene_Blog_Post_Delete.new(@owner,@id,@postid[@sel.index],@categoryselindex)
-      end
     end
   end
   def context(menu)
     menu.option(p_("Blog", "Select")) {
-                  if @sel.index < @postname.size
       $scene = Scene_Blog_Read.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
-    elsif @sel.commandoptions.size>0
-      $scene = Scene_Blog_Post_New.new(@owner,@id,@postmaxid + 1,@categoryselindex)
-    end
     }
-    if @sel.index<@postname.size and blogowners(@owner).include?($name)
+    if @postname.size>0 and blogowners(@owner).include?(Session.name)
     menu.option(p_("Blog", "Edit")) {
           if @sel.index < @postname.size
       $scene = Scene_Blog_Post_Edit.new(@owner,@id,@postid[@sel.index],@categoryselindex,@sel.index)
@@ -448,7 +349,12 @@ def update
       $scene = Scene_Blog_Post_Delete.new(@owner,@id,@postid[@sel.index],@categoryselindex)
       end
     }
-    end
+  end
+if blogowners(@owner).include?(Session.name) and @id != "NEW"
+  menu.option(p_("Blog", "New post")) {
+$scene = Scene_Blog_Post_New.new(@owner,@id.to_i,@postmaxid + 1,@categoryselindex)
+}
+end
         end
 end
 
@@ -590,8 +496,8 @@ bt = {"categoryid"=>cat, "postid"=>@post, "postname"=>postname, "buffer"=>bufid,
     length=data.size    
       host = $srv
   host.delete!("/")
-    q = "POST /srv/blog_posts_mod.php?name=#{$name}\&token=#{$token}\&categoryid=#{cat.urlenc}\&postid=#{@post}\&postname=#{postname.urlenc}\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&add=1\&searchname=#{@owner}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-a = connect(host,80,q)
+    q = "POST /srv/blog_posts_mod.php?name=#{Session.name}\&token=#{Session.token}\&categoryid=#{cat.urlenc}\&postid=#{@post}\&postname=#{postname.urlenc}\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&add=1\&searchname=#{@owner}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+a = elconnect(q)
 a.delete!("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
@@ -789,8 +695,8 @@ elsif @postaudio!=nil
     data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
     length=data.size    
       host = $srv.delete("/")
-      q = "POST /srv/blog_posts_mod.php?name=#{$name}\&token=#{$token}\&categoryid=#{cat.urlenc}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str.urlenc}\&edit=1\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&searchname=#{@owner}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-a = connect(host,80,q).delete("\0")
+      q = "POST /srv/blog_posts_mod.php?name=#{Session.name}\&token=#{Session.token}\&categoryid=#{cat.urlenc}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text_str.urlenc}\&edit=1\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&searchname=#{@owner}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+a = elconnect(q).delete("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
     s = i+4
@@ -880,13 +786,13 @@ end
 if @medias.size>0
   @fields[1]=Select.new(@medias.map {|m| m['snippet']['title']},true,0,p_("Blog", "Media"),true)
   end
-if $name!="guest"
+if Session.name!="guest"
 @fields.push(Edit.new(p_("Blog", "Your comment"),"MULTILINE","",true))
 else
   @fields.push(nil)
   end
 @fields.push(nil)
-if blogowners(@owner).include?($name)
+if blogowners(@owner).include?(Session.name)
 @fields.push(Button.new(p_("Blog", "Edit your post")))
 else
   @fields.push(nil)
@@ -973,7 +879,23 @@ def context(menu)
     ind+=1 if ind<0
     pst=@post[ind]
     menu.useroption(pst.author)
-    if ind>0 and blogowners(@owner).include?($name)
+    menu.submenu(p_("Blog", "Navigation")) {|m|
+    m.option(p_("Blog", "Go to post")) {
+          @form.index=@postcur=0
+      @form.focus
+    }
+    m.option(p_("Blog", "Go to last comment")) {
+      @form.index=@postcur=@form.fields.size-5
+      @form.focus
+    }
+    if @knownposts<@post.size
+        m.option(p_("Blog", "Go to first unread comment")) {
+      @form.index=@postcur=@knownposts+1
+      @form.focus
+    }
+    end
+    }
+    if ind>0 and blogowners(@owner).include?(Session.name)
     menu.option(p_("Blog", "Delete this comment")) {
          confirm(p_("Blog", "Are you sure you want to delete this comment?")) {
          srvproc("blog_posts_mod",{"delcomment"=>"1", "searchname"=>@owner, "postid"=>@postid, "commentnumber"=>(ind).to_s})    
@@ -990,10 +912,10 @@ end
 
 class Scene_Blog_List
   def initialize(orderby=0)
-    $blogsorderby=orderby
+    @orderby=orderby
     end
   def main
-        blogtemp = srvproc("blog_list",{"orderby"=>$blogsorderby})
+        blogtemp = srvproc("blog_list",{"orderby"=>@orderby})
       if blogtemp[0].to_i < 0
      alert(_("Error"))
      $scene = Scene_Blog.new
@@ -1012,6 +934,7 @@ loop do
   else
     l += 1
         @owners[l] = blogtemp[i].delete("\r\n")
+        @names[l] = p_("Blog", "My blog") if @owners[l]==@names[l] and @owners[l]==Session.name
       u = false
     end
   break if i >= blogtemp.size - 1
@@ -1046,20 +969,142 @@ loop do
 end
 def update
   if escape or (!$keyr[0x10]&&arrow_left)
-    $scene = Scene_Blog.new($blogsorderby+1)
+    $scene = Scene_Blog.new(@orderby+1)
   end
       if enter or (!$keyr[0x10]&&arrow_right)
      $bloglistindex = @sel.index
         $scene = Scene_Blog_Main.new(@owners[@sel.index],0,$scene)
       end
+    end
+    def blogrename
+          blogname = ""
+    while blogname == ""
+      blogname = input_text(p_("Blog", "New blog name"),"ACCEPTESCAPE",@names[@sel.index])
+    end
+    if blogname != "\004ESCAPE\004"
+      bt = srvproc("blog_rename",{"blogname"=>blogname, "searchname"=>@owners[@sel.index]})
+      if bt[0].to_i == 0
+        alert(p_("Blog", "Your blog has been renamed"))
+      else
+        alert(_("Error"))
       end
+    end
+    $bloglistindex = @sel.index
+main
+end
+def blogfollowers
+  b=srvproc("blog_followers",{"searchname"=>@owners[@sel.index]})
+if b[0].to_i==0
+  users=[]
+  b[2..-1].each {|u| users.push(u.delete("\r\n"))}
+  if users.size==0
+    alert(p_("Blog", "This blog is not followed by any user"))
+  else
+    selt=[]
+    users.each{|u| selt.push(u+".\r\n"+getstatus(u))}
+        sel=Select.new(selt,true,0,p_("Blog", "Followers"))
+    loop do
+      loop_update
+      sel.update
+      usermenu(users[sel.index]) if enter
+            break if escape or arrow_left or $scene!=self
+      end
+    end
+  else
+    alert(_("Error"))
+  end
+  @sel.focus
+loop_update
+end
+def blogcoworkers
+    owners=blogowners(@owners[@sel.index])
+  selt=owners
+  sel=Select.new(selt,true,0,p_("Blog", "Coworkers"))
+  sel.bind_context{|menu|
+  menu.useroption(owners[sel.index])
+  if blogowners(@owners[@sel.index])[0]==Session.name   and @owners[@sel.index][0..0]=="["
+  menu.option(p_("Blog", "Add coworker")) {
+                cow=input_text(p_("Blog", "What user you want to add to this blog?"),"ACCEPTESCAPE")
+              if cow!="\004ESCAPE\004"
+                cow=finduser(cow) if finduser(cow).downcase==cow.downcase
+                if user_exist(cow)
+                  srvproc("blog_coworkers",{"searchname"=>@owners[@sel.index], "ac"=>"add", "user"=>cow})
+                  $blogownerstime=0
+                  owners=blogowners(@owners[@sel.index])
+                  sel.commandoptions=selt=owners
+                  sel.focus
+                else
+                  alert(p_("Blog", "User not found"))
+                  end
+                end
+  }
+  if sel.index>0
+    menu.option(p_("Blog", "Delete coworker")) {
+                    confirm(p_("Blog", "Are you sure you want to release this coworker?")) {
+srvproc("blog_coworkers",{"searchname"=>@owners[@sel.index], "ac"=>"release", "user"=>owners[sel.index]})                
+$blogownerstime=0
+owners=blogowners(@owners[@sel.index])
+                  sel.commandoptions=selt=owners
+                  sel.focus
+                }
+  }
+    end
+  end
+  }
+  loop do
+    loop_update
+    sel.update
+              if $key[0x2e] and sel.index<owners.size and owners[sel.index]!=Session.name and blogowners(@owners[@sel.index])[0]==Session.name
+                confirm(p_("Blog", "Are you sure you want to release this coworker?")) {
+srvproc("blog_coworkers",{"searchname"=>@owners[@sel.index], "ac"=>"release", "user"=>owners[sel.index]})                
+$blogownerstime=0
+owners=blogowners(@owners[@sel.index])
+                  sel.commandoptions=selt=owners
+                  sel.focus
+                }
+                end
+    break if escape or arrow_left
+  end
+  @sel.focus
+  loop_update
+end
+def blogdelete
+    confirm(p_("Blog", "Are you sure you want to delete this blog?")) {
+    confirm(p_("Blog", "All posts written on this blog will be lost. Are you sure you want to continue?")) {
+  b=srvproc("blog_delete",{"searchname"=>@owners[@sel.index]})
+  alert(p_("Blogs", "Blog deleted"))
+  return main
+  }
+  } 
+  end
       def context(menu)
+        if @owners.size>0
 b=blogowners(@owners[@sel.index])
 b.each{|u| menu.useroption(u)}
 menu.option(p_("Blog", "Open")) {
   $bloglistindex = @sel.index
         $scene = Scene_Blog_Main.new(@owners[@sel.index],0,$scene)
 }
+if b.include?(Session.name)
+  menu.option(p_("Blog", "Rename")) {
+  blogrename
+  }
+  menu.option(p_("Blog", "Followers")) {
+  blogfollowers
+  }
+  menu.option(p_("Blog", "Coworkers")) {
+  blogcoworkers
+  }
+  menu.option(p_("Blog", "Recategorize")) {
+  $bloglistindex = @sel.index
+  $scene = Scene_Blog_Recategorize.new(@owners[@sel.index],$scene)
+  }
+  if b[0]==Session.name
+  menu.option(p_("Blog", "Delete this blog")) {
+  blogdelete
+  }
+  end
+  end
 isf = false
 for u in @followedblogs
   isf = true if u == @owners[@sel.index]
@@ -1090,6 +1135,10 @@ else
 end
 end
 }
+menu.option(p_("Blog", "Add this blog to quick actions")) {
+QuickActions.create(Scene_Blog_Main, @names[@sel.index]+" (#{p_("Blog", "Blog")})", [@owners[@sel.index]])
+alert(p_("Blog", "Blog added to quick actions"), false)
+}
 menu.option(p_("Blog", "Mark the blog as read")) {
 confirm(p_("Blog", "All posts on this blog will be marked as read. Do you want to continue?")) do
     srvproc("blog_markasread",{"user"=>@owners[@sel.index]})
@@ -1099,6 +1148,11 @@ confirm(p_("Blog", "All posts on this blog will be marked as read. Do you want t
       alert(_("Error"))
     end
     end
+}
+end
+menu.option(p_("Blog", "Create new blog")) {
+$bloglistindex = @sel.index
+$scene=Scene_Blog_Create.new(true, $scene)
 }
 menu.option(_("Refresh")) {
           main
@@ -1110,13 +1164,14 @@ class Scene_Blog_Recategorize
   def initialize(searchname,scene=nil)
     @searchname=searchname
     @scene=scene
+    @scene||=Scene_Blog.new
     end
   def main
     blogtemp = srvproc("blog_categories",{"searchname"=>@searchname})
 err = blogtemp[0].to_i
 if err < 0
   alert(_("Error"))
-  $scene = Scene_Main.new
+  $scene = @scene
   return
 end
 lines = blogtemp[1].to_i
@@ -1136,7 +1191,7 @@ blogtemp = srvproc("blog_posts",{"searchname"=>@searchname, "categoryid"=>"0", "
 err = blogtemp[0].to_i
 if err < 0
   alert(_("Error"))
-  $scene = Scene_Main.new
+  $scene = @scene
   return
 end
 for i in 0..blogtemp.size - 1
@@ -1161,6 +1216,7 @@ for i in 0..lines - 1
     end
   l += 1
     @postcategories[i]=[]
+    blogtemp[l]||=""
   for c in blogtemp[l].split(",")
     @postcategories[i].push(c.to_i)
     end
@@ -1201,7 +1257,7 @@ speech_wait
 break
     end
   end
-$scene=Scene_Blog_Main.new(@searchname,-1,@scene)
+$scene=@scene
 end
 end
 
@@ -1211,43 +1267,8 @@ class Struct_Blog_Post
   attr_accessor :text
   def initialize(id=0)
     @id=id
-    @author=$name
+    @author=Session.name
     @text=""
-  end
-end
-
-class Scene_Blog_Managed
-  def main
-    b=srvproc("blog_managed",{"searchname"=>$name})
-    if b[0].to_i<0
-      alert(_("Error"))
-      return $scene=Scene_Blog.new
-    end
-    @blognames=[p_("Blog", "My blog")]
-    @blogids=[$name]
-    for i in 2...b.size
-      if i%2==0
-        @blogids.push(b[i].delete("\r\n"))
-      else
-        @blognames.push(b[i].delete("\r\n"))
-        end
-      end
-    selt=@blognames+[p_("Blog", "Create new blog")]
-        @sel=Select.new(selt,true,$blogmanagedindex||0,p_("Blog", "Blogs list"))
-    loop do
-      loop_update
-      @sel.update
-      $blogmanagedindex=@sel.index
-      if enter or arrow_right
-        if @sel.index<@blogids.size
-          $scene=Scene_Blog_Main.new(@blogids[@sel.index],0,self)
-        else
-          $scene=Scene_Blog_Create.new(true)
-        end
-        end
-      $scene=Scene_Blog.new if arrow_left or escape
-      break if $scene!=self
-      end
   end
 end
 
@@ -1260,9 +1281,9 @@ class Scene_Blog_Post_Move
     @postselindex=postselindex
   end
   def main
-    @blogids=[$name]
+    @blogids=[Session.name]
     @blognames=[p_("Blog", "My blog")]
-    b=srvproc("blog_managed",{"searchname"=>$name})
+    b=srvproc("blog_managed",{"searchname"=>Session.name})
     if b[0].to_i>0
       alert(_("Error"))
       $scene=Scene_Main.new

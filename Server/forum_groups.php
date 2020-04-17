@@ -62,7 +62,7 @@ if($_GET['ac']=='privileges') {
 if(!isset($_GET['groupid'])) die("-4");
 $gr=mysql_fetch_row(mquery("select founder from forum_groups where id=".(int)$_GET['groupid']));
 if($gr[0]!=$_GET['name']) die("-3");
-$uq=mquery("select id, user, role from forum_groups_members where user='".mysql_real_escape_string($_GET['user'])."' and groupid=".(int)$_GET['groupid']);
+$uq=mquery("select id, user, role from forum_groups_members where (role=1 or role=2) and user='".mysql_real_escape_string($_GET['user'])."' and groupid=".(int)$_GET['groupid']);
 if(mysql_num_rows($uq)==0) die("-4");
 $u=mysql_fetch_row($uq);
 if($_GET['pr']=="moderationgrant")

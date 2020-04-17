@@ -31,7 +31,7 @@ module Recorder
             while !r.include?("dummy: Immediate exit requested")
         loop_update
         r+=f.read if f.avail>0
-                end
+      end
       d=r
       s=false
       devices={}

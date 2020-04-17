@@ -2,7 +2,7 @@
 require("header.php");
 $moderator=getprivileges($_GET['name'])[1];
 $dmoderator=getprivileges($_GET['searchname'])[1];
-if($moderator <= 0 or $dmoderator<=0)
+if($moderator==0 or $dmoderator==1)
 die("-3");
 if($_GET['ban'] == 1) {
 mquery("DELETE FROM `banned` WHERE name='" . $searchname . "'");

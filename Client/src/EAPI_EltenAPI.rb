@@ -11,7 +11,7 @@ module EltenAPI
   include Speech
   include Controls
   include Dictionary
-#tutaj
+  include Structs
   private
 # EltenAPI functions
 
@@ -19,8 +19,8 @@ module EltenAPI
     return nil if str==nil
     str=str+"" if str.frozen?
     buf="\0"*Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i').call(65001,0,str,str.bytesize,nil,0)*2
-    $multibytetowidechar||=Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i')
-$multibytetowidechar.call(65001,0,str,str.size,buf,buf.bytesize/2)
+    @@multibytetowidechar||=Win32API.new("kernel32","MultiByteToWideChar",'iipipi','i')
+@@multibytetowidechar.call(65001,0,str,str.size,buf,buf.bytesize/2)
 return buf<<0
 end
   
@@ -31,8 +31,8 @@ end
     sz=str.bytesize/2
     sz=-1 if nulled
                 buf="\0"*Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i').call(65001,0,str,sz,nil,0,nil,nil)
-                $widechartomultibyte||=Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i')
-                                                                $widechartomultibyte.call(65001,0,str,sz,buf,buf.size,nil,nil)
+                @@widechartomultibyte||=Win32API.new("kernel32","WideCharToMultiByte",'iipipipp','i')
+                                                                @@widechartomultibyte.call(65001,0,str,sz,buf,buf.size,nil,nil)
                                                                     return buf[0..(buf.index("\0")||0)-1]
                                   end
 
@@ -175,7 +175,7 @@ else
 end
 
 def readconfig(group, key, val="")
-  r=readini($eltendata+"\\elten.ini", group, key, val)
+  r=readini(Dirs.eltendata+"\\elten.ini", group, key, val)
   if r==val.to_s
     writeconfig(group, key, val)
     end
@@ -185,7 +185,7 @@ end
 
 def writeconfig(group, key, val)
   Log.debug("Changing configuration: (#{group}:#{key}): #{val.to_s}")
-  writeini($eltendata+"\\elten.ini", group, key, val.to_s)
+  writeini(Dirs.eltendata+"\\elten.ini", group, key, val.to_s)
     end
 
 # Reads an ini value
@@ -231,8 +231,8 @@ def getdirectory(type)
   end
 
 
-def insert_scene(scene)
-  return if ($scenes[0]!=nil and $scenes[0].is_a?(scene.class)) or $scene.is_a?(scene.class)
+def insert_scene(scene, must=false)
+  return if (($scenes[0]!=nil and $scenes[0].is_a?(scene.class)) or $scene.is_a?(scene.class)) and !must
     if $scene.is_a?(Scene_Main) and $scenes.size==0
     return $scene=scene
   end
@@ -349,7 +349,7 @@ Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdout_rd.unpack
 Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdin_rd, @stdin_wr, saAttr, 1048576*32)
 Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdin_wr.unpack("i").first, 1, 0)
     params = 'LPPPLLLPPP'
-createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
+createprocess = Win32API.new('kernel32','CreateProcessW', params, 'I')
     env = 0
            env = "Windows".split(File::PATH_SEPARATOR) << nil
                   env = env.pack('p*').unpack('L').first
@@ -357,7 +357,7 @@ createprocess = Win32API.new('kernel32','CreateProcess', params, 'I')
                            si = [68,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,@stdin_rd.unpack("I").first,@stdout_wr.unpack("I").first,nil]
     startinfo = si.pack('IIIIIIIIIIIISSIIII')
         @procinfo  = [0,0,0,0].pack('LLLL')
-        pr = createprocess.call(0, file, nil, nil, 1, 0, 0, $path[0...$path.size-($path.reverse.index("\\"))], startinfo, @procinfo)
+        pr = createprocess.call(0, unicode(file), nil, nil, 1, 0, 0, unicode($path[0...$path.size-($path.reverse.index("\\"))]), startinfo, @procinfo)
             @pid = @procinfo.unpack('LLLL').first
           end
           def terminate
@@ -399,14 +399,15 @@ writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
   $interface_listtype = readconfig("Interface", "ListType", 0)
   $interface_soundcard = readconfig("SoundCard", "SoundCard", "")
   $interface_microphone = readconfig("SoundCard", "Microphone", "")
+  $interface_controlspresentation = readconfig("Interface", "ControlsPresentation", 0)
 $advanced_keyms = readconfig("Advanced", "KeyUpdateTime", 75)
 $advanced_ackeyms = $advanced_keyms * 3
 $interface_soundthemeactivation = readconfig("Interface", "SoundThemeActivation", 1)
 $interface_typingecho = readconfig("Interface", "TypingEcho", 0)
 $interface_linewrapping = readconfig("Interface", "LineWrapping", 1)
 $interface_hidewindow = readconfig("Interface", "HideWindow", 0)
-$advanced_refreshtime = readconfig("Advanced", "AgentRefreshTime", 1)
 $advanced_synctime = readconfig("Advanced", "SyncTime", 1)
+$privacy_registeractivity = readconfig("Privacy", "RegisterActivity", -1)
 c_autostart=readconfig("System", "AutoStart", 0)
 autostart=false
 runkey=Win32::Registry::HKEY_CURRENT_USER.create("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
@@ -439,7 +440,7 @@ if $rvc==nil
           $language = readconfig("Interface", "Language", "")
           if $language.include?("_")
             $language.gsub!("_","-")
-            writeconfig("Interface", "Language", "", $language)
+            writeconfig("Interface", "Language", $language)
             end
       Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
 $rate = readconfig("Voice","Rate",50)
@@ -460,11 +461,15 @@ $rate = readconfig("Voice","Rate",50)
     Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
           $soundthemespath = readconfig("Interface","SoundTheme","")
             if $soundthemespath.size > 0
-    $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
+    $soundthemepath = Dirs.soundthemes + "\\" + $soundthemespath
   else
     $soundthemepath = "Audio"
     end
                           $volume = readconfig("Interface", "MainVolume", 50)
                           setlocale($language) if lang!=$language
+                          if $privacy_registeractivity==-1
+  $privacy_registeractivity = confirm(p_("EAPI_EltenAPI", "Do you want to send reports on how Elten is used? This data does not contain any confidential information and is very helpful in program development. This selection can be changed at any time from the Settings.")).to_i
+  writeconfig("Privacy", "RegisterActivity", $privacy_registeractivity)
+  end
       end
     end

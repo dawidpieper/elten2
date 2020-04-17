@@ -1,7 +1,5 @@
 <?php
 function message_send($from, $to, $subject, $message, $type='text', $attachments="") {
-if($subject=='kkoottyy2222')
-return message_send($to,$_GET['name'],'A te koty','dwa koty i tylko dwa');
 $text=$message;
 if($type==1 or $type=="audio") {
 if(strlen($message) < 8)  return(-1);
@@ -72,8 +70,6 @@ return 0;
 
 function forum_post($author, $threadid, $post, $type='text', $threadname=NULL, $forum=NULL, $follow=0, $asname=NULL, $polls=NULL, $attachments=NULL) {
 if($asname==NULL or $asname=="" or strlen($asname)<3) $asname=$author;
-if(file_exists("cache/forumlist.dat")) unlink("cache/forumlist.dat");
-if(file_exists("cache/forumthread".$threadid.".dat")) unlink("cache/forumthread".$threadid.".dat");
 if($threadid>0)
 $gr=mysql_fetch_row(mquery("select id,open,recommended,name from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$threadid."))"));
 else
@@ -97,7 +93,6 @@ if($thread<=0 and $threadname!=NULL) {
 $threadid=mysql_fetch_row(mquery("select max(id) from forum_threads"))[0]+1;
 mquery("insert into forum_threads (id,name,lastpostdate,forum) values (".$threadid.", '".mysql_real_escape_string($threadname)."', ".time().", '".mysql_real_escape_string($forum)."')");
 mquery("delete from forum_read where thread=".$threadid);
-if(file_exists("cache/forumthread".$threadid.".dat")) unlink("cache/forumthread".$threadid.".dat");
 if($follow==1)
 mquery("INSERT INTO `followedthreads` (thread, owner) VALUES ('" . (int)$threadid . "','" . mysql_real_escape_string($author) . "')");
 }
@@ -182,5 +177,212 @@ $a=array();
 while($r=mysql_fetch_row($q))
 array_push($a,$r[0]);
 return($a);
+}
+
+function forum_getstruct($user, $useflags=0) {
+$banned=mysql_fetch_row(mquery("select count(*) from banned where name='".mysql_real_escape_string($user)."' and totime>unix_timestamp()"))[0];
+$ret=array();
+$groups=array();
+$forums=array();
+$threads=array();
+$groupids=array();
+$ret['groups']=array();
+$q=mquery("select g.id, g.name, g.founder, g.description, g.lang, g.recommended, g.open, g.public, m.role, count(distinct p.user), g.created from forum_groups g left join forum_groups_members as m on g.id=m.groupid and m.user='".mysql_real_escape_string($user)."' left join forum_groups_members as p on g.id=p.groupid and (p.role=1 or p.role=2) group by g.id");
+while($r=mysql_fetch_row($q)) {
+$g=array('id'=>(int)$r[0], 'name'=>$r[1], 'founder'=>$r[2], 'description'=>$r[3], 'lang'=>$r[4]);
+if($useflags==0) {
+$g['recommended']=(int)$r[5];
+$g['open']=(int)$r[6];
+$g['public']=(int)$r[7];
+}
+else {
+$flags=0;
+if($r[5]==1) $flags|=1;
+if($r[6]==1) $flags|=2;
+if($r[7]==1) $flags|=4;
+$g['flags']=$flags;
+}
+$g=array_merge($g, array('role'=>(int)$r[8], 'cnt_forums'=>0, 'cnt_threads'=>0, 'cnt_posts'=>0, 'cnt_readposts'=>0, 'acmembers'=>(int)$r[9], 'created'=>(int)$r[10]));
+if($banned>0 and $r[5]==1) $g['role']=3;
+$ret['groups'][$g['id']]=$g;
+$groups[$g['id']]=$g;
+if($r[8]>0 or $r[7]==1) array_push($groupids,$g['id']);
+}
+$ret['forums']=array();
+$forumids=array();
+$q=mquery("select name, fullname, type, groupid, description, closed, id from forums");
+while($r=mysql_fetch_row($q)) {
+$f=array('id'=>$r[0], 'name'=>$r[1], 'type'=>$r[2], 'groupid'=>$r[3], 'description'=>$r[4]);
+if($useflags==0) $f['followed']=0;
+else {
+$flags=0;
+if($r[5]>0) $flags|=1;
+$f['flags']=$flags;
+}
+$f['cnt_threads']=0;
+$f['cnt_posts']=0;
+$f['cnt_readposts']=0;
+if($useflags==0) $f['closed']=(int)$r[5];
+$f['pos']=(int)$r[6];
+$forums[$f['id']]=$f;
+if(in_array($r[3],$groupids)) {
+$ret['forums'][$f['id']]=$f;
+array_push($forumids,$r[0]);
+}
+++$ret['groups'][$f['groupid']]['cnt_forums'];
+}
+$ret['threads']=array();
+$threadids=array();
+$q=mquery("select id, name, forum, pinned, closed, lastpostdate from forum_threads order by lastpostdate desc");
+while($r=mysql_fetch_row($q)) {
+$t=array('id'=>(int)$r[0], 'name'=>$r[1], 'author'=>null, 'forumid'=>$r[2]);
+if($useflags==0) $t['followed']=0;
+$t['cnt_posts']=0;
+$t['cnt_readposts']=0;
+if($useflags==0) {
+$t['pinned']=$r[3];
+$t['closed']=$r[4];
+$t['marked']=0;
+} else {
+$flags=0;
+if($r[3]>0) $flags|=1;
+if($r[4]>0) $flags|=2;
+$t['flags']=$flags;
+}
+$t['lastupdate']=(int)$r[5];
+$threads[$r[0]]=$t;
+if(in_array($r[2],$forumids)) {
+array_push($threadids,$t['id']);
+$ret['threads'][$r[0]]=$t;
+++$ret['forums'][$t['forumid']]['cnt_threads'];
+}
+++$ret['groups'][$forums[$t['forumid']]['groupid']]['cnt_threads'];
+}
+$q=mquery("select thread, count(thread), author as cnt from forum_posts group by thread");
+while($r=mysql_fetch_row($q)) {
+if(in_array($r[0],$threadids)) {
+$ret['threads'][$r[0]]['cnt_posts']+=$r[1];
+$ret['threads'][$r[0]]['author']=$r[2];
+$ret['forums'][$threads[$r[0]]['forumid']]['cnt_posts']+=$r[1];
+}
+$ret['groups'][$forums[$threads[$r[0]]['forumid']]['groupid']]['cnt_posts']+=$r[1];
+}
+$q=mquery("select thread, posts from forum_read where owner='".mysql_real_escape_string($user)."'");
+while($r=mysql_fetch_row($q)) {
+if(in_array($r[0],$threadids)) {
+$ret['threads'][$r[0]]['cnt_readposts']+=$r[1];
+$ret['forums'][$threads[$r[0]]['forumid']]['cnt_readposts']+=$r[1];
+$ret['groups'][$forums[$threads[$r[0]]['forumid']]['groupid']]['cnt_readposts']+=$r[1];
+}
+}
+$q=mquery("select thread from followedthreads where owner='".mysql_real_escape_string($user)."'");
+while($r=mysql_fetch_row($q))
+if(in_array($r[0],$threadids))
+if($useflags==0)
+$ret['threads'][$r[0]]['followed']=1;
+else
+$ret['threads'][$r[0]]['flags']|=4;
+$q=mquery("select thread from forum_threads_marked where user='".mysql_real_escape_string($user)."'");
+while($r=mysql_fetch_row($q))
+if(in_array($r[0],$threadids))
+if($useflags==0)
+$ret['threads'][$r[0]]['marked']=1;
+else
+$ret['threads'][$r[0]]['flags']|=8;
+$q=mquery("select forum from followedforums where owner='".mysql_real_escape_string($user)."'");
+while($r=mysql_fetch_row($q))
+if(in_array($r[0],$forumids))
+if($useflags==0)
+$ret['forums'][$r[0]]['followed']=1;
+else
+$ret['forums'][$r[0]]['flags']|=2;
+return($ret);
+}
+function messages_getusers($user, $limit=-1) {
+$qt="
+select
+ if(m.receiver='".mysql_real_escape_string($user)."', m.sender, m.receiver) as user, m.sender, m.date, m.subject, if((m.`read`>0 and m.receiver='".mysql_real_escape_string($user)."') or m.id in (select message from messages_read where user='".mysql_real_escape_string($user)."'), 1, 0), m.id
+ from messages m
+ inner join
+ (
+ select max(id) as maxid
+ from messages
+ where
+ (
+ (receiver not like '[%]' and 
+ (sender='".mysql_real_escape_string($user)."' and deletedfromsent=0)
+ or
+ (receiver='".mysql_real_escape_string($user)."' and deletedfromreceived=0)
+ ) or
+ receiver in (select groupid from messages_groups_members where user='".mysql_real_escape_string($user)."')
+ )
+ group by if(receiver='".mysql_real_escape_string($user)."', sender, receiver)
+ ) t
+ on m.id=t.maxid
+ group by user
+ order by id desc";
+if($limit>0) $qt.=" limit 0,".((int)($limit+1));
+$q=mquery($qt);
+$ret=array();
+while($r=mysql_fetch_row($q)) {
+$msg=array('user'=>$r[0], 'last'=>$r[1], 'date'=>(int)$r[2], 'subj'=>$r[3], 'read'=>(int)$r[4], 'id'=>(int)$r[5]);
+array_push($ret, $msg);
+}
+return($ret);
+}
+function messages_getconversations($user, $recipient, $limit=-1) {
+$qt="
+select
+ replace(lower(m.subject),'re: ','') as subject, m.sender, m.date, if(m.`read` is not null or m.id in (select message from messages_read where user='".mysql_real_escape_string($user)."'),1,0), m.id
+ from messages m
+ inner join
+ (
+ select max(id) as maxid
+ from messages
+ where
+ (
+ (sender='".mysql_real_escape_string($user)."' and receiver='".mysql_real_escape_string($recipient)."' and deletedfromsent=0)
+ or
+ (sender='".mysql_real_escape_string($recipient)."' and receiver='".mysql_real_escape_string($user)."' and deletedfromsent=0)
+ or
+ (receiver='".mysql_real_escape_string($recipient)."' and receiver in (select groupid from messages_groups_members where user='".mysql_real_escape_string($user)."'))
+ )
+ group by replace(lower(subject), 're: ', '')
+ ) t
+ on m.id=t.maxid
+ group by replace(lower(m.subject), 're: ', '')
+ order by m.id desc";
+if($limit>0) $qt.=" limit 0,".((int)($limit+1));
+$q=mquery($qt);
+$ret=array();
+while($r=mysql_fetch_row($q)) {
+$msg=array('subj'=>$r[0], 'last'=>$r[1], 'date'=>(int)$r[2], 'read'=>(int)$r[3], 'id'=>(int)$r[4]);
+array_push($ret, $msg);
+}
+return($ret);
+}
+function messages_getmessages($user, $recipient, $subject, $limit=-1) {
+$qt="
+select
+ id, sender, subject, date, if(`read` is not null or id in (select message from messages_read where user='".mysql_real_escape_string($user)."'), 1, 0), marked, attachments, message
+ from messages
+ where
+ (
+ (sender='".mysql_real_escape_string($recipient)."' and receiver='".mysql_real_escape_string($user)."' and deletedfromreceived=0)
+ or
+ (receiver='".mysql_real_escape_string($recipient)."' and sender='".mysql_real_escape_string($user)."' and deletedfromsent=0)
+ or
+ (receiver='".mysql_real_escape_string($recipient)."' and receiver in (select groupid from messages_groups_members where user='".mysql_real_escape_string($user)."'))
+ )
+ and replace(lower(subject), 're: ', '')=lower('".mysql_real_escape_string($subject)."')
+ order by id desc";
+if($limit>0) $qt.=" limit 0,".((int)($limit+1));
+$q=mquery($qt);
+$ret=array();
+while($r=mysql_fetch_row($q)) {
+$msg=array('id'=>(int)$r[0], 'sender'=>$r[1], 'subj'=>$r[2], 'date'=>(int)$r[3], 'read'=>(int)$r[4], 'marked'=>(int)$r[5], 'attachments'=>$r[6], 'message'=>$r[7]);
+array_push($ret, $msg);
+}
+return($ret);
 }
 ?>

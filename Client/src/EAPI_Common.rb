@@ -76,7 +76,6 @@ def console
     loop_update
     form.update
     if form.fields[2].pressed? or ($keyr[0x11] and enter)
-                                    $consoleused = true
 kom=form.fields[0].text
   begin
   r=container.run(kom).inspect
@@ -93,7 +92,6 @@ rescue Exception
         end
   r=$!.class.to_s+" ("+$!.to_s+")\n"+plc
     end
-$consoleused = false        
 speak(r)
 form.fields[0].settext("")
 form.fields[1].settext(form.fields[1].text+"\r\n"+r,false)
@@ -112,14 +110,14 @@ end
 # @return [String] returns ALT if menu was closed using an alt menu
     def usermenu(user,submenu=false, left=false)
       ui=userinfo(user, true)
-            @incontacts = ui[8].to_b if $name!="guest"      
+            @incontacts = ui[8].to_b if Session.name!="guest"      
 @isbanned = ui[10].to_b
       @hasblog = ui[1]
     @hashonors=(ui[11]>0)
     play("menu_open") if submenu != true
 play("menu_background") if submenu != true
 sel = [p_("EAPI_Common", "Write a private message"),p_("EAPI_Common", "Visiting card"),p_("EAPI_Common", "Open user's blog"),p_("EAPI_Common", "badges of this user")]
-if $name!="guest"
+if Session.name!="guest"
 if @incontacts == true
   sel.push(p_("EAPI_Common", "Remove from contacts' list"))
 else
@@ -137,7 +135,7 @@ if $rang_moderator > 0
 else
   sel.push("")
   end
-    if $usermenuextra.is_a?(Hash) and $name!="guest"
+    if $usermenuextra.is_a?(Hash) and Session.name!="guest"
       for k in $usermenuextra.keys
     sel.push(k)
     end
@@ -148,7 +146,7 @@ else
     menu = Select.new(sel,true,0,"",true)
     end
   menu.disable_item(2) if @hasblog == false
-if $name!="guest"
+if Session.name!="guest"
 
 else
   menu.disable_item(0)
@@ -164,7 +162,7 @@ if enter
     Audio.bgs_stop
   case menu.index
   when 0
-    insert_scene(Scene_Messages_New.new(user,"","",Scene_Main.new))
+    insert_scene(Scene_Messages_New.new(user,"","",Scene_Main.new), true)
         loop_update
     return "ALT"
     when 1
@@ -172,27 +170,27 @@ if enter
             return("ALT")
       break
             when 2
-        insert_scene(Scene_Blog_Main.new(user,0,Scene_Main.new))
+        insert_scene(Scene_Blog_Main.new(user,0,Scene_Main.new), true)
     loop_update
         return "ALT"
         break
     when 3
-        insert_scene(Scene_Honors.new(user,Scene_Main.new))
+        insert_scene(Scene_Honors.new(user,Scene_Main.new), true)
     loop_update
     return "ALT"
           when 4
       if @incontacts == true
-        insert_scene(Scene_Contacts_Delete.new(user,Scene_Main.new))
+        insert_scene(Scene_Contacts_Delete.new(user,Scene_Main.new), true)
       else
-        insert_scene(Scene_Contacts_Insert.new(user,Scene_Main.new))
+        insert_scene(Scene_Contacts_Insert.new(user,Scene_Main.new), true)
       end
     loop_update
     return "ALT"
       when 5
         if @isbanned == false
-          insert_scene(Scene_Ban_Ban.new(user,Scene_Main.new))
+          insert_scene(Scene_Ban_Ban.new(user,Scene_Main.new), true)
         else
-          insert_scene(Scene_Ban_Unban.new(user,Scene_Main.new))
+          insert_scene(Scene_Ban_Unban.new(user,Scene_Main.new), true)
         end
     loop_update
     return "ALT"
@@ -201,7 +199,7 @@ if enter
                                     a=$usermenuextra.values[menu.index-6]
                                     s=a[0].new
                                     s.userevent(user, *a[1..-1])
-                      insert_scene(s)
+                      insert_scene(s, true)
                                                                  return "ALT"
                   break                  
                   end
@@ -253,7 +251,7 @@ birthday=agtemp[15].to_i
 mentions=agtemp[16].to_i
 $nversion=agtemp[2].to_f
 $nbeta=agtemp[3].to_i
-bid=srvproc("bin/buildid","name=#{$name}\&token=#{$token}",1).to_i
+bid=srvproc("bin/buildid","name=#{Session.name}\&token=#{Session.token}",1).to_i
                                     if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and (Elten.build_id==bid or bid<=0)
   alert(p_("EAPI_Common", "There is nothing new.")) if quiet != true
 else
@@ -275,7 +273,7 @@ end
           end
             di +="\r\n[Computer]\r\n"
             di += "OS version: " + (Win32API.new("kernel32","GetVersion",'','i').call>>16).to_s + "\r\n"
-                        di += "Elten data path: " + $eltendata.to_s + "\r\n"
+                        di += "Elten data path: " + Dirs.eltendata.to_s + "\r\n"
                 procid = "\0" * 16384
 Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("PROCESSOR_IDENTIFIER",procid,procid.size)
 procid.delete!("\0")
@@ -298,8 +296,8 @@ Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("USERNAME",cuse
 cusername.delete!("\0")
 di += "User name: " + cusername.to_s + "\r\n"
 di += "\r\n[Elten]\r\n"
-di += "User: " + $name.to_s + "\r\n"
-di += "Token: " + $token.to_s + "\r\n"
+di += "User: " + Session.name.to_s + "\r\n"
+di += "Token: " + Session.token.to_s + "\r\n"
 ver = $version.to_s
 ver += "_BETA" if $isbeta == 1
 ver += "_RC" if $isbeta == 2
@@ -380,36 +378,35 @@ end
         $scene = Scene_Loading.new
         return
       end
-      $contact = []
+      contact = []
       for i in 1..ct.size - 1
         ct[i].delete!("\r\n")
       end
-      Graphics.update
       for i in 1..ct.size - 1
-        $contact.push(ct[i]) if ct[i].size > 1
+        contact.push(ct[i]) if ct[i].size > 1
       end
-      if $contact.size < 1
+      if contact.size < 1
         speak(p_("EAPI_Common", "Empty list"))
         speech_wait
       end
       selt = []
-      for i in 0..$contact.size - 1
-        selt[i] = $contact[i] + ". " + getstatus($contact[i])
+      for i in 0..contact.size - 1
+        selt[i] = contact[i] + ". " + getstatus(contact[i])
         end
       sel = Select.new(selt,true,0,p_("EAPI_Common", "Select contact"))
       loop do
 loop_update
-        sel.update if $contact.size > 0
+        sel.update if contact.size > 0
         if escape
           loop_update
           $focus = true
                     return(nil)
         end
-        if enter and $contact.size > 0
+        if enter and contact.size > 0
           loop_update
           $focus = true
           play("list_select")
-                    return($contact[sel.index])
+                    return(contact[sel.index])
           end
         end
         end
@@ -417,7 +414,7 @@ loop_update
 # Opens a visitingcard of a specified user
 #
 # @param user [String] user whose visitingcard you want to open
-  def visitingcard(user=$name)
+  def visitingcard(user=Session.name)
             vc = srvproc("visitingcard",{"searchname"=>user})
             pr = srvproc("profile",{"get"=>"1", "searchname"=>user})
     if vc[0].to_i<0
@@ -464,11 +461,11 @@ elsif Time.now.month == birthdatemonth.to_i
   age -= 2000 if age > 2000      
   text += "#{p_("EAPI_Common", "Age")}: #{age.to_s}\r\n"
 end
-if location!="" and (location.to_i>0 or $locations.map{|l| l['country']}.uniq.include?(location))
+if location!="" and (location.to_i>0 or Lists.locations.map{|l| l['country']}.uniq.include?(location))
   text+=p_("EAPI_Common", "Location")+": "
   if location.to_i>0
     loc={}
-    $locations.each {|l| loc=l if l['geonameid']==location.to_i}
+    Lists.locations.each {|l| loc=l if l['geonameid']==location.to_i}
     text+=loc['name']+", "+loc['country'] if loc!=nil
   else
     text+=location
@@ -577,11 +574,11 @@ end
 # @param control [Boolean] allow user to control the played audio, by for example scrolling it
 # @param trydownload [Boolean] download a file if the codec doesn't support streaming
 def player(file,label="",wait=false,control=true,trydownload=false,stream=false)
-  if File.extname(file).downcase==".mid" and FileTest.exists?($extrasdata+"\\soundfont.sf2") == false
+  if File.extname(file).downcase==".mid" and FileTest.exists?(Dirs.extras+"\\soundfont.sf2") == false
     if confirm(p_("EAPI_Common", " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."))==1
-    downloadfile($url+"extras/soundfont.sf2",$extrasdata+"\\soundfont.sf2",p_("EAPI_Common", "Please wait, the soundfont is being downloaded. It may take a while."),p_("EAPI_Common", "Soundfont downloaded succesfully."))
+    downloadfile($url+"extras/soundfont.sf2",Dirs.extras+"\\soundfont.sf2",p_("EAPI_Common", "Please wait, the soundfont is being downloaded. It may take a while."),p_("EAPI_Common", "Soundfont downloaded succesfully."))
     speech_wait
-    Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,$extrasdata+"\\soundfont.sf2")
+    Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,Dirs.extras+"\\soundfont.sf2")
   else
     return
     end
@@ -731,16 +728,16 @@ end
                                           $scenes.delete_at(0)
                                                                 $scene = newsc
                       $stopmainthread = true
-                                            while $scene != nil and $scene.is_a?(Scene_Main) == false
-                                              
+                                            while $scene != nil and $scene.is_a?(Scene_Main) == false and $exit!=true
 Log.debug("Loading parallel scene: #{$scene.class.to_s}")
 $scene.main
                       end
                                             $stopmainthread = false
                       $scene = sc
 $scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
+$scene=nil if $exit==true
 $key[0..255]=[false]*256
-$focus = true if $scene.is_a?(Scene_Main) == false                    
+$focus = true if $scene.is_a?(Scene_Main) == false                     and $scene!=nil
 Log.info("Exiting parallel scenes thread")
 end
 rescue Exception
@@ -789,7 +786,7 @@ def agent_start
   Log.info("Starting Agent")
     #return if $ruby
                 $agent = ChildProc.new("bin\\rubyw -Cbin agent.dat\"")
-                $agent.write($name+"\r\n"+$token+"\r\n"+$wnd.to_s+"\r\n")
+                $agent.write(Marshal.dump({'func'=>'relogin','name'=>Session.name,'token'=>Session.token, 'hwnd'=>$wnd})) if Session.name!="" and Session.name!=nil and Session.name!='guest'
     sleep(0.1)
 end
 
@@ -1039,8 +1036,6 @@ if fields[5]!=nil
       end
             outfl=$tempdir+"/sapiout"+rand(36**2).to_s(36)+".tmp"
       cmd+="/l \"#{outfl}\" "
-      $ovoice=$voice
-      #$voice=-1
       h=run(cmd,true)
       play("waiting")
       starttm=Time.now.to_i
@@ -1097,7 +1092,6 @@ loop do
         Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
 x.delete!("\0")
 if x != "\003\001"
-  $voice=$ovoice
     file+=1
     edt.settext(p_("EAPI_Common", "Please wait, file processing..."))
     edt.focus
@@ -1148,5 +1142,14 @@ executeprocess(cmd,true)
          play(notif['sound']) if notif['sound']!=nil
          speech(notif['alert']) if notif['alert']!=nil
        end
+       
+       def register_activity
+         return if Session.name==nil or Session.name=="" or Session.name=="guest" or $agent==nil
+         $activitytime=Time.now.to_i
+         $activity.keys.each{|k|$activity[k]=$activity[k].round}
+         $agent.write(Marshal.dump({'func'=>'activity_register', 'activity'=>$activity}))
+         $activity.clear
+         Log.debug("User activity report generated and sent to server")
+         end
      end
      end

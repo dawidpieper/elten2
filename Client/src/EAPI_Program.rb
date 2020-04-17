@@ -33,7 +33,7 @@ module Programs
       Log.info("deleting program #{path}")
       classes=[]
       if @@bypaths[path]==nil
-      sf=$appsdata+"\\"+path+"\\__app.ini"
+      sf=Dirs.apps+"\\"+path+"\\__app.ini"
       return false if !FileTest.exists?(sf)
       suc=false
       name=readini(sf,"App","Name","")
@@ -63,24 +63,24 @@ module Programs
       end
     def load_all
       Log.info("Loading programs")
-          pgs=Dir.entries($appsdata)
+          pgs=Dir.entries(Dirs.apps)
           pgs.delete(".")
           pgs.delete("..")
       for pg in pgs
-load_sig(pg) if FileTest.exists?($appsdata+"\\"+pg+"\\__app.ini")
+load_sig(pg) if FileTest.exists?(Dirs.apps+"\\"+pg+"\\__app.ini")
         end
       end
       def load_sig(pg)
         Log.info("Loading program #{pg}")
-                if FileTest.exists?($appsdata+"\\"+pg+"\\__app.ini")
-                  f=$appsdata+"\\"+pg+"\\__app.ini"
+                if FileTest.exists?(Dirs.apps+"\\"+pg+"\\__app.ini")
+                  f=Dirs.apps+"\\"+pg+"\\__app.ini"
                     file=readini(f,"App","File","")
-          if FileTest.exists?($appsdata+"\\"+pg+"\\"+file)
+          if FileTest.exists?(Dirs.apps+"\\"+pg+"\\"+file)
             begin
             @@pathindex=pg
             t=Thread.new {
             begin
-            load($appsdata+"\\"+pg+"\\"+file)
+            load(Dirs.apps+"\\"+pg+"\\"+file)
           rescue Exception
             Log.error("Failed to initialize #{pg}: #{$!.to_s}, #{$@.to_s}")
             end
@@ -135,7 +135,7 @@ class Program
     end
   def appfile(file="")
     c=(self.class::Name).delete("()")
-    basename=$appsdata+"\\"+c.delspecial
+    basename=Dirs.apps+"\\"+c.delspecial
     filename=""
     i=0
     loop {

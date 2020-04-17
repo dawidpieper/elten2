@@ -863,18 +863,27 @@ Wersja 2.3.6.1:
 2020-02-01
 ","
 Wersja 2.4:
-- Dodano: przewodnik po dźwiękach
-- Dodano: nowe okno edycji tematu dźwiękowego
+- Dodano: przewodnik po dźwiękach i możliwość edycji tematów dźwiękowych
 - Dodano: możliwość skakania po tagach
+- Dodano: możliwość zmiany tempa odtwarzania
 - Dodano: dodatek dla NVDA zapewniający wsparcie dla przewijania tekstu i linijek brajlowskich
-- Zmieniono: zmiana układu niektórych ustawień
+- Dodano: przegląd logów
+- Dodano: oznaczanie wątków
+- Dodano: zakładki w wątkach
+- Dodano: możliwość przeglądania wszystkich wątków w grupie
+- Dodano: możliwość sortowania drzewa forum
+- Zmieniono: nowy sposób obsługi klawiatury
+- Zmieniono: nowy format tłumaczeń
 - Zmieniono: nowa lokalizacja i format ustawień
 - Zmieniono: ujednolicenie kodu odpowiedzialnego za zapytania do serwera
 - Zmieniono: nowe okno rady starszych
-- Usunięto (tymczasowo): programy
+- Zmieniono: nowe okna ustawień i konfiguracji konta
+- Zmieniono: Nowy układ menu, opcje zależne od okna przeniesione do menu kontekstowego
+- Zmieniono: nowe API dla programów
+- Zmieniono: aktualizacja bibliotek
 - Poprawiono: obsługa unikodu w niektórych funkcjach
 
-
+2020-08-24
 "]
 @changes.reverse!
 @changes.each{|c| c.gsub!(/Wersja (\d\.\d+)/) {"Wersja "+$1.delete(".").split("").join(".")}}

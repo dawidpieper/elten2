@@ -25,7 +25,7 @@ adm = srvproc("admins",{"cat"=>"developers"})
       for f in d
         if File.directory?("locale/"+f) and FileTest.exists?("locale/"+f+"/lc_messages/elten.mo")
         l=readfile("locales/#{f}/lc_messages/elten.mo")
-        lang=$langs[f[0..1].downcase]['name']
+        lang=Lists.langs[f[0..1].downcase]['name']
                             @selt.push(lang)
                             @subcats.push(i+1)
                             end

@@ -16,6 +16,8 @@ class Scene_Sounds
 'SE/menu_open' => p_("Sounds", "Menu opened"),
 'SE/menu_close' => p_("Sounds", "Menu closed"),
 'SE/form_marker' => p_("Sounds", "Marker of a form"),
+'SE/list_marker' => p_("Sounds", "Marker of a listbox"),
+'SE/list_multimarker' => p_("Sounds", "Marker of a multiselect listbox"),
 'SE/list_focus' => p_("Sounds", "Focus move on a listbox"),
 'SE/border' => p_("Sounds", "Border of a listbox"),
 'SE/list_submenu' => p_("Sounds", "Expandable item on a listbox"),
@@ -66,11 +68,11 @@ class Scene_Sounds
 'SE/signal' => p_("Sounds", "Signal"),
 }
     if @theme!=nil
-      if @theme!="" and FileTest.exists?($soundthemesdata+"\\"+@theme+"\\__name.txt")
-        @name=readfile($soundthemesdata+"\\"+@theme+"\\__name.txt")
+      if @theme!="" and FileTest.exists?(Dirs.soundthemes+"\\"+@theme+"\\__name.txt")
+        @name=readfile(Dirs.soundthemes+"\\"+@theme+"\\__name.txt")
         @changed=false
       else
-        @name=input_text(p_("Sounds", "Type name of the soundtheme"), "ACCEPTESCAPE", " by #{$name}")
+        @name=input_text(p_("Sounds", "Type name of the soundtheme"), "ACCEPTESCAPE", " by #{Session.name}")
         return $scene=Scene_SoundThemes.new if @name=="\004ESCAPE\004"
         n=@name.split(" ")
         ind=n.size
@@ -142,7 +144,7 @@ end
 if @form.fields[5]!=nil and @form.fields[5].pressed?
   loc=getfile(p_("Sounds", "Where to save this theme"), getdirectory(40)+"\\", true, "Documents")
   if loc!=nil
-    compress($soundthemesdata+"\\"+@theme, loc+"\\"+@theme+".7z")
+    compress(Dirs.soundthemes+"\\"+@theme, loc+"\\"+@theme+".7z")
   end
   @form.fields[@form.index].focus
   end
@@ -161,21 +163,21 @@ if @form.fields[5]!=nil and @form.fields[5].pressed?
   
     def save
     waiting
-      createdirifneeded($soundthemesdata+"\\"+@theme)
-  createdirifneeded($soundthemesdata+"\\"+@theme+"\\BGS")
-  createdirifneeded($soundthemesdata+"\\"+@theme+"\\SE")
+      createdirifneeded(Dirs.soundthemes+"\\"+@theme)
+  createdirifneeded(Dirs.soundthemes+"\\"+@theme+"\\BGS")
+  createdirifneeded(Dirs.soundthemes+"\\"+@theme+"\\SE")
   @snd.each {|s|
   if s.path!=s.defpath
     if File.extname(s.defpath).downcase==".ogg"
-      copyfile(s.path, $soundthemesdata+"\\"+@theme+"\\"+s.stfile+"")
+      copyfile(s.path, Dirs.soundthemes+"\\"+@theme+"\\"+s.stfile+"")
     else
-      executeprocess("bin\\ffmpeg -i \"#{s.path}\" \"#{$soundthemesdata}\\#{@theme}\\#{s.stfile}\"")
+      executeprocess("bin\\ffmpeg -i \"#{s.path}\" \"#{Dirs.soundthemes}\\#{@theme}\\#{s.stfile}\"")
     end
-    s.path=$soundthemesdata+"\\"+@theme+"\\"+s.stfile
+    s.path=Dirs.soundthemes+"\\"+@theme+"\\"+s.stfile
     s.defpath=s.path
     end
   }
-  writefile($soundthemesdata+"\\"+@theme+"\\__name.txt", @name)
+  writefile(Dirs.soundthemes+"\\"+@theme+"\\__name.txt", @name)
   waiting_end
     end
   
@@ -187,7 +189,7 @@ class Struct_Sounds_Sound
   def initialize(f, d, t=nil)
     @description=d
     sp=$soundthemepath
-    sp=$soundthemesdata+"\\"+t if t!=nil
+    sp=Dirs.soundthemes+"\\"+t if t!=nil
     @path=sp+"/"+f
     @path="Audio/"+f if !FileTest.exists?(@path)
     @defpath=@path

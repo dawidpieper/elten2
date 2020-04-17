@@ -61,7 +61,7 @@ loop do
   $scene=Scene_Main.new if escape
       if enter and @sel.commandoptions.size>0
                  selt=[p_("Polls", "Vote"),p_("Polls", "Show results")]
-       if $name!="guest"
+       if Session.name!="guest"
          v=srvproc("polls",{"voted"=>"1", "poll"=>@polls[@sel.index].id})
        if v[0].to_i<0
          alert(_("Error"))
@@ -72,7 +72,7 @@ loop do
          selt[0]=nil
 end
        end         
-       if $name=="guest"
+       if Session.name=="guest"
          selt[0]=""
          end
          case menuselector(selt)
@@ -87,7 +87,7 @@ end
   end
 def context(menu)
                   if @sel.commandoptions.size>0
-                           if $name!="guest"
+                           if Session.name!="guest"
          v=srvproc("polls",{"voted"=>"1", "poll"=>@polls[@sel.index].id})
        if v[0].to_i<0
          alert(_("Error"))
@@ -103,7 +103,7 @@ def context(menu)
          menu.option(p_("Polls", "Show results")) {
                       $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
          }
-         if $rang_moderator==1 or @polls[@sel.index].author==$name
+         if $rang_moderator==1 or @polls[@sel.index].author==Session.name
          menu.option(_("Delete")) {
                         if confirm(p_("Polls", "Do you really want to delete %{name}?")%{'name'=>@polls[@sel.index].name}) == 1
                  pl=srvproc("polls",{"del"=>"1", "id"=>@polls[@sel.index].id})

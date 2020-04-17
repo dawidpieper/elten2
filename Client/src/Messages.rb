@@ -12,7 +12,7 @@ else
   play(notif['sound']) if notif['sound']!=nil
   end
       }
-          if wn==true or wn==false or wn.is_a?(Integer)
+          if wn==true or wn==false or wn.is_a?(Integer) or wn.is_a?(String)
       @wn=wn
     elsif wn.is_a?(Array)
             import(wn)
@@ -21,12 +21,15 @@ else
     end
   def main()
    if @imported!=true
-    if @wn!=true
+    if @wn!=true && !@wn.is_a?(String)
     @cat=0
     load_users
-  else
+  elsif @wn==true
     @cat=1
     load_conversations("","new")
+  elsif @wn.is_a?(String)
+    @cat=1
+    load_conversations(@wn)
   end
 else
 case @cat
@@ -110,7 +113,7 @@ for i in 3..msg.size-1
       user=u.user
       user=name_conversation(user) if user[0..0]=="["
             selt.push(user+":\r\n"+p_("Messages", "Last message")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",u.lastdate.year,u.lastdate.month,u.lastdate.day,u.lastdate.hour,u.lastdate.min)+"\r\n")
-      selt[-1]+="\004INFNEW{#{p_("Messages", "New")}: }\004" if u.read==0 and u.lastuser!=$name
+      selt[-1]+="\004INFNEW{#{p_("Messages", "New")}: }\004" if u.read==0 and u.lastuser!=Session.name
       ind=selt.size-1 if u.user==@lastuser.user if @lastuser!=nil
     end
 selt.push(p_("Messages", "Show older")) if @users_more
@@ -135,6 +138,10 @@ def context_users(menu)
   if @users.size >0 and @sel_users.index<@users.size
 menu.option(p_("Messages", "Reply")) {
   $scene = Scene_Messages_New.new(@users[@sel_users.index].user,"","",export)
+}
+menu.option(p_("Messages", "Add conversations to quick actions")) {
+QuickActions.create(Scene_Messages, p_("Messages", "Conversations with %{user}")%{'user'=>@users[@sel_users.index].user}, [@users[@sel_users.index].user])
+alert(p_("Messages", "Conversations added to quick actions"))
 }
 end
 if @users[@sel_users.index].user[0..0]=="["
@@ -182,13 +189,13 @@ end
 def new_conversation
   form=Form.new([
   Edit.new(p_("Messages", "Conversation name"),"","",true),
-  Select.new([$name,p_("Messages", "Add user to this conversation")],true,0,p_("Messages", "Conversation members")),
+  Select.new([Session.name,p_("Messages", "Add user to this conversation")],true,0,p_("Messages", "Conversation members"), true),
   Button.new(p_("Messages", "Create")),
   Button.new(_("Cancel"))
   ])
   cre=form.fields[2]
   form.fields[2]=nil
-  users=[$name]
+  users=[Session.name]
   loop do
     loop_update
     form.update
@@ -278,7 +285,7 @@ for i in 4..msg.size-1
       lu=c.lastuser
       lu=name_conversation(lu) if lu[0..0]=="["
       selt.push(((c.subject!="")?(c.subject):p_("Messages", "No subject"))+":\r\n"+((sp==nil)?p_("Messages", "Last message"):p_("Messages", "From"))+": "+lu+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",c.lastdate.year,c.lastdate.month,c.lastdate.day,c.lastdate.hour,c.lastdate.min)+"\r\n")
-      selt[-1]+="\004INFNEW{#{p_("Messages", "New")}: }\004" if c.read==0 and c.lastuser!=$name
+      selt[-1]+="\004INFNEW{#{p_("Messages", "New")}: }\004" if c.read==0 and c.lastuser!=Session.name
       ind=selt.size-1 if c.subject==@lastconversation.subject and user==@lastconversation_user if @lastconversation!=nil and @lastconversation_user!=nil
     end
     selt.push(p_("Messages", "Show older")) if @conversations_more
@@ -300,6 +307,7 @@ speech @sel_conversations.commandoptions[@sel_conversations.index]
       end
       end
     if escape or arrow_left or @sel_conversations.commandoptions.size==0
+      return $scene=Scene_Main.new if @wn.is_a?(String)
       if @conversations_sp!="new"
       load_users
       loop_update
@@ -368,7 +376,7 @@ for mesg in msg[4..-1].join.split("\r\n\004END\004")
     m=Struct_Message.new(line.to_i)
         when 1
     m.sender=line
-    m.receiver=((m.sender==$name)?user:$name)
+    m.receiver=((m.sender==Session.name)?user:Session.name)
 when 2
   m.subject=line
     when 3
@@ -450,7 +458,7 @@ when 2
               return if @messages.size==0 or @sel_messages==nil or @messages[@sel_messages.index]==nil
      if @message_display==nil or @message_display[0]!=@messages[@sel_messages.index].id
 @message_display=[@messages[@sel_messages.index].id,Time.now]
-elsif @message_display[0]==@messages[@sel_messages.index].id and ((t=Time.now).to_i*1000000+t.usec)-(@message_display[1].to_i*1000000+@message_display[1].usec)>3000000 and @messages[@sel_messages.index].receiver==$name and @messages[@sel_messages.index].mread==0
+elsif @message_display[0]==@messages[@sel_messages.index].id and ((t=Time.now).to_i*1000000+t.usec)-(@message_display[1].to_i*1000000+@message_display[1].usec)>3000000 and @messages[@sel_messages.index].receiver==Session.name and @messages[@sel_messages.index].mread==0
   @messages[@sel_messages.index].mread=Time.now.to_i
   @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"")
 end
@@ -467,7 +475,7 @@ deletemessage if $key[0x2e] and @sel_messages.index<@messages.size and @form_mes
       show_message(@messages[@sel_messages.index])
       loop_update
       return if $scene!=self
-      @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"") if @messages[@sel_messages.index].receiver==$name
+      @sel_messages.commandoptions[@sel_messages.index].gsub!(/\004INFNEW\{([^\}]+)\}\004/,"") if @messages[@sel_messages.index].receiver==Session.name
       end
     end
     end
@@ -491,7 +499,7 @@ load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, 
       end
 if (enter or space) and @form_messages.index==4
   rec=@messages[@sel_messages.index].sender
-  rec=@messages[@sel_messages.index].receiver if rec==$name
+  rec=@messages[@sel_messages.index].receiver if rec==Session.name
     $scene = Scene_Messages_New.new(rec,"RE: " + @messages[@sel_messages.index].subject.sub("RE: ",""),@form_messages.fields[2],export)  
   end
           end
@@ -500,11 +508,11 @@ if (enter or space) and @form_messages.index==4
     if @messages.size>0 and @sel_messages.index<@messages.size
 menu.option(p_("Messages", "Reply")) {
   rec=@messages[@sel_messages.index].sender
-  rec=@messages[@sel_messages.index].receiver if rec==$name
+  rec=@messages[@sel_messages.index].receiver if rec==Session.name
   $scene = Scene_Messages_New.new(rec,"RE: " + @messages[@sel_messages.index].subject.sub("RE: ",""),"",export)
 }
 end
-if @sel_messages.index<@messages.size and @messages[@sel_messages.index].receiver==$name
+if @sel_messages.index<@messages.size and @messages[@sel_messages.index].receiver==Session.name
   s=p_("Messages", "Flag")
 s=p_("Messages", "Remove flag") if @messages[@sel_messages.index].marked==1  
 menu.option(s) {
@@ -548,7 +556,7 @@ main
 end
   def show_message(message)
                  dialog_open
-         message.mread = 1 if message.receiver==$name
+         message.mread = 1 if message.receiver==Session.name
          date=sprintf("%04d-%02d-%02d %02d:%02d",message.date.year,message.date.month,message.date.day,message.date.hour,message.date.min)
                                         @form_messages.fields[0]=Edit.new(message.subject + " #{p_("Messages", "From")}: " + message.sender,"MULTILINE|READONLY",message.text+"\r\n"+date)
                                       end
@@ -860,8 +868,8 @@ rec=0
       bufatt=buffer(@att)
         ex="\&bufatt=#{bufatt}"
       end
-    q = "POST /srv/message_send.php?name=#{$name}\&token=#{$token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&audio=1#{ex} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
- a = connect(host,80,q)
+    q = "POST /srv/message_send.php?name=#{Session.name}\&token=#{Session.token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&audio=1#{ex} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+ a = elconnect(q)
 a.delete!("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
@@ -913,8 +921,8 @@ class Struct_Message
 attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attachments, :text, :attachments_names
                def initialize(id=0)
                  @id=id
-                 @receiver=$name
-                                  @sender=$name
+                 @receiver=Session.name
+                                  @sender=Session.name
                  @subject=""
                  @mread=0
                  @text=""

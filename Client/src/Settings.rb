@@ -67,10 +67,8 @@ for s in @settings[id][2..-1]
       when :custom
         field=Button.new(label)
         proc=section
-        field.on(:press, 0, true) {
-        proc.call
-        }
-    else
+                field.on(:press, 0, true, &proc)
+                else
       index=currentconfig(section, config)
       index=mapping.find_index(index)||0 if mapping!=nil
       field=Select.new(type, true, index.to_i, label, true)
@@ -105,7 +103,7 @@ def make_window
         langsmapping.push(d)
         end
       end
-      langs=langsmapping.map{|l|$langs[l[0..1].downcase]['name']+" ("+$langs[l[0..1].downcase]['nativeName']+")"}
+  langs=langsmapping.map{|l|Lists.langs[l[0..1].downcase]['name']+" ("+Lists.langs[l[0..1].downcase]['nativeName']+")"}
       make_setting(p_("Settings", "Language"), langs, "Interface", "Language", langsmapping)
                             make_setting(p_("Settings", "Automatically minimize Elten Window to system tray"), :bool, "Interface", "HideWindow")
                             d=-1
@@ -113,15 +111,16 @@ def make_window
                             d=l if l>0
             make_setting(p_("Settings", "Enable auto log in"), :bool, "Login", "AutoLogin", [0, d])
         make_setting(p_("Settings", "Automatically start Elten after I log on to Windows"), :bool, "System", "AutoStart")
+        make_setting(p_("Settings", "Send Elten usage reports"), :bool, "Privacy", "RegisterActivity")
       end
       def load_interface
         setting_category(p_("Settings", "Interface"))
                 make_setting(p_("Settings", "Play sounds of soundthemes"), :bool, "Interface", "SoundThemeActivation")
                 soundthemes=[p_("Settings", "Use default")]
                 soundthemesmapping=[""]
-               for d in Dir.entries($soundthemesdata)
+               for d in Dir.entries(Dirs.soundthemes)
                  next if d=="." or d==".."
-                 dir=$soundthemesdata+"\\"+d
+                 dir=Dirs.soundthemes+"\\"+d
                  if FileTest.exists?(dir+"\\__name.txt")
                    soundthemesmapping.push(d)
                    soundthemes.push(readfile(dir+"\\__name.txt"))
@@ -129,6 +128,7 @@ def make_window
                  end
                  make_setting(p_("Settings", "Sound theme"), soundthemes, "Interface", "SoundTheme", soundthemesmapping)
                  make_setting(p_("Settings", "Manage sound themes"), :custom, Proc.new{insert_scene(Scene_SoundThemes.new)})
+                 make_setting(p_("Settings", "Announcement of types of controls"), [p_("Settings", "Voice and sound"),p_("Settings", "Sound only"), p_("Settings", "Voice only")], "Interface", "ControlsPresentation")                    
                     make_setting(p_("Settings", "Wrap long lines in text fields"), :bool, "Interface", "LineWrapping")
             make_setting(p_("Settings", "The display method of selection lists"), [p_("Settings", "Linear"),p_("Settings", "Circular")], "Interface", "ListType")                    
             on_load {
@@ -238,6 +238,7 @@ def make_window
           end
                     if @form.fields[-2].pressed? or (enter and !@form.fields[@form.index].is_a?(Button))
             apply_settings
+            alert(_("Saved"))
             $scene=Scene_Main.new
           end
           if escape or @form.fields[-1].pressed?

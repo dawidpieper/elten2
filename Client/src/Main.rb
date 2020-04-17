@@ -3,25 +3,9 @@
 #All rights reserved.
 
 class Scene_Main
+  @@acselindex=nil
   def main
     NVDA.braille("") if NVDA.check
-   if $remauth!=nil
-     r=$remauth
-     $remauth=nil
-     if !r.is_a?(Float)||r<2.32
-     txt="W Eltenie 2.28 udostępniony został mechanizm zwany uwierzytelnianiem dwuetapowym.
-     Jego celem jest zabezpieczenie kont Eltenowiczów przed utratą nawet w wypadku odgadnięcia lub wykradnięcia hasła. Polega on na potwierdzeniu tożsamości przez wpisanie kodu wysłanego wiadomością SMS na numer telefonu użytkownika za każdym pierwszym logowaniem z nowego urządzenia.
-     Czy chcesz skonfigurować uwierzytelnianie dwuetapowe teraz?"
-   else
-     txt = "Poprzednie wydanie Eltena posiadało błąd uniemożliwiający aktywację uwierzytelniania dwuetapowego.
-     Jeśli chcesz, możesz aktywować je teraz.
-     Jeśli już wcześniej udało się aktywować uwierzytelnianie dwuetapowe na tym koncie, czynności nie trzeba ponawiać.
-     W Eltenie 2.28 udostępniony został mechanizm zwany uwierzytelnianiem dwuetapowym.
-     Jego celem jest zabezpieczenie kont Eltenowiczów przed utratą nawet w wypadku odgadnięcia lub wykradnięcia hasła. Polega on na potwierdzeniu tożsamości przez wpisanie kodu wysłanego wiadomością SMS na numer telefonu użytkownika za każdym pierwszym logowaniem z nowego urządzenia.
-     Czy chcesz skonfigurować uwierzytelnianie dwuetapowe teraz?"
-     end
-     confirm(txt) {return $scene=Scene_Authentication.new}
-     end
     if $restart==true
       $restart=false
       $scene=Scene_Loading.new
@@ -36,8 +20,8 @@ loop_update
                 end
                 if $preinitialized!=true
                               $preinitialized = true
-            if FileTest.exists?("#{$eltendata}\\playlist.eps")
-      $playlist = load_data("#{$eltendata}\\playlist.eps")
+            if FileTest.exists?("#{Dirs.eltendata}\\playlist.eps")
+      $playlist = load_data("#{Dirs.eltendata}\\playlist.eps")
       else
       $playlist = [] if $playlist == nil
     end
@@ -59,10 +43,8 @@ loop_update
               $speech_lasttext = ""
         $ctrldisable = false
         key_update
-        speak(p_("Main", "Press the alt key to open the menu."))
         ci = 0
 plsinfo = false
-    loop do
       ci += 1 if ci < 20
 if plsinfo == false and $playlist.size > 0
       if speech_actived == false
@@ -73,11 +55,23 @@ for i in 0..$playlist.size - 1
 end
 @sel = Select.new(selt,true,$playlistindex,p_("Main", "Playlist"),true)
 @form=Form.new([@sel,Static.new(p_("Main", "Player")),Button.new(p_("Main", "Shuffle")),Button.new(p_("Main", "Delete the playlist"))],0,true)
-@form.fields[2..3]=[nil,nil] if $name=="guest"
+@form.fields[2..3]=[nil,nil] if Session.name=="guest"
     end
   end
+  if @form==nil
+acsel_load
+    end
+  #speak(p_("Main", "Press the alt key to open the menu."))
+  loop do
   loop_update
-      @form.update if @form != nil
+      if @form != nil
+        @form.update
+      else
+        @acsel.update
+        if @acsel.selected?
+          @actions[@acsel.index].call
+          end
+        end
                 $scene = Scene_Forum.new if $key[115] == true and $key[0x10] == false
         if escape
       quit
@@ -233,6 +227,93 @@ if $key[0x08] == true
   end
     end
   break if $scene != self
+end
+@@acselindex=@acsel.index if @acsel!=nil
+end
+def acsel_load
+  @@acselindex=@acsel.index if @acsel!=nil
+      @actions = QuickActions.get
+    @acsel = Select.new(@actions.map{|a|a.detail}, true, @@acselindex, p_("Main", "Quick actions"))
+    @acsel.prevent_indexspeaking=true
+    @acsel.bind_context{|menu| accontext(menu)}
+    end
+def accontext(menu)
+  menu.option(p_("Main", "Rename")) {
+  label= input_text(p_("Main", "Action label"), "ACCEPTESCAPE", @actions[@acsel.index].label)
+  if label!="\004ESCAPE\004"
+    QuickActions.rename(@acsel.index, label)
+  acsel_load
+  end
+  }
+  menu.option(p_("Main", "Change hotkey")) {
+  s=[p_("Main", "None")]
+  k=[0]
+  for i in 3..11
+    if i!=4
+    s.push("F"+i.to_s)
+    k.push(i)
+    end
+    s.push("SHIFT+F"+i.to_s)
+    k.push(-i)
+  end
+  ind=k.find_index(@actions[@acsel.index].key)||0
+  sel = Select.new(s, true, ind, p_("Main", "Hotkey for action %{label}")%{'label'=>@actions[@acsel.index].label})
+  loop {
+  loop_update
+  sel.update
+  break if escape
+  if sel.selected?
+  key=k[sel.index]
+  c=nil
+@actions.each{|a| c=a if a.key==key }
+if c==nil || c==@actions[@acsel.index] || key==0
+  QuickActions.rekey(@acsel.index, key)
+  acsel_load
+  break
+else
+  alert(p_("Main", "This hotkey is already used by action %{action}")%{'action'=>c.label}, false)
+  end
+end
+}
+  @acsel.focus
+  }
+  if @acsel.index>0
+    menu.option(p_("Main", "Move up")) {
+    QuickActions.up(@acsel.index)
+    acsel_load
+    }
+  end
+  if @acsel.index<@actions.size-1
+    menu.option(p_("Main", "Move down")) {
+    QuickActions.down(@acsel.index)
+    acsel_load
+    }
+    end
+  menu.option(p_("Main", "Delete")) {
+  QuickActions.delete(@acsel.index)
+  acsel_load
+  }
+  menu.option(p_("Main", "Add")) {
+  action_add
+  }
+end
+def action_add
+  actions=[]
+  actionlabels=[]
+    c=QuickActions.predefined_procs
+  for a in c
+    actions.push(a[0])
+    actionlabels.push(a[1])
+  end
+    g=GlobalMenu.scenes
+  for m in g
+    actions.push(m[1])
+    actionlabels.push(m[0])
+  end
+  ind=selector(actionlabels, p_("Main", "Select quick action to add"), 0, -1)
+  if ind>=0
+    QuickActions.create(actions[ind], actionlabels[ind])
+    acsel_load
     end
   end
 end

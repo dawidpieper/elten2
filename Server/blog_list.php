@@ -49,6 +49,12 @@ $res=$blogs;
 arsort($res);
 $qt="select owner,name from blogs where owner in ('".implode("','",array_keys($res))."') order by field(owner,'".implode("','",array_keys($res))."')";
 break;
+case 5:
+$q=mquery("select name from blogs where owner='".mysql_real_escape_string($_GET['name'])."'");
+$myblog=$_GET['name'];
+if(mysql_num_rows($q)>0) $myblog=mysql_fetch_row($q)[0];
+$qt = "SELECT '".mysql_real_escape_string($_GET['name'])."','".mysql_real_escape_string($myblog)."' UNION select owner,name FROM `blogs` where owner in (select blog from blog_owners where owner='".mysql_real_escape_string($_GET['name'])."')";
+break;
 }
 $q = mysql_query($qt);
 $text = "";

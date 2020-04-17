@@ -9,7 +9,7 @@
               @field[1]=Button.new(_("Save"))
               @field[2]=Button.new(_("Cancel"))
               @alarms=[]
-              @alarms=load_data($eltendata+"\\alarms.dat") if FileTest.exists?($eltendata+"\\alarms.dat")
+              @alarms=load_data(Dirs.eltendata+"\\alarms.dat") if FileTest.exists?(Dirs.eltendata+"\\alarms.dat")
               sel=[]
               for a in @alarms
                   sel.push("#{p_("Clock","Hour")}: #{sprintf("%02d:%02d",a[0],a[1])}, #{p_("Clock","Type")}: #{if a[2]==0;p_("Clock", "One time");else;p_("Clock", "repeated");end}")
@@ -32,7 +32,7 @@
 deletealarm(@form.fields[0].index)
                                                                            end
                                                                            if (space or enter) and @form.index==1
-                                                                                 save_data(@alarms,$eltendata+"\\alarms.dat")
+                                                                                 save_data(@alarms,Dirs.eltendata+"\\alarms.dat")
                                                                                    alert(_("Saved"))
                                                                                      $scene=Scene_Main.new
                                                                                        break

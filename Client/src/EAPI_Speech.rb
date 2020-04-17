@@ -5,6 +5,9 @@
 # encoding: utf-8
 module EltenAPI
   module Speech
+    @@speechaudio=nil
+    @@speechaudiothread=nil
+    @@speechaudiofile=nil
     private
   # Speech related functions
     
@@ -33,10 +36,10 @@ module EltenAPI
       speech_wait if $voice!=-1
     end
             Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0
-          if $speechaudio!=nil
-    $speechaudiothread.kill if $speechaudiothread!=nil
-    $speechaudio.close
-    $speechaudio=nil
+          if @@speechaudio!=nil
+    @@speechaudiothread.kill if @@speechaudiothread!=nil
+    @@speechaudio.close
+    @@speechaudio=nil
     end
   text = text.to_s
   speechaudio  =""
@@ -89,7 +92,7 @@ prei=0
     std.puts(text + "\\|\\" + text)
     end
     end
-  if text == " " and $password != true
+  if text == " "
     if $interface_soundthemeactivation != 0
     play("edit_space")
   else
@@ -106,32 +109,27 @@ prei=0
       play("edit_bigletter")
       end
         end
-  if $password == true
-    speech_stop
-    play("edit_password_char")
-    return
-  end
     if speechaudio!=""
-      $speechaudiofile=speechaudio
-  $speechaudiotext=text
-      if $speechaudio!=nil
-      $speechaudiothread.kill if $speechaudiothread!=nil
-      $speechaudio.close
+      @@speechaudiofile=speechaudio
+  @@speechaudiotext=text
+      if @@speechaudio!=nil
+      @@speechaudiothread.kill if @@speechaudiothread!=nil
+      @@speechaudio.close
       end
-      $speechaudio.close if $speechaudio!=nil
-      speechaudio=Bass::Sound.new($speechaudiofile)    
-      $speechaudiothread=Thread.new do
-             $speechaudiofile            
+      @@speechaudio.close if @@speechaudio!=nil
+      speechaudio=Bass::Sound.new(@@speechaudiofile)    
+      @@speechaudiothread=Thread.new do
+             @@speechaudiofile            
                                                                                                     if true
-                                                  $speechaudio.close if $speechaudio!=nil and $speechaudio.closed==false
-                         $speechaudio=speechaudio
+                                                  @@speechaudio.close if @@speechaudio!=nil and @@speechaudio.closed==false
+                         @@speechaudio=speechaudio
       while speech_actived(true)
         sleep(0.01)
         end
       speechaudio.play
               speechaudio.wait
                               speechaudio.close
-                          $speechaudio=nil
+                          @@speechaudio=nil
         speech(text)
         end
       end
@@ -170,16 +168,16 @@ if $voice==-1 && NVDA.check
   NVDA.speak(text_d)
                     else
 buf=unicode(text_d)
-            Win32API.new("bin\\screenreaderapi",func+"W",'pi','i').call(buf,method) if $password != true
+            Win32API.new("bin\\screenreaderapi",func+"W",'pi','i').call(buf,method)
 end
 $speech_lasttext = text_d
 if text.size>=5
   if Thread::current==$mainthread
-if $speechaudiothread!=nil
-  $speechaudiothread.kill
-  if $speechaudio!=nil
-    if $speechaudio.closed==false
-  $speechaudio.close
+if @@speechaudiothread!=nil
+  @@speechaudiothread.kill
+  if @@speechaudio!=nil
+    if @@speechaudio.closed==false
+  @@speechaudio.close
 end
 end
 end
@@ -200,7 +198,7 @@ alias speech speak
 # @return [Boolean] if the speech is ued, returns true, otherwise the return value is false
 def speech_actived(ignoreaudio=false)
     func = "sapiIsSpeaking"
-        return true if $speechaudio!=nil and ignoreaudio==false
+        return true if @@speechaudio!=nil and ignoreaudio==false
           if Win32API.new("bin\\screenreaderapi",func,'','i').call() == 0
     return(false)
   else
@@ -211,10 +209,10 @@ def speech_actived(ignoreaudio=false)
   # Stops the speech
   def speech_stop(audio=true)
         $speech_wait=false
-    if $speechaudio!=nil and audio
-    $speechaudiothread.exit if $speechaudiothread!=nil
-    $speechaudio.close
-    $speechaudio=nil
+    if @@speechaudio!=nil and audio
+    @@speechaudiothread.exit if @@speechaudiothread!=nil
+    @@speechaudio.close
+    @@speechaudio=nil
   end
       if $speechindexedthr!=nil
       $speechindexedthr.exit

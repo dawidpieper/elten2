@@ -1,7 +1,5 @@
 <?php
 require("header.php");
-if(file_exists("cache/forumlist.dat")) unlink("cache/forumlist.dat");
-if(file_exists("cache/forumthread".$_GET['threadid'].".dat")) unlink("cache/forumthread".$_GET['threadid'].".dat");
 $moderator=getprivileges($_GET['name'])[1];
 if($_GET['delete'] == 1) {
 $gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$_GET['threadid']."))"));
@@ -13,7 +11,6 @@ die("-3");
 mquery("DELETE FROM `forum_threads` WHERE `id`=" . ((int) $_GET['threadid']));
 mquery("INSERT INTO `forum_posts_deleted` SELECT * FROM `forum_posts` WHERE `thread`=" . (int)$_GET['threadid']);
 mquery("DELETE FROM `forum_posts` WHERE `thread`=" . (int)$_GET['threadid']);
-mquery("UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".mysql_real_escape_string($_GET['forumname'])."'");
 mquery("DELETE FROM `followedthreads` WHERE `thread`=" . (int)$_GET['threadid']);
 mquery("DELETE FROM forum_read WHERE `thread`=" . (int)$_GET['threadid']);
 mquery("DELETE FROM forum_bookmarks WHERE `thread`=" . (int)$_GET['threadid']);
@@ -28,7 +25,6 @@ die("-3");
 $posts = (int) mysql_fetch_row(mquery("select count(*) from forum_posts where thread=".((int) $_GET['threadid'])))[0];
 mquery("INSERT INTO `forum_posts_deleted` SELECT * FROM `forum_posts` WHERE `thread`=" . (int)$_GET['threadid'] . " AND `id`=" . (int)$_GET['postid']);
 mquery("DELETE FROM `forum_posts` WHERE `thread`=" . (int)$_GET['threadid'] . " AND `id`=" . (int)$_GET['postid']);
-mquery("UPDATE `cache` SET `expiredate`=".time()." WHERE id=0 OR `forumname`='".mysql_real_escape_string($_GET['forumname'])."'");
 mquery("UPDATE `forum_read` SET `posts`=`posts`-1 WHERE `thread`=" . (int)$_GET['threadid']." and posts=".$posts);
 }
 if($_GET['edit'] == 1) {
@@ -75,7 +71,6 @@ if(mysql_num_rows($grm)>0)
 $role=mysql_fetch_row($grm)[1];
 if($role!=2 and !($moderator==1 and $gr[1]==1))
 die("-3");
-if(file_exists("cache/forumthread".((int) $_GET['destination']).".dat")) unlink("cache/forumthread".((int) $_GET['destination']).".dat");
 mquery("UPDATE forum_posts SET thread=".((int) $_GET['destination'])." WHERE `id`=".(int)$_GET['postid']);
 mquery("UPDATE `forum_read` SET `posts`=`posts`-1 WHERE `thread`=" . (int)$_GET['threadid']);
 }
@@ -98,8 +93,6 @@ $role=mysql_fetch_row($grm)[1];
 if($role!=2 and !($moderator==1 and $gr[1]==1))
 die("-3");
 $dstthread=mysql_fetch_row(mquery("select thread from forum_posts where id=".(int)$_GET['destination']));
-if(file_exists("cache/forumthread".$dstthread.".dat")) unlink("cache/forumthread".$dstthread.".dat");
-if(file_exists("cache/forumthread".$srcthread.".dat")) unlink("cache/forumthread".$srcthread.".dat");
 $q=mquery("select id from forum_posts where thread=".(int)$srcthread);
 $ids=array();
 while($r=mysql_fetch_row($q))
@@ -145,6 +138,16 @@ if($role!=2 and !($moderator==1 and $gr[1]==1))
 die("-3");
 mquery("update `forum_threads` set closed=".(int)$_GET['close']." WHERE `id`=" . ((int) $_GET['threadid']));
 }
+if($_GET['closing'] == 2) {
+$gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select groupid from forums where name='".mysql_real_escape_string($_GET['forum'])."')"));
+$grm=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$gr[0]);
+if(mysql_num_rows($grm)>0)
+$role=mysql_fetch_row($grm)[1];
+if($role!=2 and !($moderator==1 and $gr[1]==1))
+die("-3");
+mquery("update `forums` set closed=".(int)$_GET['close']." WHERE `name`='" . mysql_real_escape_string($_GET['forum']). "'");
+}
+
 if($_GET['pinning'] == 1) {
 $gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$_GET['threadid']."))"));
 $grm=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$gr[0]);

@@ -3,7 +3,7 @@
 #All rights reserved.
 
 class Scene_VisitingCard
-  def initialize(user=$name,scene=nil)
+  def initialize(user=Session.name,scene=nil)
     @user = user
     @scene = scene
   end

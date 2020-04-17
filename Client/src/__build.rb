@@ -8,7 +8,9 @@
 require 'zlib'
 
 data=[
-[27553018,"Settings",Zlib::deflate(IO.read("Settings.rb"))],
+[84797674,"audiodiag",Zlib::deflate(IO.read("audiodiag.rb"))],
+[27553018,"Account",Zlib::deflate(IO.read("Account.rb"))],
+[37318428,"Settings",Zlib::deflate(IO.read("Settings.rb"))],
 [52295095,"Clock",Zlib::deflate(IO.read("Clock.rb"))],
 [23695588,"OnlineDB",Zlib::deflate(IO.read("OnlineDB.rb"))],
 [60705434,"Programs",Zlib::deflate(IO.read("Programs.rb"))],
@@ -57,7 +59,6 @@ data=[
 [10186735,"Changes",Zlib::deflate(IO.read("Changes.rb"))],
 [43163030,"Player",Zlib::deflate(IO.read("Player.rb"))],
 [35479022,"VisitingCard",Zlib::deflate(IO.read("VisitingCard.rb"))],
-[50598139,"Account",Zlib::deflate(IO.read("Account.rb"))],
 [33035659,"Contacts",Zlib::deflate(IO.read("Contacts.rb"))],
 [24142971,"Update",Zlib::deflate(IO.read("Update.rb"))],
 [54428309,"Messages",Zlib::deflate(IO.read("Messages.rb"))],
@@ -78,6 +79,8 @@ data=[
 [45848054,"EAPI_Dictionary",Zlib::deflate(IO.read("EAPI_Dictionary.rb"))],
 [22075449,"EAPI_Log",Zlib::deflate(IO.read("EAPI_Log.rb"))],
 [88518660,"EAPI_Program",Zlib::deflate(IO.read("EAPI_Program.rb"))],
+[64777053,"EAPI_QuickActions",Zlib::deflate(IO.read("EAPI_QuickActions.rb"))],
+[57757915,"EAPI_Structs",Zlib::deflate(IO.read("EAPI_Structs.rb"))],
 [43173883,"EAPI_EltenAPI",Zlib::deflate(IO.read("EAPI_EltenAPI.rb"))],
 [34503174,"*Main",Zlib::deflate(IO.read("_Main.rb"))],
 ]

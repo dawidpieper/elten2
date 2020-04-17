@@ -13,8 +13,8 @@ echo "0";
 }
 if($_GET['delete'] == 0 and $_GET['insert'] == 0) {
 if(mysql_num_rows(mquery("SELECT `user` FROM `contacts` where user='".mysql_real_escape_string($_GET['searchname'])."' and owner='" . $_GET['name'] . "'"))>0)
-echo "0";
-else
 echo "-3";
+else
+echo "0";
 }
 ?>

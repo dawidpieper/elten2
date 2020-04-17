@@ -7,6 +7,8 @@ if($_GET['list']==1) {
 $qs="SELECT `id`,`name`,`author`,`created`,`description` FROM `polls` ";
 if($_GET['byme']==1)
 $qs.=" where author='{$_GET['name']}' ";
+else
+$qs.=" where hidden=0 ";
 $qs.=" ORDER BY ID DESC";
 $q=mquery($qs);
 $t='';
@@ -24,7 +26,9 @@ if($_GET['dbuffer']==NULL)
 $description=$_GET['description'];
 else
 $description=buffer_get($_GET['dbuffer']);
-mquery("INSERT INTO `polls` (`name`,`author`,`created`,`description`,`questions`) VALUES ('".mysql_real_escape_string($_GET['pollname'])."','".$_GET['name']."',".time().",'".mysql_real_escape_string($description)."','".mysql_real_escape_string($questions)."')");
+$hidden=0;
+if(isset($_GET['hidden'])) $hidden=$_GET['hidden'];
+mquery("INSERT INTO `polls` (`name`,`author`,`created`,`description`,`questions`,`hidden`) VALUES ('".mysql_real_escape_string($_GET['pollname'])."','".$_GET['name']."',".time().",'".mysql_real_escape_string($description)."','".mysql_real_escape_string($questions)."',".(int)$hidden.")");
 echo "0";
 }
 if($_GET['answer']==1) {

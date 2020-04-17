@@ -14,13 +14,11 @@ module EltenAPI
         def srvproc(mod,param,output=0, post=nil)
           Log.debug("Server request to module #{mod}")
                               play("signal") if $netsignal
-          #speech(mod+": "+param.gsub("\&"," "))
-          #speech_wait
           preparam=param
                     if param.is_a?(Hash)
-            if $name!=nil and $token!=nil and param['name']==nil
-              param['name']=$name
-              param['token']=$token
+            if Session.name!=nil and Session.token!=nil and param['name']==nil
+              param['name']=Session.name
+              param['token']=Session.token
               end
             prm=""
             for k in param.keys
@@ -126,7 +124,7 @@ else
     q+=h+": "+headers[h]+"\r\n"
     end
   q+="Content-Length: #{post.size}\r\n\r\n#{post}"
-  a = connect($srv,80,q)
+  a = elconnect(q)
   a.delete!("\0")
   for i in 0...a.size
       if a[i..i+3] == "\r\n\r\n"
@@ -182,8 +180,8 @@ end
         end
     data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"data\"\r\n\r\n#{fl}\r\n--#{boundary}--"
     length=data.size    
-    q = "POST /srv/attachments.php?add=1\&filename=#{File.basename(file).urlenc}\&name=#{$name}\&token=#{$token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-  a = connect(host,80,q,2048,p_("Messages", "Sending: %{file}")%{'file'=>File.basename(file)})
+    q = "POST /srv/attachments.php?add=1\&filename=#{File.basename(file).urlenc}\&name=#{Session.name}\&token=#{Session.token} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
+  a = elconnect(q,2048,p_("Messages", "Sending: %{file}")%{'file'=>File.basename(file)})
 a.delete!("\0")
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
@@ -229,7 +227,7 @@ end
   i = 0
   l = 1
   usr = true
-  $statususers = []
+  @@statususers = []
   $statustexts = []
       tonline = srvproc("online",{})
             for i in 0..tonline.size - 1
@@ -241,7 +239,7 @@ end
     end
           loop do
     if usr == true
-      $statususers[i] = statustemp[l]
+      @@statususers[i] = statustemp[l]
       usr = false
     else
       if statustemp[l] != "\004END\004"
@@ -257,9 +255,9 @@ end
     end
   end
   st = ""
-  return if $statususers==nil or $statusonline==nil
-  for i in 0...$statususers.size
-    if name == $statususers[i]
+  return if @@statususers==nil or $statusonline==nil
+  for i in 0...@@statususers.size
+    if name == @@statususers[i]
       st = $statustexts[i]
       end
     end
@@ -325,7 +323,7 @@ usrinf[2] = uit[3].to_i
 usrinf[3] = uit[4].to_i
 usrinf[4] = uit[8].to_i
 usrinf[5] = uit[5].delete("\r\n")
-if uit[6].to_i>0 and uit[6]!=nil
+if uit[6].to_i==0 or uit[6]==nil
   usrinf[6]=""
 else
                                        uitt = Time.at(uit[6].to_i)
@@ -374,7 +372,7 @@ end
                             
                                
 
-  def isbanned(user=$name)
+  def isbanned(user=Session.name)
     bt=srvproc("isbanned",{"searchname"=>user})
     return false if bt[0].to_i<0
     return true if bt[1].to_i==1
