@@ -1,5 +1,5 @@
 module Opus
-Opus=Fiddle.dlopen("libopus-0.dll")
+Opus=Fiddle.dlopen("opus.dll")
 
 Encoder_create = Fiddle::Function.new(Opus['opus_encoder_create'], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 Encoder_destroy = Fiddle::Function.new(Opus['opus_encoder_destroy'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
@@ -115,8 +115,6 @@ fs=10 if [0,4,8,12,14,18,22,26,30].include?(c)
 fs=20 if [1,5,9,13,15,19,23,27,31].include?(c)
 fs=40 if [2,6,10].include?(c)
 fs=60 if [3,7,11].include?(c)
-p fs
-exit
 if (toc&1)==0 and (toc&2)==0
 sz=@freq*@ch*fs/1000
 elsif ((toc&1)==1 and (toc&2)==0) or ((toc&1)==0 and (toc&2)==2)

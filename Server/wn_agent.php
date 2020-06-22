@@ -56,16 +56,6 @@ $qi=mquery("select id,lastpostdate,name from forum_threads where id in (select t
 while($r=mysql_fetch_row($qi))
 array_push($ret['wn'],array('id'=>'ft_'.$r[0].'_'.$r[1],'alert'=>$r[2],'sound'=>'notification_followedthread'));
 }
-if(($_GET['client']==1 and $wnc[3]==0) or ($_GET['client']!=1 and $wnc[3]<2)) {
-$qi=mquery("select postid,owner,name from blog_posts where posttype=0 and owner in (select author from followedblogs where owner='".mysql_real_escape_string($_GET['name'])."') and (owner,postid) not in (select author,post from blog_read where owner='".mysql_real_escape_string($_GET['name'])."') and `date`>={$lasttime} order by id desc limit 0,10");
-while($r=mysql_fetch_row($qi))
-array_push($ret['wn'],array('id'=>'blg_'.$r[1].'_'.$r[0],'alert'=>$r[1].': '.substr($r[2],0,64),'sound'=>'notification_followedblog'));
-}
-if(($_GET['client']==1 and $wnc[4]==0) or ($_GET['client']!=1 and $wnc[4]<2)) {
-$qi=mquery("select p.postid, o.name, p.id from blog_posts p left join blog_posts o on p.postid=o.postid and p.owner=o.owner where p.owner='".mysql_real_escape_string($_GET['name'])."' and p.postid in (select post from blog_read r where owner='".mysql_real_escape_string($_GET['name'])."' and author='".mysql_real_escape_string($_GET['name'])."' and posts<(select count(*) from blog_posts where owner='".mysql_real_escape_string($_GET['name'])."' and postid=r.post)) and p.`date`>={$lasttime} order by id desc limit 0,10");
-while($r=mysql_fetch_row($qi))
-array_push($ret['wn'],array('id'=>'blc_'.$r[0]."_".$r[2],'alert'=>substr($r[1],0,64),'sound'=>'notification_blogcomment'));
-}
 if(($_GET['client']==1 and $wnc[5]==0) or ($_GET['client']!=1 and $wnc[5]<2)) {
 $qi=mquery("select id,name from forum_threads where id not in (select thread from forum_read where owner='".mysql_real_escape_string($_GET['name'])."') and forum in (select forum from followedforums where owner='".mysql_real_escape_string($_GET['name'])."') and lastpostdate>={$lasttime} order by id desc limit 0,10");
 while($r=mysql_fetch_row($qi))

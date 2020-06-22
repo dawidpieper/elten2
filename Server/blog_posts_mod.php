@@ -1,5 +1,35 @@
 <?php
 require("header.php");
+require("blog_base.php");
+function md_convert($text) {
+if($_GET['type']=="source") return $text;
+$content = htmlspecialchars($text);
+function her($matches) {
+$l = strlen($matches[1]);
+$o="<h".$l.">";
+$c="</h".$l.">";
+return $o.$matches[2].$c;
+}
+$content = preg_replace_callback('/(\#{1,6}) ([^\n]+)/m', 'her', $content);
+function aer($matches) {
+$l = strlen($matches[1]);
+$o="<a href=\"".$matches[2]."\">";
+$c="</a>";
+return $o.$matches[1].$c;
+}
+$content = preg_replace_callback('/\[([^\]]+)\]\(([^\)]+)\)/m', 'aer', $content);
+function stronger($matches) {
+if(strlen($matches[1])<3) return $matches[0];
+return " <strong>".$matches[1]."</strong>";
+}
+$content = preg_replace_callback('/ \*\*([^\*]+)\*\*/m', 'stronger', $content);
+function mer($matches) {
+if(strlen($matches[1])<3) return $matches[0];
+return " <m>".$matches[1]."</m>";
+}
+$content = preg_replace_callback('/ \*([^\*]+)\*/m', 'mer', $content);
+return $content;
+}
 $searchname=$_GET['name'];
 if(isset($_GET['searchname'])) {
 $searchname=$_GET['searchname'];
@@ -9,17 +39,9 @@ if($_GET['add'] == 1){
 $postid=1;
 $comments=1;
 if(isset($_GET['comments'])) $comments=$_GET['comments'];
-$q = mquery("SELECT `postid` FROM `blog_posts` WHERE `owner`='".$searchname."'");
-while($wiersz = mysql_fetch_row($q)) {
-if($wiersz[0]>=$postid)
-$postid = $wiersz[0]+1;
-}
 $post = $_GET['post'];
 if($_GET['audio']==1) {
-if(strlen($_POST['post']) < 8) {
-echo "-1";
-die;
-}
+if(strlen($_POST['post']) < 8) die("-1");
 $filename=random_str(24);
 if(substr($_POST['post'],0,4)=="OggS") {
 $fp = fopen("audioblogs/posts/".$filename,"w");
@@ -33,37 +55,42 @@ fclose($fp);
 shell_exec("/usr/bin/ffmpeg -i \"audioblogs/posts/tmp_".$filename."\" -f opus -b:a 128k \"audioblogs/posts/{$filename}\" 2>&1");
 unlink("audioblogs/posts/tmp_".$filename);
 }
-$post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004";
+$post="[audio src=\"https://s.elten-net.eu/b/".$filename.".mp3\"][/audio]";
 }
 if($_GET['buffer'] != null) {
 $post = buffer_get($_GET['buffer']);
 }
-mquery("INSERT INTO `blog_posts` (`owner`,`author`,`postid`,`posttype`,`name`,`post`,`date`,`privacy`,`comments`) VALUES ('" . $searchname . "','".$_GET['name']."'," . (int)$postid . ",0,'".mysql_real_escape_string($_GET['postname'])."','" . mysql_real_escape_string($post) . "',".time().",".((int)$_GET['privacy']).",".(int)$comments.")");
-mquery("INSERT INTO `blog_read` (`owner`,`author`,`post`,`posts`) VALUES ('" . $_GET['name'] . "','".$searchname."'," . (int)$postid . ",1)");
+$post = str_replace("\004LINE\004", "\n", $post);
+$author=0;
+$users=wp_query("GET", "/elten/allusers");
+foreach($users as $u) if($u['elten']==$_GET['name']) $author=$u['id'];
+$j = array('author'=>$author, 'title'=>$_GET['postname'], 'content'=>$post, 'categories'=>array(), 'tags'=>array());
+if(strpos($post, "[audio")===false) {
+$j['format']="standard";
+$j['content'] = md_convert($post);
+}
+else $j['format']="audio";
 $cats = explode(",",$_GET['categoryid']);
-$i = 0;
-while($i<count($cats)) {
-if($cats[$i]>0 AND $cats[$i] != NULL) {
-mquery("INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$searchname."',".(int)$cats[$i].",".(int)$postid.")");
-}
-$i=$i+1;
-}
-mquery("UPDATE `blogs` SET `lastupdate`=".time()." WHERE `owner`='".$searchname."'");
+for($i=0; $i<count($cats); ++$i)
+if($cats[$i]>0) array_push($j['categories'], (int)$cats[$i]);
+$tgs = explode(",",$_GET['tags']);
+for($i=0; $i<count($tgs); ++$i)
+if($tgs[$i]>0) array_push($j['tags'], (int)$tgs[$i]);
+if($comments==1) $j['comment_status']="open";
+else $j['comment_status']="closed";
+if($_GET['privacy']==0) $j['status']="publish";
+else $j['status']="private";
+$w=wp_query("POST", "/wp/v2/posts", $searchname, $j);
+mquery("INSERT INTO `blogs_postsread` (`owner`,`blog`,`postid`,`postsread`) VALUES ('" . $_GET['name'] . "','".$searchname."'," . (int)$w['id'] . ",1)");
 }
 if($_GET['del'] == 1){
-mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " AND `owner`='".$searchname."'");
-mquery("DELETE FROM `blog_assigning` WHERE `owner`='".$searchname."' AND `postid`=".(int)$_GET['postid']);
-mquery("DELETE FROM `blog_read` WHERE `author`='".$searchname."' AND `post`=".(int)$_GET['postid']);
+mquery("delete from blogs_postsread where blog='".mysql_real_escape_string($searchname)."' and postid=".(int)$_GET['postid']."");
+$w=wp_query("DELETE", "/wp/v2/posts/".(int)$_GET['postid'], $searchname, array('force'=>true));
 }
 if($_GET['mod'] == 1){
 $post = $_GET['post'];
-$comments=1;
-if(isset($_GET['comments'])) $comments=$_GET['comments'];
 if($_GET['audio']==1) {
-if(strlen($_POST['post']) < 8) {
-echo "-1";
-die;
-}
+if(strlen($_POST['post']) < 8) die("-1");
 $filename=random_str(24);
 if(substr($_POST['post'],0,4)=="OggS") {
 $fp = fopen("audioblogs/posts/".$filename,"w");
@@ -77,84 +104,75 @@ fclose($fp);
 shell_exec("/usr/bin/ffmpeg -i \"audioblogs/posts/tmp_".$filename."\" -f opus -b:a 128k \"audioblogs/posts/{$filename}\" 2>&1");
 unlink("audioblogs/posts/tmp_".$filename);
 }
-$post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004";
+$post="[audio src=\"https://s.elten-net.eu/b/".$filename.".mp3\"][/audio]";
 }
 if($_GET['buffer'] != null)
 $post=buffer_get($_GET['buffer']);
-if($post==NULL)
-$post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$searchname."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
-mquery("UPDATE `blog_posts` SET `post`='" . mysql_real_escape_string($post) . "', `moddate`=".time().", `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$searchname."'");
+$j = array('author'=>$author, 'title'=>$_GET['postname']);
+if($post!=null) {
+$post = str_replace("\004LINE\004", "\n", $post);
+$j['content']=$post;
+if(strpos($post, "[audio")===false) {
+$j['format']="standard";
+$j['content'] = md_convert($post);
+}
+else $j['format']="audio";
+}
+$w=wp_query("POST", "/wp/v2/posts/".(int)$_GET['postid'], $searchname, $j);
 }
 if($_GET['addassigning'] == 1) {
-$q = mquery("SELECT `postid` FROM `blog_assigning` WHERE `postid`=".(int)$_GET['postid']." AND `categoryid`=".(int)$_GET['categoryid']." AND `owner`='".$searchname."'");
-if(mysql_num_rows($q)>0) {
-echo "-3";
-die;
-}
-$zapytanie = "SELECT `postid` FROM `blog_posts` WHERE `owner`='".$searchname."' AND `postid`=".$_GET['postid'];
-$q = mysql_query($zapytanie);
-if($q == false) {
-echo "-1";
-die;
-}
-if(mysql_num_row($q)==0) {
-echo "-4";
-die;
-}
-$zapytanie = "INSERT INTO `blog_assigning` (owner, postid, categoryid) VALUES ('".$searchname."',".$_GET['postid'].",".$_GET['categoryid'].")";
-$q = mysql_query($zapytanie);
-if($q == false) {
-echo "-1";
-die;
-}
+$w=wp_query("GET", "/wp/v2/posts/".(int)$_GET['postid'], $searchname);
+if($w['data']['status']>=400) die("-1");
+$categories=$w['categories'];
+array_push($categories, $_GET['categoryid']);
+$j = array('categories' => $categories);
+$w=wp_query("POST", "/wp/v2/posts/".(int)$_GET['postid'], $searchname, $j);
 }
 if($_GET['removeassigning']==1) {
-$zapytanie = "DELETE FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `categoryid`=".$_GET['categoryid']." AND `owner`='".$searchname."'";
-if($q == false) {
-echo "-1";
-die;
-}
+$w=wp_query("GET", "/wp/v2/posts/".(int)$_GET['postid'], $searchname);
+if($w['data']['status']>=400) die("-1");
+$categories=$w['categories'];
+if(($key=array_search($_GET['categoryid'], $categories)) !== false)  unset($categories[$key]);
+$j = array('categories' => $categories);
+$w=wp_query("POST", "/wp/v2/posts/".(int)$_GET['postid'], $searchname, $j);
 }
 if($_GET['edit'] == 1) {
 $post = $_GET['post'];
 $comments=1;
 if(isset($_GET['comments'])) $comments=$_GET['comments'];
 if($_GET['audio']==1) {
-if(strlen($_POST['post']) < 8) {
-echo "-1";
-die;
-}
+if(strlen($_POST['post']) < 8) die("-1");
 $filename=random_str(24);
 $fp = fopen("audioblogs/posts/".$filename,"w");
 fwrite($fp,$_POST['post']);
 fclose($fp);
-$post="\004AUDIO\004/audioblogs/posts/".$filename."\004AUDIO\004";
+$post="[audio src=\"https://s.elten-net.eu/b/".$filename.".mp3\"][/audio]";
 }
 if($_GET['buffer'] != null)
 $post=buffer_get($_GET['buffer']);
-if($post==NULL)
-$post=mysql_real_escape_string(mysql_fetch_row(mquery("select post from blog_posts where owner='".$searchname."' and postid=".(int)$_GET['postid']." and posttype=0"))[0]);
-mquery("UPDATE `blog_posts` SET `moddate`=".time().", `post`='" . mysql_real_escape_string($post) . "', `name`='".mysql_real_escape_string($_GET['postname'])."', `privacy`='".((int) $_GET['privacy'])."', `comments`=".(int)$comments." WHERE `postid`=".(int)$_GET['postid']." AND `posttype`=0 AND `owner`='".$searchname."'");
-$categories = [];
+$j = array('author'=>$author, 'title'=>$_GET['postname']);
+if($post!=null) {
+$post = str_replace("\004LINE\004", "\n", $post);
+$j['content']=$post;
+if(strpos($post, "[audio")===false) {
+$j['format']="standard";
+$j['content'] = md_convert($post);
+}
+else $j['format']="audio";
+}
+if($comments==1) $j['comment_status']="open";
+else $j['comment_status']="closed";
+if($_GET['privacy']==0) $j['status']="publish";
+else $j['status']="private";
+$j['categories']=array();
 $cats = explode(",",$_GET['categoryid']);
-$zapytanie = "DELETE FROM `blog_assigning` WHERE `postid`=".$_GET['postid']." AND `owner`='".$searchname."'";
-$q = mysql_query($zapytanie);
-if($q == false) {
-echo "-1";
-die;
-}
-$i = 0;
-while($i<count($cats)) {
-if($cats[$i]>0 AND $cats[$i] != NULL) {
-$zapytanie = "INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$searchname."',".$cats[$i].",".$_GET['postid'].")";
-$q = mysql_query($zapytanie);
-if($q == false) {
-echo "-1";
-die;
-}
-}
-$i=$i+1;
-}
+for($i=0; $i<count($cats); ++$i)
+if($cats[$i]>0) array_push($j['categories'], (int)$cats[$i]);
+$j['tags']=array();
+$tgs = explode(",",$_GET['tags']);
+for($i=0; $i<count($tgs); ++$i)
+if($tgs[$i]>0) array_push($j['tags'], (int)$tgs[$i]);
+$w=wp_query("POST", "/wp/v2/posts/".(int)$_GET['postid'], $searchname, $j);
 }
 if($_GET['recategorize']==1) {
 $data='';
@@ -168,26 +186,32 @@ foreach($posts as $post) {
 $tmp=explode(":",$post);
 $postid=$tmp[0];
 $cats=explode(",",$tmp[1]);
-foreach($cats as $cat) {
-if($cat!=NULL and $cat!="")
-mquery("INSERT INTO `blog_assigning` (owner,categoryid,postid) VALUES ('".$searchname."',".(int)$cat.",".$postid.")");
-}
+wp_query("POST", "/wp/v2/posts/".(int)$post, $searchname, array('categories'=>$cats));
 }
 }
 if($_GET['delcomments'] == 1){
-mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " AND `owner`='".$searchname."' and posttype=1");
-mquery("update `blog_read` set posts=1 WHERE `author`='".$searchname."' AND `post`=".(int)$_GET['postid']);
+$comments = wp_query("GET", "/wp/v2/comments", $searchname, array("post"=>$_GET['postid'], 'per_page'=>100));
+while(count($comments)>0) {
+foreach($comments as $c)
+wp_query("DELETE", "/wp/v2/comments/".$c['id'], $searchname, array("force"=>true));
+$comments = wp_query("GET", "/wp/v2/comments", $searchname, array("post"=>$_GET['postid'], 'per_page'=>100));
+}
+mquery("update `blogs_postsread` set postsread=1 WHERE `blog`='".$searchname."' AND `postid`=".(int)$_GET['postid']);
 }
 if($_GET['delcomment'] == 1){
 $id=0;
-$q=mquery("select id FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " and `owner`='".$searchname."' and posttype=1");
+$page=0;
+$comments=array();
+do {
+++$page;
+$comments = array_merge($comments, wp_query("GET", "/wp/v2/comments", $_GET['searchname'], array('post'=>$_GET['postid'], 'order'=>'asc', 'per_page'=>100, 'page'=>$page), $head));
+} while($page<$head['x-wp-totalpages']);
 $i=0;
-while($r=mysql_fetch_row($q)) {
+foreach($comments as $c) {
 ++$i;
-if($i==$_GET['commentnumber']) $id=$r[0];
+if($i==$_GET['commentnumber']) $id=$c['id'];
 }
-mquery("DELETE FROM `blog_posts` WHERE `postid`=" . (int)$_GET['postid'] . " and id=".(int)$id." AND `owner`='".$searchname."' and posttype=1");
-mquery("update `blog_read` set posts=posts-1 WHERE `author`='".$searchname."' and posts>".(int)$_GET['commentnumber']." AND `post`=".(int)$_GET['postid']);
+if($id>0) wp_query("DELETE", "/wp/v2/comments/".$id, $searchname, array("force"=>true));
 }
 echo "0";
 ?>

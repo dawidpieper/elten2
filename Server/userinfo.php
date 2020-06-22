@@ -1,17 +1,18 @@
-﻿<?php
+<?php
 if($_GET['name']=="guest")
 require("init.php");
 else
 require("header.php");
+require("blog_base.php");
 if($_GET['stateonly']==0)
 $lastseen = mysql_fetch_row(mquery("SELECT max(date) FROM `actived` where name='".mysql_real_escape_string($_GET['searchname'])."'"))[0];
-$hasblog=mysql_fetch_row(mquery("select count(*) from blogs where owner='".$_GET['searchname']."'"))[0];
+$hasblog=(int)wp_dohaveblog($_GET['searchname']);
 if($_GET['stateonly']==0)
 $knows = mysql_fetch_row(mquery("SELECT count(*) FROM `contacts` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."'"))[0];
 if($_GET['stateonly']==0)
 $knownby = mysql_fetch_row(mquery("SELECT count(*) FROM `contacts` WHERE `user`='".mysql_real_escape_string($_GET['searchname'])."'"))[0];
 if($_GET['stateonly']==0)
-$version = mysql_fetch_row(mquery("SELECT max(version) FROM `logins` where `name`='".mysql_real_escape_string($_GET['searchname'])."'"))[0];
+$version = mysql_fetch_row(mquery("SELECT version FROM `logins` where version>0 and `name`='".mysql_real_escape_string($_GET['searchname'])."' order by id desc limit 1"))[0];
 $polls = mysql_fetch_row(mquery("SELECT count(DISTINCT `poll`) FROM `polls_answers` WHERE `author`='".mysql_real_escape_string($_GET['searchname'])."'"))[0];
 if($_GET['stateonly']==0) {
 $registered = mysql_fetch_row(mquery("SELECT min(`time`) FROM `logins` WHERE `name`='".mysql_real_escape_string($_GET['searchname'])."'"))[0];

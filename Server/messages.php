@@ -39,6 +39,17 @@ mquery("update messages set deletedfromreceived=1 where id=".((int) $_GET['id'])
 mquery("update messages set deletedfromsent=1 where id=".((int) $_GET['id'])." and sender='".$_GET['name']."'");
 echo "0";
 }
+if($_GET['delete']==2) {
+if(!isset($_GET['subj'])) die("-3");
+mquery("update messages set deletedfromreceived=1 where lower(subject) like lower('%".mysql_real_escape_string($_GET['subj'])."%') and sender='".mysql_real_escape_string($_GET['user'])."' and receiver='".mysql_real_escape_string($_GET['name'])."'");
+mquery("update messages set deletedfromsent=1 where lower(subject) like lower('%".mysql_real_escape_string($_GET['subj'])."%') and receiver='".mysql_real_escape_string($_GET['user'])."' and sender='".mysql_real_escape_string($_GET['name'])."'");
+echo "0";
+}
+if($_GET['delete']==3) {
+mquery("update messages set deletedfromreceived=1 where sender='".mysql_real_escape_string($_GET['user'])."' and receiver='".mysql_real_escape_string($_GET['name'])."'");
+mquery("update messages set deletedfromsent=1 where receiver='".mysql_real_escape_string($_GET['user'])."' and sender='".mysql_real_escape_string($_GET['name'])."'");
+echo "0";
+}
 if($_GET['mark']==1) {
 mquery("update messages set marked=1 where id=".((int) $_GET['id'])." and receiver='".$_GET['name']."'");
 echo "0";

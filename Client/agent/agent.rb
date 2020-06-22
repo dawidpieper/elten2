@@ -1,17 +1,23 @@
 Encoding.default_internal=Encoding::UTF_8
 $VERBOSE = nil
+require "base64"
 require "json/pure"
 require "digest"
+require "securerandom"
 require "digest/sha1"
 require "digest/sha2"
 require "digest/md5"
 require "digest/rmd160"
 require "digest/bubblebabble"
-require "net-http2"
+require "openssl"
 require "fiddle"
 require "zlib"
+require "socket"
+require 'uri'
+require "http/2"
 require "./dlls.rb"
 require("./eltenapi.rb")
+require("./opus.rb")
 
 class Notification
 attr_accessor :alert, :sound, :id
@@ -68,6 +74,11 @@ else
 $appid=IO.read($eltendata+"\\appid.dat")
 end
 $version=readini("./elten.ini","Elten","Version","").to_f
+begin
+$rsa = OpenSSL::PKey::RSA.new(IO.binread("./Data/eltenpub.pem"))
+rescue Exception
+end
+$rsa = OpenSSL::PKey::RSA.new(2048) if $rsa==nil
 if $*.include?("/autostart")
 $name=readconfig("Login","Name","")
 token=readconfig("Login","Token","")
@@ -77,7 +88,7 @@ if tokenenc==2
 $messagebox.call(0,"Cannot start Elten automatically, because the autologin token is protected with a pin code","Elten autostart failed",16)
 exit
 end
-erequest("login","login=1\&name=#{$name}\&token=#{token}\&version={$version}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}\&crp=#{Base64.urlsafe_encode64(cryptmessage(JSON.generate({'name'=>$name,'time'=>Time.now.to_i})))}") {|ans|
+erequest("login","login=1\&name=#{$name}\&token=#{token}\&version=#{$version}+agent\&beta=#{readini("elten.ini","Elten","Beta","")}\&appid=#{$appid}\&crp=#{Base64.urlsafe_encode64(cryptmessage(JSON.generate({'name'=>$name,'time'=>Time.now.to_i})))}") {|ans|
 if ans!=nil
 d=ans.split("\r\n")
 if d[0].to_i==0
@@ -89,12 +100,8 @@ end
 end
 }
 sleep(0.1) while !$token
-else
-$name||=STDIN.gets.delete("\r\n")
-$token||=STDIN.gets.delete("\r\n")
-$hwnd||=STDIN.gets.delete("\r\n").to_i
 end
-Bass.init($hwnd||0)
+Bass.init(0)
 $upd={}
 $upd['version']=readini("./elten.ini","Elten","Version","0").to_f
 $upd['alpha']=readini("./elten.ini","Elten","Alpha","0").to_i
@@ -107,7 +114,7 @@ log(0, "Agent initialized")
 loop do
 if ($li%20)==0
 exit if $*.include?("/autostart") and $findwindow.call("RGSS PLAYER","ELTEN")!=0
-if $hwnd
+if $hwnd!=nil
 exit if !$iswindow.call($hwnd)
 if ($phwnd=$getforegroundwindow.call)!=$hwnd and $getparent.call($phwnd)!=$hwnd
 log(0, "Elten window minimized") if $shown==true
@@ -129,6 +136,19 @@ $tray = false
 end
 end
 end
+if FileTest.exists?($eltendata+"\\!show.dat")
+sleep(0.25)
+play 'signal'
+begin
+File.delete($eltendata+"\\!show.dat")
+$showwindow.call($hwnd,5)
+$setforegroundwindow.call($hwnd)
+$setactivewindow.call($hwnd)
+$setfocus.call($hwnd)
+$showwindow.call($hwnd,3)
+rescue Exception
+end
+end
 while STDIN.ready? and ($istream==nil||$istream.eof?)
 data=Marshal.load(STDIN)
 if data['func']=='srvproc'
@@ -145,6 +165,124 @@ STDOUT.binmode.write((Marshal.dump(d)))
 STDOUT.flush
 end
 }
+elsif data['func']=='srvverify'
+t=SecureRandom.alphanumeric(32)
+r={'time'=>Time.now.to_f, 'text'=>t, 'seed'=>SecureRandom.alphanumeric(32)}
+enc=$rsa.public_encrypt(JSON.generate(r))
+erequest("verifier","ac=verify",enc,{},t) {|resp,d|
+if resp!=nil
+suc=false
+begin
+dec=$rsa.public_decrypt(resp)
+j=JSON.load(dec)
+suc=true if j['time'].to_f>Time.now.to_f-60 && t.reverse==j['text']
+rescue Exception
+log(1, $!.to_s+": "+$@.to_s)
+log(1, resp)
+end
+STDOUT.binmode.write((Marshal.dump({'func'=>'srvverify', 'succeeded'=>suc})))
+STDOUT.flush
+end
+}
+elsif data['func']=='readurl'
+uri = URI.parse(data['url'])
+s = TCPSocket.new(uri.host, uri.port)
+if uri.scheme=="https"
+ctx = OpenSSL::SSL::SSLContext.new
+ctx.alpn_protocols = [DRAFT]
+sock = OpenSSL::SSL::SSLSocket.new(s, ctx)
+sock.sync_close = true
+sock.hostname=uri.host
+sock.connect
+else
+sock=s
+end
+http = HTTP2::Client.new
+http.on(:frame) {|bytes|
+sock.print bytes
+sock.flush
+}
+sockthread = Thread.new {
+while !sock.closed? && !sock.eof?
+data = sock.read_nonblock(1024)
+http << data
+end
+}
+stream = http.new_stream
+head = {
+':scheme' => uri.scheme,
+':authority' => "#{uri.host}:#{uri.port}",
+':path' => uri.path,
+'User-Agent' => "Elten #{$version} agent",
+'Connection' => "close"
+}
+head[':method'] = data['method']||"GET"
+head['content-length'] = data['body'].bytesize if data['body']!=nil
+data['headers'].keys.each{|k| head[k]=data['headers'][k]} if data['headers'].is_a?(Hash)
+stream.headers(head, end_stream: (data['body']==nil || data['body']==""))
+if data['body']!=nil && data['body']!=""
+until data['body'].empty?
+ch = data['body'].slice!(0...4096)
+stream.data(ch, end_stream: (data['body'].empty?))
+end
+end
+headers={}
+body=""
+stream.on(:headers) {|h|headers=h}
+stream.on(:data) {|ch| body+=ch}
+stream.on(:half_close) {stream.close}
+stream.on(:close) {
+http.goaway
+sock.close
+d={}
+d['id']=data['id']
+d['body']=body
+d['headers']=headers
+STDOUT.binmode.write((Marshal.dump(d)))
+STDOUT.flush
+}
+elsif data['func']=="eltsock_create"
+d=data.dup
+$eltsocks||=[]
+$eltsocks.push(EltenSock.new)
+d['sockid']=$eltsocks.size-1
+STDOUT.binmode.write((Marshal.dump(d)))
+STDOUT.flush
+elsif data['func']=="eltsock_write"
+#Thread.new {
+d=data.dup
+$eltsocks||={}
+if $eltsocks[data['sockid']]!=nil
+$eltsocks[data['sockid']].write(data['message'])
+d['status']=1
+STDOUT.binmode.write((Marshal.dump(d)))
+STDOUT.flush
+end
+#}
+elsif data['func']=="eltsock_read"
+#Thread.new {
+d=data.dup
+$eltsocks||={}
+if $eltsocks[data['sockid']]!=nil
+d['message']=$eltsocks[data['sockid']].read(data['size'])
+STDOUT.binmode.write((Marshal.dump(d)))
+STDOUT.flush
+end
+#}
+elsif data['func']=="eltsock_close"
+d=data.dup
+$eltsocks||={}
+if $eltsocks[data['sockid']]!=nil
+$eltsocks[data['sockid']].close
+$eltsocks[data['sockid']]=nil
+d['status']=1
+STDOUT.binmode.write((Marshal.dump(d)))
+STDOUT.flush
+end
+elsif data['func']=="activity_register"
+erequest("activities","name=#{$name}\&token=#{$token}\&ac=register",JSON.generate(data['activity']),{"Content-Type"=>'application/json'}) {|resp|
+log(-1, "Activity registration: #{resp.to_s}")
+}
 elsif data['func']=="alarm_stop"
 $alarmstop=true
 elsif data['func']=="chat_open"
@@ -154,6 +292,7 @@ $chat = false
 elsif data['func']=='relogin'
 $name=data['name']
 $token=data['token']
+$hwnd=data['hwnd'] if data['hwnd']!=nil
 elsif data['func']=='msg_suppress'
 $msg_suppress=true
 end
@@ -184,6 +323,7 @@ $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
 else
 $soundthemepath = "Audio"
 end
+if $name!=nil and $name!=""
 pr="name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime||0}"
 pr+="\&shown=1" if $shown==true
 pr+="\&chat=1" if $chat==true
@@ -234,6 +374,7 @@ log(2, "JSON Parse Error")
 end
 end
 }
+end
 end
 q=Notifications.queue
 if q.size>10
@@ -289,7 +430,7 @@ IO.binwrite($eltendata+"\\alarms.dat",Marshal.dump(alarms))
 end
 @alarmplaying=true
 play("alarm",true)
-STDOUT.binmode.write((Marshal.dump({'func'=>'alarm'})))
+STDOUT.binmode.write((Marshal.dump({'func'=>'alarm', 'description'=>a[3]})))
 STDOUT.flush
 end
 $timelastsay=tim.hour*60+tim.min

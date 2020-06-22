@@ -28,6 +28,8 @@ $maps = array(
 'birthdatemonth' => array('birthdatemonth', 1),
 'birthdateday' => array('birthdateday', 1),
 'location' => array('location', 0),
+'languages' => array('languages', 0),
+'mainlanguage' => array('mainlanguage', 0),
 'publicprofile' => array('publicprofile', 1),
 'publicmail' => array('publicmail', 1)
 ),

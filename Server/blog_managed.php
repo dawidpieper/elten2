@@ -1,7 +1,17 @@
 <?php
 require("init.php");
-$q = mquery("SELECT owner,name FROM `blogs` where owner in (select blog from blog_owners where owner='".mysql_real_escape_string($_GET['searchname'])."')");
-echo "0\r\n".mysql_num_rows($q);
-while($r=mysql_fetch_row($q))
-echo "\r\n".$r[0]."\r\n".$r[1];
+require("blog_base.php");
+$managed = array();
+$blogs = wp_query("GET", "/elten/blogs");
+foreach($blogs as $b)
+foreach($b['users'] as $u)
+if($u['elten']==$_GET['searchname'])
+array_push($managed, $b);
+echo "0\r\n".count($managed);
+foreach($managed as $b) {
+$s=explode(".",$b['domain']);
+if($s[1]=="s") $d="[".$s[0]."]";
+else $d=$b['users'][0]['elten'];
+echo "\r\n".$d."\r\n".$b['name'];
+}
 ?>

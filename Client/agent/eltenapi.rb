@@ -69,42 +69,83 @@ $shgetfolderpath.call(0,type,0,0,dr)
       return fdr[0..fdr.index("\0")||-1]
 end
 
+DRAFT = 'h2'.freeze
 def init
-$http = NetHttp2::Client.new("https://elten-net.eu", connect_timeout: 5)
+$sockthread.exit if $sockthread!=nil
+$sock = TCPSocket.new('elten-net.eu', 443)
+ctx = OpenSSL::SSL::SSLContext.new
+ctx.alpn_protocols = [DRAFT]
+$ssl = OpenSSL::SSL::SSLSocket.new($sock, ctx)
+$ssl.sync_close = true
+$ssl.hostname="elten-net.eu"
+$ssl.connect
+$http = HTTP2::Client.new
+$http.on(:frame) {|bytes|
+$ssl.print bytes
+$ssl.flush
+}
+$sockthread = Thread.new {
+while !$ssl.closed? && !$ssl.eof?
+data = $ssl.read_nonblock(1024)
+$http << data
+end
+}
 $http.on(:error) { |error| init if error.is_a?(Errno::ECONNRESET) or error.is_a?(SocketError) }
+rescue Exception
 end
 
 def erequest(mod, param, post=nil, headers={}, data=nil, ign=false, &b)
 headers={} if headers==nil
 headers['User-Agent']="Elten #{$version} agent"
 init if $http==nil
-tries=0
 $lastrep||=Time.now.to_i
 init if $lastrep<Time.now.to_i-20
-$equeue||=[]
-id=($equeue.max||0)+1
 begin
-return if ign and ($eropened!=nil and $eropened>Time.now.to_f-15)
-$equeue.push(id) if !ign
-sleep(0.01) while $eropened!=nil and $eropened>Time.now.to_f-15 and (!ign or $equeue.first!=id)
-$eropened=Time.now.to_f
-if !ign and ((t=Time.now).min%15==14 and t.sec==59)
+if (t=Time.now).min%15==14 and t.sec>=58
 sleep(60-t.sec+2)
 end
+stream = $http.new_stream
+head = {
+':scheme' => 'https',
+':authority' => 'elten-net.eu:443',
+':path' => "/srv/#{mod}.php?#{param}"
+}
 if post==nil
-request = $http.prepare_request(:get, "/srv/#{mod}.php?#{param}", headers: headers)
+head[':method'] = 'GET'
 else
-request = $http.prepare_request(:post, "/srv/#{mod}.php?#{param}", body: post, headers: headers)
+head[':method'] = 'POST'
+head['content-length'] = post.bytesize.to_s
+end
+headers.keys.each{|k| head[k]=headers[k]}
+stream.headers(head, end_stream: (post==nil || post==""))
+if post!=nil && post!=""
+until post.empty?
+ch = post.slice!(0...4096)
+stream.data(ch, end_stream: (post.empty?))
+end
 end
 body=""
-request.on(:body_chunk) {|ch| body+=ch}
-request.on(:close) {$eropened=nil;$lastrep=Time.now.to_i;$equeue.delete(id) if !ign;b.call(body,data)}
-request.on(:error) {$eropened=nil;$equeue.delete(id) if !ign;b.call(:error,data)}
-$http.call_async request
+stream.on(:data) {|ch| body+=ch}
+stream.on(:half_close) {stream.close}
+stream.on(:close) {$eropened=nil;$lastrep=Time.now.to_i;b.call(body,data)}
 rescue Exception
 init
-$equeue.delete(id) if id!=nil
-retry
+retry if !ign
+end
+end
+
+class EltenSock
+def initialize
+@sock=TCPSocket.new("elten-net.eu",80)
+end
+def write(wr)
+@sock.write(wr)
+end
+def read(rd=1024)
+@sock.read(rd)
+end
+def close
+@sock.close
 end
 end
 

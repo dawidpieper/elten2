@@ -1,7 +1,7 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
+#Elten Code
+#Copyright (C) 2014-2020 Dawid Pieper
+#All rights reserved.
+
 class String
 
   # To get a byte range out of a possible multibyte string, force encoding to 
@@ -15,7 +15,7 @@ class String
           end
       end
 end
-
+
 # RubyMotion (at least as of 3.6) does not include an implementation of
 # StringScanner (strscan.rb).  So an implementation was borrowed from MacRuby:
 # https://github.com/MacRuby/MacRuby/blob/d1e47668d4345c78871f49b06849f3c7e4355943/lib/strscan.rb
@@ -723,8 +723,8 @@ private
     getstr ? m : m.bytesize
   end
 
-end
-
+end
+
 module Strscan
   VERSION = '0.5.1'
 end

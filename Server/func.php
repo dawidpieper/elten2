@@ -20,7 +20,7 @@ $text="\004AUDIO\004/audiomessages/".$filename."\004AUDIO\004\r\n";
 $audiourl="https://s.elten-net.eu/m/{$filename}";
 $audio="/var/www/html/audiomessages/{$filename}";
 }
-$mth='/^[a-zA-Z0-9.\-_]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/';
+$mth='/^[a-zA-Z0-9.\-_\+]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/';
 if(preg_match($mth, $to)) {
 $fromname=$from;
 if(strtolower($from)=="elten") {
@@ -62,7 +62,6 @@ return(-3);
 if(mysql_num_rows(mquery("select name from users where name='".$to."'"))==0 and mysql_num_rows(mquery("select id from messages_groups where id='".mysql_real_escape_string($to)."'"))==0)
 return(-4);
 mquery("INSERT INTO `messages` (`sender`, `receiver`, `subject`, `message`, `date`, deletedfromreceived, deletedfromsent, attachments) VALUES ('" . mysql_real_escape_string($from) . "', '" . mysql_real_escape_string($to) . "', '" . mysql_real_escape_string($subject) . "', '" . mysql_real_escape_string($text) . "', '" . time() . "',0,0,'".mysql_real_escape_string($attachments)."')");
-if(mysql_num_rows(mquery("select owner from whatsnew_config where owner='".mysql_real_escape_string($to)."' and messages<2"))>0) notify($to,$from.": ".$subject,"notification_message", 1, "New Message");
 }
 
 return 0;
@@ -91,7 +90,7 @@ message_send('elten', $r[0], 'New member of '.$gr[3], "{$author} has been automa
 }
 if($thread<=0 and $threadname!=NULL) {
 $threadid=mysql_fetch_row(mquery("select max(id) from forum_threads"))[0]+1;
-mquery("insert into forum_threads (id,name,lastpostdate,forum) values (".$threadid.", '".mysql_real_escape_string($threadname)."', ".time().", '".mysql_real_escape_string($forum)."')");
+mquery("insert into forum_threads (id,name,creationdate,lastpostdate,forum) values (".$threadid.", '".mysql_real_escape_string($threadname)."', ".time().", ".time().", '".mysql_real_escape_string($forum)."')");
 mquery("delete from forum_read where thread=".$threadid);
 if($follow==1)
 mquery("INSERT INTO `followedthreads` (thread, owner) VALUES ('" . (int)$threadid . "','" . mysql_real_escape_string($author) . "')");
@@ -120,26 +119,8 @@ mquery("insert into forum_read (owner,thread,posts) values ('".mysql_real_escape
 return(0);
 }
 
-function notify($user,$notif, $sound=NULL, $cat=0, $info=NULL) {
-mquery("insert into notifications (receiver, sound, cat, date, notification) values ('".mysql_real_escape_string($user)."','".mysql_real_escape_string($sound)."',".(int)$cat.",".time().",'".mysql_real_escape_string($notif)."')");
-$q=mquery("select devicetoken from apns where name='".mysql_real_escape_string($user)."'");
-if(mysql_num_rows($q)>0 and mysql_num_rows(mquery("select name from actived where name='".mysql_real_escape_string($user)."' and shown=1 and actived=1 and date>".(time()-30)))==0) {
-$payload = array();
-while($r=mysql_fetch_row($q))
-$notification=array('badge' => 1, 'devtoken' => bin2hex(base64_decode($r[0])));
-if($info!=NULL)
-$notification['alert']=$info.": ".$notif;
-else
-$notification['alert']=$notif;
-if($sound!=NULL) $notification['sound'] = "audio/{$sound}.m4a";
-array_push($payload,$notification);
-if(file_exists("/var/run/elten_apns.sock")) {
-$sock = stream_socket_client('unix:///var/run/elten_apns.sock', $errno, $errst);
-fwrite($sock, json_encode($payload));
-fclose($sock);
-}
-}
-
+function notify($user,$notif, $sound=NULL, $cat=NULL, $info=NULL) {
+mquery("insert into notifications (receiver, sound, cat, date, notification) values ('".mysql_real_escape_string($user)."','".mysql_real_escape_string($sound)."','".mysql_real_escape_string($cat)."',".time().",'".mysql_real_escape_string($notif)."')");
 }
 
 function mail_notify($user,$notification,$inc="If this action has not been performed by you, it is likely that your account has been hacked. In such case, please contact Elten administration immediately.") {
@@ -169,16 +150,6 @@ Elten Support Team
 mail($r[0], "=?ISO8859-2?B?" . base64_encode("Elten - ".$notification) . "?=", $body, $head);
 }
 
-function blogowners($blog) {
-if(mysql_num_rows(mquery("select owner from blogs where owner='".mysql_real_escape_string($blog)."'"))==0) return(array());
-$q=mquery("select owner from blog_owners where blog='".mysql_real_escape_string($blog)."'");
-if(mysql_num_rows($q)==0) return array($blog);
-$a=array();
-while($r=mysql_fetch_row($q))
-array_push($a,$r[0]);
-return($a);
-}
-
 function forum_getstruct($user, $useflags=0) {
 $banned=mysql_fetch_row(mquery("select count(*) from banned where name='".mysql_real_escape_string($user)."' and totime>unix_timestamp()"))[0];
 $ret=array();
@@ -187,7 +158,7 @@ $forums=array();
 $threads=array();
 $groupids=array();
 $ret['groups']=array();
-$q=mquery("select g.id, g.name, g.founder, g.description, g.lang, g.recommended, g.open, g.public, m.role, count(distinct p.user), g.created from forum_groups g left join forum_groups_members as m on g.id=m.groupid and m.user='".mysql_real_escape_string($user)."' left join forum_groups_members as p on g.id=p.groupid and (p.role=1 or p.role=2) group by g.id");
+$q=mquery("select g.id, g.name, g.founder, g.description, g.lang, g.recommended, g.open, g.public, m.role, count(distinct p.user), g.created, if((g.regulations is not null and g.regulations != ''), 1, 0) from forum_groups g left join forum_groups_members as m on g.id=m.groupid and m.user='".mysql_real_escape_string($user)."' left join forum_groups_members as p on g.id=p.groupid and (p.role=1 or p.role=2) group by g.id");
 while($r=mysql_fetch_row($q)) {
 $g=array('id'=>(int)$r[0], 'name'=>$r[1], 'founder'=>$r[2], 'description'=>$r[3], 'lang'=>$r[4]);
 if($useflags==0) {
@@ -202,7 +173,7 @@ if($r[6]==1) $flags|=2;
 if($r[7]==1) $flags|=4;
 $g['flags']=$flags;
 }
-$g=array_merge($g, array('role'=>(int)$r[8], 'cnt_forums'=>0, 'cnt_threads'=>0, 'cnt_posts'=>0, 'cnt_readposts'=>0, 'acmembers'=>(int)$r[9], 'created'=>(int)$r[10]));
+$g=array_merge($g, array('role'=>(int)$r[8], 'cnt_forums'=>0, 'cnt_threads'=>0, 'cnt_posts'=>0, 'cnt_readposts'=>0, 'acmembers'=>(int)$r[9], 'created'=>(int)$r[10], 'hasregulations'=>(int)$r[11]));
 if($banned>0 and $r[5]==1) $g['role']=3;
 $ret['groups'][$g['id']]=$g;
 $groups[$g['id']]=$g;
@@ -264,8 +235,8 @@ if(in_array($r[0],$threadids)) {
 $ret['threads'][$r[0]]['cnt_posts']+=$r[1];
 $ret['threads'][$r[0]]['author']=$r[2];
 $ret['forums'][$threads[$r[0]]['forumid']]['cnt_posts']+=$r[1];
-}
 $ret['groups'][$forums[$threads[$r[0]]['forumid']]['groupid']]['cnt_posts']+=$r[1];
+}
 }
 $q=mquery("select thread, posts from forum_read where owner='".mysql_real_escape_string($user)."'");
 while($r=mysql_fetch_row($q)) {
@@ -275,6 +246,7 @@ $ret['forums'][$threads[$r[0]]['forumid']]['cnt_readposts']+=$r[1];
 $ret['groups'][$forums[$threads[$r[0]]['forumid']]['groupid']]['cnt_readposts']+=$r[1];
 }
 }
+if($user!="guest" && $user!=null) {
 $q=mquery("select thread from followedthreads where owner='".mysql_real_escape_string($user)."'");
 while($r=mysql_fetch_row($q))
 if(in_array($r[0],$threadids))
@@ -296,6 +268,7 @@ if($useflags==0)
 $ret['forums'][$r[0]]['followed']=1;
 else
 $ret['forums'][$r[0]]['flags']|=2;
+}
 return($ret);
 }
 function messages_getusers($user, $limit=-1) {

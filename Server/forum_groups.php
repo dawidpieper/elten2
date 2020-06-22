@@ -43,13 +43,18 @@ echo "0";
 
 if($_GET['ac'] == "leave") {
 if(!isset($_GET['groupid'])) die("-4");
-$type=mysql_fetch_row(mquery("select open, recommended, name, founder from forum_groups where id=".(int)$_GET['groupid']));
+$type=mysql_fetch_row(mquery("select open, public, recommended, name, founder from forum_groups where id=".(int)$_GET['groupid']));
 $open=$type[0];
-$recommended=$type[1];
-$groupname=$type[2];
-$founder = $type[3];
+$public=$type[1];
+$recommended=$type[2];
+$groupname=$type[3];
+$founder = $type[4];
 if($_GET['name']==$founder) die("-3");
 mquery("delete from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$_GET['groupid']);
+if($open==0 && $public==0) {
+mquery("delete from followedthreads where owner='".mysql_real_escape_string($_GET['name'])."' and thread in (select id from forum_threads where forum in (select name from forums where groupid=".(int)$_GET['groupid']."))");
+mquery("delete from followedforums where owner='".mysql_real_escape_string($_GET['name'])."' and forum in (select name from forums where groupid=".(int)$_GET['groupid'].")");
+}
 if($recommended==0) {
 $q=mquery("select user from forum_groups_members where role=2 and groupid=".(int)$_GET['groupid']);
 while($r=mysql_fetch_row($q))
@@ -80,7 +85,7 @@ echo "0";
 
 if($_GET['ac']=='user') {
 if(!isset($_GET['groupid'])) die("-4");
-$gr=mysql_fetch_row(mquery("select founder, recommended, name from forum_groups where id=".(int)$_GET['groupid']));
+$gr=mysql_fetch_row(mquery("select founder, recommended, name, public from forum_groups where id=".(int)$_GET['groupid']));
 if($gr[0]!=$_GET['name'] and mysql_num_rows(mquery("select user from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=2"))==0 and !($gr[1]==1 and getprivileges($_GET['name'])[1]==1)) die("-3");
 $uq=mquery("select id, user, role from forum_groups_members where user='".mysql_real_escape_string($_GET['user'])."' and groupid=".(int)$_GET['groupid']);
 if(mysql_num_rows($uq)==0) die("-4");
@@ -93,6 +98,10 @@ mquery("update forum_groups_members set role=1 where id=".(int)$u[0]);
 elseif($_GET['pr']=="kick") {
 message_send("elten",$_GET['user'],"You were kicked out of the group","{$_GET['name']} has kicked you out of {$gr[2]}.");
 mquery("delete from forum_groups_members where id=".(int)$u[0]);
+if($gr[3]==0) {
+mquery("delete from followedthreads where owner='".mysql_real_escape_string($_GET['user'])."' and thread in (select id from forum_threads where forum in (select name from forums where groupid=".(int)$_GET['groupid']."))");
+mquery("delete from followedforums where owner='".mysql_real_escape_string($_GET['user'])."' and forum in (select name from forums where groupid=".(int)$_GET['groupid'].")");
+}
 }
 elseif($_GET['pr']=="accept") {
 message_send("elten",$_GET['user'],"Your request has been accepted","You have just joined {$gr[2]}.");
@@ -272,5 +281,22 @@ $q=mquery("select author, count(author) as cnt from forum_posts where length(pos
 echo "0";
 while($r=mysql_fetch_row($q))
 echo "\r\n".$r[0];
+}
+
+if($_GET['ac']=="regulations") {
+if(!isset($_GET['groupid'])) die("-4");
+$q=mquery("select regulations from forum_groups where id=".(int)$_GET['groupid']);
+echo "0\r\n";
+echo mysql_fetch_row($q)[0];
+}
+
+if($_GET['ac']=="editregulations") {
+if(!isset($_GET['groupid'])) die("-4");
+$gr=mysql_fetch_row(mquery("select founder, recommended, name from forum_groups where id=".(int)$_GET['groupid']));
+if($gr[0]!=$_GET['name'] and mysql_num_rows(mquery("select user from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=2"))==0 and !($gr[1]==1 and getprivileges($_GET['name'])[1]==1)) die("-3");
+$regulations=$_GET['regulations'];
+if(isset($_GET['buf'])) $regulations=buffer_get($_GET['buf']);
+mquery("update forum_groups set regulations='".mysql_real_escape_string($regulations)."' where id=".(int)$_GET['groupid']);
+echo "0";
 }
 ?>

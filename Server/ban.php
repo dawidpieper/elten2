@@ -17,7 +17,7 @@ mquery("update forum_groups set founder='".mysql_real_escape_string($n)."' where
 }
 $reason=$_GET['reason'];
 $info=buffer_get($_GET['info']);
-mquery("INSERT INTO `banned` (name, totime, reason) VALUES ('" . mysql_real_escape_string($_GET['searchname']) . "'," . (int)$_GET['totime'] . ",'".mysql_real_escape_string($reason)."')");
+mquery("INSERT INTO `banned` (name, totime, reason) VALUES ('" . mysql_real_escape_string($_GET['searchname']) . "'," . (int)$_GET['totime'] . ",'".mysql_real_escape_string($reason)."') on duplicate key update totime=values(totime), reason=values(reason)");
 message_send("elten", $_GET['searchname'], "You have been banned", "You have been banned.\r\nReason: ".$reason."\r\nBanned until: ".date("Y-m-d H:i:s",$_GET['totime'])."\r\n\r\n".$info);
 $q=mquery("SELECT name from privileges where administrator=1");
 while($r=mysql_fetch_row($q))

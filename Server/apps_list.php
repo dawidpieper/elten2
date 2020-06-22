@@ -18,7 +18,7 @@ function list_files($d) {
 $ret=array();
 foreach(glob($d.'/*', GLOB_BRACE) as $file)
 if(is_dir($file)) {
-$r=listfiles($file);
+$r=list_files($file);
 foreach($r as $v)
 array_push($ret,$v);
 }

@@ -1,5 +1,6 @@
 <?php
 require("header.php");
+require("blog_base.php");
 if($_GET['client']==1)
 mquery("delete from notifications where receiver='{$_GET['name']}'");
 $shown=0;
@@ -36,16 +37,53 @@ if(($_GET['client']==1 and $wnc[2]==0) or ($_GET['client']!=1 and $wnc[2]<2))
 $ret.=mysql_fetch_row(mquery("select (select count(*) from forum_posts where thread in (select thread from followedthreads where thread in (select id from forum_threads where forum in (select name from forums where groupid in (select groupid from forum_groups_members where (role=1 or role=2) and user='{$_GET['name']}') or groupid in (select id from forum_groups where public=1))) and owner='{$_GET['name']}'))-(select sum(posts) from forum_read where thread in (select id from forum_threads where forum in (select name from forums where groupid in (select groupid from forum_groups_members where (role=1 or role=2) and user='{$_GET['name']}') or groupid in (select id from forum_groups where public=1))) and thread in (select thread from followedthreads where owner='{$_GET['name']}') and owner='{$_GET['name']}')"))[0]."\r\n";
 else
 $ret.="0\r\n";
-if(($_GET['client']==1 and $wnc[3]==0) or ($_GET['client']!=1 and $wnc[3]<2))
-$ret.=mysql_fetch_row(mquery("select(
-select count(*) from blog_posts where owner in (select author from followedblogs where owner='{$_GET['name']}') and posttype=0
-)-(
-select count(*) from blog_read where owner='{$_GET['name']}' and author in (select author from followedblogs where owner='{$_GET['name']}')
-)"))[0]."\r\n";
+if((($_GET['client']==1 and $wnc[3]==0) or ($_GET['client']!=1 and $wnc[3]<2))) {
+$n=0;
+$q = mquery("select blog, postid, postsread from blogs_postsread where owner='".mysql_real_escape_string($_GET['name'])."'");
+$known = array();
+while($r=mysql_fetch_row($q)) {
+$d=wp_domainize($r[0]);
+if(!isset($known[$d])) $known[$d]=array();
+$known[$d][(int)$r[1]]=(int)($r[2]-1);
+}
+$followed=array();
+$q = mquery("select blog from blogs_followed where owner='".mysql_real_escape_string($_GET['name'])."'");
+while($r=mysql_fetch_row($q)) {
+$d = wp_domainize($r[0]);
+array_push($followed, $d);
+}
+$allposts = wp_query("GET", "/elten/allposts", "", array('filter_domains'=>$followed, 'filter_users'=>wp_userid($_GET['name'])));
+$q = mquery("select blog from blogs_followed where owner='".mysql_real_escape_string($_GET['name'])."'");
+foreach($followed as $d) {
+foreach($allposts[$d] as $id=>$cnt)
+if(!isset($known[$d][$id])) ++$n;
+}
+$ret.=$n."\r\n";
+}
 else
 $ret.="0\r\n";
-if(($_GET['client']==1 and $wnc[4]==0) or ($_GET['client']!=1 and $wnc[4]<2))
-$ret.=mysql_fetch_row(mquery("select (SELECT count(*) FROM `blog_posts` WHERE `owner`='".$_GET['name']."')-(SELECT SUM(`posts`) FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".$_GET['name']."' AND `post` IN (SELECT `postid` FROM `blog_posts` WHERE `owner`='".$_GET['name']."'))"))[0]."\r\n";
+if((($_GET['client']==1 and $wnc[4]==0) or ($_GET['client']!=1 and $wnc[4]<2))) {
+$n=0;
+if(!isset($allposts)) $allposts = wp_query("GET", "/elten/allposts", "", array('filter_users'=>wp_userid($_GET['name'])));
+$blogs = wp_query("GET", "/elten/blogs", "", array('filter_users'=>wp_userid($_GET['name'])));
+$domains = array();
+foreach($blogs as $b) array_push($domains, $b['domain']);
+if(!isset($known)) {
+$q = mquery("select blog, postid, postsread from blogs_postsread where owner='".mysql_real_escape_string($_GET['name'])."'");
+$known = array();
+while($r=mysql_fetch_row($q)) {
+$d=wp_domainize($r[0]);
+if(!isset($known[$d])) $known[$d]=array();
+$known[$d][(int)$r[1]]=(int)($r[2]-1);
+}
+}
+foreach($domains as $d)
+foreach($allposts[$d] as $p=>$c) {
+$e=$c-($known[$d][$p]);
+if($e>0) $n+=$e;
+}
+$ret.=$n."\r\n";
+}
 else
 $ret.="0\r\n";
 if(($_GET['client']==1 and $wnc[5]==0) or ($_GET['client']!=1 and $wnc[5]<2))

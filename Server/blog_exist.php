@@ -1,14 +1,24 @@
 <?php
 require("init.php");
-$q = mquery("SELECT `owner`, `name` FROM `blogs`");
-$suc = false;
-while ($wiersz = mysql_fetch_row($q)){
-if($wiersz[0] == $_GET['searchname'])
-$suc = true;
+require("blog_base.php");
+if($_GET['searchname'][0]!="[" || $_GET['searchname'][1]!="*") {
+$blogs = wp_query("GET", "/elten/blogs");
+$suc=false;
+foreach($blogs as $b) {
+$s=explode(".",$b['domain']);
+if($s[1]=="s") $d="[".$s[0]."]";
+else $d=$b['users'][0]['elten'];
+if($d==$_GET['searchname']) {
+$suc=true;
+break;
 }
-echo "0\r\n";
-if($suc == false)
-echo "0";
-else
-echo "1";
+}
+} else {
+$suc=false;
+$headers=array();
+$w=wp_query("GET", "/", $_GET['searchname'], "", $headers, false);
+if($w!=false && ((isset($w['name']) && isset($w['url'])) || isset($w['routes'])))
+$suc=true;
+}
+echo "0\r\n".(($suc==true)?"1":"0");
 ?>

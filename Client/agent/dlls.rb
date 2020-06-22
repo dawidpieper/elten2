@@ -20,6 +20,9 @@ $localfree = Fiddle::Function.new($kernel32['LocalFree'], [Fiddle::TYPE_INT], Fi
 $user32 = Fiddle.dlopen("user32")
 $messagebox = Fiddle::Function.new($user32['MessageBox'], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 $showwindow = Fiddle::Function.new($user32['ShowWindow'], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$setactivewindow = Fiddle::Function.new($user32['SetActiveWindow'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$setforegroundwindow = Fiddle::Function.new($user32['SetForegroundWindow'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$setfocus = Fiddle::Function.new($user32['SetFocus'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 $getforegroundwindow = Fiddle::Function.new($user32['GetForegroundWindow'], [], Fiddle::TYPE_INT)
 $getparent = Fiddle::Function.new($user32['GetParent'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 $iswindow = Fiddle::Function.new($user32['IsWindow'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
@@ -28,6 +31,8 @@ $getasynckeystate = Fiddle::Function.new($user32['GetAsyncKeyState'], [Fiddle::T
 
 $shell32 = Fiddle.dlopen("shell32")
 $shgetfolderpath = Fiddle::Function.new($shell32['SHGetFolderPathW'], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+$extracticon = Fiddle::Function.new($shell32['ExtractIcon'], [Fiddle::TYPE_LONG, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$shell_notifyicon = Fiddle::Function.new($shell32['Shell_NotifyIcon'], [Fiddle::TYPE_LONG, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 
 $msvcrt=Fiddle.dlopen("msvcrt")
 $strcpy = Fiddle::Function.new($msvcrt['strcpy'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)

@@ -1,7 +1,7 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
+#Elten Code
+#Copyright (C) 2014-2020 Dawid Pieper
+#All rights reserved.
+
 #
 # = ostruct.rb: OpenStruct implementation
 #

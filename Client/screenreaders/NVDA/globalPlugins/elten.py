@@ -41,7 +41,7 @@ if is_python_3_or_above:
 eltenmod=None
 eltenbraille = braille.BrailleBuffer(braille.handler)
 eltenbrailletext=""
-eltenqueue={'gestures':[], 'indexes':[], 'statuses':[]}
+eltenqueue={'gestures':[], 'indexes':[], 'statuses':[], 'returns':[]}
 eltenpipein=None
 eltenpipeout=None
 eltenpipest=None
@@ -89,7 +89,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 						w=json.dumps(j)+"\n"
 						if(is_python_3_or_above): w=w.encode("utf-8")
 						if(asnc==False): eltenpipeout.write(w)
-						else: eltenpipest.write(w)
+						else: eltenqueue['returns'].append(w)
 				else:
 					time.sleep(0.1)
 				if(os.path.isfile(nvdapipefile)):
@@ -118,7 +118,6 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					eltenpipeout=None
 					eltenpipest=None
 			except:
-				tones.beep(1320, 100)
 				pass
 
 	def elten_braille_thread(threadName=None):
@@ -177,6 +176,12 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					if(is_python_3_or_above): w=w.encode("utf-8")
 					eltenpipest.write(w)
 					lastSend=time.time()
+				if(eltenpipest!=None and eltenpipest!=-1 and len(eltenqueue['returns'])>0):
+					r=eltenqueue['returns'][:]
+					eltenqueue['returns']=[]
+					for w in r:
+						eltenpipest.write(w)
+					lastSend=time.time()
 				if(lastSend<time.time()-1 and appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())==eltenmod):
 					eltenqueue['statuses'].append("noop")
 					lastSend=time.time()
@@ -233,7 +238,7 @@ def elten_command(ac):
 				if is_python_3_or_above:
 					if(speech.isBlank(texts[i])): continue
 					if(i<len(indexes)): v.append(EltenIndexCallback(indexes[i], indid))
-					if(i<len(indexes) and texts[i-1][-1]=="\n"): v.append(speech.EndUtteranceCommand())
+					if(i<len(indexes) and i>0 and texts[i-1]!="" and texts[i-1][-1]=="\n"): v.append(speech.EndUtteranceCommand())
 				else:
 					eltenindexid=indid
 					if(i<len(indexes)): v.append(speech.IndexCommand(indexes[i]))
@@ -269,6 +274,7 @@ def elten_command(ac):
 				elif ac['type']==1: text=eltenbrailletext[:ac['index']]+text+eltenbrailletext[ac['index']:]
 			eltenbrailletext=text+" "
 			region = braille.TextRegion(text)
+			if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
 			eltenbraille.regions=[region]
 			region.update()
 			if('pos' in ac): 
@@ -287,7 +293,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 21}
+			return {'version': 26}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

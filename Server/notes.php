@@ -49,11 +49,12 @@ echo "0";
 }
 if($_GET['delete']==1) {
 if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".(int)$_GET['noteid']." and author='".$_GET['name']."'"))==0) {
-echo "-3";
-die;
+mquery("DELETE FROM notes_shared WHERE user='".mysql_real_escape_string($_GET['name'])."' and note=".(int)$_GET['noteid']);
 }
+else {
 mquery("DELETE FROM notes_shared WHERE note=".(int)$_GET['noteid']);
 mquery("DELETE FROM notes WHERE id=".(int)$_GET['noteid']);
+}
 echo "0";
 }
 if($_GET['getshares']==1) {
@@ -63,5 +64,10 @@ while($r=mysql_fetch_row($q)) {
 $t.=$r[0]."\r\n";
 }
 echo "0\r\n".$t;
+}
+if($_GET['rename']==1) {
+if(mysql_num_rows(mquery("SELECT id,name,author,created,modified,note from notes where id=".(int)$_GET['noteid']." and author='".$_GET['name']."'"))==0) die("-3");
+mquery("update notes set name='".mysql_real_escape_string($_GET['newname'])."' where id=".(int)$_GET['noteid']);
+echo "0";
 }
 ?>

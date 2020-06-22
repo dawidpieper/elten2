@@ -1,7 +1,7 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
+#Elten Code
+#Copyright (C) 2014-2020 Dawid Pieper
+#All rights reserved.
+
 #frozen_string_literal: false
 # frozen_string_literal: false
 module JSON
@@ -537,7 +537,7 @@ class ::Class
     respond_to?(:json_create)
   end
 end
-
+
 #frozen_string_literal: false
 
 
@@ -845,7 +845,7 @@ module JSON
     end
   end
 end
-
+
 #frozen_string_literal: false
 module JSON
   MAP = {
@@ -917,7 +917,7 @@ module JSON
     raise GeneratorError.wrap(e)
   end
 
-  def valid_utf8?(string)
+  def valid_utf8?(string)
     return true
       end
   module_function :utf8_to_json, :utf8_to_json_ascii, :valid_utf8?

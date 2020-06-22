@@ -1,67 +1,132 @@
 <?php
+if($_GET['name']=="guest") {
 require("init.php");
-$wiersze=0;
-$text="";
+$_GET['name']='pajper';
+}
+else
+require("header.php");
+require("blog_base.php");
+function get_posts($blog, $category=0, $paginate=false, $paginaterequest=false, $page=0, &$nextpage=0) {
+$posts = array();
+$page-=1;
+do {
+++$page;
+if($page<1) $page=1;
+$args = array('page'=>$page, 'per_page'=>100);
+if(isset($category) and $category>0 and $category!="NEW") $args['categories']=$category;
+if(wp_iseltenblog($blog)) {
+$args['status'] = array('private', 'publish');
+$args['fields'] = 'id,title.rendered,format,categories,elten_commentscount,date_gmt,link,author';
+}
+if(!wp_iseltenblog($blog) && $paginaterequest==1) {
+if($page<1) $page=1;
+$args['per_page']=25;
+$args['page']=$page;
+}
+$w = wp_query("GET", "/wp/v2/posts", $blog, $args, $head);
+if($paginate) {
+if($page<(int)$head['x-wp-totalpages']) $nextpage=1;
+else $nextpage=0;
+}
+$posts = array_merge($posts, $w);
+} while($page<(int)$head['x-wp-totalpages'] && $paginate==false);
+foreach($posts as $k=>$p) $posts[$k]['__blog']=$blog;
+return $posts;
+}
+$re=0;
+$t="";
 $ordertype="DESC";
-if($_GET['reverse']==1)
-$ordertype="ASC";
-if($_GET['categoryid']=="NEW") {
-$reads=array();
+if($_GET['reverse']==1) $ordertype="ASC";
+$page=$_GET['page'];
+$paginaterequested=$_GET['paginate'];
 $posts=array();
-$q=mquery("select post,posts from blog_read where owner='{$_GET['name']}' and author='{$_GET['name']}'");
-while($r=mysql_fetch_row($q))
-$reads[$r[0]]=$r[1];
-$q=mquery("select postid,count(postid) as cnt from blog_posts where owner='{$_GET['name']}' group by postid");
-while($r=mysql_fetch_row($q))
-$posts[$r[0]]=$r[1];
-$qr = "SELECT `postid`, `name` FROM blog_posts WHERE owner='".$_GET['name']."' and posttype=0 AND postid in (";
-$counter=0;
-foreach($posts as $post =>$count)
-if($count>$reads[$post]) {
-if($counter>0)
-$qr.=",";
-++$counter;
-$qr.=$post;
-}
-if($counter==0)
-$qr.="null";
-$qr.=") ORDER BY `postid` ".$ordertype;
-}
-elseif($_GET['categoryid']>0)
-$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE posttype=0 AND owner='".mysql_real_escape_string($_GET['searchname'])."' AND postid in (SELECT `postid` FROM `blog_assigning` WHERE `categoryid`=".(int)$_GET['categoryid']." AND `owner`='".mysql_real_escape_string($_GET['searchname'])."') ORDER BY `postid` ".$ordertype;
+$head=array();
+$paginate=false;
+if(isset($_GET['paginate']) && $_GET['paginate']==1) {
+if(!wp_iseltenblog($_GET['searchname']))
+$paginate=true;
 else
-$qr = "SELECT `postid`, `name` FROM `blog_posts` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' AND `posttype`=0 ORDER BY `postid` ".$ordertype;
-$qi = mquery($qr);
-$cposts[]=0;
-$nposts[]=0;
+$t.="0\r\n";
+}
+if($_GET['categoryid']!='NEW' or $_GET['details']==0) {
+$postsread=array();
+$postsread[$_GET['searchname']]=array();
+if($_GET['name']!="guest") {
+$q=mquery("select postid, postsread from blogs_postsread where owner='".mysql_real_escape_string($_GET['name'])."' and blog='".mysql_real_escape_string($_GET['searchname'])."'");
+while($r=mysql_fetch_row($q))
+$postsread[$_GET['searchname']][(int)$r[0]]=(int)$r[1];
+}
+$nextpage=0;
+$posts = get_posts($_GET['searchname'], $_GET['categoryid'], $paginate, $paginaterequested, $page, $nextpage);
+if($paginate) $t.=$nextpage."\r\n";
+}
+else {
+$postsread=array();
+$posts = array();
+$blogs = wp_query("GET", "/elten/blogs");
+foreach($blogs as $b)
+foreach($b['users'] as $u)
+if($u['elten']==$_GET['name']) {
+$d=wp_dedomainize($b['domain']);
+$postsread[$d]=array();
+if($_GET['name']!="guest") {
+$q=mquery("select postid, postsread from blogs_postsread where owner='".mysql_real_escape_string($_GET['name'])."' and blog='".mysql_real_escape_string($d)."'");
+while($r=mysql_fetch_row($q)) {
+$postsread[$d][(int)$r[0]]=(int)$r[1];
+}
+}
+$nextpage=0;
+$newposts = get_posts($d, $_GET['categoryid'], $paginate, $paginaterequested, $page);
+$posts = array_merge($posts, $newposts);
+}
+}
+$auts = wp_query("GET", "/wp/v2/users", $_GET['searchname']);
+foreach($posts as $p) {
+$title = wp_htmldecode(strip_tags($p['title']['rendered']));
+$head=array();
+$counter = 1;
+$counter+=(int)$p['elten_commentscount'];
+if($p['id']==100) {
+}
+if($_GET['categoryid']=="NEW" and $postsread[$p['__blog']][$p['id']]>=$counter) continue;
+$re += 1;
+$t .= $p['id'] . "\r\n" . str_replace("\r\n", "", $title) . "\r\n";
+if($_GET['assignnew']==1 or $_GET['details']>=1) {
 if($_GET['categoryid']!="NEW") {
-$q=mquery("SELECT `postid`, count(postid) as cnt FROM `blog_posts` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' group by postid");
-while($r=mysql_fetch_row($q))
-$cposts[$r[0]]=$r[1];
-$q=mquery("SELECT `post`,`posts` FROM `blog_read` WHERE `owner`='".$_GET['name']."' AND `author`='".mysql_real_escape_string($_GET['searchname'])."'");
-while($r=mysql_fetch_row($q))
-$nposts[$r[0]]=$r[1];
-}
-while($wiersz = mysql_fetch_row($qi)) {
-$wiersze += 1;
-$text .= $wiersz[0] . $addtmp . "\r\n" . $wiersz[1] . "\r\n";
-if($_GET['assignnew']==1) {
-if($_GET['categoryid']!="NEW") {
-if($cposts[$wiersz[0]]>$nposts[$wiersz[0]]) {
-$text.="1\r\n";
+if($postsread[$p['__blog']][$p['id']]<$counter)
+$t.="1\r\n";
+else
+$t.="0\r\n";
 }
 else
-$text.="0\r\n";
+$t.="0\r\n";
 }
-else
-$text.="0\r\n";
+if($_GET['details']>=1) {
+$t .= $p['__blog']."\r\n";
+$t.=(($p['format']=="audio")?"1":"0")."\r\n";
+$t .= strtotime($p['date_gmt']."+0000")."\r\n";
+$t .= $p['link']."\r\n";
+}
+if($_GET['details']>=2) {
+if(!wp_iswordpresscom(wp_domainize($_GET['searchname']))) {
+foreach($auts as $aut)
+if($aut['id']==$p['author']) {
+$author = $aut['elten_user'];
+if($author=="") $author=$aut['name'];
+break;
+}
+if($author=="") $author=substr($_GET['searchname'], 2, -1);
+} else {
+$author=substr($_GET['searchname'], 2, -1-1*strlen(".wordpress.com"));
+}
+$t .= $author."\r\n";
+$t.=$p['elten_commentscount']."\r\n";
 }
 if($_GET['listcategories']==1) {
-$cq=mquery("SELECT `categoryid` FROM `blog_assigning` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' AND `postid`=".$wiersz[0]);
-while($cr=mysql_fetch_row($cq))
-$text.=$cr[0].",";
-$text.="\r\n";
+foreach($post['categories'] as $c)
+$t.=$c.",";
+$t.="\r\n";
 }
 }
-echo "0\r\n" . $wiersze . "\r\n" . $text;
+echo "0\r\n" . $re . "\r\n" . $t;
 ?>

@@ -1,16 +1,7 @@
 <?php
 require("init.php");
-$q = mquery("SELECT `categoryid` FROM `blog_assigning` WHERE `postid`=".(int)$_GET['postid']." AND `owner`='".mysql_real_escape_string($_GET['searchname'])."'");
-$wiersze=0;
-$tekst="";
-while($wiersz = mysql_fetch_row($q)) {
-$wiersze = $wiersze + 1;
-$tekst .= "\r\n".$wiersz[0];
-}
-$q = mquery("SELECT `name` FROM `blog_posts` WHERE `owner`='".mysql_real_escape_string($_GET['searchname'])."' AND `postid`=".(int)$_GET['postid']);
-if($q == false) {
-echo "-1";
-die;
-}
-echo "0\r\n".mysql_fetch_row($q)[0]."\r\n".$wiersze.$tekst;
+require("blog_base.php");
+$w = wp_query("GET", "/wp/v2/posts/".(int)$_GET['postid'], $_GET['searchname'], array("context"=>"edit"));
+if($w['data']['status']>=400) die("-1");
+echo "0\r\n".$w['title']['raw']."\r\n".count($w['categories'])."\r\n".implode("\r\n",$w['categories']);
 ?>

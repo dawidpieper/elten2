@@ -1,8 +1,8 @@
 [Setup]
 AppId={{9FE2B24B-49F4-4D0B-A36B-31F267F9B114}
 AppName=ELTEN
-AppVersion=2.3.6
-AppVerName=Elten 2.3.6
+AppVersion=2.4
+AppVerName=Elten 2.4
 AppPublisher=Dawid Pieper
 AppPublisherURL=https://elten-net.eu
 AppSupportURL=https://elten-net.eu/
@@ -23,17 +23,21 @@ PrivilegesRequiredOverridesAllowed=commandline dialog
 Name: "en"; MessagesFile: "compiler:Default.isl"; LicenseFile: "elten\license_en.txt"
 Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"; LicenseFile: "elten\license_pl.txt"
 Name: "de"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "elten\license_de.txt"
+Name: "fr"; MessagesFile: "compiler:Languages\French.isl"; LicenseFile: "elten\license_en.txt"
+Name: "ru"; MessagesFile: "compiler:Languages\Russian.isl"; LicenseFile: "elten\license_en.txt"
+Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"; LicenseFile: "elten\license_en.txt"
+Name: "tr"; MessagesFile: "compiler:Languages\Turkish.isl"; LicenseFile: "elten\license_en.txt"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
-Name: "ext_update"; Description: "{cm:EltenUpdate}"; GroupDescription: "{cm:EltenUpdate}";
+//Name: "ext_update"; Description: "{cm:EltenUpdate}"; GroupDescription: "{cm:EltenUpdate}";
 Name: "ext_vc"; Description: "{cm:VCInstall}"; GroupDescription: "{cm:VCInstall}";
 
 [Files]
 Source: "elten\eltenc\*"; DestDir: "{app}"; Flags: "ignoreversion createallsubdirs recursesubdirs"
-Source: "{tmp}\elten.7z"; DestDir: "{app}"; Tasks: ext_update; \
-  Flags: external; Check: DwinsHs_Check(ExpandConstant('{tmp}\elten.7z'), \
-    'http://elten-net.eu/bin/download/elten.7z', 'INSTELTEN', 'get', 0, 0) 
+//Source: "{tmp}\elten.7z"; DestDir: "{app}"; Tasks: ext_update; \
+//  Flags: external; Check: DwinsHs_Check(ExpandConstant('{tmp}\elten.7z'), \
+//    'http://elten-net.eu/bin/download/elten.7z', 'INSTELTEN', 'get', 0, 0) 
 Source: "7za.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
 Source: "elten/vcredist_x86.exe"; Tasks: ext_vc; DestDir: {tmp}; Flags: deleteafterinstall
 
@@ -44,13 +48,17 @@ Name: "{group}\{cm:UninstallProgram,ELTEN}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\ELTEN"; Filename: "{app}\elten.exe"; Tasks: desktopicon
 
 [Run]
-Filename: "{tmp}\7za.exe"; Parameters: "x {userappdata}\elten\bin\elten.7z -oelten -y"; WorkingDir: "{userappdata}\elten\bin"; StatusMsg: "{cm:extractingelten}"; Flags: runhidden; tasks: ext_update
+//Filename: "{tmp}\7za.exe"; Parameters: "x {userappdata}\elten\bin\elten.7z -oelten -y"; WorkingDir: "{userappdata}\elten\bin"; StatusMsg: "{cm:extractingelten}"; Flags: runhidden; tasks: ext_update
 Filename: {tmp}\vcredist_x86.exe; Parameters: "/passive /norestart "; Tasks: ext_vc; StatusMsg: "Installing VC++ 2008 Redistributables..."
 Filename: "{app}\elten.exe"; Description: "{cm:LaunchProgram,{#StringChange("ELTEN", '&', '&&')}}"; Flags: nowait postinstall
 
 [INI]
-Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "en_GB"; Languages: en
-Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "de_DE"; Languages: de
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "de-DE"; Languages: de
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "pl-PL"; Languages: pl
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "fr-FR"; Languages: fr
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "ru-RU"; Languages: ru
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "es-PA"; Languages: es
+Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "tr-TR"; Languages: tr
 
 [Code]
 

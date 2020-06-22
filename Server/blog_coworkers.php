@@ -1,18 +1,26 @@
 <?php
 require("header.php");
+require("blog_base.php");
 $searchname=$_GET['name'];
 if(isset($_GET['searchname'])) {
 $searchname=$_GET['searchname'];
 if(!in_array($_GET['name'],blogowners($searchname))) die("-3");
 }
 if($searchname==$_GET['name']) die("-1");
+$userid = wp_userid($_GET['user'], true);
+$blogid = 0;
+$blogs = wp_query("GET", "/elten/blogs");
+foreach($blogs as $b)
+if($b['domain']==wp_domainize($searchname)) $blogid=$b['id'];
 if($_GET['ac']=="add") {
 if(in_array($_GET['user'],blogowners($searchname))) die("-1");
-mquery("insert into blog_owners (blog,owner) values ('".mysql_real_escape_string($_GET['searchname'])."','".mysql_real_escape_string($_GET['user'])."')");
+$j = array('users_add'=>$userid);
+$w=wp_query("POST", "/elten/blog/".(int)$blogid, "", $j);
 echo "0";
 }
 if($_GET['ac']=="release") {
-mquery("delete from blog_owners where owner!='{$_GET['name']}' and owner='".mysql_real_escape_string($_GET['user'])."' and blog='".mysql_real_escape_string($_GET['searchname'])."'");
+$j = array('users_remove'=>$userid);
+$w=wp_query("POST", "/elten/blog/".(int)$blogid, "", $j);
 echo "0";
 }
 ?>
