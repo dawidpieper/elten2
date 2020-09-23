@@ -10,7 +10,7 @@ AppUpdatesURL=https://elten-net.eu/download
 DefaultDirName={pf}\ELTEN
 DefaultGroupName=ELTEN
 AllowNoIcons=yes
-OutputDir=C:\Users\dawid\Documents\rpgxp\elten\installer
+OutputDir=.
 OutputBaseFilename=elten_setup
 Compression=lzma2/max
 SolidCompression=yes
@@ -31,15 +31,12 @@ Name: "tr"; MessagesFile: "compiler:Languages\Turkish.isl"; LicenseFile: "elten\
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 //Name: "ext_update"; Description: "{cm:EltenUpdate}"; GroupDescription: "{cm:EltenUpdate}";
-Name: "ext_vc"; Description: "{cm:VCInstall}"; GroupDescription: "{cm:VCInstall}";
 
 [Files]
 Source: "elten\eltenc\*"; DestDir: "{app}"; Flags: "ignoreversion createallsubdirs recursesubdirs"
 //Source: "{tmp}\elten.7z"; DestDir: "{app}"; Tasks: ext_update; \
 //  Flags: external; Check: DwinsHs_Check(ExpandConstant('{tmp}\elten.7z'), \
 //    'http://elten-net.eu/bin/download/elten.7z', 'INSTELTEN', 'get', 0, 0) 
-Source: "7za.exe"; DestDir: "{tmp}"; Flags: deleteafterinstall;
-Source: "elten/vcredist_x86.exe"; Tasks: ext_vc; DestDir: {tmp}; Flags: deleteafterinstall
 
 [Icons]
 Name: "{group}\ELTEN"; Filename: "{app}\elten.exe"
@@ -48,8 +45,7 @@ Name: "{group}\{cm:UninstallProgram,ELTEN}"; Filename: "{uninstallexe}"
 Name: "{commondesktop}\ELTEN"; Filename: "{app}\elten.exe"; Tasks: desktopicon
 
 [Run]
-//Filename: "{tmp}\7za.exe"; Parameters: "x {userappdata}\elten\bin\elten.7z -oelten -y"; WorkingDir: "{userappdata}\elten\bin"; StatusMsg: "{cm:extractingelten}"; Flags: runhidden; tasks: ext_update
-Filename: {tmp}\vcredist_x86.exe; Parameters: "/passive /norestart "; Tasks: ext_vc; StatusMsg: "Installing VC++ 2008 Redistributables..."
+//Filename: "{app}\bin\7z.exe"; Parameters: "x {userappdata}\elten\bin\elten.7z -oelten -y"; WorkingDir: "{userappdata}\elten\bin"; StatusMsg: "{cm:extractingelten}"; Flags: runhidden; tasks: ext_update
 Filename: "{app}\elten.exe"; Description: "{cm:LaunchProgram,{#StringChange("ELTEN", '&', '&&')}}"; Flags: nowait postinstall
 
 [INI]
@@ -61,38 +57,6 @@ Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"
 Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"; String: "tr-TR"; Languages: tr
 
 [Code]
-
-#IFDEF UNICODE
-  #DEFINE AW "W"
-#ELSE
-  #DEFINE AW "A"
-#ENDIF
-type
-  INSTALLSTATE = Longint;
-const
-  INSTALLSTATE_INVALIDARG = -2;  { An invalid parameter was passed to the function. }
-  INSTALLSTATE_UNKNOWN = -1;     { The product is neither advertised or installed. }
-  INSTALLSTATE_ADVERTISED = 1;   { The product is advertised but not installed. }
-  INSTALLSTATE_ABSENT = 2;       { The product is installed for a different user. }
-  INSTALLSTATE_DEFAULT = 5;      { The product is installed for the current user. }
-
-  VC_2008 = '{AA783A14-A7A3-3D33-95F0-9A351D530011}';
-  VC_2008_5677 = '{DE2C306F-A067-38EF-B86C-03DE4B0312F9}';
-  VC_2008_SP1 = '{9a25302d-30c0-39d9-bd6f-21e6ec160475}';
-
-
-function MsiQueryProductState(szProduct: string): INSTALLSTATE; 
-  external 'MsiQueryProductState{#AW}@msi.dll stdcall';
-
-function VCVersionInstalled(const ProductID: string): Boolean;
-begin
-  Result := MsiQueryProductState(ProductID) = INSTALLSTATE_DEFAULT;
-end;
-
-function VCRedistNeedsInstall: Boolean;
-begin
-  Result := not (VCVersionInstalled(VC_2008) and VCVersionInstalled(VC_2008_SP1) and VCVersionInstalled(VC_2008_5677));
-end;
 
 #define DwinsHs_Use_Predefined_Downloading_WizardPage
 #define DwinsHs_Auto_Continue
@@ -186,5 +150,3 @@ de.EltenUpdate =Neueste Elten-Version vom Server laden
 pl.extractingelten =Proszê czekaæ, trwa przygotowywanie programu Elten do pierwszego uruchomienia
 en.extractingelten =Please wait, preparing Elten for the first run
 de.extractingelten =Bitte warten Sie, der Installateur bereitet Elten auf den ersten Lauf vor
-pl.VCInstall =Zainstaluj komponenty niezbêdne do poprawnego dzia³ania programu (Microsoft Visual C++ Redistributable 2008)
-en.VCInstall =Install required components (Microsoft Visual C++ Redistributable 2008)

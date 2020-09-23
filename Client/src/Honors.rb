@@ -96,7 +96,7 @@ $scene=Scene_Honors_Users.new(@honors[@sel.index].id, @user, @toscene)
   end
   def makeselt(h)
     selt=""
-    if $language=="pl-PL"
+    if Configuration.language=="pl-PL"
         selt=h.name
               else
                 selt=h.enname
@@ -104,13 +104,13 @@ $scene=Scene_Honors_Users.new(@honors[@sel.index].id, @user, @toscene)
               if h.levels.size>1 and @user!=nil
                 selt+=" ("+p_("Honors", "Level")+" "+(h.level+1).to_s+")"
                 end
-              if $language=="pl-PL"
+              if Configuration.language=="pl-PL"
         selt+=":\r\n"+h.description+"\r\n"
 else
                 selt+=":\r\n"+h.endescription+"\r\n"
               end
               if h.levels.size==1
-                if $language=="pl-PL"
+                if Configuration.language=="pl-PL"
                   selt+=h.levels[0]
                 else
                   selt+=h.enlevels[0]
@@ -118,7 +118,7 @@ else
               elsif h.levels.size>1
                 for i in h.level...h.levels.size
                   selt+=p_("Honors", "Level")+(i+1).to_s+": "
-                  if $language=="pl-PL"
+                  if Configuration.language=="pl-PL"
                     selt+=h.levels[i]
                   else
                     selt+=h.enlevels[i]

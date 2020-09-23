@@ -102,17 +102,16 @@ text=text[0..5000]
 #
 # @param text [String] a text to translate
      def translator(text)
-  dialog_open
-  download("https://translate.yandex.net/api/v1.5/tr.json/getLangs?key=trnsl.1.1.20170205T212436Z.cab9897db2f3bef5.c7e3bc4a3455b315735941dff2da96fbba97a8a8\&ui=#{$language[0..1]}",Dirs.temp+"/trans")
-  a = readfile(Dirs.temp+"/trans")
- File.delete(Dirs.temp+"/trans")
-  c = JSON.load(a)
-  return "" if !c.is_a?(Hash)
- langs=c['langs']
+  langs={}
+  for lk in Lists.langs.keys
+    lname=Lists.langs[lk]['nativeName']+" ("+Lists.langs[lk]['name']+")"
+    langs[lk]=lname
+    end
+       dialog_open
   from=ListBox.new([p_("EAPI_External", "recognize automatically")]+langs.values,p_("EAPI_External", "source language"),0, 0, true)
  ind=0
  for i in 0..langs.keys.size-1
-   ind=i if $language[0..1].downcase==langs.keys[i].downcase
+   ind=i if Configuration.language[0..1].downcase==langs.keys[i].downcase
    end
  to=ListBox.new(langs.values,p_("EAPI_External", "destination language"),ind,0,true)
  submit=Button.new(p_("EAPI_External", "Translate"))
@@ -142,32 +141,6 @@ loop do
       input_text("#{lfrom} - #{lto}",EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly,ef)
       loop_update
     dialog_close
-  end
-
-
-def convert_book(src,dst)
-  if src[-3..-1].downcase=="txt" and dst[-3..-1].downcase=="txt"
-    r=readfile(src)
-        writefile(dst,r)
-    end
-  if !FileTest.exists?(Dirs.extras+"\\Calibre Portable\\Calibre\\ebook-convert.exe")
-    s=confirm(p_("EAPI_External", "The file you're trying to open was saved in format that Elten does not support. Do you want to download and install Calibre Library that will allow Elten to read Ebooks?"))
-    if s==1
-      downloadfile("http://download.calibre-ebook.com/3.46.0/calibre-portable-installer-3.46.0.exe",Dirs.temp+"\\calibre.exe",p_("EAPI_External", "Please wait, downloading Calibre..."))
-      return if !FileTest.exists?(Dirs.temp+"\\calibre.exe") or File.size(Dirs.temp+"\\calibre.exe")<1048576
-      speak(p_("EAPI_External", "Please wait, extracting Calibre..."))
-      waiting
-      executeprocess(Dirs.temp+"\\calibre.exe \".\"",true,0,true,"C:\\")
-      copydir("C:\\Calibre Portable",Dirs.extras+"/Calibre Portable")
-      deldir("C:\\Calibre Portable")
-      waiting_end
-      File.delete(Dirs.temp+"\\calibre.exe")
-    else
-      return
-    end
-    end
-    executeprocess("\""+Dirs.extras+"\\Calibre Portable\\Calibre\\ebook-convert.exe"+"\" \"#{src}\" \"#{dst}\"",true)
-    
   end
 end
 include External

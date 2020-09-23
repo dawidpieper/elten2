@@ -132,7 +132,7 @@ break
         if g.role == 1 || g.role == 2
           @sgroups.push(g)
         end
-        if sgloc == false and g.lang.downcase == $language[0..1].downcase and g.recommended
+        if sgloc == false and g.lang.downcase == Configuration.language[0..1].downcase and g.recommended
           spgroups.push(g) if !@sgroups.include?(g)
           sgloc = true if g.id != 1
         end
@@ -141,10 +141,10 @@ break
       @sgroups.sort! { |a, b|
       if LocalConfig["ForumSort"]==0
         x = b.lang
-        x = "_" if b.lang.downcase == $language[0..1].downcase
+        x = "_" if b.lang.downcase == Configuration.language[0..1].downcase
         x += sprintf("%04d", b.id)
         y = a.lang
-        y = "_" if a.lang.downcase == $language[0..1].downcase
+        y = "_" if a.lang.downcase == Configuration.language[0..1].downcase
         y += sprintf("%04d", a.id)
         y <=> x
       else
@@ -210,7 +210,7 @@ break
       for g in @groups
         next if LocalConfig['ForumShowUnknownLanguages']==0 && knownlanguages.size>0 && !knownlanguages.include?(g.lang[0..1].upcase)
         if g.recommended
-          if $language[0..1].downcase == g.lang.downcase
+          if Configuration.language[0..1].downcase == g.lang.downcase
             @sgroups.push(g)
           else
             spgroups.push(g)
@@ -429,7 +429,7 @@ return result
         s += p_("Forum", "Founder") + ": " + g.founder + "\r\n"
         if g.created > 0
           t = Time.at(g.created)
-          s += p_("Forum", "Founded at") + ": " + sprintf("%04d-%02d-%02d", t.year, t.month, t.day) + "\r\n"
+          s += p_("Forum", "Founded at") + ": " + format_date(t, true) + "\r\n"
         end
         acs = srvproc("forum_groups", { "ac" => "mostactive", "groupid" => g.id.to_s })
         s += p_("Forum", "The most active members") + ": " + acs[1..-1].map { |x| x.delete("\r\n") }.join(", ") + "\r\n" if acs.size > 1
@@ -578,6 +578,23 @@ regs = groupregulations(@sgroups[@grpsel.index - @grpheadindex])
           @grpsel.focus
         }
       end
+            menu.option(p_("Forum", "Mark this group as read"), nil, "w") {
+        if @sgroups[@grpsel.index].posts - @sgroups[@grpsel.index].readposts < 100 or confirm(p_("Forum", "All posts in this group will be marked as read. Are you sure you want to continue?")) == 1
+          if srvproc("forum_markasread", { "groupid" => @sgroups[@grpsel.index].id })[0].to_i == 0
+            for t in @threads
+              t.readposts = t.posts if t.forum.group.id == @sgroups[@grpsel.index].id
+            end
+            for f in @forums
+              f.readposts=f.posts if f.group.id==@sgroups[@grpsel.index].id
+              end
+            @sgroups[@grpsel.index].readposts = @sgroups[@grpsel.index].posts
+            @grpsel.rows[@grpsel.index][-1]="0"
+            alert(p_("Forum", "The group has been marked as read."))
+          else
+            alert(_("Error"))
+          end
+        end
+      }
       if @sgroups[@grpsel.index - @grpheadindex].founder == Session.name
         menu.option(p_("Forum", "Edit group")) {
           g = @sgroups[@grpsel.index - @grpheadindex]
@@ -853,7 +870,7 @@ loop do
     for lk in Lists.langs.keys
       l = Lists.langs[lk]
       ln.push(l["name"] + " (" + l["nativeName"] + ")")
-      lnindex = ln.size - 1 if $language.downcase[0..1] == lk.downcase[0..1]
+      lnindex = ln.size - 1 if Configuration.language.downcase[0..1] == lk.downcase[0..1]
     end
     fields = [EditBox.new(p_("Forum", "Group name"), "", "", true), EditBox.new(p_("Forum", "Group description"), EditBox::Flags::MultiLine, "", true), ListBox.new(ln, p_("Forum", "Language"), lnindex, 0, true), ListBox.new([p_("Forum", "Hidden"), p_("Forum", "Public")], p_("Forum", "Group type"), 0, 0, true), ListBox.new([p_("Forum", "open (everyone can join)"), p_("Forum", "Moderated (everyone can request)")], p_("Forum", "Group join type"), 0, 0, true), nil, Button.new(_("Cancel"))]
     form = Form.new(fields)
@@ -1109,14 +1126,15 @@ return tags
         end
       }
       menu.option(p_("Forum", "Mark this forum as read"), nil, "w") {
-        if @sforums[@frmsel.index].posts - @sforums[@frmsel.index].readposts < 100 or confirm(p_("Forum", " All posts on this forum will be marked as read. Are you sure you want to continue?")) == 1
+        if @sforums[@frmsel.index].posts - @sforums[@frmsel.index].readposts < 100 or confirm(p_("Forum", "All posts on this forum will be marked as read. Are you sure you want to continue?")) == 1
           if srvproc("forum_markasread", { "forum" => @sforums[@frmsel.index].name })[0].to_i == 0
             for t in @threads
               t.readposts = t.posts if t.forum.name == @sforums[@frmsel.index].name
             end
             @sforums[@frmsel.index].readposts = @sforums[@frmsel.index].posts
-            @frmsel.options[@frmsel.index].gsub!("\004NEW\004", "")
-            @frmsel.options[@frmsel.index].gsub!(/#{p_("Forum", "Unread")}\: (\d+)/, "#{p_("Forum", "Unread")}: 0")
+            @frmsel.rows[@frmsel.index][0].gsub!("\004INFNEW{ }\004", "")
+            @frmsel.rows[@frmsel.index][4]="0"
+            @frmsel.reload
             alert(p_("Forum", "The forum has been marked as read."))
           else
             alert(_("Error"))
@@ -1636,10 +1654,11 @@ threadopen(@thrsel.index)
         end
       end
     end
+    fields = [EditBox.new(p_("Forum", "Thread name"), "", "", true)]
     if type == 0
-      fields = [EditBox.new(p_("Forum", "Thread name"), "", "", true), EditBox.new(p_("Forum", "Post"), EditBox::Flags::MultiLine, "", true), nil, nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
+      fields[1..6] = [EditBox.new(p_("Forum", "Post"), EditBox::Flags::MultiLine, "", true), nil, nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
     else
-      fields = [EditBox.new(p_("Forum", "Thread name"), "", "", true), Button.new(p_("Forum", "Record a post")), nil, nil, nil, nil, nil]
+      fields[1..6] = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp+"\\audiopost.opus", 96, 48), nil, nil, nil, nil, nil]
     end
     fields += [CheckBox.new(p_("Forum", "Add to followed threads list")), ListBox.new(forums, p_("Forum", "Forum"), forumindex, 0, true), nil, Button.new(_("Cancel"))]
     form = Form.new(fields)
@@ -1655,10 +1674,18 @@ threadopen(@thrsel.index)
     files = []
     loop do
       loop_update
-      if type == 0 and (form.fields[0].text != "" and form.fields[1].text != "")
+      if type==0
+      if (form.fields[0].text != "" and form.fields[1].text != "")
         form.fields[-2] = Button.new(p_("Forum", "Send"))
-      elsif type == 0
+      else
         form.fields[-2] = nil
+      end
+    elsif type==1
+      if form.fields[1].empty?
+                form.fields[-2] = nil
+      else
+        form.fields[-2] = Button.new(p_("Forum", "Send"))
+        end
       end
       form.update
       if (enter or space) and form.index == 4 and polls.size < 3
@@ -1747,34 +1774,12 @@ threadopen(@thrsel.index)
           break
         end
       else
-        if form.fields[1].pressed?
-          if recpostst == 0 or recpostst == 2
-            @r = Recorder.start(Dirs.temp + "/audiothreadpost.opus", 96)
-            play("recording_start")
-            form.fields[1] = Button.new(p_("Forum", "Stop recording"))
-            recpostst = 1
-            form.fields[2] = nil
-          elsif recpostst == 1
-            @r.stop
-            play("recording_stop")
-            recpostst = 2
-            form.fields[1] = Button.new(p_("Forum", "Record a post once again"))
-            form.fields[2] = Button.new(p_("Forum", "Play post"))
-            form.fields[-2] = Button.new(p_("Forum", "Send"))
-          end
-        end
-        player(Dirs.temp + "/audiothreadpost.opus", "", true) if (enter or space) and form.index == 2 and recpostst == 2
         if form.fields[-2]!=nil && form.fields[-2].pressed?
-          if recpostst == 1
-            play("recording_stop")
-            @r.stop
-          end
           break
         end
       end
       if escape or form.fields[-1].pressed?
-        if !form.fields[1].is_a?(EditBox) or form.fields[1].text=="" or confirm(p_("Forum", "Are you sure you want to cancel creating this thread?"))==1
-        @r.stop if @rectitlest == 1 or @recpostst == 1
+        if (!form.fields[1].is_a?(EditBox) && form.fields[1].delete_audio) or (form.fields[1].is_a?(EditBox) && (form.fields[1].text=="" || confirm(p_("Forum", "Are you sure you want to cancel creating this thread?"))==1))
         loop_update
         return
         break
@@ -1812,8 +1817,9 @@ threadopen(@thrsel.index)
       end
       ft = srvproc("forum_edit", prm)
     else
-      waiting
-      flp = readfile(Dirs.temp + "/audiothreadpost.opus")
+      fl = form.fields[1].get_file
+waiting
+      flp = readfile(fl)
       if flp[0..3] != "OggS"
         alert(_("Error"))
         return $scene = Scene_Main.new
@@ -1825,21 +1831,19 @@ threadopen(@thrsel.index)
       host = $srv.delete("/")
       q = "POST /srv/forum_edit.php?name=#{Session.name}\&token=#{Session.token}\&threadname=#{form.fields[0].text.urlenc}\&forumname=#{forumclasses[form.fields[-3].index].name.urlenc}\&audio=1\&follow=#{form.fields[-4].checked.to_s} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
       a = elconnect(q).delete("\0")
+      s=0
       for i in 0..a.size - 1
         if a[i..i + 3] == "\r\n\r\n"
           s = i + 4
           break
         end
       end
-      if s == nil
-        alert(_("Error"))
-        return
-      end
       sn = a[s..a.size - 1]
       a = nil
       bt = sn.split("\r\n")
       ft = bt[1].to_i
       waiting_end
+      form.fields[1].delete_audio(true)
     end
     if ft[0].to_i == 0
       alert(p_("Forum", "Thread has been created."))
@@ -2066,6 +2070,10 @@ return $scene=Scene_Main.new if @form==nil
       end
       if escape or @form.fields[-1].pressed?
         if @posttype!=0 or (@form.fields[@postscount*3+1]==nil or @form.fields[@postscount*3+1].text=="") or confirm(p_("Forum", "Are you sure you want to cancel creating this post?"))==1
+          r=true
+          f=@form.fields[@form.fields.size-8]
+          r=f.delete_audio if @posttype==1 && f!=nil
+          if r==true
         speech_stop
         if @scene==nil
         $scene = Scene_Forum.new(@thread, @param, @cat, @query)
@@ -2073,7 +2081,8 @@ return $scene=Scene_Main.new if @form==nil
         $scene=@scene
         end
         return
-        end
+      end
+      end
       end
       if enter and @form.index < @postscount * 3 and @form.index % 3 == 1
         pl = @posts[@form.index / 3].polls[@form.fields[@form.index].index]
@@ -2179,7 +2188,7 @@ loop do
     getcache
     @fields = []
     return if @posts == nil
-    for i in 0..@posts.size - 1
+    for i in 0...@posts.size
       post = @posts[i]
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(String) and post.post.downcase.include?(@query.downcase)
       index = i * 3 if @mention != nil and @param == -7 and post.id == @mention.post
@@ -2194,6 +2203,7 @@ loop do
         @fields[-2] = ListBox.new(names, p_("Forum", "Polls"), 0, 0, true) if names.size == post.polls.size
       end
     end
+
     index = 0 if index == -1
     index = @lastpostindex if @lastpostindex != nil
     index = 0 if index > @fields.size
@@ -2211,7 +2221,7 @@ loop do
     @fields.push(nil)
     end
     @textfields = [EditBox.new(p_("Forum", "Your answer"), EditBox::Flags::MultiLine, "", true), nil, nil, nil, nil, nil, Button.new(p_("Forum", "Attach a file"))]
-        @audiofields = [Button.new(p_("Forum", "Record a new post")), nil, nil, nil, nil, nil, nil]
+        @audiofields = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp+"\\audiopost.opus", 96, 48), nil, nil, nil, nil, nil, nil]
     if @noteditable == false
       case @posttype
       when 0
@@ -2257,35 +2267,18 @@ loop do
     end
   end
 
-  def audiosendupdate
-    @recording = 0 if @recording == nil
-    if (enter or space) and @form.index == @form.fields.size - 8
-      if @recording == 0 or @recording == 2
-        @recording = 1
-        @r = Recorder.start(Dirs.temp + "/audiopost.opus", 96)
-        play("recording_start")
-        @form.fields[@form.fields.size - 8] = Button.new(p_("Forum", "Stop recording"))
-        @form.fields[@form.fields.size - 7] = nil
-      elsif @recording == 1
-        @r.stop
-        play("recording_stop")
-        @form.fields[@form.fields.size - 8] = Button.new(p_("Forum", "Record a post once again"))
-        @form.fields[@form.fields.size - 7] = Button.new(p_("Forum", "Play"))
+    def audiosendupdate
+    if @form.fields[@form.fields.size-8].empty? && @form.fields[@form.fields.size - 6]!=nil
+        @form.fields[@form.fields.size - 6] = nil
+      elsif !@form.fields[@form.fields.size-8].empty? && @form.fields[@form.fields.size - 6]==nil
         @form.fields[@form.fields.size - 6] = Button.new(p_("Forum", "Send"))
-        @recording = 2
       end
-    end
-    player(Dirs.temp + "/audiopost.opus", "", true) if (enter or space) and @form.index == @form.fields.size - 7
-    if (enter or space) and @form.index == @form.fields.size - 6 and @recording == 2
-      if @recording == 1
-        play("recording_stop")
-        @r.stop
-      end
+    if @form.fields[@form.fields.size-6]!=nil && @form.fields[@form.fields.size-6].pressed?
       return if ![1,2].include?(@threadclass.forum.group.role) and !canjoin
+      f = @form.fields[@form.fields.size-8]
+      file = f.get_file
       waiting
-      speak(p_("Forum", "Preparing..."))
-      data = ""
-      fl = readfile(Dirs.temp + "/audiopost.opus")
+      fl = readfile(file)
       if fl[0..3] != "OggS"
         alert(_("Error"))
         return $scene = Scene_Main.new
@@ -2297,22 +2290,23 @@ loop do
       length = data.size
       q = "POST /srv/forum_edit.php?name=#{Session.name}\&token=#{Session.token}\&threadid=#{@thread.to_s}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
       a = elconnect(q).delete("\0")
+      s=0
       for i in 0..a.size - 1
         if a[i..i + 3] == "\r\n\r\n"
           s = i + 4
           break
         end
       end
-      return alert(_("Error")) if s == nil
       sn = a[s..a.size - 1]
       ft = sn.split("\r\n")
       waiting_end
       if ft[0].to_i == 0
+              f.delete_audio(true)
         alert(p_("Forum", "The post was created."))
+              return main
       else
         alert(p_("Forum", "Post creation failure."))
       end
-      return main
     end
   end
 
@@ -2335,7 +2329,45 @@ loop do
         }
         end
       }
+      post=@posts[@form.index/3]
+      s=p_("Forum", "Like this post")
+s=p_("Forum", "Dislike this post") if post.liked==true
+menu.option(s, nil, "k") {
+ac={'ac'=>'liking', 'postid'=>post.id, 'threadid'=>@thread}
+ac['like']=(post.liked)?(0):(1)
+s=srvproc("forum_postaction", ac)
+if s[0].to_i<0
+  alert(_("Error"))
+else
+  post.liked=!post.liked
+  if post.liked
+    alert(p_("Forum", "This post is now liked"))
+      else
+    alert(p_("forum", "This post is no longer liked"))
     end
+end
+}
+menu.option(p_("Forum", "Show post likes"), nil, "K") {
+ft=srvproc("forum_postaction", {'ac'=>'likes', 'postid'=>post.id})
+users=[]
+if ft[0].to_i==0
+  for i in 0...ft[1].to_i
+    user=ft[2+i].delete("\r\n")
+    users.push(user)
+    end
+end
+lst=ListBox.new(users, p_("Forum", "Users who like this post"))
+loop do
+ loop_update
+ lst.update
+ break if escape
+ if (alt or enter) and users.size>0
+   usermenu(users[lst.index])
+   end
+end
+@form.focus
+}
+end
     menu.submenu(p_("Forum", "Navigation")) { |m|
     m.option(p_("Forum", "Bookmarks"), nil, "b") {
     showbookmarks
@@ -2392,7 +2424,7 @@ loop do
         @form.index = @postscount * 3 - 3
         @form.focus
       }
-      if @readposts < @postscount
+      if @readposts < @postscount && @readposts>=0
         m.option(p_("Forum", "Go to first new post"), nil, "u") {
           @form.index = @readposts * 3
           @form.focus
@@ -2439,7 +2471,7 @@ loop do
     if @form.index < @posts.size * 3
       if @type!=2
       menu.option(p_("Forum", "Listen to the thread")) {
-        if $voice == -1 and @type == 0
+        if Configuration.voice == -1 and @type == 0
           text = ""
           for pst in @posts[@form.index / 3..@posts.size]
             text += pst.author + "\r\n" + pst.post + "\r\n" + pst.date + "\r\n\r\n"
@@ -2696,7 +2728,7 @@ bookmarks=[]
         end
 
   def getcache
-    c = srvproc("forum_thread", { "thread" => @thread.to_s, "atts" => "1" })
+    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details"=>1 })
     return if c[0].to_i < 0
     @cache = c
     @cachetime = c[1].to_i
@@ -2730,7 +2762,10 @@ bookmarks=[]
       when 5
         @posts.last.attachments = l.delete("\r\n").split(",")
         t += 1
-      when 6
+        when 6
+          @posts.last.liked= l.to_b
+        t += 1
+      when 7
         if l.delete("\r\n") == "\004END\004"
           t = 0
         else
@@ -2850,6 +2885,7 @@ class Struct_Forum_Post
   attr_accessor :date
   attr_accessor :attachments
   attr_accessor :polls
+  attr_accessor :liked
 
   def initialize(id = 0)
     @id = id
@@ -2860,6 +2896,7 @@ class Struct_Forum_Post
     @date = ""
     @attachments = []
     @polls = []
+    @liked=false
   end
 end
 

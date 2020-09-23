@@ -4,6 +4,8 @@
 
       module EltenAPI
   module QuickActions
+            @@actions=nil
+        @@addprocs = []
     class QuickAction
       attr_accessor :label, :key, :show
       attr_reader :action, :params
@@ -28,7 +30,7 @@
         end
       end
       def gettime
-        if $advanced_synctime == 1
+        if Configuration.synctime == 1
           t=srvproc("time",{"int"=>1},1)
           return if t.to_i<0
           time = Time.at(t.to_i)
@@ -42,16 +44,16 @@
         when :context
                    $opencontextmenu=true
         when :lastspeech
-          speech($speech_lasttext)
+          speak($speech_lasttext)
           when :tray
             $totray=true
             when :srsapi
-                      if $voice==-1
-      $voice=readconfig("Voice","Voice",-1)
+                      if Configuration.voice==-1
+      Configuration.voice=readconfig("Voice","Voice",-1)
           elsif Win32API.new("bin\\screenreaderapi","getCurrentScreenReader",'','i').call>0
-      $voice=-1
+      Configuration.voice=-1
       end
-  if $voice==-1
+  if Configuration.voice==-1
         alert(p_("EAPI_Common", "Using a screenreader"), false)
     else
     alert(p_("EAPI_Common", "Using a selected SAPI synthesizer"), false)
@@ -61,52 +63,31 @@
           when :time
             alert(gettime.strftime("%H:%M:%S"), false)
             when :volumedown
-                $volume -= 5 if $volume > 5
-  writeconfig("Interface","MainVolume",$volume)
+                Configuration.volume -= 5 if Configuration.volume > 5
+  writeconfig("Interface","MainVolume",Configuration.volume)
   eplay("list_focus")
               when :volumeup
-                  $volume += 5 if $volume < 100
-  writeconfig("Interface","MainVolume",$volume)
+                  Configuration.volume += 5 if Configuration.volume < 100
+  writeconfig("Interface","MainVolume",Configuration.volume)
   eplay("list_focus")
-                when :playlistprevious
-  if $playlistbuffer != nil
-    if $playlistindex != 0
-    $playlistindex -= 1
-  else
-    $playlistindex=$playlist.size-1
-    end
-    end
-                  when :playlistnext
-                    $playlistindex += 1 if $playlistbuffer!=nil
-                                       when :playlistvolumedown
-                          $playlistvolume = 0.8 if $playlistvolume == nil
-  if $playlistvolume > 0.01
-    $playlistvolume -= 0.1
-  $playlistvolume=0.01 if $playlistvolume==0
-    eplay("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
-  end
-                      when :playlistvolumeup
-                          $playlistvolume = 0.8 if $playlistvolume == nil
-  if $playlistvolume < 1
-  $playlistvolume += 0.1
-  eplay("list_focus",$playlistvolume*-100) if $playlistbuffer==nil or $playlistpaused==true
-  end
-                        when :playlistpause
-                              if $playlist.size>0 and $playlistbuffer!=nil
-if $playlistpaused == true
-  $playlistbuffer.play
-  $playlistpaused = false
+  when :donotdisturb
+    if $donotdisturb!=true
+      $donotdisturb=true
+      $agent.write(Marshal.dump({"func"=>"donotdisturb_on"}))
+      alert(p_("EAPI_Common", "Do not disturb on"))
+    else
+      $donotdisturb=false
+      $agent.write(Marshal.dump({"func"=>"donotdisturb_off"}))
+      alert(p_("EAPI_Common", "Do not disturb off"))
+      end
 else
-  $playlistpaused=true
-  $playlistbuffer.pause  
-end
-end
+  g = QuickActions.get_proc(action)
+g.call if g!=nil
         end
         end
       end
   class <<self
-    @@actions=nil
-    def get
+        def get
       load_actions if @@actions==nil
             @@actions.dup
     end
@@ -145,6 +126,10 @@ end
       register(*a)
       }
     end
+    def register_proc(program, ident, label, proc)
+            s=program.to_s+"__"+ident.to_s
+      @@addprocs.push([program, s.to_sym, label, proc])
+      end
     def predefined_procs(defaults=false)
             a=[
                     [:context, p_("EAPI_QuickActions", "Open context menu"), [], -10],
@@ -155,16 +140,15 @@ end
       [:srsapi, p_("EAPI_QuickActions", "Switch voice output between Screenreader and Sapi5"), [], -1],
       [:volumedown, p_("EAPI_QuickActions", "Volume down"), [], 5],
       [:volumeup, p_("EAPI_QuickActions", "Volume up"), [], 6],
-      [:playlistprevious, p_("EAPI_QuickActions", "Playlist: previous track"), [], -4],
-      [:playlistnext, p_("EAPI_QuickActions", "Playlist: next track"), [], -7],
-      [:playlistvolumedown, p_("EAPI_QuickActions", "Playlist: volume down"), [], -5],
-      [:playlistvolumeup, p_("EAPI_QuickActions", "Playlist: volume up"), [], -6],
-      [:playlistpause, p_("EAPI_QuickActions", "Playlist: toggle pause"), [], -3]
+      [:donotdisturb, p_("EAPI_QuickActions", "Switch \"Do not disturb\" mode"), [], -2],
       ]
       if defaults!=true
         a+=[
 
         ]
+        for ac in @@addprocs
+          a.push([ac[1], ac[2]])
+          end
         end
       return a
       end
@@ -222,6 +206,12 @@ end
       end
       return a
       end
+        def get_proc(pr)
+      for a in @@addprocs
+        return a[3] if a[1]==pr
+      end
+      return nil
+    end
     end
   end
   end

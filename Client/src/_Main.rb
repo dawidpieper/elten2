@@ -8,11 +8,11 @@ end
 
 module Elten
 Version=2.4
-Beta=52
+Beta=66
 Alpha=0
 IsBeta=1
-BuildID=20200604001
-BuildDate=1592837679
+BuildID=20200713001
+BuildDate=1600287511
 class <<self
   def version
   return Version
@@ -65,9 +65,9 @@ Log.head("Beta: #{Elten.beta.to_s}") if Elten.isbeta==1
 if $ruby != true
     Graphics.freeze
   Graphics.update
-        $volume=50 if $volume==nil
+        Configuration.volume=50 if Configuration.volume==nil
       $mainthread = Thread::current
-$stopmainthread         = false
+      $currentthread=$mainthread
 end
   $LOAD_PATH << "."
 end
@@ -75,11 +75,10 @@ end
   #main
   # Make scene object (title screen)
     if $toscene != true
-    $scene = Scene_Loading.new if $tomain == nil and $updating != true and $downloading != true and $beta_downloading != true
+    $scene = Scene_Loading.new if $tomain == nil and $updating != true and $downloading != true
   $scene = Scene_Main.new if $tomain == true
   $scene = Scene_Update.new if $updating == true
   $scene = $scene if $downloading == true
-  $scene = Scene_Beta_Downloaded.new if $beta_downloading == true
 end
 $toscene = false
   # Call main method as long as $scene is effective
@@ -94,66 +93,19 @@ $toscene = false
     break
     end
   end
+  if $immediateexit!=true
       play("logout")
-  register_activity if $privacy_registeractivity==1
-  delay(1)
-  NVDA.join
-  NVDA.destroy
-    Win32API.new("kernel32","TerminateProcess",'ip','i').call($agent.pid,"") if $agent!=nil
-    $agent=nil
-    srvproc("chat", {"send"=>1, "text"=>p_("Chat", "Left the discussion.")}) if $chat==true
-  speech_wait
-  Log.debug("Closing processes")
-  if $procs!=nil  
-  for o in $procs
-Win32API.new("kernel32","TerminateProcess",'ip','i').call(o,"")
-    end
-  end
-    if $playlistbuffer != nil
-$t=false
-    begin      
-      $playlistpaused=true    
-      $playlistbuffer.pause if $t==false
-    
-    rescue Exception
-      Log.warning("Failed to free playlist buffer")
-    $t=true
-    retry
-    end
-    end
-  $playlist = [] if $playlist == nil
-  if $playlist.size > 0
-    $playlistpaused = true
-        if FileTest.exists?("#{Dirs.eltendata}\\playlist.eps")
-      pls = load_data("#{Dirs.eltendata}\\playlist.eps")
-      if pls != $playlist
-        if confirm(p_("*Main", "Your playlist has been changed. Save current changes?")) == 1
-save_data($playlist,"#{Dirs.eltendata}\\playlist.eps")
-          end
-        end
-      else
-        if confirm(p_("*Main", "Do you want to save your playlist?")) == 1
-          save_data($playlist,"#{Dirs.eltendata}\\playlist.eps")
-          end
-        end
-        $playlist=[]
-        $playlistbuffer.close if $playlistbuffer==nil
-        $playlistbuffer=nil
-        else
-    if FileTest.exists?("#{Dirs.eltendata}\\playlist.eps")
-      if confirm(p_("*Main", "Do you want to delete the saved playlist?")) == 1
-        File.delete("#{Dirs.eltendata}\\playlist.eps")
-        end
-            end
-  end
-  deldir(Dirs.temp)
-    $exit = true
+  register_activity if Configuration.registeractivity==1
+    delay(1)
+        srvproc("chat", {"send"=>1, "text"=>p_("Chat", "Left the discussion.")}) if $chat==true
+          speech_wait
+              $exit = true
   if $exitupdate==true
     writefile(Dirs.eltendata+"\\update.last",Zlib::Deflate.deflate([$version.to_s,$beta.to_s,$alpha.to_s,$isbeta.to_s].join(" ")))
     writefile(Dirs.eltendata+"\\bin\\Data\\update.last",Marshal.dump(Time.now.to_f))
-    exit(run("\"#{Dirs.eltendata}\\eltenup.exe\" /tasks=\"\" /silent"))
+    run("\"#{Dirs.eltendata}\\eltenup.exe\" /tasks=\"\" /silent")
   end
-  Log.info("Exiting Elten")
+  end
           rescue Hangup
   Graphics.update if $ruby != true
   $toscene = true
@@ -163,16 +115,35 @@ key_update
   $DEBUG=true if $key[0x10]
   play("signal") if $key[0x10]
   retry
-  rescue SystemExit
+rescue SystemExit
+  if $immediateexit!=true
   loop_update
   quit if $keyr[0x73]
           play("list_focus") if $exit==nil
   $toscene = true
     retry if $exit == nil
+    end
+            ensure
+            if $immediateexit!=true
+  NVDA.join
+  NVDA.destroy
+    Win32API.new("kernel32","TerminateProcess",'ip','i').call($agent.pid,"") if $agent!=nil
+    $agent=nil
+  Log.debug("Closing processes")
+  if $procs!=nil  
+  for o in $procs
+Win32API.new("kernel32","TerminateProcess",'ip','i').call(o,"")
+    end
+  end
+  Log.info("Cleaning up temporary files")
+  deldir(Dirs.temp)
+  Log.info("Exiting Elten")
+    Win32API.new($eltenlib, "hideTray", '', 'i').call    
+    end
     end;begin
   rescue Exception
       if $ruby != true
-  if $updating != true and $beta_downloading != true and $start != nil and $downloading != true
+  if $updating != true and $start != nil and $downloading != true
         speech("Critical error occurred: "+$!.message)
     speech_wait
     sleep(0.5)
@@ -239,9 +210,6 @@ loop do
   end
   end
   if $updating == true
-    retry
-  end
-  if $beta_downloading == true
     retry
   end
   if $start == nil

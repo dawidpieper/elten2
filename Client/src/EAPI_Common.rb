@@ -2,7 +2,7 @@
 #Copyright (C) 2014-2020 Dawid Pieper
 #All rights reserved.
 
-module EltenAPI
+    module EltenAPI
   module Common
     private
 # EltenAPI common functions
@@ -70,7 +70,6 @@ def console
   EditBox.new(p_("EAPI_Common","Output"),EditBox::Flags::ReadOnly,"",true),
   Button.new(p_("EAPI_Common","Execute"))
   ])
-  dialog_open
   container = Console.new
   loop do
     loop_update
@@ -99,7 +98,6 @@ loop_update
 end
 break if escape
 end
-dialog_close
 end
 
 
@@ -314,18 +312,18 @@ di += "\r\n"
 end
 end
 di += "\r\n[Configuration]\r\n"
-di += "Language: " + $language + "\r\n"
-di += "Sound theme's path: " + $soundthemespath + "\r\n"
-if $voice >= 0
+di += "Language: " + Configuration.language + "\r\n"
+di += "Sound theme's path: " + Configuration.soundtheme + "\r\n"
+if Configuration.voice >= 0
   voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
               vc="\0"*1024
-              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,voicename.call($voice))
+              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,voicename.call(Configuration.voice))
 voice = deunicode(vc)
 di += "Voice name: " + voice.to_s + "\r\n"
 end
-di += "Voice id: " + $voice.to_s + "\r\n"
-di += "Voice rate: " + $rate.to_s + "\r\n"
-di += "Typing echo: " + $interface_typingecho.to_s + "\r\n"
+di += "Voice id: " + Configuration.voice.to_s + "\r\n"
+di += "Voice rate: " + Configuration.voicerate.to_s + "\r\n"
+di += "Typing echo: " + Configuration.typingecho.to_s + "\r\n"
 return di
 end
 
@@ -424,7 +422,7 @@ loop_update
       dialog_open
       text = ""
 honor=gethonor(user)
-text += "#{if honor==nil;"Użytkownik";else;honor;end}: #{user} \r\n"
+text += "#{if honor==nil;p_("EAPI_Common", "User");else;honor;end}: #{user} \r\n"
 text += getstatus(user,false)
 text += "\r\n"
 fullname = ""
@@ -466,7 +464,7 @@ if location!="" and (location.to_i>0 or Lists.locations.map{|l| l['country']}.un
   if location.to_i>0
     loc={}
     Lists.locations.each {|l| loc=l if l['geonameid']==location.to_i}
-    text+=loc['name']+", "+loc['country'] if loc!=nil
+    text+=(loc['name']||"")+", "+(loc['country']||"") if loc!=nil
   else
     text+=location
   end
@@ -569,7 +567,7 @@ end
 # @param trydownload [Boolean] download a file if the codec doesn't support streaming
 def player(file,label="",wait=false,control=true,trydownload=false,stream=false)
   if File.extname(file).downcase==".mid" and FileTest.exists?(Dirs.extras+"\\soundfont.sf2") == false
-    if confirm(p_("EAPI_Common", " You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."))==1
+    if confirm(p_("EAPI_Common", "You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes."))==1
     downloadfile($url+"extras/soundfont.sf2",Dirs.extras+"\\soundfont.sf2",p_("EAPI_Common", "Please wait, the soundfont is being downloaded. It may take a while."),p_("EAPI_Common", "Soundfont downloaded succesfully."))
     speech_wait
     Win32API.new("bass","BASS_SetConfigPtr",'ip','l').call(0x10403,Dirs.extras+"\\soundfont.sf2")
@@ -577,13 +575,7 @@ def player(file,label="",wait=false,control=true,trydownload=false,stream=false)
     return
     end
       end
-  plpause=false
-  plpos=0
-  if $playlist!=nil and $playlistbuffer!=nil and $playlistbuffer.playing?
-    plpause=true
-    $playlistbuffer.pause
-    end
-  if label != ""
+    if label != ""
   dialog_open if wait==false
 $dialogvoice.close if $dialogvoice != nil
 $dialogvoice = nil
@@ -598,7 +590,6 @@ delay(0.1)
   if snd.pause != true
     if snd.sound.position(true)>=snd.sound.length(true)-1024 and snd.sound.length(true)>0
                   snd.close
-            $playlistbuffer.play if plpause==true
       return
      break
             end
@@ -612,7 +603,6 @@ delay(0.1)
     break
     end
   end
-$playlistbuffer.play if plpause==true
 end
 
 # gets a key pressed by user
@@ -649,7 +639,7 @@ end
                                         loop do
             begin
             sleep(0.1)
-              if $voice != -1 and ($ruby != true or $windowminimized != true)
+              if Configuration.voice != -1 and ($ruby != true or $windowminimized != true)
                 if !NVDA.check and gcs.call>0
 ss.call
 end
@@ -659,75 +649,30 @@ end
       end
       end
     end
-    
-    # @note this function is reserved for Elten usage
-def thr2
-  $playlistvolume=0.8
-  $playlistindex = 0 if $playlistindex == nil
-  $playlistlastindex = -1 if $playlistlastindex == nil
-plpos=0
-  loop do
-    sleep(0.1)
-    if $playlist.size > 0
-    plpos=$playlistbuffer.position if $playlistbuffer!=nil and $playlistpaused != true
-    if $playlistlastindex != $playlistindex or $playlistbuffer == nil
-      $playlistbuffer.close if $playlistbuffer != nil
-      $playlistindex=0 if $playlistindex>=$playlist.size        
-      if $playlist[$playlistindex] != nil      
-                $playlistbuffer = Bass::Sound.new($playlist[$playlistindex])
-        else
-              $playlistindex += 1
-              $playlistindex = 0 if $playlistindex >= $playlist.size
-              end
-                                      $playlistlastindex=$playlistindex
-            if $playlistbuffer != nil
-              $playlistbuffer.volume=$playlistvolume
-              $playlistbuffer.play
-              end
-    end
-    sleep(0.05)
-    if $playlistbuffer != nil
-      if $playlistbuffer.position(true)>=$playlistbuffer.length(true)-128 and $playlistpaused != true
-        $playlistindex += 1
-      elsif $playlistpaused == true
-        plpos=-1
-      end
-      $playlistbuffer.volume=$playlistvolume if $playlistbuffer.volume!=$playlistvolume and $playlistvolume.is_a?(Float) or $playlistvolume.is_a?(Integer)
-    end
-  else
-    sleep(0.5)
-    if $playlistbuffer != nil
-    $playlistbuffer.close
-    $playlistbuffer=nil
-  end
-  end
-    end
-end
 
 # @note this function is reserved for Elten usage
-  def thr3
+  def thr2
     begin    
     $subthreads=[] if $subthreads==nil
-                            loop do
+                                loop do
                               sleep(0.05)
                                     if $scenes.size > 0
-                                      if $currentthread != nil  
+                                      if $currentthread != $mainthread
                                                                                   $subthreads.push($currentthread)
                                         end
                                       $currentthread = Thread.new do
                                         stopct=false
                                         sc=$scene
+                                        sleep(0.1)
                                         begin
                                           if stopct == false
                                                                                     newsc = $scenes[0]
                                           $scenes.delete_at(0)
                                                                 $scene = newsc
-                      $stopmainthread = true
-                                            while $scene != nil and $scene.is_a?(Scene_Main) == false and $exit!=true
+                                                                  while $scene != nil and $scene.is_a?(Scene_Main) == false and $exit!=true
 Log.debug("Loading parallel scene: #{$scene.class.to_s}")
 $scene.main
                       end
-                                            $stopmainthread = false
                       $scene = sc
 $scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
 $scene=nil if $exit==true
@@ -737,8 +682,7 @@ Log.info("Exiting parallel scenes thread")
 end
 rescue Exception
       stopct=true
-                                                  $stopmainthread = false
-                      $scene = sc
+                                                                        $scene = sc
 $scene=Scene_Main.new if $scene.is_a?(Scene_Main) or $scene == nil
 loop_update
 $focus = true if $scene.is_a?(Scene_Main) == false                    
@@ -748,24 +692,24 @@ end
 sleep(0.1)
 end
 end
-  if $currentthread != nil    
-  if $currentthread.status==false or $currentthread.status==nil
+    if $switchthread!=nil
+      cr=$switchthread
+      $switchthread=nil
+      cur=$currentthread
+      $subthreads.push(cur) if cur!=nil
+      $subthreads.delete(cr)
+$currentthread=cr
+      end
+    if $currentthread != $mainthread
+      if $currentthread.status==false or $currentthread.status==nil
         if $subthreads.size > 0
     $currentthread=$subthreads.last
     while $subthreads.last.status==false or $subthreads.last.status==nil
       $subthreads.delete_at($subthreads.size-1)
-           end
-    if $restart!=true
-           $currentthread.wakeup
-         else
-           $mainthread.wakeup
-           $subthreads=[]
-           $scene=Scene_Loading.new
-           end
+    end
       $subthreads.delete_at($subthreads.size-1)
     else
-      $mainthread.wakeup
-      $currentthread=nil
+      $currentthread=$mainthread
       end
         end
                                                                                                                                                               end
@@ -882,238 +826,13 @@ def deldir(dir,with=true)
     if hn[0].to_i<0 or hn[1].to_i==0
       return nil
     end
-        if $language=="pl-PL"
+        if Configuration.language=="pl-PL"
           return hn[3].delete("\r\n")
         else
           return hn[5].delete("\r\n")
           end
         end
-def speechtofile(file="",text="",name="")
-  text=readfile(file) if text=="" and file!=""
-                name=File.basename(file).gsub(File.extname(file),"") if file!="" and name==""
-  voices=[]
-  voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
-                for i in 0..Win32API.new("bin\\screenreaderapi","sapiGetNumVoices",'','i').call-1
-    vc="\0"*1024
-              Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,voicename.call(i))
-                  voices.push(deunicode(vc))
-    end
-  scl=[]
-  for i in 0..100
-    scl.push(i.to_s+"%")
-    end
-    fields=[EditBox.new(p_("EAPI_Common", "Title"),"",name,true),ListBox.new(voices,p_("EAPI_Common", "voice"),$voice.abs,0,true),ListBox.new(scl,p_("EAPI_Common", "rate"),$rate,0,true),FilesTree.new(p_("EAPI_Common", "destination location"),Dirs.user+"\\",true,true,"Music"),FilesTree.new(p_("EAPI_Common", "File to read"),Dirs.user+"\\",false,true,"Documents"),ListBox.new([p_("EAPI_Common", "Create one file"),p_("EAPI_Common", "Divide by paragraphs"),p_("EAPI_Common", "Divide every")],p_("EAPI_Common", "Output splitting"),0,0,true),EditBox.new(p_("EAPI_Common", "Duration of one file (minutes)"),"","15",true),CheckBox.new(p_("EAPI_Common", "Read file number")),ListBox.new(["mp3","ogg","wav"],p_("EAPI_Common", "Output format"),0,0,true),Button.new(p_("EAPI_Common", "preview")),Button.new(p_("EAPI_Common", "confirm")),Button.new(_("Cancel"))]
-    fields[4]=nil if file!="" or text!=""
-    splittime=fields[6]
-    splitinform=fields[7]
-    fields[6]=nil
-    fields[7]=nil
-    fields[5]=nil if text!="" and text.size<5000
-    form=Form.new(fields)
-    loop do
-      loop_update
-      form.update
-      if fields[5]!=nil      
-      if fields[5].index==2
-  fields[6]=splittime
-  fields[7]=splitinform
-elsif fields[5].index==1
-    fields[6]=nil
-  fields[7]=splitinform
-  else
-  fields[6]=nil
-  fields[7]=nil
-end
-end
-if (enter or space)
-  if form.index==9
-        ttext=""
-    if text!=""
-      ttext=text
-    end
-    if ttext==""
-              ext=File.extname(fields[4].selected(false))
-        if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
-        fid="txe#{rand(36**8).to_s(36)}"
-                    convert_book(fields[4].selected, Dirs.temp+"\\"+fid+".txt")
-                    next if !FileTest.exists?(Dirs.temp+"\\"+fid+".txt")
-            File.rename(Dirs.temp+"\\"+fid+".txt",Dirs.temp+"\\"+fid+".tmp")
-            impfile=Dirs.temp+"\\#{fid}.tmp"
-            ttext=readfile(impfile)
-          File.delete(impfile)
-            else
-            ttext=readfile(fields[4].selected)
-            end
-                end
-    if ttext!=""
-    v=$voice
-    r=$rate
-    $voice=fields[1].index
-    $rate=fields[2].index
-    Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice)
-    Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
-    t=ttext[0..9999]
-    speech(t)
-    while speech_actived
-      loop_update
-      speech_stop if enter or space
-    end
-    loop_update
-    $voice=v
-    $rate=r
-    Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice)
-    Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
-  else
-    alert(p_("EAPI_Common", "No selected file to read"))
-  end
-end
-if form.index==10
-  ttext=""
-    if text!=""
-      ttext=text
-    end
-    if ttext==""
-      ttext=readfile(fields[4].selected) if File.file?(fields[4].selected(false))
-    end
-  if fields[0].text==""
-    alert(p_("EAPI_Common", "Type a file name"))
-  elsif File.directory?(fields[3].selected(false))==false
-    alert(p_("EAPI_Common", "Select file location"))
-  elsif ttext==""
-    alert(p_("EAPI_Common", "Select source file"))
-  else
-    cmd="bin\\rubyw bin/sapi.dat "
-    cmd+="/v #{fields[1].index} "
-    cmd+="/r #{fields[2].index} "
-    cmd+="/n \"#{fields[0].text.gsub("\"","")}\" "
-    maxd=0
-if fields[5]!=nil
-  maxd=fields[6].text.to_i*60 if fields[5].index==2
-  cmd+="/d #{fields[6].text.to_i*60} " if fields[5].index==2
-    cmd+="/s 1 " if fields[5].index==1
-    cmd+="/p #{fields[7].checked} "  if fields[5].index>0
-    end
-    cname=fields[0].text.delete("\"\'\\/;\[\]\{\}\#\$^*\&|<>").gsub(" ","_")
-    outd=fields[3].selected
-    if fields[5]!=nil
-    if fields[5].index>0
-      outd+="\\#{cname}"
-      Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(outd),nil)
-    end
-    end
-    outd+="\\#{cname}.wav"
-    cmd+="/o \"#{outd}\" "
-        if file==""
-      if text!="" and text.size<256
-        cmd+="/t \"#{text.gsub("\"","")}\" "
-      else
-        if text==""
-        impfile=fields[4].selected
-        ext=File.extname(fields[4].selected(false))
-      else
-        impfile=Dirs.temp+"\\txi#{rand(36**8).to_s(36)}.txt"
-        writefile(impfile,text)
-        ext="txt"
-        end
-        fid=""
-        if ext == ".doc" or ext==".docx" or ext==".epu" or ext==".epub" or ext==".html" or ext==".mobi" or ext==".pdf" or ext==".mob" or ext==".rtf" or ext==".txt"
-        fid="txe#{rand(36**8).to_s(36)}"
-            convert_book(fields[4].selected, Dirs.temp+"\\"+fid+".txt")
-            next if !FileTest.exists?(Dirs.temp+"\\"+fid+".txt")
-            File.rename(Dirs.temp+"\\"+fid+".txt",Dirs.temp+"\\"+fid+".tmp")
-            impfile=Dirs.temp+"\\#{fid}.tmp"
-            end
-            text=readfile(Dirs.temp+"\\"+fid+".tmp")
-              cmd+="/i \"#{impfile}\" "
-        end
-    else
-      cmd+="/i \"#{file}\" "
-      end
-            outfl=Dirs.temp+"/sapiout"+rand(36**2).to_s(36)+".tmp"
-      cmd+="/l \"#{outfl}\" "
-      h=run(cmd,true)
-      play("waiting")
-      starttm=Time.now.to_i
-edt=EditBox.new(p_("EAPI_Common", "Please wait, reading to file"),EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly,"",true)
-f=false            
-t = 0
-file=0
-fn=false
-rf=0
-th=Thread.new do
-  fr=nil
-  case fields[8].index
-  when 0
-    fr=".mp3"
-    when 1
-      fr=".ogg"
-    end
-      rf=0
-    while (file>rf or fn==false) and fr!=nil
-        sleep(0.5)
-  if file>rf+1
-        n=rf+1
-    if fields[5]!=nil and fields[5].index>0
-        b=outd.gsub(File::extname(outd),"_"+sprintf("%03d",n)+File.extname(outd))
-      else
-        b=outd
-        end
-    if FileTest.exists?(b)
-      c="bin\\ffmpeg -y -i \"#{b}\" \"#{b.gsub(".wav",fr)}\""
-      executeprocess(c,true,0,false)
-      File.delete(b) if FileTest.exists?(b)
-    end
-    rf+=1
-  else
-    break if fn and rf==file-1
-    end
-    end
-  end
-loop do
-        loop_update
-        tx=readfile(outfl)
-                if /(\d+):(\d+)\/(\d+):(\d+)\/(\d+):(\d+)\/(\d+)/=~tx
-                  if $4.to_i>0 and $5.to_i>0
-                  edt.settext("#{($4.to_f/($5.to_f+1.0)*100.0).to_i}%\r\n#{p_("EAPI_Common", "Reading to file number")} #{$1}#{if maxd==0;"";else;" ("+(($6.to_f/maxd.to_f*100.0).to_i%101).to_s+"%)";end}\r\n#{p_("EAPI_Common", "Sentence %{cursentence} of %{sentences}")%{'cursentence'=>$2,'sentences'=>$3}}\r\n#{p_("EAPI_Common", "Read")} #{sprintf("%02d:%02d:%02d",$7.to_i/3600,($7.to_i/60)%60,$7.to_i%60)}#{if Time.now.to_i>starttm;"\r\n#{p_("EAPI_Common", "Estimated elapsed time")}"+sprintf("%02d:%02d:%02d",((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/3600,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i/60%60,((Time.now.to_i-starttm)/($4.to_f/$5.to_f)*(1-$4.to_f/$5.to_f)).to_i%60);else;"";end}",false)
-          file=$1.to_i
-          if f == false
-          edt.focus
-          f=true
-          end
-          end
-        end
-        edt.update
-        x="\0"*1024
-        Win32API.new("kernel32","GetExitCodeProcess",'ip','i').call(h,x)
-x.delete!("\0")
-if x != "\003\001"
-    file+=1
-    edt.settext(p_("EAPI_Common", "Please wait, file processing..."))
-    edt.focus
- fn=true
-   while th.status!=false and th.status!=nil
-   loop_update
-   if file!=1
-   edt.settext("#{p_("EAPI_Common", "Processing")}... #{(rf.to_f/(file-1).to_f*100.0).to_i}%",false)
-   end
-   edt.update
-   end
-  waiting_end
-   alert(p_("EAPI_Common", "Reading to file finished."))
-  break
-  end
-end
-break
-    end
-  end
-  if form.index==11
-    break
-    end
-  end
-  break if escape
-      end
-    end
-       def decompress(source,destination,msg="")
+    def decompress(source,destination,msg="")
          speech(msg)
          waiting
          executeprocess("bin\\7z x \"#{source}\" -y -o\"#{destination}\"",true)
@@ -1124,11 +843,7 @@ break
          waiting
 ext=File.extname(destination).downcase
 cmd=""
-if ext==".rar"
-  cmd="bin\\rar a -ep1 -r \"#{destination}\" \"#{source}\" -y"
-else
   cmd="bin\\7z a \"#{destination}\" \"#{source}\" -y"
-  end
 executeprocess(cmd,true)
          waiting_end
        end

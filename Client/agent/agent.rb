@@ -1,7 +1,7 @@
 Encoding.default_internal=Encoding::UTF_8
 $VERBOSE = nil
 require "base64"
-require "json/pure"
+require "json/ext"
 require "digest"
 require "securerandom"
 require "digest/sha1"
@@ -56,6 +56,28 @@ end
 end
 end
 
+def ewrite(data)
+dt=""
+for kp in data.keys
+v=data[kp]
+k=kp.dup.force_encoding("binary")
+next if !v.is_a?(String) && !v.is_a?(Integer) && !v.is_a?(Float) && v!=true && v!=false
+type="I"
+type="S" if v.is_a?(String)
+type="F" if v.is_a?(Float)
+type="B" if v==false||v==true
+v=v.to_s.dup.force_encoding("binary")
+dt+=[k.bytesize, v.bytesize].pack("II")+type+k+v
+end
+z=Zlib::Deflate.deflate(dt)
+STDOUT.binmode.write([z.bytesize].pack("I"))
+STDOUT.binmode.write(z)
+STDOUT.flush
+rescue Exception
+log(2, $!.to_s+": "+$@.to_s)
+play 'signal'
+end
+
 begin
 $setcurrentdirectory.call("..") if FileTest.exists?("../elten.ini") and !FileTest.exists?("elten.ini")
 $setcurrentdirectory.call("..\\..") if FileTest.exists?("../../elten.ini") and !FileTest.exists?("elten.ini")
@@ -64,7 +86,6 @@ $eltendata=getdirectory(26)+"\\elten"
 $eltendata=".\\eltendata" if readini("elten.ini","Elten","Portable","0").to_i.to_i!=0
 $soundthemesdata=$eltendata+"\\soundthemes"
 $bindata=$eltendata+"\\bin"
-$tempdir=$eltendata+"\\temp"
 if !FileTest.exists?($eltendata+"\\appid.dat")
 $appid = ""
   chars = ("A".."Z").to_a+("a".."z").to_a+("0".."9").to_a
@@ -73,6 +94,7 @@ IO.write($eltendata+"\\appid.dat",$appid)
 else
 $appid=IO.read($eltendata+"\\appid.dat")
 end
+$donotdisturb=false
 $version=readini("./elten.ini","Elten","Version","").to_f
 begin
 $rsa = OpenSSL::PKey::RSA.new(IO.binread("./Data/eltenpub.pem"))
@@ -93,7 +115,7 @@ if ans!=nil
 d=ans.split("\r\n")
 if d[0].to_i==0
 $token=d[1]
-run("bin\\elten_tray.bin /autostart")
+$showtray.call(0)
 else
 exit
 end
@@ -120,12 +142,10 @@ if ($phwnd=$getforegroundwindow.call)!=$hwnd and $getparent.call($phwnd)!=$hwnd
 log(0, "Elten window minimized") if $shown==true
 $shown=false
 if $hidewindow == 1
-if $tray != true and FileTest.exists?("bin/elten_tray.bin")
+if $tray != true
 play("minimize")
-run("bin\\elten_tray.bin")
 $showwindow.call($hwnd,0)
-STDOUT.binmode.write((Marshal.dump({'func'=>'tray'})))
-STDOUT.flush
+ewrite({'func'=>'tray'})
 $tray=true
 end
 end
@@ -159,10 +179,23 @@ log(2,"Request error: #{d['func']}")
 d['resptime']=Time.now.to_f
 d['resp']='-4'
 else
-d['resp']=(resp||"").force_encoding("utf-8")
+d['resp']=(resp||"").force_encoding("UTF-8")
 d['resptime']=Time.now.to_f
-STDOUT.binmode.write((Marshal.dump(d)))
-STDOUT.flush
+ewrite(d)
+end
+}
+elsif data['func']=='jproc'
+data['reqtime']=Time.now.to_f
+ejrequest(data['method'],data['path'],data['params'],data) {|resp,d|
+if resp==:error
+log(2,"Request error: #{d['func']}")
+d['resptime']=Time.now.to_f
+d['resp']=nil
+else
+d['resp']=resp
+d['resptime']=Time.now.to_f
+ewrite(d)
+play 'signal'
 end
 }
 elsif data['func']=='srvverify'
@@ -180,8 +213,7 @@ rescue Exception
 log(1, $!.to_s+": "+$@.to_s)
 log(1, resp)
 end
-STDOUT.binmode.write((Marshal.dump({'func'=>'srvverify', 'succeeded'=>suc})))
-STDOUT.flush
+ewrite({'func'=>'srvverify', 'succeeded'=>suc})
 end
 }
 elsif data['func']=='readurl'
@@ -238,16 +270,14 @@ d={}
 d['id']=data['id']
 d['body']=body
 d['headers']=headers
-STDOUT.binmode.write((Marshal.dump(d)))
-STDOUT.flush
+ewrite(d)
 }
 elsif data['func']=="eltsock_create"
 d=data.dup
 $eltsocks||=[]
 $eltsocks.push(EltenSock.new)
 d['sockid']=$eltsocks.size-1
-STDOUT.binmode.write((Marshal.dump(d)))
-STDOUT.flush
+ewrite(d)
 elsif data['func']=="eltsock_write"
 #Thread.new {
 d=data.dup
@@ -255,8 +285,7 @@ $eltsocks||={}
 if $eltsocks[data['sockid']]!=nil
 $eltsocks[data['sockid']].write(data['message'])
 d['status']=1
-STDOUT.binmode.write((Marshal.dump(d)))
-STDOUT.flush
+ewrite(d)
 end
 #}
 elsif data['func']=="eltsock_read"
@@ -265,8 +294,7 @@ d=data.dup
 $eltsocks||={}
 if $eltsocks[data['sockid']]!=nil
 d['message']=$eltsocks[data['sockid']].read(data['size'])
-STDOUT.binmode.write((Marshal.dump(d)))
-STDOUT.flush
+ewrite(d)
 end
 #}
 elsif data['func']=="eltsock_close"
@@ -276,13 +304,16 @@ if $eltsocks[data['sockid']]!=nil
 $eltsocks[data['sockid']].close
 $eltsocks[data['sockid']]=nil
 d['status']=1
-STDOUT.binmode.write((Marshal.dump(d)))
-STDOUT.flush
+ewrite(d)
 end
 elsif data['func']=="activity_register"
 erequest("activities","name=#{$name}\&token=#{$token}\&ac=register",JSON.generate(data['activity']),{"Content-Type"=>'application/json'}) {|resp|
 log(-1, "Activity registration: #{resp.to_s}")
 }
+elsif data['func']=="donotdisturb_on"
+$donotdisturb=true
+elsif data['func']=="donotdisturb_off"
+$donotdisturb=false
 elsif data['func']=="alarm_stop"
 $alarmstop=true
 elsif data['func']=="chat_open"
@@ -338,14 +369,12 @@ $updlasttime=rsp['time'] if rsp['time'].is_a?(Integer) and rsp['upd']!=nil
 $ag_msg||=rsp['msg'].to_i
 if $ag_msg<(rsp['msg'].to_i||0)
 $ag_msg=rsp['msg'].to_i
-STDOUT.binmode.write((Marshal.dump({'func'=>'msg','msgs'=>$ag_msg})))
-STDOUT.flush
+ewrite({'func'=>'msg','msgs'=>$ag_msg})
 end
 if rsp['signals'].is_a?(Array)
 for sig in rsp['signals']
 if !$sigids.include?(sig['id'])
-STDOUT.binmode.write((Marshal.dump({'func'=>'sig','appid'=>sig['appid'],'time'=>sig['time'],'packet'=>sig['packet'],'sender'=>sig['sender'], 'id'=>sig['id']})))
-STDOUT.flush
+ewrite({'func'=>'sig','appid'=>sig['appid'],'time'=>sig['time'],'packet'=>sig['packet'],'sender'=>sig['sender'], 'id'=>sig['id']})
 $sigids.push(sig['id'])
 end
 end
@@ -384,11 +413,13 @@ else
 if $wn_agent!=1
 q.each do |n|
 log(0, "New notification: #{n.id.to_s}, #{n.alert.to_s}")
+if $donotdisturb!=true
 speech n.alert
 play n.sound if n.sound!=nil
 while speech_actived
 speech_stop if $getasynckeystate.call(0x11)!=0 and $voice>=0 and Time.now.to_f-($speech_lasttime||0)>0.1
 sleep 0.01
+end
 end
 end
 else
@@ -408,8 +439,10 @@ $saytimeperiod = readconfig("Clock","SayTimePeriod","1").to_i
 $saytimetype = readconfig("Clock","SayTimeType","1").to_i
 $synctime = readconfig("Advanced","SyncTime","1").to_i
 if (($saytimeperiod>0 and m==0) or ($saytimeperiod>1 and m==30) or ($saytimeperiod>=2 and (m==15 or m==45)))
+if $donotdisturb!=true
 play("clock") if $saytimetype==1 or $saytimetype==3
 speech(sprintf("%02d:%02d",tim.hour,tim.min)) if $saytimetype==1 or $saytimetype==2
+end
 end
 alarms=[]
  if FileTest.exists?($eltendata+"\\alarms.dat")
@@ -430,8 +463,7 @@ IO.binwrite($eltendata+"\\alarms.dat",Marshal.dump(alarms))
 end
 @alarmplaying=true
 play("alarm",true)
-STDOUT.binmode.write((Marshal.dump({'func'=>'alarm', 'description'=>a[3]})))
-STDOUT.flush
+ewrite({'func'=>'alarm', 'description'=>a[3]})
 end
 $timelastsay=tim.hour*60+tim.min
 end
@@ -448,6 +480,6 @@ end
 rescue Interrupt
 rescue SystemExit
 rescue Exception
-STDOUT.binmode.write((Marshal.dump({'func'=>'error','msg'=>$!.to_s,'loc'=>$@.to_s})))
+ewrite({'func'=>'error','msg'=>$!.to_s,'loc'=>$@.to_s})
 end
 $sslsock.close if $sslsock!=nil and !$sslsock.closed?

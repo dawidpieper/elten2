@@ -900,6 +900,8 @@ Wersja 2.4:
 - Zmieniono: aktualizacja bibliotek
 - Poprawiono: obsługa unikodu w niektórych funkcjach
 - Usunięto: youtube (przeniesione do osobnego programu)
+- Usunięto: pliki (przeniesione do osobnego programu)
+- Usunięto: playlista (przeniesiona do osobnego programu)
 - Usunięto: awatary
 
 2020-08-24

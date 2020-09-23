@@ -27,6 +27,10 @@ PeekNamedPipe=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
       @pipein=CreateNamedPipe.call("\\\\.\\pipe\\"+@pipename+"in", 1, 8, 255, 16*1024**2, 16*1024**2, 1, nil) while @pipein==nil||@pipein==-1
       @pipest=CreateNamedPipe.call("\\\\.\\pipe\\"+@pipename+"st", 1, 8, 255, 16*1024**2, 16*1024**2, 1, nil) while @pipest==nil||@pipest==-1
       @pipeout=CreateNamedPipe.call("\\\\.\\pipe\\"+@pipename+"out", 2, 8, 255, 16*1024**2, 16*1024**2, 1, nil) while @pipeout==nil||@pipeout==-1
+      if FileTest.exists?(Dirs.temp+"\\nvda.pipe")
+        File.delete(Dirs.temp+"\\nvda.pipe")
+        sleep(0.25)
+        end
                   writefile(Dirs.temp+"\\nvda.pipe", @pipename)
                   Log.debug("NVDA pipes registered: #{@pipein.to_s}, #{@pipeout.to_s}")
                                     @writes||=[]
@@ -53,7 +57,7 @@ PeekNamedPipe=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
                                 end
                                 if @exiting==true
                                   @exited=true
-                                  exit
+                                  break
                                   end
                                         if @pipein!=nil and (lv=avail)>0
                     r=read(lv)
@@ -190,6 +194,17 @@ elsif j['msgtype']==4
       write({'ac'=>'speak', 'text'=>text},nil,true)!=nil
     end
     def speakindexed(texts, indexes, indid=nil)
+      s=0
+      for i in 0...texts.size
+        s+=texts[i].size
+        if s>=65536
+          for j in i...texts.size
+            texts.delete_at(j)
+            indexes.delete_at(j)
+          end
+          break
+          end
+        end
       @stopped=false
       @index=nil
             @indid=nil

@@ -10,18 +10,29 @@
     $mainmenuextra={}
     $usermenuextra={}
             $eresps={}
+            $jresps={}
             $restart=false
-                                $volume=50
+                                Configuration.volume=50
             $preinitialized = false
     $eltenlib = "./eltenvc"
+    begin
     h=Win32API.new($eltenlib, "hook", '', 'i').call
+  rescue Exception
+    print "Failed to load Elten library.
+Please try to reinstal the software.
+If the problem occurs, please contact us at
+support@elten-net.eu"
+$exit=true
+$immediateexit=true
+exit
+    end
         if h!=0
         print("Failed to setup Window Hook")
             exit
           end
           Log.info("Window hook registered")
           $scenes = []
-    $volume = 50
+    Configuration.volume = 50
     $instance = Win32API.new("kernel32","GetModuleHandle",'i','i').call(0)
     $process = Win32API.new("kernel32","GetCurrentProcess",'','i').call
     $path="\0"*1024
@@ -44,6 +55,8 @@
       end
     end      
     Log.debug("HWND: #{$wnd.to_s}")
+              Win32API.new($eltenlib, "showTray", 'i', 'i').call($wnd)
+          Log.info("Tray icon created")
       $computer="\0"*128
       siz=[$computer.size].pack("i")
       Win32API.new("kernel32","GetComputerName",'pp','i').call($computer,siz)
@@ -63,7 +76,7 @@
       Dirs.apps = Dirs.eltendata + "\\apps"
       Dirs.extras = Dirs.eltendata + "\\extras"
 Dirs.soundthemes = Dirs.eltendata + "\\soundthemes"
-Dirs.temp=Dirs.eltendata+"\\temp"
+Dirs.temp=Dirs.tmp+"\\elten"
 createdirifneeded(Dirs.eltendata)
 createdirifneeded(Dirs.extras)
 createdirifneeded(Dirs.soundthemes)
@@ -112,6 +125,7 @@ rescue Exception
 end
 begin
 File.delete(Dirs.extras+"\\youtube-dl.exe") if FileTest.exists?(Dirs.extras+"\\youtube-dl.exe")
+deldir(Dirs.extras+"\\Calibre Portable") if FileTest.exists?(Dirs.extras+"\\Calibre Portable")
 rescue Exception
   end
 l=readconfig("Login","AutoLogin",0)
@@ -119,7 +133,7 @@ if l>0
   h={'AutoLogin'=>l}
   h['Name']=readconfig("Login","Name")
   h['Token']=readconfig("Login","Token")
-  h['TokenEncrypted']=readconfig("Login","TokenEncrypted")
+  h['TokenEncrypted']=readconfig("Login","TokenEncrypted", -1)
   j=JSON.generate(h)
   z=Zlib::Deflate.deflate(j)
   
@@ -140,9 +154,9 @@ else
   load_configuration
     Log.info("Initializing Bass")
 Bass.init($wnd)
-                          if $advanced_usefx==-1
-                            $advanced_usefx=Bass.test.to_i
-                            writeconfig("Advanced", "UseFX", $advanced_usefx)
+                          if Configuration.usefx==-1
+                            Configuration.usefx=Bass.test.to_i
+                            writeconfig("Advanced", "UseFX", Configuration.usefx)
                             end
 Log.info("Initializing NVDA Support")
 NVDA.init
@@ -170,22 +184,19 @@ else
     startmessage = "ELTEN: " + $version.to_s.delete(".").split("").join(".")
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
 startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
-            $playlist = []
-$playlistindex = 0
 $start = Time.now.to_i
 $thr1=Thread.new{thr1} if $thr1==nil
 $thr2=Thread.new{thr2} if $thr2==nil
-$thr3=Thread.new{thr3} if $thr3==nil
                     if FileTest.exists?("Data/langs.dat")
                       Lists.langs=load_data("Data/langs.dat")
                     else
                       Lists.langs={}
                     end
-                    if FileTest.exists?("Data/locations.dat")
-                      Lists.locations=load_data("Data/locations.dat")
-                    else
-                      Lists.locations=[]
-                    end
+                    Lists.locations=[]
+                      begin
+                      Lists.locations=Marshal.load(Zlib::Inflate.inflate(readfile("Data/locations.dat")))
+                    rescue Exception
+                      end
                     if !FileTest.exists?("Data/locale.dat")
                     mod="\0"*1024
 Win32API.new("kernel32","GetModuleFileName",'ipi','i').call(0,mod,mod.size)
@@ -193,21 +204,46 @@ ind=(0...mod.size).find_all {|c| mod[c..c]=="\\" or mod[c..c]=="/"}.last
 fol=mod[0...ind]
 Win32API.new("kernel32","SetCurrentDirectory",'p','i').call(fol)
 end
-if $language==""
+if Configuration.language==""
                                           lcid=Win32API.new("kernel32","GetUserDefaultLCID",'','i').call
-                                                                                  $language="\0"*5
-                                                                                  Win32API.new("kernel32", "GetLocaleInfo", 'iipi', 'i').call(lcid, 92, $language, $language.size)
-                                                                                  writeconfig("Interface", "Language", $language)
+                                                                                  Configuration.language="\0"*5
+                                                                                  Win32API.new("kernel32", "GetLocaleInfo", 'iipi', 'i').call(lcid, 92, Configuration.language, Configuration.language.size)
+                                                                                  writeconfig("Interface", "Language", Configuration.language)
                                                                                 end
-                                                                                setlocale($language)
-          if $voice == -2 or $voice == -3
-          v=$voice
-          $voice=-1
+                                                                                setlocale(Configuration.language)
+          if Configuration.voice == -2 or Configuration.voice == -3
+          v=Configuration.voice
+          Configuration.voice=-1
                     end
                                                                                                                                                                   if $silentstart==nil
   $silentstart=true if $commandline.include?("/silentstart")
 end
-v=25
+oldfiles=['ffmpeg.exe', 'avcodec58.dll', 'avdevice58.dll', 'avformat58.dll', 'openal32.dll', 'rar.exe']
+btn=0
+loop {
+suc=true
+dr=Dir.entries("bin")
+for d in dr
+  suc=false if oldfiles.include?(d.downcase)
+end
+break if suc
+btn=0
+begin
+  mb=Win32API.new("user32", "MessageBoxW", 'lppl', 'i')
+  caption="Previous installation detected"
+  text="Elten detected files created by old installation, beta 59 or earlier.\r\nPlease remove the program and reinstall it again to delete those files.\r\nIf you don't want to remove your configuration, you can just delete Elten directory in \"Program files\"."
+  btn=mb.call($wnd, unicode(text), unicode(caption), 2|0x10)
+  rescue Exception
+  end
+  if btn==3
+    $immediateexit=true
+    $exit=true
+    exit
+  elsif btn==5
+        break
+  end
+  }
+v=27
 if Win32API.new("bin\\screenreaderapi", "getCurrentScreenReader", '', 'i').call==2 && (!NVDA.check || NVDA.getversion!=v)
   if !NVDA.check
   str=p_("Loading", "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?")
@@ -230,9 +266,6 @@ elsif NVDA.getversion!=v
   NVDA.init
   waiting_end
  }
- if suc==false
-   $nvdadonotuse=true
-   end
   end
 end
 Log.info("NVDA Version: "+NVDA.getnvdaversion.to_s) if NVDA.check
@@ -289,26 +322,16 @@ license
                 $exit = nil
                 writefile(Dirs.eltendata+"\\license_agreed.dat","\001")
               end
-              fdate=readfile($eltendata+"\\finfo.dat").to_i
-              writefile($eltendata+"\\finfo.dat", Time.now.to_i.to_s)
-              if fdate<Time.now.to_i-86400*7 or fdate>Time.now.to_i
+                            fdate=readfile(Dirs.eltendata+"\\finfo.dat").to_i
+                            if fdate<Time.now.to_i-86400*3 or fdate>Time.now.to_i
+                              nb=rand(5)+1
                 finfo="Drodzy Eltenowicze!
-
-Ten projekt nie może istnieć bez waszego wsparcia, zarówno w formie promocji i aktywności, jak i tej materialnej. Dlatego zwracamy się z uprzejmą prośbą o pomoc w opłaceniu serwera na rok 2021.
-
-Elten jest skomplikowanym tworem. Samą popularnością przypomina duże, ale nie bardzo duże, forum Internetowe. Jednak funkcjonalnością i zapotrzebowaniem jest o wiele większym projektem, który z różnych przyczyn domaga się z każdą chwilą bardziej osobowości prawnej.
-Dlatego zdecydowaliśmy o powołaniu organu zarządczego, fundacji.
-Powołanie fundacji w ciągu kilku miesięcy jest jednak niemożliwe, dlatego raz jeszcze musimy zrealizować zbiórkę. Mam szczerą nadzieję, że w przyszłym roku będziemy mogli starać się o finansowanie projektu z PFRON, a także udostępnimy wam inne możliwości wpłaty na projekt, wliczając w to 1% podatku czy sprzedawane, drobne usługi w rodzaju gry dla Eltena czy innych dodatków, o których będziemy rozmawiać w późniejszym czasie.
-
-Koszt opłacenia serwerów wynosi ok. 5000zł, opłaty dodatkowe (SSL, Apple Developer, przestrzeń kopii zapasowej) zaś ok. 1000zł.
-Tak jak w poprzednim roku, kontynuacja projektu będzie uzależniona od zebrania 5000zł do 1 stycznia. Jest jednak kilka różnic.
-
-Po pierwsze, tym razem nie zorganizowaliśmy zrzutki na portalu typu pomagam.pl. Przyczyną były prowizje, jakie się z czymś takim wiążą (dla zebranej kwoty prawie 1000zł).
-Miast tego zdecydowałem się na założenie nowego konta, które będzie przeznaczone wyłącznie na wydatki Eltena. Będę regularnie starał się informować o stanie wpłat na forum.
-Po drugie, zebrana kwota nie będzie przeznaczona bezpośrednio na opłacenie Eltena. Stanie się funduszem założycielskim fundacji, zaś dopiero przez fundację będzie przekazana na opłacenie serwerów. Oczywiście kwoty administracyjne zostaną przez nas pokryte tak, by zbierana kwota nie różniła się od zeszłorocznej.
-Wszelkie nadwyżki w zebranej kwocie zostaną przekazane na konto fundacji.
-
-Z góry bardzo dziękuję wam za wszelką pomoc w utrzymywaniu tego projektu. Poniżej podaję dane do wpłaty.
+Ten projekt nie może istnieć bez waszego wsparcia, także materialnego. Dlatego zwracamy się z uprzejmą prośbą o pomoc w opłaceniu serwera na rok 2021.
+Wymagana kwota to 5000zł, na dzień 16 września zebraliśmy zaś dokładnie 3286,86zł. Bardzo dziękujemy wszystkim wspierającym, to jednak wciąż tylko około połowy kosztów.
+Także chcielibyśmy powołać fundację, organ, który będzie mógł przejąć Eltena pod swoje skrzydła, starać się w jego imieniu o dofinansowanie ze środków PFRON i reprezentować interesy społeczności na zewnątrz. Powołanie takiej instytucji nie jest jednak darmowe. Idealnie byłoby jednocześnie powołać fundację i z funduszu założycielskiego opłacić serwer, co pozwoliłoby na minimalizację kosztów. Byłoby to jednak możliwe tylko wtedy, gdybyśmy do okolic końca sierpnia zebrali niezbędną kwotę.
+Dlatego raz jeszcze prosimy wszystkich użytkowników o wsparcie, za które z góry bardzo dziękujemy.
+Poniżej podaję dane do przelewu. Jednocześnie zapraszam do śledzenia statusu zbiórki na forum \"Elten Network\"  (grupa \"Rozwój Eltena\") w wątku \"Zbiórka na Eltena na rok 2021\".
+Aby kontynuować, wciśnij \"#{nb}\".
 
 Dawid Pieper
 Ul. Krasickiego 5
@@ -316,29 +339,26 @@ Ul. Krasickiego 5
 Numer konta:
 24 1140 2004 0000 3802 8001 0021
 
-Wiadomość ta znajduje się także na forum \"Elten Network\" grupy \"Rozwój Eltena\"."
+Poniżej znajdują się także dane do przelewu międzynarodowego:
+IBAN (international) Account number:
+PL24 1140 2004 0000 3802 8001 0021
+Bank:
+BIC/SWIFT code: BREXPLPWMBK
+mBank S.A. FORMERLY BRE BANK S.A. (RETAIL BANKING) LODZ,
+Skrytka pocztowa 2108, 90-959 Łódź 2
+SORT CODE: 11402004"
 label="Informacja"
-if $language[0..1].downcase!='pl'
-  finfo="Dear Elten users!
-
-This project cannot exist without your contribution, both in the form of activity and financial support. Therefore, we kindly ask for your help in paying for the server for the year 2021.
-
-Elten is a complicated creation. The popularity itself resembles a large, but not very large, Internet forum. However, the functionality indices a much bigger project, which for various reasons demands more legal personality with every moment.
-That is why we decided to set up a management organization - a foundation.
-However, it is impossible to set up a foundation within a few months, so we decided to carry out the collection again. I sincerely hope that next year we will be able to apply for the project financing from Polish Government, and we will also provide you with other possibilities to contribute to the project, including sold, small services such as an audiogame for Elten or other add-ons, which we will introduce later.
-
-The cost of servers is about 5000 PLN (1000 GBP), additional fees (SSL, Apple Developer, backup space) about 1000 PLN (200 GBP).
-As in the previous year, the continuation of the project will depend on collecting PLN 5000 until January 1st. However, there are several differences.
-
-First of all, this time we did not organize a drop-off on the Internet portal. The reason for this were the commissions that are associated with such a thing (for the collected amount almost 1000 PLN) (200 GBP).
-I decided to create a new account, which will be used only for Elten's expenses. I will regularly try to inform you about the balance of payments at the forum.
-Secondly, the collected amount will not be used directly to pay for servers. It will become the fund of the foundation and only through the foundation will it be used to pay for the servers. Of course, the administrative amounts will be covered by us so that the collected amount does not differ from last year's one.
-Any surplus of the collected amount will be transferred to the foundation's account.
-
-Thank you very much in advance for all your help in maintaining this project. Here are the details for the payment.
+if Configuration.language[0..1].downcase!='pl'
+  finfo="Dear Users!
+This project cannot exist without your support, including financial one. Therefore, we kindly ask you to help us to pay for the server for 2021.
+The required amount is 5000 PLN (about 1150 eur), and as of August 15th we have collected exactly 3286,86 PLN (about 738 eur). Thank you very much for all your support, but it is still only about a half of the cost.
+We would also like to establish a foundation, an institution that will be able to manage Elten, apply for funding from Polish Government and represent the interests of the community. However, the establishment of such an institution is not free of charge. It would be ideal to establish a foundation at the same time and pay for the server from the founding fund, which would minimize costs. However, this would be possible only if we collected the necessary amount by the end of August.
+Therefore, we ask all users to support this program, for which we thank you very much in advance.
+Below you will find the information needed to perform the international transfer. At the same time, I invite you to follow the status of the collection on the forum \"Elten Network\". (group \"Elten Development\") in the thread \"Financing for 2021\".
+To continue, press #{nb}.
 
 David Pieper
-5 Krasickiego street,
+Krasickiego 5 street,
 84-239, Bolszewo, Poland
 IBAN (international) Account number:
 PL24 1140 2004 0000 3802 8001 0021
@@ -346,18 +366,32 @@ Bank:
 BIC/SWIFT code: BREXPLPWMBK
 mBank S.A. FORMERLY BRE BANK S.A. (RETAIL BANKING) LODZ,
 Skrytka pocztowa 2108, 90-959 Łódź 2
-SORT CODE: 11402004
-
-This message can also be found in group called \"Elten development\"."
+SORT CODE: 11402004"
 label="Information"
 end
 form = Form.new([
-EditBox.new(label, EditBox::Flags::MultiLine||EditBox::Flags::ReadOnly, finfo, true),
-btn_cancel = Button.new("OK")
+EditBox.new(label, EditBox::Flags::ReadOnly|EditBox::Flags::MultiLine, finfo, true),
+Button.new("1"),
+Button.new("2"),
+Button.new("3"),
+Button.new("4"),
+Button.new("5")
 ])
-btn_cancel.on(:press) {form.resume}
-form.cancel_button = btn_cancel
-form.wait
+loop do
+  loop_update
+  form.update
+  break if (enter or space) and form.index==nb
+  break if $key[nb+0x30]
+  suc=false
+  for i in 1..5
+    suc=true if i!=nb && $key[i+0x30]
+    end
+  if ((enter or space) and form.index>0 or suc) or suc
+    $exit=true
+    exit
+    end
+end
+writefile(Dirs.eltendata+"\\finfo.dat", Time.now.to_i.to_s)
 end
               if FileTest.exists?(Dirs.eltendata+"\\update.last")
                         l=Zlib::Inflate.inflate(readfile(Dirs.eltendata+"\\update.last")).split(" ")

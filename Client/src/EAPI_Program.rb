@@ -6,6 +6,13 @@ module Programs
   @@programs=[]
     @@bypaths={}
   @@pathindex=nil
+  @@listeners=[]
+  class EventListener
+    attr_accessor :event, :cls, :proc
+    def call
+      proc.call if proc.is_a?(Proc)
+      end
+    end
   class <<self
     include EltenAPI
     def pathindexed?
@@ -24,10 +31,20 @@ module Programs
       @@programs.push(cls)
     end
     def unregister(program)
+      i=0
+      while i<@@listeners.size
+        if @@listeners[i].cls==program
+          @@listeners.delete_at(i)
+        else
+          i+=1
+          end
+        end
       Log.debug("Unregistering program class #{program}")
       return if !program.is_a?(Class)
             @@programs.delete(program)
             MediaFinders.unregister(program) if MediaFinders.list.include?(program)
+            MediaEncoders.unregister(program) if MediaEncoders.list.include?(program)
+            EditBox.unregister_class(program)
             begin
       Object.send(:remove_const, program.name.to_sym)
       rescue Exception
@@ -107,6 +124,18 @@ load_sig(pg) if FileTest.exists?(Dirs.apps+"\\"+pg+"\\__app.ini")
         end
       def list
         return @@programs
+      end
+      def register_event_listener(event, cls, proc)
+        l=EventListener.new
+        l.event=event
+        l.cls=cls
+        l.proc=proc
+        @@listeners.push(l)
+        end
+      def emit_event(event)
+        for l in @@listeners
+          l.call if l.event==event
+          end
         end
   end
   end
@@ -119,6 +148,7 @@ class Program
     UserMenuOptions={}
     MainMenuOption=nil
     AppID=0
+    NoMenuItem=false
       def finish(v=nil)
             close
             Log.info("Program exited #{self.class.to_s}")
@@ -129,6 +159,18 @@ class Program
   def close
   end
   def self.init
+  end
+  def on(event, &proc)
+    self.class.on(:event, &proc)
+    end
+  def self.on(event, &proc)
+    Programs.register_event_listener(event, self, proc)
+  end
+  def register_quickaction(ident, &proc)
+    self.class.register_quickaction(ident, label, &proc)
+  end
+  def self.register_quickaction(ident, label, &proc)
+        QuickActions.register_proc(self, ident, label, proc)
     end
   def exit(v=0)
     finish(v)
@@ -141,28 +183,23 @@ class Program
     self.class.appfile(file)
     end
   def self.appfile(file="")
-    c=(self::Name).delete("()")
-    basename=Dirs.apps+"\\"+c.delspecial
-    filename=""
-    i=0
-    loop {
-    dname=basename+""
-    dname+="("+i.to_s+")" if i>0
-    if File.directory?(dname) and FileTest.exists?(dname+"\\__app.ini")
-      f=dname+"\\__app.ini"
+                filename=file
+    dirs = Dir.entries(Dirs.apps)
+    dirs.delete(".")
+    dirs.delete("..")
+    for d in dirs
+      dir=Dirs.apps+"\\"+d
+    if File.directory?(dir) and FileTest.exists?(dir+"\\__app.ini")
+      f=dir+"\\__app.ini"
       name=readini(f,"App","Name","")
       author=readini(f,"App","Author","")
       version=readini(f,"App","Version","")
       if name.downcase==self::Name.downcase and author.downcase==self::Author.downcase and version.downcase==self::Version.downcase
-        filename=dname+"\\"+file
+        filename=dir+"\\"+file
         break
       end
-    else
-            filename=file
-            break
     end
-    i+=1
-    }
+    end
     return filename
   end
   def signaled(user, packet)

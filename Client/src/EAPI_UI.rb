@@ -15,17 +15,17 @@ module EltenAPI
     # @example
     #  play("list_focus",80,100)
     def eplay(voice,volume=100,pitch=100,pan=50)
-                              if $interface_soundthemeactivation != 0 or FileTest.exists?(voice)
-                          if $soundthemesounds==nil or $soundthemesoundspath!=$soundthemepath
+                              if Configuration.soundthemeactivation != 0 or FileTest.exists?(voice)
+                          if $soundthemesounds==nil or $soundthemesoundspath!=Configuration.soundthemepath
                             if $soundthemesounds!=nil
                               $soundthemesounds.values.each {|s| s.close if s!=nil}
                               end
                             $soundthemesounds={}
-                            $soundthemesoundspath=$soundthemepath
+                            $soundthemesoundspath=Configuration.soundthemepath
                             end
                           b=nil
                         if volume >= 0
-                          volume = (volume.to_f * $volume.to_f / 100.0)
+                          volume = (volume.to_f * Configuration.volume.to_f / 100.0)
                         volume = 100 if volume > 100
                           volume = 1 if volume < 1
                                                 volume = volume.to_i
@@ -34,12 +34,12 @@ module EltenAPI
                                                 volume = 100 if volume > 100
                                               end
                                               if $soundthemesounds[voice]==nil or $soundthemesounds[voice].closed
-                        if FileTest.exist?("#{$soundthemepath}/SE/#{voice}.ogg")
-                          b=Bass::Sound.new("#{$soundthemepath}/SE/#{voice}.ogg",0)
+                        if FileTest.exist?("#{Configuration.soundthemepath}/SE/#{voice}.ogg")
+                          b=Bass::Sound.new("#{Configuration.soundthemepath}/SE/#{voice}.ogg",0)
                         end
-                                                if b==nil&&FileTest.exist?("#{$soundthemepath}/BGS/#{voice}.ogg")
+                                                if b==nil&&FileTest.exist?("#{Configuration.soundthemepath}/BGS/#{voice}.ogg")
                                                   $bgs.close if $bgs!=nil
-                          b=$bgs=Bass::Sound.new("#{$soundthemepath}/BGS/#{voice}.ogg",0,true)
+                          b=$bgs=Bass::Sound.new("#{Configuration.soundthemepath}/BGS/#{voice}.ogg",0,true)
                                                   end
                                                 if b==nil and FileTest.exist?("Audio/SE/#{voice}.ogg")
                           b=Bass::Sound.new("Audio/SE/#{voice}.ogg",0)
@@ -58,7 +58,7 @@ module EltenAPI
                         if b!=nil
                           b.newchannel
                                                   b.volume=volume.to_f/100.0*0.5
-if $interface_usepan==1
+if Configuration.usepan==1
                                                   b.pan=pan.to_f/50.0-1.0
                                                   else
                                                   b.pan=0
@@ -165,7 +165,7 @@ end
           Win32API.new("user32","GetKeyboardState",'p','i').call($keybd)
      bd=$keybd.unpack("c"*256)
           k="\0"*256
-Win32API.new($eltenlib, "getkeys", 'p', 'i').call(k)
+          Win32API.new($eltenlib, "getkeys", 'p', 'i').call(k)
 d=k.unpack("c"*256)
 tokeys=[]
 if NVDA.check
@@ -324,12 +324,39 @@ end
        if $trayreturn==true
          Log.info("Restored from tray")
          tr=true
-end
-if $agent!=nil and (av=$agent.avail)>0
-              str=StringIO.new($agent.read(av))
-      while str.pos<str.string.size-1
-                                                                                                                                        d=Marshal.load(str)
-                                                                                                                                                if d['func']=="notif"
+       end
+       if $agent!=nil and (av=$agent.avail)>0
+                str=$agent.read(av)
+                m=[]
+                index=0
+                while index<str.size
+                  o=str[index...index+4]
+                  index+=4
+                  size=o.unpack("I").first
+                  str+=$agent.read while str.size<index+size
+                  z=str[index...index+size]
+                  index+=size
+                  m.push(Zlib::Inflate.inflate(z))
+                end
+      for e in m
+        ind=0
+        d={}
+        while ind<e.size
+        ksize,vsize=e[ind...ind+8].unpack("II")
+        ind+=8
+        type=e[ind..ind]
+        ind+=1
+        k=e[ind...ind+ksize]
+        ind+=ksize
+        v=e[ind...ind+vsize]
+        ind+=vsize
+        v=v.to_i if type=='I'
+        v=v.to_f if type=='F'
+        v=false if type=="B" && v=="false"
+        v=true if type=="B" && v=="true"
+        d[k]=v
+      end
+                                                                                                                                                                                                                                                                                        if d['func']=="notif"
                                     if $notifications_callback!=nil
                     $notifications_callback.call(d)
                   else
@@ -338,6 +365,10 @@ if $agent!=nil and (av=$agent.avail)>0
                   elsif d['func']=='srvproc'
                     $agids.delete(d['id'])
                                                   $eresps[d['id']]=d
+                                                elsif d['func']=='jproc'
+                                                  p d
+                    $agids.delete(d['id'])
+                                                  $jresps[d['id']]=d
                                                 elsif d['func']=="eltsock_create"
                                                   $eltsocks_create||={}
                                                   $eltsocks_create[d['id']]=d
@@ -363,7 +394,7 @@ if $agent!=nil and (av=$agent.avail)>0
                                       elsif d['func']=='error'
                             e=d['msg']+"\r\n"+d['loc']
                             Log.error("Agent: #{e}")
-if confirm(p_("EAPI_UI", " An unexpected error of Elten agent occurred. Do you want to report this event? It  may definitely help us solve the problem."))==1
+if confirm(p_("EAPI_UI", "An unexpected error of Elten agent occurred. Do you want to report this event? It  may definitely help us solve the problem."))==1
     bug(false,"Elten Agent Error:\r\n"+e)
   end
   print e if $DEBUG
@@ -376,10 +407,10 @@ elsif d['func']=='sig'
     $scene.signaled(d['sender'], JSON.load(d['packet']))
     end
 else
-  Log.warning("Agent unknown data: #{d.inspect}")
+  Log.warning("Agent unknown data: #{e}")
   play 'right'
                                       end
-        end
+                                    end
   end
  $agentupst=0 if $agentupst==nil
  $agentupst+=1
@@ -408,7 +439,7 @@ $activitytime||=Time.now.to_i
 $activity||={}
 $activity[$scene.class.name]||=0
 $activity[$scene.class.name]+=1.0/Graphics.frame_rate
-         register_activity if Time.now.to_i-$activitytime>3600 and $privacy_registeractivity==1
+         register_activity if Time.now.to_i-$activitytime>3600 and Configuration.registeractivity==1
         Graphics.update
                               Input.update
       key_update
@@ -417,21 +448,20 @@ $activity[$scene.class.name]+=1.0/Graphics.frame_rate
         $totray=false
   Audio.bgs_stop
   if readconfig("Interface", "HideWindow", 0) == 0
-  run("bin\\elten_tray.bin")
-  Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
+    Win32API.new("user32","ShowWindow",'ii','i').call($wnd,0)
   $trayreturn=true
 else
   Win32API.new("user32","ShowWindow",'ii','i').call($wnd,6)
   end
         end
-              if $stopmainthread == true
-   if Thread::current == $subthreads.last or Thread::current == $mainthread
+              if Thread::current != $currentthread
      l="main"
      l=$subthreads.size if Thread::current!=$mainthread
-     Log.info("Pausing thread #{l}")
-    Thread::stop
+          Log.info("Pausing thread #{l}")
+          sc=$scene
+    sleep(0.1) while $currentthread!=Thread::current
     Log.info("Thread resumed #{l}")
-  end
+    $scene=sc
   end
 if tr == true
   $trayreturn=false
@@ -491,7 +521,7 @@ rescue Hangup
 # @param text [String] a question to ask
 # @return [Numeric] return 0 if user selected no or pressed escape, returns 1 if selected yes.
 def confirm(text="")
-  text.gsub!("jesteś pewien","jesteś pewna") if $language=="pl-PL" and Session.gender==0
+  text.gsub!("jesteś pewien","jesteś pewna") if Configuration.language=="pl-PL" and Session.gender==0
   dialog_open  
   sel = menulr([_("No"),_("Yes")],true,0,text)
     loop do
@@ -553,14 +583,14 @@ elsif form.fields[0].text!="" and form.fields[1]==nil
     # Opens a waiting dialog
   def waiting
     f=""
-    if FileTest.exist?("#{$soundthemepath}/BGS/waiting.ogg")
-                      f="#{$soundthemepath}/BGS/waiting.ogg"
+    if FileTest.exist?("#{Configuration.soundthemepath}/BGS/waiting.ogg")
+                      f="#{Configuration.soundthemepath}/BGS/waiting.ogg"
                     else
                       f="Audio/BGS/waiting.ogg"
                       end
           if $waitingvoice == nil
                           $waitingvoice = Bass::Sound.new(f, 1, true)
-                          $waitingvoice.volume = $volume.to_f/150.0
+                          $waitingvoice.volume = Configuration.volume.to_f/150.0
                           $waitingvoice.play
                           end
                             $waitingopened = true
@@ -582,9 +612,9 @@ def waiting_end
       # Opens a dialog
   def dialog_open
             eplay("dialog_open")
-        if FileTest.exist?("#{$soundthemepath}/BGS/dialog_background.ogg")
-                          $dialogvoice ||= Bass::Sound.new("#{$soundthemepath}/BGS/dialog_background.ogg", 0, true)
-                          $dialogvoice.volume=$volume.to_f/100.0
+        if FileTest.exist?("#{Configuration.soundthemepath}/BGS/dialog_background.ogg")
+                          $dialogvoice ||= Bass::Sound.new("#{Configuration.soundthemepath}/BGS/dialog_background.ogg", 0, true)
+                          $dialogvoice.volume=Configuration.volume.to_f/100.0
                           $dialogvoice.position=0
                                                     $dialogvoice.play
                           end

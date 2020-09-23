@@ -235,7 +235,7 @@ def load_languages
 def load_privacy
   setting_category(p_("Account", "Privacy"))
   make_setting(p_("Account", "Hide my profile for strangers"), :bool, "publicprofile")
-  make_setting(p_("Account", "Black list"), :custom, Proc.new{insert_scene(Scene_Account_BlackListBox.new)})
+  make_setting(p_("Account", "Black list"), :custom, Proc.new{insert_scene(Scene_Account_BlackList.new)})
   end
 def load_signs
   setting_category(p_("Account", "Status and signature"))
@@ -286,7 +286,7 @@ def load_whatsnew
           if escape or @form.fields[-1].pressed?
             $scene=Scene_Main.new
           end
-          break if $scene!=self
+          break if $scene!=self or $restart==true
         end
       end
     end
@@ -395,7 +395,7 @@ end
       else
         al=srvproc("autologins",{"password"=>password})
         if al[0].to_i<0
-          alert(p_("Account", " An error occurred while authenticating the account. You might have provided an  incorrect password."))
+          alert(p_("Account", "An error occurred while authenticating the account. You might have provided an  incorrect password."))
         else
           break
           end
@@ -409,7 +409,7 @@ end
       ret=0
       tim=""
               tm=Time.at(a.to_i)
-        tim=sprintf("%04d-%02d-%02d %02d:%02d",tm.year,tm.month,tm.day,tm.hour,tm.min)
+        tim=format_date(tm, false, false)
               als.push([tim])
       t+=1
       when 1
@@ -443,7 +443,7 @@ loop do
 $scene=Scene_Main.new
   end
 def globallogout
-  confirm(p_("Account", " Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediately.")) do
+  confirm(p_("Account", "Are you sure you want to remove all auto log in tokens and log out all sessions?  You will be logged off immediately.")) do
         loop do
       password=input_text(p_("Account", "Enter your password."),EditBox::Flags::Password,"",true)
       if password==nil
@@ -453,10 +453,13 @@ def globallogout
       else
         lg=srvproc("logout", {"global"=>"1", "password"=>password})
         if lg[0].to_i<0
-          alert(p_("Account", " An error occurred while authenticating the account. You might have provided an  incorrect password."))
+          alert(p_("Account", "An error occurred while authenticating the account. You might have provided an  incorrect password."))
         else
           Session.name=""
           Session.token=""
+          writeconfig("Login", "AutoLogin", 0)
+          writeconfig("Login", "Token", nil)
+          writeconfig("Login", "TokenEncrypted", nil)
           $restart=true
           $scene=Scene_Loading.new
           break
@@ -507,7 +510,7 @@ loop_update
           menu.option(p_("Account", "Add"), nil, "n") {
                             user=input_user(p_("Account", "User you want to add to the blacklist."))
                   if user!=nil
-                  confirm(p_("Account", " The users added to your black list cannot send you private messages. Are you sure  you want to continue?")) do
+                  confirm(p_("Account", "The users added to your black list cannot send you private messages. Are you sure  you want to continue?")) do
                     bl=srvproc("blacklist",{"add"=>"1", "user"=>user})
                     case bl[0].to_i
                     when 0
@@ -548,7 +551,7 @@ loop_update
           }
           end
           menu.option(_("Refresh"), nil, "r") {
-                                $scene=Scene_Account_BlackListBox.new
+                                $scene=Scene_Account_BlackList.new
           }
                   end
                 end
@@ -564,7 +567,7 @@ loop_update
       else
         lg=srvproc("lastlogins",{"password"=>password})
         if lg[0].to_i<0
-          alert(p_("Account", " An error occurred while authenticating the account. You might have provided an  incorrect password."))
+          alert(p_("Account", "An error occurred while authenticating the account. You might have provided an  incorrect password."))
         else
           break
           end
@@ -578,7 +581,7 @@ loop_update
       ret=0
       tim=""
               tm=Time.at(l.to_i)
-        tim=sprintf("%04d-%02d-%02d %02d:%02d",tm.year,tm.month,tm.day,tm.hour,tm.min)
+        tim=format_date(tm, false, false)
               lgs.push([tim])
       t+=1
       when 1

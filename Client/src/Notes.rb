@@ -46,7 +46,7 @@
   end
   selt=[]
   for n in @notes
-    selt.push(n.name+"\r\n#{p_("Notes", "Author")}: "+n.author+"\r\n#{p_("Notes", "Modified")}: "+sprintf("%04d-%02d-%02d %02d:%02d",n.modified.year,n.modified.month,n.modified.day,n.modified.hour,n.modified.min))
+    selt.push(n.name+"\r\n#{p_("Notes", "Author")}: "+n.author+"\r\n#{p_("Notes", "Modified")}: "+format_date(n.modified, false, false))
   end
   @sel=ListBox.new(selt,p_("Notes", "Notes"), index)
   @sel.bind_context{|menu|context(menu)}

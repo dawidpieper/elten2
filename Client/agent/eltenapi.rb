@@ -134,6 +134,45 @@ retry if !ign
 end
 end
 
+def ejrequest(method, path, params, data=nil, &b)
+init if $http==nil
+$lastrep||=Time.now.to_i
+init if $lastrep<Time.now.to_i-20
+begin
+if (t=Time.now).min%15==14 and t.sec>=58
+sleep(60-t.sec+2)
+end
+stream = $http.new_stream
+j=JSON.generate(params)
+head = {
+':scheme' => 'https',
+':authority' => 'api.elten-net.eu:443',
+':path' => path,
+'user-agent' => "Elten #{$version} agent",
+'content-type' => 'application/json',
+":method"=>method,
+'content-length'=>j.bytesize.to_s
+}
+stream.headers(head, end_stream:false)
+until j.empty?
+ch = j.slice!(0...4096)
+stream.data(ch, end_stream: (j.empty?))
+end
+body=""
+stream.on(:headers) {|h|data['headers']=h if data.is_a?(Hash)}
+stream.on(:data) {|ch| body+=ch}
+stream.on(:half_close) {stream.close}
+stream.on(:close) {
+$eropened=nil
+$lastrep=Time.now.to_i
+b.call(body,data)
+}
+rescue Exception
+init
+retry
+end
+end
+
 class EltenSock
 def initialize
 @sock=TCPSocket.new("elten-net.eu",80)
@@ -184,8 +223,7 @@ end
 end
 
 def log(level,msg)
-STDOUT.binmode.write((Marshal.dump({'func'=>'log', 'level'=>level, 'msg'=>msg, 'time'=>Time.now.to_f})))
-STDOUT.flush
+ewrite({'func'=>'log', 'level'=>level, 'msg'=>msg, 'time'=>Time.now.to_f})
 end
 
 def decrypt(data,code=nil)

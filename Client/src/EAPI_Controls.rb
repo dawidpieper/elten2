@@ -22,9 +22,9 @@ module EltenAPI
 0x25=>"left", 0x26=>"up", 0x27=>"right", 0x28=>"down"
 }
      for e in ks.keys
-       k.push(("key_"+ks[e]).to_sym) if $key[e]
-       k.push(("keyr_"+ks[e]).to_sym) if $keyr[e]
-       k.push(("keyup_"+ks[e]).to_sym) if $keyu[e]
+       k.push([("key_"+ks[e]).to_sym, ks[e].to_sym]) if $key[e]
+       k.push([("keyr_"+ks[e]).to_sym, ks[e].to_sym]) if $keyr[e]
+       k.push([("keyup_"+ks[e]).to_sym, ks[e].to_sym]) if $keyu[e]
        end
       return k
       end
@@ -110,16 +110,19 @@ end
       }
       end
         def update(*arg)
-      keyevents.each {|a| trigger(a)}
+      keyevents.each {|a| trigger(a[0]) if !key_processed(a[1])}
       $activecontrols.push(self) if $activecontrols.is_a?(Array)
     end
     def focus(index=nil,count=nil)
     end
     def blur
+    end
+    def key_processed(k)
+      return false
       end
     end
     
-    # A form class  
+    # A form  
     class Form < FormBase
       # @return   [Numeric] a form index
       attr_reader :index
@@ -130,7 +133,7 @@ end
         #
         # @param fields [Array] an array of form fields
         # @param index [Numeric] the initial index
-        def initialize(fields=[],index=0,silent=false)
+        def initialize(fields=[],index=0,silent=false,quiet=false)
           @fields = fields
           @index = index
           @silent=silent
@@ -140,7 +143,7 @@ end
               @fields[@index] = EditBox.new(@fields[@index][1],@fields[@index][2],@fields[@index][3],false,@fields[@index][4])
             end
             end
-          if @fields[@index]!=nil
+          if @fields[@index]!=nil && quiet==false
             @fields[@index].trigger(:before_focus)
             @fields[@index].focus(@index, @fields.size)
             @fields[@index].trigger(:focus)
@@ -152,6 +155,10 @@ end
         # Updates a form
         def update
           super
+          if $focus==true
+            focus
+            $focus=false
+            end
           @index-=1 while (@fields[@index]==nil or @hidden[@index]==true) and @index>0
       @index+=1 while (@fields[@index]==nil or @hidden[@index]==true) and @index<@fields.size-1
                 oldindex=@index                                
@@ -195,11 +202,32 @@ ind=@index
                   end
                   if escape && @cancel_button.is_a?(Button)
                     @cancel_button.press
-                    end
+                  end
+if @fields[@index]!=nil && @accept_button!=nil && !@fields[@index].is_a?(Button)
+  f=@fields[@index]
+  if enter and (!f.key_processed(:enter) || $keyr[0x10])
+    @accept_button.press
+    end
+  end
                 end
                 def append(field)
                   @fields.push(field)
                 end
+                
+                def insert(index, field)
+                  @fields.insert(index, field)
+                end
+                
+                def insert_before(sfield, field)
+                  f=@fields.index(sfield)||-1
+                  @fields.insert(f, field)
+                end
+                
+                def insert_after(sfield, field)
+                  f=@fields.index(sfield)||-2
+                  @fields.insert(f+1, field)
+                  end
+                
                 def index=(ind)
                   ind=@fields.find_index(ind) if ind.is_a?(FormBase)
                   return if !ind.is_a?(Integer)
@@ -228,6 +256,15 @@ ind=@index
                   end
                 def focus(index=nil,count=nil)
                   @fields[@index].focus(@index, @fields.size) if @fields[@index]!=nil
+                end
+                def key_processed(k)
+                  if k==:tab
+                    return true
+                  elsif @fields[@index]!=nil
+                    return @fields[@index].key_processed(k)
+                  else
+                    return false
+                    end
                   end
                   end
                 
@@ -331,6 +368,8 @@ s=selectcontact
       end
   
   class EditBox < FormField
+    @@customactions=[]
+    @@lastedits=[]
     attr_accessor :index
         attr_accessor :flags
     attr_reader :origtext
@@ -354,6 +393,8 @@ s=selectcontact
 @redo=[]
 @undo=[]
 @formats=[]
+@@lastedits.push(self) if (@flags&Flags::MultiLine)>0 && (@flags&Flags::ReadOnly)==0
+@@lastedits.delete_at(0) while @@lastedits.size>20
 focus if quiet==false
     end
     def update
@@ -367,7 +408,8 @@ focus if @audioplayer==nil and @audiotext!="" and @audiotext!=nil
       if @audioplayer!=nil and escape
         blur
       elsif @audioplayer!=nil and @audioplayed==false
-      if $voice==-1 or !speech_actived
+      if Configuration.voice==-1 or !speech_actived
+        Programs.emit_event(:player_play)
       @audioplayer.play
       @audioplayed=true
     end
@@ -387,9 +429,9 @@ navupdate
 def editupdate
   return readupdate if (@flags&Flags::ReadOnly)!=0
       if (c=getkeychar)!="" and (c.to_i.to_s==c or (@flags&Flags::Numbers)==0) and (@flags&Flags::ReadOnly)==0
-                speech_stop if $interface_typingecho>0 and !($voice==-1 and NVDA.check)
+                speech_stop if Configuration.typingecho>0 and !(Configuration.voice==-1 and NVDA.check)
         einsert(c)
-                               if ((wordendings=" ,./;'\\\[\]-=<>?:\"|\{\}_+`!@\#$%^&*()_+").include?(c)) and (($interface_typingecho == 1 or $interface_typingecho == 2))
+                               if ((wordendings=" ,./;'\\\[\]-=<>?:\"|\{\}_+`!@\#$%^&*()_+").include?(c)) and ((Configuration.typingecho == 1 or Configuration.typingecho == 2))
                  s=@text[(@index>50?@index-50:0)...@index]
                                   w=(s[(0 ... s.length).find_all { |i| wordendings.include?(s[i..i]) or s[i..i]=="\n"}.sort[-2]||0..(s.size-1)])
 if (w=~/([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+)/)!=nil
@@ -398,7 +440,7 @@ if (w=~/([a-zA-Z0-9ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+)/)!=nil
 else
   espeech(c) if @interface_typingecho!=1
   end
-elsif $interface_typingecho==0 or $interface_typingecho==2
+elsif Configuration.typingecho==0 or Configuration.typingecho==2
          espeech(c)
       end
     elsif c!=""
@@ -772,26 +814,38 @@ cut
 paste
   }
   menu.option(p_("EAPI_Form", "Undo"), nil, "z") {
-undo
+eundo
   }
   menu.option(p_("EAPI_Form", "Redo"), nil, "y") {
-redo
+eredo
+  }
+  menu.submenu(p_("EAPI_Form", "Load last text")) {|m|
+  for e in @@lastedits
+    next if e==self
+    t=(e.header+": "+e.text)[0...200]
+    m.option(t, e) {|e|
+    @@lastedits.push(self.deep_dup) if @text!=""
+    settext(e.text)
+    }
+    end
   }
   end
   menu.option(p_("EAPI_Form", "Find"), nil, "f") {
 search
   }
   menu.option(p_("EAPI_Form", "Quick translation"), nil, "t") {
-  espeech(translatetext(0,$language,getcheck))
+  espeech(translatetext(0,Configuration.language,getcheck))
   }
   menu.option(p_("EAPI_Form", "Translate"), nil, "T") {
   translator(getcheck)
   }
-  menu.option(p_("EAPI_Form", "Speech to file"), nil, "p") {
-    speechtofile("",getcheck.gsub("\n","\r\n"))
+  for a in @@customactions
+      menu.option(a[0]) {
+    a[1].call(self)
   }
+    end
   }
-  s=@header+" ("+_("Context menu")+")"
+    s=@header+" ("+_("Context menu")+")"
   s=p_("EAPI_Form", "Edit") if submenu==false
     menu.submenu(s) {|m|c.call(m)}
   super(menu, submenu)
@@ -811,21 +865,21 @@ def copy
         einsert(Clipboard.text.delete("\r"))
     alert(p_("EAPI_Form", "pasted"), false)
   end
-  def undo
+  def eundo
+    return if @undo.size==0
           u=@undo.last
         @undo.delete_at(@undo.size-1)
 u[0]==1?edelete(u[1],u[1]+u[2].size,false):einsert(u[2],u[1],false)
                     @redo.push(u)
           alert(p_("EAPI_Form", "undone"), false)
-
         end
-        def redo
+        def eredo
+          return if @redo.size==0
                 r=@redo.last
         @redo.delete_at(@redo.size-1)
                 r[0]==2?edelete(r[1],r[1]+r[2].size,false):einsert(r[2],r[1],false)
                     @undo.push(r)          
           alert(p_("EAPI_Form", "Repeated"), false)
-
         end
         def search
                 search=input_text(p_("EAPI_Form", "Enter a phrase to look for"),0,@lastsearch||"",true)
@@ -875,7 +929,7 @@ def lineending(index=@vindex)
     return [left, right]
     end
 def getvlines(l,r)
-    return [l,r+1] if r-l<120 or (@flags&Flags::MultiLine)==0 or (@flags&Flags::DisableLineWrapping)>0 or $interface_linewrapping==0
+    return [l,r+1] if r-l<120 or (@flags&Flags::MultiLine)==0 or (@flags&Flags::DisableLineWrapping)>0 or Configuration.linewrapping==0
   ls=[l]
     for c in l...r
            if @text[c..c]==" " and c-ls[-1]>120 and c!=r-1
@@ -1212,13 +1266,13 @@ def value
   end
   def focus(index=nil,count=nil,spk=true)
     pos=50
-    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil
-      play("edit_marker", 100, 100, pos) if spk && $interface_controlspresentation!=2
+    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil && count!=0
+      play("edit_marker", 100, 100, pos) if spk && Configuration.controlspresentation!=2
       tp=p_("EAPI_Form", "Edit box")
       tp=p_("EAPI_Form", "Text") if (@flags&Flags::ReadOnly)>0
       tp=p_("EAPI_Form", "Media") if @audiotext!=nil
       tph=tp+": "
-      tph="" if $interface_controlspresentation==1
+      tph="" if Configuration.controlspresentation==1
       head=@header.to_s + "... " + tph
                               NVDA.braille(@header.to_s+"  "+@text, @header.to_s.size+2+@index-1,false,0,nil,@header.to_s.size+2+@index-1) if NVDA.check
                               if @audiotext!=nil
@@ -1387,7 +1441,21 @@ end
       return ""
       end
       end
-  end
+    end
+    def key_processed(k)
+     return true
+   end
+   def self.add_customaction(name, cls, &b)
+     @@customactions.push([name, b, cls]) if b!=nil
+   end
+   def self.unregister_class(cls)
+     for a in @@customactions.dup
+       @@customactions.delete(a) if a[2]==cls
+       end
+     end
+     def hascontext
+       return true
+       end
 end
 
 # A listbox class
@@ -1428,13 +1496,13 @@ self.options=(options)
               @selected[i] = false
               end
             @border = true
-            @border=false if $interface_listtype == 1
+            @border=false if Configuration.listtype == 1
                                     @lr=((flags & Flags::LeftRight)>0)
             @multi=((flags & Flags::MultiSelection)>0)
 @silent=((flags & Flags::Silent)>0)
             header="" if header==nil
                                     @header = header
-              focus if quiet == false
+                                                  focus if quiet == false
                                         end
             
             def options=(opts)
@@ -1472,12 +1540,6 @@ def value
     def update
 super
   speak((@index+1).to_s+" / "+@options.size.to_s) if $key[115] and !$keyr[0x10] and @prevent_indexspeaking!=true
-    if $key[0x11]   and $key[0x12] and $key[82]
-      for i in 0..@options.size-1
-        @options[i]=@options[i].split("").reverse.join if @options[i].is_a?(String)
-        speak("Coś niejasne?")
-        end
-      end
     oldindex = self.index
       options = @options
 if ((@lr and arrow_left) or (!@lr and arrow_up)) and !$keyr[0x10] and !$keyr[0x2D] and !$keyr[0x11]
@@ -1640,7 +1702,7 @@ o += " ("+ASCII(ss)+")" if ss.is_a?(Integer)
 o += "\r\n\r\n(#{p_("EAPI_Common", "Checked")})" if @selected[self.index] == true
 o||=""
 o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
-o=("\004NEW\004"+" "+(($interface_soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
+o=("\004NEW\004"+" "+((Configuration.soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
 }
 o=o.gsub(/\[#{Regexp.escape(@tag)}\]/i, "") if @tag!=nil
   lspeak(o) if !ishidden(self.index) && self.index>=0
@@ -1680,14 +1742,19 @@ elsif oldindex == self.index and @run == true and (k.chrsize<=1 or (@options[sel
     lspeak @options[self.index] if @options[self.index].is_a?(String) && !ishidden(self.index)
   end
   
+  def lpos
+        pos=50
+    pos=self.index.to_f/(self.options.size-1).to_f*100.0 if self.options.size>1
+    return pos
+    end
   def lspeak(text)
-    speak(text,1,true,nil,true,self.index.to_f/(self.options.size-1).to_f*100.0)
+    speak(text,1,true,nil,true,lpos)
     end
   
 def focus(index=nil, count=nil, header=@header, spk=true)
   pos=50
-    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil
-  if spk && $interface_controlspresentation!=2
+    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil && count!=0
+  if spk && Configuration.controlspresentation!=2
     if @multi==false
   play("list_marker", 100, 100, pos)  if @silent == false
 else
@@ -1712,7 +1779,7 @@ end
             if options.size>0
               o = options[self.index].delete("&")
               o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
-o=("\004NEW\004"+" "+(($interface_soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
+o=("\004NEW\004"+" "+((Configuration.soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
 }
 sp += o if !ishidden(self.index) && self.index>=0
 ss = false
@@ -1777,6 +1844,21 @@ end
 def collapsed?
   return !$keyr[0x10] && ((@lr && arrow_up) || (!@lr && arrow_left))
 end
+def key_processed(k)
+  if (@lr==false and (k==:up || k==:down))
+    return true
+  elsif (@lr==true and (k==:left || k==:right))
+    return true
+  elsif k.to_s.size==1
+    return true
+  elsif k==:home || k==:end || k==:pageup || k==:pagedown
+    return true
+  elsif @multi==true and k==:space
+    return true
+  else
+    return false
+    end
+  end
 end
 
 # A button class
@@ -1801,10 +1883,10 @@ super
           end
         def focus(index=nil,count=nil)
           pos=50
-    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil
-          play("button_marker", 100, 100, pos) if $interface_controlspresentation!=2
+    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil && count!=0
+          play("button_marker", 100, 100, pos) if Configuration.controlspresentation!=2
           tph="... " + p_("EAPI_Form", "Button")
-          tph="" if $interface_controlspresentation==1
+          tph="" if Configuration.controlspresentation==1
           speak(@label + tph)
           NVDA.braille(@label) if NVDA.check
         end
@@ -1816,6 +1898,13 @@ super
         def press
           @pressed=true
           trigger(:press)
+        end
+        def key_processed(k)
+          if k==:space || k==:enter
+            return true
+          else
+            return false
+            end
           end
       end
       
@@ -1839,7 +1928,7 @@ super
         def update
 super
   focus(nil, nil, true,false) if $keyr[0x2D] and arrow_up
-          if space or enter
+          if space
             if @checked == 1
               @checked = 0
               alert(p_("EAPI_Form", "unchecked"), false)
@@ -1858,22 +1947,30 @@ super
         
                     def focus(index=nil,count=nil, spk=true, snd=true)
                       pos=50
-    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil
-          play("checkbox_marker", 100, 100, pos) if spk and snd && $interface_controlspresentation!=2
+    pos=index.to_f/(count-1).to_f*100.0 if index!=nil and count!=nil && count!=0
+          play("checkbox_marker", 100, 100, pos) if spk and snd && Configuration.controlspresentation!=2
           text = @label + " ... "
           if @checked == 0
             text += p_("EAPI_Form", "unchecked")
           else
             text += p_("EAPI_Form", "Checked")
           end
-          if $interface_controlspresentation!=1
+          if Configuration.controlspresentation!=1
           text += " "
           text += p_("EAPI_Form", "Checkbox")
           end
           speech(text) if spk
           NVDA.braille(text)
         end
-      end        
+        
+        def key_processed(k)
+          if k==:space
+            return true
+          else
+            return false
+            end
+          end        
+          end
       
       # Creates a files tree
       class FilesTree < FormField
@@ -1894,11 +1991,16 @@ super
                 # @param exts [Array] an array of file extensions to show
                 def initialize(header="",path="",hidefiles=false,quiet=false,file=nil,exts=nil,specialvoices=true)
                             $filestrees||={}
+                            path+="\\" if path[-1..-1]!="\\" and path!=""
                                                 @id=path+"/"+(file||"")+":"+(exts.join("")||"")+":::"+header
                 @hidefiles=hidefiles
         @header=header
         @specialvoices=specialvoices
         @exts=exts
+        @editmenus=[]
+        @filemenus=[]
+        @createmenus=[]
+        @menus=[]
           if $filestrees[@id]!=nil
             f=$filestrees[@id]
             @file=f[1]
@@ -1930,6 +2032,7 @@ ind=0 if ind==nil
                 h=""
 h=@header if init==true
 @sel=ListBox.new(@disks+@adds,h,ind)
+@sel.on(:move) {trigger(:move)}
       @sel.silent=true if @specialvoices
       @files=@disks+@addfiles
 else
@@ -1970,6 +2073,7 @@ ind=fls.find_index(@file,ind)
 h=""
 h=@header if init==true
 @sel=ListBox.new(fls,h,ind,0,true)
+@sel.on(:move) {trigger(:move)}
 @sel.silent=true if @specialvoices
 @sel.focus if @refresh != true
 @files=fls
@@ -1983,15 +2087,15 @@ if cfile!=nil
 if @file!=@lastfile and @specialvoices
   @lastfile=@file
           if filetype==0
-            play("file_dir")
+            play("file_dir", 100, 100, @sel.lpos)
             elsif filetype==1
-  play("file_audio")
+  play("file_audio", 100, 100, @sel.lpos)
 elsif filetype==2
-  play("file_text")
+  play("file_text", 100, 100, @sel.lpos)
 elsif filetype==3
-  play("file_archive")
+  play("file_archive", 100, 100, @sel.lpos)
 elsif filetype==4
-  play("file_document")
+  play("file_document", 100, 100, @sel.lpos)
   end
 end
   end
@@ -2027,25 +2131,78 @@ end
 $filestrees[@id]=[@path,@file]
 end
 
+def bind_editmenu(&m)
+    @editmenus.push(m)
+end
+
+def bind_filesmenu(&m)
+  @filemenus.push(m)
+end
+
+def bind_createmenu(&m)
+  @createmenus.push(m)
+end
+
+def bind_menu(&m)
+  @menus.push(m)
+end
+
 def context(menu, submenu=false)
-  c=Proc.new {|menu|
+    filepr=Proc.new {|menu|
+    @filemenus.each{|f| f.call(menu)}
+    menu.option(p_("EAPI_Form", "Rename")) {
+    rename
+    }
+    menu.option(_("Delete"), nil, :del) {
+    fdelete
+    }
+            }
+                editpr=Proc.new {|menu|
   menu.option(p_("EAPI_Form", "Copy"), nil, "c") {
 copy
   }
   menu.option(p_("EAPI_Form", "Paste"), nil, "v") {
 paste
   }
-  }
-  s=@header+" ("+_("Context menu")+")"
-  s=p_("EAPI_Form", "Edit") if submenu==false
-    menu.submenu(s) {|m|c.call(m)}
+                  @editmenus.each{|f| f.call(menu)}
+    }
+    createpr=Proc.new {|menu|
+    menu.option(p_("EAPI_Form", "New folder"), nil, "n") {
+        name=""
+while name==""
+      name=input_text(p_("EAPI_Form", "Folder name"),0,"", true)
+      end
+    if name != nil
+      Win32API.new("kernel32","CreateDirectoryW",'pp','i').call(unicode(self.path+name),nil)
+      alert(p_("EAPI_Form", "The folder has been created."))
+    end
+    refresh
+    }
+    @createmenus.each{|f| f.call(menu)}
+    }
+  if submenu==false
+  s=p_("EAPI_Form", "File")
+      menu.submenu(s) {|m|filepr.call(m)}
+        s=p_("EAPI_Form", "Edit")
+    menu.submenu(s) {|m|editpr.call(m)}
+    s=p_("EAPI_Form", "Create")
+    menu.submenu(s) {|m|createpr.call(m)}
+    else
+  s=@header+" - "+p_("EAPI_Form", "Files Tree")+" ("+_("Context menu")+")"
+  menu.submenu(s){|m|
+  filepr.call(m)
+  editpr.call(m)
+  createpr.call(m)
+    }
+  end
+  @menus.each{|m| m.call(menu)}
   super(menu, submenu)
 end
 
 def filetype
   return 0 if File.directory?(cfile(true))
   ext=File.extname(selected).downcase
-  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts" or ext==".aiff" or ext==".m4v" or ext==".mkv" or ext==".vob"
+  if ext==".mp3" or ext==".ogg" or ext==".wav" or ext==".mid" or ext==".wma" or ext==".flac" or ext==".aac" or ext==".opus" or ext==".m4a" or ext==".mov" or ext==".mp4" or ext==".avi" or ext==".mts" or ext==".aiff" or ext==".m4v" or ext==".mkv" or ext==".vob" or ext==".m2ts"
     return 1
   elsif ext==".txt"
     return 2
@@ -2151,9 +2308,44 @@ end
         
         def copy
           Clipboard.files=[selected]
-          alert(p_("EAPI_Form", "Copied"), false)
-          end
-      end
+                    alert(p_("EAPI_Form", "Copied"), false)
+        end
+        
+        def rename
+                name=""
+    while name==""
+    name=input_text(p_("EAPI_Form", "New file name"),0, self.file, true)
+    end
+    if name != nil
+    Win32API.new("kernel32","MoveFileW",'pp','i').call(unicode(self.selected),unicode(self.path+name))
+    alert(p_("EAPI_Form", "The file name has been changed."))
+  end
+  refresh
+        end
+        
+        def fdelete
+          afile=self.selected
+          confirm(p_("EAPI_Form", "Do you really want to delete %{filename}?")%{'filename'=>self.file}) {
+    if File.directory?(afile)
+      deldir(afile)
+    else
+      File.delete(afile)
+    end
+    refresh
+    alert(p_("EAPI_Form", "Deleted"))
+}
+end
+def key_processed(k)
+  if @sel!=nil
+  return @sel.key_processed(k)
+else
+  return false
+  end
+end
+def hascontext
+  return true
+  end
+end
       
       class Static < FormField
         attr_accessor :label
@@ -2161,7 +2353,7 @@ end
           @label=label
         end
                 def focus(index=nil,count=nil)
-          speech(@label)
+          speak(@label)
           NVDA.braille(@label) if NVDA.check
         end
         end
@@ -2221,7 +2413,7 @@ super
            flags||=ListBox::Flags::LeftRight if lr
            flags||=ListBox::Flags::Silent if @silent
          s=ListBox.new(opt,@header,selindex,flags,true)
-         speech(s.options[s.index]) if quiet!=true
+         speak(s.options[s.index], 1, true, nil, true, s.lpos) if quiet!=true
                   return s
          end
          def searchway(way=[],tway=[],index=0)
@@ -2287,6 +2479,14 @@ lsel=ListBox.new(options, header, index, flags, true)
         lsel.disable_item(d)
       end
       lsel.focus
+      @cancel=false
+      if cancelkey!=nil
+        begin
+          s=("key_"+cancelkey.to_s).to_sym
+          lsel.on(s) {@cancel=true}
+          rescue Exception
+          end
+        end
         loop do
           loop_update
           lsel.update
@@ -2294,7 +2494,7 @@ lsel=ListBox.new(options, header, index, flags, true)
             return lsel.index
             break
           end
-          if (escape or (cancelkey!=nil and $key[cancelkey])) and escapeindex!=nil
+          if (escape or @cancel==true) and escapeindex!=nil
             loop_update
             return escapeindex
             break
@@ -2392,7 +2592,11 @@ lsel = menulr(options,true,0,"",true)
            ft.path=ftp if ftp!=nil and File.directory?(ftp)
            end
          end
-       end  
+         
+         def key_processed(k)
+           return @sel.key_processed(k)
+         end  
+         end
        
        class TableBox < FormField
          attr_accessor :columns, :rows
@@ -2454,18 +2658,30 @@ super
                c=@column
                setcolumn((@column+1)%(@columns.size))
                               setcolumn((@column+1)%(@columns.size)) while (@rows[index][@column]==nil||@rows[index][@column]=="") and c!=@column
-               speech (@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")"
+               speak((@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")", 1, true, nil, true, @sel.lpos)
              elsif arrow_left
                c=@column
                            setcolumn((@column-1)%(@columns.size))
                            setcolumn((@column-1)%(@columns.size)) while (@rows[index][@column]==nil||@rows[index][@column]=="") and c!=@column
-             speech (@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")"
+             speak((@rows[@sel.index][@column]||"")+" ("+(@columns[@column]||"")+")", 1, true, nil, true, @sel.lpos)
                  end
              end
            @sel.update
          end
          def focus(index=nil,count=nil)
            @sel.focus(index, count)
+         end
+         
+         def lpos
+           @sel.lpos
+           end
+         
+         def key_processed(k)
+           if $keyr[0x10] && (k==:left || k==:right)
+             return true
+           else
+             return @sel.key_processed(k)
+             end
            end
          end
          
@@ -2474,9 +2690,10 @@ super
            attr_reader :pause
            attr_accessor :label
                         def initialize(file,label="", autoplay=true, quiet=false)
+                          Programs.emit_event(:player_init)
                           file=$url+file[1..-1] if FileTest.exists?(file)==false && file[0..0]=="/"
                           @label=label
-                                                      speech(label) if label!="" and quiet==false
+                                                      speak(label) if label!="" and quiet==false
                                                       if file.is_a?(String)
 setsound(file)
 else
@@ -2485,7 +2702,7 @@ else
   end
     @pause=false    
     if autoplay==true and @sound!=nil
-      @sound.play
+      play
     else
       @pause=true
     end
@@ -2506,9 +2723,11 @@ super
   return if @sound==nil || @sound.closed
       if space
                 if @pause!=true
+                  Programs.emit_event(:player_pause)
           @sound.pause
         @pause=true
-              else
+      else
+        Programs.emit_event(:player_play)
                         @sound.play
         @pause=false
                 end
@@ -2518,14 +2737,14 @@ super
 h=d/3600
         m=(d-d/3600*3600)/60
   s=d-d/60*60
-  speech(sprintf("%0#{(h.to_s.size<=2)?2:d.to_s.size}d:%02d:%02d",h,m,s))
+  speak(sprintf("%0#{(h.to_s.size<=2)?2:d.to_s.size}d:%02d:%02d",h,m,s))
         end
   if $key[68]
     d=@sound.length.to_i
     h=d/3600
         m=(d-d/3600*3600)/60
   s=d-d/60*60
-  speech(sprintf("%0#{(h.to_s.size<=2)?2:d.to_s.size}d:%02d:%02d",h,m,s))
+  speak(sprintf("%0#{(h.to_s.size<=2)?2:d.to_s.size}d:%02d:%02d",h,m,s))
     end
     if $key[74] && !@file.include?("http")
             @sound.pause
@@ -2533,47 +2752,13 @@ h=d/3600
       dpos=@sound.position if dpos==nil
       dpos=dpos.to_i
       dpos=@sound.length if dpos>@sound.length
-      @sound.play
+            @sound.play
       @sound.position=dpos
       loop_update
       end
     if ($key[0x53] or ($keyr[0x10] and enter)) and @file.include?("http")
-    tf=@file.gsub("\\","/")
-    fs=tf.split("/")
-    nm=fs.last.split("?")[0]
-    nm=@label.delete("\r\n\\/:!@\#*?<>\'\"|+=`") if @label!="" and @label!=nil
-    if File.extname(nm)==""
-      l=@label.downcase
-      if l.include?("mp3")
-        nm+=".mp3"
-      elsif l.include?(".wav")
-        nm+=".wav"
-      elsif l.include?(".ogg")
-        nm+=".ogg"
-      else
-        nm+=".mp3"
-        end
-      end
-            dialog_open
-        form=Form.new([FilesTree.new(p_("EAPI_Form", "Destination"),Dirs.user+"\\",true,true,"Music"),EditBox.new(p_("EAPI_Form", "File name"),"",nm),Button.new(_("Save")),Button.new(_("Cancel"))])
-        loop do
-          loop_update
-          form.update
-          break if escape or ((space or enter) and form.index==3)
-          if (space or enter) and form.index==2
-            dest=form.fields[0].selected+"\\"+form.fields[1].text
-                        speak(p_("EAPI_Form", "Downloading..."))
-                        if !FileTest.exists?(dest) or confirm(p_("EAPI_Form", "The file already exists. Do you want to override it?"))==1
-                        waiting
-                        executeprocess("bin\\ffmpeg -y -i \"#{@file}\" \"#{dest}\"",true)
-                        waiting_end
-                        alert(p_("EAPI_Form", "Downloaded"))
-                        end
-                                    break
-            end
+      savefile
           end
-          dialog_close
-    end
     if $keyr[0x10]              ==false && $keyr[0x11]==false
     if arrow_right
                 @sound.position+=5
@@ -2625,12 +2810,86 @@ if $key[0x08] == true
   end
 end
 
+def savefile
+ 
+    tf=@file.gsub("\\","/")
+    fs=tf.split("/")
+    nm=fs.last.split("?")[0]
+    nm=@label.delete("\r\n\\/:!@\#*?<>\'\"|+=`") if @label!="" and @label!=nil
+        nm+=".opus"
+        encoders=[]
+        for e in MediaEncoders.list
+          encoders.push(e) if e::Type==:audio
+          end
+        formats=[]
+        for e in encoders
+          f=e::Name+" ("+e::Extension+")"
+          if e::Extension.downcase==".opus" && is_opus?
+            f+= " ("+p_("EAPI_Form", "Copy original stream")+")"
+            end
+          formats.push(f)
+          end
+            dialog_open
+        form=Form.new([
+        tr_path = FilesTree.new(p_("EAPI_Form", "Destination"),Dirs.user+"\\",true,true,"Music"),
+        lst_format = ListBox.new(formats, p_("EAPI_Form", "File format"), 0, 0, true),
+        edt_filename = EditBox.new(p_("EAPI_Form", "File name"),"",nm),
+        btn_save = Button.new(_("Save")),
+        btn_cancel = Button.new(_("Cancel"))
+        ])
+        form.cancel_button=btn_cancel
+        lst_format.on(:move) {
+        eext=encoders[lst_format.index]::Extension
+        fl=edt_filename.text
+        ext=File.extname(fl)
+        fb=(fl.reverse.sub(ext.reverse,"")).reverse
+        edt_filename.settext(fb+eext)
+        }
+        edt_filename.on(:change) {
+        ext=File.extname(edt_filename.text)
+        for i in 0...encoders.size
+          if encoders[i]::Extension.downcase==ext.downcase
+            lst_encoders.index=i
+            break
+            end
+          end
+        }
+        btn_cancel.on(:press) {form.resume}
+        btn_save.on(:press) {
+        encoder = encoders[lst_format.index]
+        pth=tr_path.selected+"\\"+edt_filename.text
+        waiting
+        if encoder::Extension.downcase==".opus" && is_opus?
+          downloadfile(@file, pth)
+          else
+        encoder.encode_file(@file, pth)
+        end
+        waiting_end
+        alert(_("Saved"))
+        form.resume
+        }
+form.wait
+          dialog_close
+        end
+        
+        def is_opus?
+          if @file.include?("https://elten-net.eu/srv/audio")
+            return true
+          elsif @file.include?("https://s.elten-net.eu/") && @file[-4..-4]!="."
+            return true
+          else
+            return false
+            end
+          end
+
 def play
+  Programs.emit_event(:player_play)
   @sound.play if @sound!=nil
   @pause=false
 end
 
 def stop
+  Programs.emit_event(:player_stop)
   @sound.stop if @sound!=nil
   @pause=true
 end
@@ -2654,6 +2913,7 @@ def fade
   end
 
 def close
+  Programs.emit_event(:player_close)
   @sound.close if @sound!=nil
   @sound=nil
   end
@@ -2767,19 +3027,19 @@ class Menu
       flags = ListBox::Flags::Silent
       flags|=ListBox::Flags::LeftRight if (@type==:menubar)&&index==0
     sel=ListBox.new(opts, h, 0, flags)
-    sel.on(:border) {play("border", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)}
+    sel.on(:border) {play("border", 100, 100, sel.lpos)}
     sel.on(:move) {
     opt=acs[sel.index]
     if opt[1]==:user or opt[1]==:custom or opt.is_a?(String)
-      play("list_submenu", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+      play("list_submenu", 100, 100, sel.lpos)
     else
-      play("list_focus", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+      play("list_focus", 100, 100, sel.lpos)
       end
     }
     sel.on(:select) {
         opt=acs[sel.index]
     if opt[1]!=:user and opt[1]!=:custom and !opt.is_a?(String)
-      play("list_select", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+      play("list_select", 100, 100, sel.lpos)
       end
     }
     loop {
@@ -2800,30 +3060,30 @@ class Menu
         if sel.expanded? or sel.selected?
       opt=acs[sel.index]
       if opt[1]==:user
-        play("list_expand", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+        play("list_expand", 100, 100, sel.lpos)
                 u=usermenu(opt[2], true, true)
         if u=="ALT"
           close
         else
-          play("list_close", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+          play("list_close", 100, 100, sel.lpos)
           sel.focus
         end
       elsif opt[1]==:custom
-        play("list_expand", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+        play("list_expand", 100, 100, sel.lpos)
                 u=opt[2].call
         if u==true
           close
         else
-          play("list_collapse", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+          play("list_collapse", 100, 100, sel.lpos)
           sel.trigger(:move, sel.index)
           sel.focus
           end
         elsif opt.is_a?(String)
-          play("list_expand", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0)
+          play("list_expand", 100, 100, sel.lpos)
       a=show(inds[sel.index]+1)
       if a==nil
       sel.header="" if @type==:menubar
-      play("list_collapse", 100, 100, sel.index.to_f/(sel.options.size-1).to_f*100.0) if !@closing
+      play("list_collapse", 100, 100, sel.lpos) if !@closing
       sel.focus if !@closing
       loop_update
     else
@@ -3018,7 +3278,7 @@ def play(sound,x=nil,y=nil)
         end
       end
       if d<@range
-          keyevents.each {|a| trigger(a)}
+          keyevents.each {|a| trigger(a[0])}
           trigger(:range)
         end
         trigger(:touch) if x==@x&&y==@y
@@ -3154,7 +3414,7 @@ end
         laststep=0
         loop do
       loop_update
-      keyevents.each {|a| trigger(a)}
+      keyevents.each {|a| trigger(a[0])}
       if (laststep+@move_delay)<Time.now.to_f
       if arrow_down(true)
         laststep=Time.now.to_f
@@ -3182,7 +3442,251 @@ end
     @timers.each {|t| t.stop}
     @disposed=true
     end
+  end
+    
+  class OpusRecordButton < Button
+attr_accessor :label
+attr_reader :file
+  def initialize(label, filename, max_bitrate=320, bitrate=64)
+super(label)
+@file = nil
+    @filename=filename
+    @max_bitrate=max_bitrate
+    @bitrate = bitrate
+    @bitrate = @max_bitrate if @bitrate>@max_bitrate
+    @framesize = 60
+    @application = 2048
+    @usevbr = 1
+    @recorder=nil
+    @status = 0
+    @current_filename=@filename
+    @form = Form.new([
+    @btn_record = Button.new(p_("EAPI_Form", "record")),
+    @btn_pause = Button.new(p_("EAPI_Form", "Pause recording")),
+    @btn_stop = Button.new(p_("EAPI_Form", "Stop recording")),
+    @btn_usefile = Button.new(p_("EAPI_Form", "Use existing file")),
+    @btn_encoder = Button.new(p_("EAPI_Form", "Opus encoder settings")),
+    @btn_play = Button.new(p_("EAPI_Form", "Play")),
+    @btn_encodeplay = Button.new(p_("EAPI_Form", "Encode and play")),
+    @btn_delete = Button.new(p_("EAPI_Form", "Delete recording")),
+    @btn_select = Button.new(p_("EAPI_Form", "Ready"))
+    ], 0, false, true)
+    @form.hide(@btn_pause)
+    @form.hide(@btn_stop)
+    @form.hide(@btn_play)
+    @form.hide(@btn_encodeplay)
+    @form.hide(@btn_delete)
+    @btn_record.on(:press) {
+        if @status==0 or confirm(p_("EAPI_Form", "Are you sure you want to delete the previous recording and create a new one?"))==1
+          @current_filename = @filename
+    play("recording_start")
+    @status = 1
+    @recorder = OpusRecorder.start(@filename, @bitrate, @framesize, @application, @usevbr)
+    @form.hide(@btn_record)
+    @form.hide(@btn_usefile)
+    @form.hide(@btn_play)
+    @form.hide(@btn_encoder)
+    @form.hide(@btn_encodeplay)
+    @form.hide(@btn_delete)
+    @form.show(@btn_pause)
+    @form.show(@btn_stop)
     end
+    }
+    @btn_stop.on(:press) {
+    @recorder.stop
+    play("recording_stop")
+    @recorder=nil
+    @status = 2
+    @form.show(@btn_record)
+    @form.show(@btn_play)
+    @form.hide(@btn_encodeplay)
+    @form.hide(@btn_pause)
+    @form.hide(@btn_stop)
+    @form.show(@btn_encoder)
+    @form.show(@btn_usefile)
+    @form.show(@btn_delete)
+    @btn_record.label = p_("EAPI_Form", "Record again")
+    @btn_pause.label = p_("EAPI_Form", "Pause recording")
+    @form.index=0
+    @form.focus
+    }
+    @btn_usefile.on(:press) {
+    if @status==0 or confirm(p_("EAPI_Form", "Are you sure you want to delete the previous recording and create a new one?"))==1
+      file=getfile(p_("EAPI_Form", "Select audio file"),Dirs.documents+"\\",false,nil,[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma",".opus",".aac"])
+      if file!=nil
+set_source(file)
+        alert(p_("EAPI_Form", "File selected"))
+        end
+      end
+      loop_update
+    }
+    @btn_play.on(:press) {
+    player(@current_filename, p_("EAPI_Form", "Recording preview"))
+    @form.focus
+    }
+    @btn_encodeplay.on(:press) {
+    get_file
+    @form.index=@btn_play
+    @btn_play.press
+    }
+    @btn_pause.on(:press) {
+    if @recorder.paused
+      @btn_pause.label = p_("EAPI_Form", "Pause recording")
+      @recorder.resume
+      play("recording_start")
+    else
+      @btn_pause.label = p_("EAPI_Form", "Resume recording")
+      @recorder.pause
+      play("recording_stop")
+      end
+    }
+    @btn_encoder.on(:press) {
+    if @status==0 or @current_filename!=@filename or confirm(p_("EAPI_Form", "The encoder settings will not apply to the current record. Are you sure you want to continue?"))==1
+      show_encodersettings
+      @form.focus
+      end
+    }
+    @btn_delete.on(:press) {
+delete_audio
+@form.index=0
+        @form.focus
+    }
+    @btn_select.on(:press) {
+    @btn_stop.press if @recorder!=nil
+    @form.resume
+    }
+        @form.cancel_button = @btn_select
+      end
+      def delete_audio(force=false)
+        return true if @status==0
+            if @filename!=@current_filename or force or confirm(p_("EAPI_Form", "Are you sure you want to delete recorded audio?"))==1
+              @btn_stop.press if @recorder!=nil
+        File.delete(@filename) if FileTest.exists?(@filename)
+        @form.hide(@btn_delete)
+        @form.hide(@btn_play)
+        @status=0
+                return true
+      else
+        return false
+      end
+        end
+      def update
+super
+if @pressed
+  show
+  focus
+  end
+end
+def show_encodersettings
+  profiles = [
+  [p_("EAPI_Form", "Low"), 24, 60, 0],
+  [p_("EAPI_Form", "Lower"), 32, 60, 0],
+  [p_("EAPI_Form", "Standard"), 48, 60, 0],
+[p_("EAPI_Form", "Higher"), 64, 60, 0],
+[p_("EAPI_Form", "High"), 96, 60, 0],
+[p_("EAPI_Form", "Max"), @max_bitrate, 120, 0]
+  ]
+  for pr in profiles
+    profiles.delete(pr) if pr[1]>@max_bitrate
+    end
+  appind=@application==2048?0:1
+  form = Form.new([
+  lst_profile = ListBox.new(profiles.map{|pr|pr[0]}+[p_("EAPI_Form", "Custom")], p_("EAPI_Form", "Quality")),
+    lst_bitrate = ListBox.new(bitrates_available.map{|b|b.to_s+" kbps"}, p_("EAPI_Form", "Bitrate"), bitrates_available.find_index(@bitrate)||0, 0, true),
+  lst_framesize = ListBox.new(framesizes_available.map{|f|f.to_s+" ms"}, p_("EAPI_Form", "Frame size"), framesizes_available.find_index(@framesize)||0, 0, true),
+  lst_application = ListBox.new([p_("EAPI_Form", "Speech profile"), p_("EAPI_Form", "Music profile")], p_("EAPI_Form", "Encoder profile"), appind, 0, true),
+  chk_usevbr = CheckBox.new(p_("EAPI_Form", "Use variable bitrate"), @usevbr),
+  btn_save = Button.new(_("Save")),
+  btn_cancel = Button.new(_("Cancel"))
+  ], 0, false, true)
+  lst_profile.on(:move) {
+  if lst_profile.index<profiles.size
+  pr=profiles[lst_profile.index]
+  lst_bitrate.index = bitrates_available.find_index(pr[1])||0
+  lst_framesize.index = framesizes_available.find_index(pr[2])||0
+  lst_application.index=0
+  chk_usevbr.checked=1
+  form.hide(lst_bitrate)
+  form.hide(lst_framesize)
+  form.hide(lst_application)
+  form.hide(chk_usevbr)
+else
+  form.show(lst_bitrate)
+  form.show(lst_framesize)
+  form.show(lst_application)
+  form.show(chk_usevbr)
+  end
+  }
+  suc=false
+  for i in 0...profiles.size
+    pr=profiles[i]
+    bitrate = bitrates_available[lst_bitrate.index]
+    framesize = framesizes_available[lst_framesize.index]
+    if bitrate==pr[1] && framesize==pr[2] && lst_application.index==0 && chk_usevbr.checked==1
+lst_profile.index=i
+lst_profile.trigger(:move)
+suc=true
+      end
+    end
+    if suc==false
+      lst_profile.index=profiles.size
+      lst_profile.trigger(:move)
+      end
+  btn_cancel.on(:press) {form.resume}
+  btn_save.on(:press) {
+  @bitrate = bitrates_available[lst_bitrate.index]
+  @framesize = framesizes_available[lst_framesize.index]
+  @application = lst_application.index==0?2048:2049
+  @usevbr = chk_usevbr.checked
+  form.resume
+  }
+  form.cancel_button = btn_cancel
+  form.accept_button = btn_save
+  form.wait
+end
+def framesizes_available
+  [2.5, 5, 10, 20, 40, 60, 80, 100, 120]
+end
+def bitrates_available
+  all = [8, 16, 24, 32, 48, 64, 80, 96, 128, 160, 196, 256, 320]
+  m=[]
+  for b in all
+    m.push(b) if b<=@max_bitrate
+  end
+  return m
+  end
+      def show
+        @form.index=0
+        @form.wait
+      end
+      def empty?
+        @status==0
+      end
+      def set_source(file)
+        @btn_stop.press if @recorder!=nil
+                @status=2
+        @current_filename = file
+        @form.show(@btn_play)
+        if file[0..4]=="http:" or file[0..5]=="https:"
+        @form.hide(@btn_encodeplay)
+      else
+        @form.show(@btn_encodeplay)
+        end
+        @form.show(@btn_delete)
+        end
+      def get_file
+        return nil if @status!=2
+        return nil if @current_filename[0..4]=="http:" || @current_filename[0..5]=="https:" 
+        if @filename!=@current_filename
+          waiting
+          OpusRecorder.encode_file(@current_filename, @filename, @bitrate, @framesize, @application, @usevbr)
+          waiting_end
+              @current_filename = @filename
+    @form.hide(@btn_encodeplay)
+          end
+        return @filename
+        end
+  end
   
   end
   include Controls

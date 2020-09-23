@@ -12,6 +12,7 @@ module EltenAPI
   # Speech related functions
     
     def alert(text, wait=true)
+      Programs.emit_event(:speech_alert)
       speak(text)
       NVDA.braille_alert(text) if NVDA.check
       speech_wait if wait
@@ -22,7 +23,7 @@ module EltenAPI
   # @param text [String] a text to speak
   # @param method [Numeric] 0 - wait for the previous message to say, 1 - abord the previous message, 2 - use synthesizer config
     def speak(text,method=1,usedict=true,id=nil,closethr=true, pos=50)
-      $voice=0 if $voice==-1 && $nvdadonotuse==true
+      Programs.emit_event(:speech_speak)
       if closethr and $speechindexedthr!=nil
         $speechindexedthr.exit
         $speechindexedthr=nil
@@ -34,9 +35,9 @@ module EltenAPI
       method=0
       $speech_wait=false
       swait=true
-      speech_wait if $voice!=-1
+      speech_wait if Configuration.voice!=-1
     end
-            Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0 and $voice>=0
+            Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0 and Configuration.voice>=0
           if @@speechaudio!=nil
     @@speechaudiothread.kill if @@speechaudiothread!=nil
     @@speechaudio.close
@@ -94,7 +95,7 @@ prei=0
     end
     end
   if text == " "
-    if $interface_soundthemeactivation != 0
+    if Configuration.soundthemeactivation != 0
     play("edit_space")
   else
     speak(p_("EAPI_Speech", "Space"))
@@ -140,7 +141,7 @@ prei=0
         text = char_dict(text) if text.size==1
     text = text.gsub("_"," ")
 text.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
-text=((($interface_soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\{([^\}]+)\}\004/,"\004NEW\004")
+text=(((Configuration.soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\{([^\}]+)\}\004/,"\004NEW\004")
 }
   text.gsub!("\004NEW\004") {
   play("list_new", 100, 100, pos)
@@ -159,12 +160,12 @@ text=((($interface_soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\
   ""
   }
   func = "sapiSayString"
-func = "sayString" if $voice == -1
+func = "sayString" if Configuration.voice == -1
 text_d = text
 text_d.gsub!("\r\n\r\n","\004SLINE\004")
 text_d.gsub!("\r\n"," ")
 text_d.gsub!("\004SLINE\004","\r\n\r\n")
-if $voice==-1 && NVDA.check
+if Configuration.voice==-1 && NVDA.check
   NVDA.stop   if !swait
   NVDA.speak(text_d)
                     else
@@ -184,7 +185,7 @@ end
 end
 end
   sleep(0.02)
-Win32API.new("bin\\screenreaderapi","sapiSayString",'pi','i').call(" ",1) if $voice == -1
+Win32API.new("bin\\screenreaderapi","sapiSayString",'pi','i').call(" ",1) if Configuration.voice == -1
 end
 end
 text_d = text if text_d == nil
@@ -209,6 +210,7 @@ def speech_actived(ignoreaudio=false)
 
   # Stops the speech
   def speech_stop(audio=true)
+    Programs.emit_event(:speech_stop)
         $speech_wait=false
     if @@speechaudio!=nil and audio
     @@speechaudiothread.exit if @@speechaudiothread!=nil
@@ -220,9 +222,9 @@ def speech_actived(ignoreaudio=false)
       $speechindexedthr=nil
       end
     func = "sapiStopSpeech"
-    if $voice==-1
+    if Configuration.voice==-1
     func = "stopSpeech"
-    if $voice==-1 && NVDA.check
+    if Configuration.voice==-1 && NVDA.check
       NVDA.stop
       return
       end
@@ -232,9 +234,9 @@ def speech_actived(ignoreaudio=false)
   
   # Waits for a speech to finish reading of the previous message
       def speech_wait
-        if $voice!=-1
+        if Configuration.voice!=-1
     while speech_actived == true
-loop_update
+loop_update(false)
 end
 else
   $speech_wait = true
@@ -312,21 +314,21 @@ def char_dict(text)
                                                               when ")"
                                                                 r=p_("EAPI_Speech", "right paren")
                                                                 when "ü"
-                                                                                                                                    r="u umlaut" if $language=="pl-PL"
+                                                                                                                                    r="u umlaut" if Configuration.language=="pl-PL"
                                                                   when "Ü"
-                                                                    r="U umlaut" if $language=="pl-PL"
+                                                                    r="U umlaut" if Configuration.language=="pl-PL"
                                                                     when "ä"
-                                                                      r="a umlaut" if $language=="pl-PL"
+                                                                      r="a umlaut" if Configuration.language=="pl-PL"
                                                                       when "Ä"
-                                                                 r="A umlaut" if $language=="pl-PL"
+                                                                 r="A umlaut" if Configuration.language=="pl-PL"
                                                                  when "ö"
-                                                                   r="o umlaut" if $language=="pl-PL"
+                                                                   r="o umlaut" if Configuration.language=="pl-PL"
                                                                    when "Ö"
-                                                                     r="O umlaut" if $language=="pl-PL"
+                                                                     r="O umlaut" if Configuration.language=="pl-PL"
 when "ß"
-                                                                     r="długie s" if $language=="pl-PL"
+                                                                     r="długie s" if Configuration.language=="pl-PL"
                                                                      when "´"
-                                                                     r="ostry akcent" if $language=="pl-PL"
+                                                                     r="ostry akcent" if Configuration.language=="pl-PL"
                                                                                          end
                       if r==""
                         return(text)
@@ -337,6 +339,7 @@ when "ß"
                       
                       # Toggles the speech pause
      def speech_togglepause
+       Programs.emit_event(:speech_toggle)
   if Win32API.new("bin\\screenreaderapi","sapiIsPaused",'','i').call==0
   Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(1)
     else
@@ -345,15 +348,16 @@ when "ß"
   end
 
   def speak_indexed(h,id=nil)
+    Programs.emit_event(:speech_speak)
     id=rand(10**24) if id==nil
     $speechindexedthr.exit if $speechindexedthr!=nil
         return if !h.is_a?(Hash)
-    if $voice==-1 && !NVDA.check
+    if Configuration.voice==-1 && !NVDA.check
       txt=""
       h.keys.sort.each {|i| txt+=h[i]+"\r\n"}
       return speak(txt)
     end
-    if $voice==-1
+    if Configuration.voice==-1
             $speechindexedthr=Thread.new do
                   NVDA.stop if !$speech_wait
                   stp=10+rand(100)

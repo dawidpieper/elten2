@@ -52,7 +52,7 @@ loop do
     if fp[0].to_i<0
       alert(p_("ForgotPassword", "An unexpected error"))
     else
-      alert(p_("ForgotPassword", " Password reset key has been sent to your specified E-mail address. To continue,  select the option for entering key."))
+      alert(p_("ForgotPassword", "Password reset key has been sent to your specified E-mail address. To continue,  select the option for entering key."))
     end
     speech_wait
   end
@@ -88,7 +88,7 @@ speech_wait
 if fp[0].to_i<0
   alert(p_("ForgotPassword", "An unexpected error"))
 else
-  alert(p_("ForgotPassword", " The password has been changed. You can log in to your account using the new data."))
+  alert(p_("ForgotPassword", "The password has been changed. You can log in to your account using the new data."))
 end
 speech_wait
 return

@@ -122,7 +122,7 @@ class Scene_Programs
            alert(p_("Programs", "Installation completed."))
            Programs.delete(program.realpath) if program.realpath!=nil
            Programs.load_sig(path.sub(Dirs.apps+"\\",""))
-           setlocale($language)
+           setlocale(Configuration.language)
            @refresh=true
            }
          end

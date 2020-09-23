@@ -278,7 +278,7 @@ if @post.size==0 and @id=="NEW"
 end
 @sel.index=@postselindex
 @sel.focus
-@sel.on(:move) {play("file_audio") if @post[@sel.index]!=nil && @post[@sel.index].audio}
+@sel.on(:move) {play("file_audio", 50, 50, @sel.lpos) if @post[@sel.index]!=nil && @post[@sel.index].audio}
 @sel.trigger(:move)
 @sel.bind_context{|menu|context(menu)}
 loop do
@@ -402,351 +402,6 @@ $scene = Scene_Blog_PostEditor.new(@owner,0,@id,@categoryselindex)
 end
         end
 end
-
-class Scene_Blog_Post_New
-def initialize(owner,category,post,categoryselindex=0)
-  @owner=owner
-  @category = category
-  @post = post
-@categoryselindex = categoryselindex
-  end
-def main
-blogtemp = srvproc("blog_categories",{"searchname"=>@owner})
-err = blogtemp[0].to_i
-if err < 0
-  alert(_("Error"))
-  $scene = Scene_Main.new
-  return
-end
-lines = blogtemp[1].to_i
-l = 2
-for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\r\n")
-  end
-categoryids = []
-categorynames = []
-for i in 0..lines - 1
-  categoryids[i] = blogtemp[l].to_i
-  l += 1
-  categorynames[i] = blogtemp[l]
-  l += 1
-end
-  postname = ""
-  text = ""
-@fields = []
-@fields[0] = EditBox.new(p_("Blog", "Post title"),"","",true)
-@fields[1] = EditBox.new(p_("Blog", "Post"), EditBox::Flags::MultiLine|EditBox::Flags::HTML|EditBox::Flags::Formattable,"",true)
-@fields[2] = Button.new(p_("Blog", "Create an audiopost"))
-@fields[3] = ListBox.new(categorynames,p_("Blog", "Post categories"),0,ListBox::Flags::MultiSelection,true)
-@fields[4] = ListBox.new([p_("Blog", "Show to everyone"),p_("Blog", "Do not show to unlogged users")],p_("Blog", "Visibility"),0,0,true)
-@fields[5] = CheckBox.new(p_("Blog", "Allow users to comment this post"),1)
-@fields[6] = Button.new(p_("Blog", "Send"))
-@fields[7] = Button.new(_("Cancel"))
-for i in 0..categoryids.size-1
-  @fields[3].selected[i] = true if categoryids[i] == @category
-  end
-@form = Form.new(@fields)
-@recst=0
-loop do
-  @form.update
-  loop_update
-        if (enter or space) and @form.index == 2
-          if @recst == 0
-            play("menu_open")
-            play("menu_background")
-            o=selector([p_("Blog", "Record a new post"),p_("Blog", "Use an existing file"),_("Cancel")],"",0,2,1)
-                        play("menu_close")
-                        Audio.bgs_stop
-            case o
-                        when 0
-                                      @r=Recorder.start(Dirs.temp+"/audioblogpost.opus",96)
-                                      play("recording_start")
-            @recst=1
-            @form.fields[2]=Button.new(p_("Blog", "Stop recording"))
-            @editpost=@form.fields[1]
-            @form.fields[1]=nil
-            @recfile=Dirs.temp+"/audioblogpost.opus"
-            when 1
-              file=getfile("","",false,nil,[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma",".opus",".aac"])
-              if file!=""
-                @editpost=@form.fields[1]
-                @recfile=file
-              @recst=2
-            @form.fields[2]=Button.new(p_("Blog", "Play"))
-            @form.fields[1]=Button.new(p_("Blog", "Create a text post"))
-            @form.fields[2].focus
-          end
-          loop_update
-                              end
-          elsif @recst == 1
-                        play("recording_stop")
-            @r.stop
-            @recst=2
-            @form.fields[2]=Button.new(p_("Blog", "Play"))
-            @form.fields[1]=Button.new(p_("Blog", "Create a text post"))
-          else
-            player(@recfile,"",true)
-            end
-          loop_update
-            end
-        if (enter or space) and @form.index == 1 and @recst == 2
-          @recst=0
-          @form.fields[2]=Button.new(p_("Blog", "Create an audiopost"))
-          @form.fields[1]=@editpost
-          @form.index=1
-          @form.fields[1].focus
-          loop_update
-          end
-  if ((@form.index == 6 or $key[0x11] == true) and enter) or (@form.index==6 and space)
-          @form.fields[0].finalize
-                    @form.fields[1].finalize if @recst == 0
-                    @r.stop if @recst == 1
-          postname = @form.fields[0].text
-          text = @form.fields[1].text if @recst==0
-          play("list_select")
-          break
-          end
-if escape or ((enter or space) and @form.index == 7)
-    $scene = Scene_Blog_Posts.new(@owner,@category,@categoryselindex,@postselindex)
-  return
-end
-end
-blogtemp = 0
-cat = ""
-for i in 0..categoryids.size-1
-  cat += categoryids[i].to_s + "," if @form.fields[3].selected[i] == true
-  end
-if @recst == 0
-alert(p_("Blog", "Please wait..."))
-speech_wait
-bufid = buffer(text)
-bt = {"categoryid"=>cat, "postid"=>@post, "postname"=>postname, "buffer"=>bufid, "add"=>"1", "privacy"=>@form.fields[4].index.to_s, "comments"=>@form.fields[5].checked.to_s, "searchname"=>@owner}
-   blogtemp = srvproc("blog_posts_mod",bt)
- else
-   waiting
-   alert(p_("Blog", "Please wait..."))
-   if @recfile!=Dirs.temp+"/audioblogpost.opus"
-   executeprocess("bin\\ffmpeg.exe -y -i \"#{@recfile}\" -b:a 128K \"#{Dirs.temp}/audioblogpost.opus\"",true)
-      end
-        fl=readfile(Dirs.temp+"/audioblogpost.opus")
-        if fl[0..3]!='OggS'
-          alert(_("Error"))
-          return $scene=Scene_Main.new
-          end
-        boundary=""
-        while fl.include?(boundary)
-        boundary="----EltBoundary"+rand(36**32).to_s(36)
-        end
-    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
-    length=data.size    
-      host = $srv
-  host.delete!("/")
-    q = "POST /srv/blog_posts_mod.php?name=#{Session.name}\&token=#{Session.token}\&categoryid=#{cat.urlenc}\&postid=#{@post}\&postname=#{postname.urlenc}\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&add=1\&searchname=#{@owner}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-a = elconnect(q)
-a.delete!("\0")
-for i in 0..a.size - 1
-  if a[i..i+3] == "\r\n\r\n"
-    s = i+4
-    break
-    end
-  end
-  if s == nil
-    alert(_("Error"))
-    return
-  end
-  sn = a[s..a.size - 1]
-  a = nil
-        blogtemp = sn.split("\r\n")
-   end
-err = blogtemp[0].to_i
-waiting_end
-if err < 0
-  alert(_("Error"))
-else
-        alert(p_("Blog", "The post has been added."))
-end
-speech_wait
-$scene = Scene_Blog_Posts.new(@owner,@category,@categoryselindex,@postselindex)
-  end
-end
-
-  class Scene_Blog_Post_Edit
-  def initialize(owner,category,post,categoryselindex=0,postselindex=0)
-    @owner=owner
-        @category = category
-    @postid = post
-    @categoryselindex = categoryselindex
-    @postselindex = postselindex
-  end
-  def main
-    blogtemp = srvproc("blog_categories",{"searchname"=>@owner})
-if blogtemp[0].to_i < 0
-  alert(_("Error"))
-  $scene = Scene_Main.new
-  return
-end
-lines = blogtemp[1].to_i
-l = 2
-for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\r\n")
-  end
-categoryids = []
-categorynames = []
-for i in 0..lines - 1
-  categoryids[i] = blogtemp[l].to_i
-  l += 1
-  categorynames[i] = blogtemp[l]
-  l += 1
-end
-    blogtemp = srvproc("blog_read",{"categoryid"=>@category, "postid"=>@postid, "searchname"=>@owner, "details"=>"4"})
-err = blogtemp[0].to_i
-if err < 0
-  alert(_("Error"))
-  $scene = Scene_Blog_Main.new(@owner)
-end
-for i in 0..blogtemp.size - 1
-  blogtemp[i].delete!("\r\n")
-end
-lines = blogtemp[1].to_i
-l = 2
-text = ""
-@posttext = []
-@postauthor = []
-@postbid = []
-@postprivacy=[]
-@postcomments=[]
-for i in 0..lines - 1
-  t = 0
-  @posttext[i] = ""
-  loop do
-    t += 1
-    if t > 6
-  @posttext[i] += blogtemp[l].to_s + "\r\n"
-elsif t == 1
-  @postbid[i] = blogtemp[l].to_i
-elsif t == 2
-  @postauthor[i] = blogtemp[l]
-  elsif t == 5
-  @postprivacy[i] = blogtemp[l].to_i
-elsif t==6
-  @postcomments[i] = blogtemp[l].to_i
-  end
-l += 1
-break if blogtemp[l] == "\004END\004" or l >= blogtemp.size or blogtemp[l] == "\004潤\n" or blogtemp[l] == nil
-end
-l += 1
-end
-pc = srvproc("blog_post_categories",{"searchname"=>@owner, "postid"=>@postid})
-if pc[0].to_i < 0
-  alert(_("Error"))
-  $scene = Scene_Blog_Main.new(@owner)
-  return
-  end
-postname = pc[1].delete("\r\n")
-comm = pc[2].to_i
-  @fields = [EditBox.new(p_("Blog", "Post title"),"",postname,true),ListBox.new([p_("Blog", "Text post"),p_("Blog", "Audio post")],p_("Blog", "Post type"),0,0,true),EditBox.new(p_("Blog", "Post"),EditBox::Flags::MultiLine,@posttext[0].delline(1)+"\004LINE\004",true),ListBox.new(categorynames,p_("Blog", "Post categories"),0,ListBox::Flags::MultiSelection,true),ListBox.new([p_("Blog", "Show to everyone"),p_("Blog", "Do not show to unlogged users")],p_("Blog", "Visibility"),@postprivacy[0].to_i,0,true),CheckBox.new(p_("Blog", "Allow users to comment this post"),@postcomments[0].to_b),Button.new(_("Save")),Button.new(_("Cancel"))]
-  @textfield=@fields[2]
-  @audiofield=Button.new(p_("Blog", "Audio post"))    
-    if (/\004AUDIO\004([a-zA-Z0-9\\:\/\-_ ]+)\004AUDIO\004/=~@posttext[0]) != nil
-      @fields[1].index=1
-                @postaudio=$1
-        @postaudio.sub!("/",$url) if @postaudio[0..0]=="/"
-        @fields[2]=@audiofield
-        @textfield.audiotext=""
-        end    
-for i in 3..comm+2
-  c = pc[i].to_i
-    for j in 0..categoryids.size-1
-        @fields[3].selected[j] = true if categoryids[j] == c
-    end
-  end
-  @sendbutton=@fields[6]
-  @form = Form.new(@fields)
-loop do
-  loop_update
-  @form.update
-  if @fields[1].index==0
-    @fields[2]=@textfield
-    @fields[6]=@sendbutton
-  else
-    @fields[2]=@audiofield
-    @fields[6]=(@postaudio==nil)?nil:@sendbutton
-    end
-  if escape or ((enter or space) and @form.index == 7)
-    $scene = Scene_Blog_Posts.new(@owner,@category,@categoryselindex,@postselindex)
-  end
-  if (enter or space) and @form.index==2 and @fields[1].index==1
-    m=[p_("Blog", "Play"),p_("Blog", "Use another file"),_("Cancel")]
-    m[0]=nil if @postaudio==nil
-    case menuselector(m)
-        when 0
-                    player(@postaudio,postname)
-          when 1
-            fl=getfile(p_("Blog", "Select audio file"),Dirs.documents+"\\",false,nil,[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma",".opus",".aac"])
-            @postaudio=fl if fl!="" and fl!=nil
-      end
-    @form.focus
-      end
-  if (enter and $key[0x12]) or ((enter or space) and @form.index == 6)
-@form.fields[0].finalize
-if @postcomments[0]==1 and @form.fields[5].checked==0
-  confirm(p_("Blog", "Do you wish to delete all comments on this post? You can disable commenting on this post without deleting comments already posted.")) do
-    srvproc("blog_posts_mod",{"postid"=>@postid.to_s, "delcomments"=>"1", "searchname"=>@owner})
-  end
-  end
-    cat = ""
-for i in 0..categoryids.size-1
-  cat += categoryids[i].to_s + "," if @form.fields[3].selected[i] == true
-end
-bt=[]
-if @fields[1].index==0
-post = @form.fields[2].text
-    buf = buffer(post)    
-bt = srvproc("blog_posts_mod",{"categoryid"=>cat, "postid"=>@postid.to_s, "postname"=>@form.fields[0].text, "buffer"=>buf.to_s, "edit"=>"1", "privacy"=>@form.fields[4].index.to_s, "comments"=>@form.fields[5].checked.to_s, "searchname"=>@owner})
-elsif @postaudio!=nil&&@postaudio.include?($url)
-    bt = srvproc("blog_posts_mod",{"categoryid"=>cat, "postid"=>@postid.to_s, "postname"=>@form.fields[0].text, "edit"=>"1", "privacy"=>@form.fields[4].index.to_s, "comments"=>@form.fields[5].checked.to_s, "searchname"=>@owner})
-elsif @postaudio!=nil
-  waiting
-                 speak(p_("Blog", "File is being converted..."))
-      File.delete(Dirs.temp+"/audioblogpost.opus") if FileTest.exists?(Dirs.temp+"/audioblogpost.opus")
-      executeprocess("bin\\ffmpeg.exe -y -i \"#{@postaudio}\" -b:a 128K \"#{Dirs.temp}/audioblogpost.opus\"",true)
-              fl=readfile(Dirs.temp+"/audioblogpost.opus")
-        boundary=""
-        while fl.include?(boundary)
-        boundary="----EltBoundary"+rand(36**32).to_s(36)
-        end
-    data="--"+boundary+"\r\nContent-Disposition: form-data; name=\"post\"\r\n\r\n#{fl}\r\n--#{boundary}--"
-    length=data.size    
-      host = $srv.delete("/")
-      q = "POST /srv/blog_posts_mod.php?name=#{Session.name}\&token=#{Session.token}\&categoryid=#{cat.urlenc}\&postid=#{@postid.to_s}\&postname=#{@form.fields[0].text.urlenc}\&edit=1\&privacy=#{@form.fields[4].index.to_s}\&comments=#{@form.fields[5].checked.to_s}\&searchname=#{@owner}\&audio=1 HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
-a = elconnect(q).delete("\0")
-for i in 0..a.size - 1
-  if a[i..i+3] == "\r\n\r\n"
-    s = i+4
-    break
-    end
-  end
-  if s == nil
-    alert(_("Error"))
-    return
-  end
-  sn = a[s..a.size - 1]
-  a = nil
-        bt = sn.split("\r\n")
-waiting_end
-        end
-if bt[0].to_i < 0
-  alert(_("Error"))
-else
-  alert(_("Saved"))
-  end
-  speech_wait
-$scene = Scene_Blog_Posts.new(@owner,@category,@categoryselindex,@postselindex)    
-end
-break if $scene != self
-  end
-  end
-  end
   
 class Scene_Blog_Read
   def initialize(owner,category,postid,categoryselindex=0,postselindex=0,scene=nil)
@@ -980,7 +635,7 @@ for b in @blogs
     o=blogowners(b.id).join(", ")
   end
   tm=Time.at(b.lastpost)
-  date=sprintf("%04d-%02d-%02d %02d:%02d", tm.year, tm.month, tm.day, tm.hour, tm.min)
+  date=format_date(tm, false, true)
   sel.push([b.name, b.description, o, b.cnt_posts.to_s, b.cnt_comments.to_s, date])
 end
 @sel = TableBox.new([nil,nil,p_("Blog", "Author"), p_("Blog", "Posts"), p_("Blog", "Comments"), p_("Blog", "Last post")],sel,$bloglistindex,p_("Blog", "Blogs list"))
@@ -1003,7 +658,7 @@ def update
     $scene=@scene
     end
   end
-      if enter or (!$keyr[0x10]&&arrow_right)
+      if (enter or (!$keyr[0x10]&&arrow_right)) and @blogs.size>0
      $bloglistindex = @sel.index
      if !$keyr[0x10]
         $scene = Scene_Blog_Main.new(@blogs[@sel.index].id,0,$scene)
@@ -1621,6 +1276,7 @@ def load_others
   setting_category(p_("Blog", "Others"))
   make_setting(p_("Blog", "My Wordpress account"), :custom, Proc.new{insert_scene(Scene_Blog_Profile.new)})
   make_setting(p_("Blog", "Manage tags"), :custom, Proc.new{insert_scene(Scene_Blog_Tags.new(@blog))})
+  make_setting(p_("Blog", "Pending comments"), :custom, Proc.new{insert_scene(Scene_Blog_Comments.new(@blog))})
   end
       def main
         make_window
@@ -1673,14 +1329,6 @@ def load_others
       end
     end
     
-    class Struct_Blog_Category
-      attr_accessor :id, :name
-      def initialize
-        @id=0
-        @name=""
-      end
-      end
-
 class Struct_Blog_Post
   attr_accessor :owner
   attr_accessor :id
@@ -1812,7 +1460,7 @@ class Scene_Blog_PostEditor
 edt_title = EditBox.new(p_("Blog", "Post title"),"","",true),
 lst_editor = ListBox.new([p_("Blog", "Formattable editor"), p_("Blog", "Source Editor (HTML and Wordpress Shortcodes)")], p_("Blog", "Editor"), 0, 0, true),
 edt_post = EditBox.new(p_("Blog", "Post"), EditBox::Flags::MultiLine|EditBox::Flags::HTML|EditBox::Flags::Formattable,"",true),
-btn_audio = Button.new(p_("Blog", "Audio content")),
+btn_audio = OpusRecordButton.new(p_("Blog", "Audio content"), Dirs.temp+"\\audioblogpost.opus", 128),
 lst_categories = ListBox.new(@categories.map{|c|c.name},p_("Blog", "Post categories"),0,ListBox::Flags::MultiSelection,true),
 lst_tags = ListBox.new([],p_("Blog", "Post tags"),0,0,true),
 lst_visibility = ListBox.new([p_("Blog", "Show to everyone"),p_("Blog", "Show to Elten users only")],p_("Blog", "Visibility"),0,0,true),
@@ -1855,7 +1503,6 @@ end
 changed=false
 edt_post.on(:delete) {changed=true}
 edt_post.on(:insert) {changed=true}
-@audio_file=nil
 for i in 0...@categories.size
   lst_categories.selected[i] = true if @categories[i].id == @category
 end
@@ -1885,7 +1532,7 @@ ph.chop! if ph[-1..-1]=="\""
 if ph.include?("https://s.elten-net.eu") && ph[-4..-1].downcase==".mp3"
   ph[-4..-1]=".opus"
 end
-    @audio_file=ph
+    btn_audio.set_source(ph)
     ""
     }
     edt_title.settext(title)
@@ -1919,58 +1566,20 @@ if lst_editor.index==0
     edt_post.settext(text)
     @lasteditor=lst_editor.index
     }
-    btn_audio.on(:press) {
-    if @audio_file==nil
-    options = [nil, p_("Blog", "Record a new post"),p_("Blog", "Use an existing file")]
-  else
-    options = [p_("Blog", "Play audio file"), p_("Blog", "Replace with new Record"),p_("Blog", "Replace with an existing file"), p_("Blog", "Delete audio content")]
-    end
-o=menuselector(options)
-case o
-when 0
-  player(@audio_file)
-when 1
-  @audio_file = Dirs.temp+"/audioblogpost.opus"
-  @r=Recorder.start(@audio_file, 96)
-  play("recording_start")
-  @audiobutton = @form.fields[@form.index]
-  @form.fields[@form.index] = Button.new(p_("Blog", "Stop recording"))
-  @form.fields[@form.index].on(:press) {
-  @r.stop
-  @r=nil
-  @form.fields[@form.index] = @audiobutton
-  play("recording_stop")
-  @form.focus
-  }
-  when 2
-    @audio_file=getfile("","",false,nil,[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma",".opus",".aac"])
-    when 3
-      @audio_file=nil
-    end
-    loop_update
-    @form.focus
-    }
 @form = Form.new(@fields)
-lastaudio=nil
 loop do
   loop_update
-  if @audio_file!=lastaudio
-    if @audio_file==nil
-      for i in 0...@form.fields.size
-    @form.show(i) if @form.fields[i]==edt_post
+  if btn_audio.empty?
+    @form.show(lst_editor)
+    @form.show(edt_post)
+  else
+    @form.hide(lst_editor)
+    @form.hide(edt_post)
     end
-    else
-      for i in 0...@form.fields.size
-    @form.hide(i) if @form.fields[i]==edt_post
-    end
-      end
-    end
-  lastaudio=@audio_file
   @form.update
   if escape or btn_cancel.pressed?
     if !changed or confirm(p_("Blog", "Are you sure you want to cancel creating this post?"))==1
-    @r.stop if @r!=nil
-    break
+      break if btn_audio.delete_audio==true
   end
   end
   if btn_send.pressed? || ($key[0x11] && enter)
@@ -1991,20 +1600,15 @@ end
       else
                 params['add']=1
   end
-  @audio_file=nil if @audio_file!=nil and @audio_file.include?("https://s.elten-net.eu")
-  if @audio_file==nil
+  audio=btn_audio.get_file
+  if audio==nil
     buf = buffer(text)
             params['buffer']=buf
     bt = srvproc("blog_posts_mod",params)
   else
            waiting
    alert(p_("Blog", "Please wait..."))
-   if @recfile!=Dirs.temp+"/audioblogpost.opus"
-        dest=Dirs.temp+"/audioblogpost.opus"
-   executeprocess("bin\\ffmpeg.exe -y -i \"#{@audio_file}\" -b:a 128K \"#{dest}\"",true)
-   @audio_file = dest
-      end
-        fl=readfile(@audio_file)
+        fl=readfile(audio)
         if fl[0..3]!='OggS'
           alert(_("Error"))
           return $scene=Scene_Main.new
@@ -2024,15 +1628,12 @@ end
     q = "POST #{u} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary}\r\nContent-Length: #{length}\r\n\r\n#{data}"
     a = elconnect(q)
 a.delete!("\0")
+s=0
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
     s = i+4
     break
     end
-  end
-  if s == nil
-    alert(_("Error"))
-    return
   end
   sn = a[s..a.size - 1]
   a = nil
@@ -2043,6 +1644,7 @@ for i in 0..a.size - 1
         alert(_("Error"))
         else
         alert(p_("Blog", "The post has been added."))
+        btn_audio.delete_audio(true)
         break
         end
         end
@@ -2064,4 +1666,120 @@ for i in 0..a.size - 1
      @url=""
      @posts=0
    end
-   end
+ end
+ 
+ class Scene_Blog_Comments
+  def initialize(blog=nil, status="hold", scene=nil)
+    @blog=blog
+    @blog=Session.name if blog==nil
+    @status=status
+    @scene=scene
+  end
+  def main
+    @comments=[]
+    @sel = TableBox.new([nil, p_("Blog", "Post"), p_("Blog", "Comment")], [], 0, p_("Blog", "Comments"), true)
+    @sel.bind_context{|menu|context(menu)}
+    refresh
+    @sel.focus
+    loop do
+      loop_update
+      @sel.update
+      break if escape
+    end
+    if @scene==nil
+    $scene=Scene_Main.new
+  else
+    $scene=@scene
+    end
+  end
+  def context(menu)
+    if @comments.size>0
+            menu.option(p_("Blog", "Approve"), nil, "r") {
+      assign(@comments[@sel.index], "approve")
+      }
+      if @status!="spam"
+      menu.option(p_("Blog", "Assign as spam"), nil, "m") {
+      assign(@comments[@sel.index], "spam")
+      }
+      end
+      menu.option(p_("Blog", "Delete"), nil, :del) {
+      confirm(p_("Blog", "Are you sure you want to delete this comment?")) {
+      deletecomment(@comments[@sel.index])
+      }
+      }
+    end
+    menu.submenu(p_("Blog", "Show")) {|m|
+    if @status!="hold"
+    m.option(p_("Blog", "Pending comments")) {
+    @status="hold"
+    refresh
+    @sel.focus
+    }
+  end
+  if @status!="spam"
+    m.option(p_("Blog", "Comments assigned as spam")) {
+    @status="spam"
+    refresh
+    @sel.focus
+    }
+    end
+    }
+    end
+    def assign(comment, status)
+      srvproc("blog_comments", {'ac'=>'assign', 'type'=>status, 'comment'=>comment.id, 'searchname'=>@blog})
+    refresh
+    @sel.sayoption
+  end
+      def deletecomment(comment)
+      srvproc("blog_comments", {'ac'=>'delete', 'comment'=>comment.id, 'searchname'=>@blog})
+    refresh
+    play("edit_delete")
+    @sel.sayoption
+    end
+    def refresh
+      ct=srvproc("blog_commentspending", {'ac'=>'list', 'type'=>@status, 'searchname'=>@blog})
+      if ct[0].to_i==0
+        @comments.clear
+        cnt=ct[1].to_i
+        t=0
+        for l in 2...ct.size
+          case t
+          when 0
+            @comments.push(Struct_Blog_Comment.new)
+            @comments.last.id=ct[l].to_i
+            t+=1
+            when 1
+              @comments.last.author=ct[l].delete("\r\n")
+              t+=1
+              when 2
+                @comments.last.postname=ct[l].delete("\r\n")
+                t+=1
+                when 3
+                  x=ct[l].delete("\r\n")
+                  if x=="\004END\004"
+                    t=0
+                    else
+                  @comments.last.content+=ct[l].delete("\r\n")+"\r\n"
+                end
+              end
+            end
+            @sel.rows=nil
+            r=[]
+            for c in @comments
+              r.push([c.author, c.postname, c.content])
+            end
+            @sel.rows=r
+            @sel.reload
+        end
+      end
+    end
+    
+    class Struct_Blog_Comment
+      attr_accessor :id, :postname, :author, :content
+      def initialize
+        @id=0
+        @postname=""
+        @author=""
+        @content=""
+        end
+      end

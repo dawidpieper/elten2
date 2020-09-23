@@ -146,11 +146,11 @@ drp[0]=4+4+4+4+4
 drp[1]=0
 drp[2]=0
 drp[3]=0
-drp[4]=0
+drp[4]=1
 dr=drp.pack("iiiii")
 drp[0]
 for f in ar
-  dr+=((f)+"\0")
+  dr+=(unicode(f)+"\0")
 end
 dr+=("\0")
 self.set_data(dr, HDROP)

@@ -38,7 +38,7 @@ when 0
   when 1
     @sel_conversations.focus
     when 2
-      @form_messages.fields[@form_messages.index].focus
+      @form_messages.focus
       load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true)
 end
   @imported=false
@@ -81,7 +81,7 @@ def import(arr)
    @lastuser=@users[@sel_users.index] if @users.is_a?(Array) and @sel_users.is_a?(ListBox)
    @users=[]
    @users_limit=limit
-    msg=srvproc("messages_conversations",{"limit"=>@users_limit})
+    msg=srvproc("messages_conversations",{"limit"=>@users_limit, 'details'=>1})
     if msg[0].to_i<0
       alert(_("Error"))
       return $scene=Scene_Main.new
@@ -103,16 +103,18 @@ for i in 3..msg.size-1
         @users[-1].read=line.to_i
         when 5
           @users[-1].lastid=line.to_i
-              end
+          when 6
+            @users[-1].muted=(line.to_i==1)
+            end
       l+=1
-      l=0 if l==6
+      l=0 if l==7
     end
     selt=[]
     ind=0
     for u in @users
       user=u.user
       user=name_conversation(user) if user[0..0]=="["
-            selt.push(user+":\r\n"+p_("Messages", "Last message")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",u.lastdate.year,u.lastdate.month,u.lastdate.day,u.lastdate.hour,u.lastdate.min)+"\r\n")
+            selt.push(user+":\r\n"+p_("Messages", "Last message")+": "+u.lastuser+": "+u.lastsubject+".\r\n"+format_date(u.lastdate)+"\r\n")
       selt[-1]+="\004INFNEW{#{p_("Messages", "New")}: }\004" if u.read==0 and u.lastuser!=Session.name
       ind=selt.size-1 if u.user==@lastuser.user if @lastuser!=nil
     end
@@ -143,7 +145,20 @@ menu.option(p_("Messages", "Add conversations to quick actions"), nil, "q") {
 QuickActions.create(Scene_Messages, p_("Messages", "Conversations with %{user}")%{'user'=>@users[@sel_users.index].user}, [@users[@sel_users.index].user])
 alert(p_("Messages", "Conversations added to quick actions"))
 }
-end
+if @users[@sel_users.index].muted==false
+  menu.submenu(p_("Messages", "Mute this conversation")) {|m|
+  ms=[[p_("Messages", "Mute for a quarter"), 900], [p_("Messages", "Mute for an hour"), 3600], [p_("Messages", "Mute for a day"), 86400], [p_("Messages", "Mute for a week"), 86400*7], [p_("Messages", "Mute forever"), 0]]
+  for mt in ms
+    m.option(mt[0], mt[1]) {|t|
+    mute_conversation(@users[@sel_users.index], t)
+    }
+    end
+  }
+else
+  menu.option(p_("Messages", "Unmute this conversation")) {
+  mute_conversation(@users[@sel_users.index], false)
+  }
+  end
 if @users[@sel_users.index].user[0..0]=="["
   menu.option(p_("Messages", "Edit conversation"), nil, "e") {
   edit_conversation(@users[@sel_users.index])
@@ -160,6 +175,7 @@ else
   menu.option(p_("Messages", "Delete conversations"), nil, :del) {
   deleteuser(@users[@sel_users.index])
 }
+end
 end
 menu.option(p_("Messages", "Create new conversation"), nil, "t") {
     edit_conversation
@@ -191,7 +207,7 @@ load_messages("","","flagged")
 @cat=2
 }
 menu.option(_("Refresh"), nil, "r") {
-main
+load_users
 }
 end
 def edit_conversation(c=nil)
@@ -213,16 +229,14 @@ def edit_conversation(c=nil)
   cre=form.fields[2]
   form.fields[2]=nil
   form.fields[1].bind_context{|menu|
-  if users.size<10
   menu.option(p_("Messages", "Add user"), nil, "n") {
         user=input_user(p_("Messages", "User to add"))
       if user!=nil and !users.include?(user)
           users.push(user)
          form.fields[1].options.push(user)
-              form.fields[1].focus
+              form.focus
             end
             }
-            end
             if users.size>0 and users[form.fields[1].index]!=Session.name and !cusers.include?(users[form.fields[1].index])
                   menu.option(p_("Messages", "Delete user from conversation"), nil, :del) {
       play("edit_delete")
@@ -270,6 +284,25 @@ else
     end
     loop_update
   end
+  def mute_conversation(u, time=false)
+    ac={'groupid'=>u.user}
+    if !time.is_a?(Integer)
+      ac['ac']='unmute'
+    else
+      ac['ac']='mute'
+      ac['totime']=Time.now.to_i+time
+    end
+    if srvproc("messages_groups", ac)[0].to_i==0
+      if !time.is_a?(Integer)
+        u.muted=false
+      else
+        u.muted=true
+        end
+      alert(_("Saved"))
+    else
+      alert(_("Error"))
+      end
+    end
   def deleteuser(u)
                          return if u.user[0..0]=="["
   confirm(p_("Messages", "Are you sure you want to delete all messages with user %{user}")%{'user'=>u.user}) do
@@ -330,7 +363,7 @@ for i in 4..msg.size-1
     for c in @conversations
       lu=c.lastuser
       lu=name_conversation(lu) if lu[0..0]=="["
-      selt.push(((c.subject!="")?(c.subject):p_("Messages", "No subject"))+":\r\n"+((sp==nil)?p_("Messages", "Last message"):p_("Messages", "From"))+": "+lu+".\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",c.lastdate.year,c.lastdate.month,c.lastdate.day,c.lastdate.hour,c.lastdate.min)+"\r\n")
+      selt.push(((c.subject!="")?(c.subject):p_("Messages", "No subject"))+":\r\n"+((sp==nil)?p_("Messages", "Last message"):p_("Messages", "From"))+": "+lu+".\r\n"+format_date(c.lastdate)+"\r\n")
       selt[-1]+="\004INFNEW{#{p_("Messages", "New")}: }\004" if c.read==0 and c.lastuser!=Session.name
       ind=selt.size-1 if c.subject==@lastconversation.subject and user==@lastconversation_user if @lastconversation!=nil and @lastconversation_user!=nil
     end
@@ -379,7 +412,7 @@ $scene = Scene_Messages_New.new(@user,"","",export)
 }
 end
 menu.option(_("Refresh"), nil, "r") {
-main
+load_conversations(@user)
 }
 end
 def deleteconversation(c)
@@ -402,7 +435,7 @@ def deleteconversation(c)
    @messages_limit=limit if !complete
    msg=""
    if sp=="flagged"
-     msg=srvproc("messages_conversations",{"sp"=>"flagged"})
+     msg=srvproc("messages_conversations",{"sp"=>"flagged", 'details'=>1})
    elsif sp=="search"
      term=input_text(p_("Messages", "Enter a phrase to look for"),0,@lastsearch||"", true)
      if term==nil
@@ -410,9 +443,9 @@ def deleteconversation(c)
        return
        end
                    @lastsearch=term
-     msg=srvproc("messages_conversations",{"sp"=>"search", "search"=>term})
+     msg=srvproc("messages_conversations",{"sp"=>"search", "search"=>term, 'details'=>1})
      else
-   msg=srvproc("messages_conversations",{"user"=>user, "subj"=>subject, "limit"=>@messages_limit.to_s})
+   msg=srvproc("messages_conversations",{"user"=>user, "subj"=>subject, "limit"=>@messages_limit.to_s, 'details'=>1})
    end
 @messages_wn=0
    if $agent_msg!=nil
@@ -430,11 +463,11 @@ for mesg in msg[4..-1].join.split("\r\n\004END\004")
   mesg[0..1]="" if mesg[0..1]=="\r\n"
   next if mesg==""
   message=mesg.split("\r\n")
-      for l in 0..7
+      for l in 0..8
         line=message[l]
   case l
   when 0
-    m=Struct_Message.new(line.to_i)
+    m=Struct_Messages_Message.new(line.to_i)
         when 1
     m.sender=line
     m.receiver=((m.sender==Session.name)?user:Session.name)
@@ -451,6 +484,8 @@ when 2
             m.attachments.delete(nil) if m.attachments.size>0
             name_attachments(m.attachments, m.attachments_names) if m.attachments.size>0
             when 7
+              m.protected=line.to_i
+            when 8
         m.text=message[l..-1].join("\n")
         if !(complete and curids.include?(m.id))
           o=(complete)?0:(@messages.size)
@@ -466,7 +501,7 @@ when 2
       play "messages_update"
     end
         m.date=Time.now if m.date==0
-            selt.push(m.sender+":\r\n"+((sp!=nil and sp!="new")?(m.subject+":\r\n"):"")+m.text.gsub("\004LINE\004","\r\n").split("")[0...5000].join+((m.text.size>5000)?"... #{p_("Messages", "Read more")}":"")+"\r\n"+sprintf("%04d-%02d-%02d %02d:%02d",m.date.year,m.date.month,m.date.day,m.date.hour,m.date.min)+"\r\n")
+            selt.push(m.sender+":\r\n"+((sp!=nil and sp!="new")?(m.subject+":\r\n"):"")+m.text.gsub("\004LINE\004","\r\n").split("")[0...5000].join+((m.text.size>5000)?"... #{p_("Messages", "Read more")}":"")+"\r\n"+format_date(m.date)+"\r\n")
       selt[-1]+="\004INFNEW{#{p_("Messages", "New")}: }\004" if m.mread==0
       selt[-1]+="\004ATTACHMENT\004" if m.attachments.size>0
       end
@@ -478,7 +513,7 @@ when 2
     head=p_("Messages", "Messages in conversation %{subject} with %{user}")%{'subject'=>subject,'user'=>u}
     head=p_("Messages", "Flagged messages") if sp=='flagged'
     head=p_("Messages", "Found items") if sp=='search'
-    @sel_messages=ListBox.new(selt,head,0)
+    @sel_messages=ListBox.new(selt,head,0,0,true)
         @form_messages=Form.new([@sel_messages,nil,EditBox.new(p_("Messages", "Your reply"),EditBox::Flags::MultiLine,"",true),nil,Button.new(p_("Messages", "Compose"))],0,true)
   @form_messages.fields[2..4]=[nil,nil,nil] if msg[3].to_i==0 or @messages_sp=='flagged' or @messages_sp=='search'
   else
@@ -566,6 +601,7 @@ if (enter or space) and @form_messages.index==4
           end
       end
   def context_messages(menu)
+    return if @sel_messages==nil
     if @messages.size>0 and @sel_messages.index<@messages.size
 menu.option(p_("Messages", "Reply to message sender"), nil, "o") {
   rec=@messages[@sel_messages.index].sender
@@ -581,18 +617,40 @@ menu.option(s, nil, "g") {
     if srvproc("messages",{"mark"=>"1", "id"=>@messages[@sel_messages.index].id})[0].to_i<0
       alert(_("Error"))
     else
-      alert(p_("Messages", "The message has been flagged."))
+      alert(p_("Messages", "This message has been flagged."))
       @messages[@sel_messages.index].marked=1
       end
     else
 if srvproc("messages",{"unmark"=>"1", "id"=>@messages[@sel_messages.index].id})[0].to_i<0
       alert(_("Error"))
     else
-      alert(p_("Messages", "The message is no longer flagged."))
+      alert(p_("Messages", "This message is no longer flagged."))
       @messages[@sel_messages.index].marked=0
       end
       end
-  @sel_messages.focus
+  @form_messages.focus
+}
+end
+if @sel_messages.index<@messages.size and @messages[@sel_messages.index].receiver[0..0]!="["
+  s=p_("Messages", "Protect")
+s=p_("Messages", "Unprotect") if @messages[@sel_messages.index].protected==1  
+menu.option(s, nil, "c") {
+  if @messages[@sel_messages.index].protected==0
+    if srvproc("messages",{"protect"=>"1", "id"=>@messages[@sel_messages.index].id})[0].to_i<0
+      alert(_("Error"))
+    else
+      alert(p_("Messages", "This message has been protected."))
+      @messages[@sel_messages.index].protected=1
+      end
+    else
+if srvproc("messages",{"unprotect"=>"1", "id"=>@messages[@sel_messages.index].id})[0].to_i<0
+      alert(_("Error"))
+    else
+      alert(p_("Messages", "This message is no longer protected."))
+      @messages[@sel_messages.index].protected=0
+      end
+      end
+  @form_messages.focus
 }
 end
 if @messages.size>0 and @sel_messages.index<@messages.size and @messages_user[0..0]!="["
@@ -612,20 +670,20 @@ menu.option(p_("Messages", "Forward"), nil, "d") {
 }
 end
 menu.option(_("Refresh"), nil, "r") {
-main
+load_messages(@messages_user, @messages_subject)
 }
 end
   def show_message(message)
                  dialog_open
          message.mread = 1 if message.receiver==Session.name
-         date=sprintf("%04d-%02d-%02d %02d:%02d",message.date.year,message.date.month,message.date.day,message.date.hour,message.date.min)
+         date=format_date(message.date)
                                         @form_messages.fields[0]=EditBox.new(message.subject + " #{p_("Messages", "From")}: " + message.sender,EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly,message.text+"\r\n"+date)
                                         @form_messages.fields[0].focus
                                       end
                                       def hide_message
                                                                                 @form_messages.fields[0]=@sel_messages
                                         @form_messages.index=0
-                                        @sel_messages.focus
+                                        @form_messages.focus
                                         dialog_close
                                         end
                        def download_attachment(at)
@@ -655,13 +713,13 @@ end
     end
     alert(p_("Messages", "The message has been deleted."))
                         @sel_messages.disable_item(@sel_messages.index)
-                        @sel_messages.focus
+                        @form_messages.focus
       end
     end
   end
 
   class Struct_Messages_User
-    attr_accessor :user, :read, :lastdate, :lastuser, :lastsubject, :lastid
+    attr_accessor :user, :read, :lastdate, :lastuser, :lastsubject, :lastid, :muted
     def initialize(user="")
       @user=user
       end
@@ -682,7 +740,6 @@ end
          @scene = scene
          end
        def main
-         dialog_open
          receiver=@receiver
          subject=@subject
          text=@text
@@ -692,18 +749,16 @@ end
            @fields[0]=nil if receiver[0..0]=="["
 @fields[1] = EditBox.new(p_("Messages", "Subject:"),"",subject,true)
            @fields[2] = ((@text.is_a?(EditBox))?@text:EditBox.new(p_("Messages", "Message:"),EditBox::Flags::MultiLine,text,true)) if !(@text.is_a?(String) and @text.include?("\004AUDIO\004"))
-           @fields[3] = Button.new(p_("Messages", "Record an audio message")) if !(@text.is_a?(String) and @text.include?("\004AUDIO\004"))
+           @fields[3] = OpusRecordButton.new(p_("Messages", "Audio message"), Dirs.temp+"\\audiomessage.opus", 64, 48) if !(@text.is_a?(String) and @text.include?("\004AUDIO\004"))
            @fields[4]=nil
            @fields[5]=nil
            @fields[6] = Button.new(_("Cancel"))
            @fields[7]=nil
-           @fields[8]=nil
-           @fields[9]=Button.new(p_("Messages", "Attach a file"))                      
+           @fields[8]=Button.new(p_("Messages", "Attach a file"))                      
                       ind=0
            ind=1 if receiver!=""
            ind=2 if receiver!="" and subject!=""
            @form = Form.new(@fields,ind)
-rec=0
 @attachments=[]
                                  loop do                     
                                    if @attachments.size==0
@@ -721,30 +776,14 @@ rec=0
                                      end
                                      end
              loop_update
-                          if @form.fields[4]==nil
-               sc=false
-               if rec == 2
-                 sc=true
-               elsif rec == 0 and (@form.fields[2]==nil or @form.fields[2].text!="")
-                 sc=true
-                 end
-               if sc == true
+             notempt = (@form.fields[2].is_a?(EditBox) && @form.fields[2].text!="") || (@form.fields[3].is_a?(OpusRecordButton) && !@form.fields[3].empty?)
+             notempt=true if @form.fields[2]==nil and @form.fields[3]==nil
+                          if @form.fields[4]==nil && notempt
                  @form.fields[4] = Button.new(p_("Messages", "Send"))
                       @form.fields[7] = Button.new(p_("Messages", "Send as admin")) if Session.moderator > 0
-           @form.fields[8] = Button.new(p_("Messages", "Send to all users")) if Session.moderator > 0
-           end
-         elsif @form.fields[4]!=nil
-           sc=false
-               if rec == 1
-                 sc=true
-               elsif rec == 0 and (@form.fields[2]!=nil and @form.fields[2].text=="")
-                 sc=true
-                 end
-           if sc == true
+         elsif @form.fields[4]!=nil && !notempt
                  @form.fields[4]=nil
                       @form.fields[7]=nil if Session.moderator > 0
-           @fields[8]=nil if Session.moderator > 0
-           end
                end
              if (arrow_up or arrow_down) and @form.index == 0
                s = selectcontact
@@ -752,35 +791,15 @@ rec=0
                  @form.fields[0].settext(s)
                  end
                end
+               if @form.fields[3].is_a?(OpusRecordButton)
+                 if @form.fields[3].empty?
+                   @form.show(2)
+                 else
+                   @form.hide(2)
+                   end
+                 end
            @form.update
-               if (enter or space) and @form.index == 3
-             if rec == 0
-                          @r=Recorder.start(Dirs.temp+"/audiomessage.opus",96)
-                          play("recording_start")
-             @msgedit=@form.fields[2]
-             @form.fields[2]=Button.new(p_("Messages", "An audio message"))
-             @form.fields[3]=Button.new(p_("Messages", "Stop recording"))
-           @form.fields[7]=nil
-             @form.fields[8]=nil
-             rec = 1
-         elsif rec == 1
-           play("recording_stop")
-           @r.stop
-           @form.fields[3]=Button.new(p_("Messages", "Play"))
-           @form.fields[2] = Button.new(p_("Messages", "Cancel recording"))
-           rec = 2
-         elsif rec == 2
-                      player(Dirs.temp+"/audiomessage.opus","",true)
-                                   end
-                                 end
-                                 if (enter or space) and @form.index == 2 and rec > 1
-                                   @form.fields[2] = @msgedit
-                                   rec = 0
-                                   @form.fields[3] = Button.new(p_("Messages", "Record an audio message"))
-                                   @form.index=2
-                                   @form.fields[2].focus
-                                   end
-               if (enter or space) and @form.index==9
+               if @form.fields[8]!=nil && @form.fields[8].pressed?
                  if @attachments.size>=3
                    alert(p_("Messages", "You cannot add more attachments to this message."))
                    else
@@ -807,13 +826,12 @@ rec=0
                      @form.fields[5].sayoption
                    else
                      @form.index=2
-                     @form.fields[2].focus
+                     @form.focus
                      end
                    end
-                 if (enter or space) and ((@form.index == 4 or @form.index == 7 or @form.index == 8) or ($key[0x11] == true and enter))
-                                   @form.fields[0].finalize if @form.fields[0]!=nil
+                 if (enter or space) and ((@form.index == 4 or @form.index == 7) or ($key[0x11] == true and enter))
                                                           @form.fields[1].finalize
-                       @form.fields[2].finalize if rec==0 and @form.fields[2]!=nil
+                       @form.fields[2].finalize if @form.fields[2]!=nil
                        receiver = @form.fields[0].text if @form.fields[0]!=nil
                        receiver=@receiver if @form.fields[0]==nil
                        receiver.sub!("@elten-net.eu","")
@@ -823,26 +841,25 @@ rec=0
                        elsif (/^[a-zA-Z0-9.\-_\+]+@[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,4}$/=~receiver)!=nil
                          if confirm(p_("Messages", "Do you want to send this message as e-mail?")) == 1
                            subject = @form.fields[1].text
-                       text = @form.fields[2].text if rec == 0 and @form.fields[2]!=nil
+                       text = @form.fields[2].text if @form.fields[2]!=nil
                        play("list_select")
                        break
                        end
                          else
                        subject = @form.fields[1].text
-                       text = @form.fields[2].text if rec == 0 and @form.fields[2]!=nil
+                       text = @form.fields[2].text if @form.fields[2]!=nil
                        text=@text if @form.fields[2]==nil
                        play("list_select")
                        break
                        end
                      end
-                     if escape or ((enter or space) and @form.index == 6)
+                     if (escape or ((enter or space) and @form.index == 6)) && (@form.fields[3]==nil || @form.fields[3].delete_audio)
                                                               if @scene != false and @scene != true and @scene.is_a?(Integer)==false and @scene.is_a?(Array)==false
            $scene = @scene
          else
                       $scene = Scene_Messages.new(@scene)
          end
          loop_update
-         dialog_close  
          return  
            break
          end
@@ -855,65 +872,22 @@ rec=0
   @att.chop! if @att[-1..-1]==","
            end
                     msgtemp=""
-         if rec == 0
+         if @form.fields[3]==nil or @form.fields[3].empty?
            bufid = buffer(text)
                     tmp = ""
          tmp = "admin_" if @form.index == 7
          msgtemp = ""
-         if @form.index != 8
                  prm={"to"=>receiver, "subject"=>subject, "buffer"=>bufid}
                        if @att!="" and @att!=nil
                                   bufatt=buffer(@att)
       prm['bufatt']=bufatt.to_s
-              end         
-           msgtemp = srvproc("message_#{tmp}send",prm)
-       else
-             @users = srvproc("users",{})
-        err = @users[0].to_i
-    case err
-    when -1
-      alert(_("Database Error"))
-      $scene = Scene_Main.new
-      dialog_close
-      return
-      when -2
-        alert(_("Token expired"))
-        $scene = Scene_Main.new
-        dialog_close
-        return
-        when -3
-          alert(_("You haven't permissions to do this"))
-          $scene = Scene_Main.new
-          dialog_close
-          return
-    end
-        for i in 0..@users.size - 1
-      @users[i].delete!("\r")
-      @users[i].delete!("\r\n")
-    end
-    usr = []
-    for i in 1..@users.size - 1
-      usr.push(@users[i]) if @users[i].size > 0
-    end
-    for receiver in usr
-      loop_update
-      ex=""
-      prm={"to"=>receiver, "subject"=>subject, "buffer"=>bufid}
-            if @att!="" and @att!=nil
-      bufatt=buffer(@att)
-      prm['bufatt']=bufatt.to_s
-    end
-    msgtemp = srvproc("message_send",prm)
       end
-    end
+           msgtemp = srvproc("message_#{tmp}send",prm)
   else
-    if rec == 1
-    @r.stop
-    play("recording_stop")
-  end
+    f=@form.fields[3]
   waiting            
-                  fl = readfile(Dirs.temp+"/audiomessage.opus")
-                  if fl[0..3]!='OggS'
+                  fl = readfile(f.get_file)
+                                    if fl[0..3]!='OggS'
                     alert(_("Error"))
                     return $scene=Scene_Main.new
                     end
@@ -933,22 +907,20 @@ rec=0
     q = "POST /srv/message_send.php?name=#{Session.name}\&token=#{Session.token}\&to=#{receiver.urlenc}\&subject=#{subject.urlenc}\&audio=1#{ex} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: close\r\nContent-Type: multipart/form-data; boundary=#{boundary.to_s}\r\nContent-Length: #{length}\r\n\r\n#{data}"
  a = elconnect(q)
 a.delete!("\0")
+s=0
 for i in 0..a.size - 1
   if a[i..i+3] == "\r\n\r\n"
     s = i+4
     break
     end
   end
-  if s == nil
-    alert(_("Error"))
-    return
-  end
   sn = a[s..a.size - 1]
   a = nil
         bt = sn.split("\r\n")
 msgtemp = bt[1].to_i
+f.delete_audio(true)
 waiting_end
-                                      end
+end
          case msgtemp[0].to_i
          when 0
            alert(p_("Messages", "Message has been sent"))
@@ -957,30 +929,26 @@ waiting_end
          else
            @text.settext("") if @text.is_a?(EditBox)
            $scene = Scene_Messages.new(@scene)
-           dialog_close
            return
            end
            when -1
              alert(_("Database Error"))
              $scene = Scene_Main.new
-             dialog_close
              return
              when -2
                alert(_("Token expired"))
                $scene = Scene_Loading.new
-               dialog_close
                return
                when -3
                  alert(_("You haven't permissions to do this"))
                                   when -4
                  alert(p_("Messages", "The recipient cannot be found."))  
                end
-               dialog_close
          end
        end
        
-class Struct_Message
-attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attachments, :text, :attachments_names
+class Struct_Messages_Message
+attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attachments, :text, :attachments_names, :protected
                def initialize(id=0)
                  @id=id
                  @receiver=Session.name
@@ -992,5 +960,6 @@ attr_accessor :id, :receiver, :sender, :subject, :mread, :marked, :date, :attach
                  @date=0
                                                    @marked=0
 @attachments_names=[]
+@protected=0
                                                    end
                end

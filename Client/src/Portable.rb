@@ -4,16 +4,16 @@
 
 class Scene_Portable
   def main
-    @form=Form.new([FilesTree.new(p_("Portable", "Destination"),Dirs.user,true,true,"Documents"),CheckBox.new(p_("Portable", "Copy current settings")),CheckBox.new(p_("Portable", "Copy downloaded soundthemes")),CheckBox.new(p_("Portable", "Create as a single exe file. (No settings will be saved.")),Button.new(p_("Portable", "continue")),Button.new(_("Cancel"))])    
+    @form=Form.new([FilesTree.new(p_("Portable", "Destination"),Dirs.user,true,true,"Documents"),CheckBox.new(p_("Portable", "Copy current settings")),CheckBox.new(p_("Portable", "Copy downloaded soundthemes")), Button.new(p_("Portable", "continue")),Button.new(_("Cancel"))])    
 loop do
   loop_update
   @form.update
-  if escape or ((enter or space) and @form.index==5)
+  if escape or ((enter or space) and @form.index==4)
     $scene=Scene_Main.new
     return
     break
   end
-  if (enter or space) and @form.index==4
+  if (enter or space) and @form.index==3
     break
     end
 end
@@ -23,24 +23,22 @@ speak(p_("Portable", "Please wait while files are being prepared"))
 copier
     loop_update
     speech_wait
-        if @form.fields[1].checked==1 or @form.fields[2].checked==1 or @form.fields[3].checked==1
+        if @form.fields[1].checked==1 or @form.fields[2].checked==1
       Dir.mkdir("#{@destdir}/eltendata") if FileTest.exists?("#{@destdir}/eltendata")==false
     if @form.fields[1].checked == 1
   speak(p_("Portable", "Copying settings"))
   copyfile(Dirs.eltendata+"\\elten.ini",@destdir+"\\eltendata/elten.ini")
   speech_wait
-  if $voice != -1 and $voice != -3
+  if Configuration.voice != -1 and Configuration.voice != -3
     waiting_end
     dialog_open
-  v = selector([p_("Portable", "Use a screenreader or a system default voice"),p_("Portable", "Reset synthesizer settings"),p_("Portable", "Ask each time"),p_("Portable", "Use current setting")],p_("Portable", " If you use a created copy of Elten on another computer, the voice settings may  not work properly. This is especially noticeable in a situation when another  computer has other voices installed. How do you want to configure the generated  version?"),0,3,1)
+  v = selector([p_("Portable", "Use a screenreader or a system default voice"),p_("Portable", "Reset synthesizer settings"),p_("Portable", "Ask each time"),p_("Portable", "Use current setting")],p_("Portable", "If you use a created copy of Elten on another computer, the voice settings may  not work properly. This is especially noticeable in a situation when another  computer has other voices installed. How do you want to configure the generated  version?"),0,3,1)
   value=0
   value=-1 if v==0
   value=-2 if v==1
   value=-3 if v==2
   writeini("#{@destdir}/eltendata/elten.ini","Voice","Voice",value.to_s) if value != 0
-  if @form.fields[3].checked==0
     writeini("#{@destdir}/elten.ini","Interface","SoundTheme","")
-  end
   dialog_close
   waiting
 end
@@ -52,22 +50,6 @@ if @form.fields[2].checked == 1
   end
       end        
       writeini("#{@destdir}\\elten.ini","Elten","Portable","1")
-      writeini("#{@destdir}\\elten.ini","Elten","SFX","2")
-      if @form.fields[3].checked==1
- writefile(Dirs.temp+"\\portxfs.tmp","sfx configuration
-Setup="+File.basename(@destdir)+"\\"+File.basename($path)+"
-TempMode
-Silent=1
-Overwrite=1
-Title=Extracting Elten Temporary Files...
-Text
-{
-Please wait while Elten files are being extracted...
-}")
-speak(p_("Portable", "Preparing SFX"))
-executeprocess("bin\\rar.exe a -r -ep1 -df -ma -sfx -z\"#{Dirs.temp}\\portxfs.tmp\" \"#{@destdir}.exe\" \"#{@destdir}\" -y",true)
-speech_wait
-        end
       waiting_end
         alert(p_("Portable", "Elten Portable version created successfully."))
       $scene=Scene_Main.new

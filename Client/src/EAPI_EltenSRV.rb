@@ -50,7 +50,7 @@ post=txt
             t=Time.now.to_f
             w=false
                 while $eresps[id]==nil
-            loop_update
+            loop_update(false)
       if Time.now.to_f-t>2 and w==false
         waiting
         w=true
@@ -148,6 +148,46 @@ end
             end
     File.delete(tmpname) if $DEBUG==false
         return r
+      end
+      
+      def jproc(method,path,params=nil)
+          Log.debug("Server JSON request to #{path}")
+                              play("signal") if $netsignal
+params={} if !params.is_a?(Hash)
+if Session.name!=""&&Session.name!=nil
+params['name']=Session.name
+params['token']=Session.token
+end
+          if $agent!=nil
+                                                    id=rand(1e16)
+            $agent.write(Marshal.dump({'func'=>'jproc','method'=>method,'path'=>path,'params'=>params,'id'=>id}))
+            $agids||=[]
+            $agids.push(id)
+                        $agent_wait=true
+            t=Time.now.to_f
+            w=false
+                while $jresps[id]==nil
+            loop_update(false)
+      if Time.now.to_f-t>2 and w==false
+        waiting
+        w=true
+      elsif Time.now.to_f-t>15
+        Log.warning("Session timed out for JSON request to #{path}")
+        waiting_end
+        break
+      end
+      if escape and w
+        play("cancel")
+        Log.debug("Server JSON request to #{path} cancelled by user")
+        waiting_end
+return nil
+      end
+      end
+      waiting_end if w
+      rsp=$jresps[id]
+return rsp['resp']
+    end
+return nil
       end
       
       def name_attachments(attachments, names=[])
@@ -314,7 +354,7 @@ end
                   end
                   if uit[1].to_i > 1000000000 and uit[1].to_i < 2000000000
                                         uitt = Time.at(uit[1].to_i)
-                                    usrinf[0] = sprintf("%04d-%02d-%02d %02d:%02d",uitt.year,uitt.month,uitt.day,uitt.hour,uitt.min)
+                                    usrinf[0] = format_date(uitt, false, false)
                 else
                   usrinf[0] = ""
                   end
@@ -327,7 +367,7 @@ if uit[6].to_i==0 or uit[6]==nil
   usrinf[6]=""
 else
                                        uitt = Time.at(uit[6].to_i)
-                                    usrinf[6] = sprintf("%04d-%02d-%02d %02d:%02d",uitt.year,uitt.month,uitt.day,uitt.hour,uitt.min)
+                                    usrinf[6] = format_date(uitt, false, false)
 end
 usrinf[7]=uit[7]
 usrinf[8]=uit[9].to_b
@@ -427,7 +467,7 @@ end
       return user if user[0..0]!="["
       if ($blogownerstime||0)<Time.now.to_i-10
         b=srvproc("blog_owners",{})
-        return nil if b[0].to_i<0
+        return [] if b[0].to_i<0
         $blogowners={}
         k=nil
         for i in 2...b.size

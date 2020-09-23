@@ -2,11 +2,49 @@
 #Copyright (C) 2014-2020 Dawid Pieper
 #All rights reserved.
 
-    class Scene_Polls
+class Scene_Polls
   def initialize(lastpoll=0)
     @lastpoll=lastpoll
     end
   def main
+    @sel=TableBox.new([nil, p_("Polls", "Author"), p_("Polls", "Votes"), nil], [], 0, p_("Polls", "Polls"), true)
+@sel.bind_context{|menu|context(menu)}
+@allpolls=[]
+refresh
+@polls=[]
+polls_filter
+@sel.focus
+loop do
+  loop_update
+  @sel.update
+  $scene=Scene_Main.new if escape
+      if enter and @sel.options.size>0
+                 selt=[p_("Polls", "Vote"),p_("Polls", "Show results")]
+       if Session.name!="guest"
+         v=srvproc("polls",{"voted"=>"1", "poll"=>@polls[@sel.index].id})
+       if v[0].to_i<0
+         alert(_("Error"))
+         $scene=Scene_Main.new
+         return
+       end
+       if v[1].to_i==1
+         selt[0]=nil
+end
+       end         
+       if Session.name=="guest"
+         selt[0]=""
+         end
+         case menuselector(selt)
+         when 0
+           $scene=Scene_Polls_Answer.new(@polls[@sel.index].id)
+           when 1
+             $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
+         end
+        end
+  break if $scene!=self
+  end
+end
+def refresh
     polls=srvproc("polls",{"list"=>1, "details"=>2})
 if polls[0].to_i<0
   alert(_("Error"))
@@ -50,42 +88,8 @@ for i in 2..polls.size-1
         end
   end
 end
-@sel=TableBox.new([nil, p_("Polls", "Author"), p_("Polls", "Votes"), nil], [], 0, p_("Polls", "Polls"), true)
-@sel.bind_context{|menu|context(menu)}
-@polls=[]
-polls_refresh
-@sel.focus
-loop do
-  loop_update
-  @sel.update
-  $scene=Scene_Main.new if escape
-      if enter and @sel.options.size>0
-                 selt=[p_("Polls", "Vote"),p_("Polls", "Show results")]
-       if Session.name!="guest"
-         v=srvproc("polls",{"voted"=>"1", "poll"=>@polls[@sel.index].id})
-       if v[0].to_i<0
-         alert(_("Error"))
-         $scene=Scene_Main.new
-         return
-       end
-       if v[1].to_i==1
-         selt[0]=nil
-end
-       end         
-       if Session.name=="guest"
-         selt[0]=""
-         end
-         case menuselector(selt)
-         when 0
-           $scene=Scene_Polls_Answer.new(@polls[@sel.index].id)
-           when 1
-             $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
-         end
-        end
-  break if $scene!=self
-  end
-end
-def polls_refresh
+      end
+def polls_filter
   @lastpoll=@polls[@sel.index].id if @polls.is_a?(Array) and @polls.size>0
   @polls=[]
 knownlanguages = Session.languages.split(",").map{|lg|lg.upcase}
@@ -124,7 +128,8 @@ def context(menu)
                    alert(_("Error"))
                  else
                    alert(p_("Polls", "deleted"))
-                   @sel.disable_item(@sel.index)
+                   refresh
+                   polls_filter
                    @sel.focus
                  end
                  speech_wait
@@ -139,7 +144,7 @@ def context(menu)
       l=1
       l=0 if LocalConfig['PollsShowUnknownLanguages']==1
       LocalConfig['PollsShowUnknownLanguages']=l
-polls_refresh
+polls_filter
 @sel.focus
       }
          end
@@ -161,7 +166,7 @@ class Scene_Polls_Create
       l = Lists.langs[lk]
       ls.push(l["name"] + " (" + l["nativeName"] + ")")
       @ln.push(lk)
-      lnindex = @ln.size - 1 if $language.downcase[0..1] == lk.downcase[0..1]
+      lnindex = @ln.size - 1 if Configuration.language.downcase[0..1] == lk.downcase[0..1]
     end
     @fields=[EditBox.new(p_("Polls", "Poll name"),"","",true),EditBox.new(p_("Polls", "Description"),EditBox::Flags::MultiLine,"",true),ListBox.new(ls, p_("Polls", "Poll language"), lnindex, 0, true),ListBox.new([p_("Polls", "New question")],p_("Polls", "Questions"),0,0,true),CheckBox.new(p_("Polls", "Hide this poll")),Button.new(p_("Polls", "Create")),Button.new(_("Cancel"))]
   @form=Form.new(@fields)
@@ -287,7 +292,7 @@ end
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}"
+  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{format_date(@created, true)}\r\n\r\n#{@description}"
 qs=[]
 for q in @questions
   if q[1]==2
@@ -385,7 +390,7 @@ end
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{sprintf("%04d-%02d-%02d",@created.year,@created.month,@created.day)}\r\n\r\n#{@description}\r\n"
+  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{format_date(@created, true)}\r\n\r\n#{@description}\r\n"
      pl=srvproc("polls", {"results"=>"1", "poll"=>@id.to_s}) 
 if pl[0].to_i<0
   alert(_("Error"))

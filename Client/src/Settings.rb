@@ -172,26 +172,26 @@ def make_window
         @form.fields[1].on(:move) {
         speech_stop
           Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i').call(@form.fields[1].index-1)
-          vc=$voice
-          $voice=@form.fields[1].index-1
+          vc=Configuration.voice
+          Configuration.voice=@form.fields[1].index-1
           @form.fields[1].sayoption
           speaker_waiter
-          $voice=vc
-          Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i').call($voice)
+          Configuration.voice=vc
+          Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i').call(Configuration.voice)
         }
         @form.fields[2].on(:move) {
         speech_stop
         Win32API.new("screenreaderapi", "sapiSetRate", 'i', 'i').call(100-@form.fields[2].index)
                 @form.fields[2].sayoption
                 speaker_waiter
-                Win32API.new("screenreaderapi", "sapiSetRate", 'i', 'i').call($rate)
+                Win32API.new("screenreaderapi", "sapiSetRate", 'i', 'i').call(Configuration.voicerate)
         }
         @form.fields[3].on(:move) {
         speech_stop
         Win32API.new("screenreaderapi", "sapiSetVolume", 'i', 'i').call(100-@form.fields[3].index)
         @form.fields[3].sayoption
         speaker_waiter
-        Win32API.new("screenreaderapi", "sapiSetVolume", 'i', 'i').call($sapivolume)
+        Win32API.new("screenreaderapi", "sapiSetVolume", 'i', 'i').call(Configuration.voicevolume)
         }
         }
       end
@@ -215,7 +215,7 @@ def make_window
         setting_category(p_("Settings", "Sound devices"))
         if @soundsettings==nil
             @soundcards=Bass.soundcards
-            @microphones=Recorder.devices.values
+            @microphones=Bass.microphones
     @soundcards[0]=p_("Settings", "Use Default")
     @microphones=[p_("Settings", "Use Default")]+@microphones
     @soundcardsmapping=@soundcards.dup

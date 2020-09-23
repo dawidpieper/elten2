@@ -3,8 +3,13 @@
 #All rights reserved.
 
 class Scene_Login
+  @@skipauto=false
   def initialize(skipauto=false)
     @skipauto=skipauto
+    if @@skipauto==true
+      @@skipauto=false
+      @skipauto=true
+      end
     end
   def main
     token=""
@@ -41,7 +46,7 @@ if autologin == 3
     pin=input_text(p_("Login", "Enter pin code"),EditBox::Flags::Password,"",true) if tokenenc==2
       if pin==nil
        @skipauto=true
-       return main
+       return
         end
       t=decrypt(Base64.strict_decode64(token),pin) if tokenenc>0
       if t=="" and pin==nil
@@ -74,15 +79,32 @@ if autologin == 3
   suc=false
   while suc==false
   if token!=""
-    logintemp = srvproc("login", {"login"=>"1", "name"=>name, "token"=>token, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>$language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})), 'output'=>1})
+    logintemp = srvproc("login", {"login"=>"1", "name"=>name, "token"=>token, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>Configuration.language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})), 'output'=>1, 'authmethod'=>'list'})
 else
-  logintemp = srvproc("login",{"login"=>"1", "name"=>name, "password"=>password, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>$language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i}))}, 'output'=>1)
+  logintemp = srvproc("login",{"login"=>"1", "name"=>name, "password"=>password, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>Configuration.language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})), 'output'=>1, 'authmethod'=>'list'})
 end
 suc=true
 if logintemp[0].to_i==-5
+  meth = selector([p_("Login", "Authenticate using SMS"), p_("Login", "Authenticate using backup code"), _("Cancel")], p_("Login", "Two-factor authentication is enabled on this account. Select method to authenticate."), 0, 2, 1)
+if meth==0
+  if token!=""
+    logintemp = srvproc("login", {"login"=>"1", "name"=>name, "token"=>token, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>Configuration.language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})), 'output'=>1, 'authmethod'=>'phone'})
+else
+  logintemp = srvproc("login",{"login"=>"1", "name"=>name, "password"=>password, "version"=>ver.to_s, "beta"=>b.to_s, "appid"=>$appid, "lang"=>Configuration.language, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i})), 'output'=>1, 'authmethod'=>'phone'})
+end
+  end
   suc=false
 tries=0
-label=p_("Login", " Two-factor authentication is enabled on this account. Enter the code sent to you  by text message to allow this device to login. If you do not have access to the  phone number used, select the password reset option to disable two-factor  authentication.")
+if meth==2
+  @@skipauto=true
+  return $scene=Scene_Login.new
+  break
+  end
+if meth==0
+  label=p_("Login", "Enter the code sent to you  by text message to allow this device to login. If you do not have access to the  phone number used, select the password reset option to disable two-factor  authentication.")
+else
+  label = p_("Login", "Enter backup code")
+  end
 while tries<3
   code=input_text(label,0,"",true).delete("\r\n")
   if code==nil
@@ -123,7 +145,7 @@ if autologin.to_i == -1 or autologin.to_i == 1 or autologin.to_i == 2
   if autologin.to_i == -1
   @sel = menulr([_("No"),_("Yes"),p_("Login", "Do not ask again")],true,0,p_("Login", "Do you want to enable auto log in for account %{user}?")%{'user'=>name})
 else
-  @sel=menulr([_("No"),_("Yes")],true,0,p_("Login", " The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"))
+  @sel=menulr([_("No"),_("Yes")],true,0,p_("Login", "The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"))
     end
   loop do
 loop_update
@@ -139,7 +161,7 @@ loop_update
           else
             lt=srvproc("login", {"login"=>2, "name"=>name, "password"=>password, "computer"=>$computer, "appid"=>$appid, "crp"=>cryptmessage(JSON.generate({'name'=>name,'time'=>Time.now.to_i}))})
             if lt[0].to_i<0
-              alert(p_("Login", " An error occurred while authenticating the identity. You might have provided an  incorrect password."))
+              alert(p_("Login", "An error occurred while authenticating the identity. You might have provided an  incorrect password."))
               password = ""
             else
               token=lt[1].delete("\r\n")
@@ -156,9 +178,9 @@ writeconfig("Login","AutoLogin",3)
               writeconfig("Login","Name",name)
               writeconfig("Login","Token",token)
                                           if autologin.to_i==-1
-              alert(p_("Login", " Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."))
+              alert(p_("Login", "Automatic login will be proceeding until you log out.Automatic login keys can be  managed from the My Account tab in the Community menu."))
             else
-              alert(p_("Login", " Login data has been updated. Automatic login will be proceeding until you log  out. Automatic login keys can be managed from the My Account tab in the Community  menu."))
+              alert(p_("Login", "Login data has been updated. Automatic login will be proceeding until you log  out. Automatic login keys can be managed from the My Account tab in the Community  menu."))
               end
          speech_wait
          break   

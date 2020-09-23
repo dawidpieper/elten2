@@ -102,7 +102,7 @@ class Scene_Ban_Unban
                     
                     bantotime=""
                     t=Time.at(bantemp[2].to_i)
-                    bantotime=sprintf("%04d-%02d-%02d %02d:%02d:%02d",t.year,t.month,t.day,t.hour,t.min,t.sec)
+                    bantotime=format_date(t)
                                       @form=Form.new([EditBox.new(p_("Ban", "The ban reason"),EditBox::Flags::ReadOnly,bantemp[3],true),EditBox.new(p_("Ban", "Ban valid until"),EditBox::Flags::ReadOnly,bantotime,true),EditBox.new(p_("Ban", "The ban cancel reason"),"","",true),Button.new(p_("Ban", "Unban")),Button.new(_("Cancel"))])
     loop do
       loop_update

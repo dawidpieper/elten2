@@ -78,13 +78,12 @@ def ASCII(code)
   return r
 end
 
-def format_date(date, justdate=false)
+def format_date(date, justdate=false, secs=true)
   return "" if !date.is_a?(Time)
-  if justdate
-    return sprintf("%04d-%02d-%02d", date.year, date.month, date.day)
-    else
-  return sprintf("%04d-%02d-%02d %02d:%02d:%02d", date.year, date.month, date.day, date.hour, date.min, date.sec)
-  end
+  str=sprintf("%04d-%02d-%02d", date.year, date.month, date.day)
+    str+=sprintf(" %02d:%02d", date.hour, date.min) if !justdate
+  str+=sprintf(":%02d", date.sec) if secs
+  return str
   end
 
 # Writes a specified text to a file
@@ -294,13 +293,17 @@ return m
 pout=[0,nil].pack("ip")
 pcode=nil
 pcode=[code.size,code].pack("ip") if code!=nil
-Win32API.new("crypt32", "CryptUnprotectData", 'pppppip','i').call(pin,nil,pcode,nil,nil,0,pout)
+if Win32API.new("crypt32", "CryptUnprotectData", 'pppppip','i').call(pin,nil,pcode,nil,nil,0,pout)>0
 s,t = pout.unpack("ii")
 m="\0"*s
 Win32API.new("kernel32","RtlMoveMemory",'pii','i').call(m,t,s)
 Win32API.new("kernel32","LocalFree",'i','i').call(t)  
-Log.warning("Failed to decrypt data") if m==""||m==nil
+m=nil if m==""
 return m
+else
+  Log.warning("Failed to decrypt data") if m==""||m==nil
+  return nil
+  end
           end
       
           def bfs(mat, x, y, ox, oy) 
@@ -377,9 +380,13 @@ class ChildProc
 @stdin_wr = "\0"*4
 @stdout_rd = "\0"*4
 @stdout_wr = "\0"*4
+@stderr_rd = "\0"*4
+@stderr_wr = "\0"*4
 saAttr=[12,nil,1].pack("ipi")
 Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdout_rd, @stdout_wr, saAttr, 1048576*32)
 Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdout_rd.unpack("i").first, 1, 0)
+Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stderr_rd, @stderr_wr, saAttr, 1048576*32)
+Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stderr_rd.unpack("i").first, 1, 0)
 Win32API.new("kernel32","CreatePipe",'pppi','i').call(@stdin_rd, @stdin_wr, saAttr, 1048576*32)
 Win32API.new("kernel32","SetHandleInformation",'iii','i').call(@stdin_wr.unpack("i").first, 1, 0)
     params = 'LPPPLLLPPP'
@@ -388,7 +395,7 @@ createprocess = Win32API.new('kernel32','CreateProcessW', params, 'I')
            env = "Windows".split(File::PATH_SEPARATOR) << nil
                   env = env.pack('p*').unpack('L').first
       
-                           si = [68,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,@stdin_rd.unpack("I").first,@stdout_wr.unpack("I").first,nil]
+                           si = [68,0,0,0,0,0,0,0,0,0,0,1|0x100,0,0,0,@stdin_rd.unpack("I").first,@stdout_wr.unpack("I").first,@stderr_wr.unpack("I").first]
     startinfo = si.pack('IIIIIIIIIIIISSIIII')
         @procinfo  = [0,0,0,0].pack('LLLL')
         pr = createprocess.call(0, unicode(file), nil, nil, 1, 0, 0, unicode($path[0...$path.size-($path.reverse.index("\\"))]), startinfo, @procinfo)
@@ -421,6 +428,25 @@ return x[0..1] == "\003\001"
         return "" if dread.unpack("i").first==0
         return buf[0..dread.unpack("i").first-1]
       end
+      def avail_err
+      dread=[0].pack("I")
+      dleft=[0].pack("I")
+      dtotal=[0].pack("I")
+      buf=""
+      @@peeknamedpipe||=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
+      @@peeknamedpipe.call(@stderr_rd.unpack("I").first,buf,0,dread,dtotal,dleft)
+      return dtotal.unpack("I").first
+      end
+          def read_err(size=nil)
+            size=avail_err if size==nil
+            return "" if size==0
+        dread = [0].pack("i")
+      buf="\0"*size
+      readfile = Win32API.new("kernel32","ReadFile",'ipipp','I')
+        readfile.call(@stderr_rd.unpack("i").first, buf, size, dread, nil)        
+        return "" if dread.unpack("i").first==0
+        return buf[0..dread.unpack("i").first-1]
+        end
       def write(text)
          dwritten = [0].pack("i")
 writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
@@ -434,25 +460,37 @@ writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
     
     def load_configuration
         Log.info("Loading configuration")
-        lang=$language
-  $interface_listtype = readconfig("Interface", "ListType", 0)
-  $interface_usepan = readconfig("Interface", "UsePan", 1)
-  $interface_soundcard = readconfig("SoundCard", "SoundCard", "")
+        lang=Configuration.language
+  Configuration.listtype = readconfig("Interface", "ListType", 0)
+  Configuration.usepan = readconfig("Interface", "UsePan", 1)
+  Configuration.soundcard = readconfig("SoundCard", "SoundCard", "")
+  s=false
   sc=Bass.soundcards
   for i in 0...sc.size
-    Bass.setdevice(i) if sc[i]==$interface_soundcard
+    if sc[i]==Configuration.soundcard
+    Bass.setdevice(i)
+    s=true
     end
-  $interface_microphone = readconfig("SoundCard", "Microphone", "")
-  $interface_controlspresentation = readconfig("Interface", "ControlsPresentation", 0)
-  $interface_contextmenubar = readconfig("Interface", "ContextMenuBar", 1)
-$advanced_keyms = readconfig("Advanced", "KeyUpdateTime", 75)
-$advanced_ackeyms = $advanced_keyms * 3
-$interface_soundthemeactivation = readconfig("Interface", "SoundThemeActivation", 1)
-$interface_typingecho = readconfig("Interface", "TypingEcho", 0)
-$interface_linewrapping = readconfig("Interface", "LineWrapping", 1)
-$interface_hidewindow = readconfig("Interface", "HideWindow", 0)
-$advanced_synctime = readconfig("Advanced", "SyncTime", 1)
-$privacy_registeractivity = readconfig("Privacy", "RegisterActivity", -1)
+  end
+  Bass.setdevice(-1) if s==false
+Configuration.microphone = readconfig("SoundCard", "Microphone", "")
+  s=false
+  mc=Bass.microphones
+  for i in 0...mc.size
+    if mc[i]==Configuration.microphone
+          Bass.setrecorddevice(i)
+    s=true
+    end
+  end
+  Bass.setrecorddevice(-1) if s==false
+    Configuration.controlspresentation = readconfig("Interface", "ControlsPresentation", 0)
+  Configuration.contextmenubar = readconfig("Interface", "ContextMenuBar", 1)
+Configuration.soundthemeactivation = readconfig("Interface", "SoundThemeActivation", 1)
+Configuration.typingecho = readconfig("Interface", "TypingEcho", 0)
+Configuration.linewrapping = readconfig("Interface", "LineWrapping", 1)
+Configuration.hidewindow = readconfig("Interface", "HideWindow", 0)
+Configuration.synctime = readconfig("Advanced", "SyncTime", 1)
+Configuration.registeractivity = readconfig("Privacy", "RegisterActivity", -1)
 c_autostart=readconfig("System", "AutoStart", 0)
 autostart=false
 runkey=Win32::Registry::HKEY_CURRENT_USER.create("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
@@ -474,48 +512,48 @@ else
     end
   end
   runkey.close
-$voice = readconfig("Voice","Voice",-2)
+Configuration.voice = readconfig("Voice","Voice",-2)
 if $rvc==nil
       if (/\/voice (-?)(\d+)/=~$commandline) != nil
         $rvc=$1+$2
-        $voice=$rvc.to_i
+        Configuration.voice=$rvc.to_i
             end    
 
           end
-          $language = readconfig("Interface", "Language", "")
-          if $language.include?("_")
-            $language.gsub!("_","-")
-            writeconfig("Interface", "Language", $language)
+          Configuration.language = readconfig("Interface", "Language", "")
+          if Configuration.language.include?("_")
+            Configuration.language.gsub!("_","-")
+            writeconfig("Interface", "Language", Configuration.language)
             end
-      Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call($voice) if $voice != -3
-$rate = readconfig("Voice","Rate",50)
+      Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call(Configuration.voice) if Configuration.voice != -3
+Configuration.voicerate = readconfig("Voice","Rate",50)
         if $rvcr==nil
       if (/\/voicerate (\d+)/=~$commandline) != nil
         $rvcr=$1
-        $rate=$rvcr.to_i
+        Configuration.voicerate=$rvcr.to_i
             end    
     end
-                  Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call($rate)
-                      $sapivolume = readconfig("Voice","Volume",100)
+                  Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call(Configuration.voicerate)
+                      Configuration.voicevolume = readconfig("Voice","Volume",100)
     if $rvcv==nil
       if (/\/voicevolume (\d+)/=~$commandline) != nil
         $rvcv=$1
-        $sapivolume=$rvcv.to_i
+        Configuration.voicevolume=$rvcv.to_i
             end    
     end
-    Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call($sapivolume)
-          $soundthemespath = readconfig("Interface","SoundTheme","")
-            if $soundthemespath.size > 0
-    $soundthemepath = Dirs.soundthemes + "\\" + $soundthemespath
+    Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call(Configuration.voicevolume)
+          Configuration.soundtheme = readconfig("Interface","SoundTheme","")
+            if Configuration.soundtheme.size > 0
+    Configuration.soundthemepath = Dirs.soundthemes + "\\" + Configuration.soundtheme
   else
-    $soundthemepath = "Audio"
+    Configuration.soundthemepath = "Audio"
     end
-                          $volume = readconfig("Interface", "MainVolume", 50)
-                          $advanced_usefx = readconfig("Advanced", "UseFX", -1)
-                          setlocale($language) if lang!=$language
-                          if $privacy_registeractivity==-1
-  $privacy_registeractivity = confirm(p_("EAPI_EltenAPI", "Do you want to send reports on how Elten is used? This data does not contain any confidential information and is very helpful in program development. This selection can be changed at any time from the Settings.")).to_i
-  writeconfig("Privacy", "RegisterActivity", $privacy_registeractivity)
+                          Configuration.volume = readconfig("Interface", "MainVolume", 50)
+                          Configuration.usefx = readconfig("Advanced", "UseFX", -1)
+                          setlocale(Configuration.language) if lang!=Configuration.language
+                          if Configuration.registeractivity==-1
+  Configuration.registeractivity = confirm(p_("EAPI_EltenAPI", "Do you want to send reports on how Elten is used? This data does not contain any confidential information and is very helpful in program development. This selection can be changed at any time from the Settings.")).to_i
+  writeconfig("Privacy", "RegisterActivity", Configuration.registeractivity)
   end
       end
     end

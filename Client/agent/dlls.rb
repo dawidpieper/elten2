@@ -65,3 +65,7 @@ $sapigetvolume = Fiddle::Function.new($screenreaderapi['sapiGetVolume'], [], Fid
 $sapigetrate = Fiddle::Function.new($screenreaderapi['sapiGetRate'], [], Fiddle::TYPE_INT)
 $sapigetvoice = Fiddle::Function.new($screenreaderapi['sapiGetVoice'], [], Fiddle::TYPE_INT)
 $sapiisspeaking = Fiddle::Function.new($screenreaderapi['sapiIsSpeaking'], [], Fiddle::TYPE_INT)
+
+$eltenvc=Fiddle.dlopen("..\\eltenvc")
+$showtray = Fiddle::Function.new($eltenvc['showTray'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$hidetray = Fiddle::Function.new($eltenvc['hideTray'], [], Fiddle::TYPE_VOID)

@@ -72,7 +72,7 @@ class Scene_Sounds
         @name=readfile(Dirs.soundthemes+"\\"+@theme+"\\__name.txt")
         @changed=false
       else
-        @name=input_text(p_("Sounds", "Type name of the soundtheme"), 0, " by #{Session.name}", true)
+        @name=input_text(p_("Sounds", "Type name of the soundtheme"), 0, "by #{Session.name}", true)
         return $scene=Scene_SoundThemes.new if @name==nil
         n=@name.split(" ")
         ind=n.size
@@ -115,7 +115,7 @@ class Scene_Sounds
             if (space and @form.index==0) or @form.fields[1].pressed?
               a.close if a!=nil
               a=Bass::Sound.new(@snd[@sel.index].path)
-              a.volume=0.01*$volume
+              a.volume=0.01*Configuration.volume
                 a.play
               end
               if @form.fields[2].pressed?
@@ -171,7 +171,7 @@ if @form.fields[5]!=nil and @form.fields[5].pressed?
     if File.extname(s.defpath).downcase==".ogg"
       copyfile(s.path, Dirs.soundthemes+"\\"+@theme+"\\"+s.stfile+"")
     else
-      executeprocess("bin\\ffmpeg -i \"#{s.path}\" \"#{Dirs.soundthemes}\\#{@theme}\\#{s.stfile}\"")
+      VorbisRecorder.encode_file(s.path, Dirs.soundthemes+"\\"+@theme+"\\"+s.stfile)
     end
     s.path=Dirs.soundthemes+"\\"+@theme+"\\"+s.stfile
     s.defpath=s.path
@@ -188,7 +188,7 @@ class Struct_Sounds_Sound
   attr_accessor :path, :defpath
   def initialize(f, d, t=nil)
     @description=d
-    sp=$soundthemepath
+    sp=Configuration.soundthemepath
     sp=Dirs.soundthemes+"\\"+t if t!=nil
     @path=sp+"/"+f
     @path="Audio/"+f if !FileTest.exists?(@path)

@@ -100,7 +100,6 @@ while $eltsocks_write[id]==nil
   loop_update
 end
 $eltsocks_write[id]=nil
-play 'signal'
         end
 waiting_end
 end

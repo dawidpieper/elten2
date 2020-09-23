@@ -78,13 +78,13 @@ loop_update
     def seltheme(theme)
       confirm(p_("SoundThemes", "Do you wish to use this sound theme?")) {
               if theme.path!=""
-                                                $soundthemepath = Dirs.soundthemes + "\\" + theme.path
+                                                Configuration.soundthemepath = Dirs.soundthemes + "\\" + theme.path
                                   else
-              $soundthemepath=""                    
+              Configuration.soundthemepath=""                    
       end
                                    writeconfig("Interface", "SoundTheme", theme.path)
                 alert(_("Saved"))
-                          $soundthemespath = theme.path
+                          Configuration.soundtheme = theme.path
                           return true
                           }
                           return false

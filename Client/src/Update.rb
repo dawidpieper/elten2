@@ -8,7 +8,7 @@ class Scene_Update_Confirmation
     @toscene=Scene_Loading.new if @toscene==nil
     end
   def main
-    msg = p_("Update", " A new version of this program is available. Do you want to download and instal it?")
+    msg = p_("Update", "A new version of this program is available. Do you want to download and instal it?")
                            case confirm(msg)
         when 0
           if $preinitialized != true
@@ -34,7 +34,7 @@ class Scene_Update
             downloadfile($url + "bin/eltenup.exe",Dirs.eltendata + "\\eltenup.exe",p_("Update", "Please wait while files are downloaded."),nil,true)
     speech_wait
     if Session.name!="" and Session.name!=nil
-    alert(p_("Update", " The update has been downloaded. To install it, the program must be restarted.  Press enter to continue or escape to cancel."))
+    alert(p_("Update", "The update has been downloaded. To install it, the program must be restarted.  Press enter to continue or escape to cancel."))
     cn=true
     for i in 1..Graphics.frame_rate*30
       loop_update
@@ -65,7 +65,7 @@ class Scene_Update
         speak(p_("Update", "Please wait while files are downloaded."))
 download($url + "bin/download_elten.exe",Dirs.eltendata + "\\download_elten.exe")
     speech_wait
-    alert(p_("Update", " The program will be now reverted to the latest stable version. Elten will restart.  It may take several minutes."))
+    alert(p_("Update", "The program will be now reverted to the latest stable version. Elten will restart.  It may take several minutes."))
   run(Dirs.eltendata + "\\download_elten.exe /wait")
   exit!
     end

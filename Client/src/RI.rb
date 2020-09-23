@@ -24,7 +24,7 @@ class Numeric
     self
   end
 def to_b
-  return false if self<=0
+  return false if self==0
   return true
   end
   end
