@@ -9,7 +9,7 @@ class Scene_Log
     CheckBox.new(p_("Log", "Show event level"), true),
     CheckBox.new(p_("Log","Show event time"), true),
     EditBox.new(p_("Log", "Log"), EditBox::Flags::ReadOnly, "", true),
-    Button.new(p_("Log", "Close"))
+    Button.new(_("Close"))
     ]
     @form=Form.new(@fields)
     loop do

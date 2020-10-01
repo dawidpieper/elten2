@@ -30,8 +30,8 @@ class Scene_Blog_Domain
   end
   def changer
     @lst_domaintype = @form.fields[2] = ListBox.new([
-    p_("Blog", "Personal Elten blog domain (%{username}.eltenblog.net)")%{'username'=>Session.name},
-    p_("Blog", "Shared Elten blog domain (selectedname.s.eltenblog.net)"),
+    p_("Blog", "Personal Elten blog domain (%{username}.elten.blog)")%{'username'=>Session.name},
+    p_("Blog", "Shared Elten blog domain (selectedname.s.elten.blog)"),
     p_("Blog", "External domain")
     ], p_("Blog", "Domain type"), 0, 0, true)
     @edt_domain = @form.fields[3] = EditBox.new("", 0, "", true)
@@ -40,9 +40,9 @@ class Scene_Blog_Domain
     @edt_domain.on(:change) {
     case @lst_domaintype.index
     when 0
-      @txt_fulldomain.settext((Session.name+".eltenblog.net").downcase)
+      @txt_fulldomain.settext((Session.name+".elten.blog").downcase)
       when 1
-        @txt_fulldomain.settext((@edt_domain.text+".s.eltenblog.net").downcase)
+        @txt_fulldomain.settext((@edt_domain.text+".s.elten.blog").downcase)
         when 2
           @txt_fulldomain.settext((@edt_domain.text).downcase)
     end
@@ -53,7 +53,7 @@ class Scene_Blog_Domain
       @form.hide(@edt_domain)
       when 1
         @form.show(@edt_domain)
-        @edt_domain.header= p_("Blog", "Domain prefix (prefix.s.eltenblog.net)")
+        @edt_domain.header= p_("Blog", "Domain prefix (prefix.s.elten.blog)")
         when 2
           @form.show(@edt_domain)
           @edt_domain.header= p_("Blog", "Domain (like example.com)")
@@ -88,7 +88,7 @@ class Scene_Blog_Domain
       alert(p_("Blog", "The entered domain contains invalid characters"))
       return false
       end
-    if dom[0..0]=="." || dom[0..0]=="-" || dom.include?("-.") || dom.include?(".-") || dom[-1..-1]=="." || dom[-1..-1]=="-" || !dom.include?(".") || dom.split(".").last.size<2 || dom=="eltenblog.net"
+    if dom[0..0]=="." || dom[0..0]=="-" || dom.include?("-.") || dom.include?(".-") || dom[-1..-1]=="." || dom[-1..-1]=="-" || !dom.include?(".") || dom.split(".").last.size<2 || dom=="elten.blog"
       alert(p_("Blog", "The entered domain is not valid"))
       return false
       end
@@ -97,7 +97,7 @@ class Scene_Blog_Domain
     return if changevalidate==false
     return if confirm(p_("Blog", "Warning! If you change your blog URL, some links may stop working. If you directly linked posts or other resources on your blog, they would no longer be available at previous URLs. In such case you will be required to fix them manualy. Are you sure you want to continue?"))==0
     dom=@txt_fulldomain.text
-    d=".eltenblog.net"
+    d=".elten.blog"
     if dom[-1*d.size..-1]!=d
 if externalchangecheck(dom)==false
     @form.focus

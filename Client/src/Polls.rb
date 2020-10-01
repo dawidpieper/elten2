@@ -19,7 +19,7 @@ loop do
   @sel.update
   $scene=Scene_Main.new if escape
       if enter and @sel.options.size>0
-                 selt=[p_("Polls", "Vote"),p_("Polls", "Show results")]
+                 selt=[p_("Polls", "Vote"),p_("Polls", "Show results"), p_("Polls", "Show report")]
        if Session.name!="guest"
          v=srvproc("polls",{"voted"=>"1", "poll"=>@polls[@sel.index].id})
        if v[0].to_i<0
@@ -39,7 +39,9 @@ end
            $scene=Scene_Polls_Answer.new(@polls[@sel.index].id)
            when 1
              $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
-         end
+             when 2
+               $scene=Scene_Polls_Report.new(@polls[@sel.index].id)
+               end
         end
   break if $scene!=self
   end
@@ -59,7 +61,7 @@ for i in 2..polls.size-1
   case t
   when 0
     id=polls[i].to_i
-    @allpolls[pl]=Struct_Poll.new(id)
+    @allpolls[pl]=Struct_Polls_Poll.new(id)
     t+=1
     when 1
       @allpolls[pl].name=polls[i].delete("\r\n")
@@ -119,6 +121,9 @@ def context(menu)
                 end
          menu.option(p_("Polls", "Show results"), nil, "t") {
                       $scene=Scene_Polls_Results.new(@polls[@sel.index].id)
+         }
+                  menu.option(p_("Polls", "Show report"), nil, "p") {
+                      $scene=Scene_Polls_Report.new(@polls[@sel.index].id)
          }
          if Session.moderator==1 or @polls[@sel.index].author==Session.name
          menu.option(_("Delete"), nil, :del) {
@@ -249,7 +254,7 @@ qu=[]
              qus=JSON.generate(@questions)
 dbuffer=buffer(@fields[1].text)
 qbuffer=buffer(qus)
-pl=srvproc("polls",{"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text, "lng"=>@ln[@form.fields[2].index], "hide"=>@fields[4].checked.to_i})
+pl=srvproc("polls",{"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text, "lng"=>@ln[@form.fields[2].index], "hidden"=>@fields[4].checked.to_i})
 if pl[0].to_i<0
   alert(_("Error"))
 else
@@ -292,7 +297,7 @@ end
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{format_date(@created, true)}\r\n\r\n#{@description}"
+  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{format_date(@created)}\r\n\r\n#{@description}"
 qs=[]
 for q in @questions
   if q[1]==2
@@ -370,7 +375,7 @@ end
     end
   end
   
-  class Scene_Polls_Results
+  class Scene_Polls_Report
     def initialize(id,toscene=nil)
       @id=id
       @toscene=toscene
@@ -390,8 +395,8 @@ end
   for i in 6..pl.size-1
     @description+=pl[i]
   end
-  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{format_date(@created, true)}\r\n\r\n#{@description}\r\n"
-     pl=srvproc("polls", {"results"=>"1", "poll"=>@id.to_s}) 
+  txt="#{@name}\r\n#{p_("Polls", "Author")}: #{@author}\r\n#{p_("Polls", "Created")}: #{format_date(@created)}\r\n\r\n#{@description}\r\n"
+     pl=srvproc("polls", {"results"=>"1", "details"=>1, "poll"=>@id.to_s})
 if pl[0].to_i<0
   alert(_("Error"))
   if @toscene==nil
@@ -405,25 +410,27 @@ txt+="#{p_("Polls", "The number of votes")}: #{pl[1]}\r\n"
 @votes=pl[1].to_i
 @answers=[]
 for i in 2..pl.size-1
-  q,a=pl[i].delete("\r\n").split(":")
+  r,q,a=pl[i].delete("\r\n").split(":")
+  r=r.to_i
   q=q.to_i
     @answers[q]=[] if @answers[q]==nil
   a=a.to_i if @questions[q][1]<2
-    @answers[q].push(a)
+  b=[r,a]
+    @answers[q].push(b)
 end
 for q in 0..@questions.size-1
   if @answers[q]!=nil
   txt+=@questions[q][0].to_s+"\r\n"
 if @questions[q][1]<2
   a=a.to_i
- for i in 2..@questions[q].size-1
+ for i in 2...@questions[q].size
    a=i-2
-pr=(@answers[q].count(a).to_f/@votes.to_f*100.0).to_i
+pr=(@answers[q].map{|x|x[1]}.count(a).to_f/@votes.to_f*100.0).to_i
 txt+=@questions[q][i]+": "+pr.to_s+"%\r\n"
    end
 else
   for a in @answers[q]
-    txt+=": "+a+"\r\n"
+    txt+=": "+a[1]+"\r\n"
     end
 end  
 end
@@ -436,9 +443,184 @@ if @toscene==nil
                $scene=@toscene
                end
     end
+  end
+  
+  class Scene_Polls_Results
+    def initialize(id,toscene=nil)
+      @id=id
+      @toscene=toscene
+    end
+    def main
+            pl=srvproc("polls", {"get"=>"1", "poll"=>@id.to_s})
+if pl[0].to_i<0
+  alert(_("Error"))
+  $scene=@toscene
+  $scene=Scene_Polls.new if @toscene==nil
+  return
+end
+@poll=Struct_Polls_Poll.new
+@poll.id=@id
+@poll.name=pl[2].delete("\r\n")
+@poll.author=pl[3].delete("\r\n")
+@poll.created = Time.at(pl[4].to_i)
+@questions=[]
+qs=JSON.load(pl[5].to_s.delete("\r\n").delete(";"))
+for qu in qs
+  q=Struct_Polls_Question.new
+  q.question=qu[0]
+  q.type=qu[1].to_i
+  q.answers=qu[2..-1]
+  @questions.push(q)
+end
+    @poll.description=""
+  for i in 6..pl.size-1
+    @poll.description+=pl[i]
+  end
+     pl=srvproc("polls", {"results"=>"1", "details"=>1, "poll"=>@id.to_s})
+if pl[0].to_i<0
+  alert(_("Error"))
+  $scene=@toscene
+  $scene=Scene_Polls.new if @toscene==nil
+  return
+end
+@poll.votes=pl[1].to_i
+@answers=[]
+for i in 2..pl.size-1
+  r,q,a=pl[i].delete("\r\n").split(":")
+  r=r.to_i
+  q=q.to_i
+    ans=Struct_Polls_Answer.new
+    ans.question=q
+    ans.type=@questions[q].type||2
+    a=a.to_i if ans.type<2
+  ans.answer=a
+  ans.author=r
+    @answers.push(ans)
+  end
+  @filters=[]
+  @curanswers=[]
+  @form = Form.new([
+  @sel_questions = ListBox.new(@questions.map{|q|q.question}, p_("Polls", "Questions"), 0, 0, true),
+  @sel_answers = TableBox.new([nil, nil], [], 0, p_("Polls", "Answers"), true),
+  @sel_filters = ListBox.new([], p_("Polls", "Filters"), 0, 0, true),
+  @btn_close = Button.new(_("Close"))
+  ])
+  @btn_close.on(:press) {@form.resume}
+  @sel_questions.on(:move) {
+  update_answers
+  }
+  @sel_questions.trigger(:move)
+  @sel_answers.bind_context{|menu|answers_context(menu)}
+  @sel_filters.bind_context{|menu|filters_context(menu)}
+  @form.cancel_button = @btn_close
+  @form.wait
+  $scene=@toscene
+  $scene=Scene_Polls.new(@id) if @toscene==nil
+end
+def answers_context(menu)
+  return if @sel_answers.rows.size==0
+  suc=false
+  for f in @filters
+    suc=true if f==@sel_questions.index && f==@curanswers[@sel_answers.index]
+    end
+if suc==false
+  menu.option(p_("Polls", "Filter with this answer")) {
+  @filters.push([@sel_questions.index, @curanswers[@sel_answers.index], true])
+  update_filters
+  }
+  menu.option(p_("Polls", "Filter without this answer")) {
+  @filters.push([@sel_questions.index, @curanswers[@sel_answers.index], false])
+  update_filters
+  }
+else
+  menu.option(p_("Polls", "Delete this answer from filters")) {
+  for f in @filters
+    @filters.delete(f) if f[0]==@sel_questions.index and f[1]==@curanswers[@sel_answers.index]
+  end
+  update_filters
+  }
+  end
+end
+def filters_context(menu)
+  return if @filters.size==0
+  menu.option(_("Delete"), nil, :del) {
+  @filters.delete_at(@sel_filters.index)
+  update_filters
+  play("edit_delete")
+  @sel_filters.sayoption
+  }
+  end
+def update_answers
+  authors=@answers.map{|a|a.author}.uniq
+  for f in @filters
+    for author in authors.deep_dup
+if f[2]==true
+  suc=false
+  for a in @answers
+    suc=true if a.author==author && a.question==f[0] && a.answer==f[1]
+  end
+  authors.delete(author) if suc==false
+else
+  suc=true
+  for a in @answers
+    suc=false if a.author==author && a.question==f[0] && a.answer==f[1]
+  end
+  authors.delete(author) if suc==false
+  end
+end
+end
+    q=@questions[@sel_questions.index]
+  @sel_answers.rows=[]
+  @curanswers=[]
+  if q.type<2
+    anses=[]
+    for a in @answers
+      next if !authors.include?(a.author)
+      if a.question==@sel_questions.index
+        anses.push(a.answer)
+      end
+    end
+    for a in 0...q.answers.size
+      if anses.size>0
+      prc=(anses.count(a).to_f/anses.size.to_f*100.0).floor
+    else
+      prc=0
+      end
+      o=[q.answers[a], prc.to_s+"%"]
+      @sel_answers.rows.push(o)
+      @curanswers.push(a)
+      end
+  else
+    for a in @answers
+      next if !authors.include?(a.author)
+      if a.question==@sel_questions.index
+        @sel_answers.rows.push([a.answer.to_s]) if a.answer.to_s!=""
+        @curanswers.push(a.answer)
+        end
+      end
+    end
+    @sel_answers.reload
+    @sel_answers.index=0
+  end
+  def update_filters
+    @sel_filters.options=[]
+    for f in @filters
+      q=@questions[f[0]]
+      ans=f[1]
+      ans=q.answers[f[1]] if q.type<2
+      if f[2]==true
+        k=p_("Polls", "Includes")
+      else
+        k=p_("Polls", "Excludes")
+        end
+      o=q.question+"\r\n"+k+": "+ans
+      @sel_filters.options.push(o)
+    end
+    update_answers
+    end
     end
   
-class Struct_Poll
+class Struct_Polls_Poll
   attr_accessor :id
   attr_accessor :name
   attr_accessor :author
@@ -458,3 +640,22 @@ class Struct_Poll
     @votes=0
   end
 end
+
+class Struct_Polls_Question
+  attr_accessor :question, :type, :answers
+  def initialize
+    @question=""
+    @type=0
+    @answers=[]
+  end
+end
+
+class Struct_Polls_Answer
+  attr_accessor :author, :question, :answer, :type
+  def initialize
+    @author=""
+    @question=0
+    @answer=0
+    @type=0
+    end
+  end

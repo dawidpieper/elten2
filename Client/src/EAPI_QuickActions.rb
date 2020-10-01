@@ -32,7 +32,7 @@
       def gettime
         if Configuration.synctime == 1
           t=srvproc("time",{"int"=>1},1)
-          return if t.to_i<0
+          return Time.now if t.to_i<0
           time = Time.at(t.to_i)
                     else
                                             time=Time.now

@@ -3,6 +3,16 @@ if($_GET['create']!=1 and $_GET['voted']!=1 and $_GET['del']!=1 and $_GET['answe
 require("init.php");
 else
 require("header.php");
+function isJson($string) {
+json_decode($string);
+return (json_last_error() == JSON_ERROR_NONE);
+}
+function canmodvote() {
+if(time()>=1601848800) return false;
+$posts = mysql_num_rows(mquery("select id from forum_posts where date not like '%2020%' and author='".mysql_real_escape_string($_GET['name'])."' and thread in (select id from forum_threads where forum in (select name from forums where groupid in (select id from forum_groups where recommended=1 and lower(lang)='pl')))"));
+if($posts>50) return true;
+else return false;
+}
 if($_GET['list']==1) {
 $qs="SELECT distinct p.id, p.name, p.author, p.created, p.description, p.language, if(v.id is not null, 1, 0), a.counter FROM polls p left join polls_answers as v on p.id=v.poll and v.author='".mysql_real_escape_string($_GET['name'])."' left join (select poll, count(distinct author) as counter from polls_answers group by poll) a on p.id=a.poll";
 if($_GET['byme']==1)
@@ -13,6 +23,7 @@ $qs.=" ORDER BY p.ID DESC";
 $q=mquery($qs);
 $t='';
 while($r=mysql_fetch_row($q)) {
+if($r[0]==323 && !canmodvote()) $r[6]=1;
 if($_GET['details']==2)
 $t.="\r\n".$r[0]."\r\n".$r[1]."\r\n".$r[2]."\r\n".$r[3]."\r\n".$r[5]."\r\n".$r[6]."\r\n".$r[7]."\r\n".$r[4]."\r\nEND";
 elseif($_GET['details']==1)
@@ -27,6 +38,7 @@ if($_GET['qbuffer']==NULL)
 $questions=$_GET['questions'];
 else
 $questions=buffer_get($_GET['qbuffer']);
+if(!isJson($questions)) die("-1");
 if($_GET['dbuffer']==NULL)
 $description=$_GET['description'];
 else
@@ -37,6 +49,8 @@ mquery("INSERT INTO `polls` (`name`,`author`,`created`,`description`,`questions`
 echo "0";
 }
 if($_GET['answer']==1) {
+if(mysql_num_rows(mquery("select id from polls_answers where author='".mysql_real_escape_string($_GET['name'])."' and poll=".(int)$_GET['poll']))>0) die("-3");
+if($_GET['poll']==323 && !canmodvote()) die("-3");
 if($_GET['buffer']==NULL)
 $answ=$_GET['answers'];
 else
@@ -49,11 +63,18 @@ mquery("INSERT INTO `polls_answers` (`author`,`poll`,`question`,`answer`) VALUES
 echo "0";
 }
 if($_GET['results']==1) {
-$c=mysql_num_rows(mquery("SELECT DISTINCT `author` FROM `polls_answers` WHERE `poll`=".(int)$_GET['poll']));
-$q=mquery("SELECT `question`,`answer` FROM `polls_answers` WHERE `poll`=".(int)$_GET['poll']);
+$q=mquery("SELECT DISTINCT `author` FROM `polls_answers` WHERE `poll`=".(int)$_GET['poll']);
+$authors=array();
+while($r=mysql_fetch_row($q))
+array_push($authors, $r[0]);
+$c=mysql_num_rows($q);
+$q=mquery("SELECT `question`,`answer`,`author` FROM `polls_answers` WHERE `poll`=".(int)$_GET['poll']);
 $t='';
 while($r=mysql_fetch_row($q)) {
-$t.="\r\n".$r[0].":".$r[1];
+$t.="\r\n";
+if($_GET['details']==1)
+$t.=array_search($r[2], $authors).":";
+$t.=$r[0].":".$r[1];
 }
 echo "0\r\n".$c.$t;
 }
@@ -61,6 +82,8 @@ if($_GET['voted']==1) {
 $q=mquery("SELECT `author` FROM `polls_answers` WHERE `author`='".$_GET['name']."' AND `poll`=".mysql_real_escape_string($_GET['poll']));
 echo "0\r\n";
 if(mysql_num_rows($q)>0)
+echo "1";
+elseif($_GET['poll']==323 and !canmodvote())
 echo "1";
 else
 echo "0";

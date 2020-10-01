@@ -2088,13 +2088,15 @@ return $scene=Scene_Main.new if @form==nil
         pl = @posts[@form.index / 3].polls[@form.fields[@form.index].index]
         voted = false
         voted = true if srvproc("polls", { "voted" => "1", "poll" => pl.to_s })[1].to_i == 1
-        selt = [p_("Polls", "Vote"), p_("Polls", "Show results")]
+        selt = [p_("Polls", "Vote"), p_("Polls", "Show results"), p_("Polls", "Show report")]
         selt[0] = nil if voted
         case menuselector(selt)
         when 0
           insert_scene(Scene_Polls_Answer.new(pl.to_i, Scene_Main.new))
         when 1
           insert_scene(Scene_Polls_Results.new(pl.to_i, Scene_Main.new))
+          when 2
+            insert_scene(Scene_Polls_Report.new(pl.to_i, Scene_Main.new))
         end
         loop_update
         @form.focus
