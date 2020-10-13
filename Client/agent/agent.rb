@@ -334,11 +334,13 @@ $lasttime||=Time.now.to_i
 $lastvoice=$voice
 $lastrate=$rate
 $lastvolume=$volume
+$lastsapipitch=$sapipitch
 $lastsoundcard=$soundcard
 $voice=readconfig("Voice","Voice","-1").to_i
 $rate=readconfig("Voice","Rate","50").to_i
 $sapisetvoice.call($voice) if $voice>=0 and $lastvoice!=$voice
 $sapisetrate.call(readconfig("Voice","Rate","50").to_i) if $lastrate!=$rate
+$sapipitch = readconfig("Voice","Pitch","50").to_i
 $hidewindow = readconfig("Interface","HideWindow","0").to_i
 $refreshtime = readconfig("Advanced","AgentRefreshTime","1").to_i
 $volume = readconfig("Interface","MainVolume","70").to_i

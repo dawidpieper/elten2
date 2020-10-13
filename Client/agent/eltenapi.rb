@@ -37,7 +37,13 @@ def speech(text,method=0)
   text = text.to_s
     text = text.gsub("\004LINE\004") {"\r\n"}
 $speech_lasttext = text
-(($voice!=-1)?$sapisaystring:$saystring).call(unicode(text),method)
+if $voice==-1
+$saystring.call(unicode(text), method)
+else
+ssml="<pitch absmiddle=\"#{((($sapipitch||50)/5.0)-10.0).to_i}\"/>"
+ssml+=text.gsub("<","&lt;").gsub(">","&gt;")
+$sapispeakssml.call(unicode(ssml))
+end
 $speech_lasttime=Time.now.to_f
 return text
 end

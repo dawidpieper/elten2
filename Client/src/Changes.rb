@@ -888,6 +888,7 @@ Wersja 2.4:
 - Dodano: szybkie akcje
 - Dodano: dźwiękowa reprezentacja list i menu
 - Dodano: regulaminy grup
+- Dodano: fora mieszane
 - Zmieniono: nowe okno rady starszych
 - Zmieniono: nowe okna ustawień i konfiguracji konta
 - Zmieniono: Nowy układ menu, opcje zależne od okna przeniesione do menu kontekstowego
@@ -898,13 +899,14 @@ Wersja 2.4:
 - Zmieniono: ujednolicenie kodu odpowiedzialnego za zapytania do serwera
 - Zmieniono: nowe API dla programów
 - Zmieniono: aktualizacja bibliotek
+- Zmieniono: nowy sposób obsługi SAPI5
 - Poprawiono: obsługa unikodu w niektórych funkcjach
 - Usunięto: youtube (przeniesione do osobnego programu)
 - Usunięto: pliki (przeniesione do osobnego programu)
 - Usunięto: playlista (przeniesiona do osobnego programu)
 - Usunięto: awatary
 
-2020-08-24
+2021-01-24
 "]
 @changes.reverse!
 @changes.each{|c| c.gsub!(/Wersja (\d\.\d+)/) {"Wersja "+$1.delete(".").split("").join(".")}}

@@ -128,7 +128,7 @@ if autologin.to_i>0
               $scene=Scene_Loading.new
     }
     }
-    if $subthreads.size>0 || $mainthread!=$currentthread
+    if ($subthreads||[]).size>0 || $mainthread!=$currentthread
       @menu.submenu(p_("MainMenu", "&Windows")) {|m|
       for i in -1...$subthreads.size
         if i>=0

@@ -52,7 +52,7 @@ PeekNamedPipe=Win32API.new("kernel32","PeekNamedPipe",'ipippp','i')
             while @writes.size>0 and @pipeout!=nil and @waiting<10
               w=JSON.generate(@writes.first)+"\n"
                                   WriteFile.call(@pipeout, w, w.bytesize, dwritten, 0)
-                                  @waiting+=1
+                                                                    @waiting+=1
                                   @writes.delete_at(0)
                                 end
                                 if @exiting==true

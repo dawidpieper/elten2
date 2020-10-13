@@ -1,8 +1,8 @@
-if FileTest.exists?("bin\\screenreaderapi.dll") and FileTest.exists?("bin\\bass.dll")
+if FileTest.exists?("bin\\bass.dll")
 $dlldir=".\\bin"
-elsif FileTest.exists?("..\\bin\\screenreaderapi.dll") and FileTest.exists?("..\\bin\\bass.dll")
+elsif FileTest.exists?("..\\bin\\bass.dll")
 $dlldir="..\\bin"
-elsif FileTest.exists?("..\\..\\screenreaderapi.dll") and FileTest.exists?("..\\..\\bass.dll")
+elsif FileTest.exists?("..\\..\\bass.dll")
 $dlldir="..\\..\\bin"
 end
 
@@ -53,19 +53,20 @@ $cryptmessage = Fiddle::Function.new($eltenvc['CryptMessage'], [Fiddle::TYPE_VOI
 rescue Exception
 end
 
-$screenreaderapi=Fiddle.dlopen("screenreaderapi")
-$saystring = Fiddle::Function.new($screenreaderapi['sayStringW'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-$sapisaystring = Fiddle::Function.new($screenreaderapi['sapiSayStringW'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-$stopspeech = Fiddle::Function.new($screenreaderapi['stopSpeech'], [], Fiddle::TYPE_INT)
-$sapistopspeech = Fiddle::Function.new($screenreaderapi['sapiStopSpeech'], [], Fiddle::TYPE_INT)
-$sapisetvolume = Fiddle::Function.new($screenreaderapi['sapiSetVolume'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-$sapisetrate = Fiddle::Function.new($screenreaderapi['sapiSetRate'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-$sapisetvoice = Fiddle::Function.new($screenreaderapi['sapiSetVoice'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-$sapigetvolume = Fiddle::Function.new($screenreaderapi['sapiGetVolume'], [], Fiddle::TYPE_INT)
-$sapigetrate = Fiddle::Function.new($screenreaderapi['sapiGetRate'], [], Fiddle::TYPE_INT)
-$sapigetvoice = Fiddle::Function.new($screenreaderapi['sapiGetVoice'], [], Fiddle::TYPE_INT)
-$sapiisspeaking = Fiddle::Function.new($screenreaderapi['sapiIsSpeaking'], [], Fiddle::TYPE_INT)
-
 $eltenvc=Fiddle.dlopen("..\\eltenvc")
 $showtray = Fiddle::Function.new($eltenvc['showTray'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 $hidetray = Fiddle::Function.new($eltenvc['hideTray'], [], Fiddle::TYPE_VOID)
+$sapisaystring = Fiddle::Function.new($eltenvc['SapiSpeak'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+$sapispeakssml = Fiddle::Function.new($eltenvc['SapiSpeakSSML'], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+$sapistopspeech = Fiddle::Function.new($eltenvc['SapiStop'], [], Fiddle::TYPE_INT)
+$sapisetvolume = Fiddle::Function.new($eltenvc['SapiSetVolume'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$sapisetrate = Fiddle::Function.new($eltenvc['SapiSetRate'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$sapisetvoice = Fiddle::Function.new($eltenvc['SapiSetVoice'], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$sapigetvolume = Fiddle::Function.new($eltenvc['SapiGetVolume'], [], Fiddle::TYPE_INT)
+$sapigetrate = Fiddle::Function.new($eltenvc['SapiGetRate'], [], Fiddle::TYPE_INT)
+$sapigetvoice = Fiddle::Function.new($eltenvc['SapiGetVoice'], [], Fiddle::TYPE_INT)
+$sapiisspeaking = Fiddle::Function.new($eltenvc['SapiIsSpeaking'], [], Fiddle::TYPE_INT)
+
+$nvdahelperremote=Fiddle.dlopen("nvdaHelperRemote")
+$saystring = Fiddle::Function.new($nvdahelperremote['nvdaController_speakText'], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$stopspeech = Fiddle::Function.new($nvdahelperremote['nvdaController_cancelSpeech'], [], Fiddle::TYPE_INT)

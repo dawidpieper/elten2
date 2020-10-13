@@ -612,7 +612,7 @@ def waiting_end
       # Opens a dialog
   def dialog_open
             eplay("dialog_open")
-        if FileTest.exist?("#{Configuration.soundthemepath}/BGS/dialog_background.ogg")
+        if FileTest.exist?("#{Configuration.soundthemepath}/BGS/dialog_background.ogg") && Configuration.bgsounds==1
                           $dialogvoice ||= Bass::Sound.new("#{Configuration.soundthemepath}/BGS/dialog_background.ogg", 0, true)
                           $dialogvoice.volume=Configuration.volume.to_f/100.0
                           $dialogvoice.position=0

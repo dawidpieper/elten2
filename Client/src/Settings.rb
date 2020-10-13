@@ -130,6 +130,7 @@ def make_window
                  make_setting(p_("Settings", "Sound theme"), soundthemes, "Interface", "SoundTheme", soundthemesmapping)
                  make_setting(p_("Settings", "Manage sound themes"), :custom, Proc.new{insert_scene(Scene_SoundThemes.new)})
                  make_setting(p_("Settings", "Use Stereo positioning for user interface"), :bool,"Interface", "UsePan")
+                                                  make_setting(p_("Settings", "Use background sounds in menu and dialog windows"), :bool, "Interface", "BGSounds")
                  make_setting(p_("Settings", "Display context menu in menu bar"), :bool, "Interface", "ContextMenuBar")
                  make_setting(p_("Settings", "Announcement of types of controls"), [p_("Settings", "Voice and sound"),p_("Settings", "Sound only"), p_("Settings", "Voice only")], "Interface", "ControlsPresentation")                    
                     make_setting(p_("Settings", "Wrap long lines in text fields"), :bool, "Interface", "LineWrapping")
@@ -141,11 +142,13 @@ def make_window
               @form.show(3)
               @form.show(4)
               @form.show(5)
+              @form.show(6)
             else
               @form.hide(2)
               @form.hide(3)
               @form.hide(4)
               @form.hide(5)
+              @form.hide(6)
               end
             }
             @form.fields[1].trigger(:change)
@@ -153,45 +156,56 @@ def make_window
         end
       def load_voice
         setting_category(p_("Settings", "Voice"))
-        sel=[p_("Settings", "Use screenreader")]+listsapivoices
+        sel=[p_("Settings", "Use NVDA")]+listsapivoices
         make_setting(p_("Settings", "Voice"), sel, "Voice", "Voice", (-1...sel.size-1).to_a)
         make_setting(p_("Settings", "Speech rate"), (0..100).to_a.reverse.map{|x|x.to_s+"%"}, "Voice", "Rate", (0..100).to_a.reverse)
         make_setting(p_("Settings", "Speech volume"), (5..100).to_a.reverse.map{|x|x.to_s+"%"}, "Voice", "Volume", (5..100).to_a.reverse)
+        make_setting(p_("Settings", "Speech pitch"), (0..100).to_a.reverse.map{|x|x.to_s+"%"}, "Voice", "Pitch", (0..100).to_a.reverse)
                         make_setting(p_("Settings", "Typing echo"), [p_("Settings", "Characters"),p_("Settings", "Words"),p_("Settings", "Characters and words"),p_("Settings", "None")], "Interface", "TypingEcho")
         on_load {
         @form.fields[1].on(:move) {
         if @form.fields[1].index==0
           @form.hide(2)
           @form.hide(3)
+          @form.hide(4)
         else
           @form.show(2)
           @form.show(3)
+          @form.show(4)
           end
         }
         @form.fields[1].trigger(:move)
         @form.fields[1].on(:move) {
         speech_stop
-          Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i').call(@form.fields[1].index-1)
+          Win32API.new($eltenlib, "SapiSetVoice", 'i', 'i').call(@form.fields[1].index-1)
           vc=Configuration.voice
           Configuration.voice=@form.fields[1].index-1
           @form.fields[1].sayoption
           speaker_waiter
           Configuration.voice=vc
-          Win32API.new("screenreaderapi", "sapiSetVoice", 'i', 'i').call(Configuration.voice)
+          Win32API.new($eltenlib, "SapiSetVoice", 'i', 'i').call(Configuration.voice)
         }
         @form.fields[2].on(:move) {
         speech_stop
-        Win32API.new("screenreaderapi", "sapiSetRate", 'i', 'i').call(100-@form.fields[2].index)
+        Win32API.new($eltenlib, "SapiSetRate", 'i', 'i').call(100-@form.fields[2].index)
                 @form.fields[2].sayoption
                 speaker_waiter
-                Win32API.new("screenreaderapi", "sapiSetRate", 'i', 'i').call(Configuration.voicerate)
+                Win32API.new($eltenlib, "SapiSetRate", 'i', 'i').call(Configuration.voicerate)
         }
         @form.fields[3].on(:move) {
         speech_stop
-        Win32API.new("screenreaderapi", "sapiSetVolume", 'i', 'i').call(100-@form.fields[3].index)
+        Win32API.new($eltenlib, "SapiSetVolume", 'i', 'i').call(100-@form.fields[3].index)
         @form.fields[3].sayoption
         speaker_waiter
-        Win32API.new("screenreaderapi", "sapiSetVolume", 'i', 'i').call(Configuration.voicevolume)
+        Win32API.new($eltenlib, "SapiSetVolume", 'i', 'i').call(Configuration.voicevolume)
+        }
+        @form.fields[4].on(:move) {
+        speech_stop
+        pt=Configuration.voicepitch
+        Configuration.voicepitch=100-@form.fields[4].index
+        @form.fields[4].sayoption
+        speaker_waiter
+        Configuration.voicepitch=pt
         }
         }
       end

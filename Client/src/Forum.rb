@@ -128,16 +128,25 @@ break
       @sgroups = []
       spgroups = []
       sgloc = false
+      klangs=[]
+      knownlanguages = Session.languages.split(",").map{|lg|lg.upcase}
       for g in @groups
         if g.role == 1 || g.role == 2
           @sgroups.push(g)
         end
-        if sgloc == false and g.lang.downcase == Configuration.language[0..1].downcase and g.recommended
+        if !klangs.include?(g.lang[0..1].upcase) and knownlanguages.include?(g.lang[0..1].upcase) and g.recommended
           spgroups.push(g) if !@sgroups.include?(g)
-          sgloc = true if g.id != 1
+          sgloc = true
+          klangs.push(g.lang[0..1].upcase)
         end
       end
-      @sgroups += spgroups
+            @sgroups += spgroups
+            sorts=(0..@groups.map{|g|g.id}.max||0).to_a.map{0}
+      for t in @threads
+        g=t.forum.group.id
+        sorts[g]=t.lastupdate if sorts[g]<t.lastupdate
+          end
+          
       @sgroups.sort! { |a, b|
       if LocalConfig["ForumSort"]==0
         x = b.lang
@@ -146,6 +155,7 @@ break
         y = a.lang
         y = "_" if a.lang.downcase == Configuration.language[0..1].downcase
         y += sprintf("%04d", a.id)
+        x,y=sorts[a.id],sorts[b.id]
         y <=> x
       else
         groupsorter(a,b)
@@ -196,15 +206,38 @@ break
         groupsallcnt += 1 if (g.open || g.public) && g.forums>0
         groupsmoderatedcnt += 1 if g.role == 2
       }
-      grpselt = [[np_("Forum", "Followed thread", "Followed threads", ft), nil, ft.to_s, fp.to_s, (fp - fr).to_s], [np_("Forum", "Followed forum", "Followed forums", forfol.size), forfol.size.to_s, flt.to_s, flp.to_s, (flp - flr).to_s],[np_("Forum", "Marked thread", "Marked threads", fmt), nil, fmt.to_s, fmp.to_s, (fmp - fmr).to_s]] + grpselt + [[p_("Forum", "Recommended groups (%{count})")%{'count'=>groupsrecommendedcnt.to_s}], [p_("Forum", "Open groups (%{count})")%{'count'=>groupsopencnt.to_s}], [np_("Forum", "Waiting invitation", "Waiting invitations (%{count})", groupsinvitedcnt)%{'count'=>groupsinvitedcnt.to_s}], [np_("Forum", "Moderated group", "Moderated groups (%{count})", groupsmoderatedcnt)%{'count'=>groupsmoderatedcnt.to_s}], [p_("Forum", "All groups (%{count})")%{'count'=>groupsallcnt.to_s}], [p_("Forum", "Recently created groups")], [p_("Forum", "Groups popular with my friends")], [p_("Forum", "Threads popular with my friends")], [p_("Forum", "My threads")], [p_("Forum", "Search")]]
+      grpselt = [[np_("Forum", "Followed thread", "Followed threads", ft), nil, ft.to_s, fp.to_s, (fp - fr).to_s], [np_("Forum", "Followed forum", "Followed forums", forfol.size), forfol.size.to_s, flt.to_s, flp.to_s, (flp - flr).to_s],[np_("Forum", "Marked thread", "Marked threads", fmt), nil, fmt.to_s, fmp.to_s, (fmp - fmr).to_s]] + grpselt + [[p_("Forum", "Recently active groups")], [p_("Forum", "Recommended groups (%{count})")%{'count'=>groupsrecommendedcnt.to_s}], [p_("Forum", "Open groups (%{count})")%{'count'=>groupsopencnt.to_s}], [np_("Forum", "Waiting invitation", "Waiting invitations (%{count})", groupsinvitedcnt)%{'count'=>groupsinvitedcnt.to_s}], [np_("Forum", "Moderated group", "Moderated groups (%{count})", groupsmoderatedcnt)%{'count'=>groupsmoderatedcnt.to_s}], [p_("Forum", "All groups (%{count})")%{'count'=>groupsallcnt.to_s}], [p_("Forum", "Recently created groups")], [p_("Forum", "Groups popular with my friends")], [p_("Forum", "Threads popular with my friends")], [p_("Forum", "My threads")], [p_("Forum", "Search")]]
       grpselt[0] = [nil] if ft==0
       grpselt[1] = [nil] if forfol.size==0
       grpselt[2] = [nil] if fmt==0
-      grpselt[@grpheadindex + @sgroups.size + 2] = [nil] if groupsinvitedcnt == 0
-      grpselt[@grpheadindex + @sgroups.size + 3] = [nil] if groupsmoderatedcnt == 0
+      grpselt[@grpheadindex + @sgroups.size + 3] = [nil] if groupsinvitedcnt == 0
+      grpselt[@grpheadindex + @sgroups.size + 4] = [nil] if groupsmoderatedcnt == 0
       grpselh = [nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
       @grpindex[0] = @grpheadindex + @sgroups.size + ll - 1 if ll > 0
-    when 1
+      when       1
+              @sgroups = []
+      for g in @groups
+        next if LocalConfig['ForumShowUnknownLanguages']==0 && knownlanguages.size>0 && !knownlanguages.include?(g.lang[0..1].upcase)
+        if (g.public || g.open) && g.posts > 0
+          @sgroups.push(g)
+        end
+      end
+      sorts=(0..@groups.map{|g|g.id}.max||0).to_a.map{0}
+      for t in @threads
+        g=t.forum.group.id
+        sorts[g]=t.lastupdate if sorts[g]<t.lastupdate
+          end
+      @sgroups.sort! { |a, b|
+      x,y=sorts[a.id],sorts[b.id]
+              y<=>x
+      }
+      @grpheadindex = 0
+      grpselt = []
+      for group in @sgroups
+        grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
+      end
+      grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
+    when 2
       @sgroups = []
       spgroups = []
       for g in @groups
@@ -225,7 +258,7 @@ break
         grpselt.push([group.name + ": " + group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 2
+    when 3
       @sgroups = []
       for g in @groups
         next if LocalConfig['ForumShowUnknownLanguages']==0 && knownlanguages.size>0 && !knownlanguages.include?(g.lang[0..1].upcase)
@@ -246,7 +279,7 @@ break
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 3
+    when 4
       @sgroups = []
       for g in @groups
         if g.role == 5
@@ -266,7 +299,7 @@ break
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 4
+    when 5
       @sgroups = []
       for g in @groups
         if g.role == 2
@@ -286,7 +319,7 @@ break
         grpselt.push([group.name, group.founder, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 5
+    when 6
       @sgroups = []
       for g in @groups
         next if LocalConfig['ForumShowUnknownLanguages']==0 && knownlanguages.size>0 && !knownlanguages.include?(g.lang[0..1].upcase)
@@ -307,7 +340,7 @@ break
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 6
+    when 7
       @sgroups = []
       for g in @groups
         next if LocalConfig['ForumShowUnknownLanguages']==0 && knownlanguages.size>0 && !knownlanguages.include?(g.lang[0..1].upcase)
@@ -322,7 +355,7 @@ break
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 7
+    when 8
       grp = srvproc("forum_popular", { "type" => "groups" })
       @sgroups = []
       if grp[0].to_i == 0
@@ -379,7 +412,7 @@ return result
       return threadsmain(-10)
     elsif index == @grpheadindex + @sgroups.size
       return groupsmain(1)
-    elsif index == @grpheadindex + @sgroups.size + 1
+      elsif index == @grpheadindex + @sgroups.size + 1
       return groupsmain(2)
     elsif index == @grpheadindex + @sgroups.size + 2
       return groupsmain(3)
@@ -392,10 +425,12 @@ return result
     elsif index == @grpheadindex + @sgroups.size + 6
       return groupsmain(7)
     elsif index == @grpheadindex + @sgroups.size + 7
-      return threadsmain(-8)
+      return groupsmain(8)
     elsif index == @grpheadindex + @sgroups.size + 8
-      return threadsmain(-9)
+      return threadsmain(-8)
     elsif index == @grpheadindex + @sgroups.size + 9
+      return threadsmain(-9)
+    elsif index == @grpheadindex + @sgroups.size + 10
       @query = input_text(p_("Forum", "Enter a phrase to look for"), 0,"",true)
       loop_update
       if @query != nil
@@ -1989,6 +2024,8 @@ waiting
           @@threads.last.closed = true if (line.to_i&2) > 0
           @@threads.last.followed = true if (line.to_i&4) > 0
           @@threads.last.marked = true if (line.to_i&8) > 0
+          when 7
+            @@threads.last.lastupdate=line.to_i
         end
       end
     end
@@ -2194,7 +2231,11 @@ loop do
       post = @posts[i]
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(String) and post.post.downcase.include?(@query.downcase)
       index = i * 3 if @mention != nil and @param == -7 and post.id == @mention.post
-      @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly, post.post + post.signature + post.date + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s, true), nil, nil]
+      add=""
+      if post.edited
+        add="\r\n"+p_("Forum", "This post has been edited")
+        end
+      @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly, post.post + post.signature + post.date + add + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s, true), nil, nil]
       @fields[-1] = ListBox.new(name_attachments(post.attachments), p_("Forum", "Attachments"), 0, 0, true) if post.attachments.size > 0
       if post.polls.size > 0
         names = []
@@ -2369,6 +2410,14 @@ loop do
 end
 @form.focus
 }
+if post.edited
+  menu.option(p_("Forum", "Show original post")) {
+  ps=srvproc("forum_postaction", {'threadid'=>@thread, 'postid'=>post.id, 'ac'=>'getorig'})
+  if ps[0].to_i==0
+    input_text(p_("Forum", "Original post"), EditBox::Flags::ReadOnly|EditBox::Flags::MultiLine, ps[1..-1].join)
+    end
+  }
+  end
 end
     menu.submenu(p_("Forum", "Navigation")) { |m|
     m.option(p_("Forum", "Bookmarks"), nil, "b") {
@@ -2483,7 +2532,7 @@ end
           cur = @form.index / 3 - 1
           while cur < @posts.size
             loop_update
-            if speech_actived == false and Win32API.new("bin\\screenreaderapi", "sapiIsPaused", "", "i").call == 0
+            if speech_actived == false and Win32API.new("$eltenlib", "SapiIsPaused", "", "i").call == 0
               cur += 1
               play("signal")
               pst = @posts[cur]
@@ -2499,10 +2548,10 @@ end
               cur = -1 if cur < -1
             end
             if space
-              if Win32API.new("bin\\screenreaderapi", "sapiIsPaused", "", "i").call == 0
-                Win32API.new("bin\\screenreaderapi", "sapiSetPaused", "i", "i").call(1)
+              if Win32API.new($eltenlib, "SapiIsPaused", "", "i").call == 0
+                Win32API.new($eltenlib, "SapiSetPaused", "i", "i").call(1)
               else
-                Win32API.new("bin\\screenreaderapi", "sapiSetPaused", "i", "i").call(0)
+                Win32API.new($eltenlib, "SapiSetPaused", "i", "i").call(0)
               end
             end
             if escape
@@ -2540,24 +2589,7 @@ end
         if @type == 0
           m.option(p_("Forum", "Edit post"), nil, "e") {
             dialog_open
-            form = Form.new([EditBox.new(p_("Forum", "edit your post here"), EditBox::Flags::MultiLine, @posts[@form.index / 3].post), Button.new(_("Save")), Button.new(_("Cancel"))])
-            loop do
-              loop_update
-              form.update
-              if form.fields[0].text.size > 1 and (((enter or space) and form.index == 1) or (enter and $key[0x11] and form.index < 2))
-                buf = buffer(form.fields[0].text)
-                if srvproc("forum_mod", { "edit" => "1", "postid" => @posts[@form.index / 3].id.to_s, "threadid" => @thread.to_s, "buffer" => buf })[0].to_i < 0
-                  alert(_("Error"))
-                else
-                  alert(p_("Forum", "The post has been modified"))
-                  @lastpostindex = @form.index
-                  refresh
-                  break
-                end
-              end
-              break if escape or ((enter or space) and form.index == 2)
-            end
-            dialog_close
+edit_post(@posts[@form.index/3])
           }
         end
         if Session.moderator == 1 or @threadclass.forum.group.role == 2
@@ -2649,6 +2681,67 @@ end
     }
   end
   
+  def edit_post(post)
+    attnames = name_attachments(post.attachments)
+    atts=[]
+    for i in 0...post.attachments.size
+      a=post.attachments[i]
+      atts.push([a, nil, attnames[i]])
+      end
+      form = Form.new([EditBox.new(p_("Forum", "edit your post here"), EditBox::Flags::MultiLine, post.post), ListBox.new(atts.map{|a|a[2]}, p_("Forum", "Attachments"), 0, 0, true), Button.new(_("Save")), Button.new(_("Cancel"))])
+      form.fields[1].bind_context{|menu|
+      if atts.size<3
+          menu.option(p_("Forum", "Add attachment"), nil, "n") {
+      l = getfile(p_("Forum", "Select file to attach"), Dirs.documents + "\\")
+      if l!="" && l!=nil && !atts.map{|a|a[1]}.include?(l)
+        if File.size(l)<=16777216
+        atts.push([nil, l, File.basename(l)])
+        form.fields[1].options=atts.map{|a|a[2]}
+      else
+        alert(p_("Forum", "This file is too large"))
+        end
+      end
+              form.fields[1].focus
+      }
+      end
+            if atts.size>0
+      menu.option(p_("Forum", "Delete attachment"), nil, :del) {
+      atts.delete_at(form.fields[1].index)
+      play("edit_delete")
+      form.fields[1].options=atts.map{|a|a[2]}
+      form.fields[1].sayoption
+      }
+    end
+      }
+            loop do
+              loop_update
+              form.update
+              if form.fields[0].text.size > 1 and (((enter or space) and form.index == 2) or (enter and $key[0x11] and form.index < 2))
+                buf = buffer(form.fields[0].text)
+                attachments=""
+        for a in atts
+          if a[0]==nil
+          attachments += send_attachment(a[1]) + ","
+        else
+          attachments += a[0]+","
+          end
+        end
+        attachments.chop! if attachments[-1..-1] == ","
+        bufatt = buffer(attachments).to_s
+                if srvproc("forum_mod", { "edit" => "1", "postid" => post.id.to_s, "threadid" => @thread.to_s, "buffer" => buf, 'bufatt'=>bufatt })[0].to_i < 0
+                  alert(_("Error"))
+                else
+                  alert(p_("Forum", "The post has been modified"))
+                  @lastpostindex = @form.index
+                  refresh
+                  break
+                end
+              end
+              break if escape or ((enter or space) and form.index == 3)
+            end
+            dialog_close
+    end
+  
   def showbookmarks
     loop_update
     bm=srvproc("forum_bookmarks", {'ac'=>'list', 'threadid'=>@thread})
@@ -2730,7 +2823,7 @@ bookmarks=[]
         end
 
   def getcache
-    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details"=>1 })
+    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details"=>2 })
     return if c[0].to_i < 0
     @cache = c
     @cachetime = c[1].to_i
@@ -2768,6 +2861,9 @@ bookmarks=[]
           @posts.last.liked= l.to_b
         t += 1
       when 7
+        @posts.last.edited= l.to_b
+        t += 1
+        when 8
         if l.delete("\r\n") == "\004END\004"
           t = 0
         else
@@ -2888,7 +2984,8 @@ class Struct_Forum_Post
   attr_accessor :attachments
   attr_accessor :polls
   attr_accessor :liked
-
+attr_accessor :edited
+  
   def initialize(id = 0)
     @id = id
     @author = ""
@@ -2899,6 +2996,7 @@ class Struct_Forum_Post
     @attachments = []
     @polls = []
     @liked=false
+    @edited=false
   end
 end
 

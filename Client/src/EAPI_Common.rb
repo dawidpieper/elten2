@@ -113,7 +113,7 @@ end
       @hasblog = ui[1]
     @hashonors=(ui[11]>0)
     play("menu_open") if submenu != true
-play("menu_background") if submenu != true
+play("menu_background") if submenu != true and Configuration.bgsounds==1
 sel = [p_("EAPI_Common", "Write a private message"),p_("EAPI_Common", "Visiting card"),p_("EAPI_Common", "Open user's blog"),p_("EAPI_Common", "badges of this user")]
 if Session.name!="guest"
 if @incontacts == true
@@ -315,7 +315,7 @@ di += "\r\n[Configuration]\r\n"
 di += "Language: " + Configuration.language + "\r\n"
 di += "Sound theme's path: " + Configuration.soundtheme + "\r\n"
 if Configuration.voice >= 0
-  voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
+  voicename = Win32API.new($eltenlib, "SapiGetVoiceNameW", 'i', 'i')
               vc="\0"*1024
               Win32API.new("msvcrt", "wcscpy", 'pp', 'i').call(vc,voicename.call(Configuration.voice))
 voice = deunicode(vc)
@@ -634,13 +634,13 @@ end
     
       # @note this function is reserved for Elten usage
                   def thr1
-                    gcs=Win32API.new("bin\\screenreaderapi","getCurrentScreenReader",'','i')
-                    ss=Win32API.new("bin\\screenreaderapi","stopSpeech",'','i')
+                    tir=Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", '', 'i')
+                    ss=Win32API.new("bin\\nvdaHelperRemote","nvdaController_cancelSpeech",'','i')
                                         loop do
             begin
             sleep(0.1)
-              if Configuration.voice != -1 and ($ruby != true or $windowminimized != true)
-                if !NVDA.check and gcs.call>0
+              if Configuration.voice != -1
+                if !NVDA.check and tir.call==0
 ss.call
 end
                       end

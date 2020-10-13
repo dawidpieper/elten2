@@ -37,7 +37,7 @@ module EltenAPI
       swait=true
       speech_wait if Configuration.voice!=-1
     end
-            Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0 and Configuration.voice>=0
+            Win32API.new($eltenlib,"SapiSetPaused",'i','i').call(0) if text!=nil and text!="" and method!=0 and Configuration.voice>=0
           if @@speechaudio!=nil
     @@speechaudiothread.kill if @@speechaudiothread!=nil
     @@speechaudio.close
@@ -159,18 +159,26 @@ text=(((Configuration.soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFN
   play("list_attachment", 100, 100, pos)
   ""
   }
-  func = "sapiSayString"
-func = "sayString" if Configuration.voice == -1
-text_d = text
+  text_d = text
 text_d.gsub!("\r\n\r\n","\004SLINE\004")
 text_d.gsub!("\r\n"," ")
 text_d.gsub!("\004SLINE\004","\r\n\r\n")
 if Configuration.voice==-1 && NVDA.check
   NVDA.stop   if !swait
   NVDA.speak(text_d)
-                    else
-buf=unicode(text_d)
-            Win32API.new("bin\\screenreaderapi",func+"W",'pi','i').call(buf,method)
+else
+  if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", '', 'i').call!=0
+    Configuration.voice=0
+    end
+                      if Configuration.voice == -1
+                        buf=unicode(text_d)
+                               Win32API.new("bin\\nvdaHelperRemote","nvdaController_speakText",'pi','i').call(buf,method)
+                             else
+                                                                                                                           ssml="<pitch absmiddle=\"#{((Configuration.voicepitch/5.0)-10.0).to_i}\"/>"
+                               ssml+=text_d.gsub("<","&lt;").gsub(">","&gt;")
+                                                              buf=unicode(ssml)
+                               Win32API.new($eltenlib,"SapiSpeakSSML",'p','i').call(buf)
+                               end
 end
 $speech_lasttext = text_d
 if text.size>=5
@@ -184,8 +192,6 @@ end
 end
 end
 end
-  sleep(0.02)
-Win32API.new("bin\\screenreaderapi","sapiSayString",'pi','i').call(" ",1) if Configuration.voice == -1
 end
 end
 text_d = text if text_d == nil
@@ -194,14 +200,39 @@ end
 
 alias speech speak
 
+def speakindexed(texts, indexes, indid=nil)
+  $speechid=id
+  texts.each{|t|t.gsub!("\004LINE\004","\r\n")}
+    ssml="<pitch absmiddle=\"#{((Configuration.voicepitch/5.0)-10.0).to_i}\"/>"
+  for i in 0...texts.size
+    mark=""
+    if indid!=nil
+      mark=":"+indid.to_s+":"
+    end
+    mark+=(indexes[i]||"").to_s
+    ssml+="<bookmark mark=\"#{mark}\"/>"
+    ssml+=texts[i].gsub("<","&lt;").gsub(">","&gt;")
+  end
+                                                                    buf=unicode(ssml)
+                               Win32API.new($eltenlib,"SapiSpeakSSML",'p','i').call(buf)
+                             end
+                             
+                             def speech_getindex
+                               nd=Win32API.new($eltenlib, "SapiGetBookmark", '', 'i').call
+                               return nil if nd==0
+                               siz=Win32API.new("msvcrt", "wcslen", 'i', 'i').call(nd)
+                               bk="\0"*2*(siz+1)
+                               Win32API.new("msvcrt", "wcscpy", 'pi', 'i').call(bk, nd)
+                               return deunicode(bk)
+                               end
+
 # Determines if the speech is used
 #
 # @param ignoreaudio [Boolean] ignores the played speechaudio
 # @return [Boolean] if the speech is ued, returns true, otherwise the return value is false
 def speech_actived(ignoreaudio=false)
-    func = "sapiIsSpeaking"
-        return true if @@speechaudio!=nil and ignoreaudio==false
-          if Win32API.new("bin\\screenreaderapi",func,'','i').call() == 0
+            return true if @@speechaudio!=nil and ignoreaudio==false
+          if Win32API.new($eltenlib,"SapiIsSpeaking",'','i').call() == 0
     return(false)
   else
     return(true)
@@ -227,9 +258,13 @@ def speech_actived(ignoreaudio=false)
     if Configuration.voice==-1 && NVDA.check
       NVDA.stop
       return
+    else
+      Win32API.new("bin\\nvdaHelperRemote","nvdaController_cancelSpeech",'','i').call()
       end
+    else
+      Win32API.new($eltenlib,"SapiStop",'','i').call()
         end
-    Win32API.new("bin\\screenreaderapi",func,'','i').call()
+  
   end
   
   # Waits for a speech to finish reading of the previous message
@@ -340,10 +375,10 @@ when "ß"
                       # Toggles the speech pause
      def speech_togglepause
        Programs.emit_event(:speech_toggle)
-  if Win32API.new("bin\\screenreaderapi","sapiIsPaused",'','i').call==0
-  Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(1)
+  if Win32API.new($eltenlib,"SapiIsPaused",'','i').call==0
+  Win32API.new($eltenlib,"SapiSetPaused",'i','i').call(1)
     else
-  Win32API.new("bin\\screenreaderapi","sapiSetPaused",'i','i').call(0)
+  Win32API.new($eltenlib,"SapiSetPaused",'i','i').call(0)
   end
   end
 
@@ -357,9 +392,13 @@ when "ß"
       h.keys.sort.each {|i| txt+=h[i]+"\r\n"}
       return speak(txt)
     end
-    if Configuration.voice==-1
+    if Configuration.voice==-1 or true
             $speechindexedthr=Thread.new do
-                  NVDA.stop if !$speech_wait
+              if Configuration.voice==-1    
+              NVDA.stop if !$speech_wait
+            else
+              speech_stop
+              end
                   stp=10+rand(100)
                                                         texts=[]
       indexes=[]
@@ -367,7 +406,8 @@ when "ß"
       texts.push(h[k])
       indexes.push(k+stp)
       }
-            NVDA.speakindexed(texts, indexes, id)
+                        if Configuration.voice==-1
+                          NVDA.speakindexed(texts, indexes, id)
             loop {
             n=NVDA.getindex
             next if n==nil and NVDA.check==true
@@ -375,8 +415,25 @@ when "ß"
             break if n[0].to_i>=stp and n[1]==id
             sleep(0.01)
             }
+          else
+                        speakindexed(texts, indexes, id)
             loop {
-      ind,indid=NVDA.getindex
+                        break if !speech_actived
+            sleep(0.01)
+            }
+          end
+          sleep(0.05)
+                      loop {
+      if Configuration.voice==-1
+            ind,indid=NVDA.getindex
+          else
+            nd=speech_getindex
+                        if nd!=nil && nd[0..0]==":"
+              indid,ind=nd[1..-1].split(":").map{|n|n.to_i}
+                          else
+              indid=ind=nil
+              end
+            end
             $speechid=indid
       break if indid!=id || (ind||0)<stp || (id!=nil && $speechid!=id)
       $speechindex=ind-stp
@@ -388,41 +445,24 @@ when "ß"
           end
     return
       end
-        speech_stop
-            $speechindex=nil
-    $speechindexedthr=Thread.new {
-    lst=""
-    h.keys.sort.each {|i|
-        next if h[i]=="\n" or h[i]==" "
-    $speechindex=i
-    lc=""
-    for j in 1..(lst.size)
-      lc=lst[(lst.size-j)..(lst.size-j)]
-      break if lc!="\r" and lc!="\n" and lc!=" "
-    end
-    if lc=="."
-      sleep(0.25)
-    elsif "\"-,)".include?(lc)
-      sleep(0.05)
-      end
-      lst=h[i] if h[i]!=nil  
-      speak(h[i],1,true,id,false)
-        sleep(0.01) while speech_actived
-   }
-   }
  end
- 
- def listsapivoices
-   voices=[]
-   voicename = Win32API.new("bin\\screenreaderapi", "sapiGetVoiceNameW", 'i', 'i')
-   wcscpy=Win32API.new("msvcrt", "wcscpy", 'pp', 'i')
-   for i in 0...Win32API.new("bin\\screenreaderapi", "sapiGetNumVoices", '', 'i').call
-                       vc="\0"*1024
-              wcscpy.call(vc,voicename.call(i))
-              voices.push(deunicode(vc))
+          
+          def listsapivoices
+            sz=Win32API.new($eltenlib, "SapiListVoices", 'pi', 'i').call(nil, 0)
+a=([nil]*sz).pack('p'*sz)
+Win32API.new($eltenlib, "SapiListVoices", 'pi', 'i').call(a, sz)
+mems=a.unpack("i"*sz)
+voices=[]
+wcslen=Win32API.new("msvcrt", "wcslen", 'i', 'i')
+wcscpy=Win32API.new("msvcrt", "wcscpy", 'pi', 'i')
+for m in mems
+len=wcslen.call(m)
+ptr="\0"*2*(len+1)
+wcscpy.call(ptr, m)
+voices.push(deunicode(ptr))
+end
+return voices
             end
-            return voices
-   end
  end
  include Speech
 end

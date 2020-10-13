@@ -2,7 +2,7 @@
 #Copyright (C) 2014-2020 Dawid Pieper
 #All rights reserved.
 
-class Scene_Polls
+  class Scene_Polls
   def initialize(lastpoll=0)
     @lastpoll=lastpoll
     end
@@ -173,103 +173,137 @@ class Scene_Polls_Create
       @ln.push(lk)
       lnindex = @ln.size - 1 if Configuration.language.downcase[0..1] == lk.downcase[0..1]
     end
-    @fields=[EditBox.new(p_("Polls", "Poll name"),"","",true),EditBox.new(p_("Polls", "Description"),EditBox::Flags::MultiLine,"",true),ListBox.new(ls, p_("Polls", "Poll language"), lnindex, 0, true),ListBox.new([p_("Polls", "New question")],p_("Polls", "Questions"),0,0,true),CheckBox.new(p_("Polls", "Hide this poll")),Button.new(p_("Polls", "Create")),Button.new(_("Cancel"))]
+    @fields=[EditBox.new(p_("Polls", "Poll name"),"","",true),EditBox.new(p_("Polls", "Description"),EditBox::Flags::MultiLine,"",true),ListBox.new(ls, p_("Polls", "Poll language"), lnindex, 0, true),ListBox.new([],p_("Polls", "Questions"),0,0,true), CheckBox.new(p_("Polls", "Set the expiry date for this poll")), DateButton.new(p_("Polls", "Expiry date"), Time.now.year, Time.now.year+3, true), CheckBox.new(p_("Polls", "Hide poll results before the expiry date")), CheckBox.new(p_("Polls", "Hide this poll")), Button.new(p_("Polls", "Create")),Button.new(_("Cancel"))]
+    @fields[3].bind_context{|menu|questions_context(menu)}
   @form=Form.new(@fields)
+    @fields[4].on(:change) {
+    if @fields[4].checked==0
+      @form.hide(5)
+      @form.hide(6)
+    else
+      @form.show(5)
+      @form.show(6)
+      end
+    }
+    @fields[4].trigger(:change)
   @questions=[]
   loop do
     loop_update
     @form.update
-    if $key[0x2E] and @form.index==3 and @fields[3].index<@fields[3].options.size-1
-      @questions.delete_at(@fields[2].index)
+     if @fields[8].pressed?
+sendpoll
+break if $scene!=self
+end
+if @fields[9].pressed? or escape
+           $scene=Scene_Polls.new
+           return
+           break
+     end
+    end
+  end
+  def questions_context(menu)
+    menu.option(p_("Polls", "New question"), nil, "n") {
+    editquestion(@questions.size)
+    }
+    if @questions.size>0
+      menu.option(p_("Polls", "Edit question"), nil, "e") {
+      editquestion(@fields[3].index)
+      }
+      menu.option(p_("Polls", "Delete question"), nil, :del) {
+            @questions.delete_at(@fields[2].index)
       @fields[3].options.delete_at(@fields[3].index)
       play("edit_delete")
       @fields[3].sayoption
+      }
       end
-    if escape
-loop_update
-               $scene=Scene_Polls.new
-                   return
-      break
     end
-   if enter or (space and @form.index>4)
-     loop_update
-     case @form.index
-     when 3
-       q=@fields[3].index
+  def editquestion(q)
        qs=@questions[q]
-       @questions[q]=["",0] if @questions[q]==nil
-       @qfields=[EditBox.new(p_("Polls", "Question"),"",@questions[q][0],true),ListBox.new([p_("Polls", "Single choice"),p_("Polls", "Multiple choice"),p_("Polls", "Edit box")],p_("Polls", "Question type"),@questions[q][1], 0, true),ListBox.new(@questions[q][2..@questions[q].size-1]+[p_("Polls", "New answer")],p_("Polls", "Answers"), 0, 0, true),Button.new(_("Save")),Button.new(_("Cancel"))]
+       @question=@questions[q].deep_dup
+              @question=["",0] if @question==nil
+       @qfields=[EditBox.new(p_("Polls", "Question"),"",@question[0],true),ListBox.new([p_("Polls", "Single choice"),p_("Polls", "Multiple choice"),p_("Polls", "Edit box")],p_("Polls", "Question type"),@question[1], 0, true),ListBox.new(@question[2..-1]||[],p_("Polls", "Answers"), 0, 0, true),Button.new(_("Save")),Button.new(_("Cancel"))]
+       @qfields[1].on(:move) {
+                if @qfields[1].index<2
+@qform.show(2)           
+         elsif @qfields[1].index==2
+           @qform.hide(2)
+           end
+       }
+       @qfields[2].bind_context{|menu|answers_context(menu)}
        @qform=Form.new(@qfields)
               loop do
          loop_update
          @qform.update
-         if @qfields[1].index<2 and @qfields[2]==nil
-           @qfields[2]=ListBox.new(@questions[q][2..@questions[q].size-1]+[p_("Polls", "New answer")],p_("Polls", "Answers"),0,0,true)
-         elsif @qfields[1].index==2 and @qfields[2]!=nil
-           @qfields[2]=nil
-           end
-  if $key[0x2E] and @qform.index==2 and @qfields[2].index<@qfields[2].options.size-1
-      @questions[q].delete_at(@qfields[2].index+2)
-      @qfields[2].options.delete_at(@qfields[2].index)
-      play("edit_delete")
-      @qfields[2].sayoption
-      end
-           if escape
-        @questions[q]=qs
+           if @qfields[4].pressed? or escape
   loop_update
     break
   end
-  if enter
+  if @qfields[3].pressed?
     loop_update
-    case @qform.index
-    when 2
-            @questions[q][2+@qfields[2].index]="" if @questions[q][2+@qfields[2].index]==nil
-      @questions[q][2+@qfields[2].index]=input_text(p_("Polls", "Answer"),"",@questions[q][2+@qfields[2].index])
-      @qfields[2].options=@questions[q][2..@questions[q].size-1]+[p_("Polls", "New answer")]
-@qfields[2].focus      
-when 3
-  if @questions[q].size>3 or @qfields[1].index==2
-  @questions[q][0]=@qfields[0].text
-  @questions[q][1]=@qfields[1].index
+  if @question.size>3 or @qfields[1].index==2
+  @question[0]=@qfields[0].text
+  @question[1]=@qfields[1].index
+  @questions[q]=@question
   break
-elsif @questions[q].size==2
+elsif @question.size==2
   alert(p_("Polls", "There are no answers to this question"))
 else
   alert(p_("Polls", "There is only one answer to this question."))
+    end
   end
-        when 4
-          @questions[q]=qs
-          @questions.delete_at(q) if qs==nil
-          break
-    end
-    end
-           end
+  end
 qu=[]
            for q in @questions
   qu.push(q[0]) if q!=nil
   end
-  @fields[3].options = qu+[p_("Polls", "New question")]
+  @fields[3].options = qu
   @fields[3].focus
-           when 5
-             qus=JSON.generate(@questions)
+end
+def answers_context(menu)
+  menu.option(p_("Polls", "New answer"), nil, "n") {
+  editanswer(@question.size-2)
+  }
+  if @qfields[2].options.size>0
+    menu.option(p_("Polls", "Edit answer"), nil, "e") {
+        editanswer(@qfields[2].index)
+    }
+      menu.option(p_("Polls", "Delete answer")) {
+      @question.delete_at(@qfields[2].index+2)
+      @qfields[2].options.delete_at(@qfields[2].index)
+      play("edit_delete")
+      @qfields[2].sayoption
+      }
+    end
+  end
+  def editanswer(a)
+    old=@question[2+a]||""
+      ans=input_text(p_("Polls", "Answer"),0,old,true)
+      if ans!=nil
+            @question[2+a]=ans
+          end
+                            @qfields[2].options=@question[2..-1]||[]
+@qfields[2].focus      
+end
+def sendpoll
+  if @questions.size==0 || (@fields[4].checked.to_i==1 && @fields[5].year==0)
+    alert(p_("Polls", "Please complete the poll before sending"))
+    return
+    end
+               qus=JSON.generate(@questions)
 dbuffer=buffer(@fields[1].text)
 qbuffer=buffer(qus)
-pl=srvproc("polls",{"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text, "lng"=>@ln[@form.fields[2].index], "hidden"=>@fields[4].checked.to_i})
+prm={"create"=>"1", "qbuffer"=>qbuffer.to_s, "dbuffer"=>dbuffer.to_s, "pollname"=>@fields[0].text, "lng"=>@ln[@form.fields[2].index], "hidden"=>@fields[7].checked.to_i}
+if @fields[4].checked.to_i==1
+  prm['expirydate']=Time.local(@fields[5].year, @fields[5].month, @fields[5].day, @fields[5].hour, @fields[5].min, @fields[5].sec).to_i
+  prm['hideresults']=@fields[6].checked.to_i
+  end
+pl=srvproc("polls",prm)
 if pl[0].to_i<0
   alert(_("Error"))
 else
   alert(p_("Polls", "The poll has been created."))
   $scene=Scene_Polls.new
-  return
-  break
-  end
-       when 6
-           $scene=Scene_Polls.new
-           return
-           break
-     end
-     end
-    end
+end
   end
   end
 
@@ -582,7 +616,7 @@ end
     end
     for a in 0...q.answers.size
       if anses.size>0
-      prc=(anses.count(a).to_f/anses.size.to_f*100.0).floor
+      prc=(anses.count(a).to_f/authors.size.to_f*100.0).floor
     else
       prc=0
       end

@@ -971,6 +971,7 @@ if @text[oc..oc]!=" "
                                                                   from=charborders(c[0])[0]
                               to=charborders(c[1])[1]
                               edelete(from, to) if from<to && @text[from..to].chrsize>1
+                              index-=1 while index>@text.size
     text.delete!("\n") if (@flags&Flags::ReadOnly)!=0
     if (@flags&EditBox::Flags::Numbers)>0
     text=text.to_i.to_s
@@ -1771,8 +1772,9 @@ end
               end
             options=@options
             sp=""
-            if @header!=nil and @header!=""  
+            if @header!=nil and @header!=""                
             sp = header
+            sp+=" (#{p_("EAPI_Form", "Multiselection list")})" if @multi==true and Configuration.controlspresentation!=1
                             sp+=": " if !" .:?!,".include?(sp[-1..-1])
               sp+=" " if sp[-1..-1]!=" "
               end
@@ -2512,7 +2514,7 @@ lsel=ListBox.new(options, header, index, flags, true)
           end
 lsel=""
         play("menu_open")
-        play("menu_background")
+        play("menu_background") if Configuration.bgsounds==1
 lsel = menulr(options,true,0,"",true)
                     for d in dis
         lsel.disable_item(d)
@@ -2981,7 +2983,7 @@ class Menu
     if @on_open.size==0
     if @type==(:menubar) || @type==(:menu)
     play "menu_open"
-    play("menu_background")
+    play("menu_background") if Configuration.bgsounds==1
     end
         show(0)
               else
@@ -3686,8 +3688,154 @@ def bitrates_available
           end
         return @filename
         end
+end
+
+class DateButton < Button
+  attr_reader :year, :month, :day, :hour, :min, :sec
+  def initialize(label, minyear=1900, maxyear=2100, includehour=false)
+    @year, @month, @day, @hour, @min, @sec = 0, 0, 0, 0, 0, 0
+    @dlabel=label
+genlabel
+super(@label)
+    @minyear=minyear
+    @maxyear=maxyear
+    @includehour=includehour
+    @years=(@minyear..@maxyear).to_a.map{|y|y.to_s}
+    @months = [p_("EAPI_Form", "January"), p_("EAPI_Form", "February"), p_("EAPI_Form", "March"), p_("EAPI_Form", "April"), p_("EAPI_Form", "May"), p_("EAPI_Form", "June"), p_("EAPI_Form", "July"), p_("EAPI_Form", "August"), p_("EAPI_Form", "September"), p_("EAPI_Form", "October"), p_("EAPI_Form", "November"), p_("EAPI_Form", "December")]
+    @days=(1..31).to_a.map{|d|d.to_s}
+    @hours=(0..23).to_a.map{|h|sprintf("%02d",h)}
+    @mins=(0..59).to_a.map{|m|sprintf("%02d",m)}
+    @secs=(0..59).to_a.map{|s|sprintf("%02d",s)}
+    @form = Form.new([
+    @sel_year = ListBox.new([p_("EAPI_Form", "Not selected")]+@years, p_("EAPI_Form", "Year"), 0, 0, true),
+    @sel_month = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Month"), 0, 0, true),
+    @sel_day = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Day"), 0, 0, true),
+@sel_hour = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Hour"), 0, 0, true),
+@sel_min = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Minute"), 0, 0, true),
+@sel_sec = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Second"), 0, 0, true),
+    @btn_select = Button.new(p_("EAPI_Form", "Ready")),
+    @btn_cancel = Button.new(_("Cancel"))
+    ], 0, false, true)
+    if @includehour==false
+      @form.hide(@sel_hour)
+      @form.hide(@sel_min)
+      @form.hide(@sel_sec)
+      end
+    @form.cancel_button = @btn_cancel
+    @form.accept_button = @btn_select
+    @btn_cancel.on(:press) {@form.resume}
+    @btn_select.on(:press) {
+   if @sel_year.index==0
+     @year=0
+   else
+     @year=@sel_year.index+@minyear-1
+   end
+   @month=@sel_month.index
+   @day=@sel_day.index
+   if @year==0 || @month==0 || @day==0
+     @year=0
+     @month=0
+     @day=0
+   end
+   if @includehour==true
+     @hour=@sel_hour.index-1
+     @min=@sel_min.index-1
+     @sec=@sel_sec.index-1
+     if @hour==-1 || @min==-1 || @day==-1
+       @year=0
+     @month=0
+     @day=0
+     @hour=-1
+     @min=-1
+     @sec=-1
+       end
+     end
+   @form.resume
+    }
+    @sel_year.on(:move) {
+    if @sel_year.index==0
+      @sel_month.options=[p_("EAPI_Form", "Not selected")]
+    else
+      @sel_month.options=[p_("EAPI_Form", "Not selected")]+@months
+      end
+        @sel_month.index-=1 while @sel_month.index>=@sel_month.options.size
+        @sel_month.trigger(:move)
+    }
+    @sel_month.on(:move) {
+    if @sel_month.index==0
+      @sel_day.options=[p_("EAPI_Form", "Not selected")]
+    else
+      days=31
+      days=30 if [4, 6, 9, 11].include?(@sel_month.index)
+      if @sel_month.index==2
+        if (@sel_year.index+@minyear-1)%4==0 && (((@minyear+@sel_year.index-1)%100)!=0 || ((@minyear+@sel_year.index-1)%400)==0)
+          days=29
+        else
+          days=28
+        end
+        end
+        @sel_day.options = [p_("EAPI_Form", "Not selected")]+@days[0...days]
+      end
+              @sel_day.index-=1 while @sel_day.index>=@sel_day.options.size
+              @sel_day.trigger(:move)
+    }
+    @sel_day.on(:move) {
+    if @sel_day.index==0
+      @sel_hour.options=[p_("EAPI_Form", "Not selected")]
+    else
+      @sel_hour.options=[p_("EAPI_Form", "Not selected")]+@hours
+    end
+    @sel_hour.index-=1 while @sel_hour.index>=@sel_hour.options.size
+              @sel_hour.trigger(:move)
+    }
+    @sel_hour.on(:move) {
+    if @sel_hour.index==0
+      @sel_min.options=[p_("EAPI_Form", "Not selected")]
+    else
+      @sel_min.options=[p_("EAPI_Form", "Not selected")]+@mins
+    end
+    @sel_min.index-=1 while @sel_min.index>=@sel_min.options.size
+              @sel_min.trigger(:move)
+    }
+    @sel_min.on(:move) {
+    if @sel_min.index==0
+      @sel_sec.options=[p_("EAPI_Form", "Not selected")]
+    else
+      @sel_sec.options=[p_("EAPI_Form", "Not selected")]+@mins
+    end
+    @sel_sec.index-=1 while @sel_sec.index>=@sel_sec.options.size
+              @sel_sec.trigger(:move)
+    }
   end
-  
+  def genlabel
+    @label=@dlabel+": "
+    if @year==0
+      @label+=p_("EAPI_Form", "Not selected")
+    else
+      if @includehour==false
+      @label+=sprintf("%04d-%02d-%02d", @year, @month, @day)
+    else
+      @label+=sprintf("%04d-%02d-%02d, %02d:%02d:%02d", @year, @month, @day, @hour, @min, @sec)
+      end
+      end
+    end
+    def focus(*arg)
+      genlabel
+      super(*arg)
+      end
+  def update
+    super
+    if @pressed
+      show
+      focus
+    end
+  end
+  def show
+    @form.index=0
+    @form.wait
+    end
+  end
+
   end
   include Controls
 end

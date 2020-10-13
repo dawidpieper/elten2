@@ -14,7 +14,7 @@ module EltenAPI
     end
     module Configuration
       class <<self
-        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :soundthemepath, :volume, :usefx
+        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :soundthemepath, :volume, :usefx, :bgsounds, :voicepitch
       end
       end
     module Lists

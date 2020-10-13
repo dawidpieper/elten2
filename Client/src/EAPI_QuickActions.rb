@@ -50,11 +50,11 @@
             when :srsapi
                       if Configuration.voice==-1
       Configuration.voice=readconfig("Voice","Voice",-1)
-          elsif Win32API.new("bin\\screenreaderapi","getCurrentScreenReader",'','i').call>0
+          elsif Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", '', 'i').call==0
       Configuration.voice=-1
       end
   if Configuration.voice==-1
-        alert(p_("EAPI_Common", "Using a screenreader"), false)
+        alert(p_("EAPI_Common", "Using NVDA"), false)
     else
     alert(p_("EAPI_Common", "Using a selected SAPI synthesizer"), false)
   end
@@ -137,7 +137,7 @@ g.call if g!=nil
       [:date, p_("EAPI_QuickActions", "Say date"), [], -8],
       [:lastspeech, p_("EAPI_QuickActions", "Speech last text"), [], 11],
       [:tray, p_("EAPI_QuickActions", "Minimize Elten to tray"), [], 3],
-      [:srsapi, p_("EAPI_QuickActions", "Switch voice output between Screenreader and Sapi5"), [], -1],
+      [:srsapi, p_("EAPI_QuickActions", "Switch voice output between NVDA and Sapi5"), [], -1],
       [:volumedown, p_("EAPI_QuickActions", "Volume down"), [], 5],
       [:volumeup, p_("EAPI_QuickActions", "Volume up"), [], 6],
       [:donotdisturb, p_("EAPI_QuickActions", "Switch \"Do not disturb\" mode"), [], -2],

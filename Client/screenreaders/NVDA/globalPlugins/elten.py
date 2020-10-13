@@ -69,7 +69,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		eltenpipeout=None
 		eltenpipest=None
 		eltendata = os.getenv("appdata")+"\\elten"
-		nvdapipefile = eltendata+"\\temp\\nvda.pipe"
+		eltentemp = os.getenv("temp")+"\\elten"
+		nvdapipefile = eltentemp+"\\nvda.pipe"
 		while(1):
 			if(stopThreads): break
 			try:
@@ -187,7 +188,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					lastSend=time.time()
 			except:
 				time.sleep(0.05)
-				eltenqueue={'gestures':[], 'indexes':[], 'statuses':[]}
+				eltenqueue={'gestures':[], 'indexes':[], 'statuses':[], 'returns':[]}
 				pass
 
 	if is_python_3_or_above:
@@ -293,7 +294,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 26}
+			return {'version': 28}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

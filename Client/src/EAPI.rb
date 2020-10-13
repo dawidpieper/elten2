@@ -487,6 +487,7 @@ Configuration.microphone = readconfig("SoundCard", "Microphone", "")
   Configuration.contextmenubar = readconfig("Interface", "ContextMenuBar", 1)
 Configuration.soundthemeactivation = readconfig("Interface", "SoundThemeActivation", 1)
 Configuration.typingecho = readconfig("Interface", "TypingEcho", 0)
+Configuration.bgsounds = readconfig("Interface", "BGSounds", 1)
 Configuration.linewrapping = readconfig("Interface", "LineWrapping", 1)
 Configuration.hidewindow = readconfig("Interface", "HideWindow", 0)
 Configuration.synctime = readconfig("Advanced", "SyncTime", 1)
@@ -525,7 +526,7 @@ if $rvc==nil
             Configuration.language.gsub!("_","-")
             writeconfig("Interface", "Language", Configuration.language)
             end
-      Win32API.new("bin\\screenreaderapi","sapiSetVoice",'i','i').call(Configuration.voice) if Configuration.voice != -3
+      Win32API.new($eltenlib,"SapiSetVoice",'i','i').call(Configuration.voice) if Configuration.voice != -3
 Configuration.voicerate = readconfig("Voice","Rate",50)
         if $rvcr==nil
       if (/\/voicerate (\d+)/=~$commandline) != nil
@@ -533,7 +534,7 @@ Configuration.voicerate = readconfig("Voice","Rate",50)
         Configuration.voicerate=$rvcr.to_i
             end    
     end
-                  Win32API.new("bin\\screenreaderapi","sapiSetRate",'i','i').call(Configuration.voicerate)
+                  Win32API.new($eltenlib,"SapiSetRate",'i','i').call(Configuration.voicerate)
                       Configuration.voicevolume = readconfig("Voice","Volume",100)
     if $rvcv==nil
       if (/\/voicevolume (\d+)/=~$commandline) != nil
@@ -541,7 +542,8 @@ Configuration.voicerate = readconfig("Voice","Rate",50)
         Configuration.voicevolume=$rvcv.to_i
             end    
     end
-    Win32API.new("bin\\screenreaderapi","sapiSetVolume",'i','i').call(Configuration.voicevolume)
+    Win32API.new($eltenlib,"SapiSetVolume",'i','i').call(Configuration.voicevolume)
+    Configuration.voicepitch = readconfig("Voice","Pitch",50)
           Configuration.soundtheme = readconfig("Interface","SoundTheme","")
             if Configuration.soundtheme.size > 0
     Configuration.soundthemepath = Dirs.soundthemes + "\\" + Configuration.soundtheme
