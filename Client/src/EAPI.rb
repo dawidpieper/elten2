@@ -1,8 +1,10 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
-              module EltenAPI
+module EltenAPI
   private
 # EltenAPI functions
 
@@ -81,8 +83,10 @@ end
 def format_date(date, justdate=false, secs=true)
   return "" if !date.is_a?(Time)
   str=sprintf("%04d-%02d-%02d", date.year, date.month, date.day)
-    str+=sprintf(" %02d:%02d", date.hour, date.min) if !justdate
+  if !justdate  
+  str+=sprintf(" %02d:%02d", date.hour, date.min)
   str+=sprintf(":%02d", date.sec) if secs
+  end
   return str
   end
 
@@ -458,6 +462,37 @@ writefile = Win32API.new("kernel32","WriteFile",'ipipi','I')
 
     end
     
+    class FileReader
+      @@handlers={}
+CreateFile = Win32API.new("kernel32","CreateFileW",'piipiip','i')
+ReadFile = Win32API.new("kernel32","ReadFile",'ipipp','I')
+CloseHandle = Win32API.new("kernel32","CloseHandle",'i','i')
+SetFilePointer = Win32API.new("kernel32", "SetFilePointer", 'ilpi', 'i')
+def initialize(file)
+  ObjectSpace.define_finalizer(self,
+  self.class.method(:finalize).to_proc)
+@file=file
+@handler = CreateFile.call(unicode(file), 1, 1, nil, 4, 0, 0)
+@@handlers[self.id]=@handler
+end
+def self.finalize(id)
+  CloseHandle.call(@@handlers[id])
+@@handlers[id]=nil
+end
+def position
+return SetFilePointer.call(@handler, 0, nil, 1)
+end
+def position=(pt)
+SetFilePointer.call(@handler, pt, nil, 0)
+end
+def read(size)
+buf="\0"*size
+rd=[0].pack("i")
+ReadFile.call(@handler, buf, size, rd, nil)
+return buf[0...rd.unpack("I").first]
+end
+end
+    
     def load_configuration
         Log.info("Loading configuration")
         lang=Configuration.language
@@ -553,9 +588,5 @@ Configuration.voicerate = readconfig("Voice","Rate",50)
                           Configuration.volume = readconfig("Interface", "MainVolume", 50)
                           Configuration.usefx = readconfig("Advanced", "UseFX", -1)
                           setlocale(Configuration.language) if lang!=Configuration.language
-                          if Configuration.registeractivity==-1
-  Configuration.registeractivity = confirm(p_("EAPI_EltenAPI", "Do you want to send reports on how Elten is used? This data does not contain any confidential information and is very helpful in program development. This selection can be changed at any time from the Settings.")).to_i
-  writeconfig("Privacy", "RegisterActivity", Configuration.registeractivity)
-  end
-      end
+                                end
     end

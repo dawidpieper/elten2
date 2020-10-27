@@ -1,6 +1,8 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
 module GlobalMenu
   class <<self
@@ -40,16 +42,22 @@ module GlobalMenu
             @menu.header=@header if $activecontrols==nil || $activecontrols.size==0
             if Session.logged?
       @menu.submenu(p_("MainMenu", "&Community")) {|m|
+      if Session.name!=nil && Session.name!="guest"
     m.scene(p_("MainMenu", "&Messages"), Scene_Messages)
+    end
     m.scene(p_("MainMenu", "&Blogs"), Scene_Blog)
     m.scene(p_("MainMenu", "&Forum"), Scene_Forum)
+    if Session.name!=nil && Session.name!="guest"
     m.scene(p_("MainMenu", "&Chat"), Scene_Chat)
-    m.scene(p_("MainMenu", "No&tes"), Scene_Notes)
-    m.scene(p_("MainMenu", "What's &new?"), Scene_WhatsNew)
+        m.scene(p_("MainMenu", "No&tes"), Scene_Notes)
+            m.scene(p_("MainMenu", "What's &new?"), Scene_WhatsNew)
     m.scene(p_("MainMenu", "Po&lls"), Scene_Polls)
+    end
     @menu.submenu(p_("MainMenu", "&Users")) {|m|
+    if Session.name!=nil && Session.name!="guest"
     m.scene(p_("MainMenu", "My &contacts"), Scene_Contacts)
     m.scene(p_("MainMenu", "Users who a&dded me to contacts"), Scene_Users_AddedMeToContacts)
+    end
     m.scene(p_("MainMenu", "Who is &online?"), Scene_Online)
     m.scene(p_("MainMenu", "&badges"), Scene_Honors)
     m.scene(p_("MainMenu", "&Users list"), Scene_Users)

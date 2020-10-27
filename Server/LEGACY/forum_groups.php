@@ -309,4 +309,23 @@ if(isset($_GET['buf'])) $regulations=buffer_get($_GET['buf']);
 mquery("update forum_groups set regulations='".mysql_real_escape_string($regulations)."' where id=".(int)$_GET['groupid']);
 echo "0";
 }
+
+if($_GET['ac']=="motd") {
+if(!isset($_GET['groupid'])) die("-4");
+$q=mquery("select motd from forum_groups where id=".(int)$_GET['groupid']);
+if($_GET['name']!="guest")
+mquery("update forum_groups_members set motd_time=unix_timestamp() where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."'");
+echo "0\r\n";
+echo mysql_fetch_row($q)[0];
+}
+
+if($_GET['ac']=="editmotd") {
+if(!isset($_GET['groupid'])) die("-4");
+$gr=mysql_fetch_row(mquery("select founder, recommended, name from forum_groups where id=".(int)$_GET['groupid']));
+if($gr[0]!=$_GET['name'] and mysql_num_rows(mquery("select user from forum_groups_members where groupid=".(int)$_GET['groupid']." and user='".mysql_real_escape_string($_GET['name'])."' and role=2"))==0 and !($gr[1]==1 and getprivileges($_GET['name'])[1]==1)) die("-3");
+$motd=$_GET['motd'];
+if(isset($_GET['buf'])) $motd=buffer_get($_GET['buf']);
+mquery("update forum_groups set motd='".mysql_real_escape_string($motd)."', motd_time=unix_timestamp() where id=".(int)$_GET['groupid']);
+echo "0";
+}
 ?>

@@ -4,6 +4,8 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 require("/var/www/html/vendor/autoload.php");
 function message_send($from, $to, $subject, $message, $type='text', $attachments="") {
+if($from=="") return(-1);
+if($to=="") $to=$from;
 $text=$message;
 if($type==1 or $type=="audio") {
 if(strlen($message) < 8)  return(-1);
@@ -45,8 +47,8 @@ $mail->CharSet = 'UTF-8';
 $mail->isHTML(false);
 $mail->XMailer = ' ';
 $mail->isSMTP();
-$mail->Host       = 'elten-net.eu';
-$mail->setFrom($from.'@elten-net.eu', $fromname);
+$mail->Host       = 'elten.me';
+$mail->setFrom($from.'@elten.me', $fromname);
 $mail->addAddress($to);
 if($audio!=null) {
 $mail->addAttachment($audio, "audiomessage.opus");
@@ -176,7 +178,7 @@ $forums=array();
 $threads=array();
 $groupids=array();
 $ret['groups']=array();
-$q=mquery("select g.id, g.name, g.founder, g.description, g.lang, g.recommended, g.open, g.public, m.role, count(distinct p.user), g.created, if((g.regulations is not null and g.regulations != ''), 1, 0) from forum_groups g left join forum_groups_members as m on g.id=m.groupid and m.user='".mysql_real_escape_string($user)."' left join forum_groups_members as p on g.id=p.groupid and (p.role=1 or p.role=2) group by g.id");
+$q=mquery("select g.id, g.name, g.founder, g.description, g.lang, g.recommended, g.open, g.public, m.role, count(distinct p.user), g.created, if((g.regulations is not null and g.regulations != ''), 1, 0), if(g.motd is not null and g.motd!='', 1, 0), if(m.motd_time is not null and g.motd_time>m.motd_time, 1, 0) from forum_groups g left join forum_groups_members as m on g.id=m.groupid and m.user='".mysql_real_escape_string($user)."' left join forum_groups_members as p on g.id=p.groupid and (p.role=1 or p.role=2) group by g.id");
 while($r=mysql_fetch_row($q)) {
 $g=array('id'=>(int)$r[0], 'name'=>$r[1], 'founder'=>$r[2], 'description'=>$r[3], 'lang'=>$r[4]);
 if($useflags==0) {
@@ -191,7 +193,7 @@ if($r[6]==1) $flags|=2;
 if($r[7]==1) $flags|=4;
 $g['flags']=$flags;
 }
-$g=array_merge($g, array('role'=>(int)$r[8], 'cnt_forums'=>0, 'cnt_threads'=>0, 'cnt_posts'=>0, 'cnt_readposts'=>0, 'acmembers'=>(int)$r[9], 'created'=>(int)$r[10], 'hasregulations'=>(int)$r[11]));
+$g=array_merge($g, array('role'=>(int)$r[8], 'cnt_forums'=>0, 'cnt_threads'=>0, 'cnt_posts'=>0, 'cnt_readposts'=>0, 'acmembers'=>(int)$r[9], 'created'=>(int)$r[10], 'hasregulations'=>(int)$r[11], 'hasmotd'=>(int)$r[12], 'hasnewmotd'=>(int)$r[13]));
 if($banned>0 and $r[5]==1) $g['role']=3;
 $ret['groups'][$g['id']]=$g;
 $groups[$g['id']]=$g;
@@ -222,7 +224,7 @@ array_push($forumids,$r[0]);
 }
 $ret['threads']=array();
 $threadids=array();
-$q=mquery("select id, name, forum, pinned, closed, lastpostdate from forum_threads order by lastpostdate desc");
+$q=mquery("select id, name, forum, pinned, closed, lastpostdate, offered from forum_threads order by lastpostdate desc");
 while($r=mysql_fetch_row($q)) {
 $t=array('id'=>(int)$r[0], 'name'=>$r[1], 'author'=>null, 'forumid'=>$r[2]);
 if($useflags==0) $t['followed']=0;
@@ -239,6 +241,7 @@ if($r[4]>0) $flags|=2;
 $t['flags']=$flags;
 }
 $t['lastupdate']=(int)$r[5];
+$t['offered']=(int)$r[6];
 $threads[$r[0]]=$t;
 if(in_array($r[2],$forumids)) {
 array_push($threadids,$t['id']);

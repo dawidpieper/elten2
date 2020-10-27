@@ -1,7 +1,3 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
 if $ruby != true
 #==============================================================================
 # ** Module Win32 - Handles numerical based data.

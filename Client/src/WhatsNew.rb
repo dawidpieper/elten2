@@ -1,6 +1,8 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
 class Scene_WhatsNew
   def initialize(init=false,agtemp=nil,bid=nil)
@@ -26,6 +28,7 @@ forumsposts=agtemp[13].to_i
 friends=agtemp[14].to_i
 birthday=agtemp[15].to_i
 mentions=agtemp[16].to_i
+followedblogposts=agtemp[17].to_i
 nversion=agtemp[2].to_f
             nbeta=agtemp[3].to_i
             nalpha=agtemp[4].to_i
@@ -44,7 +47,7 @@ else
         elsif $isbeta==2
           nv=$version.to_s+" RC "+$nalpha.to_s
           end
-        @sel = ListBox.new(["#{p_("WhatsNew", "New messages")} (#{messages.to_s})","#{p_("WhatsNew", "New posts in followed threads")} (#{posts.to_s})","#{p_("WhatsNew", "New posts on the followed blogs")} (#{blogposts.to_s})","#{p_("WhatsNew", "New comments on your blog")} (#{blogcomments.to_s})","#{p_("WhatsNew", "New threads on followed forums")} (#{forums.to_s})","#{p_("WhatsNew", "New posts on followed forums")} (#{forumsposts.to_s})","#{p_("WhatsNew", "New friends")} (#{friends.to_s})","#{p_("WhatsNew", "Friends' birthday")} (#{birthday.to_s})","#{p_("WhatsNew", "Mentions")} (#{mentions.to_s})",p_("WhatsNew", "Update available (%{version})")%{'version'=>"Elten #{nv}"}],header,0,0,true)
+        @sel = ListBox.new(["#{p_("WhatsNew", "New messages")} (#{messages.to_s})","#{p_("WhatsNew", "New posts in followed threads")} (#{posts.to_s})","#{p_("WhatsNew", "New posts on the followed blogs")} (#{blogposts.to_s})","#{p_("WhatsNew", "New comments on your blog")} (#{blogcomments.to_s})","#{p_("WhatsNew", "New threads on followed forums")} (#{forums.to_s})","#{p_("WhatsNew", "New posts on followed forums")} (#{forumsposts.to_s})","#{p_("WhatsNew", "New friends")} (#{friends.to_s})","#{p_("WhatsNew", "Friends' birthday")} (#{birthday.to_s})","#{p_("WhatsNew", "Mentions")} (#{mentions.to_s})","#{p_("WhatsNew", "New comments in followed blog posts")} (#{followedblogposts.to_s})",p_("WhatsNew", "Update available (%{version})")%{'version'=>"Elten #{nv}"}],header,0,0,true)
     @sel.disable_item(0) if messages <= 0
     @sel.disable_item(1) if posts <= 0
     @sel.disable_item(2) if blogposts <= 0
@@ -54,8 +57,9 @@ else
     @sel.disable_item(6) if friends<= 0
     @sel.disable_item(7) if birthday<= 0
     @sel.disable_item(8) if mentions<= 0
-    @sel.disable_item(9) if @bid==Elten.build_id or @bid<=0
-        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and (@bid==Elten.build_id or @bid<=0)
+        @sel.disable_item(9) if followedblogposts<=0
+        @sel.disable_item(10) if @bid==Elten.build_id or @bid<=0
+        if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums<=0 and forumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and followedblogposts<=0  and (@bid==Elten.build_id or @bid<=0)
       alert(p_("WhatsNew", "There is nothing new."))
       $scene = Scene_Main.new
       return
@@ -87,7 +91,9 @@ else
                     $scene=Scene_Contacts.new(1)
                     when 8
                       $scene=Scene_Forum.new(0,-7)
-                  when 9
+                      when 9
+                        $scene = Scene_Blog_Posts.new(Session.name,"NEWFOLLOWED")
+                  when 10
                   $scene=Scene_Update_Confirmation.new
         end
         end

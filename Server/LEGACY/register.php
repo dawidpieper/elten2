@@ -7,6 +7,17 @@ use PHPMailer\PHPMailer\Exception;
 sleep(1);
 if($_GET['register'] == "1") {
 
+if(strpos($_GET['name'], ' ') !== false)
+die("-2");
+if(strpos($_GET['name'], '[') !== false)
+die("-2");
+if(strpos($_GET['name'], ']') !== false)
+die("-2");
+if(strpos($_GET['name'], ':') !== false)
+die("-2");
+if(strpos($_GET['name'], '@') !== false)
+die("-2");
+
 $q = mquery("SELECT `name` FROM `users`");
 while ($wiersz = mysql_fetch_row($q)){
 if(strtoupper($wiersz[0]) == strtoupper($_GET['name']) or ($_GET['name']=="admin" or $_GET['name']=="support" or $_GET['name']=="administrator" or $_GET['name']=="webmaster" or $_GET['name']=="postmaster" or $_GET['name']=="elten") and strpos("'",$_GET['name'])===false and strpos("<",$_GET['name'])===false and strpos("[",$_GET['name'])===false and strpos("@",$_GET['name'])===false and strpos(" ",$_GET['name'])===false and strpos("%",$_GET['name'])===false and strpos(":",$_GET['name'])===false and strpos("\"",$_GET['name'])===false)

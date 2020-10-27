@@ -1,11 +1,12 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
 module Bass
   ENV['path']+=";.\\bin"
   BassLib="bin\\bass"
-  BassencLib="bin\\bassenc"
   BassfxLib="bin\\bass_fx"
   BassmixLib="bin\\bassmix"
   BASS_GetVersion = Win32API.new(BassLib, "BASS_GetVersion", "", "I")
@@ -28,10 +29,6 @@ module Bass
   BASS_SetVolume = Win32API.new(BassLib, "BASS_SetVolume", "I", "I")
   BASS_GetVolume = Win32API.new(BassLib, "BASS_GetVolume", "", "I")
   BASS_RecordStart = Win32API.new(BassLib, "BASS_RecordStart", "IIIIII", "I")
-  BASS_Encode_Start = Win32API.new(BassencLib, "BASS_Encode_Start", "IPIPI", "I")
-  BASS_Encode_SetPaused = Win32API.new(BassencLib, "BASS_Encode_SetPaused", "II", "I")
-  BASS_Encode_Stop = Win32API.new(BassencLib, "BASS_Encode_Stop", "I", "I")
-    BASS_Encode_StopEx = Win32API.new(BassencLib, "BASS_Encode_StopEx", "II", "I")
   BASS_SampleLoad = Win32API.new(BassLib, "BASS_SampleLoad", "IPIIIII", "I")
   BASS_SampleCreate = Win32API.new(BassLib, "BASS_SampleCreate", "IIIII", "I")
   BASS_SampleFree = Win32API.new(BassLib, "BASS_SampleFree", "I", "I")
@@ -362,48 +359,6 @@ BASS_SetDevice.call(card) if card>0
       #print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}") if Win32API.new(BassLib,"BASS_ChannelSetPosition",'iil','i').call(@ch,0,flags)==0
       end
     end
-    
-    class Record
-    attr_reader :ch
-    attr_reader :encoder
-    def clb(param)
-  p param
-  end
-    def initialize(file,freq=48000,quality=nil,flags=32768)
-           p @handle = BASS_RecordStart.call(freq, 2, flags, 0, 0, 0)
-           #p @encoder = BASS_Encode_Start.call(@handle,"\"bin\\opusenc.exe\" #{if quality!=nil;"--bitrate #{quality.to_s}";else;"";end} - \"#{file}\"",262144,nil,0)
-           p @encoder = BASS_Encode_Start.call(@handle,"\"bin\\rubyw.exe\" -Cbin test.rb",262144,nil,0)
-      @ch=@handle
-      if @handle == 0 then
-        raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
-            end
-
-    def free
-      if BASS_SampleFree.call(@handle) == 0 then
-        #raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
-    end
-
-    def play
-                  if BASS_ChannelPlay.call(@ch, 0) == 0 then
-        raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
-      if BASS_Encode_SetPaused.call(@encoder, 0) == 0 then
-        raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
-      return ch
-    end
-
-    def stop
-              if BASS_Encode_StopEx.call(@encoder,1) == 0 then
-          raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
-        if BASS_ChannelStop.call(@ch) == 0 then
-          raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-        end
-    end
-  end
     
    class Sound
      attr_reader :file

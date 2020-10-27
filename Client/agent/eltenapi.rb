@@ -197,6 +197,7 @@ end
 def play(file, looper=false)
 begin
 if file[0..3]!="http"
+return if $SoundThemeActivation==0
 f=($soundthemepath||"Audio")+"\\SE\\#{file}.ogg"
 f="Audio/SE/#{file}.ogg" if FileTest.exists?(f)==false
 f="Audio/BGS/#{file}.ogg" if FileTest.exists?(f)==false

@@ -1,19 +1,22 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
-                  class Scene_Blog
+class Scene_Blog
   def initialize(index=0)
     index=0 if index==6
     @index=index
     end
   def main
-        @sel = ListBox.new([p_("Blog", "Managed blogs"),p_("Blog", "Recently updated blogs"),p_("Blog", "Frequently updated blogs"),p_("Blog", "Frequently commented blogs"),p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog")],p_("Blog", "Blogs"),@index,0,true)
+        @sel = ListBox.new([p_("Blog", "Managed blogs"),p_("Blog", "Recently updated blogs"),p_("Blog", "Frequently updated blogs"),p_("Blog", "Frequently commented blogs"),p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Followed blog posts")],p_("Blog", "Blogs"),@index,0,true)
   if Session.name=="guest"
     @sel.disable_item(0)
     @sel.index=1
     @sel.disable_item(4)
     @sel.disable_item(5)
+    @sel.disable_item(7)
     end
     @sel.focus
     loop do
@@ -54,7 +57,9 @@
             u.delete!("/")
                         r="[*"+u+"]"
           $scene = Scene_Blog_Main.new(r, 0, self, true)
-          end
+        end
+        when 7
+          $scene = Scene_Blog_Posts.new(Session.name,"FOLLOWED")
    end
    end
     end
@@ -275,6 +280,10 @@ if @post.size==0 and @id=="NEW"
   alert(p_("Blog", "No new comments on your blog."))
   $scene=Scene_WhatsNew.new
   return
+  elsif @post.size==0 and @id=="NEWFOLLOWED"
+  alert(p_("Blog", "No new comments in followed blog posts."))
+  $scene=Scene_WhatsNew.new
+  return
 end
 @sel.index=@postselindex
 @sel.focus
@@ -291,8 +300,10 @@ end
 def update
   if escape or (arrow_left and !$keyr[0x10])
     if @id!=-1
-    if @id == "NEW"    
+    if @id == "NEW" or @id == "NEWFOLLOWED"
       $scene = Scene_WhatsNew.new
+      elsif @id == "FOLLOWED"
+      $scene = Scene_Blog.new(7)
       else
     $scene = Scene_Blog_Main.new(@owner,@categoryselindex,$blogreturnscene)
   end
@@ -307,7 +318,7 @@ else
   def load_posts(page)
     id=@id
     id=0 if @id==-1
-    blogtemp = srvproc("blog_posts",{"searchname"=>@owner, "categoryid"=>id, "details"=>2, "paginate"=>1, "page"=>page})
+    blogtemp = srvproc("blog_posts",{"searchname"=>@owner, "categoryid"=>id, "details"=>3, "paginate"=>1, "page"=>page})
 err = blogtemp[0].to_i
 if err < 0
   alert(_("Error"))
@@ -336,6 +347,8 @@ l += 1
   @post.last.author=blogtemp[l].delete("\r\n")
   l+=1
   @post.last.comments=blogtemp[l].to_i
+  l+=1
+  @post.last.followed=blogtemp[l].to_b
   l+=1
 end
 $posts=@post
@@ -389,13 +402,38 @@ else
     menu.option(_("Delete"), nil, :del) {
       postdelete
     }
+  end
+  opt=""
+      if @post[@sel.index].followed==false
+    opt=p_("Blog", "Follow this post")
+  else
+    opt=p_("Blog", "Unfollow this post")
+  end
+  menu.option(opt, nil, "l") {
+  prm={'searchname'=>@post[@sel.index].owner, 'postid'=>@post[@sel.index].id}
+  if @post[@sel.index].followed==false
+    prm['add']=1    
+  else
+    prm['remove']=1    
     end
+  if srvproc("blog_fp", prm)[0].to_i==0
+        if @post[@sel.index].followed==false
+      @post[@sel.index].followed=true
+      alert(p_("Blog", "Post followed"))
+    else
+      @post[@sel.index].followed=false
+      alert(p_("Blog", "Post unfollowed"))
+      end
+  else
+    alert(_("Error"))
+  end
+  }
   menu.option(p_("Blog", "Copy post URL")) {
   Clipboard.text=@post[@sel.index].url
   alert(p_("Blog", "Post URL copied to clipboard"))
   }
   end
-if @isowner and @id != "NEW"
+if @isowner and @id != "NEW" and @id != "FOLLOWED" and @id != "NEWFOLLOWED"
   menu.option(p_("Blog", "New post"), nil, "n") {
 $scene = Scene_Blog_PostEditor.new(@owner,0,@id,@categoryselindex)
 }
@@ -756,7 +794,19 @@ if b.include?(Session.name)
   menu.option(p_("Blog", "Coworkers")) {
   blogcoworkers
   }
-  menu.option(p_("Blog", "Recategorize")) {
+    if b[0]!=Session.name && b!=Session.name
+    menu.option(p_("Blog", "Leave")) {
+    confirm(p_("Blog", "Are you sure you want to stop co-creating this blog?")) {
+    if srvproc("blog_coworkers", {'searchname'=>@blogs[@sel.index].id, 'ac'=>'leave'})[0].to_i==0
+    alert(p_("Blog", "Blog left"))
+  else
+    alert(_("Error"))
+  end
+  $scene=Scene_Blog_List.new(@type, @scene)
+    }
+    }
+    end
+      menu.option(p_("Blog", "Recategorize")) {
   $bloglistindex = @sel.index
   $scene = Scene_Blog_Recategorize.new(@blogs[@sel.index].id,$scene)
   }
@@ -1340,6 +1390,7 @@ class Struct_Blog_Post
   attr_accessor :date
   attr_accessor :url
   attr_accessor :comments
+  attr_accessor :followed
   def initialize(id=0)
     @id=id
     @audio=false
@@ -1351,6 +1402,7 @@ class Struct_Blog_Post
     @date=0
     @url=""
     @comments=0
+    @followed=false
   end
 end
 

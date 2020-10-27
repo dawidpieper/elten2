@@ -55,7 +55,7 @@ include Notifications
 @@mutex = Mutex.new
 def add(uid, receiver, text, sound, cat, filter=nil)
 if filter!=nil && $config.is_a?(Hash)
-$config[receiver] = {'messages'=>0, 'followedthreads'=>0, 'followedblogs'=>0, 'blogcomments'=>0, 'followedforums'=>0, 'followedforumthreads'=>2, 'friends'=>0, 'birthday'=>0, 'mentions'=>0} if $config[receiver]==nil
+$config[receiver] = {'messages'=>0, 'followedthreads'=>0, 'followedblogs'=>0, 'blogcomments'=>0, 'followedforums'=>0, 'followedforumthreads'=>2, 'friends'=>0, 'birthday'=>0, 'mentions'=>0, 'followedblogposts'=>0} if $config[receiver]==nil
 return if ($config[receiver][filter]||0).to_i>1
 end
 @@mutex.synchronize {
@@ -134,10 +134,10 @@ url: "https://api.development.push.apple.com:443"
 $lasttime=[0]+[Time.now.to_i]*10
 iter=0
 loop do
-t=Time.now.to_f
+tms=Time.now.to_f
 if iter%5==0
 $config={}
-q=mquery("select owner,messages,followedthreads,followedblogs,blogcomments,followedforums,followedforumsthreads,friends,birthday,mentions from whatsnew_config")
+q=mquery("select owner,messages,followedthreads,followedblogs,blogcomments,followedforums,followedforumsthreads,friends,birthday,mentions,followedblogposts from whatsnew_config")
 for e in q.entries
 $config[e['owner']]=e.dup
 end
@@ -183,7 +183,7 @@ end
 end
 if iter%5==0
 threads.push(Thread.new {
-q=mquery("select t.lastpostdate, t.id, t.name, f.owner, if(t.creationdate=t.lastpostdate, 1, 0) as firstpost from followedforums f join forum_threads t on t.forum=f.forum inner join (select thread, count(thread) as cnt from forum_posts group by thread) s on s.thread=t.id left join forum_read r on r.owner=f.owner and r.thread=f.id where (s.cnt>r.posts or r.posts is null) and t.lastpostdate>=#{$lasttime[5]}")
+q=mquery("select t.lastpostdate, t.id, t.name, f.owner, if(t.creationdate=t.lastpostdate, 1, 0) as firstpost from followedforums f join forum_threads t on t.forum=f.forum inner join (select thread, count(thread) as cnt from forum_posts group by thread) s on s.thread=t.id left join forum_read r on r.owner=f.owner and r.thread=t.id where (s.cnt>r.posts or r.posts is null) and t.lastpostdate>=#{$lasttime[5]}")
 for e in q.entries
 if e['firstpost'].to_i==0
 Notifications.add("#ffp_{e['id']}_#{e['lastpostdate']}", e['owner'], e['name'], "notification_followedforumpost", "followedforumpost", "followedforumsthreads")
@@ -213,11 +213,12 @@ blogs={}
 mappings = {}
 pread={}
 followers = {}
+pfollowers={}
 t1=Thread.new {
-allposts = JSON.load(Net::HTTP.get(URI.parse("https://eltenblog.net/wp-json/elten/allposts?column=all")))
+allposts = JSON.load(Net::HTTP.get(URI.parse("https://elten.blog/wp-json/elten/allposts?column=all")))
 }
 t2 = Thread.new {
-blogs = JSON.load(Net::HTTP.get(URI.parse("https://eltenblog.net/wp-json/elten/blogs")))
+blogs = JSON.load(Net::HTTP.get(URI.parse("https://elten.blog/wp-json/elten/blogs")))
 }
 t3 = Thread.new {
 q=mquery("select blog, domain from blogs_mapping")
@@ -235,9 +236,9 @@ d=mappings[b]
 else
 d=I18n.transliterate(b).downcase.delete(" ").delete(".")
 if d[0..0]=="["
-d=d[1...-1]+".s.eltenblog.net"
+d=d[1...-1]+".s.elten.blog"
 else
-d=d+".eltenblog.net"
+d=d+".elten.blog"
 end
 mappings[b]=d
 end
@@ -255,10 +256,22 @@ followers[b]=[] if followers[b]==nil
 followers[b].push(o)
 end
 }
+t5 = Thread.new {
+q=mquery("select owner, blog, postid from blogs_postsfollowed")
+for e in q.entries
+b=e['blog']
+o=e['owner']
+t=e['postid']
+pfollowers[b]={} if pfollowers[b]==nil
+pfollowers[b][t]=[] if pfollowers[b][t]==nil
+pfollowers[b][t].push(o)
+end
+}
 t1.join
 t2.join
 t3.join
 t4.join
+t5.join
 threads.push(Thread.new {
 for f in followers.keys
 d=mappings[f]
@@ -291,15 +304,33 @@ end
 end
 end
 })
+threads.push(Thread.new {
+for b in pfollowers.keys
+d=mappings[b]
+for t in pfollowers[b].keys
+for u in pfollowers[b][t]
+next if pread[u]==nil || pread[u][d]==nil || !allposts[d].is_a?(Hash)
+for ps in allposts[d].keys
+next if allposts[d][ps]['commenttime'].to_i<$lasttime[10]
+cs=(pread[u][d][ps.to_i]||1)-1
+cc=allposts[d][ps]['cnt_comments'].to_i
+if cs<cc
+Notifications.add("fbp_#{d}_#{ps}_#{cc}", u, allposts[d][ps]['title'], "notification_followedblogpost", "followedblogpost", "followedblogposts")
+end
+end
+end
+end
+end
+})
 end
 threads.each{|h|h.join}
 for i in 1..10
 if iter%i==0
-$lasttime[i]=t.to_i
+$lasttime[i]=tms.to_i
 end
 end
 Notifications.send
-p Time.now.to_f-t
+p Time.now.to_f-tms
 iter+=1
 sleep(1)
 end

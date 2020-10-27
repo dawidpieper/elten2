@@ -1,7 +1,3 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
 class String
 
   # To get a byte range out of a possible multibyte string, force encoding to 

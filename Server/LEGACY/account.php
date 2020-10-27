@@ -59,7 +59,8 @@ $maps = array(
 'wn_followedforumsthreads' => array('followedforumsthreads', 1),
 'wn_friends' => array('friends', 1),
 'wn_birthday' => array('birthday', 1),
-'wn_mentions' => array('mentions', 1)
+'wn_mentions' => array('mentions', 1),
+'wn_followedblogposts' => array('followedblogposts', 1)
 )
 );
 if($_GET['ac']=="get") {

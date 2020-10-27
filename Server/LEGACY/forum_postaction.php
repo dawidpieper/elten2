@@ -17,4 +17,11 @@ echo "0\r\n".mysql_num_rows($q);
 while($r=mysql_fetch_row($q))
 echo "\r\n".$r[0];
 }
+if($_GET['ac']=="getorig") {
+$r=mysql_fetch_row(mquery("select id, public from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$_GET['threadid']."))"));
+$groupid=$r[0];
+if($r[1]==0 and ($_GET['name']=="guest"||(mysql_num_rows(mquery("select user from forum_groups_members where user='".$_GET['name']."' and groupid=".$groupid))==0))) die("-3");
+$q=mquery("select origpost from forum_posts where thread=".(int)$_GET['threadid']." and id=".(int)$_GET['postid']);
+echo "0\r\n".mysql_fetch_row($q)[0];
+}
 ?>

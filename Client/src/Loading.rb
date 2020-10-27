@@ -1,8 +1,10 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
-        class Scene_Loading
+class Scene_Loading
   def initialize(skiplogin=false)
     @skiplogin=skiplogin
     end
@@ -243,7 +245,7 @@ begin
         break
   end
   }
-v=28
+v=29
 if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", '', 'i').call==0 && (!NVDA.check || NVDA.getversion!=v)
   if !NVDA.check
   str=p_("Loading", "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?")
@@ -327,7 +329,7 @@ license
                               nb=rand(5)+1
                 finfo="Drodzy Eltenowicze!
 Ten projekt nie może istnieć bez waszego wsparcia, także materialnego. Dlatego zwracamy się z uprzejmą prośbą o pomoc w opłaceniu serwera na rok 2021.
-Wymagana kwota to 5000zł, na dzień 16 września zebraliśmy zaś dokładnie 3286,86zł. Bardzo dziękujemy wszystkim wspierającym, to jednak wciąż tylko około połowy kosztów.
+Wymagana kwota to 5000zł, na dzień 16 października zebraliśmy zaś dokładnie 4700,00zł. Bardzo dziękujemy wszystkim wspierającym, to jednak wciąż tylko około połowy kosztów.
 Także chcielibyśmy powołać fundację, organ, który będzie mógł przejąć Eltena pod swoje skrzydła, starać się w jego imieniu o dofinansowanie ze środków PFRON i reprezentować interesy społeczności na zewnątrz. Powołanie takiej instytucji nie jest jednak darmowe. Idealnie byłoby jednocześnie powołać fundację i z funduszu założycielskiego opłacić serwer, co pozwoliłoby na minimalizację kosztów. Byłoby to jednak możliwe tylko wtedy, gdybyśmy do okolic końca sierpnia zebrali niezbędną kwotę.
 Dlatego raz jeszcze prosimy wszystkich użytkowników o wsparcie, za które z góry bardzo dziękujemy.
 Poniżej podaję dane do przelewu. Jednocześnie zapraszam do śledzenia statusu zbiórki na forum \"Elten Network\"  (grupa \"Rozwój Eltena\") w wątku \"Zbiórka na Eltena na rok 2021\".
@@ -351,7 +353,7 @@ label="Informacja"
 if Configuration.language[0..1].downcase!='pl'
   finfo="Dear Users!
 This project cannot exist without your support, including financial one. Therefore, we kindly ask you to help us to pay for the server for 2021.
-The required amount is 5000 PLN (about 1150 eur), and as of August 15th we have collected exactly 3286,86 PLN (about 738 eur). Thank you very much for all your support, but it is still only about a half of the cost.
+The required amount is 5000 PLN (about 1150 eur), and as of October 16th we have collected exactly 4700,00 PLN (about 1080 eur). Thank you very much for all your support, but it is still only about a half of the cost.
 We would also like to establish a foundation, an institution that will be able to manage Elten, apply for funding from Polish Government and represent the interests of the community. However, the establishment of such an institution is not free of charge. It would be ideal to establish a foundation at the same time and pay for the server from the founding fund, which would minimize costs. However, this would be possible only if we collected the necessary amount by the end of August.
 Therefore, we ask all users to support this program, for which we thank you very much in advance.
 Below you will find the information needed to perform the international transfer. At the same time, I invite you to follow the status of the collection on the forum \"Elten Network\". (group \"Elten Development\") in the thread \"Financing for 2021\".
@@ -412,6 +414,10 @@ end
       end
       Programs.load_all
       QuickActions.load_actions
+      if Configuration.registeractivity==-1
+  Configuration.registeractivity = confirm(p_("EAPI_EltenAPI", "Do you want to send reports on how Elten is used? This data does not contain any confidential information and is very helpful in program development. This selection can be changed at any time from the Settings.")).to_i
+  writeconfig("Privacy", "RegisterActivity", Configuration.registeractivity)
+  end
         autologin = readconfig("Login", "AutoLogin", 0)
         if autologin.to_i > 0 and $offline!=true and @skiplogin==false
           Log.info("Processing with autologin")

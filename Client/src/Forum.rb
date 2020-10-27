@@ -1,15 +1,18 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
-    class Scene_Forum
-  def initialize(pre = nil, preparam = nil, cat = 0, query = "")
+class Scene_Forum
+  def initialize(pre = nil, preparam = nil, cat = 0, query = "", tc=nil)
     @pre = pre
     @preparam = preparam
     @lastlist = @cat = cat
     @query = query
     @grpindex ||= []
     @close=false
+    @tc=tc
   end
   
   def main
@@ -206,7 +209,7 @@ break
         groupsallcnt += 1 if (g.open || g.public) && g.forums>0
         groupsmoderatedcnt += 1 if g.role == 2
       }
-      grpselt = [[np_("Forum", "Followed thread", "Followed threads", ft), nil, ft.to_s, fp.to_s, (fp - fr).to_s], [np_("Forum", "Followed forum", "Followed forums", forfol.size), forfol.size.to_s, flt.to_s, flp.to_s, (flp - flr).to_s],[np_("Forum", "Marked thread", "Marked threads", fmt), nil, fmt.to_s, fmp.to_s, (fmp - fmr).to_s]] + grpselt + [[p_("Forum", "Recently active groups")], [p_("Forum", "Recommended groups (%{count})")%{'count'=>groupsrecommendedcnt.to_s}], [p_("Forum", "Open groups (%{count})")%{'count'=>groupsopencnt.to_s}], [np_("Forum", "Waiting invitation", "Waiting invitations (%{count})", groupsinvitedcnt)%{'count'=>groupsinvitedcnt.to_s}], [np_("Forum", "Moderated group", "Moderated groups (%{count})", groupsmoderatedcnt)%{'count'=>groupsmoderatedcnt.to_s}], [p_("Forum", "All groups (%{count})")%{'count'=>groupsallcnt.to_s}], [p_("Forum", "Recently created groups")], [p_("Forum", "Groups popular with my friends")], [p_("Forum", "Threads popular with my friends")], [p_("Forum", "My threads")], [p_("Forum", "Search")]]
+      grpselt = [[np_("Forum", "Followed thread", "Followed threads", ft), nil, ft.to_s, fp.to_s, (fp - fr).to_s], [np_("Forum", "Followed forum", "Followed forums", forfol.size), forfol.size.to_s, flt.to_s, flp.to_s, (flp - flr).to_s],[np_("Forum", "Marked thread", "Marked threads", fmt), nil, fmt.to_s, fmp.to_s, (fmp - fmr).to_s]] + grpselt + [[p_("Forum", "Recently active groups")], [p_("Forum", "Recommended groups (%{count})")%{'count'=>groupsrecommendedcnt.to_s}], [p_("Forum", "Open groups (%{count})")%{'count'=>groupsopencnt.to_s}], [np_("Forum", "Waiting invitation", "Waiting invitations (%{count})", groupsinvitedcnt)%{'count'=>groupsinvitedcnt.to_s}], [np_("Forum", "Moderated group", "Moderated groups (%{count})", groupsmoderatedcnt)%{'count'=>groupsmoderatedcnt.to_s}], [p_("Forum", "All groups (%{count})")%{'count'=>groupsallcnt.to_s}], [p_("Forum", "Recently created groups")], [p_("Forum", "Groups popular with my friends")], [p_("Forum", "Threads popular with my friends")], [p_("Forum", "Received mentions")], [p_("Forum", "My threads")], [p_("Forum", "Search")]]
       grpselt[0] = [nil] if ft==0
       grpselt[1] = [nil] if forfol.size==0
       grpselt[2] = [nil] if fmt==0
@@ -429,8 +432,10 @@ return result
     elsif index == @grpheadindex + @sgroups.size + 8
       return threadsmain(-8)
     elsif index == @grpheadindex + @sgroups.size + 9
+      return threadsmain(-11)
+      elsif index == @grpheadindex + @sgroups.size + 10
       return threadsmain(-9)
-    elsif index == @grpheadindex + @sgroups.size + 10
+    elsif index == @grpheadindex + @sgroups.size + 11
       @query = input_text(p_("Forum", "Enter a phrase to look for"), 0,"",true)
       loop_update
       if @query != nil
@@ -439,6 +444,7 @@ return result
       end
     else
       g = @sgroups[index - @grpheadindex]
+      groupmotddlg(g, false) if g.hasnewmotd
       if g.role == 1 or g.role == 2 or g.public
         if $keyr[0x10]
           @query = g
@@ -506,33 +512,19 @@ return result
         loop_update
       }
       if @sgroups[@grpsel.index - @grpheadindex].hasregulations or @sgroups[@grpsel.index - @grpheadindex].role==2
-        s=p_("Forum", "Group regulations")
+                s=p_("Forum", "Group regulations")
         s=p_("Forum", "Edit group regulations") if @sgroups[@grpsel.index - @grpheadindex].role==2
-      menu.option(s) {
-regs = groupregulations(@sgroups[@grpsel.index - @grpheadindex])
-      fields=[
-            EditBox.new((p_("Forum", "Regulations of group %{groupname}")%{'groupname'=>@sgroups[@grpsel.index - @grpheadindex].name}), ((@sgroups[@grpsel.index - @grpheadindex].role==2)?(EditBox::Flags::MultiLine):(EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly)), regs),
-            Button.new(_("Save")),
-            Button.new(_("Cancel"))
-            ]
-            fields[1]=nil if @sgroups[@grpsel.index - @grpheadindex].role!=2
-            form=Form.new(fields)
-            loop do
-              loop_update
-              form.update
-              break if escape or form.fields[2].pressed?
-              if form.fields[1]!=nil && form.fields[1].pressed?
-                buf=buffer(form.fields[0].text)
-                if srvproc("forum_groups", {'ac'=>"editregulations", 'groupid'=>@sgroups[@grpsel.index - @grpheadindex].id, 'buf'=>buf})[0].to_i==0
-                  alert(p_("Forum", "Regulations updated"))
-                                  break
-                else
-                  alert(_("Error"))
-                end
-                end
+              menu.option(s) {
+              groupregulationsdlg(@sgroups[@grpsel.index - @grpheadindex])
+              }
+            end
+            if @sgroups[@grpsel.index - @grpheadindex].hasmotd or @sgroups[@grpsel.index - @grpheadindex].role==2
+                s=p_("Forum", "Message of the day")
+        s=p_("Forum", "Edit message of the day") if @sgroups[@grpsel.index - @grpheadindex].role==2
+              menu.option(s, nil, "g") {
+              groupmotddlg(@sgroups[@grpsel.index - @grpheadindex])
+              }
               end
-      }
-      end
       menu.option(p_("Forum", "Group members"), nil, "m") {
         groupmembers(@sgroups[@grpsel.index - @grpheadindex])
       }
@@ -614,15 +606,15 @@ regs = groupregulations(@sgroups[@grpsel.index - @grpheadindex])
         }
       end
             menu.option(p_("Forum", "Mark this group as read"), nil, "w") {
-        if @sgroups[@grpsel.index].posts - @sgroups[@grpsel.index].readposts < 100 or confirm(p_("Forum", "All posts in this group will be marked as read. Are you sure you want to continue?")) == 1
-          if srvproc("forum_markasread", { "groupid" => @sgroups[@grpsel.index].id })[0].to_i == 0
+                    if @sgroups[@grpsel.index-@grpheadindex].posts - @sgroups[@grpsel.index-@grpheadindex].readposts < 100 or confirm(p_("Forum", "All posts in this group will be marked as read. Are you sure you want to continue?")) == 1
+          if srvproc("forum_markasread", { "groupid" => @sgroups[@grpsel.index-@grpheadindex].id })[0].to_i == 0
             for t in @threads
               t.readposts = t.posts if t.forum.group.id == @sgroups[@grpsel.index].id
             end
             for f in @forums
               f.readposts=f.posts if f.group.id==@sgroups[@grpsel.index].id
               end
-            @sgroups[@grpsel.index].readposts = @sgroups[@grpsel.index].posts
+            @sgroups[@grpsel.index-@grpheadindex].readposts = @sgroups[@grpsel.index-@grpheadindex].posts
             @grpsel.rows[@grpsel.index][-1]="0"
             alert(p_("Forum", "The group has been marked as read."))
           else
@@ -703,7 +695,67 @@ regs = groupregulations(@sgroups[@grpsel.index - @grpheadindex])
       groupsmain
     }
   end
+  
+  def groupmotd(group)
+          g=srvproc("forum_groups", {'ac'=>"motd", 'groupid'=>group.id})
+      if g[0].to_i==0
+        group.hasnewmotd=false
+      return g[1..-1].join("\n")
+else
+return ""
+end
+    end
+def groupmotddlg(group, editable=true)
+motd = groupmotd(group)
+      fields=[
+            EditBox.new((p_("Forum", "Message of the day of group %{groupname}")%{'groupname'=>group.name}), ((group.role==2)?(EditBox::Flags::MultiLine):(EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly)), motd),
+            Button.new(_("Save")),
+            Button.new(_("Cancel"))
+            ]
+            fields[1]=nil if group.role!=2 or editable==false
+            form=Form.new(fields)
+            loop do
+              loop_update
+              form.update
+              break if escape or form.fields[2].pressed?
+              if form.fields[1]!=nil && form.fields[1].pressed?
+                buf=buffer(form.fields[0].text)
+                if srvproc("forum_groups", {'ac'=>"editmotd", 'groupid'=>group.id, 'buf'=>buf})[0].to_i==0
+group.hasnewmotd=true
+                  alert(p_("Forum", "Message of the day updated"))
+                                  break
+                else
+                  alert(_("Error"))
+                end
+                end
+              end
+end
 
+  def groupregulationsdlg(group)
+    regs = groupregulations(group)
+      fields=[
+            EditBox.new((p_("Forum", "Regulations of group %{groupname}")%{'groupname'=>group.name}), ((group.role==2)?(EditBox::Flags::MultiLine):(EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly)), regs),
+            Button.new(_("Save")),
+            Button.new(_("Cancel"))
+            ]
+            fields[1]=nil if group.role!=2
+            form=Form.new(fields)
+            loop do
+              loop_update
+              form.update
+              break if escape or form.fields[2].pressed?
+              if form.fields[1]!=nil && form.fields[1].pressed?
+                buf=buffer(form.fields[0].text)
+                if srvproc("forum_groups", {'ac'=>"editregulations", 'groupid'=>group.id, 'buf'=>buf})[0].to_i==0
+                  alert(p_("Forum", "Regulations updated"))
+                                  break
+                else
+                  alert(_("Error"))
+                end
+                end
+              end
+    end
+  
   def groupmembers(group)
     m = srvproc("forum_groups", { "ac" => "members", "groupid" => group.id.to_s })
     if m[0].to_i < 0
@@ -1328,7 +1380,7 @@ return tags
     end
     @sthreads = []
     if id == -7
-      mnt = srvproc("mentions", { "list" => "1" })
+      mnt = srvproc("mentions", { "list" =>1, 'details'=>1})
       @mentions = []
       if mnt[0].to_i == 0
         t = 0
@@ -1348,6 +1400,9 @@ return tags
             t += 1
           when 4
             @mentions.last.message = m.delete("\r\n")
+            t+=1
+            when 5
+              @mentions.last.time = Time.at(m.to_i)
             t = 0
           end
         end
@@ -1362,8 +1417,45 @@ return tags
         end
       end
     end
+    @sthreads = []
+    if id == -11
+      mnt = srvproc("mentions", { "list" => 2, 'details'=>1})
+      @mentions = []
+      if mnt[0].to_i == 0
+        t = 0
+        for m in mnt[1..mnt.size - 1]
+          case t
+          when 0
+            @mentions.push(Struct_Forum_Mention.new(m.to_i))
+            t += 1
+          when 1
+            @mentions.last.author = m.delete("\r\n")
+            t += 1
+          when 2
+            @mentions.last.thread = m.to_i
+            t += 1
+          when 3
+            @mentions.last.post = m.to_i
+            t += 1
+          when 4
+            @mentions.last.message = m.delete("\r\n")
+            t+=1
+            when 5
+              @mentions.last.time = Time.at(m.to_i)
+              t=0
+          end
+        end
+      end
+    end
     for t in @threads
       case id
+            when -11
+        for mention in @mentions
+          if t.id == mention.thread
+            t.mention = mention
+            @sthreads.push(t.clone)
+          end
+        end
               when -10
         @sthreads.push(t) if t.marked == true
       when -9
@@ -1374,7 +1466,7 @@ return tags
         for mention in @mentions
           if t.id == mention.thread
             t.mention = mention
-            @sthreads.push(t)
+            @sthreads.push(t.clone)
           end
         end
       when -6
@@ -1416,6 +1508,9 @@ return tags
     if id == -8
       @sthreads.sort! { |a, b| @popular.index(a.id) <=> @popular.index(b.id) }
     end
+    if id == -7 or id==-11
+      @sthreads.sort! { |a, b| b.mention.time<=>a.mention.time }
+    end
     if id == -2 and @sthreads.size == 0
       alert(p_("Forum", "No new posts in followed threads"))
       return $scene = Scene_WhatsNew.new
@@ -1436,13 +1531,17 @@ return tags
     thrselt = []
     for i in 0..@sthreads.size - 1
       thread = @sthreads[i]
-      index = i if thread.id == @pre
-      tmp = [thread.name]
+      if id!=-11
+        index = i if thread.id == @pre
+      else
+        index = i if @tc!=nil && thread.mention.id == @tc.mention.id
+        end
+            tmp = [thread.name]
       tmp[0] += "\004INFNEW{#{p_("Forum", "New")}: }\004" if thread.readposts < thread.posts and (id != -2 and id != -4 and id != -6 and id != -7)
       tmp[0] += "\004CLOSED\004" if thread.closed
       tmp[0] += "\004PINNED\004" if thread.pinned
-      if id == -7
-        tmp[0] += " . #{p_("Forum", "Montioned by")}: #{thread.mention.author} (#{thread.mention.message})"
+      if id == -7 or id==-11
+        tmp[0] += " . #{p_("Forum", "Mentioned by")}: #{thread.mention.author} (#{thread.mention.message})"
       end
       if id == -3 or id == -6 or id == -7
         tmp[0] += " (#{thread.forum.fullname}, #{thread.forum.group.name})"
@@ -1486,7 +1585,7 @@ threadopen(@thrsel.index)
             if @group == -5
           $scene = Scene_Forum_Thread.new(@sthreads[index], -5, @cat, @query)
         else
-          if @forum == -7
+          if @forum == -7 or @forum==-11
             $scene = Scene_Forum_Thread.new(@sthreads[index], @forum, @cat, @query, @sthreads[@thrsel.index].mention)
           else
             $scene = Scene_Forum_Thread.new(@sthreads[index], @forum, @cat, @query)
@@ -1656,8 +1755,95 @@ threadopen(@thrsel.index)
             @thrsel.setcolumn(0)
           end
         }
+        if @sthreads[@thrsel.index].offered==0
+        m.option(p_("Forum", "Offer this thread to another group")) {
+        users=[]
+m = srvproc("forum_groups", { "ac" => "members", "groupid" => @sthreads[@thrsel.index].forum.group.id.to_s })
+if m[0].to_i==0
+for i in 0...m[1].to_i
+users.push(m[2 + i * 2].delete("\r\n"))
+end
+end
+        dgroups=[]
+        for g in @groups
+          dgroups.push(g) if g.role>0 and users.include?(g.founder) and g.id!=@sthreads[@thrsel.index].forum.group.id
+          end
+        dests=dgroups.map{|g|g.name+" - "+p_("Forum", "Group founded by %{founder}")%{'founder'=>g.founder}}
+        ind=selector(dests, p_("Forum", "Which group you want to offer this thread to?"), 0, -1)
+        if ind>=0
+        dest=dgroups[ind]
+        e=srvproc("forum_mod", {'offer'=>1, 'threadid'=>@sthreads[@thrsel.index].id, 'destination'=>dest.id})
+        if e[0].to_i<0
+          alert(_("Error"))
+        else
+          alert(p_("Forum", "The offer has been created"))
+          @sthreads[@thrsel.index].offered=dest.id
+          end
+        end
+        @thrsel.focus
+        }
+      else
+        m.option(p_("Forum", "Withdraw the offer of this thread")) {
+                e=srvproc("forum_mod", {'offer'=>1, 'threadid'=>@sthreads[@thrsel.index].id, 'destination'=>0})
+        if e[0].to_i<0
+          alert(_("Error"))
+        else
+          alert(p_("Forum", "The offer has been withdrawn."))
+          @sthreads[@thrsel.index].offered=0
+          end
+        @thrsel.focus
+        }
+        end
         }
       end
+      if @sthreads[@thrsel.index].offered>0
+        gr=nil
+        suc=false
+        for g in @groups
+          if g.id==@sthreads[@thrsel.index].offered and g.role==2
+          suc=true
+          gr=g
+          end
+        end
+        if suc
+          menu.submenu(p_("Forum", "Thread transfer offer to group %{groupname}")%{'groupname'=>gr.name}) {|m|
+          m.option(p_("Forum", "Accept this offer")) {
+            forums=[]
+            for f in @forums
+              forums.push(f) if f.group.id==gr.id
+            end
+            if forums.size>0
+              ind=selector(forums.map{|f|f.fullname}, p_("Forum", "Select destination forum"), 0, -1)
+              if ind>=0
+                dest=forums[ind]
+e=srvproc("forum_mod", {'offeraccept'=>1, 'threadid'=>@sthreads[@thrsel.index].id, 'destination'=>dest.name})
+if e[0].to_i<0
+  alert(_("Error"))
+else
+  @sthreads[@thrsel.index].offered=0
+  @sthreads[@thrsel.index].forum=dest
+  alert(p_("Forum", "Offer accepted"))
+  end
+                end
+              end
+              @sthreads.delete_at(@thrsel.index)
+              @thrsel.rows.delete_at(@thrsel.index)
+              @thrsel.reload
+              @thrsel.focus
+          }
+          m.option(p_("Forum", "Refuse this offer")) {
+          f=srvproc("forum_mod", {'offerrefuse'=>1, 'threadid'=>@sthreads[@thrsel.index].id})
+          if f[0].to_i<0
+            alert(_("Error"))
+          else
+            alert(p_("Forum", "Offer refused"))
+            @sthreads[@thrsel.index].offered=0
+          end
+          @thrsel.focus
+          }
+          }
+          end
+        end
     end
     menu.option(_("Refresh"), nil, "r") {
       @pre = @sthreads[@thrsel.index].id
@@ -1962,6 +2148,10 @@ waiting
           @@groups.last.created = line.to_i
           when 13
             @@groups.last.hasregulations= line.to_b
+            when 14
+              @@groups.last.hasmotd = line.to_b
+              when 15
+                @@groups.last.hasnewmotd = line.to_b
         end
       end
     end
@@ -2026,6 +2216,8 @@ waiting
           @@threads.last.marked = true if (line.to_i&8) > 0
           when 7
             @@threads.last.lastupdate=line.to_i
+            when 8
+              @@threads.last.offered=line.to_i
         end
       end
     end
@@ -2113,7 +2305,7 @@ return $scene=Scene_Main.new if @form==nil
           if r==true
         speech_stop
         if @scene==nil
-        $scene = Scene_Forum.new(@thread, @param, @cat, @query)
+        $scene = Scene_Forum.new(@thread, @param, @cat, @query, @threadclass)
       else
         $scene=@scene
         end
@@ -2230,12 +2422,12 @@ loop do
     for i in 0...@posts.size
       post = @posts[i]
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(String) and post.post.downcase.include?(@query.downcase)
-      index = i * 3 if @mention != nil and @param == -7 and post.id == @mention.post
+      index = i * 3 if @mention != nil and (@param == -7 or @param == -11) and post.id == @mention.post
       add=""
       if post.edited
         add="\r\n"+p_("Forum", "This post has been edited")
         end
-      @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly, post.post + post.signature + post.date + add + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s, true), nil, nil]
+      @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly, post.post + ((LocalConfig["ForumHideSignatures"]==1)?(""):(post.signature)) + post.date + add + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s, true), nil, nil]
       @fields[-1] = ListBox.new(name_attachments(post.attachments), p_("Forum", "Attachments"), 0, 0, true) if post.attachments.size > 0
       if post.polls.size > 0
         names = []
@@ -2357,6 +2549,18 @@ loop do
     if @form.index < @postscount * 3
       menu.useroption(@posts[@form.index / 3].authorname)
     end
+    if @threadclass.mention!=nil
+      menu.submenu(p_("Forum", "Received mention")) {|m|
+      m.option(p_("Forum", "Show mention"), nil, "o") {
+      input_text(p_("Forum", "Mention by %{user}")%{'user'=>@threadclass.mention.author}, EditBox::Flags::ReadOnly, @threadclass.mention.message, true)
+      }
+      m.option(p_("Forum", "Send reply to mentioner")) {
+      to=@threadclass.mention.author
+      subj="RE: "+@threadclass.mention.message.to_s+" ("+@threadclass.name+")"
+      insert_scene(Scene_Messages_New.new(to, subj, "", Scene_Main.new))
+      }
+      }
+      end
     if @form.index < @postscount * 3 and !@threadclass.closed
       menu.submenu(p_("Forum", "Reply")) { |m|
         m.option(p_("Forum", "Reply"), nil, "n") {
@@ -2564,7 +2768,17 @@ end
         end
       }
     end
-    end
+  end
+  s=p_("Forum", "Hide signatures")
+  s=p_("Forum", "Show signatures") if LocalConfig["ForumHideSignatures"]==1
+  menu.option(s) {
+  if LocalConfig["ForumHideSignatures"]==0
+  LocalConfig["ForumHideSignatures"]=1
+else
+  LocalConfig["ForumHideSignatures"]=0
+end
+refresh
+  }
     s = p_("Forum", "Add to followed threads list")
     s = p_("Forum", "Unfollow this thread") if @followed == true
     menu.option(s, nil, "l") {
@@ -2891,6 +3105,8 @@ class Struct_Forum_Group
   attr_accessor :acmembers
   attr_accessor :created
   attr_accessor :hasregulations
+  attr_accessor :hasmotd
+  attr_accessor :hasnewmotd
 
   def initialize(id = 0)
     @id = id
@@ -2908,6 +3124,8 @@ class Struct_Forum_Group
     @acmembers = 0
     @created = 0
     @hasregulations=0
+    @hasmotd=false
+    @hasnewmotd=false
   end
 end
 
@@ -2958,6 +3176,7 @@ class Struct_Forum_Thread
   attr_accessor :pinned
   attr_accessor :closed
 attr_accessor :marked
+attr_accessor :offered
 
   def initialize(id = 0, name = "")
     @id = id
@@ -2971,6 +3190,7 @@ attr_accessor :marked
     @pinned = false
     @closed = false
     @marked=false
+    @offered=0
   end
 end
 
@@ -3006,6 +3226,7 @@ class Struct_Forum_Mention
   attr_accessor :thread
   attr_accessor :post
   attr_accessor :message
+  attr_accessor :time
 
   def initialize(id = 0)
     @id = id
@@ -3013,6 +3234,7 @@ class Struct_Forum_Mention
     @post = 0
     @message = 0
     @author = ""
+    @time=Time.at(0)
   end
 end
 

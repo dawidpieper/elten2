@@ -1,7 +1,3 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
 =begin
 = Win32 Registry I/F
 win32/registry is registry accessor library for Win32 platform.

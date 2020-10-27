@@ -1,7 +1,3 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
 #frozen_string_literal: false
 # frozen_string_literal: false
 module JSON

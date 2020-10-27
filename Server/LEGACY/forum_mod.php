@@ -56,6 +56,10 @@ if($post == "") {
 die("-1");
 }
 mquery("UPDATE `forum_posts` SET `post`='".mysql_real_escape_string($post)."' WHERE `thread`=".(int)$_GET['threadid']." AND `id`='".(int)$_GET['postid']."'");
+if(isset($_GET['bufatt'])) {
+$atts=buffer_get($_GET['bufatt']);
+mquery("UPDATE `forum_posts` SET `attachments`='".mysql_real_escape_string($atts)."' WHERE `thread`=".(int)$_GET['threadid']." AND `id`='".(int)$_GET['postid']."'");
+}
 }
 if($_GET['move'] == 1) {
 $gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$_GET['threadid']."))"));
@@ -158,6 +162,59 @@ $role=mysql_fetch_row($grm)[1];
 if($role!=2 and !($moderator==1 and $gr[1]==1))
 die("-3");
 mquery("update `forum_threads` set pinned=".(int)$_GET['pin']." WHERE `id`=" . ((int) $_GET['threadid']));
+}
+
+if($_GET['offer'] == 1) {
+$gr=mysql_fetch_row(mquery("select id,recommended,founder,name from forum_groups where id in (select groupid from forums where name in (select forum from forum_threads where id=".(int)$_GET['threadid']."))"));
+$gname=$gr[3];
+$grm=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$gr[0]);
+if(mysql_num_rows($grm)>0)
+$role=mysql_fetch_row($grm)[1];
+if($role!=2 and !($moderator==1 and $gr[1]==1))
+die("-3");
+if($_GET['destination']>0) {
+$dgr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id=".(int)$_GET['destination']));
+$dgrm=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$dgr[0]);
+if(mysql_num_rows($dgrm)==0) die("-3");
+}
+$th = mysql_fetch_row(mquery("select offered, name from forum_threads where id=".(int)$_GET['threadid']));
+$pof = $th[0];
+$thname=$th[1];
+if($pof>0) {
+$q=mquery("select user from forum_groups_members where groupid=".(int)$pof." and role=2");
+$pgn = mysql_fetch_row(mquery("select name from forum_groups where id=".(int)$pof))[0];
+while($r=mysql_fetch_row($q))
+message_send("elten", $r[0], "The offer to transfer the thread to group ".$pgn." has been withdrawn", "Group ".$gname." has withdrawn the offer to transfer thread ".$thname." to ".$pgn.".");
+}
+mquery("UPDATE forum_threads SET offered=".(int)$_GET['destination']." WHERE `id`=".(int)$_GET['threadid']);
+if($_GET['destination']>0) {
+$gn = mysql_fetch_row(mquery("select name from forum_groups where id=".(int)$_GET['destination']))[0];
+$q=mquery("select user from forum_groups_members where groupid=".(int)$_GET['destination']." and role=2");
+while($r=mysql_fetch_row($q))
+message_send("elten", $r[0], "New thread transfer offer to group ".$gn, "Group ".$gname." has offered to transfer thread ".$thname." to  group ".$gn.".");
+}
+}
+
+if($_GET['offerrefuse'] == 1) {
+$gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select offered from forum_threads where id=".(int)$_GET['threadid'].")"));
+$grm=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$gr[0]);
+if(mysql_num_rows($grm)>0)
+$role=mysql_fetch_row($grm)[1];
+if($role!=2 and !($moderator==1 and $gr[1]==1))
+die("-3");
+mquery("UPDATE forum_threads SET offered=0 WHERE `id`=".(int)$_GET['threadid']);
+}
+
+if($_GET['offeraccept'] == 1) {
+$gr=mysql_fetch_row(mquery("select id,recommended,founder from forum_groups where id in (select offered from forum_threads where id=".(int)$_GET['threadid'].")"));
+$grm=mquery("select user,role from forum_groups_members where user='".$_GET['name']."' and groupid=".(int)$gr[0]);
+if(mysql_num_rows($grm)>0)
+$role=mysql_fetch_row($grm)[1];
+if($role!=2 and !($moderator==1 and $gr[1]==1))
+die("-3");
+if(mysql_num_rows(mquery("select name from forums where name='".mysql_real_escape_string($_GET['destination'])."' and groupid in (select offered from forum_threads where id=".(int)$_GET['threadid'].")"))==0)
+die("-3");
+mquery("UPDATE forum_threads SET offered=0, forum='".mysql_real_escape_string($_GET['destination'])."' WHERE `id`=".(int)$_GET['threadid']);
 }
 
 echo "0";

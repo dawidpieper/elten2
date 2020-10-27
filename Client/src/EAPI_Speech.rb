@@ -1,8 +1,9 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
-# encoding: utf-8
 module EltenAPI
   module Speech
     @@speechaudio=nil
@@ -175,7 +176,7 @@ else
                                Win32API.new("bin\\nvdaHelperRemote","nvdaController_speakText",'pi','i').call(buf,method)
                              else
                                                                                                                            ssml="<pitch absmiddle=\"#{((Configuration.voicepitch/5.0)-10.0).to_i}\"/>"
-                               ssml+=text_d.gsub("<","&lt;").gsub(">","&gt;")
+                               ssml+=text_d.gsub("<","&lt;").gsub(">","&gt;").gsub("\\","\\\\")
                                                               buf=unicode(ssml)
                                Win32API.new($eltenlib,"SapiSpeakSSML",'p','i').call(buf)
                                end
@@ -211,7 +212,7 @@ def speakindexed(texts, indexes, indid=nil)
     end
     mark+=(indexes[i]||"").to_s
     ssml+="<bookmark mark=\"#{mark}\"/>"
-    ssml+=texts[i].gsub("<","&lt;").gsub(">","&gt;")
+    ssml+=texts[i].gsub("<","&lt;").gsub(">","&gt;").gsub("\\","\\\\")
   end
                                                                     buf=unicode(ssml)
                                Win32API.new($eltenlib,"SapiSpeakSSML",'p','i').call(buf)

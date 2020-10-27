@@ -1,8 +1,10 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
-    module EltenAPI
+module EltenAPI
   module Common
     private
 # EltenAPI common functions
@@ -247,10 +249,11 @@ followedforumsposts=agtemp[13].to_i
 friends=agtemp[14].to_i
 birthday=agtemp[15].to_i
 mentions=agtemp[16].to_i
+followedblogposts=agtemp[17].to_i
 $nversion=agtemp[2].to_f
 $nbeta=agtemp[3].to_i
 bid=srvproc("bin/buildid","name=#{Session.name}\&token=#{Session.token}",1).to_i
-                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and (Elten.build_id==bid or bid<=0)
+                                    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums<=0 and followedforumsposts<=0 and friends<=0 and birthday<=0 and mentions<=0 and followedblogposts<=0  and (Elten.build_id==bid or bid<=0)
   alert(p_("EAPI_Common", "There is nothing new.")) if quiet != true
 else
     $scene = Scene_WhatsNew.new(true,agtemp,bid)
@@ -521,7 +524,7 @@ text += "\r\n\r\n"
 #
 # @param omit [Boolean] determines whether to allow user to close the window without accepting
     def license(omit=false)
-    @license = _doc('license')
+    @license = "Copyright (C) 2014-2020 Dawid Pieper\n"+p_("License", "Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.\nElten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.")+"\n"+p_("License", "Elten source code can be found at GitHub:")+"\nhttps://github.com/dawidpieper/elten2\n"+p_("License", "The original content of the GNU General Public License V3 can be found below.")+"\n\n"+LICENSE_GPL3
     @rules = _doc('rules')
     @privacypolicy = _doc('privacypolicy')
 form = Form.new([
@@ -859,9 +862,6 @@ executeprocess(cmd,true)
          $activity.keys.each{|k|$activity[k]=$activity[k].round}
          $agent.write(Marshal.dump({'func'=>'activity_register', 'activity'=>$activity}))
          $activity.clear
-         if FileTest.exists?(Dirs.eltendata+"\\quickactions.dat")
-         b=buffer(JSON.generate(QuickActions.generate_struct));srvproc("activity_qact", {'buf'=>b})
-         end
          Log.debug("User activity report generated and sent to server")
        end
        

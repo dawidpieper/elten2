@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2020-10-13 13:47+0200\n"
-"PO-Revision-Date: 2020-10-13 13:47+0200\n"
+"POT-Creation-Date: 2020-10-27 08:17+0100\n"
+"PO-Revision-Date: 2020-10-27 08:17+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -23,35 +23,35 @@ msgctxt "Account"
 msgid "Category"
 msgstr ""
 
-#: ../src/Account.rb:114 ../src/Blog.rb:1150 ../src/Settings.rb:91
+#: ../src/Account.rb:114 ../src/Blog.rb:1198 ../src/Settings.rb:91
 msgid "Apply"
 msgstr ""
 
-#: ../src/Account.rb:115 ../src/Blog.rb:842 ../src/Blog.rb:981
-#: ../src/Blog.rb:1151 ../src/Clock.rb:9 ../src/Clock.rb:60
-#: ../src/EAPI_Controls.rb:2839 ../src/EAPI_Controls.rb:3601
-#: ../src/Forum.rb:515 ../src/Forum.rb:646 ../src/Forum.rb:1063
-#: ../src/Forum.rb:1200 ../src/Forum.rb:2691 ../src/Honors.rb:184
-#: ../src/Honors.rb:219 ../src/Notes.rb:155 ../src/Notes.rb:171
-#: ../src/Polls.rb:224 ../src/Settings.rb:92
+#: ../src/Account.rb:115 ../src/Blog.rb:890 ../src/Blog.rb:1029
+#: ../src/Blog.rb:1199 ../src/Clock.rb:9 ../src/Clock.rb:60
+#: ../src/EAPI_Controls.rb:2849 ../src/EAPI_Controls.rb:3611
+#: ../src/Forum.rb:636 ../src/Forum.rb:710 ../src/Forum.rb:736
+#: ../src/Forum.rb:1113 ../src/Forum.rb:1250 ../src/Forum.rb:2903
+#: ../src/Honors.rb:184 ../src/Honors.rb:219 ../src/Notes.rb:155
+#: ../src/Notes.rb:171 ../src/Polls.rb:224 ../src/Settings.rb:92
 msgid "Save"
 msgstr ""
 
-#: ../src/Account.rb:116 ../src/Ban.rb:24 ../src/Ban.rb:106 ../src/Blog.rb:843
-#: ../src/Blog.rb:981 ../src/Blog.rb:1035 ../src/Blog.rb:1152
-#: ../src/Blog.rb:1469 ../src/Blog_Domain.rb:21 ../src/Blog_Domain.rb:123
+#: ../src/Account.rb:116 ../src/Ban.rb:24 ../src/Ban.rb:106 ../src/Blog.rb:891
+#: ../src/Blog.rb:1029 ../src/Blog.rb:1083 ../src/Blog.rb:1200
+#: ../src/Blog.rb:1519 ../src/Blog_Domain.rb:21 ../src/Blog_Domain.rb:123
 #: ../src/Clock.rb:10 ../src/Clock.rb:60 ../src/EAPI_Common.rb:14
-#: ../src/EAPI_Controls.rb:785 ../src/EAPI_Controls.rb:2840
-#: ../src/EAPI_Controls.rb:3602 ../src/EAPI_Controls.rb:3717
-#: ../src/EAPI_External.rb:118 ../src/EAPI_UI.rb:558 ../src/Forum.rb:516
-#: ../src/Forum.rb:636 ../src/Forum.rb:809 ../src/Forum.rb:910
-#: ../src/Forum.rb:1064 ../src/Forum.rb:1195 ../src/Forum.rb:1290
-#: ../src/Forum.rb:1698 ../src/Forum.rb:2500 ../src/Forum.rb:2691
-#: ../src/Honors.rb:184 ../src/Honors.rb:220 ../src/Honors.rb:301
-#: ../src/Login.rb:88 ../src/Messages.rb:225 ../src/Messages.rb:755
-#: ../src/Notes.rb:114 ../src/Notes.rb:249 ../src/Polls.rb:176
-#: ../src/Polls.rb:224 ../src/Polls.rb:353 ../src/Portable.rb:7
-#: ../src/Settings.rb:93 ../src/SpeedTest.rb:7
+#: ../src/EAPI_Controls.rb:785 ../src/EAPI_Controls.rb:2850
+#: ../src/EAPI_Controls.rb:3612 ../src/EAPI_Controls.rb:3727
+#: ../src/EAPI_External.rb:118 ../src/EAPI_UI.rb:558 ../src/Forum.rb:626
+#: ../src/Forum.rb:711 ../src/Forum.rb:737 ../src/Forum.rb:859
+#: ../src/Forum.rb:960 ../src/Forum.rb:1114 ../src/Forum.rb:1245
+#: ../src/Forum.rb:1340 ../src/Forum.rb:1882 ../src/Forum.rb:2702
+#: ../src/Forum.rb:2903 ../src/Honors.rb:184 ../src/Honors.rb:220
+#: ../src/Honors.rb:301 ../src/Login.rb:88 ../src/Messages.rb:225
+#: ../src/Messages.rb:755 ../src/Notes.rb:114 ../src/Notes.rb:249
+#: ../src/Polls.rb:176 ../src/Polls.rb:224 ../src/Polls.rb:353
+#: ../src/Portable.rb:7 ../src/Settings.rb:93 ../src/SpeedTest.rb:7
 msgid "Cancel"
 msgstr ""
 
@@ -65,12 +65,7 @@ msgctxt "Account"
 msgid "Full name"
 msgstr ""
 
-#: ../src/Account.rb:121
-msgctxt "Account"
-msgid "Gender"
-msgstr ""
-
-#: ../src/Account.rb:121 ../src/EAPI_Common.rb:446
+#: ../src/Account.rb:121 ../src/EAPI_Common.rb:447
 msgid "Female"
 msgstr ""
 
@@ -78,8 +73,29 @@ msgstr ""
 msgid "Male"
 msgstr ""
 
+#: ../src/Account.rb:121
+msgctxt "Account"
+msgid "Gender"
+msgstr ""
+
+#: ../src/Account.rb:124
+msgid "January"
+msgstr ""
+
 #: ../src/Account.rb:124
 msgid "February"
+msgstr ""
+
+#: ../src/Account.rb:124
+msgid "December"
+msgstr ""
+
+#: ../src/Account.rb:124
+msgid "November"
+msgstr ""
+
+#: ../src/Account.rb:124
+msgid "October"
 msgstr ""
 
 #: ../src/Account.rb:124
@@ -87,11 +103,7 @@ msgid "March"
 msgstr ""
 
 #: ../src/Account.rb:124
-msgid "April"
-msgstr ""
-
-#: ../src/Account.rb:124
-msgid "May"
+msgid "August"
 msgstr ""
 
 #: ../src/Account.rb:124
@@ -103,27 +115,15 @@ msgid "June"
 msgstr ""
 
 #: ../src/Account.rb:124
-msgid "January"
+msgid "May"
+msgstr ""
+
+#: ../src/Account.rb:124
+msgid "April"
 msgstr ""
 
 #: ../src/Account.rb:124
 msgid "September"
-msgstr ""
-
-#: ../src/Account.rb:124
-msgid "October"
-msgstr ""
-
-#: ../src/Account.rb:124
-msgid "November"
-msgstr ""
-
-#: ../src/Account.rb:124
-msgid "August"
-msgstr ""
-
-#: ../src/Account.rb:124
-msgid "December"
 msgstr ""
 
 #: ../src/Account.rb:126
@@ -208,11 +208,6 @@ msgstr ""
 
 #: ../src/Account.rb:247
 msgctxt "Account"
-msgid "Ignore"
-msgstr ""
-
-#: ../src/Account.rb:247
-msgctxt "Account"
 msgid "Notice only"
 msgstr ""
 
@@ -221,34 +216,14 @@ msgctxt "Account"
 msgid "Notice and show in what's new"
 msgstr ""
 
+#: ../src/Account.rb:247
+msgctxt "Account"
+msgid "Ignore"
+msgstr ""
+
 #: ../src/Account.rb:248
 msgctxt "Account"
 msgid "Friends' birthday"
-msgstr ""
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New posts in followed threads"
-msgstr ""
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New posts on the followed blogs"
-msgstr ""
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New comments on your blog"
-msgstr ""
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New threads on followed forums"
-msgstr ""
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New posts on followed forums"
 msgstr ""
 
 #: ../src/Account.rb:248
@@ -263,7 +238,37 @@ msgstr ""
 
 #: ../src/Account.rb:248
 msgctxt "Account"
+msgid "New threads on followed forums"
+msgstr ""
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "Followed blog posts"
+msgstr ""
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New posts on the followed blogs"
+msgstr ""
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New comments on your blog"
+msgstr ""
+
+#: ../src/Account.rb:248
+msgctxt "Account"
 msgid "New messages"
+msgstr ""
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New posts on followed forums"
+msgstr ""
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New posts in followed threads"
 msgstr ""
 
 #: ../src/Account.rb:255
@@ -301,10 +306,10 @@ msgctxt "Account"
 msgid "Show last logins"
 msgstr ""
 
-#: ../src/Account.rb:279 ../src/Account.rb:283 ../src/Blog.rb:861
-#: ../src/Blog.rb:894 ../src/Blog.rb:1295 ../src/Blog.rb:1299
-#: ../src/Clock.rb:33 ../src/EAPI_Controls.rb:2870 ../src/Forum.rb:661
-#: ../src/Forum.rb:1214 ../src/Forum.rb:1257 ../src/Forum.rb:2147
+#: ../src/Account.rb:279 ../src/Account.rb:283 ../src/Blog.rb:909
+#: ../src/Blog.rb:942 ../src/Blog.rb:1343 ../src/Blog.rb:1347
+#: ../src/Clock.rb:33 ../src/EAPI_Controls.rb:2880 ../src/Forum.rb:651
+#: ../src/Forum.rb:1264 ../src/Forum.rb:1307 ../src/Forum.rb:2337
 #: ../src/Honors.rb:210 ../src/Messages.rb:301 ../src/Settings.rb:259
 #: ../src/Settings.rb:263 ../src/SoundThemes.rb:86 ../src/SoundThemes.rb:129
 msgid "Saved"
@@ -336,16 +341,16 @@ msgid "Your password has been changed."
 msgstr ""
 
 #: ../src/Account.rb:334 ../src/Account.rb:371 ../src/Account.rb:521
-#: ../src/Blog.rb:525 ../src/Contacts.rb:25 ../src/Contacts.rb:121
-#: ../src/Contacts.rb:154 ../src/EAPI_Common.rb:371 ../src/EAPI_Common.rb:419
-#: ../src/Forum.rb:548 ../src/Login.rb:212 ../src/Messages.rb:935
+#: ../src/Blog.rb:561 ../src/Contacts.rb:25 ../src/Contacts.rb:121
+#: ../src/Contacts.rb:154 ../src/EAPI_Common.rb:372 ../src/EAPI_Common.rb:420
+#: ../src/Forum.rb:538 ../src/Login.rb:212 ../src/Messages.rb:935
 #: ../src/Users.rb:11
 msgid "Database Error"
 msgstr ""
 
 #: ../src/Account.rb:337 ../src/Account.rb:374 ../src/Account.rb:523
-#: ../src/Blog.rb:527 ../src/Contacts.rb:29 ../src/Contacts.rb:124
-#: ../src/Contacts.rb:157 ../src/EAPI_Common.rb:375 ../src/Forum.rb:550
+#: ../src/Blog.rb:563 ../src/Contacts.rb:29 ../src/Contacts.rb:124
+#: ../src/Contacts.rb:157 ../src/EAPI_Common.rb:376 ../src/Forum.rb:540
 #: ../src/Messages.rb:939 ../src/Users.rb:15
 msgid "Token expired"
 msgstr ""
@@ -385,17 +390,17 @@ msgstr ""
 
 #: ../src/Account.rb:423
 msgctxt "Account"
+msgid "Computer"
+msgstr ""
+
+#: ../src/Account.rb:423
+msgctxt "Account"
 msgid "Creation IP Address"
 msgstr ""
 
 #: ../src/Account.rb:423
 msgctxt "Account"
 msgid "Generation date"
-msgstr ""
-
-#: ../src/Account.rb:423
-msgctxt "Account"
-msgid "Computer"
 msgstr ""
 
 #: ../src/Account.rb:428
@@ -408,8 +413,8 @@ msgctxt "Account"
 msgid "Log out all sessions"
 msgstr ""
 
-#: ../src/Account.rb:433 ../src/Account.rb:553 ../src/Forum.rb:700
-#: ../src/Forum.rb:1283 ../src/Forum.rb:1662 ../src/Forum.rb:2679
+#: ../src/Account.rb:433 ../src/Account.rb:553 ../src/Forum.rb:690
+#: ../src/Forum.rb:1333 ../src/Forum.rb:1846 ../src/Forum.rb:2891
 #: ../src/Honors.rb:172 ../src/Honors.rb:293 ../src/Messages.rb:209
 #: ../src/Messages.rb:414 ../src/Messages.rb:672 ../src/Notes.rb:94
 #: ../src/Online.rb:35 ../src/Polls.rb:159 ../src/Users.rb:54
@@ -429,53 +434,55 @@ msgstr ""
 #: ../src/Account.rb:621 ../src/Account.rb:627 ../src/Authentication.rb:9
 #: ../src/Authentication.rb:36 ../src/Authentication.rb:71
 #: ../src/Authentication.rb:84 ../src/Ban.rb:65 ../src/Ban.rb:97
-#: ../src/Ban.rb:120 ../src/Blog.rb:77 ../src/Blog.rb:96 ../src/Blog.rb:151
-#: ../src/Blog.rb:172 ../src/Blog.rb:187 ../src/Blog.rb:249 ../src/Blog.rb:313
-#: ../src/Blog.rb:366 ../src/Blog.rb:421 ../src/Blog.rb:514 ../src/Blog.rb:606
-#: ../src/Blog.rb:689 ../src/Blog.rb:780 ../src/Blog.rb:789 ../src/Blog.rb:810
-#: ../src/Blog.rb:829 ../src/Blog.rb:859 ../src/Blog.rb:892 ../src/Blog.rb:920
-#: ../src/Blog.rb:940 ../src/Blog.rb:999 ../src/Blog.rb:1024
-#: ../src/Blog.rb:1042 ../src/Blog.rb:1365 ../src/Blog.rb:1380
-#: ../src/Blog.rb:1435 ../src/Blog.rb:1448 ../src/Blog.rb:1512
-#: ../src/Blog.rb:1613 ../src/Blog.rb:1644 ../src/Blog_Domain.rb:14
-#: ../src/Chat.rb:25 ../src/Chat.rb:35 ../src/Chat.rb:48 ../src/Chat.rb:57
-#: ../src/Chat.rb:86 ../src/Chat.rb:95 ../src/Chat.rb:111 ../src/Chat.rb:123
-#: ../src/EAPI_Common.rb:351 ../src/EAPI_EltenSRV.rb:233
-#: ../src/EAPI_EltenSRV.rb:242 ../src/EAPI_EltenSRV.rb:260
-#: ../src/EAPI_EltenSRV.rb:325 ../src/EAPI_EltenSRV.rb:352
-#: ../src/EAPI_EltenSRV.rb:387 ../src/EAPI_EltenSRV.rb:402
-#: ../src/EAPI_EltenSRV.rb:425 ../src/ForgotPassword.rb:22 ../src/Forum.rb:530
-#: ../src/Forum.rb:586 ../src/Forum.rb:610 ../src/Forum.rb:629
-#: ../src/Forum.rb:659 ../src/Forum.rb:675 ../src/Forum.rb:710
-#: ../src/Forum.rb:778 ../src/Forum.rb:825 ../src/Forum.rb:844
-#: ../src/Forum.rb:929 ../src/Forum.rb:1025 ../src/Forum.rb:1037
-#: ../src/Forum.rb:1119 ../src/Forum.rb:1143 ../src/Forum.rb:1150
-#: ../src/Forum.rb:1175 ../src/Forum.rb:1212 ../src/Forum.rb:1230
-#: ../src/Forum.rb:1255 ../src/Forum.rb:1270 ../src/Forum.rb:1310
-#: ../src/Forum.rb:1512 ../src/Forum.rb:1527 ../src/Forum.rb:1534
-#: ../src/Forum.rb:1585 ../src/Forum.rb:1598 ../src/Forum.rb:1610
-#: ../src/Forum.rb:1625 ../src/Forum.rb:1645 ../src/Forum.rb:1755
-#: ../src/Forum.rb:1859 ../src/Forum.rb:1898 ../src/Forum.rb:1922
-#: ../src/Forum.rb:2049 ../src/Forum.rb:2305 ../src/Forum.rb:2326
-#: ../src/Forum.rb:2383 ../src/Forum.rb:2490 ../src/Forum.rb:2512
-#: ../src/Forum.rb:2573 ../src/Forum.rb:2580 ../src/Forum.rb:2627
-#: ../src/Forum.rb:2644 ../src/Forum.rb:2671 ../src/Forum.rb:2732
-#: ../src/Forum.rb:2808 ../src/Forum.rb:2820 ../src/Honors.rb:18
-#: ../src/Honors.rb:136 ../src/Honors.rb:147 ../src/Honors.rb:163
-#: ../src/Honors.rb:208 ../src/Honors.rb:313 ../src/Loading.rb:313
-#: ../src/Messages.rb:86 ../src/Messages.rb:190 ../src/Messages.rb:271
-#: ../src/Messages.rb:303 ../src/Messages.rb:310 ../src/Messages.rb:335
-#: ../src/Messages.rb:422 ../src/Messages.rb:455 ../src/Messages.rb:588
-#: ../src/Messages.rb:618 ../src/Messages.rb:625 ../src/Messages.rb:640
-#: ../src/Messages.rb:647 ../src/Messages.rb:692 ../src/Messages.rb:711
-#: ../src/Messages.rb:891 ../src/Notes.rb:14 ../src/Notes.rb:103
-#: ../src/Notes.rb:137 ../src/Notes.rb:177 ../src/Notes.rb:190
-#: ../src/Notes.rb:225 ../src/Notes.rb:238 ../src/Notes.rb:268
-#: ../src/Polls.rb:26 ../src/Polls.rb:52 ../src/Polls.rb:133
-#: ../src/Polls.rb:302 ../src/Polls.rb:318 ../src/Polls.rb:386
-#: ../src/Polls.rb:420 ../src/Polls.rb:435 ../src/Polls.rb:490
-#: ../src/Polls.rb:515 ../src/SoundThemes.rb:96 ../src/UserSearch.rb:17
-#: ../src/WhatsNew.rb:105
+#: ../src/Ban.rb:120 ../src/Blog.rb:80 ../src/Blog.rb:99 ../src/Blog.rb:154
+#: ../src/Blog.rb:175 ../src/Blog.rb:190 ../src/Blog.rb:252 ../src/Blog.rb:322
+#: ../src/Blog.rb:377 ../src/Blog.rb:426 ../src/Blog.rb:457 ../src/Blog.rb:550
+#: ../src/Blog.rb:642 ../src/Blog.rb:725 ../src/Blog.rb:801 ../src/Blog.rb:828
+#: ../src/Blog.rb:837 ../src/Blog.rb:858 ../src/Blog.rb:877 ../src/Blog.rb:907
+#: ../src/Blog.rb:940 ../src/Blog.rb:968 ../src/Blog.rb:988 ../src/Blog.rb:1047
+#: ../src/Blog.rb:1072 ../src/Blog.rb:1090 ../src/Blog.rb:1415
+#: ../src/Blog.rb:1430 ../src/Blog.rb:1485 ../src/Blog.rb:1498
+#: ../src/Blog.rb:1562 ../src/Blog.rb:1663 ../src/Blog.rb:1694
+#: ../src/Blog_Domain.rb:14 ../src/Chat.rb:25 ../src/Chat.rb:35
+#: ../src/Chat.rb:48 ../src/Chat.rb:57 ../src/Chat.rb:86 ../src/Chat.rb:95
+#: ../src/Chat.rb:111 ../src/Chat.rb:123 ../src/EAPI_Common.rb:352
+#: ../src/EAPI_EltenSRV.rb:233 ../src/EAPI_EltenSRV.rb:242
+#: ../src/EAPI_EltenSRV.rb:260 ../src/EAPI_EltenSRV.rb:325
+#: ../src/EAPI_EltenSRV.rb:352 ../src/EAPI_EltenSRV.rb:387
+#: ../src/EAPI_EltenSRV.rb:402 ../src/EAPI_EltenSRV.rb:425
+#: ../src/ForgotPassword.rb:22 ../src/Forum.rb:576 ../src/Forum.rb:600
+#: ../src/Forum.rb:619 ../src/Forum.rb:649 ../src/Forum.rb:665
+#: ../src/Forum.rb:726 ../src/Forum.rb:751 ../src/Forum.rb:760
+#: ../src/Forum.rb:828 ../src/Forum.rb:875 ../src/Forum.rb:894
+#: ../src/Forum.rb:979 ../src/Forum.rb:1075 ../src/Forum.rb:1087
+#: ../src/Forum.rb:1169 ../src/Forum.rb:1193 ../src/Forum.rb:1200
+#: ../src/Forum.rb:1225 ../src/Forum.rb:1262 ../src/Forum.rb:1280
+#: ../src/Forum.rb:1305 ../src/Forum.rb:1320 ../src/Forum.rb:1360
+#: ../src/Forum.rb:1609 ../src/Forum.rb:1624 ../src/Forum.rb:1631
+#: ../src/Forum.rb:1682 ../src/Forum.rb:1695 ../src/Forum.rb:1707
+#: ../src/Forum.rb:1722 ../src/Forum.rb:1742 ../src/Forum.rb:1775
+#: ../src/Forum.rb:1787 ../src/Forum.rb:1819 ../src/Forum.rb:1835
+#: ../src/Forum.rb:1939 ../src/Forum.rb:2043 ../src/Forum.rb:2082
+#: ../src/Forum.rb:2106 ../src/Forum.rb:2239 ../src/Forum.rb:2495
+#: ../src/Forum.rb:2516 ../src/Forum.rb:2585 ../src/Forum.rb:2692
+#: ../src/Forum.rb:2714 ../src/Forum.rb:2785 ../src/Forum.rb:2792
+#: ../src/Forum.rb:2839 ../src/Forum.rb:2856 ../src/Forum.rb:2883
+#: ../src/Forum.rb:2944 ../src/Forum.rb:3020 ../src/Forum.rb:3032
+#: ../src/Honors.rb:18 ../src/Honors.rb:136 ../src/Honors.rb:147
+#: ../src/Honors.rb:163 ../src/Honors.rb:208 ../src/Honors.rb:313
+#: ../src/Loading.rb:313 ../src/Messages.rb:86 ../src/Messages.rb:190
+#: ../src/Messages.rb:271 ../src/Messages.rb:303 ../src/Messages.rb:310
+#: ../src/Messages.rb:335 ../src/Messages.rb:422 ../src/Messages.rb:455
+#: ../src/Messages.rb:588 ../src/Messages.rb:618 ../src/Messages.rb:625
+#: ../src/Messages.rb:640 ../src/Messages.rb:647 ../src/Messages.rb:692
+#: ../src/Messages.rb:711 ../src/Messages.rb:891 ../src/Notes.rb:14
+#: ../src/Notes.rb:103 ../src/Notes.rb:137 ../src/Notes.rb:177
+#: ../src/Notes.rb:190 ../src/Notes.rb:225 ../src/Notes.rb:238
+#: ../src/Notes.rb:268 ../src/Polls.rb:26 ../src/Polls.rb:52
+#: ../src/Polls.rb:133 ../src/Polls.rb:302 ../src/Polls.rb:318
+#: ../src/Polls.rb:386 ../src/Polls.rb:420 ../src/Polls.rb:435
+#: ../src/Polls.rb:490 ../src/Polls.rb:515 ../src/SoundThemes.rb:96
+#: ../src/UserSearch.rb:17 ../src/WhatsNew.rb:109
 msgid "Error"
 msgstr ""
 
@@ -516,9 +523,9 @@ msgctxt "Account"
 msgid "The user cannot be found."
 msgstr ""
 
-#: ../src/Account.rb:538 ../src/Blog.rb:205 ../src/Blog.rb:389
+#: ../src/Account.rb:538 ../src/Blog.rb:208 ../src/Blog.rb:400
 #: ../src/EAPI_Controls.rb:2158 ../src/Messages.rb:657 ../src/Notes.rb:79
-#: ../src/Notes.rb:157 ../src/Polls.rb:129 ../src/Polls.rb:580
+#: ../src/Notes.rb:157 ../src/Polls.rb:129 ../src/Polls.rb:581
 msgid "Delete"
 msgstr ""
 
@@ -552,12 +559,12 @@ msgstr ""
 
 #: ../src/Account.rb:636
 msgctxt "Account"
-msgid "Disable mail events reporting"
+msgid "Enable mail events reporting"
 msgstr ""
 
 #: ../src/Account.rb:636
 msgctxt "Account"
-msgid "Enable mail events reporting"
+msgid "Disable mail events reporting"
 msgstr ""
 
 #: ../src/Account.rb:637
@@ -575,18 +582,8 @@ msgstr ""
 
 #: ../src/Account.rb:638 ../src/Authentication.rb:16
 #: ../src/Authentication.rb:18 ../src/Chat.rb:42 ../src/EAPI_Common.rb:14
-#: ../src/ForgotPassword.rb:29 ../src/Loading.rb:421
+#: ../src/ForgotPassword.rb:29 ../src/Loading.rb:425
 msgid "Exit"
-msgstr ""
-
-#: ../src/Admins.rb:13
-msgctxt "Admins"
-msgid "Recommended groups Moderators"
-msgstr ""
-
-#: ../src/Admins.rb:13
-msgctxt "Admins"
-msgid "Community Administrators"
 msgstr ""
 
 #: ../src/Admins.rb:13
@@ -599,9 +596,23 @@ msgctxt "Admins"
 msgid "Translators"
 msgstr ""
 
+#: ../src/Admins.rb:13
+msgctxt "Admins"
+msgid "Recommended groups Moderators"
+msgstr ""
+
+#: ../src/Admins.rb:13
+msgctxt "Admins"
+msgid "Community Administrators"
+msgstr ""
+
 #: ../src/Admins.rb:81
 msgctxt "Admins"
 msgid "Administrators"
+msgstr ""
+
+#: ../src/Authentication.rb:16
+msgid "Enable"
 msgstr ""
 
 #: ../src/Authentication.rb:16
@@ -613,8 +624,8 @@ msgid ""
 "e.  Entering this code will be required to sign in to the program."
 msgstr ""
 
-#: ../src/Authentication.rb:16
-msgid "Enable"
+#: ../src/Authentication.rb:18
+msgid "Disable"
 msgstr ""
 
 #: ../src/Authentication.rb:18
@@ -625,10 +636,6 @@ msgstr ""
 #: ../src/Authentication.rb:18
 msgctxt "Authentication"
 msgid "Two-factor authentication is enabled on this account."
-msgstr ""
-
-#: ../src/Authentication.rb:18
-msgid "Disable"
 msgstr ""
 
 #: ../src/Authentication.rb:25 ../src/Authentication.rb:63
@@ -718,17 +725,12 @@ msgstr ""
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "2 weeks"
-msgstr ""
-
-#: ../src/Ban.rb:23
-msgctxt "Ban"
 msgid "Week"
 msgstr ""
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "30 days"
+msgid "Three days"
 msgstr ""
 
 #: ../src/Ban.rb:23
@@ -738,7 +740,12 @@ msgstr ""
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "Three days"
+msgid "2 weeks"
+msgstr ""
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "30 days"
 msgstr ""
 
 #: ../src/Ban.rb:23
@@ -753,7 +760,7 @@ msgstr ""
 
 #: ../src/Ban.rb:24
 msgctxt "Ban"
-msgid "Ban time"
+msgid "An additional message to the user"
 msgstr ""
 
 #: ../src/Ban.rb:24
@@ -763,12 +770,12 @@ msgstr ""
 
 #: ../src/Ban.rb:24
 msgctxt "Ban"
-msgid "Ban"
+msgid "Ban time"
 msgstr ""
 
 #: ../src/Ban.rb:24
 msgctxt "Ban"
-msgid "An additional message to the user"
+msgid "Ban"
 msgstr ""
 
 #: ../src/Ban.rb:63
@@ -806,7 +813,7 @@ msgctxt "Ban"
 msgid "Unbanned."
 msgstr ""
 
-#: ../src/Blog.rb:11 ../src/Blog.rb:490
+#: ../src/Blog.rb:11 ../src/Blog.rb:526
 msgctxt "Blog"
 msgid "Blogs"
 msgstr ""
@@ -846,500 +853,545 @@ msgctxt "Blog"
 msgid "Open external wordpress blog"
 msgstr ""
 
-#: ../src/Blog.rb:51
+#: ../src/Blog.rb:11
+msgctxt "Blog"
+msgid "Followed blog posts"
+msgstr ""
+
+#: ../src/Blog.rb:52
 msgctxt "Blog"
 msgid "Type blog address"
 msgstr ""
 
-#: ../src/Blog.rb:86
+#: ../src/Blog.rb:89
 msgctxt "Blog"
 msgid "The blog cannot be found."
 msgstr ""
 
-#: ../src/Blog.rb:120
+#: ../src/Blog.rb:123
 msgctxt "Blog"
 msgid "All posts"
 msgstr ""
 
-#: ../src/Blog.rb:121 ../src/Blog.rb:641 ../src/Blog.rb:1237
+#: ../src/Blog.rb:124 ../src/Blog.rb:677 ../src/Blog.rb:1285
 msgctxt "Blog"
 msgid "Posts"
 msgstr ""
 
-#: ../src/Blog.rb:146 ../src/Blog.rb:167
+#: ../src/Blog.rb:149 ../src/Blog.rb:170
 msgctxt "Blog"
 msgid "Category name"
 msgstr ""
 
-#: ../src/Blog.rb:153
+#: ../src/Blog.rb:156
 msgctxt "Blog"
 msgid "The category has been created."
 msgstr ""
 
-#: ../src/Blog.rb:174
+#: ../src/Blog.rb:177
 msgctxt "Blog"
 msgid "The category has been renamed."
 msgstr ""
 
-#: ../src/Blog.rb:184
+#: ../src/Blog.rb:187
 msgctxt "Blog"
 msgid "Are you sure you want to delete this category?"
 msgstr ""
 
-#: ../src/Blog.rb:189
+#: ../src/Blog.rb:192
 msgctxt "Blog"
 msgid "Category deleted"
 msgstr ""
 
-#: ../src/Blog.rb:198 ../src/Blog.rb:378
+#: ../src/Blog.rb:201 ../src/Blog.rb:389
 msgctxt "Blog"
 msgid "Select"
 msgstr ""
 
-#: ../src/Blog.rb:202
+#: ../src/Blog.rb:205
 msgctxt "Blog"
 msgid "Rename"
 msgstr ""
 
-#: ../src/Blog.rb:210
+#: ../src/Blog.rb:213
 msgctxt "Blog"
 msgid "Copy category URL"
 msgstr ""
 
-#: ../src/Blog.rb:212
+#: ../src/Blog.rb:215
 msgctxt "Blog"
 msgid "Category URL copied to clipboard"
 msgstr ""
 
-#: ../src/Blog.rb:216
+#: ../src/Blog.rb:219
 msgctxt "Blog"
 msgid "New category"
 msgstr ""
 
-#: ../src/Blog.rb:231
+#: ../src/Blog.rb:234
 msgctxt "Blog"
 msgid "You do not have any blog. Do you want to create one?"
 msgstr ""
 
-#: ../src/Blog.rb:236
+#: ../src/Blog.rb:239
 msgctxt "Blog"
 msgid "Type a blog name"
 msgstr ""
 
-#: ../src/Blog.rb:241 ../src/Blog.rb:1610
+#: ../src/Blog.rb:244 ../src/Blog.rb:1660
 msgctxt "Blog"
 msgid "Please wait..."
 msgstr ""
 
-#: ../src/Blog.rb:253
+#: ../src/Blog.rb:256
 msgctxt "Blog"
 msgid "The blog has been created."
 msgstr ""
 
-#: ../src/Blog.rb:272 ../src/Blog.rb:641 ../src/WhatsNew.rb:140
+#: ../src/Blog.rb:275 ../src/Blog.rb:677 ../src/WhatsNew.rb:144
 msgctxt "Blog"
 msgid "Author"
 msgstr ""
 
-#: ../src/Blog.rb:272 ../src/Blog.rb:641 ../src/Blog.rb:1170
-#: ../src/Blog.rb:1680
+#: ../src/Blog.rb:275 ../src/Blog.rb:677 ../src/Blog.rb:1218
+#: ../src/Blog.rb:1730
 msgctxt "Blog"
 msgid "Comments"
 msgstr ""
 
-#: ../src/Blog.rb:275
+#: ../src/Blog.rb:278
 msgctxt "Blog"
 msgid "No new comments on your blog."
 msgstr ""
 
-#: ../src/Blog.rb:349
+#: ../src/Blog.rb:282
+msgctxt "Blog"
+msgid "No new comments in followed blog posts."
+msgstr ""
+
+#: ../src/Blog.rb:360
 msgctxt "Blog"
 msgid "Load more"
 msgstr ""
 
-#: ../src/Blog.rb:363
+#: ../src/Blog.rb:374
 msgctxt "Blog"
 msgid "Are you sure you want to delete this post?"
 msgstr ""
 
-#: ../src/Blog.rb:368
+#: ../src/Blog.rb:379
 msgctxt "Blog"
 msgid "Post deleted"
 msgstr ""
 
-#: ../src/Blog.rb:383
+#: ../src/Blog.rb:394
 msgctxt "Blog"
 msgid "Edit"
 msgstr ""
 
-#: ../src/Blog.rb:386
+#: ../src/Blog.rb:397
 msgctxt "Blog"
 msgid "Move to another blog"
 msgstr ""
 
-#: ../src/Blog.rb:393
+#: ../src/Blog.rb:406
+msgctxt "Blog"
+msgid "Follow this post"
+msgstr ""
+
+#: ../src/Blog.rb:408
+msgctxt "Blog"
+msgid "Unfollow this post"
+msgstr ""
+
+#: ../src/Blog.rb:420
+msgctxt "Blog"
+msgid "Post followed"
+msgstr ""
+
+#: ../src/Blog.rb:423
+msgctxt "Blog"
+msgid "Post unfollowed"
+msgstr ""
+
+#: ../src/Blog.rb:429
 msgctxt "Blog"
 msgid "Copy post URL"
 msgstr ""
 
-#: ../src/Blog.rb:395
+#: ../src/Blog.rb:431
 msgctxt "Blog"
 msgid "Post URL copied to clipboard"
 msgstr ""
 
-#: ../src/Blog.rb:399
+#: ../src/Blog.rb:435
 msgctxt "Blog"
 msgid "New post"
 msgstr ""
 
-#: ../src/Blog.rb:460
+#: ../src/Blog.rb:496
 msgctxt "Blog"
 msgid "Show attached media"
 msgstr ""
 
-#: ../src/Blog.rb:464
+#: ../src/Blog.rb:500
 msgctxt "Blog"
 msgid "Media"
 msgstr ""
 
-#: ../src/Blog.rb:474
+#: ../src/Blog.rb:510
 msgctxt "Blog"
 msgid "Your comment"
 msgstr ""
 
-#: ../src/Blog.rb:480
+#: ../src/Blog.rb:516
 msgctxt "Blog"
 msgid "Edit your post"
 msgstr ""
 
-#: ../src/Blog.rb:484
+#: ../src/Blog.rb:520
 msgctxt "Blog"
 msgid "Return"
 msgstr ""
 
-#: ../src/Blog.rb:496 ../src/Blog.rb:1468
+#: ../src/Blog.rb:532 ../src/Blog.rb:1518
 msgctxt "Blog"
 msgid "Send"
 msgstr ""
 
-#: ../src/Blog.rb:521
+#: ../src/Blog.rb:557
 msgctxt "Blog"
 msgid "The comment has been added."
 msgstr ""
 
-#: ../src/Blog.rb:555
+#: ../src/Blog.rb:591
 msgctxt "Blog"
 msgid "Navigation"
 msgstr ""
 
-#: ../src/Blog.rb:556
+#: ../src/Blog.rb:592
 msgctxt "Blog"
 msgid "Go to post"
 msgstr ""
 
-#: ../src/Blog.rb:560
+#: ../src/Blog.rb:596
 msgctxt "Blog"
 msgid "Go to last comment"
 msgstr ""
 
-#: ../src/Blog.rb:565
+#: ../src/Blog.rb:601
 msgctxt "Blog"
 msgid "Go to first unread comment"
 msgstr ""
 
-#: ../src/Blog.rb:572
+#: ../src/Blog.rb:608
 msgctxt "Blog"
 msgid "Write a comment"
 msgstr ""
 
-#: ../src/Blog.rb:578
+#: ../src/Blog.rb:614
 msgctxt "Blog"
 msgid "Delete this comment"
 msgstr ""
 
-#: ../src/Blog.rb:579 ../src/Blog.rb:1706
+#: ../src/Blog.rb:615 ../src/Blog.rb:1756
 msgctxt "Blog"
 msgid "Are you sure you want to delete this comment?"
 msgstr ""
 
-#: ../src/Blog.rb:614
+#: ../src/Blog.rb:650
 msgctxt "Blog"
 msgid "No blogs found"
 msgstr ""
 
-#: ../src/Blog.rb:641
-msgctxt "Blog"
-msgid "Last post"
-msgstr ""
-
-#: ../src/Blog.rb:641
+#: ../src/Blog.rb:677
 msgctxt "Blog"
 msgid "Blogs list"
 msgstr ""
 
-#: ../src/Blog.rb:676
+#: ../src/Blog.rb:677
 msgctxt "Blog"
-msgid "This blog is not followed by any user"
-msgstr ""
-
-#: ../src/Blog.rb:680 ../src/Blog.rb:753
-msgctxt "Blog"
-msgid "Followers"
-msgstr ""
-
-#: ../src/Blog.rb:697 ../src/Blog.rb:756
-msgctxt "Blog"
-msgid "Coworkers"
-msgstr ""
-
-#: ../src/Blog.rb:701
-msgctxt "Blog"
-msgid "Add coworker"
-msgstr ""
-
-#: ../src/Blog.rb:702
-msgctxt "Blog"
-msgid "What user you want to add to this blog?"
+msgid "Last post"
 msgstr ""
 
 #: ../src/Blog.rb:712
 msgctxt "Blog"
+msgid "This blog is not followed by any user"
+msgstr ""
+
+#: ../src/Blog.rb:716 ../src/Blog.rb:789
+msgctxt "Blog"
+msgid "Followers"
+msgstr ""
+
+#: ../src/Blog.rb:733 ../src/Blog.rb:792
+msgctxt "Blog"
+msgid "Coworkers"
+msgstr ""
+
+#: ../src/Blog.rb:737
+msgctxt "Blog"
+msgid "Add coworker"
+msgstr ""
+
+#: ../src/Blog.rb:738
+msgctxt "Blog"
+msgid "What user you want to add to this blog?"
+msgstr ""
+
+#: ../src/Blog.rb:748
+msgctxt "Blog"
 msgid "Delete coworker"
 msgstr ""
 
-#: ../src/Blog.rb:713
+#: ../src/Blog.rb:749
 msgctxt "Blog"
 msgid "Are you sure you want to release this coworker?"
 msgstr ""
 
-#: ../src/Blog.rb:733
+#: ../src/Blog.rb:769
 msgctxt "Blog"
 msgid "Are you sure you want to delete this blog?"
 msgstr ""
 
-#: ../src/Blog.rb:734
+#: ../src/Blog.rb:770
 msgctxt "Blog"
 msgid ""
 "All posts written on this blog will be lost. Are you sure you want to continue"
 "?"
 msgstr ""
 
-#: ../src/Blog.rb:736
+#: ../src/Blog.rb:772
 msgctxt "Blog"
 msgid "Blog deleted"
 msgstr ""
 
-#: ../src/Blog.rb:745
+#: ../src/Blog.rb:781
 msgctxt "Blog"
 msgid "Open"
 msgstr ""
 
-#: ../src/Blog.rb:750
+#: ../src/Blog.rb:786
 msgctxt "Blog"
 msgid "Blog options"
 msgstr ""
 
-#: ../src/Blog.rb:759
-msgctxt "Blog"
-msgid "Recategorize"
-msgstr ""
-
-#: ../src/Blog.rb:764
-msgctxt "Blog"
-msgid "Delete this blog"
-msgstr ""
-
-#: ../src/Blog.rb:772
-msgctxt "Blog"
-msgid "Remove from the followed blogs"
-msgstr ""
-
-#: ../src/Blog.rb:774
-msgctxt "Blog"
-msgid "Add to followed blogs"
-msgstr ""
-
-#: ../src/Blog.rb:782
-msgctxt "Blog"
-msgid "Added to the followed blogs."
-msgstr ""
-
-#: ../src/Blog.rb:791
-msgctxt "Blog"
-msgid "Removed from the followed blogs."
-msgstr ""
-
 #: ../src/Blog.rb:796
 msgctxt "Blog"
-msgid "Add this blog to quick actions"
+msgid "Leave"
 msgstr ""
 
 #: ../src/Blog.rb:797
 msgctxt "Blog"
-msgid "Blog"
+msgid "Are you sure you want to stop co-creating this blog?"
 msgstr ""
 
-#: ../src/Blog.rb:798
+#: ../src/Blog.rb:799
 msgctxt "Blog"
-msgid "Blog added to quick actions"
+msgid "Blog left"
 msgstr ""
 
-#: ../src/Blog.rb:800
+#: ../src/Blog.rb:807
 msgctxt "Blog"
-msgid "Copy blog URL"
+msgid "Recategorize"
 msgstr ""
 
-#: ../src/Blog.rb:802
+#: ../src/Blog.rb:812
 msgctxt "Blog"
-msgid "Blog URL copied to clipboard"
+msgid "Delete this blog"
 msgstr ""
 
-#: ../src/Blog.rb:804
+#: ../src/Blog.rb:820
 msgctxt "Blog"
-msgid "Mark the blog as read"
+msgid "Remove from the followed blogs"
 msgstr ""
 
-#: ../src/Blog.rb:805
+#: ../src/Blog.rb:822
 msgctxt "Blog"
-msgid "All posts on this blog will be marked as read. Do you want to continue?"
+msgid "Add to followed blogs"
 msgstr ""
 
-#: ../src/Blog.rb:808
+#: ../src/Blog.rb:830
 msgctxt "Blog"
-msgid "The blog has been marked as read."
-msgstr ""
-
-#: ../src/Blog.rb:815
-msgctxt "Blog"
-msgid "Create new blog"
-msgstr ""
-
-#: ../src/Blog.rb:835
-msgctxt "Blog"
-msgid "Wordpress user login"
-msgstr ""
-
-#: ../src/Blog.rb:836
-msgctxt "Blog"
-msgid "Set new Wordpress password"
-msgstr ""
-
-#: ../src/Blog.rb:837
-msgctxt "Blog"
-msgid "First name"
-msgstr ""
-
-#: ../src/Blog.rb:838
-msgctxt "Blog"
-msgid "Last name"
+msgid "Added to the followed blogs."
 msgstr ""
 
 #: ../src/Blog.rb:839
 msgctxt "Blog"
-msgid "Nick"
+msgid "Removed from the followed blogs."
 msgstr ""
 
-#: ../src/Blog.rb:840
+#: ../src/Blog.rb:844
 msgctxt "Blog"
-msgid "Display name"
+msgid "Add this blog to quick actions"
 msgstr ""
 
-#: ../src/Blog.rb:841
+#: ../src/Blog.rb:845
 msgctxt "Blog"
-msgid "User description"
+msgid "Blog"
 msgstr ""
 
-#: ../src/Blog.rb:868
+#: ../src/Blog.rb:846
 msgctxt "Blog"
-msgid "Your Elten Password"
+msgid "Blog added to quick actions"
 msgstr ""
 
-#: ../src/Blog.rb:875
+#: ../src/Blog.rb:848
 msgctxt "Blog"
-msgid "New Wordpress password"
+msgid "Copy blog URL"
 msgstr ""
 
-#: ../src/Blog.rb:878
+#: ../src/Blog.rb:850
 msgctxt "Blog"
-msgid "Repeat new Wordpress password"
+msgid "Blog URL copied to clipboard"
 msgstr ""
 
-#: ../src/Blog.rb:882
+#: ../src/Blog.rb:852
 msgctxt "Blog"
-msgid "Wordpress password must be at least 6 characters long."
+msgid "Mark the blog as read"
+msgstr ""
+
+#: ../src/Blog.rb:853
+msgctxt "Blog"
+msgid "All posts on this blog will be marked as read. Do you want to continue?"
+msgstr ""
+
+#: ../src/Blog.rb:856
+msgctxt "Blog"
+msgid "The blog has been marked as read."
+msgstr ""
+
+#: ../src/Blog.rb:863
+msgctxt "Blog"
+msgid "Create new blog"
+msgstr ""
+
+#: ../src/Blog.rb:883
+msgctxt "Blog"
+msgid "Wordpress user login"
+msgstr ""
+
+#: ../src/Blog.rb:884
+msgctxt "Blog"
+msgid "Set new Wordpress password"
+msgstr ""
+
+#: ../src/Blog.rb:885
+msgctxt "Blog"
+msgid "First name"
+msgstr ""
+
+#: ../src/Blog.rb:886
+msgctxt "Blog"
+msgid "Last name"
 msgstr ""
 
 #: ../src/Blog.rb:887
 msgctxt "Blog"
+msgid "Nick"
+msgstr ""
+
+#: ../src/Blog.rb:888
+msgctxt "Blog"
+msgid "Display name"
+msgstr ""
+
+#: ../src/Blog.rb:889
+msgctxt "Blog"
+msgid "User description"
+msgstr ""
+
+#: ../src/Blog.rb:916
+msgctxt "Blog"
+msgid "Your Elten Password"
+msgstr ""
+
+#: ../src/Blog.rb:923
+msgctxt "Blog"
+msgid "New Wordpress password"
+msgstr ""
+
+#: ../src/Blog.rb:926
+msgctxt "Blog"
+msgid "Repeat new Wordpress password"
+msgstr ""
+
+#: ../src/Blog.rb:930
+msgctxt "Blog"
+msgid "Wordpress password must be at least 6 characters long."
+msgstr ""
+
+#: ../src/Blog.rb:935
+msgctxt "Blog"
 msgid "Entered passwords are different."
 msgstr ""
 
-#: ../src/Blog.rb:1001
+#: ../src/Blog.rb:1049
 msgctxt "Blog"
 msgid "Recategorized"
 msgstr ""
 
-#: ../src/Blog.rb:1021
+#: ../src/Blog.rb:1069
 msgctxt "Blog"
 msgid "My blog"
 msgstr ""
 
-#: ../src/Blog.rb:1035
-msgctxt "Blog"
-msgid "Move this post and all comments"
-msgstr ""
-
-#: ../src/Blog.rb:1035
-msgctxt "Blog"
-msgid "Move type"
-msgstr ""
-
-#: ../src/Blog.rb:1035
+#: ../src/Blog.rb:1083
 msgctxt "Blog"
 msgid "Move"
 msgstr ""
 
-#: ../src/Blog.rb:1035
-msgctxt "Blog"
-msgid "Post destination"
-msgstr ""
-
-#: ../src/Blog.rb:1035
+#: ../src/Blog.rb:1083
 msgctxt "Blog"
 msgid "Move only this post, delete all comments"
 msgstr ""
 
-#: ../src/Blog.rb:1044
+#: ../src/Blog.rb:1083
+msgctxt "Blog"
+msgid "Post destination"
+msgstr ""
+
+#: ../src/Blog.rb:1083
+msgctxt "Blog"
+msgid "Move type"
+msgstr ""
+
+#: ../src/Blog.rb:1083
+msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr ""
+
+#: ../src/Blog.rb:1092
 msgctxt "Blog"
 msgid "The post has been moved."
 msgstr ""
 
-#: ../src/Blog.rb:1149
+#: ../src/Blog.rb:1197
 msgctxt "Blog"
 msgid "Category"
 msgstr ""
 
-#: ../src/Blog.rb:1155
+#: ../src/Blog.rb:1203
 msgctxt "Blog"
 msgid "General"
 msgstr ""
 
-#: ../src/Blog.rb:1156
+#: ../src/Blog.rb:1204
 msgctxt "Blog"
 msgid "Blog name"
 msgstr ""
 
-#: ../src/Blog.rb:1157
+#: ../src/Blog.rb:1205
 msgctxt "Blog"
 msgid "Blog description"
 msgstr ""
 
-#: ../src/Blog.rb:1166
+#: ../src/Blog.rb:1214
 msgctxt "Blog"
 msgid "Language"
 msgstr ""
 
-#: ../src/Blog.rb:1167
+#: ../src/Blog.rb:1215
 msgctxt "Blog"
 msgid ""
 "Mark this blog as public. Blogs that are not marked public request search engi"
@@ -1347,376 +1399,376 @@ msgid ""
 " not respect this setting)"
 msgstr ""
 
-#: ../src/Blog.rb:1171
-msgctxt "Blog"
-msgid "By all visitors, but I must commit all of them"
-msgstr ""
-
-#: ../src/Blog.rb:1171
-msgctxt "Blog"
-msgid "By all visitors, but I must commit first comment of the specific person"
-msgstr ""
-
-#: ../src/Blog.rb:1171
-msgctxt "Blog"
-msgid "By all visitors"
-msgstr ""
-
-#: ../src/Blog.rb:1171
-msgctxt "Blog"
-msgid "By Elten users only"
-msgstr ""
-
-#: ../src/Blog.rb:1171
+#: ../src/Blog.rb:1219
 msgctxt "Blog"
 msgid "Comments can be written"
 msgstr ""
 
-#: ../src/Blog.rb:1172
+#: ../src/Blog.rb:1219
+msgctxt "Blog"
+msgid "By all visitors"
+msgstr ""
+
+#: ../src/Blog.rb:1219
+msgctxt "Blog"
+msgid "By all visitors, but I must commit first comment of the specific person"
+msgstr ""
+
+#: ../src/Blog.rb:1219
+msgctxt "Blog"
+msgid "By all visitors, but I must commit all of them"
+msgstr ""
+
+#: ../src/Blog.rb:1219
+msgctxt "Blog"
+msgid "By Elten users only"
+msgstr ""
+
+#: ../src/Blog.rb:1220
 msgctxt "Blog"
 msgid "Disable commenting of older posts"
 msgstr ""
 
-#: ../src/Blog.rb:1173
+#: ../src/Blog.rb:1221
 msgctxt "Blog"
 msgid "Days after commenting of a post will be disabled"
 msgstr ""
 
-#: ../src/Blog.rb:1174
+#: ../src/Blog.rb:1222
 msgctxt "Blog"
 msgid "Allow comments threading"
 msgstr ""
 
-#: ../src/Blog.rb:1175
+#: ../src/Blog.rb:1223
 msgctxt "Blog"
 msgid "Max comments thread depth"
 msgstr ""
 
-#: ../src/Blog.rb:1176
-msgctxt "Blog"
-msgid "Order comments on the website"
-msgstr ""
-
-#: ../src/Blog.rb:1176
+#: ../src/Blog.rb:1224
 msgctxt "Blog"
 msgid "Ascending"
 msgstr ""
 
-#: ../src/Blog.rb:1176
+#: ../src/Blog.rb:1224
+msgctxt "Blog"
+msgid "Order comments on the website"
+msgstr ""
+
+#: ../src/Blog.rb:1224
 msgctxt "Blog"
 msgid "Descending"
 msgstr ""
 
-#: ../src/Blog.rb:1177
+#: ../src/Blog.rb:1225
 msgctxt "Blog"
 msgid "Split comments on the website into pages"
 msgstr ""
 
-#: ../src/Blog.rb:1178
+#: ../src/Blog.rb:1226
 msgctxt "Blog"
 msgid "Comments per page"
 msgstr ""
 
-#: ../src/Blog.rb:1179
-msgctxt "Blog"
-msgid "Newest comments"
-msgstr ""
-
-#: ../src/Blog.rb:1179
+#: ../src/Blog.rb:1227
 msgctxt "Blog"
 msgid "Oldest comments"
 msgstr ""
 
-#: ../src/Blog.rb:1179
+#: ../src/Blog.rb:1227
+msgctxt "Blog"
+msgid "Newest comments"
+msgstr ""
+
+#: ../src/Blog.rb:1227
 msgctxt "Blog"
 msgid "Firstly display"
 msgstr ""
 
-#: ../src/Blog.rb:1238
+#: ../src/Blog.rb:1286
 msgctxt "Blog"
 msgid "Posts displayed per page on the website"
 msgstr ""
 
-#: ../src/Blog.rb:1239
+#: ../src/Blog.rb:1287
 msgctxt "Blog"
 msgid "Use emoticons"
 msgstr ""
 
-#: ../src/Blog.rb:1240
-msgctxt "Blog"
-msgid "Month and post name (https://example.com/2020/01/example-post)"
-msgstr ""
-
-#: ../src/Blog.rb:1240
-msgctxt "Blog"
-msgid "Just a post name (https://example.com/example-post/)"
-msgstr ""
-
-#: ../src/Blog.rb:1240
-msgctxt "Blog"
-msgid "Full date and post name (https://example.com/2020/01/01/example-post)"
-msgstr ""
-
-#: ../src/Blog.rb:1240
-msgctxt "Blog"
-msgid "Just a post id (https://example.com/posts/123/)"
-msgstr ""
-
-#: ../src/Blog.rb:1240
+#: ../src/Blog.rb:1288
 msgctxt "Blog"
 msgid "Simple (https://example.com/?p=123)"
 msgstr ""
 
-#: ../src/Blog.rb:1244 ../src/Blog.rb:1268
+#: ../src/Blog.rb:1288
+msgctxt "Blog"
+msgid "Full date and post name (https://example.com/2020/01/01/example-post)"
+msgstr ""
+
+#: ../src/Blog.rb:1288
+msgctxt "Blog"
+msgid "Month and post name (https://example.com/2020/01/example-post)"
+msgstr ""
+
+#: ../src/Blog.rb:1288
+msgctxt "Blog"
+msgid "Just a post id (https://example.com/posts/123/)"
+msgstr ""
+
+#: ../src/Blog.rb:1288
+msgctxt "Blog"
+msgid "Just a post name (https://example.com/example-post/)"
+msgstr ""
+
+#: ../src/Blog.rb:1292 ../src/Blog.rb:1316
 msgctxt "Blog"
 msgid "Custom"
 msgstr ""
 
-#: ../src/Blog.rb:1246
+#: ../src/Blog.rb:1294
 msgctxt "Blog"
 msgid "Links format"
 msgstr ""
 
-#: ../src/Blog.rb:1247
+#: ../src/Blog.rb:1295
 msgctxt "Blog"
 msgid "Posts in RSS"
 msgstr ""
 
-#: ../src/Blog.rb:1248
+#: ../src/Blog.rb:1296
 msgctxt "Blog"
 msgid "Use excerpts in RSS"
 msgstr ""
 
-#: ../src/Blog.rb:1251
+#: ../src/Blog.rb:1299
 msgctxt "blog"
 msgid "Date and time"
 msgstr ""
 
-#: ../src/Blog.rb:1253
+#: ../src/Blog.rb:1301
 msgctxt "Blog"
 msgid "January 31, 2020"
 msgstr ""
 
-#: ../src/Blog.rb:1253
+#: ../src/Blog.rb:1301
 msgctxt "Blog"
 msgid "31 January 2020"
 msgstr ""
 
-#: ../src/Blog.rb:1254
+#: ../src/Blog.rb:1302
 msgctxt "Blog"
 msgid "Date format"
 msgstr ""
 
-#: ../src/Blog.rb:1257
+#: ../src/Blog.rb:1305
 msgctxt "Blog"
 msgid "Time format"
 msgstr ""
 
-#: ../src/Blog.rb:1271
+#: ../src/Blog.rb:1319
 msgctxt "Blog"
 msgid "Timezone city"
 msgstr ""
 
-#: ../src/Blog.rb:1272
+#: ../src/Blog.rb:1320
 msgctxt "Blog"
 msgid "Sunday"
 msgstr ""
 
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Monday"
-msgstr ""
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Saturday"
-msgstr ""
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Friday"
-msgstr ""
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Thursday"
-msgstr ""
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Wednesday"
-msgstr ""
-
-#: ../src/Blog.rb:1272
+#: ../src/Blog.rb:1320
 msgctxt "Blog"
 msgid "Tuesday"
 msgstr ""
 
-#: ../src/Blog.rb:1273
+#: ../src/Blog.rb:1320
+msgctxt "Blog"
+msgid "Wednesday"
+msgstr ""
+
+#: ../src/Blog.rb:1320
+msgctxt "Blog"
+msgid "Thursday"
+msgstr ""
+
+#: ../src/Blog.rb:1320
+msgctxt "Blog"
+msgid "Friday"
+msgstr ""
+
+#: ../src/Blog.rb:1320
+msgctxt "Blog"
+msgid "Saturday"
+msgstr ""
+
+#: ../src/Blog.rb:1320
+msgctxt "Blog"
+msgid "Monday"
+msgstr ""
+
+#: ../src/Blog.rb:1321
 msgctxt "Blog"
 msgid "First day of the week"
 msgstr ""
 
-#: ../src/Blog.rb:1276
+#: ../src/Blog.rb:1324
 msgctxt "Blog"
 msgid "Others"
 msgstr ""
 
-#: ../src/Blog.rb:1277
+#: ../src/Blog.rb:1325
 msgctxt "Blog"
 msgid "My Wordpress account"
 msgstr ""
 
-#: ../src/Blog.rb:1278
+#: ../src/Blog.rb:1326
 msgctxt "Blog"
 msgid "Manage tags"
 msgstr ""
 
-#: ../src/Blog.rb:1279 ../src/Blog.rb:1713
+#: ../src/Blog.rb:1327 ../src/Blog.rb:1763
 msgctxt "Blog"
 msgid "Pending comments"
 msgstr ""
 
-#: ../src/Blog.rb:1373
+#: ../src/Blog.rb:1423
 msgctxt "Blog"
 msgid "Tags"
 msgstr ""
 
-#: ../src/Blog.rb:1375
+#: ../src/Blog.rb:1425
 msgctxt "Blog"
 msgid "New tag"
 msgstr ""
 
-#: ../src/Blog.rb:1376
+#: ../src/Blog.rb:1426
 msgctxt "Blog"
 msgid "Tag name"
 msgstr ""
 
-#: ../src/Blog.rb:1390
+#: ../src/Blog.rb:1440
 msgctxt "Blog"
 msgid "Delete tag"
 msgstr ""
 
-#: ../src/Blog.rb:1393
+#: ../src/Blog.rb:1443
 msgid "error"
 msgstr ""
 
-#: ../src/Blog.rb:1460
+#: ../src/Blog.rb:1510
 msgctxt "Blog"
 msgid "Post title"
 msgstr ""
 
-#: ../src/Blog.rb:1461
-msgctxt "Blog"
-msgid "Source Editor (HTML and Wordpress Shortcodes)"
-msgstr ""
-
-#: ../src/Blog.rb:1461
+#: ../src/Blog.rb:1511
 msgctxt "Blog"
 msgid "Editor"
 msgstr ""
 
-#: ../src/Blog.rb:1461
+#: ../src/Blog.rb:1511
+msgctxt "Blog"
+msgid "Source Editor (HTML and Wordpress Shortcodes)"
+msgstr ""
+
+#: ../src/Blog.rb:1511
 msgctxt "Blog"
 msgid "Formattable editor"
 msgstr ""
 
-#: ../src/Blog.rb:1462 ../src/Blog.rb:1680
+#: ../src/Blog.rb:1512 ../src/Blog.rb:1730
 msgctxt "Blog"
 msgid "Post"
 msgstr ""
 
-#: ../src/Blog.rb:1463
+#: ../src/Blog.rb:1513
 msgctxt "Blog"
 msgid "Audio content"
 msgstr ""
 
-#: ../src/Blog.rb:1464
+#: ../src/Blog.rb:1514
 msgctxt "Blog"
 msgid "Post categories"
 msgstr ""
 
-#: ../src/Blog.rb:1465
+#: ../src/Blog.rb:1515
 msgctxt "Blog"
 msgid "Post tags"
 msgstr ""
 
-#: ../src/Blog.rb:1466
-msgctxt "Blog"
-msgid "Show to Elten users only"
-msgstr ""
-
-#: ../src/Blog.rb:1466
-msgctxt "Blog"
-msgid "Visibility"
-msgstr ""
-
-#: ../src/Blog.rb:1466
+#: ../src/Blog.rb:1516
 msgctxt "Blog"
 msgid "Show to everyone"
 msgstr ""
 
-#: ../src/Blog.rb:1467
+#: ../src/Blog.rb:1516
+msgctxt "Blog"
+msgid "Show to Elten users only"
+msgstr ""
+
+#: ../src/Blog.rb:1516
+msgctxt "Blog"
+msgid "Visibility"
+msgstr ""
+
+#: ../src/Blog.rb:1517
 msgctxt "Blog"
 msgid "Allow users to comment this post"
 msgstr ""
 
-#: ../src/Blog.rb:1473
+#: ../src/Blog.rb:1523
 msgctxt "Blog"
 msgid "Add tag to this post"
 msgstr ""
 
-#: ../src/Blog.rb:1474
+#: ../src/Blog.rb:1524
 msgctxt "Blog"
 msgid "Tag to add"
 msgstr ""
 
-#: ../src/Blog.rb:1483
+#: ../src/Blog.rb:1533
 msgctxt "Blog"
 msgid "This tag does not exist, do you want to create it now?"
 msgstr ""
 
-#: ../src/Blog.rb:1495
+#: ../src/Blog.rb:1545
 msgctxt "Blog"
 msgid "Remove tag from this post"
 msgstr ""
 
-#: ../src/Blog.rb:1581
+#: ../src/Blog.rb:1631
 msgctxt "Blog"
 msgid "Are you sure you want to cancel creating this post?"
 msgstr ""
 
-#: ../src/Blog.rb:1646
+#: ../src/Blog.rb:1696
 msgctxt "Blog"
 msgid "The post has been added."
 msgstr ""
 
-#: ../src/Blog.rb:1680
+#: ../src/Blog.rb:1730
 msgctxt "Blog"
 msgid "Comment"
 msgstr ""
 
-#: ../src/Blog.rb:1697
+#: ../src/Blog.rb:1747
 msgctxt "Blog"
 msgid "Approve"
 msgstr ""
 
-#: ../src/Blog.rb:1701
+#: ../src/Blog.rb:1751
 msgctxt "Blog"
 msgid "Assign as spam"
 msgstr ""
 
-#: ../src/Blog.rb:1705
+#: ../src/Blog.rb:1755
 msgctxt "Blog"
 msgid "Delete"
 msgstr ""
 
-#: ../src/Blog.rb:1711
+#: ../src/Blog.rb:1761
 msgctxt "Blog"
 msgid "Show"
 msgstr ""
 
-#: ../src/Blog.rb:1720
+#: ../src/Blog.rb:1770
 msgctxt "Blog"
 msgid "Comments assigned as spam"
 msgstr ""
@@ -1845,7 +1897,7 @@ msgid ""
 "o refresh DNS. It may take up to 24 hours to perform full DNS update."
 msgstr ""
 
-#: ../src/Changes.rb:917
+#: ../src/Changes.rb:926
 msgctxt "Changes"
 msgid "Changelog"
 msgstr ""
@@ -1860,7 +1912,7 @@ msgctxt "Chat"
 msgid "You have been banned."
 msgstr ""
 
-#: ../src/Chat.rb:18 ../src/EAPI_Common.rb:814
+#: ../src/Chat.rb:18 ../src/EAPI_Common.rb:815
 msgid "Function not supported on this platform"
 msgstr ""
 
@@ -1876,12 +1928,7 @@ msgstr ""
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Messages history"
-msgstr ""
-
-#: ../src/Chat.rb:42
-msgctxt "Chat"
-msgid "Your message"
+msgid "Hide the chat window"
 msgstr ""
 
 #: ../src/Chat.rb:42
@@ -1891,10 +1938,15 @@ msgstr ""
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Hide the chat window"
+msgid "Messages history"
 msgstr ""
 
-#: ../src/Chat.rb:121 ../src/_Main.rb:100
+#: ../src/Chat.rb:42
+msgctxt "Chat"
+msgid "Your message"
+msgstr ""
+
+#: ../src/Chat.rb:121 ../src/_Main.rb:101
 msgctxt "Chat"
 msgid "Left the discussion."
 msgstr ""
@@ -1906,22 +1958,22 @@ msgstr ""
 
 #: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
 msgctxt "Clock"
-msgid "One time"
-msgstr ""
-
-#: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
-msgctxt "Clock"
 msgid "Hour"
-msgstr ""
-
-#: ../src/Clock.rb:15
-msgctxt "Clock"
-msgid "repeated"
 msgstr ""
 
 #: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
 msgctxt "Clock"
 msgid "Type"
+msgstr ""
+
+#: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
+msgctxt "Clock"
+msgid "One time"
+msgstr ""
+
+#: ../src/Clock.rb:15
+msgctxt "Clock"
+msgid "repeated"
 msgstr ""
 
 #: ../src/Clock.rb:41
@@ -2011,25 +2063,17 @@ msgstr ""
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
+msgid "OK"
+msgstr ""
+
+#: ../src/Debug.rb:7
+msgctxt "Debug"
 msgid "Report connections to the server"
 msgstr ""
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
 msgid "A report"
-msgstr ""
-
-#: ../src/Debug.rb:7
-msgctxt "Debug"
-msgid "OK"
-msgstr ""
-
-#: ../src/EAPI.rb:557
-msgctxt "EAPI_EltenAPI"
-msgid ""
-"Do you want to send reports on how Elten is used? This data does not contain a"
-"ny confidential information and is very helpful in program development. This s"
-"election can be changed at any time from the Settings."
 msgstr ""
 
 #: ../src/EAPI_Common.rb:12
@@ -2059,11 +2103,6 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:117
 msgctxt "EAPI_Common"
-msgid "Write a private message"
-msgstr ""
-
-#: ../src/EAPI_Common.rb:117
-msgctxt "EAPI_Common"
 msgid "Visiting card"
 msgstr ""
 
@@ -2075,6 +2114,11 @@ msgstr ""
 #: ../src/EAPI_Common.rb:117
 msgctxt "EAPI_Common"
 msgid "badges of this user"
+msgstr ""
+
+#: ../src/EAPI_Common.rb:117
+msgctxt "EAPI_Common"
+msgid "Write a private message"
 msgstr ""
 
 #: ../src/EAPI_Common.rb:120
@@ -2097,166 +2141,166 @@ msgctxt "EAPI_Common"
 msgid "Unban"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:254
+#: ../src/EAPI_Common.rb:255
 msgctxt "EAPI_Common"
 msgid "There is nothing new."
 msgstr ""
 
-#: ../src/EAPI_Common.rb:338
+#: ../src/EAPI_Common.rb:339
 msgctxt "EAPI_Common"
 msgid "Send"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:338
+#: ../src/EAPI_Common.rb:339
 msgctxt "EAPI_Common"
 msgid "Describe the found error"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:354
+#: ../src/EAPI_Common.rb:355
 msgctxt "EAPI_Common"
 msgid "Sent."
 msgstr ""
 
-#: ../src/EAPI_Common.rb:387
+#: ../src/EAPI_Common.rb:388
 msgctxt "EAPI_Common"
 msgid "Empty list"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:394
+#: ../src/EAPI_Common.rb:395
 msgctxt "EAPI_Common"
 msgid "Select contact"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:425
+#: ../src/EAPI_Common.rb:426
 msgctxt "EAPI_Common"
 msgid "User"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:444
+#: ../src/EAPI_Common.rb:445
 msgctxt "EAPI_Common"
 msgid "Gender"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:448
+#: ../src/EAPI_Common.rb:449
 msgid "male"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:460
+#: ../src/EAPI_Common.rb:461
 msgctxt "EAPI_Common"
 msgid "Age"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:463
+#: ../src/EAPI_Common.rb:464
 msgctxt "EAPI_Common"
 msgid "Location"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:477
+#: ../src/EAPI_Common.rb:478
 msgctxt "EAPI_Common_female"
 msgid "Last seen"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:479
+#: ../src/EAPI_Common.rb:480
 msgctxt "EAPI_Common_male"
 msgid "Last seen"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:481
+#: ../src/EAPI_Common.rb:482
 msgctxt "EAPI_Common"
 msgid "Last seen"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:484
+#: ../src/EAPI_Common.rb:485
 msgctxt "EAPI_Common"
 msgid "User has a blog"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:485
+#: ../src/EAPI_Common.rb:486
 msgctxt "EAPI_Common"
 msgid "Knows %{count} user"
 msgid_plural "Knows %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EAPI_Common.rb:487
+#: ../src/EAPI_Common.rb:488
 msgctxt "EAPI_Common"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EAPI_Common.rb:489
+#: ../src/EAPI_Common.rb:490
 msgctxt "EAPI_Common_female"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EAPI_Common.rb:491
+#: ../src/EAPI_Common.rb:492
 msgctxt "EAPI_Common_male"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/EAPI_Common.rb:494
+#: ../src/EAPI_Common.rb:495
 msgctxt "EAPI_Common"
 msgid "Forum posts"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:495
+#: ../src/EAPI_Common.rb:496
 msgctxt "EAPI_Common"
 msgid "Polls answered"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:505
+#: ../src/EAPI_Common.rb:506
 msgctxt "EAPI_Common"
 msgid "Used version"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:506
+#: ../src/EAPI_Common.rb:507
 msgctxt "EAPI_Common"
 msgid "Registered"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:514
+#: ../src/EAPI_Common.rb:515
 msgctxt "EAPI_Common"
 msgid "Visiting card of %{user}:"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:528
+#: ../src/EAPI_Common.rb:529
 msgctxt "EAPI_Common"
 msgid "License agreement"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:529
+#: ../src/EAPI_Common.rb:530
 msgctxt "EAPI_Common"
 msgid "Terms and Conditions"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:530
+#: ../src/EAPI_Common.rb:531
 msgctxt "EAPI_Common"
 msgid "Privacy Policy"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:531
+#: ../src/EAPI_Common.rb:532
 msgctxt "EAPI_Common"
 msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:531
+#: ../src/EAPI_Common.rb:532
 msgctxt "EAPI_Common"
 msgid "I do not accept, exit"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:549
+#: ../src/EAPI_Common.rb:550
 msgctxt "EAPI_Common"
 msgid ""
 "Do you accept Elten license agreement, terms and conditions and privacy policy"
 "?"
 msgstr ""
 
-#: ../src/EAPI_Common.rb:570
+#: ../src/EAPI_Common.rb:571
 msgctxt "EAPI_Common"
 msgid ""
 "You are trying to play a midi file. In order to play such files, Elten needs a"
@@ -2264,17 +2308,17 @@ msgid ""
 "ver  now? It may take several minutes."
 msgstr ""
 
-#: ../src/EAPI_Common.rb:571
-msgctxt "EAPI_Common"
-msgid "Soundfont downloaded succesfully."
-msgstr ""
-
-#: ../src/EAPI_Common.rb:571
+#: ../src/EAPI_Common.rb:572
 msgctxt "EAPI_Common"
 msgid "Please wait, the soundfont is being downloaded. It may take a while."
 msgstr ""
 
-#: ../src/EAPI_Common.rb:841
+#: ../src/EAPI_Common.rb:572
+msgctxt "EAPI_Common"
+msgid "Soundfont downloaded succesfully."
+msgstr ""
+
+#: ../src/EAPI_Common.rb:842
 msgctxt "EAPI_Common"
 msgid "Compressing..."
 msgstr ""
@@ -2600,293 +2644,293 @@ msgctxt "EAPI_Form"
 msgid "Choose a path"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:2720
+#: ../src/EAPI_Controls.rb:2730
 msgctxt "EAPI_Common"
 msgid "This file cannot be played."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:2753
+#: ../src/EAPI_Controls.rb:2763
 msgctxt "EAPI_Common"
 msgid "Type a second to which you want to move."
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:2830
+#: ../src/EAPI_Controls.rb:2840
 msgctxt "EAPI_Form"
 msgid "Copy original stream"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:2836
+#: ../src/EAPI_Controls.rb:2846
 msgctxt "EAPI_Form"
 msgid "Destination"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:2837
+#: ../src/EAPI_Controls.rb:2847
 msgctxt "EAPI_Form"
 msgid "File format"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:2838
+#: ../src/EAPI_Controls.rb:2848
 msgctxt "EAPI_Form"
 msgid "File name"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3466
+#: ../src/EAPI_Controls.rb:3476
 msgctxt "EAPI_Form"
 msgid "record"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3467 ../src/EAPI_Controls.rb:3511
-#: ../src/EAPI_Controls.rb:3536
+#: ../src/EAPI_Controls.rb:3477 ../src/EAPI_Controls.rb:3521
+#: ../src/EAPI_Controls.rb:3546
 msgctxt "EAPI_Form"
 msgid "Pause recording"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3468
+#: ../src/EAPI_Controls.rb:3478
 msgctxt "EAPI_Form"
 msgid "Stop recording"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3469
+#: ../src/EAPI_Controls.rb:3479
 msgctxt "EAPI_Form"
 msgid "Use existing file"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3470
+#: ../src/EAPI_Controls.rb:3480
 msgctxt "EAPI_Form"
 msgid "Opus encoder settings"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3471
+#: ../src/EAPI_Controls.rb:3481
 msgctxt "EAPI_Form"
 msgid "Play"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3472
+#: ../src/EAPI_Controls.rb:3482
 msgctxt "EAPI_Form"
 msgid "Encode and play"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3473
+#: ../src/EAPI_Controls.rb:3483
 msgctxt "EAPI_Form"
 msgid "Delete recording"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3474 ../src/EAPI_Controls.rb:3716
+#: ../src/EAPI_Controls.rb:3484 ../src/EAPI_Controls.rb:3726
 msgctxt "EAPI_Form"
 msgid "Ready"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3482 ../src/EAPI_Controls.rb:3516
+#: ../src/EAPI_Controls.rb:3492 ../src/EAPI_Controls.rb:3526
 msgctxt "EAPI_Form"
 msgid "Are you sure you want to delete the previous recording and create a new one?"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3510
+#: ../src/EAPI_Controls.rb:3520
 msgctxt "EAPI_Form"
 msgid "Record again"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3517
+#: ../src/EAPI_Controls.rb:3527
 msgctxt "EAPI_Form"
 msgid "Select audio file"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3520
+#: ../src/EAPI_Controls.rb:3530
 msgctxt "EAPI_Form"
 msgid "File selected"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3526
+#: ../src/EAPI_Controls.rb:3536
 msgctxt "EAPI_Form"
 msgid "Recording preview"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3540
+#: ../src/EAPI_Controls.rb:3550
 msgctxt "EAPI_Form"
 msgid "Resume recording"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3546
+#: ../src/EAPI_Controls.rb:3556
 msgctxt "EAPI_Form"
 msgid ""
 "The encoder settings will not apply to the current record. Are you sure you wa"
 "nt to continue?"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3564
+#: ../src/EAPI_Controls.rb:3574
 msgctxt "EAPI_Form"
 msgid "Are you sure you want to delete recorded audio?"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3584
+#: ../src/EAPI_Controls.rb:3594
 msgctxt "EAPI_Form"
 msgid "Low"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3585
+#: ../src/EAPI_Controls.rb:3595
 msgctxt "EAPI_Form"
 msgid "Lower"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3586
+#: ../src/EAPI_Controls.rb:3596
 msgctxt "EAPI_Form"
 msgid "Standard"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3587
+#: ../src/EAPI_Controls.rb:3597
 msgctxt "EAPI_Form"
 msgid "Higher"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3588
+#: ../src/EAPI_Controls.rb:3598
 msgctxt "EAPI_Form"
 msgid "High"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3589
+#: ../src/EAPI_Controls.rb:3599
 msgctxt "EAPI_Form"
 msgid "Max"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3596
-msgctxt "EAPI_Form"
-msgid "Custom"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3596
+#: ../src/EAPI_Controls.rb:3606
 msgctxt "EAPI_Form"
 msgid "Quality"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3597
+#: ../src/EAPI_Controls.rb:3606
+msgctxt "EAPI_Form"
+msgid "Custom"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3607
 msgctxt "EAPI_Form"
 msgid "Bitrate"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3598
+#: ../src/EAPI_Controls.rb:3608
 msgctxt "EAPI_Form"
 msgid "Frame size"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3599
-msgctxt "EAPI_Form"
-msgid "Encoder profile"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3599
+#: ../src/EAPI_Controls.rb:3609
 msgctxt "EAPI_Form"
 msgid "Speech profile"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3599
+#: ../src/EAPI_Controls.rb:3609
 msgctxt "EAPI_Form"
 msgid "Music profile"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3600
+#: ../src/EAPI_Controls.rb:3609
+msgctxt "EAPI_Form"
+msgid "Encoder profile"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3610
 msgctxt "EAPI_Form"
 msgid "Use variable bitrate"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "December"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
+#: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
 msgid "November"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3704
+#: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
-msgid "January"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "February"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "March"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "April"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "May"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "June"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "July"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "August"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "September"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "October"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3710 ../src/EAPI_Controls.rb:3711
-#: ../src/EAPI_Controls.rb:3712 ../src/EAPI_Controls.rb:3713
-#: ../src/EAPI_Controls.rb:3714 ../src/EAPI_Controls.rb:3715
-#: ../src/EAPI_Controls.rb:3757 ../src/EAPI_Controls.rb:3759
-#: ../src/EAPI_Controls.rb:3766 ../src/EAPI_Controls.rb:3777
-#: ../src/EAPI_Controls.rb:3784 ../src/EAPI_Controls.rb:3786
-#: ../src/EAPI_Controls.rb:3793 ../src/EAPI_Controls.rb:3795
-#: ../src/EAPI_Controls.rb:3802 ../src/EAPI_Controls.rb:3804
-#: ../src/EAPI_Controls.rb:3813
-msgctxt "EAPI_Form"
-msgid "Not selected"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3710
-msgctxt "EAPI_Form"
-msgid "Year"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3711
-msgctxt "EAPI_Form"
-msgid "Month"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3712
-msgctxt "EAPI_Form"
-msgid "Day"
-msgstr ""
-
-#: ../src/EAPI_Controls.rb:3713
-msgctxt "EAPI_Form"
-msgid "Hour"
+msgid "December"
 msgstr ""
 
 #: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
+msgid "September"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "February"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "July"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "June"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "August"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "May"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "April"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "January"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "October"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "March"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3720 ../src/EAPI_Controls.rb:3721
+#: ../src/EAPI_Controls.rb:3722 ../src/EAPI_Controls.rb:3723
+#: ../src/EAPI_Controls.rb:3724 ../src/EAPI_Controls.rb:3725
+#: ../src/EAPI_Controls.rb:3767 ../src/EAPI_Controls.rb:3769
+#: ../src/EAPI_Controls.rb:3776 ../src/EAPI_Controls.rb:3787
+#: ../src/EAPI_Controls.rb:3794 ../src/EAPI_Controls.rb:3796
+#: ../src/EAPI_Controls.rb:3803 ../src/EAPI_Controls.rb:3805
+#: ../src/EAPI_Controls.rb:3812 ../src/EAPI_Controls.rb:3814
+#: ../src/EAPI_Controls.rb:3823
+msgctxt "EAPI_Form"
+msgid "Not selected"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3720
+msgctxt "EAPI_Form"
+msgid "Year"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3721
+msgctxt "EAPI_Form"
+msgid "Month"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3722
+msgctxt "EAPI_Form"
+msgid "Day"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3723
+msgctxt "EAPI_Form"
+msgid "Hour"
+msgstr ""
+
+#: ../src/EAPI_Controls.rb:3724
+msgctxt "EAPI_Form"
 msgid "Minute"
 msgstr ""
 
-#: ../src/EAPI_Controls.rb:3715
+#: ../src/EAPI_Controls.rb:3725
 msgctxt "EAPI_Form"
 msgid "Second"
 msgstr ""
@@ -2908,12 +2952,12 @@ msgstr ""
 
 #: ../src/EAPI_External.rb:111
 msgctxt "EAPI_External"
-msgid "recognize automatically"
+msgid "source language"
 msgstr ""
 
 #: ../src/EAPI_External.rb:111
 msgctxt "EAPI_External"
-msgid "source language"
+msgid "recognize automatically"
 msgstr ""
 
 #: ../src/EAPI_External.rb:116
@@ -3224,11 +3268,11 @@ msgid "Alarm"
 msgstr ""
 
 #: ../src/EAPI_UI.rb:526 ../src/Login.rb:146 ../src/Login.rb:148
-msgid "Yes"
+msgid "No"
 msgstr ""
 
 #: ../src/EAPI_UI.rb:526 ../src/Login.rb:146 ../src/Login.rb:148
-msgid "No"
+msgid "Yes"
 msgstr ""
 
 #: ../src/ForgotPassword.rb:9
@@ -3253,17 +3297,17 @@ msgstr ""
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
-msgid "Generate password reset code"
-msgstr ""
-
-#: ../src/ForgotPassword.rb:29
-msgctxt "ForgotPassword"
 msgid "Password reset"
 msgstr ""
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
 msgid "Enter password reset code"
+msgstr ""
+
+#: ../src/ForgotPassword.rb:29
+msgctxt "ForgotPassword"
+msgid "Generate password reset code"
 msgstr ""
 
 #: ../src/ForgotPassword.rb:49
@@ -3325,1401 +3369,1516 @@ msgid ""
 "ta."
 msgstr ""
 
-#: ../src/Forum.rb:86
+#: ../src/Forum.rb:87
 msgctxt "Forum"
 msgid "Sort"
 msgstr ""
 
-#: ../src/Forum.rb:87
+#: ../src/Forum.rb:88
 msgctxt "Forum"
 msgid "Default"
 msgstr ""
 
-#: ../src/Forum.rb:88
+#: ../src/Forum.rb:89
 msgctxt "Forum"
 msgid "By name (ascending)"
 msgstr ""
 
-#: ../src/Forum.rb:89
+#: ../src/Forum.rb:90
 msgctxt "Forum"
 msgid "By name (descending)"
 msgstr ""
 
-#: ../src/Forum.rb:90
+#: ../src/Forum.rb:91
 msgctxt "Forum"
 msgid "By unread posts (ascending)"
 msgstr ""
 
-#: ../src/Forum.rb:91
+#: ../src/Forum.rb:92
 msgctxt "Forum"
 msgid "By unread posts (descending)"
 msgstr ""
 
-#: ../src/Forum.rb:209
+#: ../src/Forum.rb:210
 msgctxt "Forum"
-msgid "Marked thread"
-msgid_plural "Marked threads"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "Recently active groups"
+msgid "Groups popular with my friends"
 msgstr ""
 
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "Followed forum"
-msgid_plural "Followed forums"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../src/Forum.rb:209
+#: ../src/Forum.rb:210
 msgctxt "Forum"
 msgid "Followed thread"
 msgid_plural "Followed threads"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/Forum.rb:209
+#: ../src/Forum.rb:210
+msgctxt "Forum"
+msgid "Followed forum"
+msgid_plural "Followed forums"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/Forum.rb:210
+msgctxt "Forum"
+msgid "Marked thread"
+msgid_plural "Marked threads"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/Forum.rb:210
+msgctxt "Forum"
+msgid "Recently active groups"
+msgstr ""
+
+#: ../src/Forum.rb:210
+msgctxt "Forum"
+msgid "Recommended groups (%{count})"
+msgstr ""
+
+#: ../src/Forum.rb:210
+msgctxt "Forum"
+msgid "Open groups (%{count})"
+msgstr ""
+
+#: ../src/Forum.rb:210
 msgctxt "Forum"
 msgid "Waiting invitation"
 msgid_plural "Waiting invitations (%{count})"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "Search"
-msgstr ""
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "My threads"
-msgstr ""
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "Threads popular with my friends"
-msgstr ""
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "Groups popular with my friends"
-msgstr ""
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "Recently created groups"
-msgstr ""
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "All groups (%{count})"
-msgstr ""
-
-#: ../src/Forum.rb:209
+#: ../src/Forum.rb:210
 msgctxt "Forum"
 msgid "Moderated group"
 msgid_plural "Moderated groups (%{count})"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/Forum.rb:209
+#: ../src/Forum.rb:210
 msgctxt "Forum"
-msgid "Recommended groups (%{count})"
+msgid "All groups (%{count})"
 msgstr ""
 
-#: ../src/Forum.rb:209
+#: ../src/Forum.rb:210
 msgctxt "Forum"
-msgid "Open groups (%{count})"
+msgid "Recently created groups"
 msgstr ""
 
-#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
-#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
-#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
-#: ../src/Forum.rb:991
+#: ../src/Forum.rb:210
 msgctxt "Forum"
-msgid "Threads"
+msgid "Search"
 msgstr ""
 
-#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
-#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
-#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
-#: ../src/Forum.rb:991 ../src/Forum.rb:1459
+#: ../src/Forum.rb:210
 msgctxt "Forum"
-msgid "posts"
+msgid "Threads popular with my friends"
 msgstr ""
 
-#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
-#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
-#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
-#: ../src/Forum.rb:991 ../src/Forum.rb:1459
+#: ../src/Forum.rb:210
 msgctxt "Forum"
-msgid "Unread"
+msgid "Received mentions"
 msgstr ""
 
-#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
-#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
-#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
+#: ../src/Forum.rb:210
+msgctxt "Forum"
+msgid "My threads"
+msgstr ""
+
+#: ../src/Forum.rb:216 ../src/Forum.rb:240 ../src/Forum.rb:261
+#: ../src/Forum.rb:282 ../src/Forum.rb:302 ../src/Forum.rb:322
+#: ../src/Forum.rb:343 ../src/Forum.rb:358 ../src/Forum.rb:377
 msgctxt "Forum"
 msgid "Forums"
 msgstr ""
 
-#: ../src/Forum.rb:239 ../src/Forum.rb:281 ../src/Forum.rb:301
-#: ../src/Forum.rb:321 ../src/Forum.rb:342 ../src/Forum.rb:357
-#: ../src/Forum.rb:376 ../src/Forum.rb:720 ../src/Forum.rb:847
-#: ../src/Forum.rb:849
+#: ../src/Forum.rb:216 ../src/Forum.rb:240 ../src/Forum.rb:261
+#: ../src/Forum.rb:282 ../src/Forum.rb:302 ../src/Forum.rb:322
+#: ../src/Forum.rb:343 ../src/Forum.rb:358 ../src/Forum.rb:377
+#: ../src/Forum.rb:1041 ../src/Forum.rb:1556
+msgctxt "Forum"
+msgid "posts"
+msgstr ""
+
+#: ../src/Forum.rb:216 ../src/Forum.rb:240 ../src/Forum.rb:261
+#: ../src/Forum.rb:282 ../src/Forum.rb:302 ../src/Forum.rb:322
+#: ../src/Forum.rb:343 ../src/Forum.rb:358 ../src/Forum.rb:377
+#: ../src/Forum.rb:1041
+msgctxt "Forum"
+msgid "Threads"
+msgstr ""
+
+#: ../src/Forum.rb:216 ../src/Forum.rb:240 ../src/Forum.rb:261
+#: ../src/Forum.rb:282 ../src/Forum.rb:302 ../src/Forum.rb:322
+#: ../src/Forum.rb:343 ../src/Forum.rb:358 ../src/Forum.rb:377
+#: ../src/Forum.rb:1041 ../src/Forum.rb:1556
+msgctxt "Forum"
+msgid "Unread"
+msgstr ""
+
+#: ../src/Forum.rb:240 ../src/Forum.rb:282 ../src/Forum.rb:302
+#: ../src/Forum.rb:322 ../src/Forum.rb:343 ../src/Forum.rb:358
+#: ../src/Forum.rb:377 ../src/Forum.rb:770 ../src/Forum.rb:897
+#: ../src/Forum.rb:899
 msgctxt "Forum"
 msgid "Administrator"
 msgstr ""
 
-#: ../src/Forum.rb:384 ../src/Forum.rb:386 ../src/Forum.rb:994
-#: ../src/Forum.rb:1180 ../src/Forum.rb:1462 ../src/Forum.rb:1698
-#: ../src/Forum.rb:2282
+#: ../src/Forum.rb:385 ../src/Forum.rb:387 ../src/Forum.rb:1044
+#: ../src/Forum.rb:1230 ../src/Forum.rb:1559 ../src/Forum.rb:1882
+#: ../src/Forum.rb:2472
 msgctxt "Forum"
 msgid "Forum"
 msgstr ""
 
-#: ../src/Forum.rb:434 ../src/Forum.rb:2445
+#: ../src/Forum.rb:437 ../src/Forum.rb:2647
 msgctxt "Forum"
 msgid "Enter a phrase to look for"
 msgstr ""
 
-#: ../src/Forum.rb:455 ../src/Forum.rb:1134 ../src/Forum.rb:1503
+#: ../src/Forum.rb:459 ../src/Forum.rb:1184 ../src/Forum.rb:1600
 msgctxt "Forum"
 msgid "Open"
 msgstr ""
 
-#: ../src/Forum.rb:459 ../src/Forum.rb:505
+#: ../src/Forum.rb:463 ../src/Forum.rb:509
 msgctxt "Forum"
 msgid "Group summary"
 msgstr ""
 
-#: ../src/Forum.rb:462 ../src/Forum.rb:910
+#: ../src/Forum.rb:466 ../src/Forum.rb:960
 msgctxt "Forum"
 msgid "Language"
 msgstr ""
 
-#: ../src/Forum.rb:463 ../src/Forum.rb:733
+#: ../src/Forum.rb:467 ../src/Forum.rb:783
 msgctxt "Forum"
 msgid "Members"
 msgstr ""
 
-#: ../src/Forum.rb:464
+#: ../src/Forum.rb:468
 msgctxt "Forum"
 msgid "Founder"
 msgstr ""
 
-#: ../src/Forum.rb:467
+#: ../src/Forum.rb:471
 msgctxt "Forum"
 msgid "Founded at"
 msgstr ""
 
-#: ../src/Forum.rb:470
+#: ../src/Forum.rb:474
 msgctxt "Forum"
 msgid "The most active members"
 msgstr ""
 
-#: ../src/Forum.rb:474
+#: ../src/Forum.rb:478
 msgctxt "Forum"
 msgid "Group size"
 msgstr ""
 
-#: ../src/Forum.rb:484
+#: ../src/Forum.rb:488
 msgctxt "Forum"
 msgid "Audio posts"
 msgstr ""
 
-#: ../src/Forum.rb:486 ../src/Forum.rb:1782 ../src/Forum.rb:2164
-#: ../src/Forum.rb:2239 ../src/Forum.rb:2691
+#: ../src/Forum.rb:490 ../src/Forum.rb:1966 ../src/Forum.rb:2354
+#: ../src/Forum.rb:2429 ../src/Forum.rb:2903
 msgctxt "Forum"
 msgid "Attachments"
 msgstr ""
 
-#: ../src/Forum.rb:488
+#: ../src/Forum.rb:492
 msgctxt "Forum"
 msgid "Text"
 msgstr ""
 
-#: ../src/Forum.rb:490
+#: ../src/Forum.rb:494
 msgctxt "Forum"
 msgid "Overall size"
 msgstr ""
 
-#: ../src/Forum.rb:509
+#: ../src/Forum.rb:513
 msgctxt "Forum"
 msgid "Group regulations"
 msgstr ""
 
-#: ../src/Forum.rb:510
+#: ../src/Forum.rb:514
 msgctxt "Forum"
 msgid "Edit group regulations"
 msgstr ""
 
-#: ../src/Forum.rb:514 ../src/Forum.rb:883 ../src/Forum.rb:2204
+#: ../src/Forum.rb:520
 msgctxt "Forum"
-msgid "Regulations of group %{groupname}"
+msgid "Message of the day"
 msgstr ""
 
-#: ../src/Forum.rb:527
+#: ../src/Forum.rb:521
 msgctxt "Forum"
-msgid "Regulations updated"
+msgid "Edit message of the day"
 msgstr ""
 
-#: ../src/Forum.rb:536
+#: ../src/Forum.rb:526
 msgctxt "Forum"
 msgid "Group members"
 msgstr ""
 
-#: ../src/Forum.rb:540
+#: ../src/Forum.rb:530
 msgctxt "Forum"
 msgid "Invite"
 msgstr ""
 
-#: ../src/Forum.rb:541
+#: ../src/Forum.rb:531
 msgctxt "Forum"
 msgid "User to invite"
 msgstr ""
 
-#: ../src/Forum.rb:546
+#: ../src/Forum.rb:536
 msgctxt "Forum"
 msgid "The user has been invited"
 msgstr ""
 
-#: ../src/Forum.rb:552 ../src/Messages.rb:943 ../src/Users.rb:19
+#: ../src/Forum.rb:542 ../src/Messages.rb:943 ../src/Users.rb:19
 msgid "You haven't permissions to do this"
 msgstr ""
 
-#: ../src/Forum.rb:554
+#: ../src/Forum.rb:544
 msgctxt "Forum"
 msgid "This user does not exist"
 msgstr ""
 
-#: ../src/Forum.rb:556
+#: ../src/Forum.rb:546
 msgctxt "Forum"
 msgid "This user already belongs to this group"
 msgstr ""
 
-#: ../src/Forum.rb:564
+#: ../src/Forum.rb:554
 msgctxt "Forum"
 msgid "Join"
 msgstr ""
 
-#: ../src/Forum.rb:565 ../src/Forum.rb:809
+#: ../src/Forum.rb:555 ../src/Forum.rb:859
 msgctxt "Forum"
 msgid "Accept invitation"
 msgstr ""
 
-#: ../src/Forum.rb:566
+#: ../src/Forum.rb:556
 msgctxt "Forum"
 msgid "Ask to be enrolled in this group"
 msgstr ""
 
-#: ../src/Forum.rb:571
+#: ../src/Forum.rb:561
 msgctxt "Forum"
 msgid "Do you wish to ask to be enrolled in %{groupname}"
 msgstr ""
 
-#: ../src/Forum.rb:573
+#: ../src/Forum.rb:563
 msgctxt "Forum"
 msgid "Are you sure you want to join %{groupname}?"
 msgstr ""
 
-#: ../src/Forum.rb:579
+#: ../src/Forum.rb:569
 msgctxt "Forum"
 msgid "Request sent"
 msgstr ""
 
-#: ../src/Forum.rb:582
+#: ../src/Forum.rb:572
 msgctxt "Forum"
 msgid "You've just joined the group"
 msgstr ""
 
-#: ../src/Forum.rb:594
+#: ../src/Forum.rb:584
 msgctxt "Forum"
 msgid "Add this group to quick actions"
 msgstr ""
 
-#: ../src/Forum.rb:595
+#: ../src/Forum.rb:585
 msgctxt "Forum"
 msgid "Group"
 msgstr ""
 
-#: ../src/Forum.rb:596
+#: ../src/Forum.rb:586
 msgctxt "Forum"
 msgid "Group added to quick actions"
 msgstr ""
 
-#: ../src/Forum.rb:600
+#: ../src/Forum.rb:590
 msgctxt "Forum"
 msgid "Leave"
 msgstr ""
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:809
+#: ../src/Forum.rb:591 ../src/Forum.rb:859
 msgctxt "Forum"
 msgid "Refuse invitation"
 msgstr ""
 
-#: ../src/Forum.rb:604
+#: ../src/Forum.rb:594
 msgctxt "Forum"
 msgid "Are you sure you want to leave %{groupname}?"
 msgstr ""
 
-#: ../src/Forum.rb:607
+#: ../src/Forum.rb:597
 msgctxt "Forum"
 msgid "You've just left the group"
 msgstr ""
 
-#: ../src/Forum.rb:616
+#: ../src/Forum.rb:606
 msgctxt "Forum"
 msgid "Mark this group as read"
 msgstr ""
 
-#: ../src/Forum.rb:617
+#: ../src/Forum.rb:607
 msgctxt "Forum"
 msgid ""
 "All posts in this group will be marked as read. Are you sure you want to conti"
 "nue?"
 msgstr ""
 
-#: ../src/Forum.rb:627
+#: ../src/Forum.rb:617
 msgctxt "Forum"
 msgid "The group has been marked as read."
 msgstr ""
 
-#: ../src/Forum.rb:634
+#: ../src/Forum.rb:624
 msgctxt "Forum"
 msgid "Edit group"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:910
+#: ../src/Forum.rb:626 ../src/Forum.rb:960
 msgctxt "Forum"
 msgid "Group name"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:910
+#: ../src/Forum.rb:626 ../src/Forum.rb:960
 msgctxt "Forum"
 msgid "Group description"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:910
+#: ../src/Forum.rb:626 ../src/Forum.rb:960
 msgctxt "Forum"
 msgid "Hidden"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:910
+#: ../src/Forum.rb:626 ../src/Forum.rb:960
 msgctxt "Forum"
 msgid "Public"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:910
+#: ../src/Forum.rb:626 ../src/Forum.rb:960
 msgctxt "Forum"
 msgid "Group type"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:654 ../src/Forum.rb:910
-#: ../src/Forum.rb:924
+#: ../src/Forum.rb:626 ../src/Forum.rb:644 ../src/Forum.rb:960
+#: ../src/Forum.rb:974
 msgctxt "Forum"
 msgid "open (everyone can join)"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:652 ../src/Forum.rb:654
-#: ../src/Forum.rb:910 ../src/Forum.rb:922 ../src/Forum.rb:924
+#: ../src/Forum.rb:626 ../src/Forum.rb:642 ../src/Forum.rb:644
+#: ../src/Forum.rb:960 ../src/Forum.rb:972 ../src/Forum.rb:974
 msgctxt "Forum"
 msgid "Moderated (everyone can request)"
 msgstr ""
 
-#: ../src/Forum.rb:636 ../src/Forum.rb:910
+#: ../src/Forum.rb:626 ../src/Forum.rb:960
 msgctxt "Forum"
 msgid "Group join type"
 msgstr ""
 
-#: ../src/Forum.rb:652 ../src/Forum.rb:922
+#: ../src/Forum.rb:642 ../src/Forum.rb:972
 msgctxt "Forum"
 msgid "closed (only invited users can join)"
 msgstr ""
 
-#: ../src/Forum.rb:672
+#: ../src/Forum.rb:662
 msgctxt "Forum"
 msgid "Delete group"
 msgstr ""
 
-#: ../src/Forum.rb:673
+#: ../src/Forum.rb:663
 msgctxt "Forum"
 msgid "Are you sure you want to delete %{groupname}?"
 msgstr ""
 
-#: ../src/Forum.rb:677
+#: ../src/Forum.rb:667
 msgctxt "Forum"
 msgid "Group has been deleted"
 msgstr ""
 
-#: ../src/Forum.rb:686
+#: ../src/Forum.rb:676
 msgctxt "Forum"
 msgid "Show groups in unknown languages"
 msgstr ""
 
-#: ../src/Forum.rb:687
+#: ../src/Forum.rb:677
 msgctxt "Forum"
 msgid "Hide groups in unknown languages"
 msgstr ""
 
-#: ../src/Forum.rb:697
+#: ../src/Forum.rb:687
 msgctxt "Forum"
 msgid "New group"
 msgstr ""
 
-#: ../src/Forum.rb:722 ../src/Forum.rb:782 ../src/Forum.rb:785
+#: ../src/Forum.rb:709
+msgctxt "Forum"
+msgid "Message of the day of group %{groupname}"
+msgstr ""
+
+#: ../src/Forum.rb:723
+msgctxt "Forum"
+msgid "Message of the day updated"
+msgstr ""
+
+#: ../src/Forum.rb:735 ../src/Forum.rb:933 ../src/Forum.rb:2394
+msgctxt "Forum"
+msgid "Regulations of group %{groupname}"
+msgstr ""
+
+#: ../src/Forum.rb:748
+msgctxt "Forum"
+msgid "Regulations updated"
+msgstr ""
+
+#: ../src/Forum.rb:772 ../src/Forum.rb:832 ../src/Forum.rb:835
 msgctxt "Forum"
 msgid "Moderator"
 msgstr ""
 
-#: ../src/Forum.rb:724 ../src/Forum.rb:831
+#: ../src/Forum.rb:774 ../src/Forum.rb:881
 msgctxt "Forum"
 msgid "Banned"
 msgstr ""
 
-#: ../src/Forum.rb:726
+#: ../src/Forum.rb:776
 msgctxt "Forum"
 msgid "Invited"
 msgstr ""
 
-#: ../src/Forum.rb:728 ../src/Forum.rb:832
+#: ../src/Forum.rb:778 ../src/Forum.rb:882
 msgctxt "Forum"
 msgid "Waiting for review"
 msgstr ""
 
-#: ../src/Forum.rb:741
+#: ../src/Forum.rb:791
 msgctxt "Forum"
 msgid "Grant moderation privileges"
 msgstr ""
 
-#: ../src/Forum.rb:743
+#: ../src/Forum.rb:793
 msgctxt "Forum"
 msgid "Deny moderation privileges"
 msgstr ""
 
-#: ../src/Forum.rb:744
+#: ../src/Forum.rb:794
 msgctxt "Forum"
 msgid "Pass administrative privileges"
 msgstr ""
 
-#: ../src/Forum.rb:746 ../src/Forum.rb:759
+#: ../src/Forum.rb:796 ../src/Forum.rb:809
 msgctxt "Forum"
 msgid "Unban"
 msgstr ""
 
-#: ../src/Forum.rb:748 ../src/Forum.rb:761
+#: ../src/Forum.rb:798 ../src/Forum.rb:811
 msgctxt "Forum"
 msgid "Examine"
 msgstr ""
 
-#: ../src/Forum.rb:754
+#: ../src/Forum.rb:804
 msgctxt "Forum"
 msgid "Ban in this group"
 msgstr ""
 
-#: ../src/Forum.rb:756
+#: ../src/Forum.rb:806
 msgctxt "Forum"
 msgid "Kick"
 msgstr ""
 
-#: ../src/Forum.rb:770
+#: ../src/Forum.rb:820
 msgctxt "Forum"
 msgid ""
 "Are you sure you want to grant moderation privileges in %{groupname} to user %"
 "{user}?"
 msgstr ""
 
-#: ../src/Forum.rb:773
+#: ../src/Forum.rb:823
 msgctxt "Forum"
 msgid "Are you sure you want to deny %{user}'s moderation privileges?"
 msgstr ""
 
-#: ../src/Forum.rb:787 ../src/Forum.rb:836 ../src/Forum.rb:851
+#: ../src/Forum.rb:837 ../src/Forum.rb:886 ../src/Forum.rb:901
 msgctxt "Forum"
 msgid "Privileges of this user have been changed."
 msgstr ""
 
-#: ../src/Forum.rb:800
+#: ../src/Forum.rb:850
 msgctxt "Forum"
 msgid "Are you sure you want to ban %{user} in %{groupname}?"
 msgstr ""
 
-#: ../src/Forum.rb:803
+#: ../src/Forum.rb:853
 msgctxt "Forum"
 msgid "Are you sure you want to kick %{user} of %{groupname}?"
 msgstr ""
 
-#: ../src/Forum.rb:807
+#: ../src/Forum.rb:857
 msgctxt "Forum"
 msgid "Are you sure you want to unban %{user} in %{groupname}?"
 msgstr ""
 
-#: ../src/Forum.rb:813
+#: ../src/Forum.rb:863
 msgctxt "Forum"
 msgid "Do you want to accept request of user %{user}"
 msgstr ""
 
-#: ../src/Forum.rb:816
+#: ../src/Forum.rb:866
 msgctxt "Forum"
 msgid "Do you want to refuse request of user %{user}"
 msgstr ""
 
-#: ../src/Forum.rb:841
+#: ../src/Forum.rb:891
 msgctxt "Forum"
 msgid ""
 "Are you sure you want to resign your administrative privileges in %{groupname}"
 " and pass them to %{user}?"
 msgstr ""
 
-#: ../src/Forum.rb:884 ../src/Forum.rb:2205
+#: ../src/Forum.rb:934 ../src/Forum.rb:2395
 msgctxt "Forum"
 msgid "I accept regulations of group %{groupname}"
 msgstr ""
 
-#: ../src/Forum.rb:885 ../src/Forum.rb:2206
+#: ../src/Forum.rb:935 ../src/Forum.rb:2396
 msgctxt "Forum"
 msgid "I decline regulations of group %{groupname}"
 msgstr ""
 
-#: ../src/Forum.rb:916
+#: ../src/Forum.rb:966
 msgctxt "Forum"
 msgid "Create group"
 msgstr ""
 
-#: ../src/Forum.rb:931
+#: ../src/Forum.rb:981
 msgctxt "Forum"
 msgid "Group has been created"
 msgstr ""
 
-#: ../src/Forum.rb:992
+#: ../src/Forum.rb:1042
 msgctxt "Forum"
 msgid "Select forum"
 msgstr ""
 
-#: ../src/Forum.rb:1019
+#: ../src/Forum.rb:1069
 msgctxt "Forum"
 msgid "Forum tags"
 msgstr ""
 
-#: ../src/Forum.rb:1021
+#: ../src/Forum.rb:1071
 msgctxt "Forum"
 msgid "New tag"
 msgstr ""
 
-#: ../src/Forum.rb:1034
+#: ../src/Forum.rb:1084
 msgctxt "Forum"
 msgid "Delete tag"
 msgstr ""
 
-#: ../src/Forum.rb:1035
+#: ../src/Forum.rb:1085
 msgctxt "Forum"
 msgid "Are you sure you want to delete this tag?"
 msgstr ""
 
-#: ../src/Forum.rb:1061
+#: ../src/Forum.rb:1111
 msgctxt "Forum"
 msgid "Tag name"
 msgstr ""
 
-#: ../src/Forum.rb:1062
+#: ../src/Forum.rb:1112
 msgctxt "Forum"
 msgid "Possible tag values"
 msgstr ""
 
-#: ../src/Forum.rb:1068
+#: ../src/Forum.rb:1118
 msgctxt "Forum"
 msgid "Add tag value"
 msgstr ""
 
-#: ../src/Forum.rb:1069 ../src/Forum.rb:1082
+#: ../src/Forum.rb:1119 ../src/Forum.rb:1132
 msgctxt "Forum"
 msgid "Tag value"
 msgstr ""
 
-#: ../src/Forum.rb:1071 ../src/Forum.rb:1084
+#: ../src/Forum.rb:1121 ../src/Forum.rb:1134
 msgctxt "Forum"
 msgid "Tag values cannot contain punctuation characters"
 msgstr ""
 
-#: ../src/Forum.rb:1081
+#: ../src/Forum.rb:1131
 msgctxt "Forum"
 msgid "Edit tag value"
 msgstr ""
 
-#: ../src/Forum.rb:1093
+#: ../src/Forum.rb:1143
 msgctxt "Forum"
 msgid "Delete tag value"
 msgstr ""
 
-#: ../src/Forum.rb:1110
+#: ../src/Forum.rb:1160
 msgctxt "Forum"
 msgid "Tag must have at least one value"
 msgstr ""
 
-#: ../src/Forum.rb:1138
+#: ../src/Forum.rb:1188
 msgctxt "Forum"
 msgid "Follow this forum"
 msgstr ""
 
-#: ../src/Forum.rb:1139
+#: ../src/Forum.rb:1189
 msgctxt "Forum"
 msgid "Unfollow this forum"
 msgstr ""
 
-#: ../src/Forum.rb:1145
+#: ../src/Forum.rb:1195
 msgctxt "Forum"
 msgid "Added to followed forums list."
 msgstr ""
 
-#: ../src/Forum.rb:1152
+#: ../src/Forum.rb:1202
 msgctxt "Forum"
 msgid "Removed from followed forums list."
 msgstr ""
 
-#: ../src/Forum.rb:1163
+#: ../src/Forum.rb:1213
 msgctxt "Forum"
 msgid "Mark this forum as read"
 msgstr ""
 
-#: ../src/Forum.rb:1164
+#: ../src/Forum.rb:1214
 msgctxt "Forum"
 msgid ""
 "All posts on this forum will be marked as read. Are you sure you want to conti"
 "nue?"
 msgstr ""
 
-#: ../src/Forum.rb:1173
+#: ../src/Forum.rb:1223
 msgctxt "Forum"
 msgid "The forum has been marked as read."
 msgstr ""
 
-#: ../src/Forum.rb:1179
+#: ../src/Forum.rb:1229
 msgctxt "Forum"
 msgid "Add this forum to quick actions"
 msgstr ""
 
-#: ../src/Forum.rb:1181
+#: ../src/Forum.rb:1231
 msgctxt "Forum"
 msgid "Forum added to quick actions"
 msgstr ""
 
-#: ../src/Forum.rb:1187 ../src/Forum.rb:1570 ../src/Forum.rb:2588
+#: ../src/Forum.rb:1237 ../src/Forum.rb:1667 ../src/Forum.rb:2800
 msgctxt "Forum"
 msgid "Moderation"
 msgstr ""
 
-#: ../src/Forum.rb:1188
+#: ../src/Forum.rb:1238
 msgctxt "Forum"
 msgid "New forum"
 msgstr ""
 
-#: ../src/Forum.rb:1194
+#: ../src/Forum.rb:1244
 msgctxt "Forum"
 msgid "Edit forum"
 msgstr ""
 
-#: ../src/Forum.rb:1195 ../src/Forum.rb:1290
-msgctxt "Forum"
-msgid "Forum name"
-msgstr ""
-
-#: ../src/Forum.rb:1195 ../src/Forum.rb:1290
+#: ../src/Forum.rb:1245 ../src/Forum.rb:1340
 msgctxt "Forum"
 msgid "Forum description"
 msgstr ""
 
-#: ../src/Forum.rb:1224
+#: ../src/Forum.rb:1245 ../src/Forum.rb:1340
+msgctxt "Forum"
+msgid "Forum name"
+msgstr ""
+
+#: ../src/Forum.rb:1274
 msgctxt "Forum"
 msgid "Close forum"
 msgstr ""
 
-#: ../src/Forum.rb:1225
+#: ../src/Forum.rb:1275
 msgctxt "Forum"
 msgid "Open forum"
 msgstr ""
 
-#: ../src/Forum.rb:1235
+#: ../src/Forum.rb:1285
 msgctxt "Forum"
 msgid "The forum has been opened"
 msgstr ""
 
-#: ../src/Forum.rb:1239
+#: ../src/Forum.rb:1289
 msgctxt "Forum"
 msgid "The forum has been closed"
 msgstr ""
 
-#: ../src/Forum.rb:1244
+#: ../src/Forum.rb:1294
 msgctxt "Forum"
 msgid "Edit forum tags"
 msgstr ""
 
-#: ../src/Forum.rb:1248
+#: ../src/Forum.rb:1298
 msgctxt "Forum"
 msgid "Change forum position"
 msgstr ""
 
-#: ../src/Forum.rb:1251
-msgctxt "Forum"
-msgid "Move forum"
-msgstr ""
-
-#: ../src/Forum.rb:1251 ../src/Forum.rb:2665
+#: ../src/Forum.rb:1301 ../src/Forum.rb:2877
 msgctxt "Forum"
 msgid "Move to end"
 msgstr ""
 
-#: ../src/Forum.rb:1266
+#: ../src/Forum.rb:1301
+msgctxt "Forum"
+msgid "Move forum"
+msgstr ""
+
+#: ../src/Forum.rb:1316
 msgctxt "Forum"
 msgid "Delete forum"
 msgstr ""
 
-#: ../src/Forum.rb:1267
+#: ../src/Forum.rb:1317
 msgctxt "Forum"
 msgid "Are you sure you want to delete this forum?"
 msgstr ""
 
-#: ../src/Forum.rb:1272
+#: ../src/Forum.rb:1322
 msgctxt "Forum"
 msgid "The forum has been deleted."
 msgstr ""
 
-#: ../src/Forum.rb:1290
-msgctxt "Forum"
-msgid "Voice forum"
-msgstr ""
-
-#: ../src/Forum.rb:1290
-msgctxt "Forum"
-msgid "Mixed forum"
-msgstr ""
-
-#: ../src/Forum.rb:1290
+#: ../src/Forum.rb:1340
 msgctxt "Forum"
 msgid "Forum type"
 msgstr ""
 
-#: ../src/Forum.rb:1290
+#: ../src/Forum.rb:1340
 msgctxt "Forum"
 msgid "Text forum"
 msgstr ""
 
-#: ../src/Forum.rb:1296
+#: ../src/Forum.rb:1340
+msgctxt "Forum"
+msgid "Mixed forum"
+msgstr ""
+
+#: ../src/Forum.rb:1340
+msgctxt "Forum"
+msgid "Voice forum"
+msgstr ""
+
+#: ../src/Forum.rb:1346
 msgctxt "Forum"
 msgid "Create forum"
 msgstr ""
 
-#: ../src/Forum.rb:1312
+#: ../src/Forum.rb:1362
 msgctxt "Forum"
 msgid "The forum has been created"
 msgstr ""
 
-#: ../src/Forum.rb:1420
+#: ../src/Forum.rb:1513
 msgctxt "Forum"
 msgid "No new posts in followed threads"
 msgstr ""
 
-#: ../src/Forum.rb:1424
+#: ../src/Forum.rb:1517
 msgctxt "Forum"
 msgid "No new threads on the followed forums"
 msgstr ""
 
-#: ../src/Forum.rb:1428
+#: ../src/Forum.rb:1521
 msgctxt "Forum"
 msgid "No new posts on the followed forums"
 msgstr ""
 
-#: ../src/Forum.rb:1432
+#: ../src/Forum.rb:1525
 msgctxt "Forum"
 msgid "No new mentions"
 msgstr ""
 
-#: ../src/Forum.rb:1441
+#: ../src/Forum.rb:1538
 msgctxt "Forum"
 msgid "New"
 msgstr ""
 
-#: ../src/Forum.rb:1445
+#: ../src/Forum.rb:1542
 msgctxt "Forum"
-msgid "Montioned by"
-msgstr ""
-
-#: ../src/Forum.rb:1457
-msgctxt "Forum"
-msgid "Select thread"
-msgstr ""
-
-#: ../src/Forum.rb:1459
-msgctxt "Forum"
-msgid "Author"
-msgstr ""
-
-#: ../src/Forum.rb:1506
-msgctxt "Forum"
-msgid "Mark this thread"
-msgstr ""
-
-#: ../src/Forum.rb:1507
-msgctxt "Forum"
-msgid "Unmark this thread"
-msgstr ""
-
-#: ../src/Forum.rb:1515
-msgctxt "Forum"
-msgid "Thread unmarked"
-msgstr ""
-
-#: ../src/Forum.rb:1517
-msgctxt "Forum"
-msgid "Thread marked"
-msgstr ""
-
-#: ../src/Forum.rb:1522 ../src/Forum.rb:1698 ../src/Forum.rb:2568
-msgctxt "Forum"
-msgid "Add to followed threads list"
-msgstr ""
-
-#: ../src/Forum.rb:1523 ../src/Forum.rb:2569
-msgctxt "Forum"
-msgid "Unfollow this thread"
-msgstr ""
-
-#: ../src/Forum.rb:1529 ../src/Forum.rb:2575
-msgctxt "Forum"
-msgid "Added to the list of followed threads."
-msgstr ""
-
-#: ../src/Forum.rb:1536 ../src/Forum.rb:2582
-msgctxt "Forum"
-msgid "Removed from followed threads list."
-msgstr ""
-
-#: ../src/Forum.rb:1544
-msgctxt "Forum"
-msgid "Thread statistics"
-msgstr ""
-
-#: ../src/Forum.rb:1548
-msgctxt "Forum"
-msgid "Followers: %{count_followers}"
-msgstr ""
-
-#: ../src/Forum.rb:1549
-msgctxt "Forum"
-msgid "All mentions: %{count_mentions}"
-msgstr ""
-
-#: ../src/Forum.rb:1550
-msgctxt "Forum"
-msgid "Unique authors: %{count_authors}"
-msgstr ""
-
-#: ../src/Forum.rb:1551
-msgctxt "Forum"
-msgid "Readers: %{count_readers}"
-msgstr ""
-
-#: ../src/Forum.rb:1552
-msgctxt "Forum"
-msgid "Users that have read less than 50 percent of posts: %{count_readers}"
-msgstr ""
-
-#: ../src/Forum.rb:1553
-msgctxt "Forum"
-msgid "Users that have read over 90 percent of posts: %{count_readers}"
+msgid "Mentioned by"
 msgstr ""
 
 #: ../src/Forum.rb:1554
 msgctxt "Forum"
-msgid "Users that have read all posts: %{count_readers}"
+msgid "Select thread"
 msgstr ""
 
 #: ../src/Forum.rb:1556
 msgctxt "Forum"
-msgid "Thread statistics summary"
+msgid "Author"
 msgstr ""
 
-#: ../src/Forum.rb:1562
+#: ../src/Forum.rb:1603
 msgctxt "Forum"
-msgid "New thread"
+msgid "Mark this thread"
 msgstr ""
 
-#: ../src/Forum.rb:1571
+#: ../src/Forum.rb:1604
 msgctxt "Forum"
-msgid "Move thread"
-msgstr ""
-
-#: ../src/Forum.rb:1582
-msgctxt "Forum"
-msgid "Thread destination"
-msgstr ""
-
-#: ../src/Forum.rb:1587
-msgctxt "Forum"
-msgid "The thread has been moved."
-msgstr ""
-
-#: ../src/Forum.rb:1594
-msgctxt "Forum"
-msgid "Rename"
-msgstr ""
-
-#: ../src/Forum.rb:1595
-msgctxt "Forum"
-msgid "Type a new thread name"
-msgstr ""
-
-#: ../src/Forum.rb:1600
-msgctxt "Forum"
-msgid "The forum name has been changed."
-msgstr ""
-
-#: ../src/Forum.rb:1607
-msgctxt "Forum"
-msgid "Delete thread"
-msgstr ""
-
-#: ../src/Forum.rb:1608
-msgctxt "Forum"
-msgid "Do you really want to delete thread %{thrname}?"
+msgid "Unmark this thread"
 msgstr ""
 
 #: ../src/Forum.rb:1612
 msgctxt "Forum"
-msgid "This thread has been deleted."
+msgid "Thread unmarked"
 msgstr ""
 
-#: ../src/Forum.rb:1619
+#: ../src/Forum.rb:1614
 msgctxt "Forum"
-msgid "Close thread"
+msgid "Thread marked"
 msgstr ""
 
-#: ../src/Forum.rb:1620
+#: ../src/Forum.rb:1619 ../src/Forum.rb:1882 ../src/Forum.rb:2780
 msgctxt "Forum"
-msgid "Open thread"
+msgid "Add to followed threads list"
 msgstr ""
 
-#: ../src/Forum.rb:1630
+#: ../src/Forum.rb:1620 ../src/Forum.rb:2781
 msgctxt "Forum"
-msgid "The thread has been opened"
+msgid "Unfollow this thread"
 msgstr ""
 
-#: ../src/Forum.rb:1634
+#: ../src/Forum.rb:1626 ../src/Forum.rb:2787
 msgctxt "Forum"
-msgid "The thread has been closed"
+msgid "Added to the list of followed threads."
 msgstr ""
 
-#: ../src/Forum.rb:1639
+#: ../src/Forum.rb:1633 ../src/Forum.rb:2794
 msgctxt "Forum"
-msgid "Pin thread"
+msgid "Removed from followed threads list."
 msgstr ""
 
-#: ../src/Forum.rb:1640
+#: ../src/Forum.rb:1641
 msgctxt "Forum"
-msgid "Unpin thread"
+msgid "Thread statistics"
+msgstr ""
+
+#: ../src/Forum.rb:1645
+msgctxt "Forum"
+msgid "Followers: %{count_followers}"
+msgstr ""
+
+#: ../src/Forum.rb:1646
+msgctxt "Forum"
+msgid "All mentions: %{count_mentions}"
+msgstr ""
+
+#: ../src/Forum.rb:1647
+msgctxt "Forum"
+msgid "Unique authors: %{count_authors}"
+msgstr ""
+
+#: ../src/Forum.rb:1648
+msgctxt "Forum"
+msgid "Readers: %{count_readers}"
+msgstr ""
+
+#: ../src/Forum.rb:1649
+msgctxt "Forum"
+msgid "Users that have read less than 50 percent of posts: %{count_readers}"
 msgstr ""
 
 #: ../src/Forum.rb:1650
 msgctxt "Forum"
-msgid "Thread has been unpinned"
+msgid "Users that have read over 90 percent of posts: %{count_readers}"
 msgstr ""
 
-#: ../src/Forum.rb:1654
+#: ../src/Forum.rb:1651
 msgctxt "Forum"
-msgid "Thread has been pinned"
+msgid "Users that have read all posts: %{count_readers}"
 msgstr ""
 
-#: ../src/Forum.rb:1672 ../src/Forum.rb:1696 ../src/Forum.rb:2257
-#: ../src/Forum.rb:2267
+#: ../src/Forum.rb:1653
 msgctxt "Forum"
-msgid "Audio post"
+msgid "Thread statistics summary"
 msgstr ""
 
-#: ../src/Forum.rb:1672
+#: ../src/Forum.rb:1659
 msgctxt "Forum"
-msgid "Select first post type"
+msgid "New thread"
 msgstr ""
 
-#: ../src/Forum.rb:1672 ../src/Forum.rb:2257
+#: ../src/Forum.rb:1668
 msgctxt "Forum"
-msgid "Text post"
+msgid "Move thread"
+msgstr ""
+
+#: ../src/Forum.rb:1679
+msgctxt "Forum"
+msgid "Thread destination"
+msgstr ""
+
+#: ../src/Forum.rb:1684
+msgctxt "Forum"
+msgid "The thread has been moved."
+msgstr ""
+
+#: ../src/Forum.rb:1691
+msgctxt "Forum"
+msgid "Rename"
 msgstr ""
 
 #: ../src/Forum.rb:1692
 msgctxt "Forum"
+msgid "Type a new thread name"
+msgstr ""
+
+#: ../src/Forum.rb:1697
+msgctxt "Forum"
+msgid "The forum name has been changed."
+msgstr ""
+
+#: ../src/Forum.rb:1704
+msgctxt "Forum"
+msgid "Delete thread"
+msgstr ""
+
+#: ../src/Forum.rb:1705
+msgctxt "Forum"
+msgid "Do you really want to delete thread %{thrname}?"
+msgstr ""
+
+#: ../src/Forum.rb:1709
+msgctxt "Forum"
+msgid "This thread has been deleted."
+msgstr ""
+
+#: ../src/Forum.rb:1716
+msgctxt "Forum"
+msgid "Close thread"
+msgstr ""
+
+#: ../src/Forum.rb:1717
+msgctxt "Forum"
+msgid "Open thread"
+msgstr ""
+
+#: ../src/Forum.rb:1727
+msgctxt "Forum"
+msgid "The thread has been opened"
+msgstr ""
+
+#: ../src/Forum.rb:1731
+msgctxt "Forum"
+msgid "The thread has been closed"
+msgstr ""
+
+#: ../src/Forum.rb:1736
+msgctxt "Forum"
+msgid "Pin thread"
+msgstr ""
+
+#: ../src/Forum.rb:1737
+msgctxt "Forum"
+msgid "Unpin thread"
+msgstr ""
+
+#: ../src/Forum.rb:1747
+msgctxt "Forum"
+msgid "Thread has been unpinned"
+msgstr ""
+
+#: ../src/Forum.rb:1751
+msgctxt "Forum"
+msgid "Thread has been pinned"
+msgstr ""
+
+#: ../src/Forum.rb:1757
+msgctxt "Forum"
+msgid "Offer this thread to another group"
+msgstr ""
+
+#: ../src/Forum.rb:1769
+msgctxt "Forum"
+msgid "Group founded by %{founder}"
+msgstr ""
+
+#: ../src/Forum.rb:1770
+msgctxt "Forum"
+msgid "Which group you want to offer this thread to?"
+msgstr ""
+
+#: ../src/Forum.rb:1777
+msgctxt "Forum"
+msgid "The offer has been created"
+msgstr ""
+
+#: ../src/Forum.rb:1784
+msgctxt "Forum"
+msgid "Withdraw the offer of this thread"
+msgstr ""
+
+#: ../src/Forum.rb:1789
+msgctxt "Forum"
+msgid "The offer has been withdrawn."
+msgstr ""
+
+#: ../src/Forum.rb:1807
+msgctxt "Forum"
+msgid "Thread transfer offer to group %{groupname}"
+msgstr ""
+
+#: ../src/Forum.rb:1808
+msgctxt "Forum"
+msgid "Accept this offer"
+msgstr ""
+
+#: ../src/Forum.rb:1814
+msgctxt "Forum"
+msgid "Select destination forum"
+msgstr ""
+
+#: ../src/Forum.rb:1823
+msgctxt "Forum"
+msgid "Offer accepted"
+msgstr ""
+
+#: ../src/Forum.rb:1832
+msgctxt "Forum"
+msgid "Refuse this offer"
+msgstr ""
+
+#: ../src/Forum.rb:1837
+msgctxt "Forum"
+msgid "Offer refused"
+msgstr ""
+
+#: ../src/Forum.rb:1856 ../src/Forum.rb:2447
+msgctxt "Forum"
+msgid "Text post"
+msgstr ""
+
+#: ../src/Forum.rb:1856
+msgctxt "Forum"
+msgid "Select first post type"
+msgstr ""
+
+#: ../src/Forum.rb:1856 ../src/Forum.rb:1880 ../src/Forum.rb:2447
+#: ../src/Forum.rb:2457
+msgctxt "Forum"
+msgid "Audio post"
+msgstr ""
+
+#: ../src/Forum.rb:1876
+msgctxt "Forum"
 msgid "Thread name"
 msgstr ""
 
-#: ../src/Forum.rb:1694
-msgctxt "Forum"
-msgid "Post"
-msgstr ""
-
-#: ../src/Forum.rb:1694
+#: ../src/Forum.rb:1878
 msgctxt "Forum"
 msgid "Attach a poll"
 msgstr ""
 
-#: ../src/Forum.rb:1694 ../src/Forum.rb:2266
+#: ../src/Forum.rb:1878 ../src/Forum.rb:2456
 msgctxt "Forum"
 msgid "Attach a file"
 msgstr ""
 
-#: ../src/Forum.rb:1703
+#: ../src/Forum.rb:1878
+msgctxt "Forum"
+msgid "Post"
+msgstr ""
+
+#: ../src/Forum.rb:1887
 msgctxt "Forum"
 msgid "No tag value"
 msgstr ""
 
-#: ../src/Forum.rb:1714 ../src/Forum.rb:1722 ../src/Forum.rb:2289
-#: ../src/Forum.rb:2317
+#: ../src/Forum.rb:1898 ../src/Forum.rb:1906 ../src/Forum.rb:2479
+#: ../src/Forum.rb:2507
 msgctxt "Forum"
 msgid "Send"
 msgstr ""
 
-#: ../src/Forum.rb:1738
+#: ../src/Forum.rb:1922
 msgctxt "Forum"
 msgid "Poll to attach"
 msgstr ""
 
-#: ../src/Forum.rb:1743
+#: ../src/Forum.rb:1927
 msgctxt "Forum"
 msgid "This poll has already been added"
 msgstr ""
 
-#: ../src/Forum.rb:1746 ../src/Forum.rb:2246
+#: ../src/Forum.rb:1930 ../src/Forum.rb:2436
 msgctxt "Forum"
 msgid "Polls"
 msgstr ""
 
-#: ../src/Forum.rb:1748
+#: ../src/Forum.rb:1932
 msgctxt "Forum"
 msgid "Poll has been added"
 msgstr ""
 
-#: ../src/Forum.rb:1752
+#: ../src/Forum.rb:1936
 msgctxt "Forum"
 msgid "You haven't created any polls yet."
 msgstr ""
 
-#: ../src/Forum.rb:1773 ../src/Forum.rb:2155 ../src/Forum.rb:2695
+#: ../src/Forum.rb:1957 ../src/Forum.rb:2345 ../src/Forum.rb:2907
 msgctxt "Forum"
 msgid "Select file to attach"
 msgstr ""
 
-#: ../src/Forum.rb:1776 ../src/Forum.rb:2158
+#: ../src/Forum.rb:1960 ../src/Forum.rb:2348
 msgctxt "Forum"
 msgid "This file has been already attached"
 msgstr ""
 
-#: ../src/Forum.rb:1779 ../src/Forum.rb:2161 ../src/Forum.rb:2701
+#: ../src/Forum.rb:1963 ../src/Forum.rb:2351 ../src/Forum.rb:2913
 msgctxt "Forum"
 msgid "This file is too large"
 msgstr ""
 
-#: ../src/Forum.rb:1784 ../src/Forum.rb:2166
+#: ../src/Forum.rb:1968 ../src/Forum.rb:2356
 msgctxt "Forum"
 msgid "The file has been attached"
 msgstr ""
 
-#: ../src/Forum.rb:1817
+#: ../src/Forum.rb:2001
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this thread?"
 msgstr ""
 
-#: ../src/Forum.rb:1884
+#: ../src/Forum.rb:2068
 msgctxt "Forum"
 msgid "Thread has been created."
 msgstr ""
 
-#: ../src/Forum.rb:1886
+#: ../src/Forum.rb:2070
 msgctxt "Forum"
 msgid "Error creating thread!"
 msgstr ""
 
-#: ../src/Forum.rb:2109
+#: ../src/Forum.rb:2299
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this post?"
 msgstr ""
 
-#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:125
-msgctxt "Polls"
-msgid "Show report"
-msgstr ""
-
-#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:117
+#: ../src/Forum.rb:2318 ../src/Polls.rb:22 ../src/Polls.rb:117
 #: ../src/Polls.rb:353
 msgctxt "Polls"
 msgid "Vote"
 msgstr ""
 
-#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:122
+#: ../src/Forum.rb:2318 ../src/Polls.rb:22 ../src/Polls.rb:122
 msgctxt "Polls"
 msgid "Show results"
 msgstr ""
 
-#: ../src/Forum.rb:2144
+#: ../src/Forum.rb:2318 ../src/Polls.rb:22 ../src/Polls.rb:125
+msgctxt "Polls"
+msgid "Show report"
+msgstr ""
+
+#: ../src/Forum.rb:2334
 msgctxt "Forum"
 msgid "Where to save this file?"
 msgstr ""
 
-#: ../src/Forum.rb:2236
+#: ../src/Forum.rb:2426
 msgctxt "Forum"
 msgid "This post has been edited"
 msgstr ""
 
-#: ../src/Forum.rb:2257
+#: ../src/Forum.rb:2447
 msgctxt "Forum"
 msgid "Post type"
 msgstr ""
 
-#: ../src/Forum.rb:2266
+#: ../src/Forum.rb:2456
 msgctxt "Forum"
 msgid "Your answer"
 msgstr ""
 
-#: ../src/Forum.rb:2278
+#: ../src/Forum.rb:2468
 msgctxt "Forum"
 msgid "Return"
 msgstr ""
 
-#: ../src/Forum.rb:2307 ../src/Forum.rb:2348
+#: ../src/Forum.rb:2497 ../src/Forum.rb:2538
 msgctxt "Forum"
 msgid "The post was created."
 msgstr ""
 
-#: ../src/Forum.rb:2351
+#: ../src/Forum.rb:2541
 msgctxt "Forum"
 msgid "Post creation failure."
 msgstr ""
 
-#: ../src/Forum.rb:2361 ../src/Forum.rb:2362
+#: ../src/Forum.rb:2551
+msgctxt "Forum"
+msgid "Received mention"
+msgstr ""
+
+#: ../src/Forum.rb:2552
+msgctxt "Forum"
+msgid "Show mention"
+msgstr ""
+
+#: ../src/Forum.rb:2553
+msgctxt "Forum"
+msgid "Mention by %{user}"
+msgstr ""
+
+#: ../src/Forum.rb:2555
+msgctxt "Forum"
+msgid "Send reply to mentioner"
+msgstr ""
+
+#: ../src/Forum.rb:2563 ../src/Forum.rb:2564
 msgctxt "Forum"
 msgid "Reply"
 msgstr ""
 
-#: ../src/Forum.rb:2367
+#: ../src/Forum.rb:2569
 msgctxt "Forum"
 msgid "Reply with quote"
 msgstr ""
 
-#: ../src/Forum.rb:2376
+#: ../src/Forum.rb:2578
 msgctxt "Forum"
 msgid "Like this post"
 msgstr ""
 
-#: ../src/Forum.rb:2377
+#: ../src/Forum.rb:2579
 msgctxt "Forum"
 msgid "Dislike this post"
 msgstr ""
 
-#: ../src/Forum.rb:2387
+#: ../src/Forum.rb:2589
 msgctxt "Forum"
 msgid "This post is now liked"
 msgstr ""
 
-#: ../src/Forum.rb:2389
+#: ../src/Forum.rb:2591
 msgctxt "forum"
 msgid "This post is no longer liked"
 msgstr ""
 
-#: ../src/Forum.rb:2393
+#: ../src/Forum.rb:2595
 msgctxt "Forum"
 msgid "Show post likes"
 msgstr ""
 
-#: ../src/Forum.rb:2402
+#: ../src/Forum.rb:2604
 msgctxt "Forum"
 msgid "Users who like this post"
 msgstr ""
 
-#: ../src/Forum.rb:2414
+#: ../src/Forum.rb:2616
 msgctxt "Forum"
 msgid "Show original post"
 msgstr ""
 
-#: ../src/Forum.rb:2417
+#: ../src/Forum.rb:2619
 msgctxt "Forum"
 msgid "Original post"
 msgstr ""
 
-#: ../src/Forum.rb:2422
+#: ../src/Forum.rb:2624
 msgctxt "Forum"
 msgid "Navigation"
 msgstr ""
 
-#: ../src/Forum.rb:2423 ../src/Forum.rb:2764
+#: ../src/Forum.rb:2625 ../src/Forum.rb:2976
 msgctxt "Forum"
 msgid "Bookmarks"
 msgstr ""
 
-#: ../src/Forum.rb:2426
+#: ../src/Forum.rb:2628
 msgctxt "Forum"
 msgid "Go to post"
 msgstr ""
 
-#: ../src/Forum.rb:2432 ../src/Forum.rb:2460
+#: ../src/Forum.rb:2634 ../src/Forum.rb:2662
 msgctxt "Forum"
 msgid "Select post"
 msgstr ""
 
-#: ../src/Forum.rb:2436
+#: ../src/Forum.rb:2638
 msgctxt "Forum"
 msgid "Go to post number"
 msgstr ""
 
-#: ../src/Forum.rb:2437
+#: ../src/Forum.rb:2639
 msgctxt "Forum"
 msgid "Type post number"
 msgstr ""
 
-#: ../src/Forum.rb:2444
+#: ../src/Forum.rb:2646
 msgctxt "Forum"
 msgid "Search in thread"
 msgstr ""
 
-#: ../src/Forum.rb:2465
+#: ../src/Forum.rb:2667
 msgctxt "Forum"
 msgid "The entered phrase cannot be found."
 msgstr ""
 
-#: ../src/Forum.rb:2470
+#: ../src/Forum.rb:2672
 msgctxt "Forum"
 msgid "Go to first post"
 msgstr ""
 
-#: ../src/Forum.rb:2474
+#: ../src/Forum.rb:2676
 msgctxt "Forum"
 msgid "Go to last post"
 msgstr ""
 
-#: ../src/Forum.rb:2479
+#: ../src/Forum.rb:2681
 msgctxt "Forum"
 msgid "Go to first new post"
 msgstr ""
 
-#: ../src/Forum.rb:2486 ../src/Forum.rb:2500
+#: ../src/Forum.rb:2688 ../src/Forum.rb:2702
 msgctxt "Forum"
 msgid "Mention post"
 msgstr ""
 
-#: ../src/Forum.rb:2497
+#: ../src/Forum.rb:2699
 msgctxt "Forum"
 msgid "Nobody added you to their contact list."
 msgstr ""
 
-#: ../src/Forum.rb:2500
-msgctxt "Forum"
-msgid "User to mention"
-msgstr ""
-
-#: ../src/Forum.rb:2500
+#: ../src/Forum.rb:2702
 msgctxt "Forum"
 msgid "Message"
 msgstr ""
 
-#: ../src/Forum.rb:2514
+#: ../src/Forum.rb:2702
+msgctxt "Forum"
+msgid "User to mention"
+msgstr ""
+
+#: ../src/Forum.rb:2716
 msgctxt "Forum"
 msgid "The mention has been sent."
 msgstr ""
 
-#: ../src/Forum.rb:2524
+#: ../src/Forum.rb:2726
 msgctxt "Forum"
 msgid "Listen to the thread"
 msgstr ""
 
-#: ../src/Forum.rb:2590
+#: ../src/Forum.rb:2770
+msgctxt "Forum"
+msgid "Hide signatures"
+msgstr ""
+
+#: ../src/Forum.rb:2771
+msgctxt "Forum"
+msgid "Show signatures"
+msgstr ""
+
+#: ../src/Forum.rb:2802
 msgctxt "Forum"
 msgid "Edit post"
 msgstr ""
 
-#: ../src/Forum.rb:2596
+#: ../src/Forum.rb:2808
 msgctxt "Forum"
 msgid "Move post"
 msgstr ""
 
-#: ../src/Forum.rb:2624
+#: ../src/Forum.rb:2836
 msgctxt "Forum"
 msgid "Post destination"
 msgstr ""
 
-#: ../src/Forum.rb:2629
+#: ../src/Forum.rb:2841
 msgctxt "Forum"
 msgid "The post has been moved."
 msgstr ""
 
-#: ../src/Forum.rb:2635
+#: ../src/Forum.rb:2847
 msgctxt "Forum"
 msgid "Delete post"
 msgstr ""
 
-#: ../src/Forum.rb:2636 ../src/Forum.rb:2646
+#: ../src/Forum.rb:2848 ../src/Forum.rb:2858
 msgctxt "Forum"
 msgid "Are you sure you want to delete this post?"
 msgstr ""
 
-#: ../src/Forum.rb:2660
+#: ../src/Forum.rb:2872
 msgctxt "Forum"
 msgid "Change post position"
 msgstr ""
 
-#: ../src/Forum.rb:2666
+#: ../src/Forum.rb:2878
 msgctxt "Forum"
 msgid "Place post above"
 msgstr ""
 
-#: ../src/Forum.rb:2669
+#: ../src/Forum.rb:2881
 msgctxt "Forum"
 msgid "The post has been slided."
 msgstr ""
 
-#: ../src/Forum.rb:2691
+#: ../src/Forum.rb:2903
 msgctxt "Forum"
 msgid "edit your post here"
 msgstr ""
 
-#: ../src/Forum.rb:2694
+#: ../src/Forum.rb:2906
 msgctxt "Forum"
 msgid "Add attachment"
 msgstr ""
 
-#: ../src/Forum.rb:2708
+#: ../src/Forum.rb:2920
 msgctxt "Forum"
 msgid "Delete attachment"
 msgstr ""
 
-#: ../src/Forum.rb:2734
+#: ../src/Forum.rb:2946
 msgctxt "Forum"
 msgid "The post has been modified"
 msgstr ""
 
-#: ../src/Forum.rb:2764
+#: ../src/Forum.rb:2976
 msgctxt "Forum"
 msgid "Post %{postnumber} by %{author}"
 msgstr ""
 
-#: ../src/Forum.rb:2767
+#: ../src/Forum.rb:2979
 msgctxt "Forum"
 msgid "Delete bookmark"
 msgstr ""
 
-#: ../src/Forum.rb:2773
+#: ../src/Forum.rb:2985
 msgctxt "Forum"
 msgid "New bookmark"
 msgstr ""
 
-#: ../src/Forum.rb:2806
+#: ../src/Forum.rb:3018
 msgctxt "Forum"
 msgid "Bookmark deleted"
 msgstr ""
 
-#: ../src/Forum.rb:2815
+#: ../src/Forum.rb:3027
 msgctxt "Forum"
 msgid "Bookmark description"
 msgstr ""
 
-#: ../src/Forum.rb:2818
+#: ../src/Forum.rb:3030
 msgctxt "Forum"
 msgid "Bookmark created"
 msgstr ""
@@ -4823,12 +4982,12 @@ msgstr ""
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
-msgid "Badge name in English"
+msgid "Badge name"
 msgstr ""
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
-msgid "Badge name"
+msgid "Badge description in English"
 msgstr ""
 
 #: ../src/Honors.rb:301
@@ -4838,7 +4997,7 @@ msgstr ""
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
-msgid "Badge description in English"
+msgid "Badge name in English"
 msgstr ""
 
 #: ../src/Honors.rb:315
@@ -4878,34 +5037,42 @@ msgctxt "Loading"
 msgid "A new version of the program is available."
 msgstr ""
 
-#: ../src/Loading.rb:421
-msgctxt "Loading"
-msgid "Password reset"
+#: ../src/Loading.rb:416
+msgctxt "EAPI_EltenAPI"
+msgid ""
+"Do you want to send reports on how Elten is used? This data does not contain a"
+"ny confidential information and is very helpful in program development. This s"
+"election can be changed at any time from the Settings."
 msgstr ""
 
-#: ../src/Loading.rb:421
-msgctxt "Loading"
-msgid "Use guest account"
-msgstr ""
-
-#: ../src/Loading.rb:421
-msgctxt "Loading"
-msgid "Reinstall"
-msgstr ""
-
-#: ../src/Loading.rb:421
-msgctxt "Loading"
-msgid "Register"
-msgstr ""
-
-#: ../src/Loading.rb:421
+#: ../src/Loading.rb:425
 msgctxt "Loading"
 msgid "Log in"
 msgstr ""
 
-#: ../src/Loading.rb:421
+#: ../src/Loading.rb:425
+msgctxt "Loading"
+msgid "Register"
+msgstr ""
+
+#: ../src/Loading.rb:425
+msgctxt "Loading"
+msgid "Password reset"
+msgstr ""
+
+#: ../src/Loading.rb:425
 msgctxt "Loading"
 msgid "Settings"
+msgstr ""
+
+#: ../src/Loading.rb:425
+msgctxt "Loading"
+msgid "Use guest account"
+msgstr ""
+
+#: ../src/Loading.rb:425
+msgctxt "Loading"
+msgid "Reinstall"
 msgstr ""
 
 #: ../src/Log.rb:8
@@ -4928,7 +5095,7 @@ msgctxt "Log"
 msgid "Log"
 msgstr ""
 
-#: ../src/Log.rb:12 ../src/Polls.rb:540
+#: ../src/Log.rb:12 ../src/Polls.rb:541
 msgid "Close"
 msgstr ""
 
@@ -4961,14 +5128,14 @@ msgstr ""
 
 #: ../src/Login.rb:88
 msgctxt "Login"
-msgid "Authenticate using SMS"
+msgid ""
+"Two-factor authentication is enabled on this account. Select method to authent"
+"icate."
 msgstr ""
 
 #: ../src/Login.rb:88
 msgctxt "Login"
-msgid ""
-"Two-factor authentication is enabled on this account. Select method to authent"
-"icate."
+msgid "Authenticate using SMS"
 msgstr ""
 
 #: ../src/Login.rb:88
@@ -5190,222 +5357,222 @@ msgctxt "MainMenu"
 msgid "&Community"
 msgstr ""
 
-#: ../src/MainMenu.rb:43
+#: ../src/MainMenu.rb:44
 msgctxt "MainMenu"
 msgid "&Messages"
 msgstr ""
 
-#: ../src/MainMenu.rb:44
+#: ../src/MainMenu.rb:46
 msgctxt "MainMenu"
 msgid "&Blogs"
 msgstr ""
 
-#: ../src/MainMenu.rb:45
+#: ../src/MainMenu.rb:47
 msgctxt "MainMenu"
 msgid "&Forum"
 msgstr ""
 
-#: ../src/MainMenu.rb:46
+#: ../src/MainMenu.rb:49
 msgctxt "MainMenu"
 msgid "&Chat"
 msgstr ""
 
-#: ../src/MainMenu.rb:47
+#: ../src/MainMenu.rb:50
 msgctxt "MainMenu"
 msgid "No&tes"
 msgstr ""
 
-#: ../src/MainMenu.rb:48
+#: ../src/MainMenu.rb:51
 msgctxt "MainMenu"
 msgid "What's &new?"
 msgstr ""
 
-#: ../src/MainMenu.rb:49
+#: ../src/MainMenu.rb:52
 msgctxt "MainMenu"
 msgid "Po&lls"
 msgstr ""
 
-#: ../src/MainMenu.rb:50
+#: ../src/MainMenu.rb:54
 msgctxt "MainMenu"
 msgid "&Users"
 msgstr ""
 
-#: ../src/MainMenu.rb:51
+#: ../src/MainMenu.rb:56
 msgctxt "MainMenu"
 msgid "My &contacts"
 msgstr ""
 
-#: ../src/MainMenu.rb:52
+#: ../src/MainMenu.rb:57
 msgctxt "MainMenu"
 msgid "Users who a&dded me to contacts"
 msgstr ""
 
-#: ../src/MainMenu.rb:53
+#: ../src/MainMenu.rb:59
 msgctxt "MainMenu"
 msgid "Who is &online?"
 msgstr ""
 
-#: ../src/MainMenu.rb:54
+#: ../src/MainMenu.rb:60
 msgctxt "MainMenu"
 msgid "&badges"
 msgstr ""
 
-#: ../src/MainMenu.rb:55
+#: ../src/MainMenu.rb:61
 msgctxt "MainMenu"
 msgid "&Users list"
 msgstr ""
 
-#: ../src/MainMenu.rb:56
+#: ../src/MainMenu.rb:62
 msgctxt "MainMenu"
 msgid "Ad&mins"
 msgstr ""
 
-#: ../src/MainMenu.rb:57
+#: ../src/MainMenu.rb:63
 msgctxt "MainMenu"
 msgid "User searc&h"
 msgstr ""
 
-#: ../src/MainMenu.rb:58
+#: ../src/MainMenu.rb:64
 msgctxt "MainMenu"
 msgid "Recently &active users"
 msgstr ""
 
-#: ../src/MainMenu.rb:59
+#: ../src/MainMenu.rb:65
 msgctxt "MainMenu"
 msgid "Recently &registered users"
 msgstr ""
 
-#: ../src/MainMenu.rb:62
+#: ../src/MainMenu.rb:68
 msgctxt "MainMenu"
 msgid "Manage my &account"
 msgstr ""
 
-#: ../src/MainMenu.rb:66
+#: ../src/MainMenu.rb:72
 msgctxt "MainMenu"
 msgid "&Programs"
 msgstr ""
 
-#: ../src/MainMenu.rb:71
+#: ../src/MainMenu.rb:77
 msgctxt "MainMenu"
 msgid "Programs installation"
 msgstr ""
 
-#: ../src/MainMenu.rb:73
+#: ../src/MainMenu.rb:79
 msgctxt "MainMenu"
 msgid "&Tools"
 msgstr ""
 
-#: ../src/MainMenu.rb:74
+#: ../src/MainMenu.rb:80
 msgctxt "MainMenu"
 msgid "Program &settings"
 msgstr ""
 
-#: ../src/MainMenu.rb:75
+#: ../src/MainMenu.rb:81
 msgctxt "MainMenu"
 msgid "Soun&dthemes"
 msgstr ""
 
-#: ../src/MainMenu.rb:76
+#: ../src/MainMenu.rb:82
 msgctxt "MainMenu"
 msgid "Speed &test"
 msgstr ""
 
-#: ../src/MainMenu.rb:77
+#: ../src/MainMenu.rb:83
 msgctxt "MainMenu"
 msgid "Create &Portable version"
 msgstr ""
 
-#: ../src/MainMenu.rb:79
+#: ../src/MainMenu.rb:85
 msgctxt "MainMenu"
 msgid "&Reinstall"
 msgstr ""
 
-#: ../src/MainMenu.rb:80
+#: ../src/MainMenu.rb:86
 msgctxt "MainMenu"
 msgid "&Install"
 msgstr ""
 
-#: ../src/MainMenu.rb:83
+#: ../src/MainMenu.rb:89
 msgctxt "MainMenu"
 msgid "&Log viewer"
 msgstr ""
 
-#: ../src/MainMenu.rb:84
+#: ../src/MainMenu.rb:90
 msgctxt "MainMenu"
 msgid "&Console"
 msgstr ""
 
-#: ../src/MainMenu.rb:85
+#: ../src/MainMenu.rb:91
 msgctxt "MainMenu"
 msgid "De&bugging"
 msgstr ""
 
-#: ../src/MainMenu.rb:87
+#: ../src/MainMenu.rb:93
 msgctxt "MainMenu"
 msgid "&Help"
 msgstr ""
 
-#: ../src/MainMenu.rb:88
+#: ../src/MainMenu.rb:94
 msgctxt "MainMenu"
 msgid "&Changelog"
 msgstr ""
 
-#: ../src/MainMenu.rb:89
+#: ../src/MainMenu.rb:95
 msgctxt "MainMenu"
 msgid "Program &version"
 msgstr ""
 
-#: ../src/MainMenu.rb:90
+#: ../src/MainMenu.rb:96
 msgctxt "MainMenu"
 msgid "Sounds &guide"
 msgstr ""
 
-#: ../src/MainMenu.rb:91
+#: ../src/MainMenu.rb:97
 msgctxt "MainMenu"
 msgid "&Read me"
 msgstr ""
 
-#: ../src/MainMenu.rb:92
+#: ../src/MainMenu.rb:98
 msgctxt "MainMenu"
 msgid "User &agreement"
 msgstr ""
 
-#: ../src/MainMenu.rb:94
+#: ../src/MainMenu.rb:100
 msgctxt "MainMenu"
 msgid "&Quit"
 msgstr ""
 
-#: ../src/MainMenu.rb:95
+#: ../src/MainMenu.rb:101
 msgctxt "MainMenu"
 msgid "Hide in &tray"
 msgstr ""
 
-#: ../src/MainMenu.rb:99
+#: ../src/MainMenu.rb:105
 msgctxt "MainMenu"
 msgid "&Logout"
 msgstr ""
 
-#: ../src/MainMenu.rb:115
+#: ../src/MainMenu.rb:121
 msgctxt "MainMenu"
 msgid "E&xit"
 msgstr ""
 
-#: ../src/MainMenu.rb:119
+#: ../src/MainMenu.rb:125
 msgctxt "MainMenu"
 msgid "&Restart"
 msgstr ""
 
-#: ../src/MainMenu.rb:124
+#: ../src/MainMenu.rb:130
 msgctxt "MainMenu"
 msgid "Restart in de&bug mode"
 msgstr ""
 
-#: ../src/MainMenu.rb:132
+#: ../src/MainMenu.rb:138
 msgctxt "MainMenu"
 msgid "&Windows"
 msgstr ""
 
-#: ../src/MainMenu.rb:139
+#: ../src/MainMenu.rb:145
 msgctxt "MainMenu"
 msgid "Window %{number}"
 msgstr ""
@@ -5457,7 +5624,12 @@ msgstr ""
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
-msgid "Mute for a quarter"
+msgid "Mute for an hour"
+msgstr ""
+
+#: ../src/Messages.rb:150
+msgctxt "Messages"
+msgid "Mute for a day"
 msgstr ""
 
 #: ../src/Messages.rb:150
@@ -5467,12 +5639,7 @@ msgstr ""
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
-msgid "Mute for an hour"
-msgstr ""
-
-#: ../src/Messages.rb:150
-msgctxt "Messages"
-msgid "Mute for a day"
+msgid "Mute for a quarter"
 msgstr ""
 
 #: ../src/Messages.rb:150
@@ -5988,7 +6155,12 @@ msgstr ""
 
 #: ../src/Polls.rb:176
 msgctxt "Polls"
-msgid "Poll name"
+msgid "Expiry date"
+msgstr ""
+
+#: ../src/Polls.rb:176
+msgctxt "Polls"
+msgid "Description"
 msgstr ""
 
 #: ../src/Polls.rb:176
@@ -6008,7 +6180,7 @@ msgstr ""
 
 #: ../src/Polls.rb:176
 msgctxt "Polls"
-msgid "Expiry date"
+msgid "Poll name"
 msgstr ""
 
 #: ../src/Polls.rb:176
@@ -6016,7 +6188,7 @@ msgctxt "Polls"
 msgid "Set the expiry date for this poll"
 msgstr ""
 
-#: ../src/Polls.rb:176 ../src/Polls.rb:537
+#: ../src/Polls.rb:176 ../src/Polls.rb:538
 msgctxt "Polls"
 msgid "Questions"
 msgstr ""
@@ -6024,11 +6196,6 @@ msgstr ""
 #: ../src/Polls.rb:176
 msgctxt "Polls"
 msgid "Poll language"
-msgstr ""
-
-#: ../src/Polls.rb:176
-msgctxt "Polls"
-msgid "Description"
 msgstr ""
 
 #: ../src/Polls.rb:205
@@ -6058,7 +6225,7 @@ msgstr ""
 
 #: ../src/Polls.rb:224
 msgctxt "Polls"
-msgid "Edit box"
+msgid "Multiple choice"
 msgstr ""
 
 #: ../src/Polls.rb:224
@@ -6066,14 +6233,14 @@ msgctxt "Polls"
 msgid "Question type"
 msgstr ""
 
-#: ../src/Polls.rb:224 ../src/Polls.rb:538
+#: ../src/Polls.rb:224 ../src/Polls.rb:539
 msgctxt "Polls"
 msgid "Answers"
 msgstr ""
 
 #: ../src/Polls.rb:224
 msgctxt "Polls"
-msgid "Multiple choice"
+msgid "Edit box"
 msgstr ""
 
 #: ../src/Polls.rb:249
@@ -6151,44 +6318,44 @@ msgctxt "Polls"
 msgid "Poll results: %{name}"
 msgstr ""
 
-#: ../src/Polls.rb:539
+#: ../src/Polls.rb:540
 msgctxt "Polls"
 msgid "Filters"
 msgstr ""
 
-#: ../src/Polls.rb:561
+#: ../src/Polls.rb:562
 msgctxt "Polls"
 msgid "Filter with this answer"
 msgstr ""
 
-#: ../src/Polls.rb:565
+#: ../src/Polls.rb:566
 msgctxt "Polls"
 msgid "Filter without this answer"
 msgstr ""
 
-#: ../src/Polls.rb:570
+#: ../src/Polls.rb:571
 msgctxt "Polls"
 msgid "Delete this answer from filters"
 msgstr ""
 
-#: ../src/Polls.rb:646
+#: ../src/Polls.rb:647
 msgctxt "Polls"
 msgid "Includes"
 msgstr ""
 
-#: ../src/Polls.rb:648
+#: ../src/Polls.rb:649
 msgctxt "Polls"
 msgid "Excludes"
 msgstr ""
 
 #: ../src/Portable.rb:7
 msgctxt "Portable"
-msgid "Destination"
+msgid "continue"
 msgstr ""
 
 #: ../src/Portable.rb:7
 msgctxt "Portable"
-msgid "continue"
+msgid "Destination"
 msgstr ""
 
 #: ../src/Portable.rb:7
@@ -6213,7 +6380,7 @@ msgstr ""
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Use a screenreader or a system default voice"
+msgid "Ask each time"
 msgstr ""
 
 #: ../src/Portable.rb:35
@@ -6223,7 +6390,7 @@ msgstr ""
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Use current setting"
+msgid "Use a screenreader or a system default voice"
 msgstr ""
 
 #: ../src/Portable.rb:35
@@ -6237,7 +6404,7 @@ msgstr ""
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Ask each time"
+msgid "Use current setting"
 msgstr ""
 
 #: ../src/Portable.rb:47
@@ -6458,9 +6625,9 @@ msgctxt "Settings"
 msgid "Display context menu in menu bar"
 msgstr ""
 
-#: ../src/Settings.rb:135 ../src/Settings.rb:214
+#: ../src/Settings.rb:135
 msgctxt "Settings"
-msgid "Sound only"
+msgid "Announcement of types of controls"
 msgstr ""
 
 #: ../src/Settings.rb:135 ../src/Settings.rb:214
@@ -6470,12 +6637,12 @@ msgstr ""
 
 #: ../src/Settings.rb:135 ../src/Settings.rb:214
 msgctxt "Settings"
-msgid "Voice only"
+msgid "Sound only"
 msgstr ""
 
-#: ../src/Settings.rb:135
+#: ../src/Settings.rb:135 ../src/Settings.rb:214
 msgctxt "Settings"
-msgid "Announcement of types of controls"
+msgid "Voice only"
 msgstr ""
 
 #: ../src/Settings.rb:136
@@ -6530,6 +6697,11 @@ msgstr ""
 
 #: ../src/Settings.rb:164
 msgctxt "Settings"
+msgid "Typing echo"
+msgstr ""
+
+#: ../src/Settings.rb:164
+msgctxt "Settings"
 msgid "Characters"
 msgstr ""
 
@@ -6541,11 +6713,6 @@ msgstr ""
 #: ../src/Settings.rb:164
 msgctxt "Settings"
 msgid "Characters and words"
-msgstr ""
-
-#: ../src/Settings.rb:164
-msgctxt "Settings"
-msgid "Typing echo"
 msgstr ""
 
 #: ../src/Settings.rb:213
@@ -6560,12 +6727,12 @@ msgstr ""
 
 #: ../src/Settings.rb:215
 msgctxt "Settings"
-msgid "announcement time"
+msgid "every quarter of an hour"
 msgstr ""
 
 #: ../src/Settings.rb:215
 msgctxt "Settings"
-msgid "every quarter of an hour"
+msgid "announcement time"
 msgstr ""
 
 #: ../src/Settings.rb:215
@@ -7010,6 +7177,31 @@ msgstr ""
 
 #: ../src/SpeedTest.rb:7
 msgctxt "SpeedTest"
+msgid "Blogs list"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Unit to test"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Start"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Number of attempts to perform"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Messages recipients"
+msgstr ""
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
 msgid "Session refresh"
 msgstr ""
 
@@ -7026,31 +7218,6 @@ msgstr ""
 #: ../src/SpeedTest.rb:7
 msgctxt "SpeedTest"
 msgid "Forum structure (compressed)"
-msgstr ""
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Messages recipients"
-msgstr ""
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Blogs list"
-msgstr ""
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Unit to test"
-msgstr ""
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Number of attempts to perform"
-msgstr ""
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Start"
 msgstr ""
 
 #: ../src/SpeedTest.rb:31
@@ -7153,67 +7320,72 @@ msgctxt "Users_RecentlyRegistered"
 msgid "Recently registered users"
 msgstr ""
 
-#: ../src/WhatsNew.rb:37
+#: ../src/WhatsNew.rb:38
 msgctxt "WhatsNew"
 msgid "What's new"
 msgstr ""
 
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New posts in followed threads"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New comments on your blog"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New posts on the followed blogs"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New threads on followed forums"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New posts on followed forums"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New friends"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "Friends' birthday"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "Mentions"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "Update available (%{version})"
-msgstr ""
-
-#: ../src/WhatsNew.rb:47
+#: ../src/WhatsNew.rb:48
 msgctxt "WhatsNew"
 msgid "New messages"
 msgstr ""
 
-#: ../src/WhatsNew.rb:59
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "New posts in followed threads"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "New posts on the followed blogs"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "New comments on your blog"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "New threads on followed forums"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "New posts on followed forums"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "New friends"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "Friends' birthday"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "Mentions"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "New comments in followed blog posts"
+msgstr ""
+
+#: ../src/WhatsNew.rb:48
+msgctxt "WhatsNew"
+msgid "Update available (%{version})"
+msgstr ""
+
+#: ../src/WhatsNew.rb:61
 msgctxt "WhatsNew"
 msgid "There is nothing new."
 msgstr ""
 
-#: ../src/WhatsNew.rb:110
+#: ../src/WhatsNew.rb:114
 msgctxt "WhatsNew"
 msgid "There is nothing new on followedblogs."
 msgstr ""

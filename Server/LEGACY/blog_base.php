@@ -24,7 +24,7 @@ CURLOPT_HTTPHEADER => array(
 ));
 register_shutdown_function('wp_close');
 }
-$domain="eltenblog.net";
+$domain="elten.blog";
 if($blog!="") $domain=wp_domainize($blog);
 if(!wp_iseltenblog($blog)) {
 if(!wp_iswordpresscom($domain))
@@ -80,35 +80,35 @@ if(!isset($wp_domainized)) $wp_domainized=array();
 if(!isset($wp_domainized[$blog])) {
 $d = transliterator_transliterate('Any-Latin;Latin-ASCII;', str_replace(".","",str_replace(" ","",strtolower($blog))));
 if(strpos($d, "[")===0)
-$d=substr($d, 1, -1).".s.eltenblog.net";
+$d=substr($d, 1, -1).".s.elten.blog";
 else
-$d.=".eltenblog.net";
+$d.=".elten.blog";
 $wp_domainized[$blog]=$d;
 }
 else $d = $wp_domainized[$blog];
-if(strpos($d, ".")===0) return "eltenblog.net";
+if(strpos($d, ".")===0) return "elten.blog";
 return($d);
 }
 
 function wp_dedomainize($domain) {
 $q=mquery("select blog from blogs_mapping where domain='".mysql_real_escape_string($domain)."'");
 if(mysql_num_rows($q)>0) return mysql_fetch_row($q)[0];
-$s = strpos($domain, ".s.eltenblog.net");
-if($s===strlen($domain)-strlen(".s.eltenblog.net")) return "[".substr($domain, 0, $s)."]";
-$s = strpos($domain, ".eltenblog.net");
-if($s===strlen($domain)-strlen(".eltenblog.net")) {
+$s = strpos($domain, ".s.elten.blog");
+if($s===strlen($domain)-strlen(".s.elten.blog")) return "[".substr($domain, 0, $s)."]";
+$s = strpos($domain, ".elten.blog");
+if($s===strlen($domain)-strlen(".elten.blog")) {
 $u = substr($domain, 0, $s);
 $q=mquery("select name from users");
 while($r=mysql_fetch_row($q)) {
 $d = transliterator_transliterate('Any-Latin;Latin-ASCII;', str_replace(".","",str_replace(" ","",strtolower($r[0]))));
-if($domain==$d.".eltenblog.net") return $r[0];
+if($domain==$d.".elten.blog") return $r[0];
 }
 }
 return "[*".$domain."]";
 }
 
 function wp_domain() {
-return "eltenblog.net";
+return "elten.blog";
 }
 
 function blogowners($blog) {

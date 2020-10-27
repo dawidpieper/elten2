@@ -4,12 +4,12 @@ require("init.php");
 require("blog_base.php");
 
 if($_GET['ac'] == "propers") {
-echo "0\r\neltenblog.net\r\n".gethostbyname("eltenblog.net");
+echo "0\r\nelten.blog\r\n".gethostbyname("elten.blog");
 }
 elseif($_GET['ac']=="check") {
 echo "0\r\n";
 $h=gethostbyname($_GET['domain']);
-if(gethostbyname("eltenblog.net") == $h)
+if(gethostbyname("elten.blog") == $h)
 echo "1";
 else
 echo "0";

@@ -1,8 +1,6 @@
 <?php
-if($_GET['name']=="guest") {
+if($_GET['name']=="guest")
 require("init.php");
-$_GET['name']='pajper';
-}
 else
 require("header.php");
 require("blog_base.php");
@@ -13,7 +11,7 @@ do {
 ++$page;
 if($page<1) $page=1;
 $args = array('page'=>$page, 'per_page'=>100);
-if(isset($category) and $category>0 and $category!="NEW") $args['categories']=$category;
+if(isset($category) and $category>0 and $category!="NEW" and $category!="FOLLOWED" and $category!="NEWFOLLOWED") $args['categories']=$category;
 if(wp_iseltenblog($blog)) {
 $args['status'] = array('private', 'publish');
 $args['fields'] = 'id,title.rendered,format,categories,elten_commentscount,date_gmt,link,author';
@@ -48,19 +46,26 @@ $paginate=true;
 else
 $t.="0\r\n";
 }
-if($_GET['categoryid']!='NEW' or $_GET['details']==0) {
-$postsread=array();
-$postsread[$_GET['searchname']]=array();
-if($_GET['name']!="guest") {
-$q=mquery("select postid, postsread from blogs_postsread where owner='".mysql_real_escape_string($_GET['name'])."' and blog='".mysql_real_escape_string($_GET['searchname'])."'");
-while($r=mysql_fetch_row($q))
-$postsread[$_GET['searchname']][(int)$r[0]]=(int)$r[1];
+$fpblogs=array();
+$q=mquery("select blog, postid from blogs_postsfollowed where owner='".mysql_real_escape_string($_GET['name'])."'");
+while($r=mysql_fetch_row($q)) {
+if(!isset($fpblogs[$r[0]])) $fpblogs[$r[0]]=array();
+array_push($fpblogs[$r[0]], $r[1]);
 }
+$postsread=array();
+if($_GET['name']!="guest") {
+$q=mquery("select blog, postid, postsread from blogs_postsread where owner='".mysql_real_escape_string($_GET['name'])."'");
+while($r=mysql_fetch_row($q)) {
+if(!isset($postsread[$r[0]])) $postsread[$r[0]]=array();
+$postsread[$r[0]][(int)$r[1]]=(int)$r[2];
+}
+}
+if(($_GET['categoryid']!='NEW' and $_GET['categoryid']!='FOLLOWED' and $_GET['categoryid']!='NEWFOLLOWED') or $_GET['details']==0) {
 $nextpage=0;
 $posts = get_posts($_GET['searchname'], $_GET['categoryid'], $paginate, $paginaterequested, $page, $nextpage);
 if($paginate) $t.=$nextpage."\r\n";
 }
-else {
+elseif($_GET['categoryid']=='NEW') {
 $postsread=array();
 $posts = array();
 $blogs = wp_query("GET", "/elten/blogs");
@@ -79,8 +84,20 @@ $nextpage=0;
 $newposts = get_posts($d, $_GET['categoryid'], $paginate, $paginaterequested, $page);
 $posts = array_merge($posts, $newposts);
 }
+} elseif($_GET['categoryid']=='FOLLOWED' or $_GET['categoryid']=='NEWFOLLOWED') {
+$posts = array();
+$blogs = wp_query("GET", "/elten/blogs");
+foreach($fpblogs as $b=>$a) {
+$suc=false;
+foreach($blogs as $bl) if($bl['domain']==wp_domainize($b)) $suc=true;
+if($suc==false) continue;
+$nextpage=0;
+$newposts = get_posts($b, $_GET['categoryid'], $paginate, $paginaterequested, $page);
+foreach($newposts as $n)
+if(in_array($n['id'], $a)) array_push($posts, $n);
 }
-$auts = wp_query("GET", "/wp/v2/users", $_GET['searchname']);
+}
+$auts = wp_query("GET", "/elten/allusers");
 foreach($posts as $p) {
 $title = wp_htmldecode(strip_tags($p['title']['rendered']));
 $head=array();
@@ -88,7 +105,7 @@ $counter = 1;
 $counter+=(int)$p['elten_commentscount'];
 if($p['id']==100) {
 }
-if($_GET['categoryid']=="NEW" and $postsread[$p['__blog']][$p['id']]>=$counter) continue;
+if(($_GET['categoryid']=="NEW" or $_GET['categoryid']=="NEWFOLLOWED") and $postsread[$p['__blog']][$p['id']]>=$counter) continue;
 $re += 1;
 $t .= $p['id'] . "\r\n" . str_replace("\r\n", "", $title) . "\r\n";
 if($_GET['assignnew']==1 or $_GET['details']>=1) {
@@ -111,7 +128,7 @@ if($_GET['details']>=2) {
 if(!wp_iswordpresscom(wp_domainize($_GET['searchname']))) {
 foreach($auts as $aut)
 if($aut['id']==$p['author']) {
-$author = $aut['elten_user'];
+$author = $aut['elten'];
 if($author=="") $author=$aut['name'];
 break;
 }
@@ -121,6 +138,9 @@ $author=substr($_GET['searchname'], 2, -1-1*strlen(".wordpress.com"));
 }
 $t .= $author."\r\n";
 $t.=$p['elten_commentscount']."\r\n";
+}
+if($_GET['details']>=3) {
+$t.=(in_array($p['id'], $fpblogs[$p['__blog']])?"1":"0")."\r\n";
 }
 if($_GET['listcategories']==1) {
 foreach($post['categories'] as $c)

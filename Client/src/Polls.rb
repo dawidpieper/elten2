@@ -1,8 +1,10 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
-  class Scene_Polls
+class Scene_Polls
   def initialize(lastpoll=0)
     @lastpoll=lastpoll
     end
@@ -210,7 +212,7 @@ if @fields[9].pressed? or escape
       editquestion(@fields[3].index)
       }
       menu.option(p_("Polls", "Delete question"), nil, :del) {
-            @questions.delete_at(@fields[2].index)
+            @questions.delete_at(@fields[3].index)
       @fields[3].options.delete_at(@fields[3].index)
       play("edit_delete")
       @fields[3].sayoption
@@ -267,7 +269,7 @@ def answers_context(menu)
     menu.option(p_("Polls", "Edit answer"), nil, "e") {
         editanswer(@qfields[2].index)
     }
-      menu.option(p_("Polls", "Delete answer")) {
+      menu.option(p_("Polls", "Delete answer"), nil, :del) {
       @question.delete_at(@qfields[2].index+2)
       @qfields[2].options.delete_at(@qfields[2].index)
       play("edit_delete")
@@ -445,6 +447,7 @@ txt+="#{p_("Polls", "The number of votes")}: #{pl[1]}\r\n"
 @answers=[]
 for i in 2..pl.size-1
   r,q,a=pl[i].delete("\r\n").split(":")
+  a="" if a==nil
   r=r.to_i
   q=q.to_i
     @answers[q]=[] if @answers[q]==nil
@@ -456,8 +459,7 @@ for q in 0..@questions.size-1
   if @answers[q]!=nil
   txt+=@questions[q][0].to_s+"\r\n"
 if @questions[q][1]<2
-  a=a.to_i
- for i in 2...@questions[q].size
+   for i in 2...@questions[q].size
    a=i-2
 pr=(@answers[q].map{|x|x[1]}.count(a).to_f/@votes.to_f*100.0).to_i
 txt+=@questions[q][i]+": "+pr.to_s+"%\r\n"
@@ -519,9 +521,10 @@ if pl[0].to_i<0
 end
 @poll.votes=pl[1].to_i
 @answers=[]
-for i in 2..pl.size-1
+for i in 2...pl.size
   r,q,a=pl[i].delete("\r\n").split(":")
-  r=r.to_i
+  a="" if a==nil
+    r=r.to_i
   q=q.to_i
     ans=Struct_Polls_Answer.new
     ans.question=q

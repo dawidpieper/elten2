@@ -1,7 +1,3 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
 class ClipboardError < StandardError; end
 class Clipboard
 # Clipboard data types

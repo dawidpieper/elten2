@@ -1,7 +1,3 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
-
 class StringIO < IO
   attr_accessor :string, :pos
   def initialize(str="")

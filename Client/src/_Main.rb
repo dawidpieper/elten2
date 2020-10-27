@@ -1,6 +1,8 @@
-#Elten Code
-#Copyright (C) 2014-2020 Dawid Pieper
-#All rights reserved.
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
 class Object
   include EltenAPI
@@ -8,11 +10,11 @@ end
 
 module Elten
 Version=2.4
-Beta=73
+Beta=81
 Alpha=0
 IsBeta=1
-BuildID=20200713001
-BuildDate=1602588013
+BuildID=20201023001
+BuildDate=1603791800
 class <<self
   def version
   return Version
@@ -45,6 +47,7 @@ $commandline=Win32API.new("kernel32","GetCommandLine",'','p').call.to_s
   clo=false
 cf = Win32API.new("kernel32", "CreateFileW", 'piipiii', 'i')
 path=Dirs.eltendata+"\\elten.pid"
+createdirifneeded(Dirs.eltendata)
 $pidfile = cf.call(unicode(path), 0x80000000|0x40000000, 0, nil, 2, 256 | 0x4000000, 0)
 if $pidfile>0
 wr = Win32API.new("kernel32","WriteFile",'ipipi','I')

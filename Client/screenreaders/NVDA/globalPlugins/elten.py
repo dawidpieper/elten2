@@ -274,27 +274,39 @@ def elten_command(ac):
 				if ac['type']==-1: text=eltenbrailletext[:ac['index']]+eltenbrailletext[ac['index']+1:]
 				elif ac['type']==1: text=eltenbrailletext[:ac['index']]+text+eltenbrailletext[ac['index']:]
 			eltenbrailletext=text+" "
-			region = braille.TextRegion(text)
-			if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
-			eltenbraille.regions=[region]
-			region.update()
+			regions=[]
+			for line in eltenbrailletext.split("\n"):
+				region=braille.TextRegion(line+"\n")
+				if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
+				region.update()
+				regions.append(region)
+			eltenbraille.regions=regions
 			if('pos' in ac): 
 				poses = eltenbraille.rawToBraillePos
 				if(ac['pos']<len(text) and ac['pos']<len(poses)):
-					eltenbraille.scrollTo(region, poses[ac['pos']])
-				region.cursorPos=ac['cursor']
-				region.update()
+					reg, pos = eltenbraille.bufferPosToRegionPos(poses[ac['pos']])
+					eltenbraille.scrollTo(reg, pos)
+			if('cursor' in ac and ac['cursor'] is not None):
+				poses = eltenbraille.rawToBraillePos
+				reg, pos = eltenbraille.bufferPosToRegionPos(poses[ac['cursor']])
+				reg.cursorPos=reg.brailleToRawPos[pos]
+				reg.update()
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='braillepos' and 'pos' in ac and len(eltenbraille.regions)>0):
 			poses = eltenbraille.rawToBraillePos
-			if(ac['pos']<len(poses)): eltenbraille.scrollTo(eltenbraille.regions[0], poses[ac['pos']])
-			eltenbraille.regions[0].cursorPos=ac['cursor']
-			eltenbraille.regions[0].update()
+			if(ac['pos']<len(poses)):
+				reg, pos = eltenbraille.bufferPosToRegionPos(poses[ac['pos']])
+				eltenbraille.scrollTo(reg, pos)
+				reg.update()
+			if('cursor' in ac and ac['cursor'] is not None):
+				reg, pos = eltenbraille.bufferPosToRegionPos(poses[ac['cursor']])
+				reg.cursorPos=reg.brailleToRawPos[pos]
+				reg.update()
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 28}
+			return {'version': 29}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

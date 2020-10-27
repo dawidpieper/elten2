@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2020-09-16 22:11+0200\n"
-"PO-Revision-Date: 2020-09-24 18:32+0300\n"
+"POT-Creation-Date: 2020-10-12 21:49+0200\n"
+"PO-Revision-Date: 2020-10-13 18:59+0300\n"
 "Last-Translator: Александр Яшин <a.jaszyn@ya.ru>\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -30,11 +30,11 @@ msgstr "Применить"
 
 #: ../src/Account.rb:115 ../src/Blog.rb:842 ../src/Blog.rb:981
 #: ../src/Blog.rb:1151 ../src/Clock.rb:9 ../src/Clock.rb:60
-#: ../src/EAPI_Controls.rb:2837 ../src/EAPI_Controls.rb:3599
-#: ../src/Forum.rb:480 ../src/Forum.rb:611 ../src/Forum.rb:1028
-#: ../src/Forum.rb:1165 ../src/Forum.rb:2541 ../src/Honors.rb:184
+#: ../src/EAPI_Controls.rb:2839 ../src/EAPI_Controls.rb:3601
+#: ../src/Forum.rb:515 ../src/Forum.rb:646 ../src/Forum.rb:1063
+#: ../src/Forum.rb:1200 ../src/Forum.rb:2691 ../src/Honors.rb:184
 #: ../src/Honors.rb:219 ../src/Notes.rb:155 ../src/Notes.rb:171
-#: ../src/Polls.rb:196 ../src/Settings.rb:92
+#: ../src/Polls.rb:224 ../src/Settings.rb:92
 msgid "Save"
 msgstr "Сохранить"
 
@@ -42,17 +42,17 @@ msgstr "Сохранить"
 #: ../src/Blog.rb:981 ../src/Blog.rb:1035 ../src/Blog.rb:1152
 #: ../src/Blog.rb:1469 ../src/Blog_Domain.rb:21 ../src/Blog_Domain.rb:123
 #: ../src/Clock.rb:10 ../src/Clock.rb:60 ../src/EAPI_Common.rb:14
-#: ../src/EAPI_Controls.rb:785 ../src/EAPI_Controls.rb:2838
-#: ../src/EAPI_Controls.rb:3600 ../src/EAPI_External.rb:118
-#: ../src/EAPI_UI.rb:558 ../src/Forum.rb:481 ../src/Forum.rb:601
-#: ../src/Forum.rb:774 ../src/Forum.rb:875 ../src/Forum.rb:1029
-#: ../src/Forum.rb:1160 ../src/Forum.rb:1255 ../src/Forum.rb:1663
-#: ../src/Forum.rb:2449 ../src/Forum.rb:2541 ../src/Honors.rb:184
-#: ../src/Honors.rb:220 ../src/Honors.rb:301 ../src/Login.rb:88
-#: ../src/Messages.rb:225 ../src/Messages.rb:755 ../src/Notes.rb:114
-#: ../src/Notes.rb:249 ../src/Polls.rb:171 ../src/Polls.rb:196
-#: ../src/Polls.rb:314 ../src/Portable.rb:7 ../src/Settings.rb:93
-#: ../src/SpeedTest.rb:7
+#: ../src/EAPI_Controls.rb:785 ../src/EAPI_Controls.rb:2840
+#: ../src/EAPI_Controls.rb:3602 ../src/EAPI_Controls.rb:3717
+#: ../src/EAPI_External.rb:118 ../src/EAPI_UI.rb:558 ../src/Forum.rb:516
+#: ../src/Forum.rb:636 ../src/Forum.rb:809 ../src/Forum.rb:910
+#: ../src/Forum.rb:1064 ../src/Forum.rb:1195 ../src/Forum.rb:1290
+#: ../src/Forum.rb:1698 ../src/Forum.rb:2500 ../src/Forum.rb:2691
+#: ../src/Honors.rb:184 ../src/Honors.rb:220 ../src/Honors.rb:301
+#: ../src/Login.rb:88 ../src/Messages.rb:225 ../src/Messages.rb:755
+#: ../src/Notes.rb:114 ../src/Notes.rb:249 ../src/Polls.rb:176
+#: ../src/Polls.rb:224 ../src/Polls.rb:353 ../src/Portable.rb:7
+#: ../src/Settings.rb:93 ../src/SpeedTest.rb:7
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -71,25 +71,21 @@ msgctxt "Account"
 msgid "Gender"
 msgstr "Пол"
 
-#: ../src/Account.rb:121
-msgid "Male"
-msgstr "Мужской"
-
 #: ../src/Account.rb:121 ../src/EAPI_Common.rb:446
 msgid "Female"
 msgstr "Женский"
+
+#: ../src/Account.rb:121
+msgid "Male"
+msgstr "Мужской"
 
 #: ../src/Account.rb:124
 msgid "February"
 msgstr "Февраль"
 
 #: ../src/Account.rb:124
-msgid "September"
-msgstr "Сентябрь"
-
-#: ../src/Account.rb:124
-msgid "January"
-msgstr "Январь"
+msgid "March"
+msgstr "Март"
 
 #: ../src/Account.rb:124
 msgid "April"
@@ -100,32 +96,36 @@ msgid "May"
 msgstr "Май"
 
 #: ../src/Account.rb:124
-msgid "December"
-msgstr "Декабрь"
-
-#: ../src/Account.rb:124
-msgid "November"
-msgstr "Ноябрь"
-
-#: ../src/Account.rb:124
-msgid "October"
-msgstr "Октябрь"
-
-#: ../src/Account.rb:124
-msgid "March"
-msgstr "Март"
-
-#: ../src/Account.rb:124
-msgid "August"
-msgstr "Август"
-
-#: ../src/Account.rb:124
 msgid "July"
 msgstr "Июль"
 
 #: ../src/Account.rb:124
 msgid "June"
 msgstr "Июнь"
+
+#: ../src/Account.rb:124
+msgid "January"
+msgstr "Январь"
+
+#: ../src/Account.rb:124
+msgid "September"
+msgstr "Сентябрь"
+
+#: ../src/Account.rb:124
+msgid "October"
+msgstr "Октябрь"
+
+#: ../src/Account.rb:124
+msgid "November"
+msgstr "Ноябрь"
+
+#: ../src/Account.rb:124
+msgid "August"
+msgstr "Август"
+
+#: ../src/Account.rb:124
+msgid "December"
+msgstr "Декабрь"
 
 #: ../src/Account.rb:126
 msgctxt "Account"
@@ -209,8 +209,8 @@ msgstr "Оповещения о новых событиях"
 
 #: ../src/Account.rb:247
 msgctxt "Account"
-msgid "Notice and show in what's new"
-msgstr "Уведомить и показать в списке уведомлений"
+msgid "Ignore"
+msgstr "Игнорировать"
 
 #: ../src/Account.rb:247
 msgctxt "Account"
@@ -219,18 +219,8 @@ msgstr "только уведомить"
 
 #: ../src/Account.rb:247
 msgctxt "Account"
-msgid "Ignore"
-msgstr "Игнорировать"
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New threads on followed forums"
-msgstr "Новые темы на избранных форумах"
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "Mentions"
-msgstr "Упоминания"
+msgid "Notice and show in what's new"
+msgstr "Уведомить и показать в списке уведомлений"
 
 #: ../src/Account.rb:248
 msgctxt "Account"
@@ -239,23 +229,8 @@ msgstr "дни рождения контактов"
 
 #: ../src/Account.rb:248
 msgctxt "Account"
-msgid "New friends"
-msgstr "Запросы на добавление в контакты"
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New messages"
-msgstr "Новые личные сообщения"
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New posts on followed forums"
-msgstr "Новые посты на избранных форумах"
-
-#: ../src/Account.rb:248
-msgctxt "Account"
-msgid "New comments on your blog"
-msgstr "Новые комментарии на блоге"
+msgid "New posts in followed threads"
+msgstr "Новые посты в избранных темах"
 
 #: ../src/Account.rb:248
 msgctxt "Account"
@@ -264,8 +239,33 @@ msgstr "Новые посты на избранных блогах"
 
 #: ../src/Account.rb:248
 msgctxt "Account"
-msgid "New posts in followed threads"
-msgstr "Новые посты в избранных темах"
+msgid "New comments on your blog"
+msgstr "Новые комментарии на блоге"
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New threads on followed forums"
+msgstr "Новые темы на избранных форумах"
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New posts on followed forums"
+msgstr "Новые посты на избранных форумах"
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New friends"
+msgstr "Запросы на добавление в контакты"
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "Mentions"
+msgstr "Упоминания"
+
+#: ../src/Account.rb:248
+msgctxt "Account"
+msgid "New messages"
+msgstr "Новые личные сообщения"
 
 #: ../src/Account.rb:255
 msgctxt "Account"
@@ -304,10 +304,10 @@ msgstr "Показать информацию о последних сессия
 
 #: ../src/Account.rb:279 ../src/Account.rb:283 ../src/Blog.rb:861
 #: ../src/Blog.rb:894 ../src/Blog.rb:1295 ../src/Blog.rb:1299
-#: ../src/Clock.rb:33 ../src/EAPI_Controls.rb:2868 ../src/Forum.rb:626
-#: ../src/Forum.rb:1179 ../src/Forum.rb:1222 ../src/Forum.rb:2108
-#: ../src/Honors.rb:210 ../src/Messages.rb:301 ../src/Settings.rb:245
-#: ../src/Settings.rb:249 ../src/SoundThemes.rb:86 ../src/SoundThemes.rb:129
+#: ../src/Clock.rb:33 ../src/EAPI_Controls.rb:2870 ../src/Forum.rb:661
+#: ../src/Forum.rb:1214 ../src/Forum.rb:1257 ../src/Forum.rb:2147
+#: ../src/Honors.rb:210 ../src/Messages.rb:301 ../src/Settings.rb:259
+#: ../src/Settings.rb:263 ../src/SoundThemes.rb:86 ../src/SoundThemes.rb:129
 msgid "Saved"
 msgstr "Действие выполнено"
 
@@ -339,14 +339,14 @@ msgstr "Пароль успешно изменён. Запомните его!"
 #: ../src/Account.rb:334 ../src/Account.rb:371 ../src/Account.rb:521
 #: ../src/Blog.rb:525 ../src/Contacts.rb:25 ../src/Contacts.rb:121
 #: ../src/Contacts.rb:154 ../src/EAPI_Common.rb:371 ../src/EAPI_Common.rb:419
-#: ../src/Forum.rb:513 ../src/Login.rb:212 ../src/Messages.rb:935
+#: ../src/Forum.rb:548 ../src/Login.rb:212 ../src/Messages.rb:935
 #: ../src/Users.rb:11
 msgid "Database Error"
 msgstr "Ошибка в базе данных"
 
 #: ../src/Account.rb:337 ../src/Account.rb:374 ../src/Account.rb:523
 #: ../src/Blog.rb:527 ../src/Contacts.rb:29 ../src/Contacts.rb:124
-#: ../src/Contacts.rb:157 ../src/EAPI_Common.rb:375 ../src/Forum.rb:515
+#: ../src/Contacts.rb:157 ../src/EAPI_Common.rb:375 ../src/Forum.rb:550
 #: ../src/Messages.rb:939 ../src/Users.rb:15
 msgid "Token expired"
 msgstr "Ключ истёк"
@@ -395,11 +395,6 @@ msgstr ""
 
 #: ../src/Account.rb:423
 msgctxt "Account"
-msgid "Computer"
-msgstr "Компьютер"
-
-#: ../src/Account.rb:423
-msgctxt "Account"
 msgid "Creation IP Address"
 msgstr "Ip"
 
@@ -407,6 +402,11 @@ msgstr "Ip"
 msgctxt "Account"
 msgid "Generation date"
 msgstr "Дата создания"
+
+#: ../src/Account.rb:423
+msgctxt "Account"
+msgid "Computer"
+msgstr "Компьютер"
 
 #: ../src/Account.rb:428
 msgctxt "Account"
@@ -418,11 +418,11 @@ msgctxt "Account"
 msgid "Log out all sessions"
 msgstr "Выйти из Elten на всех устройствах"
 
-#: ../src/Account.rb:433 ../src/Account.rb:553 ../src/Forum.rb:665
-#: ../src/Forum.rb:1248 ../src/Forum.rb:1627 ../src/Forum.rb:2645
+#: ../src/Account.rb:433 ../src/Account.rb:553 ../src/Forum.rb:700
+#: ../src/Forum.rb:1283 ../src/Forum.rb:1662 ../src/Forum.rb:2679
 #: ../src/Honors.rb:172 ../src/Honors.rb:293 ../src/Messages.rb:209
 #: ../src/Messages.rb:414 ../src/Messages.rb:672 ../src/Notes.rb:94
-#: ../src/Online.rb:35 ../src/Polls.rb:154 ../src/Users.rb:54
+#: ../src/Online.rb:35 ../src/Polls.rb:159 ../src/Users.rb:54
 #: ../src/UsersAddedMeToContacts.rb:58 ../src/Users_RecentlyActived.rb:38
 #: ../src/Users_RecentlyRegistered.rb:38
 msgid "Refresh"
@@ -462,23 +462,23 @@ msgstr ""
 #: ../src/EAPI_EltenSRV.rb:242 ../src/EAPI_EltenSRV.rb:260
 #: ../src/EAPI_EltenSRV.rb:325 ../src/EAPI_EltenSRV.rb:352
 #: ../src/EAPI_EltenSRV.rb:387 ../src/EAPI_EltenSRV.rb:402
-#: ../src/EAPI_EltenSRV.rb:425 ../src/ForgotPassword.rb:22 ../src/Forum.rb:495
-#: ../src/Forum.rb:551 ../src/Forum.rb:575 ../src/Forum.rb:594
-#: ../src/Forum.rb:624 ../src/Forum.rb:640 ../src/Forum.rb:675
-#: ../src/Forum.rb:743 ../src/Forum.rb:790 ../src/Forum.rb:809
-#: ../src/Forum.rb:894 ../src/Forum.rb:990 ../src/Forum.rb:1002
-#: ../src/Forum.rb:1084 ../src/Forum.rb:1108 ../src/Forum.rb:1115
-#: ../src/Forum.rb:1140 ../src/Forum.rb:1177 ../src/Forum.rb:1195
-#: ../src/Forum.rb:1220 ../src/Forum.rb:1235 ../src/Forum.rb:1275
-#: ../src/Forum.rb:1477 ../src/Forum.rb:1492 ../src/Forum.rb:1499
-#: ../src/Forum.rb:1550 ../src/Forum.rb:1563 ../src/Forum.rb:1575
-#: ../src/Forum.rb:1590 ../src/Forum.rb:1610 ../src/Forum.rb:1720
-#: ../src/Forum.rb:1824 ../src/Forum.rb:1863 ../src/Forum.rb:1887
-#: ../src/Forum.rb:2012 ../src/Forum.rb:2262 ../src/Forum.rb:2283
-#: ../src/Forum.rb:2340 ../src/Forum.rb:2439 ../src/Forum.rb:2461
-#: ../src/Forum.rb:2522 ../src/Forum.rb:2529 ../src/Forum.rb:2548
-#: ../src/Forum.rb:2593 ../src/Forum.rb:2610 ../src/Forum.rb:2637
-#: ../src/Forum.rb:2713 ../src/Forum.rb:2725 ../src/Honors.rb:18
+#: ../src/EAPI_EltenSRV.rb:425 ../src/ForgotPassword.rb:22 ../src/Forum.rb:530
+#: ../src/Forum.rb:586 ../src/Forum.rb:610 ../src/Forum.rb:629
+#: ../src/Forum.rb:659 ../src/Forum.rb:675 ../src/Forum.rb:710
+#: ../src/Forum.rb:778 ../src/Forum.rb:825 ../src/Forum.rb:844
+#: ../src/Forum.rb:929 ../src/Forum.rb:1025 ../src/Forum.rb:1037
+#: ../src/Forum.rb:1119 ../src/Forum.rb:1143 ../src/Forum.rb:1150
+#: ../src/Forum.rb:1175 ../src/Forum.rb:1212 ../src/Forum.rb:1230
+#: ../src/Forum.rb:1255 ../src/Forum.rb:1270 ../src/Forum.rb:1310
+#: ../src/Forum.rb:1512 ../src/Forum.rb:1527 ../src/Forum.rb:1534
+#: ../src/Forum.rb:1585 ../src/Forum.rb:1598 ../src/Forum.rb:1610
+#: ../src/Forum.rb:1625 ../src/Forum.rb:1645 ../src/Forum.rb:1755
+#: ../src/Forum.rb:1859 ../src/Forum.rb:1898 ../src/Forum.rb:1922
+#: ../src/Forum.rb:2049 ../src/Forum.rb:2305 ../src/Forum.rb:2326
+#: ../src/Forum.rb:2383 ../src/Forum.rb:2490 ../src/Forum.rb:2512
+#: ../src/Forum.rb:2573 ../src/Forum.rb:2580 ../src/Forum.rb:2627
+#: ../src/Forum.rb:2644 ../src/Forum.rb:2671 ../src/Forum.rb:2732
+#: ../src/Forum.rb:2808 ../src/Forum.rb:2820 ../src/Honors.rb:18
 #: ../src/Honors.rb:136 ../src/Honors.rb:147 ../src/Honors.rb:163
 #: ../src/Honors.rb:208 ../src/Honors.rb:313 ../src/Loading.rb:313
 #: ../src/Messages.rb:86 ../src/Messages.rb:190 ../src/Messages.rb:271
@@ -489,10 +489,11 @@ msgstr ""
 #: ../src/Messages.rb:891 ../src/Notes.rb:14 ../src/Notes.rb:103
 #: ../src/Notes.rb:137 ../src/Notes.rb:177 ../src/Notes.rb:190
 #: ../src/Notes.rb:225 ../src/Notes.rb:238 ../src/Notes.rb:268
-#: ../src/Polls.rb:26 ../src/Polls.rb:50 ../src/Polls.rb:128
-#: ../src/Polls.rb:254 ../src/Polls.rb:279 ../src/Polls.rb:347
-#: ../src/Polls.rb:381 ../src/Polls.rb:396 ../src/SoundThemes.rb:96
-#: ../src/UserSearch.rb:17 ../src/WhatsNew.rb:105
+#: ../src/Polls.rb:26 ../src/Polls.rb:52 ../src/Polls.rb:133
+#: ../src/Polls.rb:302 ../src/Polls.rb:318 ../src/Polls.rb:386
+#: ../src/Polls.rb:420 ../src/Polls.rb:435 ../src/Polls.rb:490
+#: ../src/Polls.rb:515 ../src/SoundThemes.rb:96 ../src/UserSearch.rb:17
+#: ../src/WhatsNew.rb:105
 msgid "Error"
 msgstr "Произошла ошибка."
 
@@ -541,8 +542,8 @@ msgid "The user cannot be found."
 msgstr "Неправильный ввод."
 
 #: ../src/Account.rb:538 ../src/Blog.rb:205 ../src/Blog.rb:389
-#: ../src/EAPI_Controls.rb:2156 ../src/Messages.rb:657 ../src/Notes.rb:79
-#: ../src/Notes.rb:157 ../src/Polls.rb:124
+#: ../src/EAPI_Controls.rb:2158 ../src/Messages.rb:657 ../src/Notes.rb:79
+#: ../src/Notes.rb:157 ../src/Polls.rb:129 ../src/Polls.rb:580
 msgid "Delete"
 msgstr "Удалить"
 
@@ -582,18 +583,13 @@ msgstr ""
 
 #: ../src/Account.rb:636
 msgctxt "Account"
-msgid "Enable mail events reporting"
-msgstr "Включить оповещения по e-mail"
-
-#: ../src/Account.rb:636
-msgctxt "Account"
 msgid "Disable mail events reporting"
 msgstr "Отключить оповещения по e-mail"
 
-#: ../src/Account.rb:637
+#: ../src/Account.rb:636
 msgctxt "Account"
-msgid "Mail events reporting is enabled."
-msgstr "Оповещения включены."
+msgid "Enable mail events reporting"
+msgstr "Включить оповещения по e-mail"
 
 #: ../src/Account.rb:637
 msgctxt "Account"
@@ -602,6 +598,11 @@ msgid ""
 "information about changes made on your account and logins from new devices "
 "via E-mail"
 msgstr "Оповещения выключины."
+
+#: ../src/Account.rb:637
+msgctxt "Account"
+msgid "Mail events reporting is enabled."
+msgstr "Оповещения включены."
 
 #: ../src/Account.rb:638 ../src/Authentication.rb:16
 #: ../src/Authentication.rb:18 ../src/Chat.rb:42 ../src/EAPI_Common.rb:14
@@ -616,6 +617,11 @@ msgstr "Администраторы рекомендованных групп"
 
 #: ../src/Admins.rb:13
 msgctxt "Admins"
+msgid "Community Administrators"
+msgstr "Администраторы сообщества"
+
+#: ../src/Admins.rb:13
+msgctxt "Admins"
 msgid "Developers"
 msgstr "Разработчики"
 
@@ -624,19 +630,10 @@ msgctxt "Admins"
 msgid "Translators"
 msgstr "Переводчики"
 
-#: ../src/Admins.rb:13
-msgctxt "Admins"
-msgid "Community Administrators"
-msgstr "Администраторы сообщества"
-
 #: ../src/Admins.rb:81
 msgctxt "Admins"
 msgid "Administrators"
 msgstr "Администраторы"
-
-#: ../src/Authentication.rb:16
-msgid "Enable"
-msgstr "Включить"
 
 #: ../src/Authentication.rb:16
 #, fuzzy
@@ -661,10 +658,9 @@ msgstr ""
 "кода потребуется для входа в программу. Если код будет введён неправильно, "
 "вход неудастся."
 
-#: ../src/Authentication.rb:18
-msgctxt "Authentication"
-msgid "Two-factor authentication is enabled on this account."
-msgstr "Двухфакторная аутентификация включена."
+#: ../src/Authentication.rb:16
+msgid "Enable"
+msgstr "Включить"
 
 #: ../src/Authentication.rb:18
 #, fuzzy
@@ -673,6 +669,11 @@ msgstr "Двухфакторная аутентификация включена
 msgctxt "Authentication"
 msgid "Generate backup codes"
 msgstr "Создать код для сброса пароля"
+
+#: ../src/Authentication.rb:18
+msgctxt "Authentication"
+msgid "Two-factor authentication is enabled on this account."
+msgstr "Двухфакторная аутентификация включена."
 
 #: ../src/Authentication.rb:18
 msgid "Disable"
@@ -777,31 +778,19 @@ msgid ""
 "Do you want to generate backup codes? These can be used to sign in when you "
 "have no access to your phone. All previously generated codes will be deleted."
 msgstr ""
+"Вы хотите сгенерировать резервные коды? Их можно использовать для входа в "
+"систему, когда у вас нет доступа к телефону. Все ранее сгенерированные коды "
+"будут удалены."
 
 #: ../src/Authentication.rb:90
 msgctxt "Authentication"
 msgid "Generated backup codes"
-msgstr ""
+msgstr "Созданные резервные коды"
 
 #: ../src/Ban.rb:14
 msgctxt "Ban"
 msgid "Enter a username to ban"
 msgstr "Введите логин пользователя для бана"
-
-#: ../src/Ban.rb:23
-msgctxt "Ban"
-msgid "90 days"
-msgstr "90 дней"
-
-#: ../src/Ban.rb:23
-msgctxt "Ban"
-msgid "30 days"
-msgstr "30 дней"
-
-#: ../src/Ban.rb:23
-msgctxt "Ban"
-msgid "Year"
-msgstr "Год"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
@@ -815,18 +804,28 @@ msgstr "Неделя"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "Three days"
-msgstr "Три дня"
+msgid "30 days"
+msgstr "30 дней"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
 msgid "Day"
 msgstr "День"
 
-#: ../src/Ban.rb:24
+#: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "An additional message to the user"
-msgstr "Дополнительное сообщение"
+msgid "Three days"
+msgstr "Три дня"
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "90 days"
+msgstr "90 дней"
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "Year"
+msgstr "Год"
 
 #: ../src/Ban.rb:24
 msgctxt "Ban"
@@ -842,6 +841,11 @@ msgstr "Причина"
 msgctxt "Ban"
 msgid "Ban"
 msgstr "Забанить"
+
+#: ../src/Ban.rb:24
+msgctxt "Ban"
+msgid "An additional message to the user"
+msgstr "Дополнительное сообщение"
 
 #: ../src/Ban.rb:63
 msgctxt "Ban"
@@ -878,6 +882,11 @@ msgctxt "Ban"
 msgid "Unbanned."
 msgstr "Успешно"
 
+#: ../src/Blog.rb:11 ../src/Blog.rb:490
+msgctxt "Blog"
+msgid "Blogs"
+msgstr "Блоги"
+
 #: ../src/Blog.rb:11
 msgctxt "Blog"
 msgid "Managed blogs"
@@ -912,11 +921,6 @@ msgstr "Блоги, популярные у моих контактов"
 msgctxt "Blog"
 msgid "Open external wordpress blog"
 msgstr "Открыть внешний блог на Wordpress"
-
-#: ../src/Blog.rb:11 ../src/Blog.rb:490
-msgctxt "Blog"
-msgid "Blogs"
-msgstr "Блоги"
 
 #: ../src/Blog.rb:51
 msgctxt "Blog"
@@ -1366,11 +1370,6 @@ msgstr "Переместить пост вместе с комментариям
 
 #: ../src/Blog.rb:1035
 msgctxt "Blog"
-msgid "Move only this post, delete all comments"
-msgstr "Переместить пост, но комментарии удалить"
-
-#: ../src/Blog.rb:1035
-msgctxt "Blog"
 msgid "Move type"
 msgstr "Вариант переноса"
 
@@ -1383,6 +1382,11 @@ msgstr "Перенести"
 msgctxt "Blog"
 msgid "Post destination"
 msgstr "Где разместить пост?"
+
+#: ../src/Blog.rb:1035
+msgctxt "Blog"
+msgid "Move only this post, delete all comments"
+msgstr "Переместить пост, но комментарии удалить"
 
 #: ../src/Blog.rb:1044
 msgctxt "Blog"
@@ -1424,13 +1428,8 @@ msgstr "Разрешить поисковым системам находить 
 
 #: ../src/Blog.rb:1171
 msgctxt "Blog"
-msgid "Comments can be written"
-msgstr "Кто может оставлять комментарии на блоге?"
-
-#: ../src/Blog.rb:1171
-msgctxt "Blog"
-msgid "By all visitors"
-msgstr "Все пользователи"
+msgid "By all visitors, but I must commit all of them"
+msgstr "Все пользователи, но я буду дополнительно одобрять их"
 
 #: ../src/Blog.rb:1171
 msgctxt "Blog"
@@ -1441,13 +1440,18 @@ msgstr ""
 
 #: ../src/Blog.rb:1171
 msgctxt "Blog"
+msgid "By all visitors"
+msgstr "Все пользователи"
+
+#: ../src/Blog.rb:1171
+msgctxt "Blog"
 msgid "By Elten users only"
 msgstr "Только  пользователи Elten"
 
 #: ../src/Blog.rb:1171
 msgctxt "Blog"
-msgid "By all visitors, but I must commit all of them"
-msgstr "Все пользователи, но я буду дополнительно одобрять их"
+msgid "Comments can be written"
+msgstr "Кто может оставлять комментарии на блоге?"
 
 #: ../src/Blog.rb:1172
 msgctxt "Blog"
@@ -1471,8 +1475,8 @@ msgstr "Максимальный объём ветки комментариев"
 
 #: ../src/Blog.rb:1176
 msgctxt "Blog"
-msgid "Descending"
-msgstr "По убыванию"
+msgid "Order comments on the website"
+msgstr "Показывать комментарии на сайте"
 
 #: ../src/Blog.rb:1176
 msgctxt "Blog"
@@ -1481,8 +1485,8 @@ msgstr "по возрастанию"
 
 #: ../src/Blog.rb:1176
 msgctxt "Blog"
-msgid "Order comments on the website"
-msgstr "Показывать комментарии на сайте"
+msgid "Descending"
+msgstr "По убыванию"
 
 #: ../src/Blog.rb:1177
 msgctxt "Blog"
@@ -1496,8 +1500,8 @@ msgstr "Сколько комментариев может быть на одн�
 
 #: ../src/Blog.rb:1179
 msgctxt "Blog"
-msgid "Firstly display"
-msgstr "Сначала показывать"
+msgid "Newest comments"
+msgstr "Новые комментарии"
 
 #: ../src/Blog.rb:1179
 msgctxt "Blog"
@@ -1506,8 +1510,8 @@ msgstr "Старые комментарии"
 
 #: ../src/Blog.rb:1179
 msgctxt "Blog"
-msgid "Newest comments"
-msgstr "Новые комментарии"
+msgid "Firstly display"
+msgstr "Сначала показывать"
 
 #: ../src/Blog.rb:1238
 msgctxt "Blog"
@@ -1526,13 +1530,13 @@ msgstr "(https://example.com/2020/01/example-post)"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
-msgid "Full date and post name (https://example.com/2020/01/01/example-post)"
-msgstr "(https://example.com/2020/01/01/example-post)"
+msgid "Just a post name (https://example.com/example-post/)"
+msgstr "(https://example.com/example-post/)"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
-msgid "Simple (https://example.com/?p=123)"
-msgstr "(https://example.com/?p=123)"
+msgid "Full date and post name (https://example.com/2020/01/01/example-post)"
+msgstr "(https://example.com/2020/01/01/example-post)"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
@@ -1541,8 +1545,8 @@ msgstr "(https://example.com/posts/123/)"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
-msgid "Just a post name (https://example.com/example-post/)"
-msgstr "(https://example.com/example-post/)"
+msgid "Simple (https://example.com/?p=123)"
+msgstr "(https://example.com/?p=123)"
 
 #: ../src/Blog.rb:1244 ../src/Blog.rb:1268
 msgctxt "Blog"
@@ -1596,18 +1600,8 @@ msgstr "Часовой пояс"
 
 #: ../src/Blog.rb:1272
 msgctxt "Blog"
-msgid "Wednesday"
-msgstr "Среда"
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Thursday"
-msgstr "Четверг"
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Friday"
-msgstr "Пятница"
+msgid "Sunday"
+msgstr "Воскресенье"
 
 #: ../src/Blog.rb:1272
 msgctxt "Blog"
@@ -1616,18 +1610,28 @@ msgstr "Понедельник"
 
 #: ../src/Blog.rb:1272
 msgctxt "Blog"
-msgid "Tuesday"
-msgstr "Вторник"
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Sunday"
-msgstr "Воскресенье"
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
 msgid "Saturday"
 msgstr "Суббота"
+
+#: ../src/Blog.rb:1272
+msgctxt "Blog"
+msgid "Friday"
+msgstr "Пятница"
+
+#: ../src/Blog.rb:1272
+msgctxt "Blog"
+msgid "Thursday"
+msgstr "Четверг"
+
+#: ../src/Blog.rb:1272
+msgctxt "Blog"
+msgid "Wednesday"
+msgstr "Среда"
+
+#: ../src/Blog.rb:1272
+msgctxt "Blog"
+msgid "Tuesday"
+msgstr "Вторник"
 
 #: ../src/Blog.rb:1273
 msgctxt "Blog"
@@ -1690,13 +1694,13 @@ msgstr "Редактор исходного кода (шорткоды HTML и W
 
 #: ../src/Blog.rb:1461
 msgctxt "Blog"
-msgid "Formattable editor"
-msgstr "Форматируемый"
+msgid "Editor"
+msgstr "Редактор"
 
 #: ../src/Blog.rb:1461
 msgctxt "Blog"
-msgid "Editor"
-msgstr "Редактор"
+msgid "Formattable editor"
+msgstr "Форматируемый"
 
 #: ../src/Blog.rb:1462 ../src/Blog.rb:1680
 msgctxt "Blog"
@@ -1720,6 +1724,11 @@ msgstr "Теги поста"
 
 #: ../src/Blog.rb:1466
 msgctxt "Blog"
+msgid "Show to Elten users only"
+msgstr "Только пользователям Elten"
+
+#: ../src/Blog.rb:1466
+msgctxt "Blog"
 msgid "Visibility"
 msgstr "Пост доступен"
 
@@ -1727,11 +1736,6 @@ msgstr "Пост доступен"
 msgctxt "Blog"
 msgid "Show to everyone"
 msgstr "Всем"
-
-#: ../src/Blog.rb:1466
-msgctxt "Blog"
-msgid "Show to Elten users only"
-msgstr "Только пользователям Elten"
 
 #: ../src/Blog.rb:1467
 msgctxt "Blog"
@@ -1809,13 +1813,19 @@ msgid "Change"
 msgstr "Изменить"
 
 #: ../src/Blog_Domain.rb:33
+#, fuzzy
+#| msgctxt "Blog"
+#| msgid "Personal Elten blog domain (%{username}.eltenblog.net)"
 msgctxt "Blog"
-msgid "Personal Elten blog domain (%{username}.eltenblog.net)"
+msgid "Personal Elten blog domain (%{username}.elten.blog)"
 msgstr "Личный домен блога Elten (% {username} .eltenblog.net)"
 
 #: ../src/Blog_Domain.rb:34
+#, fuzzy
+#| msgctxt "Blog"
+#| msgid "Shared Elten blog domain (selectedname.s.eltenblog.net)"
 msgctxt "Blog"
-msgid "Shared Elten blog domain (selectedname.s.eltenblog.net)"
+msgid "Shared Elten blog domain (selectedname.s.elten.blog)"
 msgstr "Домен совместного блога (selectedname.s.eltenblog.net)"
 
 #: ../src/Blog_Domain.rb:35
@@ -1839,8 +1849,11 @@ msgid "Proceed with domain change"
 msgstr "Продолжить с изменением домена"
 
 #: ../src/Blog_Domain.rb:56
+#, fuzzy
+#| msgctxt "Blog"
+#| msgid "Domain prefix (prefix.s.eltenblog.net)"
 msgctxt "Blog"
-msgid "Domain prefix (prefix.s.eltenblog.net)"
+msgid "Domain prefix (prefix.s.elten.blog)"
 msgstr "Префикс домена (prefix.s.eltenblog.net)"
 
 #: ../src/Blog_Domain.rb:59
@@ -1976,8 +1989,8 @@ msgstr "Участвует в дискуссии"
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Hide the chat window"
-msgstr "Скрыть окно"
+msgid "Messages history"
+msgstr "История переписки"
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
@@ -1986,13 +1999,13 @@ msgstr "Ваше сообщение"
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Messages history"
-msgstr "История переписки"
+msgid "Users online"
+msgstr "Список участников чата"
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Users online"
-msgstr "Список участников чата"
+msgid "Hide the chat window"
+msgstr "Скрыть окно"
 
 #: ../src/Chat.rb:121 ../src/_Main.rb:100
 msgctxt "Chat"
@@ -2004,6 +2017,16 @@ msgctxt "Clock"
 msgid "Alarms"
 msgstr "Будильники"
 
+#: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
+msgctxt "Clock"
+msgid "One time"
+msgstr "Звучащий один раз"
+
+#: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
+msgctxt "Clock"
+msgid "Hour"
+msgstr "Час"
+
 #: ../src/Clock.rb:15
 msgctxt "Clock"
 msgid "repeated"
@@ -2013,16 +2036,6 @@ msgstr "Повторяющийся"
 msgctxt "Clock"
 msgid "Type"
 msgstr "Тип"
-
-#: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
-msgctxt "Clock"
-msgid "Hour"
-msgstr "Час"
-
-#: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
-msgctxt "Clock"
-msgid "One time"
-msgstr "Звучащий один раз"
 
 #: ../src/Clock.rb:41
 msgctxt "Clock"
@@ -2039,11 +2052,6 @@ msgctxt "Clock"
 msgid "New alarm"
 msgstr "Новый будильник"
 
-#: ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
-msgctxt "Clock"
-msgid "Repeated"
-msgstr "Повторён"
-
 #: ../src/Clock.rb:60
 msgctxt "Clock"
 msgid "Alarm description"
@@ -2053,6 +2061,11 @@ msgstr "Описание будильника"
 msgctxt "Clock"
 msgid "Minute"
 msgstr "Минута"
+
+#: ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
+msgctxt "Clock"
+msgid "Repeated"
+msgstr "Повторён"
 
 #: ../src/Contacts.rb:42
 msgctxt "Contacts"
@@ -2111,20 +2124,20 @@ msgstr "Пользователь ещё не добавлен в список к
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
-msgid "A report"
-msgstr "Отчёт"
+msgid "Report connections to the server"
+msgstr "Сообщить о подключениях к серверу"
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
-msgid "Report connections to the server"
-msgstr "Сообщить о подключениях к серверу"
+msgid "A report"
+msgstr "Отчёт"
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
 msgid "OK"
 msgstr "Ok"
 
-#: ../src/EAPI.rb:555
+#: ../src/EAPI.rb:557
 msgctxt "EAPI_EltenAPI"
 msgid ""
 "Do you want to send reports on how Elten is used? This data does not contain "
@@ -2162,13 +2175,13 @@ msgstr "применить"
 
 #: ../src/EAPI_Common.rb:117
 msgctxt "EAPI_Common"
-msgid "Visiting card"
-msgstr "Профиль"
+msgid "Write a private message"
+msgstr "Написать приватное сообщение"
 
 #: ../src/EAPI_Common.rb:117
 msgctxt "EAPI_Common"
-msgid "Write a private message"
-msgstr "Написать приватное сообщение"
+msgid "Visiting card"
+msgstr "Профиль"
 
 #: ../src/EAPI_Common.rb:117
 msgctxt "EAPI_Common"
@@ -2386,13 +2399,13 @@ msgstr ""
 
 #: ../src/EAPI_Common.rb:571
 msgctxt "EAPI_Common"
-msgid "Please wait, the soundfont is being downloaded. It may take a while."
-msgstr "Подождите"
+msgid "Soundfont downloaded succesfully."
+msgstr "Готово"
 
 #: ../src/EAPI_Common.rb:571
 msgctxt "EAPI_Common"
-msgid "Soundfont downloaded succesfully."
-msgstr "Готово"
+msgid "Please wait, the soundfont is being downloaded. It may take a while."
+msgstr "Подождите"
 
 #: ../src/EAPI_Common.rb:841
 msgctxt "EAPI_Common"
@@ -2400,7 +2413,7 @@ msgid "Compressing..."
 msgstr "Сжатие"
 
 #: ../src/EAPI_Controls.rb:99 ../src/EAPI_Controls.rb:101
-#: ../src/EAPI_Controls.rb:848 ../src/EAPI_Controls.rb:2191
+#: ../src/EAPI_Controls.rb:848 ../src/EAPI_Controls.rb:2193
 msgid "Context menu"
 msgstr "Контекстное меню"
 
@@ -2429,17 +2442,17 @@ msgctxt "EAPI_Form"
 msgid "Format"
 msgstr "Формат"
 
-#: ../src/EAPI_Controls.rb:745 ../src/EAPI_Controls.rb:1427
+#: ../src/EAPI_Controls.rb:745 ../src/EAPI_Controls.rb:1428
 msgctxt "EAPI_Form"
 msgid "Bold"
 msgstr "Bold"
 
-#: ../src/EAPI_Controls.rb:748 ../src/EAPI_Controls.rb:1429
+#: ../src/EAPI_Controls.rb:748 ../src/EAPI_Controls.rb:1430
 msgctxt "EAPI_Form"
 msgid "Italic"
 msgstr "Italic"
 
-#: ../src/EAPI_Controls.rb:751 ../src/EAPI_Controls.rb:1431
+#: ../src/EAPI_Controls.rb:751 ../src/EAPI_Controls.rb:1432
 msgctxt "EAPI_Form"
 msgid "Underline"
 msgstr "Подчеркнутый"
@@ -2449,7 +2462,7 @@ msgctxt "EAPI_Form"
 msgid "Heading"
 msgstr "Заголовок"
 
-#: ../src/EAPI_Controls.rb:756 ../src/EAPI_Controls.rb:1433
+#: ../src/EAPI_Controls.rb:756 ../src/EAPI_Controls.rb:1434
 msgctxt "EAPI_Form"
 msgid "Heading level %{level}"
 msgstr "заголовок %{level} уровня"
@@ -2459,7 +2472,7 @@ msgctxt "EAPI_Form"
 msgid "Insert"
 msgstr "Вставить"
 
-#: ../src/EAPI_Controls.rb:780 ../src/EAPI_Controls.rb:1435
+#: ../src/EAPI_Controls.rb:780 ../src/EAPI_Controls.rb:1436
 msgctxt "EAPI_Form"
 msgid "Link"
 msgstr "Ссылка"
@@ -2479,7 +2492,7 @@ msgctxt "EAPI_Form"
 msgid "Add"
 msgstr "Добавить"
 
-#: ../src/EAPI_Controls.rb:806 ../src/EAPI_Controls.rb:2161
+#: ../src/EAPI_Controls.rb:806 ../src/EAPI_Controls.rb:2163
 msgctxt "EAPI_Form"
 msgid "Copy"
 msgstr "Скопировать"
@@ -2489,7 +2502,7 @@ msgctxt "EAPI_Form"
 msgid "Cut"
 msgstr "Вырезать"
 
-#: ../src/EAPI_Controls.rb:813 ../src/EAPI_Controls.rb:2164
+#: ../src/EAPI_Controls.rb:813 ../src/EAPI_Controls.rb:2166
 msgctxt "EAPI_Form"
 msgid "Paste"
 msgstr "Вставить"
@@ -2524,7 +2537,7 @@ msgctxt "EAPI_Form"
 msgid "Translate"
 msgstr "Перевести"
 
-#: ../src/EAPI_Controls.rb:849 ../src/EAPI_Controls.rb:2186
+#: ../src/EAPI_Controls.rb:849 ../src/EAPI_Controls.rb:2188
 msgctxt "EAPI_Form"
 msgid "Edit"
 msgstr "Редактировать"
@@ -2564,265 +2577,273 @@ msgctxt "EAPI_Form"
 msgid "No match found."
 msgstr "Ничего не найдено"
 
-#: ../src/EAPI_Controls.rb:1271
+#: ../src/EAPI_Controls.rb:1272
 msgctxt "EAPI_Form"
 msgid "Edit box"
 msgstr "Редактор"
 
-#: ../src/EAPI_Controls.rb:1272
+#: ../src/EAPI_Controls.rb:1273
 msgctxt "EAPI_Form"
 msgid "Text"
 msgstr "Текст"
 
-#: ../src/EAPI_Controls.rb:1273
+#: ../src/EAPI_Controls.rb:1274
 msgctxt "EAPI_Form"
 msgid "Media"
 msgstr "Медиафайл"
 
-#: ../src/EAPI_Controls.rb:1437
+#: ../src/EAPI_Controls.rb:1438
 msgctxt "EAPI_Form"
 msgid "List"
 msgstr "Список"
 
-#: ../src/EAPI_Controls.rb:1439
+#: ../src/EAPI_Controls.rb:1440
 msgctxt "EAPI_Form"
 msgid "List item"
 msgstr "Элемент списка"
 
-#: ../src/EAPI_Controls.rb:1585
+#: ../src/EAPI_Controls.rb:1586
 msgctxt "EAPI_Form"
 msgid "All tags"
 msgstr "Все теги"
 
-#: ../src/EAPI_Controls.rb:1702
+#: ../src/EAPI_Controls.rb:1703
 msgctxt "EAPI_Common"
 msgid "Checked"
 msgstr "Отмечен"
 
-#: ../src/EAPI_Controls.rb:1730 ../src/EAPI_Controls.rb:1937
-#: ../src/EAPI_Controls.rb:1956
+#: ../src/EAPI_Controls.rb:1731 ../src/EAPI_Controls.rb:1939
+#: ../src/EAPI_Controls.rb:1958
 msgctxt "EAPI_Form"
 msgid "Checked"
 msgstr "Отмечен"
 
-#: ../src/EAPI_Controls.rb:1736
+#: ../src/EAPI_Controls.rb:1737
 msgctxt "EAPI_Form"
 msgid "Unchecked"
 msgstr "Не отмечен"
 
-#: ../src/EAPI_Controls.rb:1791
+#: ../src/EAPI_Controls.rb:1777
+#, fuzzy
+#| msgctxt "Sounds"
+#| msgid "Marker of a multiselect listbox"
+msgctxt "EAPI_Form"
+msgid "Multiselection list"
+msgstr "Обозначение списка со множественным выбором"
+
+#: ../src/EAPI_Controls.rb:1793
 msgctxt "EAPI_Form"
 msgid "Empty list"
 msgstr "Список пуст"
 
-#: ../src/EAPI_Controls.rb:1888
+#: ../src/EAPI_Controls.rb:1890
 msgctxt "EAPI_Form"
 msgid "Button"
 msgstr "Кнопка"
 
-#: ../src/EAPI_Controls.rb:1934 ../src/EAPI_Controls.rb:1954
+#: ../src/EAPI_Controls.rb:1936 ../src/EAPI_Controls.rb:1956
 msgctxt "EAPI_Form"
 msgid "unchecked"
 msgstr "Не отмечен"
 
-#: ../src/EAPI_Controls.rb:1960
+#: ../src/EAPI_Controls.rb:1962
 msgctxt "EAPI_Form"
 msgid "Checkbox"
 msgstr "флажок"
 
-#: ../src/EAPI_Controls.rb:2028
+#: ../src/EAPI_Controls.rb:2030
 msgctxt "EAPI_Form"
 msgid "Desktop"
 msgstr "Рабочий стол"
 
-#: ../src/EAPI_Controls.rb:2028
+#: ../src/EAPI_Controls.rb:2030
 msgctxt "EAPI_Form"
 msgid "Documents"
 msgstr "Документы"
 
-#: ../src/EAPI_Controls.rb:2028
+#: ../src/EAPI_Controls.rb:2030
 msgctxt "EAPI_Form"
 msgid "Music"
 msgstr "Музыка"
 
-#: ../src/EAPI_Controls.rb:2153
+#: ../src/EAPI_Controls.rb:2155
 msgctxt "EAPI_Form"
 msgid "Rename"
 msgstr "Переименовать"
 
-#: ../src/EAPI_Controls.rb:2170
+#: ../src/EAPI_Controls.rb:2172
 msgctxt "EAPI_Form"
 msgid "New folder"
 msgstr "ЕНовая папка"
 
-#: ../src/EAPI_Controls.rb:2173
+#: ../src/EAPI_Controls.rb:2175
 msgctxt "EAPI_Form"
 msgid "Folder name"
 msgstr "Название папки"
 
-#: ../src/EAPI_Controls.rb:2177
+#: ../src/EAPI_Controls.rb:2179
 msgctxt "EAPI_Form"
 msgid "The folder has been created."
 msgstr "Готово"
 
-#: ../src/EAPI_Controls.rb:2184
+#: ../src/EAPI_Controls.rb:2186
 msgctxt "EAPI_Form"
 msgid "File"
 msgstr "Файл"
 
-#: ../src/EAPI_Controls.rb:2188
+#: ../src/EAPI_Controls.rb:2190
 msgctxt "EAPI_Form"
 msgid "Create"
 msgstr "Создать"
 
-#: ../src/EAPI_Controls.rb:2191
+#: ../src/EAPI_Controls.rb:2193
 msgctxt "EAPI_Form"
 msgid "Files Tree"
 msgstr "Дерево"
 
-#: ../src/EAPI_Controls.rb:2305
+#: ../src/EAPI_Controls.rb:2307
 msgctxt "EAPI_Form"
 msgid "Pasted"
 msgstr "Вставлено"
 
-#: ../src/EAPI_Controls.rb:2311
+#: ../src/EAPI_Controls.rb:2313
 msgctxt "EAPI_Form"
 msgid "Copied"
 msgstr "Скопировано"
 
-#: ../src/EAPI_Controls.rb:2317
+#: ../src/EAPI_Controls.rb:2319
 msgctxt "EAPI_Form"
 msgid "New file name"
 msgstr "Новое имя для файла"
 
-#: ../src/EAPI_Controls.rb:2321
+#: ../src/EAPI_Controls.rb:2323
 msgctxt "EAPI_Form"
 msgid "The file name has been changed."
 msgstr "Изменено"
 
-#: ../src/EAPI_Controls.rb:2328
+#: ../src/EAPI_Controls.rb:2330
 msgctxt "EAPI_Form"
 msgid "Do you really want to delete %{filename}?"
 msgstr "Вы действительно хотите удалить  %{filename}?"
 
-#: ../src/EAPI_Controls.rb:2335
+#: ../src/EAPI_Controls.rb:2337
 msgctxt "EAPI_Form"
 msgid "Deleted"
 msgstr "Удалено"
 
-#: ../src/EAPI_Controls.rb:2591
+#: ../src/EAPI_Controls.rb:2593
 msgctxt "EAPI_Form"
 msgid "Choose a path"
 msgstr "Выберите путь"
 
-#: ../src/EAPI_Controls.rb:2718
+#: ../src/EAPI_Controls.rb:2720
 msgctxt "EAPI_Common"
 msgid "This file cannot be played."
 msgstr "Воспроизведение невозможно."
 
-#: ../src/EAPI_Controls.rb:2751
+#: ../src/EAPI_Controls.rb:2753
 msgctxt "EAPI_Common"
 msgid "Type a second to which you want to move."
 msgstr "Введите секунду, на которую хотите переместиться"
 
-#: ../src/EAPI_Controls.rb:2828
+#: ../src/EAPI_Controls.rb:2830
 msgctxt "EAPI_Form"
 msgid "Copy original stream"
 msgstr "Копировать оригинальный поток"
 
-#: ../src/EAPI_Controls.rb:2834
+#: ../src/EAPI_Controls.rb:2836
 msgctxt "EAPI_Form"
 msgid "Destination"
 msgstr "Путь"
 
-#: ../src/EAPI_Controls.rb:2835
+#: ../src/EAPI_Controls.rb:2837
 msgctxt "EAPI_Form"
 msgid "File format"
 msgstr "Формат"
 
-#: ../src/EAPI_Controls.rb:2836
+#: ../src/EAPI_Controls.rb:2838
 msgctxt "EAPI_Form"
 msgid "File name"
 msgstr "Имя файла"
 
-#: ../src/EAPI_Controls.rb:3464
+#: ../src/EAPI_Controls.rb:3466
 msgctxt "EAPI_Form"
 msgid "record"
 msgstr "Записать"
 
-#: ../src/EAPI_Controls.rb:3465 ../src/EAPI_Controls.rb:3509
-#: ../src/EAPI_Controls.rb:3534
+#: ../src/EAPI_Controls.rb:3467 ../src/EAPI_Controls.rb:3511
+#: ../src/EAPI_Controls.rb:3536
 msgctxt "EAPI_Form"
 msgid "Pause recording"
 msgstr "Пауза"
 
-#: ../src/EAPI_Controls.rb:3466
+#: ../src/EAPI_Controls.rb:3468
 msgctxt "EAPI_Form"
 msgid "Stop recording"
 msgstr "Стоп"
 
-#: ../src/EAPI_Controls.rb:3467
+#: ../src/EAPI_Controls.rb:3469
 msgctxt "EAPI_Form"
 msgid "Use existing file"
 msgstr "Использовать существующий файл"
 
-#: ../src/EAPI_Controls.rb:3468
+#: ../src/EAPI_Controls.rb:3470
 msgctxt "EAPI_Form"
 msgid "Opus encoder settings"
 msgstr "Настройки кодека"
 
-#: ../src/EAPI_Controls.rb:3469
+#: ../src/EAPI_Controls.rb:3471
 msgctxt "EAPI_Form"
 msgid "Play"
 msgstr "Воспроизвести"
 
-#: ../src/EAPI_Controls.rb:3470
+#: ../src/EAPI_Controls.rb:3472
 msgctxt "EAPI_Form"
 msgid "Encode and play"
 msgstr "Сконвертировать и воспроизвести"
 
-#: ../src/EAPI_Controls.rb:3471
+#: ../src/EAPI_Controls.rb:3473
 msgctxt "EAPI_Form"
 msgid "Delete recording"
 msgstr "Удалить запись"
 
-#: ../src/EAPI_Controls.rb:3472
+#: ../src/EAPI_Controls.rb:3474 ../src/EAPI_Controls.rb:3716
 msgctxt "EAPI_Form"
 msgid "Ready"
 msgstr "Готово"
 
-#: ../src/EAPI_Controls.rb:3480 ../src/EAPI_Controls.rb:3514
+#: ../src/EAPI_Controls.rb:3482 ../src/EAPI_Controls.rb:3516
 msgctxt "EAPI_Form"
 msgid ""
 "Are you sure you want to delete the previous recording and create a new one?"
 msgstr "Вы хотите перезаписать файл?"
 
-#: ../src/EAPI_Controls.rb:3508
+#: ../src/EAPI_Controls.rb:3510
 msgctxt "EAPI_Form"
 msgid "Record again"
 msgstr "Записать ещё раз"
 
-#: ../src/EAPI_Controls.rb:3515
+#: ../src/EAPI_Controls.rb:3517
 msgctxt "EAPI_Form"
 msgid "Select audio file"
 msgstr "Выберите аудиофайл"
 
-#: ../src/EAPI_Controls.rb:3518
+#: ../src/EAPI_Controls.rb:3520
 msgctxt "EAPI_Form"
 msgid "File selected"
 msgstr "Файл выбран"
 
-#: ../src/EAPI_Controls.rb:3524
+#: ../src/EAPI_Controls.rb:3526
 msgctxt "EAPI_Form"
 msgid "Recording preview"
 msgstr "Предпрослушивание"
 
-#: ../src/EAPI_Controls.rb:3538
+#: ../src/EAPI_Controls.rb:3540
 msgctxt "EAPI_Form"
 msgid "Resume recording"
 msgstr "Продолжить  запись"
 
-#: ../src/EAPI_Controls.rb:3544
+#: ../src/EAPI_Controls.rb:3546
 msgctxt "EAPI_Form"
 msgid ""
 "The encoder settings will not apply to the current record. Are you sure you "
@@ -2831,80 +2852,222 @@ msgstr ""
 "Настройки  кодека не будут применяться к текущей записи. Вы уверены что "
 "хотите продолжить?"
 
-#: ../src/EAPI_Controls.rb:3562
+#: ../src/EAPI_Controls.rb:3564
 msgctxt "EAPI_Form"
 msgid "Are you sure you want to delete recorded audio?"
 msgstr "Вы действительно хотите удалить записанное аудио?"
 
-#: ../src/EAPI_Controls.rb:3582
+#: ../src/EAPI_Controls.rb:3584
 msgctxt "EAPI_Form"
 msgid "Low"
 msgstr " очень Низкое"
 
-#: ../src/EAPI_Controls.rb:3583
+#: ../src/EAPI_Controls.rb:3585
 msgctxt "EAPI_Form"
 msgid "Lower"
 msgstr "Низкое"
 
-#: ../src/EAPI_Controls.rb:3584
+#: ../src/EAPI_Controls.rb:3586
 msgctxt "EAPI_Form"
 msgid "Standard"
 msgstr "Стандартное"
 
-#: ../src/EAPI_Controls.rb:3585
+#: ../src/EAPI_Controls.rb:3587
 msgctxt "EAPI_Form"
 msgid "Higher"
 msgstr "высокое"
 
-#: ../src/EAPI_Controls.rb:3586
+#: ../src/EAPI_Controls.rb:3588
 msgctxt "EAPI_Form"
 msgid "High"
 msgstr "Очень высокое"
 
-#: ../src/EAPI_Controls.rb:3587
+#: ../src/EAPI_Controls.rb:3589
 msgctxt "EAPI_Form"
 msgid "Max"
 msgstr "Максимальное"
 
-#: ../src/EAPI_Controls.rb:3594
+#: ../src/EAPI_Controls.rb:3596
 msgctxt "EAPI_Form"
 msgid "Custom"
 msgstr "Пользовательские параметры"
 
-#: ../src/EAPI_Controls.rb:3594
+#: ../src/EAPI_Controls.rb:3596
 msgctxt "EAPI_Form"
 msgid "Quality"
 msgstr "Качество запісі"
 
-#: ../src/EAPI_Controls.rb:3595
+#: ../src/EAPI_Controls.rb:3597
 msgctxt "EAPI_Form"
 msgid "Bitrate"
 msgstr "Бітрейт"
 
-#: ../src/EAPI_Controls.rb:3596
+#: ../src/EAPI_Controls.rb:3598
 msgctxt "EAPI_Form"
 msgid "Frame size"
 msgstr "Размер фрейма"
 
-#: ../src/EAPI_Controls.rb:3597
+#: ../src/EAPI_Controls.rb:3599
 msgctxt "EAPI_Form"
 msgid "Encoder profile"
 msgstr "Профіль інкодера"
 
-#: ../src/EAPI_Controls.rb:3597
-msgctxt "EAPI_Form"
-msgid "Music profile"
-msgstr "Музыка"
-
-#: ../src/EAPI_Controls.rb:3597
+#: ../src/EAPI_Controls.rb:3599
 msgctxt "EAPI_Form"
 msgid "Speech profile"
 msgstr "Речь"
 
-#: ../src/EAPI_Controls.rb:3598
+#: ../src/EAPI_Controls.rb:3599
+msgctxt "EAPI_Form"
+msgid "Music profile"
+msgstr "Музыка"
+
+#: ../src/EAPI_Controls.rb:3600
 msgctxt "EAPI_Form"
 msgid "Use variable bitrate"
 msgstr "Іспользовать переменный бітрейт"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "December"
+msgctxt "EAPI_Form"
+msgid "December"
+msgstr "Декабрь"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "November"
+msgctxt "EAPI_Form"
+msgid "November"
+msgstr "Ноябрь"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "January"
+msgctxt "EAPI_Form"
+msgid "January"
+msgstr "Январь"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "February"
+msgctxt "EAPI_Form"
+msgid "February"
+msgstr "Февраль"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "March"
+msgctxt "EAPI_Form"
+msgid "March"
+msgstr "Март"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "April"
+msgctxt "EAPI_Form"
+msgid "April"
+msgstr "Апрель"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "May"
+msgctxt "EAPI_Form"
+msgid "May"
+msgstr "Май"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "June"
+msgctxt "EAPI_Form"
+msgid "June"
+msgstr "Июнь"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "July"
+msgctxt "EAPI_Form"
+msgid "July"
+msgstr "Июль"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "August"
+msgctxt "EAPI_Form"
+msgid "August"
+msgstr "Август"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "September"
+msgctxt "EAPI_Form"
+msgid "September"
+msgstr "Сентябрь"
+
+#: ../src/EAPI_Controls.rb:3704
+#, fuzzy
+#| msgid "October"
+msgctxt "EAPI_Form"
+msgid "October"
+msgstr "Октябрь"
+
+#: ../src/EAPI_Controls.rb:3710 ../src/EAPI_Controls.rb:3711
+#: ../src/EAPI_Controls.rb:3712 ../src/EAPI_Controls.rb:3713
+#: ../src/EAPI_Controls.rb:3714 ../src/EAPI_Controls.rb:3715
+#: ../src/EAPI_Controls.rb:3757 ../src/EAPI_Controls.rb:3759
+#: ../src/EAPI_Controls.rb:3766 ../src/EAPI_Controls.rb:3777
+#: ../src/EAPI_Controls.rb:3784 ../src/EAPI_Controls.rb:3786
+#: ../src/EAPI_Controls.rb:3793 ../src/EAPI_Controls.rb:3795
+#: ../src/EAPI_Controls.rb:3802 ../src/EAPI_Controls.rb:3804
+#: ../src/EAPI_Controls.rb:3813
+#, fuzzy
+#| msgctxt "Sounds"
+#| msgid "Item selected"
+msgctxt "EAPI_Form"
+msgid "Not selected"
+msgstr "Элемент выбран"
+
+#: ../src/EAPI_Controls.rb:3710
+#, fuzzy
+#| msgctxt "Ban"
+#| msgid "Year"
+msgctxt "EAPI_Form"
+msgid "Year"
+msgstr "Год"
+
+#: ../src/EAPI_Controls.rb:3711
+msgctxt "EAPI_Form"
+msgid "Month"
+msgstr "Месяц"
+
+#: ../src/EAPI_Controls.rb:3712
+#, fuzzy
+#| msgctxt "Ban"
+#| msgid "Day"
+msgctxt "EAPI_Form"
+msgid "Day"
+msgstr "День"
+
+#: ../src/EAPI_Controls.rb:3713
+#, fuzzy
+#| msgctxt "Clock"
+#| msgid "Hour"
+msgctxt "EAPI_Form"
+msgid "Hour"
+msgstr "Час"
+
+#: ../src/EAPI_Controls.rb:3714
+#, fuzzy
+#| msgctxt "Clock"
+#| msgid "Minute"
+msgctxt "EAPI_Form"
+msgid "Minute"
+msgstr "Минута"
+
+#: ../src/EAPI_Controls.rb:3715
+msgctxt "EAPI_Form"
+msgid "Second"
+msgstr "Секунда"
 
 #: ../src/EAPI_EltenSRV.rb:224
 msgctxt "Messages"
@@ -2968,8 +3131,8 @@ msgstr "Программа закрыта"
 
 #: ../src/EAPI_QuickActions.rb:57
 msgctxt "EAPI_Common"
-msgid "Using a screenreader"
-msgstr "Использовать скринридер"
+msgid "Using NVDA"
+msgstr "Используется нвда"
 
 #: ../src/EAPI_QuickActions.rb:59
 msgctxt "EAPI_Common"
@@ -3042,8 +3205,11 @@ msgid "Minimize Elten to tray"
 msgstr "Скрыть в трей"
 
 #: ../src/EAPI_QuickActions.rb:140
+#, fuzzy
+#| msgctxt "EAPI_QuickActions"
+#| msgid "Switch voice output between Screenreader and Sapi5"
 msgctxt "EAPI_QuickActions"
-msgid "Switch voice output between Screenreader and Sapi5"
+msgid "Switch voice output between NVDA and Sapi5"
 msgstr "Изменить метод речевого вывода"
 
 #: ../src/EAPI_QuickActions.rb:141
@@ -3066,157 +3232,157 @@ msgctxt "EAPI_Speech"
 msgid "Space"
 msgstr "Пробел"
 
-#: ../src/EAPI_Speech.rb:255
+#: ../src/EAPI_Speech.rb:290
 msgctxt "EAPI_Speech"
 msgid "dot"
 msgstr "точка"
 
-#: ../src/EAPI_Speech.rb:257
+#: ../src/EAPI_Speech.rb:292
 msgctxt "EAPI_Speech"
 msgid "comma"
 msgstr "Запятая"
 
-#: ../src/EAPI_Speech.rb:259
+#: ../src/EAPI_Speech.rb:294
 msgctxt "EAPI_Speech"
 msgid "slash"
 msgstr "слэш"
 
-#: ../src/EAPI_Speech.rb:261
+#: ../src/EAPI_Speech.rb:296
 msgctxt "EAPI_Speech"
 msgid "semi"
 msgstr "Точка с запятой"
 
-#: ../src/EAPI_Speech.rb:263
+#: ../src/EAPI_Speech.rb:298
 msgctxt "EAPI_Speech"
 msgid "tick"
 msgstr "галочка"
 
-#: ../src/EAPI_Speech.rb:265
+#: ../src/EAPI_Speech.rb:300
 msgctxt "EAPI_Speech"
 msgid "left bracket"
 msgstr "левая скобка"
 
-#: ../src/EAPI_Speech.rb:267
+#: ../src/EAPI_Speech.rb:302
 msgctxt "EAPI_Speech"
 msgid "right bracket"
 msgstr "правая скобка"
 
-#: ../src/EAPI_Speech.rb:269
+#: ../src/EAPI_Speech.rb:304
 msgctxt "EAPI_Speech"
 msgid "backslash"
 msgstr "обратный слэш"
 
-#: ../src/EAPI_Speech.rb:271
+#: ../src/EAPI_Speech.rb:306
 msgctxt "EAPI_Speech"
 msgid "dash"
 msgstr "дефис"
 
-#: ../src/EAPI_Speech.rb:273
+#: ../src/EAPI_Speech.rb:308
 msgctxt "EAPI_Speech"
 msgid "equals"
 msgstr "равно"
 
-#: ../src/EAPI_Speech.rb:275
+#: ../src/EAPI_Speech.rb:310
 msgctxt "EAPI_Speech"
 msgid "graav"
 msgstr "графика"
 
-#: ../src/EAPI_Speech.rb:277
+#: ../src/EAPI_Speech.rb:312
 msgctxt "EAPI_Speech"
 msgid "less"
 msgstr "меньше"
 
-#: ../src/EAPI_Speech.rb:279
+#: ../src/EAPI_Speech.rb:314
 msgctxt "EAPI_Speech"
 msgid "greater"
 msgstr "больше"
 
-#: ../src/EAPI_Speech.rb:281
+#: ../src/EAPI_Speech.rb:316
 msgctxt "EAPI_Speech"
 msgid "question"
 msgstr "Вопросительный знак"
 
-#: ../src/EAPI_Speech.rb:283
+#: ../src/EAPI_Speech.rb:318
 msgctxt "EAPI_Speech"
 msgid "colon"
 msgstr "двоеточие"
 
-#: ../src/EAPI_Speech.rb:285
+#: ../src/EAPI_Speech.rb:320
 msgctxt "EAPI_Speech"
 msgid "quote"
 msgstr "Кавычка"
 
-#: ../src/EAPI_Speech.rb:287
+#: ../src/EAPI_Speech.rb:322
 msgctxt "EAPI_Speech"
 msgid "left brace"
 msgstr "левая скобка"
 
-#: ../src/EAPI_Speech.rb:289
+#: ../src/EAPI_Speech.rb:324
 msgctxt "EAPI_Speech"
 msgid "right brace"
 msgstr "Правая скобка"
 
-#: ../src/EAPI_Speech.rb:291
+#: ../src/EAPI_Speech.rb:326
 msgctxt "EAPI_Speech"
 msgid "bar"
 msgstr "черта"
 
-#: ../src/EAPI_Speech.rb:293
+#: ../src/EAPI_Speech.rb:328
 msgctxt "EAPI_Speech"
 msgid "line"
 msgstr "Линия"
 
-#: ../src/EAPI_Speech.rb:295
+#: ../src/EAPI_Speech.rb:330
 msgctxt "EAPI_Speech"
 msgid "plus"
 msgstr "Плюс"
 
-#: ../src/EAPI_Speech.rb:297
+#: ../src/EAPI_Speech.rb:332
 msgctxt "EAPI_Speech"
 msgid "bang"
 msgstr "восклицательный знак"
 
-#: ../src/EAPI_Speech.rb:299
+#: ../src/EAPI_Speech.rb:334
 msgctxt "EAPI_Speech"
 msgid "at"
 msgstr "Собачка"
 
-#: ../src/EAPI_Speech.rb:301
+#: ../src/EAPI_Speech.rb:336
 msgctxt "EAPI_Speech"
 msgid "hash"
 msgstr "Решётка"
 
-#: ../src/EAPI_Speech.rb:303
+#: ../src/EAPI_Speech.rb:338
 msgctxt "EAPI_Speech"
 msgid "dollar"
 msgstr "Доллар"
 
-#: ../src/EAPI_Speech.rb:305
+#: ../src/EAPI_Speech.rb:340
 msgctxt "EAPI_Speech"
 msgid "percent"
 msgstr "Процент"
 
-#: ../src/EAPI_Speech.rb:307
+#: ../src/EAPI_Speech.rb:342
 msgctxt "EAPI_Speech"
 msgid "caret"
 msgstr "знак вставки"
 
-#: ../src/EAPI_Speech.rb:309
+#: ../src/EAPI_Speech.rb:344
 msgctxt "EAPI_Speech"
 msgid "and"
 msgstr "Амперсант"
 
-#: ../src/EAPI_Speech.rb:311
+#: ../src/EAPI_Speech.rb:346
 msgctxt "EAPI_Speech"
 msgid "star"
 msgstr "Звёздочка"
 
-#: ../src/EAPI_Speech.rb:313
+#: ../src/EAPI_Speech.rb:348
 msgctxt "EAPI_Speech"
 msgid "left paren"
 msgstr "левая скобка"
 
-#: ../src/EAPI_Speech.rb:315
+#: ../src/EAPI_Speech.rb:350
 msgctxt "EAPI_Speech"
 msgid "right paren"
 msgstr "Правая скобка"
@@ -3283,6 +3449,11 @@ msgstr "Введённый адрес не совпадает с введённ�
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
+msgid "Generate password reset code"
+msgstr "Создать код для сброса пароля"
+
+#: ../src/ForgotPassword.rb:29
+msgctxt "ForgotPassword"
 msgid "Password reset"
 msgstr "Сбросить пароль"
 
@@ -3290,11 +3461,6 @@ msgstr "Сбросить пароль"
 msgctxt "ForgotPassword"
 msgid "Enter password reset code"
 msgstr "Введите код"
-
-#: ../src/ForgotPassword.rb:29
-msgctxt "ForgotPassword"
-msgid "Generate password reset code"
-msgstr "Создать код для сброса пароля"
 
 #: ../src/ForgotPassword.rb:49
 msgctxt "ForgotPassword"
@@ -3399,7 +3565,7 @@ msgctxt "Forum"
 msgid "By unread posts (descending)"
 msgstr "По непрочитанным постам, по убыванию"
 
-#: ../src/Forum.rb:199
+#: ../src/Forum.rb:209
 msgctxt "Forum"
 msgid "Marked thread"
 msgid_plural "Marked threads"
@@ -3407,7 +3573,15 @@ msgstr[0] "Отмеченные темы"
 msgstr[1] "Отмеченные темы"
 msgstr[2] "Отмеченные темы"
 
-#: ../src/Forum.rb:199
+#: ../src/Forum.rb:209
+#, fuzzy
+#| msgctxt "Forum"
+#| msgid "Recently created groups"
+msgctxt "Forum"
+msgid "Recently active groups"
+msgstr "Новые группы"
+
+#: ../src/Forum.rb:209
 msgctxt "Forum"
 msgid "Followed forum"
 msgid_plural "Followed forums"
@@ -3415,63 +3589,7 @@ msgstr[0] "Избранные форумы"
 msgstr[1] "Избранные форумы"
 msgstr[2] "Избранные форумы"
 
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Moderated group"
-msgid_plural "Moderated groups (%{count})"
-msgstr[0] "Модерируемые группы"
-msgstr[1] "Модерируемые группы"
-msgstr[2] "Модерируемые группы"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Recommended groups (%{count})"
-msgstr "Рекомендованные группы (%{count})"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Open groups (%{count})"
-msgstr "Общедоступные группы (%{count})"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Waiting invitation"
-msgid_plural "Waiting invitations (%{count})"
-msgstr[0] "Приглашения"
-msgstr[1] "Приглашения"
-msgstr[2] "Приглашения"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "All groups (%{count})"
-msgstr "Все группы (%{count})"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Recently created groups"
-msgstr "Новые группы"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Search"
-msgstr "Поиск"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "My threads"
-msgstr "Мои темы"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Threads popular with my friends"
-msgstr "Темы, популярные у моих контактов"
-
-#: ../src/Forum.rb:199
-msgctxt "Forum"
-msgid "Groups popular with my friends"
-msgstr "Группы, популярные у моих контактов"
-
-#: ../src/Forum.rb:199
+#: ../src/Forum.rb:209
 msgctxt "Forum"
 msgid "Followed thread"
 msgid_plural "Followed threads"
@@ -3479,241 +3597,299 @@ msgstr[0] "избранные темы"
 msgstr[1] "избранные темы"
 msgstr[2] "избранные темы"
 
-#: ../src/Forum.rb:205 ../src/Forum.rb:227 ../src/Forum.rb:248
-#: ../src/Forum.rb:268 ../src/Forum.rb:288 ../src/Forum.rb:309
-#: ../src/Forum.rb:324 ../src/Forum.rb:343 ../src/Forum.rb:956
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Waiting invitation"
+msgid_plural "Waiting invitations (%{count})"
+msgstr[0] "Приглашения"
+msgstr[1] "Приглашения"
+msgstr[2] "Приглашения"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Search"
+msgstr "Поиск"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "My threads"
+msgstr "Мои темы"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Threads popular with my friends"
+msgstr "Темы, популярные у моих контактов"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Groups popular with my friends"
+msgstr "Группы, популярные у моих контактов"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Recently created groups"
+msgstr "Новые группы"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "All groups (%{count})"
+msgstr "Все группы (%{count})"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Moderated group"
+msgid_plural "Moderated groups (%{count})"
+msgstr[0] "Модерируемые группы"
+msgstr[1] "Модерируемые группы"
+msgstr[2] "Модерируемые группы"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Recommended groups (%{count})"
+msgstr "Рекомендованные группы (%{count})"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
+msgid "Open groups (%{count})"
+msgstr "Общедоступные группы (%{count})"
+
+#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
+#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
+#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
+#: ../src/Forum.rb:991
 msgctxt "Forum"
 msgid "Threads"
 msgstr "Тем"
 
-#: ../src/Forum.rb:205 ../src/Forum.rb:227 ../src/Forum.rb:248
-#: ../src/Forum.rb:268 ../src/Forum.rb:288 ../src/Forum.rb:309
-#: ../src/Forum.rb:324 ../src/Forum.rb:343
-msgctxt "Forum"
-msgid "Forums"
-msgstr "форумов"
-
-#: ../src/Forum.rb:205 ../src/Forum.rb:227 ../src/Forum.rb:248
-#: ../src/Forum.rb:268 ../src/Forum.rb:288 ../src/Forum.rb:309
-#: ../src/Forum.rb:324 ../src/Forum.rb:343 ../src/Forum.rb:956
-#: ../src/Forum.rb:1424
+#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
+#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
+#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
+#: ../src/Forum.rb:991 ../src/Forum.rb:1459
 msgctxt "Forum"
 msgid "posts"
 msgstr "Постов"
 
-#: ../src/Forum.rb:205 ../src/Forum.rb:227 ../src/Forum.rb:248
-#: ../src/Forum.rb:268 ../src/Forum.rb:288 ../src/Forum.rb:309
-#: ../src/Forum.rb:324 ../src/Forum.rb:343 ../src/Forum.rb:956
-#: ../src/Forum.rb:1424
+#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
+#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
+#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
+#: ../src/Forum.rb:991 ../src/Forum.rb:1459
 msgctxt "Forum"
 msgid "Unread"
 msgstr "Непрочитано"
 
-#: ../src/Forum.rb:248 ../src/Forum.rb:268 ../src/Forum.rb:288
-#: ../src/Forum.rb:309 ../src/Forum.rb:324 ../src/Forum.rb:343
-#: ../src/Forum.rb:685 ../src/Forum.rb:812 ../src/Forum.rb:814
+#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
+#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
+#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
+msgctxt "Forum"
+msgid "Forums"
+msgstr "форумов"
+
+#: ../src/Forum.rb:239 ../src/Forum.rb:281 ../src/Forum.rb:301
+#: ../src/Forum.rb:321 ../src/Forum.rb:342 ../src/Forum.rb:357
+#: ../src/Forum.rb:376 ../src/Forum.rb:720 ../src/Forum.rb:847
+#: ../src/Forum.rb:849
 msgctxt "Forum"
 msgid "Administrator"
 msgstr "Администратор"
 
-#: ../src/Forum.rb:351 ../src/Forum.rb:353 ../src/Forum.rb:959
-#: ../src/Forum.rb:1145 ../src/Forum.rb:1427 ../src/Forum.rb:1663
-#: ../src/Forum.rb:2239
+#: ../src/Forum.rb:384 ../src/Forum.rb:386 ../src/Forum.rb:994
+#: ../src/Forum.rb:1180 ../src/Forum.rb:1462 ../src/Forum.rb:1698
+#: ../src/Forum.rb:2282
 msgctxt "Forum"
 msgid "Forum"
 msgstr "Группы"
 
-#: ../src/Forum.rb:399 ../src/Forum.rb:2394
+#: ../src/Forum.rb:434 ../src/Forum.rb:2445
 msgctxt "Forum"
 msgid "Enter a phrase to look for"
 msgstr "Введите фразу  для поиска"
 
-#: ../src/Forum.rb:420 ../src/Forum.rb:1099 ../src/Forum.rb:1468
+#: ../src/Forum.rb:455 ../src/Forum.rb:1134 ../src/Forum.rb:1503
 msgctxt "Forum"
 msgid "Open"
 msgstr "Открыть"
 
-#: ../src/Forum.rb:424 ../src/Forum.rb:470
+#: ../src/Forum.rb:459 ../src/Forum.rb:505
 msgctxt "Forum"
 msgid "Group summary"
 msgstr "Статистика"
 
-#: ../src/Forum.rb:427 ../src/Forum.rb:875
+#: ../src/Forum.rb:462 ../src/Forum.rb:910
 msgctxt "Forum"
 msgid "Language"
 msgstr "Язык"
 
-#: ../src/Forum.rb:428 ../src/Forum.rb:698
+#: ../src/Forum.rb:463 ../src/Forum.rb:733
 msgctxt "Forum"
 msgid "Members"
 msgstr "Участники"
 
-#: ../src/Forum.rb:429
+#: ../src/Forum.rb:464
 msgctxt "Forum"
 msgid "Founder"
 msgstr "Создатель"
 
-#: ../src/Forum.rb:432
+#: ../src/Forum.rb:467
 msgctxt "Forum"
 msgid "Founded at"
 msgstr "Дата создания"
 
-#: ../src/Forum.rb:435
+#: ../src/Forum.rb:470
 msgctxt "Forum"
 msgid "The most active members"
 msgstr "Наиболее активные участники"
 
-#: ../src/Forum.rb:439
+#: ../src/Forum.rb:474
 msgctxt "Forum"
 msgid "Group size"
 msgstr "Размер на сервере"
 
-#: ../src/Forum.rb:449
+#: ../src/Forum.rb:484
 msgctxt "Forum"
 msgid "Audio posts"
 msgstr "Аудиопосты"
 
-#: ../src/Forum.rb:451 ../src/Forum.rb:1747 ../src/Forum.rb:2125
-#: ../src/Forum.rb:2196
+#: ../src/Forum.rb:486 ../src/Forum.rb:1782 ../src/Forum.rb:2164
+#: ../src/Forum.rb:2239 ../src/Forum.rb:2691
 msgctxt "Forum"
 msgid "Attachments"
 msgstr "Вложения"
 
-#: ../src/Forum.rb:453
+#: ../src/Forum.rb:488
 msgctxt "Forum"
 msgid "Text"
 msgstr "Текстовые посты"
 
-#: ../src/Forum.rb:455
+#: ../src/Forum.rb:490
 msgctxt "Forum"
 msgid "Overall size"
 msgstr "Общий размер"
 
-#: ../src/Forum.rb:474
+#: ../src/Forum.rb:509
 msgctxt "Forum"
 msgid "Group regulations"
 msgstr "Правила группы"
 
-#: ../src/Forum.rb:475
+#: ../src/Forum.rb:510
 msgctxt "Forum"
 msgid "Edit group regulations"
 msgstr "Редактировать правила группы"
 
-#: ../src/Forum.rb:479 ../src/Forum.rb:848 ../src/Forum.rb:2165
+#: ../src/Forum.rb:514 ../src/Forum.rb:883 ../src/Forum.rb:2204
 msgctxt "Forum"
 msgid "Regulations of group %{groupname}"
 msgstr "Правила  %{groupname}"
 
-#: ../src/Forum.rb:492
+#: ../src/Forum.rb:527
 msgctxt "Forum"
 msgid "Regulations updated"
 msgstr "Правила обновлены"
 
-#: ../src/Forum.rb:501
+#: ../src/Forum.rb:536
 msgctxt "Forum"
 msgid "Group members"
 msgstr "Участники"
 
-#: ../src/Forum.rb:505
+#: ../src/Forum.rb:540
 msgctxt "Forum"
 msgid "Invite"
 msgstr "Пригласить"
 
-#: ../src/Forum.rb:506
+#: ../src/Forum.rb:541
 msgctxt "Forum"
 msgid "User to invite"
 msgstr "Введите имя пользователя"
 
-#: ../src/Forum.rb:511
+#: ../src/Forum.rb:546
 msgctxt "Forum"
 msgid "The user has been invited"
 msgstr "Пользователь приглашён"
 
-#: ../src/Forum.rb:517 ../src/Messages.rb:943 ../src/Users.rb:19
+#: ../src/Forum.rb:552 ../src/Messages.rb:943 ../src/Users.rb:19
 msgid "You haven't permissions to do this"
 msgstr "Вы не можете выполнить это действие"
 
-#: ../src/Forum.rb:519
+#: ../src/Forum.rb:554
 msgctxt "Forum"
 msgid "This user does not exist"
 msgstr "Пользователь не существует"
 
-#: ../src/Forum.rb:521
+#: ../src/Forum.rb:556
 msgctxt "Forum"
 msgid "This user already belongs to this group"
 msgstr "Пользователь уже является участником группы"
 
-#: ../src/Forum.rb:529
+#: ../src/Forum.rb:564
 msgctxt "Forum"
 msgid "Join"
 msgstr "Вступить"
 
-#: ../src/Forum.rb:530 ../src/Forum.rb:774
+#: ../src/Forum.rb:565 ../src/Forum.rb:809
 msgctxt "Forum"
 msgid "Accept invitation"
 msgstr "Принять приглашение"
 
-#: ../src/Forum.rb:531
+#: ../src/Forum.rb:566
 msgctxt "Forum"
 msgid "Ask to be enrolled in this group"
 msgstr "Отправить запрос на вступление"
 
-#: ../src/Forum.rb:536
+#: ../src/Forum.rb:571
 msgctxt "Forum"
 msgid "Do you wish to ask to be enrolled in %{groupname}"
 msgstr "Вы хотите отправить запрос на вступление в  %{groupname}"
 
-#: ../src/Forum.rb:538
+#: ../src/Forum.rb:573
 msgctxt "Forum"
 msgid "Are you sure you want to join %{groupname}?"
 msgstr "Вы хотите вступить в %{groupname}?"
 
-#: ../src/Forum.rb:544
+#: ../src/Forum.rb:579
 msgctxt "Forum"
 msgid "Request sent"
 msgstr "Запрос отправлен"
 
-#: ../src/Forum.rb:547
+#: ../src/Forum.rb:582
 msgctxt "Forum"
 msgid "You've just joined the group"
 msgstr "Вы только что присоединились к группе"
 
-#: ../src/Forum.rb:559
+#: ../src/Forum.rb:594
 msgctxt "Forum"
 msgid "Add this group to quick actions"
 msgstr "Добавить группу на рабочий стол"
 
-#: ../src/Forum.rb:560
+#: ../src/Forum.rb:595
 msgctxt "Forum"
 msgid "Group"
 msgstr "Группа"
 
-#: ../src/Forum.rb:561
+#: ../src/Forum.rb:596
 msgctxt "Forum"
 msgid "Group added to quick actions"
 msgstr "Группа добавлена на рабочий стол"
 
-#: ../src/Forum.rb:565
+#: ../src/Forum.rb:600
 msgctxt "Forum"
 msgid "Leave"
 msgstr "Покинуть"
 
-#: ../src/Forum.rb:566 ../src/Forum.rb:774
+#: ../src/Forum.rb:601 ../src/Forum.rb:809
 msgctxt "Forum"
 msgid "Refuse invitation"
 msgstr "Отказаться от приглашения"
 
-#: ../src/Forum.rb:569
+#: ../src/Forum.rb:604
 msgctxt "Forum"
 msgid "Are you sure you want to leave %{groupname}?"
 msgstr "Вы хотите покинуть  %{groupname}?"
 
-#: ../src/Forum.rb:572
+#: ../src/Forum.rb:607
 msgctxt "Forum"
 msgid "You've just left the group"
 msgstr "Вы покинули группу."
 
-#: ../src/Forum.rb:581
+#: ../src/Forum.rb:616
 #, fuzzy
 #| msgctxt "Forum"
 #| msgid "Mark this forum as read"
@@ -3721,7 +3897,7 @@ msgctxt "Forum"
 msgid "Mark this group as read"
 msgstr "Отметить как прочитанный"
 
-#: ../src/Forum.rb:582
+#: ../src/Forum.rb:617
 #, fuzzy
 #| msgctxt "Forum"
 #| msgid ""
@@ -3733,7 +3909,7 @@ msgid ""
 "continue?"
 msgstr "Все посты на этом форуме будут отмечены как прочитанные. Продолжить?"
 
-#: ../src/Forum.rb:592
+#: ../src/Forum.rb:627
 #, fuzzy
 #| msgctxt "Forum"
 #| msgid "The forum has been marked as read."
@@ -3741,169 +3917,169 @@ msgctxt "Forum"
 msgid "The group has been marked as read."
 msgstr "Готово"
 
-#: ../src/Forum.rb:599
+#: ../src/Forum.rb:634
 msgctxt "Forum"
 msgid "Edit group"
 msgstr "Редактировать группу"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:875
+#: ../src/Forum.rb:636 ../src/Forum.rb:910
 msgctxt "Forum"
 msgid "Group name"
 msgstr "Название группы"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:875
+#: ../src/Forum.rb:636 ../src/Forum.rb:910
 msgctxt "Forum"
 msgid "Group description"
 msgstr "Описание группы"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:875
+#: ../src/Forum.rb:636 ../src/Forum.rb:910
 msgctxt "Forum"
 msgid "Hidden"
 msgstr "Скрытая"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:875
+#: ../src/Forum.rb:636 ../src/Forum.rb:910
 msgctxt "Forum"
 msgid "Public"
 msgstr "Публичная"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:875
+#: ../src/Forum.rb:636 ../src/Forum.rb:910
 msgctxt "Forum"
 msgid "Group type"
 msgstr "Тип группы"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:619 ../src/Forum.rb:875
-#: ../src/Forum.rb:889
+#: ../src/Forum.rb:636 ../src/Forum.rb:654 ../src/Forum.rb:910
+#: ../src/Forum.rb:924
 msgctxt "Forum"
 msgid "open (everyone can join)"
 msgstr "Открытая: каждый может присоединиться"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:617 ../src/Forum.rb:619
-#: ../src/Forum.rb:875 ../src/Forum.rb:887 ../src/Forum.rb:889
+#: ../src/Forum.rb:636 ../src/Forum.rb:652 ../src/Forum.rb:654
+#: ../src/Forum.rb:910 ../src/Forum.rb:922 ../src/Forum.rb:924
 msgctxt "Forum"
 msgid "Moderated (everyone can request)"
 msgstr ""
 "Модерируемая: каждый может присоединиться, но администратор должен одобрить "
 "вступление"
 
-#: ../src/Forum.rb:601 ../src/Forum.rb:875
+#: ../src/Forum.rb:636 ../src/Forum.rb:910
 msgctxt "Forum"
 msgid "Group join type"
 msgstr "Права доступа"
 
-#: ../src/Forum.rb:617 ../src/Forum.rb:887
+#: ../src/Forum.rb:652 ../src/Forum.rb:922
 msgctxt "Forum"
 msgid "closed (only invited users can join)"
 msgstr "Закрытая: присоединиться могут только те, кого пригласит администратор"
 
-#: ../src/Forum.rb:637
+#: ../src/Forum.rb:672
 msgctxt "Forum"
 msgid "Delete group"
 msgstr "Удалить группу"
 
-#: ../src/Forum.rb:638
+#: ../src/Forum.rb:673
 msgctxt "Forum"
 msgid "Are you sure you want to delete %{groupname}?"
 msgstr "Вы действительно хотите удалить  %{groupname}?"
 
-#: ../src/Forum.rb:642
+#: ../src/Forum.rb:677
 msgctxt "Forum"
 msgid "Group has been deleted"
 msgstr "Группа удалена"
 
-#: ../src/Forum.rb:651
+#: ../src/Forum.rb:686
 msgctxt "Forum"
 msgid "Show groups in unknown languages"
 msgstr "Показывать группы, языки которых не указаны"
 
-#: ../src/Forum.rb:652
+#: ../src/Forum.rb:687
 msgctxt "Forum"
 msgid "Hide groups in unknown languages"
 msgstr "Скрывать группы, языки которых не указаны"
 
-#: ../src/Forum.rb:662
+#: ../src/Forum.rb:697
 msgctxt "Forum"
 msgid "New group"
 msgstr "Новая группа"
 
-#: ../src/Forum.rb:687 ../src/Forum.rb:747 ../src/Forum.rb:750
+#: ../src/Forum.rb:722 ../src/Forum.rb:782 ../src/Forum.rb:785
 msgctxt "Forum"
 msgid "Moderator"
 msgstr "Модератор"
 
-#: ../src/Forum.rb:689 ../src/Forum.rb:796
+#: ../src/Forum.rb:724 ../src/Forum.rb:831
 msgctxt "Forum"
 msgid "Banned"
 msgstr "Забанен"
 
-#: ../src/Forum.rb:691
+#: ../src/Forum.rb:726
 msgctxt "Forum"
 msgid "Invited"
 msgstr "Приглашён"
 
-#: ../src/Forum.rb:693 ../src/Forum.rb:797
+#: ../src/Forum.rb:728 ../src/Forum.rb:832
 msgctxt "Forum"
 msgid "Waiting for review"
 msgstr "Ожидает одобрения"
 
-#: ../src/Forum.rb:706
+#: ../src/Forum.rb:741
 msgctxt "Forum"
 msgid "Grant moderation privileges"
 msgstr "Предоставить права модерации"
 
-#: ../src/Forum.rb:708
+#: ../src/Forum.rb:743
 msgctxt "Forum"
 msgid "Deny moderation privileges"
 msgstr "Запретить модерировать"
 
-#: ../src/Forum.rb:709
+#: ../src/Forum.rb:744
 msgctxt "Forum"
 msgid "Pass administrative privileges"
 msgstr "Передать административные привилегии"
 
-#: ../src/Forum.rb:711 ../src/Forum.rb:724
+#: ../src/Forum.rb:746 ../src/Forum.rb:759
 msgctxt "Forum"
 msgid "Unban"
 msgstr "Разбанить"
 
-#: ../src/Forum.rb:713 ../src/Forum.rb:726
+#: ../src/Forum.rb:748 ../src/Forum.rb:761
 msgctxt "Forum"
 msgid "Examine"
 msgstr "Исследование"
 
-#: ../src/Forum.rb:719
+#: ../src/Forum.rb:754
 msgctxt "Forum"
 msgid "Ban in this group"
 msgstr "Забанить в группе"
 
-#: ../src/Forum.rb:721
+#: ../src/Forum.rb:756
 msgctxt "Forum"
 msgid "Kick"
 msgstr "Исключить"
 
-#: ../src/Forum.rb:735
+#: ../src/Forum.rb:770
 msgctxt "Forum"
 msgid ""
 "Are you sure you want to grant moderation privileges in %{groupname} to user "
 "%{user}?"
 msgstr "Вы точно хотите  сделать %{user} модератором?"
 
-#: ../src/Forum.rb:738
+#: ../src/Forum.rb:773
 msgctxt "Forum"
 msgid "Are you sure you want to deny %{user}'s moderation privileges?"
 msgstr ""
 "Продолжая, вы отнимаете права модерации у пользователя %{user}'. Вы согласны?"
 
-#: ../src/Forum.rb:752 ../src/Forum.rb:801 ../src/Forum.rb:816
+#: ../src/Forum.rb:787 ../src/Forum.rb:836 ../src/Forum.rb:851
 msgctxt "Forum"
 msgid "Privileges of this user have been changed."
 msgstr "Права изменены"
 
-#: ../src/Forum.rb:765
+#: ../src/Forum.rb:800
 msgctxt "Forum"
 msgid "Are you sure you want to ban %{user} in %{groupname}?"
 msgstr "Вы действительно хотите забанить  %{user} в группе  %{groupname}?"
 
-#: ../src/Forum.rb:768
+#: ../src/Forum.rb:803
 msgctxt "Forum"
 msgid "Are you sure you want to kick %{user} of %{groupname}?"
 msgstr ""
@@ -3912,22 +4088,22 @@ msgstr ""
 "она открыта, писать в неё. Если пользователь нарушает правила, его лучше "
 "забанить."
 
-#: ../src/Forum.rb:772
+#: ../src/Forum.rb:807
 msgctxt "Forum"
 msgid "Are you sure you want to unban %{user} in %{groupname}?"
 msgstr "Подумайте хорошо. Вы точно хотите разбанить %{user}?"
 
-#: ../src/Forum.rb:778
+#: ../src/Forum.rb:813
 msgctxt "Forum"
 msgid "Do you want to accept request of user %{user}"
 msgstr "Вы действительно хотите разрешить  %{user} вступить в группу?"
 
-#: ../src/Forum.rb:781
+#: ../src/Forum.rb:816
 msgctxt "Forum"
 msgid "Do you want to refuse request of user %{user}"
 msgstr "Вы действительно хотите отказать %{user}?"
 
-#: ../src/Forum.rb:806
+#: ../src/Forum.rb:841
 msgctxt "Forum"
 msgid ""
 "Are you sure you want to resign your administrative privileges in "
@@ -3937,117 +4113,117 @@ msgstr ""
 "пользователю. Вы точно хотите передать полные управление группой "
 "%{groupname} пользователю %{user}?"
 
-#: ../src/Forum.rb:849 ../src/Forum.rb:2166
+#: ../src/Forum.rb:884 ../src/Forum.rb:2205
 msgctxt "Forum"
 msgid "I accept regulations of group %{groupname}"
 msgstr "Я соглашаюсь с правилами  %{groupname}"
 
-#: ../src/Forum.rb:850 ../src/Forum.rb:2167
+#: ../src/Forum.rb:885 ../src/Forum.rb:2206
 msgctxt "Forum"
 msgid "I decline regulations of group %{groupname}"
 msgstr "Я отказываюсь соблюдать правила группы  %{groupname}"
 
-#: ../src/Forum.rb:881
+#: ../src/Forum.rb:916
 msgctxt "Forum"
 msgid "Create group"
 msgstr "Создать группу"
 
-#: ../src/Forum.rb:896
+#: ../src/Forum.rb:931
 msgctxt "Forum"
 msgid "Group has been created"
 msgstr "Группа создана."
 
-#: ../src/Forum.rb:957
+#: ../src/Forum.rb:992
 msgctxt "Forum"
 msgid "Select forum"
 msgstr "Выберите форум"
 
-#: ../src/Forum.rb:984
+#: ../src/Forum.rb:1019
 msgctxt "Forum"
 msgid "Forum tags"
 msgstr "Теги"
 
-#: ../src/Forum.rb:986
+#: ../src/Forum.rb:1021
 msgctxt "Forum"
 msgid "New tag"
 msgstr "Новый тег"
 
-#: ../src/Forum.rb:999
+#: ../src/Forum.rb:1034
 msgctxt "Forum"
 msgid "Delete tag"
 msgstr "Удалить тег"
 
-#: ../src/Forum.rb:1000
+#: ../src/Forum.rb:1035
 msgctxt "Forum"
 msgid "Are you sure you want to delete this tag?"
 msgstr "Вы действительно хотите удалить этот тег?"
 
-#: ../src/Forum.rb:1026
+#: ../src/Forum.rb:1061
 msgctxt "Forum"
 msgid "Tag name"
 msgstr "Название тега"
 
-#: ../src/Forum.rb:1027
+#: ../src/Forum.rb:1062
 msgctxt "Forum"
 msgid "Possible tag values"
 msgstr "Возможные значения тега"
 
-#: ../src/Forum.rb:1033
+#: ../src/Forum.rb:1068
 msgctxt "Forum"
 msgid "Add tag value"
 msgstr "Добавить значение"
 
-#: ../src/Forum.rb:1034 ../src/Forum.rb:1047
+#: ../src/Forum.rb:1069 ../src/Forum.rb:1082
 msgctxt "Forum"
 msgid "Tag value"
 msgstr "Значение"
 
-#: ../src/Forum.rb:1036 ../src/Forum.rb:1049
+#: ../src/Forum.rb:1071 ../src/Forum.rb:1084
 msgctxt "Forum"
 msgid "Tag values cannot contain punctuation characters"
 msgstr "Значения не могут содержать знаки пунктуации"
 
-#: ../src/Forum.rb:1046
+#: ../src/Forum.rb:1081
 msgctxt "Forum"
 msgid "Edit tag value"
 msgstr "Редактировать"
 
-#: ../src/Forum.rb:1058
+#: ../src/Forum.rb:1093
 msgctxt "Forum"
 msgid "Delete tag value"
 msgstr "Удалить"
 
-#: ../src/Forum.rb:1075
+#: ../src/Forum.rb:1110
 msgctxt "Forum"
 msgid "Tag must have at least one value"
 msgstr "Тег может иметь только одно значение"
 
-#: ../src/Forum.rb:1103
+#: ../src/Forum.rb:1138
 msgctxt "Forum"
 msgid "Follow this forum"
 msgstr "Добавить форум в избранное"
 
-#: ../src/Forum.rb:1104
+#: ../src/Forum.rb:1139
 msgctxt "Forum"
 msgid "Unfollow this forum"
 msgstr "Удалить форум из избранного"
 
-#: ../src/Forum.rb:1110
+#: ../src/Forum.rb:1145
 msgctxt "Forum"
 msgid "Added to followed forums list."
 msgstr "Форум добавлен в избранное."
 
-#: ../src/Forum.rb:1117
+#: ../src/Forum.rb:1152
 msgctxt "Forum"
 msgid "Removed from followed forums list."
 msgstr "Форум удалён из избранного."
 
-#: ../src/Forum.rb:1128
+#: ../src/Forum.rb:1163
 msgctxt "Forum"
 msgid "Mark this forum as read"
 msgstr "Отметить как прочитанный"
 
-#: ../src/Forum.rb:1129
+#: ../src/Forum.rb:1164
 #, fuzzy
 #| msgctxt "Forum"
 #| msgid ""
@@ -4059,708 +4235,756 @@ msgid ""
 "continue?"
 msgstr "Все посты на этом форуме будут отмечены как прочитанные. Продолжить?"
 
-#: ../src/Forum.rb:1138
+#: ../src/Forum.rb:1173
 msgctxt "Forum"
 msgid "The forum has been marked as read."
 msgstr "Готово"
 
-#: ../src/Forum.rb:1144
+#: ../src/Forum.rb:1179
 msgctxt "Forum"
 msgid "Add this forum to quick actions"
 msgstr "Добавить форум на рабочий стол"
 
-#: ../src/Forum.rb:1146
+#: ../src/Forum.rb:1181
 msgctxt "Forum"
 msgid "Forum added to quick actions"
 msgstr "Готово"
 
-#: ../src/Forum.rb:1152 ../src/Forum.rb:1535 ../src/Forum.rb:2537
+#: ../src/Forum.rb:1187 ../src/Forum.rb:1570 ../src/Forum.rb:2588
 msgctxt "Forum"
 msgid "Moderation"
 msgstr "Модерация"
 
-#: ../src/Forum.rb:1153
+#: ../src/Forum.rb:1188
 msgctxt "Forum"
 msgid "New forum"
 msgstr "Новый форум"
 
-#: ../src/Forum.rb:1159
+#: ../src/Forum.rb:1194
 msgctxt "Forum"
 msgid "Edit forum"
 msgstr "Редактировать форум"
 
-#: ../src/Forum.rb:1160 ../src/Forum.rb:1255
-msgctxt "Forum"
-msgid "Forum description"
-msgstr "Описание"
-
-#: ../src/Forum.rb:1160 ../src/Forum.rb:1255
+#: ../src/Forum.rb:1195 ../src/Forum.rb:1290
 msgctxt "Forum"
 msgid "Forum name"
 msgstr "Название"
 
-#: ../src/Forum.rb:1189
+#: ../src/Forum.rb:1195 ../src/Forum.rb:1290
+msgctxt "Forum"
+msgid "Forum description"
+msgstr "Описание"
+
+#: ../src/Forum.rb:1224
 msgctxt "Forum"
 msgid "Close forum"
 msgstr "Закрытый форум"
 
-#: ../src/Forum.rb:1190
+#: ../src/Forum.rb:1225
 msgctxt "Forum"
 msgid "Open forum"
 msgstr "Открытый форум"
 
-#: ../src/Forum.rb:1200
+#: ../src/Forum.rb:1235
 msgctxt "Forum"
 msgid "The forum has been opened"
 msgstr "Форум открыт"
 
-#: ../src/Forum.rb:1204
+#: ../src/Forum.rb:1239
 msgctxt "Forum"
 msgid "The forum has been closed"
 msgstr "Форум закрыт"
 
-#: ../src/Forum.rb:1209
+#: ../src/Forum.rb:1244
 msgctxt "Forum"
 msgid "Edit forum tags"
 msgstr "Редактировать теги"
 
-#: ../src/Forum.rb:1213
+#: ../src/Forum.rb:1248
 msgctxt "Forum"
 msgid "Change forum position"
 msgstr "Изменить позицию в списке"
 
-#: ../src/Forum.rb:1216 ../src/Forum.rb:2631
-msgctxt "Forum"
-msgid "Move to end"
-msgstr "Переместить вниз"
-
-#: ../src/Forum.rb:1216
+#: ../src/Forum.rb:1251
 msgctxt "Forum"
 msgid "Move forum"
 msgstr "Переместить форум"
 
-#: ../src/Forum.rb:1231
+#: ../src/Forum.rb:1251 ../src/Forum.rb:2665
+msgctxt "Forum"
+msgid "Move to end"
+msgstr "Переместить вниз"
+
+#: ../src/Forum.rb:1266
 msgctxt "Forum"
 msgid "Delete forum"
 msgstr "Удалить форум"
 
-#: ../src/Forum.rb:1232
+#: ../src/Forum.rb:1267
 msgctxt "Forum"
 msgid "Are you sure you want to delete this forum?"
 msgstr ""
 "Все посты на форуме будут потеряны без возможности восстановления. Вы "
 "уверены, что хотите удалить этот форум? "
 
-#: ../src/Forum.rb:1237
+#: ../src/Forum.rb:1272
 msgctxt "Forum"
 msgid "The forum has been deleted."
 msgstr "Форум удалён."
 
-#: ../src/Forum.rb:1255
+#: ../src/Forum.rb:1290
 msgctxt "Forum"
 msgid "Voice forum"
 msgstr "Голосовой форум"
 
-#: ../src/Forum.rb:1255
+#: ../src/Forum.rb:1290
 msgctxt "Forum"
 msgid "Mixed forum"
 msgstr "Смешанный форум"
 
-#: ../src/Forum.rb:1255
+#: ../src/Forum.rb:1290
 msgctxt "Forum"
 msgid "Forum type"
 msgstr "Тип форума"
 
-#: ../src/Forum.rb:1255
+#: ../src/Forum.rb:1290
 msgctxt "Forum"
 msgid "Text forum"
 msgstr "Текстовый форум"
 
-#: ../src/Forum.rb:1261
+#: ../src/Forum.rb:1296
 msgctxt "Forum"
 msgid "Create forum"
 msgstr "Создать"
 
-#: ../src/Forum.rb:1277
+#: ../src/Forum.rb:1312
 msgctxt "Forum"
 msgid "The forum has been created"
 msgstr "Форум создан."
 
-#: ../src/Forum.rb:1385
+#: ../src/Forum.rb:1420
 msgctxt "Forum"
 msgid "No new posts in followed threads"
 msgstr "Новых постов нет."
 
-#: ../src/Forum.rb:1389
+#: ../src/Forum.rb:1424
 msgctxt "Forum"
 msgid "No new threads on the followed forums"
 msgstr "Новых тем нет."
 
-#: ../src/Forum.rb:1393
+#: ../src/Forum.rb:1428
 msgctxt "Forum"
 msgid "No new posts on the followed forums"
 msgstr "Новых постов нет."
 
-#: ../src/Forum.rb:1397
+#: ../src/Forum.rb:1432
 msgctxt "Forum"
 msgid "No new mentions"
 msgstr "Упоминаний нет."
 
-#: ../src/Forum.rb:1406
+#: ../src/Forum.rb:1441
 msgctxt "Forum"
 msgid "New"
 msgstr "Создать"
 
-#: ../src/Forum.rb:1410
+#: ../src/Forum.rb:1445
 msgctxt "Forum"
 msgid "Montioned by"
 msgstr "Упомянуты"
 
-#: ../src/Forum.rb:1422
+#: ../src/Forum.rb:1457
 msgctxt "Forum"
 msgid "Select thread"
 msgstr "Выберите тему"
 
-#: ../src/Forum.rb:1424
+#: ../src/Forum.rb:1459
 msgctxt "Forum"
 msgid "Author"
 msgstr "Автор"
 
-#: ../src/Forum.rb:1471
+#: ../src/Forum.rb:1506
 msgctxt "Forum"
 msgid "Mark this thread"
 msgstr "Пометить эту тему"
 
-#: ../src/Forum.rb:1472
+#: ../src/Forum.rb:1507
 msgctxt "Forum"
 msgid "Unmark this thread"
 msgstr "Снять пометку с темы"
 
-#: ../src/Forum.rb:1480
+#: ../src/Forum.rb:1515
 msgctxt "Forum"
 msgid "Thread unmarked"
 msgstr "Пометка снята"
 
-#: ../src/Forum.rb:1482
+#: ../src/Forum.rb:1517
 msgctxt "Forum"
 msgid "Thread marked"
 msgstr "Тема Помечена"
 
-#: ../src/Forum.rb:1487 ../src/Forum.rb:1663 ../src/Forum.rb:2517
+#: ../src/Forum.rb:1522 ../src/Forum.rb:1698 ../src/Forum.rb:2568
 msgctxt "Forum"
 msgid "Add to followed threads list"
 msgstr "Добавить в список избранных тем"
 
-#: ../src/Forum.rb:1488 ../src/Forum.rb:2518
+#: ../src/Forum.rb:1523 ../src/Forum.rb:2569
 msgctxt "Forum"
 msgid "Unfollow this thread"
 msgstr "Удалить из списка избранных тем"
 
-#: ../src/Forum.rb:1494 ../src/Forum.rb:2524
+#: ../src/Forum.rb:1529 ../src/Forum.rb:2575
 msgctxt "Forum"
 msgid "Added to the list of followed threads."
 msgstr "Тема добавлена в избранное"
 
-#: ../src/Forum.rb:1501 ../src/Forum.rb:2531
+#: ../src/Forum.rb:1536 ../src/Forum.rb:2582
 msgctxt "Forum"
 msgid "Removed from followed threads list."
 msgstr "Тема удалена из избранного"
 
-#: ../src/Forum.rb:1509
+#: ../src/Forum.rb:1544
 msgctxt "Forum"
 msgid "Thread statistics"
 msgstr "Статистика темы"
 
-#: ../src/Forum.rb:1513
+#: ../src/Forum.rb:1548
 msgctxt "Forum"
 msgid "Followers: %{count_followers}"
 msgstr "Подписчиков: %{count_followers}"
 
-#: ../src/Forum.rb:1514
+#: ../src/Forum.rb:1549
 msgctxt "Forum"
 msgid "All mentions: %{count_mentions}"
 msgstr "Упоминаний: %{count_mentions}"
 
-#: ../src/Forum.rb:1515
+#: ../src/Forum.rb:1550
 msgctxt "Forum"
 msgid "Unique authors: %{count_authors}"
 msgstr "Уникальных авторов: %{count_authors}"
 
-#: ../src/Forum.rb:1516
+#: ../src/Forum.rb:1551
 msgctxt "Forum"
 msgid "Readers: %{count_readers}"
 msgstr "Читателей: %{count_readers}"
 
-#: ../src/Forum.rb:1517
+#: ../src/Forum.rb:1552
 msgctxt "Forum"
 msgid "Users that have read less than 50 percent of posts: %{count_readers}"
 msgstr ""
 "Пользователей, прочитавших больше 50 процентов постов: %{count_readers}"
 
-#: ../src/Forum.rb:1518
+#: ../src/Forum.rb:1553
 msgctxt "Forum"
 msgid "Users that have read over 90 percent of posts: %{count_readers}"
 msgstr "Пользователей, прочитавших более 90 процентов постов: %{count_readers}"
 
-#: ../src/Forum.rb:1519
+#: ../src/Forum.rb:1554
 msgctxt "Forum"
 msgid "Users that have read all posts: %{count_readers}"
 msgstr "Пользователей, прочитавших всё: %{count_readers}"
 
-#: ../src/Forum.rb:1521
+#: ../src/Forum.rb:1556
 msgctxt "Forum"
 msgid "Thread statistics summary"
 msgstr "Статистика"
 
-#: ../src/Forum.rb:1527
+#: ../src/Forum.rb:1562
 msgctxt "Forum"
 msgid "New thread"
 msgstr "Новая тема"
 
-#: ../src/Forum.rb:1536
+#: ../src/Forum.rb:1571
 msgctxt "Forum"
 msgid "Move thread"
 msgstr "Переместить тему"
 
-#: ../src/Forum.rb:1547
+#: ../src/Forum.rb:1582
 msgctxt "Forum"
 msgid "Thread destination"
 msgstr "Куда переместить?"
 
-#: ../src/Forum.rb:1552
+#: ../src/Forum.rb:1587
 msgctxt "Forum"
 msgid "The thread has been moved."
 msgstr "Тема перемещена."
 
-#: ../src/Forum.rb:1559
+#: ../src/Forum.rb:1594
 msgctxt "Forum"
 msgid "Rename"
 msgstr "Переименовать"
 
-#: ../src/Forum.rb:1560
+#: ../src/Forum.rb:1595
 msgctxt "Forum"
 msgid "Type a new thread name"
 msgstr "Введите новое название темы"
 
-#: ../src/Forum.rb:1565
+#: ../src/Forum.rb:1600
 msgctxt "Forum"
 msgid "The forum name has been changed."
 msgstr "Название форума изменено."
 
-#: ../src/Forum.rb:1572
+#: ../src/Forum.rb:1607
 msgctxt "Forum"
 msgid "Delete thread"
 msgstr "Удалить тему"
 
-#: ../src/Forum.rb:1573
+#: ../src/Forum.rb:1608
 msgctxt "Forum"
 msgid "Do you really want to delete thread %{thrname}?"
 msgstr "Вы действительно хотите удалить  %{thrname}?"
 
-#: ../src/Forum.rb:1577
+#: ../src/Forum.rb:1612
 msgctxt "Forum"
 msgid "This thread has been deleted."
 msgstr "Готово"
 
-#: ../src/Forum.rb:1584
+#: ../src/Forum.rb:1619
 msgctxt "Forum"
 msgid "Close thread"
 msgstr "Закрыть тему"
 
-#: ../src/Forum.rb:1585
+#: ../src/Forum.rb:1620
 msgctxt "Forum"
 msgid "Open thread"
 msgstr "Открыть тему"
 
-#: ../src/Forum.rb:1595
+#: ../src/Forum.rb:1630
 msgctxt "Forum"
 msgid "The thread has been opened"
 msgstr "Готово"
 
-#: ../src/Forum.rb:1599
+#: ../src/Forum.rb:1634
 msgctxt "Forum"
 msgid "The thread has been closed"
 msgstr "Готово"
 
-#: ../src/Forum.rb:1604
+#: ../src/Forum.rb:1639
 msgctxt "Forum"
 msgid "Pin thread"
 msgstr "Прикрепить тему"
 
-#: ../src/Forum.rb:1605
+#: ../src/Forum.rb:1640
 msgctxt "Forum"
 msgid "Unpin thread"
 msgstr "Открепить тему"
 
-#: ../src/Forum.rb:1615
+#: ../src/Forum.rb:1650
 msgctxt "Forum"
 msgid "Thread has been unpinned"
 msgstr "Готово"
 
-#: ../src/Forum.rb:1619
+#: ../src/Forum.rb:1654
 msgctxt "Forum"
 msgid "Thread has been pinned"
 msgstr "Готово"
 
-#: ../src/Forum.rb:1637 ../src/Forum.rb:2214
-msgctxt "Forum"
-msgid "Text post"
-msgstr "Текстовый пост"
-
-#: ../src/Forum.rb:1637 ../src/Forum.rb:1661 ../src/Forum.rb:2214
-#: ../src/Forum.rb:2224
+#: ../src/Forum.rb:1672 ../src/Forum.rb:1696 ../src/Forum.rb:2257
+#: ../src/Forum.rb:2267
 msgctxt "Forum"
 msgid "Audio post"
 msgstr "Аудиопост"
 
-#: ../src/Forum.rb:1637
+#: ../src/Forum.rb:1672
 msgctxt "Forum"
 msgid "Select first post type"
 msgstr "Сначала необходимо выбрать тип поста"
 
-#: ../src/Forum.rb:1657
+#: ../src/Forum.rb:1672 ../src/Forum.rb:2257
+msgctxt "Forum"
+msgid "Text post"
+msgstr "Текстовый пост"
+
+#: ../src/Forum.rb:1692
 msgctxt "Forum"
 msgid "Thread name"
 msgstr "Название темы"
 
-#: ../src/Forum.rb:1659 ../src/Forum.rb:2223
-msgctxt "Forum"
-msgid "Attach a file"
-msgstr "Добавить вложение"
-
-#: ../src/Forum.rb:1659
+#: ../src/Forum.rb:1694
 msgctxt "Forum"
 msgid "Post"
 msgstr "Пост"
 
-#: ../src/Forum.rb:1659
+#: ../src/Forum.rb:1694
 msgctxt "Forum"
 msgid "Attach a poll"
 msgstr "Добавить опрос"
 
-#: ../src/Forum.rb:1668
+#: ../src/Forum.rb:1694 ../src/Forum.rb:2266
+msgctxt "Forum"
+msgid "Attach a file"
+msgstr "Добавить вложение"
+
+#: ../src/Forum.rb:1703
 msgctxt "Forum"
 msgid "No tag value"
 msgstr "Нет описания тега"
 
-#: ../src/Forum.rb:1679 ../src/Forum.rb:1687 ../src/Forum.rb:2246
-#: ../src/Forum.rb:2274
+#: ../src/Forum.rb:1714 ../src/Forum.rb:1722 ../src/Forum.rb:2289
+#: ../src/Forum.rb:2317
 msgctxt "Forum"
 msgid "Send"
 msgstr "Отправить"
 
-#: ../src/Forum.rb:1703
+#: ../src/Forum.rb:1738
 msgctxt "Forum"
 msgid "Poll to attach"
 msgstr "Выберите опрос"
 
-#: ../src/Forum.rb:1708
+#: ../src/Forum.rb:1743
 msgctxt "Forum"
 msgid "This poll has already been added"
 msgstr "Опрос уже добавлен"
 
-#: ../src/Forum.rb:1711 ../src/Forum.rb:2203
+#: ../src/Forum.rb:1746 ../src/Forum.rb:2246
 msgctxt "Forum"
 msgid "Polls"
 msgstr "Опросы"
 
-#: ../src/Forum.rb:1713
+#: ../src/Forum.rb:1748
 msgctxt "Forum"
 msgid "Poll has been added"
 msgstr "Опрос добавлен"
 
-#: ../src/Forum.rb:1717
+#: ../src/Forum.rb:1752
 msgctxt "Forum"
 msgid "You haven't created any polls yet."
 msgstr "Вы ещё не создавали опросов."
 
-#: ../src/Forum.rb:1738 ../src/Forum.rb:2116
+#: ../src/Forum.rb:1773 ../src/Forum.rb:2155 ../src/Forum.rb:2695
 msgctxt "Forum"
 msgid "Select file to attach"
 msgstr "Выберите вложение"
 
-#: ../src/Forum.rb:1741 ../src/Forum.rb:2119
+#: ../src/Forum.rb:1776 ../src/Forum.rb:2158
 msgctxt "Forum"
 msgid "This file has been already attached"
 msgstr "Файл уже был вложен"
 
-#: ../src/Forum.rb:1744 ../src/Forum.rb:2122
+#: ../src/Forum.rb:1779 ../src/Forum.rb:2161 ../src/Forum.rb:2701
 msgctxt "Forum"
 msgid "This file is too large"
 msgstr "Размер файла слишком велик"
 
-#: ../src/Forum.rb:1749 ../src/Forum.rb:2127
+#: ../src/Forum.rb:1784 ../src/Forum.rb:2166
 msgctxt "Forum"
 msgid "The file has been attached"
 msgstr "Вложение добавлено"
 
-#: ../src/Forum.rb:1782
+#: ../src/Forum.rb:1817
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this thread?"
 msgstr "Вы точно хотите отменить создание темы?"
 
-#: ../src/Forum.rb:1849
+#: ../src/Forum.rb:1884
 msgctxt "Forum"
 msgid "Thread has been created."
 msgstr "Тема создана."
 
-#: ../src/Forum.rb:1851
+#: ../src/Forum.rb:1886
 msgctxt "Forum"
 msgid "Error creating thread!"
 msgstr "Ошибка при создании темы."
 
-#: ../src/Forum.rb:2072
+#: ../src/Forum.rb:2109
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this post?"
 msgstr "Вы точно хотите отменить создание поста?"
 
-#: ../src/Forum.rb:2091 ../src/Polls.rb:22 ../src/Polls.rb:115
-#: ../src/Polls.rb:314
+#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:125
+#, fuzzy
+#| msgctxt "Debug"
+#| msgid "A report"
+msgctxt "Polls"
+msgid "Show report"
+msgstr "Отчёт"
+
+#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:117
+#: ../src/Polls.rb:353
 msgctxt "Polls"
 msgid "Vote"
 msgstr "Голосовать"
 
-#: ../src/Forum.rb:2091 ../src/Polls.rb:22 ../src/Polls.rb:120
+#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:122
 msgctxt "Polls"
 msgid "Show results"
 msgstr "Посмотреть результаты"
 
-#: ../src/Forum.rb:2105
+#: ../src/Forum.rb:2144
 msgctxt "Forum"
 msgid "Where to save this file?"
 msgstr "Где сохранить этот файл?"
 
-#: ../src/Forum.rb:2214
+#: ../src/Forum.rb:2236
+#, fuzzy
+#| msgctxt "Forum"
+#| msgid "The post has been modified"
+msgctxt "Forum"
+msgid "This post has been edited"
+msgstr "Пост изменён"
+
+#: ../src/Forum.rb:2257
 msgctxt "Forum"
 msgid "Post type"
 msgstr "Тип поста"
 
-#: ../src/Forum.rb:2223
+#: ../src/Forum.rb:2266
 msgctxt "Forum"
 msgid "Your answer"
 msgstr "Ваш ответ"
 
-#: ../src/Forum.rb:2235
+#: ../src/Forum.rb:2278
 msgctxt "Forum"
 msgid "Return"
 msgstr "Назад"
 
-#: ../src/Forum.rb:2264 ../src/Forum.rb:2305
+#: ../src/Forum.rb:2307 ../src/Forum.rb:2348
 msgctxt "Forum"
 msgid "The post was created."
 msgstr "Пост создан"
 
-#: ../src/Forum.rb:2308
+#: ../src/Forum.rb:2351
 msgctxt "Forum"
 msgid "Post creation failure."
 msgstr "Ошибка при создании поста"
 
-#: ../src/Forum.rb:2318 ../src/Forum.rb:2319
+#: ../src/Forum.rb:2361 ../src/Forum.rb:2362
 msgctxt "Forum"
 msgid "Reply"
 msgstr "Ответить"
 
-#: ../src/Forum.rb:2324
+#: ../src/Forum.rb:2367
 msgctxt "Forum"
 msgid "Reply with quote"
 msgstr "Ответить с цитированием"
 
-#: ../src/Forum.rb:2333
+#: ../src/Forum.rb:2376
 msgctxt "Forum"
 msgid "Like this post"
 msgstr "Лайк"
 
-#: ../src/Forum.rb:2334
+#: ../src/Forum.rb:2377
 msgctxt "Forum"
 msgid "Dislike this post"
 msgstr "Дислайк"
 
-#: ../src/Forum.rb:2344
+#: ../src/Forum.rb:2387
 msgctxt "Forum"
 msgid "This post is now liked"
 msgstr "Пост отмечен"
 
-#: ../src/Forum.rb:2346
+#: ../src/Forum.rb:2389
 msgctxt "forum"
 msgid "This post is no longer liked"
 msgstr "Пост отмечен"
 
-#: ../src/Forum.rb:2350
+#: ../src/Forum.rb:2393
 msgctxt "Forum"
 msgid "Show post likes"
 msgstr "Показать лайки поста"
 
-#: ../src/Forum.rb:2359
+#: ../src/Forum.rb:2402
 msgctxt "Forum"
 msgid "Users who like this post"
 msgstr "Кто лайкнул этот пост?"
 
-#: ../src/Forum.rb:2371
+#: ../src/Forum.rb:2414
+#, fuzzy
+#| msgctxt "EAPI_Form"
+#| msgid "Copy original stream"
+msgctxt "Forum"
+msgid "Show original post"
+msgstr "Копировать оригинальный поток"
+
+#: ../src/Forum.rb:2417
+#, fuzzy
+#| msgctxt "EAPI_Form"
+#| msgid "Copy original stream"
+msgctxt "Forum"
+msgid "Original post"
+msgstr "Копировать оригинальный поток"
+
+#: ../src/Forum.rb:2422
 msgctxt "Forum"
 msgid "Navigation"
 msgstr "Навигация"
 
-#: ../src/Forum.rb:2372 ../src/Forum.rb:2669
+#: ../src/Forum.rb:2423 ../src/Forum.rb:2764
 msgctxt "Forum"
 msgid "Bookmarks"
 msgstr "Закладки"
 
-#: ../src/Forum.rb:2375
+#: ../src/Forum.rb:2426
 msgctxt "Forum"
 msgid "Go to post"
 msgstr "Перейти к посту"
 
-#: ../src/Forum.rb:2381 ../src/Forum.rb:2409
+#: ../src/Forum.rb:2432 ../src/Forum.rb:2460
 msgctxt "Forum"
 msgid "Select post"
 msgstr "Выберите пост"
 
-#: ../src/Forum.rb:2385
+#: ../src/Forum.rb:2436
 msgctxt "Forum"
 msgid "Go to post number"
 msgstr "Перейти к посту по номеру"
 
-#: ../src/Forum.rb:2386
+#: ../src/Forum.rb:2437
 msgctxt "Forum"
 msgid "Type post number"
 msgstr "Введите номер поста"
 
-#: ../src/Forum.rb:2393
+#: ../src/Forum.rb:2444
 msgctxt "Forum"
 msgid "Search in thread"
 msgstr "Поиск в теме"
 
-#: ../src/Forum.rb:2414
+#: ../src/Forum.rb:2465
 msgctxt "Forum"
 msgid "The entered phrase cannot be found."
 msgstr "Введённая фраза не найдена"
 
-#: ../src/Forum.rb:2419
+#: ../src/Forum.rb:2470
 msgctxt "Forum"
 msgid "Go to first post"
 msgstr "Перейти к первому посту"
 
-#: ../src/Forum.rb:2423
+#: ../src/Forum.rb:2474
 msgctxt "Forum"
 msgid "Go to last post"
 msgstr "Перейти к последнему посту"
 
-#: ../src/Forum.rb:2428
+#: ../src/Forum.rb:2479
 msgctxt "Forum"
 msgid "Go to first new post"
 msgstr "Перейти к первому непрочитанному посту"
 
-#: ../src/Forum.rb:2435 ../src/Forum.rb:2449
+#: ../src/Forum.rb:2486 ../src/Forum.rb:2500
 msgctxt "Forum"
 msgid "Mention post"
 msgstr "Поделиться постом"
 
-#: ../src/Forum.rb:2446
+#: ../src/Forum.rb:2497
 msgctxt "Forum"
 msgid "Nobody added you to their contact list."
 msgstr "Никто не добавил вас в список контактов"
 
-#: ../src/Forum.rb:2449
+#: ../src/Forum.rb:2500
 msgctxt "Forum"
 msgid "User to mention"
 msgstr "Пользователь для упоминания"
 
-#: ../src/Forum.rb:2449
+#: ../src/Forum.rb:2500
 msgctxt "Forum"
 msgid "Message"
 msgstr "Сообщение"
 
-#: ../src/Forum.rb:2463
+#: ../src/Forum.rb:2514
 msgctxt "Forum"
 msgid "The mention has been sent."
 msgstr "Готово"
 
-#: ../src/Forum.rb:2473
+#: ../src/Forum.rb:2524
 msgctxt "Forum"
 msgid "Listen to the thread"
 msgstr "Прослушать тему"
 
-#: ../src/Forum.rb:2539
+#: ../src/Forum.rb:2590
 msgctxt "Forum"
 msgid "Edit post"
 msgstr "Редактировать пост"
 
-#: ../src/Forum.rb:2541
-msgctxt "Forum"
-msgid "edit your post here"
-msgstr "Редактируйте ваш пост"
-
-#: ../src/Forum.rb:2550
-msgctxt "Forum"
-msgid "The post has been modified"
-msgstr "Пост изменён"
-
-#: ../src/Forum.rb:2562
+#: ../src/Forum.rb:2596
 msgctxt "Forum"
 msgid "Move post"
 msgstr "Переместить пост"
 
-#: ../src/Forum.rb:2590
+#: ../src/Forum.rb:2624
 msgctxt "Forum"
 msgid "Post destination"
 msgstr "Новое расположение"
 
-#: ../src/Forum.rb:2595
+#: ../src/Forum.rb:2629
 msgctxt "Forum"
 msgid "The post has been moved."
 msgstr "Готово"
 
-#: ../src/Forum.rb:2601
+#: ../src/Forum.rb:2635
 msgctxt "Forum"
 msgid "Delete post"
 msgstr "Удалить пост"
 
-#: ../src/Forum.rb:2602 ../src/Forum.rb:2612
+#: ../src/Forum.rb:2636 ../src/Forum.rb:2646
 msgctxt "Forum"
 msgid "Are you sure you want to delete this post?"
 msgstr "Точно удалить этот пост?"
 
-#: ../src/Forum.rb:2626
+#: ../src/Forum.rb:2660
 msgctxt "Forum"
 msgid "Change post position"
 msgstr "Изменить позицию поста"
 
-#: ../src/Forum.rb:2632
+#: ../src/Forum.rb:2666
 msgctxt "Forum"
 msgid "Place post above"
 msgstr "Разместить пост после"
 
-#: ../src/Forum.rb:2635
+#: ../src/Forum.rb:2669
 msgctxt "Forum"
 msgid "The post has been slided."
 msgstr "Пост перемещён"
 
-#: ../src/Forum.rb:2669
+#: ../src/Forum.rb:2691
+msgctxt "Forum"
+msgid "edit your post here"
+msgstr "Редактируйте ваш пост"
+
+#: ../src/Forum.rb:2694
+#, fuzzy
+#| msgctxt "Forum"
+#| msgid "Attachments"
+msgctxt "Forum"
+msgid "Add attachment"
+msgstr "Вложения"
+
+#: ../src/Forum.rb:2708
+#, fuzzy
+#| msgctxt "Blog"
+#| msgid "Delete this comment"
+msgctxt "Forum"
+msgid "Delete attachment"
+msgstr "Удалить комментарий"
+
+#: ../src/Forum.rb:2734
+msgctxt "Forum"
+msgid "The post has been modified"
+msgstr "Пост изменён"
+
+#: ../src/Forum.rb:2764
 msgctxt "Forum"
 msgid "Post %{postnumber} by %{author}"
 msgstr "Пост %{postnumber} by %{author}"
 
-#: ../src/Forum.rb:2672
+#: ../src/Forum.rb:2767
 msgctxt "Forum"
 msgid "Delete bookmark"
 msgstr "Пост %{postnumber} от %{author}"
 
-#: ../src/Forum.rb:2678
+#: ../src/Forum.rb:2773
 msgctxt "Forum"
 msgid "New bookmark"
 msgstr "Новая закладка"
 
-#: ../src/Forum.rb:2711
+#: ../src/Forum.rb:2806
 msgctxt "Forum"
 msgid "Bookmark deleted"
 msgstr "Закладка удалена"
 
-#: ../src/Forum.rb:2720
+#: ../src/Forum.rb:2815
 msgctxt "Forum"
 msgid "Bookmark description"
 msgstr "Описание закладки"
 
-#: ../src/Forum.rb:2723
+#: ../src/Forum.rb:2818
 msgctxt "Forum"
 msgid "Bookmark created"
 msgstr "Готово"
@@ -4859,8 +5083,8 @@ msgstr "Уровень"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
-msgid "Badge name"
-msgstr "Название значка"
+msgid "Add"
+msgstr "Добавить"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
@@ -4869,18 +5093,18 @@ msgstr "Название значка на английском"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
-msgid "Badge description in English"
-msgstr "Описание значка на английском"
-
-#: ../src/Honors.rb:301
-msgctxt "Honors"
-msgid "Add"
-msgstr "Добавить"
+msgid "Badge name"
+msgstr "Название значка"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
 msgid "Badge description"
 msgstr "Описание значка"
+
+#: ../src/Honors.rb:301
+msgctxt "Honors"
+msgid "Badge description in English"
+msgstr "Описание значка на английском"
 
 #: ../src/Honors.rb:315
 msgctxt "Honors"
@@ -4936,23 +5160,13 @@ msgstr "Доступно обновление"
 
 #: ../src/Loading.rb:421
 msgctxt "Loading"
-msgid "Use guest account"
-msgstr "Использовать гостевую учётную запись"
-
-#: ../src/Loading.rb:421
-msgctxt "Loading"
 msgid "Password reset"
 msgstr "Восстановить пароль"
 
 #: ../src/Loading.rb:421
 msgctxt "Loading"
-msgid "Settings"
-msgstr "Настройки"
-
-#: ../src/Loading.rb:421
-msgctxt "Loading"
-msgid "Log in"
-msgstr "Войти"
+msgid "Use guest account"
+msgstr "Использовать гостевую учётную запись"
 
 #: ../src/Loading.rb:421
 msgctxt "Loading"
@@ -4963,6 +5177,16 @@ msgstr "Переустановить"
 msgctxt "Loading"
 msgid "Register"
 msgstr "Создать учётную запись"
+
+#: ../src/Loading.rb:421
+msgctxt "Loading"
+msgid "Log in"
+msgstr "Войти"
+
+#: ../src/Loading.rb:421
+msgctxt "Loading"
+msgid "Settings"
+msgstr "Настройки"
 
 #: ../src/Log.rb:8
 msgctxt "Log"
@@ -4984,8 +5208,10 @@ msgctxt "Log"
 msgid "Log"
 msgstr "Лог"
 
-#: ../src/Log.rb:12
-msgctxt "Log"
+#: ../src/Log.rb:12 ../src/Polls.rb:540
+#, fuzzy
+#| msgctxt "Log"
+#| msgid "Close"
 msgid "Close"
 msgstr "Закрыть"
 
@@ -5027,6 +5253,11 @@ msgstr ""
 "других компьютеров, которые используете."
 
 #: ../src/Login.rb:88
+msgctxt "Login"
+msgid "Authenticate using SMS"
+msgstr "Войти, используя код из смс"
+
+#: ../src/Login.rb:88
 #, fuzzy
 #| msgctxt "Authentication"
 #| msgid "Two-factor authentication is enabled on this account."
@@ -5039,12 +5270,7 @@ msgstr "Двухфакторная аутентификация включена
 #: ../src/Login.rb:88
 msgctxt "Login"
 msgid "Authenticate using backup code"
-msgstr ""
-
-#: ../src/Login.rb:88
-msgctxt "Login"
-msgid "Authenticate using SMS"
-msgstr ""
+msgstr "Войти, используя резервный код"
 
 #: ../src/Login.rb:104
 #, fuzzy
@@ -5430,12 +5656,9 @@ msgid "&Tools"
 msgstr "&Утилиты"
 
 #: ../src/MainMenu.rb:74
-#, fuzzy
-#| msgctxt "MainMenu"
-#| msgid "Program &version"
 msgctxt "MainMenu"
 msgid "Program &settings"
-msgstr "Версия программы"
+msgstr "Настройки клиента"
 
 #: ../src/MainMenu.rb:75
 msgctxt "MainMenu"
@@ -5597,8 +5820,13 @@ msgstr "Удалить беседу"
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
-msgid "Mute for a day"
-msgstr ""
+msgid "Mute for a quarter"
+msgstr "Заглушить на 15 минут"
+
+#: ../src/Messages.rb:150
+msgctxt "Messages"
+msgid "Mute for a week"
+msgstr "Заглушить на неделю"
 
 #: ../src/Messages.rb:150
 #, fuzzy
@@ -5610,18 +5838,13 @@ msgstr "Каждые пятнадцать минут"
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
-msgid "Mute for a quarter"
-msgstr ""
-
-#: ../src/Messages.rb:150
-msgctxt "Messages"
-msgid "Mute for a week"
-msgstr ""
+msgid "Mute for a day"
+msgstr "Заглушить на день"
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
 msgid "Mute forever"
-msgstr ""
+msgstr "Заглушить навсегда"
 
 #: ../src/Messages.rb:158
 #, fuzzy
@@ -5960,13 +6183,13 @@ msgstr "Вы хотите отправить это сообщение в  ви�
 
 #: ../src/Notes.rb:49
 msgctxt "Notes"
-msgid "Author"
-msgstr "Автор"
+msgid "Modified"
+msgstr "Изменена"
 
 #: ../src/Notes.rb:49
 msgctxt "Notes"
-msgid "Modified"
-msgstr "Изменена"
+msgid "Author"
+msgstr "Автор"
 
 #: ../src/Notes.rb:51
 msgctxt "Notes"
@@ -6071,8 +6294,8 @@ msgstr "Заметка переименована"
 
 #: ../src/Notes.rb:249
 msgctxt "Notes"
-msgid "note title"
-msgstr "Название заметки"
+msgid "Note content"
+msgstr "Содержание заметки"
 
 #: ../src/Notes.rb:249
 msgctxt "Notes"
@@ -6081,8 +6304,8 @@ msgstr "Добавить"
 
 #: ../src/Notes.rb:249
 msgctxt "Notes"
-msgid "Note content"
-msgstr "Содержание заметки"
+msgid "note title"
+msgstr "Название заметки"
 
 #: ../src/Notes.rb:270
 msgctxt "Notes"
@@ -6102,165 +6325,258 @@ msgctxt "Polls"
 msgid "Votes"
 msgstr "Голоса"
 
-#: ../src/Polls.rb:10 ../src/Polls.rb:295 ../src/Polls.rb:393
-msgctxt "Polls"
-msgid "Author"
-msgstr "Автор"
-
 #: ../src/Polls.rb:10
 msgctxt "Polls"
 msgid "Polls"
 msgstr "Опросы"
 
-#: ../src/Polls.rb:125
+#: ../src/Polls.rb:10 ../src/Polls.rb:334 ../src/Polls.rb:432
+msgctxt "Polls"
+msgid "Author"
+msgstr "Автор"
+
+#: ../src/Polls.rb:130
 msgctxt "Polls"
 msgid "Do you really want to delete %{name}?"
 msgstr "Вы хотите удалить %{name}?"
 
-#: ../src/Polls.rb:130
+#: ../src/Polls.rb:135
 msgctxt "Polls"
 msgid "deleted"
 msgstr "Готово"
 
-#: ../src/Polls.rb:141
+#: ../src/Polls.rb:146
 msgctxt "Polls"
 msgid "Show polls in unknown languages"
 msgstr "Показывать опросы на неизвестных языках"
 
-#: ../src/Polls.rb:142
+#: ../src/Polls.rb:147
 msgctxt "Polls"
 msgid "Hide polls in unknown languages"
 msgstr "Скрыть опросы на неизвестных языках"
 
-#: ../src/Polls.rb:151
+#: ../src/Polls.rb:156
 msgctxt "Polls"
 msgid "New poll"
 msgstr "Новый опрос"
 
-#: ../src/Polls.rb:171
-msgctxt "Polls"
-msgid "Poll language"
-msgstr "Язык опроса"
-
-#: ../src/Polls.rb:171 ../src/Polls.rb:246
-msgctxt "Polls"
-msgid "New question"
-msgstr "Новый вопрос"
-
-#: ../src/Polls.rb:171
-msgctxt "Polls"
-msgid "Questions"
-msgstr "Вопросы"
-
-#: ../src/Polls.rb:171
-msgctxt "Polls"
-msgid "Description"
-msgstr "Описание"
-
-#: ../src/Polls.rb:171
+#: ../src/Polls.rb:176
 msgctxt "Polls"
 msgid "Poll name"
 msgstr "Название опроса"
 
-#: ../src/Polls.rb:171
+#: ../src/Polls.rb:176
 msgctxt "Polls"
 msgid "Create"
 msgstr "Создать"
 
-#: ../src/Polls.rb:171
+#: ../src/Polls.rb:176
 msgctxt "Polls"
 msgid "Hide this poll"
 msgstr "Скрыть опрос"
 
-#: ../src/Polls.rb:196
+#: ../src/Polls.rb:176
 msgctxt "Polls"
-msgid "Multiple choice"
-msgstr "Вопрос с выбором нескольки вариантов ответа"
+msgid "Hide poll results before the expiry date"
+msgstr "Скрывать результаты опроса до наступления даты его окончания"
 
-#: ../src/Polls.rb:196
+#: ../src/Polls.rb:176
+#, fuzzy
+#| msgctxt "EAPI_QuickActions"
+#| msgid "Say date"
 msgctxt "Polls"
-msgid "Edit box"
-msgstr "Редактор, куда можно вписать ответ"
+msgid "Expiry date"
+msgstr "Сказать дату"
 
-#: ../src/Polls.rb:196
+#: ../src/Polls.rb:176
 msgctxt "Polls"
-msgid "Question type"
-msgstr "Тип вопроса"
+msgid "Set the expiry date for this poll"
+msgstr "Назначить дату окончания опроса"
 
-#: ../src/Polls.rb:196 ../src/Polls.rb:202 ../src/Polls.rb:223
+#: ../src/Polls.rb:176 ../src/Polls.rb:537
 msgctxt "Polls"
-msgid "New answer"
-msgstr "Новый ответ"
+msgid "Questions"
+msgstr "Вопросы"
 
-#: ../src/Polls.rb:196 ../src/Polls.rb:202
+#: ../src/Polls.rb:176
 msgctxt "Polls"
-msgid "Answers"
-msgstr "Ответы"
+msgid "Poll language"
+msgstr "Язык опроса"
 
-#: ../src/Polls.rb:196
+#: ../src/Polls.rb:176
+msgctxt "Polls"
+msgid "Description"
+msgstr "Описание"
+
+#: ../src/Polls.rb:205
+msgctxt "Polls"
+msgid "New question"
+msgstr "Новый вопрос"
+
+#: ../src/Polls.rb:209
+#, fuzzy
+#| msgctxt "EAPI_Speech"
+#| msgid "question"
+msgctxt "Polls"
+msgid "Edit question"
+msgstr "Вопросительный знак"
+
+#: ../src/Polls.rb:212
+#, fuzzy
+#| msgctxt "Messages"
+#| msgid "Delete conversation"
+msgctxt "Polls"
+msgid "Delete question"
+msgstr "Удалить беседу"
+
+#: ../src/Polls.rb:224
 msgctxt "Polls"
 msgid "Question"
 msgstr "Вопрос"
 
-#: ../src/Polls.rb:196
+#: ../src/Polls.rb:224
 msgctxt "Polls"
 msgid "Single choice"
 msgstr "Вопрос, где возможен выбор только одного ответа"
 
-#: ../src/Polls.rb:222
+#: ../src/Polls.rb:224
 msgctxt "Polls"
-msgid "Answer"
-msgstr "Ответ"
+msgid "Edit box"
+msgstr "Редактор, куда можно вписать ответ"
 
-#: ../src/Polls.rb:231
+#: ../src/Polls.rb:224
+msgctxt "Polls"
+msgid "Question type"
+msgstr "Тип вопроса"
+
+#: ../src/Polls.rb:224 ../src/Polls.rb:538
+msgctxt "Polls"
+msgid "Answers"
+msgstr "Ответы"
+
+#: ../src/Polls.rb:224
+msgctxt "Polls"
+msgid "Multiple choice"
+msgstr "Вопрос с выбором нескольки вариантов ответа"
+
+#: ../src/Polls.rb:249
 msgctxt "Polls"
 msgid "There are no answers to this question"
 msgstr "Нет ответов на этот вопрос"
 
-#: ../src/Polls.rb:233
+#: ../src/Polls.rb:251
 msgctxt "Polls"
 msgid "There is only one answer to this question."
 msgstr "Добавлен только один ответ на этот вопрос."
 
-#: ../src/Polls.rb:256
+#: ../src/Polls.rb:263
+msgctxt "Polls"
+msgid "New answer"
+msgstr "Новый ответ"
+
+#: ../src/Polls.rb:267
+#, fuzzy
+#| msgctxt "Polls"
+#| msgid "New answer"
+msgctxt "Polls"
+msgid "Edit answer"
+msgstr "Новый ответ"
+
+#: ../src/Polls.rb:270
+#, fuzzy
+#| msgctxt "Clock"
+#| msgid "Delete alarm"
+msgctxt "Polls"
+msgid "Delete answer"
+msgstr "Удалить будильник"
+
+#: ../src/Polls.rb:280
+msgctxt "Polls"
+msgid "Answer"
+msgstr "Ответ"
+
+#: ../src/Polls.rb:289
+msgctxt "Polls"
+msgid "Please complete the poll before sending"
+msgstr "Полностью отредактируйте опрос перед отправкой"
+
+#: ../src/Polls.rb:304
 msgctxt "Polls"
 msgid "The poll has been created."
 msgstr "Опрос создан."
 
-#: ../src/Polls.rb:295 ../src/Polls.rb:393
+#: ../src/Polls.rb:334 ../src/Polls.rb:432
 msgctxt "Polls"
 msgid "Created"
 msgstr "Создан."
 
-#: ../src/Polls.rb:304
+#: ../src/Polls.rb:343
 msgctxt "Polls"
 msgid "Single choice question"
 msgstr "Можно выбрать один вариант ответа"
 
-#: ../src/Polls.rb:307
+#: ../src/Polls.rb:346
 msgctxt "Polls"
 msgid "Multiple choice question"
 msgstr "Можно выбрать несколько вариантов ответа"
 
-#: ../src/Polls.rb:314
+#: ../src/Polls.rb:353
 msgctxt "Polls"
 msgid "Poll"
 msgstr "Опрос"
 
-#: ../src/Polls.rb:349
+#: ../src/Polls.rb:388
 msgctxt "Polls"
 msgid "Your vote has been saved."
 msgstr "Ваш голос принят. Спасибо."
 
-#: ../src/Polls.rb:404
+#: ../src/Polls.rb:443
 msgctxt "Polls"
 msgid "The number of votes"
 msgstr "Количество голосов"
 
-#: ../src/Polls.rb:432
+#: ../src/Polls.rb:473
 msgctxt "Polls"
 msgid "Poll results: %{name}"
 msgstr "Результаты опроса %{name}"
+
+#: ../src/Polls.rb:539
+msgctxt "Polls"
+msgid "Filters"
+msgstr "Фильтры"
+
+#: ../src/Polls.rb:561
+msgctxt "Polls"
+msgid "Filter with this answer"
+msgstr "Фильтровать по этому ответу"
+
+#: ../src/Polls.rb:565
+msgctxt "Polls"
+msgid "Filter without this answer"
+msgstr "Фильтровать без этого ответа"
+
+#: ../src/Polls.rb:570
+#, fuzzy
+#| msgctxt "Messages"
+#| msgid "Delete user from conversation"
+msgctxt "Polls"
+msgid "Delete this answer from filters"
+msgstr "Удалить пользователя"
+
+#: ../src/Polls.rb:646
+msgctxt "Polls"
+msgid "Includes"
+msgstr "Включает"
+
+#: ../src/Polls.rb:648
+msgctxt "Polls"
+msgid "Excludes"
+msgstr "Исключает"
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "Destination"
+msgstr "Размещение"
 
 #: ../src/Portable.rb:7
 msgctxt "Portable"
@@ -6277,11 +6593,6 @@ msgctxt "Portable"
 msgid "Copy current settings"
 msgstr "Скопировать пользовательские настройки"
 
-#: ../src/Portable.rb:7
-msgctxt "Portable"
-msgid "Destination"
-msgstr "Размещение"
-
 #: ../src/Portable.rb:21
 msgctxt "Portable"
 msgid "Please wait while files are being prepared"
@@ -6294,8 +6605,8 @@ msgstr "Копирование настроек"
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Use current setting"
-msgstr "Использовать текущие настройки"
+msgid "Use a screenreader or a system default voice"
+msgstr "Использовать скринридер, либо системный голос по умолчанию"
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
@@ -6304,13 +6615,8 @@ msgstr "Сбросить настройки синтезатора"
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Use a screenreader or a system default voice"
-msgstr "Использовать скринридер, либо системный голос по умолчанию"
-
-#: ../src/Portable.rb:35
-msgctxt "Portable"
-msgid "Ask each time"
-msgstr "Всегда спрашивать"
+msgid "Use current setting"
+msgstr "Использовать текущие настройки"
 
 #: ../src/Portable.rb:35
 #, fuzzy
@@ -6331,6 +6637,11 @@ msgstr ""
 "голосов могут работать неправильно. Это особенно заметно в ситуации, когда "
 "на другом компьютере установлены другие голоса. Как вы хотите настроить  "
 "переносную версию?"
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid "Ask each time"
+msgstr "Всегда спрашивать"
 
 #: ../src/Portable.rb:47
 msgctxt "Portable"
@@ -6583,151 +6894,167 @@ msgid "Use Stereo positioning for user interface"
 msgstr "Использовать панорамный звук"
 
 #: ../src/Settings.rb:133
+#, fuzzy
+#| msgctxt "Sounds"
+#| msgid "Background of dialog windows"
+msgctxt "Settings"
+msgid "Use background sounds in menu and dialog windows"
+msgstr "Фоновый звук диалогового окна"
+
+#: ../src/Settings.rb:134
 msgctxt "Settings"
 msgid "Display context menu in menu bar"
 msgstr "Показывать контекстное меню в левой части основного меню"
 
-#: ../src/Settings.rb:134 ../src/Settings.rb:200
-msgctxt "Settings"
-msgid "Voice and sound"
-msgstr "Издавать звук и воспроизводить подсказку"
-
-#: ../src/Settings.rb:134 ../src/Settings.rb:200
-msgctxt "Settings"
-msgid "Voice only"
-msgstr "Только произносить подсказку"
-
-#: ../src/Settings.rb:134 ../src/Settings.rb:200
+#: ../src/Settings.rb:135 ../src/Settings.rb:214
 msgctxt "Settings"
 msgid "Sound only"
 msgstr "Только издавать звук"
 
-#: ../src/Settings.rb:134
+#: ../src/Settings.rb:135 ../src/Settings.rb:214
+msgctxt "Settings"
+msgid "Voice and sound"
+msgstr "Издавать звук и воспроизводить подсказку"
+
+#: ../src/Settings.rb:135 ../src/Settings.rb:214
+msgctxt "Settings"
+msgid "Voice only"
+msgstr "Только произносить подсказку"
+
+#: ../src/Settings.rb:135
 msgctxt "Settings"
 msgid "Announcement of types of controls"
 msgstr "Тип информирования   об элементах интерфейса"
 
-#: ../src/Settings.rb:135
+#: ../src/Settings.rb:136
 msgctxt "Settings"
 msgid "Wrap long lines in text fields"
 msgstr "Разделять длинные строки в текстовых полях"
 
-#: ../src/Settings.rb:136
-msgctxt "Settings"
-msgid "Linear"
-msgstr "Линейный"
-
-#: ../src/Settings.rb:136
-msgctxt "Settings"
-msgid "Circular"
-msgstr "Циклический"
-
-#: ../src/Settings.rb:136
+#: ../src/Settings.rb:137
 msgctxt "Settings"
 msgid "The display method of selection lists"
 msgstr "Метод отображения интерфейса"
 
-#: ../src/Settings.rb:155 ../src/Settings.rb:157
+#: ../src/Settings.rb:137
+msgctxt "Settings"
+msgid "Linear"
+msgstr "Линейный"
+
+#: ../src/Settings.rb:137
+msgctxt "Settings"
+msgid "Circular"
+msgstr "Циклический"
+
+#: ../src/Settings.rb:158 ../src/Settings.rb:160
 msgctxt "Settings"
 msgid "Voice"
 msgstr "Голос"
 
-#: ../src/Settings.rb:156
+#: ../src/Settings.rb:159
 msgctxt "Settings"
-msgid "Use screenreader"
-msgstr "Использовать скринридер"
+msgid "Use NVDA"
+msgstr "Использовать нвда"
 
-#: ../src/Settings.rb:158
+#: ../src/Settings.rb:161
 msgctxt "Settings"
 msgid "Speech rate"
 msgstr "Скорость речи"
 
-#: ../src/Settings.rb:159
+#: ../src/Settings.rb:162
 msgctxt "Settings"
 msgid "Speech volume"
 msgstr "Громкость голоса"
 
-#: ../src/Settings.rb:160
+#: ../src/Settings.rb:163
+#, fuzzy
+#| msgctxt "Settings"
+#| msgid "Speech rate"
 msgctxt "Settings"
-msgid "Words"
-msgstr "Слова"
+msgid "Speech pitch"
+msgstr "Скорость речи"
 
-#: ../src/Settings.rb:160
-msgctxt "Settings"
-msgid "Characters"
-msgstr "Символы"
-
-#: ../src/Settings.rb:160
-msgctxt "Settings"
-msgid "Characters and words"
-msgstr "Символы и слова"
-
-#: ../src/Settings.rb:160 ../src/Settings.rb:200
+#: ../src/Settings.rb:164 ../src/Settings.rb:214
 msgctxt "Settings"
 msgid "None"
 msgstr "Отключить говорящие часы"
 
-#: ../src/Settings.rb:160
+#: ../src/Settings.rb:164
+msgctxt "Settings"
+msgid "Characters"
+msgstr "Символы"
+
+#: ../src/Settings.rb:164
+msgctxt "Settings"
+msgid "Words"
+msgstr "Слова"
+
+#: ../src/Settings.rb:164
+msgctxt "Settings"
+msgid "Characters and words"
+msgstr "Символы и слова"
+
+#: ../src/Settings.rb:164
 msgctxt "Settings"
 msgid "Typing echo"
 msgstr "Что читать при вводе"
 
-#: ../src/Settings.rb:199
+#: ../src/Settings.rb:213
 msgctxt "Settings"
 msgid "Clock"
 msgstr "Часы"
 
-#: ../src/Settings.rb:200
+#: ../src/Settings.rb:214
 msgctxt "Settings"
 msgid "Clock information"
 msgstr "Метод оповещения о времени"
 
-#: ../src/Settings.rb:201
-msgctxt "Settings"
-msgid "every quarter of an hour"
-msgstr "Каждые пятнадцать минут"
-
-#: ../src/Settings.rb:201
+#: ../src/Settings.rb:215
 msgctxt "Settings"
 msgid "announcement time"
 msgstr "Сообщать о времени"
 
-#: ../src/Settings.rb:201
+#: ../src/Settings.rb:215
 msgctxt "Settings"
-msgid "every half hour"
-msgstr "каждые полчаса"
+msgid "every quarter of an hour"
+msgstr "Каждые пятнадцать минут"
 
-#: ../src/Settings.rb:201
+#: ../src/Settings.rb:215
 msgctxt "Settings"
 msgid "every hour"
 msgstr "Каждый час"
 
-#: ../src/Settings.rb:202
+#: ../src/Settings.rb:215
+msgctxt "Settings"
+msgid "every half hour"
+msgstr "каждые полчаса"
+
+#: ../src/Settings.rb:216
 msgctxt "Settings"
 msgid "Alarms"
 msgstr "Будильники"
 
-#: ../src/Settings.rb:215
+#: ../src/Settings.rb:229
 msgctxt "Settings"
 msgid "Sound devices"
 msgstr "Звуковые устройства"
 
-#: ../src/Settings.rb:219 ../src/Settings.rb:220
+#: ../src/Settings.rb:233 ../src/Settings.rb:234
 msgctxt "Settings"
 msgid "Use Default"
 msgstr "Использовать устройство по умолчанию"
 
-#: ../src/Settings.rb:227
+#: ../src/Settings.rb:241
 msgctxt "Settings"
 msgid "Output device"
 msgstr "Устройство вывода"
 
-#: ../src/Settings.rb:228
+#: ../src/Settings.rb:242
 msgctxt "Settings"
 msgid "Input device"
 msgstr "Устройство ввода"
 
-#: ../src/Settings.rb:229
+#: ../src/Settings.rb:243
 msgctxt "Settings"
 msgid "Enable FX effects"
 msgstr "Включить Fx-эффекты"
@@ -7096,13 +7423,13 @@ msgstr "редактируется звуковая тема %{theme}"
 
 #: ../src/Sounds.rb:103
 msgctxt "Sounds"
-msgid "Stop"
-msgstr "Стоп"
+msgid "Play"
+msgstr "Воспроизвести"
 
 #: ../src/Sounds.rb:103
 msgctxt "Sounds"
-msgid "Play"
-msgstr "Воспроизвести"
+msgid "Stop"
+msgstr "Стоп"
 
 #: ../src/Sounds.rb:105
 msgctxt "Sounds"
@@ -7305,8 +7632,18 @@ msgstr "Уведомления"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
+msgid "New posts in followed threads"
+msgstr "Количество новых  постов в избранных темах"
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
 msgid "New comments on your blog"
 msgstr "Количество новых комментариев на блоге"
+
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New posts on the followed blogs"
+msgstr "Количество новых постов на избранных блогах"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
@@ -7315,8 +7652,8 @@ msgstr "Количество новых тем на избранных фору�
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
-msgid "New posts on the followed blogs"
-msgstr "Количество новых постов на избранных блогах"
+msgid "New posts on followed forums"
+msgstr "Количество новых постов на избранных форумах"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
@@ -7340,16 +7677,6 @@ msgstr "Доступно обновление до версии  (%{version})"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
-msgid "New posts on followed forums"
-msgstr "Количество новых постов на избранных форумах"
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New posts in followed threads"
-msgstr "Количество новых  постов в избранных темах"
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
 msgid "New messages"
 msgstr "Количество новых сообщений"
 
@@ -7362,6 +7689,14 @@ msgstr "Уведомлений нет."
 msgctxt "WhatsNew"
 msgid "There is nothing new on followedblogs."
 msgstr "Новых записей на избранных блогах больше нет"
+
+#~ msgctxt "EAPI_Common"
+#~ msgid "Using a screenreader"
+#~ msgstr "Использовать скринридер"
+
+#~ msgctxt "Settings"
+#~ msgid "Use screenreader"
+#~ msgstr "Использовать скринридер"
 
 #~ msgctxt "MainMenu"
 #~ msgid "WHo is &online?"

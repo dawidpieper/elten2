@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2020-10-11 14:23+0300\n"
+"POT-Creation-Date: 2020-10-24 11:32+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Burak <burakyuksek94@gmail.com>\n"
 "Language-Team: Kumandan\n"
@@ -24,9 +24,9 @@ msgstr "Uygula"
 
 #: ../src/Account.rb:115 ../src/Blog.rb:842 ../src/Blog.rb:981
 #: ../src/Blog.rb:1151 ../src/Clock.rb:9 ../src/Clock.rb:60
-#: ../src/EAPI_Controls.rb:2839 ../src/EAPI_Controls.rb:3601
+#: ../src/EAPI_Controls.rb:2849 ../src/EAPI_Controls.rb:3611
 #: ../src/Forum.rb:515 ../src/Forum.rb:646 ../src/Forum.rb:1063
-#: ../src/Forum.rb:1200 ../src/Forum.rb:2691 ../src/Honors.rb:184
+#: ../src/Forum.rb:1200 ../src/Forum.rb:2776 ../src/Honors.rb:184
 #: ../src/Honors.rb:219 ../src/Notes.rb:155 ../src/Notes.rb:171
 #: ../src/Polls.rb:224 ../src/Settings.rb:92
 msgid "Save"
@@ -36,12 +36,12 @@ msgstr "Kaydet"
 #: ../src/Blog.rb:981 ../src/Blog.rb:1035 ../src/Blog.rb:1152
 #: ../src/Blog.rb:1469 ../src/Blog_Domain.rb:21 ../src/Blog_Domain.rb:123
 #: ../src/Clock.rb:10 ../src/Clock.rb:60 ../src/EAPI_Common.rb:14
-#: ../src/EAPI_Controls.rb:785 ../src/EAPI_Controls.rb:2840
-#: ../src/EAPI_Controls.rb:3602 ../src/EAPI_Controls.rb:3717
+#: ../src/EAPI_Controls.rb:785 ../src/EAPI_Controls.rb:2850
+#: ../src/EAPI_Controls.rb:3612 ../src/EAPI_Controls.rb:3727
 #: ../src/EAPI_External.rb:118 ../src/EAPI_UI.rb:558 ../src/Forum.rb:516
 #: ../src/Forum.rb:636 ../src/Forum.rb:809 ../src/Forum.rb:910
 #: ../src/Forum.rb:1064 ../src/Forum.rb:1195 ../src/Forum.rb:1290
-#: ../src/Forum.rb:1698 ../src/Forum.rb:2500 ../src/Forum.rb:2691
+#: ../src/Forum.rb:1781 ../src/Forum.rb:2585 ../src/Forum.rb:2776
 #: ../src/Honors.rb:184 ../src/Honors.rb:220 ../src/Honors.rb:301
 #: ../src/Login.rb:88 ../src/Messages.rb:225 ../src/Messages.rb:755
 #: ../src/Notes.rb:114 ../src/Notes.rb:249 ../src/Polls.rb:176
@@ -298,10 +298,10 @@ msgstr "Son girişleri göster"
 
 #: ../src/Account.rb:279 ../src/Account.rb:283 ../src/Blog.rb:861
 #: ../src/Blog.rb:894 ../src/Blog.rb:1295 ../src/Blog.rb:1299
-#: ../src/Clock.rb:33 ../src/EAPI_Controls.rb:2870 ../src/Forum.rb:661
-#: ../src/Forum.rb:1214 ../src/Forum.rb:1257 ../src/Forum.rb:2147
-#: ../src/Honors.rb:210 ../src/Messages.rb:301 ../src/Settings.rb:246
-#: ../src/Settings.rb:250 ../src/SoundThemes.rb:86 ../src/SoundThemes.rb:129
+#: ../src/Clock.rb:33 ../src/EAPI_Controls.rb:2880 ../src/Forum.rb:661
+#: ../src/Forum.rb:1214 ../src/Forum.rb:1257 ../src/Forum.rb:2232
+#: ../src/Honors.rb:210 ../src/Messages.rb:301 ../src/Settings.rb:259
+#: ../src/Settings.rb:263 ../src/SoundThemes.rb:86 ../src/SoundThemes.rb:129
 msgid "Saved"
 msgstr "Kaydedildi"
 
@@ -404,7 +404,7 @@ msgid "Log out all sessions"
 msgstr "Bütün oturumları kapat"
 
 #: ../src/Account.rb:433 ../src/Account.rb:553 ../src/Forum.rb:700
-#: ../src/Forum.rb:1283 ../src/Forum.rb:1662 ../src/Forum.rb:2679
+#: ../src/Forum.rb:1283 ../src/Forum.rb:1745 ../src/Forum.rb:2764
 #: ../src/Honors.rb:172 ../src/Honors.rb:293 ../src/Messages.rb:209
 #: ../src/Messages.rb:414 ../src/Messages.rb:672 ../src/Notes.rb:94
 #: ../src/Online.rb:35 ../src/Polls.rb:159 ../src/Users.rb:54
@@ -451,28 +451,29 @@ msgstr ""
 #: ../src/Forum.rb:1255 ../src/Forum.rb:1270 ../src/Forum.rb:1310
 #: ../src/Forum.rb:1512 ../src/Forum.rb:1527 ../src/Forum.rb:1534
 #: ../src/Forum.rb:1585 ../src/Forum.rb:1598 ../src/Forum.rb:1610
-#: ../src/Forum.rb:1625 ../src/Forum.rb:1645 ../src/Forum.rb:1755
-#: ../src/Forum.rb:1859 ../src/Forum.rb:1898 ../src/Forum.rb:1922
-#: ../src/Forum.rb:2049 ../src/Forum.rb:2305 ../src/Forum.rb:2326
-#: ../src/Forum.rb:2383 ../src/Forum.rb:2490 ../src/Forum.rb:2512
-#: ../src/Forum.rb:2573 ../src/Forum.rb:2580 ../src/Forum.rb:2627
-#: ../src/Forum.rb:2644 ../src/Forum.rb:2671 ../src/Forum.rb:2732
-#: ../src/Forum.rb:2808 ../src/Forum.rb:2820 ../src/Honors.rb:18
-#: ../src/Honors.rb:136 ../src/Honors.rb:147 ../src/Honors.rb:163
-#: ../src/Honors.rb:208 ../src/Honors.rb:313 ../src/Loading.rb:313
-#: ../src/Messages.rb:86 ../src/Messages.rb:190 ../src/Messages.rb:271
-#: ../src/Messages.rb:303 ../src/Messages.rb:310 ../src/Messages.rb:335
-#: ../src/Messages.rb:422 ../src/Messages.rb:455 ../src/Messages.rb:588
-#: ../src/Messages.rb:618 ../src/Messages.rb:625 ../src/Messages.rb:640
-#: ../src/Messages.rb:647 ../src/Messages.rb:692 ../src/Messages.rb:711
-#: ../src/Messages.rb:891 ../src/Notes.rb:14 ../src/Notes.rb:103
-#: ../src/Notes.rb:137 ../src/Notes.rb:177 ../src/Notes.rb:190
-#: ../src/Notes.rb:225 ../src/Notes.rb:238 ../src/Notes.rb:268
-#: ../src/Polls.rb:26 ../src/Polls.rb:52 ../src/Polls.rb:133
-#: ../src/Polls.rb:302 ../src/Polls.rb:318 ../src/Polls.rb:386
-#: ../src/Polls.rb:420 ../src/Polls.rb:435 ../src/Polls.rb:490
-#: ../src/Polls.rb:515 ../src/SoundThemes.rb:96 ../src/UserSearch.rb:17
-#: ../src/WhatsNew.rb:105
+#: ../src/Forum.rb:1625 ../src/Forum.rb:1645 ../src/Forum.rb:1678
+#: ../src/Forum.rb:1690 ../src/Forum.rb:1722 ../src/Forum.rb:1734
+#: ../src/Forum.rb:1838 ../src/Forum.rb:1942 ../src/Forum.rb:1981
+#: ../src/Forum.rb:2005 ../src/Forum.rb:2134 ../src/Forum.rb:2390
+#: ../src/Forum.rb:2411 ../src/Forum.rb:2468 ../src/Forum.rb:2575
+#: ../src/Forum.rb:2597 ../src/Forum.rb:2658 ../src/Forum.rb:2665
+#: ../src/Forum.rb:2712 ../src/Forum.rb:2729 ../src/Forum.rb:2756
+#: ../src/Forum.rb:2817 ../src/Forum.rb:2893 ../src/Forum.rb:2905
+#: ../src/Honors.rb:18 ../src/Honors.rb:136 ../src/Honors.rb:147
+#: ../src/Honors.rb:163 ../src/Honors.rb:208 ../src/Honors.rb:313
+#: ../src/Loading.rb:313 ../src/Messages.rb:86 ../src/Messages.rb:190
+#: ../src/Messages.rb:271 ../src/Messages.rb:303 ../src/Messages.rb:310
+#: ../src/Messages.rb:335 ../src/Messages.rb:422 ../src/Messages.rb:455
+#: ../src/Messages.rb:588 ../src/Messages.rb:618 ../src/Messages.rb:625
+#: ../src/Messages.rb:640 ../src/Messages.rb:647 ../src/Messages.rb:692
+#: ../src/Messages.rb:711 ../src/Messages.rb:891 ../src/Notes.rb:14
+#: ../src/Notes.rb:103 ../src/Notes.rb:137 ../src/Notes.rb:177
+#: ../src/Notes.rb:190 ../src/Notes.rb:225 ../src/Notes.rb:238
+#: ../src/Notes.rb:268 ../src/Polls.rb:26 ../src/Polls.rb:52
+#: ../src/Polls.rb:133 ../src/Polls.rb:302 ../src/Polls.rb:318
+#: ../src/Polls.rb:386 ../src/Polls.rb:420 ../src/Polls.rb:435
+#: ../src/Polls.rb:489 ../src/Polls.rb:514 ../src/SoundThemes.rb:96
+#: ../src/UserSearch.rb:17 ../src/WhatsNew.rb:105
 msgid "Error"
 msgstr "Hata"
 
@@ -517,7 +518,7 @@ msgstr "Kullanıcı bulunamadı"
 
 #: ../src/Account.rb:538 ../src/Blog.rb:205 ../src/Blog.rb:389
 #: ../src/EAPI_Controls.rb:2158 ../src/Messages.rb:657 ../src/Notes.rb:79
-#: ../src/Notes.rb:157 ../src/Polls.rb:129 ../src/Polls.rb:580
+#: ../src/Notes.rb:157 ../src/Polls.rb:129 ../src/Polls.rb:579
 msgid "Delete"
 msgstr "Sil"
 
@@ -597,13 +598,13 @@ msgstr "Topluluk yöneticileri"
 
 #: ../src/Admins.rb:13
 msgctxt "Admins"
-msgid "Translators"
-msgstr "Çevirmenler"
+msgid "Developers"
+msgstr "Üreticiler"
 
 #: ../src/Admins.rb:13
 msgctxt "Admins"
-msgid "Developers"
-msgstr "Üreticiler"
+msgid "Translators"
+msgstr "Çevirmenler"
 
 #: ../src/Admins.rb:81
 msgctxt "Admins"
@@ -743,13 +744,8 @@ msgstr "Banlanacak kullanıcı adını girin"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "Day"
-msgstr "Gün"
-
-#: ../src/Ban.rb:23
-msgctxt "Ban"
-msgid "Three days"
-msgstr "3 gün"
+msgid "2 weeks"
+msgstr "2 hafta"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
@@ -758,13 +754,18 @@ msgstr "Hafta"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "2 weeks"
-msgstr "2 hafta"
+msgid "30 days"
+msgstr "30 gün"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
-msgid "30 days"
-msgstr "30 gün"
+msgid "Day"
+msgstr "Gün"
+
+#: ../src/Ban.rb:23
+msgctxt "Ban"
+msgid "Three days"
+msgstr "3 gün"
 
 #: ../src/Ban.rb:23
 msgctxt "Ban"
@@ -788,13 +789,13 @@ msgstr "Neden"
 
 #: ../src/Ban.rb:24
 msgctxt "Ban"
-msgid "An additional message to the user"
-msgstr "Kullanıcıya ek mesaj"
+msgid "Ban"
+msgstr "Banla"
 
 #: ../src/Ban.rb:24
 msgctxt "Ban"
-msgid "Ban"
-msgstr "Banla"
+msgid "An additional message to the user"
+msgstr "Kullanıcıya ek mesaj"
 
 #: ../src/Ban.rb:63
 msgctxt "Ban"
@@ -805,11 +806,6 @@ msgstr "Banlandı."
 msgctxt "Ban"
 msgid "Enter a username to unban."
 msgstr "Banı kaldırılacak kullanıcı adını girin."
-
-#: ../src/Ban.rb:106
-msgctxt "Ban"
-msgid "The ban reason"
-msgstr "Ban nedeni"
 
 #: ../src/Ban.rb:106
 msgctxt "Ban"
@@ -826,10 +822,20 @@ msgctxt "Ban"
 msgid "Unban"
 msgstr "Banı kaldır"
 
+#: ../src/Ban.rb:106
+msgctxt "Ban"
+msgid "The ban reason"
+msgstr "Ban nedeni"
+
 #: ../src/Ban.rb:116
 msgctxt "Ban"
 msgid "Unbanned."
 msgstr "Ban kaldırıldı."
+
+#: ../src/Blog.rb:11 ../src/Blog.rb:490
+msgctxt "Blog"
+msgid "Blogs"
+msgstr "Bloglar"
 
 #: ../src/Blog.rb:11
 msgctxt "Blog"
@@ -865,11 +871,6 @@ msgstr "Arkadaşlarım arasında popüler olan bloglar"
 msgctxt "Blog"
 msgid "Open external wordpress blog"
 msgstr "Wordpress bloğunu aç"
-
-#: ../src/Blog.rb:11 ../src/Blog.rb:490
-msgctxt "Blog"
-msgid "Blogs"
-msgstr "Bloglar"
 
 #: ../src/Blog.rb:51
 msgctxt "Blog"
@@ -961,16 +962,16 @@ msgctxt "Blog"
 msgid "The blog has been created."
 msgstr "Blog oluşturuldu."
 
+#: ../src/Blog.rb:272 ../src/Blog.rb:641 ../src/WhatsNew.rb:140
+msgctxt "Blog"
+msgid "Author"
+msgstr "Oluşturan"
+
 #: ../src/Blog.rb:272 ../src/Blog.rb:641 ../src/Blog.rb:1170
 #: ../src/Blog.rb:1680
 msgctxt "Blog"
 msgid "Comments"
 msgstr "Yorumlar"
-
-#: ../src/Blog.rb:272 ../src/Blog.rb:641 ../src/WhatsNew.rb:140
-msgctxt "Blog"
-msgid "Author"
-msgstr "Oluşturan"
 
 #: ../src/Blog.rb:275
 msgctxt "Blog"
@@ -1315,6 +1316,16 @@ msgstr "Bloğum"
 
 #: ../src/Blog.rb:1035
 msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr "Bu gönderiyi ve tüm yorumlarını taşı"
+
+#: ../src/Blog.rb:1035
+msgctxt "Blog"
+msgid "Move type"
+msgstr "Taşıma türü"
+
+#: ../src/Blog.rb:1035
+msgctxt "Blog"
 msgid "Move"
 msgstr "Taşı"
 
@@ -1325,18 +1336,8 @@ msgstr "Gönderi yeri"
 
 #: ../src/Blog.rb:1035
 msgctxt "Blog"
-msgid "Move this post and all comments"
-msgstr "Bu gönderiyi ve tüm yorumlarını taşı"
-
-#: ../src/Blog.rb:1035
-msgctxt "Blog"
 msgid "Move only this post, delete all comments"
 msgstr "Sadece bu gönderiyi taşı, tüm yorumlarını sil"
-
-#: ../src/Blog.rb:1035
-msgctxt "Blog"
-msgid "Move type"
-msgstr "Taşıma türü"
 
 #: ../src/Blog.rb:1044
 msgctxt "Blog"
@@ -1398,13 +1399,13 @@ msgstr "Tüm ziyaretçiler tarafından yapılan yorumlar"
 
 #: ../src/Blog.rb:1171
 msgctxt "Blog"
-msgid "Comments can be written"
-msgstr "Yorum yapılabilir"
+msgid "By Elten users only"
+msgstr "Sadece elten kullaınıcıları tarafından yapılan"
 
 #: ../src/Blog.rb:1171
 msgctxt "Blog"
-msgid "By Elten users only"
-msgstr "Sadece elten kullaınıcıları tarafından yapılan"
+msgid "Comments can be written"
+msgstr "Yorum yapılabilir"
 
 #: ../src/Blog.rb:1172
 msgctxt "Blog"
@@ -1433,13 +1434,13 @@ msgstr "Sitedeki yorumları sırala"
 
 #: ../src/Blog.rb:1176
 msgctxt "Blog"
-msgid "Descending"
-msgstr "Azalarak"
+msgid "Ascending"
+msgstr "Artarak"
 
 #: ../src/Blog.rb:1176
 msgctxt "Blog"
-msgid "Ascending"
-msgstr "Artarak"
+msgid "Descending"
+msgstr "Azalarak"
 
 #: ../src/Blog.rb:1177
 msgctxt "Blog"
@@ -1478,13 +1479,13 @@ msgstr "İfadeler kullan"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
-msgid "Just a post id (https://example.com/posts/123/)"
-msgstr "Sadece gönderi kimliği (https://example.com/posts/123/)"
+msgid "Month and post name (https://example.com/2020/01/example-post)"
+msgstr "Ay ve gönderi adı (https://example.com/2020/01/example-post)"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
-msgid "Month and post name (https://example.com/2020/01/example-post)"
-msgstr "Ay ve gönderi adı (https://example.com/2020/01/example-post)"
+msgid "Just a post name (https://example.com/example-post/)"
+msgstr "Sadece gönderi adı (https://example.com/example-post/)"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
@@ -1494,8 +1495,8 @@ msgstr ""
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
-msgid "Just a post name (https://example.com/example-post/)"
-msgstr "Sadece gönderi adı (https://example.com/example-post/)"
+msgid "Just a post id (https://example.com/posts/123/)"
+msgstr "Sadece gönderi kimliği (https://example.com/posts/123/)"
 
 #: ../src/Blog.rb:1240
 msgctxt "Blog"
@@ -1529,13 +1530,13 @@ msgstr "Tarih ve zaman"
 
 #: ../src/Blog.rb:1253
 msgctxt "Blog"
-msgid "31 January 2020"
-msgstr "31 Ocak 2020"
+msgid "January 31, 2020"
+msgstr "Ocak 31, 2020"
 
 #: ../src/Blog.rb:1253
 msgctxt "Blog"
-msgid "January 31, 2020"
-msgstr "Ocak 31, 2020"
+msgid "31 January 2020"
+msgstr "31 Ocak 2020"
 
 #: ../src/Blog.rb:1254
 msgctxt "Blog"
@@ -1564,13 +1565,8 @@ msgstr "Pazartesi"
 
 #: ../src/Blog.rb:1272
 msgctxt "Blog"
-msgid "Tuesday"
-msgstr "Salı"
-
-#: ../src/Blog.rb:1272
-msgctxt "Blog"
-msgid "Thursday"
-msgstr "Perşembe"
+msgid "Saturday"
+msgstr "Cumartesi"
 
 #: ../src/Blog.rb:1272
 msgctxt "Blog"
@@ -1579,13 +1575,18 @@ msgstr "Cuma"
 
 #: ../src/Blog.rb:1272
 msgctxt "Blog"
-msgid "Saturday"
-msgstr "Cumartesi"
+msgid "Thursday"
+msgstr "Perşembe"
 
 #: ../src/Blog.rb:1272
 msgctxt "Blog"
 msgid "Wednesday"
 msgstr "Çarşamba"
+
+#: ../src/Blog.rb:1272
+msgctxt "Blog"
+msgid "Tuesday"
+msgstr "Salı"
 
 #: ../src/Blog.rb:1273
 msgctxt "Blog"
@@ -1678,11 +1679,6 @@ msgstr "Gönderi etiketleri"
 
 #: ../src/Blog.rb:1466
 msgctxt "Blog"
-msgid "Show to everyone"
-msgstr "Herkese göster"
-
-#: ../src/Blog.rb:1466
-msgctxt "Blog"
 msgid "Show to Elten users only"
 msgstr "Sadece Elten kullanıcılarına göster"
 
@@ -1690,6 +1686,11 @@ msgstr "Sadece Elten kullanıcılarına göster"
 msgctxt "Blog"
 msgid "Visibility"
 msgstr "Görülebilirlik"
+
+#: ../src/Blog.rb:1466
+msgctxt "Blog"
+msgid "Show to everyone"
+msgstr "Herkese göster"
 
 #: ../src/Blog.rb:1467
 msgctxt "Blog"
@@ -1901,7 +1902,7 @@ msgstr ""
 "tazeleme için bir süre bekleyin. Tam DNS güncellemesi yapmak 24 saat kadar "
 "sürebilir."
 
-#: ../src/Changes.rb:915
+#: ../src/Changes.rb:926
 msgctxt "Changes"
 msgid "Changelog"
 msgstr "Değişiklikler"
@@ -1932,13 +1933,13 @@ msgstr "Tartışmaya katıldı"
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Your message"
-msgstr "Mesajınız"
+msgid "Messages history"
+msgstr "Mesaj geçmişi"
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
-msgid "Messages history"
-msgstr "Mesaj geçmişi"
+msgid "Your message"
+msgstr "Mesajınız"
 
 #: ../src/Chat.rb:42
 msgctxt "Chat"
@@ -1967,8 +1968,8 @@ msgstr "Bir kez"
 
 #: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
 msgctxt "Clock"
-msgid "Type"
-msgstr "Tür"
+msgid "Hour"
+msgstr "Saat"
 
 #: ../src/Clock.rb:15
 msgctxt "Clock"
@@ -1977,8 +1978,8 @@ msgstr "Tekrarlama"
 
 #: ../src/Clock.rb:15 ../src/Clock.rb:60 ../src/Clock.rb:70 ../src/Clock.rb:83
 msgctxt "Clock"
-msgid "Hour"
-msgstr "Saat"
+msgid "Type"
+msgstr "Tür"
 
 #: ../src/Clock.rb:41
 msgctxt "Clock"
@@ -2067,11 +2068,6 @@ msgstr "Bu kişi kişiler listenize eklenmemiş."
 
 #: ../src/Debug.rb:7
 msgctxt "Debug"
-msgid "OK"
-msgstr "Tamam"
-
-#: ../src/Debug.rb:7
-msgctxt "Debug"
 msgid "Report connections to the server"
 msgstr "Sunucuya bağlantıları bildir"
 
@@ -2080,7 +2076,12 @@ msgctxt "Debug"
 msgid "A report"
 msgstr "Bildir"
 
-#: ../src/EAPI.rb:556
+#: ../src/Debug.rb:7
+msgctxt "Debug"
+msgid "OK"
+msgstr "Tamam"
+
+#: ../src/EAPI.rb:588
 msgctxt "EAPI_EltenAPI"
 msgid ""
 "Do you want to send reports on how Elten is used? This data does not contain "
@@ -2118,6 +2119,11 @@ msgstr "Uygula"
 
 #: ../src/EAPI_Common.rb:117
 msgctxt "EAPI_Common"
+msgid "Write a private message"
+msgstr "Özel mesaj yaz"
+
+#: ../src/EAPI_Common.rb:117
+msgctxt "EAPI_Common"
 msgid "Visiting card"
 msgstr "Kartvizit"
 
@@ -2130,11 +2136,6 @@ msgstr "Kullanıcı bloğunu aç"
 msgctxt "EAPI_Common"
 msgid "badges of this user"
 msgstr "Bu kullanıcının rozetleri"
-
-#: ../src/EAPI_Common.rb:117
-msgctxt "EAPI_Common"
-msgid "Write a private message"
-msgstr "Özel mesaj yaz"
 
 #: ../src/EAPI_Common.rb:120
 msgctxt "EAPI_Common"
@@ -2163,13 +2164,13 @@ msgstr "Yeni bir şey yok."
 
 #: ../src/EAPI_Common.rb:338
 msgctxt "EAPI_Common"
-msgid "Describe the found error"
-msgstr "Bulduğunuz hatayı açıklayın"
+msgid "Send"
+msgstr "Gönder"
 
 #: ../src/EAPI_Common.rb:338
 msgctxt "EAPI_Common"
-msgid "Send"
-msgstr "Gönder"
+msgid "Describe the found error"
+msgstr "Bulduğunuz hatayı açıklayın"
 
 #: ../src/EAPI_Common.rb:354
 msgctxt "EAPI_Common"
@@ -2584,8 +2585,8 @@ msgstr "Onay kutusu"
 
 #: ../src/EAPI_Controls.rb:2030
 msgctxt "EAPI_Form"
-msgid "Music"
-msgstr "Müzik"
+msgid "Desktop"
+msgstr "Masaüstü"
 
 #: ../src/EAPI_Controls.rb:2030
 msgctxt "EAPI_Form"
@@ -2594,8 +2595,8 @@ msgstr "Belgeler"
 
 #: ../src/EAPI_Controls.rb:2030
 msgctxt "EAPI_Form"
-msgid "Desktop"
-msgstr "Masaüstü"
+msgid "Music"
+msgstr "Müzik"
 
 #: ../src/EAPI_Controls.rb:2155
 msgctxt "EAPI_Form"
@@ -2667,115 +2668,115 @@ msgctxt "EAPI_Form"
 msgid "Choose a path"
 msgstr "Yol seçin"
 
-#: ../src/EAPI_Controls.rb:2720
+#: ../src/EAPI_Controls.rb:2730
 msgctxt "EAPI_Common"
 msgid "This file cannot be played."
 msgstr "Bu dosya oynatılamadı."
 
-#: ../src/EAPI_Controls.rb:2753
+#: ../src/EAPI_Controls.rb:2763
 msgctxt "EAPI_Common"
 msgid "Type a second to which you want to move."
 msgstr "Gitmek istediğiniz saniyeyi yazın"
 
-#: ../src/EAPI_Controls.rb:2830
+#: ../src/EAPI_Controls.rb:2840
 msgctxt "EAPI_Form"
 msgid "Copy original stream"
 msgstr "Orijinal akışı kopyala"
 
-#: ../src/EAPI_Controls.rb:2836
+#: ../src/EAPI_Controls.rb:2846
 msgctxt "EAPI_Form"
 msgid "Destination"
 msgstr "Konum"
 
-#: ../src/EAPI_Controls.rb:2837
+#: ../src/EAPI_Controls.rb:2847
 msgctxt "EAPI_Form"
 msgid "File format"
 msgstr "Dosya biçimi"
 
-#: ../src/EAPI_Controls.rb:2838
+#: ../src/EAPI_Controls.rb:2848
 msgctxt "EAPI_Form"
 msgid "File name"
 msgstr "Dosya adı"
 
-#: ../src/EAPI_Controls.rb:3466
+#: ../src/EAPI_Controls.rb:3476
 msgctxt "EAPI_Form"
 msgid "record"
 msgstr "Kaydet"
 
-#: ../src/EAPI_Controls.rb:3467 ../src/EAPI_Controls.rb:3511
-#: ../src/EAPI_Controls.rb:3536
+#: ../src/EAPI_Controls.rb:3477 ../src/EAPI_Controls.rb:3521
+#: ../src/EAPI_Controls.rb:3546
 msgctxt "EAPI_Form"
 msgid "Pause recording"
 msgstr "Kaydı duraklat"
 
-#: ../src/EAPI_Controls.rb:3468
+#: ../src/EAPI_Controls.rb:3478
 msgctxt "EAPI_Form"
 msgid "Stop recording"
 msgstr "Kaydı durdur"
 
-#: ../src/EAPI_Controls.rb:3469
+#: ../src/EAPI_Controls.rb:3479
 msgctxt "EAPI_Form"
 msgid "Use existing file"
 msgstr "Varolan dosyayı kullan"
 
-#: ../src/EAPI_Controls.rb:3470
+#: ../src/EAPI_Controls.rb:3480
 msgctxt "EAPI_Form"
 msgid "Opus encoder settings"
 msgstr "Opus kodlayıcı ayarları"
 
-#: ../src/EAPI_Controls.rb:3471
+#: ../src/EAPI_Controls.rb:3481
 msgctxt "EAPI_Form"
 msgid "Play"
 msgstr "Oynat"
 
-#: ../src/EAPI_Controls.rb:3472
+#: ../src/EAPI_Controls.rb:3482
 msgctxt "EAPI_Form"
 msgid "Encode and play"
 msgstr "Kodla ve oynat"
 
-#: ../src/EAPI_Controls.rb:3473
+#: ../src/EAPI_Controls.rb:3483
 msgctxt "EAPI_Form"
 msgid "Delete recording"
 msgstr "Kaydı sil"
 
-#: ../src/EAPI_Controls.rb:3474 ../src/EAPI_Controls.rb:3716
+#: ../src/EAPI_Controls.rb:3484 ../src/EAPI_Controls.rb:3726
 msgctxt "EAPI_Form"
 msgid "Ready"
 msgstr "Hazır"
 
-#: ../src/EAPI_Controls.rb:3482 ../src/EAPI_Controls.rb:3516
+#: ../src/EAPI_Controls.rb:3492 ../src/EAPI_Controls.rb:3526
 msgctxt "EAPI_Form"
 msgid ""
 "Are you sure you want to delete the previous recording and create a new one?"
 msgstr ""
 "Önceki kaydı silip yeni bir kayıt oluşturmak istediğinizden emin misiniz?"
 
-#: ../src/EAPI_Controls.rb:3510
+#: ../src/EAPI_Controls.rb:3520
 msgctxt "EAPI_Form"
 msgid "Record again"
 msgstr "Tekrar kaydet"
 
-#: ../src/EAPI_Controls.rb:3517
+#: ../src/EAPI_Controls.rb:3527
 msgctxt "EAPI_Form"
 msgid "Select audio file"
 msgstr "Ses dosyası seçin"
 
-#: ../src/EAPI_Controls.rb:3520
+#: ../src/EAPI_Controls.rb:3530
 msgctxt "EAPI_Form"
 msgid "File selected"
 msgstr "Dosya seçildi"
 
-#: ../src/EAPI_Controls.rb:3526
+#: ../src/EAPI_Controls.rb:3536
 msgctxt "EAPI_Form"
 msgid "Recording preview"
 msgstr "Kayıt önizlemesi"
 
-#: ../src/EAPI_Controls.rb:3540
+#: ../src/EAPI_Controls.rb:3550
 msgctxt "EAPI_Form"
 msgid "Resume recording"
 msgstr "Kayda devam et"
 
-#: ../src/EAPI_Controls.rb:3546
+#: ../src/EAPI_Controls.rb:3556
 msgctxt "EAPI_Form"
 msgid ""
 "The encoder settings will not apply to the current record. Are you sure you "
@@ -2784,180 +2785,180 @@ msgstr ""
 "Kodlayıcı ayarları şu anki kayıt için geçerli olmayacak. Devam etmek "
 "istediğinizden emin misiniz?"
 
-#: ../src/EAPI_Controls.rb:3564
+#: ../src/EAPI_Controls.rb:3574
 msgctxt "EAPI_Form"
 msgid "Are you sure you want to delete recorded audio?"
 msgstr "Kaydedilmiş sesi silmek istediğinizden emin misiniz?"
 
-#: ../src/EAPI_Controls.rb:3584
+#: ../src/EAPI_Controls.rb:3594
 msgctxt "EAPI_Form"
 msgid "Low"
 msgstr "Düşük"
 
-#: ../src/EAPI_Controls.rb:3585
+#: ../src/EAPI_Controls.rb:3595
 msgctxt "EAPI_Form"
 msgid "Lower"
 msgstr "Daha düşük"
 
-#: ../src/EAPI_Controls.rb:3586
+#: ../src/EAPI_Controls.rb:3596
 msgctxt "EAPI_Form"
 msgid "Standard"
 msgstr "Standart"
 
-#: ../src/EAPI_Controls.rb:3587
+#: ../src/EAPI_Controls.rb:3597
 msgctxt "EAPI_Form"
 msgid "Higher"
 msgstr "Daha yüksek"
 
-#: ../src/EAPI_Controls.rb:3588
+#: ../src/EAPI_Controls.rb:3598
 msgctxt "EAPI_Form"
 msgid "High"
 msgstr "Yüksek"
 
-#: ../src/EAPI_Controls.rb:3589
+#: ../src/EAPI_Controls.rb:3599
 msgctxt "EAPI_Form"
 msgid "Max"
 msgstr "En yüksek"
 
-#: ../src/EAPI_Controls.rb:3596
-msgctxt "EAPI_Form"
-msgid "Quality"
-msgstr "Kalite"
-
-#: ../src/EAPI_Controls.rb:3596
+#: ../src/EAPI_Controls.rb:3606
 msgctxt "EAPI_Form"
 msgid "Custom"
 msgstr "Özel"
 
-#: ../src/EAPI_Controls.rb:3597
+#: ../src/EAPI_Controls.rb:3606
+msgctxt "EAPI_Form"
+msgid "Quality"
+msgstr "Kalite"
+
+#: ../src/EAPI_Controls.rb:3607
 msgctxt "EAPI_Form"
 msgid "Bitrate"
 msgstr "Bit hızı"
 
-#: ../src/EAPI_Controls.rb:3598
+#: ../src/EAPI_Controls.rb:3608
 msgctxt "EAPI_Form"
 msgid "Frame size"
 msgstr "Çerçeve boyutu"
 
-#: ../src/EAPI_Controls.rb:3599
-msgctxt "EAPI_Form"
-msgid "Music profile"
-msgstr "Müzik profili"
-
-#: ../src/EAPI_Controls.rb:3599
+#: ../src/EAPI_Controls.rb:3609
 msgctxt "EAPI_Form"
 msgid "Encoder profile"
 msgstr "Kodlayıcı profili"
 
-#: ../src/EAPI_Controls.rb:3599
+#: ../src/EAPI_Controls.rb:3609
 msgctxt "EAPI_Form"
 msgid "Speech profile"
 msgstr "Konuşma profili"
 
-#: ../src/EAPI_Controls.rb:3600
+#: ../src/EAPI_Controls.rb:3609
+msgctxt "EAPI_Form"
+msgid "Music profile"
+msgstr "Müzik profili"
+
+#: ../src/EAPI_Controls.rb:3610
 msgctxt "EAPI_Form"
 msgid "Use variable bitrate"
 msgstr "Değişken bit hızı kullan"
 
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "October"
-msgstr "Ekim"
-
-#: ../src/EAPI_Controls.rb:3704
+#: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
 msgid "December"
 msgstr "Aralık"
 
-#: ../src/EAPI_Controls.rb:3704
+#: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
 msgid "November"
 msgstr "Kasım"
 
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "February"
-msgstr "Şubat"
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "September"
-msgstr "Eylül"
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "August"
-msgstr "Ağustos"
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "July"
-msgstr "Temmuz"
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "June"
-msgstr "Haziran"
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "May"
-msgstr "Mayıs"
-
-#: ../src/EAPI_Controls.rb:3704
-msgctxt "EAPI_Form"
-msgid "March"
-msgstr "Mart"
-
-#: ../src/EAPI_Controls.rb:3704
+#: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
 msgid "January"
 msgstr "Ocak"
 
-#: ../src/EAPI_Controls.rb:3704
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "February"
+msgstr "Şubat"
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "March"
+msgstr "Mart"
+
+#: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
 msgid "April"
 msgstr "Nisan"
 
-#: ../src/EAPI_Controls.rb:3710
+#: ../src/EAPI_Controls.rb:3714
 msgctxt "EAPI_Form"
-msgid "Year"
-msgstr "Yıl"
+msgid "May"
+msgstr "Mayıs"
 
-#: ../src/EAPI_Controls.rb:3710 ../src/EAPI_Controls.rb:3711
-#: ../src/EAPI_Controls.rb:3712 ../src/EAPI_Controls.rb:3713
-#: ../src/EAPI_Controls.rb:3714 ../src/EAPI_Controls.rb:3715
-#: ../src/EAPI_Controls.rb:3757 ../src/EAPI_Controls.rb:3759
-#: ../src/EAPI_Controls.rb:3766 ../src/EAPI_Controls.rb:3777
-#: ../src/EAPI_Controls.rb:3784 ../src/EAPI_Controls.rb:3786
-#: ../src/EAPI_Controls.rb:3793 ../src/EAPI_Controls.rb:3795
-#: ../src/EAPI_Controls.rb:3802 ../src/EAPI_Controls.rb:3804
-#: ../src/EAPI_Controls.rb:3813
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "June"
+msgstr "Haziran"
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "July"
+msgstr "Temmuz"
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "August"
+msgstr "Ağustos"
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "September"
+msgstr "Eylül"
+
+#: ../src/EAPI_Controls.rb:3714
+msgctxt "EAPI_Form"
+msgid "October"
+msgstr "Ekim"
+
+#: ../src/EAPI_Controls.rb:3720 ../src/EAPI_Controls.rb:3721
+#: ../src/EAPI_Controls.rb:3722 ../src/EAPI_Controls.rb:3723
+#: ../src/EAPI_Controls.rb:3724 ../src/EAPI_Controls.rb:3725
+#: ../src/EAPI_Controls.rb:3767 ../src/EAPI_Controls.rb:3769
+#: ../src/EAPI_Controls.rb:3776 ../src/EAPI_Controls.rb:3787
+#: ../src/EAPI_Controls.rb:3794 ../src/EAPI_Controls.rb:3796
+#: ../src/EAPI_Controls.rb:3803 ../src/EAPI_Controls.rb:3805
+#: ../src/EAPI_Controls.rb:3812 ../src/EAPI_Controls.rb:3814
+#: ../src/EAPI_Controls.rb:3823
 msgctxt "EAPI_Form"
 msgid "Not selected"
 msgstr "Seçili değil"
 
-#: ../src/EAPI_Controls.rb:3711
+#: ../src/EAPI_Controls.rb:3720
+msgctxt "EAPI_Form"
+msgid "Year"
+msgstr "Yıl"
+
+#: ../src/EAPI_Controls.rb:3721
 msgctxt "EAPI_Form"
 msgid "Month"
 msgstr "Ay"
 
-#: ../src/EAPI_Controls.rb:3712
+#: ../src/EAPI_Controls.rb:3722
 msgctxt "EAPI_Form"
 msgid "Day"
 msgstr "Gün"
 
-#: ../src/EAPI_Controls.rb:3713
+#: ../src/EAPI_Controls.rb:3723
 msgctxt "EAPI_Form"
 msgid "Hour"
 msgstr "Saat"
 
-#: ../src/EAPI_Controls.rb:3714
+#: ../src/EAPI_Controls.rb:3724
 msgctxt "EAPI_Form"
 msgid "Minute"
 msgstr "Dakika"
 
-#: ../src/EAPI_Controls.rb:3715
+#: ../src/EAPI_Controls.rb:3725
 msgctxt "EAPI_Form"
 msgid "Second"
 msgstr "Saniye"
@@ -3024,8 +3025,8 @@ msgstr "Program kapatıldı"
 
 #: ../src/EAPI_QuickActions.rb:57
 msgctxt "EAPI_Common"
-msgid "Using a screenreader"
-msgstr "Ekran okuyucu kullanılıyor"
+msgid "Using NVDA"
+msgstr "NVDA kullanılıyor"
 
 #: ../src/EAPI_QuickActions.rb:59
 msgctxt "EAPI_Common"
@@ -3099,8 +3100,8 @@ msgstr "Elten'i sistem tepsisine küçült"
 
 #: ../src/EAPI_QuickActions.rb:140
 msgctxt "EAPI_QuickActions"
-msgid "Switch voice output between Screenreader and Sapi5"
-msgstr "Seslendirmeyi ekran okuyucu veya Sapi5 arasında değiştir"
+msgid "Switch voice output between NVDA and Sapi5"
+msgstr "Seslendirmeyi NVDA ve sapi5 arasında değiştir"
 
 #: ../src/EAPI_QuickActions.rb:141
 msgctxt "EAPI_QuickActions"
@@ -3122,157 +3123,157 @@ msgctxt "EAPI_Speech"
 msgid "Space"
 msgstr "Boşluk"
 
-#: ../src/EAPI_Speech.rb:255
+#: ../src/EAPI_Speech.rb:290
 msgctxt "EAPI_Speech"
 msgid "dot"
 msgstr "Nokta"
 
-#: ../src/EAPI_Speech.rb:257
+#: ../src/EAPI_Speech.rb:292
 msgctxt "EAPI_Speech"
 msgid "comma"
 msgstr "Virgül"
 
-#: ../src/EAPI_Speech.rb:259
+#: ../src/EAPI_Speech.rb:294
 msgctxt "EAPI_Speech"
 msgid "slash"
 msgstr "Bölü"
 
-#: ../src/EAPI_Speech.rb:261
+#: ../src/EAPI_Speech.rb:296
 msgctxt "EAPI_Speech"
 msgid "semi"
 msgstr "Noktalı virgül"
 
-#: ../src/EAPI_Speech.rb:263
+#: ../src/EAPI_Speech.rb:298
 msgctxt "EAPI_Speech"
 msgid "tick"
 msgstr "Kesme işareti"
 
-#: ../src/EAPI_Speech.rb:265
+#: ../src/EAPI_Speech.rb:300
 msgctxt "EAPI_Speech"
 msgid "left bracket"
 msgstr "Aç köşeli parantez"
 
-#: ../src/EAPI_Speech.rb:267
+#: ../src/EAPI_Speech.rb:302
 msgctxt "EAPI_Speech"
 msgid "right bracket"
 msgstr "Kapa köşeli parantez"
 
-#: ../src/EAPI_Speech.rb:269
+#: ../src/EAPI_Speech.rb:304
 msgctxt "EAPI_Speech"
 msgid "backslash"
 msgstr "Tersbölü"
 
-#: ../src/EAPI_Speech.rb:271
+#: ../src/EAPI_Speech.rb:306
 msgctxt "EAPI_Speech"
 msgid "dash"
 msgstr "Eksi"
 
-#: ../src/EAPI_Speech.rb:273
+#: ../src/EAPI_Speech.rb:308
 msgctxt "EAPI_Speech"
 msgid "equals"
 msgstr "Eşittir"
 
-#: ../src/EAPI_Speech.rb:275
+#: ../src/EAPI_Speech.rb:310
 msgctxt "EAPI_Speech"
 msgid "graav"
 msgstr "Vurgu"
 
-#: ../src/EAPI_Speech.rb:277
+#: ../src/EAPI_Speech.rb:312
 msgctxt "EAPI_Speech"
 msgid "less"
 msgstr "Küçüktür"
 
-#: ../src/EAPI_Speech.rb:279
+#: ../src/EAPI_Speech.rb:314
 msgctxt "EAPI_Speech"
 msgid "greater"
 msgstr "Büyüktür"
 
-#: ../src/EAPI_Speech.rb:281
+#: ../src/EAPI_Speech.rb:316
 msgctxt "EAPI_Speech"
 msgid "question"
 msgstr "Soru işareti"
 
-#: ../src/EAPI_Speech.rb:283
+#: ../src/EAPI_Speech.rb:318
 msgctxt "EAPI_Speech"
 msgid "colon"
 msgstr "İkinokta"
 
-#: ../src/EAPI_Speech.rb:285
+#: ../src/EAPI_Speech.rb:320
 msgctxt "EAPI_Speech"
 msgid "quote"
 msgstr "Tırnak işareti"
 
-#: ../src/EAPI_Speech.rb:287
+#: ../src/EAPI_Speech.rb:322
 msgctxt "EAPI_Speech"
 msgid "left brace"
 msgstr "Aç büyük parantez"
 
-#: ../src/EAPI_Speech.rb:289
+#: ../src/EAPI_Speech.rb:324
 msgctxt "EAPI_Speech"
 msgid "right brace"
 msgstr "Kapa büyük parantez"
 
-#: ../src/EAPI_Speech.rb:291
+#: ../src/EAPI_Speech.rb:326
 msgctxt "EAPI_Speech"
 msgid "bar"
 msgstr "Dikçizgi"
 
-#: ../src/EAPI_Speech.rb:293
+#: ../src/EAPI_Speech.rb:328
 msgctxt "EAPI_Speech"
 msgid "line"
 msgstr "Altçizgi"
 
-#: ../src/EAPI_Speech.rb:295
+#: ../src/EAPI_Speech.rb:330
 msgctxt "EAPI_Speech"
 msgid "plus"
 msgstr "Artı"
 
-#: ../src/EAPI_Speech.rb:297
+#: ../src/EAPI_Speech.rb:332
 msgctxt "EAPI_Speech"
 msgid "bang"
 msgstr "Ünlem işareti"
 
-#: ../src/EAPI_Speech.rb:299
+#: ../src/EAPI_Speech.rb:334
 msgctxt "EAPI_Speech"
 msgid "at"
 msgstr "Et işareti"
 
-#: ../src/EAPI_Speech.rb:301
+#: ../src/EAPI_Speech.rb:336
 msgctxt "EAPI_Speech"
 msgid "hash"
 msgstr "Numara işareti"
 
-#: ../src/EAPI_Speech.rb:303
+#: ../src/EAPI_Speech.rb:338
 msgctxt "EAPI_Speech"
 msgid "dollar"
 msgstr "Dolar işareti"
 
-#: ../src/EAPI_Speech.rb:305
+#: ../src/EAPI_Speech.rb:340
 msgctxt "EAPI_Speech"
 msgid "percent"
 msgstr "Yüzde işareti"
 
-#: ../src/EAPI_Speech.rb:307
+#: ../src/EAPI_Speech.rb:342
 msgctxt "EAPI_Speech"
 msgid "caret"
 msgstr "Düzeltme işareti"
 
-#: ../src/EAPI_Speech.rb:309
+#: ../src/EAPI_Speech.rb:344
 msgctxt "EAPI_Speech"
 msgid "and"
 msgstr "Ve"
 
-#: ../src/EAPI_Speech.rb:311
+#: ../src/EAPI_Speech.rb:346
 msgctxt "EAPI_Speech"
 msgid "star"
 msgstr "Yıldız"
 
-#: ../src/EAPI_Speech.rb:313
+#: ../src/EAPI_Speech.rb:348
 msgctxt "EAPI_Speech"
 msgid "left paren"
 msgstr "Aç parantez"
 
-#: ../src/EAPI_Speech.rb:315
+#: ../src/EAPI_Speech.rb:350
 msgctxt "EAPI_Speech"
 msgid "right paren"
 msgstr "Kapa parantez"
@@ -3297,12 +3298,12 @@ msgid "Alarm"
 msgstr "Alarm"
 
 #: ../src/EAPI_UI.rb:526 ../src/Login.rb:146 ../src/Login.rb:148
-msgid "Yes"
-msgstr "Evet"
-
-#: ../src/EAPI_UI.rb:526 ../src/Login.rb:146 ../src/Login.rb:148
 msgid "No"
 msgstr "Hayır"
+
+#: ../src/EAPI_UI.rb:526 ../src/Login.rb:146 ../src/Login.rb:148
+msgid "Yes"
+msgstr "Evet"
 
 #: ../src/ForgotPassword.rb:9
 msgctxt "ForgotPassword"
@@ -3331,8 +3332,8 @@ msgstr "Yazılan e-posta adresi girilen kullanıcı adıyla ilişkili değil."
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
-msgid "Generate password reset code"
-msgstr "Şifre sıfırlama kodu oluştur"
+msgid "Enter password reset code"
+msgstr "Şifre sıfırlama kodunu girin"
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
@@ -3341,8 +3342,8 @@ msgstr "Şifre sıfırla"
 
 #: ../src/ForgotPassword.rb:29
 msgctxt "ForgotPassword"
-msgid "Enter password reset code"
-msgstr "Şifre sıfırlama kodunu girin"
+msgid "Generate password reset code"
+msgstr "Şifre sıfırlama kodu oluştur"
 
 #: ../src/ForgotPassword.rb:49
 msgctxt "ForgotPassword"
@@ -3438,6 +3439,13 @@ msgstr "Okunmamış gönderilere göre (azalan)"
 
 #: ../src/Forum.rb:209
 msgctxt "Forum"
+msgid "Followed thread"
+msgid_plural "Followed threads"
+msgstr[0] "Takip edilen konu"
+msgstr[1] "Takip edilen konular"
+
+#: ../src/Forum.rb:209
+msgctxt "Forum"
 msgid "Followed forum"
 msgid_plural "Followed forums"
 msgstr[0] "Takip edilen forum"
@@ -3467,11 +3475,6 @@ msgstr "Açık gruplar (%{count})"
 
 #: ../src/Forum.rb:209
 msgctxt "Forum"
-msgid "Recently created groups"
-msgstr "Yakın zamanda oluşturulan gruplar"
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
 msgid "Waiting invitation"
 msgid_plural "Waiting invitations (%{count})"
 msgstr[0] "Bekleyen davet"
@@ -3486,18 +3489,13 @@ msgstr[1] "Yönetilen gruplar"
 
 #: ../src/Forum.rb:209
 msgctxt "Forum"
-msgid "Search"
-msgstr "Ara"
+msgid "All groups (%{count})"
+msgstr "Tüm gruplar (%{count})"
 
 #: ../src/Forum.rb:209
 msgctxt "Forum"
-msgid "My threads"
-msgstr "Konularım"
-
-#: ../src/Forum.rb:209
-msgctxt "Forum"
-msgid "Threads popular with my friends"
-msgstr "Arkadaşlarım arasında popüler olan konular"
+msgid "Recently created groups"
+msgstr "Yakın zamanda oluşturulan gruplar"
 
 #: ../src/Forum.rb:209
 msgctxt "Forum"
@@ -3506,22 +3504,18 @@ msgstr "Arkadaşlarım arasında popüler olan gruplar"
 
 #: ../src/Forum.rb:209
 msgctxt "Forum"
-msgid "Followed thread"
-msgid_plural "Followed threads"
-msgstr[0] "Takip edilen konu"
-msgstr[1] "Takip edilen konular"
+msgid "Threads popular with my friends"
+msgstr "Arkadaşlarım arasında popüler olan konular"
 
 #: ../src/Forum.rb:209
 msgctxt "Forum"
-msgid "All groups (%{count})"
-msgstr "Tüm gruplar (%{count})"
+msgid "My threads"
+msgstr "Konularım"
 
-#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
-#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
-#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
+#: ../src/Forum.rb:209
 msgctxt "Forum"
-msgid "Forums"
-msgstr "Forumlar"
+msgid "Search"
+msgstr "Ara"
 
 #: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
 #: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
@@ -3536,16 +3530,23 @@ msgstr "Konular"
 #: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
 #: ../src/Forum.rb:991 ../src/Forum.rb:1459
 msgctxt "Forum"
-msgid "Unread"
-msgstr "Okunmamış"
+msgid "posts"
+msgstr "Gönderiler"
 
 #: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
 #: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
 #: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
 #: ../src/Forum.rb:991 ../src/Forum.rb:1459
 msgctxt "Forum"
-msgid "posts"
-msgstr "Gönderiler"
+msgid "Unread"
+msgstr "Okunmamış"
+
+#: ../src/Forum.rb:215 ../src/Forum.rb:239 ../src/Forum.rb:260
+#: ../src/Forum.rb:281 ../src/Forum.rb:301 ../src/Forum.rb:321
+#: ../src/Forum.rb:342 ../src/Forum.rb:357 ../src/Forum.rb:376
+msgctxt "Forum"
+msgid "Forums"
+msgstr "Forumlar"
 
 #: ../src/Forum.rb:239 ../src/Forum.rb:281 ../src/Forum.rb:301
 #: ../src/Forum.rb:321 ../src/Forum.rb:342 ../src/Forum.rb:357
@@ -3556,13 +3557,13 @@ msgid "Administrator"
 msgstr "Yönetici"
 
 #: ../src/Forum.rb:384 ../src/Forum.rb:386 ../src/Forum.rb:994
-#: ../src/Forum.rb:1180 ../src/Forum.rb:1462 ../src/Forum.rb:1698
-#: ../src/Forum.rb:2282
+#: ../src/Forum.rb:1180 ../src/Forum.rb:1462 ../src/Forum.rb:1781
+#: ../src/Forum.rb:2367
 msgctxt "Forum"
 msgid "Forum"
 msgstr "Forum"
 
-#: ../src/Forum.rb:434 ../src/Forum.rb:2445
+#: ../src/Forum.rb:434 ../src/Forum.rb:2530
 msgctxt "Forum"
 msgid "Enter a phrase to look for"
 msgstr "Aranacak sözcük grubu girin"
@@ -3612,8 +3613,8 @@ msgctxt "Forum"
 msgid "Audio posts"
 msgstr "Sesli gönderiler"
 
-#: ../src/Forum.rb:486 ../src/Forum.rb:1782 ../src/Forum.rb:2164
-#: ../src/Forum.rb:2239 ../src/Forum.rb:2691
+#: ../src/Forum.rb:486 ../src/Forum.rb:1865 ../src/Forum.rb:2249
+#: ../src/Forum.rb:2324 ../src/Forum.rb:2776
 msgctxt "Forum"
 msgid "Attachments"
 msgstr "Ekler"
@@ -3638,7 +3639,7 @@ msgctxt "Forum"
 msgid "Edit group regulations"
 msgstr "Grup kurallarını düzenle"
 
-#: ../src/Forum.rb:514 ../src/Forum.rb:883 ../src/Forum.rb:2204
+#: ../src/Forum.rb:514 ../src/Forum.rb:883 ../src/Forum.rb:2289
 msgctxt "Forum"
 msgid "Regulations of group %{groupname}"
 msgstr "%{groupname} grubunun kuralları"
@@ -3968,12 +3969,12 @@ msgstr ""
 "%{groupname} grubunda yönetici izinlerinizden vazgeçip onları %{user} "
 "kişisine devretmek istediğinizden emin misiniz?"
 
-#: ../src/Forum.rb:884 ../src/Forum.rb:2205
+#: ../src/Forum.rb:884 ../src/Forum.rb:2290
 msgctxt "Forum"
 msgid "I accept regulations of group %{groupname}"
 msgstr "%{groupname} grubunun kurallarını kabul ediyorum"
 
-#: ../src/Forum.rb:885 ../src/Forum.rb:2206
+#: ../src/Forum.rb:885 ../src/Forum.rb:2291
 msgctxt "Forum"
 msgid "I decline regulations of group %{groupname}"
 msgstr "%{groupname} grubunun kurallarını reddediyorum"
@@ -4102,7 +4103,7 @@ msgctxt "Forum"
 msgid "Forum added to quick actions"
 msgstr "Forum hızlı eylemlere eklendi"
 
-#: ../src/Forum.rb:1187 ../src/Forum.rb:1570 ../src/Forum.rb:2588
+#: ../src/Forum.rb:1187 ../src/Forum.rb:1570 ../src/Forum.rb:2673
 msgctxt "Forum"
 msgid "Moderation"
 msgstr "Yönetim"
@@ -4162,7 +4163,7 @@ msgctxt "Forum"
 msgid "Move forum"
 msgstr "Forumu taşı"
 
-#: ../src/Forum.rb:1251 ../src/Forum.rb:2665
+#: ../src/Forum.rb:1251 ../src/Forum.rb:2750
 msgctxt "Forum"
 msgid "Move to end"
 msgstr "Sona taşı"
@@ -4272,22 +4273,22 @@ msgctxt "Forum"
 msgid "Thread marked"
 msgstr "Konu işaretlendi"
 
-#: ../src/Forum.rb:1522 ../src/Forum.rb:1698 ../src/Forum.rb:2568
+#: ../src/Forum.rb:1522 ../src/Forum.rb:1781 ../src/Forum.rb:2653
 msgctxt "Forum"
 msgid "Add to followed threads list"
 msgstr "Takip edilen konular listesine ekle"
 
-#: ../src/Forum.rb:1523 ../src/Forum.rb:2569
+#: ../src/Forum.rb:1523 ../src/Forum.rb:2654
 msgctxt "Forum"
 msgid "Unfollow this thread"
 msgstr "Bu konuyu takibi bırak"
 
-#: ../src/Forum.rb:1529 ../src/Forum.rb:2575
+#: ../src/Forum.rb:1529 ../src/Forum.rb:2660
 msgctxt "Forum"
 msgid "Added to the list of followed threads."
 msgstr "Takip edilen konular listesine eklendi."
 
-#: ../src/Forum.rb:1536 ../src/Forum.rb:2582
+#: ../src/Forum.rb:1536 ../src/Forum.rb:2667
 msgctxt "Forum"
 msgid "Removed from followed threads list."
 msgstr "Takip edilen konular listesinden kaldırıldı"
@@ -4429,395 +4430,455 @@ msgctxt "Forum"
 msgid "Thread has been pinned"
 msgstr "Konu sabitlendi"
 
-#: ../src/Forum.rb:1672 ../src/Forum.rb:2257
+#: ../src/Forum.rb:1660
+msgctxt "Forum"
+msgid "Offer this thread to another group"
+msgstr "Konuyu başka gruba teklif et"
+
+#: ../src/Forum.rb:1672
+msgctxt "Forum"
+msgid "Group founded by %{founder}"
+msgstr "Grup %{founder} tarafından kuruldu"
+
+#: ../src/Forum.rb:1673
+msgctxt "Forum"
+msgid "Which group you want to offer this thread to?"
+msgstr "Konuyu hangi gruba teklif etmek istersiniz?"
+
+#: ../src/Forum.rb:1680
+msgctxt "Forum"
+msgid "The offer has been created"
+msgstr "Teklif oluşturuldu"
+
+#: ../src/Forum.rb:1687
+msgctxt "Forum"
+msgid "Withdraw the offer of this thread"
+msgstr "Teklifi iptal et"
+
+#: ../src/Forum.rb:1692
+msgctxt "Forum"
+msgid "The offer has been withdrawn."
+msgstr "Teklif iptal edildi."
+
+#: ../src/Forum.rb:1710
+msgctxt "Forum"
+msgid "Thread transfer offer to group %{groupname}"
+msgstr "%{groupname} grubuna konu transfer teklifi"
+
+#: ../src/Forum.rb:1711
+msgctxt "Forum"
+msgid "Accept this offer"
+msgstr "Teklifi kabul et"
+
+#: ../src/Forum.rb:1717
+msgctxt "Forum"
+msgid "Select destination forum"
+msgstr "Hedef forum seçin"
+
+#: ../src/Forum.rb:1726
+msgctxt "Forum"
+msgid "Offer accepted"
+msgstr "Teklif kabul edildi"
+
+#: ../src/Forum.rb:1731
+msgctxt "Forum"
+msgid "Refuse this offer"
+msgstr "Teklifi reddet"
+
+#: ../src/Forum.rb:1736
+msgctxt "Forum"
+msgid "Offer refused"
+msgstr "Teklif reddedildi"
+
+#: ../src/Forum.rb:1755 ../src/Forum.rb:2342
 msgctxt "Forum"
 msgid "Text post"
 msgstr "Metin gönderisi"
 
-#: ../src/Forum.rb:1672 ../src/Forum.rb:1696 ../src/Forum.rb:2257
-#: ../src/Forum.rb:2267
+#: ../src/Forum.rb:1755 ../src/Forum.rb:1779 ../src/Forum.rb:2342
+#: ../src/Forum.rb:2352
 msgctxt "Forum"
 msgid "Audio post"
 msgstr "Sesli gönderi"
 
-#: ../src/Forum.rb:1672
+#: ../src/Forum.rb:1755
 msgctxt "Forum"
 msgid "Select first post type"
 msgstr "İlk gönderi türünü seçin"
 
-#: ../src/Forum.rb:1692
+#: ../src/Forum.rb:1775
 msgctxt "Forum"
 msgid "Thread name"
 msgstr "Konu adı"
 
-#: ../src/Forum.rb:1694
+#: ../src/Forum.rb:1777
 msgctxt "Forum"
 msgid "Attach a poll"
 msgstr "Anket ekle"
 
-#: ../src/Forum.rb:1694 ../src/Forum.rb:2266
+#: ../src/Forum.rb:1777 ../src/Forum.rb:2351
 msgctxt "Forum"
 msgid "Attach a file"
 msgstr "Dosya ekle"
 
-#: ../src/Forum.rb:1694
+#: ../src/Forum.rb:1777
 msgctxt "Forum"
 msgid "Post"
 msgstr "Gönderi"
 
-#: ../src/Forum.rb:1703
+#: ../src/Forum.rb:1786
 msgctxt "Forum"
 msgid "No tag value"
 msgstr "Etiket değeri yok"
 
-#: ../src/Forum.rb:1714 ../src/Forum.rb:1722 ../src/Forum.rb:2289
-#: ../src/Forum.rb:2317
+#: ../src/Forum.rb:1797 ../src/Forum.rb:1805 ../src/Forum.rb:2374
+#: ../src/Forum.rb:2402
 msgctxt "Forum"
 msgid "Send"
 msgstr "Wyślij"
 
-#: ../src/Forum.rb:1738
+#: ../src/Forum.rb:1821
 msgctxt "Forum"
 msgid "Poll to attach"
 msgstr "Eklenecek anket"
 
-#: ../src/Forum.rb:1743
+#: ../src/Forum.rb:1826
 msgctxt "Forum"
 msgid "This poll has already been added"
 msgstr "Bu anket zaten eklenmiş"
 
-#: ../src/Forum.rb:1746 ../src/Forum.rb:2246
+#: ../src/Forum.rb:1829 ../src/Forum.rb:2331
 msgctxt "Forum"
 msgid "Polls"
 msgstr "Anketler"
 
-#: ../src/Forum.rb:1748
+#: ../src/Forum.rb:1831
 msgctxt "Forum"
 msgid "Poll has been added"
 msgstr "Anket eklendi"
 
-#: ../src/Forum.rb:1752
+#: ../src/Forum.rb:1835
 msgctxt "Forum"
 msgid "You haven't created any polls yet."
 msgstr "Henüz hiçbir anket oluşturmadınız."
 
-#: ../src/Forum.rb:1773 ../src/Forum.rb:2155 ../src/Forum.rb:2695
+#: ../src/Forum.rb:1856 ../src/Forum.rb:2240 ../src/Forum.rb:2780
 msgctxt "Forum"
 msgid "Select file to attach"
 msgstr "Eklenecek dosya seçin"
 
-#: ../src/Forum.rb:1776 ../src/Forum.rb:2158
+#: ../src/Forum.rb:1859 ../src/Forum.rb:2243
 msgctxt "Forum"
 msgid "This file has been already attached"
 msgstr "Bu dosya zaten eklenmiş"
 
-#: ../src/Forum.rb:1779 ../src/Forum.rb:2161 ../src/Forum.rb:2701
+#: ../src/Forum.rb:1862 ../src/Forum.rb:2246 ../src/Forum.rb:2786
 msgctxt "Forum"
 msgid "This file is too large"
 msgstr "Bu dosya çok büyük"
 
-#: ../src/Forum.rb:1784 ../src/Forum.rb:2166
+#: ../src/Forum.rb:1867 ../src/Forum.rb:2251
 msgctxt "Forum"
 msgid "The file has been attached"
 msgstr "Dosya eklendi"
 
-#: ../src/Forum.rb:1817
+#: ../src/Forum.rb:1900
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this thread?"
 msgstr "Bu konuyu oluşturmaktan vazgeçmek istediğinizden emin misiniz?"
 
-#: ../src/Forum.rb:1884
+#: ../src/Forum.rb:1967
 msgctxt "Forum"
 msgid "Thread has been created."
 msgstr "Konu oluşturuldu"
 
-#: ../src/Forum.rb:1886
+#: ../src/Forum.rb:1969
 msgctxt "Forum"
 msgid "Error creating thread!"
 msgstr "Konu oluşturulurken hata oluştu!"
 
-#: ../src/Forum.rb:2109
+#: ../src/Forum.rb:2194
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this post?"
 msgstr "Bu gönderiyi oluşturmaktan vazgeçmek istediğinizden emin misiniz?"
 
-#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:117
+#: ../src/Forum.rb:2213 ../src/Polls.rb:22 ../src/Polls.rb:117
 #: ../src/Polls.rb:353
 msgctxt "Polls"
 msgid "Vote"
 msgstr "Oyla"
 
-#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:122
-msgctxt "Polls"
-msgid "Show results"
-msgstr "Sonuçları göster"
-
-#: ../src/Forum.rb:2128 ../src/Polls.rb:22 ../src/Polls.rb:125
+#: ../src/Forum.rb:2213 ../src/Polls.rb:22 ../src/Polls.rb:125
 msgctxt "Polls"
 msgid "Show report"
 msgstr "Raporu göster"
 
-#: ../src/Forum.rb:2144
+#: ../src/Forum.rb:2213 ../src/Polls.rb:22 ../src/Polls.rb:122
+msgctxt "Polls"
+msgid "Show results"
+msgstr "Sonuçları göster"
+
+#: ../src/Forum.rb:2229
 msgctxt "Forum"
 msgid "Where to save this file?"
 msgstr "Bu dosya nereye kaydedilsin?"
 
-#: ../src/Forum.rb:2236
+#: ../src/Forum.rb:2321
 msgctxt "Forum"
 msgid "This post has been edited"
 msgstr "Gönderi düzenlenmiş"
 
-#: ../src/Forum.rb:2257
+#: ../src/Forum.rb:2342
 msgctxt "Forum"
 msgid "Post type"
 msgstr "Gönderi türü"
 
-#: ../src/Forum.rb:2266
+#: ../src/Forum.rb:2351
 msgctxt "Forum"
 msgid "Your answer"
 msgstr "Yanıtınız"
 
-#: ../src/Forum.rb:2278
+#: ../src/Forum.rb:2363
 msgctxt "Forum"
 msgid "Return"
 msgstr "Geri dön"
 
-#: ../src/Forum.rb:2307 ../src/Forum.rb:2348
+#: ../src/Forum.rb:2392 ../src/Forum.rb:2433
 msgctxt "Forum"
 msgid "The post was created."
 msgstr "Gönderi oluşturuldu."
 
-#: ../src/Forum.rb:2351
+#: ../src/Forum.rb:2436
 msgctxt "Forum"
 msgid "Post creation failure."
 msgstr "Gönderi oluşturma başarısız oldu."
 
-#: ../src/Forum.rb:2361 ../src/Forum.rb:2362
+#: ../src/Forum.rb:2446 ../src/Forum.rb:2447
 msgctxt "Forum"
 msgid "Reply"
 msgstr "Yanıtla"
 
-#: ../src/Forum.rb:2367
+#: ../src/Forum.rb:2452
 msgctxt "Forum"
 msgid "Reply with quote"
 msgstr "Odpowiedz z cytatem"
 
-#: ../src/Forum.rb:2376
+#: ../src/Forum.rb:2461
 msgctxt "Forum"
 msgid "Like this post"
 msgstr "Gönderiyi beğen"
 
-#: ../src/Forum.rb:2377
+#: ../src/Forum.rb:2462
 msgctxt "Forum"
 msgid "Dislike this post"
 msgstr "Gönderiyi beğenme"
 
-#: ../src/Forum.rb:2387
+#: ../src/Forum.rb:2472
 msgctxt "Forum"
 msgid "This post is now liked"
 msgstr "Gönderi beğenildi"
 
-#: ../src/Forum.rb:2389
+#: ../src/Forum.rb:2474
 msgctxt "forum"
 msgid "This post is no longer liked"
 msgstr "Gönderi beğenilmedi"
 
-#: ../src/Forum.rb:2393
+#: ../src/Forum.rb:2478
 msgctxt "Forum"
 msgid "Show post likes"
 msgstr "Gönderi beğenilerini göster"
 
-#: ../src/Forum.rb:2402
+#: ../src/Forum.rb:2487
 msgctxt "Forum"
 msgid "Users who like this post"
 msgstr "Bu gönderiyi beğenen kullanıcılar"
 
-#: ../src/Forum.rb:2414
+#: ../src/Forum.rb:2499
 msgctxt "Forum"
 msgid "Show original post"
 msgstr "Orijinal gönderiyi göster"
 
-#: ../src/Forum.rb:2417
+#: ../src/Forum.rb:2502
 msgctxt "Forum"
 msgid "Original post"
 msgstr "Orijinal gönderi"
 
-#: ../src/Forum.rb:2422
+#: ../src/Forum.rb:2507
 msgctxt "Forum"
 msgid "Navigation"
 msgstr "Dolaşım"
 
-#: ../src/Forum.rb:2423 ../src/Forum.rb:2764
+#: ../src/Forum.rb:2508 ../src/Forum.rb:2849
 msgctxt "Forum"
 msgid "Bookmarks"
 msgstr "Yer işaretleri"
 
-#: ../src/Forum.rb:2426
+#: ../src/Forum.rb:2511
 msgctxt "Forum"
 msgid "Go to post"
 msgstr "Gönderiye git"
 
-#: ../src/Forum.rb:2432 ../src/Forum.rb:2460
+#: ../src/Forum.rb:2517 ../src/Forum.rb:2545
 msgctxt "Forum"
 msgid "Select post"
 msgstr "Gönderi seçin"
 
-#: ../src/Forum.rb:2436
+#: ../src/Forum.rb:2521
 msgctxt "Forum"
 msgid "Go to post number"
 msgstr "Şu numaralı gönderiye git"
 
-#: ../src/Forum.rb:2437
+#: ../src/Forum.rb:2522
 msgctxt "Forum"
 msgid "Type post number"
 msgstr "Gönderi numarası yazın"
 
-#: ../src/Forum.rb:2444
+#: ../src/Forum.rb:2529
 msgctxt "Forum"
 msgid "Search in thread"
 msgstr "Konuda ara"
 
-#: ../src/Forum.rb:2465
+#: ../src/Forum.rb:2550
 msgctxt "Forum"
 msgid "The entered phrase cannot be found."
 msgstr "Girilen sözcük grubu bulunamadı."
 
-#: ../src/Forum.rb:2470
+#: ../src/Forum.rb:2555
 msgctxt "Forum"
 msgid "Go to first post"
 msgstr "İlk gönderiye git"
 
-#: ../src/Forum.rb:2474
+#: ../src/Forum.rb:2559
 msgctxt "Forum"
 msgid "Go to last post"
 msgstr "Son gönderiye git"
 
-#: ../src/Forum.rb:2479
+#: ../src/Forum.rb:2564
 msgctxt "Forum"
 msgid "Go to first new post"
 msgstr "Przejdź do pierwszego nowego wpisu"
 
-#: ../src/Forum.rb:2486 ../src/Forum.rb:2500
+#: ../src/Forum.rb:2571 ../src/Forum.rb:2585
 msgctxt "Forum"
 msgid "Mention post"
 msgstr "Gönderiden bahset"
 
-#: ../src/Forum.rb:2497
+#: ../src/Forum.rb:2582
 msgctxt "Forum"
 msgid "Nobody added you to their contact list."
 msgstr "Kimse sizi kişi listesine eklemedi."
 
-#: ../src/Forum.rb:2500
+#: ../src/Forum.rb:2585
 msgctxt "Forum"
 msgid "Message"
 msgstr "Mesaj"
 
-#: ../src/Forum.rb:2500
+#: ../src/Forum.rb:2585
 msgctxt "Forum"
 msgid "User to mention"
 msgstr "Bahsedilecek kullanıcı"
 
-#: ../src/Forum.rb:2514
+#: ../src/Forum.rb:2599
 msgctxt "Forum"
 msgid "The mention has been sent."
 msgstr "Bahsetme gönderildi."
 
-#: ../src/Forum.rb:2524
+#: ../src/Forum.rb:2609
 msgctxt "Forum"
 msgid "Listen to the thread"
 msgstr "Konuyu dinle"
 
-#: ../src/Forum.rb:2590
+#: ../src/Forum.rb:2675
 msgctxt "Forum"
 msgid "Edit post"
 msgstr "Gönderiyi düzenle"
 
-#: ../src/Forum.rb:2596
+#: ../src/Forum.rb:2681
 msgctxt "Forum"
 msgid "Move post"
 msgstr "Gönderiyi taşı"
 
-#: ../src/Forum.rb:2624
+#: ../src/Forum.rb:2709
 msgctxt "Forum"
 msgid "Post destination"
 msgstr "Gönderi yeri"
 
-#: ../src/Forum.rb:2629
+#: ../src/Forum.rb:2714
 msgctxt "Forum"
 msgid "The post has been moved."
 msgstr "Gönderi taşındı."
 
-#: ../src/Forum.rb:2635
+#: ../src/Forum.rb:2720
 msgctxt "Forum"
 msgid "Delete post"
 msgstr "Gönderiyi sil"
 
-#: ../src/Forum.rb:2636 ../src/Forum.rb:2646
+#: ../src/Forum.rb:2721 ../src/Forum.rb:2731
 msgctxt "Forum"
 msgid "Are you sure you want to delete this post?"
 msgstr "Bu gönderiyi silmek istediğinizden emin misiniz?"
 
-#: ../src/Forum.rb:2660
+#: ../src/Forum.rb:2745
 msgctxt "Forum"
 msgid "Change post position"
 msgstr "Gönderi konumunu değiştir"
 
-#: ../src/Forum.rb:2666
+#: ../src/Forum.rb:2751
 msgctxt "Forum"
 msgid "Place post above"
 msgstr "Gönderiyi yukarı taşı"
 
-#: ../src/Forum.rb:2669
+#: ../src/Forum.rb:2754
 msgctxt "Forum"
 msgid "The post has been slided."
 msgstr "Gönderi kaydırıldı."
 
-#: ../src/Forum.rb:2691
+#: ../src/Forum.rb:2776
 msgctxt "Forum"
 msgid "edit your post here"
 msgstr "Burada gönderinizi düzenleyin"
 
-#: ../src/Forum.rb:2694
+#: ../src/Forum.rb:2779
 msgctxt "Forum"
 msgid "Add attachment"
 msgstr "Ek ekle"
 
-#: ../src/Forum.rb:2708
+#: ../src/Forum.rb:2793
 msgctxt "Forum"
 msgid "Delete attachment"
 msgstr "Eki sil"
 
-#: ../src/Forum.rb:2734
+#: ../src/Forum.rb:2819
 msgctxt "Forum"
 msgid "The post has been modified"
 msgstr "Gönderi değiştirildi"
 
-#: ../src/Forum.rb:2764
+#: ../src/Forum.rb:2849
 msgctxt "Forum"
 msgid "Post %{postnumber} by %{author}"
 msgstr "%{author} kullanıcısının %{postnumber}. gönderisi"
 
-#: ../src/Forum.rb:2767
+#: ../src/Forum.rb:2852
 msgctxt "Forum"
 msgid "Delete bookmark"
 msgstr "Yer işaretini sil"
 
-#: ../src/Forum.rb:2773
+#: ../src/Forum.rb:2858
 msgctxt "Forum"
 msgid "New bookmark"
 msgstr "Yeni yer işareti"
 
-#: ../src/Forum.rb:2806
+#: ../src/Forum.rb:2891
 msgctxt "Forum"
 msgid "Bookmark deleted"
 msgstr "Yer işareti silindi"
 
-#: ../src/Forum.rb:2815
+#: ../src/Forum.rb:2900
 msgctxt "Forum"
 msgid "Bookmark description"
 msgstr "Yer işareti tanımı"
 
-#: ../src/Forum.rb:2818
+#: ../src/Forum.rb:2903
 msgctxt "Forum"
 msgid "Bookmark created"
 msgstr "Yer işareti oluşturuldu"
@@ -4918,8 +4979,8 @@ msgstr "Seviye"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
-msgid "Badge name in English"
-msgstr "İngilizce rozet adı"
+msgid "Badge description in English"
+msgstr "İngilizce rozet açıklaması"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
@@ -4928,18 +4989,18 @@ msgstr "Ekle"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
-msgid "Badge description in English"
-msgstr "İngilizce rozet açıklaması"
-
-#: ../src/Honors.rb:301
-msgctxt "Honors"
-msgid "Badge description"
-msgstr "Rozet açıklaması"
+msgid "Badge name in English"
+msgstr "İngilizce rozet adı"
 
 #: ../src/Honors.rb:301
 msgctxt "Honors"
 msgid "Badge name"
 msgstr "Rozet adı"
+
+#: ../src/Honors.rb:301
+msgctxt "Honors"
+msgid "Badge description"
+msgstr "Rozet açıklaması"
 
 #: ../src/Honors.rb:315
 msgctxt "Honors"
@@ -4995,21 +5056,6 @@ msgstr "Programın yeni sürümü mevcut."
 
 #: ../src/Loading.rb:421
 msgctxt "Loading"
-msgid "Password reset"
-msgstr "Şifre sıfırlama"
-
-#: ../src/Loading.rb:421
-msgctxt "Loading"
-msgid "Use guest account"
-msgstr "Konuk hesabı kullan"
-
-#: ../src/Loading.rb:421
-msgctxt "Loading"
-msgid "Register"
-msgstr "Kaydol"
-
-#: ../src/Loading.rb:421
-msgctxt "Loading"
 msgid "Settings"
 msgstr "Ayarlar"
 
@@ -5020,8 +5066,23 @@ msgstr "Yeniden kur"
 
 #: ../src/Loading.rb:421
 msgctxt "Loading"
+msgid "Use guest account"
+msgstr "Konuk hesabı kullan"
+
+#: ../src/Loading.rb:421
+msgctxt "Loading"
 msgid "Log in"
 msgstr "Giriş yap"
+
+#: ../src/Loading.rb:421
+msgctxt "Loading"
+msgid "Register"
+msgstr "Kaydol"
+
+#: ../src/Loading.rb:421
+msgctxt "Loading"
+msgid "Password reset"
+msgstr "Şifre sıfırlama"
 
 #: ../src/Log.rb:8
 msgctxt "Log"
@@ -5043,7 +5104,7 @@ msgctxt "Log"
 msgid "Log"
 msgstr "Günlük"
 
-#: ../src/Log.rb:12 ../src/Polls.rb:540
+#: ../src/Log.rb:12 ../src/Polls.rb:539
 msgid "Close"
 msgstr "Kapat"
 
@@ -5091,17 +5152,17 @@ msgstr "Sms ile doğrula"
 
 #: ../src/Login.rb:88
 msgctxt "Login"
-msgid "Authenticate using backup code"
-msgstr "Yedek kodla doğrula"
-
-#: ../src/Login.rb:88
-msgctxt "Login"
 msgid ""
 "Two-factor authentication is enabled on this account. Select method to "
 "authenticate."
 msgstr ""
 "Bu hesapta iki öğeli kimlik doğrulama etkin. Doğrulamak için bir yöntem "
 "seçin."
+
+#: ../src/Login.rb:88
+msgctxt "Login"
+msgid "Authenticate using backup code"
+msgstr "Yedek kodla doğrula"
 
 #: ../src/Login.rb:104
 msgctxt "Login"
@@ -5131,13 +5192,13 @@ msgstr "Girilen kod yanlış, lütfen tekrar deneyin"
 
 #: ../src/Login.rb:146
 msgctxt "Login"
-msgid "Do not ask again"
-msgstr "Bir daha sorma"
+msgid "Do you want to enable auto log in for account %{user}?"
+msgstr "%{user} hesabı için otomatik girişi etkinleştirmek istiyor musunuz?"
 
 #: ../src/Login.rb:146
 msgctxt "Login"
-msgid "Do you want to enable auto log in for account %{user}?"
-msgstr "%{user} hesabı için otomatik girişi etkinleştirmek istiyor musunuz?"
+msgid "Do not ask again"
+msgstr "Bir daha sorma"
 
 #: ../src/Login.rb:148
 msgctxt "Login"
@@ -5601,13 +5662,13 @@ msgstr "Konuşmayı sessize al"
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
-msgid "Mute for an hour"
-msgstr "1 saat boyunca sessize al"
+msgid "Mute for a quarter"
+msgstr "6 saat boyunca sessize al"
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
-msgid "Mute for a quarter"
-msgstr "6 saat boyunca sessize al"
+msgid "Mute for a week"
+msgstr "1 hafta boyunca sessize al"
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
@@ -5621,8 +5682,8 @@ msgstr "1 gün boyunca sessize al"
 
 #: ../src/Messages.rb:150
 msgctxt "Messages"
-msgid "Mute for a week"
-msgstr "1 hafta boyunca sessize al"
+msgid "Mute for an hour"
+msgstr "1 saat boyunca sessize al"
 
 #: ../src/Messages.rb:158
 msgctxt "Messages"
@@ -5805,13 +5866,13 @@ msgstr "Bulunan öğeler"
 
 #: ../src/Messages.rb:517
 msgctxt "Messages"
-msgid "Compose"
-msgstr "Oluştur"
+msgid "Your reply"
+msgstr "Yanıtınız"
 
 #: ../src/Messages.rb:517
 msgctxt "Messages"
-msgid "Your reply"
-msgstr "Yanıtınız"
+msgid "Compose"
+msgstr "Oluştur"
 
 #: ../src/Messages.rb:563 ../src/Messages.rb:772
 msgctxt "Messages"
@@ -6165,7 +6226,7 @@ msgctxt "Polls"
 msgid "Set the expiry date for this poll"
 msgstr "Anket için kapanış tarihini ayarla"
 
-#: ../src/Polls.rb:176 ../src/Polls.rb:537
+#: ../src/Polls.rb:176 ../src/Polls.rb:536
 msgctxt "Polls"
 msgid "Questions"
 msgstr "Sorular"
@@ -6205,20 +6266,20 @@ msgctxt "Polls"
 msgid "Single choice"
 msgstr "Tek seçimli"
 
-#: ../src/Polls.rb:224
+#: ../src/Polls.rb:224 ../src/Polls.rb:537
 msgctxt "Polls"
-msgid "Edit box"
-msgstr "Metin kutusu"
+msgid "Answers"
+msgstr "Yanıtlar"
 
 #: ../src/Polls.rb:224
 msgctxt "Polls"
 msgid "Question type"
 msgstr "Soru türü"
 
-#: ../src/Polls.rb:224 ../src/Polls.rb:538
+#: ../src/Polls.rb:224
 msgctxt "Polls"
-msgid "Answers"
-msgstr "Yanıtlar"
+msgid "Edit box"
+msgstr "Metin kutusu"
 
 #: ../src/Polls.rb:224
 msgctxt "Polls"
@@ -6295,40 +6356,45 @@ msgctxt "Polls"
 msgid "The number of votes"
 msgstr "Oy sayısı"
 
-#: ../src/Polls.rb:473
+#: ../src/Polls.rb:472
 msgctxt "Polls"
 msgid "Poll results: %{name}"
 msgstr "Anket sonuçları: %{name}"
 
-#: ../src/Polls.rb:539
+#: ../src/Polls.rb:538
 msgctxt "Polls"
 msgid "Filters"
 msgstr "Filtreler"
 
-#: ../src/Polls.rb:561
+#: ../src/Polls.rb:560
 msgctxt "Polls"
 msgid "Filter with this answer"
 msgstr "Bu cevapla filtrele"
 
-#: ../src/Polls.rb:565
+#: ../src/Polls.rb:564
 msgctxt "Polls"
 msgid "Filter without this answer"
 msgstr "Bu cevap olmadan filtrele"
 
-#: ../src/Polls.rb:570
+#: ../src/Polls.rb:569
 msgctxt "Polls"
 msgid "Delete this answer from filters"
 msgstr "Cevabı filtrelerden sil"
 
-#: ../src/Polls.rb:646
+#: ../src/Polls.rb:645
 msgctxt "Polls"
 msgid "Includes"
 msgstr "Dahil edilenler"
 
-#: ../src/Polls.rb:648
+#: ../src/Polls.rb:647
 msgctxt "Polls"
 msgid "Excludes"
 msgstr "Dışlananlar"
+
+#: ../src/Portable.rb:7
+msgctxt "Portable"
+msgid "continue"
+msgstr "Devam et"
 
 #: ../src/Portable.rb:7
 msgctxt "Portable"
@@ -6339,11 +6405,6 @@ msgstr "Geçerli ayarları kopyala"
 msgctxt "Portable"
 msgid "Copy downloaded soundthemes"
 msgstr "İndirilen ses temalarını kopyala"
-
-#: ../src/Portable.rb:7
-msgctxt "Portable"
-msgid "continue"
-msgstr "Devam et"
 
 #: ../src/Portable.rb:7
 msgctxt "Portable"
@@ -6362,13 +6423,23 @@ msgstr "Ayarlar kopyalanıyor"
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
+msgid "Ask each time"
+msgstr "Her zaman"
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
+msgid "Reset synthesizer settings"
+msgstr "Sentezleyici ayarlarını sıfırla"
+
+#: ../src/Portable.rb:35
+msgctxt "Portable"
 msgid "Use a screenreader or a system default voice"
 msgstr "Ekran okuyucu ya da sistem varsayılan sesini kullan"
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
-msgid "Ask each time"
-msgstr "Her zaman"
+msgid "Use current setting"
+msgstr "Geçerli ayarı kullan"
 
 #: ../src/Portable.rb:35
 msgctxt "Portable"
@@ -6382,16 +6453,6 @@ msgstr ""
 "ses ayarları düzgün çalışmayabilir. Bu özellikle başka bilgisayarda farklı "
 "sesler kurulu olduğunda fark edilir. Oluşturulan sürümü nasıl yapılandırmak "
 "istersiniz?"
-
-#: ../src/Portable.rb:35
-msgctxt "Portable"
-msgid "Use current setting"
-msgstr "Geçerli ayarı kullan"
-
-#: ../src/Portable.rb:35
-msgctxt "Portable"
-msgid "Reset synthesizer settings"
-msgstr "Sentezleyici ayarlarını sıfırla"
 
 #: ../src/Portable.rb:47
 msgctxt "Portable"
@@ -6615,38 +6676,43 @@ msgstr "Kullanıcı arayüzü için stereo konumlandırma kullan"
 
 #: ../src/Settings.rb:133
 msgctxt "Settings"
-msgid "Display context menu in menu bar"
-msgstr "Menü çubuğunda içerik menüsünü görüntüle"
+msgid "Use background sounds in menu and dialog windows"
+msgstr "Menü ve iletişim kutusu pencerelerinde arka plan sesleri kullan"
 
 #: ../src/Settings.rb:134
 msgctxt "Settings"
-msgid "Announcement of types of controls"
-msgstr "Kontrol türlerini duyur"
+msgid "Display context menu in menu bar"
+msgstr "Menü çubuğunda içerik menüsünü görüntüle"
 
-#: ../src/Settings.rb:134 ../src/Settings.rb:201
-msgctxt "Settings"
-msgid "Sound only"
-msgstr "Sadece ses"
-
-#: ../src/Settings.rb:134 ../src/Settings.rb:201
+#: ../src/Settings.rb:135 ../src/Settings.rb:214
 msgctxt "Settings"
 msgid "Voice only"
 msgstr "Sadece seslendirme"
 
-#: ../src/Settings.rb:134 ../src/Settings.rb:201
+#: ../src/Settings.rb:135 ../src/Settings.rb:214
 msgctxt "Settings"
-msgid "Voice and sound"
-msgstr "Seslendirme ve ses"
+msgid "Sound only"
+msgstr "Sadece ses"
 
 #: ../src/Settings.rb:135
 msgctxt "Settings"
-msgid "Use background sounds in menu and dialog windows"
-msgstr "Menü ve iletişim kutusu pencerelerinde arka plan sesleri kullan"
+msgid "Announcement of types of controls"
+msgstr "Kontrol türlerini duyur"
+
+#: ../src/Settings.rb:135 ../src/Settings.rb:214
+msgctxt "Settings"
+msgid "Voice and sound"
+msgstr "Seslendirme ve ses"
 
 #: ../src/Settings.rb:136
 msgctxt "Settings"
 msgid "Wrap long lines in text fields"
 msgstr "Metin alanlarında uzun satırları sığdır"
+
+#: ../src/Settings.rb:137
+msgctxt "Settings"
+msgid "Linear"
+msgstr "Çizgisel"
 
 #: ../src/Settings.rb:137
 msgctxt "Settings"
@@ -6658,112 +6724,112 @@ msgctxt "Settings"
 msgid "The display method of selection lists"
 msgstr "Seçim listelerinin görüntülenme şekli"
 
-#: ../src/Settings.rb:137
-msgctxt "Settings"
-msgid "Linear"
-msgstr "Çizgisel"
-
-#: ../src/Settings.rb:156 ../src/Settings.rb:158
+#: ../src/Settings.rb:158 ../src/Settings.rb:160
 msgctxt "Settings"
 msgid "Voice"
 msgstr "Ses"
 
-#: ../src/Settings.rb:157
-msgctxt "Settings"
-msgid "Use screenreader"
-msgstr "Ekran okuyucuyu kullan"
-
 #: ../src/Settings.rb:159
+msgctxt "Settings"
+msgid "Use NVDA"
+msgstr "NVDA kullan"
+
+#: ../src/Settings.rb:161
 msgctxt "Settings"
 msgid "Speech rate"
 msgstr "Konuşma hızı"
 
-#: ../src/Settings.rb:160
+#: ../src/Settings.rb:162
 msgctxt "Settings"
 msgid "Speech volume"
 msgstr "Konuşma ses seviyesi"
 
-#: ../src/Settings.rb:161 ../src/Settings.rb:201
+#: ../src/Settings.rb:163
 msgctxt "Settings"
-msgid "None"
-msgstr "Hiçbiri"
+msgid "Speech pitch"
+msgstr "Ses kalınlığı"
 
-#: ../src/Settings.rb:161
-msgctxt "Settings"
-msgid "Characters and words"
-msgstr "Karakterler ve sözcükler"
-
-#: ../src/Settings.rb:161
+#: ../src/Settings.rb:164
 msgctxt "Settings"
 msgid "Words"
 msgstr "Sözcükler"
 
-#: ../src/Settings.rb:161
+#: ../src/Settings.rb:164 ../src/Settings.rb:214
 msgctxt "Settings"
-msgid "Characters"
-msgstr "Karakterler"
+msgid "None"
+msgstr "Hiçbiri"
 
-#: ../src/Settings.rb:161
+#: ../src/Settings.rb:164
 msgctxt "Settings"
 msgid "Typing echo"
 msgstr "Yazma bildirimi"
 
-#: ../src/Settings.rb:200
+#: ../src/Settings.rb:164
+msgctxt "Settings"
+msgid "Characters"
+msgstr "Karakterler"
+
+#: ../src/Settings.rb:164
+msgctxt "Settings"
+msgid "Characters and words"
+msgstr "Karakterler ve sözcükler"
+
+#: ../src/Settings.rb:213
 msgctxt "Settings"
 msgid "Clock"
 msgstr "Saat"
 
-#: ../src/Settings.rb:201
+#: ../src/Settings.rb:214
 msgctxt "Settings"
 msgid "Clock information"
 msgstr "Saat bilgisi"
 
-#: ../src/Settings.rb:202
-msgctxt "Settings"
-msgid "every hour"
-msgstr "Her saat"
-
-#: ../src/Settings.rb:202
-msgctxt "Settings"
-msgid "announcement time"
-msgstr "Duyuru zamanı"
-
-#: ../src/Settings.rb:202
-msgctxt "Settings"
-msgid "every quarter of an hour"
-msgstr "Her çeyrek saat"
-
-#: ../src/Settings.rb:202
+#: ../src/Settings.rb:215
 msgctxt "Settings"
 msgid "every half hour"
 msgstr "Her yarım saat"
 
-#: ../src/Settings.rb:203
+#: ../src/Settings.rb:215
+msgctxt "Settings"
+msgid "announcement time"
+msgstr "Duyuru zamanı"
+
+#: ../src/Settings.rb:215
+msgctxt "Settings"
+msgid "every quarter of an hour"
+msgstr "Her çeyrek saat"
+
+#: ../src/Settings.rb:215
+msgctxt "Settings"
+msgid "every hour"
+msgstr "Her saat"
+
+#: ../src/Settings.rb:216
 msgctxt "Settings"
 msgid "Alarms"
 msgstr "Alarmlar"
 
-#: ../src/Settings.rb:216
+#: ../src/Settings.rb:229
 msgctxt "Settings"
 msgid "Sound devices"
 msgstr "Ses aygıtları"
 
-#: ../src/Settings.rb:220 ../src/Settings.rb:221
+#: ../src/Settings.rb:233 ../src/Settings.rb:234
 msgctxt "Settings"
 msgid "Use Default"
 msgstr "Varsayılanı kullan"
 
-#: ../src/Settings.rb:228
+#: ../src/Settings.rb:241
 msgctxt "Settings"
 msgid "Output device"
 msgstr "Çıkış aygıtı"
 
-#: ../src/Settings.rb:229
+#: ../src/Settings.rb:242
 msgctxt "Settings"
 msgid "Input device"
 msgstr "Giriş aygıtı"
 
-#: ../src/Settings.rb:230
+#: ../src/Settings.rb:243
 msgctxt "Settings"
 msgid "Enable FX effects"
 msgstr "FX efektleri etkinleştir"
@@ -7130,13 +7196,13 @@ msgstr "%{theme} ses teması düzenleniyor"
 
 #: ../src/Sounds.rb:103
 msgctxt "Sounds"
-msgid "Play"
-msgstr "Oynat"
+msgid "Stop"
+msgstr "Dur"
 
 #: ../src/Sounds.rb:103
 msgctxt "Sounds"
-msgid "Stop"
-msgstr "Dur"
+msgid "Play"
+msgstr "Oynat"
 
 #: ../src/Sounds.rb:105
 msgctxt "Sounds"
@@ -7170,6 +7236,36 @@ msgstr "Bu ses temasını kaydetmek istiyor musunuz?"
 
 #: ../src/SpeedTest.rb:7
 msgctxt "SpeedTest"
+msgid "Blogs list"
+msgstr "Bloglar"
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Messages recipients"
+msgstr "Mesaj alıcıları"
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Forum structure (compressed)"
+msgstr "Forum yapısı (sıkıştırılmış)"
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Forum structure (uncompressed)"
+msgstr "Forum yapısı (sıkıştırılmamış)"
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Start"
+msgstr "Başla"
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
+msgid "Unit to test"
+msgstr "Test edilecek birim"
+
+#: ../src/SpeedTest.rb:7
+msgctxt "SpeedTest"
 msgid "Session refresh"
 msgstr "Oturum yenileme"
 
@@ -7180,38 +7276,8 @@ msgstr "Ne yeni"
 
 #: ../src/SpeedTest.rb:7
 msgctxt "SpeedTest"
-msgid "Forum structure (uncompressed)"
-msgstr "Forum yapısı (sıkıştırılmamış)"
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Forum structure (compressed)"
-msgstr "Forum yapısı (sıkıştırılmış)"
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Messages recipients"
-msgstr "Mesaj alıcıları"
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Blogs list"
-msgstr "Bloglar"
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Unit to test"
-msgstr "Test edilecek birim"
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
 msgid "Number of attempts to perform"
 msgstr "Test sayısı"
-
-#: ../src/SpeedTest.rb:7
-msgctxt "SpeedTest"
-msgid "Start"
-msgstr "Başla"
 
 #: ../src/SpeedTest.rb:31
 msgctxt "SpeedTest"
@@ -7325,8 +7391,8 @@ msgstr "Ne yeni"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
-msgid "New posts in followed threads"
-msgstr "Takip edilen konularda yeni gönderiler"
+msgid "New threads on followed forums"
+msgstr "Takip edilen forumlarda yeni konular"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
@@ -7340,13 +7406,8 @@ msgstr "Takip edilen bloglarda yeni gönderiler"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
-msgid "New threads on followed forums"
-msgstr "Takip edilen forumlarda yeni konular"
-
-#: ../src/WhatsNew.rb:47
-msgctxt "WhatsNew"
-msgid "New posts on followed forums"
-msgstr "Takip edilen forumlarda yeni gönderiler"
+msgid "New posts in followed threads"
+msgstr "Takip edilen konularda yeni gönderiler"
 
 #: ../src/WhatsNew.rb:47
 msgctxt "WhatsNew"
@@ -7373,6 +7434,11 @@ msgctxt "WhatsNew"
 msgid "New messages"
 msgstr "Yeni mesajlar"
 
+#: ../src/WhatsNew.rb:47
+msgctxt "WhatsNew"
+msgid "New posts on followed forums"
+msgstr "Takip edilen forumlarda yeni gönderiler"
+
 #: ../src/WhatsNew.rb:59
 msgctxt "WhatsNew"
 msgid "There is nothing new."
@@ -7382,6 +7448,18 @@ msgstr "Yeni bir şey yok."
 msgctxt "WhatsNew"
 msgid "There is nothing new on followedblogs."
 msgstr "Takip edilen bloglarda hiçbir yenilik yok"
+
+#~ msgctxt "EAPI_Common"
+#~ msgid "Using a screenreader"
+#~ msgstr "Ekran okuyucu kullanılıyor"
+
+#~ msgctxt "EAPI_QuickActions"
+#~ msgid "Switch voice output between Screenreader and Sapi5"
+#~ msgstr "Seslendirmeyi ekran okuyucu veya Sapi5 arasında değiştir"
+
+#~ msgctxt "Settings"
+#~ msgid "Use screenreader"
+#~ msgstr "Ekran okuyucuyu kullan"
 
 #~ msgctxt "Blog"
 #~ msgid "Personal Elten blog domain (%{username}.eltenblog.net)"
