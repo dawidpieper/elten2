@@ -7,6 +7,7 @@ AppPublisher=Dawid Pieper
 AppPublisherURL=https://elten-net.eu
 AppSupportURL=https://elten-net.eu/
 AppUpdatesURL=https://elten-net.eu/download
+AppCopyright=Copyright (C) 2014-2020 Dawid Pieper
 DefaultDirName={pf}\ELTEN
 DefaultGroupName=ELTEN
 AllowNoIcons=yes
@@ -16,17 +17,18 @@ Compression=lzma2/max
 SolidCompression=yes
 RestartIfNeededByRun=no
 PrivilegesRequiredOverridesAllowed=commandline dialog
+LicenseFile=elten/gpl-3.0.rtf
 
 #define Use_UninsHs_Default_CustomMessages
 
 [Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"; LicenseFile: "elten\license_en.txt"
-Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"; LicenseFile: "elten\license_pl.txt"
-Name: "de"; MessagesFile: "compiler:Languages\German.isl"; LicenseFile: "elten\license_de.txt"
-Name: "fr"; MessagesFile: "compiler:Languages\French.isl"; LicenseFile: "elten\license_en.txt"
-Name: "ru"; MessagesFile: "compiler:Languages\Russian.isl"; LicenseFile: "elten\license_en.txt"
-Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"; LicenseFile: "elten\license_en.txt"
-Name: "tr"; MessagesFile: "compiler:Languages\Turkish.isl"; LicenseFile: "elten\license_en.txt"
+Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: "pl"; MessagesFile: "compiler:Languages\Polish.isl"
+Name: "de"; MessagesFile: "compiler:Languages\German.isl"
+Name: "fr"; MessagesFile: "compiler:Languages\French.isl"
+Name: "ru"; MessagesFile: "compiler:Languages\Russian.isl"
+Name: "es"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: "tr"; MessagesFile: "compiler:Languages\Turkish.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
