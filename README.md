@@ -28,7 +28,21 @@ It is probably possible to run Elten using one of the open source implementation
 
 If someone manages to prepare one of these engines to work with Elten, I would be very grateful for contact, perhaps it will remove the proprietary solution required to start the project.
 
-Currently, the recommended procedure for building your code is to generate script files and replace them with the scripts loaded by RGSS Player. For an existing Elten installation, this means replacing the Data/elten.edb file whose build script is in this repository.
+Currently, the recommended procedure for building your code is to generate script files and replace them with the scripts loaded by RGSS Player.
+
+rakefile is prepared for this, remember only to clone submodules
+
+`git submodule update --init`
+
+and you can go
+
+`rake`
+
+`rake run`
+
+You can get list of tasks with
+
+`rake --tasks`
 
 # Issues
 All issues, bug reports and suggestions should be placed on Elten forum.
