@@ -1277,7 +1277,7 @@ def value
       tph=tp+": "
       tph="" if Configuration.controlspresentation==1
       head=@header.to_s + "... " + tph
-                              NVDA.braille(@header.to_s+"  "+@text, @header.to_s.size+2+@index-1,false,0,nil,@header.to_s.size+2+@index-1) if NVDA.check
+                              NVDA.braille(@header.to_s+"\n"+@text, @header.to_s.size+2+@index-1,false,0,nil,@header.to_s.size+2+@index-1) if NVDA.check
                               if @audiotext!=nil
                                 @audioplayer = Player.new(@audiotext, @header, false, true)
                                 @audioplayed=false
