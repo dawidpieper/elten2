@@ -1,0 +1,458 @@
+require 'rubygems'
+require("zlib")
+require("io/console")
+require("securerandom")
+require("digest/sha1")
+require("open3")
+require("json")
+
+def install_gem(gemname)
+require 'rubygems/commands/install_command'
+cmd = Gem::Commands::InstallCommand.new
+cmd.handle_options [gemname]
+begin
+cmd.execute
+rescue SystemExit
+end
+Gem.clear_paths
+end
+
+def get_files(filelist)
+res=[]
+lines=IO.readlines(filelist)
+for l in lines
+l.strip!
+next if l=="" || l[0..0]=="#"
+res.push(l)
+end
+return res
+end
+
+desc "Create translation template"
+task :pot do 
+ge=false
+begin
+require "gettext/tools/xgettext"
+rescue Exception
+if ge==false
+ge=true
+puts("Gettext not found, trying to install")
+install_gem("gettext")
+retry
+else
+fail
+end
+end
+Dir.mkdir("locale") if !FileTest.exists?("locale")
+files=get_files("filelist_rgss")
+param=files+["-o","locale/elten.pot","--package-name=Elten","--package-version=2.4","--msgid-bugs-address=dawidpieper@o2.pl","--copyright-holder=\"Dawid Pieper\"","--copyright-year=#{Time.now.year}"]
+GetText::Tools::XGetText.run(*param)
+puts("Translations saved.")
+end 
+
+desc "Build scripts for RGSS"
+task :rgss do 
+Dir.mkdir("out") if !FileTest.exists?("out")
+Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
+files=get_files("filelist_rgss")
+i=0
+data=files.map{|f|
+i+=1
+fname=File.basename(f).split(".")[0...-1].join(".")
+d=f.split("/")[1...-1].join("/")
+fname+="{"+d+"}" if d!=nil
+[i, fname, Zlib::Deflate.deflate(IO.read(f))]
+}
+IO.binwrite("out/Data/elten.edb", Marshal.dump(data))
+puts("RGSS data saved.")
+end
+
+desc "Build scripts for agent"
+task :agent do 
+reqgems=[['http/2','http-2']]
+for r in reqgems
+ge=false
+begin
+require r[0]
+rescue Exception
+if ge==false
+ge=true
+puts("#{r[1]} not found, trying to install")
+install_gem(r[1])
+retry
+else
+fail
+end
+end
+end
+class AgentExporter
+def initialize(file)
+@file=file
+end
+def run
+@res=[]
+@cnt="$LOAD_PATH<<\".\"\r\n$VERBOSE=nil\r\n"
+@soes=[]
+@soeloc = []
+@reqs=[]
+@rels=[]
+search(@file)
+Dir.mkdir("out") if !FileTest.exists?("out")
+Dir.mkdir("out/sofiles") if !FileTest.exists?("out/sofiles")
+@cnt.delete!("\r")
+@cnt.gsub!(" # :nodoc:","#")
+@cnt.gsub!(/^([\t ]*)\#([a-zA-Z0-9\t ]+)([^\n]+)$/,"")
+@cnt.gsub!(/^([ \t]*)\#([ \t]*)$/,"")
+@cnt.gsub!(/\n(\n+)/,"\n")
+@cnt.gsub!(/\n([ \t]+)/,"\n")
+IO.write("out/agent.dat",@cnt)
+for i in 0...@soes.size
+file=File.basename(@soes[i])
+loc=@soeloc[i]
+FileUtils.cp(loc, "out/sofiles/"+file)
+end
+end
+private
+def search(file)
+return processfile("agent/"+file) if FileTest.exists?("agent/"+file)
+3.times {file.chop!} if file[-3..-1]==".rb" or file[-3..-1]==".so"
+suc=false
+for pa in $LOAD_PATH
+s=false
+if File.file?(pa+"/"+file) or FileTest.exists?(pa+"/"+file+".rb")
+processfile(pa+"/"+file+".rb") if s==false
+s=true
+suc=true
+elsif FileTest.exists?(pa+"/"+file+".so")
+suc=true
+if !@soes.include?(file+".so")
+@soes.push(file+".so")
+@soeloc.push(pa+"/"+file+".so")
+@cnt += "\nrequire(\"./#{File.basename(file)}\")\n"
+""
+else
+return ""
+end
+end
+end
+if suc==false
+for fl in Gem.find_files(file)
+if fl[-3..-1]==".rb"
+processfile(fl)
+suc=true
+elsif fl[-3..-1]==".so"
+if !@soes.include?(file+".so")
+@soes.push(file+".so")
+@soeloc.push(fl)
+@cnt += "\nrequire(\"./#{File.basename(file)}\")\n"
+""
+else
+return ""
+end
+suc=true
+end
+end
+end
+if suc==false
+raise("Could not find file #{file}, are all required gems installed?")
+end
+return ""
+end
+def processfile(file)
+@res||=[]
+return "" if @res.include?(file)
+@res.push(file)
+r=IO.read(file)
+r.gsub!(/require( *)(\(*)(\"|\')([^\"\']+)(\"|\')(\)*)/) do
+search($4)
+""
+end
+r.gsub!(/require_relative( *)(\(*)(\"|\')([^\"\']+)(\"|\')(\)*)/) do
+f=$4
+f+=".rb" if f[-3..-1]!=".rb"
+if !@rels.include?(f)
+@rels.push(f)
+processfile(File.dirname(file)+"/"+f)
+end
+""
+end
+r.gsub!("require lib","")
+@cnt+="\r\n"+r+"\r\n"
+@res.push(r)
+end
+end
+AgentExporter.new("agent.rb").run
+# A small workaround for a bit confusing JSON libraries
+jparser=IO.binread("out/sofiles/parser.so")
+jparser.gsub!("json/common", "parser\0\0\0\0\0")
+IO.binwrite("out/sofiles/parser.so", jparser)
+jgenerator=IO.binread("out/sofiles/generator.so")
+jgenerator.gsub!("json/common", "generator\0\0")
+IO.binwrite("out/sofiles/generator.so", jgenerator)
+puts("Agent data saved.")
+end
+
+desc "Generate new key for Elten app"
+task :key do 
+if FileTest.exists?("private/appkey.dat")
+raise("The key file for this app already exists in private/appkey.dat. You must delete it manually.")
+end
+Dir.mkdir("private") if !FileTest.exists?("private")
+secret=SecureRandom.bytes(32)
+IO.binwrite("private/appkey.dat", secret)
+puts("New app key generated.")
+end
+
+desc "Generate signature files for Elten library"
+task :sig do 
+if !FileTest.exists?("private/appkey.dat")
+raise("You must generate the appkey first, use \"rake key\".")
+end
+if !FileTest.exists?("vendor/app")
+raise("Cannot locate vendor dependencies, did you remember to update git submodules?")
+end
+Dir.mkdir("private/include") if !FileTest.exists?("private/include")
+sigs=["vendor/app/elten.exe", "vendor/app/bin/rubyw.exe", "vendor/app/bin/ruby.exe"]
+str="#ifndef ELTAUTOGEN_SIG\n#define ELTAUTOGEN_SIG\n"
+for i in 1..4
+str+="#define SHA_SIG#{i} \""
+sha=""
+sha=Digest::SHA1.digest(sigs[i-1]) if sigs[i-1]!=nil
+for i in 0...sha.size
+str+="\\x"+sha.getbyte(i).to_s(16).rjust(2,"0")
+end
+str+="\"\n"
+end
+str += "#endif"
+IO.binwrite("private/include/autogen_sig.h", str)
+key=IO.binread("private/appkey.dat")
+bs=[]
+(16380-key.bytesize).times {
+bs.push(SecureRandom.random_number(256))
+}
+rands=[]
+for i in 0...key.bytesize
+r=nil
+r=rand(bs.size+i) while r==nil||rands.include?(r)
+rands.push(r)
+end
+rands.sort!
+bytes=(0...32).to_a.shuffle
+for i in 0...rands.size
+bs.insert(rands[i], key.getbyte(bytes[i]))
+end
+str="#ifndef ELTAUTOGEN_SEC\n#define ELTAUTOGEN_SEC\n#define SECR \""
+for b in bs
+str+="\\x"+b.to_s(16).rjust(2,"0")
+end
+str+="\"\n#define genkey(s,key) if(1){ "
+for i in (0...32).to_a.shuffle
+str+="key[#{bytes[i].to_s}]=s[#{rands[i].to_s}];"
+end
+str+=" }\n#endif"
+IO.binwrite("private/include/autogen_secr.h",str)
+puts("Signature generated.")
+end
+
+desc "Build Elten library"
+task :lib do 
+if !FileTest.exists?("vendor/vswhere.exe")
+raise("Cannot locate VSWhere executable, did you remember to update git submodules?")
+end
+Rake::Task["sig"].invoke if !FileTest.exists?("vendor/include")
+j = Open3.capture3("vendor\\vswhere.exe -format json -requires Microsoft.Component.MSBuild")[0]
+vsversions=JSON.parse(j)
+msv=nil
+for v in vsversions
+next if !v['isComplete'] || !v['isLaunchable']
+if msv==nil
+msv=v
+else
+vers=v['installationVersion'].split(".")
+pvers=msv['installationVersion'].split(".")
+suc=true
+suc=false if vers[0].to_i<14
+suc=false if !FileTest.exists?(v['installationPath']+"\\MSBuild\\current\\Bin\\MSBuild.exe")
+for i in 0...vers.size
+if (pvers[i]||0).to_i > vers[i].to_i
+suc=false
+break
+end
+end
+msv=v if suc
+end
+if msv==nil
+raise("No suitable Visual Studio version could be found, required Visual Studio 2015 or newer.")
+end
+puts("Using #{msv['displayName']}")
+msbpath = msv['installationPath']+"\\MSBuild\\current\\Bin\\MSBuild.exe"
+puts Open3.capture3("\"#{msbpath}\" lib\\eltenvc\\eltenvc.sln -nologo -m /consoleLoggerParameters:Verbosity=minimal;;errorsonly 2>&1")[0].force_encoding("utf-8")
+if FileTest.exists?("out/lib/eltenvc.dll")
+puts("Library compiled.")
+end
+end
+end
+
+desc "Build locale files"
+task :locale do 
+ge=false
+begin
+require "gettext"
+require "gettext/po_parser"
+rescue Exception
+if ge==false
+ge=true
+puts("Gettext not found, trying to install")
+install_gem("gettext")
+retry
+else
+fail
+end
+end
+Dir.mkdir("out") if !FileTest.exists?("out")
+Dir.mkdir("out/locale") if !FileTest.exists?("out/locale")
+for f in Dir.glob("locale/*/lc_messages/elten.po")
+dir="out"
+for d in f.split("/")[0...-1]
+dir+="/"+d
+Dir.mkdir(dir) if !FileTest.exists?(dir)
+end
+parser = GetText::POParser.new
+parser.report_warning = false
+data = GetText::MO.new
+parser.parse_file(f, data)
+data.save_to_file(dir+"/elten.mo")
+end
+for f in Dir.glob("locale/*/*.md")
+dir="out"
+for d in f.split("/")[0...-1]
+dir+="/"+d
+Dir.mkdir(dir) if !FileTest.exists?(dir)
+end
+FileUtils.copy(f, dir+"/"+File.basename(f))
+end
+puts("Locale files compiled.")
+end
+
+desc "Create NVDA addon"
+task :nvda do 
+ge=false
+begin
+require "zip"
+rescue Exception
+if ge==false
+ge=true
+puts("rubyzip not found, trying to install")
+install_gem("rubyzip")
+retry
+else
+fail
+end
+end
+class ZipFileGenerator
+def initialize(input_dir, output_file)
+@input_dir = input_dir
+@output_file = output_file
+end
+def write
+entries = Dir.entries(@input_dir) - %w[. ..]
+::Zip::File.open(@output_file, ::Zip::File::CREATE) do |zipfile|
+write_entries entries, '', zipfile
+end
+end
+private
+def write_entries(entries, path, zipfile)
+entries.each do |e|
+zipfile_path = path == '' ? e : File.join(path, e)
+disk_file_path = File.join(@input_dir, zipfile_path)
+if File.directory? disk_file_path
+recursively_deflate_directory(disk_file_path, zipfile, zipfile_path)
+else
+put_into_archive(disk_file_path, zipfile, zipfile_path)
+end
+end
+end
+def recursively_deflate_directory(disk_file_path, zipfile, zipfile_path)
+zipfile.mkdir zipfile_path
+subdir = Dir.entries(disk_file_path) - %w[. ..]
+write_entries subdir, zipfile_path, zipfile
+end
+def put_into_archive(disk_file_path, zipfile, zipfile_path)
+zipfile.add(zipfile_path, disk_file_path)
+end
+end
+Dir.mkdir("out") if !FileTest.exists?("out")
+Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
+FileUtils.rm("out/Data/elten.nvda-addon") if FileTest.exists?("out/Data/elten.nvda-addon")
+ZipFileGenerator.new("screenreaders/NVDA", "out/Data/elten.nvda-addon").write
+puts("NVDA addon packed.")
+end
+
+desc "Build Elten"
+task :build do 
+if !FileTest.exists?("vendor/app")
+raise("Cannot locate vendor dependencies, did you remember to update git submodules?")
+end
+Rake::Task["lib"].invoke if !FileTest.exists?("out/lib/eltenvc.dll")
+Rake::Task["rgss"].invoke
+Rake::Task["agent"].invoke if !FileTest.exists?("out/agent.dat")
+Rake::Task["pot"].invoke if !FileTest.exists?("locale")
+Rake::Task["locale"].invoke if !FileTest.exists?("out/locale")
+Rake::Task["nvda"].invoke if !FileTest.exists?("out/Data/elten.nvda-addon")
+FileUtils.rm_rf("build") if FileTest.exists?("build")
+Dir.mkdir("build") if !FileTest.exists?("build")
+FileUtils.copy_entry("vendor/app", "build")
+FileUtils.copy_entry("app", "build")
+FileUtils.copy_entry("out/sofiles", "build/bin")
+FileUtils.copy("out/agent.dat", "build/bin")
+FileUtils.copy_entry("out/Data", "build/Data")
+FileUtils.copy_entry("out/locale", "build/locale")
+FileUtils.copy("out/lib/eltenvc.dll", "build")
+puts("Elten build completed.")
+end
+
+desc "Build Elten and all dependencies"
+task :buildall do 
+if !FileTest.exists?("vendor/app")
+raise("Cannot locate vendor dependencies, did you remember to update git submodules?")
+end
+Rake::Task["lib"].invoke
+Rake::Task["rgss"].invoke
+Rake::Task["agent"].invoke
+Rake::Task["pot"].invoke
+Rake::Task["locale"].invoke
+Rake::Task["nvda"].invoke
+if !FileTest.exists?("build")
+Dir.mkdir("build")
+FileUtils.copy_entry("vendor/app", "build")
+FileUtils.copy_entry("app", "build")
+FileUtils.copy_entry("out/sofiles", "build/bin")
+end
+FileUtils.copy("out/agent.dat", "build/bin")
+FileUtils.copy_entry("out/Data", "build/Data")
+FileUtils.copy_entry("out/locale", "build/locale")
+FileUtils.copy("out/lib/eltenvc.dll", "build")
+puts("Elten full build completed.")
+end
+
+task :default do 
+Rake::Task["build"].invoke
+end
+
+desc "Clean built data"
+task :clean do 
+FileUtils.rm_rf("out")
+FileUtils.rm_rf("build")
+end
+
+desc "Build Elten and run it"
+task :run do 
+Rake::Task["build"].invoke
+Open3.popen3("build/elten.exe")
+end
+
+desc "Build Elten with all dependencies and run it"
+task :runall do 
+Rake::Task["buildall"].invoke
+Open3.popen3("build/elten.exe")
+end

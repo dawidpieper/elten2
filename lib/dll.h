@@ -29,6 +29,22 @@ void DLLIMPORT VorbisRecorderClose(int);
 BOOL DLLIMPORT CALLBACK WaveRecordProc(int handle, const void *buffer, DWORD length, void *user);
 int DLLIMPORT WaveRecorderInit(wchar_t*, int, int);
 void DLLIMPORT WaveRecorderClose(int);
+int DLLIMPORT SapiInit(void);
+int DLLIMPORT SapiSpeak(wchar_t *text);
+int DLLIMPORT SapiListVoices(wchar_t **, int);
+int DLLIMPORT SapiSetVoice(int);
+int DLLIMPORT SapiGetVoice(void);
+int DLLIMPORT SapiSetRate(int rate);
+int DLLIMPORT SapiGetRate(void);
+int DLLIMPORT SapiSetVolume(USHORT volume);
+USHORT DLLIMPORT SapiGetVolume(void);
+BOOL DLLIMPORT SapiIsSpeaking(void);
+wchar_t DLLIMPORT *SapiGetVoiceName(void);
+int DLLIMPORT SapiSetPaused(BOOL);
+BOOL DLLIMPORT SapiIsPaused(void);
+int DLLIMPORT SapiStop(void);
+int DLLIMPORT SapiSpeakSSML(wchar_t *text);
+wchar_t DLLIMPORT *SapiGetBookmark(void);
 }
 
 #endif
