@@ -276,10 +276,16 @@ def elten_command(ac):
 			eltenbrailletext=text+" "
 			regions=[]
 			for line in eltenbrailletext.split("\n"):
-				region=braille.TextRegion(line+"\n")
-				if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
-				region.update()
-				regions.append(region)
+				i=0
+				for phr in line.split(":"):
+					ph=""
+					if(i==0): ph=":"
+					ph+=phr
+					i+=1
+					region=braille.TextRegion(ph)
+					if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
+					region.update()
+					regions.append(region)
 			eltenbraille.regions=regions
 			if('pos' in ac): 
 				poses = eltenbraille.rawToBraillePos
@@ -306,7 +312,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 29}
+			return {'version': 30}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

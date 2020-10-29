@@ -14,6 +14,7 @@ require "fiddle"
 require "zlib"
 require "socket"
 require 'uri'
+require 'win32ole'
 require "http/2"
 require "./dlls.rb"
 require("./eltenapi.rb")
