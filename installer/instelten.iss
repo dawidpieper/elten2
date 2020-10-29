@@ -1,3 +1,5 @@
+#pragma include __INCLUDE__ + ";vendor\installer"
+
 [Setup]
 AppId={{9FE2B24B-49F4-4D0B-A36B-31F267F9B114}
 AppName=ELTEN
@@ -11,13 +13,13 @@ AppCopyright=Copyright (C) 2014-2020 Dawid Pieper
 DefaultDirName={pf}\ELTEN
 DefaultGroupName=ELTEN
 AllowNoIcons=yes
-OutputDir=.
+OutputDir=..\build
 OutputBaseFilename=elten_setup
 Compression=lzma2/max
 SolidCompression=yes
 RestartIfNeededByRun=no
 PrivilegesRequiredOverridesAllowed=commandline dialog
-LicenseFile=elten/gpl-3.0.rtf
+LicenseFile=..\vendor\installer\gpl-3.0.rtf
 
 #define Use_UninsHs_Default_CustomMessages
 
@@ -35,7 +37,7 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 //Name: "ext_update"; Description: "{cm:EltenUpdate}"; GroupDescription: "{cm:EltenUpdate}";
 
 [Files]
-Source: "elten\eltenc\*"; DestDir: "{app}"; Flags: "ignoreversion createallsubdirs recursesubdirs"
+Source: "..\build\elten\*"; DestDir: "{app}"; Flags: "ignoreversion createallsubdirs recursesubdirs"
 //Source: "{tmp}\elten.7z"; DestDir: "{app}"; Tasks: ext_update; \
 //  Flags: external; Check: DwinsHs_Check(ExpandConstant('{tmp}\elten.7z'), \
 //    'http://elten-net.eu/bin/download/elten.7z', 'INSTELTEN', 'get', 0, 0) 
@@ -62,7 +64,7 @@ Filename: "{userappdata}\elten\elten.ini"; Section: "Interface"; Key: "Language"
 
 #define DwinsHs_Use_Predefined_Downloading_WizardPage
 #define DwinsHs_Auto_Continue
-#include "dwinshs.iss"
+#include <dwinshs.iss>
 
 procedure InitializeWizard();
 begin

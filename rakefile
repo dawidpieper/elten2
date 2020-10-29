@@ -41,6 +41,15 @@ end
 return res
 end
 
+def locate_iscc
+locations=[ENV['ProgramFiles']+"\\Inno Setup 6", ENV['localappdata']+"\\Programs\\Inno Setup 6"]+ENV['path'].split(";").map{|c|c.chop! if c[-1..-1]=="\\"}
+for loc in locations
+l=loc+"\\iscc.exe"
+return l if FileTest.exists?(l)
+end
+return nil
+end
+
 desc "Create translation template"
 task :pot do 
 ge=false
@@ -299,7 +308,8 @@ raise("No suitable Visual Studio version could be found, required Visual Studio 
 end
 puts("Using #{msv['displayName']}")
 msbpath = msv['installationPath']+"\\MSBuild\\current\\Bin\\MSBuild.exe"
-puts Open3.capture3("\"#{msbpath}\" lib\\eltenvc\\eltenvc.sln -nologo -m /consoleLoggerParameters:Verbosity=minimal;;errorsonly 2>&1")[0].force_encoding("utf-8")
+stdout=Open3.capture3("\"#{msbpath}\" lib\\eltenvc\\eltenvc.sln -nologo -m /consoleLoggerParameters:Verbosity=minimal;;errorsonly 2>&1")[0].force_encoding("utf-8")
+puts stdout if stdout!=""
 if FileTest.exists?("out/lib/eltenvc.dll")
 puts("Library compiled.")
 end
@@ -412,15 +422,17 @@ Rake::Task["agent"].invoke if !FileTest.exists?("out/agent.dat")
 Rake::Task["pot"].invoke if !FileTest.exists?("locale")
 Rake::Task["locale"].invoke if !FileTest.exists?("out/locale")
 Rake::Task["nvda"].invoke if !FileTest.exists?("out/Data/elten.nvda-addon")
-FileUtils.rm_rf("build") if FileTest.exists?("build")
+if !FileTest.exists?("build")
 Dir.mkdir("build") if !FileTest.exists?("build")
-FileUtils.copy_entry("vendor/app", "build")
-FileUtils.copy_entry("app", "build")
-FileUtils.copy_entry("out/sofiles", "build/bin")
-FileUtils.copy("out/agent.dat", "build/bin")
-FileUtils.copy_entry("out/Data", "build/Data")
-FileUtils.copy_entry("out/locale", "build/locale")
-FileUtils.copy("out/lib/eltenvc.dll", "build")
+Dir.mkdir("build/elten") if !FileTest.exists?("build/elten")
+FileUtils.copy_entry("vendor/app", "build/elten")
+FileUtils.copy_entry("app", "build/elten")
+FileUtils.copy_entry("out/sofiles", "build/elten/bin")
+end
+FileUtils.copy("out/agent.dat", "build/elten/bin")
+FileUtils.copy_entry("out/Data", "build/elten/Data")
+FileUtils.copy_entry("out/locale", "build/elten/locale")
+FileUtils.copy("out/lib/eltenvc.dll", "build/elten")
 puts("Elten build completed.")
 end
 
@@ -435,16 +447,16 @@ Rake::Task["agent"].invoke
 Rake::Task["pot"].invoke
 Rake::Task["locale"].invoke
 Rake::Task["nvda"].invoke
-if !FileTest.exists?("build")
+FileUtils.rm_rf("build")
 Dir.mkdir("build")
-FileUtils.copy_entry("vendor/app", "build")
-FileUtils.copy_entry("app", "build")
-FileUtils.copy_entry("out/sofiles", "build/bin")
-end
-FileUtils.copy("out/agent.dat", "build/bin")
-FileUtils.copy_entry("out/Data", "build/Data")
-FileUtils.copy_entry("out/locale", "build/locale")
-FileUtils.copy("out/lib/eltenvc.dll", "build")
+Dir.mkdir("build/elten")
+FileUtils.copy_entry("vendor/app", "build/elten")
+FileUtils.copy_entry("app", "build/elten")
+FileUtils.copy_entry("out/sofiles", "build/elten/bin")
+FileUtils.copy("out/agent.dat", "build/elten/bin")
+FileUtils.copy_entry("out/Data", "build/elten/Data")
+FileUtils.copy_entry("out/locale", "build/elten/locale")
+FileUtils.copy("out/lib/eltenvc.dll", "build/elten")
 puts("Elten full build completed.")
 end
 
@@ -461,11 +473,23 @@ end
 desc "Build Elten and run it"
 task :run do 
 Rake::Task["build"].invoke
-Open3.popen3("build/elten.exe")
+Open3.popen3("build/elten/elten.exe")
 end
 
 desc "Build Elten with all dependencies and run it"
 task :runall do 
 Rake::Task["buildall"].invoke
-Open3.popen3("build/elten.exe")
+Open3.popen3("build/elten/elten.exe")
+end
+
+desc "Create Elten installer"
+task :setup do 
+Rake::Task["build"].invoke if !FileTest.exists?("build/elten")
+loc = locate_iscc
+if loc==nil
+raise("Failed to locate InnoSetup6 installation. Make sure that InnoSetup is installed in your \"Program Files\" or add it to path.")
+end
+stdout = Open3.capture3("\"#{loc}\" /q installer/instelten.iss 2>&1")[0]
+puts stdout
+puts("Installer compiled.") if stdout==""
 end
