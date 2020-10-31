@@ -190,7 +190,7 @@ $start = Time.now.to_i
 $thr1=Thread.new{thr1} if $thr1==nil
 $thr2=Thread.new{thr2} if $thr2==nil
                     if FileTest.exists?("Data/langs.dat")
-                      Lists.langs=load_data("Data/langs.dat")
+                      Lists.langs=Marshal.load(Zlib::Inflate.inflate(readfile("Data/langs.dat")))
                     else
                       Lists.langs={}
                     end
