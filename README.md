@@ -26,7 +26,7 @@ One of the goals of Release 3.0 is to develop a new engine that will completely 
 # Building
 It is probably possible to run Elten using one of the open source implementations of the RGSS engine. However, this solution has never been tested by me.
 
-If someone manages to prepare one of these engines to work with Elten, I would be very grateful for contact, perhaps it will remove the proprietary solution required to start the project.
+If someone manages to prepare one of these engines to work with Elten, I would be very grateful for contact, perhaps it will remove the proprietary solution required to launch this program.
 
 Currently, the recommended procedure for building your code is to generate script files and replace them with the scripts loaded by RGSS Player.
 
