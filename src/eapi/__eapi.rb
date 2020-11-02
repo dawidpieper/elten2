@@ -480,13 +480,18 @@ def self.finalize(id)
 @@handlers[id]=nil
 end
 def position
-return SetFilePointer.call(@handler, 0, nil, 1)
+  phi="\0"*4
+lo=SetFilePointer.call(@handler, 0, phi, 1)
+return lo+phi.unpack("I").first*(2**32)
 end
 def position=(pt)
-SetFilePointer.call(@handler, pt, nil, 0)
+  lo=pt&(2**32-1)
+  hi=pt>>32
+  phi=[hi].pack("I")
+SetFilePointer.call(@handler, lo, phi, 0)
 end
 def read(size)
-buf="\0"*size
+  buf="\0"*size
 rd=[0].pack("i")
 ReadFile.call(@handler, buf, size, rd, nil)
 return buf[0...rd.unpack("I").first]

@@ -257,7 +257,11 @@ if @fields[@index]!=nil && @accept_button!=nil && !@fields[@index].is_a?(Button)
                   @hidden[index]=false
                   end
                 def focus(index=nil,count=nil)
-                  @fields[@index].focus(@index, @fields.size) if @fields[@index]!=nil
+                  if @fields[@index]!=nil
+                    @fields[@index].trigger(:before_focus)
+                  @fields[@index].focus(@index, @fields.size)
+                  @fields[@index].trigger(:focus)
+                  end
                 end
                 def key_processed(k)
                   if k==:tab
@@ -1476,6 +1480,7 @@ attr_reader :selected
 attr_accessor :silent
 attr_accessor :header
 attr_accessor :prevent_indexspeaking
+attr_accessor :autosayoption
 # Creates a listbox
 #
 class Flags
@@ -1509,6 +1514,7 @@ self.options=(options)
 @silent=((flags & Flags::Silent)>0)
             header="" if header==nil
                                     @header = header
+                                    @autosayoption=true
                                                   focus if quiet == false
                                         end
             
@@ -1687,6 +1693,7 @@ j+=($keyr[0x10])?(-l):(l)
     end
     if expanded?
       trigger(:expand, self.index)
+      trigger(:selectexpand, self.index)
       end
     self.index = 0 if self.index >= options.size
   if self.index == -1
@@ -1712,7 +1719,7 @@ o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
 o=("\004NEW\004"+" "+((Configuration.soundthemeactivation==1)?"":$1+" ")+o).gsub(/\004INFNEW\{([^\}]+)\}\004/,"")
 }
 o=o.gsub(/\[#{Regexp.escape(@tag)}\]/i, "") if @tag!=nil
-  lspeak(o) if !ishidden(self.index) && self.index>=0
+  lspeak(o) if !ishidden(self.index) && self.index>=0 && @autosayoption!=false
   play("list_checked", 100, 100, self.index.to_f/(options.size-1).to_f*100.0) if @selected[self.index] == true
   focus(nil, nil, @header, false)
 end
@@ -1755,7 +1762,7 @@ elsif oldindex == self.index and @run == true and (k.chrsize<=1 or (@options[sel
     return pos
     end
   def lspeak(text)
-    speak(text,1,true,nil,true,lpos)
+        speak(text,1,true,nil,true,lpos)
     end
   
 def focus(index=nil, count=nil, header=@header, spk=true)
@@ -2611,12 +2618,18 @@ lsel = menulr(options,true,0,"",true)
          attr_reader :sel
          attr_accessor :header
          attr_reader :column
-                  def initialize(columns=[], rows=[], index=0, header="", quiet=false)
+                           def initialize(columns=[], rows=[], index=0, header="", quiet=false)
            @columns, @rows = columns, rows
            @column=0
            @header=header
            @sel = ListBox.new(format_rows(@column), header, index, 0, quiet)
            @sel.on(:move) {trigger(:move)}
+          end
+           def autosayoption
+             @sel.autosayoption
+           end
+           def autosayoption=(a)
+             @sel.autosayoption=a
          end
          def options
            @sel.options
