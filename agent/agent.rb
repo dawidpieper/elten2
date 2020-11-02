@@ -1,3 +1,9 @@
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
+
 Encoding.default_internal=Encoding::UTF_8
 $VERBOSE = nil
 require "base64"
@@ -237,8 +243,8 @@ sock.flush
 }
 sockthread = Thread.new {
 while !sock.closed? && !sock.eof?
-data = sock.read_nonblock(1024)
-http << data
+dt = sock.read_nonblock(1024)
+http << dt
 end
 }
 stream = http.new_stream
@@ -261,13 +267,13 @@ end
 end
 headers={}
 body=""
-stream.on(:headers) {|h|headers=h}
+stream.on(:headers) {|hd|headers=hd.map{|h|h[0]+": "+h[1]}.join("\n")}
 stream.on(:data) {|ch| body+=ch}
 stream.on(:half_close) {stream.close}
 stream.on(:close) {
 http.goaway
 sock.close
-d={}
+d={'func'=>'readurl'}
 d['id']=data['id']
 d['body']=body
 d['headers']=headers
