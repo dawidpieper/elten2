@@ -380,6 +380,7 @@ s=selectcontact
     attr_accessor :check
     attr_accessor :max_length
     attr_accessor :header
+    attr_accessor :audiostream
     def initialize(header="",type=0,text="",quiet=true,init=false,silent=false, max_length=-1)
       if type.is_a?(String)
         Log.warning("Text flags are no longer supported: "+Kernel.caller.join(" "))
@@ -1280,6 +1281,9 @@ def value
                               NVDA.braille(@header.to_s+"\n"+@text, @header.to_s.size+2+@index-1,false,0,nil,@header.to_s.size+2+@index-1) if NVDA.check
                               if @audiotext!=nil
                                 @audioplayer = Player.new(@audiotext, @header, false, true)
+                                @audioplayed=false
+                              elsif @audiostream!=nil
+                                @audioplayer = Player.new(nil, @header, false, true,@audiostream)
                                 @audioplayed=false
                               end
                               if @audioplayer!=nil
@@ -2703,13 +2707,15 @@ super
            attr_reader :sound
            attr_reader :pause
            attr_accessor :label
-                        def initialize(file,label="", autoplay=true, quiet=false)
+                        def initialize(file,label="", autoplay=true, quiet=false,stream=nil)
                           Programs.emit_event(:player_init)
-                          file=$url+file[1..-1] if FileTest.exists?(file)==false && file[0..0]=="/"
+                          file=$url+file[1..-1] if file!=nil && FileTest.exists?(file)==false && file[0..0]=="/"
                           @label=label
                                                       speak(label) if label!="" and quiet==false
                                                       if file.is_a?(String)
 setsound(file)
+elsif file==nil
+  setstream(stream)
 else
   @sound=file
   @file=@sound.file
@@ -2725,6 +2731,16 @@ def setsound(file)
 @sound = Bass::Sound.new(file,1)
 @basefrequency=@sound.frequency
 @file=file
+@sound.volume=0.8
+rescue Exception
+  @sound=nil
+  @file=nil
+  alert(p_("EAPI_Common", "This file cannot be played."))
+end   
+def setstream(stream)
+@sound = Bass::Sound.new(nil,1,false,false,stream)
+@basefrequency=@sound.frequency
+@file=nil
 @sound.volume=0.8
 rescue Exception
   @sound=nil
@@ -2760,7 +2776,7 @@ h=d/3600
   s=d-d/60*60
   speak(sprintf("%0#{(h.to_s.size<=2)?2:d.to_s.size}d:%02d:%02d",h,m,s))
     end
-    if $key[74] && !@file.include?("http")
+    if $key[74] && @file!=nil && !@file.include?("http:")
             @sound.pause
       dpos=input_text(p_("EAPI_Common", "Type a second to which you want to move."),0,@sound.position.to_s,true)
       dpos=@sound.position if dpos==nil
@@ -2770,7 +2786,7 @@ h=d/3600
       @sound.position=dpos
       loop_update
       end
-    if ($key[0x53] or ($keyr[0x10] and enter)) and @file.include?("http")
+    if ($key[0x53] or ($keyr[0x10] and enter)) and @file!=nil && @file.include?("http:")
       savefile
           end
     if $keyr[0x10]              ==false && $keyr[0x11]==false

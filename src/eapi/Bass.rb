@@ -180,18 +180,23 @@ BASS_SetDevice.call(card) if card>0
     return Sample.new(filename, max)
   end
 
-  def self.loadStream(filename,pos=0, u3d=false)
-    return Stream.new(filename,pos, 10, u3d)
+  def self.loadStream(filename,pos=0, u3d=false,stream=nil)
+    return Stream.new(filename,pos, 10, u3d,stream)
   end
-
-  class Sample
+  
+  
+    class Sample
+    @@exiters={}
     attr_reader :ch
-    def initialize(filename, max = 1)
-      if filename[0..3]=="http"
+        def initialize(filename, max = 1)
+                    ObjectSpace.define_finalizer(self,
+          self.class.method(:finalize).to_proc)
+           if filename[0..3]=="http"
         return Bass::Stream.new(filename)
       else
         @handle = BASS_SampleLoad.call(0, unicode(filename), 0, 0, 0, max, 0x20000|0x80000000|0x200000)
-          end
+      end
+      @@exiters[self.id]=[@handle]
       @ch=BASS_SampleGetChannel.call(@handle,0)
       if @handle == 0 then
         return Bass::Stream.new(filename)        
@@ -203,11 +208,19 @@ BASS_SetDevice.call(card) if card>0
               @ch=BASS_SampleGetChannel.call(@handle,0)
               end
     def free
-      if BASS_SampleFree.call(@handle) == 0 then
-        #raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
+      BASS_SampleFree.call(@handle)
+        @@exiters[self.id]=nil
     end
 
+    def self.finalize(id)
+      if @@exiters[id].is_a?(Array)
+        for e in @@exiters[id]
+  BASS_SampleFree.call(e)
+end
+@@exiters[id]=nil
+end
+end
+    
     def play(option = {})
       ch = @ch||BASS_SampleGetChannel.call(@handle, 1)
       if ch == 0 then
@@ -270,12 +283,20 @@ BASS_SetDevice.call(card) if card>0
   end
 
   class Stream
+        @@exiters={}
+        
     attr_reader :ch
-    def initialize(filename,pos=0,tries=10, u3d=false)
+    def initialize(filename,pos=0,tries=10, u3d=false, stream=nil)
+      ObjectSpace.define_finalizer(self,
+  self.class.method(:finalize).to_proc)
       pos=pos.to_i          
       flags=0
       flags|=0x200000 if Configuration.usefx==1
-            if filename[0..3]=="http"
+      @stream=stream
+      @@exiters[self.id]=[]
+            if filename==nil && stream!=nil
+                                    @cha = BASS_StreamCreateFile.call(1,@stream, 0, 0, @stream.bytesize, 0, flags)
+                                                        elsif filename[0..3]=="http"
                       @cha = BASS_StreamCreateURL.call(unicode(filename), pos, 0x80000000|flags, 0, 0)
                 else
                   for i in 1..10      
@@ -287,13 +308,15 @@ BASS_SetDevice.call(card) if card>0
                   end
                   end
                 end
-      if @cha == 0
+                      if @cha == 0
         return initialize(filename,pos=0,tries-1) if tries>0 and !$DEBUG
                 #print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
               end
+              @@exiters[self.id].push(@cha)
               if Configuration.usefx == 1
               @@BASS_FX_TempoCreate ||= Win32API.new(BassfxLib, "BASS_FX_TempoCreate", 'ii', 'i')
                       @ch = @@BASS_FX_TempoCreate.call(@cha, 0)
+                      @@exiters[self.id].push(@ch)
                     else
                       @ch=@cha
                       end
@@ -309,7 +332,16 @@ BASS_SetDevice.call(card) if card>0
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
         end
-    end
+      end
+      
+      def self.finalize(id)
+              if @@exiters[id].is_a?(Array)
+        for e in @@exiters[id]
+  BASS_StreamFree.call(e)
+end
+@@exiters[id]=nil
+end
+end
 
     def play(option = {})
       if option[:loop] then
@@ -368,23 +400,27 @@ BASS_SetDevice.call(card) if card>0
      include Bass
      attr_reader :file
      attr_reader :basefrequency
-     def initialize(file,type=1, looper=false, u3d=false)
+     def initialize(file,type=1, looper=false, u3d=false, stream=nil)
        @looper=looper
               @file=file
        @startposition=0
+       if file!=nil
        ext=File.extname(file).downcase
        type=1 if file[0..3]=="http"
+     else
+       type=1
+       end
        @type=type
-       case type
-       when 1         
-         begin
-         @cls=Bass.loadStream(file,0,u3d)
-       rescue Exception
+              case type
+              when 1         
+                         begin
+         @cls=Bass.loadStream(file,0,u3d,stream)
+                rescue Exception
          Log.error("Cannot play audio file: #{file}")
        end
          else
                       @cls=Bass.loadSample(file)
-                    end
+                                          end
                     return nil if @cls==nil
                   @channel=@cls.ch
                                     @basefrequency=frequency
@@ -427,6 +463,7 @@ BASS_SetDevice.call(card) if card>0
        BASS_ChannelPause.call(@channel) if @cls!=nil
        end
      def free
+       @stream=nil
        if @closed!=true and @cls!=nil
          @cls.free
          end
