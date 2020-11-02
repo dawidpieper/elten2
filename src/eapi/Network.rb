@@ -120,6 +120,62 @@ end
 $eltsocks_close[id]=nil
 return b
 end
+
+def readurl(url, body=nil, headers=nil)
+          Log.debug("Read URL #{url}")
+                              play("signal") if $netsignal
+                      headers={} if headers==nil
+                      if body!=nil && body.is_a?(Hash)
+                        boundary=""
+while boundary=="" || post.include?(boundary)
+  boundary="----EltBoundary"+rand(36**32).to_s(36)
+end
+txt=""
+for h in data.keys
+txt+="--"+boundary+"\r\nContent-Disposition: form-data; name=\"#{h}\"\r\n\r\n#{post[h]}\r\n"
+end
+txt+="--#{boundary}--"
+body=txt
+                        headers['Content-Type']="multipart/form-data; boundary=#{boundary}"
+                        end
+if $agent!=nil
+                                                    id=rand(1e16)
+            $agent.write(Marshal.dump({'func'=>'readurl', 'url'=>url, 'id'=>id, 'headers'=>headers, 'body'=>body}))
+            $agids||=[]
+            $agids.push(id)
+            t=Time.now.to_f
+            w=false
+                while $eresps[id]==nil
+            loop_update(false)
+      if Time.now.to_f-t>2 and w==false
+        waiting
+        w=true
+      elsif Time.now.to_f-t>15
+        Log.warning("Session timed out for URL read from #{url}")
+        waiting_end
+return nil
+      end
+      if escape and w
+        play("cancel")
+        Log.debug("URL read request from #{url} cancelled by user")
+        waiting_end
+return nil
+      end
+      end
+      waiting_end if w
+      rsp=$eresps[id]
+return nil if rsp==nil
+if headers!=nil
+headers.clear
+for l in rsp['headers'].split("\n")
+  k,v=l.split(": ")
+headers[k]=v
+end
+end
+return rsp['body']
+end
+return nil
+      end
           
           # Downloads a file, creates download progress dialog
           #
@@ -133,15 +189,15 @@ end
             host=$url
             port=80
           cnt=""
-          if (/https?:\/\/([a-zA-Z0-9\-.,ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+)([\:0-9]+)?\/([a-zA-Z0-9\-.,\/\?_\+\=\&ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+)/=~url)!=nil
+          if (/https?:\/\/([a-zA-Z0-9\.\-]+)([\:0-9]+)?\/([^$]+)/=~url)!=nil
                         host=$1
             port=$2.to_i if $2.to_i!=0
-                        cnt = $3
+                        p cnt = $3
                       end
                                             addr = Socket.sockaddr_in(port.to_i, host)
                                             sock = Socket.new(2,0,0)
 sock.connect(addr).to_s
-data = "GET /#{cnt} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\n\r\n"
+p data = "GET /#{cnt} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\n\r\n"
 if $ruby != true
   s = sock.send(data)
 else
@@ -454,6 +510,7 @@ HTML_PreCodes = {
                     '&diams;'=>'&#9830;'
                   }
                   
+                                   
                   def html_decode(text)
                     t=text+""
                     for k in HTML_PreCodes.keys

@@ -46,14 +46,13 @@ module EltenAPI
     end
   text = text.to_s
   speechaudio  =""
-  text = text.gsub("\004LINE\004") {"\r\n"}
+  text = text.gsub("\004LINE\004") {"\n"}
 pre=""
 prei=0
-  text.encode!(Encoding::UTF_8) if $ruby == true
-  rx=/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/
-  txt=text+""  
-  txt.gsub(rx) do
-  pre=""
+    rx=/\004AUDIO\004(\*?[A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+\=_\n]+)\004AUDIO\004/
+      txt=text+""  
+        txt.gsub(rx) do
+          pre=""
       prei=0
       for i in 0..text.size-1
         pre+=text[i..i] if text[i..i+6]!="\004AUDIO\004"
@@ -61,13 +60,13 @@ prei=0
         break if text[i..i+6]=="\004AUDIO\004"
       end
       speech(pre)
-      for i in 0..prei
-        text[i]=0
-      end
-      text.delete!("\0")  
-  end
-      text.gsub!(/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/) do
+      (0..prei).each{|i| text[i]=0 }
+            text.delete!("\0")
+    end
+    rx=/\004AUDIO\004(\*?[A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+\=_\n]+)\004AUDIO\004/
+      text.gsub!(rx) do
         s=$1
+        if s[0..0]!="*"
                                 if s[0..0]=="/"
    s[0]=0
    s.delete!("\0")
@@ -76,25 +75,11 @@ prei=0
         if FileTest.exists?(s) or s[0..3].downcase=="http"
         speechaudio=s.to_s
       end
+    else
+      speechaudio=s.to_s
+      end
       ""
       end
-              $trans1 = [] if $t1 == nil
-  $trans2 = [] if $t2 == nil
-  if $translation == true
-    suc = false
-    for i in 0..$trans1.size - 1
-      if $trans1[i] == text
-        suc = true
-        end
-      end
-      if suc == false
-        std = $stdout
-    $trans1.push(text)
-    $trans2.push(text)
-    std.reopen("trans","w")
-    std.puts(text + "\\|\\" + text)
-    end
-    end
   if text == " "
     if Configuration.soundthemeactivation != 0
     play("edit_space")
@@ -107,11 +92,9 @@ prei=0
     play("edit_endofline")
     return if speechaudio==""
   end
-  if text.size!=0
-      if ((l=text.split("")).size==1) and l[0].bigletter
+  if text.size!=0 and ((l=text.split("")).size==1) and l[0].bigletter
       play("edit_bigletter")
-      end
-        end
+              end
     if speechaudio!=""
       @@speechaudiofile=speechaudio
   @@speechaudiotext=text
@@ -120,10 +103,13 @@ prei=0
       @@speechaudio.close
       end
       @@speechaudio.close if @@speechaudio!=nil
+      if @@speechaudiofile[0..0]!="*"
       speechaudio=Bass::Sound.new(@@speechaudiofile)    
+    else
+      speechaudio=Bass::Sound.new(nil, 1, false, false, Base64.strict_decode64(@@speechaudiofile[1...-1]))    
+      end
       @@speechaudiothread=Thread.new do
              @@speechaudiofile            
-                                                                                                    if true
                                                   @@speechaudio.close if @@speechaudio!=nil and @@speechaudio.closed==false
                          @@speechaudio=speechaudio
       while speech_actived(true)
@@ -134,8 +120,7 @@ prei=0
                               speechaudio.close
                           @@speechaudio=nil
         speech(text)
-        end
-      end
+              end
       return
     end
   if text != ""

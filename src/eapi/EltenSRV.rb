@@ -48,8 +48,7 @@ post=txt
             $agent.write(Marshal.dump({'func'=>'srvproc','mod'=>mod,'param'=>param,'id'=>id, 'headers'=>headers, 'post'=>post}))
             $agids||=[]
             $agids.push(id)
-                        $agent_wait=true
-            t=Time.now.to_f
+                                    t=Time.now.to_f
             w=false
                 while $eresps[id]==nil
             loop_update(false)
@@ -84,8 +83,7 @@ post=txt
     for i in 0...r.size
       r[i]+="\r\n"
     end
-    $agent_wait=false
-      return r
+          return r
     when 1
       return rsp['resp']
       when 3
@@ -165,8 +163,7 @@ end
             $agent.write(Marshal.dump({'func'=>'jproc','method'=>method,'path'=>path,'params'=>params,'id'=>id}))
             $agids||=[]
             $agids.push(id)
-                        $agent_wait=true
-            t=Time.now.to_f
+                                    t=Time.now.to_f
             w=false
                 while $jresps[id]==nil
             loop_update(false)

@@ -496,6 +496,11 @@ rd=[0].pack("i")
 ReadFile.call(@handler, buf, size, rd, nil)
 return buf[0...rd.unpack("I").first]
 end
+
+def close
+  CloseHandle.call(@@handlers[self.id]||0)
+@@handlers[self.id]=nil
+  end
 end
     
     def load_configuration

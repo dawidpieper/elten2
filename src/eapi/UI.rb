@@ -367,6 +367,9 @@ end
                   elsif d['func']=='srvproc'
                     $agids.delete(d['id'])
                                                   $eresps[d['id']]=d
+                                                elsif d['func']=='readurl'
+                                                                      $agids.delete(d['id'])
+                                                  $eresps[d['id']]=d
                                                 elsif d['func']=='jproc'
                                                   p d
                     $agids.delete(d['id'])

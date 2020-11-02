@@ -575,7 +575,7 @@ def position=(val,bytes=false)
         ld+=1
         break if (ld==400 and position<=0) or length(true)>=0
                 end
-      while position(true)<length(true)-128 or length(true)==0 or position(true)==0
+      while position(true)<length(true)-@basefrequency*4/1000*100 or length(true)==0 or position(true)==0
         sleep(0.05)
                 end
         pos=position
