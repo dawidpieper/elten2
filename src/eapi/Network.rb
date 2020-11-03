@@ -192,12 +192,12 @@ return nil
           if (/https?:\/\/([a-zA-Z0-9\.\-]+)([\:0-9]+)?\/([^$]+)/=~url)!=nil
                         host=$1
             port=$2.to_i if $2.to_i!=0
-                        p cnt = $3
+                        cnt = $3
                       end
                                             addr = Socket.sockaddr_in(port.to_i, host)
                                             sock = Socket.new(2,0,0)
 sock.connect(addr).to_s
-p data = "GET /#{cnt} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\n\r\n"
+data = "GET /#{cnt} HTTP/1.1\r\nHost: #{host}\r\nUser-Agent: Elten #{$version.to_s}\r\nAccept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8\r\nAccept-Language: pl,en-US;q=0.7,en;q=0.3\r\nAccept-Encoding: identity\r\nConnection: keep-alive\r\n\r\n"
 if $ruby != true
   s = sock.send(data)
 else

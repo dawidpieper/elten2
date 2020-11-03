@@ -485,9 +485,8 @@ lo=SetFilePointer.call(@handler, 0, phi, 1)
 return lo+phi.unpack("I").first*(2**32)
 end
 def position=(pt)
-  lo=pt&(2**32-1)
-  hi=pt>>32
-  phi=[hi].pack("I")
+  lo,hi = [pt].pack("q").unpack("iI")
+    phi=[hi].pack("I")
 SetFilePointer.call(@handler, lo, phi, 0)
 end
 def read(size)

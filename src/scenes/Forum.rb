@@ -529,7 +529,7 @@ return result
         groupmembers(@sgroups[@grpsel.index - @grpheadindex])
       }
       if @sgroups[@grpsel.index - @grpheadindex].role == 2
-        menu.option(p_("Forum", "Invite")) {
+        menu.option(p_("Forum", "Invite"), nil, "i") {
           u = input_user(p_("Forum", "User to invite"))
           if u != nil
               r = srvproc("forum_groups", { "ac" => "invite", "groupid" => @sgroups[@grpsel.index - @grpheadindex].id.to_s, "user" => u })
@@ -557,7 +557,7 @@ return result
       s = p_("Forum", "Accept invitation") if @sgroups[@grpsel.index - @grpheadindex].role == 5
       s = p_("Forum", "Ask to be enrolled in this group") if @sgroups[@grpsel.index - @grpheadindex].role == 0 && ((@sgroups[@grpsel.index - @grpheadindex].public && !@sgroups[@grpsel.index - @grpheadindex].open) || (@sgroups[@grpsel.index - @grpheadindex].open && !@sgroups[@grpsel.index - @grpheadindex].public))
       if s != ""
-        menu.option(s) {
+        menu.option(s, nil, "j") {
         if canjoin(@sgroups[@grpsel.index - @grpheadindex])
           if @sgroups[@grpsel.index - @grpheadindex].role == 0 && ((@sgroups[@grpsel.index - @grpheadindex].public && !@sgroups[@grpsel.index - @grpheadindex].open) || (@sgroups[@grpsel.index - @grpheadindex].open && !@sgroups[@grpsel.index - @grpheadindex].public))
             s = p_("Forum", "Do you wish to ask to be enrolled in %{groupname}")
@@ -592,7 +592,7 @@ return result
       s = p_("Forum", "Leave") if (@sgroups[@grpsel.index - @grpheadindex].role == 1 or @sgroups[@grpsel.index - @grpheadindex].role == 2 or @sgroups[@grpsel.index - @grpheadindex].role == 4) and @sgroups[@grpsel.index - @grpheadindex].founder != Session.name
       s = p_("Forum", "Refuse invitation") if @sgroups[@grpsel.index - @grpheadindex].role == 5
       if s != ""
-        menu.option(s) {
+        menu.option(s, nil, "l") {
           confirm(p_("Forum", "Are you sure you want to leave %{groupname}?")%{ "groupname" => @sgroups[@grpsel.index - @grpheadindex].name }) {
             g = srvproc("forum_groups", { "ac" => "leave", "groupid" => @sgroups[@grpsel.index - @grpheadindex].id.to_s })
             if g[0].to_i == 0
@@ -623,7 +623,7 @@ return result
         end
       }
       if @sgroups[@grpsel.index - @grpheadindex].founder == Session.name
-        menu.option(p_("Forum", "Edit group")) {
+        menu.option(p_("Forum", "Edit group"), nil, "e") {
           g = @sgroups[@grpsel.index - @grpheadindex]
           fields = [EditBox.new(p_("Forum", "Group name"), "", g.name, true), EditBox.new(p_("Forum", "Group description"), EditBox::Flags::MultiLine, g.description, true), ListBox.new([p_("Forum", "Hidden"), p_("Forum", "Public")], p_("Forum", "Group type"), g.public.to_i, 0, true), ListBox.new([p_("Forum", "open (everyone can join)"), p_("Forum", "Moderated (everyone can request)")], p_("Forum", "Group join type"), g.open.to_i, 0, true), nil, Button.new(_("Cancel"))]
           if g.recommended
@@ -1129,9 +1129,9 @@ form.fields[1].options.push(t)
 end
 form.focus
     }
-    if tag.size>=2
+    if tag.size>2
       menu.option(p_("Forum", "Edit tag value"), nil, "e") {
-      t=input_text(p_("Forum", "Tag value"), 0, t[form.fields[1].index+2], true)
+      t=input_text(p_("Forum", "Tag value"), 0, tag[form.fields[1].index+2], true)
 if (/[\,\.\/\;\'\"\\\|\[\]\-\_\=\+]/=~t)!=nil
 alert(p_("Forum", "Tag values cannot contain punctuation characters"))
 t=nil
@@ -1243,7 +1243,7 @@ return tags
         forumsmain(@group)
       }
       if @sforums.size > 0
-        m.option(p_("Forum", "Edit forum")) {
+        m.option(p_("Forum", "Edit forum"), nil, "e") {
           form = Form.new([EditBox.new(p_("Forum", "Forum name"), "", @sforums[@frmsel.index].fullname, true), EditBox.new(p_("Forum", "Forum description"), EditBox::Flags::MultiLine, @sforums[@frmsel.index].description, true), nil, Button.new(_("Cancel"))])
           loop do
             loop_update
@@ -1667,7 +1667,7 @@ threadopen(@thrsel.index)
     if @sthreads.size > 0
       if (Session.moderator == 1 && @sthreads[@thrsel.index].forum.group.recommended) || @sthreads[@thrsel.index].forum.group.role == 2
         menu.submenu(p_("Forum", "Moderation")) {|m|
-        m.option(p_("Forum", "Move thread")) {
+        m.option(p_("Forum", "Move thread"), nil, "O") {
           selt = []
           ind = 0
           mforums = []
@@ -1756,7 +1756,7 @@ threadopen(@thrsel.index)
           end
         }
         if @sthreads[@thrsel.index].offered==0
-        m.option(p_("Forum", "Offer this thread to another group")) {
+        m.option(p_("Forum", "Offer this thread to another group"), nil, "o") {
         users=[]
 m = srvproc("forum_groups", { "ac" => "members", "groupid" => @sthreads[@thrsel.index].forum.group.id.to_s })
 if m[0].to_i==0
@@ -1783,7 +1783,7 @@ end
         @thrsel.focus
         }
       else
-        m.option(p_("Forum", "Withdraw the offer of this thread")) {
+        m.option(p_("Forum", "Withdraw the offer of this thread"), nil, "o") {
                 e=srvproc("forum_mod", {'offer'=>1, 'threadid'=>@sthreads[@thrsel.index].id, 'destination'=>0})
         if e[0].to_i<0
           alert(_("Error"))
@@ -1807,7 +1807,7 @@ end
         end
         if suc
           menu.submenu(p_("Forum", "Thread transfer offer to group %{groupname}")%{'groupname'=>gr.name}) {|m|
-          m.option(p_("Forum", "Accept this offer")) {
+          m.option(p_("Forum", "Accept this offer"), nil, "A") {
             forums=[]
             for f in @forums
               forums.push(f) if f.group.id==gr.id
@@ -1831,7 +1831,7 @@ else
               @thrsel.reload
               @thrsel.focus
           }
-          m.option(p_("Forum", "Refuse this offer")) {
+          m.option(p_("Forum", "Refuse this offer"), nil, "R") {
           f=srvproc("forum_mod", {'offerrefuse'=>1, 'threadid'=>@sthreads[@thrsel.index].id})
           if f[0].to_i<0
             alert(_("Error"))
@@ -2423,11 +2423,7 @@ loop do
       post = @posts[i]
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(String) and post.post.downcase.include?(@query.downcase)
       index = i * 3 if @mention != nil and (@param == -7 or @param == -11) and post.id == @mention.post
-      add=""
-      if post.edited
-        add="\r\n"+p_("Forum", "This post has been edited")
-        end
-      @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly, post.post + ((LocalConfig["ForumHideSignatures"]==1)?(""):(post.signature)) + post.date + add + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s, true), nil, nil]
+                  @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine|EditBox::Flags::ReadOnly, generate_posttext(post), true), nil, nil]
       @fields[-1] = ListBox.new(name_attachments(post.attachments), p_("Forum", "Attachments"), 0, 0, true) if post.attachments.size > 0
       if post.polls.size > 0
         names = []
@@ -2472,6 +2468,15 @@ loop do
     @attachments = []
     @form = Form.new(@fields, index)
     @form.bind_context(p_("Forum", "Forum")) {|menu|context(menu)}
+  end
+  
+  def generate_posttext(post)
+    add=""
+    i = @posts.find_index(post)||0
+      if post.edited
+        add="\r\n"+p_("Forum", "This post has been edited")
+      end
+    return post.post + ((post.likes>0)?(np_("Forum", "%{count} user likes this post", "%{count} users like this post", post.likes)%{'count'=>post.likes.to_s}+"\n"):("")) + ((LocalConfig["ForumHideSignatures"]==1)?(""):(post.signature)) + post.date + add + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s
     end
 
   def textsendupdate
@@ -2551,10 +2556,10 @@ loop do
     end
     if @threadclass.mention!=nil
       menu.submenu(p_("Forum", "Received mention")) {|m|
-      m.option(p_("Forum", "Show mention"), nil, "o") {
+      m.option(p_("Forum", "Show mention"), nil, "/") {
       input_text(p_("Forum", "Mention by %{user}")%{'user'=>@threadclass.mention.author}, EditBox::Flags::ReadOnly, @threadclass.mention.message, true)
       }
-      m.option(p_("Forum", "Send reply to mentioner")) {
+      m.option(p_("Forum", "Send reply to mentioner"), nil, "?") {
       to=@threadclass.mention.author
       subj="RE: "+@threadclass.mention.message.to_s+" ("+@threadclass.name+")"
       insert_scene(Scene_Messages_New.new(to, subj, "", Scene_Main.new))
@@ -2589,9 +2594,12 @@ else
   post.liked=!post.liked
   if post.liked
     alert(p_("Forum", "This post is now liked"))
-      else
+    post.likes+=1
+  else
+    post.likes-=1
     alert(p_("forum", "This post is no longer liked"))
-    end
+  end
+  @form.fields[@form.index/3*3].settext(generate_posttext(post))
 end
 }
 menu.option(p_("Forum", "Show post likes"), nil, "K") {
@@ -2614,7 +2622,7 @@ loop do
 end
 @form.focus
 }
-if post.edited
+if post.edited && !post.locked
   menu.option(p_("Forum", "Show original post")) {
   ps=srvproc("forum_postaction", {'threadid'=>@thread, 'postid'=>post.id, 'ac'=>'getorig'})
   if ps[0].to_i==0
@@ -2645,7 +2653,7 @@ end
         end
       }
       if @type != 1
-        m.option(p_("Forum", "Search in thread")) {
+        m.option(p_("Forum", "Search in thread"), nil, "F") {
           search = input_text(p_("Forum", "Enter a phrase to look for"), 0,"",true)
           if search != nil
             selt = []
@@ -2799,15 +2807,18 @@ refresh
       end
     }
     if @form.index < @postscount * 3 && (((Session.moderator == 1 && @threadclass.forum.group.recommended) || (@threadclass != nil && @threadclass.forum.group.role == 2)) || (@posts[@form.index / 3].author == Session.name))
+      post=@posts[@form.index/3]
       menu.submenu(p_("Forum", "Moderation")) { |m|
         if @type == 0
+                    if !post.locked
           m.option(p_("Forum", "Edit post"), nil, "e") {
             dialog_open
 edit_post(@posts[@form.index/3])
           }
         end
+        end
         if Session.moderator == 1 or @threadclass.forum.group.role == 2
-          m.option(p_("Forum", "Move post")) {
+          m.option(p_("Forum", "Move post"), nil, "O") {
             @struct = Scene_Forum.new.getstruct
             @groups = @struct["groups"]
             @forums = @struct["forums"]
@@ -2844,6 +2855,26 @@ edit_post(@posts[@form.index/3])
                 @lastpostindex = @form.index
                 main
               end
+            end
+          }
+          s=p_("Forum", "Lock post")
+          s=p_("Forum", "Unlock post") if post.locked
+          m.option(s) {
+          prm = {"postid"=>@posts[@form.index / 3].id, "threadid"=>@thread, "locking"=>1}
+          if post.locked
+            prm['locked']=0
+          else
+            prm['locked']=1
+          end
+          if srvproc("forum_mod", prm)[0].to_i==0
+            post.locked=!post.locked
+            if post.locked
+              alert(p_("Forum", "Post locked"))
+            else
+              alert(p_("Forum", "Post unlocked"))
+              end
+          else
+            alert(_("Error"))
             end
           }
           m.option(p_("Forum", "Delete post")) {
@@ -3037,7 +3068,7 @@ bookmarks=[]
         end
 
   def getcache
-    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details"=>2 })
+    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details"=>3 })
     return if c[0].to_i < 0
     @cache = c
     @cachetime = c[1].to_i
@@ -3078,6 +3109,12 @@ bookmarks=[]
         @posts.last.edited= l.to_b
         t += 1
         when 8
+          @posts.last.locked = l.to_b
+        t += 1
+          when 9
+            @posts.last.likes = l.to_i
+        t += 1
+        when 10
         if l.delete("\r\n") == "\004END\004"
           t = 0
         else
@@ -3205,6 +3242,8 @@ class Struct_Forum_Post
   attr_accessor :polls
   attr_accessor :liked
 attr_accessor :edited
+attr_accessor :locked
+attr_accessor :likes
   
   def initialize(id = 0)
     @id = id
@@ -3217,6 +3256,8 @@ attr_accessor :edited
     @polls = []
     @liked=false
     @edited=false
+    @locked=false
+    @likes=0
   end
 end
 
