@@ -387,6 +387,6 @@ return -1 if handler == -1
 sz = "\0"*8
 Win32API.new("kernel32","GetFileSizeEx",'ip','l').call(handler,sz)
 Win32API.new("kernel32","CloseHandle",'i','i').call(handler)
-return size = sz.unpack("L")[0]
+return size = sz.unpack("Q")[0]
   end
 end

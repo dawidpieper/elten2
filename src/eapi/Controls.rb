@@ -1729,7 +1729,7 @@ k=k.to_s if k.is_a?(Integer)
   play("list_focus", 100, 100, self.index.to_f/(options.size-1).to_f*100.0) if @silent == false
   trigger(:move, self.index)
 @run = false
-elsif oldindex == self.index and @run == true and (k.chrsize<=1 or (@options[self.index][0...k.size].upcase!=k.upcase))
+elsif oldindex == self.index and @run == true and (k.chrsize<=1 or (@options[self.index]!=nil and @options[self.index][0...k.size].upcase!=k.upcase))
     play("border", 100, 100, self.index.to_f/(options.size-1).to_f*100.0) if @silent == false
     trigger(:border, self.index)
     @run = false
