@@ -2776,7 +2776,11 @@ super
                 end
         end
   if $key[80]
+    d=0
+    begin
     d=@sound.position.to_i
+  rescue Exception
+    end
 h=d/3600
         m=(d-d/3600*3600)/60
   s=d-d/60*60

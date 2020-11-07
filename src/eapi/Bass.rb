@@ -67,6 +67,7 @@ module Bass
   }
 
   def self.soundcards
+    BASS_SetConfig.call(36, 1)
     BASS_SetConfig.call(42, 1)
     ret=[]
     index=0
@@ -76,7 +77,8 @@ module Bass
         o="\0"*1024
         Win32API.new("msvcrt","strcpy",'pp','i').call(o,a[0])
                 sc=(o[0...o.index("\0")])
-       ret.push(sc.delete("\0"))
+                name=sc.delete("\0")
+                       ret.push(name)
         index+=1
       end
     return ret
@@ -143,6 +145,7 @@ module Bass
   def self.init(hWnd, samplerate = 48000)
 return if @init==true
     @init=true
+    BASS_SetConfig.call(36, 1)
     if (BASS_GetVersion.call >> 16) != 0x0204 then
       raise("bass.dllバージョン2.4系以外には対応しておりません")
     end
@@ -150,7 +153,7 @@ return if @init==true
      card=-1
      card=@setdeviceoninit if @setdeviceoninit!=nil
     @@device=card
-      if BASS_Init.call(card, samplerate, 4, hWnd) == 0
+        if BASS_Init.call(card, samplerate, 4, hWnd) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
     plugins = ["bassopus", "bassflac", "bassmidi", "basswebm", "basswma", "bass_aac", "bass_ac3", "bass_spx"]

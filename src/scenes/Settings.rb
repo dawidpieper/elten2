@@ -233,6 +233,7 @@ def make_window
             @soundcards=Bass.soundcards
             @microphones=Bass.microphones
     @soundcards[0]=p_("Settings", "Use Default")
+    @soundcards.delete_at(1)
     @microphones=[p_("Settings", "Use Default")]+@microphones
     @soundcardsmapping=@soundcards.dup
     @soundcardsmapping[0]=""

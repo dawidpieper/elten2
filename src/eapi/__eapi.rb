@@ -516,6 +516,16 @@ end
     s=true
     end
   end
+  if Configuration.soundcard==""
+    Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(-1)
+  else
+    devices=listsapidevices
+    for i in 0...devices.size
+            if devices[i]==Configuration.soundcard
+                Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(i)
+        end
+      end
+    end
   Bass.setdevice(-1) if s==false
 Configuration.microphone = readconfig("SoundCard", "Microphone", "")
   s=false

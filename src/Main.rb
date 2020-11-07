@@ -10,11 +10,11 @@ end
 
 module Elten
 Version=2.4
-Beta=89
+Beta=90
 Alpha=0
 IsBeta=1
 BuildID=20201023001
-BuildDate=1604478758
+BuildDate=1604741841
 class <<self
   def version
   return Version
@@ -125,7 +125,11 @@ rescue SystemExit
           play("list_focus") if $exit==nil
   $toscene = true
     retry if $exit == nil
-    end
+  end
+rescue Exception
+  Log.error($!.class.name+": "+$!.message+" - "+$@.to_s)
+  Log.error("Critical exception occurred, terminating!")
+  fail
             ensure
             if $immediateexit!=true
   NVDA.join

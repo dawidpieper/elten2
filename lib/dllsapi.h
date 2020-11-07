@@ -21,6 +21,8 @@ BOOL DLLIMPORT SapiIsPaused(void);
 int DLLIMPORT SapiStop(void);
 int DLLIMPORT SapiSpeakSSML(wchar_t *text);
 wchar_t DLLIMPORT *SapiGetBookmark(void);
+int DLLIMPORT SapiListDevices(wchar_t **, int);
+int DLLIMPORT SapiSetDevice(int);
 
 }
 #endif

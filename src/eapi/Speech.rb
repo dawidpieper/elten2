@@ -448,6 +448,23 @@ wcscpy.call(ptr, m)
 voices.push(deunicode(ptr))
 end
 return voices
+end
+
+def listsapidevices
+            sz=Win32API.new($eltenlib, "SapiListDevices", 'pi', 'i').call(nil, 0)
+a=([nil]*sz).pack('p'*sz)
+Win32API.new($eltenlib, "SapiListDevices", 'pi', 'i').call(a, sz)
+mems=a.unpack("i"*sz)
+devices=[]
+wcslen=Win32API.new("msvcrt", "wcslen", 'i', 'i')
+wcscpy=Win32API.new("msvcrt", "wcscpy", 'pi', 'i')
+for m in mems
+len=wcslen.call(m)
+ptr="\0"*2*(len+1)
+wcscpy.call(ptr, m)
+devices.push(deunicode(ptr))
+end
+return devices
             end
  end
  include Speech

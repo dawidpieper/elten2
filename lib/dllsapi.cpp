@@ -234,3 +234,57 @@ wchar_t *bookmark;
 pVoice->GetStatus(NULL, &bookmark);
 return bookmark;
 }
+
+int SapiListDevices(wchar_t **devices, int size) {
+if(pVoice==NULL) SapiInit();
+if(pVoice==NULL) return 0;
+HRESULT hr = S_OK;
+CComPtr<IEnumSpObjectTokens> cpSpEnumTokens;
+if(!SUCCEEDED(hr = SpEnumTokens(SPCAT_AUDIOOUT, NULL, NULL, &cpSpEnumTokens))) return 0;
+CComPtr<ISpObjectToken> pSpTok;
+ULONG i=0;
+while(SUCCEEDED(hr = cpSpEnumTokens->Next(1, &pSpTok, NULL))) {
+wchar_t *ch = NULL;
+hr = pSpTok->GetStringValue(NULL, &ch);
+if((int)i<size) {
+int siz = wcslen(ch)+1;
+devices[i] = (wchar_t*)malloc(sizeof(wchar_t)*siz);
+if(devices[i]!=NULL)
+wcscpy_s(devices[i], siz, ch);
+}
+pSpTok.Release(); 
+++i;
+ULONG count;
+cpSpEnumTokens->GetCount(&count);
+if(i>=count) break;
+}
+return i;
+}
+
+int SapiSetDevice(int num) {
+HRESULT hr = S_OK;
+if(pVoice == NULL) SapiInit();
+if(pVoice==NULL) return 1;
+CComPtr<IEnumSpObjectTokens> cpSpEnumTokens;
+if(!SUCCEEDED(hr = SpEnumTokens(SPCAT_AUDIOOUT, NULL, NULL, &cpSpEnumTokens))) return 0;
+CComPtr<ISpObjectToken> pSpTok;
+if(num==-1) {
+pVoice->SetOutput(NULL, TRUE);
+return 0;
+}
+ULONG i=0;
+while(SUCCEEDED(hr = cpSpEnumTokens->Next(1, &pSpTok, NULL))) {
+wchar_t *ch = NULL;
+hr = pSpTok->GetStringValue(NULL, &ch);
+if(i==num) {
+pVoice->SetOutput(pSpTok, TRUE);
+return 0;
+}
+pSpTok.Release(); 
+++i;
+ULONG count;
+cpSpEnumTokens->GetCount(&count);
+if(i>=count) break;
+}
+return 2;
+}
