@@ -12,13 +12,13 @@
 # OpenStruct allows you to create data objects and set arbitrary attributes.
 # For example:
 #
-#   require 'ostruct' 
+#   require 'ostruct'
 #
 #   record = OpenStruct.new
 #   record.name    = "John Smith"
 #   record.age     = 70
 #   record.pension = 300
-#   
+#
 #   puts record.name     # -> "John Smith"
 #   puts record.address  # -> nil
 #
@@ -41,19 +41,19 @@ class OpenStruct
   #
   #   p data        # -> <OpenStruct country="Australia" population=20000000>
   #
-  # By default, the resulting OpenStruct object will have no attributes. 
+  # By default, the resulting OpenStruct object will have no attributes.
   #
-  def initialize(hash=nil)
+  def initialize(hash = nil)
     @table = {}
     if hash
-      for k,v in hash
+      for k, v in hash
         @table[k.to_sym] = v
         new_ostruct_member(k)
       end
     end
   end
 
-  # Duplicate an OpenStruct object members. 
+  # Duplicate an OpenStruct object members.
   def initialize_copy(orig)
     super
     @table = @table.dup
@@ -62,9 +62,10 @@ class OpenStruct
   def marshal_dump
     @table
   end
+
   def marshal_load(x)
     @table = x
-    @table.each_key{|key| new_ostruct_member(key)}
+    @table.each_key { |key| new_ostruct_member(key) }
   end
 
   def modifiable
@@ -88,7 +89,7 @@ class OpenStruct
   def method_missing(mid, *args) # :nodoc:
     mname = mid.id2name
     len = args.length
-    if mname.chomp!('=')
+    if mname.chomp!("=")
       if len != 1
         raise ArgumentError, "wrong number of arguments (#{len} for 1)", caller(1)
       end
@@ -117,22 +118,23 @@ class OpenStruct
 
     ids = (Thread.current[InspectKey] ||= [])
     if ids.include?(object_id)
-      return str << ' ...>'
+      return str << " ...>"
     end
 
     ids << object_id
     begin
       first = true
-      for k,v in @table
+      for k, v in @table
         str << "," unless first
         first = false
         str << " #{k}=#{v.inspect}"
       end
-      return str << '>'
+      return str << ">"
     ensure
       ids.pop
     end
   end
+
   alias :to_s :inspect
 
   attr_reader :table # :nodoc:
@@ -142,7 +144,7 @@ class OpenStruct
   # Compare this object and +other+ for equality.
   #
   def ==(other)
-    return false unless(other.kind_of?(OpenStruct))
+    return false unless (other.kind_of?(OpenStruct))
     return @table == other.table
   end
 end

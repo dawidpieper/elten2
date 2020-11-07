@@ -1,8 +1,8 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
 # Copyright (C) 2014-2020 Dawid Pieper
-# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
-# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
-# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
 
 module Bass
   BASS = Fiddle.dlopen("bass")
@@ -13,7 +13,7 @@ module Bass
   BASS_RecordStart = Fiddle::Function.new(BASS["BASS_RecordStart"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_GetConfig = Fiddle::Function.new(BASS["BASS_GetConfig"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_SetConfig = Fiddle::Function.new(BASS["BASS_SetConfig"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_GetDeviceInfo = Fiddle::Function.new(BASS["BASS_GetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_SetConfigPtr = Fiddle::Function.new(BASS["BASS_SetConfigPtr"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_Free = Fiddle::Function.new(BASS["BASS_Free"], [], Fiddle::TYPE_INT)
@@ -51,34 +51,34 @@ BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT]
     9 => "START", 14 => "ALREADY", 18 => "NOCHAN", 19 => "ILLTYPE", 20 => "ILLPARAM", 21 => "NO3D", 22 => "NOEAX", 23 => "DEVICE",
     24 => "NOPLAY", 25 => "FREQ", 27 => "NOTFILE", 29 => "NOHW", 31 => "EMPTY", 32 => "NONET", 33 => "CREATE", 34 => "NOFX",
     37 => "NOTAVAIL", 38 => "DECODE", 39 => "DX", 40 => "TIMEOUT", 41 => "FILEFORM", 42 => "SPEAKER", 43 => "VERSION", 44 => "CODEC",
-    45 => "ENDED", -1 => " UNKNOWN",
+    45 => "ENDED", -1 => " UNKNOWN"
   }
 
-def self.set_card(card, hWnd, samplerate = 44100)
-      devs=[]
-      c=-1
-      if card!=nil
-      index=1
-      tmp=[nil,nil,0].pack("ppi")
-      while BASS_GetDeviceInfo.call(index,tmp)>0
-        a=tmp.unpack("ii")
-        o="\0"*1024
-        $strcpy.call(o,a[0])
-       sc=o[0...o.index("\0")]
-Encoding.list.each {|a|
-begin
-b=sc.force_encoding(a).encode("UTF-8")
-        c=index if card==b
-rescue Exception
-end
-}
-        index+=1
-end
-end
-c=-1 if c==0
-BASS_Init.call(c, samplerate, 4, hWnd, nil)
-BASS_SetDevice.call(c)
-end
+  def self.set_card(card, hWnd, samplerate = 44100)
+    devs = []
+    c = -1
+    if card != nil
+      index = 1
+      tmp = [nil, nil, 0].pack("ppi")
+      while BASS_GetDeviceInfo.call(index, tmp) > 0
+        a = tmp.unpack("ii")
+        o = "\0" * 1024
+        $strcpy.call(o, a[0])
+        sc = o[0...o.index("\0")]
+        Encoding.list.each { |a|
+          begin
+            b = sc.force_encoding(a).encode("UTF-8")
+            c = index if card == b
+          rescue Exception
+          end
+        }
+        index += 1
+      end
+    end
+    c = -1 if c == 0
+    BASS_Init.call(c, samplerate, 4, hWnd, nil)
+    BASS_SetDevice.call(c)
+  end
 
   def self.init(hWnd, samplerate = 44100)
     return if @init == true
@@ -117,9 +117,8 @@ end
   class Sample
     attr_reader :ch
 
-def set_card(name)
-
-end
+    def set_card(name)
+    end
 
     def initialize(filename, max = 1)
       if filename[0..3] == "http"

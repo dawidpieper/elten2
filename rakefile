@@ -462,7 +462,7 @@ end
 Rake::Task["lib"].invoke
 Rake::Task["rgss"].invoke
 Rake::Task["agent"].invoke
-Rake::Task["pot"].invoke
+Rake::Task["pot"].invoke if !FileTest.exists?("locale")
 Rake::Task["locale"].invoke
 Rake::Task["nvda"].invoke
 Rake::Task["data"].invoke

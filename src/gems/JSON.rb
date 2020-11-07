@@ -2,11 +2,11 @@
 # frozen_string_literal: false
 module JSON
   # JSON version
-  VERSION         = '2.2.0'
-  VERSION_ARRAY   = VERSION.split(/\./).map { |x| x.to_i } # :nodoc:
-  VERSION_MAJOR   = VERSION_ARRAY[0] # :nodoc:
-  VERSION_MINOR   = VERSION_ARRAY[1] # :nodoc:
-  VERSION_BUILD   = VERSION_ARRAY[2] # :nodoc:
+  VERSION = "2.2.0"
+  VERSION_ARRAY = VERSION.split(/\./).map { |x| x.to_i } # :nodoc:
+  VERSION_MAJOR = VERSION_ARRAY[0] # :nodoc:
+  VERSION_MINOR = VERSION_ARRAY[1] # :nodoc:
+  VERSION_BUILD = VERSION_ARRAY[2] # :nodoc:
 end
 
 #frozen_string_literal: false
@@ -80,7 +80,6 @@ module JSON
   end
 end
 
-
 module JSON
   class << self
     # If _object_ is string-like, parse the string and return the parsed
@@ -115,7 +114,7 @@ module JSON
     def deep_const_get(path) # :nodoc:
       path.to_s.split(/::/).inject(Object) do |p, c|
         case
-        when c.empty?                  then p
+        when c.empty?            then p
         when p.const_defined?(c) then p.const_get(c)
         else
           begin
@@ -137,7 +136,7 @@ module JSON
         modul = generator_methods.const_get(const)
         klass.class_eval do
           instance_methods(false).each do |m|
-            m.to_s == 'to_json' and remove_method m
+            m.to_s == "to_json" and remove_method m
           end
           include modul
         end
@@ -146,17 +145,17 @@ module JSON
       const_set :State, self.state
       const_set :SAFE_STATE_PROTOTYPE, State.new
       const_set :FAST_STATE_PROTOTYPE, State.new(
-        :indent         => '',
-        :space          => '',
-        :object_nl      => "",
-        :array_nl       => "",
-        :max_nesting    => false
+        :indent => "",
+        :space => "",
+        :object_nl => "",
+        :array_nl => "",
+        :max_nesting => false
       )
       const_set :PRETTY_STATE_PROTOTYPE, State.new(
-        :indent         => '  ',
-        :space          => ' ',
-        :object_nl      => "\n",
-        :array_nl       => "\n"
+        :indent => "  ",
+        :space => " ",
+        :object_nl => "\n",
+        :array_nl => "\n"
       )
     ensure
       $VERBOSE = old
@@ -174,11 +173,11 @@ module JSON
     # hook of a class should be called. It defaults to 'json_class'.
     attr_accessor :create_id
   end
-  self.create_id = 'json_class'
+  self.create_id = "json_class"
 
-  NaN           = 0.0/0
+  NaN = 0.0 / 0
 
-  Infinity      = 1.0/0
+  Infinity = 1.0 / 0
 
   MinusInfinity = -Infinity
 
@@ -200,10 +199,12 @@ module JSON
 
   # :stopdoc:
   class CircularDatastructure < NestingError; end
+
   # :startdoc:
 
   # This exception is raised if a generator or unparser error occurs.
   class GeneratorError < JSONError; end
+
   # For backwards compatibility
   UnparserError = GeneratorError
 
@@ -252,8 +253,8 @@ module JSON
   #   defaults to false.
   def parse!(source, opts = {})
     opts = {
-      :max_nesting  => false,
-      :allow_nan    => true
+      :max_nesting => false,
+      :allow_nan => true
     }.merge(opts)
     Parser.new(source, opts).parse
   end
@@ -379,10 +380,10 @@ module JSON
     attr_accessor :load_default_options
   end
   self.load_default_options = {
-    :max_nesting      => false,
-    :allow_nan        => true,
-    :allow_blank       => true,
-    :create_additions => true,
+    :max_nesting => false,
+    :allow_nan => true,
+    :allow_blank => true,
+    :create_additions => true
   }
 
   # Load a ruby data structure from a JSON _source_ and return it. A source can
@@ -409,7 +410,7 @@ module JSON
       source = source.read
     end
     if opts[:allow_blank] && (source.nil? || source.empty?)
-      source = 'null'
+      source = "null"
     end
     result = parse(source, opts)
     recurse_proc(result, &proc) if proc
@@ -442,7 +443,7 @@ module JSON
   end
   self.dump_default_options = {
     :max_nesting => false,
-    :allow_nan   => true,
+    :allow_nan => true
   }
 
   # Dumps _obj_ as a JSON string, i.e. calls generate on the object and returns
@@ -536,21 +537,20 @@ end
 
 #frozen_string_literal: false
 
-
 module JSON
   module Pure
     # This class implements the JSON parser that is used to parse a JSON string
     # into a Ruby data structure.
     class Parser < StringScanner
-      STRING                = /" ((?:[^\x0-\x1f"\\] |
+      STRING = /" ((?:[^\x0-\x1f"\\] |
                                    # escaped special characters:
                                   \\["\\\/bfnrt] |
                                   \\u[0-9a-fA-F]{4} |
                                    # match all but escaped special characters:
                                   \\[\x20-\x21\x23-\x2e\x30-\x5b\x5d-\x61\x63-\x65\x67-\x6d\x6f-\x71\x73\x75-\xff])*)
                               "/nx
-      INTEGER               = /(-?0|-?[1-9]\d*)/
-      FLOAT                 = /(-?
+      INTEGER = /(-?0|-?[1-9]\d*)/
+      FLOAT = /(-?
                                 (?:0|[1-9]\d*)
                                 (?:
                                   \.\d+(?i:e[+-]?\d+) |
@@ -558,19 +558,19 @@ module JSON
                                   (?i:e[+-]?\d+)
                                 )
                                 )/x
-      NAN                   = /NaN/
-      INFINITY              = /Infinity/
-      MINUS_INFINITY        = /-Infinity/
-      OBJECT_OPEN           = /\{/
-      OBJECT_CLOSE          = /\}/
-      ARRAY_OPEN            = /\[/
-      ARRAY_CLOSE           = /\]/
-      PAIR_DELIMITER        = /:/
-      COLLECTION_DELIMITER  = /,/
-      TRUE                  = /true/
-      FALSE                 = /false/
-      NULL                  = /null/
-      IGNORE                = %r(
+      NAN = /NaN/
+      INFINITY = /Infinity/
+      MINUS_INFINITY = /-Infinity/
+      OBJECT_OPEN = /\{/
+      OBJECT_CLOSE = /\}/
+      ARRAY_OPEN = /\[/
+      ARRAY_CLOSE = /\]/
+      PAIR_DELIMITER = /:/
+      COLLECTION_DELIMITER = /,/
+      TRUE = /true/
+      FALSE = /false/
+      NULL = /null/
+      IGNORE = %r(
         (?:
          //[^\n\r]*[\n\r]| # line comments
          /\*               # c-style comments
@@ -585,7 +585,7 @@ module JSON
         )+
       )mx
 
-        UNPARSED = Object.new.freeze
+      UNPARSED = Object.new.freeze
 
       # Creates a new JSON::Pure::Parser instance for the string _source_.
       #
@@ -628,11 +628,11 @@ module JSON
           @create_additions = false
         end
         @symbolize_names && @create_additions and raise ArgumentError,
-          'options :symbolize_names and :create_additions cannot be used '\
-          'in conjunction'
+                                                        "options :symbolize_names and :create_additions cannot be used " \
+                                                        "in conjunction"
         @create_id = @create_additions ? JSON.create_id : nil
         @object_class = opts[:object_class] || Hash
-        @array_class  = opts[:array_class] || Array
+        @array_class = opts[:array_class] || Array
         @decimal_class = opts[:decimal_class]
         @match_string = opts[:match_string]
       end
@@ -651,11 +651,11 @@ module JSON
         obj = nil
         while !eos? && skip(IGNORE) do end
         if eos?
-         raise ParserError, "source is not valid JSON!"
+          raise ParserError, "source is not valid JSON!"
         else
           obj = parse_value
           UNPARSED.equal?(obj) and raise ParserError,
-            "source is not valid JSON!"
+                                         "source is not valid JSON!"
         end
         while !eos? && skip(IGNORE) do end
         eos? or raise ParserError, "source is not valid JSON!"
@@ -671,31 +671,31 @@ module JSON
           raise TypeError,
             "#{source.inspect} is not like a string"
         end
-                source
+        source
       end
 
       # Unescape characters in strings.
       UNESCAPE_MAP = Hash.new { |h, k| h[k] = k.chr }
       UNESCAPE_MAP.update({
-        ?"  => '"',
+        ?" => '"',
         ?\\ => '\\',
-        ?/  => '/',
-        ?b  => "\b",
-        ?f  => "\f",
-        ?n  => "\n",
-        ?r  => "\r",
-        ?t  => "\t",
-        ?u  => nil,
+        ?/ => "/",
+        ?b => "\b",
+        ?f => "\f",
+        ?n => "\n",
+        ?r => "\r",
+        ?t => "\t",
+        ?u => nil
       })
 
-      EMPTY_8BIT_STRING = ''
+      EMPTY_8BIT_STRING = ""
       if ::String.method_defined?(:encode)
         EMPTY_8BIT_STRING.force_encoding Encoding::ASCII_8BIT
       end
 
       def parse_string
         if scan(STRING)
-          return '' if self[1].empty?
+          return "" if self[1].empty?
           string = self[1].gsub(%r((?:\\[\\bfnrt"/]|(?:\\u(?:[A-Fa-f\d]{4}))+|\\[\x20-\xff]))n) do |c|
             if u = UNESCAPE_MAP[$&[1]]
               u
@@ -706,7 +706,7 @@ module JSON
                 bytes << c[6 * i + 2, 2].to_i(16) << c[6 * i + 4, 2].to_i(16)
                 i += 1
               end
-              JSON.iconv('utf-8', 'utf-16be', bytes)
+              JSON.iconv("utf-8", "utf-16be", bytes)
             end
           end
           if string.respond_to?(:force_encoding)
@@ -722,7 +722,7 @@ module JSON
         else
           UNPARSED
         end
-      #rescue => e
+        #rescue => e
         #raise ParserError, "Caught #{e.class} at '#{peek(20)}': #{e}"
       end
 
@@ -775,7 +775,6 @@ module JSON
             if scan(COLLECTION_DELIMITER)
               delim = true
             elsif match?(ARRAY_CLOSE)
-              ;
             else
               raise ParserError, "expected ',' or ']' in array at '#{peek(20)}'!"
             end
@@ -785,7 +784,6 @@ module JSON
             end
             break
           when skip(IGNORE)
-            ;
           else
             raise ParserError, "unexpected token in array at '#{peek(20)}'!"
           end
@@ -813,7 +811,6 @@ module JSON
               if scan(COLLECTION_DELIMITER)
                 delim = true
               elsif match?(OBJECT_CLOSE)
-                ;
               else
                 raise ParserError, "expected ',' or '}' in object at '#{peek(20)}'!"
               end
@@ -831,7 +828,6 @@ module JSON
             end
             break
           when skip(IGNORE)
-            ;
           else
             raise ParserError, "unexpected token in object at '#{peek(20)}'!"
           end
@@ -853,12 +849,12 @@ module JSON
     "\x5" => '\u0005',
     "\x6" => '\u0006',
     "\x7" => '\u0007',
-    "\b"  =>  '\b',
-    "\t"  =>  '\t',
-    "\n"  =>  '\n',
+    "\b" => '\b',
+    "\t" => '\t',
+    "\n" => '\n',
     "\xb" => '\u000b',
-    "\f"  =>  '\f',
-    "\r"  =>  '\r',
+    "\f" => '\f',
+    "\r" => '\r',
     "\xe" => '\u000e',
     "\xf" => '\u000f',
     "\x10" => '\u0010',
@@ -877,16 +873,16 @@ module JSON
     "\x1d" => '\u001d',
     "\x1e" => '\u001e',
     "\x1f" => '\u001f',
-    '"'   =>  '\"',
-    '\\'  =>  '\\\\',
+    '"' => '\"',
+    '\\' => '\\\\'
   } # :nodoc:
 
   # Convert a UTF8 encoded Ruby string _string_ to a JSON string, encoded with
   # UTF16 big endian characters as \u????, and return it.
   def utf8_to_json(string) # :nodoc:
     string = string.dup
-        string.gsub!(/["\\\x0-\x1f]/) { MAP[$&] }
-        string
+    string.gsub!(/["\\\x0-\x1f]/) { MAP[$&] }
+    string
   end
 
   def utf8_to_json_ascii(string) # :nodoc:
@@ -902,7 +898,7 @@ module JSON
       [\x80-\xc1\xf5-\xff]       # invalid
     )/nx) { |c|
       c.size == 1 and raise GeneratorError, "invalid utf8 byte: '#{c}'"
-      s = JSON.iconv('utf-16be', 'utf-8', c).unpack('H*')[0]
+      s = JSON.iconv("utf-16be", "utf-8", c).unpack("H*")[0]
       s.force_encoding(::Encoding::ASCII_8BIT)
       s.gsub!(/.{4}/n, '\\\\u\&')
       s.force_encoding(::Encoding::UTF_8)
@@ -915,7 +911,8 @@ module JSON
 
   def valid_utf8?(string)
     return true
-      end
+  end
+
   module_function :utf8_to_json, :utf8_to_json_ascii, :valid_utf8?
 
   module Pure
@@ -956,13 +953,13 @@ module JSON
         #   generated, otherwise an exception is thrown, if these values are
         #   encountered. This options defaults to false.
         def initialize(opts = {})
-          @indent                = ''
-          @space                 = ''
-          @space_before          = ''
-          @object_nl             = ''
-          @array_nl              = ''
-          @allow_nan             = false
-          @ascii_only            = false
+          @indent = ""
+          @space = ""
+          @space_before = ""
+          @object_nl = ""
+          @array_nl = ""
+          @allow_nan = false
+          @ascii_only = false
           @buffer_initial_length = 1024
           configure opts
         end
@@ -996,6 +993,7 @@ module JSON
             @buffer_initial_length = length
           end
         end
+
         # :startdoc:
 
         # This integer returns the current depth data structure nesting in the
@@ -1040,14 +1038,14 @@ module JSON
           for key, value in opts
             instance_variable_set "@#{key}", value
           end
-          @indent                = opts[:indent] if opts.key?(:indent)
-          @space                 = opts[:space] if opts.key?(:space)
-          @space_before          = opts[:space_before] if opts.key?(:space_before)
-          @object_nl             = opts[:object_nl] if opts.key?(:object_nl)
-          @array_nl              = opts[:array_nl] if opts.key?(:array_nl)
-          @allow_nan             = !!opts[:allow_nan] if opts.key?(:allow_nan)
-          @ascii_only            = opts[:ascii_only] if opts.key?(:ascii_only)
-          @depth                 = opts[:depth] || 0
+          @indent = opts[:indent] if opts.key?(:indent)
+          @space = opts[:space] if opts.key?(:space)
+          @space_before = opts[:space_before] if opts.key?(:space_before)
+          @object_nl = opts[:object_nl] if opts.key?(:object_nl)
+          @array_nl = opts[:array_nl] if opts.key?(:array_nl)
+          @allow_nan = !!opts[:allow_nan] if opts.key?(:allow_nan)
+          @ascii_only = opts[:ascii_only] if opts.key?(:ascii_only)
+          @depth = opts[:depth] || 0
           @buffer_initial_length ||= opts[:buffer_initial_length]
 
           if !opts.key?(:max_nesting) # defaults to 100
@@ -1059,6 +1057,7 @@ module JSON
           end
           self
         end
+
         alias merge configure
 
         # Returns the configuration instance variables as a hash, that can be
@@ -1081,7 +1080,7 @@ module JSON
         def generate(obj)
           result = obj.to_json(self)
           JSON.valid_utf8?(result) or raise GeneratorError,
-            "source sequence #{result.inspect} is illegal/malformed utf-8"
+                                            "source sequence #{result.inspect} is illegal/malformed utf-8"
           result
         end
 
@@ -1126,24 +1125,24 @@ module JSON
           private
 
           def json_shift(state)
-            state.object_nl.empty? or return ''
+            state.object_nl.empty? or return ""
             state.indent * state.depth
           end
 
           def json_transform(state)
-            delim = ','
+            delim = ","
             delim << state.object_nl
-            result = '{'
+            result = "{"
             result << state.object_nl
             depth = state.depth += 1
             first = true
             indent = !state.object_nl.empty?
-            each { |key,value|
+            each { |key, value|
               result << delim unless first
               result << state.indent * depth if indent
               result << key.to_s.to_json(state)
               result << state.space_before
-              result << ':'
+              result << ":"
               result << state.space
               if value.respond_to?(:to_json)
                 result << value.to_json(state)
@@ -1155,7 +1154,7 @@ module JSON
             depth = state.depth -= 1
             result << state.object_nl
             result << state.indent * depth if indent
-            result << '}'
+            result << "}"
             result
           end
         end
@@ -1174,9 +1173,9 @@ module JSON
           private
 
           def json_transform(state)
-            delim = ','
+            delim = ","
             delim << state.array_nl
-            result = '['
+            result = "["
             result << state.array_nl
             depth = state.depth += 1
             first = true
@@ -1194,7 +1193,7 @@ module JSON
             depth = state.depth -= 1
             result << state.array_nl
             result << state.indent * depth if indent
-            result << ']'
+            result << "]"
           end
         end
 
@@ -1232,7 +1231,7 @@ module JSON
           # \u????.
           def to_json(state = nil, *args)
             state = State.from_state(state)
-                          string = self
+            string = self
             if state.ascii_only?
               '"' << JSON.utf8_to_json_ascii(string) << '"'
             else
@@ -1247,7 +1246,7 @@ module JSON
             # array for the key "raw"). The Ruby String can be created by this
             # module method.
             def json_create(o)
-              o['raw'].pack('C*')
+              o["raw"].pack("C*")
             end
           end
 
@@ -1262,8 +1261,8 @@ module JSON
           # instead of UTF-8 strings, e. g. binary data.
           def to_json_raw_object
             {
-              JSON.create_id  => self.class.name,
-              'raw'           => self.unpack('C*'),
+              JSON.create_id => self.class.name,
+              "raw" => self.unpack("C*")
             }
           end
 
@@ -1276,29 +1275,28 @@ module JSON
 
         module TrueClass
           # Returns a JSON string for true: 'true'.
-          def to_json(*) 'true' end
+          def to_json(*) "true" end
         end
 
         module FalseClass
           # Returns a JSON string for false: 'false'.
-          def to_json(*) 'false' end
+          def to_json(*) "false" end
         end
 
         module NilClass
           # Returns a JSON string for nil: 'null'.
-          def to_json(*) 'null' end
+          def to_json(*) "null" end
         end
       end
     end
   end
 end
 
-
 module JSON
   # This module holds all the modules/classes that implement JSON's
   # functionality in pure ruby.
   module Pure
-        $DEBUG and warn "Using Pure library for JSON."
+    $DEBUG and warn "Using Pure library for JSON."
     JSON.parser = Parser
     JSON.generator = Generator
   end
