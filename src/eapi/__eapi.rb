@@ -192,6 +192,45 @@ module EltenAPI
     return b
   end
 
+  class SpellCheckResult
+    attr_accessor :index, :length
+    attr_reader :suggestions
+
+    def initialize
+      @suggestions = []
+    end
+  end
+
+  def spellcheck(language, text)
+    count = Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unicode(text), nil, 0)
+    res = ([0, 0, 0, 0] * count).pack("iiii" * count)
+    Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unicode(text), res, count)
+
+    wcslen = Win32API.new("msvcrt", "wcslen", "i", "i")
+    wcscpy = Win32API.new("msvcrt", "wcscpy", "pi", "i")
+    movemem = Win32API.new("kernel32", "RtlMoveMemory", "pii", "i")
+
+    results = []
+
+    for i in 0...count
+      rt = res[i * 16...i * 16 + 16].unpack("iiii")
+      rtis = ([0] * rt[2]).pack("i" * rt[2])
+      movemem.call(rtis, rt[3], rtis.size)
+      result = SpellCheckResult.new
+      result.index = rt[0]
+      result.length = rt[1]
+      for s in rtis.unpack("i" * rt[2])
+        len = wcslen.call(s)
+        sug = "\0" * 2 * (len + 1)
+        wcscpy.call(sug, s)
+        result.suggestions.push(deunicode(sug))
+      end
+      results.push(result)
+    end
+    Win32API.new($eltenlib, "SpellCheckFree", "pi", "i").call(res, count)
+    return results
+  end
+
   # Wait for a specified time
   #
   # @param time [Float] a time to delay, in seconds

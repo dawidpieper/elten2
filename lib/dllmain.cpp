@@ -40,9 +40,11 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 	switch(fdwReason) {
 case DLL_PROCESS_ATTACH:
 srand((unsigned int)time(NULL));
+CoInitializeEx(NULL, COINIT_MULTITHREADED | COINIT_SPEED_OVER_MEMORY);
 break;
 case DLL_PROCESS_DETACH:
 if(hwnd!=0) hideTray();
+CoUninitialize();
 break;
 case DLL_THREAD_ATTACH:
 break;
