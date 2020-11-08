@@ -99,3 +99,30 @@ free(results[i].suggestions[j]);
 }
 return;
 }
+
+int SpellCheckLanguages(wchar_t **languages, int size) {
+CComPtr<ISpellCheckerFactory> factory;
+HRESULT hr;
+hr = CoCreateInstance(__uuidof(SpellCheckerFactory), nullptr, CLSCTX_INPROC_SERVER, __uuidof(factory), reinterpret_cast<void **>(&factory));
+if(!SUCCEEDED(hr)) return -1;
+CComPtr<IEnumString> langs;
+if(!SUCCEEDED(factory->get_SupportedLanguages(&langs))) return -1;
+wchar_t *lang;
+int i=0;
+while(langs->Next(1, &lang, NULL)==S_OK) {
+if(i<size) {
+languages[i] = (wchar_t*)malloc(sizeof(wchar_t)*(wcslen(lang)+1));
+wcscpy(languages[i], lang);
+}
+i+=1;
+CoTaskMemFree(lang);
+}
+langs.Release();
+factory.Release();
+return i;
+}
+
+void SpellCheckLanguagesFree(wchar_t **languages, int size) {
+for(int i=0; i<size; ++i)
+free(languages[i]);
+}

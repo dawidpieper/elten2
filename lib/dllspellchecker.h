@@ -22,5 +22,7 @@ wchar_t **suggestions;
 extern "C" {
 int DLLIMPORT SpellCheck(wchar_t*, wchar_t*, SpellCheckResult*, int);
 void DLLIMPORT SpellCheckFree(SpellCheckResult*, int);
+int DLLIMPORT SpellCheckLanguages(wchar_t**, int);
+void DLLIMPORT SpellCheckLanguagesFree(wchar_t**, int);
 }
 #endif

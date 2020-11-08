@@ -202,9 +202,13 @@ module EltenAPI
   end
 
   def spellcheck(language, text)
+    return [] if text == ""
     count = Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unicode(text), nil, 0)
+    return [] if count <= 0
+    count = 30 if count > 100
     res = ([0, 0, 0, 0] * count).pack("iiii" * count)
-    Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unicode(text), res, count)
+    r = Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unicode(text), res, count)
+    return [] if r <= 0
 
     wcslen = Win32API.new("msvcrt", "wcslen", "i", "i")
     wcscpy = Win32API.new("msvcrt", "wcscpy", "pi", "i")
@@ -228,6 +232,29 @@ module EltenAPI
       results.push(result)
     end
     Win32API.new($eltenlib, "SpellCheckFree", "pi", "i").call(res, count)
+    return results
+  end
+
+  def spellchecklanguages
+    count = Win32API.new($eltenlib, "SpellCheckLanguages", "pi", "i").call(nil, 0)
+    return [] if count <= 0
+    res = ([0] * count).pack("i" * count)
+    r = Win32API.new($eltenlib, "SpellCheckLanguages", "pi", "i").call(res, count)
+    return [] if r <= 0
+
+    wcslen = Win32API.new("msvcrt", "wcslen", "i", "i")
+    wcscpy = Win32API.new("msvcrt", "wcscpy", "pi", "i")
+
+    results = []
+
+    for i in 0...count
+      s = res[i * 4...(i * 4 + 4)].unpack("i")[0]
+      len = wcslen.call(s)
+      ln = "\0" * 2 * (len + 1)
+      wcscpy.call(ln, s)
+      results.push(deunicode(ln))
+    end
+    Win32API.new($eltenlib, "SpellCheckLanguagesFree", "pi", "i").call(res, count)
     return results
   end
 
