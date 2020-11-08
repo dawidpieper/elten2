@@ -643,7 +643,7 @@ module EltenAPI
       loop do
         begin
           sleep(0.1)
-          if Configuration.voice != -1
+          if Configuration.voice != "NVDA"
             if !NVDA.check and tir.call == 0
               ss.call
             end
