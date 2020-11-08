@@ -171,8 +171,10 @@ class Scene_Settings
 
   def load_voice
     setting_category(p_("Settings", "Voice"))
-    sel = [p_("Settings", "Use NVDA")] + listsapivoices
-    make_setting(p_("Settings", "Voice"), sel, "Voice", "Voice", (-1...sel.size - 1).to_a)
+    sapivoices = listsapivoices
+    voices = [p_("Settings", "Use NVDA")] + sapivoices.map { |v| v.name }
+    voicesmapping = sapivoices.map { |v| v.voiceid }
+    make_setting(p_("Settings", "Voice"), voices, "Voice", "Voice", ["NVDA"] + voicesmapping)
     make_setting(p_("Settings", "Speech rate"), (0..100).to_a.reverse.map { |x| x.to_s + "%" }, "Voice", "Rate", (0..100).to_a.reverse)
     make_setting(p_("Settings", "Speech volume"), (5..100).to_a.reverse.map { |x| x.to_s + "%" }, "Voice", "Volume", (5..100).to_a.reverse)
     make_setting(p_("Settings", "Speech pitch"), (0..100).to_a.reverse.map { |x| x.to_s + "%" }, "Voice", "Pitch", (0..100).to_a.reverse)
@@ -194,11 +196,13 @@ class Scene_Settings
         speech_stop
         Win32API.new($eltenlib, "SapiSetVoice", "i", "i").call(@form.fields[1].index - 1)
         vc = Configuration.voice
-        Configuration.voice = @form.fields[1].index - 1
+        Configuration.voice = voicesmapping[@form.fields[1].index]
         @form.fields[1].sayoption
         speaker_waiter
         Configuration.voice = vc
-        Win32API.new($eltenlib, "SapiSetVoice", "i", "i").call(Configuration.voice)
+        for i in 0...sapivoices.size
+          Win32API.new($eltenlib, "SapiSetVoice", "i", "i").call(i) if sapivoices[i].voiceid == Configuration.voice
+        end
       }
       @form.fields[2].on(:move) {
         speech_stop

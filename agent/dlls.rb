@@ -42,6 +42,8 @@ $shell_notifyicon = Fiddle::Function.new($shell32["Shell_NotifyIcon"], [Fiddle::
 
 $msvcrt = Fiddle.dlopen("msvcrt")
 $strcpy = Fiddle::Function.new($msvcrt["strcpy"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+$wcscpy = Fiddle::Function.new($msvcrt["wcscpy"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$wcslen = Fiddle::Function.new($msvcrt["wcslen"], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 
 $crypt32 = Fiddle.dlopen("crypt32")
 $cryptprotectdata = Fiddle::Function.new($crypt32["CryptProtectData"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
@@ -72,6 +74,11 @@ $sapigetvolume = Fiddle::Function.new($eltenvc["SapiGetVolume"], [], Fiddle::TYP
 $sapigetrate = Fiddle::Function.new($eltenvc["SapiGetRate"], [], Fiddle::TYPE_INT)
 $sapigetvoice = Fiddle::Function.new($eltenvc["SapiGetVoice"], [], Fiddle::TYPE_INT)
 $sapiisspeaking = Fiddle::Function.new($eltenvc["SapiIsSpeaking"], [], Fiddle::TYPE_INT)
+$sapilistvoices = Fiddle::Function.new($eltenvc["SapiListVoices"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$sapifreevoices = Fiddle::Function.new($eltenvc["SapiFreeVoices"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$sapilistdevices = Fiddle::Function.new($eltenvc["SapiListDevices"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$sapifreedevices = Fiddle::Function.new($eltenvc["SapiFreeDevices"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+$sapisetdevice = Fiddle::Function.new($eltenvc["SapiSetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 
 $nvdahelperremote = Fiddle.dlopen("nvdaHelperRemote")
 $saystring = Fiddle::Function.new($nvdahelperremote["nvdaController_speakText"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)

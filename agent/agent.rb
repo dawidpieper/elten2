@@ -348,9 +348,14 @@ begin
       $lastvolume = $volume
       $lastsapipitch = $sapipitch
       $lastsoundcard = $soundcard
-      $voice = readconfig("Voice", "Voice", "-1").to_i
+      $voice = readconfig("Voice", "Voice", "")
       $rate = readconfig("Voice", "Rate", "50").to_i
-      $sapisetvoice.call($voice) if $voice >= 0 and $lastvoice != $voice
+      if $voice != $lastvoice
+        sapivoices = listsapivoices
+        for i in 0...sapivoices.size
+          $sapisetvoice.call(i) if sapivoices[i].voiceid == $voice
+        end
+      end
       $sapisetrate.call(readconfig("Voice", "Rate", "50").to_i) if $lastrate != $rate
       $sapipitch = readconfig("Voice", "Pitch", "50").to_i
       $hidewindow = readconfig("Interface", "HideWindow", "0").to_i
@@ -361,7 +366,16 @@ begin
       $soundcard = nil if $soundcard == ""
       if $lastsoundcard != $soundcard
         log(0, "SoundCard changed: #{$soundcard}")
-        Bass.set_card($soundcard, $hwnd || 0)
+        if $soundcard == nil
+          Bass.set_card("default", $hwnd || 0)
+          $sapisetdevice.call(-1)
+        else
+          Bass.set_card($soundcard, $hwnd || 0)
+          sapidevices = listsapidevices
+          for i in 0...sapidevices.size
+            $sapisetdevice.call(i) if sapidevices[i] == $soundcard
+          end
+        end
       end
       $soundthemespath = readconfig("Interface", "SoundTheme", "")
       if $soundthemespath.size > 0

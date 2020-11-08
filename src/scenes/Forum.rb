@@ -2735,7 +2735,7 @@ class Scene_Forum_Thread
     if @form.index < @posts.size * 3
       if @type != 2
         menu.option(p_("Forum", "Listen to the thread")) {
-          if Configuration.voice == -1 and @type == 0
+          if Configuration.voice == "NVDA" and @type == 0
             text = ""
             for pst in @posts[@form.index / 3..@posts.size]
               text += pst.author + "\r\n" + pst.post + "\r\n" + pst.date + "\r\n\r\n"

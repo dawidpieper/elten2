@@ -55,8 +55,9 @@ module Bass
   }
 
   def self.set_card(card, hWnd, samplerate = 44100)
+    BASS_SetConfig.call(36, 1)
     devs = []
-    c = -1
+    c = 1
     if card != nil
       index = 1
       tmp = [nil, nil, 0].pack("ppi")
@@ -75,7 +76,6 @@ module Bass
         index += 1
       end
     end
-    c = -1 if c == 0
     BASS_Init.call(c, samplerate, 4, hWnd, nil)
     BASS_SetDevice.call(c)
   end
@@ -83,6 +83,7 @@ module Bass
   def self.init(hWnd, samplerate = 44100)
     return if @init == true
     @init = true
+    BASS_SetConfig.call(36, 1)
     if (BASS_GetVersion.call >> 16) != 0x0204
       raise("bass.dll 2.4")
     end

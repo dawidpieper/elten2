@@ -444,7 +444,7 @@ module EltenAPI
         if @audioplayer != nil and escape
           blur
         elsif @audioplayer != nil and @audioplayed == false
-          if Configuration.voice == -1 or !speech_actived
+          if Configuration.voice == "NVDA" or !speech_actived
             Programs.emit_event(:player_play)
             @audioplayer.play
             @audioplayed = true
@@ -466,7 +466,7 @@ module EltenAPI
       def editupdate
         return readupdate if (@flags & Flags::ReadOnly) != 0
         if (c = getkeychar) != "" and (c.to_i.to_s == c or (@flags & Flags::Numbers) == 0) and (@flags & Flags::ReadOnly) == 0
-          speech_stop if Configuration.typingecho > 0 and !(Configuration.voice == -1 and NVDA.check)
+          speech_stop if Configuration.typingecho > 0 and !(Configuration.voice == "NVDA" and NVDA.check)
           einsert(c)
           if ((wordendings = " ,./;'\\\[\]-=<>?:\"|\{\}_+`!@\#$%^&*()_+").include?(c)) and ((Configuration.typingecho == 1 or Configuration.typingecho == 2))
             s = @text[(@index > 50 ? @index - 50 : 0)...@index]

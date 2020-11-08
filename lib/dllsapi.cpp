@@ -1,3 +1,11 @@
+/*
+A part of Elten - EltenLink / Elten Network desktop client.
+Copyright (C) 2014-2020 Dawid Pieper
+Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
+*/
+
 #ifndef UNICODE
 #define UNICODE
 #define _UNICODE
@@ -34,7 +42,7 @@ hr = pVoice->Speak(text, SPF_ASYNC | SPF_IS_NOT_XML | SPF_PURGEBEFORESPEAK, NULL
 return 0;
 }
 
-int SapiListVoices(wchar_t **voices, int size) {
+int SapiListVoices(SapiVoice *voices, int size) {
 if(pVoice==NULL) SapiInit();
 if(pVoice==NULL) return 0;
 HRESULT hr = S_OK;
@@ -45,13 +53,43 @@ if(!SUCCEEDED(hr = cpSpCategory->EnumTokens(NULL, NULL, &cpSpEnumTokens))) retur
 CComPtr<ISpObjectToken> pSpTok;
 ULONG i=0;
 while(SUCCEEDED(hr = cpSpEnumTokens->Next(1, &pSpTok, NULL))) {
-wchar_t *ch = NULL;
-hr = pSpTok->GetStringValue(NULL, &ch);
 if((int)i<size) {
-int siz = wcslen(ch)+1;
-voices[i] = (wchar_t*)malloc(sizeof(wchar_t)*siz);
-if(voices[i]!=NULL)
-wcscpy_s(voices[i], siz, ch);
+wchar_t *ch = NULL;
+int siz=0;
+if(SUCCEEDED(hr = pSpTok->GetId(&ch))) {
+siz = wcslen(ch)+1;
+voices[i].id = (wchar_t*)malloc(sizeof(wchar_t)*siz);
+if(voices[i].id!=NULL) wcscpy_s(voices[i].id, siz, ch);
+}
+if(SUCCEEDED(hr = pSpTok->GetStringValue(NULL, &ch))) {
+siz = wcslen(ch)+1;
+voices[i].name = (wchar_t*)malloc(sizeof(wchar_t)*siz);
+if(voices[i].name!=NULL) wcscpy_s(voices[i].name, siz, ch);
+}
+CComPtr<ISpDataKey> attributes;
+if(SUCCEEDED(hr = pSpTok->OpenKey(L"Attributes", &attributes))) {
+if(SUCCEEDED(hr = attributes->GetStringValue(L"Language", &ch))) {
+siz = wcslen(ch)+1;
+voices[i].language = (wchar_t*)malloc(sizeof(wchar_t)*siz);
+if(voices[i].language!=NULL) wcscpy_s(voices[i].language, siz, ch);
+}
+if(SUCCEEDED(hr = attributes->GetStringValue(L"Age", &ch))) {
+siz = wcslen(ch)+1;
+voices[i].age = (wchar_t*)malloc(sizeof(wchar_t)*siz);
+if(voices[i].age!=NULL) wcscpy_s(voices[i].age, siz, ch);
+}
+if(SUCCEEDED(hr = attributes->GetStringValue(L"Gender", &ch))) {
+siz = wcslen(ch)+1;
+voices[i].gender = (wchar_t*)malloc(sizeof(wchar_t)*siz);
+if(voices[i].gender!=NULL) wcscpy_s(voices[i].gender, siz, ch);
+}
+if(SUCCEEDED(hr = attributes->GetStringValue(L"Vendor", &ch))) {
+siz = wcslen(ch)+1;
+voices[i].vendor = (wchar_t*)malloc(sizeof(wchar_t)*siz);
+if(voices[i].vendor!=NULL) wcscpy_s(voices[i].vendor, siz, ch);
+}
+}
+attributes.Release();
 }
 pSpTok.Release(); 
 ++i;
@@ -60,6 +98,19 @@ cpSpEnumTokens->GetCount(&count);
 if(i>=count) break;
 }
 return i;
+}
+
+void SapiFreeVoices(SapiVoice *voices, int size) {
+if(voices==NULL) return;
+for(int i=0; i<size; ++i) {
+if(voices[i].id!=NULL) free(voices[i].id);
+if(voices[i].name!=NULL) free(voices[i].name);
+if(voices[i].language!=NULL) free(voices[i].language);
+if(voices[i].age!=NULL) free(voices[i].age);
+if(voices[i].gender!=NULL) free(voices[i].gender);
+if(voices[i].vendor!=NULL) free(voices[i].vendor);
+voices[i].id=voices[i].name=voices[i].language=voices[i].age=voices[i].gender=voices[i].vendor=NULL;
+}
 }
 
 int SapiSetVoice(int num) {
@@ -261,6 +312,16 @@ if(i>=count) break;
 return i;
 }
 
+void SapiFreeDevices(wchar_t **devices, int size) {
+if(devices==NULL) return;
+for(int i=0; i<size; ++i) {
+if(devices[i]!=0) {
+free(devices[i]);
+devices[i]=0;
+}
+}
+}
+
 int SapiSetDevice(int num) {
 HRESULT hr = S_OK;
 if(pVoice == NULL) SapiInit();
@@ -269,7 +330,7 @@ CComPtr<IEnumSpObjectTokens> cpSpEnumTokens;
 if(!SUCCEEDED(hr = SpEnumTokens(SPCAT_AUDIOOUT, NULL, NULL, &cpSpEnumTokens))) return 0;
 CComPtr<ISpObjectToken> pSpTok;
 if(num==-1) {
-pVoice->SetOutput(NULL, TRUE);
+pVoice->SetOutput(NULL, FALSE);
 return 0;
 }
 ULONG i=0;

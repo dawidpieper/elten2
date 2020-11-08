@@ -317,11 +317,13 @@ module EltenAPI
       di += "\r\n[Configuration]\r\n"
       di += "Language: " + Configuration.language + "\r\n"
       di += "Sound theme's path: " + Configuration.soundtheme + "\r\n"
-      if Configuration.voice >= 0
-        voicename = Win32API.new($eltenlib, "SapiGetVoiceNameW", "i", "i")
-        vc = "\0" * 1024
-        Win32API.new("msvcrt", "wcscpy", "pp", "i").call(vc, voicename.call(Configuration.voice))
-        voice = deunicode(vc)
+      di += "Voice: " + Configuration.voice.to_s + "\r\n"
+      if Configuration.voice != "NVDA"
+        voice = ""
+        voices = listsapivoices
+        for vc in voices
+          voice = vc.name if vc.voiceid == Configuration.voice
+        end
         di += "Voice name: " + voice.to_s + "\r\n"
       end
       di += "Voice id: " + Configuration.voice.to_s + "\r\n"

@@ -38,9 +38,9 @@ module EltenAPI
         method = 0
         $speech_wait = false
         swait = true
-        speech_wait if Configuration.voice != -1
+        speech_wait if Configuration.voice != "NVDA"
       end
-      Win32API.new($eltenlib, "SapiSetPaused", "i", "i").call(0) if text != nil and text != "" and method != 0 and Configuration.voice >= 0
+      Win32API.new($eltenlib, "SapiSetPaused", "i", "i").call(0) if text != nil and text != "" and method != 0 and Configuration.voice != "NVDA"
       if @@speechaudio != nil
         @@speechaudiothread.kill if @@speechaudiothread != nil
         @@speechaudio.close
@@ -151,14 +151,14 @@ module EltenAPI
         text_d.gsub!("\r\n\r\n", "\004SLINE\004")
         text_d.gsub!("\r\n", " ")
         text_d.gsub!("\004SLINE\004", "\r\n\r\n")
-        if Configuration.voice == -1 && NVDA.check
+        if Configuration.voice == "NVDA" && NVDA.check
           NVDA.stop if !swait
           NVDA.speak(text_d)
         else
           if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", "", "i").call != 0
-            Configuration.voice = 0
+            Configuration.voice = ""
           end
-          if Configuration.voice == -1
+          if Configuration.voice == "NVDA"
             buf = unicode(text_d)
             Win32API.new("bin\\nvdaHelperRemote", "nvdaController_speakText", "pi", "i").call(buf, method)
           else
@@ -241,9 +241,9 @@ module EltenAPI
         $speechindexedthr = nil
       end
       func = "sapiStopSpeech"
-      if Configuration.voice == -1
+      if Configuration.voice == "NVDA"
         func = "stopSpeech"
-        if Configuration.voice == -1 && NVDA.check
+        if Configuration.voice == "NVDA" && NVDA.check
           NVDA.stop
           return
         else
@@ -256,7 +256,7 @@ module EltenAPI
 
     # Waits for a speech to finish reading of the previous message
     def speech_wait
-      if Configuration.voice != -1
+      if Configuration.voice != "NVDA"
         while speech_actived == true
           loop_update(false)
         end
@@ -374,14 +374,14 @@ module EltenAPI
       id = rand(10 ** 24) if id == nil
       $speechindexedthr.exit if $speechindexedthr != nil
       return if !h.is_a?(Hash)
-      if Configuration.voice == -1 && !NVDA.check
+      if Configuration.voice == "NVDA" && !NVDA.check
         txt = ""
         h.keys.sort.each { |i| txt += h[i] + "\r\n" }
         return speak(txt)
       end
-      if Configuration.voice == -1 or true
+      if Configuration.voice == "NVDA" or true
         $speechindexedthr = Thread.new do
-          if Configuration.voice == -1
+          if Configuration.voice == "NVDA"
             NVDA.stop if !$speech_wait
           else
             speech_stop
@@ -393,7 +393,7 @@ module EltenAPI
             texts.push(h[k])
             indexes.push(k + stp)
           }
-          if Configuration.voice == -1
+          if Configuration.voice == "NVDA"
             NVDA.speakindexed(texts, indexes, id)
             loop {
               n = NVDA.getindex
@@ -411,7 +411,7 @@ module EltenAPI
           end
           sleep(0.05)
           loop {
-            if Configuration.voice == -1
+            if Configuration.voice == "NVDA"
               ind, indid = NVDA.getindex
             else
               nd = speech_getindex
@@ -434,20 +434,51 @@ module EltenAPI
       end
     end
 
+    class SapiVoice
+      attr_accessor :id, :name, :language, :age, :gender, :vendor
+
+      def voiceid
+        return "" if @id == nil
+        return @id.split("\\").last
+      end
+    end
+
     def listsapivoices
       sz = Win32API.new($eltenlib, "SapiListVoices", "pi", "i").call(nil, 0)
-      a = ([nil] * sz).pack("p" * sz)
+      a = ([nil, nil, nil, nil, nil, nil] * sz).pack("pppppp" * sz)
       Win32API.new($eltenlib, "SapiListVoices", "pi", "i").call(a, sz)
-      mems = a.unpack("i" * sz)
+      mems = a.unpack("iiiiii" * sz)
       voices = []
       wcslen = Win32API.new("msvcrt", "wcslen", "i", "i")
       wcscpy = Win32API.new("msvcrt", "wcscpy", "pi", "i")
-      for m in mems
-        len = wcslen.call(m)
-        ptr = "\0" * 2 * (len + 1)
-        wcscpy.call(ptr, m)
-        voices.push(deunicode(ptr))
+      for i in 0...mems.size / 6
+        ms = mems[i * 6...i * 6 + 6]
+        voice = SapiVoice.new
+        for j in 0...6
+          m = ms[j]
+          next if m == 0
+          len = wcslen.call(m)
+          ptr = "\0" * 2 * (len + 1)
+          wcscpy.call(ptr, m)
+          val = deunicode(ptr)
+          case j
+          when 0
+            voice.id = val
+          when 1
+            voice.name = val
+          when 2
+            voice.language = val
+          when 3
+            voice.age = val
+          when 4
+            voice.gender = val
+          when 5
+            voice.vendor = val
+          end
+        end
+        voices.push(voice)
       end
+      Win32API.new($eltenlib, "SapiFreeVoices", "pi", "i").call(a, sz)
       return voices
     end
 
@@ -465,6 +496,7 @@ module EltenAPI
         wcscpy.call(ptr, m)
         devices.push(deunicode(ptr))
       end
+      Win32API.new($eltenlib, "SapiFreeDevices", "pi", "i").call(a, sz)
       return devices
     end
   end

@@ -581,19 +581,33 @@ module EltenAPI
       end
     end
     runkey.close
-    Configuration.voice = readconfig("Voice", "Voice", -2)
+    Configuration.voice = readconfig("Voice", "Voice", "")
     if $rvc == nil
       if (/\/voice (-?)(\d+)/ =~ $commandline) != nil
         $rvc = $1 + $2
-        Configuration.voice = $rvc.to_i
+        Configuration.voice = $rvc.to_s
       end
+    end
+    if Configuration.voice.to_i.to_s == Configuration.voice
+      if Configuration.voice.to_i == -1
+        Configuration.voice = "NVDA"
+      elsif Configuration.voice.to_i >= 0
+        voices = listsapivoices
+        if Configuration.voice.to_i <= voices.size
+          Configuration.voice = voices[Configuration.voice.to_i].voiceid
+        else
+          Configuration.voice = ""
+        end
+      else
+        Configuration.voice = ""
+      end
+      writeconfig("Voice", "Voice", Configuration.voice)
     end
     Configuration.language = readconfig("Interface", "Language", "")
     if Configuration.language.include?("_")
       Configuration.language.gsub!("_", "-")
       writeconfig("Interface", "Language", Configuration.language)
     end
-    Win32API.new($eltenlib, "SapiSetVoice", "i", "i").call(Configuration.voice) if Configuration.voice != -3
     Configuration.voicerate = readconfig("Voice", "Rate", 50)
     if $rvcr == nil
       if (/\/voicerate (\d+)/ =~ $commandline) != nil
@@ -611,6 +625,23 @@ module EltenAPI
     end
     Win32API.new($eltenlib, "SapiSetVolume", "i", "i").call(Configuration.voicevolume)
     Configuration.voicepitch = readconfig("Voice", "Pitch", 50)
+    if Configuration.voice != "" && Configuration.voice != "NVDA"
+      voices = listsapivoices
+      for i in 0...voices.size
+        if voices[i].voiceid == Configuration.voice
+          Win32API.new($eltenlib, "SapiSetVoice", "i", "i").call(i)
+        end
+      end
+    elsif Configuration.voice == ""
+      lcid = Win32API.new("kernel32", "GetUserDefaultLCID", "", "i").call
+      voices = listsapivoices
+      for i in 0...voices.size
+        if voices[i].language.to_i(16) == lcid
+          Win32API.new($eltenlib, "SapiSetVoice", "i", "i").call(i)
+          break
+        end
+      end
+    end
     Configuration.soundtheme = readconfig("Interface", "SoundTheme", "")
     if Configuration.soundtheme.size > 0
       Configuration.soundthemepath = Dirs.soundthemes + "\\" + Configuration.soundtheme

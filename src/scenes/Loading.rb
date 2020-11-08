@@ -212,9 +212,9 @@ support@elten-net.eu"
       writeconfig("Interface", "Language", Configuration.language)
     end
     setlocale(Configuration.language)
-    if Configuration.voice == -2 or Configuration.voice == -3
+    if (Configuration.voice == "?" or Configuration.voice == "") && Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", "", "i").call == 0
       v = Configuration.voice
-      Configuration.voice = -1
+      Configuration.voice = "NVDA"
     end
     if $silentstart == nil
       $silentstart = true if $commandline.include?("/silentstart")

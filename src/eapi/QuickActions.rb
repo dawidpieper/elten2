@@ -56,12 +56,12 @@ module EltenAPI
         when :tray
           $totray = true
         when :srsapi
-          if Configuration.voice == -1
-            Configuration.voice = readconfig("Voice", "Voice", -1)
+          if Configuration.voice == "NVDA"
+            Configuration.voice = readconfig("Voice", "Voice", "")
           elsif Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", "", "i").call == 0
-            Configuration.voice = -1
+            Configuration.voice = "NVDA"
           end
-          if Configuration.voice == -1
+          if Configuration.voice == "NVDA"
             alert(p_("EAPI_Common", "Using NVDA"), false)
           else
             alert(p_("EAPI_Common", "Using a selected SAPI synthesizer"), false)

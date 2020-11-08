@@ -47,7 +47,7 @@ def speech(text, method = 0)
   text = text.to_s
   text = text.gsub("\004LINE\004") { "\r\n" }
   $speech_lasttext = text
-  if $voice == -1
+  if $voice == "NVDA"
     $saystring.call(unicode(text), method)
   else
     ssml = "<pitch absmiddle=\"#{((($sapipitch || 50) / 5.0) - 10.0).to_i}\"/>"
@@ -59,11 +59,11 @@ def speech(text, method = 0)
 end
 
 def speech_stop
-  (($voice != -1) ? $sapistopspeech : $stopspeech).call
+  (($voice != "NVDA") ? $sapistopspeech : $stopspeech).call
 end
 
 def speech_actived
-  ($voice == -1) ? false : (($sapiisspeaking.call == 1) ? true : false)
+  ($voice == "NVDA") ? false : (($sapiisspeaking.call == 1) ? true : false)
 end
 
 def speech_wait
@@ -276,4 +276,66 @@ def crypt(data, code = nil)
   $rtlmovememory.call(m, t, s)
   $localfree.call(t)
   return m
+end
+
+class SapiVoice
+  attr_accessor :id, :name, :language, :age, :gender, :vendor
+
+  def voiceid
+    return "" if @id == nil
+    return @id.split("\\").last
+  end
+end
+
+def listsapivoices
+  sz = $sapilistvoices.call(nil, 0)
+  a = ([nil, nil, nil, nil, nil, nil] * sz).pack("pppppp" * sz)
+  $sapilistvoices.call(a, sz)
+  mems = a.unpack("iiiiii" * sz)
+  voices = []
+  for i in 0...mems.size / 6
+    ms = mems[i * 6...i * 6 + 6]
+    voice = SapiVoice.new
+    for j in 0...6
+      m = ms[j]
+      next if m == 0
+      len = $wcslen.call(m)
+      ptr = "\0" * 2 * (len + 1)
+      $wcscpy.call(ptr, m)
+      val = deunicode(ptr)
+      case j
+      when 0
+        voice.id = val
+      when 1
+        voice.name = val
+      when 2
+        voice.language = val
+      when 3
+        voice.age = val
+      when 4
+        voice.gender = val
+      when 5
+        voice.vendor = val
+      end
+    end
+    voices.push(voice)
+  end
+  $sapifreevoices.call(a, sz)
+  return voices
+end
+
+def listsapidevices
+  sz = $sapilistdevices.call(nil, 0)
+  a = ([nil] * sz).pack("p" * sz)
+  $sapilistdevices.call(a, sz)
+  mems = a.unpack("i" * sz)
+  devices = []
+  for m in mems
+    len = $wcslen.call(m)
+    ptr = "\0" * 2 * (len + 1)
+    $wcscpy.call(ptr, m)
+    devices.push(deunicode(ptr))
+  end
+  $sapifreedevices.call(a, sz)
+  return devices
 end

@@ -36,9 +36,9 @@ class Scene_Portable
           dialog_open
           v = selector([p_("Portable", "Use a screenreader or a system default voice"), p_("Portable", "Reset synthesizer settings"), p_("Portable", "Ask each time"), p_("Portable", "Use current setting")], p_("Portable", "If you use a created copy of Elten on another computer, the voice settings may  not work properly. This is especially noticeable in a situation when another  computer has other voices installed. How do you want to configure the generated  version?"), 0, 3, 1)
           value = 0
-          value = -1 if v == 0
-          value = -2 if v == 1
-          value = -3 if v == 2
+          value = "NVDA" if v == 0
+          value = "" if v == 1
+          value = "?" if v == 2
           writeini("#{@destdir}/eltendata/elten.ini", "Voice", "Voice", value.to_s) if value != 0
           writeini("#{@destdir}/elten.ini", "Interface", "SoundTheme", "")
           dialog_close
