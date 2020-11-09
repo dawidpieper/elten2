@@ -384,7 +384,7 @@ begin
         $soundthemepath = "Audio"
       end
       if $name != nil and $name != ""
-        pr = "name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime || 0}"
+        pr = "name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime || Time.now.to_i}"
         pr += "\&shown=1" if $shown == true
         pr += "\&chat=1" if $chat == true
         pr += "\&upd=1" if ($updlasttime || 0) < Time.now.to_i - 60
