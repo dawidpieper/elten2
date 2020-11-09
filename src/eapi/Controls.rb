@@ -908,15 +908,7 @@ module EltenAPI
           langnames.push(l["name"] + " (" + l["nativeName"] + ")")
           lnindex = langs.size - 1 if lk[0..1].downcase == Configuration.language[0..1].downcase
         end
-        splt = @text.split("")
-        i = 0
-        while i < splt.size
-          if splt[i].size > 3
-            s = splt[i]
-            splt.insert(i + 1, "")
-          end
-          i += 1
-        end
+        splt = @text + ""
         form = Form.new([
           lst_languages = ListBox.new(langnames, p_("EAPI_Form", "Language"), lnindex, 0, true),
           btn_replace = Button.new(p_("EAPI_Form", "Replace")),
@@ -925,23 +917,23 @@ module EltenAPI
         errors = []
         lst_languages.on(:move) {
           form.fields[1...-2] = nil
-          errors = spellcheck(langs[lst_languages.index], @text)
+          p errors = spellcheck(langs[lst_languages.index], @text)
           for error in errors
-            phr = splt[error.index...(error.index + error.length)].join("")
+            phr = splt[error.index...(error.index + error.length)]
             frgb = -1
-            fge = 0
+            frge = 0
             pfrgb = error.index - 60
             pfrgb = 0 if pfrgb < 0
             pfrge = error.index + error.length + 60
             pfrge = splt.size - 1 if pfrge >= splt.size
-            for i in pfrgb...pfrge
+            for i in pfrgb..pfrge
               if i < error.index && frgb == -1
-                frgb = i if splt[i - 1] == " "
+                frgb = i if splt[i - 1..i - 1] == " " || i == 0
               elsif i > error.index + error.length
-                frge = i if splt[i + 1] == " "
+                frge = i if splt[i + 1..i + 1] == " " || i + 1 == splt.size
               end
             end
-            frg = splt[frgb..frge].join("")
+            frg = splt[frgb..frge]
             letphr = "(" + phr.split("").join(", ") + ")"
             options = []
             for sug in error.suggestions
@@ -961,11 +953,11 @@ module EltenAPI
           repls = 0
           for i in 0...errors.size
             if form.fields[1 + i].index > 0
-              splt[errors[i].index...(errors[i].index + errors[i].length)] = errors[i].suggestions[form.fields[1 + i].index - 1].split("")
+              splt[errors[i].index...(errors[i].index + errors[i].length)] = errors[i].suggestions[form.fields[1 + i].index - 1]
               repls += 1
             end
           end
-          settext(splt.join(""))
+          settext(splt)
           alert(np_("EAPI_Form", "%{count} word replaced", "%{count} words replaced", repls) % { "count" => repls.to_s })
           form.resume
         }

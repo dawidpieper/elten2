@@ -53,9 +53,11 @@ module NVDA
               @iswaiting = false
             end
             while @writes.size > 0 and @pipeout != nil and @waiting < 10
-              w = JSON.generate(@writes.first) + "\n"
-              WriteFile.call(@pipeout, w, w.bytesize, dwritten, 0)
-              @waiting += 1
+              if !(@writes.size > 1 && (@writes[0]["ac"] == "speak" || @writes[0]["ac"] == "stop") && @writes[1...-1].map { |x| x["ac"] }.include?("stop"))
+                w = JSON.generate(@writes.first) + "\n"
+                WriteFile.call(@pipeout, w, w.bytesize, dwritten, 0)
+                @waiting += 1
+              end
               @writes.delete_at(0)
             end
             if @exiting == true

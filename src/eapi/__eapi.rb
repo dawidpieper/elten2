@@ -203,11 +203,12 @@ module EltenAPI
 
   def spellcheck(language, text)
     return [] if text == ""
-    count = Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unicode(text), nil, 0)
+    unic = unicode(text)
+    count = Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unic, nil, 0)
     return [] if count <= 0
     count = 30 if count > 100
     res = ([0, 0, 0, 0] * count).pack("iiii" * count)
-    r = Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unicode(text), res, count)
+    r = Win32API.new($eltenlib, "SpellCheck", "pppi", "i").call(unicode(language), unic, res, count)
     return [] if r <= 0
 
     wcslen = Win32API.new("msvcrt", "wcslen", "i", "i")
@@ -221,8 +222,10 @@ module EltenAPI
       rtis = ([0] * rt[2]).pack("i" * rt[2])
       movemem.call(rtis, rt[3], rtis.size)
       result = SpellCheckResult.new
-      result.index = rt[0]
-      result.length = rt[1]
+      index = deunicode(unic[0...(rt[0] * 2)]).size
+      length = deunicode(unic[rt[0] * 2...(rt[0] + rt[1]) * 2]).size
+      result.index = index
+      result.length = length
       for s in rtis.unpack("i" * rt[2])
         len = wcslen.call(s)
         sug = "\0" * 2 * (len + 1)
