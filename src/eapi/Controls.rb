@@ -2990,7 +2990,7 @@ module EltenAPI
           @sound.position = dpos
           loop_update
         end
-        if ($key[0x53] or ($keyr[0x10] and enter)) and @file != nil && @file.include?("http:")
+        if ($key[0x53] or ($keyr[0x10] and enter)) and @file != nil && (@file.include?("http:") || @file.include?("https:"))
           savefile
         end
         if $keyr[0x10] == false && $keyr[0x11] == false
