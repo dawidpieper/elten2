@@ -250,10 +250,11 @@ module EltenAPI
       birthday = agtemp[15].to_i
       mentions = agtemp[16].to_i
       followedblogposts = agtemp[17].to_i
+      blogfollowers = agtemp[18].to_i
       $nversion = agtemp[2].to_f
       $nbeta = agtemp[3].to_i
       bid = srvproc("bin/buildid", "name=#{Session.name}\&token=#{Session.token}", 1).to_i
-      if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums <= 0 and followedforumsposts <= 0 and friends <= 0 and birthday <= 0 and mentions <= 0 and followedblogposts <= 0 and (Elten.build_id == bid or bid <= 0)
+      if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums <= 0 and followedforumsposts <= 0 and friends <= 0 and birthday <= 0 and mentions <= 0 and followedblogposts <= 0 and blogfollowers <= 0 and (Elten.build_id == bid or bid <= 0)
         alert(p_("EAPI_Common", "There is nothing new.")) if quiet != true
       else
         $scene = Scene_WhatsNew.new(true, agtemp, bid)

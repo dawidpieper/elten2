@@ -292,7 +292,11 @@ class Scene_Blog_Posts
       $scene = Scene_WhatsNew.new
       return
     elsif @post.size == 0 and @id == "NEWFOLLOWED"
-      alert(p_("Blog", "No new comments in followed blog posts."))
+      alert(p_("Blog", "No new comments to followed blog posts."))
+      $scene = Scene_WhatsNew.new
+      return
+    elsif @post.size == 0 and @id == "NEWFOLLOWEDBLOGS"
+      alert(p_("Blog", "No new posts on followed blogs."))
       $scene = Scene_WhatsNew.new
       return
     end
@@ -312,7 +316,7 @@ class Scene_Blog_Posts
   def update
     if escape or (arrow_left and !$keyr[0x10])
       if @id != -1
-        if @id == "NEW" or @id == "NEWFOLLOWED"
+        if @id == "NEW" or @id == "NEWFOLLOWED" or @id == "NEWFOLLOWEDBLOGS"
           $scene = Scene_WhatsNew.new
         elsif @id == "FOLLOWED"
           $scene = Scene_Blog.new(7)
@@ -723,28 +727,8 @@ class Scene_Blog_List
   end
 
   def blogfollowers
-    b = srvproc("blog_followers", { "searchname" => @blogs[@sel.index].id })
-    if b[0].to_i == 0
-      users = []
-      b[2..-1].each { |u| users.push(u.delete("\r\n")) }
-      if users.size == 0
-        alert(p_("Blog", "This blog is not followed by any user"))
-      else
-        selt = []
-        users.each { |u| selt.push(u + ".\r\n" + getstatus(u)) }
-        sel = ListBox.new(selt, p_("Blog", "Followers"))
-        loop do
-          loop_update
-          sel.update
-          usermenu(users[sel.index]) if enter
-          break if escape or arrow_left or $scene != self
-        end
-      end
-    else
-      alert(_("Error"))
-    end
-    @sel.focus
-    loop_update
+    $bloglistindex = @sel.index
+    $scene = Scene_Blog_Followers.new(@blogs[@sel.index].id, $scene)
   end
 
   def blogcoworkers
@@ -1884,5 +1868,57 @@ class Struct_Blog_Comment
     @postname = ""
     @author = ""
     @content = ""
+  end
+end
+
+class Scene_Blog_Followers
+  def initialize(owner = Session.name, scene = nil)
+    @owner = owner
+    @scene = scene
+  end
+
+  def main
+    if @owner != nil
+      b = srvproc("blog_followers", { "list" => "blog", "details" => 1, "searchname" => @owner })
+    else
+      b = srvproc("blog_followers", { "list" => "new", "details" => 1 })
+    end
+    if b[0].to_i == 0
+      users = []
+      blogs = []
+      blognames = []
+      for i in 0...b[1].to_i
+        blogs.push(b[2 + i * 3].delete("\r\n"))
+        blognames.push(b[2 + i * 3 + 1].delete("\r\n"))
+        users.push(b[2 + i * 3 + 2].delete("\r\n"))
+      end
+      if users.size == 0
+        alert(p_("Blog", "This blog is not followed by any user"))
+      else
+        rows = []
+        for i in 0...b[1].to_i
+          rows.push([users[i], blognames[i]])
+        end
+        head = p_("Blog", "Followers")
+        head = "" if @owner == nil
+        @sel = TableBox.new([nil, p_("Blog", "Blog")], rows, 0, head)
+        @sel.bind_context { |menu|
+          if blogs.size > 0
+            menu.useroption(users[@sel.index])
+            menu.option(p_("Blog", "Open blog")) { insert_scene(Scene_Blog_Main.new(blogs[@sel.index], 0, Scene_Main.new)) }
+          end
+        }
+        loop do
+          loop_update
+          @sel.update
+          usermenu(users[@sel.index]) if enter and users.size > 0
+          break if escape or arrow_left or $scene != self
+        end
+      end
+    else
+      alert(_("Error"))
+    end
+    $scene = @scene
+    $scene = Scene_Main.new if $scene == nil
   end
 end

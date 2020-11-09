@@ -917,7 +917,7 @@ module EltenAPI
         errors = []
         lst_languages.on(:move) {
           form.fields[1...-2] = nil
-          p errors = spellcheck(langs[lst_languages.index], @text)
+          errors = spellcheck(langs[lst_languages.index], @text)
           for error in errors
             phr = splt[error.index...(error.index + error.length)]
             frgb = -1
