@@ -795,8 +795,8 @@ module EltenAPI
               m.submenu(p_("EAPI_Form", "Heading")) { |n|
                 for i in 1..6
                   n.option(p_("EAPI_Form", "Heading level %{level}") % { "level" => i }, i, i.to_s) { |level|
-                    a = linebeginning
-                    b = lineending
+                    a = linebeginning(@vindex, true)
+                    b = lineending(@vindex, true)
                     del = []
                     s = false
                     for e in @elements
@@ -1018,12 +1018,12 @@ module EltenAPI
         end
       end
 
-      def linebeginning(index = @vindex)
+      def linebeginning(index = @vindex, absolute = false)
         return 0 if index == 0
         return 0 if @text.size == 0
         l = ((((index > 3000 ? index - 3000 : 0)...index).find_all { |i| @text[i..i] == "\n" }[-1]) || -1) + 1
         r = ((index...(index < @text.size - 3000 ? @index + 3000 : @text.size)).find_all { |i| @text[i..i] == "\n" }[0]) || @text.size
-        ls = getvlines(l, r)
+        ls = getvlines(l, r, absolute)
         ind = l
         for n in ls
           ind = n if n <= index
@@ -1031,11 +1031,11 @@ module EltenAPI
         return ind
       end
 
-      def lineending(index = @vindex)
+      def lineending(index = @vindex, absolute = false)
         return 0 if @text.size == 0
         l = ((((index > 3000 ? index - 3000 : 0)...index).find_all { |i| @text[i..i] == "\n" }[-1]) || -1) + 1
         r = ((index...(index < @text.size - 3000 ? @index + 3000 : @text.size)).find_all { |i| @text[i..i] == "\n" }[0]) || @text.size
-        ls = getvlines(l, r)
+        ls = getvlines(l, r, absolute)
         ln = 0
         for i in 0...ls.size - 1
           ln = i if ls[i] <= index
@@ -1051,8 +1051,8 @@ module EltenAPI
         return [left, right]
       end
 
-      def getvlines(l, r)
-        return [l, r + 1] if r - l < 120 or (@flags & Flags::MultiLine) == 0 or (@flags & Flags::DisableLineWrapping) > 0 or Configuration.linewrapping == 0
+      def getvlines(l, r, absolute = false)
+        return [l, r + 1] if r - l < 120 or (@flags & Flags::MultiLine) == 0 or (@flags & Flags::DisableLineWrapping) > 0 or Configuration.linewrapping == 0 or absolute == true
         ls = [l]
         for c in l...r
           if @text[c..c] == " " and c - ls[-1] > 120 and c != r - 1
