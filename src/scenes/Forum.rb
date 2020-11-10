@@ -2697,14 +2697,14 @@ class Scene_Forum_Thread
         us = srvproc("contacts_addedme", {})
         if us[0].to_i < 0
           alert(_("Error"))
-          return
+          next
         end
         for u in us[1..us.size - 1]
           users.push(u.delete("\r\n"))
         end
         if users.size == 0
           alert(p_("Forum", "Nobody added you to their contact list."))
-          return
+          next
         end
         form = Form.new([ListBox.new(users, p_("Forum", "User to mention")), EditBox.new(p_("Forum", "Message"), "", "", true), Button.new(p_("Forum", "Mention post")), Button.new(_("Cancel"))])
         loop do

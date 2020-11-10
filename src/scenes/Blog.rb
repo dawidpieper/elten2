@@ -465,6 +465,41 @@ class Scene_Blog_Posts
           postdelete
         }
       end
+      menu.option(p_("Blog", "Mention post"), nil, "w") {
+        users = []
+        us = srvproc("contacts_addedme", {})
+        if us[0].to_i < 0
+          alert(_("Error"))
+          next
+        end
+        for u in us[1..us.size - 1]
+          users.push(u.delete("\r\n"))
+        end
+        if users.size == 0
+          alert(p_("Blog", "Nobody added you to their contact list."))
+          next
+        end
+        form = Form.new([ListBox.new(users, p_("Blog", "User to mention")), EditBox.new(p_("Blog", "Message"), "", "", true), Button.new(p_("Blog", "Mention post")), Button.new(_("Cancel"))])
+        loop do
+          loop_update
+          form.update
+          if escape or ((enter or space) and form.index == 3)
+            loop_update
+            @sel.focus
+            break
+          end
+          if (enter or space) and form.index == 2
+            mt = srvproc("blog_mentions", { "ac" => "send", "user" => users[form.fields[0].index], "message" => form.fields[1].text, "blog" => @post[@sel.index].owner, "postid" => @post[@sel.index].id })
+            if mt[0].to_i < 0
+              alert(_("Error"))
+            else
+              alert(p_("Blog", "The mention has been sent."))
+              @sel.focus
+              break
+            end
+          end
+        end
+      }
       opt = ""
       if @post[@sel.index].followed == false
         opt = p_("Blog", "Follow this post")
@@ -656,6 +691,18 @@ class Scene_Blog_Read
       if @post.owner[0..0] != "[" || @post.owner[1..1] != "*"
         menu.useroption(pst.author)
       end
+    end
+    if @post.mention != nil
+      menu.submenu(p_("Blog", "Received mention")) { |m|
+        m.option(p_("Blog", "Show mention"), nil, "/") {
+          input_text(p_("Blog", "Mention by %{user}") % { "user" => @post.mention.author }, EditBox::Flags::ReadOnly, @post.mention.message, true)
+        }
+        m.option(p_("Blog", "Send reply to mentioner"), nil, "?") {
+          to = @post.mention.author
+          subj = "RE: " + @post.mention.message.to_s + " (" + @post.name + ")"
+          insert_scene(Scene_Messages_New.new(to, subj, "", Scene_Main.new))
+        }
+      }
     end
     menu.submenu(p_("Blog", "Navigation")) { |m|
       m.option(p_("Blog", "Go to post"), nil, ",") {

@@ -56,6 +56,7 @@ class Scene_Sounds
       "SE/notification_birthday" => p_("Sounds", "Notification: birthday of a friend"),
       "SE/notification_blogcomment" => p_("Sounds", "Notification: new comment on your blog"),
       "SE/notification_blogfollower" => p_("Sounds", "Notification: new follower of your blog"),
+      "SE/notification_blogmention" => p_("Sounds", "Notification: new blog mention"),
       "SE/notification_followedblog" => p_("Sounds", "Notification: new post on a followed blog"),
       "SE/notification_followedblogpost" => p_("Sounds", "Notification: new comment to a followed blog post"),
       "SE/notification_followedforum" => p_("Sounds", "Notification: new thread on a followed forum"),
@@ -95,7 +96,7 @@ class Scene_Sounds
       end
     end
     @snd = []
-    for file in @soundnames.keys
+    for file in @soundnames.keys.sort
       if FileTest.exists?("Audio/#{file}.ogg")
         @snd.push(Struct_Sounds_Sound.new(file + ".ogg", @soundnames[file], @theme))
       else
