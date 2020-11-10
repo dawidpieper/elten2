@@ -120,7 +120,6 @@ class Scene_Notes
     @form.bind_context { |menu|
       if note.author == Session.name
         menu.option(p_("Notes", "Share")) {
-          dialog_open
           inpt = EditBox.new(p_("Notes", "Who do you want to share this note with?"))
           loop do
             loop_update
@@ -145,7 +144,6 @@ class Scene_Notes
                   shares.push(user)
                   sharest = shares
                   @form.fields[2].options = sharest
-                  dialog_close
                   break
                 end
               end
@@ -159,7 +157,6 @@ class Scene_Notes
       @form.fields[1] = Button.new(_("Save"))
     end
     @form.fields[3] = Button.new(_("Delete")) if note.author == Session.name
-    dialog_open
     loop do
       loop_update
       @form.update
@@ -212,7 +209,6 @@ class Scene_Notes
         end
       end
     end
-    dialog_close
   end
 
   def delete(note)

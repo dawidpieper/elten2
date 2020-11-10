@@ -933,7 +933,7 @@ module EltenAPI
                 frge = i if splt[i + 1..i + 1] == " " || i + 1 == splt.size
               end
             end
-            frg = splt[frgb..frge]
+            frg = splt[frgb..frge] || ""
             letphr = "(" + phr.split("").join(", ") + ")"
             options = []
             for sug in error.suggestions
@@ -2649,6 +2649,7 @@ module EltenAPI
     # @param type [Numeric] if 1, the listbox is horizontal
     # @return [Numeric] the index of a selected option
     def selector(options, header = "", index = 0, escapeindex = nil, type = 0, border = true, cancelkey = nil)
+      dialog_open
       dis = []
       for i in 0..options.size - 1
         if options[i] == nil
@@ -2675,10 +2676,12 @@ module EltenAPI
         loop_update
         lsel.update
         if enter
+          dialog_close
           return lsel.index
           break
         end
         if (escape or @cancel == true) and escapeindex != nil
+          dialog_close
           loop_update
           return escapeindex
           break
@@ -3134,9 +3137,9 @@ module EltenAPI
 
       def fade
         return if @sound == nil
-        for i in 1..100
+        for i in 1..20
           loop_update
-          @sound.volume -= 0.02
+          @sound.volume -= 0.05
           if @sound.volume <= 0.05
             @sound.volume = 0
             loop_update

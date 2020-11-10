@@ -11,13 +11,14 @@ class Scene_Blog
   end
 
   def main
-    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Followed blog posts")], p_("Blog", "Blogs"), @index, 0, true)
+    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index, 0, true)
     if Session.name == "guest"
       @sel.disable_item(0)
       @sel.index = 1
       @sel.disable_item(4)
       @sel.disable_item(5)
       @sel.disable_item(7)
+      @sel.disable_item(8)
     end
     @sel.focus
     loop do
@@ -62,6 +63,8 @@ class Scene_Blog
         end
       when 7
         $scene = Scene_Blog_Posts.new(Session.name, "FOLLOWED")
+      when 8
+        $scene = Scene_Blog_Posts.new(Session.name, "MENTIONED")
       end
     end
   end
@@ -281,6 +284,24 @@ class Scene_Blog_Posts
   end
 
   def main
+    @mentions = []
+    if @id == "MENTIONED" or @id == "NEWMENTIONED"
+      prm = { "ac" => "list" }
+      prm["list"] = "all" if @id == "MENTIONED"
+      mnts = srvproc("blog_mentions", prm)
+      if mnts[0].to_i == 0
+        for i in 0...mnts[1].to_i
+          mention = Struct_Blog_Mention.new
+          mention.id = mnts[2 + i * 6].to_i
+          mention.blog = mnts[2 + i * 6 + 1].delete("\r\n")
+          mention.postid = mnts[2 + i * 6 + 2].to_i
+          mention.author = mnts[2 + i * 6 + 3].delete("\r\n")
+          mention.time = mnts[2 + i * 6 + 4].to_i
+          mention.message = mnts[2 + i * 6 + 5].delete("\r\n")
+          @mentions.push(mention)
+        end
+      end
+    end
     id = @id
     id = 0 if @id == -1
     @page = 1
@@ -297,6 +318,10 @@ class Scene_Blog_Posts
       return
     elsif @post.size == 0 and @id == "NEWFOLLOWEDBLOGS"
       alert(p_("Blog", "No new posts on followed blogs."))
+      $scene = Scene_WhatsNew.new
+      return
+    elsif @post.size == 0 and @id == "NEWMENTIONED"
+      alert(p_("Blog", "No new blog mentions."))
       $scene = Scene_WhatsNew.new
       return
     end
@@ -320,6 +345,8 @@ class Scene_Blog_Posts
           $scene = Scene_WhatsNew.new
         elsif @id == "FOLLOWED"
           $scene = Scene_Blog.new(7)
+        elsif @id == "MENTIONED"
+          $scene = Scene_Blog.new(8)
         else
           $scene = Scene_Blog_Main.new(@owner, @categoryselindex, $blogreturnscene)
         end
@@ -346,31 +373,47 @@ class Scene_Blog_Posts
       blogtemp[i].delete!("\r\n")
     end
     l = 3
+    post = nil
     for i in 0...blogtemp[1].to_i
-      @post.push(Struct_Blog_Post.new(blogtemp[l].to_i))
+      post = Struct_Blog_Post.new(blogtemp[l].to_i)
       l += 1
-      @post.last.name = blogtemp[l].delete("\r\n")
+      post.name = blogtemp[l].delete("\r\n")
       l += 1
-      @post.last.unread = true if blogtemp[l].to_i > 0
+      post.unread = true if blogtemp[l].to_i > 0
       l += 1
-      @post.last.owner = blogtemp[l].delete("\r\n")
+      post.owner = blogtemp[l].delete("\r\n")
       l += 1
-      @post.last.audio = true if blogtemp[l].to_i > 0
+      post.audio = true if blogtemp[l].to_i > 0
       l += 1
-      @post.last.date = blogtemp[l].to_i
+      post.date = blogtemp[l].to_i
       l += 1
-      @post.last.url = blogtemp[l].delete("\r\n")
+      post.url = blogtemp[l].delete("\r\n")
       l += 1
-      @post.last.author = blogtemp[l].delete("\r\n")
+      post.author = blogtemp[l].delete("\r\n")
       l += 1
-      @post.last.comments = blogtemp[l].to_i
+      post.comments = blogtemp[l].to_i
       l += 1
-      @post.last.followed = blogtemp[l].to_b
+      post.followed = blogtemp[l].to_b
+      if @id == "MENTIONED" or @id == "NEWMENTIONED"
+        for mention in @mentions
+          if mention.blog == post.owner && mention.postid == post.id
+            post.mention = mention
+            @post.push(post.clone)
+          end
+        end
+      else
+        @post.push(post)
+      end
       l += 1
     end
-    $posts = @post
     @sel.rows = @post.map { |s|
-      [(((s.unread) ? ("\004NEW\004") : ("")) + s.name),
+      tmp = ""
+      tmp += "\004NEW\004" if s.unread
+      tmp += s.name
+      if s.mention != nil
+        tmp += " . #{p_("Blog", "Mentioned by")}: #{s.mention.author} (#{s.mention.message})"
+      end
+      [tmp,
        s.author,
        s.comments.to_s]
     }
@@ -382,7 +425,7 @@ class Scene_Blog_Posts
 
   def bopen
     if @sel.index < @post.size
-      $scene = Scene_Blog_Read.new(@post[@sel.index].owner, @id, @post[@sel.index].id, @categoryselindex, @sel.index)
+      $scene = Scene_Blog_Read.new(@post[@sel.index], @id, @categoryselindex, @sel.index)
     else
       @page += 1
       load_posts(@page)
@@ -461,24 +504,26 @@ class Scene_Blog_Posts
 end
 
 class Scene_Blog_Read
-  def initialize(owner, category, postid, categoryselindex = 0, postselindex = 0, scene = nil)
-    @owner = owner
+  def initialize(post, category, categoryselindex = 0, postselindex = 0, scene = nil)
+    @post = post
     @category = category
-    @postid = postid
     @categoryselindex = categoryselindex
     @postselindex = postselindex
     @scene = scene
-    @isowner = (blogowners(owner) || "").include?(Session.name)
+    @isowner = (blogowners(post.owner) || "").include?(Session.name)
   end
 
   def main
-    blogtemp = srvproc("blog_read", { "categoryid" => @category, "postid" => @postid, "searchname" => @owner, "details" => "5" })
+    blogtemp = srvproc("blog_read", { "categoryid" => @category, "postid" => @post.id, "searchname" => @post.owner, "details" => "5" })
     blogtemp.each { |l| l.delete!("\r\n") }
     err = blogtemp[0].to_i
     if err < 0
       alert(_("Error"))
-      $scene = Scene_Blog_Main.new(@owner)
+      $scene = Scene_Blog_Main.new(@post.owner)
       return
+    end
+    if @post.mention != nil
+      srvproc("blog_mentions", { "ac" => "read", "mention" => @post.mention.id })
     end
     for i in 0..blogtemp.size - 1
       blogtemp[i].delete!("\r\n")
@@ -486,21 +531,21 @@ class Scene_Blog_Read
     lines = blogtemp[1].to_i
     @knownposts = blogtemp[2].to_i
     @comments = blogtemp[3].to_i
-    @comments = 0 if @owner[0..0] == "[" && @owner[1..1] == "*"
+    @comments = 0 if @post.owner[0..0] == "[" && @post.owner[1..1] == "*"
     l = 4
     text = ""
-    @post = []
+    @posts = []
     for i in 0..lines - 1
       t = 0
-      @post[i] = Struct_Blog_Post.new
+      @posts[i] = Struct_Blog_Post.new
       loop do
         t += 1
         if t > 2
-          @post[i].text += blogtemp[l].to_s + "\r\n"
+          @posts[i].text += blogtemp[l].to_s + "\r\n"
         elsif t == 1
-          @post[i].id = blogtemp[l].to_i
+          @posts[i].id = blogtemp[l].to_i
         elsif t == 2
-          @post[i].author = blogtemp[l]
+          @posts[i].author = blogtemp[l]
         end
         l += 1
         break if blogtemp[l] == "\004END\004" or l >= blogtemp.size or blogtemp[l] == "\004潤\n" or blogtemp[l] == nil
@@ -509,15 +554,15 @@ class Scene_Blog_Read
     end
     @postcur = 0
     @fields = []
-    for i in 0..@post.size - 1
-      @fields[(i == 0 ? i : (i + 1))] = EditBox.new(@post[i].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, @post[i].text, true)
+    for i in 0..@posts.size - 1
+      @fields[(i == 0 ? i : (i + 1))] = EditBox.new(@posts[i].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, @posts[i].text, true)
     end
     @fields[1] = nil
     @medias = nil
-    if MediaFinders.possible_media?(@post[0].text)
+    if MediaFinders.possible_media?(@posts[0].text)
       @fields[1] = Button.new(p_("Blog", "Show attached media"))
       @fields[1].on(:press) {
-        @medias = MediaFinders.get_media(@post[0].text)
+        @medias = MediaFinders.get_media(@posts[0].text)
         if @medias.size > 0
           @fields[1] = ListBox.new(@medias.map { |m| m.title }, p_("Blog", "Media"), 0, 0, true)
         else
@@ -574,7 +619,7 @@ class Scene_Blog_Read
         return
       end
       buf = buffer(txt)
-      bt = srvproc("blog_posts_comment", { "searchname" => @owner, "categoryid" => @category.to_s, "postid" => @postid.to_s, "buffer" => buf.to_s })
+      bt = srvproc("blog_posts_comment", { "searchname" => @post.owner, "categoryid" => @category.to_s, "postid" => @post.id.to_s, "buffer" => buf.to_s })
       case bt[0].to_i
       when 0
         alert(p_("Blog", "The comment has been added."))
@@ -591,11 +636,11 @@ class Scene_Blog_Read
     if (enter or space) and @form.index == @form.fields.size - 2
       @form.fields[0].finalize
       txt = @form.fields[0].text
-      $scene = Scene_Blog_PostEditor.new(@owner, @postid, @category, @categoryselindex, @postselindex)
+      $scene = Scene_Blog_PostEditor.new(@post.owner, @post.id, @category, @categoryselindex, @postselindex)
     end
     if escape or ((enter or space) and @form.index == @form.fields.size - 1)
       if @scene == nil
-        $scene = Scene_Blog_Posts.new(@owner, @category, @categoryselindex, @postselindex)
+        $scene = Scene_Blog_Posts.new(@post.owner, @category, @categoryselindex, @postselindex)
       else
         $scene = @scene
       end
@@ -604,11 +649,11 @@ class Scene_Blog_Read
 
   def context(menu)
     ind = -1
-    if @form.index <= @post.size && (@form.index != 1 || @post.size != 1)
+    if @form.index <= @posts.size && (@form.index != 1 || @posts.size != 1)
       ind = @form.index - 1
       ind += 1 if ind < 0
-      pst = @post[ind]
-      if @owner[0..0] != "[" || @owner[1..1] != "*"
+      pst = @posts[ind]
+      if @post.owner[0..0] != "[" || @post.owner[1..1] != "*"
         menu.useroption(pst.author)
       end
     end
@@ -621,7 +666,7 @@ class Scene_Blog_Read
         @form.index = @postcur = @form.fields.size - 5
         @form.focus
       }
-      if @knownposts < @post.size
+      if @knownposts < @posts.size
         m.option(p_("Blog", "Go to first unread comment"), nil, "u") {
           @form.index = @postcur = @knownposts + 1
           @form.focus
@@ -637,7 +682,7 @@ class Scene_Blog_Read
     if ind > 0 and @isowner
       menu.option(p_("Blog", "Delete this comment")) {
         confirm(p_("Blog", "Are you sure you want to delete this comment?")) {
-          srvproc("blog_posts_mod", { "delcomment" => "1", "searchname" => @owner, "postid" => @postid, "commentnumber" => (ind).to_s })
+          srvproc("blog_posts_mod", { "delcomment" => "1", "searchname" => @post.owner, "postid" => @post.id, "commentnumber" => (ind).to_s })
           main
         }
       }
@@ -1415,6 +1460,7 @@ class Struct_Blog_Post
   attr_accessor :url
   attr_accessor :comments
   attr_accessor :followed
+  attr_accessor :mention
 
   def initialize(id = 0)
     @id = id
@@ -1921,4 +1967,8 @@ class Scene_Blog_Followers
     $scene = @scene
     $scene = Scene_Main.new if $scene == nil
   end
+end
+
+class Struct_Blog_Mention
+  attr_accessor :id, :blog, :postid, :author, :message, :time
 end

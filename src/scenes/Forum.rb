@@ -2641,9 +2641,7 @@ class Scene_Forum_Thread
         for i in 0..@posts.size - 1
           selt.push((i + 1).to_s + " / " + @postscount.to_s + ": " + @posts[i].author)
         end
-        dialog_open
         @form.index = selector(selt, p_("Forum", "Select post"), @form.index / 3, @form.index / 3) * 3
-        dialog_close
         @form.focus
       }
       m.option(p_("Forum", "Go to post number"), nil, "J") {
@@ -2669,10 +2667,8 @@ class Scene_Forum_Thread
             end
             ind = 0 if ind == -1
             if selt.size > 0
-              dialog_open
               ind = selector(selt, p_("Forum", "Select post"), ind, -1)
               @form.index = sr[ind] * 3 if ind != -1
-              dialog_close
               @form.focus
             else
               alert(p_("Forum", "The entered phrase cannot be found."))
@@ -2813,7 +2809,6 @@ class Scene_Forum_Thread
         if @type == 0
           if !post.locked
             m.option(p_("Forum", "Edit post"), nil, "e") {
-              dialog_open
               edit_post(@posts[@form.index / 3])
             }
           end
@@ -2928,6 +2923,7 @@ class Scene_Forum_Thread
   end
 
   def edit_post(post)
+    dialog_open
     attnames = name_attachments(post.attachments)
     atts = []
     for i in 0...post.attachments.size
