@@ -594,7 +594,7 @@ class Scene_Blog_Read
     end
     @fields[1] = nil
     @medias = nil
-    if MediaFinders.possible_media?(@posts[0].text)
+    if @posts.size > 0 and MediaFinders.possible_media?(@posts[0].text)
       @fields[1] = Button.new(p_("Blog", "Show attached media"))
       @fields[1].on(:press) {
         @medias = MediaFinders.get_media(@posts[0].text)

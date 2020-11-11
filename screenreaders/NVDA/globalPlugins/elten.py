@@ -17,6 +17,7 @@ import appModuleHandler
 import queueHandler
 import buildVersion
 import types
+import re
 
 stopThreads=False
 eltenindex=None
@@ -275,17 +276,12 @@ def elten_command(ac):
 				elif ac['type']==1: text=eltenbrailletext[:ac['index']]+text+eltenbrailletext[ac['index']:]
 			eltenbrailletext=text+" "
 			regions=[]
-			for line in eltenbrailletext.split("\n"):
-				i=0
-				for phr in line.split(":"):
-					ph=""
-					if(i==0): ph=":"
-					ph+=phr
-					i+=1
-					region=braille.TextRegion(ph)
-					if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
-					region.update()
-					regions.append(region)
+			for phrase in re.split("(\W)", eltenbrailletext):
+				if phrase=="": continue
+				region=braille.TextRegion(phrase)
+				if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
+				region.update()
+				regions.append(region)
 			eltenbraille.regions=regions
 			if('pos' in ac): 
 				poses = eltenbraille.rawToBraillePos
@@ -312,7 +308,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 30}
+			return {'version': 31}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):
