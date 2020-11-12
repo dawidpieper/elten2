@@ -562,6 +562,7 @@ module EltenAPI
 
       def navupdate
         @vindex = $key[0x10] ? @check : @index
+        prvindex = @vindex
         last = @vindex
         @ch = false
         if arrow_right
@@ -710,6 +711,12 @@ module EltenAPI
                 @tosay = d + ": " + @tosay
               end
             end
+          end
+        end
+        if @vindex != prvindex
+          if $speechindexedthr != nil and $speechid == @speechindexed and @speechindexed != nil
+            @speechindexed = nil
+            $speechindexedthr.exit
           end
         end
         Audio.bgs_stop if escape or (enter and $key[0x11]) or $key[0x9]
