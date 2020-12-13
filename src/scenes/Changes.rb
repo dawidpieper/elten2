@@ -1,8 +1,8 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
 # Copyright (C) 2014-2020 Dawid Pieper
-# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
-# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
 class Scene_Changes
   def main
@@ -11,17 +11,17 @@ Wersja 1.0:
 Pierwsza wersja programu ELTEN
 
 2014-08-24
-", "
+","
 Wersja 1.01:
 - Poprawiono: zgłoszone błędy
 
 2014-08-24
-", "
+","
 Wersja 1.02:
 - Poprawiono: zgłoszone błędy
 
 2014-08-24
-", "
+","
 Wersja 1.03:
 - Dodano: statusy
 - Dodano: opcja ukrycia programu w zasobniku systemowym w menu wyjście
@@ -33,7 +33,7 @@ Wersja 1.03:
 - Poprawiono: kilka innych błędów
 
 2014-09-06
-", "
+","
 Wersja 1.04:
 - Dodano: \"Użytkownicy, którzy dodali mnie do swoich kontaktów\"
 - Zmieniono: nowy silnik przetwarzania ilości wpisów na forum
@@ -46,7 +46,7 @@ Wersja 1.04:
 - Poprawiono: wiele błędów powodujących zawieszenie się programu, w wypadku zawieszenia, program powtarza wykonywaną klasę
 
 2014-10-19
-", "
+","
 Wersja 1.05:
 - Dodano: bufory pozwalające na pisanie dłuższych wpisów na forum, wiadomości i wizytówek
 - Poprawiono: stabilność programu
@@ -63,7 +63,7 @@ Wersja 1.05:
 - Zmieniono: forum jest drzewem - zapamiętuje zaznaczone wątki i fora oraz pozwala na przemieszczanie się strzałkami lewo-prawo tak, jak klawiszami enter i escape
 
 2014-11-28
-", "
+","
 Wersja 1.06:
 - Poprawiono: stabilność programu
 - Zmieniono: Nowy system pól tekstowych
@@ -76,12 +76,12 @@ Wersja 1.06:
 - Poprawiono: kilka mniejszych błędów
 
 2014-12-23
-", "
+","
 Wersja 1.07:
 - Poprawiono: kilka błędów
 
 2014-12-24
-", "
+","
 Wersja 1.08:
 - Dodano: Możliwość zaznaczania tekstu w polach tekstowych poprzez przytrzymanie klawisza shift i poruszanie kursorem lub całego tekstu skrótem CTRL+A
 - Dodano: Obsługa schowka poprzez skróty CTRL+X, CTRL+C i CTRL+V
@@ -98,7 +98,7 @@ Wersja 1.08:
 - Poprawiono: przesyłanie pustych ciągów znakowych
 
 2014-12-31
-", "
+","
 Wersja 1.09:
 - Zmieniono: Formularze deklarowane przez klasy, nie pisane ręcznie dla każdej funkcji
 - Dodano: Nowe dźwięki
@@ -108,22 +108,22 @@ Wersja 1.09:
 - Zmieniono: Drobne zmiany
 
 2015-01-29
-", "
+","
 Wersja 1.091:
 - Poprawiono: kilka zgłoszonych błędów
 
 2015-01-29
-", "
+","
 Wersja 1.092:
 - Poprawiono: kilka zgłoszonych błędów
 
 2015-02-07
-", "
+","
 Wersja 1.093:
 - Poprawiono: kilka zgłoszonych błędów
 
 2015-02-13
-", "
+","
 Wersja 1.1:
 ,- Zmieniono: inna metoda przetwarzania modułów i inny sposób zapisu danych, jak i nowe metody szyfrowania
 ZMieniono: Nowy system \"Co nowego\"
@@ -151,29 +151,29 @@ ZMieniono: Nowy system \"Co nowego\"
 - Poprawiono: błąd z zaznaczaniem tekstu
 
 2015-03-28
-", "
+","
 Wersja 1.11:
 - Poprawiono: zgłoszone błędy
 
 2015-03-29
-", "
+","
 Wersja 1.12:
 - Poprawiono: zgłoszone błędy
 
 2015-03-29
-", "
+","
 Wersja 1.13:
 - Poprawiono: zgłoszone błędy
 
 2015-04-30
-", "
+","
 Wersja 1.14:
 - Zmieniono: nowa metoda kodowania wiadomości między serwerem a klientem (dotyczy forum, wiadomości, blogów, programów i mediów) (te działy dla starszych wersji nie będą więcej wspierane)
 - Zmieniono: zaktualizowany protokuł tłumacza do najnowszej wersji Google Translatora
 - Poprawiono: zgłoszone błędy
 
 2015-05-08
-", "
+","
 Wersja 1.15:
 - Dodano: nowe skróty klawiszowe w forum
 - Dodano: informacja we wpisie o jego numerze i numerze w wątku
@@ -182,12 +182,12 @@ Wersja 1.15:
 - Poprawiono: zgłoszone błędy
 
 2015-05-21
-", "
+","
 Wersja 1.16:
 - Poprawiono: zgłoszone błędy
 
 2015-05-27
-", "
+","
 Wersja 1.2:
 - Dodano: Opcja testu prędkości łącza
 - Dodano: Obsługa protokołu https przy większości połączeń
@@ -198,18 +198,18 @@ Wersja 1.2:
 - Poprawiono: zgłoszone błędy
 
 2015-06-20
-", "
+","
 Wersja 1.21:
 - Dodano: komentarze na blogach
 - Poprawiono: zgłoszone błędy
 
 2015-08-08
-", "
+","
 Wersja 1.22:
 - Poprawiono: zgłoszone błędy
 
 2015-08-10
-", "
+","
 Wersja 1.3:
 - Dodano: zupełnie nowy agent programu odpowiedzialny za podtrzymywanie tokenu i odbieranie wiadomości
 - Zmieniono: z zasobnika można powrócić skrótem CTRL+ALT+SHIFT+E
@@ -225,13 +225,13 @@ Wersja 1.3:
 - Poprawiono: zgłoszone błędy
 
 2015-08-24
-", "
+","
 Wersja 1.31:
 - Poprawiono: zgłoszone błędy
 - Zmieniono: drobne zmiany w interfejsie
 
 2015-08-24
-", "
+","
 Wersja 1.32:
 - Poprawiono: zgłoszone błędy
 - Zmieniono: nowa procedura sprawdzania śledzonych wątków przez \"Co nowego\"
@@ -242,29 +242,29 @@ Wersja 1.32:
 - Zmieniono: system ładowania wątków
 
 2015-08-29
-", "
+","
 Wersja 1.33:
 - Poprawiono: zgłoszone błędy
 
 2015-08-29
-", "
+","
 Wersja 1.34:
 - Poprawiono: zgłoszone błędy
 
 2015-08-31
-", "
+","
 Wersja 1.35:
 - Zmieniono: zmiany w interfejsie
 - Zmieniono: Nowy instalator i aktualizator
 - Poprawiono: zgłoszone błędy
 
 2015-09-06
-", "
+","
 Wersja 1.36:
 - Poprawiono: zgłoszone błędy
 
 2015-09-06
-", "
+","
 Wersja 1.37:
 - Zmieniono: procedura startu programu
 - Dodano: obsługa wykonywania operacji w trakcie mowy
@@ -273,26 +273,26 @@ Wersja 1.37:
 - Poprawiono: zgłoszone błędy
 
 2015-09-22
-", "
+","
 Wersja 1.38:
 - Poprawiono: zgłoszone błędy
 
 2015-09-22
-", "
+","
 Wersja 1.39:
 - Dodano: kompilator dla projektów EAPI
 - Zmieniono: Drobne zmiany w interfejsie
 - Poprawiono: zgłoszone błędy
 
 2015-11-20
-", "
+","
 Wersja 1.391:
 - Dodano: nowy sposób przetwarzania audio przez odtwarzacz
 - Dodano: przewijanie utworów
 - Poprawiono: media
 
 2015-11-27
-", "
+","
 Wersja 1.392:
 - Poprawiono: agent programu
 - Dodano: druga wersja kompilacji biblioteki Elten.dll - w programie Visual Studio
@@ -301,64 +301,64 @@ Wersja 1.392:
 - Zmieniono: Drobne zmiany w interfejsie
 
 2015-12-23
-", "
+","
 Wersja 1.393:
 - Dodano: strumieniowanie danych z Internetu i obsługa radiów internetowych
 - Poprawiono: zgłoszone błędy
 
 2015-12-25
-", "
+","
 Wersja 1.394:
 - Poprawiono: zgłoszone błędy
 
 2016-03-08
-", "
+","
 Wersja 1.395:
 - Poprawiono: zgłoszone błędy
 
 2016-07-22
-", "
+","
 Wersja 1.396:
 - Poprawiono: zgłoszone błędy
 
 2016-07-22
-", "
+","
 Wersja 1.397:
 - Dodano: możliwość aktualizacji do wersji beta
 - Dodano: możliwość kopiowania treści komunikatów błędów do schowka
 
 2016-09-09
-", "
+","
 Wersja 1.398:
 - Poprawiono: zgłoszone błędy
 
 2016-11-19
-", "
+","
 Wersja 1.399:
 - Zmieniono: Zmiany pozwalające na aktualizację do przyszłej wersji 2.0
 
 2016-12-22
-", "
+","
 Wersja 1.3991:
 - Zmieniono: aktualizacja protokołu buforów
 
 2017-03-24
-", "
+","
 Wersja 1.3992:
 - Poprawiono: przetwarzanie polskich znaków w nazwach folderów systemowych
 
 2017-03-26
-", "
+","
 Wersja 1.3993:
 - Poprawiono: system komunikacji z serwerem
 
 2017-03-27
-", "
+","
 Wersja 1.3994:
 - Poprawiono: obsługa polskich znaków w nazwach użytkowników
 
 2017-03-27
-", "
+","
 Wersja 2.0
 - Dodano: awatary
 - Dodano: obsługa youtube
@@ -400,7 +400,7 @@ Wersja 2.0
 - Poprawiono: Zawieszające się okno przy pisaniu długich tekstów
 
 2017-08-24
-", "
+","
 Wersja 2.01:
 - Dodano: skrót do otwarcia pliku lub folderu w eksploratorze w plikach, CTRL+O
 - Poprawiono: błąd przy minimalizowaniu do traya z menu
@@ -408,7 +408,7 @@ Wersja 2.01:
 - Dodano: przytrzymywanie strzałki przesuwa kursor
 
 2017-08-25
-", "
+","
 Wersja 2.02:
 - Poprawiono: błąd z odtwarzaniem plików zawierających podwójne spacje
 - Poprawiono: błąd z odtwarzaniem plików zawierających wiele polskich znaków
@@ -425,18 +425,18 @@ Wersja 2.02:
 - Zmieniono: od teraz wszystkie nagrania wykonywane są w stereo, o ile karta dźwiękowa oraz mikrofon obsługują ten format
 
 2017-08-26
-", "
+","
 Wersja 2.03:
 - Dodano: możliwość eksportowania plików i tekstu do plików, obsługuje tylko sapi
 - Dodano: skrót CTRL+P w polach tekstowych do eksportu tekstu do  pliku
 
 2017-08-27
-", "
+","
 Wersja 2.031:
 - Poprawiono: błąd podczas czytania do pliku z opcją dzielenia akapitami bądź tworzenia pojedynczego pliku
 
 2017-08-28
-", "
+","
 Wersja 2.04:
 - Dodano: możliwość wyboru formatu pobierania treści z YouTube
 - Dodano: nowe dźwięki
@@ -445,14 +445,14 @@ Wersja 2.04:
 - Poprawiono: błąd uniemożliwiający uruchomienie Eltena w przypadku ustawionego autostartu
 
 2017-08-28
-", "
+","
 Wersja 2.041:
 - Dodano: pasek postępu na YouTube
 - Poprawiono: eksport mowy do pliku
 - Poprawiono: dźwięki w plikach
 
 2017-08-29
-", "
+","
 Wersja 2.042:
 - Dodano: możliwość zapisu wpisów i wiadomości głosowych (skrót CTRL+S)
 - Dodano: Możliwość zapisywania awatarów (podczas odtwarzania skrót SHIFT+ENTER)
@@ -461,14 +461,14 @@ Wersja 2.042:
 - Poprawiono: błąd uniemożliwiający uruchamianie programu przy jego instalacji w wersji powyżej 2.0
 
 2017-08-31
-", "
+","
 Wersja 2.043:
 - Poprawiono: Odtwarzanie filmów z Youtube
 - Poprawiono: pobieranie plików z youtube
 - Poprawiono: zapis mowy do pliku
 
 2017-09-04
-", "
+","
 Wersja 2.1:
 - Dodano: obsługa wysyłania i odbierania maili (każdy użytkownik otrzymał adres E-mail \"login@elten-net.eu\", na który można wysyłać wiadomości odbierane na Eltenie, jak również który będzie podany jako adres nadawcy przy wysyłaniu wiadomości E-mail poza Eltena)
 - Dodano: możliwość wysyłania załączników (do trzech w jednej wiadomości, maksymalnie 16MB na załącznik) (dotyczy zarówno wiadomości prywatnych, jak i maili)
@@ -492,7 +492,7 @@ Wersja 2.1:
 - Poprawiono: skróty w menu
 
 2017-10-28
-", "
+","
 Wersja 2.11:
 - Dodano: możliwość eksportu wersji przenośnej do jednego pliku exe (SFX) (utrata możliwości zapisu ustawień)
 - Dodano: z poziomu menu pod klawiszem alt w plikach udostępnionych można skopiować link do konkretnego pliku, który następnie można wykorzystać na przykład w przeglądarce Internetowej
@@ -500,7 +500,7 @@ Wersja 2.11:
 - Zmieniono: system zarządzania banami
 
 2017-10-30
-", "
+","
 Wersja 2.12:
 - Dodano: Elten APi zawiera teraz drzewo jako programowalną kontrolkę
 - Zmieniono: wygląd menu w menedżerze plików
@@ -512,7 +512,7 @@ Wersja 2.12:
 - Poprawiono: wycinanie folderów działa już jak przenoszenie, nie zaś kopiowanie
 
 2017-11-01
-", "
+","
 Wersja 2.13:
 - Dodano: konto gościa
 - Dodano: szukanie użytkowników
@@ -522,7 +522,7 @@ Wersja 2.13:
 - Poprawiono: zamknięcie menu w plikach udostępnionych otwierało dialog usuwania pliku
 
 2017-11-05
-", "
+","
 Wersja 2.14:
 - Dodano: możliwość przeglądania oraz czytania do pliku dokumentów w formatach doc, pdf, epub, mobi, html, rtf
 - Dodano: tryb debugowania
@@ -539,7 +539,7 @@ Wersja 2.14:
 - Poprawiono: optymalizacja kodu
 
 2017-11-10
-", "
+","
 Wersja 2.15:
 - Dodano: skrót CTRL+D na pliku dźwiękowy podaje jego długość
 - Dodano: Spacja na wyniku wyszukiwania w Youtube podaje jego długość
@@ -550,18 +550,18 @@ Wersja 2.15:
 - Poprawiono: drobne poprawki przy odczytywanych komunikatach na forum
 
 2017-11-11
-", "
+","
 Wersja 2.16:
 Poprawiono: stabilność
 Zaktualizowano: protokół połączenia z serwerem
 
 2017-11-26
-", "
+","
 Wersja 2.17:
 - Poprawiono: obsługa przekierowań
 
 2017-12-06
-", "
+","
 Wersja 2.18:
 - Poprawiono: protokół połączenia z serwerem
 - Poprawiono: zmiany pozwalające na zwiększenie płynności działania
@@ -570,13 +570,13 @@ Wersja 2.18:
 - Zmieniono: aktualizacja zewnętrznych bibliotek do wersji najnowszych na dzień 1 stycznia 2018
 
 2018-01-03
-", "
+","
 Wersja 2.181:
 - Poprawiono: system logowania
 - Poprawiono: błąd powodujący krytyczne przerwanie pracy agenta przy przerwaniu połączenia z serwerem
 
 2018-01-06
-", "
+","
 Wersja 2.2:
 - Zmieniono: zupełnie nowy silnik audio obsługujący więcej formatów
 - Zmieniono: przepisane interfejsy przetwarzania forum i wiadomości
@@ -599,7 +599,7 @@ Wersja 2.2:
 - Zmieniono: nowa procedura resetowania hasła
 
 2018-02-24
-", "
+","
 Wersja 2.21:
 - Poprawiono: problem z otwieraniem menu w wiadomościach przy pustej skrzynce odbiorczej
 - Poprawiono: problem uniemożliwiający edycję pierwszego wpisu na blogu
@@ -608,7 +608,7 @@ Wersja 2.21:
 - Poprawiono: dokumenty w menu pomoc powinny już wyświetlać się poprawnie
 
 2018-02-26
-", "
+","
 Wersja 2.22:
 - Zmieniono: przepisanie systemu pól tekstowych od podstaw
 - Zmieniono: obsługa odtwarzania plików midi
@@ -618,7 +618,7 @@ Wersja 2.22:
 - Dodano: możliwość oznaczenia forum jako przeczytane
 
 2018-03-24
-", "
+","
 Wersja 2.221:
 - Poprawiono: menu na pustej liście śledzonych forów działa już poprawnie
 - Poprawiono: przy wciśnięciu ALT+F4 nie resetuje się już głośność tematu dźwiękowego
@@ -626,7 +626,7 @@ Wersja 2.221:
 - Zmieniono: przy tworzeniu nowych plików i folderów nie jest wpisana w polu nazwy domyślna nazwa
 
 2018-03-28
-", "
+","
 Wersja 2.222:
 - Poprawiono: w jednoliniowych polach tekstowych długie wiersze nie są już zawijane
 - Poprawiono: w polach numerycznych nie można wprowadzać już liter
@@ -635,19 +635,19 @@ Wersja 2.222:
 - Dodano: możliwość oznaczania wszystkich wpisów na blogu jako przeczytane
 
 2018-03-31
-", "
+","
 Wersja 2.223:
 - Poprawiono: pobieranie uprzednio zbuforowanych filmów na Youtube nie powoduje już krytycznego wyjątku
 - Zmieniono: sposób zapisywania informacji o wersji
 
 2018-04-11
-", "
+","
 Wersja 2.224:
 - Poprawiono: otwarcie menu na pozycji \"załaduj więcej wiadomości\" nie powoduje już krytycznego błędu
 - Poprawiono: tło w oknach dialogowych respektuje głośność tematu dźwiękowego
 
 2018-04-16
-", "
+","
 Wersja 2.23:
 - Dodano: nowy format do konwersji audio - opus
 - Dodano: przy odtwarzaniu plików udostępnianych obsługiwane jest teraz strumieniowanie formatów OPUS, AAC oraz WMA
@@ -662,7 +662,7 @@ Wersja 2.23:
 - Poprawiono: po wciśnięciu klawisza delete na blogu innego użytkownika pojawiało się pytanie o usunięcie wpisu, po potwierdzeniu Elten wywoływał krytyczny wyjątek
 
 2018-04-23
-", "
+","
 Wersja 2.24:
 - ZMieniono: od tej pory audio na serwerze zapisywane jest w formacie OPUS
 - Zmieniono: maksymalna długość wpisów na blogach od tej pory wynosi jedną godzinę
@@ -671,21 +671,21 @@ Wersja 2.24:
 - Poprawiono: lepsze wsparcie dla strumieniowania kodeka OPUS
 
 2018-04-29
-", "
+","
 Wersja 2.241:
 - Poprawiono: lepsza obsługa strumieniowania audio
 
 2018-04-30
-", "
+","
 Wersja 2.242:
 - Poprawiono: do poprzedniej kompilacji przypadkowo dołączone zostały 64-bitowe wersje kodeków, co uniemożliwiło wysyłanie audio na serwer z komputerów z zainstalowanymi 32-bitowymi systemami operacyjnymi
 
-2018-04-30", "
+2018-04-30","
 Wersja 2.243:
 - Poprawiono: lepsza obsługa strumieniowania audio przy wolniejszym łączu Internetowym
 
 2018-05-03
-", "
+","
 Wersja 2.25:
 - Dodano: możliwość przesuwania wpisów przez moderatorów
 - Poprawiono: wiersze są już poprawnie zawijane w dłuższych polach tekstowych
@@ -693,7 +693,7 @@ Wersja 2.25:
 - Zmieniono: biblioteka kodeka opus zaktualizowana do najnowszej wersji
 
 2018-06-17
-", "
+","
 Wersja 2.26:
 - Poprawiono: klawisze page up i page down w polach tekstowych działają już poprawnie
 - Poprawiono: podczas wyszukiwania tekstów w polach tekstowych działa już klawisz escape
@@ -701,7 +701,7 @@ Wersja 2.26:
 - Poprawiono: polskie diakretyki są już poprawnie odczytywane na liście wyboru syntezatora mowy
 
 2018-06-17
-", "
+","
 Wersja 2.27:
 - Poprawiono: problem z pustym \"co nowego\", gdy dostępna jest aktualizacja w gałęzi beta
 - Poprawiono: agent poprawnie odczytuje konfigurację w wersjach beta
@@ -711,45 +711,45 @@ Wersja 2.27:
 - Poprawiono: podczas rejestracji dodano informację przy nieobsługiwanych znakach
 
 2018-07-26
-", "
+","
 Wersja 2.271:
 - Poprawiono: do poprzedniego wydania dołączona została omyłkowo stara wersja agenta
 - Poprawiono: system aktualizacji poprawnie rozpoznaje już nowe wydania stabilne, gdy dostępna jest gałąź beta
 
 2018-07-26
-", "
+","
 Wersja 2.28:
 - Dodano: obsługa uwierzytelniania dwuetapowego (SMS)
 
 2018-07-30
-", "
+","
 Wersja 2.281:
 - Zmieniono: aktualizacja obsługi Youtube
 
 2018-09-08
-", "
+","
 Wersja 2.282:
 - Poprawiono: problem w wyniku którego Elten nie zamykał uchwytów plików przy ich analizie, co uniemożliwiało edycję plików na przykład załączanych dowiadomości do momentu zamknięcia programu
 
 2018-09-25
-", "
+","
 Wersja 2.283:
 - Poprawiono: system detekcji woluminów przy menu wyboru plików
 - ZMieniono: drobne zmiany w domyślnym temacie dźwiękowym
 
 2018-10-21
-", "
+","
 Wersja 2.284:
 - Zmieniono: aktualizacja Youtube-DL
 - Poprawiono: obsługa aktualizacji do wersji beta
 
 2018-11-08
-", "
+","
 Wersja 2.285:
 - Zmieniono: aktualizacja protokołów połączeń z serwerem
 
 2019-03-09
-", "
+","
 Wersja 2.3:
 - Dodano: grupy
 - Dodano: pięć nowych języków: hiszpański, francuski, horwacki, portugalski i rosyjski
@@ -773,7 +773,7 @@ Wersja 2.3:
 - Poprawiono: JSON jest już parsowany poprawnie
 
 2019-08-24
-", "
+","
 Wersja 2.31:
 - Dodano: lista ostatnio utworzonych grup
 - Dodano: możliwość wyboru karty dźwiękowej
@@ -793,7 +793,7 @@ Wersja 2.31:
 - Poprawiono: unifikacja obsługi audio
 
 2019-08-26
-", "
+","
 Wersja 2.32:
 - Dodano: możliwość wyboru mikrofonu
 - Zmieniono: nowe okno z informacjami o wersji programu
@@ -805,14 +805,14 @@ Wersja 2.32:
 - Poprawiono: obsługa kolejkowania zapytań do serwera
 
 2019-09-10
-", "
+","
 Wersja 2.33:
 - Dodano: lista wątków i grup popularnych wśród znajomych
 - Dodano: lista blogów popularnych wśród znajomych
 - Dodano: możliwość wyłączania komentarzy pod określonymi wpisami na blogach
 
 2019-09-14
-", "
+","
 Wersja 2.34:
 - Dodano: możliwość zmiany typu wpisu na blogu
 - Dodano: historia logowań
@@ -828,18 +828,18 @@ Wersja 2.34:
 - Usunięto: pliki udostępniane
 
 2019-09-27
-", "
+","
 Wersja 2.341:
 - Dodano: możliwość przenoszenia wpisów między blogami
 - Poprawiono: menu na liście blogów
 
-2019-09-28", "
+2019-09-28","
 Wersja 2.342:
 - Dodano: możliwość przypinania wątków
 - Dodano (eksperymentalnie): na listach klawisz F4 podaje numer wybranej pozycji oraz rozmiar listy
 
 2019-10-01
-", "
+","
 Wersja 2.35:
 - Dodano: możliwość szyfrowania klucza automatycznego logowania
 - Dodano: usuwanie komentarzy na blogu
@@ -851,19 +851,19 @@ Wersja 2.35:
 - Poprawiono: kolejkowanie zapytań
 
 2019-10-14
-", "
+","
 Wersja 2.36:
 - Zmieniono: nowy system odznaczeń
 
 2019-12-23
-", "
+","
 Wersja 2.361:
 - Poprawiono: zapętlenie akceptacji regulaminu przy polskich znakach w nazwie użytkownika Windows
 - Poprawiono: wyświetlanie konwersacji wielu osób w Co Nowego
 - Poprawiono: oznaczanie nowych wiadomości w konwersacjach wielu osób
 
 2020-02-01
-", "
+","
 Wersja 2.37:
 - Dodano: możliwość zmiany języka bloga
 - Zmieniono: nowy, tymczasowy (do czasu wyjścia wersji 2.4) silnik Youtube
@@ -871,7 +871,7 @@ Wersja 2.37:
 - Zmieniono: Otwarcie bloga z menu użytkownika pokazuje wszystkie blogi tego użytkownika
 
 2020-06-14
-", "
+","
 Wersja 2.38:
 - Zmieniono: grupy są teraz sortowane wg daty ostatniego wpisu
 - Zmieniono: wybór języka przy tworzeniu ankiet
@@ -880,7 +880,7 @@ Wersja 2.38:
 - Poprawiono: obsługa Youtube, mogą być wymagane dalsze aktualizacje
 
 2020-10-19
-", "
+","
 Wersja 2.4:
 - Dodano: przewodnik po dźwiękach i możliwość edycji tematów dźwiękowych
 - Dodano: możliwość skakania po tagach
@@ -919,28 +919,27 @@ Wersja 2.4:
 
 2021-01-24
 "]
-    @changes.reverse!
-    @changes.each { |c| c.gsub!(/Wersja (\d\.\d+)/) { "Wersja " + $1.delete(".").split("").join(".") } }
-    @selt = []
-    for i in 0..@changes.size - 1
-      @selt.push((@changes[i]).split("\n")[1].delete(":").sub("Wersja ", ""))
-    end
-    @sel = ListBox.new(@selt, p_("Changes", "Changelog"))
-    loop do
-      loop_update
-      @sel.update
-      update
-      break if $scene != self
-    end
+@changes.reverse!
+@changes.each{|c| c.gsub!(/Wersja (\d\.\d+)/) {"Wersja "+$1.delete(".").split("").join(".")}}
+@selt = []
+for i in 0..@changes.size - 1
+  @selt.push((@changes[i]).split("\n")[1].delete(":").sub("Wersja ",""))
   end
-
-  def update
-    if escape
-      $scene = Scene_Main.new
-    end
-    if enter
-      input_text(@selt[@sel.index], EditBox::Flags::ReadOnly, @changes[@sel.index][1..@changes[@sel.index].size - 1], true)
-      @sel.focus
-    end
+@sel = ListBox.new(@selt,p_("Changes", "Changelog"))
+loop do
+  loop_update
+  @sel.update
+  update
+  break if $scene != self
   end
+end
+def update
+  if escape
+        $scene = Scene_Main.new
+  end
+  if enter
+    input_text(@selt[@sel.index],EditBox::Flags::ReadOnly,@changes[@sel.index][1..@changes[@sel.index].size-1],true)
+    @sel.focus
+    end
+    end
 end

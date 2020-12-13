@@ -1,8 +1,8 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
 # Copyright (C) 2014-2020 Dawid Pieper
-# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
-# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
 module Bass
   BASS = Fiddle.dlopen("bass")
@@ -13,7 +13,7 @@ module Bass
   BASS_RecordStart = Fiddle::Function.new(BASS["BASS_RecordStart"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_GetConfig = Fiddle::Function.new(BASS["BASS_GetConfig"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_SetConfig = Fiddle::Function.new(BASS["BASS_SetConfig"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-  BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_GetDeviceInfo = Fiddle::Function.new(BASS["BASS_GetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_SetConfigPtr = Fiddle::Function.new(BASS["BASS_SetConfigPtr"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_Free = Fiddle::Function.new(BASS["BASS_Free"], [], Fiddle::TYPE_INT)
@@ -27,6 +27,7 @@ module Bass
   BASS_SampleFree = Fiddle::Function.new(BASS["BASS_SampleFree"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_SampleGetChannel = Fiddle::Function.new(BASS["BASS_SampleGetChannel"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_SampleStop = Fiddle::Function.new(BASS["BASS_SampleStop"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_StreamCreate = Fiddle::Function.new(BASS["BASS_StreamCreate"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_StreamCreateFile = Fiddle::Function.new(BASS["BASS_StreamCreateFile"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_StreamCreateURL = Fiddle::Function.new(BASS["BASS_StreamCreateURL"], [Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_StreamFree = Fiddle::Function.new(BASS["BASS_StreamFree"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
@@ -34,6 +35,7 @@ module Bass
   BASS_ChannelPlay = Fiddle::Function.new(BASS["BASS_ChannelPlay"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelStop = Fiddle::Function.new(BASS["BASS_ChannelStop"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelPause = Fiddle::Function.new(BASS["BASS_ChannelPause"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_StreamPutData = Fiddle::Function.new(BASS["BASS_StreamPutData"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelGetData = Fiddle::Function.new(BASS["BASS_ChannelGetData"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelGetLength = Fiddle::Function.new(BASS["BASS_ChannelGetLength"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelGetAttribute = Fiddle::Function.new(BASS["BASS_ChannelGetAttribute"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
@@ -51,39 +53,53 @@ module Bass
     9 => "START", 14 => "ALREADY", 18 => "NOCHAN", 19 => "ILLTYPE", 20 => "ILLPARAM", 21 => "NO3D", 22 => "NOEAX", 23 => "DEVICE",
     24 => "NOPLAY", 25 => "FREQ", 27 => "NOTFILE", 29 => "NOHW", 31 => "EMPTY", 32 => "NONET", 33 => "CREATE", 34 => "NOFX",
     37 => "NOTAVAIL", 38 => "DECODE", 39 => "DX", 40 => "TIMEOUT", 41 => "FILEFORM", 42 => "SPEAKER", 43 => "VERSION", 44 => "CODEC",
-    45 => "ENDED", -1 => " UNKNOWN"
+    45 => "ENDED", -1 => " UNKNOWN",
   }
 
-  def self.set_card(card, hWnd, samplerate = 44100)
-    BASS_SetConfig.call(36, 1)
-    devs = []
-    c = 1
-    if card != nil
-      index = 1
-      tmp = [nil, nil, 0].pack("ppi")
-      while BASS_GetDeviceInfo.call(index, tmp) > 0
-        a = tmp.unpack("ii")
-        o = "\0" * 1024
-        $strcpy.call(o, a[0])
-        sc = o[0...o.index("\0")]
-        Encoding.list.each { |a|
-          begin
-            b = sc.force_encoding(a).encode("UTF-8")
-            c = index if card == b
-          rescue Exception
-          end
-        }
-        index += 1
+def self.set_card(card, hWnd, samplerate = 44100)
+BASS_SetConfig.call(36, 1)
+      devs=[]
+      c=1
+      if card!=nil
+      index=1
+      tmp=[nil,nil,0].pack("ppi")
+      while BASS_GetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("ii")
+        o="\0"*1024
+        $strcpy.call(o,a[0])
+       sc=o[0...o.index("\0")]
+Encoding.list.each {|a|
+begin
+b=sc.force_encoding(a).encode("UTF-8")
+        c=index if card==b
+rescue Exception
+end
+}
+        index+=1
+end
+end
+BASS_Init.call(c, samplerate, 4, hWnd, nil)
+BASS_SetDevice.call(c)
+end
+
+@@recorddevice=-1
+@@recordinit=false
+    def self.setrecorddevice(i)
+      @@recorddevice=i
+      BASS_RecordFree.call if @@recordinit
+      @@recordinit=false
       end
-    end
-    BASS_Init.call(c, samplerate, 4, hWnd, nil)
-    BASS_SetDevice.call(c)
-  end
+def self.record_prepare
+      if @@recordinit==false
+              BASS_RecordInit.call(@@recorddevice)
+              @@recordinit=true
+              end
+      end
 
   def self.init(hWnd, samplerate = 44100)
     return if @init == true
     @init = true
-    BASS_SetConfig.call(36, 1)
+BASS_SetConfig.call(36, 1)
     if (BASS_GetVersion.call >> 16) != 0x0204
       raise("bass.dll 2.4")
     end
@@ -118,8 +134,9 @@ module Bass
   class Sample
     attr_reader :ch
 
-    def set_card(name)
-    end
+def set_card(name)
+
+end
 
     def initialize(filename, max = 1)
       if filename[0..3] == "http"

@@ -1,37 +1,31 @@
 class StringIO < IO
   attr_accessor :string, :pos
-
-  def initialize(str = "")
-    @string = str
-    @pos = 0
+  def initialize(str="")
+    @string=str
+    @pos=0
   end
-
   def read(size)
-    r = @string[@pos...@pos + size]
-    if @pos + size > @string.bytesize
-      @pos = @string.bytesize
+    r=@string[@pos...@pos+size]
+    if @pos+size>@string.bytesize
+      @pos=@string.bytesize
     else
-      @pos += size
-    end
+      @pos+=size
+      end
     return r
   end
-
   def seek(o)
-    @pos = o
-    @pos = @string.size if @pos > @string.size
+    @pos=o
+    @pos=@string.size if @pos>@string.size
   end
-
   def binmode
     return self
   end
-
   def getc
-    return nil if @pos >= @string.size
+    return nil if @pos>=@string.size
     read(1).unpack("c").first
   end
-
   def eof?
-    return false if @pos < @string.size
+    return false if @pos<@string.size
     true
+    end
   end
-end
