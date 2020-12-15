@@ -29,7 +29,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\private\include;..\..\vendor\openssl\include;..\..\vendor\opus;..\..\vendor\ogg;..\..\vendor;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\private\include;..\..\vendor\openssl\include;..\..\vendor\opus;..\..\vendor\ogg;..\..\vendor\speexdsp;..\..\vendor;$(IncludePath)</IncludePath>
     <OutDir>..\..\out\lib\</OutDir>
     <IntDir>..\..\out\lib\</IntDir>
     <TargetName>eltenvc</TargetName>
@@ -50,7 +50,7 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\..\vendor\openssl\lib\VC\libcrypto32MT.lib;..\..\vendor\openssl\lib\VC\libssl32MT.lib;ws2_32.lib;sapi.lib;..\..\vendor\opus\opus.lib;..\..\vendor\vorbis\libvorbis.lib;..\..\vendor\ogg\libogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\vendor\openssl\lib\VC\libcrypto32MT.lib;..\..\vendor\openssl\lib\VC\libssl32MT.lib;ws2_32.lib;sapi.lib;..\..\vendor\opus\opus.lib;..\..\vendor\vorbis\libvorbis.lib;..\..\vendor\ogg\libogg.lib;..\..\vendor\speexdsp\libspeexdsp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

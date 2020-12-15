@@ -15,7 +15,7 @@ You should have received a copy of the GNU General Public License along with Elt
 extern "C" {
 
 BOOL DLLIMPORT CALLBACK OpusRecordProc(int handle, const void *buffer, DWORD length, void *user);
-int DLLIMPORT OpusRecorderInit(wchar_t*, int, int, int, float, int, BOOL);
+int DLLIMPORT OpusRecorderInit(wchar_t*, int, int, int, float, int, BOOL, BOOL);
 void DLLIMPORT OpusRecorderClose(int);
 }
 #endif
