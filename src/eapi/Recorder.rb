@@ -8,8 +8,8 @@ module OpusRecorder
     class OpusRecording
       def initialize(file, bitrate=64, framesize=60, application=2048, usevbr=1)
         @paused=false
-        init=Win32API.new($eltenlib, "OpusRecorderInit", 'piiiiii', 'i')
-        @rproc=init.call(unicode(file), 48000, 2, bitrate*1000, [framesize].pack("f").unpack("i").first, application, usevbr)
+        init=Win32API.new($eltenlib, "OpusRecorderInit", 'piiiiiii', 'i')
+        @rproc=init.call(unicode(file), 48000, 2, bitrate*1000, [framesize].pack("f").unpack("i").first, application, usevbr, (Configuration.usedenoising==2)?(1):(0))
 Bass.record_prepare
         dll = Win32API.new("kernel32", "LoadLibrary", 'p', 'i').call($eltenlib)
 proc = Win32API.new("kernel32", "GetProcAddress", 'ip', 'i').call(dll, "_OpusRecordProc@16")
@@ -37,7 +37,7 @@ class <<self
     OpusRecording.new(file, bitrate, framesize, application, usevbr)
   end
         def encode_file(file, output, bitrate=64, framesize=60, application=2048, usevbr=1)
-  w=Win32API.new($eltenlib, "OpusRecorderInit", 'piiiiii', 'i')
+  w=Win32API.new($eltenlib, "OpusRecorderInit", 'piiiiiii', 'i')
 pr=Win32API.new($eltenlib, "_OpusRecordProc@16", 'ipii', 'i')
 if file[0..4]=="http:" || file[0..5]=="https:"
   cha = Bass::BASS_StreamCreateURL.call(unicode(file), 0, 0x80000000|0x200000|131072, 0, 0)
@@ -48,7 +48,7 @@ rinfo=[0, 0, 0, 0, 0, 0, 0, ''].pack("iiiiiiip")
            Bass::BASS_ChannelGetInfo.call(cha, rinfo)
            info=rinfo.unpack("iiiiiii")
            channels=info[1]
-              r=w.call(unicode(output), 48000, channels, bitrate*1000, [framesize].pack("f").unpack("i").first, application, usevbr)
+              r=w.call(unicode(output), 48000, channels, bitrate*1000, [framesize].pack("f").unpack("i").first, application, usevbr, 0)
                 mx=Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x200000|0x10000)
                 Bass::BASS_Mixer_StreamAddChannel.call(mx, cha, 0x10000|0x4000|0x800000)
                 cha=mx

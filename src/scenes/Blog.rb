@@ -464,7 +464,7 @@ else
           alert(p_("Blog", "Nobody added you to their contact list."))
           next
         end
-        form = Form.new([ListBox.new(users, p_("Blog", "User to mention")), EditBox.new(p_("Blog", "Message"), "", "", true), Button.new(p_("Blog", "Mention post")), Button.new(_("Cancel"))])
+        form = Form.new([ListBox.new(users, p_("Blog", "User to mention")), EditBox.new(p_("Blog", "Message"), 0, "", true), Button.new(p_("Blog", "Mention post")), Button.new(_("Cancel"))])
         loop do
           loop_update
           form.update

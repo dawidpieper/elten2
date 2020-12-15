@@ -23,7 +23,7 @@ def languages
     end
     module Configuration
       class <<self
-        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :soundthemepath, :volume, :usefx, :bgsounds, :voicepitch
+        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :soundthemepath, :volume, :usefx, :bgsounds, :voicepitch, :usedenoising
       end
       end
     module Lists

@@ -25,8 +25,10 @@ require "http/2"
 require "./dlls.rb"
 require("./eltenapi.rb")
 require("./opus.rb")
+require("./speexdsp.rb")
 require("./voip.rb")
 require("./conference.rb")
+
 class Notification
 attr_accessor :alert, :sound, :id
 def initialize(alert=nil,sound=nil, id="nocat".rand(10**16).to_s)
@@ -140,6 +142,7 @@ $upd['isbeta']=readini("./elten.ini","Elten","IsBeta","0").to_i
 $wn={}
 $li=0
 $soundcard=nil
+$microphone=nil
 log(0, "Agent initialized")
 loop do
 if ($li%20)==0
@@ -417,6 +420,8 @@ $lastrate=$rate
 $lastvolume=$volume
 $lastsapipitch=$sapipitch
 $lastsoundcard=$soundcard
+$lastmicrophone=$microphone
+$lastusedenoising=$usedenoising
 $voice=readconfig("Voice","Voice","")
 $rate=readconfig("Voice","Rate","50").to_i
 if $voice!=$lastvoice
@@ -432,6 +437,8 @@ $SoundThemeActivation = readconfig("Interface","SoundThemeActivation","1").to_i
 $refreshtime = readconfig("Advanced","AgentRefreshTime","1").to_i
 $volume = readconfig("Interface","MainVolume","70").to_i
 $soundcard = readconfig("SoundCard","SoundCard",nil)
+$microphone = readconfig("SoundCard","Microphone",nil)
+$microphone=nil if $mictophone==""
 $soundcard=nil if $soundcard==""
 if $lastsoundcard!=$soundcard
 log(0, "SoundCard changed: #{$soundcard}")
@@ -446,12 +453,26 @@ $sapisetdevice.call(i) if sapidevices[i]==$soundcard
 end
 end
 end
+if $microphone != $lastmicrophone
+log(0, "Microphone changed: #{$microphone}")
+mc=Bass.microphones
+  for i in 0...mc.size
+    if mc[i]==$microphone
+          Bass.setrecorddevice(i)
+    s=true
+    end
+  end
+Bass.setrecorddevice(-1) if s==false
+$conference.reset if $conference!=nil
+end
 $soundthemespath = readconfig("Interface","SoundTheme","")
 if $soundthemespath.size > 0
 $soundthemepath = $soundthemesdata + "\\" + $soundthemespath
 else
 $soundthemepath = "Audio"
 end
+$usedenoising=readconfig("Advanced","UseDenoising","0").to_i
+$conference.reset if $conference!=nil && $usedenoising!=$lastusedenoising
 if $name!=nil and $name!=""
 pr="name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime||Time.now.to_i}"
 pr+="\&shown=1" if $shown==true

@@ -1,3 +1,11 @@
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
+
+
+
 class Conference
 class Transmitter
 attr_reader :decoder, :stream
@@ -68,7 +76,10 @@ bufsize = 2097152
 buf="\0"*bufsize
 @voip=VoIP.new
 @encoder=nil
+@speexdsp=nil
+@speexdsp_framesize=0
 @encoder_mutex = Mutex.new
+@record_mutex = Mutex.new
 @voip.on_receive {|userid, type, message, pos_x, pos_y|
 if type==1
 if @transmitters[userid]!=nil
@@ -86,6 +97,21 @@ if params['channel'].is_a?(Hash)
 @encoder.packetloss=10
 @encoder.bitrate=params['channel']['bitrate']*1000
 @fsize=params['channel']['framesize']*48000*4/1000
+sfs=20
+sfs=params['channel']['framesize'] if params['channel']['framesize']<20
+if @speexdsp_framesize!=sfs
+@speexdsp.free if @speexdsp!=nil
+@speexdsp=nil
+end
+if sfs>=10
+if @speexdsp==nil
+@speexdsp=SpeexDSP::Processor.new(48000, 2, sfs)
+@speexdsp.noise_reduction=($usedenoising||0)>0
+@speexdsp_framesize = sfs
+end
+else
+@speexdsp_framesize=0
+end
 frs=@transmitters.size==0
 upusers=[]
 for u in params['channel']['users']
@@ -115,6 +141,7 @@ end
 audio=""
 loop {
 sleep(0.01)
+@record_mutex.synchronize {
 while (sz=Bass::BASS_ChannelGetData.call(@record, buf, bufsize))>0
 if @fsize>0
 au=(audio||"").b+buf.byteslice(0...sz).b
@@ -125,6 +152,7 @@ part=au.byteslice(index...index+@fsize)
 if @encoder!=nil
 frame=""
 @encoder_mutex.synchronize {
+part=@speexdsp.process(part) if @speexdsp!=nil
 frame=@encoder.encode(part, @fsize/4)
 }
 @voip.send(1, frame, @x, @y)
@@ -136,9 +164,21 @@ end
 end
 }
 }
+}
 @channel_hooks=[]
 @volumes_hooks=[]
 @user_hooks=[]
+end
+def reset
+@record_mutex.synchronize {
+Bass::BASS_StreamFree.call(@record) if @record!=nil
+Bass.record_prepare
+@record = Bass::BASS_RecordStart.call(48000, 2, 0, 0, 0)
+@encoder_mutex.synchronize {
+@speexdsp.noise_reduction=($usedenoising||0)>0 if @speexdsp!=nil
+@encoder.reset if @encoder!=nil
+}
+}
 end
 def setvolume(user, volume=100, muted=false)
 volume=100 if volume>100
@@ -192,6 +232,7 @@ end
 Bass::BASS_StreamFree.call(@record)
 @encoder_mutex.synchronize {
 @encoder.free if @encoder!=nil
+@speexdsp.free if @speexdsp!=nil
 }
 @voip.disconnect
 end

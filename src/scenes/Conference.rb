@@ -1,3 +1,11 @@
+# A part of Elten - EltenLink / Elten Network desktop client.
+# Copyright (C) 2014-2020 Dawid Pieper
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
+
+
+
 class Scene_Conference
   def main
         Conference.open if !Conference.opened?
@@ -112,7 +120,7 @@ def list_channels
     bitrates=[8, 16, 24, 32, 48, 64, 96, 128, 196, 256, 320]
     framesizes=[2.5, 5.0, 10.0, 20.0, 40.0, 60.0]
     form = Form.new([
-    edt_name = EditBox.new(p_("Conference", "Channel name"), "", "", true),
+    edt_name = EditBox.new(p_("Conference", "Channel name"), 0, "", true),
     lst_bitrate = ListBox.new(bitrates.map{|b|b.to_s}, p_("Conference", "Channel bitrate"), bitrates.find_index(64)||0, 0, true),
     lst_framesize = ListBox.new(framesizes.map{|f|f.to_s}, p_("Conference", "Channel frame size"), framesizes.find_index(60.0)||0, 0, true),
     btn_create = Button.new(p_("Conference", "Create")),

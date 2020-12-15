@@ -9,8 +9,10 @@ module Bass
   BASS_GetVersion = Fiddle::Function.new(BASS["BASS_GetVersion"], [], Fiddle::TYPE_INT)
   BASS_ErrorGetCode = Fiddle::Function.new(BASS["BASS_ErrorGetCode"], [], Fiddle::TYPE_INT)
   BASS_Init = Fiddle::Function.new(BASS["BASS_Init"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_RecordGetDeviceInfo  = Fiddle::Function.new(BASS["BASS_RecordGetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_RecordInit = Fiddle::Function.new(BASS["BASS_RecordInit"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_RecordStart = Fiddle::Function.new(BASS["BASS_RecordStart"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_RecordFree = Fiddle::Function.new(BASS["BASS_RecordFree"], [], Fiddle::TYPE_INT)
   BASS_GetConfig = Fiddle::Function.new(BASS["BASS_GetConfig"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_SetConfig = Fiddle::Function.new(BASS["BASS_SetConfig"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
 BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
@@ -80,6 +82,21 @@ end
 end
 BASS_Init.call(c, samplerate, 4, hWnd, nil)
 BASS_SetDevice.call(c)
+end
+
+def self.microphones
+microphones=[]
+        index=0
+      tmp=[nil,nil,0].pack("ppi")
+      while BASS_RecordGetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("iii")
+                o="\0"*1024
+        $wcscpy.call(o,a[0])
+                sc=o[0...o.index("\0")||-1]
+        microphones.push(sc)
+               index+=1
+             end
+                          return microphones
 end
 
 @@recorddevice=-1

@@ -704,6 +704,7 @@ if $rvc==nil
     end
                           Configuration.volume = readconfig("Interface", "MainVolume", 50)
                           Configuration.usefx = readconfig("Advanced", "UseFX", -1)
+                          Configuration.usedenoising = readconfig("Advanced", "UseDenoising", 0)
                           setlocale(Configuration.language) if lang!=Configuration.language
                                 end
     end

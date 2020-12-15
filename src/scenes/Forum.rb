@@ -959,7 +959,7 @@ loop do
       ln.push(l["name"] + " (" + l["nativeName"] + ")")
       lnindex = ln.size - 1 if Configuration.language.downcase[0..1] == lk.downcase[0..1]
     end
-    fields = [EditBox.new(p_("Forum", "Group name"), "", "", true), EditBox.new(p_("Forum", "Group description"), EditBox::Flags::MultiLine, "", true), ListBox.new(ln, p_("Forum", "Language"), lnindex, 0, true), ListBox.new([p_("Forum", "Hidden"), p_("Forum", "Public")], p_("Forum", "Group type"), 0, 0, true), ListBox.new([p_("Forum", "open (everyone can join)"), p_("Forum", "Moderated (everyone can request)")], p_("Forum", "Group join type"), 0, 0, true), nil, Button.new(_("Cancel"))]
+    fields = [EditBox.new(p_("Forum", "Group name"), 0, "", true), EditBox.new(p_("Forum", "Group description"), EditBox::Flags::MultiLine, "", true), ListBox.new(ln, p_("Forum", "Language"), lnindex, 0, true), ListBox.new([p_("Forum", "Hidden"), p_("Forum", "Public")], p_("Forum", "Group type"), 0, 0, true), ListBox.new([p_("Forum", "open (everyone can join)"), p_("Forum", "Moderated (everyone can request)")], p_("Forum", "Group join type"), 0, 0, true), nil, Button.new(_("Cancel"))]
     form = Form.new(fields)
     loop do
       loop_update
@@ -1339,7 +1339,7 @@ return tags
   end
 
   def newforum
-    fields = [EditBox.new(p_("Forum", "Forum name"), "", "", true), EditBox.new(p_("Forum", "Forum description"), EditBox::Flags::MultiLine, "", true), ListBox.new([p_("Forum", "Text forum"), p_("Forum", "Voice forum"), p_("Forum", "Mixed forum")], p_("Forum", "Forum type"), 0, 0, true), nil, Button.new(_("Cancel"))]
+    fields = [EditBox.new(p_("Forum", "Forum name"), 0, "", true), EditBox.new(p_("Forum", "Forum description"), EditBox::Flags::MultiLine, "", true), ListBox.new([p_("Forum", "Text forum"), p_("Forum", "Voice forum"), p_("Forum", "Mixed forum")], p_("Forum", "Forum type"), 0, 0, true), nil, Button.new(_("Cancel"))]
     form = Form.new(fields)
     loop do
       loop_update
@@ -1875,7 +1875,7 @@ else
         end
       end
     end
-    fields = [EditBox.new(p_("Forum", "Thread name"), "", "", true)]
+    fields = [EditBox.new(p_("Forum", "Thread name"), 0, "", true)]
     if type == 0
       fields[1..6] = [EditBox.new(p_("Forum", "Post"), EditBox::Flags::MultiLine, "", true), nil, nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
     else
@@ -2705,7 +2705,7 @@ end
           alert(p_("Forum", "Nobody added you to their contact list."))
           next
         end
-        form = Form.new([ListBox.new(users, p_("Forum", "User to mention")), EditBox.new(p_("Forum", "Message"), "", "", true), Button.new(p_("Forum", "Mention post")), Button.new(_("Cancel"))])
+        form = Form.new([ListBox.new(users, p_("Forum", "User to mention")), EditBox.new(p_("Forum", "Message"), 0, "", true), Button.new(p_("Forum", "Mention post")), Button.new(_("Cancel"))])
         loop do
           loop_update
           form.update
