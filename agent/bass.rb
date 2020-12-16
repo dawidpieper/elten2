@@ -6,10 +6,14 @@
 
 module Bass
   BASS = Fiddle.dlopen("bass")
+#  BASSFX = Fiddle.dlopen("bass_fx")
+  BASSMIX = Fiddle.dlopen("bassmix")
   BASS_GetVersion = Fiddle::Function.new(BASS["BASS_GetVersion"], [], Fiddle::TYPE_INT)
   BASS_ErrorGetCode = Fiddle::Function.new(BASS["BASS_ErrorGetCode"], [], Fiddle::TYPE_INT)
   BASS_Init = Fiddle::Function.new(BASS["BASS_Init"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_RecordGetDeviceInfo  = Fiddle::Function.new(BASS["BASS_RecordGetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_RecordGetInput  = Fiddle::Function.new(BASS["BASS_RecordGetInput"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_RecordSetInput  = Fiddle::Function.new(BASS["BASS_RecordSetInput"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_RecordInit = Fiddle::Function.new(BASS["BASS_RecordInit"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_RecordStart = Fiddle::Function.new(BASS["BASS_RecordStart"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_RecordFree = Fiddle::Function.new(BASS["BASS_RecordFree"], [], Fiddle::TYPE_INT)
@@ -19,6 +23,7 @@ BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT]
   BASS_GetDeviceInfo = Fiddle::Function.new(BASS["BASS_GetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_SetConfigPtr = Fiddle::Function.new(BASS["BASS_SetConfigPtr"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_Free = Fiddle::Function.new(BASS["BASS_Free"], [], Fiddle::TYPE_INT)
+  BASS_PluginLoad = Fiddle::Function.new(BASS["BASS_PluginLoad"], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_Start = Fiddle::Function.new(BASS["BASS_Start"], [], Fiddle::TYPE_INT)
   BASS_Stop = Fiddle::Function.new(BASS["BASS_Stop"], [], Fiddle::TYPE_INT)
   BASS_Pause = Fiddle::Function.new(BASS["BASS_Pause"], [], Fiddle::TYPE_INT)
@@ -40,6 +45,7 @@ BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT]
   BASS_StreamPutData = Fiddle::Function.new(BASS["BASS_StreamPutData"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelGetData = Fiddle::Function.new(BASS["BASS_ChannelGetData"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelGetLength = Fiddle::Function.new(BASS["BASS_ChannelGetLength"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_ChannelGetInfo = Fiddle::Function.new(BASS["BASS_ChannelGetInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_ChannelGetAttribute = Fiddle::Function.new(BASS["BASS_ChannelGetAttribute"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_ChannelSetAttribute = Fiddle::Function.new(BASS["BASS_ChannelSetAttribute"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelSlideAttribute = Fiddle::Function.new(BASS["BASS_ChannelSlideAttribute"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
@@ -50,6 +56,12 @@ BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT]
   BASS_ChannelGetPosition = Fiddle::Function.new(BASS["BASS_ChannelGetPosition"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_ChannelSetPosition = Fiddle::Function.new(BASS["BASS_ChannelSetPosition"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_StreamGetFilePosition = Fiddle::Function.new(BASS["BASS_StreamGetFilePosition"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Mixer_StreamCreate = Fiddle::Function.new(BASSMIX["BASS_Mixer_StreamCreate"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Mixer_StreamAddChannel = Fiddle::Function.new(BASSMIX["BASS_Mixer_StreamAddChannel"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Mixer_ChannelRemove = Fiddle::Function.new(BASSMIX["BASS_Mixer_ChannelRemove"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Mixer_ChannelGetData = Fiddle::Function.new(BASSMIX["BASS_Mixer_ChannelGetData"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Split_StreamCreate = Fiddle::Function.new(BASSMIX["BASS_Split_StreamCreate"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+
   Errmsg = {
     1 => "MEM", 2 => "FILEOPEN", 3 => "DRIVER", 4 => "BUFLOST", 5 => "HANDLE", 6 => "FORMAT", 7 => "POSITION", 8 => "INIT",
     9 => "START", 14 => "ALREADY", 18 => "NOCHAN", 19 => "ILLTYPE", 20 => "ILLPARAM", 21 => "NO3D", 22 => "NOEAX", 23 => "DEVICE",
@@ -117,13 +129,19 @@ def self.record_prepare
     return if @init == true
     @init = true
 BASS_SetConfig.call(36, 1)
+BASS_SetConfig.call(66, 1)
     if (BASS_GetVersion.call >> 16) != 0x0204
       raise("bass.dll 2.4")
     end
     if BASS_Init.call(-1, samplerate, 4, hWnd, nil) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-
+plugins = ["bassopus", "bassflac", "bassmidi", "basswebm", "basswma", "bass_aac", "bass_ac3", "bass_spx"]
+    for pl in plugins
+          if BASS_PluginLoad.call("bin\\#{pl}.dll") == 0
+      raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+    end
+    end
     BASS_SetConfig.call(0, 1000)
     BASS_SetConfig.call(1, 100)
     BASS_SetConfig.call(11, 10000)

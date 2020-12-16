@@ -43,13 +43,24 @@ module EltenAPI
        end
      
     @@opened=false
-@@channels=nil
+@@volume=0
+@@muted=false
+@@stream_volume=0
+    @@channels=nil
 @@volumes={}
 @@channel=Channel.new
 @@created=nil
 @@hooks=[]
+@@streams={}
+@@streaming=false
 def self.open
+  @@opened=false
   $agent.write(Marshal.dump({'func'=>'conference_open'}))
+  t=Time.now.to_f
+  while Time.now.to_f-t<3
+    loop_update
+    break if @@opened==true
+    end
 end
 def self.close
   $agent.write(Marshal.dump({'func'=>'conference_close'}))
@@ -70,6 +81,16 @@ def self.leave
   end
   $agent.write(Marshal.dump({'func'=>'conference_leavechannel'}))
 end
+def self.streaming?
+  @@streaming
+  end
+def self.set_stream(file)
+  $agent.write(Marshal.dump({'func'=>'conference_setstream', 'file'=>file}))
+end
+def self.remove_stream
+  $agent.write(Marshal.dump({'func'=>'conference_removestream'}))
+  @@streaming=false
+  end
 def self.move(x_plus, y_plus)
   $agent.write(Marshal.dump({'func'=>'conference_move', 'x_plus'=>x_plus, 'y_plus'=>y_plus}))
   end
@@ -99,7 +120,44 @@ def self.update_channels
 loop_update
     break if @@channels!=nil
     end
-end
+  end
+  def self.muted
+    @@muted
+  end
+  def self.muted=(mt)
+    if @@opened==false
+  self.open
+  delay(1)
+  end
+    $agent.write(Marshal.dump({'func'=>'conference_setmuted', 'muted'=>mt==true}))    
+    @@muted=(mt==true)
+    end
+  def self.input_volume
+    @@volume
+  end
+  def self.input_volume=(vol)
+    if @@opened==false
+  self.open
+  delay(1)
+  end
+    vol=0 if vol<0
+    vol=100 if vol>100
+$agent.write(Marshal.dump({'func'=>'conference_setinputvolume', 'volume'=>vol}))    
+    @@volume=vol
+  end
+   def self.stream_volume
+    @@stream_volume
+  end
+  def self.stream_volume=(vol)
+    if @@opened==false
+  self.open
+  delay(1)
+  end
+    vol=0 if vol<0
+    vol=100 if vol>100
+$agent.write(Marshal.dump({'func'=>'conference_setstreamvolume', 'volume'=>vol}))    
+    @@stream_volume=vol
+  end
 def self.volume(user)
   v=self.volumes[user]
   v||=ChannelUserVolume.new(user, 100, false)
@@ -143,15 +201,21 @@ def self.channels
           def self.channel
             return @@channel
             end
-          def self.setopened
+          def self.setopened(data)
+            self.setclosed
+            @@volume = data['volume']
+            @@input_volume = data['input_volume']
             @@opened=true
           end
           def self.setclosed
+            @@streams={}
             @@opened=false
             @@channels=nil
 @@volumes={}
 @@channel=Channel.new
 @@created=nil
+@@volume=0
+@@stream_volume=0
           end
                     def self.setchannel(c)
                     params=JSON.load(c)
@@ -197,5 +261,11 @@ def self.channels
                             hk.block.call if hk.hook==hook
                             end
                           end
+                          def self.setaddstream(params)
+                            @@streams[params['stream']]=params['file']
+                          end
+                          def self.setremovestream(params)
+                            @@streams.delete(params['stream'])
+                            end
       end
     end

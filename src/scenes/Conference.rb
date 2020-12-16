@@ -9,10 +9,18 @@
 class Scene_Conference
   def main
         Conference.open if !Conference.opened?
+        if !Conference.opened?
+        $scene=Scene_Main.new
+        return
+        end
     @form = Form.new([
     st_conference = Static.new(p_("Conference", "Channel space")),
-    lst_users = ListBox.new([], p_("Conference", "Channel users"), 0, 0, true),
-    btn_channels = Button.new(p_("Conference", "Show channels")),
+   lst_users = ListBox.new([], p_("Conference", "Channel users"), 0, 0, true),
+    lst_inputvolume = ListBox.new((0..100).to_a.reverse.map{|v|v.to_s+"%"}, p_("Conference", "Input volume"), 100-Conference.input_volume, 0, true),
+    chk_muteinput = CheckBox.new(p_("Conference", "Mute microphone"), (Conference.muted)?(1):(0)),
+        lst_streamvolume = ListBox.new((0..100).to_a.reverse.map{|v|v.to_s+"%"}, p_("Conference", "Stream volume"), 100-Conference.stream_volume, 0, true),
+        btn_stream = Button.new(p_("Conference", "Stream audio file")),
+        btn_channels = Button.new(p_("Conference", "Show channels")),
     btn_close = Button.new(p_("Conference", "Close"))
     ], 0, false, true)
     lst_users.bind_context{|menu|
@@ -38,6 +46,31 @@ class Scene_Conference
     st_conference.on(:key_right) {Conference.move(1, 0)}
     st_conference.on(:key_up) {Conference.move(0, -1)}
     st_conference.on(:key_down) {Conference.move(0, 1)}
+    lst_inputvolume.on(:move) {
+    Conference.input_volume=100-lst_inputvolume.index
+    }
+    chk_muteinput.on(:change) {
+    Conference.muted=chk_muteinput.value==1
+    }
+    lst_streamvolume.on(:move) {
+    Conference.stream_volume=100-lst_streamvolume.index
+    }
+    btn_stream.on(:press) {
+    if Conference.streaming?
+      Conference.remove_stream
+      btn_stream.label=p_("Conference", "Stream audio file")
+      @form.hide(lst_streamvolume)
+    else
+      file=getfile(p_("Conference", "Select audio file"),Dirs.documents+"\\",false,nil,[".mp3",".wav",".ogg",".mid",".mod",".m4a",".flac",".wma",".opus",".aac"])
+      if file!=nil
+        Conference.set_stream(file)
+        lst_streamvolume.index=0
+        @form.show(lst_streamvolume)
+      btn_stream.label=p_("Conference", "Remove audio stream")
+      end
+      end
+    }
+    @form.hide(lst_streamvolume) if !Conference.streaming?
     btn_close.on(:press) {
     @form.resume
     }
@@ -93,8 +126,9 @@ def list_channels
   end
   menu.option(p_("Conference", "Create channel"), nil, "n") {
   create_channel
+  delay(1)
   Conference.update_channels
-    @chans=Conference.channels
+      @chans=Conference.channels
   lst_channels.options=@chans.map{|ch|channel_summary(ch)}
   lst_channels.focus
   }
@@ -111,6 +145,7 @@ def list_channels
     if lst_channels.selected?
       ch=@chans[lst_channels.index]
       Conference.join(ch.id)
+      delay(1)
       return
       end
     break if escape

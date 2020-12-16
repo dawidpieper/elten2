@@ -69,11 +69,16 @@ def initialize
 Bass.record_prepare
 @transmitters={}
 @volumes={$name=>[100,true]}
-stream = Bass::BASS_StreamCreate.call(48000, 2, 0, -1, nil)
-Bass::BASS_ChannelPlay.call(stream, 0)
+@muted=false
+@stream_mutex = Mutex.new
+@mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x200000|0x1000)
+@mymixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000)
+Bass::BASS_ChannelPlay.call(@mymixer, 0)
+@recordstream = Bass::BASS_StreamCreate.call(48000, 2, 0x200000, -1, nil)
+Bass::BASS_Mixer_StreamAddChannel.call(@mixer, @recordstream, 0x4000)
+@stream=nil
 @record = Bass::BASS_RecordStart.call(48000, 2, 0, 0, 0)
-bufsize = 2097152
-buf="\0"*bufsize
+Bass::BASS_ChannelPlay.call(@record, 0)
 @voip=VoIP.new
 @encoder=nil
 @speexdsp=nil
@@ -137,12 +142,31 @@ end
 }
 }
 @voip.connect($name, $token)
-@thread = Thread.new {
+@recorder_thread = Thread.new {
+bufsize = 2097152
+buf="\0"*bufsize
+loop {
+@record_mutex.synchronize {
+while (sz=Bass::BASS_ChannelGetData.call(@record, buf, bufsize))>0
+audio = buf.byteslice(0...sz)
+if !@muted
+audio=@speexdsp.process(audio) if @speexdsp!=nil
+Bass::BASS_StreamPutData.call(@recordstream, audio, audio.bytesize)
+else
+audio=("\0"*audio.bytesize).b
+Bass::BASS_StreamPutData.call(@recordstream, audio, audio.bytesize)
+end
+end
+}
+}
+}
+@mixer_thread = Thread.new {
+bufsize = 2097152
+buf="\0"*bufsize
 audio=""
 loop {
 sleep(0.01)
-@record_mutex.synchronize {
-while (sz=Bass::BASS_ChannelGetData.call(@record, buf, bufsize))>0
+while (sz=Bass::BASS_ChannelGetData.call(@mixer, buf, bufsize))>0
 if @fsize>0
 au=(audio||"").b+buf.byteslice(0...sz).b
 audio=""
@@ -152,7 +176,6 @@ part=au.byteslice(index...index+@fsize)
 if @encoder!=nil
 frame=""
 @encoder_mutex.synchronize {
-part=@speexdsp.process(part) if @speexdsp!=nil
 frame=@encoder.encode(part, @fsize/4)
 }
 @voip.send(1, frame, @x, @y)
@@ -164,16 +187,75 @@ end
 end
 }
 }
-}
 @channel_hooks=[]
 @volumes_hooks=[]
 @user_hooks=[]
 end
+def set_stream(file)
+@stream_mutex.synchronize {
+remove_stream if @stream!=nil
+@stream = Bass::BASS_StreamCreateFile.call(0, unicode(file), 0, 0, 0, 0, [256|0x80000000|0x200000].pack("I").unpack("i").first)
+@stream_uploader = Bass::BASS_Split_StreamCreate.call(@stream, 0x200000, nil)
+@stream_listener = Bass::BASS_Split_StreamCreate.call(@stream, 0x200000, nil)
+Bass::BASS_Mixer_StreamAddChannel.call(@mixer, @stream_uploader, 0)
+Bass::BASS_Mixer_StreamAddChannel.call(@mymixer, @stream_listener, 0x4000)
+}
+return @stream
+end
+def remove_stream
+@stream_mutex.synchronize {
+Bass::BASS_StreamFree.call(@stream) if @stream!=nil
+Bass::BASS_StreamFree.call(@stream_uploader) if @stream_uploader!=nil
+Bass::BASS_StreamFree.call(@stream_listener) if @stream_listener!=nil
+@stream=@mystream=nil
+}
+end
+def volume
+vl=[0].pack("f")
+Bass::BASS_ChannelGetAttribute.call(@recordstream, 2, vl)
+return (vl.unpack("f").first*100).round
+end
+def volume=(vol)
+vol=100 if vol>100
+vol=0 if vol<0
+Bass::BASS_ChannelSetAttribute.call(@recordstream, 2, [(vol/100.0)].pack("f").unpack("I")[0])
+vol
+end
+def stream_volume
+vol=0
+@stream_mutex.synchronize {
+if @stream_uploader!=nil
+vl=[0].pack("f")
+Bass::BASS_ChannelGetAttribute.call(@stream_uploader, 2, vl)
+vol=(vl.unpack("f").first*100).round
+end
+}
+return vol
+end
+def stream_volume=(vol)
+vol=100 if vol>100
+vol=0 if vol<0
+@stream_mutex.synchronize {
+Bass::BASS_ChannelSetAttribute.call(@stream_uploader, 2, [(vol/100.0)].pack("f").unpack("I")[0]) if @stream_uploader!=nil
+Bass::BASS_ChannelSetAttribute.call(@stream_listener, 2, [(vol/100.0)].pack("f").unpack("I")[0]) if @stream_listener!=nil
+}
+vol
+end
+def muted
+@muted
+end
+def muted=(mt)
+@muted=(mt!=false)
+mt
+end
 def reset
 @record_mutex.synchronize {
+Bass::BASS_Mixer_ChannelRemove.call(@record)
 Bass::BASS_StreamFree.call(@record) if @record!=nil
 Bass.record_prepare
 @record = Bass::BASS_RecordStart.call(48000, 2, 0, 0, 0)
+Bass::BASS_ChannelSetAttribute.call(@record, 2, [(@input_volume||100)/100.0].pack("F").unpack("i")[0])
+Bass::BASS_ChannelPlay.call(@record, 0)
 @encoder_mutex.synchronize {
 @speexdsp.noise_reduction=($usedenoising||0)>0 if @speexdsp!=nil
 @encoder.reset if @encoder!=nil
@@ -187,6 +269,13 @@ v=[volume, muted]
 @volumes[user]=v
 for t in @transmitters.values
 t.setvolume(v) if t.username==user
+end
+if user==$name
+if !muted
+Bass::BASS_ChannelStop.call(@mymixer)
+else
+Bass::BASS_ChannelPlay.call(@mymixer, 1)
+end
 end
 @volumes_hooks.each{|h|h.call(@volumes)}
 end
@@ -225,15 +314,20 @@ t.update_baseposition(@x, @y)
 end
 end
 def free
-@thread.exit
+@mixer_thread.exit if @mixer_thread!=nil
+@recorder_thread.exit if @recorder_thread!=nil
 for t in @transmitters.keys
 @transmitters[t].free
 end
 Bass::BASS_StreamFree.call(@record)
+Bass::BASS_Mixer_ChannelRemove.call(@record)
 @encoder_mutex.synchronize {
 @encoder.free if @encoder!=nil
 @speexdsp.free if @speexdsp!=nil
 }
+Bass::BASS_StreamFree.call(@mymixer)
+Bass::BASS_StreamFree.call(@stream) if @stream!=nil
+Bass::BASS_StreamFree.call(@mixer)
 @voip.disconnect
 end
 def list_channels

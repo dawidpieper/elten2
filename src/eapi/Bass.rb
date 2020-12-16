@@ -167,6 +167,7 @@ BASS_SetConfig.call(1, 100)
 BASS_SetConfig.call(11, 3000)
 BASS_SetConfig.call(12, 10000)
 BASS_SetConfig.call(15, 25)
+BASS_SetConfigPtr.call(16, "Elten")
 BASS_SetConfig.call(21, 1)
 BASS_SetConfig.call(0x20000, 0)    
 BASS_SetDevice.call(card) if card>0

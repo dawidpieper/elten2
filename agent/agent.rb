@@ -17,6 +17,8 @@ require "digest/rmd160"
 require "digest/bubblebabble"
 require "openssl"
 require "fiddle"
+require "fiddle/import"
+require "fiddle/types"
 require "zlib"
 require "socket"
 require 'uri'
@@ -134,6 +136,7 @@ end
 sleep(0.1) while !$token
 end
 Bass.init(0)
+
 $upd={}
 $upd['version']=readini("./elten.ini","Elten","Version","0").to_f
 $upd['alpha']=readini("./elten.ini","Elten","Alpha","0").to_i
@@ -374,7 +377,7 @@ speech_stop if $getasynckeystate.call(0x11)!=0 and $voice>=0 and Time.now.to_f-(
 sleep 0.01
 end
 }
-ewrite({'func'=>'conference_open'})
+ewrite({'func'=>'conference_open', 'volume'=>$conference.volume, 'stream_volume'=>$conference.stream_volume, 'muted'=>$conference.muted})
 elsif data['func']=='conference_close'
 if $conference!=nil
 begin
@@ -384,6 +387,16 @@ end
 $conference=nil
 end
 ewrite({'func'=>'conference_close'})
+elsif data['func']=='conference_setstream'
+$conference.set_stream(data['file']) if $conference!=nil
+elsif data['func']=='conference_removestream'
+$conference.remove_stream if $conference!=nil
+elsif data['func']=='conference_setmuted'
+$conference.muted=data['muted'] if $conference!=nil
+elsif data['func']=='conference_setinputvolume'
+$conference.volume=data['volume'] if $conference!=nil
+elsif data['func']=='conference_setstreamvolume'
+$conference.stream_volume=data['volume'] if $conference!=nil
 elsif data['func']=='conference_setvolume'
 if $conference!=nil
 $conference.setvolume(data['user'], data['volume'], data['muted'])

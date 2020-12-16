@@ -407,7 +407,7 @@ alert(p_("EAPI_UI", "The program is trying to recover from the frozen state."))
 elsif d['func']=='log'
   Log.add(d['level'], d['msg'], Time.at(d['time']))
 elsif d['func']=='conference_open'
-  Conference.setopened
+  Conference.setopened(d)
 elsif d['func']=='conference_close'
   Conference.setclosed
   elsif d['func']=='conference_channel'
