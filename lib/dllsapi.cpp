@@ -24,6 +24,7 @@ BOOL voiceIsPaused=false;
 
 int SapiInit(void) {
 HRESULT hr;
+CoInitializeEx(NULL, COINIT_MULTITHREADED | COINIT_SPEED_OVER_MEMORY);
 hr = CoCreateInstance(CLSID_SpVoice, NULL, CLSCTX_ALL, IID_ISpVoice, (void **)&pVoice);
 if( SUCCEEDED( hr ) )
 pVoice->SetPriority(SPVPRI_OVER);

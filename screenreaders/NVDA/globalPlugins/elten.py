@@ -7,6 +7,7 @@
 import globalPluginHandler
 import ui
 import api
+from logHandler import log
 is_python_3_or_above = (lambda x: [x for x in [False]] and None or x)(True)
 if is_python_3_or_above:
 	import threading
@@ -125,8 +126,8 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 					eltenpipein=None
 					eltenpipeout=None
 					eltenpipest=None
-			except:
-				pass
+			except Exception as Argument:
+				log.exception("Elten: main thread")
 
 	def elten_braille_thread(threadName=None):
 		global stopThreads
@@ -193,10 +194,10 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 				if(lastSend<time.time()-1 and appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())==eltenmod):
 					eltenqueue['statuses'].append("noop")
 					lastSend=time.time()
-			except:
+			except Exception as Argument:
+				log.exception("Elten: queue thread")
 				time.sleep(0.05)
 				eltenqueue={'gestures':[], 'indexes':[], 'statuses':[], 'returns':[]}
-				pass
 
 	if is_python_3_or_above:
 		t1=threading.Thread(target=elten_thread)
@@ -284,6 +285,7 @@ def elten_command(ac):
 			regions=[]
 			for phrase in re.split("([.,:/\n?!])", eltenbrailletext):
 				if phrase=="": continue
+				if len(regions)>10000: continue;
 				region=braille.TextRegion(phrase)
 				if hasattr(region, 'parseUndefinedChars'): region.parseUndefinedChars=False
 				region.update()
@@ -314,7 +316,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 32}
+			return {'version': 33}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):
@@ -322,5 +324,7 @@ def elten_command(ac):
 				return {'index': eltenindex, 'indid': eltenindexid}
 			else:
 				return {'index': speech.getLastSpeechIndex(), 'indid': eltenindexid}
-	except: return {}
+	except Exception as Argument:
+		log.exception("Elten: command thread")
+		return {}
 	return {}

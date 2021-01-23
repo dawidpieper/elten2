@@ -362,7 +362,7 @@ data = GetText::MO.new
 parser.parse_file(f, data)
 data.save_to_file(dir+"/elten.mo")
 end
-for f in Dir.glob("locale/*/*.md")
+for f in Dir.glob("locale/**/*.md")
 dir="out"
 for d in f.split("/")[0...-1]
 dir+="/"+d
@@ -370,7 +370,61 @@ Dir.mkdir(dir) if !FileTest.exists?(dir)
 end
 FileUtils.copy(f, dir+"/"+File.basename(f))
 end
+def search_md(basedir, subdir="", hash={})
+d=Dir.entries(basedir+"/"+subdir)
+for f in d
+next if f=="." || f==".."
+sd=subdir+"/"+f
+sd[0]="" if sd[0]=="/"
+fd=basedir+"/"+sd
+if File.extname(f).downcase==".md"
+hash[sd[0...-3]]=IO.binread(fd)
+elsif File.directory?(fd)
+search_md(basedir, sd, hash)
+end
+end
+return hash
+end
+hd="".b
+cnt="".b
+for f in Dir.entries("out/locale")
+next if !f.include?("-") && !f.bytesize!=5
+mo="".b
+mo=IO.binread("out/locale/"+f+"/lc_messages/elten.mo") if FileTest.exists?("out/locale/"+f+"/lc_messages/elten.mo")
+hash=search_md("out/locale/"+f)
+tcnt="".b
+tcnt+=[mo.bytesize].pack("I")
+tcnt+=mo
+for k in hash.keys
+next if k.bytesize>255
+next if f!="en-GB" && FileTest.exists?("out/locale/en-GB/"+k+".md") && IO.binread("out/locale/en-GB/"+k+".md")==hash[k]
+tcnt+=[k.bytesize, k, hash[k].bytesize, hash[k]].pack("Ca*Ia*")
+end
+zcnt=Zlib::Deflate.deflate(tcnt, Zlib::BEST_COMPRESSION)
+hd+=[f[0..1]+f[3..4], zcnt.bytesize].pack("a*I")
+cnt+=zcnt
+end
+Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
+fcnt=[hd.bytesize/8].pack("C")+hd+cnt
+IO.binwrite("out/Data/locale.dat", fcnt)
 puts("Locale files compiled.")
+end
+
+desc "Create default soundtheme"
+task :soundtheme do 
+Dir.mkdir("out") if !FileTest.exists?("out")
+Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
+magic="EltenSoundThemePackageFileCMPSMC"
+cnt="".b
+for f in Dir.glob("app/Audio/**/*.ogg")
+fname=File.basename(f, ".ogg")
+s=IO.binread(f)
+cnt+=[fname.bytesize, fname, s.bytesize, s].pack("Ca*Ia*")
+end
+zcnt = Zlib::Deflate.deflate(cnt, Zlib::BEST_COMPRESSION)
+fcnt=[magic, 0, 0, "", zcnt.bytesize, zcnt].pack("a*QCa*Ia*")
+IO.binwrite("out/Data/audio.elsnd", fcnt)
+puts("Default soundtheme compiled.")
 end
 
 desc "Create NVDA addon"
@@ -436,7 +490,8 @@ Rake::Task["lib"].invoke if !FileTest.exists?("out/lib/eltenvc.dll")
 Rake::Task["rgss"].invoke
 Rake::Task["agent"].invoke if !FileTest.exists?("out/agent.dat")
 Rake::Task["pot"].invoke if !FileTest.exists?("locale")
-Rake::Task["locale"].invoke if !FileTest.exists?("out/locale")
+Rake::Task["locale"].invoke if !FileTest.exists?("out/Data/locale.dat")
+Rake::Task["soundtheme"].invoke if !FileTest.exists?("out/Data/soundtheme.elsnd")
 Rake::Task["nvda"].invoke if !FileTest.exists?("out/Data/elten.nvda-addon")
 Rake::Task["data"].invoke if !FileTest.exists?("out/jdata")
 if !FileTest.exists?("build")

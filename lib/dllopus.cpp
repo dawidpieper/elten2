@@ -55,6 +55,7 @@ int pcm_pos;
 BOOL locked;
 SpeexPreprocessState **dsp;
 int dsp_count;
+int timelimit;
 } OpusRecording;
 
 typedef struct OpusPacket {
@@ -81,6 +82,13 @@ p->pos += 2;
 return 1;
 }
 
+int opus_recording_write_chars(OpusPacket *p, const unsigned char *str, int nb_chars) {
+if (p->pos>p->size-nb_chars) return 0;
+for (int i=0;i<nb_chars;++i)
+p->data[p->pos++] = str[i];
+return 1;
+}
+
 void opus_use_dsp(OpusRecording *opus, int index) {
 int rfs=((int)opus->framesize*1000)/opus->header->input_samplerate;
 int fsf=20;
@@ -95,13 +103,6 @@ for(int i=0; i<sz; ++i) opus->pcm_buf[index+i*opus->header->channel_count+c]=buf
 }
 free(buf);
 }
-}
-
-int opus_recording_write_chars(OpusPacket *p, const unsigned char *str, int nb_chars) {
-if (p->pos>p->size-nb_chars) return 0;
-for (int i=0;i<nb_chars;++i)
-p->data[p->pos++] = str[i];
-return 1;
 }
 
 OpusPacket opus_fill_header(const OpusHeader *h, unsigned char *packet, int len) {
@@ -166,7 +167,7 @@ op.pos=0;
 return op;
 }
 
-int OpusRecorderInit(wchar_t *file, int samplerate, int channels, int bitrate=64000, float framesize=60, int application=OPUS_APPLICATION_AUDIO, BOOL useVBR=true, BOOL usedenoising=false) {
+int OpusRecorderInit(wchar_t *file, int samplerate, int channels, int bitrate=64000, float framesize=60, int application=OPUS_APPLICATION_AUDIO, BOOL useVBR=true, BOOL usedenoising=false, int timelimit=0) {
 if(framesize!=2.5 && framesize!=5 && framesize!=10 && framesize!=20 && framesize!=40 && framesize!=60 && framesize!=80 && framesize!=100 && framesize!=120) framesize=60;
 if(bitrate<4000 || bitrate>524000) bitrate=64000;
 if(application<2048 || application>2050) application=2048;
@@ -184,6 +185,7 @@ if(opus->buffer==NULL) return 0;
 
 opus->framesize = (int)(framesize * samplerate / 1000.0f);
 opus->locked=false;
+opus->timelimit=timelimit;
 
 if(usedenoising && framesize>=10) {
 int fsf=20;
@@ -269,6 +271,7 @@ WriteFile(opus->file, opus->og.body, opus->og.body_len, &b, NULL);
 
 void opus_recording_encode(OpusRecording *opus, short *pcm_buf) {
 if(opus==NULL || opus->encoder == NULL) return;
+if(opus->timelimit>0 && opus->granulepos>=opus->timelimit*opus->header->input_samplerate) return;
 
 if(opus->op.bytes>0)
 ogg_stream_packetin (&opus->os, &opus->op);
@@ -315,7 +318,6 @@ free(opus->buffer);
 free(opus->pcm_buf);
 
 CloseHandle(opus->file);
-
 if(opus->dsp_count>0) {
 for(int i=0; i<opus->dsp_count; ++i)
 speex_preprocess_state_destroy(opus->dsp[i]);

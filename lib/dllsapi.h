@@ -24,6 +24,8 @@ wchar_t *vendor;
 extern "C" {
 int DLLIMPORT SapiInit(void);
 int DLLIMPORT SapiSpeak(wchar_t *text);
+int DLLIMPORT SapiListVoices(SapiVoice *, int);
+void DLLIMPORT SapiFreeVoices(SapiVoice *, int);
 int DLLIMPORT SapiSetVoice(int);
 int DLLIMPORT SapiGetVoice(void);
 int DLLIMPORT SapiSetRate(int rate);
@@ -37,10 +39,8 @@ BOOL DLLIMPORT SapiIsPaused(void);
 int DLLIMPORT SapiStop(void);
 int DLLIMPORT SapiSpeakSSML(wchar_t *text);
 wchar_t DLLIMPORT *SapiGetBookmark(void);
-int DLLIMPORT SapiListVoices(SapiVoice *, int);
-void DLLIMPORT SapiFreeVoices(SapiVoice *, int);
-int DLLIMPORT SapiSetDevice(int);
 int DLLIMPORT SapiListDevices(wchar_t **, int);
 void DLLIMPORT SapiFreeDevices(wchar_t **, int);
+int DLLIMPORT SapiSetDevice(int);
 }
 #endif

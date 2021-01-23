@@ -57,25 +57,49 @@ wchar_t * replacement;
 if(SUCCEEDED(error->get_Replacement(&replacement))) {
 int index = results[i].suggestionsCount;
 if(!(results[i].suggestions=(wchar_t**)realloc(results[i].suggestions, sizeof(wchar_t*)*(index+1)))) return 1;
-results[i].suggestions[index]=(wchar_t*)malloc(sizeof(wchar_t)*wcslen(replacement+1));
+results[i].suggestions[index]=(wchar_t*)malloc(sizeof(wchar_t)*(wcslen(replacement)+1));
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
 wcscpy(results[i].suggestions[index], replacement);
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 ++results[i].suggestionsCount;
 CoTaskMemFree(replacement);
 }
 }
 else if(action == CORRECTIVE_ACTION_GET_SUGGESTIONS) {
 CComPtr<IEnumString> suggestions;
-wchar_t *word = (wchar_t*)malloc(sizeof(wchar_t)*(length+1));
+wchar_t *word;
+if(word = (wchar_t*)malloc(sizeof(wchar_t)*(length+1))) {
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
 wcsncpy(word, text+startIndex, length);
-if(SUCCEEDED(checker->Suggest(word, &suggestions))) {
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
+}
+if(word && SUCCEEDED(checker->Suggest(word, &suggestions))) {
 wchar_t *suggestion;
 while(suggestions->Next(1, &suggestion, NULL)==S_OK) {
 int index = results[i].suggestionsCount;
 if(!(results[i].suggestions=(wchar_t**)realloc(results[i].suggestions, sizeof(wchar_t*)*(index+1)))) return 1;
 int len = wcslen(suggestion);
-results[i].suggestions[index]=(wchar_t*)malloc(sizeof(wchar_t)*(len+1));
+if(results[i].suggestions[index]=(wchar_t*)malloc(sizeof(wchar_t)*(len+1))) {
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
 wcscpy(results[i].suggestions[index], suggestion);
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 ++results[i].suggestionsCount;
+}
 CoTaskMemFree(suggestion);
 
 }
@@ -112,7 +136,14 @@ int i=0;
 while(langs->Next(1, &lang, NULL)==S_OK) {
 if(i<size) {
 languages[i] = (wchar_t*)malloc(sizeof(wchar_t)*(wcslen(lang)+1));
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#endif
 wcscpy(languages[i], lang);
+#ifdef _MSC_VER
+#pragma warning(pop)
+#endif
 }
 i+=1;
 CoTaskMemFree(lang);

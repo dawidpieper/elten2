@@ -1,97 +1,128 @@
-﻿Nutzungsbedingungen des Elten-Netzwerks
+EltenLink Allgemeine Geschäftsbedingungen
 
-I. Konzepte und Definitionen
-1. Portal - alles, was zur Domäne von Elten gehört, und alle damit verbundenen Funktionen.
-2. Der Begriff Elten-Netzwerk umfasst sowohl die Clients auf allen Plattformen (Windows, Android, iOS, Linux, Mac OS) als auch die Website.
-3. Elten - eine allgemein verständliche Anwendung (auf allen unterstützten Plattformen), mit der auf den Inhalt des Portals zugegriffen wird.
-4. Benutzer - Jede Person, die registriert ist und das Elten-Portal und seine Ressourcen nutzt.
-Dies gilt gleichermaßen für den Autor des Programms, den Ältestenrat, verbundene Stellen und Gruppenadministratoren, die verpflichtet sind, diese Allgemeinen Geschäftsbedingungen einzuhalten.
-5. Zu der Verwaltung des Portals oder dem Ältestenrat gehören Personen, die die Form des Portals, seine Zukunft und Politik festlegen.
-Der Ältestenrat untersteht nur dem Entwickler.
-6. Entwickler - der Autor des Projekts, sein Gründer und Programmierer (Dawid Pieper).
-7. Verbundene Einheit - eine Gruppe von Menschen, die sich um die Gemeinschaft und die Aktivitäten eines bestimmten Landes kümmern, das nicht Polen ist. Der Ältestenrat gilt als Verwaltungseinheit Polens.
-Nahestehende Personen sind dem Ältestenrat in Angelegenheiten untergeordnet, die nicht durch die Bestimmungen ihres Landes geregelt sind.
-8. Gruppenadministrator - eine Person, die Gründer einer Gruppe ist.
-Gruppenadministratoren sind dem Ältestenrat oder verwandten Stellen untergeordnet.
-9. Gruppenmoderator - eine Person, die dem Gruppenadministrator unterstellt ist und die ihr vom Gruppenadministrator zugewiesenen Aufgaben wahrnimmt.
-10. Spammer - Eine Person, die auf dem Portal Inhalte veröffentlicht, die für die Diskussion nicht geeignet sind, die das Portal duplizieren, schädigen oder in irgendeiner Weise die Benutzer des Portals, ihre Überzeugungen sowie nationale, religiöse und ethnische Gruppen verletzen.
-(11) Forum - Jedes Forum, das Teil des Portals ist und einer seiner Gruppen angehört.
-12. Verbot - eine vorübergehende oder dauerhafte Einschränkung des Zugriffs eines Benutzers auf sein Konto (teilweise oder ganz), die ihn wegen Verstoßes gegen die Bestimmungen dieser Allgemeinen Geschäftsbedingungen bestraft. Die Entscheidung, eine solche Strafe zu verhängen oder zu beseitigen, treffen die Mitglieder des Ältestenrates und der Entwickler (global) oder die Gruppenadministratoren (beschränkt auf die verwaltete Gruppe).
+# I. Begriffe und Definitionen
+1. "Portal" bezieht sich auf alle Inhalte innerhalb der EltenLink-Domäne und alle damit verbundenen Funktionalitäten.
+2. EltenLink "Entwickler" ist Dawid Pieper.
+3. "Benutzer" bezieht sich auf jede Person, die registriert ist und das Portal zur Veröffentlichung von Inhalten nutzt.
+4. "Ältestenrat" wird von den Benutzern gebildet, die Teil des Rates sind, der die Form des Portals, seine Zukunft und Politik bestimmt.
+Den Vorsitz im Ältestenrat führt der Entwickler.
+5. "Gruppenadministrator" ist die Person, die der Gründer der Gruppe ist (es sei denn, diese Privilegien wurden an eine andere Person delegiert) und für deren Form verantwortlich ist.
+Gruppenadministratoren berichten direkt an den Ältestenrat, sofern dieses Dokument nichts anderes vorsieht.
+Jede Gruppe hat genau einen Administrator.
+6. "Gruppenmoderator" ist die Person, die an ihren Administrator berichtet und die von ihm zugewiesenen Aufgaben ausführt.
+7. Der Administrator und alle Moderatoren einer Gruppe gelten als "Gruppenmoderation".
+8. "Sprachgemeinschaft" ist definiert als als empfohlen gekennzeichnete Gruppen, in denen Diskussionen in einer bestimmten Sprache geführt werden.
+9. Eine "Gemeinschaftsgruppe" ist die Hauptgruppe einer bestimmten Sprachgemeinschaft, die als empfohlene Gruppe bezeichnet wird und den Namen der betreffenden Gemeinschaft enthält.
+10. "Verwaltungseinheit" ist definiert als die Benutzer, die für die Gemeinschaft einer bestimmten Sprache verantwortlich sind.
+Die Administratoren aller Gruppen, die in einer bestimmten Sprache empfohlen werden, sind der Verwaltungseinheit dieser Sprache unterstellt, während die Verwaltungseinheit direkt dem "Ältestenrat" unterstellt ist.
+11. Der "Leiter der Verwaltungseinheit" ist der Verwalter der für die Einheit geeigneten Gemeinschaftsgruppe.
+12. Die "Verwaltung des Portals" wird durch den "Ältestenrat" und alle "Verwaltungseinheiten" gebildet.
+13. "Spammer" ist eine Person, die Inhalte auf dem Portal postet, die für die Diskussionen unangemessen sind, sich vervielfältigen, dem Portal schaden oder in irgendeiner Weise die Benutzer des Portals, ihre Überzeugungen, Religion und Ansichten sowie nationale, religiöse oder ethnische Gruppen beleidigen.
+14. "Forum" bezeichnet jedes Forum, das Teil des Portals ist und zu einer beliebigen Gruppe des Portals gehört. Ein Forum umfasst auch alle Umfragen und Anhänge, die darauf platziert werden.
+15. "Sperre" ist eine vorübergehende oder dauerhafte Einschränkung des Zugangs des Benutzers zum Portal, seinem Konto oder der Gruppe, die eine Strafe für die Verletzung dieser Regeln oder der internen Regeln der Gruppe darstellt.
+Die Entscheidung, ein solches Verbot zu verhängen oder aufzuheben, wird von den Mitgliedern des Ältestenrats (global) oder der Moderation der Gruppe (soweit auf die betreffende Gruppe beschränkt) getroffen.
 
-II. Ältestenrat und verwandte Einrichtungen
-1. Der Benutzer kann vom Autor des Programms Sonderrechte erhalten und somit den Status eines Mitglieds des Ältestenrates oder einer verwandten Einrichtung erhalten.
-2. Die Mitgliedschaft im Ältestenrat oder einer verwandten Einrichtung entbindet den Nutzer nicht von der Verpflichtung, diese Allgemeinen Geschäftsbedingungen einzuhalten.
-3. Im Falle von Inaktivität auf dem Portal und wenn der Benutzer seine Pflichten verletzt, kann ihm der Status eines Mitglieds des Ältestenrates oder einer verwandten Einrichtung entzogen werden.
-4. Es ist verboten, die Rechte aus der Mitgliedschaft im Ältestenrat oder einer verwandten Körperschaft zu missbrauchen oder zu überschreiten.
+# II. Benutzer
+1. Jeder, der über 13 Jahre alt ist, kann ein Benutzer werden.
+2. Die Verwendung von mehreren Konten ist verboten.
+Ausgenommen hiervon sind Fälle, in denen der Ältestenrat im Einzelfall seine Zustimmung zur Einrichtung eines zweiten oder weiteren Kontos durch den Nutzer erteilt hat.
+3. Der Benutzername  des Portalbenutzers darf keine als anstößig empfundenen Inhalte enthalten.
+4. Um sich zu registrieren, ist es erforderlich, eine E-Mail-Adresse anzugeben, auf die der Benutzer ständig Zugriff hat und diese gegebenenfalls aktualisieren kann.
+In besonderen Fällen kann sie dazu dienen, die Identität des Benutzers zu überprüfen.
+5. Im Falle eines Hacks in ein fremdes Konto leitet der Ältestenrat auf Wunsch des Geschädigten die Anzeige der Straftat an die Strafverfolgungsbehörde des Landes des Nutzers weiter, der diese Handlung begeht.
+Informationen über Einbrüche oder Angriffe größeren Ausmaßes werden immer an das polnische Amt für den Schutz personenbezogener Daten weitergeleitet.
+6. Im Falle einer Verletzung der Persönlichkeitsrechte einer Privatperson oder Organisation durch einen Nutzer des Portals in dem durch das Recht des Wohnsitzes des Nutzers festgelegten Umfang kann der Ältestenrat auf Antrag des Geschädigten Beweise sichern und eine Strafanzeige bei den Strafverfolgungsbehörden einreichen.
+7. Benutzer können Zugang zu den reservierten Funktionen (Premium) erhalten, die als Belohnung für die Unterstützung des Projekts verfügbar sind.
 
-III. Anmeldung
-1. Mitglied von Elten kann jede Person werden, die älter als 13 Jahre ist.
-2. Der Projektautor oder der Ältestenrat (auch auf Antrag eines verbundenen Unternehmens) kann die Registrierung in besonderen Fällen ablehnen, wenn seine Mitglieder der Ansicht sind, dass eine Person, die sich registrieren möchte, nicht dazu berechtigt ist.
-3. Die Erstellung mehrerer Konten ist strengstens untersagt.
-3.1. Die darauf folgende Bestrafung besteht in einer sofortigen, dauerhaften Sperrung des Zweitkontos und:
-A. einer Warnung an den Benutzer im Falle der ersten Verletzung dieser Art,
-B. einer Sperrung des Basiskontos des Benutzers für einen Zeitraum von einem Monat bei weiteren Verstößen dieser Art.
-3.2. Die Sperrfrist kann in begründeten Fällen verlängert oder verkürzt werden.
-3.3. Angelegenheiten im Zusammenhang mit der Erstellung mehrerer Konten unterliegen keiner Verjährungsfrist.
-3.4. Im Falle der notorischen Erstellung mehrerer Konten wird die Person, die sie erstellt, als Spammer betrachtet, und die IP-Adresse oder HWID des Computers, auf dem die Konten erstellt werden, wird blockiert.
-3.5. Ausnahmen von den Punkten 3.1, 3.2 sind Fälle, in denen die Verwaltung im Einzelfall der Einrichtung eines zweiten oder eines anderen Kontos durch den Nutzer zugestimmt hat.
-4. Der Spitzname (Login) des Benutzers darf keine vulgären oder allgemein als anstößig geltenden Wörter enthalten.
-An den Benutzer mit einem solchen Spitznamen sendet der Ältestenrat oder die verbundene Einrichtung eine Aufforderung, ein Konto gemäß den geltenden Regeln zu erstellen, und das anstößige Konto wird entfernt.
-5. Die Angabe einer echten E-Mail-Adresse ist obligatorisch. In besonderen Fällen kann sie verwendet werden, um die Identität des Benutzers zu überprüfen.
-6. Das Hacken oder der Versuch, das Konto eines anderen Benutzers zu hacken, wird mit einem mindestens dreimonatigen Sperrverbot des Benutzers geahndet.
-6.1. Im Falle eines versuchten Hackerangriffs auf das Konto einer anderen Person leitet der Ältestenrat auf Aufforderung des Opfers die Straftatmeldung an die Strafverfolgungsbehörde des Landes des Benutzers weiter, der die Aktivität begangen hat.
+# III. Portal-Verwaltung
+1. Die Mitglieder des Ältestenrats und die Leiter der Verwaltungseinheiten werden vom Autor ernannt und entlassen.
+2. Der Leiter der Verwaltungseinheit hat das Recht, nach eigenem Ermessen weitere Mitglieder zu ernennen.
+3. Die Mitgliedschaft in der Portaladministration entbindet nicht von der Verpflichtung zur Einhaltung dieser Verordnung.
+4. Die Mitgliedschaft in der Portaladministration erlischt automatisch durch:
+A. Tod des Anwenders oder dessen Verlust der Fähigkeit, die ihm anvertraute Funktion weiter auszuführen,
+B. Unangekündigte Benutzerinaktivität für mehr als 30 Tage, außer in begründeten Zufallsfällen,
+C. Globale Benutzersperrung.
+5. Der Ältestenrat ist zuständig für:
+A. Koordinierung der Regeln und Absprachen zwischen den Verwaltungseinheiten der verschiedenen Gemeinden,
+B. Globale Benutzersperrung,
+C. Aufsicht über nicht empfohlene Gruppen in Bezug auf die Einhaltung der Grundsätze dieses Reglements,
+D. Die Sorge für die Promotion des Portals und die Ausübung repräsentativer Funktionen in seinem Namen,
+E. Erteilung einer Vollmacht zur Vertretung des Portals,
+F. Beilegung von Streitigkeiten, die nicht durch diese Regeln abgedeckt sind.
+6. Es ist verboten, die Rechte, die sich aus der Mitgliedschaft in der Portaladministration ergeben, zu missbrauchen.
 
-IV. Blogs, private Nachrichten, Notizen und freigegebene Dateien (einschließlich Avatare und Anhänge)
-1. Der Inhalt von Blogs, privaten Nachrichten, Notizen und Dateien unterliegt keiner Moderation und der Benutzer, der sie veröffentlicht, ist dafür verantwortlich.
-1.1. Der Autor, die Administration des Portals und verwandte Stellen übernehmen dafür keine Haftung.
-2. Benutzer sollten sich bewusst sein, dass es illegal ist, Material zu veröffentlichen, an dem sie kein Urheberrecht oder verwandte Schutzrechte besitzen (abhängig von den Gesetzen des Landes, in dem sie ihren Wohnsitz haben).
-3. Der Benutzer kann in besonderen Fällen bestraft werden, indem er den veröffentlichten Inhalt sperrt und / oder löscht, wenn:
-A. Sie Urheberrechte, Eigentumsrechte, Vertriebsrechte von Privatpersonen oder Organisationen oder die im Land des Wohnsitzes des Nutzers geltenden Rechte verletzen (auf Antrag einer autorisierten Stelle, solche Inhalte zu entfernen).
-B. Sie für andere Benutzer anstößig sind (im Gegenzug für einen Antrag auf Entfernung solchen Materials durch eine interessierte Partei).
-4. Es ist verboten, schädliches oder potenziell unerwünschtes Material weiterzugeben.
-4.1. Wenn ein solches Material von einer Antivirensoftware auf dem Server erkannt wird, wird es automatisch entfernt.
-4.2. Jeder Benutzer, der absichtlich solche Dateien sendet, wird als Spammer betrachtet.
+# IV. Blogs, private Nachrichten und Notizen
+1. Die in Blogs, privaten Nachrichten und Notizen platzierten Inhalte unterliegen mit Ausnahme der Punkte dieser Regeln keiner Moderation und der Benutzer, der sie veröffentlicht, bleibt für sie verantwortlich.
+2. Der Benutzer kann durch Sperrung und/oder Entfernung des veröffentlichten Inhalts in besonderen Fällen bestraft werden, wenn:
+A. Sie das Urheberrecht, Eigentumsrechte, Verbreitungsrechte von Privatpersonen oder Organisationen oder die je nach Wohnsitzland des Nutzers geltenden Rechte verletzen,
+B. Sie für andere Benutzer anstößig sind (zugunsten der Beantragung der Löschung dieser Materialien durch den Betroffenen an den Ältestenrat).
+3. Es darf kein schädliches Material oder potenziell unerwünschte Software weitergegeben werden.
+Wenn solches Material von einer Antiviren-Software auf dem Server erkannt wird, wird es automatisch gelöscht.
+4. Der Entwickler behält sich das Recht vor, Grenzen für den Speicherplatz festzulegen, der von einem einzelnen Benutzer belegt werden kann.
+5. Materialien, die in Form von privaten Nachrichten, Blogbeiträgen oder Notizen zur Verfügung gestellt werden, können keine Regelungen oder Anhänge zu Gruppenregelungen darstellen.
 
-V. Forum
-1. Jeder Nutzer hat das Recht auf uneingeschränkten Zugang zum Forum, mit Ausnahme der Punkte dieser Bedingungen, der internen Vorschriften und des Rechts des Landes, in dem er seinen Wohnsitz hat. Kein anderer Benutzer darf dies verbieten oder auf andere Weise verhindern. Ausgenommen hiervon sind Einschränkungen, die durch die Moderation von Foren und des Ältestenrates sowie verwandter Stellen aufgrund von Verstößen gegen die Regeln des Portals auferlegt werden.
-2. Jeder Benutzer, der Beiträge in den Foren verfasst, muss sicherstellen, dass seine Angaben klar und lesbar sind.
-3. Beiträge, die im Forum veröffentlicht werden, sind verpflichtet, die Regeln der Netiquette einzuhalten.
-4. Die Moderatoren und Administratoren des Forums sind für die Aufrechterhaltung der Ordnung im Forum verantwortlich. Sie haben Anspruch auf:
-A. die Entfernung aller Themen oder Beiträge, die nicht mit diesen Nutzungsbedingungen übereinstimmen (anstößig, vulgär oder grob schädlich für das Portal), .
-B. die Verschiebung von Beiträgen und Themen zwischen Themen, Foren und Gruppen ,
-C. die Bearbeitung von Beiträgen und / oder Themennamen ,
-D. den Ältestenrat oder eine verwandte Einrichtung auffordern, einen Benutzer zu sperren.
-5. Der Forumsbeitrag kann bearbeitet oder gelöscht werden, wenn:
-A. personenbezogene oder sensible Daten anderer Personen ohne deren Zustimmung (auf Ersuchen des Geschädigten) weitergegeben werden,
-B. der Portalbenutzer explizit verletzt wird (auf Antrag der verletzten Person oder eines der Benutzer),
-C. Unstimmigkeiten mit dem Thema / der Diskussion vorhanden sind,
-D. Es notwendig ist, den Beitrag an die Vorlage oder die Art des Themas anzupassen (im Fall von Themen mit einer bestimmten Art und Weise oder einem bestimmten Ausdrucksumfang),
-E. andere Rechte nach den internen Regeln der Gruppe, in der der Beitrag veröffentlicht wurde, verletzt werden.
-6. Der Nutzer, der einen Verstoß im Sinne der Nummern 3 und 5 begangen hat, unterliegt einer Sanktion, die sich nach der Verwaltungseinheit des Landes richtet, zu dem er gehört, und nach den Regeln der Gruppe, in der der Verstoß begangen wurde .
-7. Bei einer schwerwiegenden Verletzung der Persönlichkeitsrechte durch einen anderen Nutzer des Portals kann der Ältestenrat auf Antrag des Betroffenen eine Straftatanzeige bei den Strafverfolgungsbehörden einreichen.
-8. Mit dem Veröffentlichen der Inhalte im Forum erklärt der Nutzer, dass er das Recht hat, diese zu veröffentlichen. Es ist verboten, Inhalte zu veröffentlichen, die das Urheberrecht oder verwandte Schutzrechte verletzen.
-8.1. Moderatoren und Administratoren von Gruppen sind verpflichtet, solche Inhalte zu entfernen oder zu ändern und den diese Aktion ausführenden Nutzer darauf hinzuweisen.
-9. Themen mit Inhalten, die einer für ein bestimmtes Land angemessenen Altersgrenze unterliegen (im Fall von Polen - 18 Jahre), sollten vom Autor angemessen gekennzeichnet werden.
-9.1. Wenn der Administrator oder Moderator solche Inhalte in einem Thema entdeckt, ist er berechtigt, dem Namen einen entsprechenden Hinweis hinzuzufügen, ohne den Autor darüber zu informieren.
-10. Moderatoren behalten sich das Recht vor, separate Regeln für bestimmte Themen festzulegen. In einer solchen Situation ist der Moderator verpflichtet, im angegebenen Thema darüber zu informieren. Diese Regeln dürfen jedoch nicht mit diesem Dokument in Konflikt stehen.
-11. Die Benutzer müssen Regeln befolgen, die das einfache Durchsuchen von Beiträgen erleichtern, das Mischen von Themen vermeiden und daran hindern, dass Inhalte in unangemessenen Foren veröffentlicht werden und übermäßig vom Diskussionsthema abgewichen wird.
-12. Die Länderverwaltungseinheiten haben das Recht, für ihre untergeordneten Gruppen eine Geschäftsordnung festzulegen. Dies gilt auch für andere Funktionen des Programms, deren Verwendung von Land zu Land unterschiedlich sein kann. Sie sind verpflichtet, den Ältestenrat und die betroffenen Nutzer über solche Änderungen zu informieren. Interne Vorschriften dürfen mit diesem Dokument nicht in Konflikt stehen.
-13. Administratoren von Gruppen, die keine offiziellen Sprachgruppen sind, haben das Recht, ihre eigenen Regeln einzuführen, sie dürfen jedoch nicht mit diesem Dokument in Konflikt stehen. Jedes Mal, wenn solche Regeln eingeführt oder geändert werden, muss die Verwaltung alle Mitglieder der Gruppe informieren.
+# V. Forum
+1. Jeder Nutzer hat das Recht, sich im Forum ohne Einschränkungen zu den Punkten dieser Regeln, den internen Vorschriften und den Gesetzen des Landes, in dem er seinen Wohnsitz hat, zu äußern. Kein anderer Nutzer darf dies verbieten oder anderweitig verhindern.
+Eine Ausnahme bilden die von der Gruppenmoderation und der Portaladministration auferlegten Einschränkungen, die sich aus der Verletzung eines der Punkte dieses Dokuments oder der Regeln der betreffenden Gruppe ergeben.
+2. Jeder Nutzer, der sich im Forum äußert, ist verpflichtet, für die Verständlichkeit und Lesbarkeit seiner Äußerungen zu sorgen, insbesondere die Regeln der Rechtschreibung und Grammatik einer gegebenen Sprache zu beachten, die Vermischung von Themen zu vermeiden, Themen in entsprechenden Rubriken zu erstellen und diese mit entsprechenden Titeln zu versehen.
+3. Die Moderation der Gruppe, zu der das Forum gehört, ist für die Aufrechterhaltung der Ordnung im Forum verantwortlich. Sie hat das Recht dazu:
+A. Themen oder Beiträge zu löschen,
+B. Beiträge und Themen zwischen Themen, Foren und Gruppen zu verschieben,
+C. Beiträge und/oder Titel eines Themas zu bearbeiten,
+D. Den Benutzer in der Gruppe zu sperren, in der das Vergehen begangen wurde,
+E. den Ältestenrat für eine globale Sperrung  des Benutzers aufzurufen.
+4. Der Forumsbeitrag kann von der Moderation bearbeitet oder gelöscht werden, wenn:
+A. private oder sensible Daten anderer Personen ohne deren Zustimmung  veröffentlicht werden, sofern die betroffene Person den Ältestenrat um eine entsprechende Handlung bittet.
+B. der Portalbenutzer, eine andere Person oder Institution explizit beleidigt wird,
+C. Eindeutige Inkonsequenz oder Unstimmigkeiten mit dem Gegenstand der Diskussion festgestellt wird,
+D. es nötig ist, den Beitrag an die Vorlage oder die Art des Themas anzupassen,
+E. andere Rechte nach diesen Regeln oder den internen Regeln der Gruppe verletzt werden, in der der Beitrag erstellt wurde.
+5. Mit dem Einstellen eines bestimmten Inhalts in das Forum erklären die Nutzer, dass sie das Recht haben, diesen zu veröffentlichen. Es ist verboten, Inhalte zu veröffentlichen, die das Urheberrecht oder verwandte Rechte verletzen.
+Die Gruppenmoderation ist verpflichtet, derartige Inhalte unverzüglich zu entfernen.
 
-VI. Umfragen
-1. Der Zweck von Umfragen besteht darin, Daten darüber zu sammeln, wie ihr Titel lauten soll und was in der Umfragebeschreibung erläutert werden muss.
-2. Beim Erstellen einer Umfrage muss der Benutzer berücksichtigen, dass Titel, Beschreibung und Fragen keine vulgären oder anstößigen Inhalte enthalten und in keiner Weise das Portal und seine Community schädigen oder die Offenlegung der Identität der Befragten veranlassen dürfen.
-2.1. Die Nichteinhaltung der oben genannten Bestimmungen wird wie im Falle des Forums geahndet (siehe Abschnitt V dieser Allgemeinen Geschäftsbedingungen).
-2.2. Im Falle eines Verstoßes wird die Portaladministration oder eine verwandte Stelle den Autor der Umfrage kontaktieren, um eine Lösung für das Problem zu finden.
-2.3. Bei Verweigerung der Zusammenarbeit oder mangelndem Kontakt mit dem Autor wird die Umfrage entfernt oder in besonderen Fällen der Name oder Inhalt geändert.
-3. Bevor der Ältestenrat oder eine verwandte Einrichtung den Inhalt der Umfrage stört oder löscht, ist er verpflichtet, den Autor über diese Absicht zu informieren. Dieser kann mit angemessenen Argumenten die Verwaltung veranlassen, seine Absichten zu ändern.
+# VI. Nicht-gemeinschaftliche Gruppen
+1. Gruppen, die keine Community-Gruppen sind, werden unterteilt in:
+A. Empfohlene Gruppen, die von der sozialen Gruppe einer bestimmten Sprache getrennt sind,
+B. Öffentliche Gruppen, benutzergeneriert und öffentlich sichtbar,
+C. Versteckte Gruppen, die von Benutzern erstellt werden und nur für ihre Mitglieder sichtbar sind.
+2. Gruppenadministratoren bleiben autonom in den Bereichen:
+A. Festlegung interner Regelungen, die der Öffentlichkeit zugänglich gemacht werden,
+B. Festlegung von internen Moderationsregeln, Beitritts- und Postingbedingungen,
+C. Verbot oder Rauswurf aus der Gruppe bei Nicht-Einhaltung der internen Regeln.
+3. Die Gruppenvorschriften können nicht im Widerspruch zu diesem Dokument stehen.
+4. Die Gruppenvorschriften sollten folgende Informationen enthalten:
+A. Die Vorrangigkeit dieser Vorschriften,
+B. Voraussichtliche Strafen,
+C. Wenn Warnungen berücksichtigt werden, die Art der Warnung der Benutzer,
+D. Die Art und Weise, wie über Änderungen in den Themen informiert wird,
+E. Jede andere Gruppenrichtlinie.
+5. Eine öffentliche Gruppe, in der 1.000 veröffentlichte Beiträge überschritten werden und die mindestens 15 Mitglieder hat, legt ihre Geschäftsordnung innerhalb von 14 Tagen nach Erreichen dieser Grenze vor.
+Legt die Gruppe ihre Geschäftsordnung nicht fristgerecht vor, hat der Ältestenrat das Recht, gemäß Punkt 7 einen neuen Verwalter für die Gruppe zu bestellen.
+6. Der Ältestenrat kann einen neuen Administrator für die Gruppe ernennen, wenn:
+A. der Administrator verstirbt oder seine Unfähigkeit, diese Funktion weiterhin auszuüben, nicht mehr gegeben ist
+B. der Administrator für mehr als 30 Tage ohne Ankündigung inaktiv ist,
+C. der Administrator gegen diese Regeln verstößt,
+D. ein begründeter Antrag auf Änderung des Administrators einer öffentlichen Gruppe gestellt wird, die mindestens 15 Mitglieder und 1.000 Beiträge erreicht hat, von mindestens 51 Prozent der Benutzer, die in den letzten 30 Tagen in der Gruppe aktiv waren und der Gruppe seit mindestens 90 Tagen angehören.
+7. Die Wahl eines neuen Administrators nach einem Wechsel des Administrators durch den Ältestenrat erfolgt durch Wahl eines neuen Kandidaten aus der Liste der aktivsten Mitglieder der Gruppe, mindestens drei.
+8. Empfohlene Gruppen sind ein separater, untergeordneter Teil der Gemeinschaftsgruppe einer bestimmten Sprache mit eigenen Foren, eigener Moderation und eigenen Regeln.
+8.1. Die Bestimmungen des Reglements der empfohlenen Gruppen müssen mit dem Reglement der Gemeinschaftsgruppe, von der die Gruppe abgetrennt wird, und mit diesem Reglement übereinstimmen.
+8.2. Der Verwalter einer empfohlenen Gruppe kann jederzeit vom Verwalter der Gemeinschaftsgruppe, von der die Gruppe abgetrennt ist, ernannt oder entlassen werden.
+8.3. Eine öffentliche Gruppe kann mit Zustimmung des Administrators dieser Gruppe und des Administrators der sozialen Gruppe, zu der die Gruppe gehören wird, in eine empfohlene Gruppe umgewandelt werden.
+8.4. Der Administrator der empfohlenen Gruppe ist verpflichtet, mindestens einen Moderator zu benennen.
+8.5. In der empfohlenen Gruppe sind alle Strafen für Benutzer aus der sozialen Gruppe gültig.
+Die Moderation von empfohlenen Gruppen kann auch interne Verbote aussprechen, die nur eine bestimmte Gruppe betreffen.
+9. Empfohlene Gruppen sind dazu gedacht, beliebte Themen aus der Gemeinschaftsgruppe zu übernehmen. Zwei empfohlene Gruppen mit demselben Thema können innerhalb einer Gemeinschaftsgruppe nicht getrennt werden.
+Die Moderation der empfohlenen Gruppen und Community-Gruppen ist erforderlich, um für die korrekte Weitergabe von Themen zwischen den Gruppen zu sorgen.
+Die Übertragung von Themen kann direkt auf Basis einer Vereinbarung zwischen den empfohlenen Gruppen erfolgen, ohne Beteiligung der Moderation der Community-Gruppe.
+10. Der Entwickler behält sich das Recht vor, Grenzen für den Speicherplatz festzulegen, der von einer einzelnen Gruppe belegt werden kann.
 
-VII. Schlussbestimmungen
-1. Diese Verordnung tritt am 24. August 2019 in Kraft.
-2. Für den Fall, dass eine bestimmte Situation in diesen Vorschriften nicht berücksichtigt wird, entscheidet der Verfasser in Absprache mit dem Ältestenrat und / oder einer verwandten Einrichtung über die Schädlichkeit der genannten Handlung.
-3. Der Benutzer, der das Programm verwendet, erklärt, dass er diese Bedingungen kennt und versteht.
-4. Jeder Benutzer hat das Recht, gemeldete Inhalte, die als vulgär, schädlich oder anstößig empfunden werden, dem Gruppenmoderator, seinem Administrator oder dem Ältestenrat oder einer verwandten Stelle zu melden (falls die untergeordneten Stellen nicht reagieren).
-5. Jeder Benutzer kann Unklarheiten oder Zweifel an der Richtigkeit eines Punktes in diesen Allgemeinen Geschäftsbedingungen melden.
-6. Die Benutzer sind verpflichtet, die Moderatoren der Gruppen, ihre Administratoren und die Administration des Portals und verwandte Stellen als Programmmanager zu behandeln.
-6.1. Es ist verboten, die Entscheidung einer dieser Einheiten aggressiv in Frage zu stellen, ihre Kompetenz zu untergraben oder sie aufgrund ihrer Funktion zu belästigen.
-7. Der Autor des Programms behält sich das Recht vor, diese Bestimmungen jederzeit zu ändern oder aufzuheben. Die Benutzer werden über die Änderungen informiert.
+# VII. Schlussbestimmungen
+1. Diese Regelungen treten am 24. Januar 2021 in Kraft.
+2. Falls eine bestimmte Situation nicht in diese Vorschriften aufgenommen wurde, wird die Entscheidung über die Schädlichkeit der betrachteten Handlung vom Entwickler in Absprache mit dem Ältestenrat und/oder der Verwaltungseinheit getroffen.
+3. Der Nutzer, der das Portal nutzt, erklärt, dass er diese Regelungen kennt und versteht.
+4. Jeder Nutzer hat das Recht, Inhalte, die mit diesen Regeln nicht vereinbar sind, dem Gruppenmoderator bzw. Administrator,  der Verwaltungseinheit oder dem Ältestenrat (falls keine Reaktion von untergeordneten Einheiten erfolgt) zu melden.
+5. Jeder Anwender kann zu jedem Punkt dieses Reglements einen Zweifel anmelden.
+6. Fragen und Anfragen, die an die Portaladministration gerichtet werden, sollten in Englisch oder der vom Empfänger verwendeten Sprache verfasst werden. Die Portaladministration behält sich das Recht vor, Anfragen, die diesem Punkt nicht entsprechen, zu ignorieren.
+7. Die Benutzer sind verpflichtet, die Moderatoren der Gruppen, ihre Administratoren, die Verwaltungseinheiten und den Ältestenrat, als die Organe, die das Portal verwalten, mit gebührendem Respekt zu behandeln.
+Es ist verboten, die Entscheidung einer dieser Stellen aggressiv in Frage zu stellen, ihre Kompetenz in Frage zu stellen oder sie aufgrund ihrer Position zu belästigen.
+8. Der Entwickler behält sich das Recht vor, diese Bestimmungen jederzeit zu ändern oder aufzuheben. Die Benutzer werden über eingeführte Änderungen informiert.

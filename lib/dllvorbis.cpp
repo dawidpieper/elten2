@@ -31,23 +31,53 @@ int samplerate;
 int channels;
 HANDLE file;
 BOOL locked;
+BOOL completed;
+int output_size;
+int output_pos;
+char *output;
 } VorbisRecording;
 
 void vorbis_write_page(VorbisRecording *vorbis) {
+if(vorbis->file!=0) {
 DWORD b;
 WriteFile(vorbis->file, vorbis->og.header, vorbis->og.header_len, &b, NULL);
 WriteFile(vorbis->file, vorbis->og.body, vorbis->og.body_len, &b, NULL);
 }
+if(vorbis->output!=NULL) {
+int reqsize = vorbis->og.header_len+vorbis->og.body_len;
+while(vorbis->output_size-vorbis->output_pos < reqsize) {
+vorbis->output_size+=1048576;
+if(!(vorbis->output = (char*)realloc(vorbis->output, sizeof(char*)*vorbis->output_size))) return;
+}
+memcpy(vorbis->output+vorbis->output_pos, vorbis->og.header, vorbis->og.header_len);
+vorbis->output_pos+=vorbis->og.header_len;
+memcpy(vorbis->output+vorbis->output_pos, vorbis->og.body, vorbis->og.body_len);
+vorbis->output_pos+=vorbis->og.body_len;
+}
+}
 
 int VorbisRecorderInit(wchar_t *file, int samplerate, int channels, int bitrate=64000) {
 if(bitrate<48000||bitrate>500000) bitrate=64000;
-HANDLE hFile = CreateFile(file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+HANDLE hFile=0;
+if(file!=NULL) {
+hFile = CreateFile(file, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 if(hFile==0) return 0;
+}
 
 VorbisRecording *vorbis = (VorbisRecording*)malloc(sizeof(VorbisRecording));
 if(vorbis==NULL) return 0;
 vorbis->file=hFile;
 vorbis->locked=false;
+vorbis->completed=false;
+
+vorbis->output_size=0;
+vorbis->output_pos=0;
+vorbis->output=NULL;
+
+if(file==NULL) {
+vorbis->output_size=1048576;
+vorbis->output = (char*)malloc(sizeof(char*)*vorbis->output_size);
+}
 
 vorbis_info_init(&vorbis->vi);
 int ret = (vorbis_encode_setup_managed(&vorbis->vi, channels, samplerate, -1, bitrate, -1)||
@@ -121,9 +151,8 @@ if(ogg_page_eos(&vorbis->og)) eos=1;
 }
 }
 
-void VorbisRecorderClose(int r) {
-if(r==0) return;
-VorbisRecording *vorbis = (VorbisRecording*)r;
+void vorbis_recording_complete(VorbisRecording *vorbis) {
+if(!vorbis->completed) {
 while(vorbis->locked);
 
 vorbis_recording_encode(vorbis, NULL, 0);
@@ -133,8 +162,28 @@ vorbis_block_clear(&vorbis->vb);
 vorbis_dsp_clear(&vorbis->vd);
 vorbis_comment_clear(&vorbis->vc);
 vorbis_info_clear(&vorbis->vi);
+vorbis->completed=true;
+}
+}
 
-CloseHandle(vorbis->file);
+int VorbisRecorderGetOutput(int r, char* buf, int size) {
+if(r==0) return 0;
+VorbisRecording *vorbis = (VorbisRecording*)r;
+if(!vorbis->completed) vorbis_recording_complete(vorbis);
+if(buf==0) return vorbis->output_pos;
+int sz=size;
+if(sz<vorbis->output_pos) sz=vorbis->output_pos;
+memcpy(buf, vorbis->output, sz);
+return sz;
+}
+
+void VorbisRecorderClose(int r) {
+if(r==0) return;
+VorbisRecording *vorbis = (VorbisRecording*)r;
+if(!vorbis->completed) vorbis_recording_complete(vorbis);
+
+if(vorbis->file!=0) CloseHandle(vorbis->file);
+if(vorbis->output!=NULL) free(vorbis->output);
 free(vorbis);
 }
 
@@ -143,6 +192,7 @@ if(user==NULL) return false;
 int len = length/4;
 VorbisRecording *vorbis = (VorbisRecording*)user;
 if(vorbis==NULL) return true;
+if(vorbis->completed) return true;
 while(vorbis->locked);
 vorbis->locked=true;
 vorbis_recording_encode(vorbis, (float*)buffer, len);

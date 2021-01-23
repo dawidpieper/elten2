@@ -217,20 +217,24 @@ SetActiveWindow(ewnd);
 SetFocus(ewnd);
 ShowWindow(ewnd,3);
 } else {
-wchar_t startdir[MAX_PATH];
 wchar_t szFile[MAX_PATH];
+GetModuleFileName(GetInstance(), szFile, MAX_PATH);
+int siz=0;
+for(int i=0; i<MAX_PATH; ++i) {
+if(szFile[i]=='\\') siz=i;
+else if(szFile[i]==0) break;
+}
+wchar_t *eltenexe = (wchar_t*)malloc(sizeof(wchar_t)*(siz+9+13+1+2));
+if(eltenexe) {
 #ifdef _MSC_VER
 #pragma warning(push)
 #pragma warning(disable : 4996)
 #endif
-if(Exist(L"elten.exe")) {
-wcscpy(szFile,L"elten.exe /silentstart");
-wcscpy(startdir,L".");
-} else if(Exist(L"..\\elten.exe")) {
-wcscpy(szFile,L"..\\elten.exe /silentstart");
-wcscpy(startdir,L"..");
-} else
-return;
+eltenexe[0]='"';
+wcsncpy(eltenexe+1, szFile, siz+1);
+eltenexe[siz+2]=0;
+wcscat(eltenexe, L"elten.exe\" /silentstart");
+szFile[siz]=0;
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
@@ -239,7 +243,9 @@ STARTUPINFO si;
     ZeroMemory( &si, sizeof(si) );
     si.cb = sizeof(si);
     ZeroMemory( &pi, sizeof(pi) );
-if( !CreateProcess( NULL, szFile, NULL, NULL, FALSE, 0, NULL, startdir, &si, &pi)) MessageBeep(0);
+if( !CreateProcess( NULL, eltenexe, NULL, NULL, FALSE, 0, NULL, szFile, &si, &pi)) MessageBeep(0);
+free(eltenexe);
+}
 else if(autostart==1) hideTray();
 }
 }

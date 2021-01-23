@@ -1,36 +1,39 @@
-﻿# Datenschutzerklärung für das Elten-Netzwerk
-Dieses Dokument enthält eine detaillierte Beschreibung der vom Elten-Portal erfassten Daten und deren Verwendung durch die Verwaltung.
-Bei Fragen oder Zweifeln wenden Sie sich bitte direkt über das Portal oder die E-Mail-Adresse an die Verwaltung
-support@elten-net.eu
+﻿# Datenschutzrichtlinie des EltenLink-Portals
+Dieses Dokument beschreibt detailliert, welche Daten das EltenLink-Portal sammelt und wie sie von der Administration verwendet werden.
+Sollten Sie Fragen oder Bedenken haben, wenden Sie sich bitte direkt an die Administration über das Portal oder per E-Mail
+support@elten.link
 
-## Gesammelte Daten
-### Protokolldateien und Sicherungskopien
-Im Rahmen der Wartung von Diensten im Zusammenhang mit dem Elten-Portal werden Serverereignisprotokolle und -sicherungen gesammelt.
-Ereignisprotokolle ermöglichen es uns, Fehler und Probleme im Zusammenhang mit dem Betrieb von Diensten wiederherzustellen und vor Hacking-Angriffen und ähnlichen Vorfällen zu schützen. Sie enthalten keine privaten Daten, vor allem keine an Elten gesendeten Passwörter oder Inhalte, sondern lediglich grundlegende Informationen über den Betrieb des Dienstes (verwendete Protokolle, Internetbrowser- oder Client-Version, IP-Adresse, Kennung des Dienstes, auf den sie sich beziehen).
-Backups werden im Falle eines Serverausfalls verwendet. Sie enthalten eine genaue Aufzeichnung der Datenbank, die es uns ermöglicht, das Portal im Falle eines Ausfalls wiederherzustellen. Alle Backups, die außerhalb des Portalservers erstellt wurden, insbesondere in externen Cloud-Diensten, werden verschlüsselt.
+## Die gesammelten Daten sind:
+### Logdateien und Sicherheitskopien
+Im Rahmen der Wartung der Dienste rund um das EltenLink-Portal werden Server-Ereignisprotokolle und Sicherheits-Backups erhoben.
+Die Ereignisprotokolle ermöglichen es uns, Fehler und Probleme im Zusammenhang mit dem Betrieb der Dienste zu reproduzieren, um EltenLink vor Hacking-Angriffen und ähnlichen Vorfällen zu schützen. Sie enthalten keine privaten Daten, insbesondere keine Passwörter oder auf Elten eingestellte Inhalte, sondern nur grundlegende Informationen über den Betrieb der Dienste (verwendete Protokolle, Webbrowser- oder Client-Version, IP-Adresse, ID des Dienstes, auf den sie sich beziehen).
+Sicherheits-Backups werden für den Fall eines Serverausfalls verwendet. Sie enthalten eine detaillierte Aufzeichnung der Datenbank, die es ermöglicht, das Portal im Falle eines Ausfalls wiederherzustellen. Alle Sicherungskopien, die außerhalb des Portalservers, insbesondere in externen Cloud-Diensten, abgelegt werden, sind verschlüsselt.
 ### Benutzerdaten
-Die einzige private Information, die das Elten-Portal benötigt, ist die E-Mail-Adresse. Für die Registrierung sind keine persönlichen Daten (wie Vor- und Nachname) erforderlich.
-Benutzer des Elten-Portals können ihr Profil mit folgenden Daten ausfüllen:
-Vor- und Nachname, Geschlecht, Geburtsdatum, Wohnort.
-Diese Profile werden jedoch freiwillig ausgefüllt und nicht während des Registrierungsprozesses gesammelt. Benutzer können ihr Profil vor Personen außerhalb ihrer Kontaktliste verbergen und diese Informationen jederzeit löschen.
-Als zusätzliche Sicherheitsebene können Benutzer eine Zwei-Faktor-Authentifizierung aktivieren, bei der eine Mobiltelefonnummer verwendet wird, um sich beim ersten Versuch von einem neuen Gerät aus beim Portal anzumelden, indem sie einen Bestätigungscode per SMS senden lassen. Dies ist optional. Die auf diese Weise gesammelten Telefonnummern werden ausschließlich für die Zwei-Faktor-Authentifizierung verwendet.
-
-### Andere
-Andere von Elten Network gesammelte Daten umfassen nur die von Benutzern innerhalb der Plattform bereitgestellten. Elten Network erhebt keine Statistiken von Dritten.
-### Cookie-Richtlinie
-Das Elten-Netzwerk verwendet, außer für die automatische Anmeldung, keine Cookies.
-## Möglichkeiten zur Verwendung von Daten
-### Von der Verwaltung
-Durch die Verwaltung und Moderation des Portals erhobene Daten stehen im Zusammenhang mit der Notwendigkeit, Wünsche zu wahren, die darin bestehen, Benutzer zu identifizieren, die unerwünschte Inhalte in Foren platzieren, sogenannte Spam-Mails versenden, andere beleidigen oder anderweitig gegen die Bestimmungen der Regeln verstoßen.
-Die verarbeiteten Daten umfassen IP-Adresse, Computerkennung und andere Informationen, die die Identifizierung des Benutzers ermöglichen.
-### Durch den Newsletter
-Über die bei der Registrierung verwendete E-Mail-Adresse kann der sogenannte Newsletter versendet werden, d. H. Informationen über Neuigkeiten, Warnungen und andere administrative Benachrichtigungen in Bezug auf den Betrieb des Elten-Netzwerkdienstes.
-### Von anderen Entitäten
-Elten gibt die gesammelten Daten nicht an andere Personen weiter.
-Es werden keine Analysetools oder Werbedienstleistungen von Drittanbietern verwendet.
-## Daten werden von der Administration nicht verarbeitet
-Die Verwaltung des Portals verarbeitet, liest oder überprüft keine sensiblen Daten, die auf dem Portal veröffentlicht wurden (ausgenommen die oben genannten). Dies gilt insbesondere für private Nachrichten und Notizen.
-Das Elten-Portal sammelt keine Aktivitäten, die für den Betrieb nicht erforderlich sind, d. H. Keine Aktivitäten, die vom Client vor Ort ausgeführt werden.
-## Löschen von Daten
-Alle personenbezogenen Daten, insbesondere das Benutzerprofil, können durch entsprechende Optionen gelöscht werden. Bei Problemen wenden Sie sich bitte an die Verwaltung.
-Es werden keine Daten gelöscht, die für den Betrieb des Dienstes erforderlich sind: Foreneinträge, IP-Adressen, Benutzername.
+Die einzige private Information, die das EltenLink-Portal benötigt, ist eine E-Mail-Adresse. Für die Registrierung werden keine persönlichen Daten (wie z. B. Name) benötigt.
+Benutzer innerhalb des EltenLink-Portals können ihr Profil vervollständigen, indem sie Daten angeben wie:
+* Vor- und Nachname
+* Geschlecht
+* Geburtsdatum
+* Wohnsitz
+Das Ausfüllen dieser Profile ist jedoch freiwillig und wird nicht im Rahmen des Registrierungsprozesses erhoben. Benutzer können das Profil vor Personen außerhalb ihrer Kontaktliste verbergen und diese Informationen jederzeit löschen.
+Als zusätzliche Sicherheitsebene können Benutzer die Zwei-Faktor-Authentifizierung aktivieren, die die Mobiltelefonnummer bei der Anmeldung am Portal verwendet und den Verifizierungscode beim ersten derartigen Versuch von einem neuen Gerät per SMS-Nachricht sendet. Dies ist eine optionale Funktionalität. Die auf diese Weise gesammelten Telefonnummern werden nicht für Zwecke verwendet, die nichts mit der Zwei-Faktor-Authentifizierung zu tun haben.
+Bei dem oben beschriebenen Vorgang werden die Daten der Mobilfunknummer über den Simple Notification Service an Amazon übertragen.
+### Sonstiges
+Die von EltenLink erhobenen sonstigen Daten umfassen nur die von den Nutzern innerhalb der Plattform angegebenen Daten. EltenLink sammelt keine Statistiken von Dritten.
+### Cookies-Richtlinie
+Das EltenLink-Portal verwendet mit Ausnahme des automatischen Anmeldedienstes keine Cookies.
+## Arten der Datennutzung
+### Durch die Administration
+Die von der Administration und Moderation des Portals erhobenen Daten stehen im Zusammenhang mit der notwendigen Aufrechterhaltung der Ordnung, wozu auch die Identifizierung von Nutzern gehört, die unangemessene Inhalte in den Foren veröffentlichen, sogenannten Spam, andere beleidigen oder anderweitig gegen die Nutzungsbedingungen verstoßen.
+Zu den verarbeiteten Daten gehören die IP-Adresse, die Computer-ID und andere personenbezogene Daten.
+### Per Newsletter
+An die bei der Registrierung angegebene E-Mail-Adresse kann der sog. Newsletter, d.h. Informationen über Neuigkeiten, Warnungen und sonstige administrative Mitteilungen im Zusammenhang mit dem Betrieb der EltenLink-Website, versendet werden.
+### Durch andere Parteien
+EltenLink gibt die gesammelten Daten nicht an andere Stellen weiter.
+Es werden keine Analysetools oder Werbedienste Dritter verwendet.
+## Nicht von der Administration verarbeitete Daten
+Die Administration des Portals verarbeitet, liest oder überprüft keine sensiblen Daten, die auf dem Portal veröffentlicht werden (mit Ausnahme der oben genannten), insbesondere keine privaten Nachrichten und Notizen.
+Das EltenLink-Portal sammelt keine Aktivitäten, die nicht für seinen Betrieb notwendig sind, d.h. keine Aktionen, die der Nutzer lokal ausführt.
+## Löschung von Daten
+Alle persönlichen Daten, insbesondere das Benutzerprofil, können über die entsprechenden Optionen gelöscht werden. Bei Problemen wenden Sie sich bitte an die Administration.
+Daten, die für den Betrieb des Dienstes notwendig sind, werden nicht gelöscht: Forenbeiträge, IP-Adressen, Benutzernamen.
