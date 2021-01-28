@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2021-01-23 15:49+0300\n"
+"POT-Creation-Date: 2021-01-24 13:55+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Burak <burakyuksek94@gmail.com>\n"
 "Language-Team: Kumandan\n"
@@ -710,7 +710,7 @@ msgstr "Kuriye rozeti"
 #: ../src/Scenes/PremiumPackages.rb:26
 msgctxt "PremiumPackages"
 msgid "Following forums in not moderated groups"
-msgstr "Resmi olarak yönetilmeyen gruplarda takip edilen forumlar"
+msgstr "Resmi olarak yönetilmeyen grupların forumlarını takip etme"
 
 #: ../src/Scenes/PremiumPackages.rb:27
 msgctxt "PremiumPackages"
@@ -790,7 +790,7 @@ msgstr "Sesli sohbetlerde grup kanalları oluşturma"
 #: ../src/Scenes/PremiumPackages.rb:46
 msgctxt "PremiumPackages"
 msgid "Placing own background and objects in HRTF"
-msgstr "3d ses modunda kendi arka planınızı ve nesnelerinizi yerleştirebilme"
+msgstr "3d ses modunda kendi arka planınızı ve nesnelerinizi yerleştirme"
 
 #: ../src/Scenes/PremiumPackages.rb:47
 msgctxt "PremiumPackages"
@@ -1112,7 +1112,7 @@ msgstr "Çık"
 #: ../src/eapi/Common.rb:16
 msgctxt "EAPI_Common"
 msgid "Hide program in Tray"
-msgstr "Programı sistem tepsisine gizle"
+msgstr "Programı sistem tepsisine küçült"
 
 #: ../src/eapi/Common.rb:71
 msgctxt "EAPI_Common"
@@ -1147,7 +1147,7 @@ msgstr "Kullanıcı bloğunu aç"
 #: ../src/eapi/Common.rb:120
 msgctxt "EAPI_Common"
 msgid "badges of this user"
-msgstr "Bu kullanıcının rozetleri"
+msgstr "Kullanıcının rozetleri"
 
 #: ../src/eapi/Common.rb:123
 msgctxt "EAPI_Common"
@@ -1423,7 +1423,7 @@ msgstr "Ek indirildi."
 #: ../src/eapi/Controls.rb:103 ../src/eapi/Controls.rb:105
 #: ../src/eapi/Controls.rb:992 ../src/eapi/Controls.rb:2467
 msgid "Context menu"
-msgstr "Bağlam menüsü"
+msgstr "İçerik menüsü"
 
 #: ../src/eapi/Controls.rb:401
 msgctxt "EAPI_Form"
@@ -2593,7 +2593,7 @@ msgstr "Bulunulan kontrol hakkında ipuçlarını seslendir"
 #: ../src/eapi/QuickActions.rb:157
 msgctxt "EAPI_QuickActions"
 msgid "Open context menu"
-msgstr "Bağlam menüsünü aç"
+msgstr "İçerik menüsünü aç"
 
 #: ../src/eapi/QuickActions.rb:158
 msgctxt "EAPI_QuickActions"
@@ -2987,7 +2987,7 @@ msgstr "Diller"
 #: ../src/scenes/Account.rb:216
 msgctxt "account"
 msgid "First language"
-msgstr "İlk dil"
+msgstr "Ana dil"
 
 #: ../src/scenes/Account.rb:238
 msgctxt "Account"
@@ -3037,7 +3037,7 @@ msgstr "Tüm kullanıcılar listesindde adınızdan sonra gösterilecek durum"
 #: ../src/scenes/Account.rb:246
 msgctxt "Account"
 msgid "Signature placed below all your forum posts"
-msgstr "Tüm forum gönderilerinizin altına yerleştirilen imza"
+msgstr "Tüm forum gönderilerinizin altına yerleştirilecek olan imza"
 
 #: ../src/scenes/Account.rb:249
 msgctxt "Account"
@@ -4051,12 +4051,12 @@ msgstr "Ayrıl"
 msgctxt "Blog"
 msgid "Are you sure you want to stop co-creating this blog?"
 msgstr ""
-"Bu blogun yardımcı yöneticiliğinden ayrılmak istediğinizden emin misiniz?"
+"Bu bloğun yardımcı yöneticiliğinden ayrılmak istediğinizden emin misiniz?"
 
 #: ../src/scenes/Blog.rb:942
 msgctxt "Blog"
 msgid "Blog left"
-msgstr "Blogdan ayrılındı"
+msgstr "Blogdan çıkıldı"
 
 #: ../src/scenes/Blog.rb:950
 msgctxt "Blog"
@@ -4066,7 +4066,7 @@ msgstr "Kategori değiştir"
 #: ../src/scenes/Blog.rb:955
 msgctxt "Blog"
 msgid "Delete this blog"
-msgstr "Bu bloğu sil"
+msgstr "Bloğu sil"
 
 #: ../src/scenes/Blog.rb:963
 msgctxt "Blog"
@@ -4102,7 +4102,7 @@ msgstr "Takip edilen bloglardan kaldırıldı."
 #: ../src/scenes/Blog.rb:994
 msgctxt "Blog"
 msgid "Add this blog to quick actions"
-msgstr "Bu bloğu hızlı eylemlere ekle"
+msgstr "Bloğu hızlı eylemlere ekle"
 
 #: ../src/scenes/Blog.rb:995 ../src/scenes/Blog.rb:2065
 msgctxt "Blog"
@@ -4133,7 +4133,7 @@ msgstr "Bloğu okundu olarak işaretle"
 msgctxt "Blog"
 msgid "All posts on this blog will be marked as read. Do you want to continue?"
 msgstr ""
-"Bu blogdaki bütün gönderiler okundu olarak işaretlenecektir. Devam etmek "
+"Bu blogdaki bütün gönderiler okundu olarak işaretlenecek. Devam etmek "
 "istediğinizden emin misiniz?"
 
 #: ../src/scenes/Blog.rb:1013
@@ -4204,7 +4204,7 @@ msgstr "Yeni wordpress şifresi"
 #: ../src/scenes/Blog.rb:1104
 msgctxt "Blog"
 msgid "Repeat new Wordpress password"
-msgstr "Yeni wordpress şifresini tekrarla"
+msgstr "Yeni wordpress şifresini tekrarlayın"
 
 #: ../src/scenes/Blog.rb:1108
 msgctxt "Blog"
@@ -4219,7 +4219,7 @@ msgstr "Girilen şifreler farklı."
 #: ../src/scenes/Blog.rb:1227
 msgctxt "Blog"
 msgid "Recategorized"
-msgstr "Yeniden kategorilendi"
+msgstr "Kategori değiştirildi"
 
 #: ../src/scenes/Blog.rb:1261
 msgctxt "Blog"
@@ -4234,7 +4234,7 @@ msgstr "Bu gönderiyi ve tüm yorumlarını taşı"
 #: ../src/scenes/Blog.rb:1261
 msgctxt "Blog"
 msgid "Move only this post, delete all comments"
-msgstr "Sadece bu gönderiyi taşı, tüm yorumlarını sil"
+msgstr "Sadece gönderiyi taşı, tüm yorumlarını sil"
 
 #: ../src/scenes/Blog.rb:1261
 msgctxt "Blog"
@@ -4592,7 +4592,7 @@ msgstr "Gönderi etiketleri"
 #: ../src/scenes/Blog.rb:1702
 msgctxt "Blog"
 msgid "Visibility"
-msgstr "Görülebilirlik"
+msgstr "Görünürlük"
 
 #: ../src/scenes/Blog.rb:1702
 msgctxt "Blog"
@@ -4952,7 +4952,7 @@ msgstr "Yeni alarm"
 #: ../src/scenes/Clock.rb:85
 msgctxt "Clock"
 msgid "Repeated"
-msgstr "Tekrar edilen"
+msgstr "Tekrarlayan"
 
 #: ../src/scenes/Clock.rb:62
 msgctxt "Clock"
@@ -7389,12 +7389,12 @@ msgstr "Aşağı taşı"
 #: ../src/scenes/Main.rb:161 ../src/scenes/Main.rb:172
 msgctxt "Main"
 msgid "Hide this action"
-msgstr "Bu eylemi gizle"
+msgstr "Eylemi gizle"
 
 #: ../src/scenes/Main.rb:162
 msgctxt "Main"
 msgid "Show this action"
-msgstr "Bu eylemi göster"
+msgstr "Eylemi göster"
 
 #: ../src/scenes/Main.rb:167 ../src/scenes/Main.rb:172
 msgctxt "Main"
@@ -7404,7 +7404,7 @@ msgstr "Sil"
 #: ../src/scenes/Main.rb:170
 msgctxt "Main"
 msgid "Are you sure you want to delete this quick action?"
-msgstr "Bu hızlı eylemi silmek istediğinizden emin misiniz?"
+msgstr "Hızlı eylemi silmek istediğinizden emin misiniz?"
 
 #: ../src/scenes/Main.rb:172
 msgctxt "Main"
@@ -7413,7 +7413,7 @@ msgid ""
 "assigned to it. If you want to keep the keyboard shortcut, you can hide this "
 "action. You can show or remove hidden actions at any time."
 msgstr ""
-"Bu eylemi silerseniz onunla ilişkilendirilen kısayol tuşunu da silmiş "
+"Eylemi silerseniz onunla ilişkilendirilen kısayol tuşunu da silmiş "
 "olursunuz. Kısayol tuşunu silmek istemiyorsanız eylemi gizleyebilirsiniz. "
 "Gizli eylemleri istediğiniz zaman gösterebilir veya kaldırabilirsiniz."
 
@@ -7425,7 +7425,7 @@ msgstr "Gizli eylemleri göster"
 #: ../src/scenes/Main.rb:185
 msgctxt "Main"
 msgid "Hide hidden actions"
-msgstr "Gizli eylemleri gizle"
+msgstr "Gizli eylemleri kapat"
 
 #: ../src/scenes/Main.rb:190
 msgctxt "Main"
@@ -8069,7 +8069,7 @@ msgstr "Oluştur"
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
 msgid "Hide this poll"
-msgstr "Bu anketi gizle"
+msgstr "Anketi gizle"
 
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
@@ -8359,7 +8359,7 @@ msgctxt "Programs"
 msgid ""
 "Do you want to install program %{name}? Need to download %{size} of data."
 msgstr ""
-"%{name} programını kurmak istiyor musunuz? %{size} boyutunda bilgi "
+"%{name} programını kurmak istiyor musunuz? %{size} boyutunda veri "
 "indirilmesi gerekecek."
 
 #: ../src/scenes/Programs.rb:124
@@ -8482,7 +8482,7 @@ msgstr "Dil"
 #: ../src/scenes/Settings.rb:106
 msgctxt "Settings"
 msgid "Automatically minimize Elten Window to system tray"
-msgstr "Elten'ı otomatik olarak sistem tepsisine gizle"
+msgstr "Elten'ı otomatik olarak sistem tepsisine küçült"
 
 #: ../src/scenes/Settings.rb:107
 msgctxt "Settings"
@@ -8542,7 +8542,7 @@ msgstr "Kullanıcı arayüzü için stereo konumlandırma kullan"
 #: ../src/scenes/Settings.rb:132
 msgctxt "Settings"
 msgid "Use background sounds in menu and dialog windows"
-msgstr "Menü ve iletişim kutusu pencerelerinde arka plan sesleri kullan"
+msgstr "Menü ve iletişim kutusu pencerelerinde arka plan seslerini kullan"
 
 #: ../src/scenes/Settings.rb:133
 msgctxt "Settings"
@@ -8567,12 +8567,12 @@ msgstr "Sadece ses"
 #: ../src/scenes/Settings.rb:134
 msgctxt "Settings"
 msgid "Announcement of types of controls"
-msgstr "Kontrol türlerini duyur"
+msgstr "Kontrol türlerini seslendir"
 
 #: ../src/scenes/Settings.rb:135
 msgctxt "Settings"
 msgid "Wrap long lines in text fields"
-msgstr "Metin alanlarında uzun satırları sığdır"
+msgstr "Metin alanlarına uzun satırları sığdır"
 
 #: ../src/scenes/Settings.rb:136
 msgctxt "Settings"
@@ -8597,7 +8597,7 @@ msgstr "Formları toparla"
 #: ../src/scenes/Settings.rb:158 ../src/scenes/Settings.rb:162
 msgctxt "Settings"
 msgid "Voice"
-msgstr "Ses"
+msgstr "Konuşma"
 
 #: ../src/scenes/Settings.rb:160
 msgctxt "Settings"
@@ -8617,7 +8617,7 @@ msgstr "Konuşma ses seviyesi"
 #: ../src/scenes/Settings.rb:165
 msgctxt "Settings"
 msgid "Speech pitch"
-msgstr "Ses kalınlığı"
+msgstr "Konuşma ses kalınlığı"
 
 #: ../src/scenes/Settings.rb:166
 msgctxt "Settings"
@@ -8707,7 +8707,7 @@ msgstr "Giriş aygıtı"
 #: ../src/scenes/Settings.rb:249
 msgctxt "Settings"
 msgid "Enable FX effects"
-msgstr "FX efektleri etkinleştir"
+msgstr "FX efektlerini etkinleştir"
 
 #: ../src/scenes/Settings.rb:250
 msgctxt "Settings"
@@ -8747,7 +8747,7 @@ msgstr "Ses temaları"
 #: ../src/scenes/SoundThemes.rb:41
 msgctxt "SoundThemes"
 msgid "Select"
-msgstr "Seçin"
+msgstr "Seç"
 
 #: ../src/scenes/SoundThemes.rb:45
 msgctxt "SoundThemes"
@@ -8820,7 +8820,7 @@ msgstr "İşlem iptal edildi"
 #: ../src/scenes/Sounds.rb:15
 msgctxt "Sounds"
 msgid "Background of dialog windows"
-msgstr "İletişim pencerelerinin arkaplanı"
+msgstr "İletişim pencerelerinin arka planı"
 
 #: ../src/scenes/Sounds.rb:16
 msgctxt "Sounds"
@@ -8835,7 +8835,7 @@ msgstr "İletişim penceresi kapandı"
 #: ../src/scenes/Sounds.rb:18
 msgctxt "Sounds"
 msgid "Menu Background"
-msgstr "Menü arkaplanı"
+msgstr "Menü arka planı"
 
 #: ../src/scenes/Sounds.rb:19
 msgctxt "Sounds"
@@ -9120,12 +9120,12 @@ msgstr "Sohbette fısıldama"
 #: ../src/scenes/Sounds.rb:75
 msgctxt "Sounds"
 msgid "Push To Talk enabled in conferences"
-msgstr "Sohbette baş konuş etkin"
+msgstr "Sohbette bas konuş etkin"
 
 #: ../src/scenes/Sounds.rb:76
 msgctxt "Sounds"
 msgid "Push To Talk disabled in conferences"
-msgstr "Sohbette baş konuş devredışı"
+msgstr "Sohbette bas konuş devredışı"
 
 #: ../src/scenes/Sounds.rb:77
 msgctxt "Sounds"
@@ -9150,7 +9150,7 @@ msgstr "Kayıt bitti"
 #: ../src/scenes/Sounds.rb:81
 msgctxt "Sounds"
 msgid "Only five seconds of recording left"
-msgstr "Ses kaydı sınırının bitmesini beş saniye kaldı"
+msgstr "Ses kaydı sınırının bitmesine beş saniye kaldı"
 
 #: ../src/scenes/Sounds.rb:82
 msgctxt "Sounds"

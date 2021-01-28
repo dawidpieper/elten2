@@ -1,5 +1,5 @@
 Drodzy użytkownicy! Po przeszło roku testów, oddajemy w wasze ręce finalne wydanie Eltena 2.4, czyli największej aktualizacji programu od wersji 2.0.
-W związku z mnogością zmian i nowości, w niniejszym dokumencie spróbujemy zakreślić informacje o najważniejszych różnicach między wersją 2.4, a poprzednią 2.3.8. W razie jakichkolwiek pytań, zapraszamy do zadawania ich na forum, gdzie testerzy i inni użytkownicy z chęcią spróbują rozstrzygnąć wszystkie wątpliwości.
+W związku z mnogością zmian i nowości, w niniejszym dokumencie spróbujemy nakreślić informacje o najważniejszych różnicach między wersją 2.4, a poprzednią 2.3.8. W razie jakichkolwiek pytań, zapraszamy do zadawania ich na forum, gdzie testerzy i inni użytkownicy z chęcią spróbują rozstrzygnąć wszystkie wątpliwości.
 Uwaga! W tym miejscu nie zostały wymienione wszystkie zmiany, a jedynie te, które uznaliśmy za najbardziej znaczące lub najciekawsze.
 
 # Ogólne zmiany

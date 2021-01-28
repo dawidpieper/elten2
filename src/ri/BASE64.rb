@@ -71,7 +71,7 @@ module Base64
   # ArgumentError is raised if +str+ is incorrectly padded or contains
   # non-alphabet characters.  Note that CR or LF are also rejected.
   def strict_decode64(str)
-    return "" if str == nil
+    return "" if str==nil
     str.unpack("m0").first
   end
 
@@ -81,7 +81,7 @@ module Base64
   # The alphabet uses '-' instead of '+' and '_' instead of '/'.
   # Note that the result can still contain '='.
   # You can remove the padding by setting +padding+ as false.
-  def urlsafe_encode64(bin, padding = true)
+  def urlsafe_encode64(bin, padding=true)
     str = strict_encode64(bin).tr("+/", "-_")
     str = str.delete("=") unless padding
     str
