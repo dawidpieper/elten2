@@ -505,7 +505,7 @@ FileUtils.copy("out/agent.dat", "build/elten/bin")
 FileUtils.copy_entry("out/Data", "build/elten/Data")
 FileUtils.copy_entry("out/jdata", "build/elten/Data")
 FileUtils.copy_entry("out/locale", "build/elten/locale")
-FileUtils.copy("out/lib/eltenvc.dll", "build/elten")
+FileUtils.copy("out/lib/eltenvc.dll", "build/elten/bin")
 puts("Elten build completed.")
 end
 
@@ -531,7 +531,7 @@ FileUtils.copy("out/agent.dat", "build/elten/bin")
 FileUtils.copy_entry("out/Data", "build/elten/Data")
 FileUtils.copy_entry("out/jdata", "build/elten/Data")
 FileUtils.copy_entry("out/locale", "build/elten/locale")
-FileUtils.copy("out/lib/eltenvc.dll", "build/elten")
+FileUtils.copy("out/lib/eltenvc.dll", "build/elten/bin")
 puts("Elten full build completed.")
 end
 
