@@ -114,7 +114,7 @@ elsif j['msgtype']==4
               @initialized==true
             end
     def braille(text, pos=nil, push=false, type=0, index=nil, cursor=nil)
-      return if Configuration.usebraille==0
+      return if Configuration.enablebraille==0
                         text=text+""
                         realtext=""
                         @oldbraille="" if @oldbraille==nil
@@ -175,7 +175,7 @@ elsif j['msgtype']==4
     end
   end
   def braille_alert(text)
-    return if Configuration.usebraille==0
+    return if Configuration.enablebraille==0
     return if text==@braillealert
     @braillealertthr.exit if @braillealertthr!=nil
     @braille_alert=text
@@ -196,8 +196,16 @@ elsif j['msgtype']==4
               @stopped=false
               @index=nil
             @indid=nil
-                                          sleep(0.01)
+                                          #sleep(0.01)
       write({'ac'=>'speak', 'text'=>text},nil,true)!=nil
+    end
+    def speakspelling(text)
+              text=text[0...16384] if text.size>16384
+              @stopped=false
+              @index=nil
+            @indid=nil
+                                          #sleep(0.01)
+      write({'ac'=>'speakspelling', 'text'=>text},nil,true)!=nil
     end
     def speakindexed(texts, indexes, indid=nil)
       s=0
@@ -222,7 +230,7 @@ end
       @stopped=false
       @index=nil
             @indid=nil
-              sleep(0.01)
+              #sleep(0.01)
       write({'ac'=>'speakindexed', 'texts'=>texts, 'indexes'=>indexes, 'indid'=>indid}, nil, true)
       end
     def getindex(id=true)

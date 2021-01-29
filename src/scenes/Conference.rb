@@ -77,6 +77,7 @@ btn_streaming = Button.new(p_("Conference", "Objects and streaming")),
     end
     end
     }
+    @close_hook = Conference.on(:close) {@form.resume}
     @status_hook = Conference.on(:status) {
         status=Conference.status
       txt=""
@@ -166,6 +167,7 @@ if Conference.channel.id==0
   Conference.remove_hook(@users_hook)
   Conference.remove_hook(@status_hook)
   Conference.remove_hook(@text_hook)
+  Conference.remove_hook(@close_hook)
   $scene=Scene_Main.new
 end
 def channel_summary(ch)

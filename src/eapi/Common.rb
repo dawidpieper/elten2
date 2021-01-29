@@ -756,7 +756,7 @@ def agent_start
       return true
     else
       if confirm(p_("EAPI_Common", "In order to use HRTF functionality, Elten needs to download Phonon library. Would you like to download it now?"))==1
-        downloadfile($url+"/extras/phonon.dll", Dirs.extras+"\\phonon.dll",true,false)
+        downloadfile($url+"/extras/phonon.dll", Dirs.extras+"\\phonon.dll",true,false,true)
         return load_hrtf
       else
         return false

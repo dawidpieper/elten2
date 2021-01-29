@@ -1058,9 +1058,9 @@ def espellcheck
   repls=0
   for i in 0...errors.size
     if form.fields[1+i].index>0
-      corr=errors[i].suggestions[form.fields[1+i].index-1].split("")
+      corr=errors[i].suggestions[form.fields[1+i].index-1]
       csize=corr.size
-      splt[(errors[i].index+csize)...(errors[i].index+errors[i].length+csize)]=corr
+      splt[(errors[i].index+chindex)...(errors[i].index+errors[i].length+chindex)]=corr
             chindex+=csize-errors[i].length
       repls+=1
       end

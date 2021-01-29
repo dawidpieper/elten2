@@ -113,7 +113,7 @@ class Scene_Programs
                ds.push(t)
                end
              end
-                          downloadfile(src,dst,false,false)
+                          downloadfile(src,dst,false,false, true)
                           prc=((i+1).to_f/(d.size/2).to_f*100.0).to_i
                           if prc>lprc+5
                             speak(prc.to_s+"%")

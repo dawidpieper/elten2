@@ -134,7 +134,7 @@ end
    end
  end
  def downloadtheme(st)
-            downloadfile($url+"/soundthemes/"+st.file, Dirs.soundthemes+"/"+st.file.delete("/\\"))
+            downloadfile($url+"/soundthemes/"+st.file, Dirs.soundthemes+"/"+st.file.delete("/\\"), true, true, true)
   alert(_("Saved"))
   main
   return

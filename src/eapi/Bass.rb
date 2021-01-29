@@ -12,6 +12,7 @@ module Bass
   BASS_GetVersion = Win32API.new(BassLib, "BASS_GetVersion", "", "I")
   BASS_ErrorGetCode = Win32API.new(BassLib, "BASS_ErrorGetCode", "", "I")
   BASS_Init = Win32API.new(BassLib, "BASS_Init", "IIII", "I")
+  BASS_GetInfo = Win32API.new(BassLib, "BASS_GetInfo", "P", "I")
   BASS_RecordInit = Win32API.new(BassLib, "BASS_RecordInit", "I", "I")
   BASS_GetConfig = Win32API.new(BassLib, "BASS_GetConfig", "I", "I")
   BASS_SetConfig = Win32API.new(BassLib, "BASS_SetConfig", "II", "I")

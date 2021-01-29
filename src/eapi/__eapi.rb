@@ -616,16 +616,19 @@ end
     s=true
     end
   end
-  if Configuration.soundcard==""
-    Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(-1)
-  else
+    scc=Configuration.soundcard
+    scc=sc[2] if scc==""
+    suc=false
     devices=listsapidevices
     for i in 0...devices.size
-            if devices[i]==Configuration.soundcard
+            if scc==devices[i]
                 Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(i)
+                suc=true
         end
       end
-    end
+      if suc==false
+            Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(-1)
+        end
   Bass.setdevice(-1) if s==false
 Configuration.microphone = readconfig("SoundCard", "Microphone", "")
   s=false
@@ -694,7 +697,8 @@ if $rvc==nil
         end
                   writeconfig("Voice", "Voice", Configuration.voice)
                 end
-                Configuration.usebraille = readconfig("Interface", "UseBraille", 1)
+                Configuration.enablebraille = readconfig("Interface", "EnableBraille", 0)
+                Configuration.usevoicedictionary = readconfig("Voice", "UseVoiceDictionary", 1)
           Configuration.language = readconfig("Interface", "Language", "")
           if Configuration.language.include?("_")
             Configuration.language.gsub!("_","-")

@@ -28,7 +28,8 @@ module EltenAPI
       if closethr and $speechindexedthr!=nil
         $speechindexedthr.exit
         $speechindexedthr=nil
-        end
+      end
+      spelling=false
       id=rand(2**32) if id==nil
       $speechid=id
       swait=false
@@ -124,7 +125,7 @@ prei=0
       return
     end
   if text != ""
-        text = char_dict(text) if text.size==1
+        spelling=true if text.chrsize==1
     text = text.gsub("_"," ")
 text.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
 text=(((Configuration.soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\{([^\}]+)\}\004/,"\004NEW\004")
@@ -162,19 +163,35 @@ text_d.gsub!("\r\n\r\n","\004SLINE\004")
 text_d.gsub!("\r\n"," ")
 text_d.gsub!("\004SLINE\004","\r\n\r\n")
 text_d=text_d.split("")[0...50000].join("") if text_d.size>50000
+if spelling and Configuration.usevoicedictionary==0
+    text_d = char_dict(text_d)  
+    spelling=false
+    end
 if Configuration.voice=="NVDA" && NVDA.check
   NVDA.stop   if !swait
+  if spelling==false
   NVDA.speak(text_d)
 else
-  if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", '', 'i').call!=0
+  NVDA.speakspelling(text_d)
+  end
+else
+    if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", '', 'i').call!=0
     Configuration.voice=""
     end
                       if Configuration.voice == "NVDA"
+                        if spelling
+    text_d = char_dict(text_d)  
+    spelling=false
+    end
                         buf=unicode(text_d)
-                               Win32API.new("bin\\nvdaHelperRemote","nvdaController_speakText",'pi','i').call(buf,method)
+                                                       Win32API.new("bin\\nvdaHelperRemote","nvdaController_speakText",'pi','i').call(buf,method)
                              else
                                                                                                                            ssml="<pitch absmiddle=\"#{(((Configuration.voicepitch||50)/5.0)-10.0).to_i}\"/>"
-                               ssml+=text_d.gsub("<","&lt;").gsub(">","&gt;").gsub("\\","\\\\")
+                                                                                                                           if !spelling
+                                                                                                                           ssml+=text_d.gsub("<","&lt;").gsub(">","&gt;").gsub("\\","\\\\")
+                                                                                                                         else
+                                                                                                                           ssml+="<spell>"+text_d.gsub("<","&lt;").gsub(">","&gt;").gsub("\\","\\\\")+"</spell>"
+                                                                                                                           end
                                                               buf=unicode(ssml)
                                Win32API.new($eltenlib,"SapiSpeakSSML",'p','i').call(buf)
                                end

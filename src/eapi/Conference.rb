@@ -336,6 +336,7 @@ def self.texts
                         @@opened=true
           end
           def self.setclosed
+            trigger(:close)
                         @@opened=false
             @@channels=nil
 @@volumes={}

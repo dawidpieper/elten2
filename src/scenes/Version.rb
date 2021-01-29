@@ -29,9 +29,9 @@ txt+="\r\n\r\n"
   def buildversion(file)
     str=getfileversioninfo(file, "FileDescription")
 str+=" "
-str+=getfileversioninfo(file, "ProductVersion")
+str+=getfileversioninfo(file, "ProductVersion")||""
 str+=" ("
-str+=getfileversioninfo(file, "LegalCopyright")
+str+=getfileversioninfo(file, "LegalCopyright")||""
 str+=")"
 return str
     end

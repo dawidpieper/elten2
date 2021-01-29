@@ -177,7 +177,8 @@ end
 return nil
 end
 
-def downloadfile(source, destination, useWaiting=true, canCancel=true)
+def downloadfile(source, destination, useWaiting=true, canCancel=true, override=false)
+  return if override==false and FileTest.exists?(destination) and confirm(p_("EAPI_Network", "The file already exists. Do you want to override it?"))==0
           Log.debug("Downloading file #{source}")
                               play("signal") if $netsignal
           if $agent!=nil

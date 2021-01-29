@@ -1,12 +1,12 @@
 [Setup]
 AppId={{9FE2B24B-49F4-4D0B-A36B-31F267F9B114}
 AppName=ELTEN
-AppVersion=2.4.0.1
-AppVerName=Elten 2.4.0.1
+AppVersion=2.4.0.2
+AppVerName=Elten 2.4.0.2
 AppPublisher=Dawid Pieper
-AppPublisherURL=https://elten-net.eu
-AppSupportURL=https://elten-net.eu/
-AppUpdatesURL=https://elten-net.eu/download
+AppPublisherURL=https://elten.link
+AppSupportURL=https://elten.link/
+AppUpdatesURL=https://elten.link
 AppCopyright=Copyright (C) 2014-2021 Dawid Pieper
 DefaultDirName={pf}\ELTEN
 DefaultGroupName=ELTEN
