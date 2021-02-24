@@ -608,28 +608,23 @@ end
   Configuration.roundupforms = readconfig("Interface", "RoundUpForms", 0)
   Configuration.usepan = readconfig("Interface", "UsePan", 1)
   Configuration.soundcard = readconfig("SoundCard", "SoundCard", "")
-  s=false
-  sc=Bass.soundcards
+  if Configuration.soundcard==""
+                Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(-1)
+                  Bass.setdevice(-1)
+                else
+    sc=Bass.soundcards
   for i in 0...sc.size
     if sc[i]==Configuration.soundcard
     Bass.setdevice(i)
-    s=true
     end
   end
-    scc=Configuration.soundcard
-    scc=sc[2] if scc==""
-    suc=false
     devices=listsapidevices
     for i in 0...devices.size
-            if scc==devices[i]
+            if Configuration.soundcard==devices[i]
                 Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(i)
-                suc=true
         end
       end
-      if suc==false
-            Win32API.new($eltenlib, "SapiSetDevice", 'i', 'i').call(-1)
-        end
-  Bass.setdevice(-1) if s==false
+      end
 Configuration.microphone = readconfig("SoundCard", "Microphone", "")
   s=false
   mc=Bass.microphones
@@ -746,6 +741,7 @@ use_soundtheme(stheme)
                           Configuration.volume = readconfig("Interface", "MainVolume", 50)
                           Configuration.usefx = readconfig("Advanced", "UseFX", -1)
                           Configuration.usedenoising = readconfig("Advanced", "UseDenoising", 0)
+                          Configuration.enableaudiobuffering = readconfig("Advanced", "EnableAudioBuffering", 0)
                           Configuration.useechocancellation = readconfig("Advanced", "UseEchoCancellation", 0)
                           Configuration.autologin = readconfig("Login", "EnableAutoLogin", 1)
                           setlocale(Configuration.language) if lang!=Configuration.language

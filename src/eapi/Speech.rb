@@ -126,7 +126,7 @@ prei=0
     end
   if text != ""
         spelling=true if text.chrsize==1
-    text = text.gsub("_"," ")
+    text = text.gsub("_"," ") if !spelling
 text.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
 text=(((Configuration.soundthemeactivation==1)?"":($1+" "))+text).gsub(/\004INFNEW\{([^\}]+)\}\004/,"\004NEW\004")
 }

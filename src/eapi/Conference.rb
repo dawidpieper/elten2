@@ -196,13 +196,13 @@ end
 def self.whisper(userid)
   $agent.write(Marshal.dump({'func'=>'conference_whisper', 'userid'=>userid}))
   end
-def self.create(name="", public=true, bitrate=64, framesize=60, password=nil, spatialization=0, channels=2, lang='', width=15, height=15)
+def self.create(name="", public=true, bitrate=64, framesize=60, password=nil, spatialization=0, channels=2, lang='', width=15, height=15, key_len=256)
   if @@opened==false
   self.open
   delay(1)
   end
   @@created=nil
-  $agent.write(Marshal.dump({'func'=>'conference_createchannel', 'name'=>name, 'public'=>public, 'bitrate'=>bitrate, 'framesize'=>framesize, 'password'=>password, 'spatialization'=>spatialization, 'channels'=>channels, 'lang'=>lang, 'width'=>width, 'height'=>height}))
+  $agent.write(Marshal.dump({'func'=>'conference_createchannel', 'name'=>name, 'public'=>public, 'bitrate'=>bitrate, 'framesize'=>framesize, 'password'=>password, 'spatialization'=>spatialization, 'channels'=>channels, 'lang'=>lang, 'width'=>width, 'height'=>height, 'key_len'=>key_len}))
   t=Time.now.to_f
   while Time.now.to_f-t<8
     loop_update

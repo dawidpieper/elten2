@@ -278,7 +278,7 @@ end
             di += $!.to_s + "\r\n" + $@.to_s + "\r\n"
           end
           end
-            di +="\r\n[Computer]\r\n"
+            di +="\r\n[_Computer]\r\n"
             di += "OS version: " + (Win32API.new("kernel32","GetVersion",'','i').call>>16).to_s + "\r\n"
                         di += "Elten data path: " + Dirs.eltendata.to_s + "\r\n"
                 procid = "\0" * 16384
@@ -292,7 +292,6 @@ di += "Number of processors: " + procnum.to_s + "\r\n"
 ramt=[0].pack("l")
 Win32API.new("kernel32","GetPhysicallyInstalledSystemMemory",'p','i').call(ramt)
 ram=ramt.unpack("l")[0]/1024
-
 di += "RAM Memory: "+ram.to_s+"MB\r\n"
 memt=[0,0,0,0,0,0,0,0,0,0].pack('iiiiiiiiii')
 Win32API.new("psapi","GetProcessMemoryInfo",'ipi','i').call($process,memt,memt.size)
@@ -302,7 +301,7 @@ cusername = "\0" * 16384
 Win32API.new("kernel32","GetEnvironmentVariable",'ppi','i').call("USERNAME",cusername,cusername.size)
 cusername.delete!("\0")
 di += "User name: " + cusername.to_s + "\r\n"
-di += "\r\n[Elten]\r\n"
+di += "\r\n[_Elten]\r\n"
 di += "User: " + Session.name.to_s + "\r\n"
 di += "Token: " + Session.token.to_s + "\r\n"
 ver = $version.to_s
@@ -313,28 +312,8 @@ di += "Version: " + ver.to_s + "\r\n"
 di += "URL: "+$url.to_s+"\r\n"
 di += "Start time: " + $start.to_s + "\r\n"
 di += "Current time: " + Time.now.to_i.to_s + "\r\n"
-if $app!=nil
-di += "\r\n[Programs]\r\n"
-for i in 0..$app.size - 1
-di += $app[i][0].to_s
-di += "\r\n"
-end
-end
-di += "\r\n[Configuration]\r\n"
-di += "Language: " + Configuration.language + "\r\n"
-di += "Sound theme: " + (Configuration.soundtheme||"") + "\r\n"
-di += "Voice: " + Configuration.voice.to_s + "\r\n"
-if Configuration.voice!="NVDA"
-  voice = ""
-  voices=listsapivoices
-  for vc in voices
-        voice=vc.name if vc.voiceid==Configuration.voice
-end
-di += "Voice name: " + voice.to_s + "\r\n"
-end
-di += "Voice id: " + Configuration.voice.to_s + "\r\n"
-di += "Voice rate: " + Configuration.voicerate.to_s + "\r\n"
-di += "Typing echo: " + Configuration.typingecho.to_s + "\r\n"
+di+="\r\n"
+di+=readfile(Dirs.eltendata+"\\elten.ini")
 return di
 end
 

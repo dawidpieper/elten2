@@ -258,8 +258,8 @@ def list_channels
     end
   end
   def create_channel
-    bitrates=[8, 16, 24, 32, 48, 64, 96, 128, 192, 256, 320]
-    framesizes=[2.5, 5.0, 10.0, 20.0, 40.0, 60.0]
+    bitrates=[8, 16, 24, 32, 48, 64, 96, 128, 192, 256, 320, 412, 510]
+    framesizes=[2.5, 5.0, 10.0, 20.0, 40.0, 60.0, 80.0, 100.0, 120.0]
     langs = []
       langnames=[]
     lnindex = 0
@@ -370,7 +370,12 @@ ret=[]
   knownlanguages = Session.languages.split(",").map{|lg|lg.upcase}
   for ch in chans
     ret.push(ch) if LocalConfig["ConferenceShowUnknownLanguages"]==1 || knownlanguages.size==0 || knownlanguages.include?(ch.lang[0..1].upcase)
-    end
+  end
+  ret.sort!{|a,b|
+  s=b.users.size<=>a.users.size
+  s=a.id<=>b.id if s==0
+  s
+  }
 return ret
 end
 def chanobjects

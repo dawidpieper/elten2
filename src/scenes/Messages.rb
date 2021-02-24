@@ -537,7 +537,7 @@ when 2
   @sel_messages.bind_context{|menu|context_messages(menu)}
     end
   def update_messages
-   if $agent_msg != nil and @form_messages!=nil and @form_messages.index!=2
+   if $agent_msg != nil and @form_messages!=nil and @form_messages.index!=3
      mwn=$agent_msg
           load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true) if mwn>@messages_wn
      @messages_wn=mwn
@@ -831,7 +831,7 @@ def audiolimit
             end
             ind = selector(names, p_("Messages", "Poll to attach"), 0, -1)
             if ind == -1
-              form.focus
+              @form.focus
             else
               if @polls.include?(ids[ind])
                 alert(p_("Messages", "This poll has already been added"))
