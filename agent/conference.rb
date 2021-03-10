@@ -7,25 +7,35 @@
 
 
 class Conference
+class ChannelPosition
+attr_accessor :x, :y
+attr_reader :mutex
+def initialize
+@mutex=Mutex.new
+end
+end
+
 class Transmitter
 attr_reader :decoder, :stream
 attr_reader :listener_x, :listener_y, :transmitter_x, :transmitter_y
 attr_reader :username
-def initialize(channels, framesize, preskip, starttime, spatialization, x, y, username, volume=nil)
+def initialize(channels, framesize, preskip, starttime, spatialization, position, username, volume=nil)
 @channels=channels
 @framesize=framesize
 @lastframetime=starttime
 @preskip=preskip
-@listener_x=x
-@listener_y=y
-@transmitter_x=1
-@transmitter_y=1
+@listener_x=-1
+@listener_y=-1
+@position=position
+@transmitter_x=-1
+@transmitter_y=-1
 @decoder = Opus::Decoder.new(48000, channels)
 flags=0x200000
 flags|=256 if spatialization==1
 ch=@channels
 ch=2 if spatialization==1
 @stream = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
+@whisper = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
 @username=username
 @hrtf=nil
 @hrtf_effect=nil
@@ -40,8 +50,9 @@ setvolume(volume)
 @ogg_mutex=Mutex.new
 @thread=Thread.new{thread}
 end
-def set_mixer(mixer)
+def set_mixer(mixer, whispermixer)
 Bass::BASS_Mixer_StreamAddChannel.call(mixer, @stream, 0)
+Bass::BASS_Mixer_StreamAddChannel.call(whispermixer, @whisper, 0)
 end
 def setvolume(volume)
 if volume.is_a?(Array)
@@ -52,30 +63,32 @@ else
 end
 update_position
 end
-def update_baseposition(x, y)
-@listener_x=x
-@listener_y=y
-update_position
-end
 def move(nx, ny)
+return if nx<=0||ny<=0
 @transmitter_x=nx
 @transmitter_y=ny
 update_position
 end	
 def update_position
-@pos_mutex||=Mutex.new
-@pos_mutex.synchronize {
+@listener_x=@position.x
+@listener_y=@position.y
+if @listener_y>0 && @listener_x>0 && @transmitter_x>0 && @transmitter_y>0
 @rx=(@transmitter_x-@listener_x)/8.0
 @ry=(@transmitter_y-@listener_y)/8.0
 pos=@rx
+pos=-1 if pos<-1
+pos=1 if pos>1
 vol=(1-Math::sqrt((@ry.abs*0.5)**2+(@rx.abs*0.5)**2))*@volume/100.0
+vol=0 if vol<0
 @mutex.synchronize {
 if @spatialization==0
 Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
+Bass::BASS_ChannelSetAttribute.call(@whisper, 3, [pos].pack("F").unpack("i")[0])
 end
 Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
+Bass::BASS_ChannelSetAttribute.call(@whisper, 2, [vol].pack("f").unpack("i")[0])
 }
-}
+end
 end
 def set_hrtf(hrtf)
 @mutex.synchronize {
@@ -153,9 +166,9 @@ $ogg_stream_clear.call(@ogg)
 @ogg=@ogg_file=nil
 }
 end
-def put(frame)
+def put(frame, type=1, x=-1, y=-1)
 if @thread!=nil && @thread.status!=false
-@queue.push(frame)
+@queue.push([frame, type, x, y])
 @thread.wakeup
 end
 end
@@ -163,6 +176,7 @@ def free
 end_save if @ogg!=nil
 @mutex.synchronize {
 Bass::BASS_StreamFree.call(@stream)
+Bass::BASS_StreamFree.call(@whisper)
 @decoder.free
 @stream=nil
 @decoder=nil
@@ -175,8 +189,15 @@ private
 def thread
 loop {
 while @queue.size>0
-frame=@queue[0]
+frame, type, x, y=@queue[0]
 @queue.delete_at(0)
+if x!=nil && y!=nil && x>0 && y>0
+if x!=@transmitter_x || y!=@transmitter_y || @listener_x!=@position.x || @listener_y!=@position.y
+@position.mutex.synchronize {
+move(x,y)
+}
+end
+end
 @ogg_mutex.synchronize {
 if @ogg!=nil
 lostframes=((Time.now.to_f-@lastframetime-@framesize/1000.0)/(@framesize/1000.0)).floor
@@ -222,16 +243,18 @@ end
 else
 out=pcm
 end
+stream=@stream
+stream=@whisper if type==3
 ps=0
-ps=Bass::BASS_StreamPutData.call(@stream, out, out.bytesize) if @stream!=nil
-ps+=Bass::BASS_ChannelGetData.call(@stream, nil, 0) if @stream!=nil
+ps=Bass::BASS_StreamPutData.call(stream, out, out.bytesize) if @stream!=nil
+ps+=Bass::BASS_ChannelGetData.call(stream, nil, 0) if stream!=nil
 fl=2
 fl=4 if @spatialization==1
 ch=@channels
 ch=2 if @spatialization==1
 if ps-out.bytesize>48000*ch*fl*0.25
 dt="\0"*ps
-Bass::BASS_ChannelGetData.call(@stream, dt, dt.bytesize)
+Bass::BASS_ChannelGetData.call(stream, dt, dt.bytesize)
 end
 }
 end
@@ -246,9 +269,10 @@ class ChannelObject
 attr_reader :stream
 attr_reader :listener_x, :listener_y, :transmitter_x, :transmitter_y
 attr_reader :id, :resid
-def initialize(id, resid, listener_x, listener_y, transmitter_x, transmitter_y, spatialization, framesize)
+def initialize(id, resid, position, transmitter_x, transmitter_y, spatialization, framesize)
 @id, @resid, @framesize = id, resid, framesize
-@listener_x, @listener_y, @transmitter_x, @transmitter_y = listener_x, listener_y, transmitter_x, transmitter_y
+@transmitter_x, @transmitter_y, @position = transmitter_x, transmitter_y, position
+@listener_x, @listener_y = position.x, position.y
 @stream = Bass::BASS_StreamCreate.call(48000, 2, 0x200000|256, -1, nil)
 @url=resid
 @url="https://srvapi.elten.link/leg1/conferences/resources/"+resid[1..-1] if resid[0..0]=="$"
@@ -264,26 +288,24 @@ end
 def set_mixer(mixer)
 Bass::BASS_Mixer_StreamAddChannel.call(mixer, @stream, 0)
 end
-def update_baseposition(x, y)
-@listener_x=x
-@listener_y=y
-update_position
-end
 def update_position
-@pos_mutex||=Mutex.new
-@pos_mutex.synchronize {
+@listener_x, @listener_y = @position.x, @position.y
+if @listener_y>0 && @listener_x>0 && @transmitter_x>0 && @transmitter_y>0
 @rx=(@transmitter_x-@listener_x)/8.0
 @ry=(@transmitter_y-@listener_y)/8.0
 @rx=@ry=0 if @transmitter_x==0||@transmitter_y==0
 pos=@rx
+pos=-1 if pos<-1
+pos=1 if pos>1
 vol=(1-Math::sqrt((@ry.abs*0.5)**2+(@rx.abs*0.5)**2))
+vol=0 if vol<0
 @mutex.synchronize {
 if @spatialization==0
 Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
 end
 Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
 }
-}
+end
 end
 def set_hrtf(hrtf)
 @mutex.synchronize {
@@ -317,6 +339,7 @@ end
 while queue.size>fsize
 frame=queue.byteslice(0...fsize)
 queue=queue.byteslice(fsize..-1)
+update_position if @listener_x!=@position.x || @listener_y!=@position.y
 @mutex.synchronize {
 out=frame
 spt=false
@@ -351,11 +374,10 @@ end
 def initialize
 @whisper=0
 @channels=0
-@x=0
-@y=0
+@position = ChannelPosition.new
 @width=15
 @height=15
-@sltime=0.01
+@sltime=0.05
 @input_volume=100
 @stream_volume=50
 @stream_lastfile=nil
@@ -364,6 +386,7 @@ def initialize
 @pushtotalk=false
 @pushtotalk_keys=[]
 @chid=0
+@waiting_channel_id=0
 Bass.record_prepare
 @muteme=true
 @transmitters={}
@@ -384,26 +407,31 @@ Bass.record_prepare
 @speexdsp_framesize=0
 @encoder_mutex = Mutex.new
 @record_mutex = Mutex.new
-@position_mutex = Mutex.new
 @lastframe=""
 @voip.on_receive {|userid, type, message, p1, p2| onreceive(userid, type, message, p1, p2)}
 @voip.on_status{|latency,sendbytes,receivedbytes,curlost,curpackets,time|onstatus(latency,sendbytes,receivedbytes,curlost,curpackets,time)}
 @framesize=0
 @voip.on_params {|params|onparams(params)}
+@voip.on_ping {|t|onping(t)}
 @voip.connect($name, $token)
 snd=getsound("conference_whisper")
 @whisper_sound=nil
 @whisper_sound=Bass::BASS_StreamCreateFile.call(1, snd, 0, 0, snd.bytesize, 0, 256) if snd!=nil
+@device=nil
 prepare_mixers
 @recorder_thread = Thread.new {recorder_thread}
 @output_thread = Thread.new {output_thread}
 @saver_thread = Thread.new {saver_thread}
 @processor_thread = Thread.new {processor_thread}
 @channel_hooks=[]
+@waitingchannel_hooks=[]
 @volumes_hooks=[]
 @user_hooks=[]
 @status_hooks=[]
 @text_hooks=[]
+@ping_hooks=[]
+@diceroll_hooks=[]
+@card_hooks=[]
 end
 def pushtotalk
 return @pushtotalk
@@ -525,7 +553,7 @@ Bass::BASS_RecordSetDevice.call(cardid)
 @card_uploader = Bass::BASS_Split_StreamCreate.call(@card, 0x200000, nil)
 @card_listener = Bass::BASS_Split_StreamCreate.call(@card, 0x200000, nil)
 Bass::BASS_Mixer_StreamAddChannel.call(@output_mixer, @card_uploader, 0)
-Bass::BASS_Mixer_StreamAddChannel.call(@card_mixer, @card_listener, 0)
+Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @card_listener, 0) if listen
 Bass.record_resetdevice
 end
 def remove_card
@@ -670,8 +698,40 @@ Bass::BASS_ChannelPlay.call(@record, 0)
 @encoder.reset if @encoder!=nil
 }
 }
-Bass::BASS_ChannelSetDevice.call(@listen_mixer_listener, Bass.cardid)
+Bass::BASS_ChannelStop.call(@whisper_mixer)
+Bass::BASS_ChannelStop.call(@listen_mixer_listener)
+Bass::BASS_ChannelSetDevice.call(@whisper_mixer, Bass.cardid)
+Bass::BASS_ChannelSetDevice.call(@listen_mixer_listener, current_device)
+Bass::BASS_ChannelPlay.call(@whisper_mixer, 1)
+Bass::BASS_ChannelPlay.call(@listen_mixer_listener, 1)
+Bass::BASS_SetDevice.call(Bass.cardid)
 end
+
+def set_device(dev)
+dev=dev.force_encoding("UTF-8") if dev!=nil
+log(0, "Conference: changing output device to #{dev}")
+@device=dev
+reset
+end
+
+def current_device
+return Bass.cardid if @device==nil
+id=nil
+soundcards=Bass.soundcards
+for s in soundcards
+next if !s.is_a?(String)
+end
+id = soundcards.index(@device)
+if id==nil
+log(1, "Conferences: cannot find device named #{@device.b}, found: #{soundcards.compact.map{|c|c.b}.join(", ")}")
+id=Bass.cardid
+else
+Bass::BASS_Init.call(id, 48000, 4, $hwnd||0, nil)
+Bass::BASS_SetDevice.call(Bass.cardid)
+end
+return id
+end
+
 def setvolume(user, volume=100, muted=false)
 volume=100 if volume>100
 volume=10 if volume<10
@@ -696,8 +756,28 @@ end
 end
 @volumes_hooks.each{|h|h.call(@volumes)}
 end
+def kick(userid)
+@voip.kick(userid)
+end
+def ban(username)
+@voip.ban(username)
+end
+def unban(username)
+@voip.unban(username)
+end
+def admin(username)
+@voip.admin(username)
+end
+def coordinates(userid)
+u=@transmitters[userid]
+return [-1, -1] if u==nil
+return u.transmitter_x, u.transmitter_y
+end
 def on_channel(&block)
 @channel_hooks.push(block) if block!=nil
+end
+def on_waitingchannel(&block)
+@waitingchannel_hooks.push(block) if block!=nil
 end
 def on_user(&block)
 @user_hooks.push(block) if block!=nil
@@ -711,53 +791,50 @@ end
 def on_text(&block)
 @text_hooks.push(block) if block!=nil
 end
+def on_ping(&block)
+@ping_hooks.push(block) if block!=nil
+end
+def on_diceroll(&block)
+@diceroll_hooks.push(block) if block!=nil
+end
+def on_card(&block)
+@card_hooks.push(block) if block!=nil
+end
 def x
-return @x
+return @position.x
 end
 def y
-return @y
+return @position.y
 end
 def goto(id)
-@position_mutex.synchronize {
+@position.mutex.synchronize {
 if id!=@voip.uid && @transmitters[id]!=nil
-@x=(@transmitters[id].transmitter_x)
-@y=(@transmitters[id].transmitter_y)
+tx, ty = (@transmitters[id].transmitter_x), (@transmitters[id].transmitter_y)
+if tx>0 && ty>0
+@position.x=tx
+@position.y=ty
+end
 elsif id==@voip.uid
-@x=(@width+1)/2
-@y=(@height+1)/2
+@position.x=(@width+1)/2
+@position.y=(@height+1)/2
 end
 }
-update_baseposition
 end
 def x=(nx)
-@position_mutex.synchronize {
+@position.mutex.synchronize {
 nx=1 if nx<1
 nx=@width if nx>@width
-@x=nx
+@position.x=nx
 }
-update_baseposition
 nx
 end
 def y=(ny)
-@position_mutex.synchronize {
+@position.mutex.synchronize {
 ny=1 if ny<1
 ny=@height if ny>@height
-@y=ny
+@position.y=ny
 }
-update_baseposition
 ny
-end
-def update_baseposition
-@position_mutex.synchronize {
-threads=[]
-for t in @transmitters.values
-threads.push(Thread.new(t){|t|t.update_baseposition(@x, @y)})
-end
-for o in @objects.values
-threads.push(Thread.new(o){|o|o.update_baseposition(@x, @y)})
-end
-threads.each{|th|th.join}
-}
 end
 def free(subs=true)
 @output_thread.exit if @output_thread!=nil
@@ -780,6 +857,7 @@ Bass::BASS_ChannelStop.call(@record)
 Bass::BASS_StreamFree.call(@record_mixer)
 Bass::BASS_StreamFree.call(@recordstream)
 Bass::BASS_StreamFree.call(@channel_mixer)
+Bass::BASS_StreamFree.call(@whisper_mixer)
 if subs
 @encoder_mutex.synchronize {
 @encoder.free if @encoder!=nil
@@ -794,7 +872,6 @@ log(2, "Conference: Free error: "+$!.to_s+" "+$@.to_s)
 end
 begin
 Bass::BASS_StreamFree.call(@stream_mixer)
-Bass::BASS_StreamFree.call(@card_mixer)
 Bass::BASS_StreamFree.call(@myself_mixer)
 Bass::BASS_StreamFree.call(@listen_mixer)
 Bass::BASS_StreamFree.call(@processor_mixer)
@@ -835,7 +912,27 @@ lang=params['lang']||""
 width=params['width']||15
 height=params['height']||15
 key_len=params['key_len']||256
+waiting_type=params['waiting_type']||0
 resp=@voip.create_channel(name, public, framesize, bitrate, password, spatialization, channels, lang, width, height, key_len)
+if resp.is_a?(Hash)
+return resp['id']
+else
+return nil
+end
+end
+def edit_channel(id, params)
+name=params['name']||"Channel"
+bitrate=params['bitrate']||64
+framesize=params['framesize']||60
+public=params['public']!=false
+password=params['password']||nil
+spatialization=params['spatialization']||0
+channels=params['channels']||2
+lang=params['lang']||""
+width=params['width']||15
+height=params['height']||15
+key_len=params['key_len']||256
+resp=@voip.edit_channel(id, name, public, framesize, bitrate, password, spatialization, channels, lang, width, height, key_len, params['changepassword']==true)
 if resp.is_a?(Hash)
 return resp['id']
 else
@@ -869,8 +966,18 @@ def whisper
 @whisper
 end
 def whisper=(w)
+if w.is_a?(Integer) && w>=0 && w<256**2
 log(-1, "Conference: whispering to #{w}")
-@whisper=w if w.is_a?(Integer) && w>=0 && w<256**2
+@whisper_key = @voip.public_key(w)
+@whisper_aes = OpenSSL::Cipher::AES128.new(:CBC)
+@whisper_aes_key = @whisper_aes.random_key
+@whisper=w
+if w>0
+play "recording_start"
+else
+play "recording_stop"
+end
+end
 @whisper
 end
 def object_add(resid, name, x, y)
@@ -881,9 +988,42 @@ def object_remove(id)
 log(-1, "Conference: removing object")
 @voip.object_remove(id)
 end
+def ping
+@voip.ping
+end
+def diceroll(t=6)
+@voip.diceroll(t)
+end
+def decks
+@voip.decks
+end
+def deck_add(type)
+@voip.deck_add(type)
+end
+def deck_reset(deck)
+@voip.deck_reset(deck)
+end
+def deck_remove(deck)
+@voip.deck_remove(deck)
+end
+def cards
+@voip.cards
+end
+def card_pick(deck, cid=0)
+@voip.card_pick(deck, cid)
+end
+def card_change(deck, cid)
+@voip.card_change(deck, cid)
+end
+def card_place(deck, cid)
+@voip.card_place(deck, cid)
+end
 private
 def prepare_mixers
 @output_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x200000|0x1000)
+@whisper_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000|256)
+Bass::BASS_ChannelSetAttribute.call(@whisper_mixer, 13, [0.1].pack("F").unpack("i")[0])
+Bass::BASS_ChannelSetAttribute.call(@whisper_mixer, 5, [1].pack("F").unpack("i")[0])
 @channel_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x200000|0x1000|256)
 @channel_mixer_saver = Bass::BASS_Split_StreamCreate.call(@channel_mixer, 0x1000|0x200000, nil)
 @channel_mixer_listener = Bass::BASS_Split_StreamCreate.call(@channel_mixer, 0x200000, nil)
@@ -906,6 +1046,7 @@ Bass::BASS_ChannelSetAttribute.call(@listen_mixer, 5, [1].pack("F").unpack("i")[
 Bass::BASS_ChannelSetAttribute.call(@listen_mixer_listener, 13, [0.1].pack("F").unpack("i")[0])
 Bass::BASS_ChannelSetAttribute.call(@listen_mixer_listener, 5, [1].pack("F").unpack("i")[0])
 Bass::BASS_ChannelPlay.call(@listen_mixer_listener, 1)
+Bass::BASS_ChannelPlay.call(@whisper_mixer, 1)
 @saver = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x200000|0x1000|256)
 Bass::BASS_ChannelSetAttribute.call(@saver, 13, [0.1].pack("F").unpack("i")[0])
 Bass::BASS_ChannelSetAttribute.call(@saver, 5, [1].pack("F").unpack("i")[0])
@@ -917,24 +1058,22 @@ Bass::BASS_Mixer_StreamAddChannel.call(@saver, @channel_mixer_saver, 0)
 @stream_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000|0x200000|256)
 Bass::BASS_ChannelSetAttribute.call(@stream_mixer, 13, [0.1].pack("F").unpack("i")[0])
 Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @stream_mixer, 0)
-@card_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000|0x200000|256)
-Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @card_mixer, 0)
 @stream=nil
 @record = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
 @record_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000|0x200000)
 Bass::BASS_Mixer_StreamAddChannel.call(@record_mixer, @record, 0)
 @recordstream = Bass::BASS_StreamCreate.call(48000, 2, 0x200000, -1, nil)
 Bass::BASS_Mixer_StreamAddChannel.call(@output_mixer, @recordstream, 0x4000)
+reset
 end
 def onreceive(userid, type, message, p1, p2)
 if type==1
 pos_x=p1
 pos_y=p2
-pos_x=1 if pos_x<1||pos_x>255
-pos_y=1 if pos_y<1||pos_y>255
+pos_x=-1 if pos_x<1||pos_x>255
+pos_y=-1 if pos_y<1||pos_y>255
 if @transmitters[userid]!=nil
-@transmitters[userid].move(pos_x, pos_y) if @transmitters[userid].transmitter_x!=pos_x || @transmitters[userid].transmitter_y!=pos_y
-@transmitters[userid].put(message)
+@transmitters[userid].put(message, type, pos_x, pos_y)
 end
 elsif type==2
 if @transmitters[userid]!=nil
@@ -944,12 +1083,63 @@ end
 elsif type==3
 if @whisper_sound!=nil
 Bass::BASS_ChannelSetAttribute.call(@whisper_sound, 2, [($volume/100.0)].pack("f").unpack("i")[0]) if $volume!=nil
-Bass::BASS_ChannelPlay.call(@whisper_sound,1)
+Bass::BASS_ChannelPlay.call(@whisper_sound,0)
 end
-pos_x=@x
-pos_y=@y
-@transmitters[userid].move(pos_x, pos_y) if @transmitters[userid].transmitter_x!=pos_x || @transmitters[userid].transmitter_y!=pos_y
-@transmitters[userid].put(message)
+pos_x=@position.x
+pos_y=@position.y
+@transmitters[userid].put(message, type, pos_x, pos_y)
+elsif type==4
+if @whisper_sound!=nil
+Bass::BASS_ChannelSetAttribute.call(@whisper_sound, 2, [($volume/100.0)].pack("f").unpack("i")[0]) if $volume!=nil
+Bass::BASS_ChannelPlay.call(@whisper_sound,0)
+end
+pos_x=@position.x
+pos_y=@position.y
+begin
+head = @voip.key.private_decrypt(message.byteslice(0...256))
+keysize = head.getbyte(0)
+aes=nil
+case keysize
+when 128
+aes=OpenSSL::Cipher::AES128.new(:CBC)
+when 192
+aes=OpenSSL::Cipher::AES192.new(:CBC)
+end
+if aes!=nil
+aes.decrypt
+aes.key=head.byteslice(1..keysize/8)
+aes.iv=head[keysize/8+1...keysize/8+1+aes.iv_len]
+msg = head.byteslice(1+keysize/8+aes.iv_len..-1)+aes.update(message.byteslice(256..-1)||"")+aes.final
+@transmitters[userid].put(msg, 3, pos_x, pos_y)
+end
+rescue Exception
+log(2, "Conference: receive encrypted whisper - #{$!.to_s}")
+end
+elsif type==101
+if @transmitters[userid]!=nil
+@fullsave_chat.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")},#{userid},#{@transmitters[userid].username},\"Dice roll: #{p2}\"\n") if @fullsave_chat!=nil
+@diceroll_hooks.each{|h|h.call(@transmitters[userid].username, userid, p2, p1)}
+end
+elsif type==111
+if @transmitters[userid]!=nil
+@fullsave_chat.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")},#{userid},#{@transmitters[userid].username},\"Card pick: #{p1}\"\n") if @fullsave_chat!=nil
+@card_hooks.each{|h|h.call(@transmitters[userid].username, userid, "pick", p1, p2)}
+end
+elsif type==112
+if @transmitters[userid]!=nil
+@fullsave_chat.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")},#{userid},#{@transmitters[userid].username},\"Card change: #{p1}\"\n") if @fullsave_chat!=nil
+@card_hooks.each{|h|h.call(@transmitters[userid].username, userid, "change", p1, p2)}
+end
+elsif type==113
+if @transmitters[userid]!=nil
+@fullsave_chat.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")},#{userid},#{@transmitters[userid].username},\"Card change: #{p1}\"\n") if @fullsave_chat!=nil
+@card_hooks.each{|h|h.call(@transmitters[userid].username, userid, "place", p1, p2)}
+end
+elsif type==114
+if @transmitters[userid]!=nil
+@fullsave_chat.write("#{Time.now.strftime("%Y-%m-%d %H:%M:%S")},#{userid},#{@transmitters[userid].username},\"Deck shuffle: #{p1}\"\n") if @fullsave_chat!=nil
+@card_hooks.each{|h|h.call(@transmitters[userid].username, userid, "shuffle", p1, p2)}
+end
 end
 end
 def onstatus(latency,sendbytes,receivedbytes,curlost,curpackets,time)
@@ -966,26 +1156,36 @@ status['curpacketloss']=pc
 status['time']=time
 @status_hooks.each{|h|h.call(status)}
 end
+def onping(t)
+@ping_hooks.each{|h|h.call(t)}
+end
 def onparams(params)
+@position.mutex.synchronize {
 @encoder_mutex.synchronize {
+if params['waiting_channel'].is_a?(Integer)
+if @waiting_channel_id!=params['waiting_channel']
+@waiting_channel_id = params['waiting_channel']
+@waitingchannel_hooks.each{|h|h.call(params['waiting_channel'])}
+end
+end
 if params['channel'].is_a?(Hash)
 if @chid!=params['channel']['id']
 @chid=params['channel']['id']
-@x=0
-@y=0
+@position.x=0
+@position.y=0
 end
 @encoder.free if @encoder!=nil
 @encoder = Opus::Encoder.new(48000, params['channel']['channels'], :voip)
 @encoder.packetloss=10
 @encoder.bitrate=params['channel']['bitrate']*1000
-@sltime=params['channel']['framesize']/1000.0/2.0/params['channel']['channels']
+@sltime=params['channel']['framesize']/1000.0
 @sltime=0.01 if @sltime<0.01
 @sltime=0.1 if @sltime>0.1
 @framesize=params['channel']['framesize']
 @width=params['channel']['width']
 @height=params['channel']['height']
-@x=(@width+1)/2 if @x==0||@x>@width
-@y=(@height+1)/2 if @y==0||@y>@height
+@position.x=(@width+1)/2 if @position.x==0||@position.x>@width
+@position.y=(@height+1)/2 if @position.y==0||@position.y>@height
 sfs=20
 sfs=params['channel']['framesize'] if params['channel']['framesize']<20
 if @speexdsp_framesize!=sfs
@@ -1031,12 +1231,12 @@ if @transmitters.include?(uid)
 else
 @user_hooks.each{|h|h.call(true, u['name'], uid)} if frs==false
 log(-1, "Conference: registering new transmitter #{uid}")
-@transmitters[uid] = Transmitter.new(params['channel']['channels'], params['channel']['framesize'], @encoder.preskip, @starttime, params['channel']['spatialization'], @x, @y, u['name'], @volumes[u['name']])
+@transmitters[uid] = Transmitter.new(params['channel']['channels'], params['channel']['framesize'], @encoder.preskip, @starttime, params['channel']['spatialization'], @position, u['name'], @volumes[u['name']])
 if @fullsave_dir!=nil
 @transmitters[uid].begin_save(dir, uid, @fullsave_time)
 end
 @transmitters[uid].set_hrtf(@hrtf) if params['channel']['spatialization']==1
-@transmitters[uid].set_mixer(@channel_mixer)
+@transmitters[uid].set_mixer(@channel_mixer, @whisper_mixer)
 end
 end
 @channel_hooks.each{|h|h.call(params['channel'])}
@@ -1059,7 +1259,7 @@ if @objects.include?(oid)
 @objects[oid].set_mixer(@channel_mixer)
 else
 log(-1, "Conference: registering new object #{o['name']}")
-@objects[oid] = ChannelObject.new(oid, o['resid'], @x, @y, o['x'], o['y'], params['channel']['spatialization'], params['channel']['framesize'])
+@objects[oid] = ChannelObject.new(oid, o['resid'], @position, o['x'], o['y'], params['channel']['spatialization'], params['channel']['framesize'])
 @objects[oid].set_hrtf(@hrtf) if params['channel']['spatialization']==1
 @objects[oid].set_mixer(@channel_mixer)
 end
@@ -1073,6 +1273,7 @@ end
 end
 end
 }
+}
 end
 def recorder_thread
 bufsize = 2097152
@@ -1080,10 +1281,7 @@ buf="\0"*bufsize
 queued="".b
 vorqueued="".b
 loop {
-sl=@sltime
-sl*=5 if $enableaudiobuffering==1
-sl=0.1 if sl>0.1
-sleep(sl)
+sleep(@sltime)
 sz=0
 @record_mutex.synchronize {
 if (sz=Bass::BASS_ChannelGetData.call(@record_mixer, buf, bufsize))>0
@@ -1160,10 +1358,7 @@ bufsize = 2097152
 buf="\0"*bufsize
 audio=""
 loop {
-sl=@sltime
-sl*=5 if $enableaudiobuffering==1
-sl=0.1 if sl>0.1
-sleep(sl)
+sleep(@sltime)
 if @output!=nil && (sz=Bass::BASS_ChannelGetData.call(@output, buf, bufsize))>0
 @encoder_mutex.synchronize {
 if @framesize>0 and @channels!=nil
@@ -1175,7 +1370,7 @@ while au.bytesize-index>=fs
 part=au.byteslice(index...index+fs)
 frame=nil
 if @output_stream!=nil && @output_stream!=0
-if @muteme
+if @muteme && @whisper==0
 Bass::BASS_StreamPutData.call(@output_stream, part, part.bytesize)
 else
 Bass::BASS_StreamPutData.call(@output_stream, "\0"*part.bytesize, part.bytesize)
@@ -1188,9 +1383,24 @@ frame=@encoder.encode(part, fs/2/@channels)
 end
 if frame!=nil
 if @whisper==0
-@voip.send(1, frame, @x, @y)
+@voip.send(1, frame, @position.x, @position.y)
 else
+if @whisper_key==nil
 @voip.send(3, frame, @whisper%256, @whisper/256)
+else
+begin
+@whisper_aes.encrypt
+iv=@whisper_aes.random_iv
+@whisper_aes.key = @whisper_aes_key
+mat=[128].pack("C")+@whisper_aes_key+iv
+sz=mat.bytesize
+mat+=frame.byteslice(0...245-sz)
+msg=@whisper_key.public_encrypt(mat)+@whisper_aes.update(frame.byteslice(245-sz..-1))+@whisper_aes.final
+@voip.send(4, msg, @whisper%256, @whisper/256)
+rescue Exception
+log(2, "Conference: whisper error: #{$!.to_s}")
+end
+end
 end
 end
 end

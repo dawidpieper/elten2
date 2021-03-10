@@ -101,24 +101,22 @@ index=0
 ret=""
 while (audio.bytesize-index)>=@stepsize
 frg=audio.byteslice(index...index+@stepsize)
-out=("\0"*@stepsize).b
+channels=[]
+sources=frg.unpack("s*").each_slice(@ch).to_a.transpose
 for c in 0...@ch
-frame=("\0"*(@stepsize/@ch)).b
-for i in 0...(@stepsize/@ch/2)
-frame.setbyte(i*2, frg.getbyte(2*(@ch*i+c)))
-frame.setbyte(i*2+1, frg.getbyte(2*(@ch*i+c)+1))
-end
+frame=sources[c].pack("s*")
 Preprocess_run.call(@preprocessors[c], frame)
-for i in 0...@stepsize/@ch/2
-out.setbyte(2*(@ch*i+c), frame.getbyte(i*2))
-out.setbyte(2*(@ch*i+c)+1, frame.getbyte(i*2+1))
+channels[c]=frame.unpack("s*")
 end
-end
+out=channels[0].zip(*channels[1..-1]).flatten.pack("s*")
 ret+=out
 index+=@stepsize
 end
 @queue=audio.byteslice(index..-1)
 return ret
+rescue Exception
+log(2, $!.to_s+" "+$@.to_s)
+return ""
 end
 private
 def setctl_int(flag, value)

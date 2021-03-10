@@ -1,19 +1,19 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
 # Copyright (C) 2014-2021 Dawid Pieper
-# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
-# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
+# Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
+# Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+# You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>. 
 
 module Bass
   BASS = Fiddle.dlopen("bass")
-  #  BASSFX = Fiddle.dlopen("bass_fx")
+#  BASSFX = Fiddle.dlopen("bass_fx")
   BASSMIX = Fiddle.dlopen("bassmix")
   BASS_GetVersion = Fiddle::Function.new(BASS["BASS_GetVersion"], [], Fiddle::TYPE_INT)
   BASS_ErrorGetCode = Fiddle::Function.new(BASS["BASS_ErrorGetCode"], [], Fiddle::TYPE_INT)
   BASS_Init = Fiddle::Function.new(BASS["BASS_Init"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
-  BASS_RecordGetDeviceInfo = Fiddle::Function.new(BASS["BASS_RecordGetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
-  BASS_RecordGetInput = Fiddle::Function.new(BASS["BASS_RecordGetInput"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
-  BASS_RecordSetInput = Fiddle::Function.new(BASS["BASS_RecordSetInput"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_RecordGetDeviceInfo  = Fiddle::Function.new(BASS["BASS_RecordGetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_RecordGetInput  = Fiddle::Function.new(BASS["BASS_RecordGetInput"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_RecordSetInput  = Fiddle::Function.new(BASS["BASS_RecordSetInput"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_RecordInit = Fiddle::Function.new(BASS["BASS_RecordInit"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_RecordGetDevice = Fiddle::Function.new(BASS["BASS_RecordGetDevice"], [], Fiddle::TYPE_INT)
   BASS_RecordSetDevice = Fiddle::Function.new(BASS["BASS_RecordSetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
@@ -21,7 +21,7 @@ module Bass
   BASS_RecordFree = Fiddle::Function.new(BASS["BASS_RecordFree"], [], Fiddle::TYPE_INT)
   BASS_GetConfig = Fiddle::Function.new(BASS["BASS_GetConfig"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_SetConfig = Fiddle::Function.new(BASS["BASS_SetConfig"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
-  BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+BASS_SetDevice = Fiddle::Function.new(BASS["BASS_SetDevice"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_GetDeviceInfo = Fiddle::Function.new(BASS["BASS_GetDeviceInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_SetConfigPtr = Fiddle::Function.new(BASS["BASS_SetConfigPtr"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
   BASS_Free = Fiddle::Function.new(BASS["BASS_Free"], [], Fiddle::TYPE_INT)
@@ -70,104 +70,113 @@ module Bass
     9 => "START", 14 => "ALREADY", 18 => "NOCHAN", 19 => "ILLTYPE", 20 => "ILLPARAM", 21 => "NO3D", 22 => "NOEAX", 23 => "DEVICE",
     24 => "NOPLAY", 25 => "FREQ", 27 => "NOTFILE", 29 => "NOHW", 31 => "EMPTY", 32 => "NONET", 33 => "CREATE", 34 => "NOFX",
     37 => "NOTAVAIL", 38 => "DECODE", 39 => "DX", 40 => "TIMEOUT", 41 => "FILEFORM", 42 => "SPEAKER", 43 => "VERSION", 44 => "CODEC",
-    45 => "ENDED", -1 => " UNKNOWN"
+    45 => "ENDED", -1 => " UNKNOWN",
   }
 
-  @@cardid = -1
+@@cardid=1
 
-  def self.cardid
-    @@cardid
-  end
+def self.cardid
+@@cardid
+end
 
-  def self.set_card(card, hWnd, samplerate = 44100)
-    BASS_SetConfig.call(36, 1)
-    devs = []
-    c = 1
-    if card != nil
-      index = 1
-      tmp = [nil, nil, 0].pack("ppi")
-      cds = {}
-      while BASS_GetDeviceInfo.call(index, tmp) > 0
-        a = tmp.unpack("ii")
-        o = "\0" * 1024
-        $strcpy.call(o, a[0])
-        sc = o[0...o.index("\0")]
-        Encoding.list.each { |a|
-          begin
-            b = sc.force_encoding(a).encode("UTF-8")
-            cds[b] ||= 0
-            cds[b] += 1
-            b += " (#{cds[b]})" if cds[b] > 1
-            c = index if card == b
-          rescue Exception
-          end
-        }
-        index += 1
+def self.set_card(card, hWnd, samplerate = 48000)
+BASS_SetConfig.call(36, 1)
+      c=1
+      if card!=nil
+cards=self.soundcards
+c=cards.index(card)||1
+end
+BASS_Init.call(c, samplerate, 4, hWnd, nil)
+BASS_SetDevice.call(c)
+@@cardid=c
+end
+
+def self.soundcards
+BASS_SetConfig.call(36, 1)
+      devs=[]
+      index=1
+      tmp=[nil,nil,0].pack("ppi")
+cds={}
+      while BASS_GetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("ii")
+        o="\0"*1024
+        $strcpy.call(o,a[0])
+       sc=o[0...(o.index("\0")||-1)]
+b=sc.force_encoding("UTF-8")
+cds[b]||=0
+                cds[b]+=1
+b+=" (#{cds[b]})" if cds[b]>1
+devs[index]=b
+        index+=1
+end
+return devs
+end
+
+def self.microphones
+BASS_SetConfig.call(36, 1)
+microphones=[]
+        index=0
+      tmp=[nil,nil,0].pack("ppi")
+cds={}
+      while BASS_RecordGetDeviceInfo.call(index,tmp)>0
+        a=tmp.unpack("iii")
+                o="\0"*1024
+        $strcpy.call(o,a[0])
+                sc=o[0...(o.index("\0")||-1)].force_encoding("UTF-8")
+cds[sc]||=0
+                                cds[sc]+=1
+                                sc+=" (#{cds[sc]})" if cds[sc]>1
+        microphones.push(sc)
+               index+=1
+             end
+                          return microphones
+end
+
+@@recorddevice=-1
+@@recordinit=false
+    def self.setrecorddevice(i)
+      @@recorddevice=i
+      BASS_RecordFree.call if @@recordinit
+      @@recordinit=false
       end
-    end
-    BASS_Init.call(c, samplerate, 4, hWnd, nil)
-    BASS_SetDevice.call(c)
-    @@cardid = c
-  end
-
-  def self.microphones
-    microphones = []
-    index = 0
-    tmp = [nil, nil, 0].pack("ppi")
-    cds = {}
-    while BASS_RecordGetDeviceInfo.call(index, tmp) > 0
-      a = tmp.unpack("iii")
-      o = "\0" * 1024
-      $wcscpy.call(o, a[0])
-      sc = o[0...o.index("\0") || -1]
-      cds[sc] ||= 0
-      cds[sc] += 1
-      sc += " (#{cds[sc]})" if cds[sc] > 1
-      microphones.push(sc)
-      index += 1
-    end
-    return microphones
-  end
-
-  @@recorddevice = -1
-  @@recordinit = false
-  def self.setrecorddevice(i)
-    @@recorddevice = i
-    BASS_RecordFree.call if @@recordinit
-    @@recordinit = false
-  end
-  def self.record_prepare
-    if @@recordinit == false
-      BASS_RecordInit.call(@@recorddevice)
-      if @@recorddevice == -1
-        @@recorddevice = BASS_RecordGetDevice.call
+def self.record_prepare
+      if @@recordinit==false
+              BASS_RecordInit.call(@@recorddevice)
+if @@recorddevice==-1
+@@recorddevice = BASS_RecordGetDevice.call
+end
+              @@recordinit=true
+end
       end
-      @@recordinit = true
-    end
-  end
 
-  def self.record_resetdevice
-    BASS_RecordSetDevice.call(@@recorddevice)
-  end
+def self.record_resetdevice
+BASS_RecordSetDevice.call(@@recorddevice)
+end
 
-  def self.init(hWnd, samplerate = 44100)
+  def self.init(hWnd, samplerate = 48000)
     return if @init == true
     @init = true
-    BASS_SetConfig.call(1, 25)
-    BASS_SetConfig.call(36, 1)
-    #BASS_SetConfig.call(66, 1)
+BASS_SetConfig.call(1, 25)
+BASS_SetConfig.call(36, 1)
+BASS_SetConfig.call(42	, 1)
+#BASS_SetConfig.call(66, 1)
     if (BASS_GetVersion.call >> 16) != 0x0204
       raise("bass.dll 2.4")
     end
-    if BASS_Init.call(-1, samplerate, 4, hWnd, nil) == 0
+    if BASS_Init.call(1, samplerate, 4, hWnd, nil) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-    @@cardid = -1
-    plugins = ["bassopus", "bassflac", "bassmidi", "basswebm", "basswma", "bass_aac", "bass_ac3", "bass_spx"]
+plugins = ["bassopus", "bassflac", "bassmidi", "basswebm", "basswma", "bass_aac", "bass_ac3", "bass_spx"]
+mandatory = ["bassopus"]
     for pl in plugins
-      if BASS_PluginLoad.call("bin\\#{pl}.dll") == 0
-        raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
-      end
+          if BASS_PluginLoad.call("bin\\#{pl}.dll") == 0
+level=1
+level=2 if mandatory.include?(pl)
+begin
+      log(level, "Plugin #{pl} returned BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+rescue Exception
+end
+    end
     end
     BASS_SetConfig.call(0, 1000)
     BASS_SetConfig.call(1, 100)
@@ -187,8 +196,8 @@ module Bass
     return Sample.new(filename, max)
   end
 
-  def self.loadStream(filename, stream = nil)
-    return Stream.new(filename, 0, stream)
+  def self.loadStream(filename, stream=nil, autofree=false)
+    return Stream.new(filename, 0, stream, autofree)
   end
 
   class Sample
@@ -205,6 +214,7 @@ module Bass
         return Bass::Stream.new(filename)
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
       end
+Bass::BASS_ChannelSetDevice.call(@ch, Bass.cardid)
     end
 
     def free
@@ -269,18 +279,21 @@ module Bass
   class Stream
     attr_reader :ch
 
-    def initialize(filename, pos = 0, stream = nil)
-      @stream = stream
+    def initialize(filename, pos = 0, stream=nil, autofree=false)
+@stream=stream
       pos = pos.to_i
-      if filename != nil
-        if filename[0..3] == "http"
-          @ch = BASS_StreamCreateURL.call((filename), pos, 0, 0, 0)
-        else
-          @ch = BASS_StreamCreateFile.call(0, filename, pos, 0, 0, 0, 0)
-        end
+flags=0
+flags|=0x40000 if autofree
+if filename!=nil
+      if filename[0..3] == "http"
+        @ch = BASS_StreamCreateURL.call((filename), pos, flags, 0, 0)
       else
-        @ch = BASS_StreamCreateFile.call(1, @stream, 0, 0, @stream.bytesize, 0, 0)
+        @ch = BASS_StreamCreateFile.call(0, filename, pos, 0, 0, 0, flags)
       end
+else
+      @ch = BASS_StreamCreateFile.call(1, @stream, 0, 0, @stream.bytesize, 0, 0)
+end
+Bass::BASS_ChannelSetDevice.call(@ch, Bass.cardid)
     end
 
     def free
@@ -364,22 +377,20 @@ module Bass
     include Bass
     attr_reader :file
 
-    def initialize(file, type = 1, looper = false, u3d = false, stream = nil)
+    def initialize(file, type = 1, looper = false, u3d=false, stream=nil, autofree=false)
       @file = file
       @startposition = 0
-      ext = ""
-      if file != nil
-        ext = File.extname(file).downcase
-        type = 1 if file[0..3] == "http"
-      else
-        type = 1 if file == nil
-      end
+ext=""
+if file!=nil
+      ext = File.extname(file).downcase
+      type = 1 if file[0..3] == "http"
+else
+type=1 if file==nil
+end
       @type = type
       case type
       when 1
-        @cls = Bass.loadStream(file, stream)
-        if @cls == nil or (@cl != nil and @cls.ch == nil)
-        end
+        @cls = Bass.loadStream(file, stream, autofree)
       else
         @cls = Bass.loadSample(file)
       end

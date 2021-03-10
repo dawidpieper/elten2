@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2021-01-29 19:06+0300\n"
+"POT-Creation-Date: 2021-03-03 13:36+0300\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Burak <burakyuksek94@gmail.com>\n"
 "Language-Team: Kumandan\n"
@@ -13,438 +13,27 @@ msgstr ""
 "X-Generator: Poedit 1.8.11\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src/EAPI/License.rb:3
-msgctxt "License"
-msgid "Elten source code can be found at GitHub:"
-msgstr "Elten kaynak kodu GitHub'dadır:"
-
-#: ../src/EAPI/License.rb:3
-msgctxt "License"
-msgid ""
-"The original content of the GNU General Public License V3 can be found below."
-msgstr "GNU General Public License v3 lisansının orijinal içeriği aşağıdadır."
-
-#: ../src/EAPI/License.rb:3
-msgctxt "License"
-msgid ""
-"Elten is free software: you can redistribute it and/or modify it under the "
-"terms of the GNU General Public License as published by the Free Software "
-"Foundation, version 3.\n"
-"Elten is distributed in the hope that it will be useful, but WITHOUT ANY "
-"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
-"FOR A PARTICULAR PURPOSE. See the GNU General Public License for more "
-"details."
-msgstr ""
-"Elten ücretsiz bir yazılımdır: GNU Public License version 3 şartları "
-"uyarınca yeniden dağıtılabilir veya değiştirilebilir.\n"
-"Elten kullanışlı olması umuduyla dağıtılmaktadır. Satılabilirliği veya özel "
-"bir amaç için kullanılabilirliği garantisi ima dahi edilmemiştir. Daha fazla "
-"ayrıntı için GNU Public License lisansına bakın."
-
-#: ../src/Scenes/Conference.rb:12 ../src/Scenes/PremiumPackages.rb:4
-#: ../src/Scenes/VoiceCall.rb:17 ../src/scenes/Authentication.rb:10
-#: ../src/scenes/Contacts.rb:13 ../src/scenes/Messages.rb:26
-#: ../src/scenes/Notes.rb:10 ../src/scenes/WhatsNew.rb:15
+#: ../src/CallHistory[Scenes].rb:10 ../src/Scenes/Conference.rb:13
+#: ../src/Scenes/PremiumPackages.rb:4 ../src/Scenes/VoiceCall.rb:17
+#: ../src/scenes/Authentication.rb:10 ../src/scenes/Contacts.rb:13
+#: ../src/scenes/Messages.rb:26 ../src/scenes/Notes.rb:10
+#: ../src/scenes/WhatsNew.rb:15
 msgid "This section is unavailable for guests"
 msgstr "Bu bölüm konuklar için kullanılamaz"
 
-#: ../src/Scenes/Conference.rb:22
-msgctxt "Conference"
-msgid "Channel space"
-msgstr "Kanal aralığı"
-
-#: ../src/Scenes/Conference.rb:23
-msgctxt "Conference"
-msgid "Channel users"
-msgstr "Kanal kullanıcıları"
-
-#: ../src/Scenes/Conference.rb:24
-msgctxt "Conference"
-msgid "Chat history"
-msgstr "Sohbet geçmişi"
-
-#: ../src/Scenes/Conference.rb:25
-msgctxt "Conference"
-msgid "Chat message"
-msgstr "Sohbet mesajı"
-
-#: ../src/Scenes/Conference.rb:26
-msgctxt "Conference"
-msgid "Mute microphone"
-msgstr "Mikrofonu kapat"
-
-#: ../src/Scenes/Conference.rb:27
-msgctxt "Conference"
-msgid "Objects and streaming"
-msgstr "Yayındaki nesneler"
-
-#: ../src/Scenes/Conference.rb:28
-msgctxt "Conference"
-msgid "Change volumes"
-msgstr "Ses seviyelerini değiştir"
-
-#: ../src/Scenes/Conference.rb:29
-msgctxt "Conference"
-msgid "Status"
-msgstr "Durum"
-
-#: ../src/Scenes/Conference.rb:30
-msgctxt "Conference"
-msgid "Enable push to talk"
-msgstr "Bas konuşu etkinleştir"
-
-#: ../src/Scenes/Conference.rb:31 ../src/Scenes/Conference.rb:561
-msgctxt "Conference"
-msgid "Set push to talk shortcut"
-msgstr "Bas konuş kısayolu ayarla"
-
-#: ../src/Scenes/Conference.rb:32 ../src/Scenes/Conference.rb:147
-msgctxt "Conference"
-msgid "Save this conference to a file"
-msgstr "Sohbeti dosyaya kaydet"
-
-#: ../src/Scenes/Conference.rb:33
-msgctxt "Conference"
-msgid "Show channels"
-msgstr "Kanalları göster"
-
-#: ../src/Scenes/Conference.rb:34 ../src/Scenes/Conference.rb:611
-msgctxt "Conference"
-msgid "Close"
-msgstr "Kapat"
-
-#: ../src/Scenes/Conference.rb:36
-msgctxt "Conference"
-msgid "Use arrows to move in the channel space"
-msgstr "Kanal aralığında gezinmek için ok tuşlarını kullanın"
-
-#: ../src/Scenes/Conference.rb:37 ../src/Scenes/Conference.rb:149
-msgctxt "Conference"
-msgid "Finish saving"
-msgstr "Kaydı bitir"
-
-#: ../src/Scenes/Conference.rb:45
-msgctxt "Conference"
-msgid "Mute user"
-msgstr "Kullanıcıyı sustur"
-
-#: ../src/Scenes/Conference.rb:46
-msgctxt "Conference"
-msgid "Unmute user"
-msgstr "Kullanıcının sesini aç"
-
-#: ../src/Scenes/Conference.rb:50
-msgctxt "Conference"
-msgid "Change user volume"
-msgstr "Kullanıcı ses seviyesini değiştir"
-
-#: ../src/Scenes/Conference.rb:51
-msgctxt "Conference"
-msgid "User volume"
-msgstr "Kullanıcı ses seviyesi"
-
-#: ../src/Scenes/Conference.rb:65
-msgctxt "Conference"
-msgid "Go to user"
-msgstr "Kullanıcıya git"
-
-#: ../src/Scenes/Conference.rb:68
-msgctxt "Conference"
-msgid "Whisper"
-msgstr "Fısılda"
-
-#: ../src/Scenes/Conference.rb:75
-msgctxt "Conference"
-msgid "Hold spacebar to whisper to user"
-msgstr "Kullanıcıya fısıldamak için boşluk tuşunu basılı tutun"
-
-#: ../src/Scenes/Conference.rb:84
-msgctxt "Conference"
-msgid "Total time"
-msgstr "Toplam zaman"
-
-#: ../src/Scenes/Conference.rb:85
-msgctxt "Conference"
-msgid "Current packet loss"
-msgstr "Mevcut paket kaybı"
-
-#: ../src/Scenes/Conference.rb:86
-msgctxt "Conference"
-msgid "Current latency"
-msgstr "Mevcut gecikme"
-
-#: ../src/Scenes/Conference.rb:87
-msgctxt "Conference"
-msgid "Bytes sent"
-msgstr "Gönderilen bit"
-
-#: ../src/Scenes/Conference.rb:88
-msgctxt "Conference"
-msgid "Bytes received"
-msgstr "Alınan bit"
-
-#: ../src/Scenes/Conference.rb:139 ../src/Scenes/Conference.rb:434
-#: ../src/Scenes/Conference.rb:492 ../src/Scenes/Conference.rb:520
-#: ../src/Scenes/Conference.rb:576 ../src/Scenes/Conference.rb:641
-#: ../src/eapi/Common.rb:16 ../src/eapi/Common.rb:1008
-#: ../src/eapi/Controls.rb:920 ../src/eapi/Controls.rb:1019
-#: ../src/eapi/Controls.rb:3119 ../src/eapi/Controls.rb:3185
-#: ../src/eapi/Controls.rb:4058 ../src/eapi/Controls.rb:4173
-#: ../src/eapi/External.rb:120 ../src/eapi/UI.rb:619
-#: ../src/scenes/Account.rb:118 ../src/scenes/Ban.rb:26
-#: ../src/scenes/Ban.rb:108 ../src/scenes/Blog.rb:478
-#: ../src/scenes/Blog.rb:1069 ../src/scenes/Blog.rb:1207
-#: ../src/scenes/Blog.rb:1261 ../src/scenes/Blog.rb:1378
-#: ../src/scenes/Blog.rb:1708 ../src/scenes/Blog.rb:2110
-#: ../src/scenes/Blog.rb:2239 ../src/scenes/Clock.rb:12
-#: ../src/scenes/Clock.rb:62 ../src/scenes/Forum.rb:707
-#: ../src/scenes/Forum.rb:733 ../src/scenes/Forum.rb:938
-#: ../src/scenes/Forum.rb:976 ../src/scenes/Forum.rb:1127
-#: ../src/scenes/Forum.rb:1260 ../src/scenes/Forum.rb:1360
-#: ../src/scenes/Forum.rb:1907 ../src/scenes/Forum.rb:2784
-#: ../src/scenes/Forum.rb:3025 ../src/scenes/Forum.rb:3050
-#: ../src/scenes/Forum.rb:3524 ../src/scenes/Honors.rb:186
-#: ../src/scenes/Honors.rb:222 ../src/scenes/Honors.rb:303
-#: ../src/scenes/Install.rb:3 ../src/scenes/Login.rb:88
-#: ../src/scenes/Main.rb:172 ../src/scenes/Messages.rb:232
-#: ../src/scenes/Messages.rb:786 ../src/scenes/Notes.rb:118
-#: ../src/scenes/Notes.rb:252 ../src/scenes/Polls.rb:178
-#: ../src/scenes/Polls.rb:226 ../src/scenes/Polls.rb:355
-#: ../src/scenes/Portable.rb:9 ../src/scenes/Settings.rb:95
-#: ../src/scenes/SpeedTest.rb:9
-msgid "Cancel"
-msgstr "İptal"
-
-#: ../src/Scenes/Conference.rb:139
-msgctxt "Conference"
-msgid "Save mixed stream to a file"
-msgstr "Karışık yayını dosyaya kaydet"
-
-#: ../src/Scenes/Conference.rb:139
-msgctxt "Conference"
-msgid "Save separate streams (experimental)"
-msgstr "Yayınları ayrı dosyalara kaydet (deneysel)"
-
-#: ../src/Scenes/Conference.rb:163
-msgctxt "Conference"
-msgid "Would you like to disconnect?"
-msgstr "Bağlantıyı kesmek istiyor musunuz?"
-
-#: ../src/Scenes/Conference.rb:178 ../src/Scenes/Conference.rb:203
-#: ../src/Scenes/Conference.rb:277
-msgctxt "Conference"
-msgid "Channels"
-msgstr "Kanallar"
-
-#: ../src/Scenes/Conference.rb:183
-msgctxt "Conference"
-msgid "Join"
-msgstr "Katıl"
-
-#: ../src/Scenes/Conference.rb:185 ../src/Scenes/Conference.rb:248
-#: ../src/Scenes/Conference.rb:282
-msgctxt "Conference"
-msgid "Channel password"
-msgstr "Sohbet kanalı şifresi"
-
-#: ../src/Scenes/Conference.rb:196 ../src/Scenes/Conference.rb:205
-msgctxt "Conference"
-msgid "Channel details"
-msgstr "Kanal ayrıntıları"
-
-#: ../src/Scenes/Conference.rb:198
-msgctxt "Conference"
-msgid "Creator"
-msgstr "Oluşturan"
-
-#: ../src/Scenes/Conference.rb:199 ../src/Scenes/Conference.rb:274
-msgctxt "Conference"
-msgid "Language"
-msgstr "Dil"
-
-#: ../src/Scenes/Conference.rb:200
-msgctxt "Conference"
-msgid "This channel is password-protected."
-msgstr "Bu kanal şifre korumalı."
-
-#: ../src/Scenes/Conference.rb:201 ../src/Scenes/Conference.rb:275
-msgctxt "Conference"
-msgid "Channel bitrate"
-msgstr "Kanal bit hızı"
-
-#: ../src/Scenes/Conference.rb:202 ../src/Scenes/Conference.rb:276
-msgctxt "Conference"
-msgid "Channel frame size"
-msgstr "Kanal çerçeve boyutu"
-
-#: ../src/Scenes/Conference.rb:204 ../src/Scenes/Conference.rb:278
-msgctxt "Conference"
-msgid "Space Virtualization"
-msgstr "Alan sanallaştırma"
-
-#: ../src/Scenes/Conference.rb:209
-msgctxt "Conference"
-msgid "Leave"
-msgstr "Çık"
-
-#: ../src/Scenes/Conference.rb:216
-msgctxt "Conference"
-msgid "Create channel"
-msgstr "Kanal oluştur"
-
-#: ../src/Scenes/Conference.rb:224
-msgctxt "Conference"
-msgid "Show channels in unknown languages"
-msgstr "Bilinmeyen dillerde oluşturulan sohbetleri göster"
-
-#: ../src/Scenes/Conference.rb:225
-msgctxt "Conference"
-msgid "Hide channels in unknown languages"
-msgstr "Bilinmeyen dillerde oluşturulan sohbetleri gizle"
-
-#: ../src/Scenes/Conference.rb:235
-msgctxt "Conference"
-msgid "Refresh"
-msgstr "Yenile"
-
-#: ../src/Scenes/Conference.rb:273
-msgctxt "Conference"
-msgid "Channel name"
-msgstr "Kanal adı"
-
-#: ../src/Scenes/Conference.rb:279
-msgctxt "Conference"
-msgid "Channel width"
-msgstr "Kanal genişliği"
-
-#: ../src/Scenes/Conference.rb:280
-msgctxt "Conference"
-msgid "Channel height"
-msgstr "Kanal boyutu"
-
-#: ../src/Scenes/Conference.rb:281
-msgctxt "Conference"
-msgid "Set channel password"
-msgstr "Kanal şifresi ayarla"
-
-#: ../src/Scenes/Conference.rb:283
-msgctxt "Conference"
-msgid "Repeat channel password"
-msgstr "Kanal şifresini tekrar girin"
-
-#: ../src/Scenes/Conference.rb:284
-msgctxt "Conference"
-msgid "Create"
-msgstr "Oluştur"
-
-#: ../src/Scenes/Conference.rb:285
-msgctxt "Conference"
-msgid "Cancel"
-msgstr "İptal"
-
-#: ../src/Scenes/Conference.rb:332
-msgctxt "Conference"
-msgid "Entered passwords are different."
-msgstr "Girilen şifreler farklı."
-
-#: ../src/Scenes/Conference.rb:337
-msgctxt "Conference"
-msgid "Channel width and height must be at least 1"
-msgstr "Kanal boyutu ve yüksekliği en az 1 olmalıdır"
-
-#: ../src/Scenes/Conference.rb:341
-msgctxt "Conference"
-msgid "%{value} is the maximum allowed channel width and height"
-msgstr "Kanal boyutu ve yüksekliği en fazla %{value} olabilir"
-
-#: ../src/Scenes/Conference.rb:380 ../src/Scenes/Conference.rb:395
-msgctxt "Conference"
-msgid "%{name}, everywhere"
-msgstr "%{name} her yerde"
-
-#: ../src/Scenes/Conference.rb:382 ../src/Scenes/Conference.rb:397
-msgctxt "Conference"
-msgid "%{name}, located at %{x}, %{y}"
-msgstr "%{name} %{x}, %{y} konumunda"
-
-#: ../src/Scenes/Conference.rb:385 ../src/Scenes/Conference.rb:628
-msgctxt "Conference"
-msgid "Channel objects"
-msgstr "Kanal nesneleri"
-
-#: ../src/Scenes/Conference.rb:387
-msgctxt "Conference"
-msgid "Add object"
-msgstr "Nesne ekle"
-
-#: ../src/Scenes/Conference.rb:406
-msgctxt "Conference"
-msgid "Go to object"
-msgstr "Nesneye git"
-
-#: ../src/Scenes/Conference.rb:410
-msgctxt "Conference"
-msgid "Remove object"
-msgstr "Nesne kaldır"
-
-#: ../src/Scenes/Conference.rb:431
-msgctxt "Conference"
-msgid "Available objects"
-msgstr "Mevcut nesneler"
-
-#: ../src/Scenes/Conference.rb:432
-msgctxt "Conference"
-msgid "Everywhere"
-msgstr "Her yerde"
-
-#: ../src/Scenes/Conference.rb:432
-msgctxt "Conference"
-msgid "Object position"
-msgstr "Nesne konumu"
-
-#: ../src/Scenes/Conference.rb:432
-msgctxt "Conference"
-msgid "Here"
-msgstr "Burada"
-
-#: ../src/Scenes/Conference.rb:433
-msgctxt "Conference"
-msgid "Place object"
-msgstr "Nesneyi yerleştir"
-
-#: ../src/Scenes/Conference.rb:440
-msgctxt "Conference"
-msgid "Upload new sound"
-msgstr "Yeni ses yükle"
-
-#: ../src/Scenes/Conference.rb:441 ../src/Scenes/Conference.rb:666
-msgctxt "Conference"
-msgid "Select audio file"
-msgstr "Ses dosyası seçin"
-
-#: ../src/Scenes/Conference.rb:444
-msgctxt "Conference"
-msgid "This file is too large"
-msgstr "Bu dosya çok büyük"
-
-#: ../src/Scenes/Conference.rb:459
-msgctxt "Conference"
-msgid "Delete"
-msgstr "Sil"
-
-#: ../src/Scenes/Conference.rb:461 ../src/Scenes/PremiumPackages.rb:238
-#: ../src/Scenes/PremiumPackages.rb:248 ../src/eapi/Common.rb:362
-#: ../src/eapi/Common.rb:1000 ../src/eapi/EltenSRV.rb:224
-#: ../src/eapi/EltenSRV.rb:242 ../src/eapi/EltenSRV.rb:313
-#: ../src/eapi/EltenSRV.rb:340 ../src/eapi/EltenSRV.rb:376
-#: ../src/eapi/EltenSRV.rb:391 ../src/eapi/EltenSRV.rb:414
-#: ../src/scenes/Account.rb:484 ../src/scenes/Account.rb:547
-#: ../src/scenes/Account.rb:619 ../src/scenes/Account.rb:627
-#: ../src/scenes/Account.rb:633 ../src/scenes/Authentication.rb:16
-#: ../src/scenes/Authentication.rb:43 ../src/scenes/Authentication.rb:78
-#: ../src/scenes/Authentication.rb:91 ../src/scenes/Ban.rb:67
-#: ../src/scenes/Ban.rb:99 ../src/scenes/Ban.rb:122 ../src/scenes/Blog.rb:87
-#: ../src/scenes/Blog.rb:106 ../src/scenes/Blog.rb:161
+#: ../src/CallHistory[Scenes].rb:16 ../src/Scenes/Conference.rb:469
+#: ../src/Scenes/PremiumPackages.rb:238 ../src/Scenes/PremiumPackages.rb:248
+#: ../src/eapi/Common.rb:342 ../src/eapi/Common.rb:978
+#: ../src/eapi/EltenSRV.rb:224 ../src/eapi/EltenSRV.rb:242
+#: ../src/eapi/EltenSRV.rb:313 ../src/eapi/EltenSRV.rb:340
+#: ../src/eapi/EltenSRV.rb:376 ../src/eapi/EltenSRV.rb:391
+#: ../src/eapi/EltenSRV.rb:414 ../src/scenes/Account.rb:485
+#: ../src/scenes/Account.rb:548 ../src/scenes/Account.rb:620
+#: ../src/scenes/Account.rb:628 ../src/scenes/Account.rb:634
+#: ../src/scenes/Authentication.rb:16 ../src/scenes/Authentication.rb:43
+#: ../src/scenes/Authentication.rb:78 ../src/scenes/Authentication.rb:91
+#: ../src/scenes/Ban.rb:67 ../src/scenes/Ban.rb:99 ../src/scenes/Ban.rb:122
+#: ../src/scenes/Blog.rb:87 ../src/scenes/Blog.rb:106 ../src/scenes/Blog.rb:161
 #: ../src/scenes/Blog.rb:182 ../src/scenes/Blog.rb:197
 #: ../src/scenes/Blog.rb:259 ../src/scenes/Blog.rb:365
 #: ../src/scenes/Blog.rb:437 ../src/scenes/Blog.rb:468
@@ -463,47 +52,47 @@ msgstr "Sil"
 #: ../src/scenes/Blog.rb:1751 ../src/scenes/Blog.rb:1886
 #: ../src/scenes/Blog.rb:1893 ../src/scenes/Blog.rb:2081
 #: ../src/scenes/Blog.rb:2102 ../src/scenes/Blog.rb:2208
-#: ../src/scenes/ForgotPassword.rb:24 ../src/scenes/Forum.rb:604
-#: ../src/scenes/Forum.rb:628 ../src/scenes/Forum.rb:647
-#: ../src/scenes/Forum.rb:661 ../src/scenes/Forum.rb:722
-#: ../src/scenes/Forum.rb:747 ../src/scenes/Forum.rb:760
-#: ../src/scenes/Forum.rb:791 ../src/scenes/Forum.rb:801
-#: ../src/scenes/Forum.rb:957 ../src/scenes/Forum.rb:1088
-#: ../src/scenes/Forum.rb:1100 ../src/scenes/Forum.rb:1182
-#: ../src/scenes/Forum.rb:1207 ../src/scenes/Forum.rb:1214
-#: ../src/scenes/Forum.rb:1240 ../src/scenes/Forum.rb:1277
-#: ../src/scenes/Forum.rb:1300 ../src/scenes/Forum.rb:1325
-#: ../src/scenes/Forum.rb:1340 ../src/scenes/Forum.rb:1380
-#: ../src/scenes/Forum.rb:1630 ../src/scenes/Forum.rb:1649
-#: ../src/scenes/Forum.rb:1656 ../src/scenes/Forum.rb:1707
-#: ../src/scenes/Forum.rb:1720 ../src/scenes/Forum.rb:1732
-#: ../src/scenes/Forum.rb:1747 ../src/scenes/Forum.rb:1767
-#: ../src/scenes/Forum.rb:1800 ../src/scenes/Forum.rb:1812
-#: ../src/scenes/Forum.rb:1844 ../src/scenes/Forum.rb:1860
-#: ../src/scenes/Forum.rb:1984 ../src/scenes/Forum.rb:2087
-#: ../src/scenes/Forum.rb:2092 ../src/scenes/Forum.rb:2120
-#: ../src/scenes/Forum.rb:2144 ../src/scenes/Forum.rb:2288
-#: ../src/scenes/Forum.rb:2305 ../src/scenes/Forum.rb:2582
-#: ../src/scenes/Forum.rb:2602 ../src/scenes/Forum.rb:2660
-#: ../src/scenes/Forum.rb:2774 ../src/scenes/Forum.rb:2796
-#: ../src/scenes/Forum.rb:2859 ../src/scenes/Forum.rb:2875
-#: ../src/scenes/Forum.rb:2882 ../src/scenes/Forum.rb:2943
-#: ../src/scenes/Forum.rb:2968 ../src/scenes/Forum.rb:2980
-#: ../src/scenes/Forum.rb:3007 ../src/scenes/Forum.rb:3033
-#: ../src/scenes/Forum.rb:3092 ../src/scenes/Forum.rb:3168
-#: ../src/scenes/Forum.rb:3180 ../src/scenes/Forum.rb:3549
+#: ../src/scenes/ForgotPassword.rb:24 ../src/scenes/Forum.rb:613
+#: ../src/scenes/Forum.rb:637 ../src/scenes/Forum.rb:656
+#: ../src/scenes/Forum.rb:670 ../src/scenes/Forum.rb:731
+#: ../src/scenes/Forum.rb:756 ../src/scenes/Forum.rb:769
+#: ../src/scenes/Forum.rb:800 ../src/scenes/Forum.rb:810
+#: ../src/scenes/Forum.rb:966 ../src/scenes/Forum.rb:1097
+#: ../src/scenes/Forum.rb:1109 ../src/scenes/Forum.rb:1191
+#: ../src/scenes/Forum.rb:1216 ../src/scenes/Forum.rb:1223
+#: ../src/scenes/Forum.rb:1249 ../src/scenes/Forum.rb:1286
+#: ../src/scenes/Forum.rb:1309 ../src/scenes/Forum.rb:1334
+#: ../src/scenes/Forum.rb:1349 ../src/scenes/Forum.rb:1389
+#: ../src/scenes/Forum.rb:1700 ../src/scenes/Forum.rb:1719
+#: ../src/scenes/Forum.rb:1726 ../src/scenes/Forum.rb:1777
+#: ../src/scenes/Forum.rb:1790 ../src/scenes/Forum.rb:1802
+#: ../src/scenes/Forum.rb:1817 ../src/scenes/Forum.rb:1837
+#: ../src/scenes/Forum.rb:1870 ../src/scenes/Forum.rb:1882
+#: ../src/scenes/Forum.rb:1914 ../src/scenes/Forum.rb:1930
+#: ../src/scenes/Forum.rb:2054 ../src/scenes/Forum.rb:2157
+#: ../src/scenes/Forum.rb:2162 ../src/scenes/Forum.rb:2192
+#: ../src/scenes/Forum.rb:2224 ../src/scenes/Forum.rb:2368
+#: ../src/scenes/Forum.rb:2385 ../src/scenes/Forum.rb:2667
+#: ../src/scenes/Forum.rb:2687 ../src/scenes/Forum.rb:2745
+#: ../src/scenes/Forum.rb:2859 ../src/scenes/Forum.rb:2881
+#: ../src/scenes/Forum.rb:2944 ../src/scenes/Forum.rb:2960
+#: ../src/scenes/Forum.rb:2967 ../src/scenes/Forum.rb:3028
+#: ../src/scenes/Forum.rb:3053 ../src/scenes/Forum.rb:3065
+#: ../src/scenes/Forum.rb:3092 ../src/scenes/Forum.rb:3118
+#: ../src/scenes/Forum.rb:3177 ../src/scenes/Forum.rb:3253
+#: ../src/scenes/Forum.rb:3265 ../src/scenes/Forum.rb:3634
 #: ../src/scenes/Honors.rb:20 ../src/scenes/Honors.rb:138
 #: ../src/scenes/Honors.rb:149 ../src/scenes/Honors.rb:165
 #: ../src/scenes/Honors.rb:210 ../src/scenes/Honors.rb:315
 #: ../src/scenes/Loading.rb:324 ../src/scenes/Messages.rb:93
-#: ../src/scenes/Messages.rb:197 ../src/scenes/Messages.rb:277
-#: ../src/scenes/Messages.rb:309 ../src/scenes/Messages.rb:316
-#: ../src/scenes/Messages.rb:341 ../src/scenes/Messages.rb:428
-#: ../src/scenes/Messages.rb:461 ../src/scenes/Messages.rb:625
-#: ../src/scenes/Messages.rb:655 ../src/scenes/Messages.rb:662
-#: ../src/scenes/Messages.rb:678 ../src/scenes/Messages.rb:685
-#: ../src/scenes/Messages.rb:732 ../src/scenes/Messages.rb:848
-#: ../src/scenes/Messages.rb:948 ../src/scenes/Notes.rb:16
+#: ../src/scenes/Messages.rb:201 ../src/scenes/Messages.rb:281
+#: ../src/scenes/Messages.rb:313 ../src/scenes/Messages.rb:320
+#: ../src/scenes/Messages.rb:345 ../src/scenes/Messages.rb:432
+#: ../src/scenes/Messages.rb:465 ../src/scenes/Messages.rb:629
+#: ../src/scenes/Messages.rb:659 ../src/scenes/Messages.rb:666
+#: ../src/scenes/Messages.rb:682 ../src/scenes/Messages.rb:689
+#: ../src/scenes/Messages.rb:736 ../src/scenes/Messages.rb:852
+#: ../src/scenes/Messages.rb:952 ../src/scenes/Notes.rb:16
 #: ../src/scenes/Notes.rb:107 ../src/scenes/Notes.rb:141
 #: ../src/scenes/Notes.rb:181 ../src/scenes/Notes.rb:194
 #: ../src/scenes/Notes.rb:228 ../src/scenes/Notes.rb:241
@@ -517,140 +106,924 @@ msgstr "Sil"
 msgid "Error"
 msgstr "Hata"
 
-#: ../src/Scenes/Conference.rb:463
+#: ../src/CallHistory[Scenes].rb:34
+msgctxt "CallHistory"
+msgid "Incoming"
+msgstr "Gelen"
+
+#: ../src/CallHistory[Scenes].rb:37
+msgctxt "CallHistory"
+msgid "Outgoing"
+msgstr "Giden"
+
+#: ../src/CallHistory[Scenes].rb:39
+msgctxt "CallHistory"
+msgid "Answered"
+msgstr "Cevaplanmış"
+
+#: ../src/CallHistory[Scenes].rb:40
+msgctxt "CallHistory"
+msgid "Unanswered"
+msgstr "Cevapsız"
+
+#: ../src/CallHistory[Scenes].rb:44
+msgctxt "CallHistory"
+msgid "Type"
+msgstr "Tür"
+
+#: ../src/CallHistory[Scenes].rb:44
+msgctxt "CallHistory"
+msgid "Status"
+msgstr "Durum"
+
+#: ../src/CallHistory[Scenes].rb:44
+msgctxt "CallHistory"
+msgid "Time"
+msgstr "Zaman"
+
+#: ../src/CallHistory[Scenes].rb:45
+msgctxt "CallHistory"
+msgid "Call History"
+msgstr "Arama geçmişi"
+
+#: ../src/CallHistory[Scenes].rb:61 ../src/Scenes/Conference.rb:856
+#: ../src/Scenes/Conference.rb:868 ../src/Scenes/PremiumPackages.rb:96
+#: ../src/scenes/Account.rb:442 ../src/scenes/Account.rb:560
+#: ../src/scenes/Blog.rb:1041 ../src/scenes/Forum.rb:695
+#: ../src/scenes/Forum.rb:1362 ../src/scenes/Forum.rb:1941
+#: ../src/scenes/Forum.rb:3100 ../src/scenes/Honors.rb:174
+#: ../src/scenes/Honors.rb:295 ../src/scenes/Messages.rb:220
+#: ../src/scenes/Messages.rb:424 ../src/scenes/Messages.rb:715
+#: ../src/scenes/Notes.rb:97 ../src/scenes/Online.rb:37
+#: ../src/scenes/Polls.rb:161 ../src/scenes/Users.rb:56
+#: ../src/scenes/UsersAddedMeToContacts.rb:60
+#: ../src/scenes/Users_RecentlyActived.rb:40
+#: ../src/scenes/Users_RecentlyRegistered.rb:40
+msgid "Refresh"
+msgstr "Yenile"
+
+#: ../src/EAPI/Conference.rb:36
+msgctxt "Conference_cards"
+msgid "hearts"
+msgstr "Kupa"
+
+#: ../src/EAPI/Conference.rb:38
+msgctxt "Conference_cards"
+msgid "spades"
+msgstr "Pik"
+
+#: ../src/EAPI/Conference.rb:40
+msgctxt "Conference_cards"
+msgid "clubs"
+msgstr "Sinek"
+
+#: ../src/EAPI/Conference.rb:42
+msgctxt "Conference_cards"
+msgid "diamonds"
+msgstr "Karo"
+
+#: ../src/EAPI/Conference.rb:51
+msgctxt "Conference_cards"
+msgid "two"
+msgstr "2"
+
+#: ../src/EAPI/Conference.rb:53
+msgctxt "Conference_cards"
+msgid "three"
+msgstr "3"
+
+#: ../src/EAPI/Conference.rb:55
+msgctxt "Conference_cards"
+msgid "four"
+msgstr "4"
+
+#: ../src/EAPI/Conference.rb:57
+msgctxt "Conference_cards"
+msgid "five"
+msgstr "5"
+
+#: ../src/EAPI/Conference.rb:59
+msgctxt "Conference_cards"
+msgid "six"
+msgstr "6"
+
+#: ../src/EAPI/Conference.rb:61
+msgctxt "Conference_cards"
+msgid "seven"
+msgstr "7"
+
+#: ../src/EAPI/Conference.rb:63
+msgctxt "Conference_cards"
+msgid "eight"
+msgstr "8"
+
+#: ../src/EAPI/Conference.rb:65
+msgctxt "Conference_cards"
+msgid "nine"
+msgstr "9"
+
+#: ../src/EAPI/Conference.rb:67
+msgctxt "Conference_cards"
+msgid "ten"
+msgstr "10"
+
+#: ../src/EAPI/Conference.rb:69
+msgctxt "Conference_cards"
+msgid "jack"
+msgstr "Vale"
+
+#: ../src/EAPI/Conference.rb:71
+msgctxt "Conference_cards"
+msgid "queen"
+msgstr "Kız"
+
+#: ../src/EAPI/Conference.rb:73
+msgctxt "Conference_cards"
+msgid "king"
+msgstr "papaz"
+
+#: ../src/EAPI/Conference.rb:75
+msgctxt "Conference_cards"
+msgid "ace"
+msgstr "As"
+
+#: ../src/EAPI/Conference.rb:77
+msgctxt "Conference_cards"
+msgid "joker"
+msgstr "Joker"
+
+#: ../src/EAPI/Conference.rb:85
+msgctxt "Conference_cards"
+msgid "%{card} of %{colour}"
+msgstr "%{colour} %{card}"
+
+#: ../src/EAPI/License.rb:3
+msgctxt "License"
+msgid ""
+"Elten is free software: you can redistribute it and/or modify it under the "
+"terms of the GNU General Public License as published by the Free Software "
+"Foundation, version 3.\n"
+"Elten is distributed in the hope that it will be useful, but WITHOUT ANY "
+"WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS "
+"FOR A PARTICULAR PURPOSE. See the GNU General Public License for more "
+"details."
+msgstr ""
+"Elten ücretsiz bir yazılımdır: GNU Public License version 3 şartları "
+"uyarınca yeniden dağıtılabilir veya değiştirilebilir.\n"
+"Elten kullanışlı olması umuduyla dağıtılmaktadır. Satılabilirliği veya özel "
+"bir amaç için kullanılabilirliği garantisi ima dahi edilmemiştir. Daha fazla "
+"ayrıntı için GNU Public License lisansına bakın."
+
+#: ../src/EAPI/License.rb:3
+msgctxt "License"
+msgid "Elten source code can be found at GitHub:"
+msgstr "Elten kaynak kodu GitHub'dadır:"
+
+#: ../src/EAPI/License.rb:3
+msgctxt "License"
+msgid ""
+"The original content of the GNU General Public License V3 can be found below."
+msgstr "GNU General Public License v3 lisansının orijinal içeriği aşağıdadır."
+
+#: ../src/Scenes/Conference.rb:24
+msgctxt "Conference"
+msgid "Channel space"
+msgstr "Kanal aralığı"
+
+#: ../src/Scenes/Conference.rb:25
+msgctxt "Conference"
+msgid "Channel users"
+msgstr "Kanal kullanıcıları"
+
+#: ../src/Scenes/Conference.rb:26
+msgctxt "Conference"
+msgid "Chat history"
+msgstr "Sohbet geçmişi"
+
+#: ../src/Scenes/Conference.rb:27
+msgctxt "Conference"
+msgid "Chat message"
+msgstr "Sohbet mesajı"
+
+#: ../src/Scenes/Conference.rb:28 ../src/Scenes/Conference.rb:623
+msgctxt "Conference"
+msgid "Close"
+msgstr "Kapat"
+
+#: ../src/Scenes/Conference.rb:30
+msgctxt "Conference"
+msgid "Use arrows to move in the channel space"
+msgstr "Kanal aralığında gezinmek için ok tuşlarını kullanın"
+
+#: ../src/Scenes/Conference.rb:37
+msgctxt "Conference"
+msgid "Mute user"
+msgstr "Kullanıcıyı sustur"
+
+#: ../src/Scenes/Conference.rb:38
+msgctxt "Conference"
+msgid "Unmute user"
+msgstr "Kullanıcının sesini aç"
+
+#: ../src/Scenes/Conference.rb:42
+msgctxt "Conference"
+msgid "Change user volume"
+msgstr "Kullanıcı ses seviyesini değiştir"
+
+#: ../src/Scenes/Conference.rb:43
+msgctxt "Conference"
+msgid "User volume"
+msgstr "Kullanıcı ses seviyesi"
+
+#: ../src/Scenes/Conference.rb:57
+msgctxt "Conference"
+msgid "Go to user"
+msgstr "Kullanıcıya git"
+
+#: ../src/Scenes/Conference.rb:60
+msgctxt "Conference"
+msgid "Whisper"
+msgstr "Fısılda"
+
+#: ../src/Scenes/Conference.rb:67
+msgctxt "Conference"
+msgid "Hold spacebar to whisper to user"
+msgstr "Kullanıcıya fısıldamak için boşluk tuşunu basılı tutun"
+
+#: ../src/Scenes/Conference.rb:70
+msgctxt "Conference"
+msgid "Kick"
+msgstr "Çıkart"
+
+#: ../src/Scenes/Conference.rb:81
+msgctxt "Conference"
+msgid "Total time"
+msgstr "Toplam zaman"
+
+#: ../src/Scenes/Conference.rb:82
+msgctxt "Conference"
+msgid "Current packet loss"
+msgstr "Mevcut paket kaybı"
+
+#: ../src/Scenes/Conference.rb:83
+msgctxt "Conference"
+msgid "Current latency"
+msgstr "Mevcut gecikme"
+
+#: ../src/Scenes/Conference.rb:84
+msgctxt "Conference"
+msgid "Bytes sent"
+msgstr "Gönderilen bit"
+
+#: ../src/Scenes/Conference.rb:85
+msgctxt "Conference"
+msgid "Bytes received"
+msgstr "Alınan bit"
+
+#: ../src/Scenes/Conference.rb:103
+msgctxt "Conference"
+msgid "%{user} has rolled %{value} dot on a %{count}-sided dice"
+msgid_plural "%{user} has rolled %{value} dots on a %{count}-sided dice"
+msgstr[0] "%{user} %{count} yüzlü zarda %{value} attı"
+msgstr[1] "%{user} %{count} yüzlü zarda %{value} attı"
+
+#: ../src/Scenes/Conference.rb:115
+msgctxt "Conference"
+msgid "Read current position"
+msgstr "Konumu söyle"
+
+#: ../src/Scenes/Conference.rb:116
+msgctxt "Conference"
+msgid "Read channel size"
+msgstr "Kanal boyutunu söyle"
+
+#: ../src/Scenes/Conference.rb:132
+msgctxt "Conference"
+msgid "Would you like to disconnect?"
+msgstr "Bağlantıyı kesmek istiyor musunuz?"
+
+#: ../src/Scenes/Conference.rb:150 ../src/Scenes/Conference.rb:175
+#: ../src/Scenes/Conference.rb:266
+msgctxt "Conference"
+msgid "Channels"
+msgstr "Kanallar"
+
+#: ../src/Scenes/Conference.rb:155
+msgctxt "Conference"
+msgid "Join"
+msgstr "Katıl"
+
+#: ../src/Scenes/Conference.rb:157 ../src/Scenes/Conference.rb:229
+#: ../src/Scenes/Conference.rb:271
+msgctxt "Conference"
+msgid "Channel password"
+msgstr "Sohbet kanalı şifresi"
+
+#: ../src/Scenes/Conference.rb:168 ../src/Scenes/Conference.rb:177
+msgctxt "Conference"
+msgid "Channel details"
+msgstr "Kanal ayrıntıları"
+
+#: ../src/Scenes/Conference.rb:170
+msgctxt "Conference"
+msgid "Creator"
+msgstr "Oluşturan"
+
+#: ../src/Scenes/Conference.rb:171 ../src/Scenes/Conference.rb:263
+msgctxt "Conference"
+msgid "Language"
+msgstr "Dil"
+
+#: ../src/Scenes/Conference.rb:172
+msgctxt "Conference"
+msgid "This channel is password-protected."
+msgstr "Bu kanal şifre korumalı."
+
+#: ../src/Scenes/Conference.rb:173 ../src/Scenes/Conference.rb:264
+msgctxt "Conference"
+msgid "Channel bitrate"
+msgstr "Kanal bit hızı"
+
+#: ../src/Scenes/Conference.rb:174 ../src/Scenes/Conference.rb:265
+msgctxt "Conference"
+msgid "Channel frame size"
+msgstr "Kanal çerçeve boyutu"
+
+#: ../src/Scenes/Conference.rb:176 ../src/Scenes/Conference.rb:267
+msgctxt "Conference"
+msgid "Space Virtualization"
+msgstr "Alan sanallaştırma"
+
+#: ../src/Scenes/Conference.rb:180
+msgctxt "Conference"
+msgid "Edit channel"
+msgstr "Kanalı düzenle"
+
+#: ../src/Scenes/Conference.rb:190
+msgctxt "Conference"
+msgid "Leave"
+msgstr "Çık"
+
+#: ../src/Scenes/Conference.rb:197
+msgctxt "Conference"
+msgid "Create channel"
+msgstr "Kanal oluştur"
+
+#: ../src/Scenes/Conference.rb:205
+msgctxt "Conference"
+msgid "Show channels in unknown languages"
+msgstr "Bilinmeyen dillerde oluşturulan sohbetleri göster"
+
+#: ../src/Scenes/Conference.rb:206
+msgctxt "Conference"
+msgid "Hide channels in unknown languages"
+msgstr "Bilinmeyen dillerde oluşturulan sohbetleri gizle"
+
+#: ../src/Scenes/Conference.rb:216
+msgctxt "Conference"
+msgid "Refresh"
+msgstr "Yenile"
+
+#: ../src/Scenes/Conference.rb:262
+msgctxt "Conference"
+msgid "Channel name"
+msgstr "Kanal adı"
+
+#: ../src/Scenes/Conference.rb:268
+msgctxt "Conference"
+msgid "Channel width"
+msgstr "Kanal genişliği"
+
+#: ../src/Scenes/Conference.rb:269
+msgctxt "Conference"
+msgid "Channel height"
+msgstr "Kanal boyutu"
+
+#: ../src/Scenes/Conference.rb:270
+msgctxt "Conference"
+msgid "Set channel password"
+msgstr "Kanal şifresi ayarla"
+
+#: ../src/Scenes/Conference.rb:272
+msgctxt "Conference"
+msgid "Repeat channel password"
+msgstr "Kanal şifresini tekrar girin"
+
+#: ../src/Scenes/Conference.rb:273
+msgctxt "Conference"
+msgid "Create"
+msgstr "Oluştur"
+
+#: ../src/Scenes/Conference.rb:274
+msgctxt "Conference"
+msgid "Cancel"
+msgstr "İptal"
+
+#: ../src/Scenes/Conference.rb:277
+msgctxt "Conference"
+msgid "Edit"
+msgstr "Düzenle"
+
+#: ../src/Scenes/Conference.rb:328
+msgctxt "Conference"
+msgid "Entered passwords are different."
+msgstr "Girilen şifreler farklı."
+
+#: ../src/Scenes/Conference.rb:333
+msgctxt "Conference"
+msgid "Channel width and height must be at least 1"
+msgstr "Kanal boyutu ve yüksekliği en az 1 olmalıdır"
+
+#: ../src/Scenes/Conference.rb:337
+msgctxt "Conference"
+msgid "%{value} is the maximum allowed channel width and height"
+msgstr "Kanal boyutu ve yüksekliği en fazla %{value} olabilir"
+
+#: ../src/Scenes/Conference.rb:388 ../src/Scenes/Conference.rb:403
+msgctxt "Conference"
+msgid "%{name}, everywhere"
+msgstr "%{name} her yerde"
+
+#: ../src/Scenes/Conference.rb:390 ../src/Scenes/Conference.rb:405
+msgctxt "Conference"
+msgid "%{name}, located at %{x}, %{y}"
+msgstr "%{name} %{x}, %{y} konumunda"
+
+#: ../src/Scenes/Conference.rb:393 ../src/Scenes/Conference.rb:658
+msgctxt "Conference"
+msgid "Channel objects"
+msgstr "Kanal nesneleri"
+
+#: ../src/Scenes/Conference.rb:395
+msgctxt "Conference"
+msgid "Add object"
+msgstr "Nesne ekle"
+
+#: ../src/Scenes/Conference.rb:414
+msgctxt "Conference"
+msgid "Go to object"
+msgstr "Nesneye git"
+
+#: ../src/Scenes/Conference.rb:418
+msgctxt "Conference"
+msgid "Remove object"
+msgstr "Nesne kaldır"
+
+#: ../src/Scenes/Conference.rb:439
+msgctxt "Conference"
+msgid "Available objects"
+msgstr "Mevcut nesneler"
+
+#: ../src/Scenes/Conference.rb:440
+msgctxt "Conference"
+msgid "Everywhere"
+msgstr "Her yerde"
+
+#: ../src/Scenes/Conference.rb:440
+msgctxt "Conference"
+msgid "Object position"
+msgstr "Nesne konumu"
+
+#: ../src/Scenes/Conference.rb:440
+msgctxt "Conference"
+msgid "Here"
+msgstr "Burada"
+
+#: ../src/Scenes/Conference.rb:441
+msgctxt "Conference"
+msgid "Place object"
+msgstr "Nesneyi yerleştir"
+
+#: ../src/Scenes/Conference.rb:442 ../src/Scenes/Conference.rb:500
+#: ../src/Scenes/Conference.rb:528 ../src/Scenes/Conference.rb:584
+#: ../src/Scenes/Conference.rb:671 ../src/Scenes/Conference.rb:763
+#: ../src/eapi/Common.rb:16 ../src/eapi/Common.rb:986
+#: ../src/eapi/Controls.rb:920 ../src/eapi/Controls.rb:1019
+#: ../src/eapi/Controls.rb:3119 ../src/eapi/Controls.rb:3185
+#: ../src/eapi/Controls.rb:4058 ../src/eapi/Controls.rb:4173
+#: ../src/eapi/External.rb:120 ../src/eapi/UI.rb:697
+#: ../src/scenes/Account.rb:118 ../src/scenes/Ban.rb:26
+#: ../src/scenes/Ban.rb:108 ../src/scenes/Blog.rb:478
+#: ../src/scenes/Blog.rb:1069 ../src/scenes/Blog.rb:1207
+#: ../src/scenes/Blog.rb:1261 ../src/scenes/Blog.rb:1378
+#: ../src/scenes/Blog.rb:1708 ../src/scenes/Blog.rb:2110
+#: ../src/scenes/Blog.rb:2239 ../src/scenes/Clock.rb:12
+#: ../src/scenes/Clock.rb:62 ../src/scenes/Forum.rb:716
+#: ../src/scenes/Forum.rb:742 ../src/scenes/Forum.rb:947
+#: ../src/scenes/Forum.rb:985 ../src/scenes/Forum.rb:1136
+#: ../src/scenes/Forum.rb:1269 ../src/scenes/Forum.rb:1369
+#: ../src/scenes/Forum.rb:1977 ../src/scenes/Forum.rb:2869
+#: ../src/scenes/Forum.rb:3110 ../src/scenes/Forum.rb:3135
+#: ../src/scenes/Forum.rb:3609 ../src/scenes/Honors.rb:186
+#: ../src/scenes/Honors.rb:222 ../src/scenes/Honors.rb:303
+#: ../src/scenes/Install.rb:3 ../src/scenes/Login.rb:88
+#: ../src/scenes/Main.rb:176 ../src/scenes/Messages.rb:236
+#: ../src/scenes/Messages.rb:790 ../src/scenes/Notes.rb:118
+#: ../src/scenes/Notes.rb:252 ../src/scenes/Polls.rb:178
+#: ../src/scenes/Polls.rb:226 ../src/scenes/Polls.rb:355
+#: ../src/scenes/Portable.rb:9 ../src/scenes/Settings.rb:95
+#: ../src/scenes/SpeedTest.rb:9
+msgid "Cancel"
+msgstr "İptal"
+
+#: ../src/Scenes/Conference.rb:448
+msgctxt "Conference"
+msgid "Upload new sound"
+msgstr "Yeni ses yükle"
+
+#: ../src/Scenes/Conference.rb:449 ../src/Scenes/Conference.rb:696
+msgctxt "Conference"
+msgid "Select audio file"
+msgstr "Ses dosyası seçin"
+
+#: ../src/Scenes/Conference.rb:452
+msgctxt "Conference"
+msgid "This file is too large"
+msgstr "Bu dosya çok büyük"
+
+#: ../src/Scenes/Conference.rb:467
+msgctxt "Conference"
+msgid "Delete"
+msgstr "Sil"
+
+#: ../src/Scenes/Conference.rb:471
 msgctxt "Conference"
 msgid "Object deleted"
 msgstr "Nesne silindi"
 
-#: ../src/Scenes/Conference.rb:489 ../src/Scenes/Conference.rb:517
+#: ../src/Scenes/Conference.rb:497 ../src/Scenes/Conference.rb:525
 msgctxt "Conference"
 msgid "Destination"
 msgstr "Konum"
 
-#: ../src/Scenes/Conference.rb:490
+#: ../src/Scenes/Conference.rb:498
 msgctxt "Conference"
 msgid "File name"
 msgstr "Dosya adı"
 
-#: ../src/Scenes/Conference.rb:491 ../src/Scenes/Conference.rb:519
-#: ../src/Scenes/Conference.rb:575 ../src/eapi/Controls.rb:3184
+#: ../src/Scenes/Conference.rb:499 ../src/Scenes/Conference.rb:527
+#: ../src/Scenes/Conference.rb:583 ../src/eapi/Controls.rb:3184
 #: ../src/eapi/Controls.rb:4057 ../src/scenes/Account.rb:117
 #: ../src/scenes/Blog.rb:1068 ../src/scenes/Blog.rb:1207
 #: ../src/scenes/Blog.rb:1377 ../src/scenes/Clock.rb:11
-#: ../src/scenes/Clock.rb:62 ../src/scenes/Forum.rb:706
-#: ../src/scenes/Forum.rb:732 ../src/scenes/Forum.rb:1126
-#: ../src/scenes/Forum.rb:1265 ../src/scenes/Forum.rb:3050
-#: ../src/scenes/Forum.rb:3523 ../src/scenes/Honors.rb:186
+#: ../src/scenes/Clock.rb:62 ../src/scenes/Forum.rb:715
+#: ../src/scenes/Forum.rb:741 ../src/scenes/Forum.rb:1135
+#: ../src/scenes/Forum.rb:1274 ../src/scenes/Forum.rb:3135
+#: ../src/scenes/Forum.rb:3608 ../src/scenes/Honors.rb:186
 #: ../src/scenes/Honors.rb:221 ../src/scenes/Notes.rb:158
 #: ../src/scenes/Notes.rb:175 ../src/scenes/Polls.rb:226
 #: ../src/scenes/Settings.rb:94
 msgid "Save"
 msgstr "Kaydet"
 
-#: ../src/Scenes/Conference.rb:499 ../src/Scenes/Conference.rb:526
+#: ../src/Scenes/Conference.rb:507 ../src/Scenes/Conference.rb:534
 msgctxt "Conference"
 msgid "Saving began"
 msgstr "Kayıt başladı"
 
-#: ../src/Scenes/Conference.rb:508 ../src/Scenes/Conference.rb:535
+#: ../src/Scenes/Conference.rb:516 ../src/Scenes/Conference.rb:543
 msgctxt "Conference"
 msgid "Save completed"
 msgstr "Kayıt bitti"
 
-#: ../src/Scenes/Conference.rb:518
+#: ../src/Scenes/Conference.rb:526
 msgctxt "Conference"
 msgid "Directory name"
 msgstr "Klasör adı"
 
-#: ../src/Scenes/Conference.rb:563
+#: ../src/Scenes/Conference.rb:569
+msgctxt "Conference"
+msgid "Set push to talk shortcut"
+msgstr "Bas konuş kısayolu ayarla"
+
+#: ../src/Scenes/Conference.rb:571
 msgctxt "Conference"
 msgid "Push to talk shortcut"
 msgstr "Bas konuş kısayolu"
 
-#: ../src/Scenes/Conference.rb:571
+#: ../src/Scenes/Conference.rb:579
 msgctxt "Conference"
 msgid "No key"
 msgstr "Tuş yok"
 
-#: ../src/Scenes/Conference.rb:573
+#: ../src/Scenes/Conference.rb:581
 msgctxt "Conference"
 msgid "Modifiers"
 msgstr "Değiştiriciler"
 
-#: ../src/Scenes/Conference.rb:574
+#: ../src/Scenes/Conference.rb:582
 msgctxt "Conference"
 msgid "Key"
 msgstr "Tuş"
 
-#: ../src/Scenes/Conference.rb:601
+#: ../src/Scenes/Conference.rb:609
 msgctxt "Conference"
 msgid "No keys selected"
 msgstr "Hiçbir tuş seçilmedi"
 
-#: ../src/Scenes/Conference.rb:608
+#: ../src/Scenes/Conference.rb:620
 msgctxt "Conference"
 msgid "Input volume"
 msgstr "Giriş ses seviyesi"
 
-#: ../src/Scenes/Conference.rb:609
+#: ../src/Scenes/Conference.rb:621
 msgctxt "Conference"
 msgid "Master volume"
 msgstr "Hoparlör ses seviyesi"
 
-#: ../src/Scenes/Conference.rb:610
+#: ../src/Scenes/Conference.rb:622
 msgctxt "Conference"
 msgid "Stream volume"
 msgstr "Yayın ses seviyesi"
 
-#: ../src/Scenes/Conference.rb:631
+#: ../src/Scenes/Conference.rb:643
+msgctxt "Conference"
+msgid "Status"
+msgstr "Durum"
+
+#: ../src/Scenes/Conference.rb:661
 msgctxt "Conference"
 msgid "Remove soundcard stream"
 msgstr "Ses kartı yayınını durdur"
 
-#: ../src/Scenes/Conference.rb:633
+#: ../src/Scenes/Conference.rb:663
 msgctxt "Conference"
 msgid "Stream from soundcard"
 msgstr "Ses kartını yayınla"
 
-#: ../src/Scenes/Conference.rb:638
+#: ../src/Scenes/Conference.rb:668
 msgctxt "Conference"
 msgid "Select soundcard to stream"
 msgstr "Yayın yapılacak ses kartını seçin"
 
-#: ../src/Scenes/Conference.rb:639
+#: ../src/Scenes/Conference.rb:669
 msgctxt "Conference"
 msgid "Turn on the listening"
 msgstr "Dinlemeyi aç"
 
-#: ../src/Scenes/Conference.rb:640
+#: ../src/Scenes/Conference.rb:670
 msgctxt "Conference"
 msgid "Stream"
 msgstr "Yayın yap"
 
-#: ../src/Scenes/Conference.rb:660
+#: ../src/Scenes/Conference.rb:690
 msgctxt "Conference"
 msgid "Remove audio stream"
 msgstr "Ses yayınını kaldır"
 
-#: ../src/Scenes/Conference.rb:661
+#: ../src/Scenes/Conference.rb:691
 msgctxt "Conference"
 msgid "Scroll backward"
 msgstr "Geri kaydır"
 
-#: ../src/Scenes/Conference.rb:662
+#: ../src/Scenes/Conference.rb:692
 msgctxt "Conference"
 msgid "Scroll forward"
 msgstr "İleri kaydır"
 
-#: ../src/Scenes/Conference.rb:663
+#: ../src/Scenes/Conference.rb:693
 msgctxt "Conference"
 msgid "Toggle pause"
 msgstr "Duraklat/oynat"
 
-#: ../src/Scenes/Conference.rb:665
+#: ../src/Scenes/Conference.rb:695
 msgctxt "Conference"
 msgid "Stream audio file"
 msgstr "Ses dosyası yayınla"
+
+#: ../src/Scenes/Conference.rb:706
+msgctxt "Conference"
+msgid "Streaming"
+msgstr "Yayınlanıyor"
+
+#: ../src/Scenes/Conference.rb:707
+msgctxt "Conference"
+msgid "Mute microphone"
+msgstr "Mikrofonu kapat"
+
+#: ../src/Scenes/Conference.rb:708
+msgctxt "Conference"
+msgid "Unmute microphone"
+msgstr "Mikrofonu aç"
+
+#: ../src/Scenes/Conference.rb:712
+msgctxt "Conference"
+msgid "Change volumes"
+msgstr "Ses seviyelerini değiştir"
+
+#: ../src/Scenes/Conference.rb:716
+msgctxt "Conference"
+msgid "Finish saving"
+msgstr "Kaydı bitir"
+
+#: ../src/Scenes/Conference.rb:720
+msgctxt "Conference"
+msgid "Save this conference to a file"
+msgstr "Sohbeti dosyaya kaydet"
+
+#: ../src/Scenes/Conference.rb:721
+msgctxt "Conference"
+msgid "Save mixed stream to a file"
+msgstr "Karışık yayını dosyaya kaydet"
+
+#: ../src/Scenes/Conference.rb:725
+msgctxt "Conference"
+msgid "Save separate streams (experimental)"
+msgstr "Yayınları ayrı dosyalara kaydet (deneysel)"
+
+#: ../src/Scenes/Conference.rb:731
+msgctxt "Conference"
+msgid "Push to talk"
+msgstr "Bas konuş"
+
+#: ../src/Scenes/Conference.rb:733
+msgctxt "Conference"
+msgid "Enable push to talk"
+msgstr "Bas konuşu etkinleştir"
+
+#: ../src/Scenes/Conference.rb:734
+msgctxt "Conference"
+msgid "Disable push to talk"
+msgstr "Bas konuşu devredışı bırak"
+
+#: ../src/Scenes/Conference.rb:746
+msgctxt "Conference"
+msgid "Miscellaneous"
+msgstr "Çeşitli"
+
+#: ../src/Scenes/Conference.rb:747
+msgctxt "Conference"
+msgid "Roll a 6-sided dice"
+msgstr "6 yüzlü zar at"
+
+#: ../src/Scenes/Conference.rb:748
+msgctxt "Conference"
+msgid "Roll a custom dice"
+msgstr "Özgün zar at"
+
+#: ../src/Scenes/Conference.rb:749
+msgctxt "Conference"
+msgid "%{count}-sided"
+msgstr "%{count} yüzlü"
+
+#: ../src/Scenes/Conference.rb:749
+msgctxt "Conference"
+msgid "Which dice do you want to roll?"
+msgstr "Hangi zarı atmak istiyorsunuz?"
+
+#: ../src/Scenes/Conference.rb:753
+msgctxt "Conference"
+msgid "Cardboard"
+msgstr "Kart yeri"
+
+#: ../src/Scenes/Conference.rb:755
+msgctxt "Conference"
+msgid "Show status"
+msgstr "Durum göster"
+
+#: ../src/Scenes/Conference.rb:757
+msgctxt "Conference"
+msgid "Change output soundcard"
+msgstr "Çıkış ses kartını değiştir"
+
+#: ../src/Scenes/Conference.rb:758
+msgctxt "Conference"
+msgid "Use Elten soundcard"
+msgstr "Elten ses kartını kullan"
+
+#: ../src/Scenes/Conference.rb:761
+msgctxt "Conference"
+msgid "Select soundcard"
+msgstr "Ses kartı seçin"
+
+#: ../src/Scenes/Conference.rb:762
+msgctxt "Conference"
+msgid "Select"
+msgstr "Seç"
+
+#: ../src/Scenes/Conference.rb:781
+msgctxt "Conference"
+msgid "Show channels"
+msgstr "Kanalları göster"
+
+#: ../src/Scenes/Conference.rb:790
+msgctxt "Conference"
+msgid "Full deck"
+msgstr "Tam deste"
+
+#: ../src/Scenes/Conference.rb:792
+msgctxt "Conference"
+msgid "Two colours"
+msgstr "İki renkli"
+
+#: ../src/Scenes/Conference.rb:794
+msgctxt "Conference"
+msgid "Small deck"
+msgstr "Küçük deste"
+
+#: ../src/Scenes/Conference.rb:796
+msgctxt "Conference"
+msgid "Two colours of a small deck"
+msgstr "İki renkli küçük deste"
+
+#: ../src/Scenes/Conference.rb:798
+msgctxt "Conference"
+msgid "No jokers"
+msgstr "Joker yok"
+
+#: ../src/Scenes/Conference.rb:805
+msgctxt "Conference"
+msgid "Decks"
+msgstr "Desteler"
+
+#: ../src/Scenes/Conference.rb:806
+msgctxt "Conference"
+msgid "My cards"
+msgstr "Kartlarım"
+
+#: ../src/Scenes/Conference.rb:807
+msgctxt "Conference"
+msgid "Placed cards"
+msgstr "Masadaki kartlar"
+
+#: ../src/Scenes/Conference.rb:808 ../src/scenes/Log.rb:14
+#: ../src/scenes/Polls.rb:543
+msgid "Close"
+msgstr "Kapat"
+
+#: ../src/Scenes/Conference.rb:827
+msgctxt "Conference"
+msgid "Pick a card"
+msgstr "Kart seç"
+
+#: ../src/Scenes/Conference.rb:830
+msgctxt "Conference"
+msgid "Shuffle"
+msgstr "Karıştır"
+
+#: ../src/Scenes/Conference.rb:831
+msgctxt "Conference"
+msgid ""
+"Are you sure you want to shuffle this deck? All placed cards will be "
+"returned to this deck."
+msgstr ""
+"Desteyi karıştırmak istediğinizden emin misiniz? masadaki tüm kartlar "
+"desteye dönecek."
+
+#: ../src/Scenes/Conference.rb:837 ../src/Scenes/Conference.rb:898
+msgctxt "Conference"
+msgid "Deck history"
+msgstr "Deste geçmişi"
+
+#: ../src/Scenes/Conference.rb:838
+msgctxt "Conference"
+msgid "Delete a deck"
+msgstr "Deste sil"
+
+#: ../src/Scenes/Conference.rb:839
+msgctxt "Conference"
+msgid "Are you sure you want to delete this deck?"
+msgstr "Desteyi silmek istediğinizden emin misiniz?"
+
+#: ../src/Scenes/Conference.rb:847
+msgctxt "Conference"
+msgid "Add new deck"
+msgstr "Yeni deste ekle"
+
+#: ../src/Scenes/Conference.rb:850
+msgctxt "Conference"
+msgid "Deck type"
+msgstr "Deste türü"
+
+#: ../src/Scenes/Conference.rb:861
+msgctxt "Conference"
+msgid "Place a card"
+msgstr "Kart at"
+
+#: ../src/Scenes/Conference.rb:864
+msgctxt "Conference"
+msgid "Replace a card"
+msgstr "Kartın yerini değiştir"
+
+#: ../src/Scenes/Conference.rb:888
+msgctxt "Conference"
+msgid "Picked a card"
+msgstr "Kart seçildi"
+
+#: ../src/Scenes/Conference.rb:890
+msgctxt "Conference"
+msgid "Replaced a card"
+msgstr "Kartın yeri değiştirildi"
+
+#: ../src/Scenes/Conference.rb:892
+msgctxt "Conference"
+msgid "Shuffled a deck"
+msgstr "Deste karıştırıldı"
+
+#: ../src/Scenes/Conference.rb:894
+msgctxt "Conference"
+msgid "Placed %{cardname}"
+msgstr "%{cardname} attınız"
 
 #: ../src/Scenes/Documentation.rb:10
 msgctxt "Documentation"
@@ -689,13 +1062,13 @@ msgstr "Durum"
 
 #: ../src/Scenes/PremiumPackages.rb:8
 msgctxt "PremiumPackages"
-msgid "Half-yearly price"
-msgstr "Yarı yıllık ücret"
+msgid "Premium packages"
+msgstr "Ücretli paketler"
 
 #: ../src/Scenes/PremiumPackages.rb:8
 msgctxt "PremiumPackages"
-msgid "Premium packages"
-msgstr "Ücretli paketler"
+msgid "Half-yearly price"
+msgstr "Yarı yıllık ücret"
 
 #: ../src/Scenes/PremiumPackages.rb:8
 msgctxt "PremiumPackages"
@@ -886,20 +1259,6 @@ msgstr "Kod kullanarak paketi etkinleştir"
 msgctxt "PremiumPackages"
 msgid "Extend package using code"
 msgstr "Kod kullanarak paketin süresini uzat"
-
-#: ../src/Scenes/PremiumPackages.rb:96 ../src/scenes/Account.rb:441
-#: ../src/scenes/Account.rb:559 ../src/scenes/Blog.rb:1041
-#: ../src/scenes/Forum.rb:686 ../src/scenes/Forum.rb:1353
-#: ../src/scenes/Forum.rb:1871 ../src/scenes/Forum.rb:3015
-#: ../src/scenes/Honors.rb:174 ../src/scenes/Honors.rb:295
-#: ../src/scenes/Messages.rb:216 ../src/scenes/Messages.rb:420
-#: ../src/scenes/Messages.rb:711 ../src/scenes/Notes.rb:97
-#: ../src/scenes/Online.rb:37 ../src/scenes/Polls.rb:161
-#: ../src/scenes/Users.rb:56 ../src/scenes/UsersAddedMeToContacts.rb:60
-#: ../src/scenes/Users_RecentlyActived.rb:40
-#: ../src/scenes/Users_RecentlyRegistered.rb:40
-msgid "Refresh"
-msgstr "Yenile"
 
 #: ../src/Scenes/PremiumPackages.rb:107
 msgctxt "PremiumPackages"
@@ -1103,16 +1462,16 @@ msgctxt "EAPI_Common"
 msgid "Exit..."
 msgstr "Çık..."
 
-#: ../src/eapi/Common.rb:16 ../src/scenes/Account.rb:644
-#: ../src/scenes/Authentication.rb:23 ../src/scenes/Authentication.rb:25
-#: ../src/scenes/ForgotPassword.rb:31 ../src/scenes/Loading.rb:370
-msgid "Exit"
-msgstr "Çık"
-
 #: ../src/eapi/Common.rb:16
 msgctxt "EAPI_Common"
 msgid "Hide program in Tray"
 msgstr "Programı sistem tepsisine küçült"
+
+#: ../src/eapi/Common.rb:16 ../src/scenes/Account.rb:645
+#: ../src/scenes/Authentication.rb:23 ../src/scenes/Authentication.rb:25
+#: ../src/scenes/ForgotPassword.rb:31 ../src/scenes/Loading.rb:370
+msgid "Exit"
+msgstr "Çık"
 
 #: ../src/eapi/Common.rb:71
 msgctxt "EAPI_Common"
@@ -1129,217 +1488,217 @@ msgctxt "EAPI_Common"
 msgid "Execute"
 msgstr "Uygula"
 
-#: ../src/eapi/Common.rb:120
-msgctxt "EAPI_Common"
-msgid "Write a private message"
-msgstr "Özel mesaj yaz"
-
-#: ../src/eapi/Common.rb:120
-msgctxt "EAPI_Common"
-msgid "Visiting card"
-msgstr "Kartvizit"
-
-#: ../src/eapi/Common.rb:120
+#: ../src/eapi/Common.rb:121
 msgctxt "EAPI_Common"
 msgid "Open user's blog"
 msgstr "Kullanıcı bloğunu aç"
 
-#: ../src/eapi/Common.rb:120
+#: ../src/eapi/Common.rb:121
 msgctxt "EAPI_Common"
 msgid "badges of this user"
 msgstr "Kullanıcının rozetleri"
 
-#: ../src/eapi/Common.rb:123
+#: ../src/eapi/Common.rb:121
+msgctxt "EAPI_Common"
+msgid "Write a private message"
+msgstr "Özel mesaj yaz"
+
+#: ../src/eapi/Common.rb:121
+msgctxt "EAPI_Common"
+msgid "Visiting card"
+msgstr "Kartvizit"
+
+#: ../src/eapi/Common.rb:124
 msgctxt "EAPI_Common"
 msgid "Remove from contacts' list"
 msgstr "Kişiler listesinden kaldır"
 
-#: ../src/eapi/Common.rb:125
+#: ../src/eapi/Common.rb:126
 msgctxt "EAPI_Common"
 msgid "Add to contacts' list"
 msgstr "Kişiler listesine ekle"
 
-#: ../src/eapi/Common.rb:130
+#: ../src/eapi/Common.rb:131
 msgctxt "EAPI_Common"
 msgid "Call this user"
 msgstr "Kullanıcıyı ara"
 
-#: ../src/eapi/Common.rb:133
+#: ../src/eapi/Common.rb:134
 msgctxt "EAPI_Common"
 msgid "Ban"
 msgstr "Banla"
 
-#: ../src/eapi/Common.rb:135
+#: ../src/eapi/Common.rb:136
 msgctxt "EAPI_Common"
 msgid "Unban"
 msgstr "Banı kaldır"
 
-#: ../src/eapi/Common.rb:263
+#: ../src/eapi/Common.rb:264
 msgctxt "EAPI_Common"
 msgid "There is nothing new."
 msgstr "Yeni bir şey yok."
 
-#: ../src/eapi/Common.rb:349
+#: ../src/eapi/Common.rb:329
 msgctxt "EAPI_Common"
 msgid "Send"
 msgstr "Gönder"
 
-#: ../src/eapi/Common.rb:349
+#: ../src/eapi/Common.rb:329
 msgctxt "EAPI_Common"
 msgid "Describe the found error"
 msgstr "Bulduğunuz hatayı açıklayın"
 
-#: ../src/eapi/Common.rb:365
+#: ../src/eapi/Common.rb:345
 msgctxt "EAPI_Common"
 msgid "Sent."
 msgstr "Gönderildi."
 
-#: ../src/eapi/Common.rb:382 ../src/eapi/Common.rb:430
-#: ../src/scenes/Account.rb:342 ../src/scenes/Account.rb:379
-#: ../src/scenes/Account.rb:527 ../src/scenes/Blog.rb:673
+#: ../src/eapi/Common.rb:362 ../src/eapi/Common.rb:410
+#: ../src/scenes/Account.rb:343 ../src/scenes/Account.rb:380
+#: ../src/scenes/Account.rb:528 ../src/scenes/Blog.rb:673
 #: ../src/scenes/Contacts.rb:27 ../src/scenes/Contacts.rb:123
-#: ../src/scenes/Contacts.rb:156 ../src/scenes/Forum.rb:866
-#: ../src/scenes/Login.rb:212 ../src/scenes/Messages.rb:968
+#: ../src/scenes/Contacts.rb:156 ../src/scenes/Forum.rb:875
+#: ../src/scenes/Login.rb:212 ../src/scenes/Messages.rb:972
 #: ../src/scenes/Users.rb:13
 msgid "Database Error"
 msgstr "Veritabanı hatası"
 
-#: ../src/eapi/Common.rb:386 ../src/scenes/Account.rb:345
-#: ../src/scenes/Account.rb:382 ../src/scenes/Account.rb:529
+#: ../src/eapi/Common.rb:366 ../src/scenes/Account.rb:346
+#: ../src/scenes/Account.rb:383 ../src/scenes/Account.rb:530
 #: ../src/scenes/Blog.rb:675 ../src/scenes/Contacts.rb:31
 #: ../src/scenes/Contacts.rb:126 ../src/scenes/Contacts.rb:159
-#: ../src/scenes/Forum.rb:868 ../src/scenes/Messages.rb:972
+#: ../src/scenes/Forum.rb:877 ../src/scenes/Messages.rb:976
 #: ../src/scenes/Users.rb:17
 msgid "Token expired"
 msgstr "Belirtecin süresi doldu"
 
-#: ../src/eapi/Common.rb:398
+#: ../src/eapi/Common.rb:378
 msgctxt "EAPI_Common"
 msgid "Empty list"
 msgstr "Boş liste"
 
-#: ../src/eapi/Common.rb:405
+#: ../src/eapi/Common.rb:385
 msgctxt "EAPI_Common"
 msgid "Select contact"
 msgstr "Kişi seçin"
 
-#: ../src/eapi/Common.rb:436
+#: ../src/eapi/Common.rb:416
 msgctxt "EAPI_Common"
 msgid "User"
 msgstr "Kullanıcı"
 
-#: ../src/eapi/Common.rb:455
+#: ../src/eapi/Common.rb:435
 msgctxt "EAPI_Common"
 msgid "Gender"
 msgstr "Cinsiyet"
 
-#: ../src/eapi/Common.rb:457 ../src/scenes/Account.rb:123
+#: ../src/eapi/Common.rb:437 ../src/scenes/Account.rb:123
 msgid "Female"
 msgstr "Kadın"
 
-#: ../src/eapi/Common.rb:459
+#: ../src/eapi/Common.rb:439
 msgid "male"
 msgstr "Erkek"
 
-#: ../src/eapi/Common.rb:471
+#: ../src/eapi/Common.rb:451
 msgctxt "EAPI_Common"
 msgid "Age"
 msgstr "Yaş"
 
-#: ../src/eapi/Common.rb:474
+#: ../src/eapi/Common.rb:454
 msgctxt "EAPI_Common"
 msgid "Location"
 msgstr "Konum"
 
-#: ../src/eapi/Common.rb:488
+#: ../src/eapi/Common.rb:468
 msgctxt "EAPI_Common_female"
 msgid "Last seen"
 msgstr "Son görülme"
 
-#: ../src/eapi/Common.rb:490
+#: ../src/eapi/Common.rb:470
 msgctxt "EAPI_Common_male"
 msgid "Last seen"
 msgstr "Son görülme"
 
-#: ../src/eapi/Common.rb:492
+#: ../src/eapi/Common.rb:472
 msgctxt "EAPI_Common"
 msgid "Last seen"
 msgstr "Son görülme"
 
-#: ../src/eapi/Common.rb:495
+#: ../src/eapi/Common.rb:475
 msgctxt "EAPI_Common"
 msgid "User has a blog"
 msgstr "Kullanıcının bloğu var"
 
-#: ../src/eapi/Common.rb:496
+#: ../src/eapi/Common.rb:476
 msgctxt "EAPI_Common"
 msgid "Knows %{count} user"
 msgid_plural "Knows %{count} users"
 msgstr[0] "%{count} kullanıcı tanıyor"
 msgstr[1] "%{count} kullanıcı tanıyor"
 
-#: ../src/eapi/Common.rb:498
+#: ../src/eapi/Common.rb:478
 msgctxt "EAPI_Common"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] "%{count} kullanıcı tarafından tanınıyor"
 msgstr[1] "%{count} kullanıcı tarafından tanınıyor"
 
-#: ../src/eapi/Common.rb:500
+#: ../src/eapi/Common.rb:480
 msgctxt "EAPI_Common_female"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] "%{count} kullanıcı tarafından tanınıyor"
 msgstr[1] "%{count} kullanıcı tarafından tanınıyor"
 
-#: ../src/eapi/Common.rb:502
+#: ../src/eapi/Common.rb:482
 msgctxt "EAPI_Common_male"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] "%{count} kullanıcı tarafından tanınıyor"
 msgstr[1] "%{count} kullanıcı tarafından tanınıyor"
 
-#: ../src/eapi/Common.rb:505
+#: ../src/eapi/Common.rb:485
 msgctxt "EAPI_Common"
 msgid "Forum posts"
 msgstr "Forum gönderileri"
 
-#: ../src/eapi/Common.rb:506
+#: ../src/eapi/Common.rb:486
 msgctxt "EAPI_Common"
 msgid "Polls answered"
 msgstr "Yanıtlanan anketler"
 
-#: ../src/eapi/Common.rb:516
+#: ../src/eapi/Common.rb:496
 msgctxt "EAPI_Common"
 msgid "Used version"
 msgstr "Kullanılan sürüm"
 
-#: ../src/eapi/Common.rb:517
+#: ../src/eapi/Common.rb:497
 msgctxt "EAPI_Common"
 msgid "Registered"
 msgstr "Kayıt tarihi"
 
-#: ../src/eapi/Common.rb:525
+#: ../src/eapi/Common.rb:505
 msgctxt "EAPI_Common"
 msgid "Visiting card of %{user}:"
 msgstr "%{user} kullanıcısının kartviziti"
 
-#: ../src/eapi/Common.rb:539
+#: ../src/eapi/Common.rb:519
 msgctxt "EAPI_Common"
 msgid "License agreement"
 msgstr "Lisans sözleşmesi"
 
-#: ../src/eapi/Common.rb:540
+#: ../src/eapi/Common.rb:520
 msgctxt "EAPI_Common"
 msgid "Terms and Conditions"
 msgstr "Kullanım şartları"
 
-#: ../src/eapi/Common.rb:541
+#: ../src/eapi/Common.rb:521
 msgctxt "EAPI_Common"
 msgid "Privacy Policy"
 msgstr "Gizlilik sözleşmesi"
 
-#: ../src/eapi/Common.rb:542
+#: ../src/eapi/Common.rb:522
 msgctxt "EAPI_Common"
 msgid ""
 "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
@@ -1347,12 +1706,12 @@ msgstr ""
 "Elten lisans sözleşmesini, kullanım şartlarını ve gizlilik kurallarını kabul "
 "ediyorum"
 
-#: ../src/eapi/Common.rb:542
+#: ../src/eapi/Common.rb:522
 msgctxt "EAPI_Common"
 msgid "I do not accept, exit"
 msgstr "Kabul etmiyorum, çık"
 
-#: ../src/eapi/Common.rb:560
+#: ../src/eapi/Common.rb:540
 msgctxt "EAPI_Common"
 msgid ""
 "Do you accept Elten license agreement, terms and conditions and privacy "
@@ -1361,7 +1720,7 @@ msgstr ""
 "Elten lisans anlaşmasını, kullanım şartlarını ve gizlilik sözleşmesini kabul "
 "ediyor musunuz?"
 
-#: ../src/eapi/Common.rb:581
+#: ../src/eapi/Common.rb:561
 msgctxt "EAPI_Common"
 msgid ""
 "You are trying to play a midi file. In order to play such files, Elten needs "
@@ -1372,17 +1731,17 @@ msgstr ""
 "için dışarıdan enstruman paketine ihtiyaç duyuyor. Paketi sunucudan şimdi "
 "indirmek istiyor musunuz? Birkaç dakika alabilir."
 
-#: ../src/eapi/Common.rb:582
+#: ../src/eapi/Common.rb:562
 msgctxt "EAPI_Common"
 msgid "Please wait, the soundfont is being downloaded. It may take a while."
 msgstr "Lütfen bekleyin, ses fontu indiriliyor. Bir süre alabilir."
 
-#: ../src/eapi/Common.rb:584
+#: ../src/eapi/Common.rb:564
 msgctxt "EAPI_Common"
 msgid "Soundfont downloaded succesfully."
 msgstr "Ses fontu başarıyla indirildi."
 
-#: ../src/eapi/Common.rb:758
+#: ../src/eapi/Common.rb:736
 msgctxt "EAPI_Common"
 msgid ""
 "In order to use HRTF functionality, Elten needs to download Phonon library. "
@@ -1391,31 +1750,31 @@ msgstr ""
 "3d ses özelliğinin kullanılabilmesi için Phonon kütüphanesinin indirilmesi "
 "gerekiyor. Kütüphaneyi şimdi indirmek istiyor musunuz?"
 
-#: ../src/eapi/Common.rb:874
+#: ../src/eapi/Common.rb:852
 msgid "Function not supported on this platform"
 msgstr "Fonksiyon bu platformda desteklenmemektedir"
 
-#: ../src/eapi/Common.rb:901
+#: ../src/eapi/Common.rb:879
 msgctxt "EAPI_Common"
 msgid "Compressing..."
 msgstr "Sıkıştırılıyor..."
 
-#: ../src/eapi/Common.rb:1008
-msgctxt "EAPI_Common"
-msgid "Play"
-msgstr "Oynat"
-
-#: ../src/eapi/Common.rb:1008
+#: ../src/eapi/Common.rb:986
 msgctxt "EAPI_Common"
 msgid "Save"
 msgstr "Kaydet"
 
-#: ../src/eapi/Common.rb:1012
+#: ../src/eapi/Common.rb:986
+msgctxt "EAPI_Common"
+msgid "Play"
+msgstr "Oynat"
+
+#: ../src/eapi/Common.rb:990
 msgctxt "EAPI_Common"
 msgid "Where do you want to save this file?"
 msgstr "Dosyayı nereye kaydetmek istersiniz?"
 
-#: ../src/eapi/Common.rb:1016
+#: ../src/eapi/Common.rb:994
 msgctxt "EAPI_Common"
 msgid "The attachment has been downloaded."
 msgstr "Ek indirildi."
@@ -1750,22 +2109,22 @@ msgstr "Masaüstü"
 
 #: ../src/eapi/Controls.rb:2321
 msgctxt "EAPI_Form"
-msgid "Music"
-msgstr "Müzik"
+msgid "Documents"
+msgstr "Belgeler"
 
 #: ../src/eapi/Controls.rb:2321
 msgctxt "EAPI_Form"
-msgid "Documents"
-msgstr "Belgeler"
+msgid "Music"
+msgstr "Müzik"
 
 #: ../src/eapi/Controls.rb:2446
 msgctxt "EAPI_Form"
 msgid "Rename"
 msgstr "Yeniden adlandır"
 
-#: ../src/eapi/Controls.rb:2449 ../src/scenes/Account.rb:544
+#: ../src/eapi/Controls.rb:2449 ../src/scenes/Account.rb:545
 #: ../src/scenes/Blog.rb:215 ../src/scenes/Blog.rb:460
-#: ../src/scenes/Messages.rb:696 ../src/scenes/Notes.rb:82
+#: ../src/scenes/Messages.rb:700 ../src/scenes/Notes.rb:82
 #: ../src/scenes/Notes.rb:160 ../src/scenes/Polls.rb:131
 #: ../src/scenes/Polls.rb:583
 msgid "Delete"
@@ -1888,13 +2247,13 @@ msgctxt "EAPI_Form"
 msgid "File name"
 msgstr "Dosya adı"
 
-#: ../src/eapi/Controls.rb:3216 ../src/scenes/Account.rb:287
-#: ../src/scenes/Account.rb:291 ../src/scenes/Blog.rb:1087
+#: ../src/eapi/Controls.rb:3216 ../src/scenes/Account.rb:288
+#: ../src/scenes/Account.rb:292 ../src/scenes/Blog.rb:1087
 #: ../src/scenes/Blog.rb:1120 ../src/scenes/Blog.rb:1522
 #: ../src/scenes/Blog.rb:1526 ../src/scenes/Clock.rb:35
-#: ../src/scenes/Forum.rb:1279 ../src/scenes/Forum.rb:1327
-#: ../src/scenes/Forum.rb:3611 ../src/scenes/Forum.rb:3615
-#: ../src/scenes/Honors.rb:212 ../src/scenes/Messages.rb:307
+#: ../src/scenes/Forum.rb:1288 ../src/scenes/Forum.rb:1336
+#: ../src/scenes/Forum.rb:3696 ../src/scenes/Forum.rb:3700
+#: ../src/scenes/Honors.rb:212 ../src/scenes/Messages.rb:311
 #: ../src/scenes/Settings.rb:268 ../src/scenes/Settings.rb:272
 #: ../src/scenes/SoundThemes.rb:75 ../src/scenes/SoundThemes.rb:138
 msgid "Saved"
@@ -2109,8 +2468,8 @@ msgstr "Çerçeve boyutu"
 
 #: ../src/eapi/Controls.rb:4055
 msgctxt "EAPI_Form"
-msgid "Music profile"
-msgstr "Müzik profili"
+msgid "Encoder profile"
+msgstr "Kodlayıcı profili"
 
 #: ../src/eapi/Controls.rb:4055
 msgctxt "EAPI_Form"
@@ -2119,48 +2478,13 @@ msgstr "Konuşma profili"
 
 #: ../src/eapi/Controls.rb:4055
 msgctxt "EAPI_Form"
-msgid "Encoder profile"
-msgstr "Kodlayıcı profili"
+msgid "Music profile"
+msgstr "Müzik profili"
 
 #: ../src/eapi/Controls.rb:4056
 msgctxt "EAPI_Form"
 msgid "Use variable bitrate"
 msgstr "Değişken bit hızı kullan"
-
-#: ../src/eapi/Controls.rb:4160
-msgctxt "EAPI_Form"
-msgid "October"
-msgstr "Ekim"
-
-#: ../src/eapi/Controls.rb:4160
-msgctxt "EAPI_Form"
-msgid "September"
-msgstr "Eylül"
-
-#: ../src/eapi/Controls.rb:4160
-msgctxt "EAPI_Form"
-msgid "August"
-msgstr "Ağustos"
-
-#: ../src/eapi/Controls.rb:4160
-msgctxt "EAPI_Form"
-msgid "November"
-msgstr "Kasım"
-
-#: ../src/eapi/Controls.rb:4160
-msgctxt "EAPI_Form"
-msgid "June"
-msgstr "Haziran"
-
-#: ../src/eapi/Controls.rb:4160
-msgctxt "EAPI_Form"
-msgid "January"
-msgstr "Ocak"
-
-#: ../src/eapi/Controls.rb:4160
-msgctxt "EAPI_Form"
-msgid "February"
-msgstr "Şubat"
 
 #: ../src/eapi/Controls.rb:4160
 msgctxt "EAPI_Form"
@@ -2174,8 +2498,8 @@ msgstr "Nisan"
 
 #: ../src/eapi/Controls.rb:4160
 msgctxt "EAPI_Form"
-msgid "May"
-msgstr "Mayıs"
+msgid "June"
+msgstr "Haziran"
 
 #: ../src/eapi/Controls.rb:4160
 msgctxt "EAPI_Form"
@@ -2184,13 +2508,43 @@ msgstr "Temmuz"
 
 #: ../src/eapi/Controls.rb:4160
 msgctxt "EAPI_Form"
+msgid "August"
+msgstr "Ağustos"
+
+#: ../src/eapi/Controls.rb:4160
+msgctxt "EAPI_Form"
+msgid "September"
+msgstr "Eylül"
+
+#: ../src/eapi/Controls.rb:4160
+msgctxt "EAPI_Form"
+msgid "October"
+msgstr "Ekim"
+
+#: ../src/eapi/Controls.rb:4160
+msgctxt "EAPI_Form"
 msgid "December"
 msgstr "Aralık"
 
-#: ../src/eapi/Controls.rb:4166
+#: ../src/eapi/Controls.rb:4160
 msgctxt "EAPI_Form"
-msgid "Year"
-msgstr "Yıl"
+msgid "November"
+msgstr "Kasım"
+
+#: ../src/eapi/Controls.rb:4160
+msgctxt "EAPI_Form"
+msgid "January"
+msgstr "Ocak"
+
+#: ../src/eapi/Controls.rb:4160
+msgctxt "EAPI_Form"
+msgid "February"
+msgstr "Şubat"
+
+#: ../src/eapi/Controls.rb:4160
+msgctxt "EAPI_Form"
+msgid "May"
+msgstr "Mayıs"
 
 #: ../src/eapi/Controls.rb:4166 ../src/eapi/Controls.rb:4167
 #: ../src/eapi/Controls.rb:4168 ../src/eapi/Controls.rb:4169
@@ -2204,6 +2558,11 @@ msgstr "Yıl"
 msgctxt "EAPI_Form"
 msgid "Not selected"
 msgstr "Seçili değil"
+
+#: ../src/eapi/Controls.rb:4166
+msgctxt "EAPI_Form"
+msgid "Year"
+msgstr "Yıl"
 
 #: ../src/eapi/Controls.rb:4167
 msgctxt "EAPI_Form"
@@ -2347,150 +2706,155 @@ msgstr "&Yakın zamanda kaydolan kullanıcılar"
 
 #: ../src/eapi/MainMenu.rb:72
 msgctxt "MainMenu"
+msgid "Call &history"
+msgstr "&Arama geçmişi"
+
+#: ../src/eapi/MainMenu.rb:73
+msgctxt "MainMenu"
 msgid "Manage my &account"
 msgstr "&Hesabımı yönet"
 
-#: ../src/eapi/MainMenu.rb:76
+#: ../src/eapi/MainMenu.rb:77
 msgctxt "MainMenu"
 msgid "&Programs"
 msgstr "&Programlar"
 
-#: ../src/eapi/MainMenu.rb:81
+#: ../src/eapi/MainMenu.rb:82
 msgctxt "MainMenu"
 msgid "Programs installation"
 msgstr "Program kur"
 
-#: ../src/eapi/MainMenu.rb:83
+#: ../src/eapi/MainMenu.rb:84
 msgctxt "MainMenu"
 msgid "&Tools"
 msgstr "&Araçlar"
 
-#: ../src/eapi/MainMenu.rb:84
+#: ../src/eapi/MainMenu.rb:85
 msgctxt "MainMenu"
 msgid "Program &settings"
 msgstr "Program &ayarları"
 
-#: ../src/eapi/MainMenu.rb:85
+#: ../src/eapi/MainMenu.rb:86
 msgctxt "MainMenu"
 msgid "Soun&dthemes"
 msgstr "&Ses temaları"
 
-#: ../src/eapi/MainMenu.rb:86
+#: ../src/eapi/MainMenu.rb:87
 msgctxt "MainMenu"
 msgid "Speed &test"
 msgstr "&Hız testi"
 
-#: ../src/eapi/MainMenu.rb:87
+#: ../src/eapi/MainMenu.rb:88
 msgctxt "MainMenu"
 msgid "Create &Portable version"
 msgstr "&Taşınabilir sürüm oluştur"
 
-#: ../src/eapi/MainMenu.rb:88
+#: ../src/eapi/MainMenu.rb:89
 msgctxt "MainMenu"
 msgid "&Reinstall"
 msgstr "&Yeniden kur"
 
-#: ../src/eapi/MainMenu.rb:89
+#: ../src/eapi/MainMenu.rb:90
 msgctxt "MainMenu"
 msgid "&Install"
 msgstr "&Kur"
 
-#: ../src/eapi/MainMenu.rb:91
+#: ../src/eapi/MainMenu.rb:92
 msgctxt "MainMenu"
 msgid "&Log viewer"
 msgstr "&Günlük görüntüleyici"
 
-#: ../src/eapi/MainMenu.rb:92
+#: ../src/eapi/MainMenu.rb:93
 msgctxt "MainMenu"
 msgid "&Console"
 msgstr "&Konsol"
 
-#: ../src/eapi/MainMenu.rb:93
+#: ../src/eapi/MainMenu.rb:94
 msgctxt "MainMenu"
 msgid "De&bugging"
 msgstr "&Hata ayıklama"
 
-#: ../src/eapi/MainMenu.rb:95
+#: ../src/eapi/MainMenu.rb:96
 msgctxt "MainMenu"
 msgid "&Help"
 msgstr "Ya&rdım"
 
-#: ../src/eapi/MainMenu.rb:96
+#: ../src/eapi/MainMenu.rb:97
 msgctxt "MainMenu"
 msgid "&Changelog"
 msgstr "&Değişiklikler"
 
-#: ../src/eapi/MainMenu.rb:97
+#: ../src/eapi/MainMenu.rb:98
 msgctxt "MainMenu"
 msgid "Program &version"
 msgstr "&Program sürümü"
 
-#: ../src/eapi/MainMenu.rb:98
+#: ../src/eapi/MainMenu.rb:99
 msgctxt "MainMenu"
 msgid "Sounds &guide"
 msgstr "&Ses rehberi"
 
-#: ../src/eapi/MainMenu.rb:99
+#: ../src/eapi/MainMenu.rb:100
 msgctxt "MainMenu"
 msgid "&Read me"
 msgstr "&Benioku"
 
-#: ../src/eapi/MainMenu.rb:100
+#: ../src/eapi/MainMenu.rb:101
 msgctxt "MainMenu"
 msgid "&License agreement"
 msgstr "&Lisans sözleşmesi"
 
-#: ../src/eapi/MainMenu.rb:101
+#: ../src/eapi/MainMenu.rb:102
 msgctxt "MainMenu"
 msgid "&Terms and conditions"
 msgstr "&Hüküm ve koşullar"
 
-#: ../src/eapi/MainMenu.rb:102
+#: ../src/eapi/MainMenu.rb:103
 msgctxt "MainMenu"
 msgid "&Privacy policy"
 msgstr "&Gizlilik sözleşmesi"
 
-#: ../src/eapi/MainMenu.rb:103
+#: ../src/eapi/MainMenu.rb:104
 msgctxt "MainMenu"
 msgid "Infor&mation about migration to Elten version 2.4"
 msgstr "&Elten'ın 2.4 sürümüne güncellenmesi hakkında bilgi"
 
-#: ../src/eapi/MainMenu.rb:105
+#: ../src/eapi/MainMenu.rb:106
 msgctxt "MainMenu"
 msgid "&Quit"
 msgstr "&Çıkış"
 
-#: ../src/eapi/MainMenu.rb:106
+#: ../src/eapi/MainMenu.rb:107
 msgctxt "MainMenu"
 msgid "Hide in &tray"
 msgstr "&Sistem tepsisine gizle"
 
-#: ../src/eapi/MainMenu.rb:110
+#: ../src/eapi/MainMenu.rb:111
 msgctxt "MainMenu"
 msgid "&Logout"
 msgstr "&Oturumu kapat"
 
-#: ../src/eapi/MainMenu.rb:120
+#: ../src/eapi/MainMenu.rb:121
 msgctxt "MainMenu"
 msgid "E&xit"
 msgstr "&Çık"
 
-#: ../src/eapi/MainMenu.rb:124
+#: ../src/eapi/MainMenu.rb:125
 msgctxt "MainMenu"
 msgid "&Restart"
 msgstr "&Yeniden başlat"
 
-#: ../src/eapi/MainMenu.rb:129
+#: ../src/eapi/MainMenu.rb:130
 msgctxt "MainMenu"
 msgid "Restart in de&bug mode"
 msgstr "&Hata ayıklama modunda yeniden başlat"
 
-#: ../src/eapi/MainMenu.rb:137
+#: ../src/eapi/MainMenu.rb:138
 msgctxt "MainMenu"
 msgid "&Windows"
 msgstr "&Pencereler"
 
-#: ../src/eapi/MainMenu.rb:144
+#: ../src/eapi/MainMenu.rb:145
 msgctxt "MainMenu"
 msgid "Window %{number}"
 msgstr "pencere %{number}"
@@ -2520,125 +2884,165 @@ msgctxt "Program"
 msgid "The program has been closed."
 msgstr "Program kapatıldı"
 
-#: ../src/eapi/QuickActions.rb:52
+#: ../src/eapi/QuickActions.rb:53
 msgctxt "EAPI_Common"
 msgid "Last spoken text copied to clipboard"
 msgstr "Söylenen metin panoya kopyalandı"
 
-#: ../src/eapi/QuickActions.rb:57
+#: ../src/eapi/QuickActions.rb:58
 msgctxt "EAPI_Common"
 msgid "No tips available"
 msgstr "İpucu mevcut değil"
 
-#: ../src/eapi/QuickActions.rb:77
+#: ../src/eapi/QuickActions.rb:78
 msgctxt "EAPI_Common"
 msgid "Using NVDA"
 msgstr "NVDA kullanılıyor"
 
-#: ../src/eapi/QuickActions.rb:79
+#: ../src/eapi/QuickActions.rb:80
 msgctxt "EAPI_Common"
 msgid "Using a selected SAPI synthesizer"
 msgstr "Seçilen SAPI sentezleyicisi kullanılıyor"
 
-#: ../src/eapi/QuickActions.rb:97
+#: ../src/eapi/QuickActions.rb:98
 msgctxt "EAPI_Common"
 msgid "Do not disturb on"
 msgstr "Rahatsız etme açık"
 
-#: ../src/eapi/QuickActions.rb:101
+#: ../src/eapi/QuickActions.rb:102
 msgctxt "EAPI_Common"
 msgid "Do not disturb off"
 msgstr "Rahatsız etme kapalı"
 
-#: ../src/eapi/QuickActions.rb:138
+#: ../src/eapi/QuickActions.rb:109
+msgctxt "EAPI_Common"
+msgid "Select audio file"
+msgstr "Ses dosyası seçin"
+
+#: ../src/eapi/QuickActions.rb:123
+msgctxt "EAPI_Common"
+msgid "Microphone muted"
+msgstr "Mikrofon kapatıldı"
+
+#: ../src/eapi/QuickActions.rb:125
+msgctxt "EAPI_Common"
+msgid "Microphone unmuted"
+msgstr "Mikrofon açıldı"
+
+#: ../src/eapi/QuickActions.rb:170
 msgctxt "EAPI_QuickActions"
 msgid "What is new?"
 msgstr "Ne yeni?"
 
-#: ../src/eapi/QuickActions.rb:139
+#: ../src/eapi/QuickActions.rb:171
 msgctxt "EAPI_QuickActions"
 msgid "My contacts"
 msgstr "Kişilerim"
 
-#: ../src/eapi/QuickActions.rb:140
+#: ../src/eapi/QuickActions.rb:172
 msgctxt "EAPI_QuickActions"
 msgid "Who is online?"
 msgstr "Kim çevrimiçi?"
 
-#: ../src/eapi/QuickActions.rb:141
+#: ../src/eapi/QuickActions.rb:173
 msgctxt "EAPI_QuickActions"
 msgid "Messages"
 msgstr "Mesajlar"
 
-#: ../src/eapi/QuickActions.rb:142
+#: ../src/eapi/QuickActions.rb:174
 msgctxt "EAPI_QuickActions"
 msgid "Forum"
 msgstr "Forum"
 
-#: ../src/eapi/QuickActions.rb:143
+#: ../src/eapi/QuickActions.rb:175
 msgctxt "EAPI_QuickActions"
 msgid "Blogs"
 msgstr "Bloglar"
 
-#: ../src/eapi/QuickActions.rb:144
+#: ../src/eapi/QuickActions.rb:176
 msgctxt "EAPI_QuickActions"
 msgid "Conferences"
 msgstr "Sohbetler"
 
-#: ../src/eapi/QuickActions.rb:156
+#: ../src/eapi/QuickActions.rb:188
 msgctxt "EAPI_QuickActions"
 msgid "Read tips on the current control"
 msgstr "Bulunulan kontrol hakkında ipuçlarını seslendir"
 
-#: ../src/eapi/QuickActions.rb:157
+#: ../src/eapi/QuickActions.rb:189
 msgctxt "EAPI_QuickActions"
 msgid "Open context menu"
 msgstr "İçerik menüsünü aç"
 
-#: ../src/eapi/QuickActions.rb:158
+#: ../src/eapi/QuickActions.rb:190
 msgctxt "EAPI_QuickActions"
 msgid "Say time"
 msgstr "Zamanı söyle"
 
-#: ../src/eapi/QuickActions.rb:159
+#: ../src/eapi/QuickActions.rb:191
 msgctxt "EAPI_QuickActions"
 msgid "Say date"
 msgstr "Tarihi söyle"
 
-#: ../src/eapi/QuickActions.rb:160
+#: ../src/eapi/QuickActions.rb:192
 msgctxt "EAPI_QuickActions"
 msgid "Speak last text"
 msgstr "Son söylenen metni seslendir"
 
-#: ../src/eapi/QuickActions.rb:161
+#: ../src/eapi/QuickActions.rb:193
 msgctxt "EAPI_QuickActions"
 msgid "Minimize Elten to tray"
 msgstr "Elten'i sistem tepsisine küçült"
 
-#: ../src/eapi/QuickActions.rb:162
+#: ../src/eapi/QuickActions.rb:194
 msgctxt "EAPI_QuickActions"
 msgid "Switch voice output between NVDA and Sapi5"
 msgstr "Seslendirmeyi NVDA ve sapi5 arasında değiştir"
 
-#: ../src/eapi/QuickActions.rb:163
+#: ../src/eapi/QuickActions.rb:195
 msgctxt "EAPI_QuickActions"
 msgid "Volume down"
 msgstr "Ses seviyesini azalt"
 
-#: ../src/eapi/QuickActions.rb:164
+#: ../src/eapi/QuickActions.rb:196
 msgctxt "EAPI_QuickActions"
 msgid "Volume up"
 msgstr "Ses seviyesini arttır"
 
-#: ../src/eapi/QuickActions.rb:165
+#: ../src/eapi/QuickActions.rb:197
 msgctxt "EAPI_QuickActions"
 msgid "Switch \"Do not disturb\" mode"
 msgstr "\"Rahatsız etme\" modunu ayarla"
 
-#: ../src/eapi/QuickActions.rb:169
+#: ../src/eapi/QuickActions.rb:201
 msgctxt "EAPI_QuickActions"
 msgid "Copy last spoken text to clipboard"
 msgstr "Söylenen metni panoya kopyala"
+
+#: ../src/eapi/QuickActions.rb:202
+msgctxt "EAPI_QuickActions"
+msgid "Conferences: stream audio file"
+msgstr "Sohbet: Ses dosyası yayınla"
+
+#: ../src/eapi/QuickActions.rb:203
+msgctxt "EAPI_QuickActions"
+msgid "Conferences: set volumes"
+msgstr "Sohbet: Ses seviyilerini ayarla"
+
+#: ../src/eapi/QuickActions.rb:204
+msgctxt "EAPI_QuickActions"
+msgid "Conferences: mute microphone"
+msgstr "Sohbet: Mikrofonu kapat"
+
+#: ../src/eapi/QuickActions.rb:205
+msgctxt "EAPI_QuickActions"
+msgid "Conferences: switch push to talk"
+msgstr "Sohbet: baş konuşu aç veya kapat"
+
+#: ../src/eapi/QuickActions.rb:206
+msgctxt "EAPI_QuickActions"
+msgid "Conferences: roll a 6-sided dice"
+msgstr "Sohbet: 6 yüzlü zar at"
 
 #: ../src/eapi/Speech.rb:88 ../src/eapi/Speech.rb:384
 msgctxt "EAPI_Speech"
@@ -2825,22 +3229,42 @@ msgctxt "EAPI_Speech"
 msgid "right paren"
 msgstr "Kapa parantez"
 
-#: ../src/eapi/UI.rb:293
+#: ../src/eapi/UI.rb:294
 msgctxt "EAPI_UI"
 msgid "%{user} is calling you"
 msgstr "%{user} kullanıcısı sizi arıyor"
 
-#: ../src/eapi/UI.rb:294
+#: ../src/eapi/UI.rb:295
 msgctxt "EAPI_UI"
 msgid "Answer"
 msgstr "Cevapla"
 
-#: ../src/eapi/UI.rb:295
+#: ../src/eapi/UI.rb:296
 msgctxt "EAPI_UI"
 msgid "Reject"
 msgstr "Reddet"
 
-#: ../src/eapi/UI.rb:414
+#: ../src/eapi/UI.rb:316
+msgctxt "EAPI_UI"
+msgid "Unanswered calls"
+msgstr "Cevapsız aramalar"
+
+#: ../src/eapi/UI.rb:317
+msgctxt "EAPI_UI"
+msgid "Call back"
+msgstr "Geri ara"
+
+#: ../src/eapi/UI.rb:318
+msgctxt "EAPI_UI"
+msgid "Close"
+msgstr "Kapat"
+
+#: ../src/eapi/UI.rb:331
+msgctxt "EAPI_UI"
+msgid "You cannot call this user"
+msgstr "Bu kullanıcıyı arayamazsınız"
+
+#: ../src/eapi/UI.rb:468
 msgctxt "EAPI_UI"
 msgid ""
 "An unexpected error of Elten agent occurred. Do you want to report this "
@@ -2849,21 +3273,21 @@ msgstr ""
 "Elten aracısında beklenmeyen bir hata oluştu. Raporlamak istiyor musunuz? "
 "Sorunu çözmemize kesinlikle yardımcı olabilir."
 
-#: ../src/eapi/UI.rb:418
+#: ../src/eapi/UI.rb:472
 msgctxt "EAPI_UI"
 msgid "The program is trying to recover from the frozen state."
 msgstr "Program donma hâlinden kurtulmaya çalışıyor."
 
-#: ../src/eapi/UI.rb:517
+#: ../src/eapi/UI.rb:586
 msgctxt "EAPI_UI"
 msgid "Alarm"
 msgstr "Alarm"
 
-#: ../src/eapi/UI.rb:587 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
+#: ../src/eapi/UI.rb:665 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
 msgid "No"
 msgstr "Hayır"
 
-#: ../src/eapi/UI.rb:587 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
+#: ../src/eapi/UI.rb:665 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
 msgid "Yes"
 msgstr "Evet"
 
@@ -2873,7 +3297,7 @@ msgid "Category"
 msgstr "Kategori"
 
 #: ../src/scenes/Account.rb:116 ../src/scenes/Blog.rb:1376
-#: ../src/scenes/Forum.rb:3522 ../src/scenes/Settings.rb:93
+#: ../src/scenes/Forum.rb:3607 ../src/scenes/Settings.rb:93
 msgid "Apply"
 msgstr "Uygula"
 
@@ -2888,61 +3312,61 @@ msgid "Full name"
 msgstr "Tam ad"
 
 #: ../src/scenes/Account.rb:123
-msgid "Male"
-msgstr "Erkek"
-
-#: ../src/scenes/Account.rb:123
 msgctxt "Account"
 msgid "Gender"
 msgstr "Cinsiyet"
 
-#: ../src/scenes/Account.rb:126
-msgid "April"
-msgstr "Nisan"
-
-#: ../src/scenes/Account.rb:126
-msgid "November"
-msgstr "Kasım"
-
-#: ../src/scenes/Account.rb:126
-msgid "October"
-msgstr "Ekim"
-
-#: ../src/scenes/Account.rb:126
-msgid "September"
-msgstr "Eylül"
-
-#: ../src/scenes/Account.rb:126
-msgid "August"
-msgstr "Ağustos"
-
-#: ../src/scenes/Account.rb:126
-msgid "May"
-msgstr "Mayıs"
-
-#: ../src/scenes/Account.rb:126
-msgid "July"
-msgstr "Temmuz"
-
-#: ../src/scenes/Account.rb:126
-msgid "June"
-msgstr "Haziran"
-
-#: ../src/scenes/Account.rb:126
-msgid "February"
-msgstr "Şubat"
-
-#: ../src/scenes/Account.rb:126
-msgid "January"
-msgstr "Ocak"
+#: ../src/scenes/Account.rb:123
+msgid "Male"
+msgstr "Erkek"
 
 #: ../src/scenes/Account.rb:126
 msgid "December"
 msgstr "Aralık"
 
 #: ../src/scenes/Account.rb:126
+msgid "January"
+msgstr "Ocak"
+
+#: ../src/scenes/Account.rb:126
+msgid "October"
+msgstr "Ekim"
+
+#: ../src/scenes/Account.rb:126
+msgid "February"
+msgstr "Şubat"
+
+#: ../src/scenes/Account.rb:126
 msgid "March"
 msgstr "Mart"
+
+#: ../src/scenes/Account.rb:126
+msgid "April"
+msgstr "Nisan"
+
+#: ../src/scenes/Account.rb:126
+msgid "May"
+msgstr "Mayıs"
+
+#: ../src/scenes/Account.rb:126
+msgid "June"
+msgstr "Haziran"
+
+#: ../src/scenes/Account.rb:126
+msgid "July"
+msgstr "Temmuz"
+
+#: ../src/scenes/Account.rb:126
+msgid "August"
+msgstr "Ağustos"
+
+#: ../src/scenes/Account.rb:126
+msgid "September"
+msgstr "Eylül"
+
+#: ../src/scenes/Account.rb:126
+msgid "November"
+msgstr "Kasım"
 
 #: ../src/scenes/Account.rb:128
 msgctxt "Account"
@@ -3001,6 +3425,11 @@ msgstr "Yabancılar için profilimi gizle"
 
 #: ../src/scenes/Account.rb:240
 msgctxt "Account"
+msgid "Accept incoming voice calls"
+msgstr "Gelen sesli aramaları kabul et"
+
+#: ../src/scenes/Account.rb:240
+msgctxt "Account"
 msgid "Never"
 msgstr "Hiç kimseden"
 
@@ -3014,12 +3443,7 @@ msgctxt "Account"
 msgid "From all users"
 msgstr "Tüm kullanıcılardan"
 
-#: ../src/scenes/Account.rb:240
-msgctxt "Account"
-msgid "Accept incoming voice calls"
-msgstr "Gelen sesli aramaları kabul et"
-
-#: ../src/scenes/Account.rb:241 ../src/scenes/Account.rb:496
+#: ../src/scenes/Account.rb:241 ../src/scenes/Account.rb:497
 msgctxt "Account"
 msgid "Black list"
 msgstr "Kara liste"
@@ -3039,217 +3463,222 @@ msgctxt "Account"
 msgid "Signature placed below all your forum posts"
 msgstr "Tüm forum gönderilerinizin altına yerleştirilecek olan imza"
 
-#: ../src/scenes/Account.rb:249
+#: ../src/scenes/Account.rb:247
+msgctxt "Account"
+msgid "Greeting read after you log in to Elten"
+msgstr "Elten'a giriş yaptığınızda söylenecek karşılama metni"
+
+#: ../src/scenes/Account.rb:250
 msgctxt "Account"
 msgid "What's new notifications"
 msgstr "Ne yeni bildirimleri"
 
-#: ../src/scenes/Account.rb:250
-msgctxt "Account"
-msgid "Notice only"
-msgstr "Sadece bildir"
-
-#: ../src/scenes/Account.rb:250
+#: ../src/scenes/Account.rb:251
 msgctxt "Account"
 msgid "Ignore"
 msgstr "Yoksay"
 
-#: ../src/scenes/Account.rb:250
+#: ../src/scenes/Account.rb:251
 msgctxt "Account"
 msgid "Notice and show in what's new"
 msgstr "Neler yeni bildir ve göster"
 
 #: ../src/scenes/Account.rb:251
 msgctxt "Account"
+msgid "Notice only"
+msgstr "Sadece bildir"
+
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
 msgid "New messages"
 msgstr "Yeni mesajlar"
 
-#: ../src/scenes/Account.rb:251
+#: ../src/scenes/Account.rb:252
 msgctxt "Account"
 msgid "Blog mentions"
 msgstr "Blog bahsetmeleri"
 
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "New posts on the followed blogs"
-msgstr "Takip edilen bloglarda yeni gönderiler"
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "New threads on followed forums"
-msgstr "Takip edilen forumlarda yeni konular"
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "New posts on followed forums"
-msgstr "Takip edilen forumlarda yeni gönderiler"
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "New friends"
-msgstr "Yeni arkadaşlar"
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Friends' birthday"
-msgstr "Arkadaşın doğum günü"
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Mentions"
-msgstr "Bahsedilenler"
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Blog followers"
-msgstr "Blog takipçileri"
-
-#: ../src/scenes/Account.rb:251
+#: ../src/scenes/Account.rb:252
 msgctxt "Account"
 msgid "New posts in followed threads"
 msgstr "Takip edilen konularda yeni gönderiler"
 
-#: ../src/scenes/Account.rb:251
+#: ../src/scenes/Account.rb:252
 msgctxt "Account"
-msgid "Followed blog posts"
-msgstr "Takip edilen blog gönderileri"
+msgid "New posts on the followed blogs"
+msgstr "Takip edilen bloglarda yeni gönderiler"
 
-#: ../src/scenes/Account.rb:251
+#: ../src/scenes/Account.rb:252
 msgctxt "Account"
 msgid "New comments on your blog"
 msgstr "Bloğunuza yapılan yeni yorumlar"
 
-#: ../src/scenes/Account.rb:258
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
+msgid "New posts on followed forums"
+msgstr "Takip edilen forumlarda yeni gönderiler"
+
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
+msgid "New friends"
+msgstr "Yeni arkadaşlar"
+
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
+msgid "Friends' birthday"
+msgstr "Arkadaşın doğum günü"
+
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
+msgid "Mentions"
+msgstr "Bahsedilenler"
+
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
+msgid "Followed blog posts"
+msgstr "Takip edilen blog gönderileri"
+
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
+msgid "Blog followers"
+msgstr "Blog takipçileri"
+
+#: ../src/scenes/Account.rb:252
+msgctxt "Account"
+msgid "New threads on followed forums"
+msgstr "Takip edilen forumlarda yeni konular"
+
+#: ../src/scenes/Account.rb:259
 msgctxt "Account"
 msgid "Account security"
 msgstr "Hesap güvenliği"
 
-#: ../src/scenes/Account.rb:259
+#: ../src/scenes/Account.rb:260
 msgctxt "Account"
 msgid "Change e-mail"
 msgstr "E-posta değiştir"
 
-#: ../src/scenes/Account.rb:260
+#: ../src/scenes/Account.rb:261
 msgctxt "Account"
 msgid "Change password"
 msgstr "Şifre değiştir"
 
-#: ../src/scenes/Account.rb:261
+#: ../src/scenes/Account.rb:262
 msgctxt "Account"
 msgid "Manage Two-Factor authentication"
 msgstr "İki öğeli kimlik doğrulamayı yönet"
 
-#: ../src/scenes/Account.rb:262
+#: ../src/scenes/Account.rb:263
 msgctxt "Account"
 msgid "Manage mail events-reporting"
 msgstr "E-posta olay raporlamayı yönet"
 
-#: ../src/scenes/Account.rb:263
+#: ../src/scenes/Account.rb:264
 msgctxt "Account"
 msgid "Manage auto-login tokens"
 msgstr "Otomatik giriş belirteçlerini yönet"
 
-#: ../src/scenes/Account.rb:264
+#: ../src/scenes/Account.rb:265
 msgctxt "Account"
 msgid "Show last logins"
 msgstr "Son girişleri göster"
 
-#: ../src/scenes/Account.rb:267
+#: ../src/scenes/Account.rb:268
 msgctxt "Account"
 msgid "Others"
 msgstr "Diğerleri"
 
-#: ../src/scenes/Account.rb:268
+#: ../src/scenes/Account.rb:269
 msgctxt "Account"
 msgid "Premium packages"
 msgstr "Ücretli paketler"
 
-#: ../src/scenes/Account.rb:310
+#: ../src/scenes/Account.rb:311
 msgctxt "Account"
 msgid "Enter your old password."
 msgstr "Eski şifrenizi girin."
 
-#: ../src/scenes/Account.rb:317
+#: ../src/scenes/Account.rb:318
 msgctxt "Account"
 msgid "Enter your new password."
 msgstr "Yeni şifrenizi girin."
 
-#: ../src/scenes/Account.rb:325
+#: ../src/scenes/Account.rb:326
 msgctxt "Account"
 msgid "Repeat new password."
 msgstr "Yeni şifreyi tekrarlayın."
 
-#: ../src/scenes/Account.rb:332
+#: ../src/scenes/Account.rb:333
 msgctxt "Account"
 msgid "Fields: New Password and Repeat New Password have different values."
 msgstr "Yeni şifre ve yeni şifreyi tekrarlayın alanlarının değerleri farklı."
 
-#: ../src/scenes/Account.rb:339
+#: ../src/scenes/Account.rb:340
 msgctxt "Account"
 msgid "Your password has been changed."
 msgstr "Şifreniz değiştirildi."
 
-#: ../src/scenes/Account.rb:348 ../src/scenes/Account.rb:385
+#: ../src/scenes/Account.rb:349 ../src/scenes/Account.rb:386
 msgctxt "Account"
 msgid "The old password is incorrect."
 msgstr "Eski şifre yanlış."
 
-#: ../src/scenes/Account.rb:359 ../src/scenes/Account.rb:399
-#: ../src/scenes/Account.rb:456 ../src/scenes/Account.rb:569
-#: ../src/scenes/Account.rb:615
+#: ../src/scenes/Account.rb:360 ../src/scenes/Account.rb:400
+#: ../src/scenes/Account.rb:457 ../src/scenes/Account.rb:570
+#: ../src/scenes/Account.rb:616
 msgctxt "Account"
 msgid "Enter your password."
 msgstr "Şifrenizi girin."
 
-#: ../src/scenes/Account.rb:366
+#: ../src/scenes/Account.rb:367
 msgctxt "Account"
 msgid "Enter a new e-mail address."
 msgstr "Yeni e-posta adresi girin."
 
-#: ../src/scenes/Account.rb:376
+#: ../src/scenes/Account.rb:377
 msgctxt "Account"
 msgid "E-mail has been changed."
 msgstr "E-posta değiştirildi."
 
-#: ../src/scenes/Account.rb:388
+#: ../src/scenes/Account.rb:389
 msgctxt "Account"
 msgid "Error, you must disable mail events reporting first."
 msgstr "Hata, ilk önce e-postayla olay raporlamayı devredışı bırakmalısınız."
 
-#: ../src/scenes/Account.rb:406 ../src/scenes/Account.rb:464
-#: ../src/scenes/Account.rb:576
+#: ../src/scenes/Account.rb:407 ../src/scenes/Account.rb:465
+#: ../src/scenes/Account.rb:577
 msgctxt "Account"
 msgid ""
 "An error occurred while authenticating the account. You might have provided "
 "an  incorrect password."
 msgstr "Hesaba izin verilirken hata oluştu. Yanlış şifre girmiş olabilirsiniz."
 
-#: ../src/scenes/Account.rb:431
-msgctxt "Account"
-msgid "Generation date"
-msgstr "Oluşturulma tarihi"
-
-#: ../src/scenes/Account.rb:431
-msgctxt "Account"
-msgid "Computer"
-msgstr "Bilgisayar"
-
-#: ../src/scenes/Account.rb:431
+#: ../src/scenes/Account.rb:432
 msgctxt "Account"
 msgid "Creation IP Address"
 msgstr "Oluşturma IP adresi"
 
-#: ../src/scenes/Account.rb:436
+#: ../src/scenes/Account.rb:432
+msgctxt "Account"
+msgid "Generation date"
+msgstr "Oluşturulma tarihi"
+
+#: ../src/scenes/Account.rb:432
+msgctxt "Account"
+msgid "Computer"
+msgstr "Bilgisayar"
+
+#: ../src/scenes/Account.rb:437
 msgctxt "Account"
 msgid "Auto log in tokens"
 msgstr "Otomatik giriş belirteçleri"
 
-#: ../src/scenes/Account.rb:438
+#: ../src/scenes/Account.rb:439
 msgctxt "Account"
 msgid "Log out all sessions"
 msgstr "Bütün oturumları kapat"
 
-#: ../src/scenes/Account.rb:454
+#: ../src/scenes/Account.rb:455
 msgctxt "Account"
 msgid ""
 "Are you sure you want to remove all auto log in tokens and log out all "
@@ -3258,17 +3687,17 @@ msgstr ""
 "Tüm otomatik giriş belirteçlerini silip tüm istemcilerden çıkış yapmak "
 "istediğinizden emin misiniz? Çıkış işleminiz hemen gerçekleşir."
 
-#: ../src/scenes/Account.rb:516
+#: ../src/scenes/Account.rb:517
 msgctxt "Account"
 msgid "Add"
 msgstr "Ekle"
 
-#: ../src/scenes/Account.rb:517
+#: ../src/scenes/Account.rb:518
 msgctxt "Account"
 msgid "User you want to add to the blacklist."
 msgstr "Kara listeye eklemek istediğiniz kullanıcı"
 
-#: ../src/scenes/Account.rb:519
+#: ../src/scenes/Account.rb:520
 msgctxt "Account"
 msgid ""
 "The users added to your black list cannot send you private messages. Are you "
@@ -3277,42 +3706,42 @@ msgstr ""
 "Kara listenize eklenmiş olan kullanıcılar size özel mesaj gönderemez. Devam "
 "etmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Account.rb:523
+#: ../src/scenes/Account.rb:524
 msgctxt "Account"
 msgid "User %{user} has been added to your blacklist"
 msgstr "%{user} kullanıcısı kara listenize eklendi"
 
-#: ../src/scenes/Account.rb:533
+#: ../src/scenes/Account.rb:534
 msgctxt "Account"
 msgid "You cannot add an administrator to the black list."
 msgstr "Yöneticiyi kara listeye ekleyemezsiniz."
 
-#: ../src/scenes/Account.rb:535
+#: ../src/scenes/Account.rb:536
 msgctxt "Account"
 msgid "This user is already on your black list."
 msgstr "Kullanıcı zaten kara listenizde."
 
-#: ../src/scenes/Account.rb:537
+#: ../src/scenes/Account.rb:538
 msgctxt "Account"
 msgid "The user cannot be found."
 msgstr "Kullanıcı bulunamadı"
 
-#: ../src/scenes/Account.rb:545
+#: ../src/scenes/Account.rb:546
 msgctxt "Account"
 msgid "Are you sure you want to remove this user from the black list?"
 msgstr "Kullanıcıyı kara listeden kaldırmak istediğinizden emin misiniz?"
 
-#: ../src/scenes/Account.rb:550
+#: ../src/scenes/Account.rb:551
 msgctxt "Account"
 msgid "A user has been removed from the black list."
 msgstr "Kara listeden kullanıcı kaldırıldı."
 
-#: ../src/scenes/Account.rb:603
+#: ../src/scenes/Account.rb:604
 msgctxt "Account"
 msgid "Last logins"
 msgstr "Son girişler"
 
-#: ../src/scenes/Account.rb:624
+#: ../src/scenes/Account.rb:625
 msgctxt "Account"
 msgid ""
 "If you wish, you can configure Elten to report any changes and logins  on "
@@ -3323,28 +3752,23 @@ msgstr ""
 "girişleri e-posta ile bildirmek üzere ayarlayabilirsiniz. Bunu yapmak için, "
 "e-posta adresinizi doğrulamanız gerekir. Bunu şimdi yapmak ister misiniz?"
 
-#: ../src/scenes/Account.rb:630 ../src/scenes/Account.rb:655
+#: ../src/scenes/Account.rb:631 ../src/scenes/Account.rb:656
 msgctxt "Account"
 msgid ""
 "The verification code has been sent to you via E-mail. Please type it here."
 msgstr "Doğrulama kodu e-posta ile size gönderildi. Lütfen onu buraya yazın. "
 
-#: ../src/scenes/Account.rb:642
-msgctxt "Account"
-msgid "Enable mail events reporting"
-msgstr "E-posta ile olay raporlamasını etkinleştir"
-
-#: ../src/scenes/Account.rb:642
+#: ../src/scenes/Account.rb:643
 msgctxt "Account"
 msgid "Disable mail events reporting"
 msgstr "E-posta ile olay raporlamasını devredışı bırak"
 
 #: ../src/scenes/Account.rb:643
 msgctxt "Account"
-msgid "Mail events reporting is enabled."
-msgstr "Olay raporlama etkinleştirildi."
+msgid "Enable mail events reporting"
+msgstr "E-posta ile olay raporlamasını etkinleştir"
 
-#: ../src/scenes/Account.rb:643
+#: ../src/scenes/Account.rb:644
 msgctxt "Account"
 msgid ""
 "Mail events reporting is disabled. If you wish, you can enable it to receive "
@@ -3355,20 +3779,10 @@ msgstr ""
 "yapılan değişiklikler ve diğer cihazlardan girişler hakkında bilgi almak "
 "için etkinleştirebilirsiniz"
 
-#: ../src/scenes/Admins.rb:15
-msgctxt "Admins"
-msgid "Developers"
-msgstr "Üreticiler"
-
-#: ../src/scenes/Admins.rb:15
-msgctxt "Admins"
-msgid "Translators"
-msgstr "Çevirmenler"
-
-#: ../src/scenes/Admins.rb:15
-msgctxt "Admins"
-msgid "Sponsors"
-msgstr "Sponsorlar"
+#: ../src/scenes/Account.rb:644
+msgctxt "Account"
+msgid "Mail events reporting is enabled."
+msgstr "Olay raporlama etkinleştirildi."
 
 #: ../src/scenes/Admins.rb:15
 msgctxt "Admins"
@@ -3377,18 +3791,37 @@ msgstr "Önerilen grup moderatörleri"
 
 #: ../src/scenes/Admins.rb:15
 msgctxt "Admins"
-msgid "Community Administrators"
-msgstr "Topluluk yöneticileri"
+msgid "Sponsors"
+msgstr "Sponsorlar"
 
 #: ../src/scenes/Admins.rb:15
 msgctxt "Admins"
 msgid "Council of elders"
 msgstr "Portal yönetimi"
 
+#: ../src/scenes/Admins.rb:15
+msgctxt "Admins"
+msgid "Community Administrators"
+msgstr "Topluluk yöneticileri"
+
+#: ../src/scenes/Admins.rb:15
+msgctxt "Admins"
+msgid "Translators"
+msgstr "Çevirmenler"
+
+#: ../src/scenes/Admins.rb:15
+msgctxt "Admins"
+msgid "Developers"
+msgstr "Üreticiler"
+
 #: ../src/scenes/Admins.rb:93
 msgctxt "Admins"
 msgid "Administrators and authors"
 msgstr "Yöneticiler ve programın sahipleri"
+
+#: ../src/scenes/Authentication.rb:23
+msgid "Enable"
+msgstr "Etkinleştir"
 
 #: ../src/scenes/Authentication.rb:23
 msgctxt "Authentication"
@@ -3403,9 +3836,9 @@ msgstr ""
 "giriş yaptığınızda doğrulama kodu içeren bir sms mesajı gönderilecektir. "
 "Programa giriş yapmak için bu kodu girmeniz gerekecek."
 
-#: ../src/scenes/Authentication.rb:23
-msgid "Enable"
-msgstr "Etkinleştir"
+#: ../src/scenes/Authentication.rb:25
+msgid "Disable"
+msgstr "Devredışı bırak"
 
 #: ../src/scenes/Authentication.rb:25
 msgctxt "Authentication"
@@ -3416,10 +3849,6 @@ msgstr "Yedek kod oluştur"
 msgctxt "Authentication"
 msgid "Two-factor authentication is enabled on this account."
 msgstr "İki öğeli kimlik doğrulaması bu hesapta etkin."
-
-#: ../src/scenes/Authentication.rb:25
-msgid "Disable"
-msgstr "Devredışı bırak"
 
 #: ../src/scenes/Authentication.rb:32 ../src/scenes/Authentication.rb:70
 #: ../src/scenes/Authentication.rb:87
@@ -3528,6 +3957,11 @@ msgstr "Gün"
 
 #: ../src/scenes/Ban.rb:25
 msgctxt "Ban"
+msgid "Three days"
+msgstr "3 gün"
+
+#: ../src/scenes/Ban.rb:25
+msgctxt "Ban"
 msgid "Week"
 msgstr "Hafta"
 
@@ -3551,10 +3985,10 @@ msgctxt "Ban"
 msgid "Year"
 msgstr "Yıl"
 
-#: ../src/scenes/Ban.rb:25
+#: ../src/scenes/Ban.rb:26
 msgctxt "Ban"
-msgid "Three days"
-msgstr "3 gün"
+msgid "The reason"
+msgstr "Neden"
 
 #: ../src/scenes/Ban.rb:26
 msgctxt "Ban"
@@ -3571,11 +4005,6 @@ msgctxt "Ban"
 msgid "Ban time"
 msgstr "Banlama süresi"
 
-#: ../src/scenes/Ban.rb:26
-msgctxt "Ban"
-msgid "The reason"
-msgstr "Neden"
-
 #: ../src/scenes/Ban.rb:65
 msgctxt "Ban"
 msgid "Banned."
@@ -3588,23 +4017,23 @@ msgstr "Banı kaldırılacak kullanıcı adını girin."
 
 #: ../src/scenes/Ban.rb:108
 msgctxt "Ban"
-msgid "The ban cancel reason"
-msgstr "Ban iptal nedeni"
-
-#: ../src/scenes/Ban.rb:108
-msgctxt "Ban"
 msgid "Ban valid until"
 msgstr "Ban süresi"
 
 #: ../src/scenes/Ban.rb:108
 msgctxt "Ban"
-msgid "The ban reason"
-msgstr "Ban nedeni"
+msgid "The ban cancel reason"
+msgstr "Ban iptal nedeni"
 
 #: ../src/scenes/Ban.rb:108
 msgctxt "Ban"
 msgid "Unban"
 msgstr "Banı kaldır"
+
+#: ../src/scenes/Ban.rb:108
+msgctxt "Ban"
+msgid "The ban reason"
+msgstr "Ban nedeni"
 
 #: ../src/scenes/Ban.rb:118
 msgctxt "Ban"
@@ -3626,6 +4055,16 @@ msgctxt "Blog"
 msgid "Frequently updated blogs"
 msgstr "Sıklıkla güncellenen bloglar"
 
+#: ../src/scenes/Blog.rb:13
+msgctxt "Blog"
+msgid "Frequently commented blogs"
+msgstr "Sıklıkla yorum yapılan bloglar"
+
+#: ../src/scenes/Blog.rb:13
+msgctxt "Blog"
+msgid "Followed blogs"
+msgstr "Takip edilen bloglar"
+
 #: ../src/scenes/Blog.rb:13 ../src/scenes/Blog.rb:638
 msgctxt "Blog"
 msgid "Blogs"
@@ -3643,23 +4082,13 @@ msgstr "Takip edilen blog gönderileri"
 
 #: ../src/scenes/Blog.rb:13
 msgctxt "Blog"
-msgid "Open external wordpress blog"
-msgstr "Wordpress bloğunu aç"
-
-#: ../src/scenes/Blog.rb:13
-msgctxt "Blog"
-msgid "Frequently commented blogs"
-msgstr "Sıklıkla yorum yapılan bloglar"
-
-#: ../src/scenes/Blog.rb:13
-msgctxt "Blog"
-msgid "Followed blogs"
-msgstr "Takip edilen bloglar"
-
-#: ../src/scenes/Blog.rb:13
-msgctxt "Blog"
 msgid "Blogs popular with my friends"
 msgstr "Arkadaşlarım arasında popüler olan bloglar"
+
+#: ../src/scenes/Blog.rb:13
+msgctxt "Blog"
+msgid "Open external wordpress blog"
+msgstr "Wordpress bloğunu aç"
 
 #: ../src/scenes/Blog.rb:57
 msgctxt "Blog"
@@ -4222,16 +4651,6 @@ msgstr "Kategori değiştirildi"
 
 #: ../src/scenes/Blog.rb:1261
 msgctxt "Blog"
-msgid "Post destination"
-msgstr "Gönderi yeri"
-
-#: ../src/scenes/Blog.rb:1261
-msgctxt "Blog"
-msgid "Move this post and all comments"
-msgstr "Gönderiyi ve tüm yorumlarını taşı"
-
-#: ../src/scenes/Blog.rb:1261
-msgctxt "Blog"
 msgid "Move only this post, delete all comments"
 msgstr "Sadece gönderiyi taşı, tüm yorumlarını sil"
 
@@ -4242,8 +4661,18 @@ msgstr "Taşıma türü"
 
 #: ../src/scenes/Blog.rb:1261
 msgctxt "Blog"
+msgid "Move this post and all comments"
+msgstr "Gönderiyi ve tüm yorumlarını taşı"
+
+#: ../src/scenes/Blog.rb:1261
+msgctxt "Blog"
 msgid "Move"
 msgstr "Taşı"
+
+#: ../src/scenes/Blog.rb:1261
+msgctxt "Blog"
+msgid "Post destination"
+msgstr "Gönderi yeri"
 
 #: ../src/scenes/Blog.rb:1270
 msgctxt "Blog"
@@ -4288,8 +4717,18 @@ msgstr ""
 
 #: ../src/scenes/Blog.rb:1397
 msgctxt "Blog"
-msgid "By all visitors, but I must commit all of them"
-msgstr "Tüm ziyaretçiler tarafından yapılan yorumlar hepsini onaylamam gerekir"
+msgid "By Elten users only"
+msgstr "Sadece elten kullaınıcıları tarafından yapılan"
+
+#: ../src/scenes/Blog.rb:1397
+msgctxt "Blog"
+msgid "Comments can be written"
+msgstr "Yorum yapılabilir"
+
+#: ../src/scenes/Blog.rb:1397
+msgctxt "Blog"
+msgid "By all visitors"
+msgstr "Tüm ziyaretçiler tarafından yapılan yorumlar"
 
 #: ../src/scenes/Blog.rb:1397
 msgctxt "Blog"
@@ -4300,18 +4739,8 @@ msgstr ""
 
 #: ../src/scenes/Blog.rb:1397
 msgctxt "Blog"
-msgid "By all visitors"
-msgstr "Tüm ziyaretçiler tarafından yapılan yorumlar"
-
-#: ../src/scenes/Blog.rb:1397
-msgctxt "Blog"
-msgid "By Elten users only"
-msgstr "Sadece elten kullaınıcıları tarafından yapılan"
-
-#: ../src/scenes/Blog.rb:1397
-msgctxt "Blog"
-msgid "Comments can be written"
-msgstr "Yorum yapılabilir"
+msgid "By all visitors, but I must commit all of them"
+msgstr "Tüm ziyaretçiler tarafından yapılan yorumlar hepsini onaylamam gerekir"
 
 #: ../src/scenes/Blog.rb:1398
 msgctxt "Blog"
@@ -4335,6 +4764,11 @@ msgstr "En fazla yorum sayısı"
 
 #: ../src/scenes/Blog.rb:1402
 msgctxt "Blog"
+msgid "Order comments on the website"
+msgstr "Sitedeki yorumları sırala"
+
+#: ../src/scenes/Blog.rb:1402
+msgctxt "Blog"
 msgid "Descending"
 msgstr "Azalarak"
 
@@ -4342,11 +4776,6 @@ msgstr "Azalarak"
 msgctxt "Blog"
 msgid "Ascending"
 msgstr "Artarak"
-
-#: ../src/scenes/Blog.rb:1402
-msgctxt "Blog"
-msgid "Order comments on the website"
-msgstr "Sitedeki yorumları sırala"
 
 #: ../src/scenes/Blog.rb:1403
 msgctxt "Blog"
@@ -4360,6 +4789,11 @@ msgstr "Sayfa başına düşen yorum sayısı"
 
 #: ../src/scenes/Blog.rb:1405
 msgctxt "Blog"
+msgid "Oldest comments"
+msgstr "En eski yorumlar"
+
+#: ../src/scenes/Blog.rb:1405
+msgctxt "Blog"
 msgid "Firstly display"
 msgstr "İlk olarak görüntüle"
 
@@ -4367,11 +4801,6 @@ msgstr "İlk olarak görüntüle"
 msgctxt "Blog"
 msgid "Newest comments"
 msgstr "En yeni yorumlar"
-
-#: ../src/scenes/Blog.rb:1405
-msgctxt "Blog"
-msgid "Oldest comments"
-msgstr "En eski yorumlar"
 
 #: ../src/scenes/Blog.rb:1464
 msgctxt "Blog"
@@ -4385,6 +4814,11 @@ msgstr "İfadeler kullan"
 
 #: ../src/scenes/Blog.rb:1466
 msgctxt "Blog"
+msgid "Just a post id (https://example.com/posts/123/)"
+msgstr "Sadece gönderi kimliği (https://example.com/posts/123/)"
+
+#: ../src/scenes/Blog.rb:1466
+msgctxt "Blog"
 msgid "Full date and post name (https://example.com/2020/01/01/example-post)"
 msgstr ""
 "Tam tarih ve göndderi adı (https://example.com/2020/01/01/example-post)"
@@ -4393,11 +4827,6 @@ msgstr ""
 msgctxt "Blog"
 msgid "Month and post name (https://example.com/2020/01/example-post)"
 msgstr "Ay ve gönderi adı (https://example.com/2020/01/example-post)"
-
-#: ../src/scenes/Blog.rb:1466
-msgctxt "Blog"
-msgid "Just a post id (https://example.com/posts/123/)"
-msgstr "Sadece gönderi kimliği (https://example.com/posts/123/)"
 
 #: ../src/scenes/Blog.rb:1466
 msgctxt "Blog"
@@ -4461,13 +4890,23 @@ msgstr "Zaman dili şehir"
 
 #: ../src/scenes/Blog.rb:1498
 msgctxt "Blog"
-msgid "Monday"
-msgstr "Pazartesi"
+msgid "Tuesday"
+msgstr "Salı"
 
 #: ../src/scenes/Blog.rb:1498
 msgctxt "Blog"
-msgid "Tuesday"
-msgstr "Salı"
+msgid "Saturday"
+msgstr "Cumartesi"
+
+#: ../src/scenes/Blog.rb:1498
+msgctxt "Blog"
+msgid "Sunday"
+msgstr "Pazar"
+
+#: ../src/scenes/Blog.rb:1498
+msgctxt "Blog"
+msgid "Monday"
+msgstr "Pazartesi"
 
 #: ../src/scenes/Blog.rb:1498
 msgctxt "Blog"
@@ -4483,16 +4922,6 @@ msgstr "Perşembe"
 msgctxt "Blog"
 msgid "Friday"
 msgstr "Cuma"
-
-#: ../src/scenes/Blog.rb:1498
-msgctxt "Blog"
-msgid "Saturday"
-msgstr "Cumartesi"
-
-#: ../src/scenes/Blog.rb:1498
-msgctxt "Blog"
-msgid "Sunday"
-msgstr "Pazar"
 
 #: ../src/scenes/Blog.rb:1499
 msgctxt "Blog"
@@ -4555,11 +4984,6 @@ msgstr "Gönderi başlığı"
 
 #: ../src/scenes/Blog.rb:1698
 msgctxt "Blog"
-msgid "Formattable editor"
-msgstr "Biçim tablosu düzenleyicisi"
-
-#: ../src/scenes/Blog.rb:1698
-msgctxt "Blog"
 msgid "Editor"
 msgstr "Düzenleyici"
 
@@ -4567,6 +4991,11 @@ msgstr "Düzenleyici"
 msgctxt "Blog"
 msgid "Source Editor (HTML and Wordpress Shortcodes)"
 msgstr "Kaynak düzenleyicisi (html ve wordpress kısa kodları)"
+
+#: ../src/scenes/Blog.rb:1698
+msgctxt "Blog"
+msgid "Formattable editor"
+msgstr "Biçim tablosu düzenleyicisi"
 
 #: ../src/scenes/Blog.rb:1699 ../src/scenes/Blog.rb:1930
 msgctxt "Blog"
@@ -4590,8 +5019,8 @@ msgstr "Gönderi etiketleri"
 
 #: ../src/scenes/Blog.rb:1703
 msgctxt "Blog"
-msgid "Visibility"
-msgstr "Görünürlük"
+msgid "Show to Elten users only"
+msgstr "Sadece Elten kullanıcılarına göster"
 
 #: ../src/scenes/Blog.rb:1703
 msgctxt "Blog"
@@ -4600,8 +5029,8 @@ msgstr "Herkese göster"
 
 #: ../src/scenes/Blog.rb:1703
 msgctxt "Blog"
-msgid "Show to Elten users only"
-msgstr "Sadece Elten kullanıcılarına göster"
+msgid "Visibility"
+msgstr "Görünürlük"
 
 #: ../src/scenes/Blog.rb:1704
 msgctxt "Blog"
@@ -4730,11 +5159,6 @@ msgstr "Alan adı türü"
 
 #: ../src/scenes/Blog.rb:2132
 msgctxt "Blog"
-msgid "Buying your own domain"
-msgstr "Kendi alan adınızı satın alın"
-
-#: ../src/scenes/Blog.rb:2132
-msgctxt "Blog"
 msgid ""
 "To continue, you should point your domain to Elten Blogging server.\n"
 "You can buy your own domain from domain providers, such as ovh.com, domain."
@@ -4743,6 +5167,11 @@ msgstr ""
 "Devam etmek için alan adınızı elten blog sunucusuna yönlendirmelisiniz.\n"
 "ovh.com, domain.com, godaddy.com veya bluehost.com gibi alan adı "
 "sağlayıcılarından alan adı satın alabilirsiniz."
+
+#: ../src/scenes/Blog.rb:2132
+msgctxt "Blog"
+msgid "Buying your own domain"
+msgstr "Kendi alan adınızı satın alın"
 
 #: ../src/scenes/Blog.rb:2134
 msgctxt "Blog"
@@ -4899,7 +5328,7 @@ msgstr ""
 "Alan adınız elten bloglarına yönlendiriyor ancak www ön eki yönlendirmiyor. "
 "Lütfen düzeltin."
 
-#: ../src/scenes/Changes.rb:125
+#: ../src/scenes/Changes.rb:127
 msgctxt "Changes"
 msgid "Changelog"
 msgstr "Değişiklikler"
@@ -4912,14 +5341,14 @@ msgstr "Alarmlar"
 #: ../src/scenes/Clock.rb:17 ../src/scenes/Clock.rb:62
 #: ../src/scenes/Clock.rb:72 ../src/scenes/Clock.rb:85
 msgctxt "Clock"
-msgid "Hour"
-msgstr "Saat"
+msgid "One time"
+msgstr "Bir kez"
 
 #: ../src/scenes/Clock.rb:17 ../src/scenes/Clock.rb:62
 #: ../src/scenes/Clock.rb:72 ../src/scenes/Clock.rb:85
 msgctxt "Clock"
-msgid "One time"
-msgstr "Bir kez"
+msgid "Hour"
+msgstr "Saat"
 
 #: ../src/scenes/Clock.rb:17
 msgctxt "Clock"
@@ -4955,13 +5384,13 @@ msgstr "Tekrarlayan"
 
 #: ../src/scenes/Clock.rb:62
 msgctxt "Clock"
-msgid "Minute"
-msgstr "Dakika"
+msgid "Alarm description"
+msgstr "Alarm açıklaması"
 
 #: ../src/scenes/Clock.rb:62
 msgctxt "Clock"
-msgid "Alarm description"
-msgstr "Alarm açıklaması"
+msgid "Minute"
+msgstr "Dakika"
 
 #: ../src/scenes/Contacts.rb:44
 msgctxt "Contacts"
@@ -5135,421 +5564,428 @@ msgid ""
 msgstr ""
 "Şifre değiştirildi. Yeni şifreyi kullanarak hesabınıza giriş yapabilirsiniz."
 
-#: ../src/scenes/Forum.rb:89
+#: ../src/scenes/Forum.rb:92
 msgctxt "Forum"
 msgid "Sort"
 msgstr "Sırala"
 
-#: ../src/scenes/Forum.rb:90
+#: ../src/scenes/Forum.rb:93
 msgctxt "Forum"
 msgid "Default"
 msgstr "Varsayılan"
 
-#: ../src/scenes/Forum.rb:91
+#: ../src/scenes/Forum.rb:94
 msgctxt "Forum"
 msgid "By name (ascending)"
 msgstr "Ada göre (artan)"
 
-#: ../src/scenes/Forum.rb:92
+#: ../src/scenes/Forum.rb:95
 msgctxt "Forum"
 msgid "By name (descending)"
 msgstr "Ada göre (azalan)"
 
-#: ../src/scenes/Forum.rb:93
+#: ../src/scenes/Forum.rb:96
 msgctxt "Forum"
 msgid "By unread posts (ascending)"
 msgstr "Okunmamış gönderilere göre (artan)"
 
-#: ../src/scenes/Forum.rb:94
+#: ../src/scenes/Forum.rb:97
 msgctxt "Forum"
 msgid "By unread posts (descending)"
 msgstr "Okunmamış gönderilere göre (azalan)"
 
-#: ../src/scenes/Forum.rb:205
-msgctxt "Forum"
-msgid "Groups popular with my friends"
-msgstr "Arkadaşlarım arasında popüler olan gruplar"
-
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Followed thread"
 msgid_plural "Followed threads"
 msgstr[0] "Takip edilen konu"
 msgstr[1] "Takip edilen konular"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Followed forum"
 msgid_plural "Followed forums"
 msgstr[0] "Takip edilen forum"
 msgstr[1] "Takip edilen forumlar"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Marked thread"
 msgid_plural "Marked threads"
 msgstr[0] "İşaretlenen konu"
 msgstr[1] "İşaretlenen konular"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Recently active groups"
 msgstr "Son zamanda aktif olan gruplar"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Recommended groups (%{count})"
 msgstr "Önerilen gruplar (%{count})"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Open groups (%{count})"
 msgstr "Açık gruplar (%{count})"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Waiting invitation"
 msgid_plural "Waiting invitations (%{count})"
 msgstr[0] "Bekleyen davet"
 msgstr[1] "Bekleyen davetler"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Moderated group"
 msgid_plural "Moderated groups (%{count})"
 msgstr[0] "Yönetilen grup"
 msgstr[1] "Yönetilen gruplar"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "All groups (%{count})"
 msgstr "Tüm gruplar (%{count})"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Recently created groups"
 msgstr "Yakın zamanda oluşturulan gruplar"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
-msgid "My threads"
-msgstr "Konularım"
+msgid "Groups popular with my friends"
+msgstr "Arkadaşlarım arasında popüler olan gruplar"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Threads popular with my friends"
 msgstr "Arkadaşlarım arasında popüler olan konular"
 
-#: ../src/scenes/Forum.rb:205
+#: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Received mentions"
 msgstr "Alınan bahsetmeler"
 
-#: ../src/scenes/Forum.rb:205 ../src/scenes/Forum.rb:480
-#: ../src/scenes/Forum.rb:975
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "My threads"
+msgstr "Konularım"
+
+#: ../src/scenes/Forum.rb:211 ../src/scenes/Forum.rb:489
+#: ../src/scenes/Forum.rb:984
 msgctxt "Forum"
 msgid "Search"
 msgstr "Ara"
 
-#: ../src/scenes/Forum.rb:212 ../src/scenes/Forum.rb:236
-#: ../src/scenes/Forum.rb:257 ../src/scenes/Forum.rb:278
-#: ../src/scenes/Forum.rb:298 ../src/scenes/Forum.rb:318
-#: ../src/scenes/Forum.rb:339 ../src/scenes/Forum.rb:354
-#: ../src/scenes/Forum.rb:373 ../src/scenes/Forum.rb:1054
-#: ../src/scenes/Forum.rb:1576
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "Thread offered to my group"
+msgid_plural "Threads offered to my groups (%{count})"
+msgstr[0] "Grubuma teklif edilen konu"
+msgstr[1] "Grubuma teklif edilen %{count} konu"
+
+#: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
+#: ../src/scenes/Forum.rb:264 ../src/scenes/Forum.rb:285
+#: ../src/scenes/Forum.rb:305 ../src/scenes/Forum.rb:325
+#: ../src/scenes/Forum.rb:346 ../src/scenes/Forum.rb:361
+#: ../src/scenes/Forum.rb:380 ../src/scenes/Forum.rb:1063
+#: ../src/scenes/Forum.rb:1646
 msgctxt "Forum"
 msgid "posts"
 msgstr "Gönderiler"
 
-#: ../src/scenes/Forum.rb:212 ../src/scenes/Forum.rb:236
-#: ../src/scenes/Forum.rb:257 ../src/scenes/Forum.rb:278
-#: ../src/scenes/Forum.rb:298 ../src/scenes/Forum.rb:318
-#: ../src/scenes/Forum.rb:339 ../src/scenes/Forum.rb:354
-#: ../src/scenes/Forum.rb:373
-msgctxt "Forum"
-msgid "Forums"
-msgstr "Forumlar"
-
-#: ../src/scenes/Forum.rb:212 ../src/scenes/Forum.rb:236
-#: ../src/scenes/Forum.rb:257 ../src/scenes/Forum.rb:278
-#: ../src/scenes/Forum.rb:298 ../src/scenes/Forum.rb:318
-#: ../src/scenes/Forum.rb:339 ../src/scenes/Forum.rb:354
-#: ../src/scenes/Forum.rb:373 ../src/scenes/Forum.rb:1054
+#: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
+#: ../src/scenes/Forum.rb:264 ../src/scenes/Forum.rb:285
+#: ../src/scenes/Forum.rb:305 ../src/scenes/Forum.rb:325
+#: ../src/scenes/Forum.rb:346 ../src/scenes/Forum.rb:361
+#: ../src/scenes/Forum.rb:380 ../src/scenes/Forum.rb:1063
 msgctxt "Forum"
 msgid "Threads"
 msgstr "Konular"
 
-#: ../src/scenes/Forum.rb:212 ../src/scenes/Forum.rb:236
-#: ../src/scenes/Forum.rb:257 ../src/scenes/Forum.rb:278
-#: ../src/scenes/Forum.rb:298 ../src/scenes/Forum.rb:318
-#: ../src/scenes/Forum.rb:339 ../src/scenes/Forum.rb:354
-#: ../src/scenes/Forum.rb:373 ../src/scenes/Forum.rb:1054
-#: ../src/scenes/Forum.rb:1576
+#: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
+#: ../src/scenes/Forum.rb:264 ../src/scenes/Forum.rb:285
+#: ../src/scenes/Forum.rb:305 ../src/scenes/Forum.rb:325
+#: ../src/scenes/Forum.rb:346 ../src/scenes/Forum.rb:361
+#: ../src/scenes/Forum.rb:380
+msgctxt "Forum"
+msgid "Forums"
+msgstr "Forumlar"
+
+#: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
+#: ../src/scenes/Forum.rb:264 ../src/scenes/Forum.rb:285
+#: ../src/scenes/Forum.rb:305 ../src/scenes/Forum.rb:325
+#: ../src/scenes/Forum.rb:346 ../src/scenes/Forum.rb:361
+#: ../src/scenes/Forum.rb:380 ../src/scenes/Forum.rb:1063
+#: ../src/scenes/Forum.rb:1646
 msgctxt "Forum"
 msgid "Unread"
 msgstr "Okunmamış"
 
-#: ../src/scenes/Forum.rb:236 ../src/scenes/Forum.rb:278
-#: ../src/scenes/Forum.rb:298 ../src/scenes/Forum.rb:318
-#: ../src/scenes/Forum.rb:339 ../src/scenes/Forum.rb:354
-#: ../src/scenes/Forum.rb:373 ../src/scenes/Forum.rb:770
+#: ../src/scenes/Forum.rb:243 ../src/scenes/Forum.rb:285
+#: ../src/scenes/Forum.rb:305 ../src/scenes/Forum.rb:325
+#: ../src/scenes/Forum.rb:346 ../src/scenes/Forum.rb:361
+#: ../src/scenes/Forum.rb:380 ../src/scenes/Forum.rb:779
 msgctxt "Forum"
 msgid "Administrator"
 msgstr "Yönetici"
 
-#: ../src/scenes/Forum.rb:381 ../src/scenes/Forum.rb:383
-#: ../src/scenes/Forum.rb:1057 ../src/scenes/Forum.rb:1245
-#: ../src/scenes/Forum.rb:1579 ../src/scenes/Forum.rb:1907
-#: ../src/scenes/Forum.rb:2550
+#: ../src/scenes/Forum.rb:388 ../src/scenes/Forum.rb:390
+#: ../src/scenes/Forum.rb:1066 ../src/scenes/Forum.rb:1254
+#: ../src/scenes/Forum.rb:1649 ../src/scenes/Forum.rb:1977
+#: ../src/scenes/Forum.rb:2635
 msgctxt "Forum"
 msgid "Forum"
 msgstr "Forum"
 
-#: ../src/scenes/Forum.rb:454 ../src/scenes/Forum.rb:1197
-#: ../src/scenes/Forum.rb:1620
+#: ../src/scenes/Forum.rb:463 ../src/scenes/Forum.rb:1206
+#: ../src/scenes/Forum.rb:1690
 msgctxt "Forum"
 msgid "Open"
 msgstr "Aç"
 
-#: ../src/scenes/Forum.rb:458
+#: ../src/scenes/Forum.rb:467
 msgctxt "Forum"
 msgid "Show all threads"
 msgstr "Tüm konuları göster"
 
-#: ../src/scenes/Forum.rb:464
+#: ../src/scenes/Forum.rb:473
 msgctxt "Forum"
 msgid "Pin this group"
 msgstr "Bu grubu sabitle"
 
-#: ../src/scenes/Forum.rb:465
+#: ../src/scenes/Forum.rb:474
 msgctxt "Forum"
 msgid "Unpin this group"
 msgstr "Bu grubun sabitlenmesini kaldır"
 
-#: ../src/scenes/Forum.rb:474
+#: ../src/scenes/Forum.rb:483
 msgctxt "Forum"
 msgid "Group has been pinned"
 msgstr "Grup sabitlendi"
 
-#: ../src/scenes/Forum.rb:476
+#: ../src/scenes/Forum.rb:485
 msgctxt "Forum"
 msgid "Group has been unpinned"
 msgstr "Grubun sabitlenmesi kaldırıldı"
 
-#: ../src/scenes/Forum.rb:490
+#: ../src/scenes/Forum.rb:499
 msgctxt "Forum"
 msgid "Group blog"
 msgstr "Grup bloğu"
 
-#: ../src/scenes/Forum.rb:494 ../src/scenes/Forum.rb:561
+#: ../src/scenes/Forum.rb:503 ../src/scenes/Forum.rb:570
 msgctxt "Forum"
 msgid "Group summary"
 msgstr "Grup özeti"
 
-#: ../src/scenes/Forum.rb:497 ../src/scenes/Forum.rb:938
-#: ../src/scenes/Forum.rb:3538
+#: ../src/scenes/Forum.rb:506 ../src/scenes/Forum.rb:947
+#: ../src/scenes/Forum.rb:3623
 msgctxt "Forum"
 msgid "Language"
 msgstr "Dil"
 
-#: ../src/scenes/Forum.rb:498 ../src/scenes/Forum.rb:938
-#: ../src/scenes/Forum.rb:3540
+#: ../src/scenes/Forum.rb:507 ../src/scenes/Forum.rb:947
+#: ../src/scenes/Forum.rb:3625
 msgctxt "Forum"
 msgid "Hidden"
 msgstr "Gizli"
 
-#: ../src/scenes/Forum.rb:499 ../src/scenes/Forum.rb:938
-#: ../src/scenes/Forum.rb:3540
+#: ../src/scenes/Forum.rb:508 ../src/scenes/Forum.rb:947
+#: ../src/scenes/Forum.rb:3625
 msgctxt "Forum"
 msgid "Public"
 msgstr "Açık"
 
-#: ../src/scenes/Forum.rb:503 ../src/scenes/Forum.rb:950
-#: ../src/scenes/Forum.rb:3576
+#: ../src/scenes/Forum.rb:512 ../src/scenes/Forum.rb:959
+#: ../src/scenes/Forum.rb:3661
 msgctxt "Forum"
 msgid "closed (only invited users can join)"
 msgstr "Kapalı (sadece davet edilen kullanıcılar katılabilir)"
 
-#: ../src/scenes/Forum.rb:505 ../src/scenes/Forum.rb:509
-#: ../src/scenes/Forum.rb:938 ../src/scenes/Forum.rb:950
-#: ../src/scenes/Forum.rb:952 ../src/scenes/Forum.rb:3576
-#: ../src/scenes/Forum.rb:3578
+#: ../src/scenes/Forum.rb:514 ../src/scenes/Forum.rb:518
+#: ../src/scenes/Forum.rb:947 ../src/scenes/Forum.rb:959
+#: ../src/scenes/Forum.rb:961 ../src/scenes/Forum.rb:3661
+#: ../src/scenes/Forum.rb:3663
 msgctxt "Forum"
 msgid "Moderated (everyone can request)"
 msgstr "Yönetilen (herkes istek gönderebilir)"
 
-#: ../src/scenes/Forum.rb:511 ../src/scenes/Forum.rb:938
-#: ../src/scenes/Forum.rb:952 ../src/scenes/Forum.rb:3578
+#: ../src/scenes/Forum.rb:520 ../src/scenes/Forum.rb:947
+#: ../src/scenes/Forum.rb:961 ../src/scenes/Forum.rb:3663
 msgctxt "Forum"
 msgid "open (everyone can join)"
 msgstr "Açık (herkes katılabilir)"
 
-#: ../src/scenes/Forum.rb:515
+#: ../src/scenes/Forum.rb:524
 msgctxt "Forum"
 msgid "Recommended"
 msgstr "Önerilen"
 
-#: ../src/scenes/Forum.rb:517 ../src/scenes/Forum.rb:938
-#: ../src/scenes/Forum.rb:3540
+#: ../src/scenes/Forum.rb:526 ../src/scenes/Forum.rb:947
+#: ../src/scenes/Forum.rb:3625
 msgctxt "Forum"
 msgid "Group type"
 msgstr "Grup türü"
 
-#: ../src/scenes/Forum.rb:518 ../src/scenes/Forum.rb:938
-#: ../src/scenes/Forum.rb:3541
+#: ../src/scenes/Forum.rb:527 ../src/scenes/Forum.rb:947
+#: ../src/scenes/Forum.rb:3626
 msgctxt "Forum"
 msgid "Group join type"
 msgstr "Gruba katılım türü"
 
-#: ../src/scenes/Forum.rb:519 ../src/scenes/Forum.rb:754
+#: ../src/scenes/Forum.rb:528 ../src/scenes/Forum.rb:763
 msgctxt "Forum"
 msgid "Members"
 msgstr "Üyeler"
 
-#: ../src/scenes/Forum.rb:520
+#: ../src/scenes/Forum.rb:529
 msgctxt "Forum"
 msgid "Founder"
 msgstr "Kurucu"
 
-#: ../src/scenes/Forum.rb:523
+#: ../src/scenes/Forum.rb:532
 msgctxt "Forum"
 msgid "Founded at"
 msgstr "Şu zamanda kuruldu"
 
-#: ../src/scenes/Forum.rb:526
+#: ../src/scenes/Forum.rb:535
 msgctxt "Forum"
 msgid "The most active members"
 msgstr "En aktif üyeler"
 
-#: ../src/scenes/Forum.rb:530
+#: ../src/scenes/Forum.rb:539
 msgctxt "Forum"
 msgid "Group size"
 msgstr "Grup boyutu"
 
-#: ../src/scenes/Forum.rb:540
+#: ../src/scenes/Forum.rb:549
 msgctxt "Forum"
 msgid "Audio posts"
 msgstr "Sesli gönderiler"
 
-#: ../src/scenes/Forum.rb:542 ../src/scenes/Forum.rb:2011
-#: ../src/scenes/Forum.rb:2427 ../src/scenes/Forum.rb:2506
-#: ../src/scenes/Forum.rb:3050
+#: ../src/scenes/Forum.rb:551 ../src/scenes/Forum.rb:2081
+#: ../src/scenes/Forum.rb:2512 ../src/scenes/Forum.rb:2591
+#: ../src/scenes/Forum.rb:3135
 msgctxt "Forum"
 msgid "Attachments"
 msgstr "Ekler"
 
-#: ../src/scenes/Forum.rb:544
+#: ../src/scenes/Forum.rb:553
 msgctxt "Forum"
 msgid "Text"
 msgstr "Metin"
 
-#: ../src/scenes/Forum.rb:546
+#: ../src/scenes/Forum.rb:555
 msgctxt "Forum"
 msgid "Overall size"
 msgstr "Ortalama boyut"
 
-#: ../src/scenes/Forum.rb:565 ../src/scenes/Forum.rb:3587
+#: ../src/scenes/Forum.rb:574 ../src/scenes/Forum.rb:3672
 msgctxt "Forum"
 msgid "Group regulations"
 msgstr "Grup kuralları"
 
-#: ../src/scenes/Forum.rb:566
+#: ../src/scenes/Forum.rb:575
 msgctxt "Forum"
 msgid "Edit group regulations"
 msgstr "Grup kurallarını düzenle"
 
-#: ../src/scenes/Forum.rb:572
+#: ../src/scenes/Forum.rb:581
 msgctxt "Forum"
 msgid "Message of the day"
 msgstr "Günün mesajı"
 
-#: ../src/scenes/Forum.rb:573
+#: ../src/scenes/Forum.rb:582
 msgctxt "Forum"
 msgid "Edit message of the day"
 msgstr "Günün mesajını düzenle"
 
-#: ../src/scenes/Forum.rb:578
+#: ../src/scenes/Forum.rb:587
 msgctxt "Forum"
 msgid "Group members"
 msgstr "Grup üyeleri"
 
-#: ../src/scenes/Forum.rb:582
+#: ../src/scenes/Forum.rb:591
 msgctxt "Forum"
 msgid "Join"
 msgstr "Katıl"
 
-#: ../src/scenes/Forum.rb:583
+#: ../src/scenes/Forum.rb:592
 msgctxt "Forum"
 msgid "Accept invitation"
 msgstr "Daveti kabul et"
 
-#: ../src/scenes/Forum.rb:584
+#: ../src/scenes/Forum.rb:593
 msgctxt "Forum"
 msgid "Ask to be enrolled in this group"
 msgstr "Bu gruba katılım isteği gönder"
 
-#: ../src/scenes/Forum.rb:589
+#: ../src/scenes/Forum.rb:598
 msgctxt "Forum"
 msgid "Do you wish to ask to be enrolled in %{groupname}"
 msgstr ""
 "%{groupname} grubuna katılım isteği göndermek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:591
+#: ../src/scenes/Forum.rb:600
 msgctxt "Forum"
 msgid "Are you sure you want to join %{groupname}?"
 msgstr "%{groupname} grubuna katılmak istediğinizdden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:597
+#: ../src/scenes/Forum.rb:606
 msgctxt "Forum"
 msgid "Request sent"
 msgstr "İstek gönderildi"
 
-#: ../src/scenes/Forum.rb:600
+#: ../src/scenes/Forum.rb:609
 msgctxt "Forum"
 msgid "You've just joined the group"
 msgstr "Gruba katıldınız"
 
-#: ../src/scenes/Forum.rb:612
+#: ../src/scenes/Forum.rb:621
 msgctxt "Forum"
 msgid "Add this group to quick actions"
 msgstr "Bu grubu hızlı eylemlere ekle"
 
-#: ../src/scenes/Forum.rb:613
+#: ../src/scenes/Forum.rb:622
 msgctxt "Forum"
 msgid "Group"
 msgstr "Grup"
 
-#: ../src/scenes/Forum.rb:614
+#: ../src/scenes/Forum.rb:623
 msgctxt "Forum"
 msgid "Group added to quick actions"
 msgstr "Grup hızlı eylemlere eklendi"
 
-#: ../src/scenes/Forum.rb:618
+#: ../src/scenes/Forum.rb:627
 msgctxt "Forum"
 msgid "Leave"
 msgstr "Çık"
 
-#: ../src/scenes/Forum.rb:619
+#: ../src/scenes/Forum.rb:628
 msgctxt "Forum"
 msgid "Refuse invitation"
 msgstr "Daveti reddet"
 
-#: ../src/scenes/Forum.rb:622
+#: ../src/scenes/Forum.rb:631
 msgctxt "Forum"
 msgid "Are you sure you want to leave %{groupname}?"
 msgstr "%{groupname} grubundan çıkmak istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:625
+#: ../src/scenes/Forum.rb:634
 msgctxt "Forum"
 msgid "You've just left the group"
 msgstr "Gruptan çıktınız"
 
-#: ../src/scenes/Forum.rb:634
+#: ../src/scenes/Forum.rb:643
 msgctxt "Forum"
 msgid "Mark this group as read"
 msgstr "Grubu okundu olarak işaretle"
 
-#: ../src/scenes/Forum.rb:635
+#: ../src/scenes/Forum.rb:644
 msgctxt "Forum"
 msgid ""
 "All posts in this group will be marked as read. Are you sure you want to "
@@ -5558,108 +5994,108 @@ msgstr ""
 "Gruptaki tüm gönderiler okundu olarak işaretlenecektir. Devam etmek "
 "istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:645
+#: ../src/scenes/Forum.rb:654
 msgctxt "Forum"
 msgid "The group has been marked as read."
 msgstr "Grup okundu olarak işaretlendi."
 
-#: ../src/scenes/Forum.rb:652
+#: ../src/scenes/Forum.rb:661
 msgctxt "Forum"
 msgid "Edit group"
 msgstr "Grubu düzenle"
 
-#: ../src/scenes/Forum.rb:658
+#: ../src/scenes/Forum.rb:667
 msgctxt "Forum"
 msgid "Delete group"
 msgstr "Grubu sil"
 
-#: ../src/scenes/Forum.rb:659
+#: ../src/scenes/Forum.rb:668
 msgctxt "Forum"
 msgid "Are you sure you want to delete %{groupname}?"
 msgstr "%{groupname} grubunu silmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:663
+#: ../src/scenes/Forum.rb:672
 msgctxt "Forum"
 msgid "Group has been deleted"
 msgstr "Grup silindi"
 
-#: ../src/scenes/Forum.rb:672
+#: ../src/scenes/Forum.rb:681
 msgctxt "Forum"
 msgid "Show groups in unknown languages"
 msgstr "Bilinmeyen dillerde olan grupları göster"
 
-#: ../src/scenes/Forum.rb:673
+#: ../src/scenes/Forum.rb:682
 msgctxt "Forum"
 msgid "Hide groups in unknown languages"
 msgstr "Bilinmeyen dillerde olan grupları gizle"
 
-#: ../src/scenes/Forum.rb:683
+#: ../src/scenes/Forum.rb:692
 msgctxt "Forum"
 msgid "New group"
 msgstr "Yeni grup"
 
-#: ../src/scenes/Forum.rb:705
+#: ../src/scenes/Forum.rb:714
 msgctxt "Forum"
 msgid "Message of the day of group %{groupname}"
 msgstr "%{groupname} grubunun günün mesajı"
 
-#: ../src/scenes/Forum.rb:719
+#: ../src/scenes/Forum.rb:728
 msgctxt "Forum"
 msgid "Message of the day updated"
 msgstr "Günün mesajı güncellendi"
 
-#: ../src/scenes/Forum.rb:731 ../src/scenes/Forum.rb:911
-#: ../src/scenes/Forum.rb:2467
+#: ../src/scenes/Forum.rb:740 ../src/scenes/Forum.rb:920
+#: ../src/scenes/Forum.rb:2552
 msgctxt "Forum"
 msgid "Regulations of group %{groupname}"
 msgstr "%{groupname} grubunun kuralları"
 
-#: ../src/scenes/Forum.rb:744
+#: ../src/scenes/Forum.rb:753
 msgctxt "Forum"
 msgid "Regulations updated"
 msgstr "Kurallar güncellendi"
 
-#: ../src/scenes/Forum.rb:772
+#: ../src/scenes/Forum.rb:781
 msgctxt "Forum"
 msgid "Moderator"
 msgstr "Moderatör"
 
-#: ../src/scenes/Forum.rb:774
+#: ../src/scenes/Forum.rb:783
 msgctxt "Forum"
 msgid "Banned"
 msgstr "Banlandı"
 
-#: ../src/scenes/Forum.rb:776
+#: ../src/scenes/Forum.rb:785
 msgctxt "Forum"
 msgid "Invited"
 msgstr "Davet edildi"
 
-#: ../src/scenes/Forum.rb:778
+#: ../src/scenes/Forum.rb:787
 msgctxt "Forum"
 msgid "Waiting for review"
 msgstr "İnceleme için bekleniyor"
 
-#: ../src/scenes/Forum.rb:793 ../src/scenes/Forum.rb:803
+#: ../src/scenes/Forum.rb:802 ../src/scenes/Forum.rb:812
 msgctxt "Forum"
 msgid "Privileges of this user have been changed."
 msgstr "Bu kullanıcının izinleri değiştirildi."
 
-#: ../src/scenes/Forum.rb:815
+#: ../src/scenes/Forum.rb:824
 msgctxt "Forum"
 msgid "Grant moderation privileges"
 msgstr "Moderasyon izinleri ver"
 
-#: ../src/scenes/Forum.rb:817
+#: ../src/scenes/Forum.rb:826
 msgctxt "Forum"
 msgid "Deny moderation privileges"
 msgstr "Moderasyon izinlerini al"
 
-#: ../src/scenes/Forum.rb:818
+#: ../src/scenes/Forum.rb:827
 msgctxt "Forum"
 msgid "Pass administrative privileges"
 msgstr "Yönetici izinlerini devret"
 
-#: ../src/scenes/Forum.rb:819
+#: ../src/scenes/Forum.rb:828
 msgctxt "Forum"
 msgid ""
 "Are you sure you want to resign your administrative privileges in "
@@ -5668,264 +6104,264 @@ msgstr ""
 "%{groupname} grubunda yönetici izinlerinizden vazgeçip onları %{user} "
 "kişisine devretmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:830
+#: ../src/scenes/Forum.rb:839
 msgctxt "Forum"
 msgid "Ban in this group"
 msgstr "Bu gruptan banla"
 
-#: ../src/scenes/Forum.rb:831
+#: ../src/scenes/Forum.rb:840
 msgctxt "Forum"
 msgid "Are you sure you want to ban %{user} in %{groupname}?"
 msgstr ""
 "%{groupname} grubunda %{user} kişisini banlamak istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:834
+#: ../src/scenes/Forum.rb:843
 msgctxt "Forum"
 msgid "Kick"
 msgstr "Çıkart"
 
-#: ../src/scenes/Forum.rb:835
+#: ../src/scenes/Forum.rb:844
 msgctxt "Forum"
 msgid "Are you sure you want to kick %{user} out of %{groupname}?"
 msgstr ""
 "%{groupname} grubundan %{user} kullanıcısını çıkartmak istediğinizden emin "
 "misiniz?"
 
-#: ../src/scenes/Forum.rb:839
+#: ../src/scenes/Forum.rb:848
 msgctxt "Forum"
 msgid "Unban"
 msgstr "Banı kaldır"
 
-#: ../src/scenes/Forum.rb:840
+#: ../src/scenes/Forum.rb:849
 msgctxt "Forum"
 msgid "Are you sure you want to unban %{user} in %{groupname}?"
 msgstr ""
 "%{groupname} grubunda %{user} kişisinin banını kaldırmak istediğinizden emin "
 "misiniz?"
 
-#: ../src/scenes/Forum.rb:843
+#: ../src/scenes/Forum.rb:852
 msgctxt "Forum"
 msgid "Accept"
 msgstr "Kabul et"
 
-#: ../src/scenes/Forum.rb:844
+#: ../src/scenes/Forum.rb:853
 msgctxt "Forum"
 msgid "Do you want to accept request of user %{user}"
 msgstr "%{user} kullanıcısının isteğini kabul etmek istiyor musunuz?"
 
-#: ../src/scenes/Forum.rb:846
+#: ../src/scenes/Forum.rb:855
 msgctxt "Forum"
 msgid "Refuse"
 msgstr "Reddet"
 
-#: ../src/scenes/Forum.rb:847
+#: ../src/scenes/Forum.rb:856
 msgctxt "Forum"
 msgid "Do you want to refuse request of user %{user}"
 msgstr "%{user} kişisinin isteğini reddetmek istiyor musunuz?"
 
-#: ../src/scenes/Forum.rb:850
+#: ../src/scenes/Forum.rb:859
 msgctxt "Forum"
 msgid "Cancel invitation"
 msgstr "Daveti iptal et"
 
-#: ../src/scenes/Forum.rb:851
+#: ../src/scenes/Forum.rb:860
 msgctxt "Forum"
 msgid "Are you sure you want to cancel invitation of %{user} to %{groupname}?"
 msgstr ""
 "%{user} kullanıcısının %{groupname} grubuna olan davetini iptal etmek "
 "istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:858
+#: ../src/scenes/Forum.rb:867
 msgctxt "Forum"
 msgid "Invite"
 msgstr "Davet et"
 
-#: ../src/scenes/Forum.rb:859
+#: ../src/scenes/Forum.rb:868
 msgctxt "Forum"
 msgid "User to invite"
 msgstr "Davet edilecek kullanıcı"
 
-#: ../src/scenes/Forum.rb:864
+#: ../src/scenes/Forum.rb:873
 msgctxt "Forum"
 msgid "The user has been invited"
 msgstr "Kullanıcı davet edildi"
 
-#: ../src/scenes/Forum.rb:870 ../src/scenes/Messages.rb:976
+#: ../src/scenes/Forum.rb:879 ../src/scenes/Messages.rb:980
 #: ../src/scenes/Users.rb:21
 msgid "You haven't permissions to do this"
 msgstr "Bunu yapmaya izniniz yok"
 
-#: ../src/scenes/Forum.rb:872
+#: ../src/scenes/Forum.rb:881
 msgctxt "Forum"
 msgid "This user does not exist"
 msgstr "Bu kullanıcı yok"
 
-#: ../src/scenes/Forum.rb:874
+#: ../src/scenes/Forum.rb:883
 msgctxt "Forum"
 msgid "This user already belongs to this group"
 msgstr "Bu kullanıcı zaten bu grupta"
 
-#: ../src/scenes/Forum.rb:912 ../src/scenes/Forum.rb:2468
+#: ../src/scenes/Forum.rb:921 ../src/scenes/Forum.rb:2553
 msgctxt "Forum"
 msgid "I accept regulations of group %{groupname}"
 msgstr "%{groupname} grubunun kurallarını kabul ediyorum"
 
-#: ../src/scenes/Forum.rb:913 ../src/scenes/Forum.rb:2469
+#: ../src/scenes/Forum.rb:922 ../src/scenes/Forum.rb:2554
 msgctxt "Forum"
 msgid "I decline regulations of group %{groupname}"
 msgstr "%{groupname} grubunun kurallarını reddediyorum"
 
-#: ../src/scenes/Forum.rb:938 ../src/scenes/Forum.rb:3528
+#: ../src/scenes/Forum.rb:947 ../src/scenes/Forum.rb:3613
 msgctxt "Forum"
 msgid "Group name"
 msgstr "Grup adı"
 
-#: ../src/scenes/Forum.rb:938 ../src/scenes/Forum.rb:3529
+#: ../src/scenes/Forum.rb:947 ../src/scenes/Forum.rb:3614
 msgctxt "Forum"
 msgid "Group description"
 msgstr "Grup açıklaması"
 
-#: ../src/scenes/Forum.rb:944
+#: ../src/scenes/Forum.rb:953
 msgctxt "Forum"
 msgid "Create group"
 msgstr "Grup oluştur"
 
-#: ../src/scenes/Forum.rb:959
+#: ../src/scenes/Forum.rb:968
 msgctxt "Forum"
 msgid "Group has been created"
 msgstr "Grup oluşturuldu"
 
-#: ../src/scenes/Forum.rb:972
+#: ../src/scenes/Forum.rb:981
 msgctxt "Forum"
 msgid "Search query"
 msgstr "Arama sorgusu"
 
-#: ../src/scenes/Forum.rb:973
-msgctxt "Forum"
-msgid "Content"
-msgstr "İçerik"
-
-#: ../src/scenes/Forum.rb:973
+#: ../src/scenes/Forum.rb:982
 msgctxt "Forum"
 msgid "Titles"
 msgstr "Başlıklar"
 
-#: ../src/scenes/Forum.rb:973
+#: ../src/scenes/Forum.rb:982
+msgctxt "Forum"
+msgid "Content"
+msgstr "İçerik"
+
+#: ../src/scenes/Forum.rb:982
 msgctxt "Forum"
 msgid "Search in"
 msgstr "Şurada ara"
 
-#: ../src/scenes/Forum.rb:974
-msgctxt "Forum"
-msgid "Joined groups"
-msgstr "Katılınılan gruplar"
-
-#: ../src/scenes/Forum.rb:974
+#: ../src/scenes/Forum.rb:983
 msgctxt "Forum"
 msgid "of threads in"
 msgstr "Şuradaki konularda"
 
-#: ../src/scenes/Forum.rb:974
+#: ../src/scenes/Forum.rb:983
 msgctxt "Forum"
-msgid "Not joined groups"
-msgstr "Katılınmayan gruplar"
+msgid "Joined groups"
+msgstr "Katılınılan gruplar"
 
-#: ../src/scenes/Forum.rb:974
+#: ../src/scenes/Forum.rb:983
 msgctxt "Forum"
 msgid "Recommended groups"
 msgstr "Önerilen gruplar"
 
-#: ../src/scenes/Forum.rb:1055
+#: ../src/scenes/Forum.rb:983
+msgctxt "Forum"
+msgid "Not joined groups"
+msgstr "Katılınmayan gruplar"
+
+#: ../src/scenes/Forum.rb:1064
 msgctxt "Forum"
 msgid "Select forum"
 msgstr "Forum seçin"
 
-#: ../src/scenes/Forum.rb:1082
+#: ../src/scenes/Forum.rb:1091
 msgctxt "Forum"
 msgid "Forum tags"
 msgstr "Forum etiketleri"
 
-#: ../src/scenes/Forum.rb:1084
+#: ../src/scenes/Forum.rb:1093
 msgctxt "Forum"
 msgid "New tag"
 msgstr "Yeni etiket"
 
-#: ../src/scenes/Forum.rb:1097
+#: ../src/scenes/Forum.rb:1106
 msgctxt "Forum"
 msgid "Delete tag"
 msgstr "Etiketi sil"
 
-#: ../src/scenes/Forum.rb:1098
+#: ../src/scenes/Forum.rb:1107
 msgctxt "Forum"
 msgid "Are you sure you want to delete this tag?"
 msgstr "Bu etiketi silmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:1124
+#: ../src/scenes/Forum.rb:1133
 msgctxt "Forum"
 msgid "Tag name"
 msgstr "Etiket adı"
 
-#: ../src/scenes/Forum.rb:1125
+#: ../src/scenes/Forum.rb:1134
 msgctxt "Forum"
 msgid "Possible tag values"
 msgstr "Mevcut  etiket değerleri"
 
-#: ../src/scenes/Forum.rb:1131
+#: ../src/scenes/Forum.rb:1140
 msgctxt "Forum"
 msgid "Add tag value"
 msgstr "Etiket değeri ekle"
 
-#: ../src/scenes/Forum.rb:1132 ../src/scenes/Forum.rb:1145
+#: ../src/scenes/Forum.rb:1141 ../src/scenes/Forum.rb:1154
 msgctxt "Forum"
 msgid "Tag value"
 msgstr "Etiket değeri"
 
-#: ../src/scenes/Forum.rb:1134 ../src/scenes/Forum.rb:1147
+#: ../src/scenes/Forum.rb:1143 ../src/scenes/Forum.rb:1156
 msgctxt "Forum"
 msgid "Tag values cannot contain punctuation characters"
 msgstr "Etiket değerleri noktalama işareti içeremez"
 
-#: ../src/scenes/Forum.rb:1144
+#: ../src/scenes/Forum.rb:1153
 msgctxt "Forum"
 msgid "Edit tag value"
 msgstr "Etiket değerini düzenle"
 
-#: ../src/scenes/Forum.rb:1156
+#: ../src/scenes/Forum.rb:1165
 msgctxt "Forum"
 msgid "Delete tag value"
 msgstr "Etiket değerini sil"
 
-#: ../src/scenes/Forum.rb:1173
+#: ../src/scenes/Forum.rb:1182
 msgctxt "Forum"
 msgid "Tag must have at least one value"
 msgstr "Etiket en az bir değer içermelidir"
 
-#: ../src/scenes/Forum.rb:1202
+#: ../src/scenes/Forum.rb:1211
 msgctxt "Forum"
 msgid "Follow this forum"
 msgstr "forumu takip et"
 
-#: ../src/scenes/Forum.rb:1203
+#: ../src/scenes/Forum.rb:1212
 msgctxt "Forum"
 msgid "Unfollow this forum"
 msgstr "Bu forumu takibi bırak"
 
-#: ../src/scenes/Forum.rb:1209
+#: ../src/scenes/Forum.rb:1218
 msgctxt "Forum"
 msgid "Added to followed forums list."
 msgstr "Takip edilen forumlar listesine eklendi"
 
-#: ../src/scenes/Forum.rb:1216
+#: ../src/scenes/Forum.rb:1225
 msgctxt "Forum"
 msgid "Removed from followed forums list."
 msgstr "Takip edilen forumlar listesinden kaldırıldı"
 
-#: ../src/scenes/Forum.rb:1228
+#: ../src/scenes/Forum.rb:1237
 msgctxt "Forum"
 msgid "Mark this forum as read"
 msgstr "Bu forumu okundu olarak işaretle"
 
-#: ../src/scenes/Forum.rb:1229
+#: ../src/scenes/Forum.rb:1238
 msgctxt "Forum"
 msgid ""
 "All posts on this forum will be marked as read. Are you sure you want to "
@@ -5934,961 +6370,961 @@ msgstr ""
 "Forumdaki tüm gönderiler okundu olarak işaretlenecektir. Devam etmek "
 "istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:1238
+#: ../src/scenes/Forum.rb:1247
 msgctxt "Forum"
 msgid "The forum has been marked as read."
 msgstr "Forum okundu olarak işaretlendi."
 
-#: ../src/scenes/Forum.rb:1244
+#: ../src/scenes/Forum.rb:1253
 msgctxt "Forum"
 msgid "Add this forum to quick actions"
 msgstr "Bu forumu hızlı eylemlere ekle"
 
-#: ../src/scenes/Forum.rb:1246
+#: ../src/scenes/Forum.rb:1255
 msgctxt "Forum"
 msgid "Forum added to quick actions"
 msgstr "Forum hızlı eylemlere eklendi"
 
-#: ../src/scenes/Forum.rb:1252 ../src/scenes/Forum.rb:1692
-#: ../src/scenes/Forum.rb:2903
+#: ../src/scenes/Forum.rb:1261 ../src/scenes/Forum.rb:1762
+#: ../src/scenes/Forum.rb:2988
 msgctxt "Forum"
 msgid "Moderation"
 msgstr "Yönetim"
 
-#: ../src/scenes/Forum.rb:1253
+#: ../src/scenes/Forum.rb:1262
 msgctxt "Forum"
 msgid "New forum"
 msgstr "Yeni forum"
 
-#: ../src/scenes/Forum.rb:1259
+#: ../src/scenes/Forum.rb:1268
 msgctxt "Forum"
 msgid "Edit forum"
 msgstr "Forumu düzenle"
 
-#: ../src/scenes/Forum.rb:1260 ../src/scenes/Forum.rb:1360
-msgctxt "Forum"
-msgid "Forum name"
-msgstr "Forum adı"
-
-#: ../src/scenes/Forum.rb:1260 ../src/scenes/Forum.rb:1360
-msgctxt "Forum"
-msgid "Forum description"
-msgstr "Forum açıklaması"
-
-#: ../src/scenes/Forum.rb:1260 ../src/scenes/Forum.rb:1360
-msgctxt "Forum"
-msgid "Text forum"
-msgstr "Metinli forum"
-
-#: ../src/scenes/Forum.rb:1260 ../src/scenes/Forum.rb:1360
-msgctxt "Forum"
-msgid "Voice forum"
-msgstr "Sesli forum"
-
-#: ../src/scenes/Forum.rb:1260 ../src/scenes/Forum.rb:1360
+#: ../src/scenes/Forum.rb:1269 ../src/scenes/Forum.rb:1369
 msgctxt "Forum"
 msgid "Mixed forum"
 msgstr "Karışık forum"
 
-#: ../src/scenes/Forum.rb:1260 ../src/scenes/Forum.rb:1360
+#: ../src/scenes/Forum.rb:1269 ../src/scenes/Forum.rb:1369
+msgctxt "Forum"
+msgid "Forum name"
+msgstr "Forum adı"
+
+#: ../src/scenes/Forum.rb:1269 ../src/scenes/Forum.rb:1369
+msgctxt "Forum"
+msgid "Forum description"
+msgstr "Forum açıklaması"
+
+#: ../src/scenes/Forum.rb:1269 ../src/scenes/Forum.rb:1369
+msgctxt "Forum"
+msgid "Text forum"
+msgstr "Metinli forum"
+
+#: ../src/scenes/Forum.rb:1269 ../src/scenes/Forum.rb:1369
+msgctxt "Forum"
+msgid "Voice forum"
+msgstr "Sesli forum"
+
+#: ../src/scenes/Forum.rb:1269 ../src/scenes/Forum.rb:1369
 msgctxt "Forum"
 msgid "Forum type"
 msgstr "Forum türü"
 
-#: ../src/scenes/Forum.rb:1294
+#: ../src/scenes/Forum.rb:1303
 msgctxt "Forum"
 msgid "Close forum"
 msgstr "Forumu kapat"
 
-#: ../src/scenes/Forum.rb:1295
+#: ../src/scenes/Forum.rb:1304
 msgctxt "Forum"
 msgid "Open forum"
 msgstr "Forumu aç"
 
-#: ../src/scenes/Forum.rb:1305
+#: ../src/scenes/Forum.rb:1314
 msgctxt "Forum"
 msgid "The forum has been opened"
 msgstr "Forum açıldı"
 
-#: ../src/scenes/Forum.rb:1309
+#: ../src/scenes/Forum.rb:1318
 msgctxt "Forum"
 msgid "The forum has been closed"
 msgstr "Forum kapatıldı"
 
-#: ../src/scenes/Forum.rb:1314
+#: ../src/scenes/Forum.rb:1323
 msgctxt "Forum"
 msgid "Edit forum tags"
 msgstr "Forum etiketi düzenle"
 
-#: ../src/scenes/Forum.rb:1318
+#: ../src/scenes/Forum.rb:1327
 msgctxt "Forum"
 msgid "Change forum position"
 msgstr "Forum konumunu değiştir"
 
-#: ../src/scenes/Forum.rb:1321
-msgctxt "Forum"
-msgid "Move forum"
-msgstr "Forumu taşı"
-
-#: ../src/scenes/Forum.rb:1321 ../src/scenes/Forum.rb:3001
+#: ../src/scenes/Forum.rb:1330 ../src/scenes/Forum.rb:3086
 msgctxt "Forum"
 msgid "Move to end"
 msgstr "Sona taşı"
 
-#: ../src/scenes/Forum.rb:1336
+#: ../src/scenes/Forum.rb:1330
+msgctxt "Forum"
+msgid "Move forum"
+msgstr "Forumu taşı"
+
+#: ../src/scenes/Forum.rb:1345
 msgctxt "Forum"
 msgid "Delete forum"
 msgstr "Forumu sil"
 
-#: ../src/scenes/Forum.rb:1337
+#: ../src/scenes/Forum.rb:1346
 msgctxt "Forum"
 msgid "Are you sure you want to delete this forum?"
 msgstr "Bu forumu silmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:1342
+#: ../src/scenes/Forum.rb:1351
 msgctxt "Forum"
 msgid "The forum has been deleted."
 msgstr "Forum silindi."
 
-#: ../src/scenes/Forum.rb:1366
+#: ../src/scenes/Forum.rb:1375
 msgctxt "Forum"
 msgid "Create forum"
 msgstr "Forum oluştur"
 
-#: ../src/scenes/Forum.rb:1382
+#: ../src/scenes/Forum.rb:1391
 msgctxt "Forum"
 msgid "The forum has been created"
 msgstr "Forum oluşturuldu"
 
-#: ../src/scenes/Forum.rb:1533
+#: ../src/scenes/Forum.rb:1599
 msgctxt "Forum"
 msgid "No new posts in followed threads"
 msgstr "Takip edilen konularda yeni gönderi yok"
 
-#: ../src/scenes/Forum.rb:1537
+#: ../src/scenes/Forum.rb:1603
 msgctxt "Forum"
 msgid "No new threads on the followed forums"
 msgstr "Takip edilen forumlarda yeni konu yok"
 
-#: ../src/scenes/Forum.rb:1541
+#: ../src/scenes/Forum.rb:1607
 msgctxt "Forum"
 msgid "No new posts on the followed forums"
 msgstr "Takip edilen forumlarda yeni gönderi yok"
 
-#: ../src/scenes/Forum.rb:1545
+#: ../src/scenes/Forum.rb:1611
 msgctxt "Forum"
 msgid "No new mentions"
 msgstr "Yeni bahsetme yok"
 
-#: ../src/scenes/Forum.rb:1558
+#: ../src/scenes/Forum.rb:1625
 msgctxt "Forum"
 msgid "New"
 msgstr "Yeni"
 
-#: ../src/scenes/Forum.rb:1562
+#: ../src/scenes/Forum.rb:1629
 msgctxt "Forum"
 msgid "Mentioned by"
 msgstr "tarafından bahsedildi"
 
-#: ../src/scenes/Forum.rb:1574
+#: ../src/scenes/Forum.rb:1644
 msgctxt "Forum"
 msgid "Select thread"
 msgstr "Konu seçin"
 
-#: ../src/scenes/Forum.rb:1576
+#: ../src/scenes/Forum.rb:1646
 msgctxt "Forum"
 msgid "Author"
 msgstr "Oluşturan"
 
-#: ../src/scenes/Forum.rb:1624 ../src/scenes/Forum.rb:2853
+#: ../src/scenes/Forum.rb:1694 ../src/scenes/Forum.rb:2938
 msgctxt "Forum"
 msgid "Mark this thread"
 msgstr "Bu konuyu işaretle"
 
-#: ../src/scenes/Forum.rb:1625 ../src/scenes/Forum.rb:2854
+#: ../src/scenes/Forum.rb:1695 ../src/scenes/Forum.rb:2939
 msgctxt "Forum"
 msgid "Unmark this thread"
 msgstr "Bu konunun işaretini kaldır"
 
-#: ../src/scenes/Forum.rb:1633 ../src/scenes/Forum.rb:2862
+#: ../src/scenes/Forum.rb:1703 ../src/scenes/Forum.rb:2947
 msgctxt "Forum"
 msgid "Thread unmarked"
 msgstr "Konunun işareti kaldırıldı"
 
-#: ../src/scenes/Forum.rb:1635 ../src/scenes/Forum.rb:2864
+#: ../src/scenes/Forum.rb:1705 ../src/scenes/Forum.rb:2949
 msgctxt "Forum"
 msgid "Thread marked"
 msgstr "Konu işaretlendi"
 
-#: ../src/scenes/Forum.rb:1644 ../src/scenes/Forum.rb:1907
-#: ../src/scenes/Forum.rb:2870
+#: ../src/scenes/Forum.rb:1714 ../src/scenes/Forum.rb:1977
+#: ../src/scenes/Forum.rb:2955
 msgctxt "Forum"
 msgid "Add to followed threads list"
 msgstr "Takip edilen konular listesine ekle"
 
-#: ../src/scenes/Forum.rb:1645 ../src/scenes/Forum.rb:2871
+#: ../src/scenes/Forum.rb:1715 ../src/scenes/Forum.rb:2956
 msgctxt "Forum"
 msgid "Unfollow this thread"
 msgstr "Bu konuyu takibi bırak"
 
-#: ../src/scenes/Forum.rb:1651 ../src/scenes/Forum.rb:2877
+#: ../src/scenes/Forum.rb:1721 ../src/scenes/Forum.rb:2962
 msgctxt "Forum"
 msgid "Added to the list of followed threads."
 msgstr "Takip edilen konular listesine eklendi."
 
-#: ../src/scenes/Forum.rb:1658 ../src/scenes/Forum.rb:2884
+#: ../src/scenes/Forum.rb:1728 ../src/scenes/Forum.rb:2969
 msgctxt "Forum"
 msgid "Removed from followed threads list."
 msgstr "Takip edilen konular listesinden kaldırıldı"
 
-#: ../src/scenes/Forum.rb:1666
+#: ../src/scenes/Forum.rb:1736
 msgctxt "Forum"
 msgid "Thread statistics"
 msgstr "Konu istatistikleri"
 
-#: ../src/scenes/Forum.rb:1670
+#: ../src/scenes/Forum.rb:1740
 msgctxt "Forum"
 msgid "Followers: %{count_followers}"
 msgstr "Takipçiler: %{count_followers}"
 
-#: ../src/scenes/Forum.rb:1671
+#: ../src/scenes/Forum.rb:1741
 msgctxt "Forum"
 msgid "All mentions: %{count_mentions}"
 msgstr "Tüm bahsetmeler: %{count_mentions}"
 
-#: ../src/scenes/Forum.rb:1672
+#: ../src/scenes/Forum.rb:1742
 msgctxt "Forum"
 msgid "Unique authors: %{count_authors}"
 msgstr "Tek yazarlar: %{count_authors}"
 
-#: ../src/scenes/Forum.rb:1673
+#: ../src/scenes/Forum.rb:1743
 msgctxt "Forum"
 msgid "Readers: %{count_readers}"
 msgstr "Okuyanlar: %{count_readers}"
 
-#: ../src/scenes/Forum.rb:1674
+#: ../src/scenes/Forum.rb:1744
 msgctxt "Forum"
 msgid "Users that have read less than 50 percent of posts: %{count_readers}"
 msgstr ""
 "Gönderilerin %50'sinden azını okumuş olan kullanıcılar: %{count_readers}"
 
-#: ../src/scenes/Forum.rb:1675
+#: ../src/scenes/Forum.rb:1745
 msgctxt "Forum"
 msgid "Users that have read over 90 percent of posts: %{count_readers}"
 msgstr ""
 "Gönderilerin %90'ından fazlasını okumuş olan kullanıcılar: %{count_readers}"
 
-#: ../src/scenes/Forum.rb:1676
+#: ../src/scenes/Forum.rb:1746
 msgctxt "Forum"
 msgid "Users that have read all posts: %{count_readers}"
 msgstr "Tüm gönderileri okumuş olan kullanıcılar: %{count_readers}"
 
-#: ../src/scenes/Forum.rb:1678
+#: ../src/scenes/Forum.rb:1748
 msgctxt "Forum"
 msgid "Thread statistics summary"
 msgstr "Konu istatistik özeti"
 
-#: ../src/scenes/Forum.rb:1684
+#: ../src/scenes/Forum.rb:1754
 msgctxt "Forum"
 msgid "New thread"
 msgstr "Yeni konu"
 
-#: ../src/scenes/Forum.rb:1693
+#: ../src/scenes/Forum.rb:1763
 msgctxt "Forum"
 msgid "Move thread"
 msgstr "Konuyu taşı"
 
-#: ../src/scenes/Forum.rb:1704
+#: ../src/scenes/Forum.rb:1774
 msgctxt "Forum"
 msgid "Thread destination"
 msgstr "Konu yeri"
 
-#: ../src/scenes/Forum.rb:1709
+#: ../src/scenes/Forum.rb:1779
 msgctxt "Forum"
 msgid "The thread has been moved."
 msgstr "Konu taşındı"
 
-#: ../src/scenes/Forum.rb:1716
+#: ../src/scenes/Forum.rb:1786
 msgctxt "Forum"
 msgid "Rename"
 msgstr "Yeniden adlandır"
 
-#: ../src/scenes/Forum.rb:1717
+#: ../src/scenes/Forum.rb:1787
 msgctxt "Forum"
 msgid "Type a new thread name"
 msgstr "Yeni konu ismi yazın"
 
-#: ../src/scenes/Forum.rb:1722
+#: ../src/scenes/Forum.rb:1792
 msgctxt "Forum"
 msgid "The forum name has been changed."
 msgstr "Forum adı değiştirildi"
 
-#: ../src/scenes/Forum.rb:1729
+#: ../src/scenes/Forum.rb:1799
 msgctxt "Forum"
 msgid "Delete thread"
 msgstr "Konuyu sil"
 
-#: ../src/scenes/Forum.rb:1730
+#: ../src/scenes/Forum.rb:1800
 msgctxt "Forum"
 msgid "Do you really want to delete thread %{thrname}?"
 msgstr "Gerçekten %{thrname} konusunu silmek istiyor musunuz?"
 
-#: ../src/scenes/Forum.rb:1734
+#: ../src/scenes/Forum.rb:1804
 msgctxt "Forum"
 msgid "This thread has been deleted."
 msgstr "Konu silindi."
 
-#: ../src/scenes/Forum.rb:1741
+#: ../src/scenes/Forum.rb:1811
 msgctxt "Forum"
 msgid "Close thread"
 msgstr "Konuyu kapat"
 
-#: ../src/scenes/Forum.rb:1742
+#: ../src/scenes/Forum.rb:1812
 msgctxt "Forum"
 msgid "Open thread"
 msgstr "Konuyu aç"
 
-#: ../src/scenes/Forum.rb:1752
+#: ../src/scenes/Forum.rb:1822
 msgctxt "Forum"
 msgid "The thread has been opened"
 msgstr "Konu açıldı"
 
-#: ../src/scenes/Forum.rb:1756
+#: ../src/scenes/Forum.rb:1826
 msgctxt "Forum"
 msgid "The thread has been closed"
 msgstr "Konu kapatıldı"
 
-#: ../src/scenes/Forum.rb:1761
+#: ../src/scenes/Forum.rb:1831
 msgctxt "Forum"
 msgid "Pin thread"
 msgstr "Konuyu sabitle"
 
-#: ../src/scenes/Forum.rb:1762
+#: ../src/scenes/Forum.rb:1832
 msgctxt "Forum"
 msgid "Unpin thread"
 msgstr "Konunun sabitlemesini kaldır"
 
-#: ../src/scenes/Forum.rb:1772
+#: ../src/scenes/Forum.rb:1842
 msgctxt "Forum"
 msgid "Thread has been unpinned"
 msgstr "Konunun sabitlenmesi kaldırıldı"
 
-#: ../src/scenes/Forum.rb:1776
+#: ../src/scenes/Forum.rb:1846
 msgctxt "Forum"
 msgid "Thread has been pinned"
 msgstr "Konu sabitlendi"
 
-#: ../src/scenes/Forum.rb:1782
+#: ../src/scenes/Forum.rb:1852
 msgctxt "Forum"
 msgid "Offer this thread to another group"
 msgstr "Konuyu başka gruba teklif et"
 
-#: ../src/scenes/Forum.rb:1794
+#: ../src/scenes/Forum.rb:1864
 msgctxt "Forum"
 msgid "Group founded by %{founder}"
 msgstr "Grup %{founder} tarafından kuruldu"
 
-#: ../src/scenes/Forum.rb:1795
+#: ../src/scenes/Forum.rb:1865
 msgctxt "Forum"
 msgid "Which group you want to offer this thread to?"
 msgstr "Konuyu hangi gruba teklif etmek istersiniz?"
 
-#: ../src/scenes/Forum.rb:1802
+#: ../src/scenes/Forum.rb:1872
 msgctxt "Forum"
 msgid "The offer has been created"
 msgstr "Teklif oluşturuldu"
 
-#: ../src/scenes/Forum.rb:1809
+#: ../src/scenes/Forum.rb:1879
 msgctxt "Forum"
 msgid "Withdraw the offer of this thread"
 msgstr "Teklifi iptal et"
 
-#: ../src/scenes/Forum.rb:1814
+#: ../src/scenes/Forum.rb:1884
 msgctxt "Forum"
 msgid "The offer has been withdrawn."
 msgstr "Teklif iptal edildi."
 
-#: ../src/scenes/Forum.rb:1832
+#: ../src/scenes/Forum.rb:1902
 msgctxt "Forum"
 msgid "Thread transfer offer to group %{groupname}"
 msgstr "%{groupname} grubuna konu transfer teklifi"
 
-#: ../src/scenes/Forum.rb:1833
+#: ../src/scenes/Forum.rb:1903
 msgctxt "Forum"
 msgid "Accept this offer"
 msgstr "Teklifi kabul et"
 
-#: ../src/scenes/Forum.rb:1839
+#: ../src/scenes/Forum.rb:1909
 msgctxt "Forum"
 msgid "Select destination forum"
 msgstr "Hedef forum seçin"
 
-#: ../src/scenes/Forum.rb:1848
+#: ../src/scenes/Forum.rb:1918
 msgctxt "Forum"
 msgid "Offer accepted"
 msgstr "Teklif kabul edildi"
 
-#: ../src/scenes/Forum.rb:1857
+#: ../src/scenes/Forum.rb:1927
 msgctxt "Forum"
 msgid "Refuse this offer"
 msgstr "Teklifi reddet"
 
-#: ../src/scenes/Forum.rb:1862
+#: ../src/scenes/Forum.rb:1932
 msgctxt "Forum"
 msgid "Offer refused"
 msgstr "Teklif reddedildi"
 
-#: ../src/scenes/Forum.rb:1881 ../src/scenes/Forum.rb:2524
+#: ../src/scenes/Forum.rb:1951 ../src/scenes/Forum.rb:2609
 msgctxt "Forum"
 msgid "Text post"
 msgstr "Metin gönderisi"
 
-#: ../src/scenes/Forum.rb:1881 ../src/scenes/Forum.rb:1905
-#: ../src/scenes/Forum.rb:2524 ../src/scenes/Forum.rb:2534
+#: ../src/scenes/Forum.rb:1951 ../src/scenes/Forum.rb:1975
+#: ../src/scenes/Forum.rb:2609 ../src/scenes/Forum.rb:2619
 msgctxt "Forum"
 msgid "Audio post"
 msgstr "Sesli gönderi"
 
-#: ../src/scenes/Forum.rb:1881
+#: ../src/scenes/Forum.rb:1951
 msgctxt "Forum"
 msgid "Select first post type"
 msgstr "İlk gönderi türünü seçin"
 
-#: ../src/scenes/Forum.rb:1901
+#: ../src/scenes/Forum.rb:1971
 msgctxt "Forum"
 msgid "Thread name"
 msgstr "Konu adı"
 
-#: ../src/scenes/Forum.rb:1903
+#: ../src/scenes/Forum.rb:1973
 msgctxt "Forum"
 msgid "Attach a poll"
 msgstr "Anket ekle"
 
-#: ../src/scenes/Forum.rb:1903 ../src/scenes/Forum.rb:2533
+#: ../src/scenes/Forum.rb:1973 ../src/scenes/Forum.rb:2618
 msgctxt "Forum"
 msgid "Attach a file"
 msgstr "Dosya ekle"
 
-#: ../src/scenes/Forum.rb:1903
+#: ../src/scenes/Forum.rb:1973
 msgctxt "Forum"
 msgid "Post"
 msgstr "Gönderi"
 
-#: ../src/scenes/Forum.rb:1914
+#: ../src/scenes/Forum.rb:1984
 msgctxt "Forum"
 msgid "No tag value"
 msgstr "Etiket değeri yok"
 
-#: ../src/scenes/Forum.rb:1943 ../src/scenes/Forum.rb:1951
-#: ../src/scenes/Forum.rb:2566 ../src/scenes/Forum.rb:2594
+#: ../src/scenes/Forum.rb:2013 ../src/scenes/Forum.rb:2021
+#: ../src/scenes/Forum.rb:2651 ../src/scenes/Forum.rb:2679
 msgctxt "Forum"
 msgid "Send"
 msgstr "Gönder"
 
-#: ../src/scenes/Forum.rb:1967
+#: ../src/scenes/Forum.rb:2037
 msgctxt "Forum"
 msgid "Poll to attach"
 msgstr "Eklenecek anket"
 
-#: ../src/scenes/Forum.rb:1972
+#: ../src/scenes/Forum.rb:2042
 msgctxt "Forum"
 msgid "This poll has already been added"
 msgstr "Bu anket zaten eklenmiş"
 
-#: ../src/scenes/Forum.rb:1975 ../src/scenes/Forum.rb:2513
+#: ../src/scenes/Forum.rb:2045 ../src/scenes/Forum.rb:2598
 msgctxt "Forum"
 msgid "Polls"
 msgstr "Anketler"
 
-#: ../src/scenes/Forum.rb:1977
+#: ../src/scenes/Forum.rb:2047
 msgctxt "Forum"
 msgid "Poll has been added"
 msgstr "Anket eklendi"
 
-#: ../src/scenes/Forum.rb:1981
+#: ../src/scenes/Forum.rb:2051
 msgctxt "Forum"
 msgid "You haven't created any polls yet."
 msgstr "Henüz hiçbir anket oluşturmadınız."
 
-#: ../src/scenes/Forum.rb:2002 ../src/scenes/Forum.rb:2418
-#: ../src/scenes/Forum.rb:3055
+#: ../src/scenes/Forum.rb:2072 ../src/scenes/Forum.rb:2503
+#: ../src/scenes/Forum.rb:3140
 msgctxt "Forum"
 msgid "Select file to attach"
 msgstr "Eklenecek dosya seçin"
 
-#: ../src/scenes/Forum.rb:2005 ../src/scenes/Forum.rb:2421
+#: ../src/scenes/Forum.rb:2075 ../src/scenes/Forum.rb:2506
 msgctxt "Forum"
 msgid "This file has been already attached"
 msgstr "Bu dosya zaten eklenmiş"
 
-#: ../src/scenes/Forum.rb:2008 ../src/scenes/Forum.rb:2424
-#: ../src/scenes/Forum.rb:3061
+#: ../src/scenes/Forum.rb:2078 ../src/scenes/Forum.rb:2509
+#: ../src/scenes/Forum.rb:3146
 msgctxt "Forum"
 msgid "This file is too large"
 msgstr "Bu dosya çok büyük"
 
-#: ../src/scenes/Forum.rb:2013 ../src/scenes/Forum.rb:2429
+#: ../src/scenes/Forum.rb:2083 ../src/scenes/Forum.rb:2514
 msgctxt "Forum"
 msgid "The file has been attached"
 msgstr "Dosya eklendi"
 
-#: ../src/scenes/Forum.rb:2046
+#: ../src/scenes/Forum.rb:2116
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this thread?"
 msgstr "Bu konuyu oluşturmaktan vazgeçmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:2106
+#: ../src/scenes/Forum.rb:2176
 msgctxt "Forum"
 msgid "Thread has been created."
 msgstr "Konu oluşturuldu"
 
-#: ../src/scenes/Forum.rb:2108
+#: ../src/scenes/Forum.rb:2178
 msgctxt "Forum"
 msgid "Error creating thread!"
 msgstr "Konu oluşturulurken hata oluştu!"
 
-#: ../src/scenes/Forum.rb:2379
+#: ../src/scenes/Forum.rb:2464
 msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this post?"
 msgstr "Bu gönderiyi oluşturmaktan vazgeçmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:2398 ../src/scenes/Messages.rb:566
+#: ../src/scenes/Forum.rb:2483 ../src/scenes/Messages.rb:570
 #: ../src/scenes/Polls.rb:24 ../src/scenes/Polls.rb:124
 msgctxt "Polls"
 msgid "Show results"
 msgstr "Sonuçları göster"
 
-#: ../src/scenes/Forum.rb:2398 ../src/scenes/Messages.rb:566
+#: ../src/scenes/Forum.rb:2483 ../src/scenes/Messages.rb:570
+#: ../src/scenes/Polls.rb:24 ../src/scenes/Polls.rb:127
+msgctxt "Polls"
+msgid "Show report"
+msgstr "Raporu göster"
+
+#: ../src/scenes/Forum.rb:2483 ../src/scenes/Messages.rb:570
 #: ../src/scenes/Polls.rb:24 ../src/scenes/Polls.rb:119
 #: ../src/scenes/Polls.rb:355
 msgctxt "Polls"
 msgid "Vote"
 msgstr "Oyla"
 
-#: ../src/scenes/Forum.rb:2398 ../src/scenes/Messages.rb:566
-#: ../src/scenes/Polls.rb:24 ../src/scenes/Polls.rb:127
-msgctxt "Polls"
-msgid "Show report"
-msgstr "Raporu göster"
-
-#: ../src/scenes/Forum.rb:2524
+#: ../src/scenes/Forum.rb:2609
 msgctxt "Forum"
 msgid "Post type"
 msgstr "Gönderi türü"
 
-#: ../src/scenes/Forum.rb:2533
+#: ../src/scenes/Forum.rb:2618
 msgctxt "Forum"
 msgid "Your answer"
 msgstr "Yanıtınız"
 
-#: ../src/scenes/Forum.rb:2545
+#: ../src/scenes/Forum.rb:2630
 msgctxt "Forum"
 msgid "Return"
 msgstr "Geri dön"
 
-#: ../src/scenes/Forum.rb:2557
+#: ../src/scenes/Forum.rb:2642
 msgctxt "Forum"
 msgid "This post has been edited"
 msgstr "Gönderi düzenlenmiş"
 
-#: ../src/scenes/Forum.rb:2559
+#: ../src/scenes/Forum.rb:2644
 msgctxt "Forum"
 msgid "%{count} user likes this post"
 msgid_plural "%{count} users like this post"
 msgstr[0] "Bu gönderiyi %{count} kullanıcı beğendi"
 msgstr[1] "Bu gönderiyi %{count} kullanıcı beğendi"
 
-#: ../src/scenes/Forum.rb:2584 ../src/scenes/Forum.rb:2609
+#: ../src/scenes/Forum.rb:2669 ../src/scenes/Forum.rb:2694
 msgctxt "Forum"
 msgid "The post was created."
 msgstr "Gönderi oluşturuldu."
 
-#: ../src/scenes/Forum.rb:2612
+#: ../src/scenes/Forum.rb:2697
 msgctxt "Forum"
 msgid "Post creation failure."
 msgstr "Gönderi oluşturma başarısız oldu."
 
-#: ../src/scenes/Forum.rb:2622
+#: ../src/scenes/Forum.rb:2707
 msgctxt "Forum"
 msgid "Received mention"
 msgstr "Alınan bahsetme"
 
-#: ../src/scenes/Forum.rb:2623
+#: ../src/scenes/Forum.rb:2708
 msgctxt "Forum"
 msgid "Show mention"
 msgstr "Bahsetmeyi göster"
 
-#: ../src/scenes/Forum.rb:2624
+#: ../src/scenes/Forum.rb:2709
 msgctxt "Forum"
 msgid "Mention by %{user}"
 msgstr "%{user} kullanıcısının bahsetmesi"
 
-#: ../src/scenes/Forum.rb:2627
+#: ../src/scenes/Forum.rb:2712
 msgctxt "Forum"
 msgid "Send reply to mentioner"
 msgstr "Bahsedeni yanıtla"
 
-#: ../src/scenes/Forum.rb:2636 ../src/scenes/Forum.rb:2637
+#: ../src/scenes/Forum.rb:2721 ../src/scenes/Forum.rb:2722
 msgctxt "Forum"
 msgid "Reply"
 msgstr "Yanıtla"
 
-#: ../src/scenes/Forum.rb:2642
+#: ../src/scenes/Forum.rb:2727
 msgctxt "Forum"
 msgid "Reply with quote"
 msgstr "Alıntılayarak yanıtla"
 
-#: ../src/scenes/Forum.rb:2653
+#: ../src/scenes/Forum.rb:2738
 msgctxt "Forum"
 msgid "Like this post"
 msgstr "Gönderiyi beğen"
 
-#: ../src/scenes/Forum.rb:2654
+#: ../src/scenes/Forum.rb:2739
 msgctxt "Forum"
 msgid "Dislike this post"
 msgstr "Gönderiyi beğenme"
 
-#: ../src/scenes/Forum.rb:2664
+#: ../src/scenes/Forum.rb:2749
 msgctxt "Forum"
 msgid "This post is now liked"
 msgstr "Gönderi beğenildi"
 
-#: ../src/scenes/Forum.rb:2668
+#: ../src/scenes/Forum.rb:2753
 msgctxt "forum"
 msgid "This post is no longer liked"
 msgstr "Gönderi beğenilmedi"
 
-#: ../src/scenes/Forum.rb:2673
+#: ../src/scenes/Forum.rb:2758
 msgctxt "Forum"
 msgid "Show post likes"
 msgstr "Gönderi beğenilerini göster"
 
-#: ../src/scenes/Forum.rb:2682
+#: ../src/scenes/Forum.rb:2767
 msgctxt "Forum"
 msgid "Users who like this post"
 msgstr "Bu gönderiyi beğenen kullanıcılar"
 
-#: ../src/scenes/Forum.rb:2694
+#: ../src/scenes/Forum.rb:2779
 msgctxt "Forum"
 msgid "Show original post"
 msgstr "Orijinal gönderiyi göster"
 
-#: ../src/scenes/Forum.rb:2697
+#: ../src/scenes/Forum.rb:2782
 msgctxt "Forum"
 msgid "Original post"
 msgstr "Orijinal gönderi"
 
-#: ../src/scenes/Forum.rb:2702
+#: ../src/scenes/Forum.rb:2787
 msgctxt "Forum"
 msgid "Report this post"
 msgstr "Bu gönderiyi raporla"
 
-#: ../src/scenes/Forum.rb:2708
+#: ../src/scenes/Forum.rb:2793
 msgctxt "Forum"
 msgid "Navigation"
 msgstr "Dolaşım"
 
-#: ../src/scenes/Forum.rb:2710 ../src/scenes/Forum.rb:3124
+#: ../src/scenes/Forum.rb:2795 ../src/scenes/Forum.rb:3209
 msgctxt "Forum"
 msgid "Bookmarks"
 msgstr "Yer işaretleri"
 
-#: ../src/scenes/Forum.rb:2714
+#: ../src/scenes/Forum.rb:2799
 msgctxt "Forum"
 msgid "Go to post"
 msgstr "Gönderiye git"
 
-#: ../src/scenes/Forum.rb:2719 ../src/scenes/Forum.rb:2745
+#: ../src/scenes/Forum.rb:2804 ../src/scenes/Forum.rb:2830
 msgctxt "Forum"
 msgid "Select post"
 msgstr "Gönderi seçin"
 
-#: ../src/scenes/Forum.rb:2722
+#: ../src/scenes/Forum.rb:2807
 msgctxt "Forum"
 msgid "Go to post number"
 msgstr "Şu numaralı gönderiye git"
 
-#: ../src/scenes/Forum.rb:2723
+#: ../src/scenes/Forum.rb:2808
 msgctxt "Forum"
 msgid "Type post number"
 msgstr "Gönderi numarası yazın"
 
-#: ../src/scenes/Forum.rb:2730
+#: ../src/scenes/Forum.rb:2815
 msgctxt "Forum"
 msgid "Search in thread"
 msgstr "Konuda ara"
 
-#: ../src/scenes/Forum.rb:2731
+#: ../src/scenes/Forum.rb:2816
 msgctxt "Forum"
 msgid "Enter a phrase to look for"
 msgstr "Aranacak sözcük grubu girin"
 
-#: ../src/scenes/Forum.rb:2749
+#: ../src/scenes/Forum.rb:2834
 msgctxt "Forum"
 msgid "The entered phrase cannot be found."
 msgstr "Girilen sözcük grubu bulunamadı."
 
-#: ../src/scenes/Forum.rb:2754
+#: ../src/scenes/Forum.rb:2839
 msgctxt "Forum"
 msgid "Go to first post"
 msgstr "İlk gönderiye git"
 
-#: ../src/scenes/Forum.rb:2758
+#: ../src/scenes/Forum.rb:2843
 msgctxt "Forum"
 msgid "Go to last post"
 msgstr "Son gönderiye git"
 
-#: ../src/scenes/Forum.rb:2763
+#: ../src/scenes/Forum.rb:2848
 msgctxt "Forum"
 msgid "Go to first new post"
 msgstr "Przejdź do pierwszego nowego wpisu"
 
-#: ../src/scenes/Forum.rb:2770 ../src/scenes/Forum.rb:2784
+#: ../src/scenes/Forum.rb:2855 ../src/scenes/Forum.rb:2869
 msgctxt "Forum"
 msgid "Mention post"
 msgstr "Gönderiden bahset"
 
-#: ../src/scenes/Forum.rb:2781
+#: ../src/scenes/Forum.rb:2866
 msgctxt "Forum"
 msgid "Nobody added you to their contact list."
 msgstr "Kimse sizi kişi listesine eklemedi."
 
-#: ../src/scenes/Forum.rb:2784
+#: ../src/scenes/Forum.rb:2869
 msgctxt "Forum"
 msgid "User to mention"
 msgstr "Bahsedilecek kullanıcı"
 
-#: ../src/scenes/Forum.rb:2784
+#: ../src/scenes/Forum.rb:2869
 msgctxt "Forum"
 msgid "Message"
 msgstr "Mesaj"
 
-#: ../src/scenes/Forum.rb:2798
+#: ../src/scenes/Forum.rb:2883
 msgctxt "Forum"
 msgid "The mention has been sent."
 msgstr "Bahsetme gönderildi."
 
-#: ../src/scenes/Forum.rb:2808
+#: ../src/scenes/Forum.rb:2893
 msgctxt "Forum"
 msgid "Listen to the thread"
 msgstr "Konuyu dinle"
 
-#: ../src/scenes/Forum.rb:2890
+#: ../src/scenes/Forum.rb:2975
 msgctxt "Forum"
 msgid "Hide signatures"
 msgstr "İmzaları gizle"
 
-#: ../src/scenes/Forum.rb:2891
+#: ../src/scenes/Forum.rb:2976
 msgctxt "Forum"
 msgid "Show signatures"
 msgstr "İmzaları göster"
 
-#: ../src/scenes/Forum.rb:2906
+#: ../src/scenes/Forum.rb:2991
 msgctxt "Forum"
 msgid "Edit post"
 msgstr "Gönderiyi düzenle"
 
-#: ../src/scenes/Forum.rb:2912
+#: ../src/scenes/Forum.rb:2997
 msgctxt "Forum"
 msgid "Move post"
 msgstr "Gönderiyi taşı"
 
-#: ../src/scenes/Forum.rb:2940
+#: ../src/scenes/Forum.rb:3025
 msgctxt "Forum"
 msgid "Post destination"
 msgstr "Gönderi yeri"
 
-#: ../src/scenes/Forum.rb:2945
+#: ../src/scenes/Forum.rb:3030
 msgctxt "Forum"
 msgid "The post has been moved."
 msgstr "Gönderi taşındı."
 
-#: ../src/scenes/Forum.rb:2951
+#: ../src/scenes/Forum.rb:3036
 msgctxt "Forum"
 msgid "Lock post"
 msgstr "Gönderiyi kilitle"
 
-#: ../src/scenes/Forum.rb:2952
+#: ../src/scenes/Forum.rb:3037
 msgctxt "Forum"
 msgid "Unlock post"
 msgstr "Gönderinin kilidini aç"
 
-#: ../src/scenes/Forum.rb:2963
+#: ../src/scenes/Forum.rb:3048
 msgctxt "Forum"
 msgid "Post locked"
 msgstr "Gönderi kilitlendi"
 
-#: ../src/scenes/Forum.rb:2965
+#: ../src/scenes/Forum.rb:3050
 msgctxt "Forum"
 msgid "Post unlocked"
 msgstr "Gönderinin kilidi açıldı"
 
-#: ../src/scenes/Forum.rb:2971
+#: ../src/scenes/Forum.rb:3056
 msgctxt "Forum"
 msgid "Delete post"
 msgstr "Gönderiyi sil"
 
-#: ../src/scenes/Forum.rb:2972 ../src/scenes/Forum.rb:2982
+#: ../src/scenes/Forum.rb:3057 ../src/scenes/Forum.rb:3067
 msgctxt "Forum"
 msgid "Are you sure you want to delete this post?"
 msgstr "Bu gönderiyi silmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Forum.rb:2996
+#: ../src/scenes/Forum.rb:3081
 msgctxt "Forum"
 msgid "Change post position"
 msgstr "Gönderi konumunu değiştir"
 
-#: ../src/scenes/Forum.rb:3002
+#: ../src/scenes/Forum.rb:3087
 msgctxt "Forum"
 msgid "Place post above"
 msgstr "Gönderiyi yukarı taşı"
 
-#: ../src/scenes/Forum.rb:3005
+#: ../src/scenes/Forum.rb:3090
 msgctxt "Forum"
 msgid "The post has been slided."
 msgstr "Gönderi kaydırıldı."
 
-#: ../src/scenes/Forum.rb:3022
+#: ../src/scenes/Forum.rb:3107
 msgctxt "Forum"
 msgid "Report comment"
 msgstr "Rapor yorumu"
 
-#: ../src/scenes/Forum.rb:3023
+#: ../src/scenes/Forum.rb:3108
 msgctxt "Forum"
 msgid "Reported post"
 msgstr "Raporlanan gönderi"
 
-#: ../src/scenes/Forum.rb:3024
+#: ../src/scenes/Forum.rb:3109
 msgctxt "Forum"
 msgid "Send post report"
 msgstr "Gönderi raporunu gönder"
 
-#: ../src/scenes/Forum.rb:3035
+#: ../src/scenes/Forum.rb:3120
 msgctxt "Forum"
 msgid "Post report has been sent."
 msgstr "Gönderi raporu gönderildi."
 
-#: ../src/scenes/Forum.rb:3050
+#: ../src/scenes/Forum.rb:3135
 msgctxt "Forum"
 msgid "edit your post here"
 msgstr "Burada gönderinizi düzenleyin"
 
-#: ../src/scenes/Forum.rb:3054
+#: ../src/scenes/Forum.rb:3139
 msgctxt "Forum"
 msgid "Add attachment"
 msgstr "Ek ekle"
 
-#: ../src/scenes/Forum.rb:3068
+#: ../src/scenes/Forum.rb:3153
 msgctxt "Forum"
 msgid "Delete attachment"
 msgstr "Eki sil"
 
-#: ../src/scenes/Forum.rb:3094
+#: ../src/scenes/Forum.rb:3179
 msgctxt "Forum"
 msgid "The post has been modified"
 msgstr "Gönderi değiştirildi"
 
-#: ../src/scenes/Forum.rb:3124
+#: ../src/scenes/Forum.rb:3209
 msgctxt "Forum"
 msgid "Post %{postnumber} by %{author}"
 msgstr "%{author} kullanıcısının %{postnumber}. gönderisi"
 
-#: ../src/scenes/Forum.rb:3127
+#: ../src/scenes/Forum.rb:3212
 msgctxt "Forum"
 msgid "Delete bookmark"
 msgstr "Yer işaretini sil"
 
-#: ../src/scenes/Forum.rb:3133
+#: ../src/scenes/Forum.rb:3218
 msgctxt "Forum"
 msgid "New bookmark"
 msgstr "Yeni yer işareti"
 
-#: ../src/scenes/Forum.rb:3166
+#: ../src/scenes/Forum.rb:3251
 msgctxt "Forum"
 msgid "Bookmark deleted"
 msgstr "Yer işareti silindi"
 
-#: ../src/scenes/Forum.rb:3175
+#: ../src/scenes/Forum.rb:3260
 msgctxt "Forum"
 msgid "Bookmark description"
 msgstr "Yer işareti tanımı"
 
-#: ../src/scenes/Forum.rb:3178
+#: ../src/scenes/Forum.rb:3263
 msgctxt "Forum"
 msgid "Bookmark created"
 msgstr "Yer işareti oluşturuldu"
 
-#: ../src/scenes/Forum.rb:3521
+#: ../src/scenes/Forum.rb:3606
 msgctxt "Forum"
 msgid "Category"
 msgstr "Kategori"
 
-#: ../src/scenes/Forum.rb:3527
+#: ../src/scenes/Forum.rb:3612
 msgctxt "Forum"
 msgid "General"
 msgstr "Genel"
 
-#: ../src/scenes/Forum.rb:3544
+#: ../src/scenes/Forum.rb:3629
 msgctxt "Forum"
 msgid "Change group blog"
 msgstr "Grup bloğunu değiştir"
 
-#: ../src/scenes/Forum.rb:3558
+#: ../src/scenes/Forum.rb:3643
 msgctxt "Forum"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/scenes/Forum.rb:3558
+#: ../src/scenes/Forum.rb:3643
 msgctxt "Forum"
 msgid "Select blog"
 msgstr "Blog seçin"
 
-#: ../src/scenes/Forum.rb:3570
+#: ../src/scenes/Forum.rb:3655
 msgctxt "Forum"
 msgid "Create group channel in conferences"
 msgstr "Sohbetlerde grup kanalı oluştur"
 
-#: ../src/scenes/Forum.rb:3586
+#: ../src/scenes/Forum.rb:3671
 msgctxt "Forum"
 msgid "Regulations"
 msgstr "Kurallar"
 
-#: ../src/scenes/Forum.rb:3590
+#: ../src/scenes/Forum.rb:3675
 msgctxt "Forum"
 msgid "Permissions"
 msgstr "İzinler"
 
-#: ../src/scenes/Forum.rb:3591
+#: ../src/scenes/Forum.rb:3676
 msgctxt "Forum"
 msgid "Prevent users from editing their posts"
 msgstr "Kullanıcıların gönderilerini düzenlemelerini engelle"
 
-#: ../src/scenes/Forum.rb:3592
+#: ../src/scenes/Forum.rb:3677
 msgctxt "Forum"
 msgid "Prevent users from attaching polls"
 msgstr "Kullanıcıların anket eklemesini engelle"
 
-#: ../src/scenes/Forum.rb:3593
+#: ../src/scenes/Forum.rb:3678
 msgctxt "Forum"
 msgid "Prevent users from attaching files"
 msgstr "Kullanıcıların dosya eklemesini engelle"
 
-#: ../src/scenes/Forum.rb:3594
+#: ../src/scenes/Forum.rb:3679
 msgctxt "Forum"
 msgid "Hide information about edited posts"
 msgstr "Düzenlenmiş gönderiler hakkında bilgiyi gizle"
 
-#: ../src/scenes/Forum.rb:3595
+#: ../src/scenes/Forum.rb:3680
 msgctxt "Forum"
 msgid "Hide edit history"
 msgstr "Düzenleme tarihini gizle"
 
-#: ../src/scenes/Forum.rb:3596
+#: ../src/scenes/Forum.rb:3681
 msgctxt "Forum"
 msgid "Allow members to report posts"
 msgstr "Üyelerin gönderi raporlamasına izin ver"
 
-#: ../src/scenes/Forum.rb:3597
+#: ../src/scenes/Forum.rb:3682
 msgctxt "Forum"
 msgid "Duration limit of audio posts in seconds, 0 for no limit"
 msgstr "Sesli gönderi süre sınırı, sınırsız olması için 0 yazın"
@@ -6991,18 +7427,18 @@ msgstr "Seviye"
 
 #: ../src/scenes/Honors.rb:303
 msgctxt "Honors"
-msgid "Badge name"
-msgstr "Rozet adı"
-
-#: ../src/scenes/Honors.rb:303
-msgctxt "Honors"
 msgid "Add"
 msgstr "Ekle"
 
 #: ../src/scenes/Honors.rb:303
 msgctxt "Honors"
-msgid "Badge description"
-msgstr "Rozet açıklaması"
+msgid "Badge name"
+msgstr "Rozet adı"
+
+#: ../src/scenes/Honors.rb:303
+msgctxt "Honors"
+msgid "Badge description in English"
+msgstr "İngilizce rozet açıklaması"
 
 #: ../src/scenes/Honors.rb:303
 msgctxt "Honors"
@@ -7011,8 +7447,8 @@ msgstr "İngilizce rozet adı"
 
 #: ../src/scenes/Honors.rb:303
 msgctxt "Honors"
-msgid "Badge description in English"
-msgstr "İngilizce rozet açıklaması"
+msgid "Badge description"
+msgstr "Rozet açıklaması"
 
 #: ../src/scenes/Honors.rb:317
 msgctxt "Honors"
@@ -7021,8 +7457,8 @@ msgstr "Rozet eklendi"
 
 #: ../src/scenes/Install.rb:3
 msgctxt "Install"
-msgid "Which version would you like to use?"
-msgstr "Hangi sürümü kullanmak istiyorsunuz?"
+msgid "Download and install the newest version"
+msgstr "En yeni sürümü indir ve kur"
 
 #: ../src/scenes/Install.rb:3
 msgctxt "Install"
@@ -7031,8 +7467,8 @@ msgstr "Mevcut sürümü kur"
 
 #: ../src/scenes/Install.rb:3
 msgctxt "Install"
-msgid "Download and install the newest version"
-msgstr "En yeni sürümü indir ve kur"
+msgid "Which version would you like to use?"
+msgstr "Hangi sürümü kullanmak istiyorsunuz?"
 
 #: ../src/scenes/Loading.rb:257
 msgctxt "Loading"
@@ -7094,16 +7530,6 @@ msgstr ""
 
 #: ../src/scenes/Loading.rb:370
 msgctxt "Loading"
-msgid "Settings"
-msgstr "Ayarlar"
-
-#: ../src/scenes/Loading.rb:370
-msgctxt "Loading"
-msgid "Log in"
-msgstr "Giriş yap"
-
-#: ../src/scenes/Loading.rb:370
-msgctxt "Loading"
 msgid "Register"
 msgstr "Kaydol"
 
@@ -7114,13 +7540,23 @@ msgstr "Şifre sıfırlama"
 
 #: ../src/scenes/Loading.rb:370
 msgctxt "Loading"
-msgid "Use guest account"
-msgstr "Konuk hesabı kullan"
+msgid "Reinstall"
+msgstr "Yeniden kur"
 
 #: ../src/scenes/Loading.rb:370
 msgctxt "Loading"
-msgid "Reinstall"
-msgstr "Yeniden kur"
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: ../src/scenes/Loading.rb:370
+msgctxt "Loading"
+msgid "Log in"
+msgstr "Giriş yap"
+
+#: ../src/scenes/Loading.rb:370
+msgctxt "Loading"
+msgid "Use guest account"
+msgstr "Konuk hesabı kullan"
 
 #: ../src/scenes/Log.rb:10
 msgctxt "Log"
@@ -7141,10 +7577,6 @@ msgstr "Olay zamanını göster"
 msgctxt "Log"
 msgid "Log"
 msgstr "Günlük"
-
-#: ../src/scenes/Log.rb:14 ../src/scenes/Polls.rb:543
-msgid "Close"
-msgstr "Kapat"
 
 #: ../src/scenes/Login.rb:23
 msgctxt "Login"
@@ -7185,8 +7617,12 @@ msgstr ""
 
 #: ../src/scenes/Login.rb:88
 msgctxt "Login"
-msgid "Authenticate using SMS"
-msgstr "Sms ile doğrula"
+msgid ""
+"Two-factor authentication is enabled on this account. Select method to "
+"authenticate."
+msgstr ""
+"Bu hesapta iki öğeli kimlik doğrulama etkin. Doğrulamak için bir yöntem "
+"seçin."
 
 #: ../src/scenes/Login.rb:88
 msgctxt "Login"
@@ -7195,12 +7631,8 @@ msgstr "Yedek kodla doğrula"
 
 #: ../src/scenes/Login.rb:88
 msgctxt "Login"
-msgid ""
-"Two-factor authentication is enabled on this account. Select method to "
-"authenticate."
-msgstr ""
-"Bu hesapta iki öğeli kimlik doğrulama etkin. Doğrulamak için bir yöntem "
-"seçin."
+msgid "Authenticate using SMS"
+msgstr "Sms ile doğrula"
 
 #: ../src/scenes/Login.rb:104
 msgctxt "Login"
@@ -7230,13 +7662,13 @@ msgstr "Girilen kod yanlış, lütfen tekrar deneyin"
 
 #: ../src/scenes/Login.rb:146
 msgctxt "Login"
-msgid "Do not ask again"
-msgstr "Bir daha sorma"
+msgid "Do you want to enable auto log in for account %{user}?"
+msgstr "%{user} hesabı için otomatik girişi etkinleştirmek istiyor musunuz?"
 
 #: ../src/scenes/Login.rb:146
 msgctxt "Login"
-msgid "Do you want to enable auto log in for account %{user}?"
-msgstr "%{user} hesabı için otomatik girişi etkinleştirmek istiyor musunuz?"
+msgid "Do not ask again"
+msgstr "Bir daha sorma"
 
 #: ../src/scenes/Login.rb:148
 msgctxt "Login"
@@ -7365,47 +7797,47 @@ msgctxt "Main"
 msgid "None"
 msgstr "Hiçbiri"
 
-#: ../src/scenes/Main.rb:131
+#: ../src/scenes/Main.rb:135
 msgctxt "Main"
 msgid "Hotkey for action %{label}"
 msgstr "%{label} eylemi için kısayol tuşu"
 
-#: ../src/scenes/Main.rb:145
+#: ../src/scenes/Main.rb:149
 msgctxt "Main"
 msgid "This hotkey is already used by action %{action}"
 msgstr "Bu kısayol tuşu zaten %{action} eylemi için kullanılıyor"
 
-#: ../src/scenes/Main.rb:152
+#: ../src/scenes/Main.rb:156
 msgctxt "Main"
 msgid "Move up"
 msgstr "Yukarı taşı"
 
-#: ../src/scenes/Main.rb:157
+#: ../src/scenes/Main.rb:161
 msgctxt "Main"
 msgid "Move down"
 msgstr "Aşağı taşı"
 
-#: ../src/scenes/Main.rb:161 ../src/scenes/Main.rb:172
+#: ../src/scenes/Main.rb:165 ../src/scenes/Main.rb:176
 msgctxt "Main"
 msgid "Hide this action"
 msgstr "Eylemi gizle"
 
-#: ../src/scenes/Main.rb:162
+#: ../src/scenes/Main.rb:166
 msgctxt "Main"
 msgid "Show this action"
 msgstr "Eylemi göster"
 
-#: ../src/scenes/Main.rb:167 ../src/scenes/Main.rb:172
+#: ../src/scenes/Main.rb:171 ../src/scenes/Main.rb:176
 msgctxt "Main"
 msgid "Delete"
 msgstr "Sil"
 
-#: ../src/scenes/Main.rb:170
+#: ../src/scenes/Main.rb:174
 msgctxt "Main"
 msgid "Are you sure you want to delete this quick action?"
 msgstr "Hızlı eylemi silmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Main.rb:172
+#: ../src/scenes/Main.rb:176
 msgctxt "Main"
 msgid ""
 "If you delete this action, you will also delete the keyboard shortcut "
@@ -7416,49 +7848,49 @@ msgstr ""
 "olursunuz. Kısayol tuşunu silmek istemiyorsanız eylemi gizleyebilirsiniz. "
 "Gizli eylemleri istediğiniz zaman gösterebilir veya kaldırabilirsiniz."
 
-#: ../src/scenes/Main.rb:184
+#: ../src/scenes/Main.rb:188
 msgctxt "Main"
 msgid "Show hidden actions"
 msgstr "Gizli eylemleri göster"
 
-#: ../src/scenes/Main.rb:185
+#: ../src/scenes/Main.rb:189
 msgctxt "Main"
 msgid "Hide hidden actions"
 msgstr "Gizli eylemleri kapat"
 
-#: ../src/scenes/Main.rb:190
+#: ../src/scenes/Main.rb:194
 msgctxt "Main"
 msgid "Add"
 msgstr "Ekle"
 
-#: ../src/scenes/Main.rb:193
+#: ../src/scenes/Main.rb:197
 msgctxt "Main"
 msgid "Restore defaults"
 msgstr "Varsayılanları geri yükle"
 
-#: ../src/scenes/Main.rb:194
+#: ../src/scenes/Main.rb:198
 msgctxt "Main"
 msgid "Are you sure you want to restore default Quick Actions?"
 msgstr "Varsayılan hızlı eylemleri geri yüklemek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Main.rb:215
+#: ../src/scenes/Main.rb:219
 msgctxt "Main"
 msgid "Select quick action to add"
 msgstr "Eklenecek hızlı eylem seçin"
 
-#: ../src/scenes/Messages.rb:124 ../src/scenes/Messages.rb:372
+#: ../src/scenes/Messages.rb:124 ../src/scenes/Messages.rb:376
 msgctxt "Messages"
 msgid "Last message"
 msgstr "Son mesaj"
 
-#: ../src/scenes/Messages.rb:125 ../src/scenes/Messages.rb:373
-#: ../src/scenes/Messages.rb:519
+#: ../src/scenes/Messages.rb:125 ../src/scenes/Messages.rb:377
+#: ../src/scenes/Messages.rb:523
 msgctxt "Messages"
 msgid "New"
 msgstr "Yeni"
 
-#: ../src/scenes/Messages.rb:128 ../src/scenes/Messages.rb:376
-#: ../src/scenes/Messages.rb:523
+#: ../src/scenes/Messages.rb:128 ../src/scenes/Messages.rb:380
+#: ../src/scenes/Messages.rb:527
 msgctxt "Messages"
 msgid "Show older"
 msgstr "Daha eskiyi göster"
@@ -7475,190 +7907,195 @@ msgstr "Yanıtla"
 
 #: ../src/scenes/Messages.rb:151
 msgctxt "Messages"
+msgid "Show all messages"
+msgstr "Tüm mesajları göster"
+
+#: ../src/scenes/Messages.rb:155
+msgctxt "Messages"
 msgid "Add conversations to quick actions"
 msgstr "Hızlı eylemlere konuşma ekle"
 
-#: ../src/scenes/Messages.rb:152 ../src/scenes/Messages.rb:379
+#: ../src/scenes/Messages.rb:156 ../src/scenes/Messages.rb:383
 msgctxt "Messages"
 msgid "Conversations with %{user}"
 msgstr "%{user} ile konuşmalar"
 
-#: ../src/scenes/Messages.rb:153
+#: ../src/scenes/Messages.rb:157
 msgctxt "Messages"
 msgid "Conversations added to quick actions"
 msgstr "Hızlı eylemlere eklenen konuşmalar"
 
-#: ../src/scenes/Messages.rb:156
+#: ../src/scenes/Messages.rb:160
 msgctxt "Messages"
 msgid "Mute this conversation"
 msgstr "Konuşmayı sessize al"
 
-#: ../src/scenes/Messages.rb:157
-msgctxt "Messages"
-msgid "Mute for an hour"
-msgstr "1 saat boyunca sessize al"
-
-#: ../src/scenes/Messages.rb:157
-msgctxt "Messages"
-msgid "Mute for a day"
-msgstr "1 gün boyunca sessize al"
-
-#: ../src/scenes/Messages.rb:157
-msgctxt "Messages"
-msgid "Mute for a week"
-msgstr "1 hafta boyunca sessize al"
-
-#: ../src/scenes/Messages.rb:157
+#: ../src/scenes/Messages.rb:161
 msgctxt "Messages"
 msgid "Mute forever"
 msgstr "Sonsuza kadar sessize al"
 
-#: ../src/scenes/Messages.rb:157
+#: ../src/scenes/Messages.rb:161
+msgctxt "Messages"
+msgid "Mute for a week"
+msgstr "1 hafta boyunca sessize al"
+
+#: ../src/scenes/Messages.rb:161
+msgctxt "Messages"
+msgid "Mute for a day"
+msgstr "1 gün boyunca sessize al"
+
+#: ../src/scenes/Messages.rb:161
+msgctxt "Messages"
+msgid "Mute for an hour"
+msgstr "1 saat boyunca sessize al"
+
+#: ../src/scenes/Messages.rb:161
 msgctxt "Messages"
 msgid "Mute for a quarter"
 msgstr "6 saat boyunca sessize al"
 
-#: ../src/scenes/Messages.rb:165
+#: ../src/scenes/Messages.rb:169
 msgctxt "Messages"
 msgid "Unmute this conversation"
 msgstr "Konuşmanın sesini aç"
 
-#: ../src/scenes/Messages.rb:170
+#: ../src/scenes/Messages.rb:174
 msgctxt "Messages"
 msgid "Edit conversation"
 msgstr "Konuşmayı düzenle"
 
-#: ../src/scenes/Messages.rb:174
+#: ../src/scenes/Messages.rb:178
 msgctxt "Messages"
 msgid "Leave"
 msgstr "Çık"
 
-#: ../src/scenes/Messages.rb:175
+#: ../src/scenes/Messages.rb:179
 msgctxt "Messages"
 msgid "Are you sure you want to leave this group?"
 msgstr "Bu gruptan çıkmak istediğinizden emin misiniz?"
 
-#: ../src/scenes/Messages.rb:182
+#: ../src/scenes/Messages.rb:186
 msgctxt "Messages"
 msgid "Delete conversations"
 msgstr "Konuşmaları sil"
 
-#: ../src/scenes/Messages.rb:187
+#: ../src/scenes/Messages.rb:191
 msgctxt "Messages"
 msgid "Create new conversation"
 msgstr "Yeni konuşma oluştur"
 
-#: ../src/scenes/Messages.rb:191
+#: ../src/scenes/Messages.rb:195
 msgctxt "Messages"
 msgid "Send a new message"
 msgstr "Yeni mesaj gönder"
 
-#: ../src/scenes/Messages.rb:194
+#: ../src/scenes/Messages.rb:198
 msgctxt "Messages"
 msgid "Mark all messages as read"
 msgstr "Tüm mesajları okundu olarak işaretle"
 
-#: ../src/scenes/Messages.rb:200
+#: ../src/scenes/Messages.rb:204
 msgctxt "Messages"
 msgid "All messages have been marked as read."
 msgstr "Tüm mesajlar okundu olarak işaretlendi."
 
-#: ../src/scenes/Messages.rb:208
+#: ../src/scenes/Messages.rb:212
 msgctxt "Messages"
 msgid "Search"
 msgstr "Ara"
 
-#: ../src/scenes/Messages.rb:212
+#: ../src/scenes/Messages.rb:216
 msgctxt "Messages"
 msgid "Show flagged messages"
 msgstr "İşaretlenmiş mesajları göster"
 
-#: ../src/scenes/Messages.rb:229
+#: ../src/scenes/Messages.rb:233
 msgctxt "Messages"
 msgid "Conversation name"
 msgstr "Konuşma adı"
 
-#: ../src/scenes/Messages.rb:230
+#: ../src/scenes/Messages.rb:234
 msgctxt "Messages"
 msgid "Conversation members"
 msgstr "Konuşma üyeleri"
 
-#: ../src/scenes/Messages.rb:231
+#: ../src/scenes/Messages.rb:235
 msgctxt "Messages"
 msgid "Create"
 msgstr "Oluştur"
 
-#: ../src/scenes/Messages.rb:235
+#: ../src/scenes/Messages.rb:239
 msgctxt "messages"
 msgid "Modify"
 msgstr "Değiştir"
 
-#: ../src/scenes/Messages.rb:239
+#: ../src/scenes/Messages.rb:243
 msgctxt "Messages"
 msgid "Add user"
 msgstr "Kullanıcı ekle"
 
-#: ../src/scenes/Messages.rb:240
+#: ../src/scenes/Messages.rb:244
 msgctxt "Messages"
 msgid "User to add"
 msgstr "Eklenecek kullanıcı"
 
-#: ../src/scenes/Messages.rb:248
+#: ../src/scenes/Messages.rb:252
 msgctxt "Messages"
 msgid "Delete user from conversation"
 msgstr "Kullanıcıyı konuşmadan kaldır"
 
-#: ../src/scenes/Messages.rb:280
+#: ../src/scenes/Messages.rb:284
 msgctxt "Messages"
 msgid "Conversation has been created"
 msgstr "Konuşma oluşturuldu"
 
-#: ../src/scenes/Messages.rb:282
+#: ../src/scenes/Messages.rb:286
 msgctxt "Messages"
 msgid "Conversation has been modified"
 msgstr "Konuşma değiştirildi"
 
-#: ../src/scenes/Messages.rb:314
+#: ../src/scenes/Messages.rb:318
 msgctxt "Messages"
 msgid "Are you sure you want to delete all messages with user %{user}"
 msgstr "%{user} ile olan tüm konuşmaları silmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Messages.rb:319
+#: ../src/scenes/Messages.rb:323
 msgctxt "Messages"
 msgid "All conversations with user have been deleted."
 msgstr "Kişiyle olan tüm konuşmalar silindi."
 
-#: ../src/scenes/Messages.rb:345
+#: ../src/scenes/Messages.rb:349
 msgctxt "Messages"
 msgid "There are no new messages"
 msgstr "Yeni mesaj yok"
 
-#: ../src/scenes/Messages.rb:372 ../src/scenes/Messages.rb:719
+#: ../src/scenes/Messages.rb:376 ../src/scenes/Messages.rb:723
 msgctxt "Messages"
 msgid "From"
 msgstr "Kimden"
 
-#: ../src/scenes/Messages.rb:372
+#: ../src/scenes/Messages.rb:376
 msgctxt "Messages"
 msgid "No subject"
 msgstr "Konu yok"
 
-#: ../src/scenes/Messages.rb:408
+#: ../src/scenes/Messages.rb:412
 msgctxt "Messages"
 msgid "Reply in thread"
 msgstr "Şu konuyu yanıtla"
 
-#: ../src/scenes/Messages.rb:411
+#: ../src/scenes/Messages.rb:415
 msgctxt "Messages"
 msgid "Delete conversation"
 msgstr "Konuşmayı sil"
 
-#: ../src/scenes/Messages.rb:416 ../src/scenes/Messages.rb:701
+#: ../src/scenes/Messages.rb:420 ../src/scenes/Messages.rb:705
 msgctxt "Messages"
 msgid "Send a new message in this conversation"
 msgstr "Bu konuşmaya yeni mesaj gönder"
 
-#: ../src/scenes/Messages.rb:426
+#: ../src/scenes/Messages.rb:430
 msgctxt "Messages"
 msgid ""
 "Are you sure you want to delete conversation %{conversationname} with user "
@@ -7667,212 +8104,212 @@ msgstr ""
 "%{user} kullanıcısıyla olan %{conversationname} konuşmasını silmek "
 "istediğinizden emin misiniz?"
 
-#: ../src/scenes/Messages.rb:431
+#: ../src/scenes/Messages.rb:435
 msgctxt "Messages"
 msgid "The conversation has been deleted."
 msgstr "Konuşma silindi."
 
-#: ../src/scenes/Messages.rb:446
+#: ../src/scenes/Messages.rb:450
 msgctxt "Messages"
 msgid "Enter a phrase to look for"
 msgstr "Aranacak sözcük grubu girin"
 
-#: ../src/scenes/Messages.rb:518
+#: ../src/scenes/Messages.rb:522
 msgctxt "Messages"
 msgid "Open this message to read more"
 msgstr "Daha fazlasını okumak için mesajı açın"
 
-#: ../src/scenes/Messages.rb:527
+#: ../src/scenes/Messages.rb:531
 msgctxt "Messages"
 msgid "Messages in conversation %{subject} with %{user}"
 msgstr "%{subject} konuşmasında %{user} ile mesajlar"
 
-#: ../src/scenes/Messages.rb:528
+#: ../src/scenes/Messages.rb:532
 msgctxt "Messages"
 msgid "Flagged messages"
 msgstr "İşaretlenen mesajlar"
 
-#: ../src/scenes/Messages.rb:529
+#: ../src/scenes/Messages.rb:533
 msgctxt "Messages"
 msgid "Found items"
 msgstr "Bulunan öğeler"
 
-#: ../src/scenes/Messages.rb:531
+#: ../src/scenes/Messages.rb:535
 msgctxt "Messages"
 msgid "Your reply"
 msgstr "Yanıtınız"
 
-#: ../src/scenes/Messages.rb:531
+#: ../src/scenes/Messages.rb:535
 msgctxt "Messages"
 msgid "Compose"
 msgstr "Oluştur"
 
-#: ../src/scenes/Messages.rb:594 ../src/scenes/Messages.rb:784
+#: ../src/scenes/Messages.rb:598 ../src/scenes/Messages.rb:788
 msgctxt "Messages"
 msgid "Attachments"
 msgstr "Ekler"
 
-#: ../src/scenes/Messages.rb:600 ../src/scenes/Messages.rb:785
+#: ../src/scenes/Messages.rb:604 ../src/scenes/Messages.rb:789
 msgctxt "Messages"
 msgid "Polls"
 msgstr "Anketler"
 
-#: ../src/scenes/Messages.rb:619 ../src/scenes/Messages.rb:874
+#: ../src/scenes/Messages.rb:623 ../src/scenes/Messages.rb:878
 msgctxt "Messages"
 msgid "Send"
 msgstr "Gönder"
 
-#: ../src/scenes/Messages.rb:629 ../src/scenes/Messages.rb:959
+#: ../src/scenes/Messages.rb:633 ../src/scenes/Messages.rb:963
 msgctxt "Messages"
 msgid "Message has been sent"
 msgstr "Mesaj göndderildi"
 
-#: ../src/scenes/Messages.rb:643
+#: ../src/scenes/Messages.rb:647
 msgctxt "Messages"
 msgid "Reply to message sender"
 msgstr "Mesajı göndereni yanıtla"
 
-#: ../src/scenes/Messages.rb:650
+#: ../src/scenes/Messages.rb:654
 msgctxt "Messages"
 msgid "Flag"
 msgstr "İşaretle"
 
-#: ../src/scenes/Messages.rb:651
+#: ../src/scenes/Messages.rb:655
 msgctxt "Messages"
 msgid "Remove flag"
 msgstr "İşareti kaldır"
 
-#: ../src/scenes/Messages.rb:657
+#: ../src/scenes/Messages.rb:661
 msgctxt "Messages"
 msgid "This message has been flagged."
 msgstr "Mesaj işaretlendi"
 
-#: ../src/scenes/Messages.rb:664
+#: ../src/scenes/Messages.rb:668
 msgctxt "Messages"
 msgid "This message is no longer flagged."
 msgstr "Mesajın işareti kaldırıldı."
 
-#: ../src/scenes/Messages.rb:672
+#: ../src/scenes/Messages.rb:676
 msgctxt "Messages"
 msgid "Protect"
 msgstr "Koru"
 
-#: ../src/scenes/Messages.rb:673
+#: ../src/scenes/Messages.rb:677
 msgctxt "Messages"
 msgid "Unprotect"
 msgstr "Korumayı kaldır"
 
-#: ../src/scenes/Messages.rb:680
+#: ../src/scenes/Messages.rb:684
 msgctxt "Messages"
 msgid "This message has been protected."
 msgstr "Mesaj korundu."
 
-#: ../src/scenes/Messages.rb:687
+#: ../src/scenes/Messages.rb:691
 msgctxt "Messages"
 msgid "This message is no longer protected."
 msgstr "Mesajın koruması kaldırıldı."
 
-#: ../src/scenes/Messages.rb:706
+#: ../src/scenes/Messages.rb:710
 msgctxt "Messages"
 msgid "Forward"
 msgstr "İlet"
 
-#: ../src/scenes/Messages.rb:730
+#: ../src/scenes/Messages.rb:734
 msgctxt "Messages"
 msgid "Are you sure you want to delete this message?"
 msgstr "Bu mesajı silmek istediğinizden emin misiniz?"
 
-#: ../src/scenes/Messages.rb:735
+#: ../src/scenes/Messages.rb:739
 msgctxt "Messages"
 msgid "The message has been deleted."
 msgstr "Mesaj silindi."
 
-#: ../src/scenes/Messages.rb:778
+#: ../src/scenes/Messages.rb:782
 msgctxt "Messages"
 msgid "Recipient"
 msgstr "Alıcı"
 
-#: ../src/scenes/Messages.rb:780
+#: ../src/scenes/Messages.rb:784
 msgctxt "Messages"
 msgid "Subject:"
 msgstr "Konu:"
 
-#: ../src/scenes/Messages.rb:781
+#: ../src/scenes/Messages.rb:785
 msgctxt "Messages"
 msgid "Message:"
 msgstr "Mesaj:"
 
-#: ../src/scenes/Messages.rb:782
+#: ../src/scenes/Messages.rb:786
 msgctxt "Messages"
 msgid "Audio message"
 msgstr "Sesli mesaj"
 
-#: ../src/scenes/Messages.rb:790
+#: ../src/scenes/Messages.rb:794
 msgctxt "Messages"
 msgid "Attach a file"
 msgstr "Dosya ekle"
 
-#: ../src/scenes/Messages.rb:791
+#: ../src/scenes/Messages.rb:795
 msgctxt "Messages"
 msgid "Select a file to attach"
 msgstr "Eklenecek dosya seçin"
 
-#: ../src/scenes/Messages.rb:797
+#: ../src/scenes/Messages.rb:801
 msgctxt "Messages"
 msgid "The file is too large."
 msgstr "Dosya çok büyük."
 
-#: ../src/scenes/Messages.rb:801
+#: ../src/scenes/Messages.rb:805
 msgctxt "Messages"
 msgid "File attached."
 msgstr "Dosya eklendi."
 
-#: ../src/scenes/Messages.rb:809
+#: ../src/scenes/Messages.rb:813
 msgctxt "Messages"
 msgid "Delete attachment"
 msgstr "Eki sil"
 
-#: ../src/scenes/Messages.rb:820
+#: ../src/scenes/Messages.rb:824
 msgctxt "Messages"
 msgid "Attach a poll"
 msgstr "Anket ekle"
 
-#: ../src/scenes/Messages.rb:832
+#: ../src/scenes/Messages.rb:836
 msgctxt "Messages"
 msgid "Poll to attach"
 msgstr "Eklenecek anket"
 
-#: ../src/scenes/Messages.rb:837
+#: ../src/scenes/Messages.rb:841
 msgctxt "Messages"
 msgid "This poll has already been added"
 msgstr "Bu anket zaten eklenmiş"
 
-#: ../src/scenes/Messages.rb:841
+#: ../src/scenes/Messages.rb:845
 msgctxt "Messages"
 msgid "Poll has been added"
 msgstr "Anket eklendi"
 
-#: ../src/scenes/Messages.rb:845
+#: ../src/scenes/Messages.rb:849
 msgctxt "Messages"
 msgid "You haven't created any polls yet."
 msgstr "Henüz hiç anket oluşturmadınız."
 
-#: ../src/scenes/Messages.rb:853
+#: ../src/scenes/Messages.rb:857
 msgctxt "Messages"
 msgid "Delete poll"
 msgstr "Anketi sil"
 
-#: ../src/scenes/Messages.rb:875
+#: ../src/scenes/Messages.rb:879
 msgctxt "Messages"
 msgid "Send as admin"
 msgstr "Yönetici olarak gönder"
 
-#: ../src/scenes/Messages.rb:900 ../src/scenes/Messages.rb:978
+#: ../src/scenes/Messages.rb:904 ../src/scenes/Messages.rb:982
 msgctxt "Messages"
 msgid "The recipient cannot be found."
 msgstr "Alıcı bulunamadı."
 
-#: ../src/scenes/Messages.rb:902
+#: ../src/scenes/Messages.rb:906
 msgctxt "Messages"
 msgid "Do you want to send this message as e-mail?"
 msgstr "Bu mesajı e-posta olarak göndermek istiyor musunuz?"
@@ -7912,7 +8349,7 @@ msgctxt "Notes"
 msgid "Don't share this note"
 msgstr "Bu notu paylaşma"
 
-#: ../src/scenes/Notes.rb:93
+#: ../src/scenes/Notes.rb:94
 msgctxt "Notes"
 msgid "New note"
 msgstr "Yeni not"
@@ -7994,13 +8431,13 @@ msgstr "Not yeniden adlandırıldı"
 
 #: ../src/scenes/Notes.rb:252
 msgctxt "Notes"
-msgid "Note content"
-msgstr "Not içeriği"
+msgid "note title"
+msgstr "Not başlığı"
 
 #: ../src/scenes/Notes.rb:252
 msgctxt "Notes"
-msgid "note title"
-msgstr "Not başlığı"
+msgid "Note content"
+msgstr "Not içeriği"
 
 #: ../src/scenes/Notes.rb:252
 msgctxt "Notes"
@@ -8021,11 +8458,6 @@ msgstr[1] "%{count} kullanıcı çevrimiçi"
 
 #: ../src/scenes/Polls.rb:12
 msgctxt "Polls"
-msgid "Votes"
-msgstr "Oylar"
-
-#: ../src/scenes/Polls.rb:12
-msgctxt "Polls"
 msgid "Polls"
 msgstr "Anketler"
 
@@ -8034,6 +8466,11 @@ msgstr "Anketler"
 msgctxt "Polls"
 msgid "Author"
 msgstr "Oluşturan"
+
+#: ../src/scenes/Polls.rb:12
+msgctxt "Polls"
+msgid "Votes"
+msgstr "Oylar"
 
 #: ../src/scenes/Polls.rb:132
 msgctxt "Polls"
@@ -8062,6 +8499,16 @@ msgstr "Yeni anket"
 
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
+msgid "Poll name"
+msgstr "Anket adı"
+
+#: ../src/scenes/Polls.rb:178
+msgctxt "Polls"
+msgid "Description"
+msgstr "Açıklama"
+
+#: ../src/scenes/Polls.rb:178
+msgctxt "Polls"
 msgid "Poll language"
 msgstr "Anket dili"
 
@@ -8072,18 +8519,13 @@ msgstr "Sorular"
 
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
-msgid "Set the expiry date for this poll"
-msgstr "Anket için kapanış tarihini ayarla"
+msgid "Hide this poll"
+msgstr "Anketi gizle"
 
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
-msgid "Description"
-msgstr "Açıklama"
-
-#: ../src/scenes/Polls.rb:178
-msgctxt "Polls"
-msgid "Poll name"
-msgstr "Anket adı"
+msgid "Hide poll results before the expiry date"
+msgstr "Anket kapanış tarihinden önce sonuçları gizle"
 
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
@@ -8092,18 +8534,13 @@ msgstr "Anket kapanış tarihi"
 
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
-msgid "Hide this poll"
-msgstr "Anketi gizle"
-
-#: ../src/scenes/Polls.rb:178
-msgctxt "Polls"
 msgid "Create"
 msgstr "Oluştur"
 
 #: ../src/scenes/Polls.rb:178
 msgctxt "Polls"
-msgid "Hide poll results before the expiry date"
-msgstr "Anket kapanış tarihinden önce sonuçları gizle"
+msgid "Set the expiry date for this poll"
+msgstr "Anket için kapanış tarihini ayarla"
 
 #: ../src/scenes/Polls.rb:207
 msgctxt "Polls"
@@ -8127,18 +8564,13 @@ msgstr "Yanıtlar"
 
 #: ../src/scenes/Polls.rb:226
 msgctxt "Polls"
-msgid "Edit box"
-msgstr "Metin kutusu"
-
-#: ../src/scenes/Polls.rb:226
-msgctxt "Polls"
 msgid "Question type"
 msgstr "Soru türü"
 
 #: ../src/scenes/Polls.rb:226
 msgctxt "Polls"
-msgid "Multiple choice"
-msgstr "Çoklu seçimli"
+msgid "Edit box"
+msgstr "Metin kutusu"
 
 #: ../src/scenes/Polls.rb:226
 msgctxt "Polls"
@@ -8149,6 +8581,11 @@ msgstr "Tek seçimli"
 msgctxt "Polls"
 msgid "Question"
 msgstr "Soru"
+
+#: ../src/scenes/Polls.rb:226
+msgctxt "Polls"
+msgid "Multiple choice"
+msgstr "Çoklu seçimli"
 
 #: ../src/scenes/Polls.rb:251
 msgctxt "Polls"
@@ -8257,11 +8694,6 @@ msgstr "Dışlananlar"
 
 #: ../src/scenes/Portable.rb:9
 msgctxt "Portable"
-msgid "Copy current settings"
-msgstr "Geçerli ayarları kopyala"
-
-#: ../src/scenes/Portable.rb:9
-msgctxt "Portable"
 msgid "Destination"
 msgstr "Konum"
 
@@ -8275,6 +8707,11 @@ msgctxt "Portable"
 msgid "continue"
 msgstr "Devam et"
 
+#: ../src/scenes/Portable.rb:9
+msgctxt "Portable"
+msgid "Copy current settings"
+msgstr "Geçerli ayarları kopyala"
+
 #: ../src/scenes/Portable.rb:23
 msgctxt "Portable"
 msgid "Please wait while files are being prepared"
@@ -8287,11 +8724,6 @@ msgstr "Ayarlar kopyalanıyor"
 
 #: ../src/scenes/Portable.rb:36
 msgctxt "Portable"
-msgid "Use current setting"
-msgstr "Geçerli ayarı kullan"
-
-#: ../src/scenes/Portable.rb:36
-msgctxt "Portable"
 msgid "Ask each time"
 msgstr "Her zaman"
 
@@ -8299,6 +8731,11 @@ msgstr "Her zaman"
 msgctxt "Portable"
 msgid "Reset synthesizer settings"
 msgstr "Sentezleyici ayarlarını sıfırla"
+
+#: ../src/scenes/Portable.rb:36
+msgctxt "Portable"
+msgid "Use current setting"
+msgstr "Geçerli ayarı kullan"
 
 #: ../src/scenes/Portable.rb:36
 msgctxt "Portable"
@@ -8548,11 +8985,6 @@ msgctxt "Settings"
 msgid "Display context menu in menu bar"
 msgstr "Menü çubuğunda içerik menüsünü görüntüle"
 
-#: ../src/scenes/Settings.rb:134 ../src/scenes/Settings.rb:220
-msgctxt "Settings"
-msgid "Voice only"
-msgstr "Sadece seslendirme"
-
 #: ../src/scenes/Settings.rb:134
 msgctxt "Settings"
 msgid "Announcement of types of controls"
@@ -8568,6 +9000,11 @@ msgctxt "Settings"
 msgid "Voice and sound"
 msgstr "Seslendirme ve ses"
 
+#: ../src/scenes/Settings.rb:134 ../src/scenes/Settings.rb:220
+msgctxt "Settings"
+msgid "Voice only"
+msgstr "Sadece seslendirme"
+
 #: ../src/scenes/Settings.rb:135
 msgctxt "Settings"
 msgid "Wrap long lines in text fields"
@@ -8575,8 +9012,8 @@ msgstr "Metin alanlarına uzun satırları sığdır"
 
 #: ../src/scenes/Settings.rb:136
 msgctxt "Settings"
-msgid "Linear"
-msgstr "Çizgisel"
+msgid "The display method of selection lists"
+msgstr "Seçim listelerinin görüntülenme şekli"
 
 #: ../src/scenes/Settings.rb:136
 msgctxt "Settings"
@@ -8585,8 +9022,8 @@ msgstr "Dairesel"
 
 #: ../src/scenes/Settings.rb:136
 msgctxt "Settings"
-msgid "The display method of selection lists"
-msgstr "Seçim listelerinin görüntülenme şekli"
+msgid "Linear"
+msgstr "Çizgisel"
 
 #: ../src/scenes/Settings.rb:137
 msgctxt "Settings"
@@ -8632,15 +9069,20 @@ msgstr ""
 "Karakterleri işlerken sözlük kullan (seslendirme olarak NVDA kullanırken "
 "NVDA eklentisi gerektirir)"
 
-#: ../src/scenes/Settings.rb:168 ../src/scenes/Settings.rb:220
+#: ../src/scenes/Settings.rb:168
 msgctxt "Settings"
-msgid "None"
-msgstr "Hiçbiri"
+msgid "Characters and words"
+msgstr "Karakterler ve sözcükler"
 
 #: ../src/scenes/Settings.rb:168
 msgctxt "Settings"
 msgid "Typing echo"
 msgstr "Yazma bildirimi"
+
+#: ../src/scenes/Settings.rb:168 ../src/scenes/Settings.rb:220
+msgctxt "Settings"
+msgid "None"
+msgstr "Hiçbiri"
 
 #: ../src/scenes/Settings.rb:168
 msgctxt "Settings"
@@ -8651,11 +9093,6 @@ msgstr "Karakterler"
 msgctxt "Settings"
 msgid "Words"
 msgstr "Sözcükler"
-
-#: ../src/scenes/Settings.rb:168
-msgctxt "Settings"
-msgid "Characters and words"
-msgstr "Karakterler ve sözcükler"
 
 #: ../src/scenes/Settings.rb:219
 msgctxt "Settings"
@@ -8669,23 +9106,23 @@ msgstr "Saat bilgisi"
 
 #: ../src/scenes/Settings.rb:221
 msgctxt "Settings"
-msgid "every hour"
-msgstr "Her saat"
-
-#: ../src/scenes/Settings.rb:221
-msgctxt "Settings"
 msgid "every half hour"
 msgstr "Her yarım saat"
 
 #: ../src/scenes/Settings.rb:221
 msgctxt "Settings"
-msgid "every quarter of an hour"
-msgstr "Her çeyrek saat"
+msgid "every hour"
+msgstr "Her saat"
 
 #: ../src/scenes/Settings.rb:221
 msgctxt "Settings"
 msgid "announcement time"
 msgstr "Duyuru zamanı"
+
+#: ../src/scenes/Settings.rb:221
+msgctxt "Settings"
+msgid "every quarter of an hour"
+msgstr "Her çeyrek saat"
 
 #: ../src/scenes/Settings.rb:222
 msgctxt "Settings"
@@ -8719,16 +9156,6 @@ msgstr "FX efektlerini etkinleştir"
 
 #: ../src/scenes/Settings.rb:251
 msgctxt "Settings"
-msgid "In audio conferences and when recording"
-msgstr "Sesli sohbetlerde ve kaydederken"
-
-#: ../src/scenes/Settings.rb:251
-msgctxt "Settings"
-msgid "Use noise reduction"
-msgstr "Gürültü azaltma kullan"
-
-#: ../src/scenes/Settings.rb:251
-msgctxt "Settings"
 msgid "Never"
 msgstr "Hiçbir zaman"
 
@@ -8736,6 +9163,16 @@ msgstr "Hiçbir zaman"
 msgctxt "Settings"
 msgid "In audio conferences only"
 msgstr "Sadece sesli sohbetlerde"
+
+#: ../src/scenes/Settings.rb:251
+msgctxt "Settings"
+msgid "In audio conferences and when recording"
+msgstr "Sesli sohbetlerde ve kaydederken"
+
+#: ../src/scenes/Settings.rb:251
+msgctxt "Settings"
+msgid "Use noise reduction"
+msgstr "Gürültü azaltma kullan"
 
 #: ../src/scenes/Settings.rb:252
 msgctxt "Settings"
@@ -9122,133 +9559,178 @@ msgstr "Yeni sohbet mesajı"
 
 #: ../src/scenes/Sounds.rb:74
 msgctxt "Sounds"
+msgid "Dice rolled in conference"
+msgstr "Sohbette zar atıldı"
+
+#: ../src/scenes/Sounds.rb:75
+msgctxt "Sounds"
+msgid "Card picked in conference"
+msgstr "Sohbette kart seçildi"
+
+#: ../src/scenes/Sounds.rb:76
+msgctxt "Sounds"
+msgid "Card replaced in conference"
+msgstr "Sohbette kartın yeri değiştirildi"
+
+#: ../src/scenes/Sounds.rb:77
+msgctxt "Sounds"
+msgid "Shuffled a deck in conference"
+msgstr "Sohbette deste karıştırıldı"
+
+#: ../src/scenes/Sounds.rb:78
+msgctxt "Sounds"
+msgid "Card placed in conference"
+msgstr "Sohbette kart atıldı"
+
+#: ../src/scenes/Sounds.rb:79
+msgctxt "Sounds"
 msgid "Whisper in the conference"
 msgstr "Sohbette fısıldama"
 
-#: ../src/scenes/Sounds.rb:75
+#: ../src/scenes/Sounds.rb:80
 msgctxt "Sounds"
 msgid "Push To Talk enabled in conferences"
 msgstr "Sohbette bas konuş etkin"
 
-#: ../src/scenes/Sounds.rb:76
+#: ../src/scenes/Sounds.rb:81
 msgctxt "Sounds"
 msgid "Push To Talk disabled in conferences"
 msgstr "Sohbette bas konuş devredışı"
 
-#: ../src/scenes/Sounds.rb:77
+#: ../src/scenes/Sounds.rb:82
 msgctxt "Sounds"
 msgid "Calling user"
 msgstr "Kullanıcı aranıyor"
 
-#: ../src/scenes/Sounds.rb:78
+#: ../src/scenes/Sounds.rb:83
 msgctxt "Sounds"
 msgid "Incoming voice call"
 msgstr "Gelen sesli arama"
 
-#: ../src/scenes/Sounds.rb:79
+#: ../src/scenes/Sounds.rb:84
 msgctxt "Sounds"
 msgid "Recording started"
 msgstr "Kayıt başladı"
 
-#: ../src/scenes/Sounds.rb:80
+#: ../src/scenes/Sounds.rb:85
 msgctxt "Sounds"
 msgid "Recording stopped"
 msgstr "Kayıt bitti"
 
-#: ../src/scenes/Sounds.rb:81
+#: ../src/scenes/Sounds.rb:86
 msgctxt "Sounds"
 msgid "Only five seconds of recording left"
 msgstr "Ses kaydı sınırının bitmesine beş saniye kaldı"
 
-#: ../src/scenes/Sounds.rb:82
+#: ../src/scenes/Sounds.rb:87
 msgctxt "Sounds"
 msgid "Error"
 msgstr "Hata"
 
-#: ../src/scenes/Sounds.rb:83
+#: ../src/scenes/Sounds.rb:88
 msgctxt "Sounds"
 msgid "Clock sound"
 msgstr "Saat seçi"
 
-#: ../src/scenes/Sounds.rb:84
+#: ../src/scenes/Sounds.rb:89
 msgctxt "Sounds"
 msgid "Alarm Sound"
 msgstr "Alarm sesi"
 
-#: ../src/scenes/Sounds.rb:85
+#: ../src/scenes/Sounds.rb:90
 msgctxt "Sounds"
 msgid "Waiting for an action to be completed"
 msgstr "Bir eylemin tamamlanması bekleniyor"
 
-#: ../src/scenes/Sounds.rb:86
+#: ../src/scenes/Sounds.rb:91
 msgctxt "Sounds"
 msgid "Signal"
 msgstr "Sinyal"
 
-#: ../src/scenes/Sounds.rb:93
+#: ../src/scenes/Sounds.rb:98
 msgctxt "Sounds"
 msgid "Type name of the soundtheme"
 msgstr "Ses temasının adını yazın"
 
-#: ../src/scenes/Sounds.rb:118
+#: ../src/scenes/Sounds.rb:123
 msgctxt "Sounds"
 msgid "Sounds guide, press space to play"
 msgstr "Ses rehberi, oynatmak için boşluğa basın"
 
-#: ../src/scenes/Sounds.rb:119
+#: ../src/scenes/Sounds.rb:124
 msgctxt "Sounds"
 msgid "Editing sound theme %{theme}"
 msgstr "%{theme} ses teması düzenleniyor"
 
-#: ../src/scenes/Sounds.rb:121
+#: ../src/scenes/Sounds.rb:126
 msgctxt "Sounds"
 msgid "Play"
 msgstr "Oynat"
 
-#: ../src/scenes/Sounds.rb:121
+#: ../src/scenes/Sounds.rb:126
 msgctxt "Sounds"
 msgid "Stop"
 msgstr "Dur"
 
-#: ../src/scenes/Sounds.rb:123
+#: ../src/scenes/Sounds.rb:128
 msgctxt "Sounds"
 msgid "Change"
 msgstr "Değiştir"
 
-#: ../src/scenes/Sounds.rb:124
+#: ../src/scenes/Sounds.rb:129
 msgctxt "Sounds"
 msgid "Save"
 msgstr "Kaydet"
 
-#: ../src/scenes/Sounds.rb:125 ../src/scenes/Sounds.rb:168
+#: ../src/scenes/Sounds.rb:130 ../src/scenes/Sounds.rb:173
 msgctxt "Sounds"
 msgid "Export"
 msgstr "Dışa aktar"
 
-#: ../src/scenes/Sounds.rb:150
+#: ../src/scenes/Sounds.rb:155
 msgctxt "Sounds"
 msgid "Select new sound"
 msgstr "Yeni ses seç"
 
-#: ../src/scenes/Sounds.rb:157
+#: ../src/scenes/Sounds.rb:162
 msgctxt "Sounds"
 msgid "The sound must not last longer than 5 minutes"
 msgstr "Ses 5 dakikadan uzun olmamalıdır"
 
-#: ../src/scenes/Sounds.rb:172
+#: ../src/scenes/Sounds.rb:177
 msgctxt "Sounds"
 msgid "Where to save this theme"
 msgstr "Tema kayıt yeri"
 
-#: ../src/scenes/Sounds.rb:181
+#: ../src/scenes/Sounds.rb:186
 msgctxt "Sounds"
 msgid "Do you want to save this soundtheme?"
 msgstr "Bu ses temasını kaydetmek istiyor musunuz?"
 
 #: ../src/scenes/SpeedTest.rb:9
 msgctxt "SpeedTest"
+msgid "Session refresh"
+msgstr "Oturum yenileme"
+
+#: ../src/scenes/SpeedTest.rb:9
+msgctxt "SpeedTest"
 msgid "What's new"
 msgstr "Ne yeni"
+
+#: ../src/scenes/SpeedTest.rb:9
+msgctxt "SpeedTest"
+msgid "Forum structure (uncompressed)"
+msgstr "Forum yapısı (sıkıştırılmamış)"
+
+#: ../src/scenes/SpeedTest.rb:9
+msgctxt "SpeedTest"
+msgid "Forum structure (compressed)"
+msgstr "Forum yapısı (sıkıştırılmış)"
+
+#: ../src/scenes/SpeedTest.rb:9
+msgctxt "SpeedTest"
+msgid "Messages recipients"
+msgstr "Mesaj alıcıları"
 
 #: ../src/scenes/SpeedTest.rb:9
 msgctxt "SpeedTest"
@@ -9262,33 +9744,13 @@ msgstr "Test sayısı"
 
 #: ../src/scenes/SpeedTest.rb:9
 msgctxt "SpeedTest"
-msgid "Unit to test"
-msgstr "Test edilecek birim"
-
-#: ../src/scenes/SpeedTest.rb:9
-msgctxt "SpeedTest"
 msgid "Blogs list"
 msgstr "Bloglar"
 
 #: ../src/scenes/SpeedTest.rb:9
 msgctxt "SpeedTest"
-msgid "Messages recipients"
-msgstr "Mesaj alıcıları"
-
-#: ../src/scenes/SpeedTest.rb:9
-msgctxt "SpeedTest"
-msgid "Forum structure (compressed)"
-msgstr "Forum yapısı (sıkıştırılmış)"
-
-#: ../src/scenes/SpeedTest.rb:9
-msgctxt "SpeedTest"
-msgid "Forum structure (uncompressed)"
-msgstr "Forum yapısı (sıkıştırılmamış)"
-
-#: ../src/scenes/SpeedTest.rb:9
-msgctxt "SpeedTest"
-msgid "Session refresh"
-msgstr "Oturum yenileme"
+msgid "Unit to test"
+msgstr "Test edilecek birim"
 
 #: ../src/scenes/SpeedTest.rb:33
 msgctxt "SpeedTest"
@@ -9402,53 +9864,8 @@ msgstr "Ne yeni"
 
 #: ../src/scenes/WhatsNew.rb:52
 msgctxt "WhatsNew"
-msgid "Update available (%{version})"
-msgstr "Güncelleme mevcut (%{version})"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "New messages"
-msgstr "Yeni mesajlar"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "Friends' birthday"
-msgstr "Arkadaşın doğum günü"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "Blog mentions"
-msgstr "Blog bahsetmeleri"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "New posts on followed forums"
-msgstr "Takip edilen forumlarda yeni gönderiler"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "Mentions"
-msgstr "Bahsedilenler"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "New blog followers"
-msgstr "Bloğu takip etmeye başlayanlar"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
 msgid "New threads on followed forums"
 msgstr "Takip edilen forumlarda yeni konular"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "New posts on the followed blogs"
-msgstr "Takip edilen bloglarda yeni gönderiler"
-
-#: ../src/scenes/WhatsNew.rb:52
-msgctxt "WhatsNew"
-msgid "New comments to followed blog posts"
-msgstr "Takip edilen blog gönderilerine yeni yorumlar"
 
 #: ../src/scenes/WhatsNew.rb:52
 msgctxt "WhatsNew"
@@ -9457,18 +9874,67 @@ msgstr "Yeni arkadaşlar"
 
 #: ../src/scenes/WhatsNew.rb:52
 msgctxt "WhatsNew"
-msgid "New comments on your blog"
-msgstr "Bloğunuza yapılan yeni yorumlar"
+msgid "Update available (%{version})"
+msgstr "Güncelleme mevcut (%{version})"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "Blog mentions"
+msgstr "Blog bahsetmeleri"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "New blog followers"
+msgstr "Bloğu takip etmeye başlayanlar"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "New comments to followed blog posts"
+msgstr "Takip edilen blog gönderilerine yeni yorumlar"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "Mentions"
+msgstr "Bahsedilenler"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "New posts on the followed blogs"
+msgstr "Takip edilen bloglarda yeni gönderiler"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "Friends' birthday"
+msgstr "Arkadaşın doğum günü"
 
 #: ../src/scenes/WhatsNew.rb:52
 msgctxt "WhatsNew"
 msgid "New posts in followed threads"
 msgstr "Takip edilen konularda yeni gönderiler"
 
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "New messages"
+msgstr "Yeni mesajlar"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "New comments on your blog"
+msgstr "Bloğunuza yapılan yeni yorumlar"
+
+#: ../src/scenes/WhatsNew.rb:52
+msgctxt "WhatsNew"
+msgid "New posts on followed forums"
+msgstr "Takip edilen forumlarda yeni gönderiler"
+
 #: ../src/scenes/WhatsNew.rb:67
 msgctxt "WhatsNew"
 msgid "There is nothing new."
 msgstr "Yeni bir şey yok."
+
+#~ msgctxt "Conference"
+#~ msgid "Objects and streaming"
+#~ msgstr "Yayındaki nesneler"
 
 #~ msgctxt "Blog"
 #~ msgid "Added to the followed blogs."

@@ -1,15 +1,15 @@
 class String
 
-  # To get a byte range out of a possible multibyte string, force encoding to 
+  # To get a byte range out of a possible multibyte string, force encoding to
   # ASCII-8BIT and use regular string slice, then restore the original encoding
   #------------------------------------------------------------------------------
   def byteslice(*args)
     result = nil
     begin
-            result = self.slice(*args)
+      result = self.slice(*args)
     ensure
-          end
-      end
+    end
+  end
 end
 
 # RubyMotion (at least as of 3.6) does not include an implementation of
@@ -23,7 +23,6 @@ end
 # The code has been modifed to use byte-based positioning and sizing, and will now
 # return the same sizes and values as Ruby 1.9 and 2.0
 #------------------------------------------------------------------------------
-
 
 # (modified) MacRuby implementation of strscan.
 #
@@ -171,7 +170,7 @@ class StringScanner
   #
   def initialize(string, dup = false)
     @@regex_cache ||= {}
-    
+
     begin
       @string = string.to_str
     rescue
@@ -184,9 +183,9 @@ class StringScanner
   # object.
   #
   def initialize_copy(orig)
-    @string     = orig.string
-    @byte_pos   = orig.byte_pos
-    @match      = orig.instance_variable_get("@match")
+    @string = orig.string
+    @byte_pos = orig.byte_pos
+    @match = orig.instance_variable_get("@match")
   end
 
   # Reset the scan pointer (index 0) and clear matching data.
@@ -200,7 +199,7 @@ class StringScanner
   # Set the scan pointer to the end of the string and clear matching data.
   #
   def terminate
-    @match    = nil
+    @match = nil
     @byte_pos = @string.bytesize
     self
   end
@@ -242,6 +241,7 @@ class StringScanner
     end
     self
   end
+
   alias :<< :concat
 
   # Returns the byte postition of the scan pointer (not the character position)
@@ -420,15 +420,15 @@ class StringScanner
   #
   def inspect
     if defined?(@string)
-      rest = @string.size > 5 ? @string[@byte_pos..@byte_pos+4] + "..." : @string
-      to_return =  if eos? then
-                    "#<StringScanner fin>"
-                  elsif @byte_pos > 0 then
-                    prev = @string[0...@byte_pos].inspect
-                    "#<StringScanner #{@byte_pos}/#{@string.bytesize} #{prev} @ #{rest.inspect}>"
-                  else
-                    "#<StringScanner #{@byte_pos}/#{@string.bytesize} @ #{rest.inspect}>"
-                  end
+      rest = @string.size > 5 ? @string[@byte_pos..@byte_pos + 4] + "..." : @string
+      to_return = if eos?
+          "#<StringScanner fin>"
+        elsif @byte_pos > 0
+          prev = @string[0...@byte_pos].inspect
+          "#<StringScanner #{@byte_pos}/#{@string.bytesize} #{prev} @ #{rest.inspect}>"
+        else
+          "#<StringScanner #{@byte_pos}/#{@string.bytesize} @ #{rest.inspect}>"
+        end
       to_return.taint if @string.tainted?
       to_return
     else
@@ -539,7 +539,6 @@ class StringScanner
     _scan(pattern, false, true, true)
   end
 
-
   # This returns the value that #scan_until would return, without advancing the
   # scan pointer.  The match register is affected, though.
   #
@@ -601,9 +600,9 @@ class StringScanner
   #
   def unscan
     raise(ScanError, "unscan failed: previous match record not exist") if @match.nil?
-    @byte_pos       = @prev_byte_pos
-    @prev_byte_pos  = nil
-    @match          = nil
+    @byte_pos = @prev_byte_pos
+    @prev_byte_pos = nil
+    @match = nil
     self
   end
 
@@ -621,6 +620,7 @@ class StringScanner
   def bol?
     (@byte_pos == 0) || (@string.getbyte(@byte_pos - 1) == 10) # 10 == '\n'
   end
+
   alias :beginning_of_line? :bol?
 
   # Return the n-th subgroup in the most recent match.
@@ -672,13 +672,13 @@ class StringScanner
   def self.regex_cached?(cache_key)
     @@regex_cache[cache_key] ? true : false
   end
-  
+
   # Get cached regular expression
   #------------------------------------------------------------------------------
   def self.get_regex(cache_key)
     @@regex_cache[cache_key]
   end
-  
+
   # Cache a regular expression.  This is particulary useful for the headonly
   # option in _scan, so thay we don't create the same regex over and over.
   # Caused a serious performance problem
@@ -689,7 +689,7 @@ class StringScanner
     @@regex_cache[cache_key] = regexp
   end
 
-private
+  private
 
   #------------------------------------------------------------------------------
   def _scan(pattern, succptr, getstr, headonly)
@@ -713,14 +713,13 @@ private
     m = rest[0, @match.end(0)]
     if succptr
       @prev_byte_pos = @byte_pos
-      @byte_pos     += m.bytesize
+      @byte_pos += m.bytesize
     end
 
     getstr ? m : m.bytesize
   end
-
 end
 
 module Strscan
-  VERSION = '0.5.1'
+  VERSION = "0.5.1"
 end

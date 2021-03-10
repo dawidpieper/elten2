@@ -7,6 +7,7 @@
 Encoding.default_internal=Encoding::UTF_8
 $VERBOSE = nil
 require "base64"
+require 'json'
 require "json/ext"
 require "digest"
 require "securerandom"
@@ -20,6 +21,7 @@ require "fiddle"
 require "fiddle/import"
 require "fiddle/types"
 require "zlib"
+require "base62"
 require "socket"
 require 'uri'
 require 'win32ole'
@@ -31,7 +33,9 @@ require("./speexdsp.rb")
 require("./steamaudio.rb")
 require("./voip.rb")
 require("./conference.rb")
-require("audio3d.rb")
+require("./audio3d.rb")
+# Libraries requiring dll search location to be set
+require 'xz'
 
 class Notification
 attr_accessor :alert, :sound, :id
@@ -72,6 +76,13 @@ end
 end
 
 def ewrite(data)
+if $*.include?("/debug")
+file=ENV['temp']+"\\eltenagent.txt"
+if $debugfile==nil
+$debugfile = File.open(file, "wb")
+end
+$debugfile.write(data.inspect+"\n")
+end
 dt=""
 for kp in data.keys
 v=data[kp]
@@ -104,6 +115,7 @@ $eltendata=getdirectory(26)+"\\elten"
 $eltendata=".\\eltendata" if readini("elten.ini","Elten","Portable","0").to_i.to_i!=0
 $soundthemesdata=$eltendata+"\\soundthemes"
 $bindata=$eltendata+"\\bin"
+loadlocaledata("Data/locale.dat")
 if !FileTest.exists?($eltendata+"\\appid.dat")
 $appid = ""
   chars = ("A".."Z").to_a+("a".."z").to_a+("0".."9").to_a
@@ -147,6 +159,89 @@ end
 sleep(0.1) while !$token
 end
 Bass.init(0)
+
+#p SteamAudio.load("c:\\users\\dawid\\appdata\\roaming\\elten\\extras\\phonon.dll")
+#def ewrite(s);p s;end
+#$name='test'
+#$token="test"
+#c=Conference.new
+#c.on_ping{|t|puts "Ping: "+t.to_s}
+#c.on_diceroll{|username,userid,roll|puts "#{username}: rolled #{roll}"}
+#c.on_card{|username,userid,type,deck,card|puts "#{username}: #{type}, #{deck}, #{card}"}
+#p c.create_channel({'name'=>'abc','password'=>'pao', 'framesize'=>120, 'channels'=>2, 'spatialization'=>0, 'key_len'=>0})
+#p c.deck_add("full")
+##c.begin_save("c:\\users\\dawid\\desktop\\save.ogg")
+#muted=true
+#streaming=false
+##recording=false
+#loop do
+#s=STDIN.gets.delete("\r\n")
+#case s
+#when "r"
+#if recording
+#c.end_save
+#else
+#c.begin_fullsave("c:\\users\\dawid\\desktop\\test")
+#end
+#recording=!recording
+#when "."
+#c.input_volume+=10
+#p c.input_volume
+#when ","
+#c.input_volume-=10
+#p c.input_volume
+#when "m"
+#muted=!muted
+#c.setvolume($name, 100, muted)
+#when "t"
+#if !streaming
+#c.set_stream('C:\Users\dawid\Music\Celtic Woman\Ancient Land (Deluxe)\04 - Follow Me.flac')
+#else
+#c.remove_stream
+#end
+#streaming=!streaming
+#when "a"
+#c.x-=1
+#when "d"
+#c.x+=1
+#when "s"
+#c.y+=1
+#when "w"
+#c.y-=1
+#when "p"
+#c.ping
+#when "q"
+#break
+#when "c"
+#p c.cards
+#when "v"
+#c.card_pick(c.decks[0]['id'])
+#when "b"
+#puts("Card ID:")
+#id=STDIN.gets.to_i
+#card=c.cards[id]
+#if card==nil
+#puts("Card not found")
+#else
+#c.card_change(c.decks[0]['id'], card['cid'])
+#end
+#when "x"
+#puts("Card ID:")
+#id=STDIN.gets.to_i
+#card=c.cards[id]
+#if card==nil
+#puts("Card not found")
+#else
+#c.card_place(c.decks[0]['id'], card['cid'])
+#end
+#else
+#if s.to_i.to_s==s
+#c.diceroll(s.to_i)
+#end
+#end
+#end
+#c.free
+#exit
 
 $wn={}
 $li=0
@@ -395,6 +490,22 @@ if $conference!=nil && data['x'].is_a?(Integer) && data['y'].is_a?(Integer)
 $conference.x=data['x']
 $conference.y=data['y']
 end
+elsif data['func']=='conference_kick'
+if $conference!=nil && data['userid'].is_a?(Integer)
+$conference.kick(data['userid'])
+end
+elsif data['func']=='conference_ban'
+if $conference!=nil && data['username'].is_a?(String)
+$conference.ban(data['username'])
+end
+elsif data['func']=='conference_unban'
+if $conference!=nil && data['username'].is_a?(String)
+$conference.unban(data['username'])
+end
+elsif data['func']=='conference_admin'
+if $conference!=nil && data['username'].is_a?(String)
+$conference.admin(data['username'])
+end
 elsif data['func']=='conference_gotouser'
 if $conference!=nil
 $conference.goto(data['userid'].to_i)
@@ -413,6 +524,12 @@ $conference.pushtotalk_keys=data['pushtotalk_keys'].split(",").map{|k|k.to_i} if
 $conference.on_channel {|ch|
 Thread.new{
 dt={'func'=>'conference_channel', 'channel'=>JSON.generate(ch)}
+ewrite(dt)
+}
+}
+$conference.on_waitingchannel {|chid|
+Thread.new{
+dt={'func'=>'conference_waitingchannel', 'chid'=>chid}
 ewrite(dt)
 }
 }
@@ -446,6 +563,153 @@ Thread.new{
 speak(username+": "+message)
 ewrite({'func'=>'conference_text', 'username'=>username, 'userid'=>userid, 'text'=>message})
 play 'conference_message'
+while speech_actived
+speech_stop if $getasynckeystate.call(0x11)!=0 and $voice>=0 and Time.now.to_f-($speech_lasttime||0)>0.1
+sleep 0.01
+end
+}
+}
+$conference.on_diceroll {|username, userid, value, count|
+Thread.new{
+speak(username+": "+value.to_s)
+ewrite({'func'=>'conference_diceroll', 'username'=>username, 'userid'=>userid, 'value'=>value, 'count'=>count})
+play 'conference_diceroll'
+while speech_actived
+speech_stop if $getasynckeystate.call(0x11)!=0 and $voice>=0 and Time.now.to_f-($speech_lasttime||0)>0.1
+sleep 0.01
+end
+}
+}
+$conference.on_card {|username, userid, type, deck, cid|
+fullname=""
+if cid!=nil && cid!=0
+if cid<128
+l=((cid/16)+1).to_s
+x=cid%16
+f=" "
+f.setbyte(0, "a".getbyte(0)-1+x)
+else
+l=(cid-128)/25+5
+x=(cid-128)%25+1
+f=" "
+f.setbyte(0, "a".getbyte(0)-1+x)
+end
+colourname=""
+cardname=""
+case l.to_i
+when 1
+colourname=p_("Conference_cards", "hearts")
+when 2
+colourname=p_("Conference_cards", "spades")
+when 3
+colourname=p_("Conference_cards", "clubs")
+when 4
+colourname=p_("Conference_cards", "diamonds")
+when 5
+colourname=p_("Conference_cards", "red")
+when 6
+colourname=p_("Conference_cards", "green")
+when 7
+colourname=p_("Conference_cards", "blue")
+when 8
+colourname=p_("Conference_cards", "yellow")
+else
+colourname=""
+end
+if cid<128
+case f.getbyte(0)-"a".getbyte(0)
+when 0
+cardname = p_("Conference_cards", "two")
+when 1
+cardname = p_("Conference_cards", "three")
+when 2
+cardname = p_("Conference_cards", "four")
+when 3
+cardname = p_("Conference_cards", "five")
+when 4
+cardname = p_("Conference_cards", "six")
+when 5
+cardname = p_("Conference_cards", "seven")
+when 6
+cardname = p_("Conference_cards", "eight")
+when 7
+cardname = p_("Conference_cards", "nine")
+when 8
+cardname = p_("Conference_cards", "ten")
+when 9
+cardname = p_("Conference_cards", "jack")
+when 10
+cardname = p_("Conference_cards", "queen")
+when 11
+cardname = p_("Conference_cards", "king")
+when 12
+cardname = p_("Conference_cards", "ace")
+when 13
+cardname = p_("Conference_cards", "joker")
+end
+elsif cid>=128
+if l<9
+if f=="a"
+cardname="0"
+elsif f.getbyte(0)-"a".getbyte(0)<19
+cardname=((f.getbyte(0)-"a".getbyte(0)+1)/2).to_s
+else
+case f.getbyte(0)-"a".getbyte(0)
+when 19
+cardname=p_("Conference_cards", "Skip")
+when 20
+cardname=p_("Conference_cards", "Skip")
+when 21
+cardname=p_("Conference_cards", "Draw two")
+when 22
+cardname=p_("Conference_cards", "Draw two")
+when 23
+cardname=p_("Conference_cards", "Reverse")
+when 24
+cardname=p_("Conference_cards", "Reverse")
+end
+end
+elsif l==9
+if (f.getbyte(0)-"a".getbyte(0))/4==0
+cardname=p_("Conference_cards", "Wild")
+elsif (f.getbyte(0)-"a".getbyte(0))/4==1
+cardname=p_("Conference_cards", "Wild draw four")
+end
+end
+end
+end
+if f!=nil
+if l.to_i<5
+if f.downcase=="n"
+fullname=cardname
+else
+fullname=p_("Conference_cards", "%{card} of %{colour}")%{card: cardname, colour: colourname}
+end
+elsif l.to_i>=5
+if l.to_i==9
+fullname=cardname
+else
+fullname=p_("Conference_cards", "%{colour} %{card}")%{card:cardname, colour:colourname}
+          end
+end
+end
+Thread.new {
+ewrite({'func'=>'conference_card', 'username'=>username, 'userid'=>userid, 'type'=>type, 'deck'=>deck, 'cid'=>cid})
+case type
+when "pick"
+play 'conference_cardpick'
+when "change"
+play 'conference_cardchange'
+when "place"
+play 'conference_cardplace'
+when "shuffle"
+play 'conference_cardshuffle'
+end
+s=username+" "
+if cid!=0 && cid!=nil
+s+=fullname
+end
+speak(s)
 while speech_actived
 speech_stop if $getasynckeystate.call(0x11)!=0 and $voice>=0 and Time.now.to_f-($speech_lasttime||0)>0.1
 sleep 0.01
@@ -517,6 +781,44 @@ elsif data['func']=='conference_sendtext'
 if $conference!=nil
 $conference.send_text(data['text'])
 end
+elsif data['func']=='conference_diceroll'
+if $conference!=nil
+$conference.diceroll((data['count']||6).to_i)
+end
+elsif data['func']=='conference_decks'
+if $conference!=nil
+decks=$conference.decks
+ewrite({'func'=>'conference_decks', 'decks'=>JSON.generate(decks)}) if decks!=nil
+end
+elsif data['func']=='conference_adddeck'
+if $conference!=nil
+$conference.deck_add(data['type'])
+end
+elsif data['func']=='conference_resetdeck'
+if $conference!=nil
+$conference.deck_reset(data['deck'])
+end
+elsif data['func']=='conference_removedeck'
+if $conference!=nil
+$conference.deck_remove(data['deck'])
+end
+elsif data['func']=='conference_cards'
+if $conference!=nil
+cards=$conference.cards
+ewrite({'func'=>'conference_cards', 'cards'=>JSON.generate(cards)}) if cards!=nil
+end
+elsif data['func']=='conference_pickcard'
+if $conference!=nil
+$conference.card_pick(data['deck'], data['cid'])
+end
+elsif data['func']=='conference_changecard'
+if $conference!=nil
+$conference.card_change(data['deck'], data['cid'])
+end
+elsif data['func']=='conference_placecard'
+if $conference!=nil
+$conference.card_place(data['deck'], data['cid'])
+end
 elsif data['func']=='conference_listchannels'
 chans=[]
 if $conference!=nil
@@ -531,6 +833,11 @@ id=nil
 id=$conference.create_channel(data) if $conference!=nil
 ewrite({'func'=>'conference_createchannel', 'channel'=>id})
 end
+elsif data['func']=='conference_editchannel'
+if $conference!=nil
+$conference.edit_channel(data['channel'], data) if $conference!=nil && data['channel'].is_a?(Integer)
+end
+
 elsif data['func']=='conference_leavechannel'
 if $conference!=nil
 $conference.leave_channel
@@ -538,6 +845,19 @@ end
 elsif data['func']=='conference_joinchannel'
 if $conference!=nil
 $conference.join_channel(data['channel'], data['password']) if $conference!=nil
+end
+elsif data['func']=='conference_setdevice'
+if $conference!=nil
+$conference.set_device(data['device'])
+end
+elsif data['func']=='conference_getcoordinates'
+if $conference!=nil
+if data['userid']==nil
+ewrite({'func'=>'conference_getcoordinates', 'x'=>$conference.x, 'y'=>$conference.y})
+else
+coords=$conference.coordinates(data['userid'])
+ewrite({'func'=>'conference_getcoordinates', 'x'=>coords[0], 'y'=>coords[1]})
+end
 end
 elsif data['func']=="audio3d_new"
 if $audio3ds[data['id']]==nil
@@ -580,6 +900,7 @@ $lastsapipitch=$sapipitch
 $lastsoundcard=$soundcard
 $lastmicrophone=$microphone
 $lastusedenoising=$usedenoising
+$lastlanguage=$language
 $voice=readconfig("Voice","Voice","")
 $rate=readconfig("Voice","Rate","50").to_i
 if $voice!=$lastvoice
@@ -632,6 +953,10 @@ use_soundtheme($soundthemesdata + "\\" + $soundtheme+".elsnd")
 else
 use_soundtheme(nil)
 end
+end
+$language = readconfig("Interface","Language","")
+if $lastlanguage!=$language
+setlocale($language)
 end
 $lastsoundtheme=$soundtheme
 $usedenoising=readconfig("Advanced","UseDenoising","0").to_i
@@ -780,8 +1105,8 @@ end
 end
 rescue Interrupt
 rescue SystemExit
-#rescue Exception
-#ewrite({'func'=>'error','msg'=>$!.to_s,'loc'=>$@.to_s})
+rescue Exception
+ewrite({'func'=>'error','msg'=>$!.to_s,'loc'=>$@.to_s})
 ensure
 Audio3D.free
 SteamAudio.free
