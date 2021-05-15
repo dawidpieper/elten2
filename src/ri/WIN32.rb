@@ -483,7 +483,7 @@ module Win32
         secdescs = packdw(0)
         wtime = " " * 8
         check RegQueryInfoKey.call(hkey, 0, 0, 0, subkeys, maxsubkeylen, 0,
-                                   values, maxvaluenamelen, maxvaluelen, secdescs, wtime)
+                               values, maxvaluenamelen, maxvaluelen, secdescs, wtime)
         [unpackdw(subkeys), unpackdw(maxsubkeylen), unpackdw(values),
          unpackdw(maxvaluenamelen), unpackdw(maxvaluelen),
          unpackdw(secdescs), unpackqw(wtime)]

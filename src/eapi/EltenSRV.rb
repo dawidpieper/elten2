@@ -242,7 +242,7 @@ module EltenAPI
         if err != 0
           alert(_("Error"))
           $scene = Scene_Main.new
-          return
+          return ""
         end
         for i in 1..statustemp.size - 1
           statustemp[i].delete!("\r\n")
@@ -283,7 +283,7 @@ module EltenAPI
         end
       end
       st = ""
-      return if @@statususers == nil or $statusonline == nil
+      return "" if @@statususers == nil or $statusonline == nil
       for i in 0...@@statususers.size
         if name == @@statususers[i]
           st = $statustexts[i]
@@ -364,6 +364,7 @@ module EltenAPI
       usrinf[10] = uit[11].to_b
       usrinf[11] = uit[12].to_i
       usrinf[12] = uit[13].to_b
+      usrinf[13] = uit[14].to_b
       return usrinf
     end
 
@@ -398,6 +399,24 @@ module EltenAPI
       end
       return "" if text.size < 4
       return text.gsub("\004LINE\004", "\r\n").chop.chop
+    end
+
+    def feed(message, response = 0)
+      response = 0 if response <= 1
+      return false if message == "" || !message.is_a?(String)
+      message = message.split("")[0...200].join("")
+      buf = buffer(message)
+      a = srvproc("feeds", { "ac" => "publish", "buffer" => buf, "response" => response })
+      if a[0].to_i == 0
+        return true
+      else
+        return false
+      end
+    end
+
+    def delete_feed(id)
+      a = srvproc("feeds", { "ac" => "delete", "id" => id })
+      return a[0].to_i == 0
     end
 
     def isbanned(user = Session.name)

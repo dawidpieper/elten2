@@ -51,8 +51,8 @@ module GlobalMenu
             end
             m.scene(p_("MainMenu", "&Blogs"), Scene_Blog)
             m.scene(p_("MainMenu", "&Forum"), Scene_Forum)
+            m.scene(p_("MainMenu", "&Conferences"), Scene_Conference)
             if Session.name != nil && Session.name != "guest"
-              m.scene(p_("MainMenu", "&Conferences"), Scene_Conference)
               m.scene(p_("MainMenu", "No&tes"), Scene_Notes)
               m.scene(p_("MainMenu", "What's &new?"), Scene_WhatsNew)
               m.scene(p_("MainMenu", "Po&lls"), Scene_Polls)
@@ -104,6 +104,7 @@ module GlobalMenu
           m.scene(p_("MainMenu", "&Terms and conditions"), Scene_Documentation, "rules")
           m.scene(p_("MainMenu", "&Privacy policy"), Scene_Documentation, "privacypolicy")
           m.scene(p_("MainMenu", "Infor&mation about migration to Elten version 2.4"), Scene_Documentation, "migration24")
+          m.scene(p_("MainMenu", "List of &Invisible Interface hotkeys"), Scene_IIKeys)
         }
         @menu.submenu(p_("MainMenu", "&Quit")) { |m|
           m.option(p_("MainMenu", "Hide in &tray")) {
@@ -111,6 +112,7 @@ module GlobalMenu
           }
           if Session.logged?
             m.option(p_("MainMenu", "&Logout")) {
+              Session.feeds_clear
               if FileTest.exists?(Dirs.eltendata + "\\login.dat")
                 srvproc("logout", { "autologin" => "1", "computer" => $computer })
                 File.delete(Dirs.eltendata + "\\login.dat")

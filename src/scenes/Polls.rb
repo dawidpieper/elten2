@@ -201,9 +201,11 @@ class Scene_Polls_Create
         break if $scene != self
       end
       if @fields[9].pressed? or escape
-        $scene = Scene_Polls.new
-        return
-        break
+        confirm(p_("Polls", "Are you sure you want to discard this poll?")) {
+          $scene = Scene_Polls.new
+          return
+          break
+        }
       end
     end
   end
@@ -325,6 +327,7 @@ class Scene_Polls_Answer
   end
 
   def main
+    @changed = false
     pl = srvproc("polls", { "get" => "1", "poll" => @id.to_s })
     if pl[0].to_i < 0
       alert(_("Error"))
@@ -360,6 +363,7 @@ class Scene_Polls_Answer
     for q in @questions
       if q[1] == 2
         qs.push(EditBox.new(q[0], "", "", true))
+        qs.last.on(:change) { @changed = true }
       else
         comment = ""
         if q[1] == 0
@@ -372,6 +376,7 @@ class Scene_Polls_Answer
         flags = 0
         flags |= ListBox::Flags::MultiSelection if multi
         qs.push(ListBox.new(q[2..q.size - 1], q[0] + " (#{comment}): ", 0, flags, true))
+        qs.last.on(:move) { @changed = true }
       end
     end
     @fields = [EditBox.new(p_("Polls", "Poll"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, txt, true)] + qs + [Button.new(p_("Polls", "Vote")), Button.new(_("Cancel"))]
@@ -380,13 +385,15 @@ class Scene_Polls_Answer
       loop_update
       @form.update
       if escape
-        if @toscene == nil
-          $scene = Scene_Polls.new(@id)
-        else
-          $scene = @toscene
+        if @changed == false or confirm(p_("Polls", "Are you sure you want to discard your answers in this poll?")) == 1
+          if @toscene == nil
+            $scene = Scene_Polls.new(@id)
+          else
+            $scene = @toscene
+          end
+          return
+          break
         end
-        return
-        break
       end
       if enter or space
         if @form.index == @form.fields.size - 2

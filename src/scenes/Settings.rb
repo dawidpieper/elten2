@@ -39,10 +39,10 @@ class Scene_Settings
     @settings.last[1] = func
   end
 
-  def make_setting(label, type, section, config = nil, mapping = nil)
+  def make_setting(label, type, section, config = nil, mapping = nil, multi = false)
     return if @settings.size == 0
     mapping = mapping.map { |x| x.to_s } if mapping != nil
-    @settings.last.push([label, type, section, config, mapping])
+    @settings.last.push([label, type, section, config, mapping, multi])
   end
 
   def save_category
@@ -53,6 +53,15 @@ class Scene_Settings
       val = @form.fields[index].value
       val = val.to_i if setting[1] == :number or setting[1] == :bool
       val = setting[4][val] if setting[4] != nil
+      if setting[1].is_a?(Array) && setting[5] == true
+        mpg = setting[4]
+        mpg = (0...setting[1].size).to_a.map { |a| a.to_s } if mpg == nil
+        vl = []
+        for i in 0...mpg.size
+          vl.push(mpg[i]) if @form.fields[index].selected[i]
+        end
+        val = vl.join(",")
+      end
       setcurrentconfig(setting[2], setting[3], val)
     end
   end
@@ -65,7 +74,7 @@ class Scene_Settings
     @form.fields[1..-4] = nil
     f = []
     for s in @settings[id][2..-1]
-      label, type, section, config, mapping = s
+      label, type, section, config, mapping, multi = s
       field = nil
       case type
       when :text
@@ -79,9 +88,24 @@ class Scene_Settings
         proc = section
         field.on(:press, 0, true, &proc)
       else
-        index = currentconfig(section, config)
-        index = mapping.find_index(index) || 0 if mapping != nil
-        field = ListBox.new(type, label, index.to_i, 0, true)
+        index = 0
+        if multi == false
+          index = currentconfig(section, config)
+          index = mapping.find_index(index) || 0 if mapping != nil
+        end
+        flags = 0
+        flags |= ListBox::Flags::MultiSelection if multi == true
+        field = ListBox.new(type, label, index.to_i, flags, true)
+        if multi == true
+          mpg = mapping
+          mpg ||= (0...type.size).to_a.map { |a| a.to_s }
+          mpg = mpg.map { |a| a.delete(",") }
+          flds = currentconfig(section, config).split(",")
+          for f in flds
+            ind = mpg.find_index(f)
+            field.selected[ind] = true if ind != nil
+          end
+        end
       end
       @form.fields.insert(-4, field)
     end
@@ -112,7 +136,7 @@ class Scene_Settings
     for d in l
       langsmapping.push(d) if !langsmapping.include?(d)
     end
-    langs = langsmapping.map { |l| Lists.langs[l[0..1].downcase]["="] + " (" + Lists.langs[l[0..1].downcase]["nativeName"] + ")" }
+    langs = langsmapping.map { |l| Lists.langs[l[0..1].downcase]["name"] + " (" + Lists.langs[l[0..1].downcase]["nativeName"] + ")" }
     make_setting(p_("Settings", "Language"), langs, "Interface", "Language", langsmapping)
     make_setting(p_("Settings", "Automatically minimize Elten Window to system tray"), :bool, "Interface", "HideWindow")
     make_setting(p_("Settings", "Enable auto log in"), :bool, "Login", "EnableAutoLogin", [0, 1])
@@ -147,6 +171,7 @@ class Scene_Settings
     make_setting(p_("Settings", "Wrap long lines in text fields"), :bool, "Interface", "LineWrapping")
     make_setting(p_("Settings", "The display method of selection lists"), [p_("Settings", "Linear"), p_("Settings", "Circular")], "Interface", "ListType")
     make_setting(p_("Settings", "Round up the forms"), :bool, "Interface", "RoundUpForms")
+    make_setting(p_("Settings", "Disable feed notifications"), :bool, "Interface", "DisableFeedNotifications")
     on_load {
       @form.fields[1].on(:change) {
         if @form.fields[1].checked.to_i == 1
@@ -262,9 +287,27 @@ class Scene_Settings
     end
     make_setting(p_("Settings", "Output device"), @soundcards, "SoundCard", "SoundCard", @soundcardsmapping)
     make_setting(p_("Settings", "Input device"), @microphones, "SoundCard", "Microphone", @microphonesmapping)
+    make_setting(p_("Settings", "Mute the microphone in conferences while recording other content"), :bool, "Advanced", "DisableConferenceMicOnRecord")
     make_setting(p_("Settings", "Enable FX effects"), :bool, "Advanced", "UseFX")
     make_setting(p_("Settings", "Use noise reduction"), [p_("Settings", "Never"), p_("Settings", "In audio conferences only"), p_("Settings", "In audio conferences and when recording")], "Advanced", "UseDenoising")
     make_setting(p_("Settings", "Enable echo cancellation"), :bool, "Advanced", "UseEchoCancellation")
+    make_setting(p_("Settings", "Force input through Wasapi"), :bool, "Advanced", "ForceWasapi")
+  end
+
+  def load_ii
+    setting_category(p_("Settings", "Invisible interface"))
+    ii = {
+      "ALT+CTRL+WINDOWS" => 0x1 | 0x2 | 0x8,
+      "ALT+WINDOWS+SHIFT" => 0x1 | 0x4 | 0x8,
+      "ALT+CTRL+SHIFT" => 0x1 | 0x2 | 0x4,
+      "ALT+CTRL" => 0x1 | 0x2,
+      "ALT+SHIFT" => 0x1 | 0x4
+    }
+    iimodifiers = []
+    iimodifiersmapping = []
+    ii.each { |k| iimodifiers.push(k[0]); iimodifiersmapping.push(k[1]) }
+    make_setting(p_("Settings", "Modifier keys"), iimodifiers, "InvisibleInterface", "IIModifiers", iimodifiersmapping)
+    make_setting(p_("Settings", "Cards to show"), [p_("Settings", "Messages"), p_("Settings", "Feed"), p_("Settings", "Conference options")], "InvisibleInterface", "Cards", ["messages", "feed", "conference"], true)
   end
 
   def main
@@ -274,6 +317,7 @@ class Scene_Settings
     load_voice
     load_clock
     load_soundcards
+    load_ii
     @form.focus
     loop do
       loop_update

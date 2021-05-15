@@ -8,6 +8,7 @@ module EltenAPI
   module Structs
     module Session
       @@languages = ""
+      @@feeds_updated = false
       class << self
         attr_accessor :name, :token, :gender, :fullname, :moderator, :greeting
 
@@ -22,12 +23,40 @@ module EltenAPI
         def logged?
           return @name != "" && @name != nil && @token != "" && @token != nil
         end
+
+        def feeds
+          @feeds ||= {}
+          @feeds
+        end
+
+        def feeds_clear
+          @feeds = {}
+          feeds_update
+        end
+
+        def feeds_update
+          @@feeds_updated = true
+        end
+
+        def feeds_updated?
+          u = @@feeds_updated == true
+          @@feeds_updated = false
+          return u
+        end
       end
     end
 
     module Configuration
       class << self
-        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :volume, :usefx, :bgsounds, :voicepitch, :usedenoising, :autologin, :roundupforms, :checkupdates, :enablebraille, :useechocancellation, :usevoicedictionary
+        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :volume, :usefx, :bgsounds, :voicepitch, :usedenoising, :autologin, :roundupforms, :checkupdates, :enablebraille, :useechocancellation, :usevoicedictionary, :forcewasapi, :disablefeednotifications, :iimodifiers, :iicards
+
+        def to_h
+          h = {}
+          for v in instance_variables
+            h[v[1..-1]] = instance_variable_get(v)
+          end
+          return h
+        end
       end
     end
 

@@ -19,7 +19,7 @@ W sekcji Wiadomości można przesyłać wiadomości głosowe oraz tekstowe pomi�
 Domyślnie nagrywane wiadomości głosowe nie mogą być dłuższe, niż 2 min.
 Po wykupieniu pakietu audiofil ten limit zostaje zniesiony.
 W wiadomościach można również przesyłać załączniki (domyślnie do 4 MB). Po wykupieniu pakietu kurier limit ten zostaje zwiększony do 32 MB oraz do wiadomości będzie można dodawać ankiety.
-Sekcja ta pozwala też odbierać i wysyłać maile, daje to nam kilka ciekawych możliwości, można np. w prosty sposób korzystać z list mailingowych, rejestrować konta w różnych serwisach na Eltenowy adres e-mail, a przede wszystkim - mailować w prosty sposób z innymi ludźmi.
+Sekcja ta pozwala też odbierać i wysyłać maile, daje to nam kilka ciekawych możliwości, można np. w prosty sposób korzystać z list mailingowych, rejestrować konta w różnych serwisach na Eltenowy adres e-mail, a przede wszystkim - łatwo mailować z innymi ludźmi.
 Każdy z użytkowników posiada swój własny adres mailowy, który składa się z nazwy użytkownika i domeny Elten.me, np. Jankowalski@Elten.me.
 Aby utworzyć wiadomość e-mail, należy w sekcji Wiadomości wejść w menu kontekstowe, wybrać utwórz nową wiadomość, następnie w polu Odbiorca, wpisać adres e-mail osoby, do której chcemy wysłać wiadomość.
 ## Blogi
@@ -38,8 +38,8 @@ Do tego służy kategoria Śledzone Wpisy.
 Każdy z użytkowników może stworzyć jednego bloga w wersji darmowej, a po wykupieniu pakietu "skryba", ma szansę utworzenia nieskończonej ilości unikalnych blogów, w tym blogów współdzielonych z innymi użytkownikami.
 Blogi działają na systemie wordpress, dzięki temu można używać wielu wtyczek dostępnych w tym systemie. Ponadto dzięki temu mamy dostęp do dużej liczby funkcji pozwalających zadbać o wygląd naszego bloga.
 Jeśli martwisz się, że nie możesz pochwalić się swoim blogiem wśród znajomych spoza Eltena, nic prostszego - wystarczy skopiować link do bloga lub do konkretnego wpisu i wysłać go dowolnej osobie albo udostępnić np. na Facebooku.
-Aby utworzyć własnego bloga, wystarczy wejść w administrowane blogi, następnie użyć skrótu CTRL, podać nazwę i nacisnąć enter.
-Po wciśnięciu enter na nowoutworzonym blogu, możemy skrótem CTRL dodawać nowe kategorie lub wchodząc w daną kategorię albo we wszystkie wpisy, dodawać nowe wpisy, również skrótem CTRL.
+Aby utworzyć własnego bloga, wystarczy wejść w administrowane blogi, następnie użyć skrótu CTRL+N, podać nazwę i nacisnąć enter.
+Po wciśnięciu enter na nowoutworzonym blogu, możemy skrótem CTRL+N dodawać nowe kategorie lub wchodząc w daną kategorię albo we wszystkie wpisy, dodawać nowe wpisy, również skrótem CTRL+N.
 Przy tworzeniu nowego wpisu możemy wybrać takie opcje, jak rodzaj edytora, widoczność wpisu - dla wszystkich lub tylko dla Eltenowiczów oraz możemy zezwolić lub nie na jego komentowanie.
 Możemy również dodawać tagi do wpisu, naciskając znany nam już skrót CTRL+N na sekcji tagi pod tabulatorem.
 ### Personalizowanie własnego bloga

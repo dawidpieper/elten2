@@ -39,7 +39,7 @@ class Scene_Blog
       case @sel.index
       when 0
         $bloglistindex = 0
-        $scene = Scene_Blog_List.new(5)
+        $scene = Scene_Blog_List.new(Session.name)
       when 1
         $bloglistindex = 0
         $scene = Scene_Blog_List.new
@@ -272,7 +272,7 @@ class Scene_Blog_Create
     end
     alert(p_("Blog", "The blog has been created."))
     speech_wait
-    $scene = @scene
+    $scene = Scene_Blog_Options.new(blogtemp[1].delete("\r\n"), @scene)
   end
 end
 
@@ -372,6 +372,7 @@ class Scene_Blog_Posts
   def load_posts(page)
     id = @id
     id = 0 if @id == -1
+    @owner = Session.name if id.to_i.to_s != id.to_s
     blogtemp = srvproc("blog_posts", { "searchname" => @owner, "categoryid" => id, "details" => 3, "paginate" => 1, "page" => page })
     err = blogtemp[0].to_i
     if err < 0
@@ -423,7 +424,7 @@ class Scene_Blog_Posts
         tmp += " . #{p_("Blog", "Mentioned by")}: #{s.mention.author} (#{s.mention.message})"
       end
       tmp += "\004FUTURE\004" if s.date > Time.now.to_i
-      tmp += "\004NEW\004" if s.unread
+      tmp += "\004INFNEW{#{p_("Blog", "New")}}\004" if s.unread
       [tmp,
        s.author,
        s.comments.to_s]
@@ -875,7 +876,7 @@ class Scene_Blog_List
   end
 
   def blogdelete
-    confirm(p_("Blog", "Are you sure you want to delete this blog?")) {
+    confirm(p_("Blog", "Are you sure you want to delete blog %{name}?") % { "name" => @blogs[@sel.index].name }) {
       confirm(p_("Blog", "All posts written on this blog will be lost. Are you sure you want to continue?")) {
         b = srvproc("blog_delete", { "searchname" => @blogs[@sel.index].id })
         alert(p_("Blog", "Blog deleted"))
@@ -918,7 +919,7 @@ class Scene_Blog_List
       b.description = blogtemp[l + 6].delete("\r\n")
       b.followed = blogtemp[l + 7].to_i.to_b
       b.lang = blogtemp[l + 8].delete("\r\n")
-      @blogs.push(b) if LocalConfig["BlogShowUnknownLanguages", 1] == 1 || knownlanguages.size == 0 || knownlanguages.include?(b.lang[0..1].upcase)
+      @blogs.push(b) if LocalConfig["BlogShowUnknownLanguages", 1] == 1 || knownlanguages.size == 0 || knownlanguages.include?(b.lang[0..1].upcase) || (@type.is_a?(String) || @type == 3)
     end
     sel = []
     for b in @blogs
@@ -1047,16 +1048,18 @@ class Scene_Blog_List
         alert(p_("Blog", "You cannot create more blogs"))
       end
     }
-    if Session.languages.size > 0
-      s = p_("Blog", "Show blogs in unknown languages")
-      s = p_("Blog", "Hide blogs in unknown languages") if LocalConfig["BlogShowUnknownLanguages", 1] == 1
-      menu.option(s) {
-        l = 1
-        l = 0 if LocalConfig["BlogShowUnknownLanguages", 1] == 1
-        LocalConfig["BlogShowUnknownLanguages"] = l
-        refresh
-        @sel.focus
-      }
+    if !@type.is_a?(String)
+      if Session.languages.size > 0
+        s = p_("Blog", "Show blogs in unknown languages")
+        s = p_("Blog", "Hide blogs in unknown languages") if LocalConfig["BlogShowUnknownLanguages", 1] == 1
+        menu.option(s) {
+          l = 1
+          l = 0 if LocalConfig["BlogShowUnknownLanguages", 1] == 1
+          LocalConfig["BlogShowUnknownLanguages"] = l
+          refresh
+          @sel.focus
+        }
+      end
     end
     menu.option(_("Refresh"), nil, "r") {
       refresh
@@ -1207,7 +1210,7 @@ class Scene_Blog_Recategorize
       l += 1
       @postnew[i] = blogtemp[l].to_i
       if @postnew[i] > 0
-        @postname[i] += "\004NEW\004"
+        @postname[i] += "\004INFNEW{#{p_("Blog", "New")}}\004"
       end
       l += 1
       @postcategories[i] = []

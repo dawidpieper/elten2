@@ -117,8 +117,9 @@ module EltenAPI
       @hasblog = ui[1]
       @hashonors = (ui[11] > 0)
       @callable = ui[12].to_b
+      @feedfollowed = ui[13].to_b
       play("menu_open") if submenu != true
-      Menu.menubg_play if submenu != true and Configuration.bgsounds == 1
+      Menu.menubg_play if submenu != true and (Configuration.bgsounds == 1 && Configuration.soundthemeactivation == 1)
       sel = [p_("EAPI_Common", "Write a private message"), p_("EAPI_Common", "Visiting card"), p_("EAPI_Common", "Open user's blog"), p_("EAPI_Common", "badges of this user")]
       if Session.name != "guest"
         if @incontacts == true
@@ -126,10 +127,17 @@ module EltenAPI
         else
           sel.push(p_("EAPI_Common", "Add to contacts' list"))
         end
+        if @feedfollowed == true
+          sel.push(p_("EAPI_Common", "Unfollow feed"))
+        else
+          sel.push(p_("EAPI_Common", "Follow feed"))
+        end
       else
+        sel.push("")
         sel.push("")
       end
       sel.push(p_("EAPI_Common", "Call this user"))
+      sel.push(p_("EAPI_Common", "Show feed"))
       if Session.moderator > 0
         if @isbanned == false
           sel.push(p_("EAPI_Common", "Ban"))
@@ -154,10 +162,11 @@ module EltenAPI
         menu.disable_item(0)
         menu.disable_item(4)
         menu.disable_item(5)
+        menu.disable_item(6)
       end
       menu.disable_item(3) if @hashonors == false
-      menu.disable_item(5) if @callable == false
-      menu.disable_item(6) if Session.moderator == 0
+      menu.disable_item(6) if @callable == false
+      menu.disable_item(8) if Session.moderator == 0
       menu.focus
       loop do
         loop_update
@@ -191,8 +200,25 @@ module EltenAPI
             loop_update
             return "ALT"
           when 5
-            insert_scene(Scene_VoiceCall.new(nil, nil, [user]))
+            prm = { "ac" => ((@feedfollowed) ? ("unfollow") : ("follow")), "user" => user }
+            if srvproc("feeds", prm)[0].to_i == 0
+              if @feedfollowed
+                alert(p_("EAPI_Common", "Feed unfollowed"))
+              else
+                alert(p_("EAPI_Common", "Feed followed"))
+              end
+              $agent.write(Marshal.dump("func" => "feedreset"))
+              Session.feeds_clear
+            else
+              alert(_("Error"))
+            end
+            loop_update
+            return "ALT"
           when 6
+            voicecall(nil, nil, [user])
+          when 7
+            insert_scene(Scene_FeedViewer.new(user))
+          when 8
             if @isbanned == false
               insert_scene(Scene_Ban_Ban.new(user, Scene_Main.new), true)
             else
@@ -202,7 +228,7 @@ module EltenAPI
             return "ALT"
           else
             if $usermenuextra.is_a?(Hash)
-              a = $usermenuextra.values[menu.index - 7]
+              a = $usermenuextra.values[menu.index - 9]
               s = a[0].new
               s.userevent(user, *a[1..-1])
               insert_scene(s, true)
@@ -258,10 +284,11 @@ module EltenAPI
       followedblogposts = agtemp[17].to_i
       blogfollowers = agtemp[18].to_i
       blogmentions = agtemp[19].to_i
+      groupinvitations = agtemp[20].to_i
       $nversion = agtemp[2].to_f
       $nbeta = agtemp[3].to_i
       bid = srvproc("bin/buildid", { "branch" => Elten.branch, "build_id" => Elten.build_id }, 1).to_i
-      if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums <= 0 and followedforumsposts <= 0 and friends <= 0 and birthday <= 0 and mentions <= 0 and followedblogposts <= 0 and blogfollowers <= 0 and blogmentions <= 0 and (Elten.build_id == bid or bid <= 0)
+      if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums <= 0 and followedforumsposts <= 0 and friends <= 0 and birthday <= 0 and mentions <= 0 and followedblogposts <= 0 and blogfollowers <= 0 and blogmentions <= 0 and groupinvitations <= 0 and (Elten.build_id == bid or bid <= 0)
         alert(p_("EAPI_Common", "There is nothing new.")) if quiet != true
       else
         $scene = Scene_WhatsNew.new(true, agtemp, bid)
@@ -607,6 +634,7 @@ module EltenAPI
     #   break if escape
     #  end
     def getkeychar(keybd = nil, multi = false)
+      @@deadkey ||= nil
       akey = $key
       akey = keybd if keybd != nil
       keybd = $keybd if keybd == nil
@@ -614,10 +642,23 @@ module EltenAPI
       akey = akey.unpack("c*").map { |k| k < 0 } if !akey.is_a?(Array)
       ret = ""
       lng = Win32API.new("user32", "GetKeyboardLayout", "i", "l").call(0).to_s(2)[16..31].to_i(2)
+      toUnicode = Win32API.new("user32", "ToUnicode", "iippi", "i")
       for i in 32..255
         if akey[i]
           c = "\0" * 8
-          if Win32API.new("user32", "ToUnicode", "iippii", "i").call(i, 0, keybd, c, c.bytesize, 0) > 0
+          a = nil
+          a = toUnicode.call(i, 0, keybd, c, c.bytesize / 2)
+          bc = c + ""
+          if a == 2
+            @@deadkey = [i, 0, keybd]
+            break
+          elsif @@deadkey != nil
+            play("signal")
+            a = toUnicode.call(@@deadkey[0], @@deadkey[1], @@deadkey[2], c, c.bytesize / 2)
+            a = toUnicode.call(i, 0, keybd, c, c.bytesize / 2)
+            @@deadkey = nil
+          end
+          if a > 0
             re = deunicode(c)
             ret = re if re != "" and re[0] >= 32
           end
@@ -719,13 +760,15 @@ module EltenAPI
       #return if $ruby
       $agent = ChildProc.new("bin\\rubyw --jit -Cbin agent.dat\"")
       $agent.write(Marshal.dump({ "func" => "relogin", "name" => Session.name, "token" => Session.token, "hwnd" => $wnd })) if Session.name != "" and Session.name != nil and Session.name != "guest"
+      pid = Win32API.new("kernel32", "GetCurrentProcessId", "", "i").call
+      $agent.write(Marshal.dump({ "func" => "superpid", "superpid" => pid }))
       @@hrtf_loaded = false
       sleep(0.1)
     end
 
     @@hrtf_loaded = false
 
-    def load_hrtf
+    def load_hrtf(download = true)
       return true if @@hrtf_loaded == true
       hrtfcrc = 4103889778
       loc = Dirs.extras + "\\phonon.dll"
@@ -733,6 +776,8 @@ module EltenAPI
         $agent.write(Marshal.dump({ "func" => "steamaudio_load", "file" => loc }))
         @@hrtf_loaded = true
         return true
+      elsif download == false
+        return false
       else
         if confirm(p_("EAPI_Common", "In order to use HRTF functionality, Elten needs to download Phonon library. Would you like to download it now?")) == 1
           downloadfile($url + "/extras/phonon.dll", Dirs.extras + "\\phonon.dll", true, false, true)
@@ -900,9 +945,27 @@ module EltenAPI
       return if Session.name == nil or Session.name == "" or Session.name == "guest" or $agent == nil
       $activitytime = Time.now.to_i
       $activity.keys.each { |k| $activity[k] = $activity[k].round }
-      $agent.write(Marshal.dump({ "func" => "activity_register", "activity" => $activity }))
+      $agent.write(Marshal.dump({ "func" => "activity_register", "activity" => $activity, "config" => Configuration.to_h }))
       $activity.clear
       Log.debug("User activity report generated and sent to server")
+    end
+
+    def plum
+      play("feed_update")
+      "plum"
+    end
+
+    class FeedMessage
+      attr_accessor :id, :user, :time, :message, :response, :responses, :liked, :likes
+
+      def initialize(id = 0, user = "", time = 0, message = "", response = 0, responses = 0, liked = false, likes = 0)
+        @id, @user, @time, @message, @response, @responses, @liked, @likes = id, user, time, message, response, responses, liked, likes
+        @time = 0 if !@time.is_a?(Integer) || @time < 0
+      end
+
+      def to_h
+        return { "id" => @id, "message" => @message, "time" => @time, "user" => @user, "response" => @response, "responses" => @responses, "liked" => @liked, "likes" => @likes }
+      end
     end
 
     class SoundTheme
@@ -1007,6 +1070,56 @@ module EltenAPI
       when 1
         player($url + "attachments/" + id.to_s)
       end
+    end
+
+    def feedshow(feed)
+      return if feed == nil
+      lk = srvproc("feeds", { "ac" => "likes", "message" => feed.id })
+      likes = []
+      likes = lk[2..-1].map { |l| l.delete("\r\n") } if lk[0].to_i == 0
+      form = Form.new([
+        edt_message = EditBox.new(p_("EAPI_Common", "Message"), EditBox::Flags::ReadOnly, feed.message, true),
+        lst_likes = ListBox.new(likes, p_("EAPI_Common", "Users liking this message"), 0, 0, true),
+        btn_close = Button.new(p_("EAPI_Common", "Close"))
+      ], 0, false, true)
+      btn_close.on(:press) { form.resume }
+      edt_message.bind_context { |menu| menu.useroption(feed.user) }
+      lst_likes.bind_context { |menu|
+        if likes.size > 0
+          menu.useroption(likes[lst_likes.index])
+        end
+      }
+      form.cancel_button = btn_close
+      dialog_open
+      form.wait
+      dialog_close
+    end
+
+    def voicecall(channel = nil, channel_password = nil, invite = [])
+      invite = [invite] if invite.is_a?(String)
+      Conference.open if !Conference.opened?
+      return if Session.name == "guest"
+      Conference.open if !Conference.opened?
+      if !Conference.opened?
+        $scene = Scene_Main.new
+        return
+      end
+      if channel == nil
+        channel_password = rand(36 ** 32).to_s(36)
+        chname = "VoiceCall_" + Session.name
+        channel = Conference.create(chname, false, 56, 40, 1, 0, false, true, @channel_password, 0, 2, nil).to_i
+      else
+        Conference.join(channel, channel_password)
+      end
+      delay(1)
+      tm = nil
+      tm = 30 if invite.is_a?(Array) && invite.size == 1
+      sc = Scene_Conference.new(tm, 1)
+      if invite.is_a?(Array)
+        invite.each { |user| sc.invite(user) }
+        Conference.calling_play if invite.size == 1
+      end
+      insert_scene(sc)
     end
   end
 

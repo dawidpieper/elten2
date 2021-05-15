@@ -164,12 +164,16 @@ module EltenAPI
     end
 
     class Channel
-      attr_accessor :id, :name, :bitrate, :framesize, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned
+      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id
 
       def initialize
         @name = ""
         @framesize = 60
         @bitrate = 64
+        @vbr_type = 1
+        @codec_application = 0
+        @prediction_disabled = false
+        @fec = false
         @public = true
         @users = []
         @id = 0
@@ -184,6 +188,7 @@ module EltenAPI
         @groupid = 0
         @waiting_type = 0
         @banned = []
+        @permanent = false
       end
     end
 
@@ -196,11 +201,12 @@ module EltenAPI
     end
 
     class ChannelUser
-      attr_accessor :id, :name
+      attr_accessor :id, :name, :waiting
 
-      def initialize(id, name)
+      def initialize(id, name, waiting = false)
         @id = id
         @name = name
+        @waiting = waiting
       end
     end
 
@@ -243,11 +249,13 @@ module EltenAPI
     @@pushtotalk_keys = []
     @@x = 0
     @@y = 0
+    @@dir = 0
     @@cardboard = []
     @@cards = nil
     @@decks = nil
-    def self.open(ignorePTT = false)
+    def self.open(ignorePTT = false, nick = nil)
       @@opened = false
+      load_hrtf(false)
       params = { "func" => "conference_open" }
       volume = LocalConfig["ConferenceVolume", -1]
       input_volume = LocalConfig["ConferenceInputVolume", -1]
@@ -261,12 +269,14 @@ module EltenAPI
         params["pushtotalk"] = (pushtotalk == 1) if pushtotalk != -1
         params["pushtotalk_keys"] = pushtotalk_keys.map { |k| k.to_i }.join(",") if pushtotalk_keys != []
       end
+      params["nick"] = nick
       $agent.write(Marshal.dump(params))
       t = Time.now.to_f
       while Time.now.to_f - t < 3
         loop_update
         break if @@opened == true
       end
+      delay(0.5)
     end
     def self.close
       $agent.write(Marshal.dump({ "func" => "conference_close" }))
@@ -385,12 +395,10 @@ module EltenAPI
       $agent.write(Marshal.dump({ "func" => "conference_addobject", "resid" => resid, "name" => name, "location" => location }))
     end
     def self.set_stream(file)
-      @@streaming = true
       $agent.write(Marshal.dump({ "func" => "conference_setstream", "file" => file }))
     end
     def self.remove_stream
       $agent.write(Marshal.dump({ "func" => "conference_removestream" }))
-      @@streaming = false
     end
     def self.scrollstream(pos_plus)
       $agent.write(Marshal.dump({ "func" => "conference_scrollstream", "pos_plus" => pos_plus }))
@@ -403,12 +411,20 @@ module EltenAPI
       $agent.write(Marshal.dump({ "func" => "conference_move", "x_plus" => x_plus, "y_plus" => y_plus }))
       delay(0.1)
     end
+    def self.turn(dir_plus)
+      $agent.write(Marshal.dump({ "func" => "conference_turn", "dir_plus" => dir_plus }))
+      delay(0.1)
+    end
     def self.goto_user(userid)
       $agent.write(Marshal.dump({ "func" => "conference_gotouser", "userid" => userid }))
       delay(0.1)
     end
     def self.kick(userid)
       $agent.write(Marshal.dump({ "func" => "conference_kick", "userid" => userid }))
+      delay(0.1)
+    end
+    def self.accept(userid)
+      $agent.write(Marshal.dump({ "func" => "conference_accept", "userid" => userid }))
       delay(0.1)
     end
     def self.ban(username)
@@ -430,13 +446,13 @@ module EltenAPI
     def self.whisper(userid)
       $agent.write(Marshal.dump({ "func" => "conference_whisper", "userid" => userid }))
     end
-    def self.create(name = "", public = true, bitrate = 64, framesize = 60, password = nil, spatialization = 0, channels = 2, lang = "", width = 15, height = 15, key_len = 256, waiting_type = 0)
+    def self.create(name = "", public = true, bitrate = 64, framesize = 60, vbr_type = 1, codec_application = 0, prediction_disabled = false, fec = false, password = nil, spatialization = 0, channels = 2, lang = "", width = 15, height = 15, key_len = 256, waiting_type = 0, permanent = false, motd = "", allow_guests = false)
       if @@opened == false
         self.open
         delay(1)
       end
       @@created = nil
-      $agent.write(Marshal.dump({ "func" => "conference_createchannel", "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len, "waiting_type" => waiting_type }))
+      $agent.write(Marshal.dump({ "func" => "conference_createchannel", "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "vbr_type" => vbr_type, "codec_application" => codec_application, "prediction_disabled" => prediction_disabled, "fec" => fec, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len, "waiting_type" => waiting_type, "permanent" => permanent, "motd" => motd, "allow_guests" => allow_guests }))
       t = Time.now.to_f
       while Time.now.to_f - t < 8
         loop_update
@@ -444,12 +460,12 @@ module EltenAPI
       end
       return @@created
     end
-    def self.edit(id, name, public, bitrate, framesize, password, spatialization, channels, lang, width, height, key_len)
+    def self.edit(id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, key_len, waiting_type, permanent, motd, allow_guests)
       if @@opened == false
         self.open
         delay(1)
       end
-      $agent.write(Marshal.dump({ "func" => "conference_editchannel", "channel" => id, "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len }))
+      $agent.write(Marshal.dump({ "func" => "conference_editchannel", "channel" => id, "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "vbr_type" => vbr_type, "codec_application" => codec_application, "prediction_disabled" => prediction_disabled, "fec" => fec, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len, "waiting_type" => waiting_type, "permanent" => permanent, "motd" => motd, "allow_guests" => allow_guests }))
       delay(1)
     end
     def self.update_channels
@@ -460,7 +476,7 @@ module EltenAPI
       @@channels = nil
       $agent.write(Marshal.dump({ "func" => "conference_listchannels" }))
       t = Time.now.to_f
-      while Time.now.to_f - t < 1
+      while Time.now.to_f - t < 2
         loop_update
         break if @@channels != nil
       end
@@ -474,7 +490,7 @@ module EltenAPI
         delay(1)
       end
       $agent.write(Marshal.dump({ "func" => "conference_setmuted", "muted" => mt == true }))
-      @@muted = (mt == true)
+      delay(0.2)
     end
     def self.input_volume
       @@input_volume
@@ -540,6 +556,9 @@ module EltenAPI
     def self.texts
       return @@texts
     end
+    def self.waiting_channel_id
+      @@waiting_channel_id
+    end
     def self.channels
       channels = []
       if @@channels.is_a?(Array)
@@ -549,7 +568,12 @@ module EltenAPI
           ch.name = cha["name"].to_s
           ch.framesize = cha["framesize"].to_f
           ch.bitrate = cha["bitrate"].to_i
+          ch.vbr_type = cha["vbr_type"].to_i
+          ch.codec_application = cha["codec_application"].to_i
+          ch.prediction_disabled = cha["prediction_disabled"] == true
+          ch.fec = cha["fec"] == true
           ch.passworded = true if cha["passworded"] == true
+          ch.password = cha["password"]
           ch.lang = cha["lang"]
           ch.channels = cha["channels"]
           ch.spatialization = cha["spatialization"]
@@ -562,6 +586,13 @@ module EltenAPI
           ch.banned = cha["banned"] || []
           ch.key_len = cha["key_len"]
           ch.waiting_type = cha["waiting_type"] || 0
+          ch.width = cha["width"].to_i
+          ch.height = cha["height"].to_i
+          ch.permanent = (cha["permanent"] == true)
+          ch.uuid = cha["uuid"]
+          ch.motd = cha["motd"]
+          ch.room_id = cha["room_id"]
+          ch.allow_guests = cha["allow_guests"]
           channels.push(ch)
         end
       end
@@ -576,11 +607,18 @@ module EltenAPI
     def self.get_coordinates(userid = nil)
       @@x = 0
       @@y = 0
-      return [0, 0] if !self.opened?
+      @@dir = 0
+      return [0, 0, 0] if !self.opened?
       $agent.write(Marshal.dump({ "func" => "conference_getcoordinates", "userid" => userid }))
       t = Time.now.to_f
       loop_update while (@@x == 0 && @@y == 0) && Time.now.to_f - t < 1
-      return [@@x, @@y]
+      return [@@x, @@y, @@dir]
+    end
+    def self.calling_play
+      $agent.write(Marshal.dump({ "func" => "conference_callingplay" }))
+    end
+    def self.calling_stop
+      $agent.write(Marshal.dump({ "func" => "conference_callingstop" }))
     end
     def self.setopened(data)
       self.setclosed
@@ -610,6 +648,7 @@ module EltenAPI
       @@pushtotalk_keys = []
       @@x = 0
       @@y = 0
+      @@dir = 0
       @@cardboard = []
       @@waiting_channel_id = 0
     end
@@ -621,8 +660,14 @@ module EltenAPI
         ch.name = params["name"]
         ch.framesize = (params["framesize"] || 60).to_f
         ch.bitrate = (params["bitrate"] || 0).to_i
+        ch.vbr_type = params["vbr_type"].to_i
+        ch.codec_application = params["codec_application"].to_i
+        ch.prediction_disabled = params["prediction_disabled"] == true
+        ch.fec = params["fec"] == true
         ch.public = params["public"] != false
         ch.spatialization = params["spatialization"] || 0
+        load_hrtf if ch.spatialization == 1
+        ch.password = params["password"]
         ch.channels = params["channels"] || 2
         ch.lang = params["lang"] || ""
         ch.creator = params["creator"]
@@ -631,14 +676,22 @@ module EltenAPI
         if params["users"].is_a?(Array)
           ch.users = params["users"].map { |u| ChannelUser.new(u["id"], u["name"]) }
         end
+        if params["waiting_users"].is_a?(Array)
+          ch.users += params["waiting_users"].map { |u| ChannelUser.new(u["id"], u["name"], true) }
+        end
         ch.width = params["width"]
         ch.height = params["height"]
         ch.objects = params["objects"].map { |o| ChannelObject.new(o["id"], o["resid"], o["name"], o["x"], o["y"]) }
         ch.administrators = params["administrators"] || []
         ch.banned = params["banned"] || []
         ch.key_len = params["key_len"]
+        ch.waiting_type = params["waiting_type"] || 0
+        ch.permanent = (params["permanent"] == true)
+        ch.uuid = params["uuid"]
+        ch.motd = params["motd"]
+        ch.room_id = params["room_id"]
+        ch.allow_guests = params["allow_guests"]
         @@channel = ch
-        @@waiting_channel_id = 0
         self.trigger(:update)
       end
     rescue Exception
@@ -646,6 +699,7 @@ module EltenAPI
     end
     def self.setwaitingchannel(chid)
       @@waiting_channel_id = chid
+      self.trigger(:waitingchannel)
     end
     def self.setcreated(id)
       @@created = id
@@ -686,8 +740,18 @@ module EltenAPI
       @@cardboard.push([username, userid, type, deck, cid])
       trigger(:cardboard)
     end
-    def self.setcoordinates(x, y)
-      @@x, @@y = x.to_i, y.to_i
+    def self.setcoordinates(x, y, dir)
+      @@x, @@y, @@dir = x.to_i, y.to_i, dir.to_i
+    end
+    def self.setchange(param, value)
+      case param
+      when "muted"
+        @@muted = value
+      when "streaming"
+        @@streaming = value
+      when "pushtotalk"
+        @@pushtotalk = value
+      end
     end
     def self.on(hook, &block)
       if block != nil

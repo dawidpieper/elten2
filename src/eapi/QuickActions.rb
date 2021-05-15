@@ -72,6 +72,13 @@ module EltenAPI
             text = tps.join(",\n")
           end
           alert(text, false)
+        when :feed
+          inp = input_text(p_("EAPI_Common", "Message"), 0, "", true, [], [], 200)
+          loop_update
+          feed(inp) if inp != nil
+        when :alarm
+          Scene_Clock.editalarm
+          loop_update
         when :tray
           $totray = true
         when :srsapi
@@ -138,6 +145,8 @@ module EltenAPI
           end
         when :conference_diceroll
           Conference.diceroll(6)
+        when :conference_dicerollcustom
+          Scene_Conference.custom_diceroll
         else
           g = QuickActions.get_proc(action)
           g.call if g != nil
@@ -205,16 +214,19 @@ module EltenAPI
           [:srsapi, p_("EAPI_QuickActions", "Switch voice output between NVDA and Sapi5"), [], -1, false],
           [:volumedown, p_("EAPI_QuickActions", "Volume down"), [], 5, false],
           [:volumeup, p_("EAPI_QuickActions", "Volume up"), [], 6, false],
-          [:donotdisturb, p_("EAPI_QuickActions", "Switch \"Do not disturb\" mode"), [], -2, false]
+          [:donotdisturb, p_("EAPI_QuickActions", "Switch \"Do not disturb\" mode"), [], -2, false],
+          [:feed, p_("EAPI_QuickActions", "Publish to a feed"), [], 4, false]
         ]
         if defaults != true
           a += [
-            [:copylastspeech, p_("EAPI_QuickActions", "Copy last spoken text to clipboard"), [], -2, false],
-            [:conference_streaming, p_("EAPI_QuickActions", "Conferences: stream audio file"), [], -2, false],
-            [:conference_setvolumes, p_("EAPI_QuickActions", "Conferences: set volumes"), [], -2, false],
-            [:conference_mutemic, p_("EAPI_QuickActions", "Conferences: mute microphone"), [], -2, false],
-            [:conference_pushtotalk, p_("EAPI_QuickActions", "Conferences: switch push to talk"), [], -2, false],
-            [:conference_diceroll, p_("EAPI_QuickActions", "Conferences: roll a 6-sided dice"), [], -2, false]
+            [:copylastspeech, p_("EAPI_QuickActions", "Copy last spoken text to clipboard"), [], 0, false],
+            [:conference_streaming, p_("EAPI_QuickActions", "Conferences: stream audio file"), [], 0, false],
+            [:conference_setvolumes, p_("EAPI_QuickActions", "Conferences: set volumes"), [], 0, false],
+            [:conference_mutemic, p_("EAPI_QuickActions", "Conferences: mute microphone"), [], 0, false],
+            [:conference_pushtotalk, p_("EAPI_QuickActions", "Conferences: switch push to talk"), [], 0, false],
+            [:conference_diceroll, p_("EAPI_QuickActions", "Conferences: roll a 6-sided dice"), [], 0, false],
+            [:conference_dicerollcustom, p_("EAPI_QuickActions", "Conferences: roll a custom dice"), [], 0, false],
+            [:alarm, p_("EAPI_QuickActions", "Add alarm"), [], 0, false]
           ]
           for ac in @@addprocs
             a.push([ac[1], ac[2]])

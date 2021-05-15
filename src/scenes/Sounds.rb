@@ -33,8 +33,11 @@ class Scene_Sounds
       "listbox_itemnew" => p_("Sounds", "New or updated item on a listbox"),
       "listbox_itemattachment" => p_("Sounds", "Item with attachment on a listbox"),
       "listbox_itemclosed" => p_("Sounds", "Closed item on a listbox"),
+      "listbox_itemcontaining" => p_("Sounds", "Item containing other items on a listbox"),
       "listbox_itemfuture" => p_("Sounds", "Future item on a listbox"),
+      "listbox_itemliked" => p_("Sounds", "Liked item on a listbox"),
       "listbox_itempinned" => p_("Sounds", "Pinned item on a listbox"),
+      "listbox_itemrestricted" => p_("Sounds", "Item with restricted access on a listbox"),
       "user_online" => p_("Sounds", "Online user"),
       "user_sponsor" => p_("Sounds", "User being a sponsor"),
       "file_archive" => p_("Sounds", "Compressed file on a files tree"),
@@ -52,6 +55,8 @@ class Scene_Sounds
       "editbox_space" => p_("Sounds", "Space in an editbox"),
       "button_marker" => p_("Sounds", "Marker of a button in a form"),
       "checkbox_marker" => p_("Sounds", "Marker of a checkbox in a form"),
+      "feed_update" => p_("Sounds", "Feed updated"),
+      "feed_mention" => p_("Sounds", "Mentioned in a feed"),
       "login" => p_("Sounds", "User signed in or Elten window focused"),
       "logout" => p_("Sounds", "User signed out or Elten closed"),
       "minimize" => p_("Sounds", "Elten minimized into tray"),
@@ -67,10 +72,12 @@ class Scene_Sounds
       "notification_followedforumpost" => p_("Sounds", "Notification: new post on a followed forum"),
       "notification_followedthread" => p_("Sounds", "Notification: new post in a followed thread"),
       "notification_friend" => p_("Sounds", "Notification: new friend"),
+      "notification_groupinvitation" => p_("Sounds", "Notification: new invitation to a group"),
       "notification_mention" => p_("Sounds", "Notification: new mention"),
       "notification_message" => p_("Sounds", "Notification: new message"),
       "conference_userjoin" => p_("Sounds", "New user joined conference"),
       "conference_userleave" => p_("Sounds", "User left conference"),
+      "conference_userknock" => p_("Sounds", "User knocking to the conference"),
       "conference_message" => p_("Sounds", "New chat message"),
       "conference_diceroll" => p_("Sounds", "Dice rolled in conference"),
       "conference_cardpick" => p_("Sounds", "Card picked in conference"),
@@ -208,6 +215,7 @@ class Scene_Sounds
     writefile(@file, fcnt)
     @theme.file = @file if @theme.file == nil
     waiting_end
+    use_soundtheme(@file) if @file != nil and File.basename(@file, ".elsnd") == Configuration.soundtheme
   end
 end
 

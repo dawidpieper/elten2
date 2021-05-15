@@ -357,11 +357,11 @@ module Bass
     def free
       return if @ch == 0
       if BASS_StreamFree.call(@ch) == 0
-        raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+        print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}") if $DEBUG
       end
       if @ch != @cha
         if BASS_StreamFree.call(@cha) == 0
-          raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
+          print("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}") if $DEBUG
         end
       end
     end

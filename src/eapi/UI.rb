@@ -66,7 +66,7 @@ module EltenAPI
         return false
       end
       @@altdown = true if $keypr[0x12]
-      @@altdown = false if $keyr[0x11]
+      @@altdown = false if $keyr[0x11] || $keyr[0x5B] || $keyr[0x5C]
       l = $keyu[0x12] && @@altdown
       @@altdowntime = 0 if l
       return l
@@ -94,6 +94,7 @@ module EltenAPI
     end
 
     def arrow_left(repeat = false)
+      return false if $keyr[0x5B] || $keyr[0x5C]
       if repeat
         return $keyr[0x25]
       else
@@ -102,6 +103,7 @@ module EltenAPI
     end
 
     def arrow_up(repeat = false)
+      return false if $keyr[0x5B] || $keyr[0x5C]
       if repeat
         return $keyr[0x26]
       else
@@ -110,6 +112,7 @@ module EltenAPI
     end
 
     def arrow_right(repeat = false)
+      return false if $keyr[0x5B] || $keyr[0x5C]
       if repeat
         return $keyr[0x27]
       else
@@ -118,6 +121,7 @@ module EltenAPI
     end
 
     def arrow_down(repeat = false)
+      return false if $keyr[0x5B] || $keyr[0x5C]
       if repeat
         return $keyr[0x28]
       else
@@ -258,12 +262,12 @@ module EltenAPI
           $opencontextmenucounter = 0
         end
         if $key[0x7B]
-          confirm("Do you want to restart Elten?") { $reset = true }
+          confirm(p_("EAPI_UI", "Do you want to restart Elten?")) { $reset = true }
         end
         ac = QuickActions.get
         for i in 1..11
           k = 0x6F + i
-          if $key[k]
+          if $key[k] && !$keyr[0x12]
             l = i
             l += 12 if $keyr[0x11]
             l *= -1 if $keyr[0x10]
@@ -305,7 +309,7 @@ module EltenAPI
         cancel if @btn_reject.pressed?
         if @btn_answer.pressed?
           cancel
-          insert_scene(Scene_VoiceCall.new(@channel, @password))
+          voicecall(@channel, @password)
         end
       end
 
@@ -330,7 +334,7 @@ module EltenAPI
             if ui != -1
               callable = ui[12].to_b
               if callable
-                insert_scene(Scene_VoiceCall.new(nil, nil, [caller]))
+                voicecall(nil, nil, [caller])
                 close
               else
                 alert(p_("EAPI_UI", "You cannot call this user"))
@@ -512,7 +516,9 @@ module EltenAPI
           elsif d["func"] == "conference_card"
             Conference.setcardboard(d["username"], d["userid"], d["type"], d["deck"], d["cid"])
           elsif d["func"] == "conference_getcoordinates"
-            Conference.setcoordinates(d["x"], d["y"])
+            Conference.setcoordinates(d["x"], d["y"], d["dir"])
+          elsif d["func"] == "conference_change"
+            Conference.setchange(d["param"], d["value"])
           elsif d["func"] == "sig"
             play "right"
             if $scene.class.ancestors.include?(Program) and d["appid"] == $scene.class::AppID
@@ -530,8 +536,22 @@ module EltenAPI
             $focus = true
           elsif d["func"] == "premiumpackages"
             update_premiumpackages(d["premiumpackages"].split(","))
+          elsif d["func"] == "feeds"
+            for f in JSON.parse(d["changed"])
+              feed = FeedMessage.new(f["id"], f["user"], f["time"], f["message"], f["response"], f["responses"], f["liked"], f["likes"])
+              Session.feeds[feed.id] = feed
+            end
+            Session.feeds_update
+          elsif d["func"] == "feedid"
+            Scene_Main.feed_id = d["feedid"]
+          elsif d["func"] == "ii_hkerrors"
+            Log.error("#{d["errors"]} errors while registering hotkeys")
+            alert(p_("EAPI_UI", "Errors occurred while trying to register keys for invisible interface. Please make sure that other apps do not use the keys specified. You can change modifier keys of invisible interface using settings window."))
+            delay(1)
+          elsif d["func"] == "ii_hkset"
+            Configuration.iimodifiers = d["ii"]
           else
-            Log.warning("Agent unknown data: #{e}")
+            Log.warning("Agent unknown data: #{d.inspect}")
             play "right"
           end
         end

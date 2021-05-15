@@ -390,7 +390,7 @@ module EltenAPI
     # @param type [String] the window type
     #  @see Edit
     # @param text [String] an initial text
-    def input_text(header = "", flags = 0, text = "", escapable = false, permitted_characters = [], denied_characters = [])
+    def input_text(header = "", flags = 0, text = "", escapable = false, permitted_characters = [], denied_characters = [], max_length = 0, moveToEnd = false, selectAll = false)
       if flags.is_a?(String)
         Log.warning("String flags are no longer supported: " + Kernel.caller.join(" "))
         flags = 0
@@ -401,8 +401,13 @@ module EltenAPI
       ae = escapable
       dialog_open
       inp = EditBox.new(header, flags, text)
+      inp.max_length = max_length if max_length > 0
+      if moveToEnd
+        inp.index = inp.check = text.size
+      end
       permitted_characters.each { |c| inp.permitted_characters.push(c) }
       denied_characters.each { |c| inp.denied_characters.push(c) }
+      inp.select_all if selectAll
       inp.focus
       loop do
         loop_update
@@ -525,6 +530,10 @@ module EltenAPI
       def update
         super
         focus if @audioplayer == nil and @audiotext != "" and @audiotext != nil
+        if @selected == true
+          play("editbox_textselected")
+          @selected = false
+        end
         oldindex = @index
         oldtext = @text
         if $speechindexedthr != nil and $speechid == @speechindexed and @speechindexed != nil and $speechindex != @index and ($speechindex || 0) > 0
@@ -676,15 +685,15 @@ module EltenAPI
             play("editbox_endofline")
           else
             if $key[0x11] == false
-              ind = @vindex + 1
+              ind = charborders(@vindex)[1] + 1
               oi = ind
-              ind = charborders(ind)[1]
-              espeech(@text[@vindex + 1..ind])
+              e = charborders(ind)[1]
+              espeech(@text[oi..e])
               @vindex = oi
             else
               @vindex = ((@vindex + ($key[0x10] ? ((@vindex >= (@text.size - 1)) ? 1 : 2) : 1)...(@vindex < @text.size - 100 ? @vindex + 100 : @text.length)).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort[0] || @text.size - 1)
               @vindex += ($key[0x10] ? ((@vindex >= @text.size - 1) ? 0 : -1) : 1)
-              (@vindex == @text.size) ? play("editbox_endofline") : espeech(@text[($key[0x10] ? ((0..@vindex).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort.last || 0) : @vindex)..(@vindex + 1...@text.length).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort[0] || @text.size - 1])
+              (@vindex == @text.size) ? play("editbox_endofline") : espeech(@text[($key[0x10] ? ((0..@vindex).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort.last || 0) : @vindex)..(@vindex + 1..@text.length).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort[0] || @text.size - 1])
             end
           end
         elsif arrow_left
@@ -697,8 +706,8 @@ module EltenAPI
               espeech(@text[ind..@vindex - 1])
               @vindex = ind
             else
+              @vindex = @index = (charborders(charborders(@index)[0] - 1)[1]) if @index > 0 && charborders(@index)[0] > 0 && @index == @check && $keyr[0x10]
               @vindex = ((((@vindex > 100) ? (@vindex - 100) : 0)...@vindex - 1).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort.last || -1) + 1
-              @vindex -= 1 if $key[0x10] and @check > @vindex and @vindex > 0
               espeech(@text[@vindex..(@vindex + 1...@text.length).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort[0] || @text.size - 1])
             end
           end
@@ -735,14 +744,20 @@ module EltenAPI
             espeech(@text[bp..ep - 1])
           end
         end
-        if $key[0x24]
+        if $key[0x24] && !$keyr[0x5B] && !$keyr[0x5C]
+          @index = charborders(charborders(@index)[0] - 1)[0] if @index == @check && @index > 0 && charborders(@index)[0] > 0 && $keyr[0x10]
           @ch = @vindex = $key[0x11] ? 0 : linebeginning
           espeech($key[0x11] ? @text[linebeginning..lineending] : @text[@vindex..@text.size - 1].split("")[0]) if @vindex < @text.size
-        elsif $key[0x23]
-          @ch = @vindex = $key[0x11] ? (@text.size) : lineending
-          espeech($key[0x11] ? @text[linebeginning..lineending] : (((t = @text[lineending..lineending]) == "") ? "\n" : t))
+        elsif $key[0x23] && !$keyr[0x5B] && !$keyr[0x5C]
+          if !$keyr[0x10]
+            @ch = @vindex = $key[0x11] ? (@text.size) : lineending
+            espeech($key[0x11] ? @text[linebeginning..lineending] : (((t = @text[lineending..lineending]) == "") ? "\n" : t))
+          else
+            @ch = @vindex = ($key[0x11] ? (@text.size) : lineending(@vindex + 1)) - 1
+            espeech($key[0x11] ? @text[linebeginning..lineending] : (((t = @text[lineending..lineending]) == "") ? "\n" : t))
+          end
         end
-        if $key[0x21]
+        if $key[0x21] && !$keyr[0x5B] && !$keyr[0x5C]
           if linebeginning == 0
             play("border")
             espeech(@text[0..lineending - 1])
@@ -765,7 +780,7 @@ module EltenAPI
             end
             espeech(@text[linebeginning..lineending - 1])
           end
-        elsif $key[0x22]
+        elsif $key[0x22] && !$keyr[0x5B] && !$keyr[0x5C]
           if lineending == @text.size
             play("border")
             espeech(@text[linebeginning..lineending - 1])
@@ -819,7 +834,7 @@ module EltenAPI
               if lastcheck[0...chk.size] == chk
                 chk = lastcheck[chk.size..-1]
               elsif lastcheck[-1 * chk.size..-1] == chk
-                chk = lastcheck[0..-chk.size]
+                chk = lastcheck[0...-chk.size]
               end
             else
               play("editbox_textselected")
@@ -858,6 +873,13 @@ module EltenAPI
 
       def add_sound(snd)
         @sounds.push(snd)
+      end
+
+      def select_all
+        return if @text.size == 0
+        @index = 0
+        @check = @text.size
+        @selected = true
       end
 
       def setformatting(type, params = nil)
@@ -1157,7 +1179,7 @@ module EltenAPI
       end
 
       def search
-        search = input_text(p_("EAPI_Form", "Enter a phrase to look for"), 0, @lastsearch || "", true)
+        search = input_text(p_("EAPI_Form", "Enter a phrase to look for"), 0, @lastsearch || "", true, [], [], 0, false, true)
         if search != nil
           @lastsearch = search
           ind = @index < @text.size - 1 ? @text[@index + 1..@text.size - 1].downcase.index(search.downcase) : 0
@@ -1323,13 +1345,16 @@ module EltenAPI
           end
         end
         del.each { |e| @elements.delete(e) }
-        c = @text[from..to].chrsize
+        c = (@text[from..to] || "").chrsize
         if c < 20
           c.times {
             NVDA.braille("", @index, true, -1, from, @index)
           }
         end
-        @text[from..to] = ""
+        begin
+          @text[from..to] = ""
+        rescue Exception
+        end
         trigger(:delete, from, to)
         trigger(:change)
         @check = @index
@@ -1773,7 +1798,7 @@ module EltenAPI
       end
 
       def key_processed(k)
-        return false if k == :enter && (!$keyr[0x11] || (@flags & Flags::MultiLine) == 0)
+        return false if k == :enter && ($keyr[0x11] || (@flags & Flags::MultiLine) == 0)
         return true
       end
 
@@ -1910,11 +1935,17 @@ module EltenAPI
           end
           if self.index < 0
             oldindex = -1 if @border == false
-            self.index = 0
-            while ishidden(self.index) == true
-              self.index += 1
+            if @border == false
+              self.index = @options.size - 1
+              while ishidden(self.index) == true
+                self.index -= 1
+              end
+            else
+              self.index = 0
+              while ishidden(self.index) == true
+                self.index += 1
+              end
             end
-            self.index = options.size - 1 if @border == false
           end
         elsif ((@lr and arrow_right) or (!@lr and arrow_down) or (@anydir and (arrow_right or arrow_down))) and !$keyr[0x10] and !$keyr[0x2D] and !$keyr[0x11]
           @run = true
@@ -1923,12 +1954,18 @@ module EltenAPI
             self.index += 1
           end
           if self.index >= options.size
-            oldindex = -1 if @border == false
-            self.index = options.size - 1
-            while ishidden(self.index) == true
-              self.index -= 1
+            if @border == false
+              oldindex = -1
+              self.index = 0
+              while ishidden(self.index) == true
+                self.index += 1
+              end
+            else
+              self.index = options.size - 1
+              while ishidden(self.index) == true
+                self.index -= 1
+              end
             end
-            self.index = 0 if @border == false
           end
         end
         lspeak(@options[@index]) if $keyr[0x2D] and arrow_up
@@ -1952,21 +1989,21 @@ module EltenAPI
             speak(@tag + ": " + o)
           end
         end
-        if $key[0x23] == true
+        if $key[0x23] == true && !$keyr[0x5B] && !$keyr[0x5C]
           @run = true
           self.index = options.size - 1
           while ishidden(self.index) == true
             self.index -= 1
           end
         end
-        if $key[0x24] == true
+        if $key[0x24] == true && !$keyr[0x5B] && !$keyr[0x5C]
           @run = true
           self.index = 0
           while ishidden(self.index) == true
             self.index += 1
           end
         end
-        if $key[0x21] == true and @lr == false
+        if $key[0x21] == true and @lr == false && !$keyr[0x5B] && !$keyr[0x5C]
           if self.index > 14
             for i in 1..15
               self.index -= 1
@@ -1982,7 +2019,7 @@ module EltenAPI
             self.index += 1
           end
         end
-        if $key[0x22] == true and @lr == false
+        if $key[0x22] == true and @lr == false && !$keyr[0x5B] && !$keyr[0x5C]
           if self.index < (options.size - 15)
             for i in 1..15
               self.index += 1
@@ -2113,6 +2150,10 @@ module EltenAPI
 
       def lspeak(text)
         speak(text, 1, true, nil, true, lpos)
+      end
+
+      def foplay(voice)
+        eplay(voice, 100, 100, lpos)
       end
 
       def focus(index = nil, count = nil, header = @header, spk = true)
@@ -2917,7 +2958,7 @@ module EltenAPI
       end
       lsel = ""
       play("menu_open")
-      Menu.menubg_play if Configuration.bgsounds == 1
+      Menu.menubg_play if Configuration.bgsounds == 1 && Configuration.soundthemeactivation == 1
       lsel = ListBox.new(options, "", 0, ListBox::Flags::AnyDir, true)
       for d in dis
         lsel.disable_item(d)
@@ -3113,6 +3154,10 @@ module EltenAPI
 
       def lpos
         @sel.lpos
+      end
+
+      def foplay(voice)
+        eplay(voice, 100, 100, lpos)
       end
 
       def key_processed(k)
@@ -3431,11 +3476,11 @@ module EltenAPI
           menu.option(p_("EAPI_Form", "Jump to position"), nil, :j) {
             @sound.pause
             dpos = getposition(@sound.position, @sound.length)
-            dpos = @sound.position if dpos == nil
+            dpos = @sound.position if @sound != nil && dpos == nil
             dpos = dpos.to_i
-            dpos = @sound.length if dpos > @sound.length
-            @sound.play
-            @sound.position = dpos
+            dpos = @sound.length if @sound != nil && dpos > @sound.length
+            @sound.play if @sound != nil
+            @sound.position = dpos if @sound != nil
             loop_update
           }
           if @file != nil && (@file.include?("http:") || @file.include?("https:"))
@@ -3542,7 +3587,7 @@ module EltenAPI
         if @on_open.size == 0
           if @type == (:menubar) || @type == (:menu)
             play "menu_open"
-            if Configuration.bgsounds == 1
+            if Configuration.bgsounds == 1 && Configuration.soundthemeactivation == 1
               self.class.menubg_play
             end
           end

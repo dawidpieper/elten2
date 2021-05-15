@@ -7,16 +7,31 @@
 class Scene_Conference
   @@lastdiceindex = 5
 
+  def initialize(timeout = nil, prefocus = 0)
+    @timeout = timeout
+    @prefocus = prefocus
+  end
+
   def main
+    nick = nil
     if Session.name == "guest"
-      alert(_("This section is unavailable for guests"))
-      $scene = Scene_Main.new
-      return
+      nick = input_text(p_("Conference", "Type your nickname"), 0, "", true)
+      if nick == nil
+        $scene = Scene_Main.new
+        return
+      end
     end
-    Conference.open if !Conference.opened?
+    Conference.open(false, nick) if !Conference.opened?
     if !Conference.opened?
       $scene = Scene_Main.new
       return
+    end
+    if @timeout != nil
+      @timeoutthr = Thread.new(@timeout) { |tm|
+        sleep(tm)
+        Conference.close if Conference.opened? && Conference.channel.users.size <= 1
+      }
+      @timeout = nil
     end
     @status = ""
     @form = Form.new([
@@ -26,45 +41,55 @@ class Scene_Conference
       edt_chat = EditBox.new(p_("Conference", "Chat message"), 0, "", true),
       btn_options = Button.new(p_("Conference", "More options")),
       btn_close = Button.new(p_("Conference", "Close"))
-    ], 0, false, true)
+    ], @prefocus || 0, false, true)
+    @prefocus = nil
     st_conference.add_tip(p_("Conference", "Use arrows to move in the channel space"))
+    st_conference.add_tip(p_("Conference", "Use shift with left/right arrows to rotate"))
     lst_users.bind_context { |menu|
       if lst_users.options.size > 0
         user = Conference.channel.users[lst_users.index]
         if user != nil
-          menu.useroption(user.name)
-          vol = Conference.volume(user.name)
-          s = p_("Conference", "Mute user")
-          s = p_("Conference", "Unmute user") if vol.muted == true
-          menu.option(s, nil, "m") {
-            Conference.setvolume(user.name, vol.volume, !vol.muted)
-          }
-          menu.option(p_("Conference", "Change user volume")) {
-            lst_volume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "User volume"), 100 - vol.volume)
-            lst_volume.on(:move) {
-              Conference.setvolume(user.name, 100 - lst_volume.index, vol.muted)
+          if user.waiting == false
+            menu.useroption(user.name)
+            vol = Conference.volume(user.name)
+            s = p_("Conference", "Mute user")
+            s = p_("Conference", "Unmute user") if vol.muted == true
+            menu.option(s, nil, "m") {
+              Conference.setvolume(user.name, vol.volume, !vol.muted)
             }
-            loop {
-              loop_update
-              lst_volume.update
-              break if enter
-              if escape
-                Conference.setvolume(user.name, vol.volume, vol.muted)
-                break
-              end
+            menu.option(p_("Conference", "Change user volume")) {
+              lst_volume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "User volume"), 100 - vol.volume)
+              lst_volume.on(:move) {
+                Conference.setvolume(user.name, 100 - lst_volume.index, vol.muted)
+              }
+              loop {
+                loop_update
+                lst_volume.update
+                break if enter
+                if escape
+                  Conference.setvolume(user.name, vol.volume, vol.muted)
+                  break
+                end
+              }
             }
-          }
-          menu.option(p_("Conference", "Go to user"), nil, "g") {
-            Conference.goto_user(user.id)
-          }
-          menu.option(p_("Conference", "Read current position"), nil, "q") { speak(Conference.get_coordinates(user.id).map { |c| c.to_s }.join(", ")) }
-          menu.option(p_("Conference", "Whisper"), nil, :space) {
-            Conference.whisper(user.id)
-            t = Time.now.to_f
-            loop_update while $keyr[0x20]
-            Conference.whisper(0)
-            speak(p_("Conference", "Hold spacebar to whisper to user")) if Time.now.to_f - t < 0.25
-          }
+            menu.option(p_("Conference", "Go to user"), nil, "g") {
+              Conference.goto_user(user.id)
+            }
+            menu.option(p_("Conference", "Read current position"), nil, "q") { speak((Conference.get_coordinates(user.id)[0..1]).map { |c| c.to_s }[0..1].join(", ")) }
+            menu.option(p_("Conference", "Whisper"), nil, :space) {
+              Conference.whisper(user.id)
+              t = Time.now.to_f
+              loop_update while $keyr[0x20]
+              Conference.whisper(0)
+              speak(p_("Conference", "Hold spacebar to whisper to user")) if Time.now.to_f - t < 0.25
+            }
+          else
+            if Conference.channel.administrators.include?(Session.name)
+              menu.option(p_("Conference", "Accept")) {
+                Conference.accept(user.id)
+              }
+            end
+          end
           if Conference.channel.administrators.include?(Session.name)
             menu.option(p_("Conference", "Kick")) {
               Conference.kick(user.id)
@@ -72,6 +97,18 @@ class Scene_Conference
           end
         end
       end
+      menu.option(p_("Conference", "Invite"), nil, "n") {
+        timeout_break
+        user = input_user(p_("Conference", "User to invite"))
+        if user != nil
+          if user_exists(user)
+            invite(user)
+          else
+            alert(p_("Conference", "User not found"))
+          end
+        end
+        @form.focus
+      }
       menu.submenu(p_("Conference", "Conference")) { |menu| context(menu) }
     }
     @close_hook = Conference.on(:close) { @form.resume }
@@ -85,10 +122,49 @@ class Scene_Conference
       txt += p_("Conference", "Bytes received") + ": " + (status["receivedbytes"] || 0).to_s
       @status = txt
     }
+    @waitingchannel_hook = Conference.on(:waitingchannel) {
+      if Conference.waiting_channel_id != 0
+        @lastwaitingchannel = Conference.waiting_channel_id
+        alert(p_("Conference", "Please wait, you will be accepted soon."))
+      elsif @lastwaitingchannel != Conference.waiting_channel_id
+        @lastwaitingchannel = Conference.waiting_channel_id
+        play("conference_userknock")
+      end
+    }
     @users_hook = Conference.on(:update) {
+      timeout_break if Conference.channel.users.size > 1
       lst_users.options.clear
       for u in Conference.channel.users
-        lst_users.options.push(u.name)
+        s = u.name
+        s += "\004NEW\004" if u.waiting
+        lst_users.options.push(s)
+      end
+      motd = Conference.channel.motd || ""
+      if motd != ""
+        motdh = sha1(motd).unpack("H*").first
+        motds = {}
+        motdsfile = Dirs.eltendata + "\\conferences_motds.json"
+        if FileTest.exists?(motdsfile)
+          begin
+            m = JSON.load(readfile(motdsfile))
+            motds = m if m.is_a?(Hash)
+          rescue Exception
+          end
+        end
+        if motds[Conference.channel.uuid] != motdh
+          motds[Conference.channel.uuid] = motdh
+          begin
+            writefile(motdsfile, JSON.generate(motds))
+          rescue Exception
+          end
+          form = Form.new([
+            edt_motd = EditBox.new(p_("Conference", "Message of the day"), EditBox::Flags::ReadOnly | EditBox::Flags::MultiLine, motd, true),
+            btn_ok = Button.new(p_("Conference", "OK"))
+          ], 0, false, true)
+          form.cancel_button = btn_ok
+          btn_ok.on(:press) { form.resume }
+          form.wait
+        end
       end
     }
     @users_hook.block.call
@@ -108,8 +184,20 @@ class Scene_Conference
     @text_hook.block.call
     @refresh_cardboard = false
     @cardboard_hook = Conference.on(:cardboard) { @refresh_cardboard = true }
-    st_conference.on(:key_left) { Conference.move(-1, 0) }
-    st_conference.on(:key_right) { Conference.move(1, 0) }
+    st_conference.on(:key_left) {
+      if !$keyr[0x10]
+        Conference.move(-1, 0)
+      else
+        Conference.turn(-45)
+      end
+    }
+    st_conference.on(:key_right) {
+      if !$keyr[0x10]
+        Conference.move(1, 0)
+      else
+        Conference.turn(45)
+      end
+    }
     st_conference.on(:key_up) { Conference.move(0, -1) }
     st_conference.on(:key_down) { Conference.move(0, 1) }
     st_conference.bind_context { |menu|
@@ -135,39 +223,73 @@ class Scene_Conference
     end
     @form.wait if Conference.channel.id != 0
     if Conference.opened?
-      if Conference.channel.id == 0 or confirm(p_("Conference", "Would you like to disconnect?")) == 1
+      if (Conference.channel.id == 0 and Conference.waiting_channel_id == 0) or confirm(p_("Conference", "Would you like to disconnect?")) == 1
         Conference.close
       end
     end
+    Conference.remove_hook(@waitingchannel_hook)
     Conference.remove_hook(@users_hook)
     Conference.remove_hook(@status_hook)
     Conference.remove_hook(@text_hook)
     Conference.remove_hook(@close_hook)
     Conference.remove_hook(@cardboard_hook)
+    timeout_break
     $scene = Scene_Main.new
+  end
+
+  def invite(user)
+    c = srvproc("calls", { "ac" => "call", "channel" => Conference.channel.id, "channel_password" => Conference.channel.password, "user" => user })
+    @call_id = c[1].to_i if c[0].to_i == 0
   end
 
   def channel_summary(ch)
     s = ch.name + ": " + ch.users.map { |u| u.name }.join(", ")
     s += " \004CLOSED\004" if ch.passworded
+    s += " \004RESTRICTED\004" if ch.waiting_type > 0
     return s
   end
 
-  def list_channels
+  def list_channels(user = nil)
+    setuser = nil
+    timeout_break
     @chans = get_channelslist
-    lst_channels = ListBox.new(@chans.map { |ch| channel_summary(ch) }, p_("Conference", "Channels"))
+    channels = []
+    lst_channels = ListBox.new([], p_("Conference", "Channels"), 0, 0, true)
+    locha = Proc.new { |chans|
+      knownlanguages = Session.languages.split(",").map { |lg| lg.upcase }
+      channels = chans.find_all { |c|
+        if LocalConfig["ConferenceShowUnknownLanguages"] == 1 || knownlanguages.size == 0 || knownlanguages.include?(c.lang[0..1].upcase)
+          if user == nil
+            c.users.size > 0 || (c.groupid != nil && c.groupid != 0) || c.creator == Session.name
+          else
+            c.creator == user
+          end
+        else
+          false
+        end
+      }
+      selt = channels.map { |ch| channel_summary(ch) }
+      lst_channels.options = selt
+    }
+    locha.call(@chans)
+    lst_channels.focus
     lst_channels.bind_context { |menu|
-      if lst_channels.options.size > 0
-        ch = @chans[lst_channels.index]
+      if channels.size > 0
+        ch = channels[lst_channels.index]
         if ch.id != Conference.channel.id
           menu.option(p_("Conference", "Join"), nil, "j") {
             ps = nil
-            ps = input_text(p_("Conference", "Channel password"), EditBox::Flags::Password, "", true) if ch.passworded
-            if !ch.passworded || ps != nil
-              if ch.spatialization == 0 || load_hrtf
-                Conference.join(ch.id, ps)
-                @chans = get_channelslist
-                lst_channels.options = @chans.map { |ch| channel_summary(ch) }
+            if ch.passworded
+              ps = input_text(p_("Conference", "Channel password"), EditBox::Flags::Password, "", true)
+              loop_update
+            end
+            if ps != nil || !ch.passworded
+              if !ch.passworded || ps != nil
+                if ch.spatialization == 0 || load_hrtf
+                  Conference.join(ch.id, ps)
+                  @chans = get_channelslist
+                  locha.call(@chans)
+                end
               end
             end
             lst_channels.focus
@@ -178,6 +300,8 @@ class Scene_Conference
           txt += p_("Conference", "Creator") + ": " + ch.creator + "\n" if ch.creator.is_a?(String) and ch.creator != ""
           txt += p_("Conference", "Language") + ": " + ch.lang + "\n" if ch.lang != ""
           txt += p_("Conference", "This channel is password-protected.") + "\n" if ch.passworded
+          txt += p_("Conference", "A waiting room is enabled on this channel.") + "\n" if ch.waiting_type > 0
+          txt += p_("Conference", "Room id") + ": #{ch.room_id}\n" if ch.room_id != nil
           txt += p_("Conference", "Channel bitrate") + ": " + ch.bitrate.to_s + "kbps\n"
           txt += p_("Conference", "Channel frame size") + ": " + ch.framesize.to_s + "ms\n"
           txt += p_("Conference", "Channels") + ": " + ((ch.channels == 2) ? ("Stereo") : ("Mono")) + "\n"
@@ -186,10 +310,10 @@ class Scene_Conference
         }
         if ch.administrators.include?(Session.name)
           menu.option(p_("Conference", "Edit channel"), nil, "e") {
-            edit_channel(ch)
+            edit_channel(ch, @chans)
             delay(1)
             @chans = get_channelslist
-            lst_channels.options = @chans.map { |ch| channel_summary(ch) }
+            locha.call(@chans)
             lst_channels.focus
           }
         end
@@ -198,15 +322,15 @@ class Scene_Conference
         menu.option(p_("Conference", "Leave"), nil, "l") {
           Conference.leave
           @chans = get_channelslist
-          lst_channels.options = @chans.map { |ch| channel_summary(ch) }
+          locha.call(@chans)
           lst_channels.focus
         }
       end
       menu.option(p_("Conference", "Create channel"), nil, "n") {
-        edit_channel
+        edit_channel(nil, @chans)
         delay(1)
         @chans = get_channelslist
-        lst_channels.options = @chans.map { |ch| channel_summary(ch) }
+        locha.call(@chans)
         lst_channels.focus
       }
       if Session.languages.size > 0
@@ -217,13 +341,22 @@ class Scene_Conference
           l = 0 if LocalConfig["ConferenceShowUnknownLanguages"] == 1
           LocalConfig["ConferenceShowUnknownLanguages"] = l
           @chans = get_channelslist
-          lst_channels.options = @chans.map { |ch| channel_summary(ch) }
+          locha.call(@chans)
           lst_channels.focus
         }
       end
+      menu.option(p_("Conference", "Show private channels"), nil, "p") {
+        knownlanguages = Session.languages.split(",").map { |lg| lg.upcase }
+        users = @chans.find_all { |ch| LocalConfig["ConferenceShowUnknownLanguages"] == 1 || knownlanguages.size == 0 || knownlanguages.include?(ch.lang[0..1].upcase) }.map { |c| c.creator }.find_all { |u| u != nil }.uniq.polsort
+        ind = selector(users, p_("Conference", "Select user"), 0, -1)
+        if ind >= 0
+          user = users[ind]
+          setuser = user
+        end
+      }
       menu.option(p_("Conference", "Refresh"), nil, "r") {
         @chans = get_channelslist
-        lst_channels.options = @chans.map { |ch| channel_summary(ch) }
+        locha.call(@chans)
         lst_channels.focus
       }
     }
@@ -231,10 +364,11 @@ class Scene_Conference
       loop_update
       lst_channels.update
       if lst_channels.selected?
-        ch = @chans[lst_channels.index]
+        ch = channels[lst_channels.index]
         return if Conference.channel.id == ch.id
         ps = nil
         ps = input_text(p_("Conference", "Channel password"), EditBox::Flags::Password, "", true) if ch.passworded
+        loop_update if ch.passworded
         if !ch.passworded || ps != nil
           if ch.spatialization == 0 || load_hrtf
             Conference.join(ch.id, ps)
@@ -243,17 +377,44 @@ class Scene_Conference
           end
         end
       end
-      break if escape
+      if setuser != nil
+        return list_channels(user)
+      end
+      if escape
+        if user == nil
+          break
+        else
+          return list_channels
+        end
+      end
     end
   end
 
-  def edit_channel(channel = nil)
+  def edit_channel(channel = nil, chans = nil)
+    timeout_break
+    chans = get_channelslist if chans == nil
     if channel == nil
       channel = Conference::Channel.new
       channel.lang = Configuration.language.downcase[0..1]
     end
-    bitrates = [8, 16, 24, 32, 48, 64, 96, 128, 192, 256, 320, 412, 510]
+    bitrates = (6..510).to_a
     framesizes = [2.5, 5.0, 10.0, 20.0, 40.0, 60.0, 80.0, 100.0, 120.0]
+    presets = [
+      [p_("Conference", "Audiophile"), 384, 20, 2, 1, 1, 0, 0],
+      [p_("Conference", "High quality"), 160, 40, 2, 1, 1, 0, 0],
+      [p_("Conference", "Standard quality"), 80, 40, 2, 1, 0, 0, 1],
+      [p_("Conference", "Standard quality with surround sound"), 96, 40, 1, 1, 0, 1, 1],
+      [p_("Conference", "Quality for mobile or limited connections"), 56, 60, 2, 1, 0, 0, 1],
+      [p_("Conference", "Quality for mobile or limited connections with surround sound"), 64, 60, 1, 1, 0, 1, 1],
+      [p_("Conference", "Low quality"), 28, 60, 1, 2, 0, 0, 1]
+    ]
+    prindex = presets.size
+    for preset in presets
+      if channel.bitrate == preset[1] and channel.framesize == preset[2] and channel.channels == preset[3] and channel.vbr_type == preset[4] and channel.codec_application == preset[5] and channel.spatialization == preset[6] and ((channel.fec) ? (1) : (0)) == preset[7] and channel.prediction_disabled == false
+        prindex = presets.find_index(preset)
+      end
+    end
+    prindex = 2 if prindex == presets.size && channel.id == 0
     langs = []
     langnames = []
     lnindex = 0
@@ -270,28 +431,71 @@ class Scene_Conference
     form = Form.new([
       edt_name = EditBox.new(p_("Conference", "Channel name"), nameflags, channel.name, true),
       lst_lang = ListBox.new(langnames, p_("Conference", "Language"), lnindex, 0, true),
-      lst_bitrate = ListBox.new(bitrates.map { |b| b.to_s }, p_("Conference", "Channel bitrate"), bitrates.find_index(channel.bitrate) || 0, 0, true),
-      lst_framesize = ListBox.new(framesizes.map { |f| f.to_s }, p_("Conference", "Channel frame size"), framesizes.find_index(channel.framesize) || 0, 0, true),
+      edt_motd = EditBox.new(p_("Conference", "Message of the Day"), EditBox::Flags::MultiLine, channel.motd || "", true),
+      lst_preset = ListBox.new(presets.map { |r| r[0] } + [p_("Conference", "Custom")], p_("Conference", "Quality preset"), prindex, 0, true),
+      lst_bitrate = ListBox.new(bitrates.map { |b| b.to_s + "kbps" }, p_("Conference", "Channel bitrate"), bitrates.find_index(channel.bitrate) || 0, 0, true),
+      lst_framesize = ListBox.new(framesizes.map { |f| s = f.to_s; s = f.to_i.to_s if f.to_i == f; s += "ms" }, p_("Conference", "Channel frame size"), framesizes.find_index(channel.framesize) || 0, 0, true),
+      lst_vbrtype = ListBox.new([p_("Conference", "Constant"), p_("Conference", "Variable"), p_("Conference", "Constrained variable")], p_("Conference", "Bitrate type"), channel.vbr_type, 0, true),
+      lst_application = ListBox.new(["VoIP", "Audio"], p_("Conference", "Codec application"), channel.codec_application, 0, true),
+      chk_fec = CheckBox.new(p_("Conference", "Enable forward error correction"), (channel.fec == true) ? (1) : (0)),
+      chk_predictiondisabled = CheckBox.new(p_("Conference", "Disable encoding prediction"), (channel.prediction_disabled == true) ? (1) : (0)),
       lst_channels = ListBox.new(["Mono", "Stereo"], p_("Conference", "Channels"), channel.channels - 1, 0, true),
       lst_spatialization = ListBox.new(["Panning", "HRTF"], p_("Conference", "Space Virtualization"), channel.spatialization, 0, true),
+      chk_waiting = CheckBox.new(p_("Conference", "Enable waiting room"), (channel.waiting_type > 0) ? (1) : (0)),
+      chk_allowguests = CheckBox.new(p_("Conference", "Allow guests to join this channel"), (channel.allow_guests) ? (1) : (0)),
+      chk_permanent = CheckBox.new(p_("Conference", "Store as permanent channel"), (channel.permanent) ? (1) : (0)),
       edt_width = EditBox.new(p_("Conference", "Channel width"), EditBox::Flags::Numbers, channel.width.to_s, true),
       edt_height = EditBox.new(p_("Conference", "Channel height"), EditBox::Flags::Numbers, channel.height.to_s, true),
-      chk_password = CheckBox.new(p_("Conference", "Set channel password")),
-      edt_password = EditBox.new(p_("Conference", "Channel password"), EditBox::Flags::Password, "", true),
-      edt_passwordrepeat = EditBox.new(p_("Conference", "Repeat channel password"), EditBox::Flags::Password, "", true),
+      edt_password = EditBox.new(p_("Conference", "Channel password (leave this field blank to set a channel without a password)"), 0, channel.password || "", true),
       btn_create = Button.new(p_("Conference", "Create")),
       btn_cancel = Button.new(p_("Conference", "Cancel"))
     ], 0, false, true)
+    edt_width.select_all
+    edt_height.select_all
+    edt_name.select_all
+    edt_motd.select_all
     if channel.id != 0
       btn_create.label = p_("Conference", "Edit")
-      form.hide(chk_password)
-      form.hide(edt_password)
-      form.hide(edt_passwordrepeat)
     end
     if !holds_premiumpackage("audiophile")
       form.hide(edt_width)
       form.hide(edt_height)
     end
+    form.hide(chk_permanent) if (channel.groupid != 0 && channel.groupid != nil) || (channel.permanent == false && (!holds_premiumpackage("audiophile") || chans.find_all { |c| c.creator == Session.name && c.permanent == true }.size >= 3))
+    lst_preset.on(:move) {
+      if presets.size > lst_preset.index
+        preset = presets[lst_preset.index]
+        lst_bitrate.index = bitrates.find_index(preset[1])
+        lst_bitrate.trigger(:move)
+        lst_framesize.index = framesizes.find_index(preset[2])
+        lst_channels.index = preset[3] - 1
+        lst_spatialization.index = preset[6]
+        lst_application.index = preset[5]
+        lst_vbrtype.index = preset[4]
+        chk_fec.checked = preset[7]
+        chk_predictiondisabled.checked = 0
+        lst_bitrate.trigger(:move)
+        lst_spatialization.trigger(:move)
+        form.hide(lst_bitrate)
+        form.hide(lst_framesize)
+        form.hide(lst_vbrtype)
+        form.hide(lst_application)
+        form.hide(lst_channels)
+        form.hide(lst_spatialization)
+        form.hide(chk_fec)
+        form.hide(chk_predictiondisabled)
+      else
+        form.show(lst_bitrate)
+        form.show(lst_framesize)
+        form.show(lst_vbrtype)
+        form.show(lst_application)
+        form.show(lst_channels)
+        form.show(lst_spatialization)
+        form.show(chk_fec)
+        form.show(chk_predictiondisabled)
+      end
+    }
+    lst_preset.trigger(:move)
     lst_bitrate.on(:move) {
       bitrate = bitrates[lst_bitrate.index]
       for i in 0...framesizes.size
@@ -304,24 +508,7 @@ class Scene_Conference
       end
     }
     lst_bitrate.trigger(:move)
-    form.hide(edt_password)
-    form.hide(edt_passwordrepeat)
-    chk_password.on(:change) {
-      if chk_password.value == 0
-        form.hide(edt_password)
-        form.hide(edt_passwordrepeat)
-      else
-        form.show(edt_password)
-        form.show(edt_passwordrepeat)
-      end
-    }
     lst_spatialization.on(:move) {
-      if lst_spatialization.index == 1
-        t = Time.now.to_f
-        l = load_hrtf
-        lst_spatialization.index = 0 if l == false
-        lst_spatialization.focus if Time.now.to_f - t > 3
-      end
       if lst_spatialization.index == 0
         lst_channels.enable_item(1)
       else
@@ -333,10 +520,6 @@ class Scene_Conference
     form.cancel_button = btn_cancel
     btn_create.on(:press) {
       suc = true
-      if chk_password.value == 1 && (edt_password.text != edt_passwordrepeat.text)
-        speak(p_("Conference", "Entered passwords are different."))
-        suc = false
-      end
       suc = false if edt_name.text == ""
       if suc && (edt_height.text.to_i < 1 || edt_height.text.to_i < 1)
         alert(p_("Conference", "Channel width and height must be at least 1"))
@@ -347,12 +530,24 @@ class Scene_Conference
         suc = false
       end
       if suc
+        if lst_spatialization.index == 1
+          t = Time.now.to_f
+          l = load_hrtf
+          suc = false if l == false
+        end
+      end
+      if suc
         name = edt_name.text
+        motd = edt_motd.text
         bitrate = bitrates[lst_bitrate.index]
         framesize = framesizes[lst_framesize.index]
-        public = true
+        vbr_type = lst_vbrtype.index
+        codec_application = lst_application.index
+        prediction_disabled = chk_predictiondisabled.checked == 1
+        fec = chk_fec.checked == 1
+        public = channel.public
         password = nil
-        password = edt_password.text if chk_password.value == 1
+        password = edt_password.text if edt_password.text != ""
         spatialization = lst_spatialization.index
         channels = lst_channels.index + 1
         lang = ""
@@ -361,10 +556,13 @@ class Scene_Conference
         end
         width = edt_width.text.to_i
         height = edt_height.text.to_i
+        waiting_type = chk_waiting.checked
+        allow_guests = chk_allowguests.checked == 1
+        permanent = (chk_permanent.checked == 1)
         if channel.id == 0
-          Conference.create(name, public, bitrate, framesize, password, spatialization, channels, lang, width, height)
+          Conference.create(name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, 256, waiting_type, permanent, motd, allow_guests)
         else
-          Conference.edit(channel.id, name, public, bitrate, framesize, password, spatialization, channels, lang, width, height, channel.key_len)
+          Conference.edit(channel.id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, channel.key_len, waiting_type, permanent, motd, allow_guests)
         end
         form.resume
       end
@@ -380,12 +578,7 @@ class Scene_Conference
       Conference.update_channels
     end
     chans = Conference.channels.dup
-    ret = []
-    knownlanguages = Session.languages.split(",").map { |lg| lg.upcase }
-    for ch in chans
-      ret.push(ch) if LocalConfig["ConferenceShowUnknownLanguages"] == 1 || knownlanguages.size == 0 || knownlanguages.include?(ch.lang[0..1].upcase)
-    end
-    ret.sort! { |a, b|
+    ret = chans.sort { |a, b|
       s = b.users.size <=> a.users.size
       s = a.id <=> b.id if s == 0
       s
@@ -459,7 +652,7 @@ class Scene_Conference
       if objs.find_all { |o| o["owner"] == Session.name }.size < 10
         if holds_premiumpackage("audiophile")
           menu.option(p_("Conference", "Upload new sound")) {
-            file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mid", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
+            file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
             if file != nil
               if File.size(file) > 16777216
                 alert(p_("Conference", "This file is too large"))
@@ -570,6 +763,18 @@ class Scene_Conference
         kb.push("CTRL")
       when 0x12
         kb.push("ALT")
+      when 0xA0
+        kb.push("SHIFT (" + p_("Conference", "Left") + ")")
+      when 0xA2
+        kb.push("CTRL (" + p_("Conference", "Left") + ")")
+      when 0xA4
+        kb.push("ALT (" + p_("Conference", "Left") + ")")
+      when 0xA1
+        kb.push("SHIFT (" + p_("Conference", "Right") + ")")
+      when 0xA3
+        kb.push("CTRL (" + p_("Conference", "Right") + ")")
+      when 0xA5
+        kb.push("ALT (" + p_("Conference", "Right") + ")")
       else
         ar = [false] * 256
         ar[k] = true
@@ -589,13 +794,19 @@ class Scene_Conference
   end
 
   def pushtotalk_setkeys
+    timeout_break
     ks = Conference.pushtotalk_keys
     keys = (65..90).to_a + (0x30..0x39).to_a + [0x20, 0xbc, 0xbd, 0xbe, 0xbf]
     keymapping = keys.map { |k| kbs = [false] * 256; kbs[k] = true; char_dict(getkeychar(kbs), true) }
+    adds = {
+      0x13 => p_("Conference", "Pause key")
+    }
+    adds.each { |k| keys.push(k[0]); keymapping.push(k[1]) }
     keys.insert(0, 0)
     keymapping.insert(0, p_("Conference", "No key"))
+    mds = ["SHIFT", "CTRL", "ALT"]
     form = Form.new([
-      lst_modifiers = ListBox.new(["SHIFT", "CTRL", "ALT"], p_("Conference", "Modifiers"), 0, ListBox::Flags::MultiSelection, true),
+      lst_modifiers = ListBox.new(mds.map { |m| m + " (" + p_("Conference", "Any") + ")" } + mds.map { |m| m + " (" + p_("Conference", "Left") + ")" } + mds.map { |m| m + " (" + p_("Conference", "Right") + ")" }, p_("Conference", "Modifiers"), 0, ListBox::Flags::MultiSelection, true),
       lst_key = ListBox.new(keymapping, p_("Conference", "Key"), 0, 0, true),
       btn_ok = Button.new(_("Save")),
       btn_cancel = Button.new(_("Cancel"))
@@ -605,6 +816,12 @@ class Scene_Conference
     lst_modifiers.selected[0] = ks.include?(0x10)
     lst_modifiers.selected[1] = ks.include?(0x11)
     lst_modifiers.selected[2] = ks.include?(0x12)
+    lst_modifiers.selected[3] = ks.include?(0x10)
+    lst_modifiers.selected[4] = ks.include?(0xA2)
+    lst_modifiers.selected[5] = ks.include?(0xA4)
+    lst_modifiers.selected[6] = ks.include?(0x1a)
+    lst_modifiers.selected[7] = ks.include?(0xA3)
+    lst_modifiers.selected[8] = ks.include?(0xA5)
     for k in ks
       if keys.include?(k)
         lst_key.index = keys.find_index(k)
@@ -617,6 +834,12 @@ class Scene_Conference
       ks.push(0x10) if lst_modifiers.selected[0]
       ks.push(0x11) if lst_modifiers.selected[1]
       ks.push(0x12) if lst_modifiers.selected[2]
+      ks.push(0xA0) if lst_modifiers.selected[3]
+      ks.push(0xA2) if lst_modifiers.selected[4]
+      ks.push(0xA4) if lst_modifiers.selected[5]
+      ks.push(0xA1) if lst_modifiers.selected[6]
+      ks.push(0xA3) if lst_modifiers.selected[7]
+      ks.push(0xA5) if lst_modifiers.selected[8]
       ks.push(keys[lst_key.index]) if lst_key.index > 0
       if ks.size > 0
         LocalConfig["ConferencePushToTalkKeys"] = ks
@@ -630,6 +853,7 @@ class Scene_Conference
   end
 
   def setvolumes
+    timeout_break
     self.class.setvolumes
   end
 
@@ -658,6 +882,7 @@ class Scene_Conference
   end
 
   def showstatus
+    timeout_break
     st = @status
     edt = EditBox.new(p_("Conference", "Status"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, st)
     edt.focus
@@ -675,35 +900,33 @@ class Scene_Conference
 
   def context_streaming(menu)
     menu.option(p_("Conference", "Channel objects"), nil, "o") { chanobjects }
-    if holds_premiumpackage("audiophile")
-      if Conference.cardset?
-        menu.option(p_("Conference", "Remove soundcard stream")) { Conference.remove_card }
-      else
-        menu.option(p_("Conference", "Stream from soundcard")) {
-          mics = Bass.microphones
-          cardid = -1
-          listen = false
-          form = Form.new([
-            lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
-            chk_listen = CheckBox.new(p_("Conference", "Turn on the listening")),
-            btn_cardok = Button.new(p_("Conference", "Stream")),
-            btn_cardcancel = Button.new(_("Cancel"))
-          ], 0, false, true)
-          btn_cardcancel.on(:press) { form.resume }
-          btn_cardok.on(:press) {
-            cardid = lst_card.index
-            listen = chk_listen.checked.to_i == 1
-            form.resume
-          }
-          form.cancel_button = btn_cardcancel
-          form.accept_button = btn_cardok
-          form.wait
-          if cardid > -1
-            Conference.add_card(mics[cardid], listen)
-          end
-          @form.focus
+    if Conference.cardset?
+      menu.option(p_("Conference", "Remove soundcard stream")) { Conference.remove_card }
+    else
+      menu.option(p_("Conference", "Stream from soundcard")) {
+        mics = Bass.microphones
+        cardid = -1
+        listen = false
+        form = Form.new([
+          lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
+          chk_listen = CheckBox.new(p_("Conference", "Turn on the listening")),
+          btn_cardok = Button.new(p_("Conference", "Stream")),
+          btn_cardcancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        btn_cardcancel.on(:press) { form.resume }
+        btn_cardok.on(:press) {
+          cardid = lst_card.index
+          listen = chk_listen.checked.to_i == 1
+          form.resume
         }
-      end
+        form.cancel_button = btn_cardcancel
+        form.accept_button = btn_cardok
+        form.wait
+        if cardid > -1
+          Conference.add_card(mics[cardid], listen)
+        end
+        @form.focus
+      }
     end
     if Conference.streaming?
       menu.option(p_("Conference", "Remove audio stream"), nil, "i") { Conference.remove_stream }
@@ -712,7 +935,9 @@ class Scene_Conference
       menu.option(p_("Conference", "Toggle pause"), nil, "p") { Conference.togglestream }
     else
       menu.option(p_("Conference", "Stream audio file"), nil, "i") {
-        file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mid", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
+        formats = [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]
+        formats += [".avi", ".mp4", ".mov", ".mkv"] if holds_premiumpackage("audiophile")
+        file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, formats)
         if file != nil
           Conference.set_stream(file)
         end
@@ -727,6 +952,11 @@ class Scene_Conference
     s = p_("Conference", "Unmute microphone") if Conference.muted
     menu.option(s, nil, "M") {
       Conference.muted = !Conference.muted
+      if Conference.muted
+        speak(p_("Conference", "Microphone muted"))
+      else
+        speak(p_("Conference", "Microphone unmuted"))
+      end
     }
     menu.option(p_("Conference", "Change volumes"), nil, "u") {
       setvolumes
@@ -765,9 +995,7 @@ class Scene_Conference
     menu.submenu(p_("Conference", "Miscellaneous")) { |m|
       m.option(p_("Conference", "Roll a 6-sided dice"), nil, "d") { Conference.diceroll }
       m.option(p_("Conference", "Roll a custom dice"), nil, "D") {
-        d = selector((1..100).to_a.map { |d| p_("Conference", "%{count}-sided") % { "count" => d.to_s } }, p_("Conference", "Which dice do you want to roll?"), @@lastdiceindex, -1, 1)
-        @@lastdiceindex = d if d >= 0
-        Conference.diceroll(d + 1) if d >= 0
+        self.class.custom_diceroll
       }
       m.option(p_("Conference", "Cardboard"), nil, "b") { decks }
     }
@@ -811,7 +1039,7 @@ class Scene_Conference
         }
         if Conference.channel.administrators.include?(Session.name)
           m.option(p_("Conference", "Edit channel")) {
-            edit_channel(Conference.channel)
+            edit_channel(Conference.channel, nil)
           }
         end
       }
@@ -1033,5 +1261,18 @@ class Scene_Conference
       break if escape
     end
     dialog_close
+  end
+
+  def timeout_break
+    if @timeoutthr != nil
+      @timeoutthr.exit
+      @timeoutthr = nil
+    end
+  end
+
+  def self.custom_diceroll
+    d = selector((1..100).to_a.map { |d| p_("Conference", "%{count}-sided") % { "count" => d.to_s } }, p_("Conference", "Which dice do you want to roll?"), @@lastdiceindex, -1, 1)
+    @@lastdiceindex = d if d >= 0
+    Conference.diceroll(d + 1) if d >= 0
   end
 end

@@ -387,6 +387,7 @@ class Scene_Forum
     end
     @grpsetindex = nil
     @grpsel = TableBox.new(grpselh, grpselt, @grpindex[type], p_("Forum", "Forum"), true)
+    @grpsel.trigger(:move)
     @grpsel.column = LocalConfig["ForumColumnGroup"] if LocalConfig["ForumColumnGroup"] != nil
     @grpsel.bind_context(p_("Forum", "Forum")) { |menu| context_groups(menu, type) }
     @grpsel.focus
@@ -409,6 +410,7 @@ class Scene_Forum
 
   def groupopen(index, type, allThreads = false)
     @grpindex[type] = index
+    @group = nil
     if index == @grpheadindex - 3
       return threadsmain(-1)
     elsif index == @grpheadindex - 2
@@ -452,10 +454,11 @@ class Scene_Forum
         if allThreads
           @query = g
           usequery
-          return threadsmain(-3)
+          threadsmain(-3)
         else
-          return forumsmain(g.id) if g.role == 1 or g.role == 2 or g.public
+          forumsmain(g.id) if g.role == 1 or g.role == 2 or g.public
         end
+        @grpsel.rows[@grpsel.index][-1] = (g.posts - g.readposts).to_s
       end
     end
   end
@@ -578,6 +581,11 @@ class Scene_Forum
           groupregulationsdlg(@sgroups[@grpsel.index - @grpheadindex])
         }
       end
+      if (((@sgroups[@grpsel.index - @grpheadindex].role == 1 || (@sgroups[@grpsel.index - @grpheadindex].public && @sgroups[@grpsel.index - @grpheadindex].open)) && @sgroups[@grpsel.index - @grpheadindex].showpostreports > 0) || @sgroups[@grpsel.index - @grpheadindex].role == 2) && @sgroups[@grpsel.index - @grpheadindex].allowpostreporting
+        menu.option(p_("Forum", "Show reported posts")) {
+          groupreports(@sgroups[@grpsel.index - @grpheadindex])
+        }
+      end
       if @sgroups[@grpsel.index - @grpheadindex].hasmotd or @sgroups[@grpsel.index - @grpheadindex].role == 2
         s = p_("Forum", "Message of the day")
         s = p_("Forum", "Edit message of the day") if @sgroups[@grpsel.index - @grpheadindex].role == 2
@@ -652,6 +660,7 @@ class Scene_Forum
             end
             @sgroups[@grpsel.index - @grpheadindex].readposts = @sgroups[@grpsel.index - @grpheadindex].posts
             @grpsel.rows[@grpsel.index][-1] = "0"
+            @grpsel.reload
             alert(p_("Forum", "The group has been marked as read."))
           else
             alert(_("Error"))
@@ -759,6 +768,139 @@ class Scene_Forum
         end
       end
     end
+  end
+
+  def groupreports(group)
+    reports = []
+    selh = [nil, p_("Forum", "Reported by"), p_("Forum", "Thread"), p_("Forum", "Reported at"), p_("Forum", "Status"), p_("Forum", "Comment")]
+    sel = TableBox.new(selh, [], 0, p_("Forum", "Reported posts"), true)
+    rfr = Proc.new {
+      fr = srvproc("forum_reports", { "groupid" => group.id, "ac" => "list" })
+      if fr[0].to_i < 0
+        alert(_("Error"))
+      else
+        reports = []
+        report = nil
+        c = 0
+        for l in fr[2..-1]
+          case c
+          when 0
+            report = Struct_Forum_Report.new
+            report.id = l.to_i
+          when 1
+            report.user = l.delete("\r\n")
+          when 2
+            report.thread = l.to_i
+          when 3
+            report.post = l.to_i
+          when 4
+            if l.delete("\r\n") != "\004END\004"
+              report.postvalue += l
+              c -= 1
+            end
+          when 5
+            if l.delete("\r\n") != "\004END\004"
+              report.content += l
+              c -= 1
+            end
+          when 6
+            report.creationtime = Time.at(l.to_i) if l.to_i > 0
+          when 7
+            report.solved = (l.to_i == 1)
+          when 8
+            report.status = l.to_i
+          when 9
+            if l.delete("\r\n") != "\004END\004"
+              report.reason += l
+              c -= 1
+            end
+          when 10
+            report.solutiontime = Time.at(l.to_i) if l.to_i > 0
+          end
+          c += 1
+          if c > 10
+            c = 0
+            reports.push(report)
+          end
+        end
+        selt = reports.map { |r|
+          st = p_("Forum", "Solved")
+          st = p_("Forum", "Unsolved") if !r.solved
+          if r.solved
+            case r.status
+            when 1
+              st = p_("Forum", "Rejected")
+            when 2
+              st = p_("Forum", "Accepted")
+            end
+          end
+          thrname = nil
+          thr = @threads.find { |t| t.id == r.thread }
+          thrname = thr.name if thr != nil
+          [r.content, r.user, thrname, format_date(r.creationtime), st, (r.reason.delete("\r\n") != "") ? (r.reason) : (nil)]
+        }
+        sel.rows = selt
+        sel.reload
+      end
+    }
+    rfr.call
+    sel.bind_context { |menu|
+      report = reports[sel.index]
+      if report != nil
+        menu.useroption(report.user)
+        menu.option(p_("Forum", "Show reported post")) {
+          input_text(p_("Forum", "Post"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, report.postvalue, true)
+          loop_update
+        }
+        if group.role == 2 && !report.solved
+          menu.option(p_("Forum", "Resolve")) {
+            groupreportresolver(group, report)
+            rfr.call
+            sel.update
+          }
+        end
+      end
+      menu.option(p_("Forum", "Refresh"), nil, "r") {
+        rfr.call
+        sel.focus
+      }
+    }
+    sel.focus
+    dialog_open
+    loop {
+      loop_update
+      sel.update
+      if enter
+        report = reports[sel.index]
+        input_text(p_("Forum", "Post"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, report.postvalue, true) if report != nil
+        loop_update
+      end
+      break if escape
+    }
+    dialog_close
+  end
+
+  def groupreportresolver(group, report)
+    return if group == nil || report == nil || group.role != 2
+    form = Form.new([
+      lst_status = ListBox.new([p_("Forum", "Rejected"), p_("Forum", "Accepted")], p_("Forum", "Status"), 0, 0, true),
+      edt_reason = EditBox.new(p_("Forum", "Reason"), EditBox::Flags::MultiLine, "", true),
+      btn_resolve = Button.new(p_("Forum", "Resolve")),
+      btn_cancel = Button.new(_("Cancel"))
+    ])
+    form.cancel_button = btn_cancel
+    form.accept_button = btn_resolve
+    btn_cancel.on(:press) { form.resume }
+    btn_resolve.on(:press) {
+      fr = srvproc("forum_reports", { "ac" => "resolve", "report" => report.id, "status" => lst_status.index + 1, "buf_reason" => buffer(edt_reason.text) })
+      if fr[0].to_i == 0
+        alert(p_("Forum", "Report resolved"))
+        form.resume
+      else
+        alert(_("Error"))
+      end
+    }
+    form.wait
   end
 
   def groupmembers(group)
@@ -981,7 +1123,7 @@ class Scene_Forum
   def searcher_getquery(obj = nil)
     form = Form.new([
       edt_query = EditBox.new(p_("Forum", "Search query"), 0, "", true),
-      lst_phrasein = ListBox.new([p_("Forum", "Titles"), p_("Forum", "Content")], p_("Forum", "Search in"), 0, ListBox::Flags::MultiSelection, true),
+      lst_phrasein = ListBox.new([p_("Forum", "Titles"), p_("Forum", "Content"), p_("Forum", "Authors")], p_("Forum", "Search in"), 0, ListBox::Flags::MultiSelection, true),
       lst_threadin = ListBox.new([p_("Forum", "Joined groups"), p_("Forum", "Recommended groups"), p_("Forum", "Not joined groups")], p_("Forum", "of threads in"), 0, ListBox::Flags::MultiSelection, true),
       btn_search = Button.new(p_("Forum", "Search")),
       btn_cancel = Button.new(_("Cancel"))
@@ -1000,12 +1142,15 @@ class Scene_Forum
       result.thread_in.clear
       result.phrase_in.push(:name) if lst_phrasein.selected[0]
       result.phrase_in.push(:content) if lst_phrasein.selected[1]
+      result.phrase_in.push(:author) if lst_phrasein.selected[2]
       if obj == nil
         result.thread_in.push(:joined) if lst_threadin.selected[0]
         result.thread_in.push(:recommended) if lst_threadin.selected[1]
         result.thread_in.push(:notjoined) if lst_threadin.selected[2]
       elsif obj.is_a?(Struct_Forum_Group)
         result.groupid = obj.id
+      elsif obj.is_a?(Struct_Forum_Forum)
+        result.forumid = obj.name
       end
       form.resume
     }
@@ -1025,6 +1170,7 @@ class Scene_Forum
       if (arrow_left and !$keyr[0x10]) or escape
         return $scene = Scene_Main.new if @pre == nil && @preparam.is_a?(Integer)
         @frmindex = nil
+        @forum = nil
         return groupsmain
       end
       break if $scene != self
@@ -1064,6 +1210,7 @@ class Scene_Forum
     @frmindex = 0 if @frmindex == nil
     frmselh = [nil, p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread"), nil]
     @frmsel = TableBox.new(frmselh, frmselt, @frmindex, p_("Forum", "Select forum"), true)
+    @frmsel.trigger(:move)
     @frmsel.column = LocalConfig["ForumColumnForum"] if LocalConfig["ForumColumnForum"] != nil
     @frmsel.bind_context(p_("Forum", "Forum")) { |menu| context_forums(menu) }
     @frmsel.focus
@@ -1236,6 +1383,15 @@ class Scene_Forum
           end
         }
       end
+      menu.option(p_("Forum", "Search"), nil, "f") {
+        @query = searcher_getquery(@sforums[@frmsel.index])
+        if @query != nil
+          usequery
+          threadsmain(-3)
+        else
+          @frmsel.focus
+        end
+      }
       menu.option(p_("Forum", "Mark this forum as read"), nil, "w") {
         if @sforums[@frmsel.index].posts - @sforums[@frmsel.index].readposts < 100 or confirm(p_("Forum", "All posts on this forum will be marked as read. Are you sure you want to continue?")) == 1
           if srvproc("forum_markasread", { "forum" => @sforums[@frmsel.index].name })[0].to_i == 0
@@ -1243,6 +1399,7 @@ class Scene_Forum
               t.readposts = t.posts if t.forum.name == @sforums[@frmsel.index].name
             end
             @sforums[@frmsel.index].readposts = @sforums[@frmsel.index].posts
+            @sforums[@frmsel.index].group.readposts = @forums.find_all { |f| f.group == @sforums[@frmsel.index].group }.map { |f| f.readposts }.sum
             @frmsel.rows[@frmsel.index][0].gsub!("\004INFNEW{ }\004", "")
             @frmsel.rows[@frmsel.index][3] = "0"
             @frmsel.reload
@@ -1647,6 +1804,7 @@ class Scene_Forum
     header = "" if id == -2 or id == -4 or id == -6 or id == -7
     thrselh = [nil, p_("Forum", "Author"), p_("Forum", "posts"), p_("Forum", "Unread")]
     @thrsel = TableBox.new(thrselh, thrselt, index, header, true, ListBox::Flags::Tagged)
+    @thrsel.trigger(:move)
     @thrsel.column = LocalConfig["ForumColumnThread"] if LocalConfig["ForumColumnThread"] != nil
     @thrsel.bind_context(p_("Forum", "Forum")) { |menu| context_threads(menu) }
     @thrsel.focus
@@ -1785,7 +1943,7 @@ class Scene_Forum
               end
             end
           }
-          m.option(p_("Forum", "Rename")) {
+          m.option(p_("Forum", "Rename"), nil, "e") {
             name = input_text(p_("Forum", "Type a new thread name"), 0, @sthreads[@thrsel.index].name, true)
             if name != nil
               if srvproc("forum_mod", { "rename" => "1", "threadid" => @sthreads[@thrsel.index].id, "threadname" => name })[0].to_i < 0
@@ -1982,20 +2140,20 @@ class Scene_Forum
       tin = false
       tin = true if form.index == form.fields.size - 3
       f = []
-      for t in forumtags(forumclasses[form.fields[8].index])
+      for t in forumtags(forumclasses[form.fields[-3].index])
         f.push(ListBox.new([p_("Forum", "No tag value")] + t[2..-1], t[1], 0, 0, true))
       end
       if type == 1
-        fields[1].timelimit = forumclasses[form.fields[8].index].group.audiolimit
+        fields[1].timelimit = forumclasses[form.fields[-3].index].group.audiolimit
       end
-      if forumclasses[form.fields[8].index].group.preventpolls
+      if forumclasses[form.fields[-3].index].group.preventpolls
         form.hide(4)
         form.hide(3)
       else
         form.show(4)
         form.show(3)
       end
-      if forumclasses[form.fields[8].index].group.preventattachments
+      if forumclasses[form.fields[-3].index].group.preventattachments
         form.hide(6)
         form.hide(5)
       else
@@ -2362,6 +2520,7 @@ class Scene_Forum
   end
 
   def usequery
+    ids = []
     @results = []
     if @query != "" and @query.is_a?(String)
       sr = srvproc("forum_search", { "query" => @query })
@@ -2380,40 +2539,59 @@ class Scene_Forum
         end
       end
     elsif @query.is_a?(Struct_Forum_SearchQuery)
-      sr = ["0\r\n0"]
-      sr = srvproc("forum_search", { "query" => @query.phrase }) if @query.phrase_in.include?(:content)
-      if sr[0].to_i < 0
-        alert(_("Error"))
-      else
-        ids = []
-        t = 0
-        if sr.size > 2
-          for l in sr[2..sr.size - 1]
-            if t == 0
-              ids.push(l.to_i)
-              t = 1
-            else
-              t = 0
+      if @query.phrase_in.include?(:content)
+        sr = srvproc("forum_search", { "query" => @query.phrase })
+        if sr[0].to_i < 0
+          alert(_("Error"))
+        else
+          t = 0
+          if sr.size > 2
+            for l in sr[2..sr.size - 1]
+              if t == 0
+                ids.push(l.to_i)
+                t = 1
+              else
+                t = 0
+              end
             end
           end
         end
-        phr = @query.phrase.downcase
-        @results = @threads.map { |thread|
-          suc_th = false
-          suc_se = false
-          suc_se = true if @query.phrase_in.include?(:name) && (phr == "" || thread.name.downcase.include?(phr))
-          suc_se = true if @query.phrase_in.include?(:content) && ids.include?(thread.id)
-          suc_th = true if @query.thread_in.include?(:joined) && (thread.forum.group.role == 1 || thread.forum.group.role == 2)
-          suc_th = true if @query.thread_in.include?(:recommended) && thread.forum.group.recommended
-          suc_th = true if @query.thread_in.include?(:notjoined) && (thread.forum.group.role != 1 && thread.forum.group.role != 2)
-          suc_th = true if @query.groupid == thread.forum.group.id
-          if suc_se && suc_th
-            thread.id
-          else
-            nil
-          end
-        }.compact
       end
+      if @query.phrase_in.include?(:author)
+        sr = srvproc("forum_search", { "query" => @query.phrase, "type" => "author" })
+        if sr[0].to_i < 0
+          alert(_("Error"))
+        else
+          t = 0
+          if sr.size > 2
+            for l in sr[2..sr.size - 1]
+              if t == 0
+                ids.push(l.to_i)
+                t = 1
+              else
+                t = 0
+              end
+            end
+          end
+        end
+      end
+      phr = @query.phrase.downcase
+      @results = @threads.map { |thread|
+        suc_th = false
+        suc_se = false
+        suc_se = true if @query.phrase_in.include?(:name) && (phr == "" || thread.name.downcase.include?(phr))
+        suc_se = true if ids.include?(thread.id)
+        suc_th = true if @query.thread_in.include?(:joined) && (thread.forum.group.role == 1 || thread.forum.group.role == 2)
+        suc_th = true if @query.thread_in.include?(:recommended) && thread.forum.group.recommended
+        suc_th = true if @query.thread_in.include?(:notjoined) && (thread.forum.group.role != 1 && thread.forum.group.role != 2)
+        suc_th = true if @query.groupid == thread.forum.group.id
+        suc_th = true if @query.forumid == thread.forum.name
+        if suc_se && suc_th
+          thread.id
+        else
+          nil
+        end
+      }.compact
     elsif @query.is_a?(Struct_Forum_Group)
       @threads.each { |t| @results.push(t.id) if t.forum.group.id == @query.id }
     else
@@ -2583,7 +2761,8 @@ class Scene_Forum_Thread
     return if @posts == nil
     for i in 0...@posts.size
       post = @posts[i]
-      index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.post.downcase.include?(@query.phrase.downcase)
+      index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.post.downcase.include?(@query.phrase.downcase) && @query.phrase_in.include?(:content)
+      index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.author.downcase == @query.phrase.downcase && @query.phrase_in.include?(:author)
       index = i * 3 if @mention != nil and (@param == -7 or @param == -11) and post.id == @mention.post
       @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, generate_posttext(post), true), nil, nil]
       if @sponsors.include?(post.author)
@@ -2701,7 +2880,7 @@ class Scene_Forum_Thread
   end
 
   def context(menu)
-    if @form.index < @postscount * 3
+    if @form.index < @postscount * 3 && @posts[@form.index / 3] != nil
       menu.useroption(@posts[@form.index / 3].authorname)
     end
     if @threadclass.mention != nil
@@ -2902,7 +3081,7 @@ class Scene_Forum_Thread
             cur = @form.index / 3 - 1
             while cur < @posts.size
               loop_update
-              if speech_actived == false and Win32API.new("$eltenlib", "SapiIsPaused", "", "i").call == 0
+              if speech_actived == false and Win32API.new($eltenlib, "SapiIsPaused", "", "i").call == 0
                 cur += 1
                 play("signal")
                 pst = @posts[cur]
@@ -3350,6 +3529,7 @@ class Struct_Forum_Group
   attr_accessor :allowpostreporting
   attr_accessor :audiolimit
   attr_accessor :blog
+  attr_accessor :showpostreports
 
   def initialize(id = 0)
     @id = id
@@ -3374,6 +3554,7 @@ class Struct_Forum_Group
     @allowpostreporting = false
     @audiolimit = 0
     @blog = nil
+    @showpostreports = 0
   end
 end
 
@@ -3507,13 +3688,14 @@ class Struct_Forum_Bookmark
 end
 
 class Struct_Forum_SearchQuery
-  attr_accessor :phrase, :phrase_in, :thread_in, :groupid
+  attr_accessor :phrase, :phrase_in, :thread_in, :groupid, :forumid
 
   def initialize(phrase)
     @phrase = phrase
     @thread_in = [:recommended, :joined]
     @phrase_in = [:title, :content]
     @groupid = nil
+    @forumid = nil
   end
 end
 
@@ -3695,6 +3877,7 @@ class Scene_Forum_GroupSettings
     make_setting(p_("Forum", "Hide information about edited posts"), :bool, "hide_editinfo")
     make_setting(p_("Forum", "Hide edit history"), :bool, "hide_edithistory")
     make_setting(p_("Forum", "Allow members to report posts"), :bool, "allow_postreporting")
+    make_setting(p_("Forum", "Reports visibility"), [p_("Forum", "Disabled"), p_("Forum", "Show only to report author"), p_("Forum", "Show all accepted reports"), p_("Forum", "Show all reports")], "show_postreports")
     make_setting(p_("Forum", "Duration limit of audio posts in seconds, 0 for no limit"), :number, "audiolimit")
   end
 
@@ -3730,5 +3913,13 @@ class Scene_Forum_GroupSettings
       end
       break if $scene != self
     end
+  end
+end
+
+class Struct_Forum_Report
+  attr_accessor :id, :user, :thread, :post, :postvalue, :content, :creationtime, :solved, :status, :reason, :solutiontime
+
+  def initialize
+    @id, @user, @thread, @post, @postvalue, @content, @creationtime, @solved, @status, @reason, @solutiontime = 0, "", 0, 0, "", "", Time.now, false, 0, "", nil
   end
 end

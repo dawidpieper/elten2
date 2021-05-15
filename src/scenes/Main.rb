@@ -6,8 +6,13 @@
 
 class Scene_Main
   @@acselindex = nil
+  @@feed_id = -1
+  @@focus = 0
 
   def main
+    if @@feed_id == -1
+      @@feed_id = LocalConfig["MainFeedId"]
+    end
     if Session.name == nil || Session.name == ""
       $scene = Scene_Loading.new
       return
@@ -46,21 +51,53 @@ class Scene_Main
     ci = 0
     plsinfo = false
     ci += 1 if ci < 20
-    acsel_load
+    acsel_load(@@focus == 0)
+    feeds_load(@@focus == 1)
     #speak(p_("Main", "Press the alt key to open the menu."))
     loop do
       loop_update
-      @acsel.update
-      if $keyr[0x10]
-        if @acsel.index > 0 && arrow_up
-          qacup
-        end
-        if @acsel.index < @actions.size - 1 and arrow_down
-          qacdown
+      feeds_load if Session.feeds_updated?
+      if @@focus == 0
+        @acsel.update
+      else
+        @feedsel.update
+      end
+      if $key[0x9]
+        @@focus += 1
+        @@focus = 0 if @@focus > 1
+        case @@focus
+        when 0
+          @acsel.focus
+        when 1
+          @feedsel.focus
         end
       end
-      if @acsel.selected?
-        @actions[@acsel.index].call
+      if @@focus == 0
+        if $keyr[0x10]
+          if @acsel.index > 0 && arrow_up
+            qacup
+          end
+          if @acsel.index < @actions.size - 1 and arrow_down
+            qacdown
+          end
+        end
+        if @acsel.selected?
+          @actions[@acsel.index].call
+        end
+      end
+      if @@focus == 1
+        if @feeds.size > 0
+          if @feedsel.selected?
+            feedshow(@feeds[@feedsel.index])
+            loop_update
+          end
+          if @feedsel.expanded?
+            feed = @feeds[@feedsel.index]
+            if feed.responses > 0
+              $scene = Scene_FeedViewer.new(feed, nil, false)
+            end
+          end
+        end
       end
       if escape
         quit
@@ -68,6 +105,8 @@ class Scene_Main
       break if $scene != self
     end
     @@acselindex = @acsel.index if @acsel != nil
+    @@feed_id = @feeds[@feedsel.index].id if @feeds.size > 0
+    LocalConfig["MainFeedId"] = @@feed_id
   end
 
   def qacup
@@ -104,12 +143,19 @@ class Scene_Main
     @acselshowhidden ||= false
     @@acselindex = @acsel.index if @acsel != nil
     @actions = QuickActions.get
-    @acsel = ListBox.new(@actions.map { |a| a.detail }, p_("Main", "Quick actions"), @@acselindex, 0, true)
-    @acsel.add_tip(p_("Main", "Use Shift with up/down arrows to move quick actions"))
+    if @acsel == nil
+      @acsel = ListBox.new(@actions.map { |a| a.detail }, p_("Main", "Quick actions"), @@acselindex, 0, true)
+      @acsel.add_tip(p_("Main", "Use Shift with up/down arrows to move quick actions"))
+      @acsel.bind_context { |menu| accontext(menu) }
+    else
+      @acsel.options = @actions.map { |a| a.detail }
+      for i in 0...@actions.size
+        @acsel.enable_item(i)
+      end
+    end
     for i in 0...@actions.size
       @acsel.disable_item(i) if @actions[i].show == false && !@acselshowhidden
     end
-    @acsel.bind_context { |menu| accontext(menu) }
     @acsel.focus if fc == true
   end
 
@@ -235,5 +281,130 @@ class Scene_Main
     else
       @acsel.focus
     end
+  end
+
+  def feeds_load(fc = false)
+    @@feed_id = @feeds[@feedsel.index].id if @feeds.is_a?(Array) && @feeds.size > 0 && @feedsel != nil
+    @feeds = []
+    ind = -1
+    for f in Session.feeds.keys.sort.reverse
+      feed = Session.feeds[f]
+      @feeds.push(feed) if feed != nil && feed.message != ""
+      ind = @feeds.size - 1 if ind == -1 && @@feed_id > 0 && feed.id <= @@feed_id
+    end
+    ind = 0 if ind == -1
+    selt = @feeds.map { |f|
+      str = f.user
+      str += "\004LIKED\004" if f.liked
+      str += ": " + f.message + " "
+      str += "(" + np_("Main", "%{count} user likes it", "%{count} users like it", f.likes) % { "count" => f.likes } + ") " if f.likes > 0
+      begin
+        str += format_date(Time.at(f.time)) + "#{if f.responses > 0; "\004CONTAINING\004"; else; ""; end}"
+      rescue Exception
+      end
+      str
+    }
+    if @feedsel == nil
+      @feedsel = ListBox.new(selt, p_("Main", "Feed"), ind, 0, true)
+      @feedsel.bind_context { |menu| feeds_context(menu) }
+      @feedsel.on(:move) {
+        if @feeds.size > 0
+          feed = @feeds[@feedsel.index]
+          if feed != nil
+            $agent.write(Marshal.dump({ "func" => "feedid", "feedid" => feed.id }))
+          end
+        end
+      }
+    else
+      @feedsel.options = selt
+      @feedsel.index = ind
+    end
+    @feedsel.focus if fc
+  end
+
+  def feeds_context(menu)
+    if @feeds.size > 0
+      feed = @feeds[@feedsel.index]
+      menu.useroption(feed.user)
+      if feed.responses > 0
+        menu.option(p_("Main", "Show responses"), nil, "d") {
+          $scene = Scene_FeedViewer.new(feed)
+        }
+      elsif feed.response > 0
+        menu.option(p_("Main", "Show conversation"), nil, "d") {
+          $scene = Scene_FeedViewer.new(feed, nil, false)
+        }
+      end
+      if feed.likes > 0
+        menu.option(p_("Main", "Show likes"), nil, "K") {
+          lk = srvproc("feeds", { "ac" => "likes", "message" => feed.id })
+          likes = []
+          likes = lk[2..-1].map { |l| l.delete("\r\n") } if lk[0].to_i == 0
+          users = likes
+          dialog_open
+          lst = ListBox.new(users, p_("Main", "Users who like this post"))
+          loop do
+            loop_update
+            lst.update
+            break if escape
+            if (alt or enter) and users.size > 0
+              usermenu(users[lst.index])
+            end
+          end
+          dialog_close
+        }
+      end
+      menu.option(p_("Main", "Reply"), nil, "r") {
+        users = [feed.user]
+        users += feed.message.scan(/\@([a-zA-Z0-9\.\-\_]+)/).map { |r| r[0] }
+        todel = []
+        for u in users
+          todel.push(u) if u.downcase == Session.name.downcase
+        end
+        for i in 1...users.size
+          todel.push(users[i]) if users[0...i].map { |u| u.downcase }.include?(users[i].downcase)
+        end
+        todel.each { |u| users.delete(u) }
+        response = feed.id
+        response = feed.response if feed.response > 0
+        feed_new(users.uniq, response)
+      }
+      s = p_("Main", "Like this message")
+      s = p_("Main", "Dislike this message") if feed.liked
+      menu.option(s, nil, "k") {
+        if srvproc("feeds", { "ac" => "liking", "message" => feed.id, "like" => (feed.liked) ? (0) : (1) })[0].to_i < 0
+          alert(_("Error"))
+        else
+          st = (feed.liked) ? (p_("Main", "Message disliked")) : (p_("Main", "Message liked"))
+          feed.liked = !feed.liked
+          alert(st)
+        end
+      }
+      if feed.user == Session.name
+        menu.option(_("Delete"), nil, :del) {
+          delete_feed(feed.id)
+          play("editbox_delete")
+        }
+      end
+    end
+    menu.option(p_("Main", "Publish to a feed"), nil, "n") { feed_new }
+  end
+
+  def feed_new(users = [], response = 0)
+    text = users.map { |u| "@" + u }.join(" ")
+    text << " " if text != ""
+    inp = input_text(p_("Main", "Message"), 0, text, true, [], [], 200, true)
+    feed(inp, response) if inp != nil
+  end
+
+  def feed_id=(f)
+    for i in 0...@feeds.size
+      @feedsel.index = i if @feeds[i].id >= f
+    end
+  end
+
+  def self.feed_id=(f)
+    @@feed_id = f
+    $scene.feed_id = f if $scene.is_a?(Scene_Main)
   end
 end

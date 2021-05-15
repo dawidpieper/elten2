@@ -9,6 +9,8 @@ class Scene_Loading
     @skiplogin = skiplogin
   end
 
+  @@firstinit = true
+
   def main
     $mainmenuextra = {}
     $usermenuextra = {}
@@ -252,7 +254,12 @@ If the problem occurs, please contact Elten support"
         break
       end
     }
-    v = 34
+    if @@firstinit == true
+      @@firstinit = false
+    else
+      delay(1)
+    end
+    v = 35
     if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", "", "i").call == 0 && (!NVDA.check || NVDA.getversion != v)
       if !NVDA.check
         str = p_("Loading", "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?")
@@ -343,18 +350,17 @@ If the problem occurs, please contact Elten support"
     if FileTest.exists?(Dirs.eltendata + "\\update.last")
       l = Zlib::Inflate.inflate(readfile(Dirs.eltendata + "\\update.last")).split(" ")
       lversion, lbeta, lalpha, lisbeta = l[0].to_f, l[1].to_i, l[2].to_i, l[3].to_i
-      Log.info("Update completed from version #{lversion.to_s}")
-      if lversion < 2.35
-        @runkey = Win32::Registry::HKEY_CURRENT_USER.create("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
-        begin
-          @runkey["elten"]
-          @autostart = true
-        rescue Exception
-          @autostart = false
-        end
-        @runkey["elten"] = @runkey["elten"].gsub("agentc.dat", "agent.dat") if @autostart == true and @runkey["elten"].include?("agentc.dat")
-        @runkey.close
+      if lversion < 2.42 || (lversion == 2.42 && lalpha < 2)
+        delay(1)
+        form = Form.new([
+          edt_info = EditBox.new(p_("Loading", "Information about invisible interface"), EditBox::Flags::MarkDown | EditBox::Flags::ReadOnly | EditBox::Flags::MultiLine, iiinfotext, true),
+          btn_close = Button.new(_("Close"))
+        ], 0, false, true)
+        btn_close.on(:press) { form.resume }
+        form.cancel_button = btn_close
+        form.wait
       end
+      Log.info("Update completed from version #{lversion.to_s}")
       File.delete(Dirs.eltendata + "\\update.last")
     end
     Programs.load_all

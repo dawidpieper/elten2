@@ -7,6 +7,7 @@
 module OpusRecorder
   class OpusRecording
     def initialize(file, bitrate = 64, framesize = 60, application = 2048, usevbr = 1, timelimit = 0)
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => true }))
       @paused = false
       init = Win32API.new($eltenlib, "OpusRecorderInit", "piiiiiiii", "i")
       @rproc = init.call(unicode(file), 48000, 2, bitrate * 1000, [framesize].pack("f").unpack("i").first, application, usevbr, (Configuration.usedenoising == 2) ? (1) : (0), timelimit)
@@ -17,17 +18,20 @@ module OpusRecorder
     end
 
     def stop
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => false }))
       Bass::BASS_ChannelStop.call(@channel)
       sleep(0.1)
       Win32API.new($eltenlib, "OpusRecorderClose", "i", "i").call(@rproc)
     end
 
     def pause
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => false }))
       @paused = true
       Bass::BASS_ChannelPause.call(@channel)
     end
 
     def resume
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => true }))
       @paused = false
       Bass::BASS_ChannelPlay.call(@channel, 0)
     end
@@ -80,6 +84,7 @@ end
 module VorbisRecorder
   class VorbisRecording
     def initialize(file, bitrate = 64)
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => true }))
       @paused = false
       init = Win32API.new($eltenlib, "VorbisRecorderInit", "piii", "i")
       @rproc = init.call(unicode(file), 48000, 2, bitrate * 1000)
@@ -90,17 +95,20 @@ module VorbisRecorder
     end
 
     def stop
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => false }))
       Bass::BASS_ChannelStop.call(@channel)
       sleep(0.1)
       Win32API.new($eltenlib, "VorbisRecorderClose", "i", "i").call(@rproc)
     end
 
     def pause
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => false }))
       @paused = true
       Bass::BASS_ChannelPause.call(@channel)
     end
 
     def resume
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => true }))
       @paused = false
       Bass::BASS_ChannelPlay.call(@channel, 0)
     end
@@ -130,6 +138,13 @@ module VorbisRecorder
       frq = [0].pack("f")
       Bass::BASS_ChannelGetAttribute.call(cha, 1, frq)
       freq = frq.unpack("f")[0].to_i
+      if freq < 44100
+        freq = 48000
+        freq = 44100 if freq == 22050
+        mx = Bass::BASS_Mixer_StreamCreate.call(freq, channels, 256 | 0x200000 | 0x10000)
+        Bass::BASS_Mixer_StreamAddChannel.call(mx, cha, 0x10000 | 0x4000 | 0x800000)
+        cha = mx
+      end
       r = w.call(unicode(output), freq, channels, bitrate * 1000)
       bufsize = 2097152
       buf = "\0" * bufsize
@@ -186,6 +201,7 @@ end
 module WaveRecorder
   class WaveRecording
     def initialize(file)
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => true }))
       @paused = false
       init = Win32API.new($eltenlib, "WaveRecorderInit", "pii", "i")
       @rproc = init.call(unicode(file), 48000, 2)
@@ -196,17 +212,20 @@ module WaveRecorder
     end
 
     def stop
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => false }))
       Bass::BASS_ChannelStop.call(@channel)
       sleep(0.1)
       Win32API.new($eltenlib, "WaveRecorderClose", "i", "i").call(@rproc)
     end
 
     def pause
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => false }))
       @paused = true
       Bass::BASS_ChannelPause.call(@channel)
     end
 
     def resume
+      $agent.write(Marshal.dump({ "func" => "recording", "recording" => true }))
       @paused = false
       Bass::BASS_ChannelPlay.call(@channel, 0)
     end

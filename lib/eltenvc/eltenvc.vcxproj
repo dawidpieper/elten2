@@ -50,13 +50,22 @@
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>..\..\vendor\openssl\lib\VC\libcrypto32MT.lib;..\..\vendor\openssl\lib\VC\libssl32MT.lib;ws2_32.lib;sapi.lib;..\..\vendor\opus\opus.lib;..\..\vendor\vorbis\libvorbis.lib;..\..\vendor\ogg\libogg.lib;..\..\vendor\speexdsp\libspeexdsp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>..\..\vendor\openssl\lib\VC\libcrypto32MT.lib;..\..\vendor\openssl\lib\VC\libssl32MT.lib;ws2_32.lib;sapi.lib;..\..\vendor\opus\opus.lib;..\..\vendor\vorbis\libvorbis.lib;..\..\vendor\ogg\libogg.lib;..\..\vendor\speexdsp\libspeexdsp.lib;Comctl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\dlltray.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\dllcommondialogs.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\dllhkbase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\dllopus.cpp">

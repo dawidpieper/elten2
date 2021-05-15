@@ -134,11 +134,16 @@ module EltenAPI
         }
         text.gsub!("\004NEW\004") {
           play("listbox_itemnew", 100, 100, pos)
+          ((Configuration.soundthemeactivation == 1) ? "" : (" " + p_("EAPI_Speech", "New") + " "))
           ""
         }
         text.gsub!("\004CLOSED\004") {
           play("listbox_itemclosed", 100, 100, pos)
           ((Configuration.soundthemeactivation == 1) ? "" : (" " + p_("EAPI_Speech", "Closed") + " "))
+        }
+        text.gsub!("\004RESTRICTED\004") {
+          play("listbox_itemrestricted", 100, 100, pos)
+          ((Configuration.soundthemeactivation == 1) ? "" : (" " + p_("EAPI_Speech", "Restricted") + " "))
         }
         text.gsub!("\004FUTURE\004") {
           play("listbox_itemfuture", 100, 100, pos)
@@ -158,7 +163,15 @@ module EltenAPI
         }
         text.gsub!("\004ATTACHMENT\004") {
           play("listbox_itemattachment", 100, 100, pos)
-          ""
+          ((Configuration.soundthemeactivation == 1) ? "" : (" (" + p_("EAPI_Speech", "Attachment") + ") "))
+        }
+        text.gsub!("\004CONTAINING\004") {
+          play("listbox_itemcontaining", 100, 100, pos)
+          ((Configuration.soundthemeactivation == 1) ? "" : (" " + p_("EAPI_Speech", "Containing") + ": "))
+        }
+        text.gsub!("\004LIKED\004") {
+          play("listbox_itemliked", 100, 100, pos)
+          ((Configuration.soundthemeactivation == 1) ? "" : (" " + p_("EAPI_Speech", "Liked") + ": "))
         }
         text_d = text
         text_d.gsub!("\r\n\r\n", "\004SLINE\004")

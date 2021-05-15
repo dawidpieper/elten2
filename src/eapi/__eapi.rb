@@ -413,6 +413,13 @@ module EltenAPI
     end
   end
 
+  def sha1(str)
+    digest = "\0" * 20
+    u = unicode(str)
+    Win32API.new($eltenlib, "GetSha1", "pip", "i").call(u, u.bytesize / 2, digest)
+    return digest
+  end
+
   def bfs(mat, x, y, ox, oy)
     rowNum = [-1, 0, 0, 1]
     colNum = [0, -1, 1, 0]
@@ -624,6 +631,9 @@ module EltenAPI
     Log.info("Loading configuration")
     lang = Configuration.language
     Configuration.listtype = readconfig("Interface", "ListType", 0)
+    Configuration.disablefeednotifications = readconfig("Interface", "DisableFeedNotifications", 0)
+    Configuration.iimodifiers = readconfig("InvisibleInterface", "IIModifiers", 0)
+    Configuration.iicards = readconfig("InvisibleInterface", "Cards", "messages,feed,conference")
     Configuration.roundupforms = readconfig("Interface", "RoundUpForms", 0)
     Configuration.usepan = readconfig("Interface", "UsePan", 1)
     Configuration.soundcard = readconfig("SoundCard", "SoundCard", "")
@@ -761,6 +771,14 @@ module EltenAPI
     Configuration.usefx = readconfig("Advanced", "UseFX", -1)
     Configuration.usedenoising = readconfig("Advanced", "UseDenoising", 0)
     Configuration.useechocancellation = readconfig("Advanced", "UseEchoCancellation", 0)
+    forcewasapi = Configuration.forcewasapi
+    Configuration.forcewasapi = readconfig("Advanced", "ForceWasapi", 0)
+
+    if forcewasapi != nil && Configuration.forcewasapi != forcewasapi
+      Conference.setclosed if Conference.opened?
+      Win32API.new("kernel32", "TerminateProcess", "ip", "i").call($agent.pid, "") if $agent != nil
+      agent_start
+    end
     Configuration.autologin = readconfig("Login", "EnableAutoLogin", 1)
     setlocale(Configuration.language) if lang != Configuration.language
   end

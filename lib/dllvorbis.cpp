@@ -80,10 +80,13 @@ vorbis->output = (char*)malloc(sizeof(char*)*vorbis->output_size);
 }
 
 vorbis_info_init(&vorbis->vi);
-int ret = (vorbis_encode_setup_managed(&vorbis->vi, channels, samplerate, -1, bitrate, -1)||
+int ret = (vorbis_encode_setup_managed(&vorbis->vi, channels, samplerate, -1, bitrate, -1) ||
 vorbis_encode_ctl(&vorbis->vi, OV_ECTL_RATEMANAGE2_SET, NULL) ||
 vorbis_encode_setup_init(&vorbis->vi));
-if(ret) return 0;
+if(ret) {
+
+return 0;
+}
 vorbis_comment_init(&vorbis->vc);
 vorbis_comment_add_tag(&vorbis->vc, "ENCODER", "ELTEN");
 vorbis_analysis_init(&vorbis->vd, &vorbis->vi);

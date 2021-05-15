@@ -32,6 +32,7 @@ class Scene_WhatsNew
     followedblogposts = agtemp[17].to_i
     blogfollowers = agtemp[18].to_i
     blogmentions = agtemp[19].to_i
+    groupinvitations = agtemp[20].to_i
     nversion = agtemp[2].to_f
     nbeta = agtemp[3].to_i
     nalpha = agtemp[4].to_i
@@ -50,7 +51,22 @@ class Scene_WhatsNew
     elsif $isbeta == 2
       nv = $version.to_s + " RC " + $nalpha.to_s
     end
-    @sel = ListBox.new(["#{p_("WhatsNew", "New messages")} (#{messages.to_s})", "#{p_("WhatsNew", "New posts in followed threads")} (#{posts.to_s})", "#{p_("WhatsNew", "New posts on the followed blogs")} (#{blogposts.to_s})", "#{p_("WhatsNew", "New comments on your blog")} (#{blogcomments.to_s})", "#{p_("WhatsNew", "New threads on followed forums")} (#{forums.to_s})", "#{p_("WhatsNew", "New posts on followed forums")} (#{forumsposts.to_s})", "#{p_("WhatsNew", "New friends")} (#{friends.to_s})", "#{p_("WhatsNew", "Friends' birthday")} (#{birthday.to_s})", "#{p_("WhatsNew", "Mentions")} (#{mentions.to_s})", "#{p_("WhatsNew", "New comments to followed blog posts")} (#{followedblogposts.to_s})", "#{p_("WhatsNew", "New blog followers")} (#{blogfollowers.to_s})", "#{p_("WhatsNew", "Blog mentions")} (#{blogmentions.to_s})", p_("WhatsNew", "Update available (%{version})") % { "version" => "Elten #{nv}" }], header, 0, 0, true)
+    @sel = ListBox.new([
+      "#{p_("WhatsNew", "New messages")} (#{messages.to_s})",
+      "#{p_("WhatsNew", "New posts in followed threads")} (#{posts.to_s})",
+      "#{p_("WhatsNew", "New posts on the followed blogs")} (#{blogposts.to_s})",
+      "#{p_("WhatsNew", "New comments on your blog")} (#{blogcomments.to_s})",
+      "#{p_("WhatsNew", "New threads on followed forums")} (#{forums.to_s})",
+      "#{p_("WhatsNew", "New posts on followed forums")} (#{forumsposts.to_s})",
+      "#{p_("WhatsNew", "New friends")} (#{friends.to_s})",
+      "#{p_("WhatsNew", "Friends' birthday")} (#{birthday.to_s})",
+      "#{p_("WhatsNew", "Mentions")} (#{mentions.to_s})",
+      "#{p_("WhatsNew", "New comments to followed blog posts")} (#{followedblogposts.to_s})",
+      "#{p_("WhatsNew", "New blog followers")} (#{blogfollowers.to_s})",
+      "#{p_("WhatsNew", "Blog mentions")} (#{blogmentions.to_s})",
+      "#{p_("WhatsNew", "Waiting invitations")} (#{groupinvitations.to_s})",
+      p_("WhatsNew", "Update available (%{version})") % { "version" => "Elten #{nv}" }
+    ], header, 0, 0, true)
     @sel.disable_item(0) if messages <= 0
     @sel.disable_item(1) if posts <= 0
     @sel.disable_item(2) if blogposts <= 0
@@ -63,8 +79,9 @@ class Scene_WhatsNew
     @sel.disable_item(9) if followedblogposts <= 0
     @sel.disable_item(10) if blogfollowers <= 0
     @sel.disable_item(11) if blogmentions <= 0
-    @sel.disable_item(12) if @bid == Elten.build_id or @bid <= 0
-    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums <= 0 and forumsposts <= 0 and friends <= 0 and birthday <= 0 and mentions <= 0 and followedblogposts <= 0 and blogfollowers <= 0 and blogmentions <= 0 and (@bid == Elten.build_id or @bid <= 0)
+    @sel.disable_item(12) if groupinvitations <= 0
+    @sel.disable_item(13) if @bid == Elten.build_id or @bid <= 0
+    if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and forums <= 0 and forumsposts <= 0 and friends <= 0 and birthday <= 0 and mentions <= 0 and followedblogposts <= 0 and blogfollowers <= 0 and blogmentions <= 0 and groupinvitations <= 0 and (@bid == Elten.build_id or @bid <= 0)
       alert(p_("WhatsNew", "There is nothing new."))
       $scene = Scene_Main.new
       return
@@ -103,6 +120,8 @@ class Scene_WhatsNew
         when 11
           $scene = Scene_Blog_Posts.new(Session.name, "NEWMENTIONED")
         when 12
+          $scene = Scene_Forum.new(nil, nil, 4)
+        when 13
           $scene = Scene_Update_Confirmation.new
         end
       end

@@ -143,7 +143,9 @@ class Scene_Messages
         @cat = 1
       else
         @sel_users.index -= 1
-        load_users(@users_limit + 20)
+        ad = 20
+        ad = 100 if $keyr[0x10]
+        load_users(@users_limit + ad)
         @sel_users.sayoption
       end
     end
@@ -158,6 +160,20 @@ class Scene_Messages
       menu.option(p_("Messages", "Show all messages"), nil, :shift_enter) {
         load_messages(@users[@sel_users.index].user, nil)
         @cat = 2
+      }
+      menu.option(p_("Messages", "Mark all messages in this conversation as read"), nil, "w") {
+        msgtemp = srvproc("message_allread", { "user" => @users[@sel_users.index].user })
+        if msgtemp[0].to_i < 0
+          alert(_("Error"))
+          $scene = Scene_Main.new
+        end
+        alert(p_("Messages", "All messages in this conversation have been marked as read."))
+        speech_wait
+        if @wn == true
+          $scene = Scene_WhatsNew.new
+        else
+          main
+        end
       }
       menu.option(p_("Messages", "Add conversations to quick actions"), nil, "q") {
         QuickActions.create(Scene_Messages, p_("Messages", "Conversations with %{user}") % { "user" => @users[@sel_users.index].user }, [@users[@sel_users.index].user])
@@ -202,19 +218,21 @@ class Scene_Messages
     menu.option(p_("Messages", "Send a new message"), nil, "n") {
       $scene = Scene_Messages_New.new("", "", "", export)
     }
-    menu.option(p_("Messages", "Mark all messages as read"), nil, "w") {
-      msgtemp = srvproc("message_allread", {})
-      if msgtemp[0].to_i < 0
-        alert(_("Error"))
-        $scene = Scene_Main.new
-      end
-      alert(p_("Messages", "All messages have been marked as read."))
-      speech_wait
-      if @wn == true
-        $scene = Scene_WhatsNew.new
-      else
-        main
-      end
+    menu.option(p_("Messages", "Mark all messages as read"), nil, "W") {
+      confirm(p_("messages", "Are you sure you want to mark all messages in all conversations as read?")) {
+        msgtemp = srvproc("message_allread", {})
+        if msgtemp[0].to_i < 0
+          alert(_("Error"))
+          $scene = Scene_Main.new
+        end
+        alert(p_("Messages", "All messages have been marked as read."))
+        speech_wait
+        if @wn == true
+          $scene = Scene_WhatsNew.new
+        else
+          main
+        end
+      }
     }
     menu.option(p_("Messages", "Search"), nil, "f") {
       load_messages("", "", "search")
@@ -237,6 +255,7 @@ class Scene_Messages
       cs = srvproc("messages_groups", { "ac" => "listusers", "groupid" => c.user })
       cusers = cs[2...2 + cs[1].to_i].map { |u| u.delete("\r\n") } if cs[0].to_i == 0
     end
+    cusers.polsort!
     form = Form.new([
       EditBox.new(p_("Messages", "Conversation name"), "", cname, true),
       ListBox.new(cusers, p_("Messages", "Conversation members"), 0, 0, true),
@@ -534,9 +553,10 @@ class Scene_Messages
           play "messages_update"
         end
         m.date = Time.now if m.date == 0
-        selt.push(m.sender + ":\r\n" + ((sp != nil and sp != "new") ? (m.subject + ":\r\n") : "") + m.text.gsub("\004LINE\004", "\r\n").split("")[0...5000].join + ((m.text.size > 5000) ? "... #{p_("Messages", "Open this message to read more")}" : "") + "\r\n" + format_date(m.date) + "\r\n")
-        selt[-1] += "\004INFNEW{#{p_("Messages", "New")}: }\004" if m.mread == 0
+        selt.push(m.sender)
         selt[-1] += "\004ATTACHMENT\004" if m.attachments.size > 0
+        selt[-1] += ":\r\n" + ((sp != nil and sp != "new") ? (m.subject + ":\r\n") : "") + m.text.gsub("\004LINE\004", "\r\n").split("")[0...5000].join + ((m.text.size > 5000) ? "... #{p_("Messages", "Open this message to read more")}" : "") + "\r\n" + format_date(m.date) + "\r\n"
+        selt[-1] += "\004INFNEW{#{p_("Messages", "New")}: }\004" if m.mread == 0
       end
     end
     selt.push(p_("Messages", "Show older")) if @messages_more and !complete
@@ -557,7 +577,7 @@ class Scene_Messages
   end
 
   def update_messages
-    if $agent_msg != nil and @form_messages != nil and @form_messages.index != 3
+    if $agent_msg != nil and @form_messages != nil and @form_messages.index != 3 and @form_messages.index != 4
       mwn = $agent_msg
       load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true) if mwn > @messages_wn
       @messages_wn = mwn
@@ -640,11 +660,11 @@ class Scene_Messages
       elsif @form_messages.fields[3].text != "" and @form_messages.fields[4] == nil
         @form_messages.fields[4] = Button.new(p_("Messages", "Send"))
       end
-      if ((enter or space) and @form_messages.index == 4) or ((enter and $key[0x11]) and @form_messages.index == 3)
+      if (((enter or space) and @form_messages.index == 4) or ((enter and $key[0x11]) and @form_messages.index == 3)) and @form_messages.fields[3].text != ""
         bufid = buffer(@form_messages.fields[3].text)
         msgtemp = srvproc("message_send", { "to" => @messages_user, "subject" => ("RE: " + (@messages_subject || "")), "buffer" => bufid })
         if msgtemp[0].to_i < 0
-          alert(_("Error"))
+          alert(p_("Messages", "Failed to send message"))
         else
           @form_messages.index = 3
           @form_messages.fields[3].settext("")
@@ -740,7 +760,11 @@ class Scene_Messages
     dialog_open
     message.mread = 1 if message.receiver == Session.name
     date = format_date(message.date)
-    @form_messages.fields[0] = EditBox.new(message.subject + " #{p_("Messages", "From")}: " + message.sender, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, message.text + "\r\n" + date)
+    if message.receiver != Session.name
+      @form_messages.fields[0] = EditBox.new(message.subject + " #{p_("Messages", "From")}: " + message.sender, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, message.text + "\r\n" + date)
+    else
+      @form_messages.fields[0] = EditBox.new(message.subject + " #{p_("Messages", "To")}: " + message.receiver, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, message.text + "\r\n" + date)
+    end
     @form_messages.fields[0].focus
   end
 

@@ -31,7 +31,7 @@ eltenindex=None
 eltenindexid=None
 
 if is_python_3_or_above:
-	class EltenIndexCallback(speech.BaseCallbackCommand):
+	class EltenIndexCallback(speech.commands.BaseCallbackCommand):
 		def __init__(self, index, indid=None):
 			self.index = index
 			self.indid=indid
@@ -233,6 +233,12 @@ def elten_command(ac):
 			text=""
 			if('text' in ac): text=ac['text']
 			if(speech.isBlank(text)==False): queueHandler.queueFunction(queueHandler.eventQueue,speech.speakText,text)
+		if(ac['ac']=="speakspelling"):
+			eltenindex=None
+			eltenindexid=None
+			text=""
+			if('text' in ac): text=ac['text']
+			if(len(text)>0): queueHandler.queueFunction(queueHandler.eventQueue,speech.speakSpelling,text)
 		if(ac['ac']=="speakindexed"):
 			eltenindex=None
 			eltenindexid=None
@@ -316,7 +322,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 33}
+			return {'version': 35}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

@@ -54,13 +54,22 @@ class Scene_Clock
   end
 
   def editalarm(alarmindex = nil)
-    alarmindex = @alarms.size if alarmindex == nil
-    a = [Time.now.hour, Time.now.min, 0]
-    a = @alarms[@field[0].index] if @alarms[@field[0].index] != nil
-    c = []
-    for i in 0..59
-      c.push(i.to_s)
+    self.class.editalarm(alarmindex, @alarms)
+    refresh
+    @form.fields[0].focus
+  end
+
+  def self.editalarm(alarmindex = nil, alarms = nil)
+    save = false
+    if alarms == nil
+      alarms = []
+      alarms = load_data(Dirs.eltendata + "\\alarms.dat") if FileTest.exists?(Dirs.eltendata + "\\alarms.dat")
+      save = true
     end
+    alarmindex = alarms.size if alarmindex == nil
+    a = [Time.now.hour, Time.now.min, 0]
+    a = alarms[alarmindex] if alarmindex.is_a?(Numeric) && alarms[alarmindex] != nil
+    c = (0..59).to_a.map { |i| i.to_s }
     form = Form.new([ListBox.new(c[0..23], p_("Clock", "Hour"), a[0], 0, true), ListBox.new(c[0..59], p_("Clock", "Minute"), a[1], 0, true), ListBox.new([p_("Clock", "One time"), p_("Clock", "Repeated")], p_("Clock", "Type"), a[2], 0, true), EditBox.new(p_("Clock", "Alarm description"), 0, a[3], true), Button.new(_("Save")), Button.new(_("Cancel"))])
     loop do
       loop_update
@@ -68,28 +77,30 @@ class Scene_Clock
       break if escape or form.fields[5].pressed?
       if form.fields[4].pressed?
         a = [form.fields[0].index, form.fields[1].index, form.fields[2].index, form.fields[3].text]
-        @alarms[alarmindex] = a
-        sel = []
-        for a in @alarms
-          sel.push("#{p_("Clock", "Hour")}: #{sprintf("%02d:%02d", a[0], a[1])}, #{p_("Clock", "Type")}: #{if a[2] == 0; p_("Clock", "One time"); else; p_("Clock", "Repeated"); end}: #{(a[3] != nil) ? a[3] : ""}")
+        alarms[alarmindex] = a
+        if save
+          save_data(alarms, Dirs.eltendata + "\\alarms.dat")
+          alert(_("Saved"))
         end
-        @field[0].options = sel
         break
       end
     end
     loop_update
-    @form.fields[0].focus
   end
 
   def deletealarm(alarmindex)
     @alarms.delete_at(alarmindex)
+    refresh
+    play("editbox_delete")
+    loop_update
+    @field[0].sayoption
+  end
+
+  def refresh
     sel = []
     for a in @alarms
       sel.push("#{p_("Clock", "Hour")}: #{sprintf("%02d:%02d", a[0], a[1])}, #{p_("Clock", "Type")}: #{if a[2] == 0; p_("Clock", "One time"); else; p_("Clock", "Repeated"); end}: #{(a[3] != nil) ? a[3] : ""}")
     end
     @field[0].options = sel
-    play("editbox_delete")
-    loop_update
-    @field[0].sayoption
   end
 end

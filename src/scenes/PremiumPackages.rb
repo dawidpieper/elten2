@@ -5,7 +5,7 @@ class Scene_PremiumPackages
       $scene = Scene_Main.new
       return
     end
-    @sel = TableBox.new([nil, p_("PremiumPackages", "status"), p_("PremiumPackages", "Yearly price"), p_("PremiumPackages", "Half-yearly price")], [], 0, p_("PremiumPackages", "Premium packages"), true)
+    @sel = TableBox.new([nil, p_("PremiumPackages", "status"), p_("PremiumPackages", "Yearly price"), p_("PremiumPackages", "Half-yearly price"), p_("PremiumPackages", "Conversion price")], [], 0, p_("PremiumPackages", "Premium packages"), true)
     @sel.bind_context { |menu| context(menu) }
     refresh
     @sel.focus
@@ -42,8 +42,7 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Lifting the 2-minute limit for private voice messages"),
              p_("PremiumPackages", "Lifting the 32kbps quality limit in private voice messages"),
              p_("PremiumPackages", "Recording conferences"),
-             p_("PremiumPackages", "Soundcard streaming in conferences"),
-             #p_("PremiumPackages", "Creation of up to three channels public to friends in conferences"),
+             p_("PremiumPackages", "Creation of up to three public channels in conferences"),
              p_("PremiumPackages", "Creation of group channels in conferences"),
              p_("PremiumPackages", "Placing own background and objects in HRTF"),
              p_("PremiumPackages", "Changing HRTF dimensions"),
@@ -96,8 +95,19 @@ class Scene_PremiumPackages
             refresh
             @sel.focus
           }
+        elsif package.totime == 0
+          menu.option(p_("PremiumPackages", "Convert")) {
+            buy(package, true)
+            refresh
+            @sel.focus
+          }
         end
       end
+      menu.option(p_("PremiumPackages", "Buy premium codes for use by any user")) {
+        buy(nil)
+        refresh
+        @sel.focus
+      }
     end
     menu.option(_("Refresh"), nil, "r") {
       refresh
@@ -113,13 +123,27 @@ class Scene_PremiumPackages
     form = Form.new([
       lst_profits = ListBox.new(package.profits, p_("PremiumPackages", "Profits of package %{name}") % { "name" => package.name }, 0, 0, true),
       btn_buy = Button.new(sbuy),
+      btn_convert = Button.new(p_("PremiumPackages", "Convert")),
+      btn_buycode = Button.new(p_("PremiumPackages", "Buy premium codes for use by any user")),
       btn_activate = Button.new(sactivate),
       btn_close = Button.new(p_("PremiumPackages", "Close"))
     ], 0, false, true)
+    form.hide(btn_buycode) if package.special
+    form.hide(btn_convert) if package.package != "sponsor"
     form.cancel_button = btn_close
     btn_close.on(:press) { form.resume }
     btn_buy.on(:press) {
       buy(package)
+      refresh
+      form.resume
+    }
+    btn_buycode.on(:press) {
+      buy(nil)
+      refresh
+      form.resume
+    }
+    btn_convert.on(:press) {
+      buy(package, true)
       refresh
       form.resume
     }
@@ -166,15 +190,27 @@ class Scene_PremiumPackages
       st = p_("PremiumPackages", "Active until %{time}") % { "time" => format_date(Time.at(c.totime)) } if c.totime > 0
       halfprice = nil
       price = nil
+      conversionprice = nil
+      if c.package == "sponsor"
+        z = 0
+        for g in @packages.find_all { |c| c.package != "sponsor" }
+          d = ((g.totime - Time.now.to_f) / 86400).floor
+          d = 0 if d < 0
+          z += (g.price * 0.9) / 365.0 * d
+        end
+        conversionprice = (c.price - z).ceil if z > 0
+      end
       halfprice = c.halfprice.to_s + " PLN" if c.halfprice != nil
       price = c.price.to_s + " PLN" if c.price != nil
-      [c.name, st, price, halfprice]
+      conversionprice = conversionprice.to_s + " PLN" if conversionprice != nil
+      [c.name, st, price, halfprice, conversionprice]
     }
     @sel.reload
   end
 
-  def buy(package)
-    if !package.available
+  def buy(package, convert = false)
+    return if convert && confirm(p_("PremiumPackages", "Regardless of the remaining duration of other packages, they will be replaced by the selected package. This package will be activated for a period of one year. The remaining period for other packages will be deducted from the package price. Do you want to continue?")) == 0
+    if package != nil && !package.available
       alert(p_("PremiumPackages", "This package is currently unavailable. Try to buy it in the next month."))
       return
     end
@@ -194,28 +230,37 @@ The granting of a premium package does not constitute a commitment or a commerci
     return if !accepted
     transfer = nil
     pc = srvproc("payments", { "ac" => "methods" })
+    methods = []
     if pc[0].to_i == 0
       j = JSON.load(pc[1])
       for m in j
         if m["id"] == "transfer" and m["type"] == "transfer"
           transfer = m
         end
+        methods.push(m) if m["type"] == "transfer" || m["type"] == "url"
       end
     end
-    if transfer == nil
-      alert(p_("PremiumPackages", "I cannot download the data required to make a transfer"))
-      return
-    end
-    info = p_("PremiumPackages", "Below are the transfer details.
-In the title of the transfer, please indicate your user name on the EltenLink portal and which package the payment concerns.")
-    if !package.special
-      info += "\n" + p_("PremiumPackages", "If, instead of a package, you wish to receive a code that can be used to activate any of the packages: %{packages} by any user, mark this information in the transfer title.") % { "packages" => @packages.find_all { |pc| pc.special == false }.map { |pc| pc.name }.join(", ") }
-    end
-    info += "\n" + p_("PremiumPackages", "Please note that if you transfer a larger amount, the remainder will be treated as a donation.
+    dict = {
+      "transfer" => p_("PremiumPackages", "Traditional bank transfer"),
+      "paypal" => p_("PremiumPackages", "Paypal (using Paypal account or credit/debit card)")
+    }
+    selt = methods.map { |m| d = m["id"]; dict[d] || d }
+    l = selector(selt, p_("PremiumPackages", "Select payment method"), 0, -1)
+    return if l == -1
+    method = methods[l]
+    if method["type"] == "transfer"
+      transfer = method
+      info = p_("PremiumPackages", "Below are the transfer details.\n")
+      if package != nil
+        info += p_("PremiumPackages", "In the title of the transfer, please indicate your user name on the EltenLink portal and which package the payment concerns.")
+      else
+        info += p_("PremiumPackages", "If you wish to receive a code that can be used to activate any of the packages: %{packages} by any user, mark this information in the transfer title.") % { "packages" => @packages.find_all { |pc| pc.special == false }.map { |pc| pc.name }.join(", ") }
+      end
+      info += "\n" + p_("PremiumPackages", "Please note that if you transfer a larger amount, the remainder will be treated as a donation.
 
 In order to reduce the processing time of your payment, you can forward the transfer confirmation to the Council of Elders.")
-    info += "\n\n"
-    info += p_("PremiumPackages", "National transfer details (from Poland):
+      info += "\n\n"
+      info += p_("PremiumPackages", "National transfer details (from Poland):
 %{holder}
 Address: %{address}
 Account number: %{placcount}
@@ -225,13 +270,50 @@ IBAN number: %{iban}
 BIC / SWIFT: %{swift}
 Bank address: %{bankaddress}
 Sort code: %{sortcode}") % { "holder" => transfer["holder"], "address" => transfer["address"], "placcount" => transfer["placcount"], "iban" => transfer["iban"], "swift" => transfer["swift"], "bankaddress" => transfer["bankaddress"], "sortcode" => transfer["sortcode"] }
-    form = Form.new([
-      edt_info = EditBox.new(p_("PremiumPackages", "Information"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, info),
-      btn_accept = Button.new(p_("PremiumPackages", "I accept"))
-    ], 0, false, true)
-    form.cancel_button = btn_accept
-    btn_accept.on(:press) { form.resume }
-    form.wait
+      form = Form.new([
+        edt_info = EditBox.new(p_("PremiumPackages", "Information"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, info),
+        btn_accept = Button.new(p_("PremiumPackages", "I accept"))
+      ], 0, false, true)
+      form.cancel_button = btn_accept
+      btn_accept.on(:press) { form.resume }
+      form.wait
+    elsif method["type"] == "url"
+      confirm(p_("PremiumPackages", "This payment method requires a redirect to an external website. A web browser will open. Do you wish to continue?")) {
+        prm = { "ac" => "pay", "method" => method["id"] }
+        prm["package"] = package.package if package != nil
+        price = 0
+        price = package.price if package != nil
+        if package != nil and package.package == "sponsor" and convert == true
+          conversionprice = package.price
+          z = 0
+          for g in @packages.find_all { |c| c.package != "sponsor" }
+            d = ((g.totime - Time.now.to_f) / 86400).floor
+            d = 0 if d < 0
+            z += (g.price * 0.9) / 365.0 * d
+          end
+          conversionprice = (package.price - z).ceil if z > 0
+          price = conversionprice
+          prm["package"] = "sponsor_c"
+        end
+        if package == nil
+          prm["amount"] = selector((1..20).to_a.map { |a| a.to_s }, p_("PremiumPackages", "How many premium codes would you like to buy?"), 0, -1) + 1
+          return if prm["amount"] == 0
+          pr = @packages.find { |pc| !pc.special }
+          price = pr.price * prm["amount"] if pr != nil
+        end
+        per = 0
+        per += method["plus"] if method["plus"].is_a?(Numeric)
+        per += method["perc_plus"] * price / 100.0 if method["perc_plus"].is_a?(Numeric)
+        return if (per != 0 && confirm(p_("PremiumPackages", "You will be charged a %{amount} pln commission for the selected payment method. Do you want to continue?") % { "amount" => per }) == 0)
+        c = srvproc("payments", prm)
+        if c[0].to_i < 0
+          alert(_("Error"))
+        else
+          url = c[2].delete("\r\n")
+          run("explorer \"#{url}\"")
+        end
+      }
+    end
   end
 
   def activate(package)
