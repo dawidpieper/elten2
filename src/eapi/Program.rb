@@ -276,3 +276,68 @@ class Object
     end
   end
 end
+
+class EltenApp
+  attr_reader :file
+
+  class EltenAppChunk
+    attr_reader :type, :name, :start, :size, :compressed
+
+    def initialize(type, name, start, size, compressed)
+      @type, @name, @start, @size, @compressed = type, name, start, size, compressed
+    end
+  end
+
+  def initialize(file)
+    @file = file
+    @reader = FileReader.new(file)
+    if @reader.size < 8 + 1024 || @reader.read(8) != "EltenAPP"
+      raise(ArgumentException, "Wrong file format")
+    end
+    @reader.position += 1024
+    @chunks = []
+    while @reader.position < @reader.size
+      type = @reader.read(8)
+      flags = @reader.read(1)
+      compressed = false
+      compressed = true if (flags & 1) > 0
+      sz = @reader.read(1).unpack("C").first
+      name = @reader.read(sz)
+      size = @reader.read(8).unpack("Q").first
+      start = @reader.position
+      @chunks.push EltenAppChunk.new(type, name, start, size, compressed)
+      @reader.position += size
+    end
+  end
+
+  def get_chunk_content(ch)
+    @reader.position = ch.start
+    cnt = @reader.read(ch.size)
+    cnt = Zlib::Inflate.inflate(cnt) if ch.compressed
+    return cnt
+  end
+
+  def manifest
+    chunk = @chunks.find { |c| c.type == "MANIFEST" }
+    return nil if chunk == nil
+    return JSON.load(get_chunk_content(chunk))
+  end
+
+  def name
+    m = manifest
+    return nil if m == nil || !m.is_a?(Hash) || !m["name"].is_a?(String)
+    m["name"]
+  end
+
+  def version
+    m = manifest
+    return nil if m == nil || !m.is_a?(Hash) || !m["version"].is_a?(String)
+    m["version"]
+  end
+
+  def author
+    m = manifest
+    return nil if m == nil || !m.is_a?(Hash) || !m["author"].is_a?(String)
+    m["author"]
+  end
+end

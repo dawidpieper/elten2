@@ -6,7 +6,7 @@
 
 class SteamAudio
   class SAEffect
-    attr_accessor :heffect, :effect, :ain, :aout, :channels
+    attr_accessor :heffect, :effect, :ain, :aout, :channels, :bilinear
   end
 
   @@lib = nil
@@ -50,6 +50,7 @@ class SteamAudio
         sa.ain = ain
         sa.aout = aout
         sa.channels = channels
+        sa.bilinear = false
         @effects.push(sa)
         r = @effects.index(sa)
       end
@@ -78,6 +79,17 @@ class SteamAudio
     }
   end
 
+  def set_bilinear(effect, bilinear)
+    @mutex.synchronize {
+      if @loaded && effect.is_a?(Integer)
+        sa = @effects[effect]
+        if sa != nil
+          sa.bilinear = (bilinear == true)
+        end
+      end
+    }
+  end
+
   def process(effect, audio, x, y, z)
     ob = ""
     @mutex.synchronize {
@@ -91,7 +103,9 @@ class SteamAudio
           ob = "\0" * (audio.bytesize / sa.channels * 2)
           inbuf = [*sa.ain, audio.bytesize / 4 / sa.channels, audio, nil]
           outbuf = [*sa.aout, ob.bytesize / 4 / 2, ob, nil]
-          @@iplApplyBinauralEffect.call(sa.effect, @renderer, *inbuf, *([x, y, z].pack("fff").unpack("iii")), 0, [1].pack("f").unpack("i").first, *outbuf)
+          interpolation = 0
+          interpolation = 1 if sa.bilinear
+          @@iplApplyBinauralEffect.call(sa.effect, @renderer, *inbuf, *([x, y, z].pack("fff").unpack("iii")), interpolation, [1].pack("f").unpack("i").first, *outbuf)
         end
       end
     }

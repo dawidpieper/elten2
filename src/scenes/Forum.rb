@@ -699,9 +699,11 @@ class Scene_Forum
       }
     end
     sortermenu(0, type, menu)
-    menu.option(p_("Forum", "New group"), nil, "n") {
-      newgroup
-    }
+    if Session.name != "guest"
+      menu.option(p_("Forum", "New group"), nil, "n") {
+        newgroup
+      }
+    end
     menu.option(_("Refresh"), nil, "r") {
       @grpindex[type] = @grpsel.index
       getcache
@@ -904,20 +906,24 @@ class Scene_Forum
   end
 
   def groupmembers(group)
+    chrfr = false
     sel = ListBox.new([], p_("Forum", "Members"), 0, 0, true)
     users = []
     roles = []
+    inherits = []
     rfr = Proc.new {
-      m = srvproc("forum_groups", { "ac" => "members", "groupid" => group.id.to_s })
+      m = srvproc("forum_groups", { "ac" => "members", "groupid" => group.id.to_s, "details" => 1 })
       if m[0].to_i < 0
         alert(_("Error"))
       else
         selt = []
         users = []
         roles = []
+        inherits = []
         for i in 0...m[1].to_i
-          users.push(m[2 + i * 2].delete("\r\n"))
-          roles.push(m[2 + i * 2 + 1].to_i)
+          users.push(m[2 + i * 3].delete("\r\n"))
+          roles.push(m[2 + i * 3 + 1].to_i)
+          inherits.push(m[2 + i * 3 + 2].to_i == 1)
           t = users.last
           if group.founder == users.last
             t += " (#{p_("Forum", "Administrator")})"
@@ -962,8 +968,8 @@ class Scene_Forum
     sel.bind_context { |menu|
       if users.size > 0
         menu.useroption(users[sel.index])
-        if users[sel.index] != Session.name
-          if group.founder == Session.name
+        if group.founder == Session.name
+          if users[sel.index] != Session.name
             if roles[sel.index] == 1
               menu.option(p_("Forum", "Grant moderation privileges")) { chpr.call("moderationgrant") }
             elsif roles[sel.index] == 2
@@ -976,6 +982,30 @@ class Scene_Forum
               }
             end
           end
+          if roles[sel.index] == 2 || roles[sel.index] == 3
+            s = p_("Forum", "Enable inheritance of this users' role")
+            s = p_("Forum", "Disable inheritance of this users' role") if inherits[sel.index]
+            menu.option(s) {
+              prm = { "ac" => "inheritprivileges", "groupid" => group.id, "user" => users[sel.index] }
+              if inherits[sel.index]
+                prm["inherit"] = 0
+              else
+                prm["inherit"] = 1
+              end
+              st = srvproc("forum_groups", prm)
+              if st[0].to_i == 0
+                alert(_("Saved"))
+                inherits[sel.index] = !inherits[sel.index]
+                if users[sel.index] == Session.name
+                  chrfr = true
+                end
+              else
+                alert(_("Error"))
+              end
+            }
+          end
+        end
+        if users[sel.index] != Session.name
           if group.role == 2
             case roles[sel.index]
             when 1
@@ -1045,6 +1075,11 @@ class Scene_Forum
         usermenu(users[sel.index])
         loop_update
       end
+    end
+    if chrfr
+      @grpindex[@lastlist || 0] = @grpsel.index
+      getcache
+      groupsmain
     end
   end
 
@@ -2290,8 +2325,13 @@ class Scene_Forum
     name += form.fields[0].text
     form.fields[0].settext(name)
     if type == 0
-      buf = buffer(text).to_s
-      prm = { "forumname" => forumclasses[form.fields[-3].index].name, "threadname" => form.fields[0].text, "buffer" => buf }
+      post = {}
+      if text.size < 1024
+        post["post"] = text
+      else
+        post["zs_post"] = zstd_compress(text)
+      end
+      prm = { "forumname" => forumclasses[form.fields[-3].index].name, "threadname" => form.fields[0].text }
       prm["follow"] = "1" if form.fields[-4].checked == 1
       if polls.size > 0
         pls = ""
@@ -2309,7 +2349,7 @@ class Scene_Forum
         atts.chop! if atts[-1..-1] == ","
         prm["bufatt"] = buffer(atts).to_s
       end
-      ft = srvproc("forum_edit", prm)
+      ft = srvproc("forum_edit", prm, 0, post)
     else
       fl = form.fields[1].get_file
       flp = readfile(fl)
@@ -2345,7 +2385,7 @@ class Scene_Forum
   end
 
   def self.getcache
-    params = { "useflags" => 1, "gz" => 1, "ident" => "_" }
+    params = { "useflags" => 1, "zs" => 1, "ident" => "_" }
     params["ident"] = @@lastCacheIdent if @@lastCacheIdent != nil && @@lastCacheTime || 0 > Time.now.to_f - 900
     c = srvproc("forum_struct", params, 1)
     if c[0..0] == "-"
@@ -2366,7 +2406,7 @@ class Scene_Forum
     @@groups = []
     @@forums = []
     @@threads = []
-    ch = Zlib::Inflate.inflate(c[45..-1]).split("\r")
+    ch = zstd_decompress(c[45..-1]).split("\r")
     l = 0
     while l < ch.size
       objs = ch[l + 1].to_i
@@ -2438,6 +2478,8 @@ class Scene_Forum
           @@groups.last.audiolimit = line.to_i
         when 20
           @@groups.last.blog = line
+        when 21
+          @@groups.last.parent = line.to_i
         end
       end
     end
@@ -2832,8 +2874,14 @@ class Scene_Forum_Thread
     end
     if (@form.fields[@postscount * 3 + 3] != nil && @form.fields[@postscount * 3 + 3].pressed?) or (enter and $key[0x11] and @form.index == @postscount * 3 + 1)
       return if ![1, 2].include?(@threadclass.forum.group.role) and !canjoin
-      buf = buffer(@form.fields[@postscount * 3 + 1].text).to_s
-      prm = { "threadid" => @thread.to_s, "buffer" => buf }
+      post = {}
+      text = @form.fields[@postscount * 3 + 1].text
+      if text.size < 1024
+        post["post"] = text
+      else
+        post["zs_post"] = zstd_compress(text)
+      end
+      prm = { "threadid" => @thread.to_s }
       if @attachments.size > 0
         atts = ""
         for f in @attachments
@@ -2842,7 +2890,7 @@ class Scene_Forum_Thread
         atts.chop! if atts[-1..-1] == ","
         prm["bufatt"] = buffer(atts).to_s
       end
-      st = srvproc("forum_edit", prm)
+      st = srvproc("forum_edit", prm, 0, post)
       if st[0].to_i < 0
         alert(_("Error"))
       else
@@ -3342,7 +3390,7 @@ class Scene_Forum_Thread
       loop_update
       form.update
       if form.fields[0].text.size > 1 and (((enter or space) and form.index == 2) or (enter and $key[0x11] and form.index < 2))
-        buf = buffer(form.fields[0].text)
+        pst = { "post" => form.fields[0].text }
         attachments = ""
         for a in atts
           if a[0] == nil
@@ -3353,7 +3401,8 @@ class Scene_Forum_Thread
         end
         attachments.chop! if attachments[-1..-1] == ","
         bufatt = buffer(attachments).to_s
-        if srvproc("forum_mod", { "edit" => "1", "postid" => post.id.to_s, "threadid" => @thread.to_s, "buffer" => buf, "bufatt" => bufatt })[0].to_i < 0
+        fe = srvproc("forum_mod", { "edit" => "1", "postid" => post.id.to_s, "threadid" => @thread.to_s, "bufatt" => bufatt }, 0, pst)
+        if fe[0].to_i < 0
           alert(_("Error"))
         else
           alert(p_("Forum", "The post has been modified"))
@@ -3448,8 +3497,9 @@ class Scene_Forum_Thread
   end
 
   def getcache
-    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 3 })
-    return if c[0].to_i < 0
+    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 3, "zs" => 1 }, 1)
+    return if c[0...c.index("\r")].to_i < 0
+    c = ("0\r\n" + zstd_decompress(c[3..-1])).split("\r\n").map { |a| a + "\r\n" }
     @cache = c
     @cachetime = c[1].to_i
     @postscount = c[2].to_i
@@ -3530,6 +3580,7 @@ class Struct_Forum_Group
   attr_accessor :audiolimit
   attr_accessor :blog
   attr_accessor :showpostreports
+  attr_accessor :parent
 
   def initialize(id = 0)
     @id = id
@@ -3555,6 +3606,7 @@ class Struct_Forum_Group
     @audiolimit = 0
     @blog = nil
     @showpostreports = 0
+    @parent = 0
   end
 end
 
@@ -3820,6 +3872,19 @@ class Scene_Forum_GroupSettings
     if currentconfig("recommended").to_i == 0
       make_setting(p_("Forum", "Group type"), [p_("Forum", "Hidden"), p_("Forum", "Public")], "public")
       make_setting(p_("Forum", "Group join type"), ["", ""], "open")
+      make_setting(p_("Forum", "Change group parent"), :custom, Proc.new {
+        groups = Scene_Forum.getstruct["groups"].find_all { |g| (g.role == 2 || g.public || g.open) && g.id != @group.id }
+        ind = (groups.find_index(groups.find { |g| g.id == currentconfig("parent").to_i }) || -1) + 1
+        dialog_open
+        b = selector([p_("Forum", "None")] + groups.map { |g| g.name }, p_("Forum", "Select group parent"), ind, -1)
+        if b != -1
+          id = 0
+          id = groups[b - 1].id if b > 0
+          setcurrentconfig("parent", id.to_s)
+        end
+        dialog_close
+      })
+      make_setting(p_("Forum", "Prevent globally banned users from posting in this group"), :bool, "applyglobalbans")
     end
     if holds_premiumpackage("scribe")
       make_setting(p_("Forum", "Change group blog"), :custom, Proc.new {

@@ -50,6 +50,7 @@ class VoIP
     @status_hooks = []
     @ping_hooks = []
     @mutes = []
+    @streams_mutes = []
   end
 
   def connect(username, token)
@@ -195,6 +196,7 @@ class VoIP
     username, token = @username, @token
     uuid, password = @last_uuid, @last_password
     mutes = @mutes.dup
+    streams_mutes = @streams_mutes.dup
     disconnect
     sleep(1)
     c = false
@@ -208,20 +210,27 @@ class VoIP
     update
     unmute(@username) if !mutes.include?(@username)
     mutes.each { |m| mute(m) }
+    streams_mutes.each { |m| streams_mute(m) }
     update
   rescue Exception
     @reconnecting = false
     log(2, "VoIP reconnect: #{$!.to_s}")
   end
 
-  def send(type, message, p1 = 0, p2 = 0, p3 = 0, p4 = 0)
+  def send(type, message, p1 = 0, p2 = 0, p3 = 0, p4 = 0, userid = nil, index = nil)
     return if @chid == 0
-    return if (message == "" && type < 100) || !message.is_a?(String)
+    return if (message == "" && type < 10) || !message.is_a?(String)
     message = message + ""
     return false if @channel_secrets[@stamp] == nil
     crc = Zlib.crc32(message)
-    bytes = [@uid % 256, @uid / 256, @stamp % 256, (@stamp / 256) % 256, @stamp / 256 / 256, @index % 256, @index / 256, type, p1, p2, p3, p4, crc % 256, (crc / 256) % 256, (crc / 256 / 256) % 256, crc / 256 / 256 / 256]
-    @index += 1
+    if index == nil
+      index = @index
+      @index += 1
+    end
+    if userid == nil
+      userid = @uid
+    end
+    bytes = [uid % 256, uid / 256, @stamp % 256, (@stamp / 256) % 256, @stamp / 256 / 256, index % 256, index / 256, type, p1, p2, p3, p4, crc % 256, (crc / 256) % 256, (crc / 256 / 256) % 256, crc / 256 / 256 / 256]
     data = bytes.pack("C*")
     @cipher_mutex.synchronize {
       if message != ""
@@ -282,6 +291,18 @@ class VoIP
     @mutes.delete(user)
   end
 
+  def streams_mute(user)
+    log(-1, "Conference: muting streams of user #{user}")
+    command("streams_mute", { "user" => user })
+    @streams_mutes.push(user) if !@streams_mutes.include?(user)
+  end
+
+  def streams_unmute(user)
+    log(-1, "Conference: unmuting streams of user #{user}")
+    command("streams_unmute", { "user" => user })
+    @streams_mutes.delete(user)
+  end
+
   def kick(userid)
     log(-1, "Conference: kicking user #{userid}")
     command("kick", { "userid" => userid })
@@ -307,6 +328,26 @@ class VoIP
     command("admin", { "username" => username })
   end
 
+  def supervise(userid)
+    log(-1, "Conference: supervising user #{userid}")
+    command("supervise", { "userid" => userid })
+  end
+
+  def unsupervise(userid)
+    log(-1, "Conference: unsupervising user #{userid}")
+    command("unsupervise", { "userid" => userid })
+  end
+
+  def follow(channel)
+    log(-1, "Conference: following channel #{channel}")
+    command("follow", { "channel" => channel })
+  end
+
+  def unfollow(channel)
+    log(-1, "Conference: unfollowing channel #{channel}")
+    command("unfollow", { "channel" => channel })
+  end
+
   def public_key(userid)
     c = command("publickey", { "userid" => userid })
     return nil if c == false
@@ -323,6 +364,16 @@ class VoIP
 
   def object_remove(id)
     command("object_remove", { "id" => id })
+  end
+
+  def stream_add(name, channels, x, y)
+    return command("stream_add", { "name" => name, "channels" => channels, "x" => x, "y" => y })["id"]
+  rescue Exception
+    return nil
+  end
+
+  def stream_remove(id)
+    command("stream_remove", { "id" => id })
   end
 
   def ping
@@ -437,17 +488,17 @@ class VoIP
 
   def receive(data)
     receiveTime = Time.now
-    data = data + ""
-    data = data.b
+    data = (data + "").b
     userid, stamp, index, type = extract(data)
-    @received[userid] ||= []
+    @received[userid] ||= {}
     @cur_rx_packets += 1
     if index > 10
-      cr = index - (@received[userid].max || 0) - 1
+      cr = index - ((@received[userid][type] || []).max || 0) - 1
       @cur_lostpackets += cr if cr > 0 && cr < 5
     end
-    return if userid != 0 && @received[userid].include?(index)
-    @received[userid].push(index) if userid != 0
+    return if userid != 0 && (@received[userid][type] || []).include?(index)
+    @received[userid][type] ||= []
+    @received[userid][type].push(index) if userid != 0
     message = ""
     crc = data.getbyte(12) + data.getbyte(13) * 256 + data.getbyte(14) * 256 ** 2 + data.getbyte(15) * 256 ** 3
     p1 = data.getbyte(8)
@@ -477,7 +528,7 @@ class VoIP
         end
       }
     end
-    if userid == @uid
+    if userid == @uid && type == 1
       @receivetimes[index] = Time.now.to_f
       if @receivetimes.size > 50
         s = 0

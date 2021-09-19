@@ -39,12 +39,19 @@ class Conference
       @transmitter_y = -1
       @decoder = Opus::Decoder.new(48000, channels)
       @losses = []
+      @vst_lastpriority = 2 ** 31
+      @vsts = []
+      @pvsts = []
       flags = 0x200000
       flags |= 256 if spatialization == 1
       ch = @channels
       ch = 2 if spatialization == 1
       @stream = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
       @whisper = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
+      @preprocessor = nil
+      @vst_target = @stream
+      @predecoder = nil
+      @preencoder = nil
       @username = username
       @hrtf = nil
       @hrtf_effect = nil
@@ -61,8 +68,12 @@ class Conference
     end
 
     def set_mixer(mixer, whispermixer)
-      Bass::BASS_Mixer_StreamAddChannel.call(mixer, @stream, 0)
-      Bass::BASS_Mixer_StreamAddChannel.call(whispermixer, @whisper, 0)
+      return if @channel_mixer == mixer
+      @channel_mixer = mixer
+      @mutex.synchronize {
+        Bass::BASS_Mixer_StreamAddChannel.call(mixer, @stream, 0)
+        Bass::BASS_Mixer_StreamAddChannel.call(whispermixer, @whisper, 0)
+      }
     end
 
     def setvolume(volume)
@@ -212,13 +223,91 @@ class Conference
       @mutex.synchronize {
         Bass::BASS_StreamFree.call(@stream)
         Bass::BASS_StreamFree.call(@whisper)
+        Bass::BASS_StreamFree.call(@preprocessor) if @preprocessor != nil
+        @predecoder.free if @predecoder != nil
+        @preencoder.free if @preencoder != nil
         @decoder.free
         @stream = nil
-        @decoder = nil
+        @preprocessor = @preencoder = @predecoder = @decoder = nil
       }
       @thread.exit if @thread != nil
     rescue Exception
       log(2, "Conference: Transmitter free error: " + $!.to_s + " " + $@.to_s)
+    end
+
+    def set_vst_target(target = :stream)
+      t = nil
+      if target == :preprocessor
+        preprocessor_init
+      end
+      if target == :stream
+        t = @stream
+      elsif target == :preprocessor && @preprocessor != nil
+        t = @preprocessor
+      end
+      return if t == nil
+      @vst_target = t
+      for i in 0...@vsts.size
+        v = Bass::VST.new(@vsts[i].file, t, @vsts[i].priority)
+        v.import(:bank, @vsts[i].export(:bank))
+        @vsts[i].free
+        @vsts[i] = v
+      end
+    end
+
+    def preprocessor_init
+      if @preprocessor == nil
+        @preprocessor = Bass::BASS_StreamCreate.call(48000, @channels, 0x200000, -1, nil)
+        @predecoder = Opus::Decoder.new(48000, @channels)
+        @preencoder = Opus::Encoder.new(48000, @channels)
+      end
+    end
+
+    def preprocess(frame, bitrate = 128)
+      preprocessor_init
+      dt = @predecoder.decode(frame)
+      @preencoder.bitrate = bitrate * 1000
+      Bass::BASS_StreamPutData.call(@preprocessor, dt, dt.bytesize)
+      nd = ""
+      while nd.bytesize < dt.bytesize
+        plc = "\0" * (dt.bytesize - nd.bytesize)
+        Bass::BASS_ChannelGetData.call(@preprocessor, plc, plc.bytesize)
+        nd += plc
+      end
+      nframe = @preencoder.encode(nd, dt.bytesize / 2.0 / @channels)
+      nframe
+    end
+
+    def vsts
+      @vsts
+    end
+
+    def vst_remove(index)
+      v = @vsts[index]
+      if v != nil
+        @vsts.delete_at(index)
+        v.free
+      end
+    end
+
+    def vst_add(file)
+      return if @vst_lastpriority < 8
+      @vst_lastpriority -= 1
+      v = Bass::VST.new(file, @vst_target, @vst_lastpriority)
+      @vsts.push(v)
+    end
+
+    def vst_move(index, pos)
+      @vsts.insert(pos, @vsts.delete_at(index))
+      vsts_reprioritize
+    end
+
+    def vsts_reprioritize
+      @vst_lastpriority = 2 ** 31
+      for i in 0...@vsts.size
+        @vst_lastpriority -= 1
+        @vsts[i].priority = @vst_lastpriority
+      end
     end
 
     private
@@ -263,12 +352,14 @@ class Conference
                       ry = 0
                       ry = -0.2 if @spatialization == 2
                       rz = -0.075 if rz == 0
+                      @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
                       out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
                     else
                       rx = @rx
                       rz = @ry
                       ry = 0
                       rz = -0.075 if rz == 0
+                      @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
                       out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
                     end
                   else
@@ -328,6 +419,7 @@ class Conference
                 rz = @ry
                 ry = 0
                 rz = -0.075 if rz == 0
+                @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
                 out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
               else
                 rout = out.unpack("f" * (out.bytesize / 4))
@@ -340,6 +432,439 @@ class Conference
             end
             stream = @stream
             stream = @whisper if type == 3
+            ps = 0
+            ps = Bass::BASS_StreamPutData.call(stream, out, out.bytesize) if @stream != nil
+            ps += Bass::BASS_ChannelGetData.call(stream, nil, 0) if stream != nil
+            fl = 2
+            fl = 4 if @spatialization == 1 || @spatialization == 2
+            ch = @channels
+            ch = 2 if @spatialization == 1 || @spatialization == 2
+            if ps - out.bytesize > 48000 * ch * fl * 0.25
+              dt = "\0" * ps
+              Bass::BASS_ChannelGetData.call(stream, dt, dt.bytesize)
+            end
+          }
+        end
+        Thread.stop
+      }
+    rescue Exception
+      log(2, "Conference: Decoding error: " + $!.to_s + " " + $@.to_s)
+    end
+  end
+
+  class Stream
+    attr_reader :decoder, :stream
+    attr_reader :listener_x, :listener_y, :stream_x, :stream_y, :user_x, :user_y
+    attr_reader :streamid, :userid, :username
+    attr_accessor :name
+    attr_reader :losses
+
+    def initialize(channels, framesize, preskip, starttime, spatialization, position, x, y, streamid, name, userid, username, volume = nil)
+      @channels = channels
+      @framesize = framesize
+      @lastframetime = starttime
+      @preskip = preskip
+      @listener_dir = 0
+      @listener_x = -1
+      @listener_y = -1
+      @position = position
+      @stream_x = x
+      @stream_y = y
+      @user_x = stream_x
+      @user_y = stream_y
+      @name = name
+      @decoder = Opus::Decoder.new(48000, channels)
+      @losses = []
+      @vst_lastpriority = 2 ** 31
+      @vsts = []
+      @pvsts = []
+      flags = 0x200000
+      flags |= 256 if spatialization == 1
+      ch = @channels
+      ch = 2 if spatialization == 1
+      @stream = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
+      @preprocessor = nil
+      @vst_target = @stream
+      @predecoder = nil
+      @preencoder = nil
+      @userid = userid
+      @username = username
+      @hrtf = nil
+      @hrtf_effect = nil
+      @spatialization = spatialization
+      @mutex = Mutex.new
+      setvolume(volume)
+      @sec = 0
+      @fsec = 0
+      @queue = {}
+      @starttime = Time.now.to_f
+      @lasttime = Time.now.to_f
+      @ogg_mutex = Mutex.new
+      @thread = Thread.new { thread }
+    end
+
+    def set_mixer(mixer)
+      Bass::BASS_Mixer_StreamAddChannel.call(mixer, @stream, 0)
+    end
+
+    def setvolume(volume)
+      if volume.is_a?(Array)
+        vol = volume[0]
+        @volume = vol
+      else
+        @volume = 100
+      end
+      update_position
+    end
+
+    def set_user_position(x, y)
+      @user_x, @user_y = user_x, user_y
+      update_position
+    end
+
+    def move(nx, ny)
+      return if nx <= 0 || ny <= 0
+      @stream_x = nx
+      @stream_y = ny
+      update_position
+    end
+
+    def update_position
+      @listener_x = @position.x
+      @listener_y = @position.y
+      @listener_dir = @position.dir
+      if @listener_y > 0 && @listener_x > 0
+        if @stream_x > 0
+          @rx = (@stream_x - @listener_x) / 8.0
+          @ry = (@stream_y - @listener_y) / 8.0
+        elsif @stream_x == -1
+          @rx = 0
+          @ry = 0
+        else
+          @rx = (@user_x - @listener_x) / 8.0
+          @ry = (@user_y - @listener_y) / 8.0
+        end
+        if @position.dir != 0 && @rx != 0 && @ry != 0
+          sn = Math::sin(Math::PI / 180 * -@listener_dir)
+          cs = Math::cos(Math::PI / 180 * -@listener_dir)
+          px = @rx * cs - @ry * sn
+          py = @rx * sn + @ry * cs
+          @rx = px
+          @ry = py
+        end
+        pos = @rx
+        pos = -1 if pos < -1
+        pos = 1 if pos > 1
+        vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * @volume / 100.0
+        vol = 0 if vol < 0
+        @mutex.synchronize {
+          if @spatialization == 0
+            Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
+          end
+          Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
+        }
+      end
+    end
+
+    def set_hrtf(hrtf)
+      @mutex.synchronize {
+        @hrtf = hrtf
+        @hrtf_effect = nil
+        @hrtf_effect = @hrtf.add_effect(@channels) if @hrtf != nil
+      }
+    end
+
+    def reset
+      @mutex.synchronize {
+        @decoder.reset
+      }
+    end
+
+    def begin_save(dir, id, savetime)
+      @ogg_mutex.synchronize {
+        msec = ((Time.now.to_f - savetime) * 1000).round
+        file = dir + "/streams/#{msec}_#{id}_#{@username}_#{@streamid}.opus"
+        @lastframetime = savetime
+        @ogg = ([nil, 0, 0, 0, 0, 0, 0, 0, 0, 0] + [0] * 282 + [0, 0, 0, 0, 0, 0, 0]).pack("piiiiqiiii" + "C" * 282 + "iiiiiqq")
+        @ogg_file = File.open(file, "wb")
+        @ogg_lastpacket = nil
+        $ogg_stream_init.call(@ogg, rand(2 ** 32) - 2 ** 31)
+        head = "OpusHead".b
+        head += [1].pack("C")
+        head += [@channels].pack("C")
+        head += [@preskip].pack("S")
+        head += [48000].pack("I")
+        head += [0].pack("S")
+        head += [0].pack("C")
+        @packetno = 0
+        @granulepos = 0
+        ogg_addpacket(head, true, false)
+        tags = "OpusTags".b
+        ver = Opus.get_version_string.to_s
+        tags += [ver.bytesize].pack("I")
+        tags += ver
+        tags += [1].pack("I")
+        encinfo = "ENCODER=ELTEN"
+        tags += [encinfo.bytesize].pack("I")
+        tags += encinfo
+        ogg_addpacket(tags, false, false, false)
+      }
+    end
+
+    def ogg_addpacket(data, b_o_s = false, e_o_s = false, writepages = true)
+      if @ogg_lastpacket != nil
+        $ogg_stream_packetin.call(@ogg, @ogg_lastpacket)
+        if writepages
+          og = [nil, 0, nil, 0].pack("pipi")
+          while $ogg_stream_pageout.call(@ogg, og) != 0
+            page = og.unpack("iiii")
+            head = "\0" * page[1]
+            body = "\0" * page[3]
+            $rtlmovememory.call(head, page[0], head.bytesize)
+            $rtlmovememory.call(body, page[2], body.bytesize)
+            @ogg_file.write(head)
+            @ogg_file.write(body)
+          end
+        end
+      end
+      if data != nil
+        @packetno += 1
+        @ogg_lastpacket = [data, data.bytesize, (b_o_s) ? (1) : (0), (e_o_s) ? (1) : (0), @granulepos, @packetno].pack("piiiqq")
+      end
+    end
+
+    def end_save
+      return if @ogg == nil
+      @ogg_mutex.synchronize {
+        ogg_addpacket("") if @ogg_lastpacket == nil
+        pc = @ogg_lastpacket.unpack("piiiqq")
+        pc[3] = 1
+        @ogg_lastpacket = pc.pack("piiiqq")
+        ogg_addpacket(nil)
+        @ogg_file.close
+        $ogg_stream_clear.call(@ogg)
+        @ogg = @ogg_file = nil
+      }
+    end
+
+    def put(frame, frame_id = 0, index = -1)
+      @lastindex ||= 0
+      if @thread != nil && @thread.status != false
+        n = index
+        n += 65535 if n < 100
+        if @lastindex < index || index < 100
+          @queue[n] = @lastqueue = [frame, index, frame_id]
+          @thread.wakeup
+          @lastindex = index
+        end
+      end
+    end
+
+    def free
+      end_save if @ogg != nil
+      @mutex.synchronize {
+        Bass::BASS_StreamFree.call(@stream)
+        Bass::BASS_StreamFree.call(@preprocessor) if @preprocessor != nil
+        @predecoder.free if @predecoder != nil
+        @preencoder.free if @preencoder != nil
+        @decoder.free
+        @stream = nil
+        @preprocessor = @preencoder = @predecoder = @decoder = nil
+      }
+      @thread.exit if @thread != nil
+    rescue Exception
+      log(2, "Conference: Transmitter free error: " + $!.to_s + " " + $@.to_s)
+    end
+
+    def set_vst_target(target = :stream)
+      t = nil
+      if target == :preprocessor
+        preprocessor_init
+      end
+      if target == :stream
+        t = @stream
+      elsif target == :preprocessor && @preprocessor != nil
+        t = @preprocessor
+      end
+      return if t == nil
+      @vst_target = t
+      for i in 0...@vsts.size
+        v = Bass::VST.new(@vsts[i].file, t, @vsts[i].priority)
+        v.import(:bank, @vsts[i].export(:bank))
+        @vsts[i].free
+        @vsts[i] = v
+      end
+    end
+
+    def preprocessor_init
+      if @preprocessor == nil
+        @preprocessor = Bass::BASS_StreamCreate.call(48000, @channels, 0x200000, -1, nil)
+        @predecoder = Opus::Decoder.new(48000, @channels)
+        @preencoder = Opus::Encoder.new(48000, @channels)
+      end
+    end
+
+    def preprocess(frame, bitrate = 128)
+      preprocessor_init
+      dt = @predecoder.decode(frame)
+      @preencoder.bitrate = bitrate * 1000
+      Bass::BASS_StreamPutData.call(@preprocessor, dt, dt.bytesize)
+      nd = ""
+      while nd.bytesize < dt.bytesize
+        plc = "\0" * (dt.bytesize - nd.bytesize)
+        Bass::BASS_ChannelGetData.call(@preprocessor, plc, plc.bytesize)
+        nd += plc
+      end
+      nframe = @preencoder.encode(nd, dt.bytesize / 2.0 / @channels)
+      nframe
+    end
+
+    def vsts
+      @vsts
+    end
+
+    def vst_remove(index)
+      v = @vsts[index]
+      if v != nil
+        @vsts.delete_at(index)
+        v.free
+      end
+    end
+
+    def vst_add(file)
+      return if @vst_lastpriority < 8
+      @vst_lastpriority -= 1
+      v = Bass::VST.new(file, @vst_target, @vst_lastpriority)
+      @vsts.push(v)
+    end
+
+    def vst_move(index, pos)
+      @vsts.insert(pos, @vsts.delete_at(index))
+      vsts_reprioritize
+    end
+
+    def vsts_reprioritize
+      @vst_lastpriority = 2 ** 31
+      for i in 0...@vsts.size
+        @vst_lastpriority -= 1
+        @vsts[i].priority = @vst_lastpriority
+      end
+    end
+
+    private
+
+    def thread
+      last_frame_id = 0
+      loop {
+        sleep(0.001)
+        while @queue.size > 0
+          key = @queue.keys.sort.first
+          ar = @queue[key]
+          frame, index, frame_id = ar
+          @queue.delete(key)
+          fid = frame_id
+          fid += 60000 if fid > 0 && fid < 100 && last_frame_id > 59000
+          lostframes = 0
+          if last_frame_id != 0
+            if frame_id == 0
+              lostframes = ((Time.now.to_f - @lastframetime - @framesize / 1000.0) / (@framesize / 1000.0)).floor
+            else
+              lostframes = fid - last_frame_id - 1
+              @losses.push(lostframes)
+              @losses.delete_at(0) while @losses.size > 6000
+              lf = lostframes
+              lf = 3 if lf > 3
+              lf.times {
+                pcm = ""
+                if lostframes == 1
+                  pcm = @decoder.decode(nil) if @decoder != nil
+                else
+                  pcm = @decoder.decode(frame, true) if @decoder != nil
+                end
+                out = ""
+                if @spatialization == 1 || @spatialization == 2
+                  out = pcm.unpack("s" * (pcm.bytesize / 2)).map { |s| s / 32768.0 }.pack("f" * (pcm.bytesize / 2))
+                  suc = false
+                  if @hrtf != nil && @rx != nil && @ry != nil
+                    suc = true
+                    if @spatialization == 1 || (@rx != 0 || @ry != 0)
+                      rx = @rx
+                      rz = @ry
+                      ry = 0
+                      ry = -0.2 if @spatialization == 2
+                      rz = -0.075 if rz == 0
+                      @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
+                      out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
+                    else
+                      rx = @rx
+                      rz = @ry
+                      ry = 0
+                      rz = -0.075 if rz == 0
+                      @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
+                      out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
+                    end
+                  else
+                    rout = out.unpack("f" * (out.bytesize / 4))
+                    fout = []
+                    rout.each { |f| fout.push(f, f) }
+                    out = fout.pack("f" * fout.size)
+                  end
+                else
+                  out = pcm
+                end
+                stream = @stream
+                Bass::BASS_StreamPutData.call(stream, out, out.bytesize) if stream != nil
+              }
+            end
+          end
+          last_frame_id = frame_id
+          update_position if @listener_x != @position.x || @listener_y != @position.y || @listener_dir != @position.dir
+          @ogg_mutex.synchronize {
+            if @ogg != nil
+              if lostframes > 0
+                e = Opus::Encoder.new(48000, @channels)
+                fr = e.encode("\0" * @framesize * 48 * 2 * @channels, 48 * @framesize)
+                e.free
+                lostframes.times {
+                  @granulepos += @framesize * 48
+                  ogg_addpacket(fr)
+                }
+              end
+              @granulepos += @framesize * 48
+              ogg_addpacket(frame)
+            end
+          }
+          @lastframetime = Time.now.to_f
+          @mutex.synchronize {
+            pcm = ""
+            pcm = @decoder.decode(frame) if @decoder != nil
+            if @sec != Time.now.to_i
+              @sec = Time.now.to_i
+              @fsec = 0
+            end
+            @fsec += 1
+            out = ""
+            if @spatialization == 1 || @spatialization == 2
+              out = pcm.unpack("s" * (pcm.bytesize / 2)).map { |s| s / 32768.0 }.pack("f" * (pcm.bytesize / 2))
+              suc = false
+              if @hrtf != nil && @rx != nil && @ry != nil
+                suc = true
+                rx = @rx
+                rz = @ry
+                ry = 0
+                rz = -0.075 if rz == 0
+                @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
+                out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
+              else
+                rout = out.unpack("f" * (out.bytesize / 4))
+                fout = []
+                rout.each { |f| fout.push(f, f) }
+                out = fout.pack("f" * fout.size)
+              end
+            else
+              out = pcm
+            end
+            stream = @stream
             ps = 0
             ps = Bass::BASS_StreamPutData.call(stream, out, out.bytesize) if @stream != nil
             ps += Bass::BASS_ChannelGetData.call(stream, nil, 0) if stream != nil
@@ -462,6 +987,7 @@ class Conference
                 rz = @ry
                 ry = 0
                 rz = -0.075 if rz == 0
+                @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
                 out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
               end
             end
@@ -492,6 +1018,149 @@ class Conference
     end
   end
 
+  class StreamSource
+    def initialize
+      raise(RuntimeError, "Abstract class")
+    end
+
+    def set_mixer(mixer)
+      if @mixer != mixer
+        Bass::BASS_Mixer_StreamAddChannel.call(mixer, @stream, 0)
+        @mixer = mixer
+      end
+    end
+
+    def free
+      Bass::BASS_StreamFree.call(@stream)
+    end
+
+    def stream
+      @stream
+    end
+
+    def name
+      @name || ""
+    end
+
+    def name=(n)
+      @name = n
+    end
+
+    def volume
+      vol = 0
+      vl = [0].pack("f")
+      Bass::BASS_ChannelGetAttribute.call(@stream, 2, vl)
+      vol = (vl.unpack("f").first * 100).round
+      return vol
+    end
+
+    def volume=(vol)
+      vol = 100 if vol > 100
+      vol = 0 if vol < 0
+      Bass::BASS_ChannelSetAttribute.call(@stream, 2, [(vol / 100.0)].pack("f").unpack("i")[0])
+      vol
+    end
+  end
+
+  class StreamSourceFile < StreamSource
+    attr_reader :file
+
+    def initialize(file)
+      @file = file
+      @name = File.basename(file, File.extname(file))
+      @stream = Bass::BASS_StreamCreateFile.call(0, unicode(file), 0, 0, 0, 0, [256 | 0x80000000 | 0x200000].pack("I").unpack("i").first)
+    end
+  end
+
+  class StreamSourceCard < StreamSource
+    attr_reader :cardid
+
+    def initialize(cardid)
+      @cardid = cardid
+      @name = "card"
+      Bass::BASS_RecordInit.call(cardid)
+      Bass::BASS_RecordSetDevice.call(cardid)
+      @stream = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
+      Bass.record_resetdevice
+    end
+  end
+
+  class OutStream
+    attr_accessor :x, :y, :frame_id
+    attr_reader :name, :id, :mutex, :buf, :channels, :output, :listener, :encoder, :sources
+
+    def initialize(name, id, channels, x, y)
+      @name, @id, @x, @y = name, id, x, y
+      @buf = ""
+      @mutex = Mutex.new
+      @encoder = Opus::Encoder.new(48000, channels)
+      @mixer = Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x1000 | 0x200000)
+      Bass::BASS_ChannelSetAttribute.call(@mixer, 5, [1].pack("F").unpack("i")[0])
+      Bass::BASS_ChannelSetAttribute.call(@mixer, 13, [0.1].pack("F").unpack("i")[0])
+      @channels = channels
+      @frame_id = 0
+      @output = Bass::BASS_Split_StreamCreate.call(@mixer, 0x200000, nil)
+      @listener = Bass::BASS_Split_StreamCreate.call(@mixer, 0x200000, nil)
+      @sources = []
+    end
+
+    def add_source(source)
+      source.set_mixer(@mixer)
+      @sources.push(source)
+    end
+
+    def add_file(file)
+      s = StreamSourceFile.new(file)
+      add_source(s)
+    end
+
+    def add_card(cardid)
+      s = StreamSourceCard.new(cardid)
+      add_source(s)
+    end
+
+    def remove_source(index)
+      s = @sources[index]
+      if s != nil
+        s.free
+        @sources.delete(s)
+      end
+    end
+
+    def volume
+      vol = 0
+      @mutex.synchronize {
+        vl = [0].pack("f")
+        Bass::BASS_ChannelGetAttribute.call(@mixer, 2, vl)
+        vol = (vl.unpack("f").first * 100).round
+      }
+      return vol
+    end
+
+    def volume=(vol)
+      vol = 100 if vol > 100
+      vol = 0 if vol < 0
+      @mutex.synchronize {
+        Bass::BASS_ChannelSetAttribute.call(@mixer, 2, [(vol / 100.0)].pack("f").unpack("i")[0])
+      }
+      vol
+    end
+
+    def set_mixer(mixer)
+      Bass::BASS_Mixer_StreamAddChannel.call(mixer, @listener, 0)
+    end
+
+    def free
+      @sources.each { |s| s.free }
+      @sources.clear
+      Bass::BASS_StreamFree.call(@mixer) if @mixer != nil
+      @encoder.free if @encoder != nil
+      @channels = 0
+      @mixer = nil
+      @encoder = nil
+    end
+  end
+
   def initialize(nick = nil)
     @whisper = 0
     @channels = 0
@@ -503,7 +1172,6 @@ class Conference
     @stream_volume = 50
     @stream_lastfile = nil
     @stream_lastposition = nil
-    @card = nil
     @pushtotalk = false
     @pushtotalk_keys = []
     @chid = 0
@@ -521,7 +1189,9 @@ class Conference
     @muteme = true
     @transmitters = {}
     @objects = {}
-    @volumes = { @username => [100, true] }
+    @streams = {}
+    @outstreams = []
+    @volumes = { @username => [100, true, true] }
     @volume = 100
     @muted = false
     @stream_mutex = Mutex.new
@@ -550,6 +1220,7 @@ class Conference
     @whisper_sound = nil
     @whisper_sound = Bass::BASS_StreamCreateFile.call(1, snd, 0, 0, snd.bytesize, 0, 256) if snd != nil
     @device = nil
+    @sources = []
     prepare_mixers
     @recorder_thread = Thread.new { recorder_thread }
     @output_thread = Thread.new { output_thread }
@@ -566,6 +1237,36 @@ class Conference
     @diceroll_hooks = []
     @card_hooks = []
     @change_hooks = []
+    @streams_hooks = []
+  end
+
+  def filestream(ind = -1)
+    if ind == -1
+      r = @sources.find { |s| s.is_a?(StreamSourceFile) }
+      return r if r != nil
+      for s in @outstreams
+        r = s.sources.find { |s| s.is_a?(StreamSourceFile) }
+        return r if r != nil
+      end
+      return nil
+    else
+      return nil if @outstreams[ind] == nil
+      @outstreams[ind].sources.find { |s| s.is_a?(StreamSourceFile) }
+    end
+  end
+
+  def cardstream(ind = -1)
+    if ind == -1
+      @sources.find { |s| s.is_a?(StreamSourceCard) }
+    else
+      return nil if @outstreams[ind] == nil
+      @outstreams[ind].sources.find { |s| s.is_a?(StreamSourceCard) }
+    end
+  end
+
+  def get_source(ind, sub)
+    return nil if @outstreams[ind] == nil
+    return @outstreams[ind].sources[sub]
   end
 
   def pushtotalk
@@ -593,6 +1294,7 @@ class Conference
   def begin_fullsave(dir)
     Dir.mkdir(dir) if !FileTest.exists?(dir)
     Dir.mkdir(dir + "/transmitters") if !FileTest.exists?(dir + "/transmitters")
+    Dir.mkdir(dir + "/streams") if !FileTest.exists?(dir + "/streams")
     @fullsave_dir = dir
     @fullsave_time = Time.now.to_f
     @fullsave_chat = File.open(dir + "/chat.csv", "wb")
@@ -601,6 +1303,9 @@ class Conference
     @fullsave_myrec = $vorbisrecorderinit.call(unicode(dir + "/myrec.ogg"), 48000, 2, 500000)
     for t in @transmitters.keys
       @transmitters[t].begin_save(dir, t, @fullsave_time)
+    end
+    for s in @streams.keys
+      @streams[s].begin_save(dir, s, @fullsave_time)
     end
     begin_save(dir + "/mixed.ogg")
   rescue Exception
@@ -640,6 +1345,9 @@ class Conference
       @fullsave_time = nil
       for t in @transmitters.values
         t.end_save
+      end
+      for s in @streams.values
+        s.end_save
       end
     end
     case File.extname(@saver_filename).downcase
@@ -689,24 +1397,22 @@ class Conference
 
   def add_card(cardid, listen = false)
     log(-1, "Conference: mixing card #{cardid}")
-    remove_card if @card != nil
-    Bass::BASS_RecordInit.call(cardid)
-    Bass::BASS_RecordSetDevice.call(cardid)
-    @card = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
-    @card_uploader = Bass::BASS_Split_StreamCreate.call(@card, 0x200000, nil)
-    @card_listener = Bass::BASS_Split_StreamCreate.call(@card, 0x200000, nil)
-    Bass::BASS_Mixer_StreamAddChannel.call(@output_mixer, @card_uploader, 0)
-    Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @card_listener, 0) if listen
-    Bass.record_resetdevice
+    remove_card if cardstream != nil
+    s = StreamSourceCard.new(cardid)
+    @sources.push(s)
+    if listen
+      s.set_mixer(@stream_mixer)
+    else
+      s.set_mixer(@output_mixer)
+    end
   end
 
   def remove_card
     log(-1, "Conference: unmixing cards")
-    if @card != nil
-      Bass::BASS_ChannelStop.call(@card)
-      Bass::BASS_StreamFree.call(@card)
+    for s in @sources.find_all { |s| s.is_a?(StreamSourceCard) }.dup
+      s.free
+      @sources.delete(s)
     end
-    @card = @card_uploader = @card_listener = nil
   end
 
   def set_stream(file = nil, position = 0)
@@ -715,35 +1421,31 @@ class Conference
     file = @stream_lastfile if file == nil
     @stream_lastfile = file
     if file != nil
-      remove_stream if @stream != nil
+      remove_stream if filestream != nil
       @stream_mutex.synchronize {
-        @stream = Bass::BASS_StreamCreateFile.call(0, unicode(file), 0, 0, 0, 0, [256 | 0x80000000 | 0x200000].pack("I").unpack("i").first)
-        Bass::BASS_ChannelSetAttribute.call(@stream, 13, [0.1].pack("F").unpack("i")[0])
-        Bass::BASS_ChannelSetAttribute.call(@stream, 5, [1].pack("F").unpack("i")[0])
-        @stream_uploader = Bass::BASS_Split_StreamCreate.call(@stream, 0x200000, nil)
-        @stream_listener = Bass::BASS_Split_StreamCreate.call(@stream, 0x200000, nil)
-        Bass::BASS_Mixer_StreamAddChannel.call(@output_mixer, @stream_uploader, 0)
-        Bass::BASS_Mixer_StreamAddChannel.call(@stream_mixer, @stream_listener, 0)
-        Bass::BASS_ChannelSetAttribute.call(@stream_uploader, 2, [(@stream_volume / 100.0)].pack("f").unpack("i")[0]) if @stream_uploader != nil
-        Bass::BASS_ChannelSetAttribute.call(@stream_listener, 2, [(@stream_volume / 100.0)].pack("f").unpack("i")[0]) if @stream_listener != nil
+        s = StreamSourceFile.new(file)
+        s.volume = @stream_volume
+        @sources.push(s)
+        s.set_mixer(@stream_mixer)
       }
       self.stream_position = position if position != 0 && position != nil
       @change_hooks.each { |h| h.call("streaming", true) }
     end
-    return @stream
   end
 
   def remove_stream(hook = true)
     log(-1, "Conference: removing file stream")
     @stream_mutex.synchronize {
-      Bass::BASS_StreamFree.call(@stream) if @stream != nil
-      @stream = @mystream = @stream_listener = @stream_uploader = nil
+      for s in @sources.find_all { |s| s.is_a?(StreamSourceFile) }.dup
+        s.free
+        @sources.delete(s)
+      end
     }
     @change_hooks.each { |h| h.call("streaming", false) } if hook
   end
 
   def streaming?
-    return @stream != nil
+    return filestream != nil
   end
 
   def input_volume
@@ -787,27 +1489,27 @@ class Conference
   end
 
   def stream_position
-    return 0 if @stream == nil
+    return 0 if filestream == nil
     pos = 0
     @stream_mutex.synchronize {
-      bpos = Bass::BASS_ChannelGetPosition.call(@stream, 0)
-      pos = Bass::BASS_ChannelBytes2Seconds.call(@stream, bpos)
+      bpos = Bass::BASS_ChannelGetPosition.call(filestream.stream, 0)
+      pos = Bass::BASS_ChannelBytes2Seconds.call(filestream.stream, bpos)
     }
     return pos
   end
 
   def stream_position=(pos)
     pos = 0 if pos < 0
-    return 0 if @stream == nil
+    return 0 if filestream == nil
     @stream_mutex.synchronize {
-      bpos = Bass::BASS_ChannelSeconds2Bytes.call(@stream, pos)
-      Bass::BASS_ChannelSetPosition.call(@stream, bpos, 0)
+      bpos = Bass::BASS_ChannelSeconds2Bytes.call(filestream.stream, pos)
+      Bass::BASS_ChannelSetPosition.call(filestream.stream, bpos, 0)
     }
     return pos
   end
 
   def toggle_stream
-    if @stream_uploader != nil
+    if filestream != nil
       @stream_lastposition = stream_position
       remove_stream(false)
     else
@@ -816,27 +1518,52 @@ class Conference
   end
 
   def stream_volume
-    return @stream_volume if @stream_uploader == nil
+    return @stream_volume if filestream == nil
     vol = 0
     @stream_mutex.synchronize {
-      if @stream_uploader != nil
-        vl = [0].pack("f")
-        Bass::BASS_ChannelGetAttribute.call(@stream_uploader, 2, vl)
-        vol = (vl.unpack("f").first * 100).round
-      end
+      vl = [0].pack("f")
+      Bass::BASS_ChannelGetAttribute.call(filestream.stream, 2, vl)
+      vol = (vl.unpack("f").first * 100).round
     }
     return vol
   end
 
   def stream_volume=(vol)
+    return if filestream == nil
     vol = 100 if vol > 100
     vol = 0 if vol < 0
     @stream_mutex.synchronize {
-      Bass::BASS_ChannelSetAttribute.call(@stream_uploader, 2, [(vol / 100.0)].pack("f").unpack("i")[0]) if @stream_uploader != nil
-      Bass::BASS_ChannelSetAttribute.call(@stream_listener, 2, [(vol / 100.0)].pack("f").unpack("i")[0]) if @stream_listener != nil
+      Bass::BASS_ChannelSetAttribute.call(filestream.stream, 2, [(vol / 100.0)].pack("f").unpack("i")[0])
       @stream_volume = vol
     }
     vol
+  end
+
+  def stream_add_empty(name = "", x = 0, y = 0)
+    id = @voip.stream_add(name, 2, x, y)
+    return nil if id == nil
+    s = OutStream.new(name, id, 2, x, y)
+    s.volume = @stream_volume
+    streams_callback
+    return s
+  end
+
+  def stream_add_file(file, name = "", x = 0, y = 0)
+    s = stream_add_empty(name, x, y)
+    return if s == nil
+    s.add_file(file)
+    s.set_mixer(@outstreams_mixer)
+    @outstreams.push(s)
+    streams_callback
+  end
+
+  def stream_remove(ind)
+    if @outstreams[ind] != nil
+      s = @outstreams[ind]
+      @outstreams.delete_at(ind)
+      s.free
+      streams_callback
+    end
   end
 
   def muted
@@ -897,10 +1624,10 @@ class Conference
     return id
   end
 
-  def setvolume(user, volume = 100, muted = false)
+  def setvolume(user, volume = 100, muted = false, streams_muted = false)
     volume = 100 if volume > 100
     volume = 10 if volume < 10
-    v = [volume, muted]
+    v = [volume, muted, streams_muted]
     @volumes[user] = v
     for t in @transmitters.values
       t.setvolume(v) if t.username == user
@@ -910,6 +1637,11 @@ class Conference
     else
       @voip.unmute(user)
     end
+    if streams_muted
+      @voip.streams_mute(user)
+    else
+      @voip.streams_unmute(user)
+    end
     if user == @username
       if !muted
         Bass::BASS_ChannelSetAttribute.call(@myself_mixer, 2, [0.0].pack("F").unpack("i")[0])
@@ -917,6 +1649,11 @@ class Conference
       else
         Bass::BASS_ChannelSetAttribute.call(@myself_mixer, 2, [1.0].pack("F").unpack("i")[0])
         @muteme = true
+      end
+      if !streams_muted
+        Bass::BASS_ChannelSetAttribute.call(@outstreams_mixer, 2, [0.0].pack("F").unpack("i")[0])
+      else
+        Bass::BASS_ChannelSetAttribute.call(@outstreams_mixer, 2, [1.0].pack("F").unpack("i")[0])
       end
     end
     @volumes_hooks.each { |h| h.call(@volumes) }
@@ -940,6 +1677,26 @@ class Conference
 
   def admin(username)
     @voip.admin(username)
+  end
+
+  def supervise(userid)
+    @voip.supervise(userid)
+    t = @transmitters[userid]
+    t.set_vst_target(:preprocessor) if t != nil
+  end
+
+  def unsupervise(userid)
+    @voip.unsupervise(userid)
+    t = @transmitters[userid]
+    t.set_vst_target(:stream) if t != nil
+  end
+
+  def follow(channel)
+    @voip.follow(channel)
+  end
+
+  def unfollow(channel)
+    @voip.unfollow(channel)
   end
 
   def coordinates(userid)
@@ -992,6 +1749,10 @@ class Conference
     @change_hooks.push(block) if block != nil
   end
 
+  def on_streams(&block)
+    @streams_hooks.push(block) if block != nil
+  end
+
   def x
     return @position.x
   end
@@ -1017,6 +1778,7 @@ class Conference
         @position.y = (@height + 1) / 2
       end
     }
+    position_changed
   end
 
   def x=(nx)
@@ -1025,6 +1787,7 @@ class Conference
       nx = @width if nx > @width
       @position.x = nx
     }
+    position_changed
     nx
   end
 
@@ -1034,6 +1797,7 @@ class Conference
       ny = @height if ny > @height
       @position.y = ny
     }
+    position_changed
     ny
   end
 
@@ -1053,6 +1817,12 @@ class Conference
         for t in @transmitters.values
           t.free
         end
+        for s in @streams.values
+          s.free
+        end
+        for s in @sources
+          s.free
+        end
         for o in @objects.keys
           @objects[o].free
         end
@@ -1062,11 +1832,17 @@ class Conference
     end
     @saver_thread.exit if @saver_thread != nil
     begin
+      shoutcast_stop
       Bass::BASS_ChannelStop.call(@record)
       Bass::BASS_StreamFree.call(@record_mixer)
       Bass::BASS_StreamFree.call(@recordstream)
+      Bass::BASS_StreamFree.call(@outstreams_mixer)
       Bass::BASS_StreamFree.call(@channel_mixer)
       Bass::BASS_StreamFree.call(@whisper_mixer)
+      for s in @outstreams
+        s.free
+        @outstreams.delete(s)
+      end
       if subs
         @encoder_mutex.synchronize {
           @encoder.free if @encoder != nil
@@ -1084,12 +1860,6 @@ class Conference
       Bass::BASS_StreamFree.call(@myself_mixer)
       Bass::BASS_StreamFree.call(@listen_mixer)
       Bass::BASS_StreamFree.call(@processor_mixer)
-      Bass::BASS_StreamFree.call(@stream) if @stream != nil
-      Bass::BASS_StreamFree.call(@output_stream) if @output_stream != nil
-      if @card != nil
-        Bass::BASS_ChannelStop.call(@card)
-        Bass::BASS_StreamFree.call(@card)
-      end
       Bass::BASS_StreamFree.call(@output) if @output != 0
       Bass::BASS_StreamFree.call(@output_mixer)
     rescue Exception
@@ -1248,6 +2018,10 @@ class Conference
     @transmitters.dup
   end
 
+  def streams
+    @streams.dup
+  end
+
   def volumes
     @volumes.dup
   end
@@ -1284,7 +2058,95 @@ class Conference
     end
   end
 
+  def vsts(userid = 0)
+    if userid == 0
+      @vsts
+    elsif @transmitters[userid] != nil
+      @transmitters[userid].vsts
+    else
+      []
+    end
+  end
+
+  def vst_remove(index, userid)
+    if userid == 0
+      v = @vsts[index]
+      if v != nil
+        @vsts.delete_at(index)
+        v.free
+      end
+    elsif @transmitters[userid] != nil
+      @transmitters[userid].vst_remove(index)
+    end
+  end
+
+  def vst_add(file, userid = 0)
+    if userid == 0
+      return if @vst_lastpriority < 8
+      @vst_lastpriority -= 1
+      v = Bass::VST.new(file, @record_mixer, @vst_lastpriority)
+      @vsts.push(v)
+    elsif @transmitters[userid] != nil
+      @transmitters[userid].vst_add(file)
+    end
+  end
+
+  def vst_move(index, pos, userid = 0)
+    if userid == 0
+      @vsts.insert(pos, @vsts.delete_at(index))
+      vsts_reprioritize
+    elsif @transmitters[userid] != nil
+      @transmitters[userid].vst_move(index, pos)
+    end
+  end
+
+  def vsts_reprioritize(userid = 0)
+    if userid == 0
+      @vst_lastpriority = 2 ** 31
+      for i in 0...@vsts.size
+        @vst_lastpriority -= 1
+        @vsts[i].priority = @vst_lastpriority
+      end
+    elsif @transmitters[userid] != nil
+      @transmitters[userid].vsts_reprioritize
+    end
+  end
+
+  def shoutcast_start(server, pass, name = nil, pub = false, bitrate = 128)
+    log(-1, "Starting shoutcast stream to #{server}")
+    shoutcast_stop
+    @shoutcast = Bass::BASS_StreamCreate.call(48000, 2, 0x200000 | 256, -1, nil)
+    @shoutcast_enc = Bass::BASS_Encode_MP3_Start.call(@shoutcast, "-b #{bitrate}", 32, nil, nil)
+    s = Bass::BASS_Encode_CastInit.call(@shoutcast_enc, server, pass, "audio/mpeg", name, nil, nil, nil, nil, bitrate, (pub == true) ? (1) : (0))
+    @change_hooks.each { |h| h.call("shoutcast", true) } if s != 0
+  end
+
+  def shoutcast_stop
+    if @shoutcast != nil
+      log(-1, "Stopping shoutcast stream")
+      Bass::BASS_Encode_Stop.call(@shoutcast)
+      Bass::BASS_StreamFree.call(@shoutcast)
+      @shoutcast = nil
+      @change_hooks.each { |h| h.call("shoutcast", false) }
+    end
+  end
+
   private
+
+  def position_changed
+    if is_muted
+      @voip.send(31, "", @position.x, @position.y)
+    end
+  end
+
+  def streams_callback
+    hs = { streams: @outstreams.map { |s| { name: s.name, sources: sources_builder(s.sources), volume: s.volume, x: s.x, y: s.y } }, sources: sources_builder(@sources) }
+    @streams_hooks.each { |h| h.call(hs) }
+  end
+
+  def sources_builder(s)
+    return s.map { |c| { name: c.name, volume: c.volume } }
+  end
 
   def prepare_mixers
     @output_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x200000 | 0x1000)
@@ -1323,11 +2185,25 @@ class Conference
     @output = 0
     @output_stream = 0
     @stream_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000 | 0x200000 | 256)
+    Bass::BASS_ChannelSetAttribute.call(@stream_mixer, 5, [1].pack("F").unpack("i")[0])
     Bass::BASS_ChannelSetAttribute.call(@stream_mixer, 13, [0.1].pack("F").unpack("i")[0])
-    Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @stream_mixer, 0)
-    @stream = nil
+    @stream_mixer_listener = Bass::BASS_Split_StreamCreate.call(@stream_mixer, 0x200000, nil)
+    Bass::BASS_ChannelSetAttribute.call(@stream_mixer_listener, 5, [1].pack("F").unpack("i")[0])
+    Bass::BASS_ChannelSetAttribute.call(@stream_mixer_listener, 13, [0.1].pack("F").unpack("i")[0])
+    @stream_mixer_uploader = Bass::BASS_Split_StreamCreate.call(@stream_mixer, 0x200000, nil)
+    Bass::BASS_ChannelSetAttribute.call(@stream_mixer_uploader, 5, [1].pack("F").unpack("i")[0])
+    Bass::BASS_ChannelSetAttribute.call(@stream_mixer_uploader, 13, [0.1].pack("F").unpack("i")[0])
+    Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @stream_mixer_listener, 0)
+    Bass::BASS_Mixer_StreamAddChannel.call(@output_mixer, @stream_mixer_uploader, 0)
+    @outstreams_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x200000 | 0x1000 | 256)
+    Bass::BASS_ChannelSetAttribute.call(@outstreams_mixer, 13, [0.1].pack("F").unpack("i")[0])
+    Bass::BASS_ChannelSetAttribute.call(@outstreams_mixer, 5, [1].pack("F").unpack("i")[0])
+    Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @outstreams_mixer, 0)
     @record = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
     @record_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000 | 0x200000)
+    @vsts = []
+    @vst_lastpriority = 2 ** 31
+    @shoutcast = nil
     Bass::BASS_Mixer_StreamAddChannel.call(@record_mixer, @record, 0)
     @recordstream = Bass::BASS_StreamCreate.call(48000, 2, 0x200000, -1, nil)
     Bass::BASS_Mixer_StreamAddChannel.call(@output_mixer, @recordstream, 0x4000)
@@ -1341,6 +2217,11 @@ class Conference
       pos_x = -1 if pos_x < 1 || pos_x > 255
       pos_y = -1 if pos_y < 1 || pos_y > 255
       frame_id = p3 * 256 + p4
+      for s in @streams.values
+        if s.userid == userid
+          s.set_user_position(pos_x, pos_y)
+        end
+      end
       if @transmitters[userid] != nil
         @transmitters[userid].put(message, type, pos_x, pos_y, frame_id, index)
       end
@@ -1389,6 +2270,31 @@ class Conference
         end
       rescue Exception
         log(2, "Conference: receive encrypted whisper - #{$!.to_s}")
+      end
+    elsif type == 11
+      if @transmitters[userid] != nil
+        d = @transmitters[userid].preprocess(message, @encoder.bitrate)
+        @voip.send(1, d, p1, p2, p3, p4, userid, index)
+      end
+    elsif type == 21
+      streamid = p1 + p2 * 256
+      frame_id = p3 * 256 + p4
+      stream = @streams[streamid]
+      if stream != nil
+        stream.put(message, frame_id, index)
+      end
+    elsif type == 31
+      pos_x = p1
+      pos_y = p2
+      pos_x = -1 if pos_x < 1 || pos_x > 255
+      pos_y = -1 if pos_y < 1 || pos_y > 255
+      for s in @streams.values
+        if s.userid == userid
+          s.set_user_position(pos_x, pos_y)
+        end
+      end
+      if @transmitters[userid] != nil
+        @transmitters[userid].move(pos_x, pos_y)
       end
     elsif type == 101
       if @transmitters[userid] != nil
@@ -1471,8 +2377,10 @@ class Conference
           @framesize = params["channel"]["framesize"]
           @width = params["channel"]["width"]
           @height = params["channel"]["height"]
+          px, py = @position.x, @position.y
           @position.x = (@width + 1) / 2 if @position.x == 0 || @position.x > @width
           @position.y = (@height + 1) / 2 if @position.y == 0 || @position.y > @height
+          position_changed if px != @position.x || py != @position.y
           sfs = 20
           sfs = params["channel"]["framesize"] if params["channel"]["framesize"] < 20
           if @speexdsp_framesize != sfs
@@ -1500,7 +2408,7 @@ class Conference
             @output = Bass::BASS_Mixer_StreamCreate.call(48000, params["channel"]["channels"], 0x200000 | 0x1000)
             @output_stream = Bass::BASS_StreamCreate.call(48000, params["channel"]["channels"], 0x200000, -1, nil)
             Bass::BASS_Mixer_StreamAddChannel.call(@output, @output_mixer, 0)
-            Bass::BASS_Mixer_StreamAddChannel.call(@saver, @output_stream, 0x4000)
+            Bass::BASS_Mixer_StreamAddChannel.call(@saver, @output_stream, 0)
             @channels = params["channel"]["channels"]
             for t in @transmitters.keys
               @transmitters[t].free
@@ -1557,6 +2465,34 @@ class Conference
               log(-1, "Conference: unregistering object #{o}")
               @objects[o].free
               @objects.delete(o)
+            end
+          end
+          for s in @outstreams
+            s.set_mixer(@channel_mixer)
+          end
+          if params["channel"]["streams"].is_a?(Array)
+            upstreams = []
+            for s in params["channel"]["streams"]
+              sid = s["id"]
+              upstreams.push(sid)
+              if @streams.include?(sid)
+                @streams[sid].set_hrtf(@hrtf)
+                @streams[sid].set_mixer(@channel_mixer)
+              else
+                log(-1, "Conference: registering new stream #{s["name"]}")
+                username = ""
+                username = @transmitters[s["user"]].username if @transmitters[s["user"]] != nil
+                @streams[sid] = Stream.new(s["channels"], params["channel"]["framesize"], @encoder.preskip, @starttime, params["channel"]["spatialization"], @position, s["x"], s["y"], s["id"], s["name"], s["user"], username)
+                @streams[sid].set_hrtf(@hrtf) if params["channel"]["spatialization"] == 1 || params["channel"]["spatialization"] == 2
+                @streams[sid].set_mixer(@channel_mixer)
+              end
+            end
+            for s in @streams.keys
+              if !upstreams.include?(s)
+                log(-1, "Conference: unregistering stream #{s}")
+                @streams[s].free
+                @streams.delete(s)
+              end
             end
           end
           if params["channel"]["waiting_users"].is_a?(Array)
@@ -1646,7 +2582,7 @@ class Conference
             end
           end
         end
-        if !im
+        if !im && @chid != 0 && @chid != nil
           if $useechocancellation != nil && $useechocancellation > 0
             @lastframe_mutex.synchronize {
               if @lastframe != "" && @speexdsp_echo != nil && @lastframe.bytesize >= sf
@@ -1682,6 +2618,7 @@ class Conference
     audio = ""
     loop {
       sleep(@sltime)
+      maxBytes = 0
       if @output != nil && (sz = Bass::BASS_ChannelGetData.call(@output, buf, bufsize)) > 0
         @encoder_mutex.synchronize {
           if @framesize > 0 and @channels != nil
@@ -1691,6 +2628,7 @@ class Conference
             index = 0
             while au.bytesize - index >= fs
               part = au.byteslice(index...index + fs)
+              maxBytes += part.bytesize
               frame = nil
               if @output_stream != nil && @output_stream != 0
                 if @muteme && @whisper == 0
@@ -1740,7 +2678,44 @@ class Conference
           end
         }
       end
+      for s in @outstreams
+        if @encoder != nil
+          bitrate = @encoder.bitrate
+          bitrate = 32000 if bitrate < 32000
+          s.encoder.bitrate = bitrate if bitrate != nil and bitrate > 0
+        end
+        if s.output != nil && s.channels > 0 && (sz = Bass::BASS_ChannelGetData.call(s.output, buf, maxBytes)) > 0
+          s.mutex.synchronize {
+            if @framesize > 0 and s.channels != nil
+              fs = @framesize * 48 * 2 * s.channels
+              au = (s.buf || "").b + buf.byteslice(0...sz).b
+              s.buf.clear
+              index = 0
+              while au.bytesize - index >= fs
+                part = au.byteslice(index...index + fs)
+                frame = nil
+                if part.bytesize != part.b.count("\0")
+                  if s.encoder != nil
+                    frame = s.encoder.encode(part, fs / 2 / s.channels)
+                  end
+                  if frame != nil
+                    s.frame_id = 0 if s.frame_id > 60000
+                    s.frame_id += 1
+                    @voip.send(21, frame, s.id % 256, s.id / 256, s.frame_id / 256, s.frame_id % 256)
+                  end
+                end
+                index += fs
+              end
+              s.buf.replace(au.byteslice(index..-1))
+            else
+              s.buf.clear
+            end
+          }
+        end
+      end
     }
+  rescue Exception
+    log(2, "Conference, output error: #{$!.to_s}, #{$@.to_s}")
   end
 
   def saver_thread
@@ -1760,6 +2735,9 @@ class Conference
                   $vorbisrecordproc.call(0, buf.byteslice(0...sz), sz, @saver_file)
                 end
               end
+            end
+            if @shoutcast != nil
+              Bass::BASS_Encode_Write.call(@shoutcast, buf, sz)
             end
           end
         }

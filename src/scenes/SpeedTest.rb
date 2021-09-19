@@ -24,7 +24,7 @@ class Scene_SpeedTest
           mod = "forum_struct"
         when 3
           mod = "forum_struct"
-          params = { "gz" => 1, "useflags" => 1 }
+          params = { "zs" => 1, "useflags" => 1 }
         when 4
           mod = "messages_conversations"
         when 5

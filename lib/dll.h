@@ -24,6 +24,8 @@ LPSTR DLLIMPORT GetShaFile(char *file);
 int DLLIMPORT GetSha1(wchar_t *str, int size, char digest[SHA_DIGEST_LENGTH]);
 int DLLIMPORT GetSha256(wchar_t *str, int size, unsigned char digest[SHA256_DIGEST_LENGTH]);
 int DLLIMPORT GetSha512(wchar_t *str, int size, unsigned char digest[SHA512_DIGEST_LENGTH]);
+void DLLIMPORT S16LEToF32LE(short*, int, float*);
+void DLLIMPORT F32LEToS16LE(float*, int, short*);
 }
 
 #endif

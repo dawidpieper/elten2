@@ -424,3 +424,97 @@ if(s!=NULL)
 wcscpy_s(s, size, fileOpenWND.fileName);
 return fileOpenWND.status;
 }
+
+typedef struct EmptyWindowState {
+BOOL registered=FALSE;
+BOOL created=FALSE;
+BOOL shown=false;
+HWND hwnd;
+wchar_t *label;
+} EmptyWindowState;
+
+EmptyWindowState emptyWindowWND;
+
+LRESULT CALLBACK emptyWindowWNDProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+switch(Message) {
+case WM_DESTROY:
+destroyEmptyWindow();
+break;
+default:
+return DefWindowProc(hwnd, Message, wParam, lParam);
+}
+return 0;
+}
+
+int createEmptyWindow(wchar_t *label) {
+destroyEmptyWindow();
+emptyWindowWND.label = (wchar_t*)malloc(sizeof(wchar_t)*(wcslen(label)+1));
+wcscpy(emptyWindowWND.label, label);
+emptyWindowWND.shown=TRUE;
+if(!emptyWindowWND.registered) {
+WNDCLASSEX wc;
+memset(&wc,0,sizeof(wc));
+wc.cbSize		 = sizeof(WNDCLASSEX);
+wc.lpfnWndProc	 = emptyWindowWNDProc;
+wc.hInstance	 = GetModuleHandle(NULL);
+wc.hCursor		 = LoadCursor(NULL, IDC_ARROW);
+wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1);
+wc.lpszClassName = L"EltenEmptyWindow";
+wc.hIcon		 = LoadIcon(NULL, IDI_APPLICATION);
+wc.hIconSm		 = LoadIcon(NULL, IDI_APPLICATION);
+if(!RegisterClassEx(&wc)) return 0;
+}
+emptyWindowWND.registered=TRUE;
+emptyWindowWND.hwnd = CreateWindowEx(WS_EX_DLGMODALFRAME, L"EltenEmptyWindow", emptyWindowWND.label, WS_OVERLAPPED|WS_CAPTION, CW_USEDEFAULT, CW_USEDEFAULT, 640, 480, NULL, NULL, GetModuleHandle(NULL), NULL);
+if(emptyWindowWND.hwnd==NULL) return 0;
+ShowWindow(emptyWindowWND.hwnd, SW_HIDE);
+emptyWindowWND.created=TRUE;
+emptyWindowWND.shown=FALSE;
+return (int)emptyWindowWND.hwnd;
+}
+
+void showEmptyWindow() {
+ShowWindow(emptyWindowWND.hwnd, SW_MAXIMIZE);
+HWND hCurWnd = ::GetForegroundWindow();
+DWORD dwMyID = ::GetCurrentThreadId();
+DWORD dwCurID = ::GetWindowThreadProcessId(hCurWnd, NULL);
+AttachThreadInput(dwCurID, dwMyID, TRUE);
+SetWindowPos(emptyWindowWND.hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
+SetWindowPos(emptyWindowWND.hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE);
+SetForegroundWindow(emptyWindowWND.hwnd);
+::SetFocus(emptyWindowWND.hwnd);
+SetActiveWindow(emptyWindowWND.hwnd);
+AttachThreadInput(dwCurID, dwMyID, FALSE);
+SendMessage(emptyWindowWND.hwnd, WM_SETFOCUS, NULL, NULL);
+emptyWindowWND.shown=TRUE;
+}
+
+void updateEmptyWindow() {
+MSG Msg;
+while(PeekMessage(&Msg, emptyWindowWND.hwnd, 0, 0, PM_REMOVE)) {
+if(!IsDialogMessage(emptyWindowWND.hwnd, &Msg)) {
+TranslateMessage(&Msg);
+DispatchMessage(&Msg);
+}
+}
+}
+
+HWND getEmptyWindow() {
+return emptyWindowWND.hwnd;
+}
+
+void hideEmptyWindow() {
+ShowWindow(emptyWindowWND.hwnd, SW_HIDE);
+emptyWindowWND.shown=FALSE;
+}
+
+void destroyEmptyWindow() {
+if(emptyWindowWND.created) {
+emptyWindowWND.shown=false;
+emptyWindowWND.created=FALSE;
+DestroyWindow(emptyWindowWND.hwnd);
+if(emptyWindowWND.label!=NULL) free(emptyWindowWND.label);
+emptyWindowWND.label = NULL;
+emptyWindowWND.hwnd=0;
+}
+}

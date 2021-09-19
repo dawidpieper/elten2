@@ -225,3 +225,11 @@ return false;
 CloseHandle(hFile);
 return true;
  }
+
+void S16LEToF32LE(short* s, int size, float* o) {
+for(int i=0; i<size; ++i) o[i]=(float)(((float)s[i])/32767.0);
+}
+
+void F32LEToS16LE(float* s, int size, short* o) {
+for(int i=0; i<size; ++i) o[i]=(short)(((float)(s[i]*32767.0)));
+}

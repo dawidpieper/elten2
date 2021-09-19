@@ -9,6 +9,7 @@ module Bass
   BassLib = "bin\\bass"
   BassfxLib = "bin\\bass_fx"
   BassmixLib = "bin\\bassmix"
+  BassEltLib = "bin\\basselt"
   BASS_GetVersion = Win32API.new(BassLib, "BASS_GetVersion", "", "I")
   BASS_ErrorGetCode = Win32API.new(BassLib, "BASS_ErrorGetCode", "", "I")
   BASS_Init = Win32API.new(BassLib, "BASS_Init", "IIII", "I")
@@ -44,6 +45,7 @@ module Bass
   BASS_ChannelPause = Win32API.new(BassLib, "BASS_ChannelPause", "I", "I")
   BASS_ChannelGetData = Win32API.new(BassLib, "BASS_ChannelGetData", "IPI", "I")
   BASS_ChannelGetLength = Win32API.new(BassLib, "BASS_ChannelGetLength", "II", "L")
+  BASS_ChannelGetTags = Win32API.new(BassLib, "BASS_ChannelGetTags", "II", "I")
   BASS_ChannelGetAttribute = Win32API.new(BassLib, "BASS_ChannelGetAttribute", "IIP", "I")
   BASS_ChannelSetAttribute = Win32API.new(BassLib, "BASS_ChannelSetAttribute", "III", "I")
   BASS_ChannelSlideAttribute = Win32API.new(BassLib, "BASS_ChannelSlideAttribute", "IIII", "I")
@@ -58,6 +60,8 @@ module Bass
   BASS_StreamGetFilePosition = Win32API.new(BassLib, "BASS_StreamGetFilePosition", "II", "I")
   BASS_Mixer_StreamCreate = Win32API.new(BassmixLib, "BASS_Mixer_StreamCreate", "iii", "i")
   BASS_Mixer_StreamAddChannel = Win32API.new(BassmixLib, "BASS_Mixer_StreamAddChannel", "iii", "i")
+  BASSELT_ChannelGetPositionPtr = Win32API.new(BassEltLib, "BASSELT_ChannelGetPositionPtr", "IIP", "I")
+  BASSELT_ChannelGetLengthPtr = Win32API.new(BassEltLib, "BASSELT_ChannelGetLengthPtr", "IIP", "I")
 
   Errmsg = {
     1 => "MEM", 2 => "FILEOPEN", 3 => "DRIVER", 4 => "BUFLOST", 5 => "HANDLE", 6 => "FORMAT", 7 => "POSITION", 8 => "INIT",
@@ -173,6 +177,7 @@ module Bass
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
     plugins = ["bassopus", "bassflac", "bassmidi", "basswebm", "basswma", "bass_aac", "bass_ac3", "bass_spx", "basshls"]
+    plugins.delete("bass_aac")
     for pl in plugins
       if BASS_PluginLoad.call("bin\\#{pl}.dll") == 0
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
@@ -428,6 +433,249 @@ module Bass
     end
   end
 
+  class AudioInfo
+    class ID3Frame
+      attr_accessor :id, :size, :encrypted, :compressed, :grouped, :group, :numvalue, :strvalue
+      attr_reader :subframes
+
+      def initialize
+        @id = ""
+        @size = 0
+        @encrypted = false
+        @compressed = false
+        @grouped = false
+        @group = 0
+        @numvalue = 0
+        @strvalue = ""
+        @subframes = []
+      end
+    end
+
+    class Chapter
+      attr_accessor :id, :name, :time
+    end
+
+    def initialize(channel)
+      @channel = channel
+    end
+
+    def tags_ogg
+      return {} if @channel == nil || @channel == 0
+      tags = {}
+      t = BASS_ChannelGetTags.call(@channel, 2)
+      if t != 0
+        m = ""
+        movemem = Win32API.new("kernel32", "RtlMoveMemory", "pii", "i")
+        i = 0
+        pt = "\0"
+        m = ""
+        loop do
+          movemem.call(pt, t + i, 1)
+          if pt[0] != 0
+            m += "\0"
+            m[-1] = pt[0]
+          elsif m.size > 0
+            r = m.index("=") || m.size
+            k = m[0...r]
+            v = m[(r + 1)..-1] || ""
+            tags[k] = v
+            m = ""
+          elsif m.size == 0
+            break
+          end
+          i += 1
+        end
+      end
+      return tags
+    end
+
+    def tags_id3v2
+      return [] if @channel == nil || @channel == 0
+      tags = []
+      t = BASS_ChannelGetTags.call(@channel, 1)
+      if t != 0
+        q = t
+        movemem = Win32API.new("kernel32", "RtlMoveMemory", "pii", "i")
+        header = "\0" * 10
+        movemem.call(header, q, 10)
+        return nil if header[3] < 3 || header[3] > 4
+        unsync = (header[5] & 128) > 0
+        extheader = (header[5] & 64) > 0
+        size = header[9] + header[8] * 128 + header[7] * 16384 + header[6] * 2097152
+        q += 10
+        if extheader
+          ehsize = "\0" * 4
+          movemem.call(ehsize, q, 4)
+          q += 4 + ehsize[3] + ehsize[2] * 256 + ehsize[1] * 65536 + ehsize[0] * 16777216
+        end
+        tags = id3_getframes(q, size)
+      end
+      return tags
+    end
+
+    def id3_getframes(q, size)
+      movemem = Win32API.new("kernel32", "RtlMoveMemory", "pii", "i")
+      r = []
+      final = q + size
+      while q < final
+        header = "\0" * 10
+        movemem.call(header, q, 10)
+        q += 10
+        if header[0] == 0
+          q += 1
+          next
+        end
+        f = ID3Frame.new
+        f.id = header[0...4]
+        f.size = header[7] + header[6] * 256 + header[5] * 65536 + header[4] * 16777216
+        f.compressed = (header[9] & 128) > 0
+        f.encrypted = (header[9] & 64) > 0
+        f.grouped = (header[9] & 32) > 0
+        left = f.size
+        if (f.grouped)
+          t = "\0"
+          movemem.call(t, q, 1)
+          q += 1
+          f.group = t[0]
+          left -= 1
+        end
+        if !f.compressed && !f.encrypted
+          if f.id == "CHAP"
+            loop do
+              t = "\0"
+              movemem.call(t, q, 1)
+              q += 1
+              left -= 1
+              break if t[0] == 0
+            end
+            timings = "\0" * 16
+            movemem.call(timings, q, 16)
+            q += 16
+            left -= 16
+            if timings[0] != 0xff || timings[1] != 0xff || timings[2] != 0xff || timings[3] != 0xff
+              f.numvalue = timings[3] + timings[2] * 256 + timings[1] * 65536 + timings[0] * 16777216
+            else
+              f.numvalue = timings[7] + timings[6] * 256 + timings[5] * 65536 + timings[4] * 16777216
+            end
+            id3_getframes(q, left).each { |m| f.subframes.push(m) }
+          elsif f.id[0..0] == "T" && f.id[1..1] != "X"
+            t = "\0"
+            movemem.call(t, q, 1)
+            q += 1
+            left -= 1
+            encoding = :ASCII
+            if t[0] == 0
+              encoding = :ISO_8859_1
+            elsif t[0] == 1
+              u = "\0" * 2
+              movemem.call(u, q, 2)
+              q += 2
+              left -= 2
+              if u[1] == 0xff
+                encoding = :UnicodeFFE
+              else
+                encoding = :UTF16
+              end
+            elsif t[0] == 2
+              encoding = :UTF16
+            elsif t[0] == 3
+              encoding = :UTF8
+            end
+            content = "\0" * left
+            movemem.call(content, q, left)
+            case encoding
+            when :UTF8
+              content = content.deutf8
+            when :UTF16
+              content = deunicode(content)
+            when :UnicodeFFE
+              for i in 0...content.bytesize / 2
+                s = i * 2
+                c = content[s]
+                content[s] = content[s + 1]
+                content[s + 1] = c
+              end
+              content = deunicode(content)
+            end
+            f.strvalue = content
+            q += left
+            left = 0
+          end
+        end
+        q += left
+        r.push(f)
+      end
+      return r
+    end
+
+    def title
+      auto_get("TITLE", "TIT2")
+    end
+
+    def album
+      auto_get("ALBUM", "TALB")
+    end
+
+    def artist
+      auto_get("ARTIST", "TPE1")
+    end
+
+    def track_number
+      auto_get("TRACKNUMBER", "TRCK")
+    end
+
+    def chapters
+      return @chapters if @chapters != nil && @chapters != []
+      chapters = []
+      if (t = tags_ogg) != nil
+        for i in 0..999
+          d = sprintf("%03d", i)
+          if t["CHAPTER#{d}"] != nil && t["CHAPTER#{d}NAME"] != nil
+            tm = t["CHAPTER#{d}"]
+            time = tm.split(":").map { |x| x.to_f }.inject(0) { |a, b| a * 60 + b }
+            name = t["CHAPTER#{d}NAME"].deutf8
+            ch = Chapter.new
+            ch.time = time
+            ch.name = name
+            ch.id = i
+            chapters.push(ch)
+          end
+        end
+      end
+      if (t = tags_id3v2) != nil
+        for f in t
+          if f.id == "CHAP" && f.subframes.size > 0
+            c = Chapter.new
+            c.time = f.numvalue / 1000.0
+            c.name = ""
+            for g in f.subframes
+              c.name = g.strvalue if (g.id == "TIT2")
+            end
+            chapters.push(c)
+          end
+        end
+      end
+      @chapters = chapters
+      return chapters
+    end
+
+    private
+
+    def auto_get(ogg, id3)
+      if (t = tags_ogg) != nil
+        return t[ogg.upcase] if t[ogg.upcase] != nil
+      end
+      if (t = tags_id3v2) != nil
+        for r in t
+          if r.id == id3
+            return r.strvalue[0...r.strvalue.index("\0") || r.strvalue.size]
+          end
+        end
+      end
+      return nil
+    end
+  end
+
   class Sound
     attr_reader :file
     attr_reader :channel
@@ -513,6 +761,14 @@ module Bass
     def pause
       return if @channel == nil
       BASS_ChannelPause.call(@channel) if @cls != nil
+    end
+
+    def audioinfo
+      AudioInfo.new(@channel)
+    end
+
+    def chapters
+      AudioInfo.new(@channel).chapters
     end
 
     def free
@@ -624,18 +880,24 @@ module Bass
       return 0 if @channel == nil
       ch = channels
       ch = 1 if ch == 0
-      bts = BASS_ChannelGetLength.call(@channel, 0) + @startposition * @basefrequency * 4 * ch
+      pt = [0].pack("Q")
+      BASSELT_ChannelGetLengthPtr.call(@channel, 0, pt)
+      bts = pt.unpack("Q").first + @startposition * @basefrequency * 4 * ch
       return 0 if bts <= 0
       return bts if bytes == true
       return [BASS_ChannelBytes2Seconds.call(@channel, bts)].pack("i").unpack("d")[0] if @type == 0
-      return bts.to_f / (@basefrequency * 4 * ch)
+      r = bts.to_f / (@basefrequency * 4 * ch)
+      return 0 if r == (0.0 / 0.0)
+      return r
     rescue Exception
       return 0
     end
 
     def position(bytes = false, useold = true)
       return 0 if @channel == nil
-      bts = BASS_ChannelGetPosition.call(@channel, 0)
+      pt = [0].pack("Q")
+      BASSELT_ChannelGetPositionPtr.call(@channel, 0, pt)
+      bts = pt.unpack("Q").first
       bts += @startposition if useold == true
       return bts if bytes == true
       @basefrequency = frequency if @basefrequency == 0
@@ -645,8 +907,10 @@ module Bass
     end
 
     def position=(val, bytes = false)
+      return if val == (0.0 / 0.0)
+      val = 0 if !val.is_a?(Numeric)
       return if @channel == nil
-      val = 0.15 if val < 0.15
+      val = 0 if val < 0
       return 0 if @closed
       @posupdated = true
       if bytes == false
@@ -656,7 +920,8 @@ module Bass
       end
       val = 0 if val < 0
       val = val.to_i
-      a = BASS_ChannelSetPosition.call(@channel, val, 0, 0)
+      v1, v2 = [val].pack("Q").unpack("II")
+      a = BASS_ChannelSetPosition.call(@channel, v1, v2, 0)
       return val
     end
 

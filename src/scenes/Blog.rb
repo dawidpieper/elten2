@@ -11,7 +11,7 @@ class Scene_Blog
   end
 
   def main
-    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index, 0, true)
+    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Library of external blogs"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index, 0, true)
     if Session.name == "guest"
       @sel.disable_item(0)
       @sel.index = 1
@@ -19,9 +19,10 @@ class Scene_Blog
       @sel.disable_item(5)
       @sel.disable_item(7)
       @sel.disable_item(8)
+      @sel.disable_item(9)
     end
+    @sel.disable_item(9) if !holds_premiumpackage("courier")
     @sel.disable_item(8) if !holds_premiumpackage("courier")
-    @sel.disable_item(7) if !holds_premiumpackage("courier")
     @sel.focus
     loop do
       loop_update
@@ -61,11 +62,15 @@ class Scene_Blog
           u.gsub!(/http(s?)\:\/\//, "")
           u.delete!("/")
           r = "[*" + u + "]"
-          $scene = Scene_Blog_Main.new(r, 0, self, true)
+          $bloglistindex = 0
+          $scene = Scene_Blog_List.new(5, self, r)
         end
       when 7
-        $scene = Scene_Blog_Posts.new(Session.name, "FOLLOWED")
+        $bloglistindex = 0
+        $scene = Scene_Blog_List.new(6, self, :library)
       when 8
+        $scene = Scene_Blog_Posts.new(Session.name, "FOLLOWED")
+      when 9
         $scene = Scene_Blog_Posts.new(Session.name, "MENTIONED")
       end
     end
@@ -277,11 +282,12 @@ class Scene_Blog_Create
 end
 
 class Scene_Blog_Posts
-  def initialize(owner, id, categoryselindex = 0, postselindex = 0, page = 0)
+  def initialize(owner, id, categoryselindex = 0, postselindex = 0, search = nil, page = 0)
     @owner = owner
     @id = id
     @categoryselindex = categoryselindex
     @postselindex = postselindex
+    @search = search
     @topage = page
     @isowner = (@id.is_a?(Integer) && (blogowners(owner) || "").include?(Session.name))
   end
@@ -354,9 +360,9 @@ class Scene_Blog_Posts
         if @id == "NEW" or @id == "NEWFOLLOWED" or @id == "NEWFOLLOWEDBLOGS"
           $scene = Scene_WhatsNew.new
         elsif @id == "FOLLOWED"
-          $scene = Scene_Blog.new(7)
-        elsif @id == "MENTIONED"
           $scene = Scene_Blog.new(8)
+        elsif @id == "MENTIONED"
+          $scene = Scene_Blog.new(9)
         else
           $scene = Scene_Blog_Main.new(@owner, @categoryselindex, $blogreturnscene)
         end
@@ -373,7 +379,9 @@ class Scene_Blog_Posts
     id = @id
     id = 0 if @id == -1
     @owner = Session.name if id.to_i.to_s != id.to_s
-    blogtemp = srvproc("blog_posts", { "searchname" => @owner, "categoryid" => id, "details" => 3, "paginate" => 1, "page" => page })
+    prm = { "searchname" => @owner, "categoryid" => id, "details" => 3, "paginate" => 1, "page" => page }
+    prm["search"] = @search if @search != nil
+    blogtemp = srvproc("blog_posts", prm)
     err = blogtemp[0].to_i
     if err < 0
       alert(_("Error"))
@@ -437,7 +445,7 @@ class Scene_Blog_Posts
 
   def bopen
     if @sel.index < @post.size
-      $scene = Scene_Blog_Read.new(@post[@sel.index], @id, @categoryselindex, @sel.index, nil, @page)
+      $scene = Scene_Blog_Read.new(@post[@sel.index], @id, @categoryselindex, @sel.index, nil, @page, @search)
     else
       @page += 1
       load_posts(@page)
@@ -553,18 +561,19 @@ class Scene_Blog_Posts
 end
 
 class Scene_Blog_Read
-  def initialize(post, category, categoryselindex = 0, postselindex = 0, scene = nil, page = 0)
+  def initialize(post, category, categoryselindex = 0, postselindex = 0, scene = nil, page = 0, search = nil)
     @post = post
     @category = category
     @categoryselindex = categoryselindex
     @postselindex = postselindex
     @scene = scene
     @page = page
+    @search = search
     @isowner = (blogowners(post.owner) || "").include?(Session.name)
   end
 
   def main
-    blogtemp = srvproc("blog_read", { "categoryid" => @category, "postid" => @post.id, "searchname" => @post.owner, "details" => 7 })
+    blogtemp = srvproc("blog_read", { "categoryid" => @category, "postid" => @post.id, "searchname" => @post.owner, "details" => 8 })
     blogtemp.each { |l| l.delete!("\r\n") }
     err = blogtemp[0].to_i
     if err < 0
@@ -591,8 +600,13 @@ class Scene_Blog_Read
       @posts[i] = Struct_Blog_Post.new
       loop do
         t += 1
-        if t > 5
+        if t > 7
           @posts[i].text += blogtemp[l].to_s + "\r\n"
+        elsif t == 7
+          if blogtemp[l].delete("\r\n") != "\004END\004"
+            @posts[i].excerpt += blogtemp[l].to_s + "\r\n"
+            t -= 1
+          end
         elsif t == 1
           @posts[i].id = blogtemp[l].to_i
         elsif t == 2
@@ -603,23 +617,25 @@ class Scene_Blog_Read
           @posts[i].date = blogtemp[l].to_i
         elsif t == 5
           @posts[i].moddate = blogtemp[l].to_i
+        elsif t == 6
+          @posts[i].audio_url = blogtemp[l]
         end
         l += 1
-        break if blogtemp[l] == "\004END\004" or l >= blogtemp.size or blogtemp[l] == "\004潤\n" or blogtemp[l] == nil
+        break if (t > 7 and blogtemp[l] == "\004END\004") or l >= blogtemp.size or blogtemp[l] == "\004潤\n" or blogtemp[l] == nil
       end
       l += 1
     end
     @postcur = 0
     @fields = []
     for i in 0..@posts.size - 1
-      date = Time.now
-      begin
-        date = Time.at(@posts[i].date)
-      rescue Exception
-      end
-      @fields[(i == 0 ? i : (i + 1))] = EditBox.new(@posts[i].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, @posts[i].text + "\n\n" + format_date(date), true)
+      @fields[(i == 0 ? i : (i + 2))] = EditBox.new(@posts[i].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, format(@posts[i]), true)
     end
     @fields[1] = nil
+    @fields[2] = nil
+    if @posts[0].text.delete(" \r\n") != "" && @posts[0].audio_url != ""
+      @fields[2] = EditBox.new(@posts[0].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, "", true)
+      @fields[2].audio_url = @posts[0].audio_url
+    end
     @medias = nil
     if @posts.size > 0 and MediaFinders.possible_media?(@posts[0].text)
       @fields[1] = Button.new(p_("Blog", "Show attached media"))
@@ -702,18 +718,32 @@ class Scene_Blog_Read
     end
     if escape or ((enter or space) and @form.index == @form.fields.size - 1)
       if @scene == nil
-        $scene = Scene_Blog_Posts.new(@post.owner, @category, @categoryselindex, @postselindex, @page)
+        $scene = Scene_Blog_Posts.new(@post.owner, @category, @categoryselindex, @postselindex, @search, @page)
       else
         $scene = @scene
       end
     end
   end
 
+  def format(post)
+    date = Time.now
+    begin
+      date = Time.at(post.date)
+    rescue Exception
+    end
+    text = post.text
+    if text.delete(" \r\n") == "" && post.audio_url != ""
+      post.audio_url
+      text = "\004AUDIO\004#{post.audio_url}\004AUDIO\004"
+    end
+    text + "\n\n" + format_date(date)
+  end
+
   def context(menu)
     ind = -1
-    if @form.index <= @posts.size && (@form.index != 1 || @posts.size != 1)
-      ind = @form.index - 1
-      ind += 1 if ind < 0
+    if @form.index < @posts.size + 2 && (@form.index != 1 || @posts.size != 1)
+      ind = @form.index - 2
+      ind = 0 if ind < 0
       pst = @posts[ind]
       if @iseltenblog && pst.iseltenuser
         menu.useroption(pst.author)
@@ -771,7 +801,7 @@ class Scene_Blog_Read
       }
       if @knownposts < @posts.size
         m.option(p_("Blog", "Go to first unread comment"), nil, "u") {
-          @form.index = @postcur = @knownposts + 1
+          @form.index = @postcur = @knownposts + 2
           @form.focus
         }
       end
@@ -794,9 +824,10 @@ class Scene_Blog_Read
 end
 
 class Scene_Blog_List
-  def initialize(type = 0, scene = nil)
+  def initialize(type = 0, scene = nil, blog = nil)
     @type = type
     @scene = scene
+    @blog = blog
   end
 
   def main
@@ -886,59 +917,139 @@ class Scene_Blog_List
   end
 
   def refresh
-    prm = { "details" => 2 }
-    if @type.is_a?(String)
-      prm["user"] = @type
-    else
-      prm["orderby"] = @type
-    end
-    blogtemp = srvproc("blog_list", prm)
-    if blogtemp[0].to_i < 0
-      alert(_("Error"))
-      $scene = Scene_Blog.new
-      return
-    end
-    knownlanguages = Session.languages.split(",").map { |lg| lg.upcase }
     @blogs = []
-    rows = 9
-    items = blogtemp[1].to_i
-    if @scene != nil && items == 0
-      alert(p_("Blog", "No blogs found"))
-      $scene = @scene
-      return
-    end
-    for i in 0...items
-      l = i * rows + 2
-      b = Struct_Blog_Blog.new
-      b.id = blogtemp[l].delete("\r\n")
-      b.name = blogtemp[l + 1].delete("\r\n")
-      b.cnt_posts = blogtemp[l + 2].to_i
-      b.cnt_comments = blogtemp[l + 3].to_i
-      b.url = blogtemp[l + 4].delete("\r\n")
-      b.lastpost = blogtemp[l + 5].to_i
-      b.description = blogtemp[l + 6].delete("\r\n")
-      b.followed = blogtemp[l + 7].to_i.to_b
-      b.lang = blogtemp[l + 8].delete("\r\n")
-      @blogs.push(b) if LocalConfig["BlogShowUnknownLanguages", 1] == 1 || knownlanguages.size == 0 || knownlanguages.include?(b.lang[0..1].upcase) || (@type.is_a?(String) || @type == 3)
-    end
     sel = []
-    for b in @blogs
-      bo = blogowners(b.id)
-      bo = [bo] if bo.is_a?(String)
-      b.owners = bo
-      o = b.owners.join(", ")
-      tm = Time.at(b.lastpost)
-      date = format_date(tm, false, true)
-      sel.push([b.name, b.description, o, b.cnt_posts.to_s, b.cnt_comments.to_s, date])
+    if @blog == :library
+      bt = srvproc("blog_library", { "ac" => "list" })
+      return if bt[0].to_i != 0
+      for i in 0...bt[1].to_i
+        frg = bt[2 + i * 7...2 + (i + 1) * 7]
+        b = Struct_Blog_Blog.new
+        b.id = frg[0].delete("\r\n")
+        b.library_user = frg[1].delete("\r\n")
+        b.lang = frg[2].delete("\r\n")
+        b.name = frg[3].delete("\r\n")
+        b.description = frg[4].delete("\r\n") + "\n" + frg[5].delete("\r\n")
+        b.url = frg[6].delete("\r\n")
+        b.followed = false
+        b.library = true
+        b.owners = []
+        b.elten = false
+        b.lastpost = 0
+        b.cnt_posts = 0
+        b.cnt_comments = 0
+        @blogs.push(b)
+        sel.push([b.name, b.description, b.id[2..-2], nil, nil, nil])
+      end
+    elsif @blog.is_a?(String)
+      bt = srvproc("blog_details", { "blog" => @blog })
+      return if bt[0].to_i != 0
+      b = Struct_Blog_Blog.new
+      b.id = @blog
+      b.name = bt[1].delete("\r\n")
+      b.cnt_posts = 0
+      b.cnt_comments = 0
+      b.url = bt[3].delete("\r\n")
+      b.lastpost = 0
+      b.description = bt[2].delete("\r\n")
+      b.followed = false
+      b.lang = ""
+      b.owners = []
+      b.elten = false
+      b.library = true if bt[4].to_i == 1
+      @blogs.push(b)
+      sel.push([b.name, b.description, @blog[2..-2], nil, nil, nil])
+    else
+      prm = { "details" => 2 }
+      if @type.is_a?(String)
+        prm["user"] = @type
+      else
+        prm["orderby"] = @type
+      end
+      blogtemp = srvproc("blog_list", prm)
+      if blogtemp[0].to_i < 0
+        alert(_("Error"))
+        $scene = Scene_Blog.new
+        return
+      end
+      knownlanguages = Session.languages.split(",").map { |lg| lg.upcase }
+      rows = 9
+      items = blogtemp[1].to_i
+      if @scene != nil && items == 0
+        alert(p_("Blog", "No blogs found"))
+        $scene = @scene
+        return
+      end
+      for i in 0...items
+        l = i * rows + 2
+        b = Struct_Blog_Blog.new
+        b.id = blogtemp[l].delete("\r\n")
+        b.name = blogtemp[l + 1].delete("\r\n")
+        b.cnt_posts = blogtemp[l + 2].to_i
+        b.cnt_comments = blogtemp[l + 3].to_i
+        b.url = blogtemp[l + 4].delete("\r\n")
+        b.lastpost = blogtemp[l + 5].to_i
+        b.description = blogtemp[l + 6].delete("\r\n")
+        b.followed = blogtemp[l + 7].to_i.to_b
+        b.lang = blogtemp[l + 8].delete("\r\n")
+        b.elten = true
+        @blogs.push(b) if LocalConfig["BlogShowUnknownLanguages", 1] == 1 || knownlanguages.size == 0 || knownlanguages.include?(b.lang[0..1].upcase) || (@type.is_a?(String) || @type == 3)
+      end
+      for b in @blogs
+        bo = blogowners(b.id)
+        bo = [bo] if bo.is_a?(String)
+        b.owners = bo
+        o = b.owners.join(", ")
+        tm = Time.at(b.lastpost)
+        date = format_date(tm, false, true)
+        sel.push([b.name, b.description, o, b.cnt_posts.to_s, b.cnt_comments.to_s, date])
+      end
     end
     @sel.rows = sel
     @sel.reload
   end
 
+  def addlib(blog)
+    langs = []
+    langsmapping = []
+    lnindex = 0
+    for lk in Lists.langs.keys.sort { |a, b| polsorter(Lists.langs[a]["name"], Lists.langs[b]["name"]) }
+      langsmapping.push(lk)
+      l = Lists.langs[lk]
+      langs.push(l["name"] + "( " + l["nativeName"] + ")")
+      lnindex = langs.size - 1 if lk[0..1].downcase == Configuration.language[0..1].downcase
+    end
+    form = Form.new([
+      edt_description = EditBox.new(p_("Blog", "Blog description"), 0, "", true),
+      lst_lang = ListBox.new(langs, p_("Blog", "Blog language"), lnindex, 0, true),
+      btn_add = Button.new(p_("Blog", "Add")),
+      btn_cancel = Button.new(_("Cancel"))
+    ], 0, false, true)
+    btn_cancel.on(:press) { form.resume }
+    btn_add.on(:press) {
+      langid = lst_lang.index
+      if langid >= 0
+        l = langsmapping[langid]
+        b = srvproc("blog_library", { "ac" => "add", "lang" => l, "buf_description" => buffer(edt_description.text), "blog" => blog.id })
+        if b[0].to_i == 0
+          alert(p_("Blog", "Blog added to library"))
+          blog.library = true
+        else
+          alert(_("Error"))
+        end
+      end
+      form.resume
+    }
+    form.wait
+  end
+
   def context(menu)
     if @blogs.size > 0
       b = @blogs[@sel.index].owners
-      b.each { |u| menu.useroption(u) }
+      blog = @blogs[@sel.index]
+      if blog.elten
+        b.each { |u| menu.useroption(u) }
+      end
       menu.option(p_("Blog", "Open")) {
         $bloglistindex = @sel.index
         $scene = Scene_Blog_Main.new(@blogs[@sel.index].id, 0, $scene)
@@ -947,71 +1058,94 @@ class Scene_Blog_List
         $bloglistindex = @sel.index
         $scene = Scene_Blog_Posts.new(@blogs[@sel.index].id, -1, 0, 0)
       }
-      if b.include?(Session.name)
-        menu.option(p_("Blog", "Blog options"), nil, "e") {
-          $scene = Scene_Blog_Options.new(@blogs[@sel.index].id, $scene)
-        }
-        menu.option(p_("Blog", "Followers")) {
-          blogfollowers
-        }
-        menu.option(p_("Blog", "Coworkers")) {
-          blogcoworkers
-        }
-        if b[0] != Session.name && b != Session.name
-          menu.option(p_("Blog", "Leave")) {
-            confirm(p_("Blog", "Are you sure you want to stop co-creating this blog?")) {
-              if srvproc("blog_coworkers", { "searchname" => @blogs[@sel.index].id, "ac" => "leave" })[0].to_i == 0
-                alert(p_("Blog", "Blog left"))
-              else
-                alert(_("Error"))
-              end
-              $scene = Scene_Blog_List.new(@type, @scene)
-            }
-          }
-        end
-        menu.option(p_("Blog", "Recategorize")) {
+      menu.option(p_("Blog", "Search"), nil, "f") {
+        phrase = input_text(p_("Blog", "Enter text to search"), 0, "", true)
+        if phrase != nil
           $bloglistindex = @sel.index
-          $scene = Scene_Blog_Recategorize.new(@blogs[@sel.index].id, $scene)
-        }
-        if b[0] == Session.name
-          menu.option(p_("Blog", "Delete this blog")) {
-            blogdelete
-          }
-        end
-      end
-      isf = @blogs[@sel.index].followed
-      s = ""
-      if isf == true
-        s = p_("Blog", "Remove from the followed blogs")
-      else
-        s = p_("Blog", "Add to followed blogs")
-      end
-      menu.option(s, nil, "l") {
-        if isf == false
-          err = srvproc("blog_fb", { "add" => "1", "searchname" => @blogs[@sel.index].id })[0].to_i
-          if err != 0
-            alert(_("Error"))
-          else
-            @blogs[@sel.index].followed = true
-            confirm(p_("Blog", "This blog has been added to followed blogs. Do you want to mark all the posts published so far on it as read so that you don't see them in \"What's New\"?")) do
-              srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })
-              if srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })[0].to_i == 0
-                alert(p_("Blog", "The blog has been marked as read."))
-              else
-                alert(_("Error"))
-              end
-            end
-          end
-        else
-          err = srvproc("blog_fb", { "remove" => "1", "searchname" => @blogs[@sel.index].id })[0].to_i
-          if err != 0
-            alert(_("Error"))
-          else
-            alert(p_("Blog", "Removed from the followed blogs."))
-            @blogs[@sel.index].followed = false
-          end
+          $scene = Scene_Blog_Posts.new(@blogs[@sel.index].id, -1, 0, 0, phrase)
         end
       }
+      if blog.elten
+        if b.include?(Session.name)
+          menu.option(p_("Blog", "Blog options"), nil, "e") {
+            $scene = Scene_Blog_Options.new(@blogs[@sel.index].id, $scene)
+          }
+          menu.option(p_("Blog", "Followers")) {
+            blogfollowers
+          }
+          menu.option(p_("Blog", "Coworkers")) {
+            blogcoworkers
+          }
+          if b[0] != Session.name && b != Session.name
+            menu.option(p_("Blog", "Leave")) {
+              confirm(p_("Blog", "Are you sure you want to stop co-creating this blog?")) {
+                if srvproc("blog_coworkers", { "searchname" => @blogs[@sel.index].id, "ac" => "leave" })[0].to_i == 0
+                  alert(p_("Blog", "Blog left"))
+                else
+                  alert(_("Error"))
+                end
+                $scene = Scene_Blog_List.new(@type, @scene)
+              }
+            }
+          end
+          menu.option(p_("Blog", "Recategorize")) {
+            $bloglistindex = @sel.index
+            $scene = Scene_Blog_Recategorize.new(@blogs[@sel.index].id, $scene)
+          }
+          if b[0] == Session.name
+            menu.option(p_("Blog", "Delete this blog")) {
+              blogdelete
+            }
+          end
+        end
+        isf = @blogs[@sel.index].followed
+        s = ""
+        if isf == true
+          s = p_("Blog", "Remove from the followed blogs")
+        else
+          s = p_("Blog", "Add to followed blogs")
+        end
+        menu.option(s, nil, "l") {
+          if isf == false
+            err = srvproc("blog_fb", { "add" => "1", "searchname" => @blogs[@sel.index].id })[0].to_i
+            if err != 0
+              alert(_("Error"))
+            else
+              @blogs[@sel.index].followed = true
+              confirm(p_("Blog", "This blog has been added to followed blogs. Do you want to mark all the posts published so far on it as read so that you don't see them in \"What's New\"?")) do
+                srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })
+                if srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })[0].to_i == 0
+                  alert(p_("Blog", "The blog has been marked as read."))
+                else
+                  alert(_("Error"))
+                end
+              end
+            end
+          else
+            err = srvproc("blog_fb", { "remove" => "1", "searchname" => @blogs[@sel.index].id })[0].to_i
+            if err != 0
+              alert(_("Error"))
+            else
+              alert(p_("Blog", "Removed from the followed blogs."))
+              @blogs[@sel.index].followed = false
+            end
+          end
+        }
+      end
+      if !blog.elten && !blog.library
+        menu.option(p_("Blog", "Add to Elten library")) {
+          addlib(blog)
+          @sel.focus
+        }
+      elsif !blog.elten && blog.library && (blog.library_user == Session.name)
+        menu.option(p_("Blog", "Delete from Elten library")) {
+          confirm(p_("Blog", "Are you sure you want to delete this blog from Elten library?")) {
+            srvproc("blog_library", { "ac" => "delete", "blog" => blog.id })
+          }
+          refresh
+          @sel.focus
+        }
+      end
       menu.option(p_("Blog", "Add this blog to quick actions"), nil, "q") {
         QuickActions.create(Scene_Blog_Main, @blogs[@sel.index].name + " (#{p_("Blog", "Blog")})", [@blogs[@sel.index].id])
         alert(p_("Blog", "Blog added to quick actions"), false)
@@ -1020,16 +1154,18 @@ class Scene_Blog_List
         Clipboard.text = @blogs[@sel.index].url
         alert(p_("Blog", "Blog URL copied to clipboard"))
       }
-      menu.option(p_("Blog", "Mark the blog as read"), nil, "w") {
-        confirm(p_("Blog", "All posts on this blog will be marked as read. Do you want to continue?")) do
-          srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })
-          if srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })[0].to_i == 0
-            alert(p_("Blog", "The blog has been marked as read."))
-          else
-            alert(_("Error"))
+      if blog.elten
+        menu.option(p_("Blog", "Mark the blog as read"), nil, "w") {
+          confirm(p_("Blog", "All posts on this blog will be marked as read. Do you want to continue?")) do
+            srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })
+            if srvproc("blog_markasread", { "user" => @blogs[@sel.index].id })[0].to_i == 0
+              alert(p_("Blog", "The blog has been marked as read."))
+            else
+              alert(_("Error"))
+            end
           end
-        end
-      }
+        }
+      end
     end
     menu.option(p_("Blog", "Create new blog"), nil, "n") {
       b = srvproc("blog_managed", { "searchname" => Session.name })
@@ -1308,12 +1444,15 @@ class Scene_Blog_Options
   def initialize(blog = nil, scene = nil)
     blog = Session.name if blog == nil
     @blog = blog
+    bt = srvproc("blog_domains", { "ac" => "getblogdomain", "searchname" => @blog })
+    @domain = ""
+    @domain = (bt[1] || "").delete("\r\n") if bt[0].to_i == 0
     @settings = []
     @scene = scene
   end
 
   def getconfig
-    a = srvproc("blog_options", { "searchname" => @blog, "ac" => "get" })
+    p a = srvproc("blog_options", { "searchname" => @blog, "ac" => "get" })
     @values = {}
     @languages = {}
     @timezones = {}
@@ -1541,10 +1680,50 @@ class Scene_Blog_Options
 
   def load_others
     setting_category(p_("Blog", "Others"))
+    if holds_premiumpackage("scribe")
+      blogs = get_blogs
+      b = [p_("Blog", "Do not set")]
+      bm = [""]
+      for bl in blogs
+        if bl.url != "https://" + @domain + "/"
+          b.push(bl.name + " (" + bl.url + ")")
+          bm.push(bl.url)
+        end
+      end
+      u = currentconfig("blog_redirect")
+      if !bm.include?(u)
+        b.push(u)
+        bm.push(u)
+      end
+      make_setting(p_("Blog", "If you want to redirect all browsers visiting this blog to another site, select it here"), b, "blog_redirect", bm)
+    end
     make_setting(p_("Blog", "My Wordpress account"), :custom, Proc.new { insert_scene(Scene_Blog_Profile.new) })
     make_setting(p_("Blog", "Manage tags"), :custom, Proc.new { insert_scene(Scene_Blog_Tags.new(@blog)) })
     make_setting(p_("Blog", "Pending comments"), :custom, Proc.new { insert_scene(Scene_Blog_Comments.new(@blog)) })
     make_setting(p_("Blog", "Manage blog domain"), :custom, Proc.new { $scene = Scene_Blog_Domain.new(@blog, @scene) })
+  end
+
+  def get_blogs
+    prm = { "details" => 2, "user" => Session.name }
+    blogtemp = srvproc("blog_list", prm)
+    blogs = []
+    rows = 9
+    items = blogtemp[1].to_i
+    for i in 0...items
+      l = i * rows + 2
+      b = Struct_Blog_Blog.new
+      b.id = blogtemp[l].delete("\r\n")
+      b.name = blogtemp[l + 1].delete("\r\n")
+      b.cnt_posts = blogtemp[l + 2].to_i
+      b.cnt_comments = blogtemp[l + 3].to_i
+      b.url = blogtemp[l + 4].delete("\r\n")
+      b.lastpost = blogtemp[l + 5].to_i
+      b.description = blogtemp[l + 6].delete("\r\n")
+      b.followed = blogtemp[l + 7].to_i.to_b
+      b.lang = blogtemp[l + 8].delete("\r\n")
+      blogs.push(b)
+    end
+    return blogs
   end
 
   def main
@@ -1585,7 +1764,7 @@ class Scene_Blog_Options
 end
 
 class Struct_Blog_Blog
-  attr_accessor :id, :name, :description, :cnt_posts, :cnt_comments, :url, :lastpost, :followed, :lang, :owners
+  attr_accessor :id, :name, :description, :cnt_posts, :cnt_comments, :url, :lastpost, :followed, :lang, :owners, :elten, :library, :library_user
 
   def initialize
     @id = ""
@@ -1598,6 +1777,9 @@ class Struct_Blog_Blog
     @followed = false
     @lang = ""
     @owners = []
+    @elten = false
+    @library = false
+    @library_user = nil
   end
 end
 
@@ -1607,6 +1789,8 @@ class Struct_Blog_Post
   attr_accessor :name
   attr_accessor :unread
   attr_accessor :audio
+  attr_accessor :audio_url
+  attr_accessor :excerpt
   attr_accessor :author
   attr_accessor :text
   attr_accessor :date
@@ -1628,6 +1812,8 @@ class Struct_Blog_Post
     @date = 0
     @moddate = 0
     @iseltenuser = false
+    @audio_url = ""
+    @excerpt = ""
     @url = ""
     @comments = 0
     @followed = false
@@ -1748,6 +1934,7 @@ class Scene_Blog_PostEditor
       lst_categories = ListBox.new(@categories.map { |c| c.name }, p_("Blog", "Post categories"), 0, ListBox::Flags::MultiSelection, true),
       lst_tags = ListBox.new([], p_("Blog", "Post tags"), 0, 0, true),
       lst_visibility = ListBox.new([p_("Blog", "Show to everyone"), p_("Blog", "Show to Elten users only")], p_("Blog", "Visibility"), 0, 0, true),
+      edt_excerpt = EditBox.new(p_("Blog", "Excerpt"), EditBox::Flags::MultiLine, "", true),
       chk_schedule = CheckBox.new(p_("Blog", "Schedule this post to be published in the future")),
       btn_scheduledate = DateButton.new(p_("Blog", "Publication date"), Time.now.year, Time.now.year + 3, true),
       chk_comments = CheckBox.new(p_("Blog", "Allow users to comment this post"), 1),
@@ -1817,6 +2004,12 @@ class Scene_Blog_PostEditor
         post += bt[l]
         l += 1
       end
+      l += 1
+      excerpt = ""
+      while bt[l].delete("\r\n") != "\004END\004" && l < bt.size
+        excerpt += bt[l]
+        l += 1
+      end
       post.gsub!(/\[audio[^\]]*src\=(([^\" ]+)|(\"[^\"]+\"))[^\]]*\]\[\/audio\]/) {
         ph = $1
         ph[0..0] = "" if ph[0..0] == "\""
@@ -1831,6 +2024,7 @@ class Scene_Blog_PostEditor
       }
       edt_title.settext(title)
       edt_post.settext(post)
+      edt_excerpt.settext(excerpt)
       chk_comments.checked = comments
       lst_visibility.index = privacy
       for i in 0...@categories.size
@@ -1872,13 +2066,13 @@ class Scene_Blog_PostEditor
     }
     loop do
       loop_update
-      if btn_audio.empty?
-        @form.show(lst_editor)
-        @form.show(edt_post)
-      else
-        @form.hide(lst_editor)
-        @form.hide(edt_post)
-      end
+      #if btn_audio.empty?
+      #@form.show(lst_editor)
+      #@form.show(edt_post)
+      #else
+      #@form.hide(lst_editor)
+      #@form.hide(edt_post)
+      #end
       @form.update
       if escape or btn_cancel.pressed?
         if !changed or confirm(p_("Blog", "Are you sure you want to cancel creating this post?")) == 1
@@ -1921,12 +2115,19 @@ class Scene_Blog_PostEditor
           else
             params["add"] = 1
           end
-          audio = btn_audio.get_file
+          params["buffer_excerpt"] = buffer(edt_excerpt.text) if edt_excerpt.text != "" || @post > 0
+          audio = btn_audio.get_file(true)
           if audio == nil
-            buf = buffer(text)
-            params["buffer"] = buf
+            if changed
+              buf = buffer(text)
+              params["buffer"] = buf
+            end
             bt = srvproc("blog_posts_mod", params)
           else
+            if text.delete("\r\n ") != ""
+              buf = buffer(text)
+              params["buffer"] = buf
+            end
             alert(p_("Blog", "Please wait..."))
             fl = readfile(audio)
             if fl[0..3] != "OggS"

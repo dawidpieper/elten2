@@ -319,6 +319,7 @@ module EltenAPI
 
       def append(field)
         @fields.push(field)
+        return field
       end
 
       def insert(index, field)
@@ -1618,10 +1619,10 @@ module EltenAPI
         head = @header.to_s + "... " + tph
         NVDA.braille(@header.to_s + "\n" + @text, @header.to_s.size + 2 + @index - 1, false, 0, nil, @header.to_s.size + 2 + @index - 1) if NVDA.check
         if @audiotext != nil
-          @audioplayer = Player.new(@audiotext, @header, false, true)
+          @audioplayer = Player.new(@audiotext, @header, false, true) if @audioplayer == nil
           @audioplayed = false
         elsif @audiostream != nil
-          @audioplayer = Player.new(nil, @header, false, true, @audiostream)
+          @audioplayer = Player.new(nil, @header, false, true, @audiostream) if @audioplayer == nil
           @audioplayed = false
         end
         if @audioplayer != nil
@@ -1634,9 +1635,16 @@ module EltenAPI
 
       def blur
         if @audioplayer != nil
-          @audioplayer.close
-          @audioplayer = nil
+          @audioplayer.stop
         end
+      end
+
+      def audio_url
+        @audiotext
+      end
+
+      def audio_url=(u)
+        @audiotext = u
       end
 
       def readtext(index = 0, head = "")
@@ -3227,6 +3235,27 @@ module EltenAPI
         super
         return if @sound == nil || @sound.closed
         if $keyr[0x10] == false && $keyr[0x11] == false
+          if @sound != nil
+            if $key[0x21]
+              chapters = @sound.chapters
+              ch = chapters.sort { |a, b| b.time <=> a.time }.find { |c| c.time < @sound.position - 5 }
+              if ch != nil
+                @sound.position = ch.time
+                speak(ch.name)
+              end
+            elsif $key[0x22]
+              chapters = @sound.chapters
+              ch = chapters.sort { |a, b| a.time <=> b.time }.find { |c| c.time > @sound.position }
+              if ch != nil
+                @sound.position = ch.time
+                speak(ch.name)
+              end
+            elsif $key[0x24]
+              @sound.position = 0
+            elsif $key[0x23]
+              @sound.position = @sound.length - 1
+            end
+          end
           if arrow_right
             @sound.position += 5
           end
@@ -3234,11 +3263,15 @@ module EltenAPI
             @sound.position -= 5
           end
           if arrow_up(true)
-            @sound.volume += 0.01
-            @sound.volume = 0.95 if @sound.volume > 0.95
+            pl = 0.01
+            pl = 0.1 if @sound.volume >= 1
+            @sound.volume += pl
+            @sound.volume = 10 if @sound.volume > 10
           end
           if arrow_down(true)
-            @sound.volume -= 0.01
+            pl = 0.01
+            pl = 0.1 if @sound.volume >= 1.1
+            @sound.volume -= pl
             @sound.volume = 0.05 if @sound.volume < 0.05
           end
         elsif $keyr[0x11] == true and $keyr[0x10] == false
@@ -3445,34 +3478,85 @@ module EltenAPI
       def context(menu, submenu = false)
         if @sound != nil && !@sound.closed
           menu.option(p_("EAPI_Form", "Play/pause"), nil, :space) {
-            if @pause != true
-              Programs.emit_event(:player_pause)
-              @sound.pause
-              @pause = true
-            else
-              Programs.emit_event(:player_play)
-              @sound.play
-              @pause = false
+            if @sound != nil
+              if @pause != true
+                Programs.emit_event(:player_pause)
+                @sound.pause
+                @pause = true
+              else
+                Programs.emit_event(:player_play)
+                @sound.play
+                @pause = false
+              end
             end
           }
           menu.option(p_("EAPI_Form", "Get sound position"), nil, :p) {
-            d = 0
-            begin
-              d = @sound.position.to_i
-            rescue Exception
+            if @sound != nil
+              d = 0
+              begin
+                d = @sound.position.to_i
+              rescue Exception
+              end
+              h = d / 3600
+              m = (d - d / 3600 * 3600) / 60
+              s = d - d / 60 * 60
+              speak(sprintf("%0#{(h.to_s.size <= 2) ? 2 : d.to_s.size}d:%02d:%02d", h, m, s))
             end
-            h = d / 3600
-            m = (d - d / 3600 * 3600) / 60
-            s = d - d / 60 * 60
-            speak(sprintf("%0#{(h.to_s.size <= 2) ? 2 : d.to_s.size}d:%02d:%02d", h, m, s))
           }
           menu.option(p_("EAPI_Form", "Get sound duration"), nil, :d) {
-            d = @sound.length.to_i
-            h = d / 3600
-            m = (d - d / 3600 * 3600) / 60
-            s = d - d / 60 * 60
-            speak(sprintf("%0#{(h.to_s.size <= 2) ? 2 : d.to_s.size}d:%02d:%02d", h, m, s))
+            if @sound != nil
+              d = (@sound.length || 0).to_i
+              h = d / 3600
+              m = (d - d / 3600 * 3600) / 60
+              s = d - d / 60 * 60
+              speak(sprintf("%0#{(h.to_s.size <= 2) ? 2 : d.to_s.size}d:%02d:%02d", h, m, s))
+            end
           }
+          menu.option(p_("EAPI_Form", "Track info"), nil, :i) {
+            if @sound != nil
+              ai = @sound.audioinfo
+              fields = [
+                [p_("EAPI_Form", "Title"), ai.title],
+                [p_("EAPI_Form", "Artist"), ai.artist],
+                [p_("EAPI_Form", "Album"), ai.album],
+                [p_("EAPI_Form", "Track number"), ai.track_number]
+              ]
+              for a in fields.deep_dup
+                fields.delete(a) if a[1] == nil || a[1] == ""
+              end
+              sel = TableBox.new(["", ""], fields)
+              loop do
+                loop_update
+                sel.update
+                break if escape
+              end
+            end
+          }
+          if @sound != nil && @sound.chapters.size > 0
+            menu.option(p_("EAPI_Form", "Show chapters"), nil, :c) {
+              chapters = @sound.chapters
+              sel = ListBox.new(chapters.map { |c| c.name }, p_("EAPI_Form", "Chapters"))
+              eplay("dialog_open")
+              loop do
+                loop_update
+                sel.update
+                ch = chapters[sel.index]
+                if ch != nil
+                  if enter
+                    @sound.position = ch.time if @sound != nil
+                    play
+                    if @sound.position < ch.time
+                      speak(p_("EAPI_Form", "This chapter has not been buffered yet"))
+                    end
+                  elsif space
+                    speak(ch.time)
+                  end
+                end
+                break if escape
+              end
+              eplay("dialog_close")
+            }
+          end
           menu.option(p_("EAPI_Form", "Jump to position"), nil, :j) {
             @sound.pause
             dpos = getposition(@sound.position, @sound.length)
@@ -3504,6 +3588,8 @@ module EltenAPI
         tips.push(p_("EAPI_Form", "Use SHIFT with up/down arrows to change pitch"))
         tips.push(p_("EAPI_Form", "Use CTRL with up/down arrows to change tempo"))
         tips.push(p_("EAPI_Form", "Use backspace to return to the default settings"))
+        tips.push(p_("EAPI_Form", "Use home or end to move to the beginning or ending of a track"))
+        tips.push(p_("EAPI_Form", "Use page up or page down to navigate to the previous or next chapter"))
         return tips
       end
     end
@@ -4358,9 +4444,18 @@ module EltenAPI
         @form.show(@btn_delete)
       end
 
-      def get_file
+      def get_file(force = false)
         return nil if @status != 2
-        return nil if @current_filename[0..4] == "http:" || @current_filename[0..5] == "https:"
+        if @current_filename[0..4] == "http:" || @current_filename[0..5] == "https:"
+          if force
+            tmp = rand(36 ** 16).to_s(36)
+            file = Dirs.temp + "\\" + tmp
+            downloadfile(@current_filename, file)
+            @current_filename = @filename = file
+          else
+            return nil
+          end
+        end
         if @filename != @current_filename
           waiting
           OpusRecorder.encode_file(@current_filename, @filename, @bitrate, @framesize, @application, @usevbr, @timelimit)

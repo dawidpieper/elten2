@@ -15,7 +15,7 @@ class Scene_SoundThemes
       f = Dirs.soundthemes + "\\" + s
       if File.file?(f) && File.extname(f).downcase == ".elsnd"
         t = load_soundtheme(f, false)
-        @soundthemes.push(t)
+        @soundthemes.push(t) if t != nil
       end
     end
     @soundthemes.push(SoundTheme.new(p_("SoundThemes", "default"), nil))

@@ -136,6 +136,7 @@ class Scene_Settings
     for d in l
       langsmapping.push(d) if !langsmapping.include?(d)
     end
+    langsmapping = langsmapping.find_all { |l| Lists.langs[l[0..1].downcase].is_a?(Hash) }
     langs = langsmapping.map { |l| Lists.langs[l[0..1].downcase]["name"] + " (" + Lists.langs[l[0..1].downcase]["nativeName"] + ")" }
     make_setting(p_("Settings", "Language"), langs, "Interface", "Language", langsmapping)
     make_setting(p_("Settings", "Automatically minimize Elten Window to system tray"), :bool, "Interface", "HideWindow")
@@ -292,6 +293,7 @@ class Scene_Settings
     make_setting(p_("Settings", "Use noise reduction"), [p_("Settings", "Never"), p_("Settings", "In audio conferences only"), p_("Settings", "In audio conferences and when recording")], "Advanced", "UseDenoising")
     make_setting(p_("Settings", "Enable echo cancellation"), :bool, "Advanced", "UseEchoCancellation")
     make_setting(p_("Settings", "Force input through Wasapi"), :bool, "Advanced", "ForceWasapi")
+    make_setting(p_("Settings", "Use bilinear HRTF interpolation"), :bool, "Advanced", "UseBilinearHRTF")
   end
 
   def load_ii

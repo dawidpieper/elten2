@@ -5,7 +5,7 @@
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
 
 class Audio3D
-  attr_reader :file, :x, :y, :z, :volume
+  attr_reader :file, :x, :y, :z, :volume, :bilinear
   @@ids = []
 
   def initialize(file)
@@ -16,6 +16,7 @@ class Audio3D
     $agent.write(Marshal.dump({ "func" => "audio3d_new", "file" => file, "id" => @id }))
     @file = file
     @x, @y, @z = 0, 0, 0
+    @bilinear = false
     @volume = 100
   end
 
@@ -48,6 +49,7 @@ class Audio3D
   def validate_position(val)
     val = -1 if val < -1
     val = 1 if val > 1
+    val
   end
 
   def x=(val)
@@ -60,5 +62,11 @@ class Audio3D
 
   def z=(val)
     move(@x, @y, validate_position(val))
+  end
+
+  def bilinear=(val)
+    val = false if val != true
+    $agent.write(Marshal.dump({ "func" => "audio3d_setbilinear", "id" => @id, "bilinear" => val }))
+    @bilinear = val
   end
 end

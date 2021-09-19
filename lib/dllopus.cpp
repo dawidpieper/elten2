@@ -56,6 +56,8 @@ BOOL locked;
 SpeexPreprocessState **dsp;
 int dsp_count;
 int timelimit;
+char **tagsToWrite;
+int tagsToWriteSize;
 } OpusRecording;
 
 typedef struct OpusPacket {
@@ -140,9 +142,11 @@ op.pos=0;
 return op;
 }
 
-OpusPacket opus_fill_tags() {
-const char *encinfo = "ENCODER=ELTEN";
-int sz = 8 + 4 + strlen(opus_get_version_string()) + 4 + 4 + strlen(encinfo);
+OpusPacket opus_fill_tags(int tagsToWriteSize, char **tagsToWrite) {
+int s=0;
+for(int i=0; i<tagsToWriteSize; ++i)
+s += (4+strlen(tagsToWrite[i]));
+int sz = 8 + 4 + strlen(opus_get_version_string()) + 4 + s;
 OpusPacket op;
 op.size=0;
 op.data=(unsigned char*)malloc(sizeof(char)*sz);
@@ -156,18 +160,20 @@ int sl = strlen(opus_get_version_string());
 if (!opus_recording_write_uint32(&op, sl)) return op;
 if(!opus_recording_write_chars(&op, (const unsigned char*)opus_get_version_string(), sl)) return op;
 
-if(!opus_recording_write_uint32(&op, 1)) return op;
+if(!opus_recording_write_uint32(&op, tagsToWriteSize)) return op;
 
-sl = strlen(encinfo);
+for(int i=0; i<tagsToWriteSize; ++i) {
+sl = strlen(tagsToWrite[i]);
 if (!opus_recording_write_uint32(&op, sl)) return op;
-if(!opus_recording_write_chars(&op, (const unsigned char*)encinfo, sl)) return op;
+if(!opus_recording_write_chars(&op, (const unsigned char*)tagsToWrite[i], sl)) return op;
+}
 
 op.size=op.pos;
 op.pos=0;
 return op;
 }
 
-int OpusRecorderInit(wchar_t *file, int samplerate, int channels, int bitrate=64000, float framesize=60, int application=OPUS_APPLICATION_AUDIO, BOOL useVBR=true, BOOL usedenoising=false, int timelimit=0) {
+int OpusRecorderInit(wchar_t *file, int samplerate, int channels, int bitrate=64000, float framesize=60, int application=OPUS_APPLICATION_AUDIO, BOOL useVBR=true, BOOL usedenoising=false, int timelimit=0, int tagsToWriteSize=0, char **tagsToWrite=NULL) {
 if(framesize!=2.5 && framesize!=5 && framesize!=10 && framesize!=20 && framesize!=40 && framesize!=60 && framesize!=80 && framesize!=100 && framesize!=120) framesize=60;
 if(bitrate<4000 || bitrate>524000) bitrate=64000;
 if(application<2048 || application>2050) application=2048;
@@ -182,6 +188,20 @@ opus->header = (OpusHeader *)malloc(sizeof(OpusHeader));
 if(opus->header==NULL) return 0;
 opus->buffer = (unsigned char *)malloc(16384);
 if(opus->buffer==NULL) return 0;
+
+opus->tagsToWriteSize = tagsToWriteSize+1;
+opus->tagsToWrite = (char**)malloc(sizeof(char*)*opus->tagsToWriteSize);
+if(opus->tagsToWrite == NULL) return 0;
+int i;
+for(i=0; i<tagsToWriteSize; ++i) {
+opus->tagsToWrite[i] = (char*)malloc(sizeof(char)*(strlen(tagsToWrite[i])+1));
+if(opus->tagsToWrite[i] == NULL) return 0;
+strcpy(opus->tagsToWrite[i], tagsToWrite[i]);
+}
+const char *encinfo = "ENCODER=ELTEN";
+opus->tagsToWrite[i] = (char*)malloc(sizeof(char)*strlen(encinfo));
+if(opus->tagsToWrite[i] == NULL) return 0;
+strcpy(opus->tagsToWrite[i], encinfo);
 
 opus->framesize = (int)(framesize * samplerate / 1000.0f);
 opus->locked=false;
@@ -249,7 +269,7 @@ op.packetno = opus->packetno++;
 opus->header_size = opp.size;
 ogg_stream_packetin (&opus->os, &op);
 
-opp = opus_fill_tags();
+opp = opus_fill_tags(opus->tagsToWriteSize, opus->tagsToWrite);
 op.bytes=opp.size;
 op.b_o_s = 0;
 op.e_o_s = 0;
@@ -316,6 +336,9 @@ free(opus->header);
 free(opus->tags);
 free(opus->buffer);
 free(opus->pcm_buf);
+for(int i=0; i<opus->tagsToWriteSize; ++i) free(opus->tagsToWrite[i]);
+free(opus->tagsToWrite);
+
 
 CloseHandle(opus->file);
 if(opus->dsp_count>0) {

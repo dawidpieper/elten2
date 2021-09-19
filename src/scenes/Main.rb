@@ -8,6 +8,7 @@ class Scene_Main
   @@acselindex = nil
   @@feed_id = -1
   @@focus = 0
+  @@specials = []
 
   def main
     if @@feed_id == -1
@@ -73,16 +74,22 @@ class Scene_Main
         end
       end
       if @@focus == 0
-        if $keyr[0x10]
-          if @acsel.index > 0 && arrow_up
-            qacup
+        if qacindex != nil && @actions.size > 0
+          if $keyr[0x10]
+            if qacindex > 0 && arrow_up
+              qacup
+            end
+            if qacindex < @actions.size - 1 and arrow_down
+              qacdown
+            end
           end
-          if @acsel.index < @actions.size - 1 and arrow_down
-            qacdown
+          if @acsel.selected?
+            @actions[qacindex].call
           end
-        end
-        if @acsel.selected?
-          @actions[@acsel.index].call
+        elsif qacindex == nil && @specials.size > 0
+          if @acsel.selected?
+            @specials[@acsel.index][2].call
+          end
         end
       end
       if @@focus == 1
@@ -109,63 +116,83 @@ class Scene_Main
     LocalConfig["MainFeedId"] = @@feed_id
   end
 
+  def self.register_specialaction(id, name, &proc)
+    unregister_specialaction(id)
+    @@specials.push([id, name, proc])
+  end
+  def self.unregister_specialaction(id)
+    d = @@specials.find { |s| s[0] == id }
+    @@specials.delete(d) if d != nil
+  end
+
+  def qacindex
+    ind = @acsel.index
+    ind -= @specials.size
+    return nil if ind < 0
+    return ind
+  end
+
   def qacup
+    return if qacindex == nil
     times = 1
-    index = @acsel.index - 1
+    index = qacindex - 1
     if !@acselshowhidden
       while index > 0 && @acsel.ishidden(index)
         times += 1
         index -= 1
       end
     end
-    times.times { |i| QuickActions.up(@acsel.index - i) }
+    times.times { |i| QuickActions.up(qacindex - i) }
     @acsel.index -= times
     acsel_load(false)
     @acsel.sayoption
   end
 
   def qacdown
+    return if qacindex == nil
     times = 1
-    index = @acsel.index + 1
+    index = qacindex + 1
     if !@acselshowhidden
       while index < @acsel.options.size - 1 && @acsel.ishidden(index)
         times += 1
         index += 1
       end
     end
-    times.times { |i| QuickActions.down(@acsel.index + i) }
+    times.times { |i| QuickActions.down(qacindex + i) }
     @acsel.index += times
     acsel_load(false)
     @acsel.sayoption
   end
 
   def acsel_load(fc = true)
+    @specials = @@specials
     @acselshowhidden ||= false
     @@acselindex = @acsel.index if @acsel != nil
     @actions = QuickActions.get
+    options = @specials.map { |s| s[1] } + @actions.map { |a| a.detail }
     if @acsel == nil
-      @acsel = ListBox.new(@actions.map { |a| a.detail }, p_("Main", "Quick actions"), @@acselindex, 0, true)
+      @acsel = ListBox.new(options, p_("Main", "Quick actions"), @@acselindex, 0, true)
       @acsel.add_tip(p_("Main", "Use Shift with up/down arrows to move quick actions"))
       @acsel.bind_context { |menu| accontext(menu) }
     else
-      @acsel.options = @actions.map { |a| a.detail }
+      @acsel.options = options
       for i in 0...@actions.size
-        @acsel.enable_item(i)
+        @acsel.enable_item(@specials.size + i)
       end
     end
     for i in 0...@actions.size
-      @acsel.disable_item(i) if @actions[i].show == false && !@acselshowhidden
+      @acsel.disable_item(@specials.size + i) if @actions[i].show == false && !@acselshowhidden
     end
     @acsel.focus if fc == true
   end
 
   def accontext(menu)
-    if @actions.size > 0 && @acsel.index >= 0 && !@acsel.ishidden(@acsel.index)
+    if @actions.size > 0 && qacindex != nil && !@acsel.ishidden(@acsel.index)
       menu.option(p_("Main", "Rename"), nil, "e") {
-        label = input_text(p_("Main", "Action label"), 0, @actions[@acsel.index].label, true)
+        label = input_text(p_("Main", "Action label"), 0, @actions[qacindex].label, true)
 
         if label != nil
-          QuickActions.rename(@acsel.index, label)
+          QuickActions.rename(qacindex, label)
           acsel_load
         end
       }
@@ -182,8 +209,8 @@ class Scene_Main
           s.push("CTRL+SHIFT+F" + i.to_s)
           k.push(-(i + 12))
         end
-        ind = k.find_index(@actions[@acsel.index].key) || 0
-        sel = ListBox.new(s, p_("Main", "Hotkey for action %{label}") % { "label" => @actions[@acsel.index].label }, ind)
+        ind = k.find_index(@actions[qacindex].key) || 0
+        sel = ListBox.new(s, p_("Main", "Hotkey for action %{label}") % { "label" => @actions[qacindex].label }, ind)
         loop {
           loop_update
           sel.update
@@ -192,8 +219,8 @@ class Scene_Main
             key = k[sel.index]
             c = nil
             @actions.each { |a| c = a if a.key == key }
-            if c == nil || c == @actions[@acsel.index] || key == 0
-              QuickActions.rekey(@acsel.index, key)
+            if c == nil || c == @actions[qacindex] || key == 0
+              QuickActions.rekey(qacindex, key)
               acsel_load
               break
             else
@@ -203,35 +230,35 @@ class Scene_Main
         }
         @acsel.focus
       }
-      if @acsel.index > 0
+      if qacindex > 0
         menu.option(p_("Main", "Move up")) {
           qacup
         }
       end
-      if @acsel.index < @actions.size - 1
+      if qacindex < @actions.size - 1
         menu.option(p_("Main", "Move down")) {
           qacdown
         }
       end
       s = p_("Main", "Hide this action")
-      s = p_("Main", "Show this action") if @actions[@acsel.index].show == false
+      s = p_("Main", "Show this action") if @actions[qacindex].show == false
       menu.option(s) {
-        QuickActions.reshow(@acsel.index, !@actions[@acsel.index].show)
+        QuickActions.reshow(qacindex, !@actions[qacindex].show)
         acsel_load
       }
       menu.option(p_("Main", "Delete"), nil, :del) {
         ac = 0
-        if @actions[@acsel.index].key == 0 || @actions[@acsel.index].show == false
+        if @actions[qacindex].key == 0 || @actions[qacindex].show == false
           ac = confirm(p_("Main", "Are you sure you want to delete this quick action?"))
         else
           ac = selector([_("Cancel"), p_("Main", "Delete"), p_("Main", "Hide this action")], p_("Main", "If you delete this action, you will also delete the keyboard shortcut assigned to it. If you want to keep the keyboard shortcut, you can hide this action. You can show or remove hidden actions at any time."), 0, 0, 1)
         end
         if ac == 1
-          QuickActions.delete(@acsel.index)
+          QuickActions.delete(qacindex)
           acsel_load(false)
           @acsel.sayoption
         elsif ac == 2
-          QuickActions.reshow(@acsel.index, false)
+          QuickActions.reshow(qacindex, false)
           acsel_load
         end
       }
@@ -393,7 +420,7 @@ class Scene_Main
   def feed_new(users = [], response = 0)
     text = users.map { |u| "@" + u }.join(" ")
     text << " " if text != ""
-    inp = input_text(p_("Main", "Message"), 0, text, true, [], [], 200, true)
+    inp = input_text(p_("Main", "Message"), 0, text, true, [], [], 300, true)
     feed(inp, response) if inp != nil
   end
 

@@ -93,7 +93,7 @@ class Scene_Messages
     @lastuser = @users[@sel_users.index] if @users.is_a?(Array) and @sel_users.is_a?(ListBox)
     @users = []
     @users_limit = limit
-    msg = srvproc("messages_conversations", { "limit" => @users_limit, "details" => 1 })
+    msg = srvproc("messages_conversations", { "limit" => @users_limit, "details" => 2 })
     if msg[0].to_i < 0
       alert(_("Error"))
       return $scene = Scene_Main.new
@@ -117,6 +117,7 @@ class Scene_Messages
         @users[-1].lastid = line.to_i
       when 6
         @users[-1].muted = (line.to_i == 1)
+        @users[-1].name = line.delete("\r\n")
       end
       l += 1
       l = 0 if l == 7
@@ -124,8 +125,8 @@ class Scene_Messages
     selt = []
     ind = 0
     for u in @users
-      user = u.user
-      user = name_conversation(user) if user[0..0] == "["
+      user = u.name
+      user = u.user if u.name == "" || u.name == nil
       selt.push(user + ":\r\n" + p_("Messages", "Last message") + ": " + u.lastuser + ": " + u.lastsubject + ".\r\n" + format_date(u.lastdate) + "\r\n")
       selt[-1] += "\004INFNEW{#{p_("Messages", "New")}: }\004" if u.read == 0 and u.lastuser != Session.name
       ind = selt.size - 1 if u.user == @lastuser.user if @lastuser != nil
@@ -365,11 +366,11 @@ class Scene_Messages
       @conversations = []
       @conversations_user = user
       @conversations_limit = limit
-      msg = srvproc("messages_conversations", { "user" => user, "limit" => @conversations_limit.to_i })
+      msg = srvproc("messages_conversations", { "user" => user, "limit" => @conversations_limit.to_i, "details" => 1 })
     else
       @conversations_sp = sp
       @conversations = []
-      msg = srvproc("messages_conversations", { "sp" => sp })
+      msg = srvproc("messages_conversations", { "sp" => sp, "details" => 1 })
     end
     if msg[0].to_i < 0
       alert(_("Error"))
@@ -380,8 +381,9 @@ class Scene_Messages
       return $scene = Scene_WhatsNew.new
     end
     @conversations_more = (msg[2].to_i == 1) ? true : false
+    @conversation_name = msg[4].delete("\r\n")
     l = 0
-    for i in 4..msg.size - 1
+    for i in 5..msg.size - 1
       line = msg[i].delete("\r\n")
       case l
       when 0
@@ -402,14 +404,14 @@ class Scene_Messages
     ind = 0
     for c in @conversations
       lu = c.lastuser
-      lu = name_conversation(lu) if lu[0..0] == "["
+      lu = @conversation_name if @conversation_name != "" && @conversation_name != nil && lu[0..0] == "["
       selt.push(((c.subject != "") ? (c.subject) : p_("Messages", "No subject")) + ":\r\n" + ((sp == nil) ? p_("Messages", "Last message") : p_("Messages", "From")) + ": " + lu + ".\r\n" + format_date(c.lastdate) + "\r\n")
       selt[-1] += "\004INFNEW{#{p_("Messages", "New")}: }\004" if c.read == 0 and c.lastuser != Session.name
       ind = selt.size - 1 if c.subject == @lastconversation.subject and user == @lastconversation_user if @lastconversation != nil and @lastconversation_user != nil
     end
     selt.push(p_("Messages", "Show older")) if @conversations_more
     u = user
-    u = name_conversation(user) if user[0..0] == "["
+    u = @conversation_name if @conversation_name != "" && @conversation_name != nil
     @sel_conversations = ListBox.new(selt, ((sp == nil) ? (p_("Messages", "Conversations with %{user}") % { "user" => u }) : ""), ind)
     @sel_conversations.bind_context { |menu| context_conversations(menu) }
   end
@@ -487,9 +489,9 @@ class Scene_Messages
         return
       end
       @lastsearch = term
-      msg = srvproc("messages_conversations", { "sp" => "search", "search" => term, "details" => 2 })
+      msg = srvproc("messages_conversations", { "sp" => "search", "search" => term, "details" => 3 })
     else
-      msg = srvproc("messages_conversations", { "user" => user, "subj" => subject, "ignoresubj" => (subject == nil) ? (1) : (0), "limit" => @messages_limit.to_s, "details" => 2 })
+      msg = srvproc("messages_conversations", { "user" => user, "subj" => subject, "ignoresubj" => (subject == nil) ? (1) : (0), "limit" => @messages_limit.to_s, "details" => 3 })
     end
     @messages_wn = 0
     if $agent_msg != nil
@@ -500,10 +502,11 @@ class Scene_Messages
       return $scene = Scene_Main.new
     end
     @messages_more = (msg[2].to_i == 1) ? true : false if !complete
+    @messages_name = msg[4].delete("\r\n")
     m = nil
     curids = []
     @messages.each { |m| curids.push(m.id) }
-    for mesg in msg[4..-1].join.split("\r\n\004END\004")
+    for mesg in msg[5..-1].join.split("\r\n\004END\004")
       mesg[0..1] = "" if mesg[0..1] == "\r\n"
       next if mesg == ""
       message = mesg.split("\r\n")
@@ -562,7 +565,7 @@ class Scene_Messages
     selt.push(p_("Messages", "Show older")) if @messages_more and !complete
     if !complete
       u = user
-      u = name_conversation(user) if user[0..0] == "["
+      u = @messages_name if @messages_name != "" && @messages_name != nil
       head = p_("Messages", "Messages in conversation %{subject} with %{user}") % { "subject" => subject || "", "user" => u }
       head = p_("Messages", "Flagged messages") if sp == "flagged"
       head = p_("Messages", "Found items") if sp == "search"
@@ -661,8 +664,14 @@ class Scene_Messages
         @form_messages.fields[4] = Button.new(p_("Messages", "Send"))
       end
       if (((enter or space) and @form_messages.index == 4) or ((enter and $key[0x11]) and @form_messages.index == 3)) and @form_messages.fields[3].text != ""
-        bufid = buffer(@form_messages.fields[3].text)
-        msgtemp = srvproc("message_send", { "to" => @messages_user, "subject" => ("RE: " + (@messages_subject || "")), "buffer" => bufid })
+        post = {}
+        text = @form_messages.fields[3].text
+        if text.size < 1024
+          post["text"] = text
+        else
+          post["zs_text"] = zstd_compress(text)
+        end
+        msgtemp = srvproc("message_send", { "to" => @messages_user, "subject" => ("RE: " + (@messages_subject || "")) }, 0, post)
         if msgtemp[0].to_i < 0
           alert(p_("Messages", "Failed to send message"))
         else
@@ -673,17 +682,18 @@ class Scene_Messages
         load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true)
       end
       if (enter or space) and @form_messages.index == 5
-        rec = @messages[@sel_messages.index].sender
-        rec = @messages[@sel_messages.index].receiver if rec == Session.name
-        $scene = Scene_Messages_New.new(rec, "RE: " + @messages[@sel_messages.index].subject.sub("RE: ", ""), @form_messages.fields[3], export)
+        $scene = Scene_Messages_New.new(@messages_user, "RE: " + (@messages_subject || "").sub("RE: ", ""), @form_messages.fields[3], export)
       end
     end
   end
 
   def context_messages(menu)
     return if @sel_messages == nil
+    menu.option(p_("Messages", "Reply"), nil, "o") {
+      $scene = Scene_Messages_New.new(@messages_user, "RE: " + (@messages_subject || "").sub("RE: ", ""), @form_messages.fields[3], export)
+    }
     if @messages.size > 0 and @sel_messages.index < @messages.size
-      menu.option(p_("Messages", "Reply to message sender"), nil, "o") {
+      menu.option(p_("Messages", "Reply to message sender"), nil, "O") {
         rec = @messages[@sel_messages.index].sender
         rec = @messages[@sel_messages.index].receiver if rec == Session.name
         $scene = Scene_Messages_New.new(rec, "RE: " + @messages[@sel_messages.index].subject.sub("RE: ", ""), "", export)
@@ -800,7 +810,7 @@ class Scene_Messages
 end
 
 class Struct_Messages_User
-  attr_accessor :user, :read, :lastdate, :lastuser, :lastsubject, :lastid, :muted
+  attr_accessor :user, :read, :lastdate, :lastuser, :lastsubject, :lastid, :muted, :name
 
   def initialize(user = "")
     @user = user
@@ -993,8 +1003,13 @@ class Scene_Messages_New
       tmp = ""
       tmp = "admin_" if @form.index == 7
       msgtemp = ""
-      prm["buffer"] = buffer(text)
-      msgtemp = srvproc("message_#{tmp}send", prm)
+      post = {}
+      if text.size < 1024
+        post["text"] = text
+      else
+        post["zs_text"] = zstd_compress(text)
+      end
+      msgtemp = srvproc("message_#{tmp}send", prm, 0, post)
     else
       f = @form.fields[3]
       fl = readfile(f.get_file)

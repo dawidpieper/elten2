@@ -404,7 +404,7 @@ module EltenAPI
     def feed(message, response = 0)
       response = 0 if response <= 1
       return false if message == "" || !message.is_a?(String)
-      message = message.split("")[0...200].join("")
+      message = message.split("")[0...300].join("")
       buf = buffer(message)
       a = srvproc("feeds", { "ac" => "publish", "buffer" => buf, "response" => response })
       if a[0].to_i == 0

@@ -489,6 +489,12 @@ module EltenAPI
             alert(p_("EAPI_UI", "The program is trying to recover from the frozen state."))
           elsif d["func"] == "log"
             Log.add(d["level"], d["msg"], Time.at(d["time"]))
+          elsif d["func"] == "zstd_compress"
+            $agids.delete(d["id"])
+            $zstds[d["id"]] = d["data"]
+          elsif d["func"] == "zstd_decompress"
+            $agids.delete(d["id"])
+            $zstds[d["id"]] = d["data"]
           elsif d["func"] == "conference_open"
             Conference.setopened(d)
           elsif d["func"] == "conference_close"
@@ -499,6 +505,8 @@ module EltenAPI
             Conference.setwaitingchannel(d["chid"]) if d["chid"].is_a?(Integer)
           elsif d["func"] == "conference_volumes"
             Conference.setvolumes(d["volumes"]) if d["volumes"] != nil
+          elsif d["func"] == "conference_streams"
+            Conference.setstreams(d["streams"]) if d["streams"] != nil
           elsif d["func"] == "conference_createchannel"
             Conference.setcreated(d["channel"])
           elsif d["func"] == "conference_listchannels"
@@ -511,8 +519,14 @@ module EltenAPI
             Conference.setdiceroll(d["username"], d["userid"], d["value"], d["count"])
           elsif d["func"] == "conference_cards"
             Conference.setcards(d["cards"])
+          elsif d["func"] == "conference_vsts"
+            Conference.setvsts(d["vsts"])
           elsif d["func"] == "conference_decks"
             Conference.setdecks(d["decks"])
+          elsif d["func"] == "conference_exportvstpreset"
+            Conference.setvstpreset(d["vstpreset"])
+          elsif d["func"] == "conference_exportvstbank"
+            Conference.setvstbank(d["vstbank"])
           elsif d["func"] == "conference_card"
             Conference.setcardboard(d["username"], d["userid"], d["type"], d["deck"], d["cid"])
           elsif d["func"] == "conference_getcoordinates"
@@ -550,6 +564,12 @@ module EltenAPI
             delay(1)
           elsif d["func"] == "ii_hkset"
             Configuration.iimodifiers = d["ii"]
+          elsif d["func"] == "auctions"
+            if d["auctions"] == true and Configuration.language == "pl-PL"
+              Scene_Main.register_specialaction("auctions", "Uwaga! Trwa licytacja charytatywna na rzecz projektu EltenLink") { insert_scene(Scene_Auctions.new) }
+            else
+              Scene_Main.unregister_specialaction("auctions")
+            end
           else
             Log.warning("Agent unknown data: #{d.inspect}")
             play "right"

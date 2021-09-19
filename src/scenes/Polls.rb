@@ -159,9 +159,11 @@ class Scene_Polls
         @sel.focus
       }
     end
-    menu.option(p_("Polls", "New poll"), nil, "n") {
-      $scene = Scene_Polls_Create.new
-    }
+    if Session.name != "guest"
+      menu.option(p_("Polls", "New poll"), nil, "n") {
+        $scene = Scene_Polls_Create.new
+      }
+    end
     menu.option(_("Refresh"), nil, "r") {
       $scene = Scene_Polls.new
     }

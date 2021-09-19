@@ -706,7 +706,7 @@ module EltenAPI
       }
       languages = []
       for l in langs
-        lio = StringIO.new(Zlib::Inflate.inflate(io.read(l[1])))
+        lio = StringIO.new(Zstd.decompress(io.read(l[1])))
         lang = Language.new(l[0])
         mosize = lio.read(4).unpack("I").first
         lang.mo = lio.read(mosize)

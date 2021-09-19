@@ -73,7 +73,7 @@ module EltenAPI
           end
           alert(text, false)
         when :feed
-          inp = input_text(p_("EAPI_Common", "Message"), 0, "", true, [], [], 200)
+          inp = input_text(p_("EAPI_Common", "Message"), 0, "", true, [], [], 300)
           loop_update
           feed(inp) if inp != nil
         when :alarm

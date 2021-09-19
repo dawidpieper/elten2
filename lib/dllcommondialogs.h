@@ -22,5 +22,11 @@ int DLLIMPORT getWriter(wchar_t *textValue, int textValueSize);
 int DLLIMPORT showFileOpen(wchar_t *label, wchar_t *filter, int filterSize);
 void DLLIMPORT hideFileOpen();
 int DLLIMPORT getFileOpen(wchar_t *, int);
+int DLLIMPORT createEmptyWindow(wchar_t *label);
+void DLLIMPORT showEmptyWindow();
+void DLLIMPORT hideEmptyWindow();
+HWND DLLIMPORT getEmptyWindow();
+void DLLIMPORT updateEmptyWindow();
+void DLLIMPORT destroyEmptyWindow();
 }
 #endif

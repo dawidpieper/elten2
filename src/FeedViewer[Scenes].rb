@@ -164,7 +164,7 @@ class Scene_FeedViewer
   def feed_new(users = [], response = 0)
     text = users.map { |u| "@" + u }.join(" ")
     text << " " if text != ""
-    inp = input_text(p_("FeedViewer", "Message"), 0, text, true, [], [], 200, true)
+    inp = input_text(p_("FeedViewer", "Message"), 0, text, true, [], [], 300, true)
     feed(inp, response) if inp != nil
   end
 end

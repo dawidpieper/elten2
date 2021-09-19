@@ -205,7 +205,7 @@ If the problem occurs, please contact Elten support"
     end
     Lists.locations = []
     begin
-      Lists.locations = Marshal.load(Zlib::Inflate.inflate(readfile("Data/locations.dat")))
+      Lists.locations = Marshal.load(zstd_decompress(readfile("Data/locations.dat")))
     rescue Exception
     end
     if !FileTest.exists?("Data/locale.dat")
@@ -259,7 +259,7 @@ If the problem occurs, please contact Elten support"
     else
       delay(1)
     end
-    v = 35
+    v = 36
     if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", "", "i").call == 0 && (!NVDA.check || NVDA.getversion != v)
       if !NVDA.check
         str = p_("Loading", "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?")

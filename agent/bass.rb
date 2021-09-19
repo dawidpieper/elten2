@@ -6,8 +6,10 @@
 
 module Bass
   BASS = Fiddle.dlopen("bass")
-  #  BASSFX = Fiddle.dlopen("bass_fx")
   BASSMIX = Fiddle.dlopen("bassmix")
+  BASSVST = Fiddle.dlopen("bass_vst")
+  BASSENC = Fiddle.dlopen("bassenc")
+  BASSENCMP3 = Fiddle.dlopen("bassenc_mp3")
   BASS_GetVersion = Fiddle::Function.new(BASS["BASS_GetVersion"], [], Fiddle::TYPE_INT)
   BASS_ErrorGetCode = Fiddle::Function.new(BASS["BASS_ErrorGetCode"], [], Fiddle::TYPE_INT)
   BASS_Init = Fiddle::Function.new(BASS["BASS_Init"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
@@ -59,11 +61,34 @@ module Bass
   BASS_ChannelGetPosition = Fiddle::Function.new(BASS["BASS_ChannelGetPosition"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_LONG_LONG)
   BASS_ChannelSetPosition = Fiddle::Function.new(BASS["BASS_ChannelSetPosition"], [Fiddle::TYPE_INT, Fiddle::TYPE_LONG_LONG, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_StreamGetFilePosition = Fiddle::Function.new(BASS["BASS_StreamGetFilePosition"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_FXSetPriority = Fiddle::Function.new(BASS["BASS_FXSetPriority"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_Mixer_StreamCreate = Fiddle::Function.new(BASSMIX["BASS_Mixer_StreamCreate"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_Mixer_StreamAddChannel = Fiddle::Function.new(BASSMIX["BASS_Mixer_StreamAddChannel"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_Mixer_ChannelRemove = Fiddle::Function.new(BASSMIX["BASS_Mixer_ChannelRemove"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_Mixer_ChannelGetData = Fiddle::Function.new(BASSMIX["BASS_Mixer_ChannelGetData"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
   BASS_Split_StreamCreate = Fiddle::Function.new(BASSMIX["BASS_Split_StreamCreate"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_VST_ChannelSetDSP = Fiddle::Function.new(BASSVST["BASS_VST_ChannelSetDSP"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_ChannelSetDSPEx = Fiddle::Function.new(BASSVST["BASS_VST_ChannelSetDSPEx"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_ChannelRemoveDSP = Fiddle::Function.new(BASSVST["BASS_VST_ChannelRemoveDSP"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_GetBypass = Fiddle::Function.new(BASSVST["BASS_VST_GetBypass"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_SetBypass = Fiddle::Function.new(BASSVST["BASS_VST_SetBypass"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_GetParamCount = Fiddle::Function.new(BASSVST["BASS_VST_GetParamCount"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_GetParam = Fiddle::Function.new(BASSVST["BASS_VST_GetParam"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_FLOAT)
+  BASS_VST_SetParam = Fiddle::Function.new(BASSVST["BASS_VST_SetParam"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_FLOAT], Fiddle::TYPE_INT)
+  BASS_VST_GetParamInfo = Fiddle::Function.new(BASSVST["BASS_VST_GetParamInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_VST_GetInfo = Fiddle::Function.new(BASSVST["BASS_VST_GetInfo"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_VST_GetProgramCount = Fiddle::Function.new(BASSVST["BASS_VST_GetProgramCount"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_GetProgram = Fiddle::Function.new(BASSVST["BASS_VST_GetProgram"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_SetProgram = Fiddle::Function.new(BASSVST["BASS_VST_SetProgram"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_GetProgramName = Fiddle::Function.new(BASSVST["BASS_VST_GetProgramName"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_EmbedEditor = Fiddle::Function.new(BASSVST["BASS_VST_EmbedEditor"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_VST_GetChunk = Fiddle::Function.new(BASSVST["BASS_VST_GetChunk"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_VST_SetChunk = Fiddle::Function.new(BASSVST["BASS_VST_SetChunk"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Encode_Start = Fiddle::Function.new(BASSENC["BASS_Encode_Start"], [Fiddle::TYPE_INT, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+  BASS_Encode_Stop = Fiddle::Function.new(BASSENC["BASS_Encode_Stop"], [Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Encode_CastInit = Fiddle::Function.new(BASSENC["BASS_Encode_CastInit"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Encode_Write = Fiddle::Function.new(BASSENC["BASS_Encode_Write"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT], Fiddle::TYPE_INT)
+  BASS_Encode_MP3_Start = Fiddle::Function.new(BASSENCMP3["BASS_Encode_MP3_Start"], [Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_INT, Fiddle::TYPE_VOIDP, Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
 
   Errmsg = {
     1 => "MEM", 2 => "FILEOPEN", 3 => "DRIVER", 4 => "BUFLOST", 5 => "HANDLE", 6 => "FORMAT", 7 => "POSITION", 8 => "INIT",
@@ -583,6 +608,177 @@ module Bass
         end
       end
       return
+    end
+  end
+
+  class VST
+    @@shown = 0
+
+    class Parameter
+      attr_reader :name, :unit, :display, :default, :value
+
+      def initialize(vst, index)
+        @vst, @index = vst, index
+        reload
+      end
+
+      def value=(v)
+        BASS_VST_SetParam.call(@vst, @index, v)
+        reload
+        @value
+      end
+
+      def reload
+        pc = "A16A16A16f"
+        n = ["", "", "", 0.0].pack(pc)
+        BASS_VST_GetParamInfo.call(@vst, @index, n)
+        @name, @unit, @display, @default = n.unpack(pc)
+        @value = BASS_VST_GetParam.call(@vst, @index)
+      end
+    end
+
+    def initialize(file, channel, priority = 0)
+      @file = file
+      @priority = priority
+      @vst = BASS_VST_ChannelSetDSP.call(channel, unicode(file), [0x80000000 | 0x1].pack("I").unpack("i").first, priority)
+      @channel = channel
+    end
+
+    def priority
+      @priority
+    end
+
+    def priority=(pr)
+      h = info[17]
+      BASS_FXSetPriority.call(h, pr)
+      @priority = pr
+    end
+
+    def loaded?
+      @vst != 0
+    end
+
+    def free
+      BASS_VST_ChannelRemoveDSP.call(@channel, @vst)
+      @channel = @vst = 0
+    end
+
+    def parameters
+      cnt = BASS_VST_GetParamCount.call(@vst)
+      params = []
+      for i in 0...cnt
+        params.push(Parameter.new(@vst, i))
+      end
+      params
+    end
+
+    def bypass
+      BASS_VST_GetBypass.call(@vst) != 0
+    end
+
+    def bypass=(b)
+      bp = 0
+      bp = 1 if b == true
+      BASS_VST_SetBypass.call(@vst, bp)
+      bypass
+    end
+
+    def program
+      BASS_VST_GetProgram.call(@vst)
+    end
+
+    def program=(g)
+      BASS_VST_SetProgram.call(@vst, g)
+      program
+    end
+
+    def name
+      info[2]
+    end
+
+    def version
+      info[3]
+    end
+
+    def unique_id
+      info[1]
+    end
+
+    def version
+      info[3]
+    end
+
+    def editor?
+      info[12] != 0
+    end
+
+    def editor_shown?
+      @editor_shown == true
+    end
+
+    def editor_show
+      editor_hide
+      if @@shown == 0
+        $showemptywindow.call
+        sleep(0.25)
+      end
+      @@shown += 1
+      @editor_shown = true
+      BASS_VST_EmbedEditor.call(@vst, $ag_wnd)
+    end
+
+    def editor_hide
+      return if @editor_shown != true
+      BASS_VST_EmbedEditor.call(@vst, 0)
+      @@shown -= 1
+      @editor_shown = false
+      if @@shown == 0
+        $hideemptywindow.call()
+      end
+    end
+
+    def file
+      @file
+    end
+
+    def programs
+      count = BASS_VST_GetProgramCount.call(@vst)
+      programs = []
+      for i in 0...count
+        a = BASS_VST_GetProgramName.call(@vst, i)
+        programs[i] = "\0" * 24
+        $strcpy.call(programs[i], a)
+        programs[i].delete!("\0")
+      end
+      programs
+    end
+
+    def export(type = :preset)
+      return nil if type != :preset and type != :bank
+      pr = 1
+      pr = 0 if type == :bank
+      pt = [0].pack("I")
+      a = BASS_VST_GetChunk.call(@vst, pr, pt)
+      len = pt.unpack("I").first
+      ex = "\0" * len
+      $rtlmovememory.call(ex, a, len)
+      return ex
+    end
+
+    def import(type = :preset, value)
+      return nil if type != :preset and type != :bank
+      pr = 1
+      pr = 0 if type == :bank
+      BASS_VST_SetChunk.call(@vst, pr, value, value.bytesize)
+    end
+
+    private
+
+    def info
+      pc = "IIA80IIIA80A80IIIIIIIIIi"
+      nfo = [0, 0, "\0" * 80, 0, 0, 0, "\0" * 80, "\0" * 80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].pack(pc)
+      BASS_VST_GetInfo.call(@vst, nfo)
+      return nfo.unpack(pc)
     end
   end
 end

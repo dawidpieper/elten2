@@ -58,12 +58,27 @@ module EltenAPI
     end
 
     class Console
+      attr_reader :codes
+
       def initialize
         @b = binding
+        @codes = []
+        @hooks = []
       end
 
       def run(code)
+        @codes.push(code)
+        @codes.delete_at(0) while @codes.size > 50
         return eval(code, @b, "Console")
+      end
+
+      def on_str(&h)
+        @hooks.push(h) if h != nil
+      end
+
+      def puts(t)
+        @hooks.each { |h| h.call(t.to_s) }
+        return nil
       end
     end
 
@@ -75,11 +90,29 @@ module EltenAPI
         Button.new(p_("EAPI_Common", "Execute"))
       ])
       container = Console.new
+      container.on_str { |str| form.fields[1].settext(form.fields[1].text + "\r\n" + str) }
+      form.bind_context { |menu|
+        if container.codes.size > 0
+          menu.option(p_("EAPI_Common", "Load last code"), nil, "l") {
+            form.fields[0].settext(container.codes[0])
+            form.focus
+          }
+          menu.submenu(p_("Console", "Last codes")) { |m|
+            for c in container.codes
+              menu.option(c[0...100], c) { |c|
+                form.fields[0].settext(c)
+                form.focus
+              }
+            end
+          }
+        end
+      }
       loop do
         loop_update
         form.update
         if form.fields[2].pressed? or ($keyr[0x11] and enter)
           kom = form.fields[0].text
+          form.fields[1].settext(form.fields[1].text + "\r\n\r\n" + kom)
           begin
             r = container.run(kom).inspect
           rescue Exception
@@ -97,7 +130,7 @@ module EltenAPI
           end
           speak(r)
           form.fields[0].settext("")
-          form.fields[1].settext(form.fields[1].text + "\r\n" + r, false)
+          form.fields[1].settext(form.fields[1].text + "\r\n#=> " + r, false)
           loop_update
         end
         break if escape
@@ -645,11 +678,14 @@ module EltenAPI
       toUnicode = Win32API.new("user32", "ToUnicode", "iippi", "i")
       for i in 32..255
         if akey[i]
-          c = "\0" * 8
+          c = "\0" * 16
           a = nil
           a = toUnicode.call(i, 0, keybd, c, c.bytesize / 2)
+          if @@deadkey == nil
+            a = toUnicode.call(i, 0, keybd, c, c.bytesize / 2)
+          end
           bc = c + ""
-          if a == 2
+          if a == -1
             @@deadkey = [i, 0, keybd]
             break
           elsif @@deadkey != nil

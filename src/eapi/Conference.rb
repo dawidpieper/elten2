@@ -164,7 +164,7 @@ module EltenAPI
     end
 
     class Channel
-      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id
+      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed
 
       def initialize
         @name = ""
@@ -201,22 +201,24 @@ module EltenAPI
     end
 
     class ChannelUser
-      attr_accessor :id, :name, :waiting
+      attr_accessor :id, :name, :waiting, :supervisor
 
-      def initialize(id, name, waiting = false)
+      def initialize(id, name, waiting = false, supervisor = nil)
         @id = id
         @name = name
         @waiting = waiting
+        @supervisor = supervisor
       end
     end
 
     class ChannelUserVolume
-      attr_accessor :user, :volume, :muted
+      attr_accessor :user, :volume, :muted, :streams_muted
 
-      def initialize(user, volume, muted)
+      def initialize(user, volume, muted, streams_muted)
         @user = user
         @volume = volume
         @muted = muted
+        @streams_muted = streams_muted
       end
     end
 
@@ -229,6 +231,37 @@ module EltenAPI
       end
     end
 
+    class Streams
+      attr_reader :sources, :streams
+
+      def initialize
+        @sources = []
+        @streams = []
+      end
+    end
+
+    class Stream
+      attr_reader :sources
+      attr_accessor :name, :volume, :x, :y
+
+      def initialize
+        @sources = []
+        @name = ""
+        @volume = ""
+        @x = 0
+        @y = 0
+      end
+    end
+
+    class Source
+      attr_accessor :name, :volume
+
+      def initialize
+        @name = ""
+        @volume = 100
+      end
+    end
+
     @@opened = false
     @@volume = 0
     @@input_volume = 0
@@ -236,12 +269,14 @@ module EltenAPI
     @@stream_volume = 0
     @@channels = nil
     @@volumes = {}
+    @@streams = Streams.new
     @@channel = Channel.new
     @@waiting_channel_id = 0
     @@created = nil
     @@hooks = []
     @@status = {}
     @@streaming = false
+    @@shoutcast = false
     @@cardset = false
     @@texts = []
     @@saving = false
@@ -252,6 +287,9 @@ module EltenAPI
     @@dir = 0
     @@cardboard = []
     @@cards = nil
+    @@vsts = nil
+    @@vstpreset = nil
+    @@vstbank = nil
     @@decks = nil
     def self.open(ignorePTT = false, nick = nil)
       @@opened = false
@@ -316,6 +354,9 @@ module EltenAPI
     end
     def self.streaming?
       @@streaming
+    end
+    def self.shoutcast?
+      @@shoutcast
     end
     def self.cardset?
       @@cardset
@@ -394,6 +435,12 @@ module EltenAPI
     def self.object_add(resid, name, location)
       $agent.write(Marshal.dump({ "func" => "conference_addobject", "resid" => resid, "name" => name, "location" => location }))
     end
+    def self.stream_remove(id)
+      $agent.write(Marshal.dump({ "func" => "conference_removestreamex", "id" => id }))
+    end
+    def self.stream_add_file(file, name, x = -1, y = -1)
+      $agent.write(Marshal.dump({ "func" => "conference_addstream", "source" => "file", "file" => file, "name" => name, "x" => x, "y" => y }))
+    end
     def self.set_stream(file)
       $agent.write(Marshal.dump({ "func" => "conference_setstream", "file" => file }))
     end
@@ -406,6 +453,12 @@ module EltenAPI
     def self.togglestream
       $agent.write(Marshal.dump({ "func" => "conference_togglestream" }))
       delay(0.05)
+    end
+    def self.set_shoutcast(server, pass, name = nil, pub = false, bitrate = 128)
+      $agent.write(Marshal.dump({ "func" => "conference_setshoutcast", "server" => server, "pass" => pass, "name" => name, "pub" => pub, "bitrate" => bitrate }))
+    end
+    def self.remove_shoutcast
+      $agent.write(Marshal.dump({ "func" => "conference_removeshoutcast" }))
     end
     def self.move(x_plus, y_plus)
       $agent.write(Marshal.dump({ "func" => "conference_move", "x_plus" => x_plus, "y_plus" => y_plus }))
@@ -438,6 +491,22 @@ module EltenAPI
     def self.admin(username)
       $agent.write(Marshal.dump({ "func" => "conference_admin", "username" => username }))
       delay(1.5)
+    end
+    def self.supervise(userid)
+      $agent.write(Marshal.dump({ "func" => "conference_supervise", "userid" => userid }))
+      delay(0.1)
+    end
+    def self.unsupervise(userid)
+      $agent.write(Marshal.dump({ "func" => "conference_unsupervise", "userid" => userid }))
+      delay(0.1)
+    end
+    def self.follow(channel)
+      $agent.write(Marshal.dump({ "func" => "conference_follow", "channel" => channel }))
+      delay(0.1)
+    end
+    def self.unfollow(channel)
+      $agent.write(Marshal.dump({ "func" => "conference_unfollow", "channel" => channel }))
+      delay(0.1)
     end
     def self.goto(x, y)
       $agent.write(Marshal.dump({ "func" => "conference_goto", "x" => x, "y" => y }))
@@ -535,23 +604,34 @@ module EltenAPI
     end
     def self.volume(user)
       v = self.volumes[user]
-      v ||= ChannelUserVolume.new(user, 100, false)
+      v ||= ChannelUserVolume.new(user, 100, false, false)
       v
     end
     def self.volumes
       return {} if @@volumes == nil
       vls = {}
       for u in @@volumes.keys
-        vls[u] = ChannelUserVolume.new(u, @@volumes[u][0], @@volumes[u][1])
+        vls[u] = ChannelUserVolume.new(u, @@volumes[u][0], @@volumes[u][1], @@volumes[u][2])
       end
       return vls
     end
-    def self.setvolume(user, volume, muted)
+    def self.streams
+      return @@streams
+    end
+    def self.setvolume(user, volume, muted, streams_muted)
       if @@opened == false
         self.open
         delay(1)
       end
-      $agent.write(Marshal.dump({ "func" => "conference_setvolume", "user" => user, "volume" => volume, "muted" => muted }))
+      $agent.write(Marshal.dump({ "func" => "conference_setvolume", "user" => user, "volume" => volume, "muted" => muted, "streams_muted" => streams_muted }))
+    end
+    def self.setvstpreset(prm)
+      @@vstpreset = Base64.strict_decode64(prm)
+    rescue Exception
+    end
+    def self.setvstbank(prm)
+      @@vstbank = Base64.strict_decode64(prm)
+    rescue Exception
     end
     def self.texts
       return @@texts
@@ -593,6 +673,7 @@ module EltenAPI
           ch.motd = cha["motd"]
           ch.room_id = cha["room_id"]
           ch.allow_guests = cha["allow_guests"]
+          ch.followed = (cha["followed"] == true)
           channels.push(ch)
         end
       end
@@ -634,12 +715,14 @@ module EltenAPI
       @@opened = false
       @@channels = nil
       @@volumes = {}
+      @@streams = Streams.new
       @@channel = Channel.new
       @@created = nil
       @@volume = 0
       @@stream_volume = 0
       @@input_volume = 0
       @@streaming = false
+      @@shoutcast = false
       @@cardset = false
       @@texts = []
       @@muted = false
@@ -674,7 +757,7 @@ module EltenAPI
         ch.groupid = params["groupid"].to_i
         ch.users = []
         if params["users"].is_a?(Array)
-          ch.users = params["users"].map { |u| ChannelUser.new(u["id"], u["name"]) }
+          ch.users = params["users"].map { |u| ChannelUser.new(u["id"], u["name"], false, u["supervisor"]) }
         end
         if params["waiting_users"].is_a?(Array)
           ch.users += params["waiting_users"].map { |u| ChannelUser.new(u["id"], u["name"], true) }
@@ -720,6 +803,32 @@ module EltenAPI
     rescue Exception
       Log.error("Conference - Update Volumes: #{$!.to_s}, #{$@.to_s}")
     end
+    def self.setstreams(str)
+      st = JSON.load(str)
+      @@streams = Streams.new
+      for s in st["sources"]
+        so = Source.new
+        so.name = s["name"]
+        so.volume = s["volume"]
+        @@streams.sources.push(so)
+      end
+      for s in st["streams"]
+        str = Stream.new
+        str.name = s["name"]
+        str.volume = s["volume"]
+        str.x = s["x"]
+        str.y = s["y"]
+        for o in s["sources"]
+          so = Source.new
+          so.name = o["name"]
+          so.volume = o["volume"]
+          str.sources.push(so)
+        end
+        @@streams.streams.push(str)
+      end
+    rescue Exception
+      Log.error("Conference - Update streams: #{$!.to_s}, #{$@.to_s}")
+    end
     def self.settext(username, userid, text)
       @@texts.push([username, userid, text])
       trigger(:text)
@@ -730,6 +839,10 @@ module EltenAPI
     end
     def self.setcards(cards)
       @@cards = JSON.load(cards)
+    rescue Exception
+    end
+    def self.setvsts(vsts)
+      @@vsts = JSON.load(vsts)
     rescue Exception
     end
     def self.setdecks(decks)
@@ -751,7 +864,61 @@ module EltenAPI
         @@streaming = value
       when "pushtotalk"
         @@pushtotalk = value
+      when "shoutcast"
+        @@shoutcast = value
       end
+    end
+    def self.vsts(userid = 0)
+      @@vsts = nil
+      $agent.write(Marshal.dump({ "func" => "conference_vsts", "userid" => userid }))
+      t = Time.now.to_f
+      loop_update while @@vsts == nil && Time.now.to_f - t < 1
+      return nil if @@vsts == nil
+      @@vsts
+    end
+    def self.vst_add(file, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_addvst", "file" => file, "userid" => userid }))
+    end
+    def self.vst_remove(index, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_removevst", "index" => index, "userid" => userid }))
+    end
+    def self.vst_setparam(index, parameter, value, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_setvstparam", "index" => index, "parameter" => parameter, "value" => value.to_f, "userid" => userid }))
+    end
+    def self.vst_setbypass(index, bypass, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_bypassvst", "index" => index, "bypass" => bypass, "userid" => userid }))
+    end
+    def self.vst_setprogram(index, program, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_setvstprogram", "index" => index, "program" => program, "userid" => userid }))
+    end
+    def self.vst_showeditor(index, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_showvsteditor", "index" => index, "userid" => userid }))
+    end
+    def self.vst_hideeditor(index, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_hidevsteditor", "index" => index, "userid" => userid }))
+    end
+    def self.vst_export_preset(index, userid = 0)
+      @@vstpreset = nil
+      $agent.write(Marshal.dump({ "func" => "conference_exportvstpreset", "index" => index, "userid" => userid }))
+      t = Time.now.to_f
+      loop_update while @@vstpreset == nil && Time.now.to_f - t < 1
+      @@vstpreset
+    end
+    def self.vst_export_bank(index, userid = 0)
+      @@vstbank = nil
+      $agent.write(Marshal.dump({ "func" => "conference_exportvstbank", "index" => index, "userid" => userid }))
+      t = Time.now.to_f
+      loop_update while @@vstbank == nil && Time.now.to_f - t < 1
+      @@vstbank
+    end
+    def self.vst_import_preset(index, content, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_importvstpreset", "index" => index, "vstpreset" => Base64.strict_encode64(content), "userid" => userid }))
+    end
+    def self.vst_import_bank(index, content, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_importvstbank", "index" => index, "vstbank" => Base64.strict_encode64(content), "userid" => userid }))
+    end
+    def self.vst_move(index, pos, userid = 0)
+      $agent.write(Marshal.dump({ "func" => "conference_movevst", "index" => index, "pos" => pos, "userid" => userid }))
     end
     def self.on(hook, &block)
       if block != nil

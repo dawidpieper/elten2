@@ -360,6 +360,20 @@ task :locale do
       fail
     end
   end
+  ge = false
+  begin
+    require "zstd-ruby"
+  rescue Exception
+    if ge == false
+      ge = true
+      puts("zstd-ruby not found, trying to install")
+      install_gem("zstd-ruby")
+      retry
+    else
+      fail
+    end
+  end
+
   Dir.mkdir("out") if !FileTest.exists?("out")
   Dir.mkdir("out/locale") if !FileTest.exists?("out/locale")
   for f in Dir.glob("locale/*/lc_messages/elten.po")
@@ -414,7 +428,7 @@ task :locale do
       next if f != "en-GB" && FileTest.exists?("out/locale/en-GB/" + k + ".md") && IO.binread("out/locale/en-GB/" + k + ".md") == hash[k]
       tcnt += [k.bytesize, k, hash[k].bytesize, hash[k]].pack("Ca*Ia*")
     end
-    zcnt = Zlib::Deflate.deflate(tcnt, Zlib::BEST_COMPRESSION)
+    zcnt = Zstd.compress(tcnt, 19)
     hd += [f[0..1] + f[3..4], zcnt.bytesize].pack("a*I")
     cnt += zcnt
   end

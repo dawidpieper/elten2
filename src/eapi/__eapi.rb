@@ -588,6 +588,7 @@ module EltenAPI
     ReadFile = Win32API.new("kernel32", "ReadFile", "ipipp", "I")
     CloseHandle = Win32API.new("kernel32", "CloseHandle", "i", "i")
     SetFilePointer = Win32API.new("kernel32", "SetFilePointer", "ilpi", "i")
+    GetFileSize = Win32API.new("kernel32", "GetFileSize", "ip", "i")
 
     def initialize(file)
       ObjectSpace.define_finalizer(self,
@@ -614,11 +615,80 @@ module EltenAPI
       SetFilePointer.call(@handler, lo, phi, 0)
     end
 
+    def size
+      a = [0].pack("I")
+      b = GetFileSize.call(@handler, a)
+      c = [b].pack("I") + a
+      size = c.unpack("Q").first
+      return size
+    end
+
     def read(size)
       buf = "\0" * size
       rd = [0].pack("i")
       ReadFile.call(@handler, buf, size, rd, nil)
       return buf[0...rd.unpack("I").first]
+    end
+
+    def close
+      CloseHandle.call(@@handlers[self.object_id] || 0)
+      @@handlers[self.object_id] = nil
+    end
+  end
+
+  class FileWriter
+    @@handlers = {}
+    CreateFile = Win32API.new("kernel32", "CreateFileW", "piipiip", "i")
+    ReadFile = Win32API.new("kernel32", "ReadFile", "ipipp", "I")
+    WriteFile = Win32API.new("kernel32", "WriteFile", "ipipp", "I")
+    CloseHandle = Win32API.new("kernel32", "CloseHandle", "i", "i")
+    SetFilePointer = Win32API.new("kernel32", "SetFilePointer", "ilpi", "i")
+    GetFileSize = Win32API.new("kernel32", "GetFileSize", "ip", "i")
+
+    def initialize(file)
+      ObjectSpace.define_finalizer(self,
+                                   self.class.method(:finalize).to_proc)
+      @file = file
+      @handler = CreateFile.call(unicode(file), 1 | 2, 0, nil, 4, 0, 0)
+      @@handlers[self.object_id] = @handler
+    end
+
+    def self.finalize(id)
+      CloseHandle.call(@@handlers[id])
+      @@handlers[id] = nil
+    end
+
+    def position
+      phi = "\0" * 4
+      lo = SetFilePointer.call(@handler, 0, phi, 1)
+      return lo + phi.unpack("I").first * (2 ** 32)
+    end
+
+    def position=(pt)
+      lo, hi = [pt].pack("q").unpack("iI")
+      phi = [hi].pack("I")
+      SetFilePointer.call(@handler, lo, phi, 0)
+    end
+
+    def size
+      a = [0].pack("I")
+      b = GetFileSize.call(@handler, a)
+      c = [b].pack("I") + a
+      size = c.unpack("Q").first
+      return size
+    end
+
+    def read(size)
+      buf = "\0" * size
+      rd = [0].pack("i")
+      ReadFile.call(@handler, buf, size, rd, nil)
+      return buf[0...rd.unpack("I").first]
+    end
+
+    def write(text)
+      wr = [0].pack("i")
+      WriteFile.call(@handler, text, text.size, wr, nil)
+      return wr
     end
 
     def close
@@ -771,6 +841,7 @@ module EltenAPI
     Configuration.usefx = readconfig("Advanced", "UseFX", -1)
     Configuration.usedenoising = readconfig("Advanced", "UseDenoising", 0)
     Configuration.useechocancellation = readconfig("Advanced", "UseEchoCancellation", 0)
+    Configuration.usebilinearhrtf = readconfig("Advanced", "UseBilinearHRTF", 0)
     forcewasapi = Configuration.forcewasapi
     Configuration.forcewasapi = readconfig("Advanced", "ForceWasapi", 0)
 
@@ -781,5 +852,20 @@ module EltenAPI
     end
     Configuration.autologin = readconfig("Login", "EnableAutoLogin", 1)
     setlocale(Configuration.language) if lang != Configuration.language
+  end
+
+  def zstd_decompress(s)
+    sz = Win32API.new("bin\\libzstd", "ZSTD_getFrameContentSize", "pi", "i").call(s, s.size)
+    return nil if sz <= 0
+    d = "\0" * sz
+    sz = Win32API.new("bin\\libzstd", "ZSTD_decompress", "pipi", "i").call(d, d.size, s, s.size)
+    return d[0...sz]
+  end
+
+  def zstd_compress(s, l = 3)
+    sz = Win32API.new("bin\\libzstd", "ZSTD_compressBound", "i", "i").call(s.size)
+    d = "\0" * sz
+    sz = Win32API.new("bin\\libzstd", "ZSTD_compress", "pipii", "i").call(d, d.size, s, s.size, l)
+    return d[0...sz]
   end
 end

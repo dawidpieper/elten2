@@ -55,23 +55,43 @@ class Scene_Conference
             s = p_("Conference", "Mute user")
             s = p_("Conference", "Unmute user") if vol.muted == true
             menu.option(s, nil, "m") {
-              Conference.setvolume(user.name, vol.volume, !vol.muted)
+              Conference.setvolume(user.name, vol.volume, !vol.muted, vol.streams_muted)
+              if !vol.muted
+                speak(p_("Conference", "User muted"))
+              else
+                speak(p_("Conference", "User unmuted"))
+              end
+            }
+            s = p_("Conference", "Mute user's streams")
+            s = p_("Conference", "Unmute user's streams") if vol.streams_muted == true
+            menu.option(s, nil, "w") {
+              Conference.setvolume(user.name, vol.volume, vol.muted, !vol.streams_muted)
+              if !vol.streams_muted
+                speak(p_("Conference", "User's streams muted"))
+              else
+                speak(p_("Conference", "User's streams unmuted"))
+              end
             }
             menu.option(p_("Conference", "Change user volume")) {
               lst_volume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "User volume"), 100 - vol.volume)
               lst_volume.on(:move) {
-                Conference.setvolume(user.name, 100 - lst_volume.index, vol.muted)
+                Conference.setvolume(user.name, 100 - lst_volume.index, vol.muted, vol.streams_muted)
               }
               loop {
                 loop_update
                 lst_volume.update
                 break if enter
                 if escape
-                  Conference.setvolume(user.name, vol.volume, vol.muted)
+                  Conference.setvolume(user.name, vol.volume, vol.muted, vol.streams_muted)
                   break
                 end
               }
             }
+            if holds_premiumpackage("director")
+              menu.option(p_("Conference", "VST chain"), nil, "T") {
+                insert_scene(Scene_Conference_VSTS.new(user.id))
+              }
+            end
             menu.option(p_("Conference", "Go to user"), nil, "g") {
               Conference.goto_user(user.id)
             }
@@ -94,6 +114,19 @@ class Scene_Conference
             menu.option(p_("Conference", "Kick")) {
               Conference.kick(user.id)
             }
+          end
+          if Conference.channel.administrators.include?(Session.name)
+            if user.supervisor == nil || user.supervisor == 0
+              if holds_premiumpackage("director") && user.name != Session.name
+                menu.option(p_("Conference", "Take over this user's stream")) {
+                  Conference.supervise(user.id)
+                }
+              end
+            else
+              menu.option(p_("Conference", "Abandon this user's stream")) {
+                Conference.unsupervise(user.id)
+              }
+            end
           end
         end
       end
@@ -136,6 +169,12 @@ class Scene_Conference
       lst_users.options.clear
       for u in Conference.channel.users
         s = u.name
+        if u.supervisor != nil && u.supervisor != ""
+          su = Conference.channel.users.find { |us| us.id == u.supervisor }
+          supervisor = ""
+          supervisor = su.name if su != nil
+          s += " (" + p_("Conference", "Stream taken over by %{supervisor}") % { "supervisor" => supervisor } + ")"
+        end
         s += "\004NEW\004" if u.waiting
         lst_users.options.push(s)
       end
@@ -295,6 +334,23 @@ class Scene_Conference
             lst_channels.focus
           }
         end
+        if ch.passworded == false
+          if ch.followed == false
+            menu.option(p_("Conference", "Follow"), nil, "l") {
+              Conference.follow(ch.id)
+              speak(p_("Conference", "Channel followed"))
+              @chans = get_channelslist
+              locha.call(@chans)
+            }
+          else
+            menu.option(p_("Conference", "Unfollow"), nil, "l") {
+              Conference.unfollow(ch.id)
+              speak(p_("Conference", "Channel unfollowed"))
+              @chans = get_channelslist
+              locha.call(@chans)
+            }
+          end
+        end
         menu.option(p_("Conference", "Channel details"), nil, "d") {
           txt = ch.name + "\n"
           txt += p_("Conference", "Creator") + ": " + ch.creator + "\n" if ch.creator.is_a?(String) and ch.creator != ""
@@ -319,7 +375,7 @@ class Scene_Conference
         end
       end
       if Conference.channel.id != 0
-        menu.option(p_("Conference", "Leave"), nil, "l") {
+        menu.option(p_("Conference", "Leave"), nil, "J") {
           Conference.leave
           @chans = get_channelslist
           locha.call(@chans)
@@ -595,7 +651,7 @@ class Scene_Conference
         p_("Conference", "%{name}, located at %{x}, %{y}") % { "name" => o.name, "x" => o.x.to_s, "y" => o.y.to_s }
       end
     }
-    sel = ListBox.new(selt, p_("Conference", "Channel objects"))
+    sel = ListBox.new(selt, p_("Conference", "Channel scenery"))
     sel.bind_context { |menu|
       menu.option(p_("Conference", "Add object"), nil, "n") {
         o = getobject
@@ -899,7 +955,8 @@ class Scene_Conference
   end
 
   def context_streaming(menu)
-    menu.option(p_("Conference", "Channel objects"), nil, "o") { chanobjects }
+    menu.option(p_("Conference", "My streams"), nil, "N") { streams }
+    menu.option(p_("Conference", "Channel scenery"), nil, "o") { chanobjects }
     if Conference.cardset?
       menu.option(p_("Conference", "Remove soundcard stream")) { Conference.remove_card }
     else
@@ -943,6 +1000,70 @@ class Scene_Conference
         end
         @form.focus
       }
+    end
+    if holds_premiumpackage("director")
+      if Conference.shoutcast?
+        menu.option(p_("Conference", "Remove shoutcast stream")) {
+          Conference.remove_shoutcast
+        }
+      else
+        menu.option(p_("Conference", "Stream this conference to a shoutcast server")) {
+          bitrates = [96, 128, 192, 256, 320]
+          form = Form.new([
+            lst_type = ListBox.new(["Shoutcast V2", "Shoutcast V1", "Icecast"], p_("Conference", "Server type"), 0, 0, true),
+            edt_host = EditBox.new(p_("Conference", "Server"), 0, "", true),
+            edt_port = EditBox.new(p_("Conference", "Port"), EditBox::Flags::Numbers, "8000", true),
+            edt_streamid = EditBox.new(p_("Conference", "Stream ID"), EditBox::Flags::Numbers, "1", true),
+            edt_username = EditBox.new(p_("Conference", "Username (empty for no user)"), 0, "", true),
+            edt_password = EditBox.new(p_("Conference", "Password"), EditBox::Flags::Password, "", true),
+            edt_name = EditBox.new(p_("Conference", "Stream name"), 0, "", true),
+            lst_bitrate = ListBox.new(bitrates.map { |b| b.to_s + "kbps" }, p_("Conference", "Stream bitrate"), 1, 0, true),
+            chk_pub = CheckBox.new(p_("Conference", "Make this stream public")),
+            btn_start = Button.new(p_("Conference", "Start")),
+            btn_cancel = Button.new(_("Cancel"))
+          ], 0, false, true)
+          btn_cancel.on(:press) { form.resume }
+          form.cancel_button = btn_cancel
+          lst_type.on(:move) {
+            case lst_type.index
+            when 0
+              form.show(edt_username)
+              form.show(edt_password)
+              form.show(edt_streamid)
+            when 1
+              form.hide(edt_username)
+              form.show(edt_password)
+              form.hide(edt_streamid)
+            when 2
+              form.show(edt_username)
+              form.show(edt_password)
+              form.show(edt_streamid)
+            end
+          }
+          btn_start.on(:press) {
+            server = edt_host.text + ":" + edt_port.text
+            case lst_type.index
+            when 0
+              server += "," + edt_streamid.text
+            when 2
+              server += "/" + edt_streamid.text
+            end
+            pass = ""
+            if (lst_type.index == 0 || lst_type.index == 2) && edt_username.text != ""
+              pass = edt_username.text + ":"
+            end
+            pass += edt_password.text
+            name = edt_name.text
+            name = nil if name == ""
+            bitrate = bitrates[lst_bitrate.index]
+            pub = (chk_pub.checked == 1)
+            Conference.set_shoutcast(server, pass, name, pub, bitrate)
+            form.resume
+          }
+          form.wait
+          @form.focus
+        }
+      end
     end
   end
 
@@ -992,6 +1113,11 @@ class Scene_Conference
         @form.focus
       }
     }
+    if holds_premiumpackage("audiophile")
+      menu.option(p_("Conference", "VST chain"), nil, "t") {
+        insert_scene(Scene_Conference_VSTS.new)
+      }
+    end
     menu.submenu(p_("Conference", "Miscellaneous")) { |m|
       m.option(p_("Conference", "Roll a 6-sided dice"), nil, "d") { Conference.diceroll }
       m.option(p_("Conference", "Roll a custom dice"), nil, "D") {
@@ -1274,5 +1400,372 @@ class Scene_Conference
     d = selector((1..100).to_a.map { |d| p_("Conference", "%{count}-sided") % { "count" => d.to_s } }, p_("Conference", "Which dice do you want to roll?"), @@lastdiceindex, -1, 1)
     @@lastdiceindex = d if d >= 0
     Conference.diceroll(d + 1) if d >= 0
+  end
+
+  def streams
+    self.class.streams
+    @form.focus
+  end
+
+  def self.streams
+    sel = TableBox.new([nil, p_("Conference", "Location")], [], 0, p_("Conference", "My streams"), true)
+    rfr = Proc.new {
+      selt = Conference.streams.streams.map { |s|
+        loc = "x: #{s.x}, y: #{s.y}"
+        if s.x == 0
+          loc = p_("Conference", "Everywhere")
+        elsif s.x == -1
+          loc = p_("Conference", "Right next to me")
+        end
+        [s.name, loc]
+      }
+      sel.rows = selt
+      sel.reload
+    }
+    sel.bind_context { |menu|
+      menu.option(p_("Conference", "New stream"), nil, "n") {
+        form = Form.new([
+          tr_file = FilesTree.new(p_("Conference", "File"), Dirs.documents + "\\", false, true, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]),
+          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
+          btn_place = Button.new(p_("Conference", "Place")),
+          btn_cancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        btn_place.on(:press) {
+          file = tr_file.selected
+          name = File.basename(file, File.extname(file))
+          x, y = 0, 0
+          case lst_location.index
+          when 0
+            x, y = -1, -1
+          when 1
+            x, y = Conference.get_coordinates[0..1]
+          when 2
+            x, y = 0, 0
+          end
+          Conference.stream_add_file(file, name, x, y)
+          delay(0.5)
+          form.resume
+        }
+        btn_cancel.on(:press) { form.resume }
+        form.cancel_button = btn_cancel
+        form.accept_button = btn_place
+        form.wait
+        rfr.call
+        sel.focus
+      }
+      if sel.options.size > 0
+        menu.option(p_("Conference", "Remove stream"), nil, :del) {
+          Conference.stream_remove(sel.index)
+          play("editbox_delete")
+          delay(0.5)
+          rfr.call
+          sel.focus
+        }
+      end
+    }
+    rfr.call
+    sel.focus
+    loop {
+      loop_update
+      sel.update
+      break if escape
+    }
+  end
+end
+
+class Scene_Conference_VSTS
+  def initialize(userid = 0)
+    @userid = userid
+  end
+
+  def main
+    @sel = TableBox.new([p_("Conference", "Name"), p_("Conference", "State"), p_("Conference", "File")], [], 0, p_("Conference", "VST Plugins"), true)
+    @sel.bind_context { |menu| context(menu) }
+    refresh
+    @sel.focus
+    loop do
+      loop_update
+      @sel.update
+      break if escape
+    end
+    $scene = Scene_Main.new
+  end
+
+  def params(vst)
+    return if vst == nil
+    index = vst["index"]
+    sel = TableBox.new([p_("Conference", "Name"), p_("Conference", "Unit"), p_("Conference", "Display"), p_("Conference", "Value")], [], 0, p_("Conference", "VST parameters"), true)
+    sel.add_tip(p_("Conference", "Use left/right arrows to adjust values"))
+    rld = Proc.new {
+      refresh
+      vst = @vsts[index]
+    }
+    rfr = Proc.new {
+      selt = []
+      if vst != nil
+        for param in vst["parameters"]
+          selt.push([param["name"], param["unit"], param["display"], param["value"].to_s])
+        end
+      end
+      sel.rows = selt
+      sel.reload
+    }
+    rfr.call
+    sel.focus
+    sel.bind_context { |menu|
+      if vst["parameters"].size > 0
+        parameter = vst["parameters"][sel.index]
+        menu.option(p_("Conference", "Edit parameter"), nil, "e") {
+          prm = input_text(p_("Conference", "Parameter value"), 0, parameter["value"].to_s, true)
+          if prm != nil
+            pr = prm.to_f
+            Conference.vst_setparam(index, sel.index, pr, @userid)
+            rld.call
+            rfr.call
+          end
+        }
+        menu.option(p_("Conference", "Set to default"), nil, "d") {
+          Conference.vst_setparam(index, sel.index, parameter["default"].to_f, @userid)
+          rld.call
+          rfr.call
+        }
+      end
+    }
+    loop do
+      loop_update
+      sel.update
+      if !$keyr[0x10] && ((arrow_left or arrow_right) and vst != nil)
+        if vst["parameters"].size > 0
+          parameter = vst["parameters"][sel.index]
+          pr = pro = parameter["value"]
+          ds = parameter["display"]
+          ch = 0
+          if arrow_left
+            ch = -0.01
+          else
+            ch = 0.01
+          end
+          pr += ch
+          pr = 0 if pr < 0 and pro > 0
+          pr = 1 if pr > 1 and pro < 1
+          Conference.vst_setparam(index, sel.index, pr, @userid)
+          ppr = pr
+          prm = parameter
+          rld.call
+          prm = vst["parameters"][sel.index] if vst != nil
+          i = 0
+          while (pr >= 0 && pr <= 1) && prm["display"] == ds
+            i += 1
+            pr += ch
+            if i > 3
+              if ch < 0
+                pr = (pr * 10).floor / 10.0
+              else
+                pr = (pr * 10).ceil / 10.0
+              end
+            end
+            Conference.vst_setparam(index, sel.index, pr, @userid)
+            rld.call
+            break if vst == nil
+            prm = vst["parameters"][sel.index]
+            break if prm == nil
+          end
+          Conference.vst_setparam(index, sel.index, ppr, @userid) if prm == nil || prm["display"] == ds
+          rld.call
+          rfr.call
+          if sel.rows[sel.index].is_a?(Array)
+            speak(sel.rows[sel.index][2])
+          end
+        end
+      end
+      break if escape
+    end
+  end
+
+  def refresh
+    @vsts = Conference.vsts(@userid)
+    selt = []
+    if @vsts != nil
+      for v in @vsts
+        selt.push([v["name"], v["bypass"] ? (p_("Conference", "Disabled")) : p_("Conference", "Enabled"), v["file"]])
+      end
+    end
+    @sel.rows = selt
+    @sel.reload
+  end
+
+  def context(menu)
+    return if @vsts == nil
+    if @vsts.size > 0
+      vst = @vsts[@sel.index]
+      menu.option(p_("Conference", "Show parameters"), nil, "e") {
+        params(vst)
+        @sel.focus
+      }
+      s = p_("Conference", "Enable")
+      s = p_("Conference", "Disable") if vst["bypass"] == false
+      menu.option(s, nil, :space) {
+        Conference.vst_setbypass(@sel.index, !vst["bypass"], @userid)
+        if !vst["bypass"]
+          play("recording_stop")
+        else
+          play("recording_start")
+        end
+        refresh
+      }
+      if vst["haseditor"] == true
+        s = p_("Conference", "Show editor")
+        s = p_("Conference", "Hide editor") if vst["showneditor"] == true
+        menu.option(s) {
+          if vst["showneditor"] == true
+            Conference.vst_hideeditor(@sel.index, @userid)
+          else
+            Conference.vst_showeditor(@sel.index, @userid)
+            delay(0.5)
+          end
+          refresh
+        }
+      end
+      if vst["programs"].size > 1
+        menu.option(p_("Conference", "Change program"), nil, "g") {
+          g = selector(vst["programs"], p_("Conference", "Select program"), vst["program"], -1)
+          if g != -1
+            Conference.vst_setprogram(@sel.index, g, @userid)
+            refresh
+          end
+          @sel.focus
+        }
+      end
+      if @sel.index > 0
+        menu.option(p_("Conference", "Move up")) {
+          Conference.vst_move(@sel.index, @sel.index - 1, @userid)
+          refresh
+          @sel.sayoption
+        }
+      end
+      if @sel.index < @sel.options.size - 1
+        menu.option(p_("Conference", "Move down")) {
+          Conference.vst_move(@sel.index, @sel.index + 1, @userid)
+          refresh
+          @sel.sayoption
+        }
+      end
+      menu.option(p_("Conference", "Remove VST"), nil, :del) {
+        Conference.vst_remove(@sel.index, @userid)
+        refresh
+        play("editbox_delete")
+      }
+      menu.option(p_("Conference", "Export"), nil, "s") {
+        export
+        @sel.focus
+      }
+      menu.option(p_("Conference", "Import"), nil, "o") {
+        import
+        refresh
+        @sel.focus
+      }
+    end
+    menu.option(p_("Conference", "Add VST"), nil, "n") {
+      file = getfile(p_("Conference", "Select VST version 2 file to be loaded"), "", false, nil, [".dll"])
+      if file != nil
+        Conference.vst_add(file, @userid)
+        refresh
+      end
+    }
+    menu.option(_("Refresh"), nil, "r") { refresh }
+  end
+
+  def export
+    form = Form.new([
+      tr_path = FilesTree.new(p_("Conference", "Destination"), Dirs.user + "\\", true, true, "Documents"),
+      edt_filename = EditBox.new(p_("Conference", "File name"), 0, "#{File.basename(@vsts[@sel.index]["file"], File.extname(@vsts[@sel.index]["file"]))}.fxp", true),
+      lst_exporttype = ListBox.new([p_("Conference", "Export current preset"), p_("Conference", "Export full bank")], p_("Conference", "Export type"), 0, 0, true),
+      btn_export = Button.new(p_("Conference", "Export")),
+      btn_cancel = Button.new(_("Cancel"))
+    ], 0, false, true)
+    lst_exporttype.on(:move) {
+      format = ".fxp"
+      format = ".fxb" if lst_exporttype.index == 1
+      if edt_filename.value.downcase[-4..-1] != format
+        f = File.basename(edt_filename.text, File.extname(edt_filename.text)) + format
+        edt_filename.settext(f)
+      end
+    }
+    form.cancel_button = btn_cancel
+    btn_cancel.on(:press) { form.resume }
+    btn_export.on(:press) {
+      content = nil
+      case lst_exporttype.index
+      when 0
+        hd = ["CcnK", 0, "FPCh", 1, @vsts[@sel.index]["uniqueid"], @vsts[@sel.index]["version"], @vsts[@sel.index]["parameters"].size, @vsts[@sel.index]["programs"][@vsts[@sel.index]["program"]][0...28], 0]
+        f = Conference.vst_export_preset(@sel.index, @userid)
+        hd[8] = f.bytesize
+        hd[1] = f.bytesize + 52
+        h = hd.pack("a4Na4NNNNa28N")
+        content = h + f
+      when 1
+        hd = ["CcnK", 0, "FBCh", 1, @vsts[@sel.index]["uniqueid"], @vsts[@sel.index]["version"], @vsts[@sel.index]["programs"].size, 0, "\0" * 124, 0]
+        f = Conference.vst_export_preset(@sel.index, @userid)
+        hd[9] = f.bytesize
+        hd[1] = f.bytesize + 152
+        h = hd.pack("a4Na4NNNNNa124N")
+        f = Conference.vst_export_bank(@sel.index, @userid)
+        content = h + f
+      end
+      if content != nil
+        file = tr_path.selected + "\\" + edt_filename.text
+        writefile(file, content)
+        alert(_("Saved"))
+        form.resume
+      end
+    }
+    form.wait
+  end
+
+  def import
+    file = getfile(p_("Conference", "Select preset or bank file"), Dirs.documents + "\\", false, nil, [".fxp", ".fxb"])
+    if file != nil
+      content = readfile(file)
+      if content != "" && content != nil
+        format = File.extname(file).downcase
+        return if content.size < 12
+        magic, size, chunk = content.unpack("a4Na4")
+        return if magic != "CcnK"
+        return if size != content.size - 8 && size != 0
+        case chunk
+        when "FPCh"
+          return if content.size < 60
+          h = content[0...60]
+          f = content[60..-1]
+          hd = h.unpack("a4Na4NNNNa28N")
+          return if hd[3] != 1
+          return if hd[4] != @vsts[@sel.index]["uniqueid"]
+          Conference.vst_import_preset(@sel.index, f, @userid)
+        when "FBCh"
+          return if content.size < 160
+          h = content[0...160]
+          f = content[160..-1]
+          hd = h.unpack("a4Na4NNNNNa124N")
+          return if hd[3] != 1
+          return if hd[4] != @vsts[@sel.index]["uniqueid"]
+          Conference.vst_import_bank(@sel.index, f, @userid)
+        when "FxCk"
+          return if content.size < 56
+          h = content[0...56]
+          f = content[56..-1]
+          hd = h.unpack("a4Na4NNNNa28N")
+          return if hd[3] != 1
+          return if hd[4] != @vsts[@sel.index]["uniqueid"]
+          params = f.unpack("g*")
+          for i in 0...params.size
+            break if i >= @vsts[@sel.index]["parameters"].size
+            Conference.vst_setparam(@sel.index, i, params[i], @userid)
+          end
+        else
+          return
+        end
+        alert(_("Saved"))
+      end
+    end
   end
 end

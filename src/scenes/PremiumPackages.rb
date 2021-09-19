@@ -44,9 +44,10 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Recording conferences"),
              p_("PremiumPackages", "Creation of up to three public channels in conferences"),
              p_("PremiumPackages", "Creation of group channels in conferences"),
-             p_("PremiumPackages", "Placing own background and objects in HRTF"),
+             p_("PremiumPackages", "Placing own sceneries in channels"),
              p_("PremiumPackages", "Changing HRTF dimensions"),
-             p_("PremiumPackages", "Setting different output soundcard for conferences than the one selected in Elten")
+             p_("PremiumPackages", "Setting different output soundcard for conferences than the one selected in Elten"),
+             p_("PremiumPackages", "Using VST plugins in conferences")
            #p_("PremiumPackages", "Placing beacons in HRTF channels"),
            ])
   end
@@ -64,9 +65,22 @@ class Scene_PremiumPackages
            ])
   end
 
+  def get_director
+    return Struct_PremiumPackages_PremiumPackage.new("director", p_("PremiumPackages", "Director"), [
+             p_("PremiumPackages", "Conference streaming to shoutcast servers"),
+             p_("PremiumPackages", "Setting VST plugins on specific users")
+           ])
+  end
+
+  def get_orchestra
+    return Struct_PremiumPackages_PremiumPackage.new("orchestra", p_("PremiumPackages", "Orchestra package"), [
+             p_("PremiumPackages", "Includes profits from courier, audiophile, scribe and director")
+           ])
+  end
+
   def get_sponsor
     return Struct_PremiumPackages_PremiumPackage.new("sponsor", p_("PremiumPackages", "Sponsorship package"), [
-             p_("PremiumPackages", "Includes profits from courier, audiophile and scribe"),
+             p_("PremiumPackages", "Includes profits from all other packages, including future packages"),
              p_("PremiumPackages", "Special assigning of user on lists and forum"),
              p_("PremiumPackages", "Entry in the list of sponsors")
            ])
@@ -87,7 +101,7 @@ class Scene_PremiumPackages
           refresh
           @sel.focus
         }
-        if !package.special
+        if !package.special && package.activable
           s = p_("PremiumPackages", "Activate package using code")
           s = p_("PremiumPackages", "Extend package using code") if package.totime > 0
           menu.option(s) {
@@ -128,7 +142,8 @@ class Scene_PremiumPackages
       btn_activate = Button.new(sactivate),
       btn_close = Button.new(p_("PremiumPackages", "Close"))
     ], 0, false, true)
-    form.hide(btn_buycode) if package.special
+    form.hide(btn_buycode) if package.special || !package.activable
+    form.hide(btn_activate) if package.special || !package.activable
     form.hide(btn_convert) if package.package != "sponsor"
     form.cancel_button = btn_close
     btn_close.on(:press) { form.resume }
@@ -160,6 +175,8 @@ class Scene_PremiumPackages
       get_courier,
       get_audiophile,
       get_scribe,
+      get_director,
+      get_orchestra,
       get_sponsor
     ]
     pc = srvproc("premiumpackages", { "ac" => "list" })
@@ -176,6 +193,7 @@ class Scene_PremiumPackages
       for k in j.keys
         for c in @packages
           if c.package == k
+            c.activable = true
             c.price = j[k]["price"]
             c.halfprice = j[k]["halfprice"]
             c.available = j[k]["available"]
@@ -193,7 +211,16 @@ class Scene_PremiumPackages
       conversionprice = nil
       if c.package == "sponsor"
         z = 0
-        for g in @packages.find_all { |c| c.package != "sponsor" }
+        for g in @packages.find_all { |pc| pc.package != "sponsor" }
+          d = ((g.totime - Time.now.to_f) / 86400).floor
+          d = 0 if d < 0
+          z += (g.price * 0.9) / 365.0 * d
+        end
+        conversionprice = (c.price - z).ceil if z > 0
+      end
+      if c.package == "orchestra"
+        z = 0
+        for g in @packages.find_all { |pc| pc.package != "orchestra" }
           d = ((g.totime - Time.now.to_f) / 86400).floor
           d = 0 if d < 0
           z += (g.price * 0.9) / 365.0 * d
@@ -229,7 +256,7 @@ The granting of a premium package does not constitute a commitment or a commerci
     form.wait
     return if !accepted
     transfer = nil
-    pc = srvproc("payments", { "ac" => "methods" })
+    pc = srvproc("payments", { "ac" => "methods", "lang" => Configuration.language })
     methods = []
     if pc[0].to_i == 0
       j = JSON.load(pc[1])
@@ -237,17 +264,31 @@ The granting of a premium package does not constitute a commitment or a commerci
         if m["id"] == "transfer" and m["type"] == "transfer"
           transfer = m
         end
-        methods.push(m) if m["type"] == "transfer" || m["type"] == "url"
+        methods.push(m) if m["type"] == "transfer" || m["type"] == "url" || m["type"] == "blik"
       end
     end
     dict = {
       "transfer" => p_("PremiumPackages", "Traditional bank transfer"),
-      "paypal" => p_("PremiumPackages", "Paypal (using Paypal account or credit/debit card)")
+      "paypal" => p_("PremiumPackages", "Paypal (using Paypal account or credit/debit card)"),
+      "p24" => p_("PremiumPackages", "Przelewy24 (fast transfer from polish banks)")
     }
     selt = methods.map { |m| d = m["id"]; dict[d] || d }
     l = selector(selt, p_("PremiumPackages", "Select payment method"), 0, -1)
     return if l == -1
     method = methods[l]
+    if method["acceptance"] != nil && method["acceptance"] != ""
+      accepted = false
+      form = Form.new([
+        edt_acceptance = EditBox.new(p_("PremiumPackages", "Acceptance"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, method["acceptance"]),
+        btn_accept = Button.new(p_("PremiumPackages", "Accept")),
+        btn_reject = Button.new(p_("PremiumPackages", "Reject"))
+      ], 0, false, true)
+      btn_accept.on(:press) { accepted = true; form.resume }
+      btn_reject.on(:press) { form.resume }
+      form.cancel_button = btn_reject
+      form.wait
+      return if accepted == false
+    end
     if method["type"] == "transfer"
       transfer = method
       info = p_("PremiumPackages", "Below are the transfer details.\n")
@@ -313,6 +354,42 @@ Sort code: %{sortcode}") % { "holder" => transfer["holder"], "address" => transf
           run("explorer \"#{url}\"")
         end
       }
+    elsif method["type"] == "blik"
+      prm = { "ac" => "pay", "method" => method["id"] }
+      prm["package"] = package.package if package != nil
+      price = 0
+      price = package.price if package != nil
+      if package != nil and package.package == "sponsor" and convert == true
+        conversionprice = package.price
+        z = 0
+        for g in @packages.find_all { |c| c.package != "sponsor" }
+          d = ((g.totime - Time.now.to_f) / 86400).floor
+          d = 0 if d < 0
+          z += (g.price * 0.9) / 365.0 * d
+        end
+        conversionprice = (package.price - z).ceil if z > 0
+        price = conversionprice
+        prm["package"] = "sponsor_c"
+      end
+      if package == nil
+        prm["amount"] = selector((1..20).to_a.map { |a| a.to_s }, p_("PremiumPackages", "How many premium codes would you like to buy?"), 0, -1) + 1
+        return if prm["amount"] == 0
+        pr = @packages.find { |pc| !pc.special }
+        price = pr.price * prm["amount"] if pr != nil
+      end
+      per = 0
+      per += method["plus"] if method["plus"].is_a?(Numeric)
+      per += method["perc_plus"] * price / 100.0 if method["perc_plus"].is_a?(Numeric)
+      return if (per != 0 && confirm(p_("PremiumPackages", "You will be charged a %{amount} pln commission for the selected payment method. Do you want to continue?") % { "amount" => per }) == 0)
+      code = input_text(p_("PremiumPackages", "Enter blik code"), EditBox::Flags::Numbers, "", true, [], [], 6)
+      return if code == nil
+      prm["code"] = code
+      c = srvproc("payments", prm)
+      if c[0].to_i < 0
+        alert(_("Error"))
+      else
+        alert(p_("PremiumPackages", "Payment has been ordered. Additional confirmation may be required. The order will be processed once the payment is complete."))
+      end
     end
   end
 
@@ -347,11 +424,13 @@ Sort code: %{sortcode}") % { "holder" => transfer["holder"], "address" => transf
 end
 
 class Struct_PremiumPackages_PremiumPackage
-  attr_accessor :package, :name, :profits, :totime, :halfprice, :price, :available, :allowed, :special
+  attr_accessor :package, :name, :profits, :totime, :halfprice, :price, :available, :allowed, :special, :activable
 
   def initialize(package, name, profits = [])
     @package, @name, @profits = package, name, profits
     @totime = 0
     @available, @allowed, @special = false, false, false
+    @activable = false
+    @price = 0
   end
 end

@@ -285,7 +285,7 @@ def feednew(message = nil, title = nil, response = 0)
   return if $name == nil || $name == "" || $name == "guest"
   message = unicode(message) if message != nil
   title ||= p_("Main", "Publish to a feed")
-  $showwriter.call(unicode(title + " - ELTEN"), unicode(p_("Main", "Message")), unicode(p_("Messages", "Send")), unicode(_("Cancel")), message, 200)
+  $showwriter.call(unicode(title + " - ELTEN"), unicode(p_("Main", "Message")), unicode(p_("Messages", "Send")), unicode(_("Cancel")), message, 300)
   $feed_writing = response
   play "signal"
 end
@@ -474,7 +474,7 @@ def chatnew(message = nil, title = nil, response = 0)
   return if $name == nil || $name == "" || $name == "guest"
   message = unicode(message) if message != nil
   title ||= p_("Conference", "Chat message")
-  $showwriter.call(unicode(title + " - ELTEN"), unicode(p_("Main", "Message")), unicode(p_("Messages", "Send")), unicode(_("Cancel")), message, 200)
+  $showwriter.call(unicode(title + " - ELTEN"), unicode(p_("Main", "Message")), unicode(p_("Messages", "Send")), unicode(_("Cancel")), message, 500)
   $chat_writing = true
   play "signal"
 end

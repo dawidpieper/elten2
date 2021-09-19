@@ -9,8 +9,8 @@ module OpusRecorder
     def initialize(file, bitrate = 64, framesize = 60, application = 2048, usevbr = 1, timelimit = 0)
       $agent.write(Marshal.dump({ "func" => "recording", "recording" => true }))
       @paused = false
-      init = Win32API.new($eltenlib, "OpusRecorderInit", "piiiiiiii", "i")
-      @rproc = init.call(unicode(file), 48000, 2, bitrate * 1000, [framesize].pack("f").unpack("i").first, application, usevbr, (Configuration.usedenoising == 2) ? (1) : (0), timelimit)
+      init = Win32API.new($eltenlib, "OpusRecorderInit", "piiiiiiiiip", "i")
+      @rproc = init.call(unicode(file), 48000, 2, bitrate * 1000, [framesize].pack("f").unpack("i").first, application, usevbr, (Configuration.usedenoising == 2) ? (1) : (0), timelimit, 0, nil)
       Bass.record_prepare
       dll = Win32API.new("kernel32", "LoadLibrary", "p", "i").call($eltenlib)
       proc = Win32API.new("kernel32", "GetProcAddress", "ip", "i").call(dll, "_OpusRecordProc@16")
@@ -47,18 +47,32 @@ module OpusRecorder
     end
 
     def encode_file(file, output, bitrate = 64, framesize = 60, application = 2048, usevbr = 1, timelimit = 0)
-      w = Win32API.new($eltenlib, "OpusRecorderInit", "piiiiiiii", "i")
+      w = Win32API.new($eltenlib, "OpusRecorderInit", "piiiiiiiiip", "i")
       pr = Win32API.new($eltenlib, "_OpusRecordProc@16", "ipii", "i")
       if file[0..4] == "http:" || file[0..5] == "https:"
         cha = Bass::BASS_StreamCreateURL.call(unicode(file), 0, 0x80000000 | 0x200000 | 131072, 0, 0)
       else
         cha = Bass::BASS_StreamCreateFile.call(0, unicode(file), 0, 0, 0, 0, 0x80000000 | 0x200000 | 131072)
       end
+      ai = Bass::AudioInfo.new(cha)
+      chapters = ai.chapters
+      ch = []
+      for i in 0...chapters.size
+        c = chapters[i]
+        h = sprintf("CHAPTER%03d", i)
+        t = sprintf("%02d:%02d:%02d.%03d", c.time / 3600, (c.time / 60) % 60, c.time % 60, c.time - c.time.to_i)
+        ch.push("#{h}=#{t}")
+        ch.push("#{h}NAME=#{c.name}")
+      end
+      ch.push("TITLE=#{ai.title}") if ai.title != nil && ai.title != ""
+      ch.push("ARTIST=#{ai.artist}") if ai.artist != nil && ai.artist != ""
+      ch.push("ALBUM=#{ai.album}") if ai.album != nil && ai.album != ""
+      ch.push("TRACKNUMBER=#{ai.track_number}") if ai.track_number != nil && ai.track_number != ""
       rinfo = [0, 0, 0, 0, 0, 0, 0, ""].pack("iiiiiiip")
       Bass::BASS_ChannelGetInfo.call(cha, rinfo)
       info = rinfo.unpack("iiiiiii")
       channels = info[1]
-      r = w.call(unicode(output), 48000, channels, bitrate * 1000, [framesize].pack("f").unpack("i").first, application, usevbr, 0, timelimit)
+      r = w.call(unicode(output), 48000, channels, bitrate * 1000, [framesize].pack("f").unpack("i").first, application, usevbr, 0, timelimit, ch.size, ch.pack("p*"))
       mx = Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x200000 | 0x10000)
       Bass::BASS_Mixer_StreamAddChannel.call(mx, cha, 0x10000 | 0x4000 | 0x800000)
       cha = mx

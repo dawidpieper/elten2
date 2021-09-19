@@ -130,66 +130,72 @@ class Scene_Sounds
     return $scene = Scene_Main.new if @snd.size == 0
     h = p_("Sounds", "Sounds guide, press space to play")
     h = p_("Sounds", "Editing sound theme %{theme}") % { "theme" => @name } if @theme != nil
-    @sel = ListBox.new(@snd.map { |o| o.description }, h, 0, ListBox::Flags::Silent, true)
-    @fields = [@sel, Button.new(p_("Sounds", "Play")), Button.new(p_("Sounds", "Stop"))]
-    if @theme != nil
-      @fields.push(Button.new(p_("Sounds", "Change")))
-      @fields.push(Button.new(p_("Sounds", "Save")))
-      @fields.push(Button.new(p_("Sounds", "Export"))) if @changed == false
-    end
-    @form = Form.new(@fields)
+    @fields = [
+      @sel = ListBox.new(@snd.map { |o| o.description }, h, 0, ListBox::Flags::Silent, true),
+      @btn_play = Button.new(p_("Sounds", "Play")),
+      @btn_stop = Button.new(p_("Sounds", "Stop")),
+      @btn_change = Button.new(p_("Sounds", "Change")),
+      @btn_save = Button.new(p_("Sounds", "Save")),
+      @btn_export = Button.new(p_("Sounds", "Export")),
+      @btn_close = Button.new(p_("Sounds", "Close"))
+    ]
     a = nil
-    loop do
-      loop_update
-      @form.update
-      break if escape
-      if (space and @form.index == 0) or @form.fields[1].pressed?
-        a.close if a != nil
-        snd = @snd[@sel.index].sound
-        if snd != nil
-          a = Bass::Sound.new(nil, 1, false, false, snd)
-          a.volume = 0.01 * Configuration.volume
-          a.play
-        end
-      end
-      if @form.fields[2].pressed?
-        if a != nil
-          a.close
-          a = nil
-        end
-      end
-      if @theme != nil
-        if (enter and @form.index == 0) or @form.fields[3].pressed?
-          file = getfile(p_("Sounds", "Select new sound"), "", false, nil, [".ogg", ".mp3", ".wav", ".opus", ".aac", ".wma", ".m4a", ".flac", ".aiff", ".w64"])
-          loop_update
-          if file != nil
-            snd = Bass::Sound.new(file, 1)
-            if snd.length > 0 && snd.length < 300
-              @snd[@sel.index].newfile = file
-            else
-              alert(p_("Sounds", "The sound must not last longer than 5 minutes"))
-            end
-            snd.close
-            @form.fields[5] = nil
-            @changed = true
-          end
-          @form.fields[@form.index].focus
-        end
-        if @form.fields[4].pressed?
-          save
-          @changed = false
-          @form.fields[5] = Button.new(p_("Sounds", "Export"))
-          @form.fields[@form.index].focus
-        end
-        if @form.fields[5] != nil and @form.fields[5].pressed? and @theme.file != nil
-          loc = getfile(p_("Sounds", "Where to save this theme"), Dirs.user + "\\", true, "Documents")
-          if loc != nil
-            compress(@theme.file, loc + "\\" + File.basename(@theme.file, ".elsnd") + ".zip")
-          end
-          @form.fields[@form.index].focus
-        end
-      end
+    @form = Form.new(@fields, 0, false, true)
+    if @theme == nil
+      @form.hide(@btn_change)
+      @form.hide(@btn_save)
+      @form.hide(@btn_export)
     end
+    @btn_play.on(:press) {
+      a.close if a != nil
+      snd = @snd[@sel.index].sound
+      if snd != nil
+        a = Bass::Sound.new(nil, 1, false, false, snd)
+        a.volume = 0.01 * Configuration.volume
+        a.play
+      end
+    }
+    @sel.on(:key_space) { @btn_play.press }
+    @btn_stop.on(:press) {
+      if a != nil
+        a.close
+        a = nil
+      end
+    }
+    @btn_change.on(:press) {
+      file = getfile(p_("Sounds", "Select new sound"), "", false, nil, [".ogg", ".mp3", ".wav", ".opus", ".aac", ".wma", ".m4a", ".flac", ".aiff"])
+      loop_update
+      if file != nil
+        snd = Bass::Sound.new(file, 1)
+        if snd.length > 0 && snd.length < 300
+          @snd[@sel.index].newfile = file
+        else
+          alert(p_("Sounds", "The sound must not last longer than 5 minutes"))
+        end
+        snd.close
+        @form.hide(@btn_export)
+        @changed = true
+      end
+      @form.focus
+    }
+    @btn_save.on(:press) {
+      save
+      @changed = false
+      @form.show(@btn_export)
+      @form.focus
+    }
+    @btn_export.on(:press) {
+      loc = getfile(p_("Sounds", "Where to save this theme"), Dirs.user + "\\", true, "Documents")
+      if loc != nil
+        compress(@theme.file, loc + "\\" + File.basename(@theme.file, ".elsnd") + ".zip")
+      end
+      @form.fields[@form.index].focus
+    }
+    @btn_close.on(:press) {
+      @form.resume
+    }
+    @form.cancel_button = @btn_close
+    @form.wait
     if @changed and @theme != nil
       confirm(p_("Sounds", "Do you want to save this soundtheme?")) { save }
     end

@@ -5,7 +5,7 @@
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
 
 class Audio3D
-  attr_reader :file, :x, :y, :z
+  attr_reader :file, :x, :y, :z, :bilinear
   @@loaded = false
   @@hrtf = nil
   def self.load(frequency = 48000, framesize = 20)
@@ -26,6 +26,7 @@ class Audio3D
     fail("Audio3D not loaded") if !@@loaded
     @hrtf_effect = @@hrtf.add_effect(2)
     @x, @y, @z = 0, 0, 0
+    @bilinear = false
     @stream = Bass::BASS_StreamCreate.call(@@frequency, 2, 256, -1, nil)
     Bass::BASS_ChannelPlay.call(@stream, 0)
     @source_mixer = Bass::BASS_Mixer_StreamCreate.call(@@frequency, 2, 0x1000 | 256 | 0x200000)
@@ -108,6 +109,12 @@ class Audio3D
 
   def z=(val)
     @z = validate_position(val)
+  end
+
+  def bilinear=(b)
+    b = false if b != true
+    @bilinear = b
+    @@hrtf.set_bilinear(@hrtf_effect, b)
   end
 
   def free
