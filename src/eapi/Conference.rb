@@ -164,7 +164,7 @@ module EltenAPI
     end
 
     class Channel
-      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed
+      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed, :join_url
 
       def initialize
         @name = ""
@@ -242,7 +242,7 @@ module EltenAPI
 
     class Stream
       attr_reader :sources
-      attr_accessor :name, :volume, :x, :y
+      attr_accessor :name, :volume, :x, :y, :locally_muted
 
       def initialize
         @sources = []
@@ -250,15 +250,18 @@ module EltenAPI
         @volume = ""
         @x = 0
         @y = 0
+        @locally_muted = false
       end
     end
 
     class Source
-      attr_accessor :name, :volume
+      attr_accessor :name, :volume, :scrollable, :toggleable
 
       def initialize
         @name = ""
         @volume = 100
+        @scrollable = false
+        @toggleable = false
       end
     end
 
@@ -269,7 +272,9 @@ module EltenAPI
     @@stream_volume = 0
     @@channels = nil
     @@volumes = {}
-    @@streams = Streams.new
+    @@streamid_mutes = {}
+    @@mystreams = Streams.new
+    @@streams = []
     @@channel = Channel.new
     @@waiting_channel_id = 0
     @@created = nil
@@ -438,8 +443,23 @@ module EltenAPI
     def self.stream_remove(id)
       $agent.write(Marshal.dump({ "func" => "conference_removestreamex", "id" => id }))
     end
+    def self.removesource(stream, source)
+      $agent.write(Marshal.dump({ "func" => "conference_removesource", "stream" => stream, "source" => source }))
+    end
+    def self.source_remove(stream, source)
+      $agent.write(Marshal.dump({ "func" => "conference_removesource", "stream" => stream, "source" => source }))
+    end
     def self.stream_add_file(file, name, x = -1, y = -1)
       $agent.write(Marshal.dump({ "func" => "conference_addstream", "source" => "file", "file" => file, "name" => name, "x" => x, "y" => y }))
+    end
+    def self.stream_add_card(cardid, name, x = -1, y = -1, mute = false)
+      $agent.write(Marshal.dump({ "func" => "conference_addstream", "source" => "card", "cardid" => cardid, "name" => name, "x" => x, "y" => y, "mute" => mute }))
+    end
+    def self.source_add_file(stream, file)
+      $agent.write(Marshal.dump({ "func" => "conference_addsource", "stream" => stream, "source" => "file", "file" => file }))
+    end
+    def self.source_add_card(stream, cardid)
+      $agent.write(Marshal.dump({ "func" => "conference_addsource", "stream" => stream, "source" => "card", "cardid" => cardid }))
     end
     def self.set_stream(file)
       $agent.write(Marshal.dump({ "func" => "conference_setstream", "file" => file }))
@@ -447,11 +467,19 @@ module EltenAPI
     def self.remove_stream
       $agent.write(Marshal.dump({ "func" => "conference_removestream" }))
     end
-    def self.scrollstream(pos_plus)
-      $agent.write(Marshal.dump({ "func" => "conference_scrollstream", "pos_plus" => pos_plus }))
+    def self.scrollstream(pos_plus, stream = nil, source = nil)
+      $agent.write(Marshal.dump({ "func" => "conference_scrollstream", "pos_plus" => pos_plus, "stream" => stream, "source" => source }))
     end
-    def self.togglestream
-      $agent.write(Marshal.dump({ "func" => "conference_togglestream" }))
+    def self.togglestream(stream = nil, source = nil)
+      $agent.write(Marshal.dump({ "func" => "conference_togglestream", "stream" => stream, "source" => source }))
+      delay(0.05)
+    end
+    def self.locallymutestream(stream = nil, mute = false)
+      $agent.write(Marshal.dump({ "func" => "conference_locallymutestream", "stream" => stream, "mute" => mute }))
+      delay(0.05)
+    end
+    def self.volumestream(volume, stream = nil, source = nil)
+      $agent.write(Marshal.dump({ "func" => "conference_volumestream", "volume" => volume, "stream" => stream, "source" => source }))
       delay(0.05)
     end
     def self.set_shoutcast(server, pass, name = nil, pub = false, bitrate = 128)
@@ -470,6 +498,10 @@ module EltenAPI
     end
     def self.goto_user(userid)
       $agent.write(Marshal.dump({ "func" => "conference_gotouser", "userid" => userid }))
+      delay(0.1)
+    end
+    def self.streamid_setvolume(id, volume, mute)
+      $agent.write(Marshal.dump({ "func" => "conference_streamidsetvolume", "id" => id, "volume" => volume, "mute" => mute }))
       delay(0.1)
     end
     def self.kick(userid)
@@ -615,8 +647,14 @@ module EltenAPI
       end
       return vls
     end
+    def self.streamid_mutes
+      @@streamid_mutes
+    end
+    def self.mystreams
+      return @@mystreams
+    end
     def self.streams
-      return @@streams
+      return @@streams.dup
     end
     def self.setvolume(user, volume, muted, streams_muted)
       if @@opened == false
@@ -674,6 +712,7 @@ module EltenAPI
           ch.room_id = cha["room_id"]
           ch.allow_guests = cha["allow_guests"]
           ch.followed = (cha["followed"] == true)
+          ch.join_url = cha["join_url"]
           channels.push(ch)
         end
       end
@@ -715,7 +754,9 @@ module EltenAPI
       @@opened = false
       @@channels = nil
       @@volumes = {}
-      @@streams = Streams.new
+      @@streamid_mutes = {}
+      @@mystreams = Streams.new
+      @@streams = []
       @@channel = Channel.new
       @@created = nil
       @@volume = 0
@@ -774,6 +815,7 @@ module EltenAPI
         ch.motd = params["motd"]
         ch.room_id = params["room_id"]
         ch.allow_guests = params["allow_guests"]
+        ch.join_url = params["join_url"]
         @@channel = ch
         self.trigger(:update)
       end
@@ -804,13 +846,23 @@ module EltenAPI
       Log.error("Conference - Update Volumes: #{$!.to_s}, #{$@.to_s}")
     end
     def self.setstreams(str)
+      @@streams = JSON.load(str)
+    rescue Exception
+      Log.error("Conference - Update streams: #{$!.to_s}, #{$@.to_s}")
+    end
+    def self.setstreamidmute(id, mute)
+      @@streamid_mutes[id] = mute
+    end
+    def self.setmystreams(str)
       st = JSON.load(str)
-      @@streams = Streams.new
+      @@mystreams = Streams.new
       for s in st["sources"]
         so = Source.new
         so.name = s["name"]
         so.volume = s["volume"]
-        @@streams.sources.push(so)
+        so.scrollable = s["scrollable"]
+        so.toggleable = s["toggleable"]
+        @@mystreams.sources.push(so)
       end
       for s in st["streams"]
         str = Stream.new
@@ -818,13 +870,16 @@ module EltenAPI
         str.volume = s["volume"]
         str.x = s["x"]
         str.y = s["y"]
+        str.locally_muted = s["locally_muted"]
         for o in s["sources"]
           so = Source.new
           so.name = o["name"]
           so.volume = o["volume"]
+          so.scrollable = o["scrollable"]
+          so.toggleable = o["toggleable"]
           str.sources.push(so)
         end
-        @@streams.streams.push(str)
+        @@mystreams.streams.push(str)
       end
     rescue Exception
       Log.error("Conference - Update streams: #{$!.to_s}, #{$@.to_s}")

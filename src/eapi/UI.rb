@@ -283,7 +283,7 @@ module EltenAPI
           for m in t
             l = m[3]
             k, shift = keycode(l)
-            if $key[k] && $keyr[0x10] == shift && ($keyr[0x11] || l.is_a?(Symbol)) && m[1].is_a?(Proc)
+            if $key[k] && $keyr[0x10] == shift && (($keyr[0x11] && !l.is_a?(Symbol)) || (l.is_a?(Symbol) && !$keyr[0x11])) && m[1].is_a?(Proc)
               m[1].call(m[2])
               loop_update(false)
             end
@@ -505,6 +505,10 @@ module EltenAPI
             Conference.setwaitingchannel(d["chid"]) if d["chid"].is_a?(Integer)
           elsif d["func"] == "conference_volumes"
             Conference.setvolumes(d["volumes"]) if d["volumes"] != nil
+          elsif d["func"] == "conference_streammute"
+            Conference.setstreamidmute(d["id"], d["mute"])
+          elsif d["func"] == "conference_mystreams"
+            Conference.setmystreams(d["streams"]) if d["streams"] != nil
           elsif d["func"] == "conference_streams"
             Conference.setstreams(d["streams"]) if d["streams"] != nil
           elsif d["func"] == "conference_createchannel"
