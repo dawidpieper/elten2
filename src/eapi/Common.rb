@@ -129,7 +129,6 @@ module EltenAPI
             r = $!.class.to_s + " (" + $!.to_s + ")\n" + plc
           end
           speak(r)
-          form.fields[0].settext("")
           form.fields[1].settext(form.fields[1].text + "\r\n#=> " + r, false)
           loop_update
         end
