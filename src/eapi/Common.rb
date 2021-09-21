@@ -67,8 +67,8 @@ module EltenAPI
       end
 
       def run(code)
-        @codes.push(code)
-        @codes.delete_at(0) while @codes.size > 50
+        @codes.unshift(code)
+        @codes.pop while @codes.size > 50
         return eval(code, @b, "Console")
       end
 
@@ -92,12 +92,40 @@ module EltenAPI
       container = Console.new
       container.on_str { |str| form.fields[1].settext(form.fields[1].text + "\r\n" + str) }
       form.bind_context { |menu|
+        if LocalConfig['ConsoleAutoClearInput']==1
+          s=p_("EAPI_Common", "Disable auto clear input")
+        else
+          s=p_("EAPI_Common", "Enable auto clear input")
+        end
+        menu.option(s, nil, "i") {
+          if LocalConfig['ConsoleAutoClearInput']==1
+            LocalConfig['ConsoleAutoClearInput']=0
+            alert(p_("EAPI_Common", "Disabled"))
+          else
+            LocalConfig['ConsoleAutoClearInput']=1
+            alert(p_("EAPI_Common", "Enabled"))
+          end
+        }
+        if LocalConfig['ConsoleAutoClearOutput']==1
+          s=p_("EAPI_Common", "Disable auto clear output")
+        else
+          s=p_("EAPI_Common", "Enable auto clear output")
+        end
+        menu.option(s, nil, "o") {
+          if LocalConfig['ConsoleAutoClearOutput']==1
+            LocalConfig['ConsoleAutoClearOutput']=0
+            alert(p_("EAPI_Common", "Disabled"))
+          else
+            LocalConfig['ConsoleAutoClearOutput']=1
+            alert(p_("EAPI_Common", "Enabled"))
+          end
+        }
         if container.codes.size > 0
           menu.option(p_("EAPI_Common", "Load last code"), nil, "l") {
             form.fields[0].settext(container.codes[0])
             form.focus
           }
-          menu.submenu(p_("Console", "Last codes")) { |m|
+          menu.submenu(p_("EAPI_Common", "Last codes")) { |m|
             for c in container.codes
               menu.option(c[0...100], c) { |c|
                 form.fields[0].settext(c)
@@ -112,7 +140,11 @@ module EltenAPI
         form.update
         if form.fields[2].pressed? or ($keyr[0x11] and enter)
           kom = form.fields[0].text
-          form.fields[1].settext(form.fields[1].text + "\r\n\r\n" + kom)
+          if LocalConfig['ConsoleAutoClearOutput']==1
+            form.fields[1].settext(kom)
+          else
+            form.fields[1].settext(form.fields[1].text + "\r\n\r\n" + kom)
+          end
           begin
             r = container.run(kom).inspect
           rescue Exception
@@ -129,6 +161,7 @@ module EltenAPI
             r = $!.class.to_s + " (" + $!.to_s + ")\n" + plc
           end
           speak(r)
+          form.fields[0].settext("") if LocalConfig['ConsoleAutoClearInput']==1
           form.fields[1].settext(form.fields[1].text + "\r\n#=> " + r, false)
           loop_update
         end
