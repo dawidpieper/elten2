@@ -88,7 +88,7 @@ class Scene_Conference
               }
             }
             if holds_premiumpackage("director")
-              menu.option(p_("Conference", "VST chain"), nil, "T") {
+              menu.option(p_("Conference", "VST chain"), nil, "t") {
                 insert_scene(Scene_Conference_VSTS.new(user.id))
               }
             end
@@ -357,7 +357,10 @@ class Scene_Conference
           txt += p_("Conference", "Language") + ": " + ch.lang + "\n" if ch.lang != ""
           txt += p_("Conference", "This channel is password-protected.") + "\n" if ch.passworded
           txt += p_("Conference", "A waiting room is enabled on this channel.") + "\n" if ch.waiting_type > 0
-          txt += p_("Conference", "Room id") + ": #{ch.room_id}\n" if ch.room_id != nil
+          if ch.room_id != nil
+            txt += p_("Conference", "Room id") + ": #{ch.room_id}\n"
+            txt += p_("Conference", "URL for joining using Web Browser") + ": #{ch.join_url}\n" if ch.join_url != nil
+          end
           txt += p_("Conference", "Channel bitrate") + ": " + ch.bitrate.to_s + "kbps\n"
           txt += p_("Conference", "Channel frame size") + ": " + ch.framesize.to_s + "ms\n"
           txt += p_("Conference", "Channels") + ": " + ((ch.channels == 2) ? ("Stereo") : ("Mono")) + "\n"
@@ -955,10 +958,25 @@ class Scene_Conference
   end
 
   def context_streaming(menu)
-    menu.option(p_("Conference", "My streams"), nil, "N") { streams }
     menu.option(p_("Conference", "Channel scenery"), nil, "o") { chanobjects }
-    if Conference.cardset?
-      menu.option(p_("Conference", "Remove soundcard stream")) { Conference.remove_card }
+    cardset = false
+    cardset = true if Conference.mystreams.sources.find { |s| !s.scrollable } != nil
+    for s in Conference.mystreams.streams
+      cardset = true if s.sources.find { |s| !s.scrollable } != nil
+    end
+    if cardset
+      menu.option(p_("Conference", "Remove soundcard stream")) {
+        td = []
+        for i in 0...Conference.mystreams.sources.size
+          td.push(i) if !Conference.mystreams.sources[i].scrollable
+        end
+        td.reverse.each { |q| Conference.removesource(-1, q) }
+        td = []
+        for i in 0...Conference.mystreams.streams.size
+          td.push(i) if Conference.mystreams.streams[i].sources.find { |s| !s.scrollable } != nil
+        end
+        td.reverse.each { |q| Conference.stream_remove(q) }
+      }
     else
       menu.option(p_("Conference", "Stream from soundcard")) {
         mics = Bass.microphones
@@ -966,7 +984,7 @@ class Scene_Conference
         listen = false
         form = Form.new([
           lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
-          chk_listen = CheckBox.new(p_("Conference", "Turn on the listening")),
+          chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
           btn_cardok = Button.new(p_("Conference", "Stream")),
           btn_cardcancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -980,13 +998,29 @@ class Scene_Conference
         form.accept_button = btn_cardok
         form.wait
         if cardid > -1
-          Conference.add_card(mics[cardid], listen)
+          Conference.stream_add_card(cardid, mics[cardid], -1, -1, !listen)
         end
         @form.focus
       }
     end
-    if Conference.streaming?
-      menu.option(p_("Conference", "Remove audio stream"), nil, "i") { Conference.remove_stream }
+    streaming = false
+    streaming = true if Conference.mystreams.sources.find { |s| s.scrollable } != nil
+    for s in Conference.mystreams.streams
+      streaming = true if s.sources.find { |s| s.scrollable } != nil
+    end
+    if streaming
+      menu.option(p_("Conference", "Remove audio stream"), nil, "i") {
+        td = []
+        for i in 0...Conference.mystreams.sources.size
+          td.push(i) if Conference.mystreams.sources[i].scrollable
+        end
+        td.reverse.each { |q| Conference.removesource(-1, q) }
+        td = []
+        for i in 0...Conference.mystreams.streams.size
+          td.push(i) if Conference.mystreams.streams[i].sources.find { |s| s.scrollable } != nil
+        end
+        td.reverse.each { |q| Conference.stream_remove(q) }
+      }
       menu.option(p_("Conference", "Scroll backward"), nil, "[") { Conference.scrollstream(-5) }
       menu.option(p_("Conference", "Scroll forward"), nil, "]") { Conference.scrollstream(5) }
       menu.option(p_("Conference", "Toggle pause"), nil, "p") { Conference.togglestream }
@@ -996,7 +1030,7 @@ class Scene_Conference
         formats += [".avi", ".mp4", ".mov", ".mkv"] if holds_premiumpackage("audiophile")
         file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, formats)
         if file != nil
-          Conference.set_stream(file)
+          Conference.stream_add_file(file, File.basename(file, File.extname(file)), -1, -1)
         end
         @form.focus
       }
@@ -1065,6 +1099,8 @@ class Scene_Conference
         }
       end
     end
+    menu.option(p_("Conference", "My streams"), nil, "I") { mystreams }
+    menu.option(p_("Conference", "Channel streams"), nil, "N") { streams }
   end
 
   def context(menu)
@@ -1114,7 +1150,7 @@ class Scene_Conference
       }
     }
     if holds_premiumpackage("audiophile")
-      menu.option(p_("Conference", "VST chain"), nil, "t") {
+      menu.option(p_("Conference", "VST chain"), nil, "T") {
         insert_scene(Scene_Conference_VSTS.new)
       }
     end
@@ -1164,7 +1200,7 @@ class Scene_Conference
           @form.focus
         }
         if Conference.channel.administrators.include?(Session.name)
-          m.option(p_("Conference", "Edit channel")) {
+          m.option(p_("Conference", "Edit channel"), nil, "e") {
             edit_channel(Conference.channel, nil)
           }
         end
@@ -1407,10 +1443,86 @@ class Scene_Conference
     @form.focus
   end
 
-  def self.streams
+  def streams
+    strs = []
+    sel = TableBox.new([nil, p_("Conference", "User"), p_("Conference", "Location")], [], 0, p_("Conference", "Channel streams"), true)
+    rfr = Proc.new {
+      strs = Conference.streams
+      selt = strs.map { |s|
+        loc = "x: #{s["x"]}, y: #{s["y"]}"
+        if s["x"] == 0
+          loc = p_("Conference", "Everywhere")
+        elsif s["x"] == -1
+          loc = p_("Conference", "Right next to me")
+        end
+        [s["name"], s["username"], loc]
+      }
+      sel.rows = selt
+      sel.reload
+    }
+    rfr.call
+    sel.bind_context { |menu|
+      if sel.options.size > 0
+        muted = false
+        muted = true if Conference.streamid_mutes[strs[sel.index]["id"]] == true
+        s = p_("Conference", "Mute stream")
+        s = p_("Conference", "Unmute stream") if muted
+        menu.option(s, nil, "m") {
+          Conference.streamid_setvolume(strs[sel.index]["id"], strs[sel.index]["volume"], !muted)
+          if muted
+            alert(p_("Conference", "Stream unmuted"))
+          else
+            alert(p_("Conference", "Stream muted"))
+          end
+        }
+        menu.option(p_("Conference", "Change volume"), nil, "u") {
+          muted = false
+          muted = true if Conference.streamid_mutes[strs[sel.index]["id"]] == true
+          dialog_open
+          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Stream volume"), strs[sel.index]["volume"])
+          lst_volume.on(:move) { Conference.streamid_setvolume(strs[sel.index]["id"], lst_volume.index, muted) }
+          loop do
+            loop_update
+            lst_volume.update
+            if lst_volume.selected?
+              strs[sel.index]["volume"] = lst_volume.index
+              break
+            end
+            if escape
+              Conference.streamid_setvolume(strs[sel.index]["id"], strs[sel.index]["volume"], muted)
+              break
+            end
+          end
+          dialog_close
+        }
+        if strs[sel.index]["x"] > 0
+          menu.option(p_("Conference", "Go to stream"), nil, "g") {
+            Conference.goto(strs[sel.index]["x"], strs[sel.index]["y"])
+          }
+        end
+      end
+      menu.option(_("Refresh"), nil, "r") {
+        rfr.call
+        sel.focus
+      }
+    }
+    sel.focus
+    loop {
+      loop_update
+      sel.update
+      break if escape
+    }
+  end
+
+  def mystreams
+    self.class.mystreams
+    @form.focus
+  end
+
+  def self.mystreams
     sel = TableBox.new([nil, p_("Conference", "Location")], [], 0, p_("Conference", "My streams"), true)
     rfr = Proc.new {
-      selt = Conference.streams.streams.map { |s|
+      selt = [[p_("Conference", "Master mix"), nil]] + Conference.mystreams.streams.map { |s|
         loc = "x: #{s.x}, y: #{s.y}"
         if s.x == 0
           loc = p_("Conference", "Everywhere")
@@ -1423,7 +1535,81 @@ class Scene_Conference
       sel.reload
     }
     sel.bind_context { |menu|
-      menu.option(p_("Conference", "New stream"), nil, "n") {
+      stream = nil
+      sources = []
+      sid = -1
+      if sel.index == 0
+        sources = Conference.mystreams.sources
+      else
+        stream = Conference.mystreams.streams[sel.index - 1]
+        sources = stream.sources if stream != nil
+        sid = sel.index - 1
+      end
+      menu.option(p_("Conference", "Show sources"), nil, :enter) {
+        sources(sid)
+        rfr.call
+        sel.focus
+      }
+      if sid >= 0
+        s = p_("Conference", "Locally mute")
+        s = p_("Conference", "Locally unmute") if stream.locally_muted
+        menu.option(s, nil, "m") {
+          Conference.locallymutestream(sid, !stream.locally_muted)
+          stream.locally_muted = !stream.locally_muted
+          if !stream.locally_muted
+            alert(p_("Conference", "Locally unmuted"))
+          else
+            alert(p_("Conference", "Locally muted"))
+          end
+        }
+        menu.option(p_("Conference", "Change volume"), nil, "u") {
+          dialog_open
+          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Stream volume"), stream.volume)
+          lst_volume.on(:move) { Conference.volumestream(lst_volume.index, sid, nil) }
+          loop do
+            loop_update
+            lst_volume.update
+            if lst_volume.selected?
+              stream.volume = lst_volume.index
+              break
+            end
+            if escape
+              Conference.volumestream(stream.volume, sid)
+              break
+            end
+          end
+          dialog_close
+        }
+      end
+      if sources.find { |s| s.toggleable } != nil
+        menu.option(p_("Conference", "Toggle stream"), nil, "p") {
+          for i in 0...sources.size
+            Conference.togglestream(sid, i) if sources[i].toggleable
+          end
+        }
+      end
+      if sources.find { |s| s.scrollable } != nil
+        menu.option(p_("Conference", "Scroll backward"), nil, "[") {
+          for i in 0...sources.size
+            Conference.scrollstream(-5, sid, i) if sources[i].toggleable
+          end
+        }
+        menu.option(p_("Conference", "Scroll forward"), nil, "]") {
+          for i in 0...sources.size
+            Conference.scrollstream(5, sid, i) if sources[i].toggleable
+          end
+        }
+      end
+      if sid >= 0
+        menu.option(p_("Conference", "Remove stream"), nil, :del) {
+          Conference.stream_remove(sid)
+          play("editbox_delete")
+          delay(0.5)
+          rfr.call
+          sel.focus
+        }
+      end
+      menu.option(p_("Conference", "New file stream"), nil, "n") {
         form = Form.new([
           tr_file = FilesTree.new(p_("Conference", "File"), Dirs.documents + "\\", false, true, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]),
           lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
@@ -1431,20 +1617,22 @@ class Scene_Conference
           btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
         btn_place.on(:press) {
-          file = tr_file.selected
-          name = File.basename(file, File.extname(file))
-          x, y = 0, 0
-          case lst_location.index
-          when 0
-            x, y = -1, -1
-          when 1
-            x, y = Conference.get_coordinates[0..1]
-          when 2
+          if File.file?(tr_file.selected(true))
+            file = tr_file.selected(true)
+            name = File.basename(file, File.extname(file))
             x, y = 0, 0
+            case lst_location.index
+            when 0
+              x, y = -1, -1
+            when 1
+              x, y = Conference.get_coordinates[0..1]
+            when 2
+              x, y = 0, 0
+            end
+            Conference.stream_add_file(file, name, x, y)
+            delay(1)
+            form.resume
           end
-          Conference.stream_add_file(file, name, x, y)
-          delay(0.5)
-          form.resume
         }
         btn_cancel.on(:press) { form.resume }
         form.cancel_button = btn_cancel
@@ -1453,11 +1641,153 @@ class Scene_Conference
         rfr.call
         sel.focus
       }
+      if holds_premiumpackage("audiophile")
+        menu.option(p_("Conference", "New soundcard stream"), nil, "N") {
+          mics = Bass.microphones
+          cardid = -1
+          listen = false
+          form = Form.new([
+            lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
+            chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
+            lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
+            btn_place = Button.new(p_("Conference", "Place")),
+            btn_cancel = Button.new(_("Cancel"))
+          ], 0, false, true)
+          btn_place.on(:press) {
+            cardid = lst_card.index
+            listen = chk_listen.checked.to_i == 1
+            name = lst_card.options[lst_card.index]
+            x, y = 0, 0
+            case lst_location.index
+            when 0
+              x, y = -1, -1
+            when 1
+              x, y = Conference.get_coordinates[0..1]
+            when 2
+              x, y = 0, 0
+            end
+            Conference.stream_add_card(cardid, name, x, y, !listen)
+            form.resume
+          }
+          btn_cancel.on(:press) { form.resume }
+          form.cancel_button = btn_cancel
+          form.accept_button = btn_place
+          form.wait
+          delay(1)
+          rfr.call
+          sel.focus
+        }
+      end
+    }
+    rfr.call
+    sel.focus
+    loop {
+      loop_update
+      sel.update
+      break if escape
+    }
+  end
+  def self.sources(sid)
+    stream = nil
+    stream = Conference.mystreams.streams[sid] if sid >= 0
+    sname = p_("Conference", "Master mix")
+    sname = stream.name if stream != nil
+    sel = ListBox.new([], p_("Conference", "Sources of #{sname}"), 0, 0, true)
+    rfr = Proc.new {
+      stream = nil
+      stream = Conference.mystreams.streams[sid] if sid >= 0
+      sources = Conference.mystreams.sources
+      sources = stream.sources if stream != nil
+      sel.options = sources.map { |s| s.name }
+    }
+    sel.bind_context { |menu|
+      stream = nil
+      stream = Conference.mystreams.streams[sid] if sid >= 0
+      sources = Conference.mystreams.sources
+      sources = stream.sources if stream != nil
       if sel.options.size > 0
-        menu.option(p_("Conference", "Remove stream"), nil, :del) {
-          Conference.stream_remove(sel.index)
+        source = sources[sel.index]
+        oid = sel.index
+        menu.option(p_("Conference", "Change volume"), nil, "u") {
+          dialog_open
+          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Source volume"), source.volume)
+          lst_volume.on(:move) { Conference.volumestream(lst_volume.index, sid, oid) }
+          loop do
+            loop_update
+            lst_volume.update
+            if lst_volume.selected?
+              source.volume = lst_volume.index
+              break
+            end
+            if escape
+              Conference.volumestream(source.volume, sid, oid)
+              break
+            end
+          end
+          dialog_close
+        }
+        if source.toggleable
+          menu.option(p_("Conference", "Toggle stream"), nil, "p") {
+            Conference.togglestream(sid, oid)
+          }
+        end
+        if source.scrollable
+          menu.option(p_("Conference", "Scroll backward"), nil, "[") {
+            Conference.scrollstream(-5, sid, oid)
+          }
+          menu.option(p_("Conference", "Scroll forward"), nil, "]") {
+            Conference.scrollstream(5, sid, oid)
+          }
+        end
+        menu.option(p_("Conference", "Remove source"), nil, :del) {
+          Conference.removesource(sid, oid)
           play("editbox_delete")
           delay(0.5)
+          rfr.call
+          sel.focus
+        }
+      end
+      menu.option(p_("Conference", "Add file"), nil, "n") {
+        form = Form.new([
+          tr_file = FilesTree.new(p_("Conference", "File"), Dirs.documents + "\\", false, true, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]),
+          btn_place = Button.new(p_("Conference", "Place")),
+          btn_cancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        btn_place.on(:press) {
+          if File.file?(tr_file.selected(true))
+            file = tr_file.selected(true)
+            Conference.source_add_file(sid, file)
+            delay(1)
+            form.resume
+          end
+        }
+        btn_cancel.on(:press) { form.resume }
+        form.cancel_button = btn_cancel
+        form.accept_button = btn_place
+        form.wait
+        rfr.call
+        sel.focus
+      }
+      if holds_premiumpackage("audiophile")
+        menu.option(p_("Conference", "Add soundcard"), nil, "N") {
+          mics = Bass.microphones
+          cardid = -1
+          listen = false
+          form = Form.new([
+            lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
+            btn_place = Button.new(p_("Conference", "Place")),
+            btn_cancel = Button.new(_("Cancel"))
+          ], 0, false, true)
+          btn_place.on(:press) {
+            cardid = lst_card.index
+            Conference.source_add_card(sid, cardid)
+            form.resume
+          }
+          btn_cancel.on(:press) { form.resume }
+          form.cancel_button = btn_cancel
+          form.accept_button = btn_place
+          form.wait
+          delay(1)
           rfr.call
           sel.focus
         }
@@ -1664,6 +1994,25 @@ class Scene_Conference_VSTS
         refresh
         @sel.focus
       }
+      menu.option(p_("Conference", "Save current chain"), nil, "S") {
+        name = input_text(p_("Conference", "Name for this chain"), 0, "", true)
+        if name != nil
+          t = readfile(Dirs.eltendata + "\\vstchains.dat")
+          t += [name.size].pack("I")
+          t += name
+          t += [@vsts.size].pack("I")
+          for i in 0...@vsts.size
+            v = @vsts[i]
+            t += [v["file"].size].pack("I")
+            t += v["file"]
+            bank = Conference.vst_export_bank(i, @userid)
+            t += [bank.size].pack("I")
+            t += bank
+          end
+          writefile(Dirs.eltendata + "\\vstchains.dat", t)
+          alert(_("Saved"))
+        end
+      }
     end
     menu.option(p_("Conference", "Add VST"), nil, "n") {
       file = getfile(p_("Conference", "Select VST version 2 file to be loaded"), "", false, nil, [".dll"])
@@ -1671,6 +2020,11 @@ class Scene_Conference_VSTS
         Conference.vst_add(file, @userid)
         refresh
       end
+    }
+    menu.option(p_("Conference", "Saved VST chains"), nil, "O") {
+      savedchains
+      refresh
+      @sel.focus
     }
     menu.option(_("Refresh"), nil, "r") { refresh }
   end
@@ -1766,6 +2120,90 @@ class Scene_Conference_VSTS
         end
         alert(_("Saved"))
       end
+    end
+  end
+
+  def savedchains
+    chains = []
+    if FileTest.exists?(Dirs.eltendata + "\\vstchains.dat")
+      io = StringIO.new(readfile(Dirs.eltendata + "\\vstchains.dat"))
+      until io.eof?
+        sz = io.read(4).unpack("I").first
+        name = io.read(sz)
+        vsz = io.read(4).unpack("I").first
+        vsts = []
+        for i in 0...vsz
+          sz = io.read(4).unpack("I").first
+          file = io.read(sz)
+          sz = io.read(4).unpack("I").first
+          bank = nil
+          bank = io.read(sz) if sz > 0
+          vsts.push([file, bank])
+        end
+        chains.push([name, vsts])
+      end
+    end
+    save = Proc.new {
+      wr = ""
+      for c in chains
+        wr += [c[0].size].pack("I")
+        wr += c[0]
+        wr += [c[1].size].pack("I")
+        for v in c[1]
+          wr += [v[0].size].pack("I")
+          wr += v[0]
+          wr += [v[1].to_s.size].pack("I")
+          wr += v[1] if v[1] != nil
+        end
+      end
+    }
+    sel = ListBox.new([], p_("Conference", "Saved chains"), 0, 0, true)
+    rfr = Proc.new {
+      sel.options = chains.map { |c| c[0] }
+    }
+    sel.bind_context { |menu|
+      if chains.size > 0
+        menu.option(_("Delete"), nil, :del) {
+          confirm(p_("Conference", "Are you sure you want to delete saved chain of name %{name}?") % { "name" => chains[sel.index][0] })
+          chains.delete_at(sel.index)
+          save.call
+          rfr.call
+          play("editbox_delete")
+        }
+        menu.option(p_("Conference", "Rename chain"), nil, "e") {
+          name = input_text(p_("Conference", "Chain name"), 0, chains[sel.index][0], true)
+          if name != nil
+            chains[sel.index][0] = name
+            save.call
+          end
+          sel.focus
+        }
+      end
+    }
+    rfr.call
+    sel.focus
+    loop do
+      loop_update
+      sel.update
+      if sel.selected? && chains.size > 0
+        chain = chains[sel.index]
+        confirm(p_("Conference", "Are you sure you want to apply chain of name %{name}?") % { "name" => chain[0] }) {
+          while @vsts.size > 0
+            Conference.vst_remove(0, @userid)
+            refresh
+          end
+          for v in chain[1]
+            Conference.vst_add(v[0], @userid)
+            refresh
+            if v[1] != nil
+              Conference.vst_import_bank(@vsts.size - 1, v[1], @userid)
+              refresh
+            end
+          end
+          alert(p_("Conference", "Chain imported"))
+        }
+      end
+      break if escape
     end
   end
 end

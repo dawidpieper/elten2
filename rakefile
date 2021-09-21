@@ -18,6 +18,12 @@ require("securerandom")
 require("digest/sha1")
 require("open3")
 require("json")
+require "fiddle"
+
+kernel32 = Fiddle.dlopen("kernel32")
+setDllDirectoryW = Fiddle::Function.new(kernel32["SetDllDirectoryW"], [Fiddle::TYPE_VOIDP], Fiddle::TYPE_INT)
+path = File.dirname(__FILE__).gsub("/", "\\") + "\\vendor\\app\\bin"
+setDllDirectoryW.call(path.encode(Encoding::UTF_16LE))
 
 def install_gem(gemname)
   require "rubygems/commands/install_command"
@@ -91,7 +97,7 @@ end
 
 desc "Build scripts for agent"
 task :agent do
-  reqgems = [["http/2", "http-2"], ["xz", "ruby-xz"], ["zstd-ruby", "zstd-ruby"]]
+  reqgems = [["http/2", "http-2"], ["xz", "ruby-xz"], ["zstd-ruby", "zstd-ruby"], ["base62", "base62"]]
   for r in reqgems
     ge = false
     begin

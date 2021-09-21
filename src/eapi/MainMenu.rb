@@ -72,6 +72,7 @@ module GlobalMenu
             }
             if Session.name != nil && Session.name != "guest"
               @menu.scene(p_("MainMenu", "Call &history"), Scene_CallHistory)
+              @menu.scene(p_("MainMenu", "Premium packa&ges"), Scene_PremiumPackages)
               @menu.scene(p_("MainMenu", "Manage my &account"), Scene_Account)
             end
           }

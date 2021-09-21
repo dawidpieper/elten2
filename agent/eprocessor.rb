@@ -112,6 +112,12 @@ module EProcessor
           ewrite(dt)
         }
       }
+      $conference.on_streammute { |id, mute|
+        Thread.new {
+          dt = { "func" => "conference_streammute", "id" => id, "mute" => mute }
+          ewrite(dt)
+        }
+      }
       $conference.on_user { |joined, username|
         Thread.new {
           if joined
@@ -304,13 +310,45 @@ module EProcessor
           ewrite(dt)
         }
       }
-      $conference.on_streams { |params|
+      $conference.on_mystreams { |params|
         Thread.new {
-          dt = { "func" => "conference_streams", "streams" => JSON.generate(params) }
+          dt = { "func" => "conference_mystreams", "streams" => JSON.generate(params) }
           ewrite(dt)
         }
       }
+      $conference.on_streams { |streams|
+        Thread.new {
+          begin
+            dt = { "func" => "conference_streams", "streams" => JSON.generate(streams.values.map { |s| { "id" => s.streamid, "name" => s.name, "userid" => s.userid, "username" => s.username, "x" => s.stream_x, "y" => s.stream_y, "volume" => s.volume } }) }
+            ewrite(dt)
+          rescue Exception
+            log(1, $!.to_s)
+          end
+        }
+      }
       ewrite({ "func" => "conference_open", "volume" => $conference.volume, "input_volume" => $conference.input_volume, "stream_volume" => $conference.stream_volume, "muted" => $conference.muted, "pushtotalk" => $conference.pushtotalk, "pushtotalk_keys" => $conference.pushtotalk_keys.map { |k| k.to_s }.join(",") })
+    end
+
+    def conference_getsource(stream, source, mayStream = false)
+      source = 0 if mayStream == false && source == nil
+      if !stream.is_a?(Numeric)
+        s = $conference.sources.find { |s| s.is_a?(Conference::StreamSourceFile) }
+        return s if s != nil
+        for st in $conference.outstreams
+          s = st.sources.find { |s| s.is_a?(Conference::StreamSourceFile) }
+          return s if s != nil
+        end
+        return nil
+      elsif source == nil
+        return $conference.outstreams[stream]
+      elsif stream == -1
+        return $conference.sources[source]
+      else
+        st = $conference.outstreams[stream]
+        if st != nil
+          return st.sources[source]
+        end
+      end
     end
 
     def process(data)
@@ -454,11 +492,35 @@ module EProcessor
       when "conference_scrollstream"
         pos_plus = data["pos_plus"] || 0
         if $conference != nil
-          $conference.stream_position += pos_plus
+          st = conference_getsource(data["stream"], data["source"])
+          st.position += pos_plus if st != nil && st.scrollable?
         end
       when "conference_togglestream"
         if $conference != nil
-          $conference.toggle_stream
+          st = conference_getsource(data["stream"], data["source"])
+          st.toggle if st != nil && st.toggleable?
+        end
+      when "conference_volumestream"
+        if $conference != nil
+          st = conference_getsource(data["stream"], data["source"], true)
+          st.volume = data["volume"] if st != nil
+          $conference.streams_callback
+        end
+      when "conference_locallymutestream"
+        if $conference != nil
+          st = $conference.outstreams[data["stream"]]
+          st.locally_muted = data["mute"] if st != nil
+          $conference.streams_callback
+        end
+      when "conference_removesource"
+        if $conference != nil
+          stream = $conference.outstreams[data["stream"]]
+          if stream != nil
+            stream.remove_source(data["source"])
+          else
+            $conference.remove_source(data["source"])
+          end
+          $conference.streams_callback
         end
       when "conference_whisper"
         if $conference != nil
@@ -468,6 +530,10 @@ module EProcessor
         if $conference != nil && data["x"].is_a?(Integer) && data["y"].is_a?(Integer)
           $conference.x = data["x"]
           $conference.y = data["y"]
+        end
+      when "conference_streamidsetvolume"
+        if $conference != nil && data["id"].is_a?(Integer)
+          $conference.streamid_setvolume(data["id"], data["volume"], data["mute"])
         end
       when "conference_kick"
         if $conference != nil && data["userid"].is_a?(Integer)
@@ -530,7 +596,7 @@ module EProcessor
           end
         end
         if cardid > -1
-          $conference.add_card(cardid, data["listen"] == true) if $conference != nil
+          $conference.addg_card(cardid, data["listen"] == true) if $conference != nil
         end
       when "conference_pushtotalk"
         $conference.pushtotalk = data["pushtotalk"] if $conference != nil and data["pushtotalk"] != nil
@@ -579,12 +645,42 @@ module EProcessor
         if $conference != nil
           x = data["x"] || -1
           y = data["y"] || -1
+          stream = nil
           if data["source"] == "file"
-            $conference.stream_add_file(data["file"], data["name"], x, y)
+            stream = $conference.stream_add_file(data["file"], data["name"], x, y)
+          elsif data["source"] == "card"
+            stream = $conference.stream_add_card(data["cardid"], data["name"], x, y)
           end
+          if stream != nil && data["mute"] == true
+            stream.locally_muted = true
+            $conference.streams_callback
+          end
+        end
+      when "conference_addsource"
+        if $conference != nil
+          stream = $conference.outstreams[data["stream"]]
+          if stream != nil
+            if data["source"] == "file"
+              stream.add_file(data["file"])
+            elsif data["source"] == "card"
+              stream.add_card(data["cardid"])
+            end
+          else
+            if data["source"] == "file"
+              $conference.add_file(data["file"])
+            elsif data["source"] == "card"
+              $conference.add_card(data["cardid"])
+            end
+          end
+          $conference.streams_callback
         end
       when "conference_removestreamex"
         $conference.stream_remove(data["id"]) if $conference != nil
+      when "conference_removesource"
+        if $conference != nil
+          stream = $conference.outstreams[data["stream"]]
+          stream.remove_source(data["source"]) if stream != nil
+        end
       when "conference_sendtext"
         if $conference != nil
           $conference.send_text(data["text"])

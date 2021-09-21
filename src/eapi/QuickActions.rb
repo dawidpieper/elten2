@@ -191,7 +191,8 @@ module EltenAPI
           [Scene_Messages, p_("EAPI_QuickActions", "Messages"), [], -11],
           [Scene_Forum, p_("EAPI_QuickActions", "Forum")],
           [Scene_Blog, p_("EAPI_QuickActions", "Blogs")],
-          [Scene_Conference, p_("EAPI_QuickActions", "Conferences")]
+          [Scene_Conference, p_("EAPI_QuickActions", "Conferences")],
+          [Scene_PremiumPackages, p_("EAPI_QuickActions", "Premium packages")]
         ] + predefined_procs(true)
         acs.each { |a|
           register(*a)

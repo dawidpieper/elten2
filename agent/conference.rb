@@ -472,6 +472,7 @@ class Conference
       @stream_y = y
       @user_x = stream_x
       @user_y = stream_y
+      @streamid = streamid
       @name = name
       @decoder = Opus::Decoder.new(48000, channels)
       @losses = []
@@ -749,6 +750,10 @@ class Conference
         @vst_lastpriority -= 1
         @vsts[i].priority = @vst_lastpriority
       end
+    end
+
+    def volume
+      @volume
     end
 
     private
@@ -1060,6 +1065,15 @@ class Conference
       Bass::BASS_ChannelSetAttribute.call(@stream, 2, [(vol / 100.0)].pack("f").unpack("i")[0])
       vol
     end
+
+    def position; return 0; end
+    def position=(ps); return 0; end
+    def scrollable?; false; end
+    def toggleable?; false; end
+    def toggle; end
+    def playing?; false; end
+    def play; end
+    def pause; end
   end
 
   class StreamSourceFile < StreamSource
@@ -1069,6 +1083,46 @@ class Conference
       @file = file
       @name = File.basename(file, File.extname(file))
       @stream = Bass::BASS_StreamCreateFile.call(0, unicode(file), 0, 0, 0, 0, [256 | 0x80000000 | 0x200000].pack("I").unpack("i").first)
+      @paused = false
+    end
+
+    def position
+      bpos = Bass::BASS_ChannelGetPosition.call(@stream, 0)
+      pos = Bass::BASS_ChannelBytes2Seconds.call(@stream, bpos)
+      return pos
+    end
+
+    def position=(pos)
+      pos = 0 if pos < 0
+      bpos = Bass::BASS_ChannelSeconds2Bytes.call(@stream, pos)
+      Bass::BASS_ChannelSetPosition.call(@stream, bpos, 0)
+      return pos
+    end
+
+    def scrollable?; true; end
+    def toggleable?; true; end
+
+    def toggle
+      if playing?
+        pause
+      else
+        play
+      end
+    end
+
+    def playing?
+      @paused != true
+    end
+
+    def play
+      return if @mixer == nil || @mixer == 0
+      Bass::BASS_Mixer_StreamAddChannel.call(@mixer, @stream, 0)
+      @paused = false
+    end
+
+    def pause
+      Bass::BASS_Mixer_ChannelRemove.call(@stream)
+      @paused = true
     end
   end
 
@@ -1083,11 +1137,15 @@ class Conference
       @stream = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
       Bass.record_resetdevice
     end
+
+    def free
+      Bass::BASS_ChannelStop.call(@stream)
+    end
   end
 
   class OutStream
     attr_accessor :x, :y, :frame_id
-    attr_reader :name, :id, :mutex, :buf, :channels, :output, :listener, :encoder, :sources
+    attr_reader :name, :id, :mutex, :buf, :channels, :output, :listener, :encoder, :sources, :locally_muted
 
     def initialize(name, id, channels, x, y)
       @name, @id, @x, @y = name, id, x, y
@@ -1095,28 +1153,35 @@ class Conference
       @mutex = Mutex.new
       @encoder = Opus::Encoder.new(48000, channels)
       @mixer = Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x1000 | 0x200000)
+      @output = Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x1000 | 0x200000)
       Bass::BASS_ChannelSetAttribute.call(@mixer, 5, [1].pack("F").unpack("i")[0])
       Bass::BASS_ChannelSetAttribute.call(@mixer, 13, [0.1].pack("F").unpack("i")[0])
       @channels = channels
       @frame_id = 0
-      @output = Bass::BASS_Split_StreamCreate.call(@mixer, 0x200000, nil)
+      @out = Bass::BASS_Split_StreamCreate.call(@mixer, 0x200000, nil)
       @listener = Bass::BASS_Split_StreamCreate.call(@mixer, 0x200000, nil)
+      Bass::BASS_Mixer_StreamAddChannel.call(@output, @out, 0)
       @sources = []
+      @locally_muted = false
+      @relvolume = 1
     end
 
     def add_source(source)
       source.set_mixer(@mixer)
       @sources.push(source)
+      return source
     end
 
     def add_file(file)
       s = StreamSourceFile.new(file)
       add_source(s)
+      return s
     end
 
     def add_card(cardid)
       s = StreamSourceCard.new(cardid)
       add_source(s)
+      return s
     end
 
     def remove_source(index)
@@ -1127,11 +1192,45 @@ class Conference
       end
     end
 
+    def set_user_position(x, y, dir)
+      rx = 0
+      ry = 0
+      if x > 0 && y > 0
+        if @x > 0
+          rx = (@x - x) / 8.0
+          ry = (@y - y) / 8.0
+        elsif @x == -1
+          rx = 0
+          ry = 0
+        else
+          rx = 0
+          ry = 0
+        end
+        if dir != 0 && rx != 0 && ry != 0
+          sn = Math::sin(Math::PI / 180 * -dir)
+          cs = Math::cos(Math::PI / 180 * -dir)
+          px = rx * cs - ry * sn
+          py = rx * sn + ry * cs
+          rx = px
+          ry = py
+        end
+        pos = rx
+        pos = -1 if pos < -1
+        pos = 1 if pos > 1
+        @relvolume = (1 - Math::sqrt((ry.abs * 0.5) ** 2 + (rx.abs * 0.5) ** 2))
+        @relvolume = 0 if @relvolume < 0
+        @mutex.synchronize {
+          Bass::BASS_ChannelSetAttribute.call(@listener, 3, [pos].pack("F").unpack("i")[0])
+        }
+        self.volume = volume
+      end
+    end
+
     def volume
       vol = 0
       @mutex.synchronize {
         vl = [0].pack("f")
-        Bass::BASS_ChannelGetAttribute.call(@mixer, 2, vl)
+        Bass::BASS_ChannelGetAttribute.call(@out, 2, vl)
         vol = (vl.unpack("f").first * 100).round
       }
       return vol
@@ -1141,9 +1240,26 @@ class Conference
       vol = 100 if vol > 100
       vol = 0 if vol < 0
       @mutex.synchronize {
-        Bass::BASS_ChannelSetAttribute.call(@mixer, 2, [(vol / 100.0)].pack("f").unpack("i")[0])
+        Bass::BASS_ChannelSetAttribute.call(@out, 2, [(vol / 100.0)].pack("f").unpack("i")[0])
+        if !@locally_muted
+          Bass::BASS_ChannelSetAttribute.call(@listener, 2, [(vol / 100.0 * @relvolume)].pack("f").unpack("i")[0])
+        end
       }
       vol
+    end
+
+    def locally_muted=(mt)
+      if mt == true
+        @mutex.synchronize {
+          Bass::BASS_ChannelSetAttribute.call(@listener, 2, 0)
+        }
+      else
+        vol = volume
+        @mutex.synchronize {
+          Bass::BASS_ChannelSetAttribute.call(@listener, 2, [(vol / 100.0 * @relvolume)].pack("f").unpack("i")[0])
+        }
+      end
+      @locally_muted = (mt == true)
     end
 
     def set_mixer(mixer)
@@ -1154,9 +1270,10 @@ class Conference
       @sources.each { |s| s.free }
       @sources.clear
       Bass::BASS_StreamFree.call(@mixer) if @mixer != nil
+      Bass::BASS_StreamFree.call(@output) if @output != nil
       @encoder.free if @encoder != nil
       @channels = 0
-      @mixer = nil
+      @mixer = @output = nil
       @encoder = nil
     end
   end
@@ -1229,6 +1346,7 @@ class Conference
     @channel_hooks = []
     @waitingchannel_hooks = []
     @volumes_hooks = []
+    @streammute_hooks = []
     @user_hooks = []
     @waitinguser_hooks = []
     @status_hooks = []
@@ -1237,6 +1355,7 @@ class Conference
     @diceroll_hooks = []
     @card_hooks = []
     @change_hooks = []
+    @mystreams_hooks = []
     @streams_hooks = []
   end
 
@@ -1395,7 +1514,7 @@ class Conference
     @fullsave_myrec = nil
   end
 
-  def add_card(cardid, listen = false)
+  def addg_card(cardid, listen = false)
     log(-1, "Conference: mixing card #{cardid}")
     remove_card if cardstream != nil
     s = StreamSourceCard.new(cardid)
@@ -1410,6 +1529,30 @@ class Conference
   def remove_card
     log(-1, "Conference: unmixing cards")
     for s in @sources.find_all { |s| s.is_a?(StreamSourceCard) }.dup
+      s.free
+      @sources.delete(s)
+    end
+  end
+
+  def add_file(file)
+    s = StreamSourceFile.new(file)
+    s.volume = @stream_volume
+    @sources.push(s)
+    s.set_mixer(@stream_mixer)
+    return s
+  end
+
+  def add_card(cardid)
+    s = StreamSourceCard.new(cardid)
+    s.volume = @stream_volume
+    @sources.push(s)
+    s.set_mixer(@stream_mixer)
+    return s
+  end
+
+  def remove_source(index)
+    s = @sources[index]
+    if s != nil
       s.free
       @sources.delete(s)
     end
@@ -1555,13 +1698,26 @@ class Conference
     s.set_mixer(@outstreams_mixer)
     @outstreams.push(s)
     streams_callback
+    return s
+  end
+
+  def stream_add_card(cardid, name = "", x = 0, y = 0)
+    s = stream_add_empty(name, x, y)
+    return if s == nil
+    s.add_card(cardid)
+    s.set_mixer(@outstreams_mixer)
+    @outstreams.push(s)
+    streams_callback
+    return s
   end
 
   def stream_remove(ind)
     if @outstreams[ind] != nil
       s = @outstreams[ind]
+      id = s.id
       @outstreams.delete_at(ind)
       s.free
+      @voip.stream_remove(id)
       streams_callback
     end
   end
@@ -1659,6 +1815,20 @@ class Conference
     @volumes_hooks.each { |h| h.call(@volumes) }
   end
 
+  def streamid_setvolume(id, volume, mute)
+    volume = 100 if volume > 100
+    volume = 10 if volume < 10
+    v = [volume]
+    stream = @streams[id]
+    stream.setvolume(v) if stream != nil
+    if mute
+      @voip.streamid_mute(id)
+    else
+      @voip.streamid_unmute(id)
+    end
+    @streammute_hooks.each { |h| h.call(id, mute) }
+  end
+
   def kick(userid)
     @voip.kick(userid)
   end
@@ -1725,6 +1895,10 @@ class Conference
     @volumes_hooks.push(block) if block != nil
   end
 
+  def on_streammute(&block)
+    @streammute_hooks.push(block) if block != nil
+  end
+
   def on_status(&block)
     @status_hooks.push(block) if block != nil
   end
@@ -1747,6 +1921,10 @@ class Conference
 
   def on_change(&block)
     @change_hooks.push(block) if block != nil
+  end
+
+  def on_mystreams(&block)
+    @mystreams_hooks.push(block) if block != nil
   end
 
   def on_streams(&block)
@@ -2022,6 +2200,14 @@ class Conference
     @streams.dup
   end
 
+  def outstreams
+    @outstreams.dup
+  end
+
+  def sources
+    @sources.dup
+  end
+
   def volumes
     @volumes.dup
   end
@@ -2131,21 +2317,24 @@ class Conference
     end
   end
 
+  def streams_callback
+    hs = { streams: @outstreams.map { |s| { name: s.name, sources: sources_builder(s.sources), volume: s.volume, x: s.x, y: s.y, locally_muted: s.locally_muted } }, sources: sources_builder(@sources) }
+    @mystreams_hooks.each { |h| h.call(hs) }
+  end
+
   private
 
   def position_changed
+    for s in @outstreams
+      s.set_user_position(@position.x, @position.y, @position.dir)
+    end
     if is_muted
       @voip.send(31, "", @position.x, @position.y)
     end
   end
 
-  def streams_callback
-    hs = { streams: @outstreams.map { |s| { name: s.name, sources: sources_builder(s.sources), volume: s.volume, x: s.x, y: s.y } }, sources: sources_builder(@sources) }
-    @streams_hooks.each { |h| h.call(hs) }
-  end
-
   def sources_builder(s)
-    return s.map { |c| { name: c.name, volume: c.volume } }
+    return s.map { |c| { name: c.name, volume: c.volume, scrollable: c.scrollable?, toggleable: c.toggleable? } }
   end
 
   def prepare_mixers
@@ -2490,10 +2679,13 @@ class Conference
             for s in @streams.keys
               if !upstreams.include?(s)
                 log(-1, "Conference: unregistering stream #{s}")
+                @voip.streamid_unmute(s)
+                @streammute_hooks.each { |h| h.call(s, false) }
                 @streams[s].free
                 @streams.delete(s)
               end
             end
+            @streams_hooks.each { |h| h.call(@streams) }
           end
           if params["channel"]["waiting_users"].is_a?(Array)
             upwaiting = []

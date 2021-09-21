@@ -51,6 +51,7 @@ class VoIP
     @ping_hooks = []
     @mutes = []
     @streams_mutes = []
+    @streamid_mutes = []
   end
 
   def connect(username, token)
@@ -197,6 +198,7 @@ class VoIP
     uuid, password = @last_uuid, @last_password
     mutes = @mutes.dup
     streams_mutes = @streams_mutes.dup
+    streamid_mutes = @streamid_mutes.dup
     disconnect
     sleep(1)
     c = false
@@ -211,6 +213,7 @@ class VoIP
     unmute(@username) if !mutes.include?(@username)
     mutes.each { |m| mute(m) }
     streams_mutes.each { |m| streams_mute(m) }
+    streamid_mutes.each { |m| streamid_mute(m) }
     update
   rescue Exception
     @reconnecting = false
@@ -301,6 +304,18 @@ class VoIP
     log(-1, "Conference: unmuting streams of user #{user}")
     command("streams_unmute", { "user" => user })
     @streams_mutes.delete(user)
+  end
+
+  def streamid_mute(id)
+    log(-1, "Conference: muting stream #{id}")
+    command("streamid_mute", { "stream" => id })
+    @streamid_mutes.push(id) if !@streamid_mutes.include?(id)
+  end
+
+  def streamid_unmute(id)
+    log(-1, "Conference: unmuting stream #{id}")
+    command("streamid_unmute", { "stream" => id })
+    @streamid_mutes.delete(id)
   end
 
   def kick(userid)
