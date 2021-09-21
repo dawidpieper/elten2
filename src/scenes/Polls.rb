@@ -670,9 +670,13 @@ class Scene_Polls_Results
         else
           prc = 0
         end
-        o = [q.answers[a], prc.to_s + "%"]
+        o = [q.answers[a], prc]
         @sel_answers.rows.push(o)
         @curanswers.push(a)
+      end
+      @sel_answers.rows=@sel_answers.rows.sort_by {|a| a[1]*-1 }
+      @sel_answers.rows.each do |a|
+        a[1] =a[1].to_s + "%"
       end
     else
       for a in @answers
