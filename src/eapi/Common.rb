@@ -92,46 +92,46 @@ module EltenAPI
       container = Console.new
       container.on_str { |str| form.fields[1].settext(form.fields[1].text + "\r\n" + str) }
       form.bind_context { |menu|
-        if LocalConfig['ConsoleAutoClearInput']==1
-          s=p_("EAPI_Common", "Disable auto clear input")
+        if LocalConfig["ConsoleAutoClearInput"] == 1
+          s = p_("EAPI_Common", "Disable auto clear input")
         else
-          s=p_("EAPI_Common", "Enable auto clear input")
+          s = p_("EAPI_Common", "Enable auto clear input")
         end
         menu.option(s, nil, "i") {
-          if LocalConfig['ConsoleAutoClearInput']==1
-            LocalConfig['ConsoleAutoClearInput']=0
+          if LocalConfig["ConsoleAutoClearInput"] == 1
+            LocalConfig["ConsoleAutoClearInput"] = 0
             alert(p_("EAPI_Common", "Disabled"))
           else
-            LocalConfig['ConsoleAutoClearInput']=1
+            LocalConfig["ConsoleAutoClearInput"] = 1
             alert(p_("EAPI_Common", "Enabled"))
           end
         }
-        if LocalConfig['ConsoleAutoClearOutput']==1
-          s=p_("EAPI_Common", "Disable auto clear output")
+        if LocalConfig["ConsoleAutoClearOutput"] == 1
+          s = p_("EAPI_Common", "Disable auto clear output")
         else
-          s=p_("EAPI_Common", "Enable auto clear output")
+          s = p_("EAPI_Common", "Enable auto clear output")
         end
         menu.option(s, nil, "o") {
-          if LocalConfig['ConsoleAutoClearOutput']==1
-            LocalConfig['ConsoleAutoClearOutput']=0
+          if LocalConfig["ConsoleAutoClearOutput"] == 1
+            LocalConfig["ConsoleAutoClearOutput"] = 0
             alert(p_("EAPI_Common", "Disabled"))
           else
-            LocalConfig['ConsoleAutoClearOutput']=1
+            LocalConfig["ConsoleAutoClearOutput"] = 1
             alert(p_("EAPI_Common", "Enabled"))
           end
         }
         #By default, source should be copied to output.
-        if LocalConfig['ConsoleDontCopySource']==1 
-          s=p_("EAPI_Common", "Enable source in output")
+        if LocalConfig["ConsoleDontCopySource"] == 1
+          s = p_("EAPI_Common", "Enable source in output")
         else
-          s=p_("EAPI_Common", "Disable source in output")
+          s = p_("EAPI_Common", "Disable source in output")
         end
         menu.option(s, nil, "s") {
-          if LocalConfig['ConsoleDontCopySource']==1
-            LocalConfig['ConsoleDontCopySource']=0
+          if LocalConfig["ConsoleDontCopySource"] == 1
+            LocalConfig["ConsoleDontCopySource"] = 0
             alert(p_("EAPI_Common", "Enabled"))
           else
-            LocalConfig['ConsoleDontCopySource']=1
+            LocalConfig["ConsoleDontCopySource"] = 1
             alert(p_("EAPI_Common", "Disabled"))
           end
         }
@@ -155,12 +155,12 @@ module EltenAPI
         form.update
         if form.fields[2].pressed? or ($keyr[0x11] and enter)
           kom = form.fields[0].text
-          if LocalConfig['ConsoleDontCopySource']==1
-            outKom=""
+          if LocalConfig["ConsoleDontCopySource"] == 1
+            outKom = ""
           else
-            outKom=kom
+            outKom = kom
           end
-          if LocalConfig['ConsoleAutoClearOutput']==1
+          if LocalConfig["ConsoleAutoClearOutput"] == 1
             form.fields[1].settext(outKom)
           else
             form.fields[1].settext(form.fields[1].text + "\r\n\r\n" + outKom)
@@ -181,7 +181,7 @@ module EltenAPI
             r = $!.class.to_s + " (" + $!.to_s + ")\n" + plc
           end
           speak(r)
-          form.fields[0].settext("") if LocalConfig['ConsoleAutoClearInput']==1
+          form.fields[0].settext("") if LocalConfig["ConsoleAutoClearInput"] == 1
           form.fields[1].settext(form.fields[1].text + "\r\n#=> " + r, false)
           loop_update
         end
