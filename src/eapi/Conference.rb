@@ -164,7 +164,7 @@ module EltenAPI
     end
 
     class Channel
-      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed, :join_url
+      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed, :join_url, :conference_mode
 
       def initialize
         @name = ""
@@ -189,6 +189,7 @@ module EltenAPI
         @waiting_type = 0
         @banned = []
         @permanent = false
+        @conference_mode = 0
       end
     end
 
@@ -201,13 +202,15 @@ module EltenAPI
     end
 
     class ChannelUser
-      attr_accessor :id, :name, :waiting, :supervisor
+      attr_accessor :id, :name, :waiting, :supervisor, :speech_requested, :speech_allowed
 
-      def initialize(id, name, waiting = false, supervisor = nil)
+      def initialize(id, name, waiting = false, supervisor = nil, speech_requested = false, speech_allowed = false)
         @id = id
         @name = name
         @waiting = waiting
         @supervisor = supervisor
+        @speech_requested = speech_requested
+        @speech_allowed = speech_allowed
       end
     end
 
@@ -266,6 +269,7 @@ module EltenAPI
     end
 
     @@opened = false
+    @@userid = 0
     @@volume = 0
     @@input_volume = 0
     @@muted = false
@@ -540,6 +544,22 @@ module EltenAPI
       $agent.write(Marshal.dump({ "func" => "conference_unfollow", "channel" => channel }))
       delay(0.1)
     end
+    def self.speech_request
+      $agent.write(Marshal.dump({ "func" => "conference_speechrequest" }))
+      delay(0.1)
+    end
+    def self.speech_refrain
+      $agent.write(Marshal.dump({ "func" => "conference_speechrefrain" }))
+      delay(0.1)
+    end
+    def self.speech_allow(userid, replace = false)
+      $agent.write(Marshal.dump({ "func" => "conference_speechallow", "userid" => userid, "replace" => replace }))
+      delay(0.1)
+    end
+    def self.speech_deny(userid)
+      $agent.write(Marshal.dump({ "func" => "conference_speechdeny", "userid" => userid }))
+      delay(0.1)
+    end
     def self.goto(x, y)
       $agent.write(Marshal.dump({ "func" => "conference_goto", "x" => x, "y" => y }))
       delay(0.1)
@@ -547,13 +567,13 @@ module EltenAPI
     def self.whisper(userid)
       $agent.write(Marshal.dump({ "func" => "conference_whisper", "userid" => userid }))
     end
-    def self.create(name = "", public = true, bitrate = 64, framesize = 60, vbr_type = 1, codec_application = 0, prediction_disabled = false, fec = false, password = nil, spatialization = 0, channels = 2, lang = "", width = 15, height = 15, key_len = 256, waiting_type = 0, permanent = false, motd = "", allow_guests = false)
+    def self.create(name = "", public = true, bitrate = 64, framesize = 60, vbr_type = 1, codec_application = 0, prediction_disabled = false, fec = false, password = nil, spatialization = 0, channels = 2, lang = "", width = 15, height = 15, key_len = 256, waiting_type = 0, permanent = false, motd = "", allow_guests = false, conference_mode = 0)
       if @@opened == false
         self.open
         delay(1)
       end
       @@created = nil
-      $agent.write(Marshal.dump({ "func" => "conference_createchannel", "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "vbr_type" => vbr_type, "codec_application" => codec_application, "prediction_disabled" => prediction_disabled, "fec" => fec, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len, "waiting_type" => waiting_type, "permanent" => permanent, "motd" => motd, "allow_guests" => allow_guests }))
+      $agent.write(Marshal.dump({ "func" => "conference_createchannel", "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "vbr_type" => vbr_type, "codec_application" => codec_application, "prediction_disabled" => prediction_disabled, "fec" => fec, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len, "waiting_type" => waiting_type, "permanent" => permanent, "motd" => motd, "allow_guests" => allow_guests, "conference_mode" => conference_mode }))
       t = Time.now.to_f
       while Time.now.to_f - t < 8
         loop_update
@@ -561,12 +581,12 @@ module EltenAPI
       end
       return @@created
     end
-    def self.edit(id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, key_len, waiting_type, permanent, motd, allow_guests)
+    def self.edit(id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, key_len, waiting_type, permanent, motd, allow_guests, conference_mode)
       if @@opened == false
         self.open
         delay(1)
       end
-      $agent.write(Marshal.dump({ "func" => "conference_editchannel", "channel" => id, "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "vbr_type" => vbr_type, "codec_application" => codec_application, "prediction_disabled" => prediction_disabled, "fec" => fec, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len, "waiting_type" => waiting_type, "permanent" => permanent, "motd" => motd, "allow_guests" => allow_guests }))
+      $agent.write(Marshal.dump({ "func" => "conference_editchannel", "channel" => id, "name" => name, "public" => public, "bitrate" => bitrate, "framesize" => framesize, "vbr_type" => vbr_type, "codec_application" => codec_application, "prediction_disabled" => prediction_disabled, "fec" => fec, "password" => password, "spatialization" => spatialization, "channels" => channels, "lang" => lang, "width" => width, "height" => height, "key_len" => key_len, "waiting_type" => waiting_type, "permanent" => permanent, "motd" => motd, "allow_guests" => allow_guests, "conference_mode" => conference_mode }))
       delay(1)
     end
     def self.update_channels
@@ -713,6 +733,7 @@ module EltenAPI
           ch.allow_guests = cha["allow_guests"]
           ch.followed = (cha["followed"] == true)
           ch.join_url = cha["join_url"]
+          ch.conference_mode = cha["conference_mode"] || 0
           channels.push(ch)
         end
       end
@@ -720,6 +741,9 @@ module EltenAPI
     end
     def self.opened?
       return @@opened
+    end
+    def self.userid
+      return @@userid
     end
     def self.channel
       return @@channel
@@ -747,6 +771,7 @@ module EltenAPI
       @@volume = data["volume"]
       @@pushtotalk = data["pushtotalk"]
       @@pushtotalk_keys = data["pushtotalk_keys"].split(",").map { |k| k.to_i }
+      @@userid = data["userid"]
       @@opened = true
     end
     def self.setclosed
@@ -775,6 +800,7 @@ module EltenAPI
       @@dir = 0
       @@cardboard = []
       @@waiting_channel_id = 0
+      @@userid = 0
     end
     def self.setchannel(c)
       params = JSON.load(c)
@@ -798,7 +824,7 @@ module EltenAPI
         ch.groupid = params["groupid"].to_i
         ch.users = []
         if params["users"].is_a?(Array)
-          ch.users = params["users"].map { |u| ChannelUser.new(u["id"], u["name"], false, u["supervisor"]) }
+          ch.users = params["users"].map { |u| ChannelUser.new(u["id"], u["name"], false, u["supervisor"], u["speech_requested"], params["speakers"].is_a?(Array) && params["speakers"].include?(u["id"])) }
         end
         if params["waiting_users"].is_a?(Array)
           ch.users += params["waiting_users"].map { |u| ChannelUser.new(u["id"], u["name"], true) }
@@ -816,6 +842,7 @@ module EltenAPI
         ch.room_id = params["room_id"]
         ch.allow_guests = params["allow_guests"]
         ch.join_url = params["join_url"]
+        ch.conference_mode = params["conference_mode"] || 0
         @@channel = ch
         self.trigger(:update)
       end

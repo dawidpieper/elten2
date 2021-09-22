@@ -673,7 +673,7 @@ class Scene_Polls_Results
         end
         answersList.push([q.answers[a], prc, a])
       end
-      answersList =answersList.sort_by {|a| a[1]*-1 }
+      answersList = answersList.sort_by { |a| a[1] * -1 }
       answersList.each do |a|
         @sel_answers.rows.push([a[0], a[1].to_s + "%"])
         @curanswers.push(a[2])

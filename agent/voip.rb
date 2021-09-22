@@ -363,6 +363,26 @@ class VoIP
     command("unfollow", { "channel" => channel })
   end
 
+  def speech_request
+    log(-1, "Conference: requesting speech")
+    command("speech_request", {})
+  end
+
+  def speech_refrain
+    log(-1, "Conference: refraining speech")
+    command("speech_refrain", {})
+  end
+
+  def speech_allow(userid, replace = false)
+    log(-1, "Conference: allowing speech to user #{userid}")
+    command("speech_allow", { "userid" => userid, "replace" => replace })
+  end
+
+  def speech_deny(userid)
+    log(-1, "Conference: denying speech to user #{userid}")
+    command("speech_deny", { "userid" => userid })
+  end
+
   def public_key(userid)
     c = command("publickey", { "userid" => userid })
     return nil if c == false
