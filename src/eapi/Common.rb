@@ -120,6 +120,21 @@ module EltenAPI
             alert(p_("EAPI_Common", "Enabled"))
           end
         }
+        #By default, source should be copied to output.
+        if LocalConfig['ConsoleDontCopySource']==1 
+          s=p_("EAPI_Common", "Enable source in output")
+        else
+          s=p_("EAPI_Common", "Disable source in output")
+        end
+        menu.option(s, nil, "s") {
+          if LocalConfig['ConsoleDontCopySource']==1
+            LocalConfig['ConsoleDontCopySource']=0
+            alert(p_("EAPI_Common", "Enabled"))
+          else
+            LocalConfig['ConsoleDontCopySource']=1
+            alert(p_("EAPI_Common", "Disabled"))
+          end
+        }
         if container.codes.size > 0
           menu.option(p_("EAPI_Common", "Load last code"), nil, "l") {
             form.fields[0].settext(container.codes[0])
@@ -140,10 +155,15 @@ module EltenAPI
         form.update
         if form.fields[2].pressed? or ($keyr[0x11] and enter)
           kom = form.fields[0].text
-          if LocalConfig['ConsoleAutoClearOutput']==1
-            form.fields[1].settext(kom)
+          if LocalConfig['ConsoleDontCopySource']==1
+            outKom=""
           else
-            form.fields[1].settext(form.fields[1].text + "\r\n\r\n" + kom)
+            outKom=kom
+          end
+          if LocalConfig['ConsoleAutoClearOutput']==1
+            form.fields[1].settext(outKom)
+          else
+            form.fields[1].settext(form.fields[1].text + "\r\n\r\n" + outKom)
           end
           begin
             r = container.run(kom).inspect
