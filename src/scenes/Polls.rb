@@ -658,6 +658,7 @@ class Scene_Polls_Results
     @curanswers = []
     if q.type < 2
       anses = []
+      answersList = []
       for a in @answers
         next if !authors.include?(a.author)
         if a.question == @sel_questions.index
@@ -670,13 +671,12 @@ class Scene_Polls_Results
         else
           prc = 0
         end
-        o = [q.answers[a], prc]
-        @sel_answers.rows.push(o)
-        @curanswers.push(a)
+        answersList.push([q.answers[a], prc, a])
       end
-      @sel_answers.rows=@sel_answers.rows.sort_by {|a| a[1]*-1 }
-      @sel_answers.rows.each do |a|
-        a[1] =a[1].to_s + "%"
+      answersList =answersList.sort_by {|a| a[1]*-1 }
+      answersList.each do |a|
+        @sel_answers.rows.push([a[0], a[1].to_s + "%"])
+        @curanswers.push(a[2])
       end
     else
       for a in @answers
