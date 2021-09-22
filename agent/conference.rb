@@ -790,7 +790,7 @@ class Conference
                 if @spatialization == 1 || @spatialization == 2
                   out = pcm.unpack("s" * (pcm.bytesize / 2)).map { |s| s / 32768.0 }.pack("f" * (pcm.bytesize / 2))
                   suc = false
-                  if @hrtf != nil && @rx != nil && @ry != nil
+                  if @hrtf != nil && @rx != nil && @ry != nil && @stream_x != -1
                     suc = true
                     if @spatialization == 1 || (@rx != 0 || @ry != 0)
                       rx = @rx
@@ -808,7 +808,7 @@ class Conference
                       @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
                       out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
                     end
-                  else
+                  elsif @channels == 1
                     rout = out.unpack("f" * (out.bytesize / 4))
                     fout = []
                     rout.each { |f| fout.push(f, f) }
@@ -852,7 +852,7 @@ class Conference
             if @spatialization == 1 || @spatialization == 2
               out = pcm.unpack("s" * (pcm.bytesize / 2)).map { |s| s / 32768.0 }.pack("f" * (pcm.bytesize / 2))
               suc = false
-              if @hrtf != nil && @rx != nil && @ry != nil
+              if @hrtf != nil && @rx != nil && @ry != nil && @stream_x != -1
                 suc = true
                 rx = @rx
                 rz = @ry
@@ -860,7 +860,7 @@ class Conference
                 rz = -0.075 if rz == 0
                 @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
                 out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
-              else
+              elsif @channels == 1
                 rout = out.unpack("f" * (out.bytesize / 4))
                 fout = []
                 rout.each { |f| fout.push(f, f) }
@@ -2876,6 +2876,7 @@ class Conference
           bitrate = 32000 if bitrate < 32000
           s.encoder.bitrate = bitrate if bitrate != nil and bitrate > 0
         end
+        maxBytes *= 2 if @channels == 1
         if s.output != nil && s.channels > 0 && (sz = Bass::BASS_ChannelGetData.call(s.output, buf, maxBytes)) > 0
           s.mutex.synchronize {
             if @framesize > 0 and s.channels != nil
