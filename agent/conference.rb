@@ -25,6 +25,7 @@ class Conference
     attr_reader :listener_x, :listener_y, :transmitter_x, :transmitter_y
     attr_reader :username
     attr_reader :losses
+    attr_accessor :speech_requested
 
     def initialize(channels, framesize, preskip, starttime, spatialization, position, username, volume = nil)
       @channels = channels
@@ -56,6 +57,7 @@ class Conference
       @hrtf = nil
       @hrtf_effect = nil
       @spatialization = spatialization
+      @speech_requested = false
       @mutex = Mutex.new
       setvolume(volume)
       @sec = 0
@@ -519,7 +521,7 @@ class Conference
     end
 
     def set_user_position(x, y)
-      @user_x, @user_y = user_x, user_y
+      @user_x, @user_y = x, y
       update_position
     end
 
@@ -1309,6 +1311,7 @@ class Conference
     @streams = {}
     @outstreams = []
     @volumes = { @username => [100, true, true] }
+    @speakers = {}
     @volume = 100
     @muted = false
     @stream_mutex = Mutex.new
@@ -1357,6 +1360,7 @@ class Conference
     @change_hooks = []
     @mystreams_hooks = []
     @streams_hooks = []
+    @speaker_hooks = []
   end
 
   def filestream(ind = -1)
@@ -1869,6 +1873,22 @@ class Conference
     @voip.unfollow(channel)
   end
 
+  def speech_request
+    @voip.speech_request
+  end
+
+  def speech_refrain
+    @voip.speech_refrain
+  end
+
+  def speech_allow(userid, replace = false)
+    @voip.speech_allow(userid, replace)
+  end
+
+  def speech_deny(userid)
+    @voip.speech_deny(userid)
+  end
+
   def coordinates(userid)
     u = @transmitters[userid]
     return [-1, -1] if u == nil
@@ -1929,6 +1949,10 @@ class Conference
 
   def on_streams(&block)
     @streams_hooks.push(block) if block != nil
+  end
+
+  def on_speaker(&block)
+    @speaker_hooks.push(block) if block != nil
   end
 
   def x
@@ -2322,6 +2346,10 @@ class Conference
     @mystreams_hooks.each { |h| h.call(hs) }
   end
 
+  def userid
+    @voip.uid
+  end
+
   private
 
   def position_changed
@@ -2606,14 +2634,23 @@ class Conference
           end
           frs = @transmitters.size == 0
           upusers = []
+          pch = false
           for u in params["channel"]["users"]
             uid = u["id"]
             upusers.push(uid)
             if @transmitters.include?(uid)
               @transmitters[uid].set_hrtf(@hrtf)
               @transmitters[uid].reset
+              if @transmitters[uid].speech_requested == false && u["speech_requested"] == true
+                @speaker_hooks.each { |h| h.call(2, u["name"], u["id"]) } if params["channel"]["administrators"].is_a?(Array) && params["channel"]["administrators"].include?(@username)
+              end
+              @transmitters[uid].speech_requested = u["speech_requested"]
             else
-              calling_stop
+              if pch == false
+                calling_stop
+                position_changed
+                pch = true
+              end
               @user_hooks.each { |h| h.call(true, u["name"], uid) } if frs == false
               log(-1, "Conference: registering new transmitter #{uid}")
               @transmitters[uid] = Transmitter.new(params["channel"]["channels"], params["channel"]["framesize"], @encoder.preskip, @starttime, params["channel"]["spatialization"], @position, u["name"], @volumes[u["name"]])
@@ -2674,6 +2711,7 @@ class Conference
                 @streams[sid] = Stream.new(s["channels"], params["channel"]["framesize"], @encoder.preskip, @starttime, params["channel"]["spatialization"], @position, s["x"], s["y"], s["id"], s["name"], s["user"], username)
                 @streams[sid].set_hrtf(@hrtf) if params["channel"]["spatialization"] == 1 || params["channel"]["spatialization"] == 2
                 @streams[sid].set_mixer(@channel_mixer)
+                @streams[sid].set_user_position(@transmitters[s["user"]].transmitter_x, @transmitters[s["user"]].transmitter_y) if @transmitters[s["user"]] != nil and @transmitters[s["user"]].transmitter_x > 0
               end
             end
             for s in @streams.keys
@@ -2686,6 +2724,25 @@ class Conference
               end
             end
             @streams_hooks.each { |h| h.call(@streams) }
+          end
+          if params["channel"]["speakers"].is_a?(Array)
+            upspeakers = []
+            for userid in params["channel"]["speakers"]
+              upspeakers.push(userid)
+              if !@speakers.include?(userid)
+                username = ""
+                username = @transmitters[userid].username if @transmitters[userid] != nil
+                @speakers[userid] = [username, userid]
+                @speaker_hooks.each { |h| h.call(1, username, userid) } if userid == @voip.uid
+              end
+            end
+            for s in @speakers.keys
+              username, userid = @speakers[s]
+              if !upspeakers.include?(userid)
+                @speaker_hooks.each { |h| h.call(0, username, userid) } if userid == @voip.uid
+                @speakers.delete(s)
+              end
+            end
           end
           if params["channel"]["waiting_users"].is_a?(Array)
             upwaiting = []

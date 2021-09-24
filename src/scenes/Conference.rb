@@ -51,6 +51,26 @@ class Scene_Conference
         if user != nil
           if user.waiting == false
             menu.useroption(user.name)
+            if Conference.channel.conference_mode == 1
+              if Conference.channel.administrators.include?(Session.name)
+                if user.speech_allowed
+                  menu.option(p_("Conference", "Deny speech to this user"), nil, "-") {
+                    Conference.speech_deny(user.id)
+                    play("conference_speechdeny")
+                  }
+                else
+                  menu.option(p_("Conference", "Allow speech to this user"), nil, "+") {
+                    Conference.speech_allow(user.id)
+                    play("conference_speechallow")
+                  }
+                  menu.option(p_("Conference", "Allow speech to this user only"), nil, "=") {
+                    Conference.speech_allow(user.id, true)
+                    play("conference_speechdeny")
+                    play("conference_speechallow")
+                  }
+                end
+              end
+            end
             vol = Conference.volume(user.name)
             s = p_("Conference", "Mute user")
             s = p_("Conference", "Unmute user") if vol.muted == true
@@ -176,6 +196,7 @@ class Scene_Conference
           s += " (" + p_("Conference", "Stream taken over by %{supervisor}") % { "supervisor" => supervisor } + ")"
         end
         s += "\004NEW\004" if u.waiting
+        s += "\004FUTURE\004" if u.speech_requested
         lst_users.options.push(s)
       end
       motd = Conference.channel.motd || ""
@@ -359,7 +380,7 @@ class Scene_Conference
           txt += p_("Conference", "A waiting room is enabled on this channel.") + "\n" if ch.waiting_type > 0
           if ch.room_id != nil
             txt += p_("Conference", "Room id") + ": #{ch.room_id}\n"
-            txt += p_("Conference", "URL for joining using Web Browser") + ": #{ch.join_url}\n" if ch.join_url != nil
+            txt += p_("Conference", "URL for joining using Web Browser") + ":\n#{ch.join_url}\n\n" if ch.join_url != nil
           end
           txt += p_("Conference", "Channel bitrate") + ": " + ch.bitrate.to_s + "kbps\n"
           txt += p_("Conference", "Channel frame size") + ": " + ch.framesize.to_s + "ms\n"
@@ -500,6 +521,7 @@ class Scene_Conference
       chk_predictiondisabled = CheckBox.new(p_("Conference", "Disable encoding prediction"), (channel.prediction_disabled == true) ? (1) : (0)),
       lst_channels = ListBox.new(["Mono", "Stereo"], p_("Conference", "Channels"), channel.channels - 1, 0, true),
       lst_spatialization = ListBox.new(["Panning", "HRTF"], p_("Conference", "Space Virtualization"), channel.spatialization, 0, true),
+      chk_conference = CheckBox.new(p_("Conference", "Enable conference mode (only channel administrators and allowed users can speak)"), (channel.conference_mode > 0) ? (1) : (0)),
       chk_waiting = CheckBox.new(p_("Conference", "Enable waiting room"), (channel.waiting_type > 0) ? (1) : (0)),
       chk_allowguests = CheckBox.new(p_("Conference", "Allow guests to join this channel"), (channel.allow_guests) ? (1) : (0)),
       chk_permanent = CheckBox.new(p_("Conference", "Store as permanent channel"), (channel.permanent) ? (1) : (0)),
@@ -515,6 +537,9 @@ class Scene_Conference
     edt_motd.select_all
     if channel.id != 0
       btn_create.label = p_("Conference", "Edit")
+    end
+    if !holds_premiumpackage("director") && channel.conference_mode == 0
+      form.hide(chk_conference)
     end
     if !holds_premiumpackage("audiophile")
       form.hide(edt_width)
@@ -616,12 +641,13 @@ class Scene_Conference
         width = edt_width.text.to_i
         height = edt_height.text.to_i
         waiting_type = chk_waiting.checked
+        conference_mode = chk_conference.checked
         allow_guests = chk_allowguests.checked == 1
         permanent = (chk_permanent.checked == 1)
         if channel.id == 0
-          Conference.create(name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, 256, waiting_type, permanent, motd, allow_guests)
+          Conference.create(name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, 256, waiting_type, permanent, motd, allow_guests, conference_mode)
         else
-          Conference.edit(channel.id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, channel.key_len, waiting_type, permanent, motd, allow_guests)
+          Conference.edit(channel.id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, channel.key_len, waiting_type, permanent, motd, allow_guests, conference_mode)
         end
         form.resume
       end
@@ -709,7 +735,7 @@ class Scene_Conference
     refr = false
     lst_objects.bind_context { |menu|
       if objs.find_all { |o| o["owner"] == Session.name }.size < 10
-        if holds_premiumpackage("audiophile")
+        if holds_premiumpackage("director")
           menu.option(p_("Conference", "Upload new sound")) {
             file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
             if file != nil
@@ -998,7 +1024,7 @@ class Scene_Conference
         form.accept_button = btn_cardok
         form.wait
         if cardid > -1
-          Conference.stream_add_card(cardid, mics[cardid], -1, -1, !listen)
+          Conference.stream_add_card(cardid, mics[cardid], 0, 0, !listen)
         end
         @form.focus
       }
@@ -1030,7 +1056,7 @@ class Scene_Conference
         formats += [".avi", ".mp4", ".mov", ".mkv"] if holds_premiumpackage("audiophile")
         file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, formats)
         if file != nil
-          Conference.stream_add_file(file, File.basename(file, File.extname(file)), -1, -1)
+          Conference.stream_add_file(file, File.basename(file, File.extname(file)), 0, 0)
         end
         @form.focus
       }
@@ -1104,6 +1130,31 @@ class Scene_Conference
   end
 
   def context(menu)
+    if Conference.channel.conference_mode == 1
+      allowed = false
+      requested = false
+      for u in Conference.channel.users
+        if u.id == Conference.userid
+          allowed = true if u.speech_allowed
+          requested = true if u.speech_requested
+        end
+      end
+      if !Conference.channel.administrators.include?(Session.name)
+        if !allowed
+          if !requested
+            menu.option(p_("Conference", "Request speech"), nil, "=") {
+              Conference.speech_request
+              play("conference_speechrequest")
+            }
+          else
+            menu.option(p_("Conference", "Refrain speech"), nil, "-") {
+              Conference.speech_refrain
+              play("conference_speechdeny")
+            }
+          end
+        end
+      end
+    end
     menu.submenu(p_("Conference", "Streaming")) { |m| context_streaming(m) }
     s = p_("Conference", "Mute microphone")
     s = p_("Conference", "Unmute microphone") if Conference.muted
@@ -1450,9 +1501,9 @@ class Scene_Conference
       strs = Conference.streams
       selt = strs.map { |s|
         loc = "x: #{s["x"]}, y: #{s["y"]}"
-        if s["x"] == 0
+        if s["x"] == -1
           loc = p_("Conference", "Everywhere")
-        elsif s["x"] == -1
+        elsif s["x"] == 0
           loc = p_("Conference", "Right next to me")
         end
         [s["name"], s["username"], loc]
@@ -1524,9 +1575,9 @@ class Scene_Conference
     rfr = Proc.new {
       selt = [[p_("Conference", "Master mix"), nil]] + Conference.mystreams.streams.map { |s|
         loc = "x: #{s.x}, y: #{s.y}"
-        if s.x == 0
+        if s.x == -1
           loc = p_("Conference", "Everywhere")
-        elsif s.x == -1
+        elsif s.x == 0
           loc = p_("Conference", "Right next to me")
         end
         [s.name, loc]
@@ -1623,11 +1674,11 @@ class Scene_Conference
             x, y = 0, 0
             case lst_location.index
             when 0
-              x, y = -1, -1
+              x, y = 0, 0
             when 1
               x, y = Conference.get_coordinates[0..1]
             when 2
-              x, y = 0, 0
+              x, y = -1, -1
             end
             Conference.stream_add_file(file, name, x, y)
             delay(1)

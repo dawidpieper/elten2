@@ -44,7 +44,6 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Recording conferences"),
              p_("PremiumPackages", "Creation of up to three public channels in conferences"),
              p_("PremiumPackages", "Creation of group channels in conferences"),
-             p_("PremiumPackages", "Placing own sceneries in channels"),
              p_("PremiumPackages", "Changing HRTF dimensions"),
              p_("PremiumPackages", "Setting different output soundcard for conferences than the one selected in Elten"),
              p_("PremiumPackages", "Using VST plugins in conferences")
@@ -68,7 +67,9 @@ class Scene_PremiumPackages
   def get_director
     return Struct_PremiumPackages_PremiumPackage.new("director", p_("PremiumPackages", "Director"), [
              p_("PremiumPackages", "Conference streaming to shoutcast servers"),
-             p_("PremiumPackages", "Setting VST plugins on specific users")
+             p_("PremiumPackages", "Setting VST plugins on specific users"),
+             p_("PremiumPackages", "Placing own sceneries in channels"),
+             p_("PremiumPackages", "Creating conference-mode channels, where only administrators and allowed users can speak")
            ])
   end
 

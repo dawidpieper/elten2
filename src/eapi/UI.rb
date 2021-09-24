@@ -66,7 +66,7 @@ module EltenAPI
         return false
       end
       @@altdown = true if $keypr[0x12]
-      @@altdown = false if $keyr[0x11] || $keyr[0x5B] || $keyr[0x5C]
+      @@altdown = false if $keyr[0x11] || $keyr[0x5B] || $keyr[0x5C] || $keyr[0x10]
       l = $keyu[0x12] && @@altdown
       @@altdowntime = 0 if l
       return l

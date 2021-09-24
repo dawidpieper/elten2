@@ -146,6 +146,24 @@ module EProcessor
           end
         }
       }
+      $conference.on_speaker { |status, username, userid|
+        Thread.new {
+          if status == 2
+            play("conference_speechrequest")
+            speak(username)
+          elsif status == 1
+            play("conference_speechallow")
+            speak(p_("Conference", "Speech allowed"))
+          elsif status == 0
+            play("conference_speechdeny")
+            speak(p_("Conference", "Speech denied"))
+          end
+          while speech_actived
+            speech_stop if $getasynckeystate.call(0x11) != 0 and $voice >= 0 and Time.now.to_f - ($speech_lasttime || 0) > 0.1
+            sleep 0.01
+          end
+        }
+      }
       $conference.on_text { |username, userid, message|
         Thread.new {
           speak(username + ": " + message)
@@ -326,7 +344,7 @@ module EProcessor
           end
         }
       }
-      ewrite({ "func" => "conference_open", "volume" => $conference.volume, "input_volume" => $conference.input_volume, "stream_volume" => $conference.stream_volume, "muted" => $conference.muted, "pushtotalk" => $conference.pushtotalk, "pushtotalk_keys" => $conference.pushtotalk_keys.map { |k| k.to_s }.join(",") })
+      ewrite({ "func" => "conference_open", "userid" => $conference.userid, "volume" => $conference.volume, "input_volume" => $conference.input_volume, "stream_volume" => $conference.stream_volume, "muted" => $conference.muted, "pushtotalk" => $conference.pushtotalk, "pushtotalk_keys" => $conference.pushtotalk_keys.map { |k| k.to_s }.join(",") })
     end
 
     def conference_getsource(stream, source, mayStream = false)
@@ -570,6 +588,22 @@ module EProcessor
       when "conference_unfollow"
         if $conference != nil && data["channel"].is_a?(Integer)
           $conference.unfollow(data["channel"])
+        end
+      when "conference_speechrequest"
+        if $conference != nil
+          $conference.speech_request
+        end
+      when "conference_speechrefrain"
+        if $conference != nil
+          $conference.speech_refrain
+        end
+      when "conference_speechallow"
+        if $conference != nil && data["userid"] != nil
+          $conference.speech_allow(data["userid"], data["replace"])
+        end
+      when "conference_speechdeny"
+        if $conference != nil && data["userid"] != nil
+          $conference.speech_deny(data["userid"])
         end
       when "conference_gotouser"
         if $conference != nil
