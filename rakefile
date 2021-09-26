@@ -607,3 +607,9 @@ task :setup do
   puts stdout
   puts("Installer compiled.") if stdout == ""
 end
+
+desc "Create Elten rdoc documentation"
+task :doc do
+  stdout = Open3.capture3("rdoc src --all --force-update 2>&1")[0]
+  puts stdout
+end
