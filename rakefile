@@ -582,6 +582,7 @@ desc "Clean built data"
 task :clean do
   FileUtils.rm_rf("out")
   FileUtils.rm_rf("build")
+  FileUtils.rm_rf("doc")
 end
 
 desc "Build Elten and run it"
