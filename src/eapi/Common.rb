@@ -540,41 +540,7 @@ module EltenAPI
       end
     end
 
-    def selecttag(owner)
-      bt = srvproc("blog_tags", { "searchname" => owner, "ac" => "get" })
-      if bt[0].to_i < 0
-        alert(_("Error"))
-        speech_wait
-        return $scene = Scene_Main.new
-      end
-      tags = []
-      for i in 0...bt[1].to_i
-        t = Struct_Blog_Tag.new
-        t.id = bt[2 + i * 2].to_i
-        t.name = bt[2 + i * 2 + 1].delete("\r\n")
-        tags.push(t)
-      end
-        if tags.size < 1
-        speak(p_("EAPI_Common", "Empty list"))
-        speech_wait
-      end
-      sel = ListBox.new(tags.map { |t| t.name}, p_("Blog", "Select tag"))
-        loop do
-        loop_update
-        sel.update if tags.size > 0
-          if escape
-          loop_update
-          $focus = true
-          return(nil)
-        end
-        if enter and tags.size > 0
-          loop_update
-          $focus = true
-          play("listbox_select")
-          return(tags[sel.index])
-        end
-      end
-    end
+
 
     # Opens a visitingcard of a specified user
     #
