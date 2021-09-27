@@ -170,7 +170,6 @@ begin
     }
     sleep(0.1) while !$token
   end
-  $forcewasapi = readconfig("Advanced", "ForceWasapi", "0").to_i
   Bass.init(0)
 
   #p SteamAudio.load("c:\\users\\dawid\\appdata\\roaming\\elten\\extras\\phonon.dll")

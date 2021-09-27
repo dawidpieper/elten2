@@ -48,7 +48,7 @@ module EltenAPI
 
     module Configuration
       class << self
-        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :volume, :usefx, :bgsounds, :voicepitch, :usedenoising, :autologin, :roundupforms, :checkupdates, :enablebraille, :useechocancellation, :usevoicedictionary, :forcewasapi, :disablefeednotifications, :iimodifiers, :iicards, :usebilinearhrtf
+        attr_accessor :listtype, :usepan, :soundcard, :microphone, :controlspresentation, :contextmenubar, :soundthemeactivation, :typingecho, :linewrapping, :hidewindow, :synctime, :registeractivity, :voice, :language, :voicerate, :voicevolume, :soundtheme, :volume, :usefx, :bgsounds, :voicepitch, :usedenoising, :autologin, :roundupforms, :checkupdates, :enablebraille, :useechocancellation, :usevoicedictionary, :disablefeednotifications, :iimodifiers, :iicards, :usebilinearhrtf
 
         def to_h
           h = {}

@@ -1136,6 +1136,17 @@ class Conference
     end
   end
 
+  class StreamSourceURL < StreamSourceFile
+    attr_reader :url
+
+    def initialize(url)
+      @url = url
+      @name = @url
+      @stream = Bass::BASS_StreamCreateURL.call(@url, 0, 256 | 0x200000, 0, 0)
+      @paused = false
+    end
+  end
+
   class StreamSourceCard < StreamSource
     attr_reader :cardid
 
@@ -1232,6 +1243,12 @@ class Conference
 
     def add_file(file)
       s = StreamSourceFile.new(file)
+      add_source(s)
+      return s
+    end
+
+    def add_url(url)
+      s = StreamSourceURL.new(url)
       add_source(s)
       return s
     end
@@ -1602,6 +1619,14 @@ class Conference
     return s
   end
 
+  def add_url(url)
+    s = StreamSourceURL.new(url)
+    s.volume = @stream_volume
+    @sources.push(s)
+    s.set_mixer(@stream_mixer)
+    return s
+  end
+
   def add_card(cardid)
     s = StreamSourceCard.new(cardid)
     s.volume = @stream_volume
@@ -1755,6 +1780,16 @@ class Conference
     s = stream_add_empty(name, x, y)
     return if s == nil
     s.add_file(file)
+    s.set_mixer(@outstreams_mixer)
+    @outstreams.push(s)
+    streams_callback
+    return s
+  end
+
+  def stream_add_url(url, name = "", x = 0, y = 0)
+    s = stream_add_empty(name, x, y)
+    return if s == nil
+    s.add_url(url)
     s.set_mixer(@outstreams_mixer)
     @outstreams.push(s)
     streams_callback
@@ -2485,7 +2520,7 @@ class Conference
     if r == 0
       r = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
     end
-    for freq in [192000, 176400, 96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 8000]
+    for freq in [48000, 44100, 96000, 88200, 192000, 176400, 384000, 64000, 32000, 24000, 22050, 16000, 8000]
       r = Bass::BASS_RecordStart.call(freq, 0, 256, 0, 0)
       break if r != 0
       for ch in (1..16).to_a.reverse

@@ -312,7 +312,7 @@ class Scene_Settings
     make_setting(p_("Settings", "Enable FX effects"), :bool, "Advanced", "UseFX")
     make_setting(p_("Settings", "Use noise reduction"), [p_("Settings", "Never"), p_("Settings", "In audio conferences only"), p_("Settings", "In audio conferences and when recording")], "Advanced", "UseDenoising")
     make_setting(p_("Settings", "Enable echo cancellation"), :bool, "Advanced", "UseEchoCancellation")
-    make_setting(p_("Settings", "Force input through Wasapi"), :bool, "Advanced", "ForceWasapi")
+
     make_setting(p_("Settings", "Use bilinear HRTF interpolation"), :bool, "Advanced", "UseBilinearHRTF")
   end
 
