@@ -1900,8 +1900,8 @@ class Scene_Blog_PostEditor
 
   def selecttag
       if @tags.size < 1
-      speak(p_("EAPI_Common", "Empty list"))
-      speech_wait
+      alert(p_("Blog", "There are currently no tags created, please add a new one."))
+      return nil
     end
     sel = ListBox.new(@tags.map { |t| t.name}, p_("Blog", "Select tag"))
       loop do
@@ -1909,12 +1909,10 @@ class Scene_Blog_PostEditor
       sel.update if @tags.size > 0
         if escape
         loop_update
-        $focus = true
         return(nil)
       end
       if enter and @tags.size > 0
         loop_update
-        $focus = true
         play("listbox_select")
         return(@tags[sel.index])
       end
