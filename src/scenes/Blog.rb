@@ -1943,6 +1943,20 @@ class Scene_Blog_PostEditor
     ]
     @tagids = []
     lst_tags.bind_context { |menu|
+      menu.option(p_("Blog", "Add existing tag to this post"), nil, "e") {
+        tag = selecttag(@owner)
+          for t in @tags
+            if tag != nil and t.name.downcase == tag.name.downcase
+              tagid = t.id
+              break
+            end
+          end
+          if tag != nil and tagid > 0
+            @tagids.push(tagid)
+            lst_tags.options.push(tag.name)
+            lst_tags.focus
+          end
+      }
       menu.option(p_("Blog", "Add tag to this post"), nil, "n") {
         tagname = input_text(p_("Blog", "Tag to add"), 0, "", true)
         if tagname != nil
