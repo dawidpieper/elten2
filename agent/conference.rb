@@ -113,7 +113,11 @@ class Conference
         pos = @rx
         pos = -1 if pos < -1
         pos = 1 if pos > 1
-        vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * @volume / 100.0
+        vl = @volume / 100.0
+        if @volume > 100
+          vl = 1 + (@volume - 100) / 10.0
+        end
+        vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * vl
         vol = 0 if vol < 0
         @mutex.synchronize {
           if @spatialization == 0
@@ -558,7 +562,11 @@ class Conference
         pos = @rx
         pos = -1 if pos < -1
         pos = 1 if pos > 1
-        vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * @volume / 100.0
+        vl = @volume / 100.0
+        if @volume > 100
+          vl = 1 + (@volume - 100) / 10.0
+        end
+        vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * vl
         vol = 0 if vol < 0
         @mutex.synchronize {
           if @spatialization == 0
@@ -1134,14 +1142,62 @@ class Conference
     def initialize(cardid)
       @cardid = cardid
       @name = "card"
-      Bass::BASS_RecordInit.call(cardid)
+      r = Bass::BASS_RecordInit.call(cardid)
+      if r == 0
+        fl = Bass::BASS_GetConfig.call(66)
+        t = 0
+        t = 1 if fl == 0
+        Bass::BASS_SetConfig.call(66, t)
+        log(1, "Conference, Record fallback to Wasapi") if fl == 0
+        log(1, "Conference, Record fallback to DirectSound") if fl == 1
+        r = Bass::BASS_RecordInit.call(cardid)
+        Bass::BASS_SetConfig.call(66, fl)
+      end
       Bass::BASS_RecordSetDevice.call(cardid)
-      @stream = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
+      @stream = try_record
       Bass.record_resetdevice
     end
 
     def free
       Bass::BASS_ChannelStop.call(@stream)
+    end
+
+    def try_record
+      r = Bass::BASS_RecordStart.call(0, 0, 256, 0, 0)
+      if r == 0
+        r = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
+      end
+      for freq in [192000, 176400, 96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 8000]
+        r = Bass::BASS_RecordStart.call(freq, 0, 256, 0, 0)
+        break if r != 0
+        for ch in (1..16).to_a.reverse
+          r = Bass::BASS_RecordStart.call(freq, ch, 256, 0, 0)
+          break if r != 0
+          r = Bass::BASS_RecordStart.call(freq, ch, 0, 0, 0)
+          break if r != 0
+        end
+      end
+      if r == 0
+        err = nil
+        case Bass::BASS_ErrorGetCode.call
+        when 8
+          err = "BASS_RecordInit has not been successfully called"
+        when 46
+          err = "The device is busy. An existing recording may need to be stopped before starting another one"
+        when 37
+          err = "The recording device is not available. Another application may already be recording with it, or it could be a half-duplex device that is currently being used for playback"
+        when 6
+          err = "The requested format is not supported."
+        when 1
+          err = "There is insufficient memory"
+        when -1
+          err = "Some other mystery problem!"
+        end
+        if err != nil
+          log(2, "Failed to prepare audio input: #{err}")
+        end
+      end
+      return r
     end
   end
 
@@ -1738,10 +1794,10 @@ class Conference
 
   def reset
     @record_mutex.synchronize {
-      Bass::BASS_Mixer_ChannelRemove.call(@record)
+      Bass::BASS_Mixer_ChannelRemove.call(@record) if @record != nil
       Bass::BASS_ChannelStop.call(@record) if @record != nil
       Bass.record_prepare
-      @record = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
+      @record = try_record
       Bass::BASS_ChannelSetAttribute.call(@record, 2, [(@input_volume || 100) / 100.0].pack("F").unpack("i")[0])
       Bass::BASS_Mixer_StreamAddChannel.call(@record_mixer, @record, 0)
       Bass::BASS_ChannelPlay.call(@record, 0)
@@ -1770,10 +1826,7 @@ class Conference
     return Bass.cardid if @device == nil
     id = nil
     soundcards = Bass.soundcards
-    for s in soundcards
-      next if !s.is_a?(String)
-    end
-    id = soundcards.index(@device)
+    id = soundcards.index(soundcards.find { |c| c.name == @device })
     if id == nil
       log(1, "Conferences: cannot find device named #{@device.b}, found: #{soundcards.compact.map { |c| c.b }.join(", ")}")
       id = Bass.cardid
@@ -1785,7 +1838,7 @@ class Conference
   end
 
   def setvolume(user, volume = 100, muted = false, streams_muted = false)
-    volume = 100 if volume > 100
+    volume *= 300 if volume > 300
     volume = 10 if volume < 10
     v = [volume, muted, streams_muted]
     @volumes[user] = v
@@ -2416,7 +2469,7 @@ class Conference
     Bass::BASS_ChannelSetAttribute.call(@outstreams_mixer, 13, [0.1].pack("F").unpack("i")[0])
     Bass::BASS_ChannelSetAttribute.call(@outstreams_mixer, 5, [1].pack("F").unpack("i")[0])
     Bass::BASS_Mixer_StreamAddChannel.call(@myself_mixer, @outstreams_mixer, 0)
-    @record = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
+    @record = try_record
     @record_mixer = Bass::BASS_Mixer_StreamCreate.call(48000, 2, 0x1000 | 0x200000)
     @vsts = []
     @vst_lastpriority = 2 ** 31
@@ -2425,6 +2478,44 @@ class Conference
     @recordstream = Bass::BASS_StreamCreate.call(48000, 2, 0x200000, -1, nil)
     Bass::BASS_Mixer_StreamAddChannel.call(@output_mixer, @recordstream, 0x4000)
     reset
+  end
+
+  def try_record
+    r = Bass::BASS_RecordStart.call(0, 0, 256, 0, 0)
+    if r == 0
+      r = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
+    end
+    for freq in [192000, 176400, 96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 8000]
+      r = Bass::BASS_RecordStart.call(freq, 0, 256, 0, 0)
+      break if r != 0
+      for ch in (1..16).to_a.reverse
+        r = Bass::BASS_RecordStart.call(freq, ch, 256, 0, 0)
+        break if r != 0
+        r = Bass::BASS_RecordStart.call(freq, ch, 0, 0, 0)
+        break if r != 0
+      end
+    end
+    if r == 0
+      err = nil
+      case Bass::BASS_ErrorGetCode.call
+      when 8
+        err = "BASS_RecordInit has not been successfully called"
+      when 46
+        err = "The device is busy. An existing recording may need to be stopped before starting another one"
+      when 37
+        err = "The recording device is not available. Another application may already be recording with it, or it could be a half-duplex device that is currently being used for playback"
+      when 6
+        err = "The requested format is not supported."
+      when 1
+        err = "There is insufficient memory"
+      when -1
+        err = "Some other mystery problem!"
+      end
+      if err != nil
+        log(2, "Failed to prepare audio input: #{err}")
+      end
+    end
+    return r
   end
 
   def onreceive(userid, type, message, p1, p2, p3, p4, index)

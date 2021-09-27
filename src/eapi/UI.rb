@@ -489,12 +489,9 @@ module EltenAPI
             alert(p_("EAPI_UI", "The program is trying to recover from the frozen state."))
           elsif d["func"] == "log"
             Log.add(d["level"], d["msg"], Time.at(d["time"]))
-          elsif d["func"] == "zstd_compress"
+          elsif d["func"] == "eltencred"
             $agids.delete(d["id"])
-            $zstds[d["id"]] = d["data"]
-          elsif d["func"] == "zstd_decompress"
-            $agids.delete(d["id"])
-            $zstds[d["id"]] = d["data"]
+            $eltencreds[d["id"]] = d["material"] if $eltencreds != nil
           elsif d["func"] == "conference_open"
             Conference.setopened(d)
           elsif d["func"] == "conference_close"

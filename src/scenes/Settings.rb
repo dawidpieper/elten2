@@ -277,13 +277,33 @@ class Scene_Settings
     if @soundsettings == nil
       @soundcards = Bass.soundcards
       @microphones = Bass.microphones
-      @soundcards[0] = p_("Settings", "Use Default")
+      @soundcards[0] = Bass::Device.new(p_("Settings", "Use Default"), "", 1 | 2)
       @soundcards.delete_at(1)
-      @microphones = [p_("Settings", "Use Default")] + @microphones
-      @soundcardsmapping = @soundcards.dup
+      @microphones = [Bass::Device.new(p_("Settings", "Use Default"), "", 1 | 2)] + @microphones
+      @soundcardsmapping = @soundcards.map { |c| c.name }
       @soundcardsmapping[0] = ""
-      @microphonesmapping = @microphones.dup
+      @microphonesmapping = @microphones.map { |m| m.name }
       @microphonesmapping[0] = ""
+      i = 1
+      while i < @soundcards.size
+        if @soundcards[i].disabled?
+          @soundcards.delete_at(i)
+          @soundcardsmapping.delete_at(i)
+        else
+          i += 1
+        end
+      end
+      i = 1
+      while i < @microphones.size
+        if @microphones[i].disabled?
+          @microphones.delete_at(i)
+          @microphonesmapping.delete_at(i)
+        else
+          i += 1
+        end
+      end
+      @soundcards = @soundcards.map { |c| c.name }
+      @microphones = @microphones.map { |m| o = ""; o = " (" + p_("Settings", "Loopback device") + ")" if m.loopback?; m.name + o }
       @soundsettings = true
     end
     make_setting(p_("Settings", "Output device"), @soundcards, "SoundCard", "SoundCard", @soundcardsmapping)

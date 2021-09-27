@@ -713,7 +713,7 @@ module EltenAPI
     else
       sc = Bass.soundcards
       for i in 0...sc.size
-        if sc[i] == Configuration.soundcard
+        if sc[i].name == Configuration.soundcard
           Bass.setdevice(i)
         end
       end
@@ -728,12 +728,15 @@ module EltenAPI
     s = false
     mc = Bass.microphones
     for i in 0...mc.size
-      if mc[i] == Configuration.microphone
+      if mc[i].name == Configuration.microphone
         Bass.setrecorddevice(i)
         s = true
       end
     end
-    Bass.setrecorddevice(-1) if s == false
+    if s == false
+      defl = mc.index(mc.find { |m| m.default? }) || -1
+      Bass.setrecorddevice(defl)
+    end
     Configuration.controlspresentation = readconfig("Interface", "ControlsPresentation", 0)
     Configuration.contextmenubar = readconfig("Interface", "ContextMenuBar", 1)
     Configuration.soundthemeactivation = readconfig("Interface", "SoundThemeActivation", 1)
@@ -867,5 +870,20 @@ module EltenAPI
     d = "\0" * sz
     sz = Win32API.new("bin\\libzstd", "ZSTD_compress", "pipii", "i").call(d, d.size, s, s.size, l)
     return d[0...sz]
+  end
+
+  def eltencred(data)
+    $agids ||= []
+    id = nil
+    id = rand(1e16) while id == nil || $agids.include?(id)
+    $agids.push(id)
+    $eltencreds ||= {}
+    $agent.write(Marshal.dump({ "func" => "eltencred", "material" => data, "id" => id }))
+    while $eltencreds[id] == nil
+      loop_update
+    end
+    m = Base64.decode64($eltencreds[id])
+    $eltencreds.delete(id)
+    return m
   end
 end

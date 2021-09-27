@@ -221,6 +221,22 @@ module EltenAPI
         sel.push("")
         sel.push("")
       end
+      ringtone = false
+      if holds_premiumpackage("audiophile")
+        begin
+          if FileTest.exists?(Dirs.eltendata + "\\ringtones.json")
+            json = JSON.load(readfile(Dirs.eltendata + "\\ringtones.json"))
+            ringtone = true if json[user].is_a?(String) && FileTest.exists?(json[user])
+          end
+        end
+        if ringtone
+          sel.push(p_("EAPI_Common", "Unset ringtone"))
+        else
+          sel.push(p_("EAPI_Common", "Set ringtone"))
+        end
+      else
+        sel.push("")
+      end
       sel.push(p_("EAPI_Common", "Call this user"))
       sel.push(p_("EAPI_Common", "Show feed"))
       if Session.moderator > 0
@@ -248,10 +264,12 @@ module EltenAPI
         menu.disable_item(4)
         menu.disable_item(5)
         menu.disable_item(6)
+        menu.disable_item(7)
       end
       menu.disable_item(3) if @hashonors == false
-      menu.disable_item(6) if @callable == false
-      menu.disable_item(8) if Session.moderator == 0
+      menu.disable_item(6) if !holds_premiumpackage("audiophile")
+      menu.disable_item(7) if @callable == false
+      menu.disable_item(9) if Session.moderator == 0
       menu.focus
       loop do
         loop_update
@@ -300,10 +318,21 @@ module EltenAPI
             loop_update
             return "ALT"
           when 6
-            voicecall(nil, nil, [user])
+            if ringtone
+              set_ringtone(user, nil)
+              alert(p_("EAPI_Common", "Ringtone removed"))
+            else
+              file = getfile(p_("EAPI_Common", "Select ringtone for user %{user}") % { "user" => user }, Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
+              if file != nil
+                set_ringtone(user, file)
+                alert(p_("EAPI_Common", "Ringtone changed"))
+              end
+            end
           when 7
-            insert_scene(Scene_FeedViewer.new(user))
+            voicecall(nil, nil, [user])
           when 8
+            insert_scene(Scene_FeedViewer.new(user))
+          when 9
             if @isbanned == false
               insert_scene(Scene_Ban_Ban.new(user, Scene_Main.new), true)
             else
@@ -313,7 +342,7 @@ module EltenAPI
             return "ALT"
           else
             if $usermenuextra.is_a?(Hash)
-              a = $usermenuextra.values[menu.index - 9]
+              a = $usermenuextra.values[menu.index - 10]
               s = a[0].new
               s.userevent(user, *a[1..-1])
               insert_scene(s, true)
@@ -1072,6 +1101,22 @@ module EltenAPI
       $agent.write(Marshal.dump({ "func" => "activity_register", "activity" => $activity, "config" => Configuration.to_h }))
       $activity.clear
       Log.debug("User activity report generated and sent to server")
+    end
+
+    def set_ringtone(user, file)
+      json = {}
+      begin
+        if FileTest.exists?(Eltendata + "\\ringtones.json")
+          json = JSON.load(readfile(Dirs.eltendata + "\\ringtones.json"))
+        end
+      rescue Exception
+      end
+      if file == nil
+        json.delete(user)
+      else
+        json[user] = file
+      end
+      writefile(Dirs.eltendata + "\\ringtones.json", JSON.generate(json))
     end
 
     def plum

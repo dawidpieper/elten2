@@ -140,6 +140,8 @@ begin
   rescue Exception
   end
   $rsa = OpenSSL::PKey::RSA.new(2048) if $rsa == nil
+  $eltencred = OpenSSL::PKey::RSA.new(IO.binread("./Data/eltencredpub.pem"))
+  $eltencred_mutex = Mutex.new
   use_soundtheme("Data/Audio.elsnd", true)
   $ag_wnd = $createemptywindow.call(unicode("ELTEN Agent"))
   if $*.include?("/autostart")
@@ -500,13 +502,17 @@ begin
       if $microphone != $lastmicrophone
         log(0, "Microphone changed: #{$microphone}")
         mc = Bass.microphones
+        s = false
         for i in 0...mc.size
-          if mc[i] == $microphone
+          if mc[i].name == $microphone
             Bass.setrecorddevice(i)
             s = true
           end
         end
-        Bass.setrecorddevice(-1) if s == false
+        if s == false
+          defl = mc.index(mc.find { |m| m.default? }) || -1
+          Bass.setrecorddevice(defl)
+        end
         $conference.reset if $conference != nil
       end
       $soundtheme = readconfig("Interface", "SoundTheme", "")
@@ -610,9 +616,20 @@ begin
                       $bgplayer.close
                       $bgplayer = nil
                     end
+                    voice = "ringing"
+                    if $premiumpackages.is_a?(Array) && $premiumpackages.include?("audiophile")
+                      if FileTest.exists?($eltendata + "\\ringtones.json")
+                        begin
+                          json = JSON.load(IO.binread($eltendata + "\\ringtones.json"))
+                          vc = json[rsp["call"]["caller"]]
+                          voice = vc if vc != nil && FileTest.exists?(vc)
+                        rescue Exception
+                        end
+                      end
+                    end
                     @ringingplaying = true
                     @call_id = rsp["call"]["id"]
-                    play("ringing", true, true)
+                    play(voice, true, true)
                     ewrite({ "func" => "call_start", "call_id" => rsp["call"]["id"], "caller" => rsp["call"]["caller"], "channel" => rsp["call"]["channel"].to_i, "password" => rsp["call"]["channel_password"] })
                   end
                 else

@@ -116,6 +116,28 @@ module Bass
     @@cardid = c
   end
 
+  class Device
+    attr_accessor :name, :driver, :flags
+
+    def initialize(name = "", driver = "", flags = 0)
+      @name = name
+      @driver = driver
+      @flags = flags
+    end
+
+    def enabled?
+      (@flags & 1) != 0
+    end
+
+    def disabled?
+      !enabled?
+    end
+
+    def default?
+      (@flags & 2) != 0
+    end
+  end
+
   def self.soundcards
     BASS_SetConfig.call(36, 1)
     devs = []
@@ -128,10 +150,17 @@ module Bass
       $strcpy.call(o, a[0])
       sc = o[0...(o.index("\0") || -1)]
       b = sc.force_encoding("UTF-8")
+      driver = ""
+      if a[1] != 0
+        o = "\0" * 1024
+        $strcpy.call(o, a[1])
+        tm = o[0...(o.index("\0") || -1)]
+        driver = tm.force_encoding("UTF-8")
+      end
       cds[b] ||= 0
       cds[b] += 1
       b += " (#{cds[b]})" if cds[b] > 1
-      devs[index] = b
+      devs[index] = Device.new(b, driver, a[2])
       index += 1
     end
     return devs
@@ -148,10 +177,16 @@ module Bass
       o = "\0" * 1024
       $strcpy.call(o, a[0])
       sc = o[0...(o.index("\0") || -1)].force_encoding("UTF-8")
+      driver = ""
+      if a[1] != 0
+        o = "\0" * 1024
+        $strcpy.call(o, a[1])
+        driver = o[0...(o.index("\0") || -1)].force_encoding("UTF-8")
+      end
       cds[sc] ||= 0
       cds[sc] += 1
       sc += " (#{cds[sc]})" if cds[sc] > 1
-      microphones.push(sc)
+      microphones.push(Device.new(sc, driver, a[2]))
       index += 1
     end
     return microphones
@@ -166,12 +201,25 @@ module Bass
   end
   def self.record_prepare
     if @@recordinit == false
-      BASS_RecordInit.call(@@recorddevice)
+      r = BASS_RecordInit.call(@@recorddevice)
+      if r == 0
+        fl = BASS_GetConfig.call(66)
+        t = 0
+        t = 1 if fl == 0
+        BASS_SetConfig.call(66, t)
+        log(1, "Record fallback to Wasapi") if fl == 0
+        log(1, "Record fallback to DirectSound") if fl == 1
+        r = BASS_RecordInit.call(@@recorddevice)
+        BASS_SetConfig.call(66, fl)
+      end
       if @@recorddevice == -1
         @@recorddevice = BASS_RecordGetDevice.call
       end
+      BASS_RecordSetDevice.call(@@recorddevice)
       @@recordinit = true
     end
+  rescue Exception
+    log(2, $!.to_s)
   end
 
   def self.record_resetdevice

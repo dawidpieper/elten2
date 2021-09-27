@@ -444,6 +444,7 @@ module EltenAPI
         return if $SoundThemeActivation == 0 and ignoreConfig == false
         f = nil
         snd = getsound(file)
+        f = file if snd == nil
       else
         f = file
       end

@@ -46,7 +46,8 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Creation of group channels in conferences"),
              p_("PremiumPackages", "Changing HRTF dimensions"),
              p_("PremiumPackages", "Setting different output soundcard for conferences than the one selected in Elten"),
-             p_("PremiumPackages", "Using VST plugins in conferences")
+             p_("PremiumPackages", "Using VST plugins in conferences"),
+             p_("PremiumPackages", "Setting specific ringtones for users")
            #p_("PremiumPackages", "Placing beacons in HRTF channels"),
            ])
   end
