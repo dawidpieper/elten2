@@ -36,6 +36,22 @@ def install_gem(gemname)
   Gem.clear_paths
 end
 
+def require_gem(gemName, requiredPath)
+  ge = false
+  begin
+    require requiredPath
+  rescue Exception
+    if ge == false
+      ge = true
+      puts("#{gemName}  not found, trying to install")
+      install_gem(gemName)
+      retry
+    else
+      fail
+    end
+  end
+end
+
 def get_files(filelist)
   res = []
   lines = IO.readlines(filelist)
@@ -58,19 +74,7 @@ end
 
 desc "Create translation template"
 task :pot do
-  ge = false
-  begin
-    require "gettext/tools/xgettext"
-  rescue Exception
-    if ge == false
-      ge = true
-      puts("Gettext not found, trying to install")
-      install_gem("gettext")
-      retry
-    else
-      fail
-    end
-  end
+  require_gem("gettext", "gettext/tools/xgettext")
   Dir.mkdir("locale") if !FileTest.exists?("locale")
   files = get_files("filelist_rgss")
   param = files + ["-o", "locale/elten.pot", "--package-name=Elten", "--package-version=2.4", "--msgid-bugs-address=dawidpieper@o2.pl", "--copyright-holder=\"Dawid Pieper\"", "--copyright-year=#{Time.now.year}"]
@@ -99,19 +103,7 @@ desc "Build scripts for agent"
 task :agent do
   reqgems = [["http/2", "http-2"], ["xz", "ruby-xz"], ["zstd-ruby", "zstd-ruby"], ["base62", "base62"]]
   for r in reqgems
-    ge = false
-    begin
-      require r[0]
-    rescue Exception
-      if ge == false
-        ge = true
-        puts("#{r[1]} not found, trying to install")
-        install_gem(r[1])
-        retry
-      else
-        fail
-      end
-    end
+    require_gem(r[1], r[0])
   end
 
   class AgentExporter
@@ -352,34 +344,9 @@ end
 
 desc "Build locale files"
 task :locale do
-  ge = false
-  begin
-    require "gettext"
-    require "gettext/po_parser"
-  rescue Exception
-    if ge == false
-      ge = true
-      puts("Gettext not found, trying to install")
-      install_gem("gettext")
-      retry
-    else
-      fail
-    end
-  end
-  ge = false
-  begin
-    require "zstd-ruby"
-  rescue Exception
-    if ge == false
-      ge = true
-      puts("zstd-ruby not found, trying to install")
-      install_gem("zstd-ruby")
-      retry
-    else
-      fail
-    end
-  end
-
+  require_gem("gettext", "gettext")
+  require "gettext/po_parser"
+  require_gem("zstd-ruby", "zstd-ruby")
   Dir.mkdir("out") if !FileTest.exists?("out")
   Dir.mkdir("out/locale") if !FileTest.exists?("out/locale")
   for f in Dir.glob("locale/*/lc_messages/elten.po")
@@ -463,19 +430,7 @@ end
 
 desc "Create NVDA addon"
 task :nvda do
-  ge = false
-  begin
-    require "zip"
-  rescue Exception
-    if ge == false
-      ge = true
-      puts("rubyzip not found, trying to install")
-      install_gem("rubyzip")
-      retry
-    else
-      fail
-    end
-  end
+  require_gem("rubyzip", "zip")
 
   class ZipFileGenerator
     def initialize(input_dir, output_file)
