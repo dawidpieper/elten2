@@ -540,6 +540,8 @@ module EltenAPI
       end
     end
 
+
+
     # Opens a visitingcard of a specified user
     #
     # @param user [String] user whose visitingcard you want to open

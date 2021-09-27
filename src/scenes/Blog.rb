@@ -1898,6 +1898,27 @@ class Scene_Blog_PostEditor
     @postselindex = postselindex
   end
 
+  def selecttag
+      if @tags.size < 1
+      alert(p_("Blog", "There are currently no tags created, please add a new one."))
+      return nil
+    end
+    sel = ListBox.new(@tags.map { |t| t.name}, p_("Blog", "Select tag"))
+      loop do
+      loop_update
+      sel.update if @tags.size > 0
+        if escape
+        loop_update
+        return(nil)
+      end
+      if enter and @tags.size > 0
+        loop_update
+        play("listbox_select")
+        return(@tags[sel.index])
+      end
+    end
+  end
+
   def main
     resetdate = false
     bt = srvproc("blog_categories", { "searchname" => @owner })
@@ -1943,6 +1964,22 @@ class Scene_Blog_PostEditor
     ]
     @tagids = []
     lst_tags.bind_context { |menu|
+      menu.option(p_("Blog", "Add existing tag to this post"), nil, "e") {
+          dialog_open
+        tag = selecttag
+          dialog_close
+          for t in @tags
+            if tag != nil and t.name.downcase == tag.name.downcase
+              tagid = t.id
+              break
+            end
+          end
+          if tag != nil and tagid > 0
+            @tagids.push(tagid)
+            lst_tags.options.push(tag.name)
+            lst_tags.focus
+          end
+      }
       menu.option(p_("Blog", "Add tag to this post"), nil, "n") {
         tagname = input_text(p_("Blog", "Tag to add"), 0, "", true)
         if tagname != nil
