@@ -1965,7 +1965,9 @@ class Scene_Blog_PostEditor
     @tagids = []
     lst_tags.bind_context { |menu|
       menu.option(p_("Blog", "Add existing tag to this post"), nil, "e") {
+          dialog_open
         tag = selecttag
+          dialog_close
           for t in @tags
             if tag != nil and t.name.downcase == tag.name.downcase
               tagid = t.id
