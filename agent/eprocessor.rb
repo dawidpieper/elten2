@@ -939,6 +939,12 @@ module EProcessor
       when "zstd_decompress"
         d = Zstd.decompress(data["data"])
         ewrite({ "func" => "zstd_decompress", "id" => data["id"], "data" => d })
+      when "eltencred"
+        d = nil
+        $eltencred_mutex.synchronize {
+          d = $eltencred.public_encrypt(data["material"])
+        }
+        ewrite({ "func" => "eltencred", "id" => data["id"], "material" => Base64.encode64(d) })
       end
     end
   end

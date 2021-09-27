@@ -53,21 +53,23 @@ class Scene_Conference
             menu.useroption(user.name)
             if Conference.channel.conference_mode == 1
               if Conference.channel.administrators.include?(Session.name)
-                if user.speech_allowed
-                  menu.option(p_("Conference", "Deny speech to this user"), nil, "-") {
-                    Conference.speech_deny(user.id)
-                    play("conference_speechdeny")
-                  }
-                else
-                  menu.option(p_("Conference", "Allow speech to this user"), nil, "+") {
-                    Conference.speech_allow(user.id)
-                    play("conference_speechallow")
-                  }
-                  menu.option(p_("Conference", "Allow speech to this user only"), nil, "=") {
-                    Conference.speech_allow(user.id, true)
-                    play("conference_speechdeny")
-                    play("conference_speechallow")
-                  }
+                if !Conference.channel.administrators.include?(user.name)
+                  if user.speech_allowed
+                    menu.option(p_("Conference", "Deny speech to this user"), nil, "-") {
+                      Conference.speech_deny(user.id)
+                      play("conference_speechdeny")
+                    }
+                  else
+                    menu.option(p_("Conference", "Allow speech to this user"), nil, "+") {
+                      Conference.speech_allow(user.id)
+                      play("conference_speechallow")
+                    }
+                    menu.option(p_("Conference", "Allow speech to this user only"), nil, "=") {
+                      Conference.speech_allow(user.id, true)
+                      play("conference_speechdeny")
+                      play("conference_speechallow")
+                    }
+                  end
                 end
               end
             end
@@ -93,9 +95,9 @@ class Scene_Conference
               end
             }
             menu.option(p_("Conference", "Change user volume")) {
-              lst_volume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "User volume"), 100 - vol.volume)
+              lst_volume = ListBox.new((0..300).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "User volume"), 300 - vol.volume)
               lst_volume.on(:move) {
-                Conference.setvolume(user.name, 100 - lst_volume.index, vol.muted, vol.streams_muted)
+                Conference.setvolume(user.name, 300 - lst_volume.index, vol.muted, vol.streams_muted)
               }
               loop {
                 loop_update
@@ -1009,11 +1011,14 @@ class Scene_Conference
         cardid = -1
         listen = false
         form = Form.new([
-          lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
+          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
           chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
           btn_cardok = Button.new(p_("Conference", "Stream")),
           btn_cardcancel = Button.new(_("Cancel"))
         ], 0, false, true)
+        for i in 0...mics.size
+          lst_card.disable_item(i) if mics[i].disabled?
+        end
         btn_cardcancel.on(:press) { form.resume }
         btn_cardok.on(:press) {
           cardid = lst_card.index
@@ -1698,12 +1703,15 @@ class Scene_Conference
           cardid = -1
           listen = false
           form = Form.new([
-            lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
+            lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
             chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
             lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
             btn_place = Button.new(p_("Conference", "Place")),
             btn_cancel = Button.new(_("Cancel"))
           ], 0, false, true)
+          for i in 0...mics.size
+            lst_card.disable_item(i) if mics[i].disabled?
+          end
           btn_place.on(:press) {
             cardid = lst_card.index
             listen = chk_listen.checked.to_i == 1
@@ -1825,10 +1833,13 @@ class Scene_Conference
           cardid = -1
           listen = false
           form = Form.new([
-            lst_card = ListBox.new(mics, p_("Conference", "Select soundcard to stream"), 0, 0),
+            lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
             btn_place = Button.new(p_("Conference", "Place")),
             btn_cancel = Button.new(_("Cancel"))
           ], 0, false, true)
+          for i in 0...mics.size
+            lst_card.disable_item(i) if mics[i].disabled?
+          end
           btn_place.on(:press) {
             cardid = lst_card.index
             Conference.source_add_card(sid, cardid)

@@ -71,6 +71,36 @@ module Bass
     45 => "ENDED", -1 => " UNKNOWN"
   }
 
+  class Device
+    attr_accessor :name, :driver, :flags
+
+    def initialize(name = "", driver = "", flags = 0)
+      @name = name
+      @driver = driver
+      @flags = flags
+    end
+
+    def enabled?
+      (@flags & 1) != 0
+    end
+
+    def disabled?
+      !enabled?
+    end
+
+    def default?
+      (@flags & 2) != 0
+    end
+
+    def initialized?
+      (@flags & 4) != 0
+    end
+
+    def loopback?
+      (@flags & 8) != 0
+    end
+  end
+
   def self.soundcards
     BASS_SetConfig.call(36, 1)
     BASS_SetConfig.call(42, 1)
@@ -84,10 +114,17 @@ module Bass
       Win32API.new("msvcrt", "strcpy", "pi", "i").call(o, a[0])
       sc = (o[0...(o.index("\0") || -1)]).deutf8
       name = sc
+      driver = ""
+      if a[1] != 0
+        o = "\0" * 1024
+        Win32API.new("msvcrt", "strcpy", "pi", "i").call(o, a[1])
+        driver = (o[0...(o.index("\0") || -1)]).deutf8
+      end
+      flags = a[2]
       cds[name] ||= 0
       cds[name] += 1
       name += " (#{cds[name]})" if cds[name] > 1
-      ret.push(name)
+      ret.push(Device.new(name, driver, flags))
       index += 1
     end
     return ret
@@ -104,10 +141,17 @@ module Bass
       o = "\0" * 1024
       Win32API.new("msvcrt", "strcpy", "pi", "i").call(o, a[0])
       sc = (o[0...(o.index("\0") || -1)]).deutf8
+      driver = ""
+      if a[1] != 0
+        o = "\0" * 1024
+        Win32API.new("msvcrt", "strcpy", "pi", "i").call(o, a[1])
+        driver = (o[0...(o.index("\0") || -1)]).deutf8
+      end
+      flags = a[2]
       cds[sc] ||= 0
       cds[sc] += 1
       sc += " (#{cds[sc]})" if cds[sc] > 1
-      microphones.push(sc)
+      microphones.push(Device.new(sc, driver, flags))
       index += 1
     end
     return microphones
