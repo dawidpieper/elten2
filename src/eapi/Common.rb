@@ -296,7 +296,9 @@ module EltenAPI
             return "ALT"
           when 4
             if @incontacts == true
-              insert_scene(Scene_Contacts_Delete.new(user, Scene_Main.new), true)
+                if confirm(p_("Contacts", "Are you sure you want to delete this contact?")) == 1
+                insert_scene(Scene_Contacts_Delete.new(user, Scene_Main.new), true) 
+              end
             else
               insert_scene(Scene_Contacts_Insert.new(user, Scene_Main.new), true)
             end
