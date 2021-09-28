@@ -680,7 +680,11 @@ module EltenAPI
         if arrow_right
           @vindex = charborders(@vindex)[1]
           if @vindex >= @text.size
+              if Configuration.soundthemeactivation == 1
             play("border")
+            else
+              speak(p_("EAPI_Form", "End of line"))
+            end
           elsif @vindex == @text.size - 1
             @vindex = @text.size
             play("editbox_endofline")
@@ -699,7 +703,11 @@ module EltenAPI
           end
         elsif arrow_left
           if @vindex <= 0
+              if Configuration.soundthemeactivation == 1
             play("border")
+            else
+              speak(p_("EAPI_Form", "End of line"))
+            end
           else
             if $key[0x11] == false
               ind = @vindex - 1
