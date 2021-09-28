@@ -456,11 +456,17 @@ module EltenAPI
     def self.stream_add_file(file, name, x = -1, y = -1)
       $agent.write(Marshal.dump({ "func" => "conference_addstream", "source" => "file", "file" => file, "name" => name, "x" => x, "y" => y }))
     end
+    def self.stream_add_url(url, name, x = -1, y = -1)
+      $agent.write(Marshal.dump({ "func" => "conference_addstream", "source" => "url", "url" => url, "name" => name, "x" => x, "y" => y }))
+    end
     def self.stream_add_card(cardid, name, x = -1, y = -1, mute = false)
       $agent.write(Marshal.dump({ "func" => "conference_addstream", "source" => "card", "cardid" => cardid, "name" => name, "x" => x, "y" => y, "mute" => mute }))
     end
     def self.source_add_file(stream, file)
       $agent.write(Marshal.dump({ "func" => "conference_addsource", "stream" => stream, "source" => "file", "file" => file }))
+    end
+    def self.source_add_url(stream, url)
+      $agent.write(Marshal.dump({ "func" => "conference_addsource", "stream" => stream, "source" => "url", "url" => url }))
     end
     def self.source_add_card(stream, cardid)
       $agent.write(Marshal.dump({ "func" => "conference_addsource", "stream" => stream, "source" => "card", "cardid" => cardid }))

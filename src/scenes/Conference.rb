@@ -1029,7 +1029,7 @@ class Scene_Conference
         form.accept_button = btn_cardok
         form.wait
         if cardid > -1
-          Conference.stream_add_card(cardid, mics[cardid], 0, 0, !listen)
+          Conference.stream_add_card(cardid, mics[cardid].name, 0, 0, !listen)
         end
         @form.focus
       }
@@ -1220,7 +1220,7 @@ class Scene_Conference
     menu.option(p_("Conference", "Show status")) { showstatus }
     if holds_premiumpackage("audiophile")
       menu.option(p_("Conference", "Change output soundcard")) {
-        cards = [p_("Conference", "Use Elten soundcard")] + Bass.soundcards[2..-1]
+        cards = [p_("Conference", "Use Elten soundcard")] + Bass.soundcards[2..-1].map { |c| c.name }
         cardid = -1
         form = Form.new([
           lst_card = ListBox.new(cards, p_("Conference", "Select soundcard"), 0, 0),
@@ -1665,7 +1665,7 @@ class Scene_Conference
           sel.focus
         }
       end
-      menu.option(p_("Conference", "New file stream"), nil, "n") {
+      menu.option(p_("Conference", "New file stream"), nil, "f") {
         form = Form.new([
           tr_file = FilesTree.new(p_("Conference", "File"), Dirs.documents + "\\", false, true, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]),
           lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
@@ -1697,46 +1697,77 @@ class Scene_Conference
         rfr.call
         sel.focus
       }
-      if holds_premiumpackage("audiophile")
-        menu.option(p_("Conference", "New soundcard stream"), nil, "N") {
-          mics = Bass.microphones
-          cardid = -1
-          listen = false
-          form = Form.new([
-            lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
-            chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
-            lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
-            btn_place = Button.new(p_("Conference", "Place")),
-            btn_cancel = Button.new(_("Cancel"))
-          ], 0, false, true)
-          for i in 0...mics.size
-            lst_card.disable_item(i) if mics[i].disabled?
-          end
-          btn_place.on(:press) {
-            cardid = lst_card.index
-            listen = chk_listen.checked.to_i == 1
-            name = lst_card.options[lst_card.index]
+      menu.option(p_("Conference", "New Internet stream"), nil, "u") {
+        form = Form.new([
+          edt_url = EditBox.new(p_("Conference", "Stream URL"), 0, "", true),
+          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
+          btn_place = Button.new(p_("Conference", "Place")),
+          btn_cancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        btn_place.on(:press) {
+          if edt_url.text != ""
+            url = edt_url.text
+            url = "http://" + url if !url.include?(":")
+            name = url
             x, y = 0, 0
             case lst_location.index
             when 0
-              x, y = -1, -1
+              x, y = 0, 0
             when 1
               x, y = Conference.get_coordinates[0..1]
             when 2
-              x, y = 0, 0
+              x, y = -1, -1
             end
-            Conference.stream_add_card(cardid, name, x, y, !listen)
+            Conference.stream_add_url(url, name, x, y)
+            delay(1)
             form.resume
-          }
-          btn_cancel.on(:press) { form.resume }
-          form.cancel_button = btn_cancel
-          form.accept_button = btn_place
-          form.wait
-          delay(1)
-          rfr.call
-          sel.focus
+          end
         }
-      end
+        btn_cancel.on(:press) { form.resume }
+        form.cancel_button = btn_cancel
+        form.accept_button = btn_place
+        form.wait
+        rfr.call
+        sel.focus
+      }
+      menu.option(p_("Conference", "New soundcard stream"), nil, "c") {
+        mics = Bass.microphones
+        cardid = -1
+        listen = false
+        form = Form.new([
+          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
+          chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
+          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
+          btn_place = Button.new(p_("Conference", "Place")),
+          btn_cancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        for i in 0...mics.size
+          lst_card.disable_item(i) if mics[i].disabled?
+        end
+        btn_place.on(:press) {
+          cardid = lst_card.index
+          listen = chk_listen.checked.to_i == 1
+          name = lst_card.options[lst_card.index]
+          x, y = 0, 0
+          case lst_location.index
+          when 0
+            x, y = -1, -1
+          when 1
+            x, y = Conference.get_coordinates[0..1]
+          when 2
+            x, y = 0, 0
+          end
+          Conference.stream_add_card(cardid, name, x, y, !listen)
+          form.resume
+        }
+        btn_cancel.on(:press) { form.resume }
+        form.cancel_button = btn_cancel
+        form.accept_button = btn_place
+        form.wait
+        delay(1)
+        rfr.call
+        sel.focus
+      }
     }
     rfr.call
     sel.focus
@@ -1806,7 +1837,7 @@ class Scene_Conference
           sel.focus
         }
       end
-      menu.option(p_("Conference", "Add file"), nil, "n") {
+      menu.option(p_("Conference", "Add file"), nil, "f") {
         form = Form.new([
           tr_file = FilesTree.new(p_("Conference", "File"), Dirs.documents + "\\", false, true, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]),
           btn_place = Button.new(p_("Conference", "Place")),
@@ -1827,33 +1858,53 @@ class Scene_Conference
         rfr.call
         sel.focus
       }
-      if holds_premiumpackage("audiophile")
-        menu.option(p_("Conference", "Add soundcard"), nil, "N") {
-          mics = Bass.microphones
-          cardid = -1
-          listen = false
-          form = Form.new([
-            lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
-            btn_place = Button.new(p_("Conference", "Place")),
-            btn_cancel = Button.new(_("Cancel"))
-          ], 0, false, true)
-          for i in 0...mics.size
-            lst_card.disable_item(i) if mics[i].disabled?
-          end
-          btn_place.on(:press) {
-            cardid = lst_card.index
-            Conference.source_add_card(sid, cardid)
+      menu.option(p_("Conference", "Add Internet stream"), nil, "f") {
+        form = Form.new([
+          edt_url = EditBox.new(p_("Conference", "Stream URL"), 0, "", true),
+          btn_place = Button.new(p_("Conference", "Place")),
+          btn_cancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        btn_place.on(:press) {
+          if edt_url.text != ""
+            url = edt_url.text
+            url = "http://" + url if !url.include?(":")
+            Conference.source_add_url(sid, url)
+            delay(1)
             form.resume
-          }
-          btn_cancel.on(:press) { form.resume }
-          form.cancel_button = btn_cancel
-          form.accept_button = btn_place
-          form.wait
-          delay(1)
-          rfr.call
-          sel.focus
+          end
         }
-      end
+        btn_cancel.on(:press) { form.resume }
+        form.cancel_button = btn_cancel
+        form.accept_button = btn_place
+        form.wait
+        rfr.call
+        sel.focus
+      }
+      menu.option(p_("Conference", "Add soundcard"), nil, "c") {
+        mics = Bass.microphones
+        cardid = -1
+        listen = false
+        form = Form.new([
+          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
+          btn_place = Button.new(p_("Conference", "Place")),
+          btn_cancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        for i in 0...mics.size
+          lst_card.disable_item(i) if mics[i].disabled?
+        end
+        btn_place.on(:press) {
+          cardid = lst_card.index
+          Conference.source_add_card(sid, cardid)
+          form.resume
+        }
+        btn_cancel.on(:press) { form.resume }
+        form.cancel_button = btn_cancel
+        form.accept_button = btn_place
+        form.wait
+        delay(1)
+        rfr.call
+        sel.focus
+      }
     }
     rfr.call
     sel.focus

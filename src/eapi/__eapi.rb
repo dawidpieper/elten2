@@ -845,14 +845,7 @@ module EltenAPI
     Configuration.usedenoising = readconfig("Advanced", "UseDenoising", 0)
     Configuration.useechocancellation = readconfig("Advanced", "UseEchoCancellation", 0)
     Configuration.usebilinearhrtf = readconfig("Advanced", "UseBilinearHRTF", 0)
-    forcewasapi = Configuration.forcewasapi
-    Configuration.forcewasapi = readconfig("Advanced", "ForceWasapi", 0)
 
-    if forcewasapi != nil && Configuration.forcewasapi != forcewasapi
-      Conference.setclosed if Conference.opened?
-      Win32API.new("kernel32", "TerminateProcess", "ip", "i").call($agent.pid, "") if $agent != nil
-      agent_start
-    end
     Configuration.autologin = readconfig("Login", "EnableAutoLogin", 1)
     setlocale(Configuration.language) if lang != Configuration.language
   end

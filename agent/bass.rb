@@ -232,9 +232,7 @@ module Bass
     BASS_SetConfig.call(1, 25)
     BASS_SetConfig.call(36, 1)
     BASS_SetConfig.call(42, 1)
-    if $forcewasapi == 1
-      BASS_SetConfig.call(66, 1)
-    end
+    BASS_SetConfig.call(66, 1)
     if (BASS_GetVersion.call >> 16) != 0x0204
       raise("bass.dll 2.4")
     end

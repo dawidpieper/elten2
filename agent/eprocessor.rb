@@ -682,6 +682,10 @@ module EProcessor
           stream = nil
           if data["source"] == "file"
             stream = $conference.stream_add_file(data["file"], data["name"], x, y)
+          elsif data["source"] == "url"
+            stream = $conference.stream_add_url(data["url"], data["name"], x, y)
+          elsif data["source"] == "url"
+            stream = $conference.stream_add_url(data["url"], data["name"], x, y)
           elsif data["source"] == "card"
             stream = $conference.stream_add_card(data["cardid"], data["name"], x, y)
           end
@@ -696,12 +700,16 @@ module EProcessor
           if stream != nil
             if data["source"] == "file"
               stream.add_file(data["file"])
+            elsif data["source"] == "url"
+              stream.add_url(data["url"])
             elsif data["source"] == "card"
               stream.add_card(data["cardid"])
             end
           else
             if data["source"] == "file"
               $conference.add_file(data["file"])
+            elsif data["source"] == "url"
+              $conference.add_url(data["url"])
             elsif data["source"] == "card"
               $conference.add_card(data["cardid"])
             end
