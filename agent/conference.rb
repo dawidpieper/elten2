@@ -1861,9 +1861,9 @@ class Conference
     return Bass.cardid if @device == nil
     id = nil
     soundcards = Bass.soundcards
-    id = soundcards.index(soundcards.find { |c| c.name == @device })
+    id = soundcards.map { |c| c.name }.index(@device)
     if id == nil
-      log(1, "Conferences: cannot find device named #{@device.b}, found: #{soundcards.compact.map { |c| c.b }.join(", ")}")
+      log(1, "Conference: cannot find device named #{@device.b}, found: #{soundcards.compact.map { |c| c.b }.join(", ")}")
       id = Bass.cardid
     else
       Bass::BASS_Init.call(id, 48000, 4, $hwnd || 0, nil)

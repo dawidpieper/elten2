@@ -109,7 +109,7 @@ module Bass
     c = 1
     if card != nil
       cards = self.soundcards
-      c = cards.index(card) || 1
+      c = cards.map { |c| c.name }.index(card) || 1
     end
     BASS_Init.call(c, samplerate, 4, hWnd, nil)
     BASS_SetDevice.call(c)
@@ -141,7 +141,7 @@ module Bass
   def self.soundcards
     BASS_SetConfig.call(36, 1)
     devs = []
-    index = 1
+    index = 0
     tmp = [nil, nil, 0].pack("ppi")
     cds = {}
     while BASS_GetDeviceInfo.call(index, tmp) > 0
