@@ -3568,7 +3568,7 @@ module EltenAPI
             loop_update
           }
           if @file != nil && (@file.include?("http:") || @file.include?("https:"))
-            menu.option(p_("EAPI_Form", "Save file"), nil, :s) {
+            menu.option(p_("EAPI_Form", "Save file"), nil, "s") {
               savefile
             }
           end
