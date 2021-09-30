@@ -1117,13 +1117,13 @@ module EltenAPI
             frg = splt[frgb..frge] || ""
             letphr = "(" + phr.split("").join(", ") + ")"
             options = []
-            for sug in error.suggestions
+              for sug in error.suggestions
               letsug = "(" + sug.split("").join(", ") + ")"
               opt = sug + " " + letsug
               options.push(opt)
             end
             label = phr + " " + letphr + ": " + frg
-            lst = ListBox.new([p_("EAPI_Form", "Ignore")] + options, label, 0, 0, true)
+            lst = ListBox.new([p_("EAPI_Form", "Ignore"), p_("EAPI_Form", "Add new suggestion")] + options, label, 0, 0, true)
             form.insert_before(btn_replace, lst)
           end
         }
@@ -1134,8 +1134,14 @@ module EltenAPI
           chindex = 0
           repls = 0
           for i in 0...errors.size
-            if form.fields[1 + i].index > 0
-              corr = errors[i].suggestions[form.fields[1 + i].index - 1]
+            if form.fields[1 + i].index == 1
+corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, "", true)
+              csize = corr.size
+              splt[(errors[i].index + chindex)...(errors[i].index + errors[i].length + chindex)] = corr
+              chindex += csize - errors[i].length
+              repls += 1
+            elsif form.fields[1 + i].index > 1
+              corr = errors[i].suggestions[form.fields[1 + i].index - 2]
               csize = corr.size
               splt[(errors[i].index + chindex)...(errors[i].index + errors[i].length + chindex)] = corr
               chindex += csize - errors[i].length
@@ -1148,7 +1154,7 @@ module EltenAPI
         }
         form.accept_button = btn_replace
         form.wait
-        focus
+         focus
         loop_update
       end
 
