@@ -92,7 +92,11 @@ module EltenAPI
         return if speechaudio == ""
       end
       if text == "\n"
-        play("editbox_endofline")
+        if Configuration.soundthemeactivation != 0
+          play("editbox_endofline")
+        else
+          speak(p_("EAPI_Speech", "End of line"))
+        end
         return if speechaudio == ""
       end
       if text.size != 0 and ((l = text.split("")).size == 1) and l[0].bigletter

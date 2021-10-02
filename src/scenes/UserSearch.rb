@@ -33,7 +33,7 @@ class Scene_UserSearch
     for r in @results
       selt.push(r + ".\r\n" + getstatus(r))
     end
-    @sel = ListBox.new(selt, p_("UserSearch", "Found items"))
+    @sel = ListBox.new(selt, p_("UserSearch", "Found items"), 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update

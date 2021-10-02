@@ -9,6 +9,7 @@ module Programs
   @@bypaths = {}
   @@pathindex = nil
   @@listeners = []
+  @@configs = {}
 
   class EventListener
     attr_accessor :event, :cls, :proc
@@ -29,6 +30,18 @@ module Programs
       return if !cls.is_a?(Class)
       if @@pathindex != nil
         EltenAPI::Log.debug("Registering class #{cls.to_s} to program #{@@pathindex}")
+        sups = []
+        c = cls
+        while c != Object
+          c = c.superclass
+          sups.push(c)
+        end
+        if sups.include?(Program)
+          config = @@configs[@@pathindex]
+          cls.const_set("Name", config[:name]) if cls.const_get("Name") == "" && config[:name] != nil
+          cls.const_set("Version", config[:version]) if cls.const_get("Version") == "0.0" && config[:version] != nil
+          cls.const_set("Author", config[:author]) if cls.const_get("Author") == "" && config[:author] != nil
+        end
         @@bypaths[@@pathindex] ||= []
         @@bypaths[@@pathindex].push(cls)
       elsif obj == false
@@ -63,12 +76,9 @@ module Programs
       Log.info("deleting program #{path}")
       classes = []
       if @@bypaths[path] == nil
-        sf = Dirs.apps + "\\" + path + "\\__app.ini"
-        return false if !FileTest.exists?(sf)
+        name, version, author = get(path)
+        return false if name == nil || author == nil || version == nil
         suc = false
-        name = readini(sf, "App", "Name", "")
-        version = readini(sf, "App", "Version", "")
-        author = readini(sf, "App", "Author", "")
         l = list
         l.each { |g|
           if g::Name == name and g::Version == version and g::Author == author
@@ -99,15 +109,14 @@ module Programs
       pgs.delete(".")
       pgs.delete("..")
       for pg in pgs
-        load_sig(pg) if FileTest.exists?(Dirs.apps + "\\" + pg + "\\__app.ini")
+        load_sig(pg) if FileTest.exists?(Dirs.apps + "\\" + pg + "\\__app.ini") || FileTest.exists?(Dirs.apps + "\\" + pg + "\\__app.rb")
       end
     end
 
     def load_sig(pg)
       Log.info("Loading program #{pg}")
-      if FileTest.exists?(Dirs.apps + "\\" + pg + "\\__app.ini")
-        f = Dirs.apps + "\\" + pg + "\\__app.ini"
-        file = readini(f, "App", "File", "")
+      name, author, version, file = get_conf(pg)
+      if name != nil && version != nil && author != nil && file != nil
         if FileTest.exists?(Dirs.apps + "\\" + pg + "\\" + file)
           begin
             @@pathindex = pg
@@ -152,6 +161,44 @@ module Programs
         l.call if l.event == event
       end
     end
+
+    def get_conf(path)
+      name = version = author = file = nil
+      sf = Dirs.apps + "\\" + path + "\\__app.ini"
+      sfb = Dirs.apps + "\\" + path + "\\__app.rb"
+      if FileTest.exists?(sf)
+        name = readini(sf, "App", "Name", "")
+        version = readini(sf, "App", "Version", "")
+        author = readini(sf, "App", "Author", "")
+        file = readini(sf, "App", "File", "")
+      elsif FileTest.exists?(sfb)
+        code = readfile(sfb)
+        config = {}
+        if (/^\=begin[ \t]+EltenAppInfo[\s]*(.+)^\=end[ \t]+EltenAppInfo[\s]*$/m =~ code) != nil
+          re = $1.gsub("\r\n", "\n")
+          lines = re.split("\n")
+          for line in lines
+            next if !line.include?("=")
+            ind = line.index("=")
+            key, val = line[0...ind], line[ind + 1..-1]
+            key.delete!(" \t")
+            val = val[1..-1] while val[0..0] == " " || val[0..0] == "\t"
+            val = val[0...-1] while val[-1..-1] == " " || val[-1..-1] == "\t"
+            config[key.downcase] = val
+          end
+        end
+        name = config["name"]
+        version = config["version"]
+        author = config["author"]
+        file = "__app.rb"
+      end
+      @@configs[path] = { :name => name, :author => author, :version => version, :file => file }
+      return name, version, author, file
+    end
+
+    def configs
+      @@configs.dup
+    end
   end
 end
 
@@ -160,7 +207,7 @@ class Program
 
   Name = ""
   Version = "0.0"
-  Author = nil
+  Author = ""
   UserMenuOptions = {}
   MainMenuOption = nil
   AppID = 0
@@ -210,25 +257,20 @@ class Program
     self.class.appfile(file)
   end
 
-  def self.appfile(file = "")
-    filename = file
+  def self.appfile(nfile = "")
     dirs = Dir.entries(Dirs.apps)
     dirs.delete(".")
     dirs.delete("..")
     for d in dirs
-      dir = Dirs.apps + "\\" + d
-      if File.directory?(dir) and FileTest.exists?(dir + "\\__app.ini")
-        f = dir + "\\__app.ini"
-        name = readini(f, "App", "Name", "")
-        author = readini(f, "App", "Author", "")
-        version = readini(f, "App", "Version", "")
+      name, version, author, file = Programs.get_conf(d)
+      if name != nil && version != nil && author != nil && file != nil
         if name.downcase == self::Name.downcase and author.downcase == self::Author.downcase and version.downcase == self::Version.downcase
-          filename = dir + "\\" + file
+          return Dirs.apps + "\\" + d + "\\" + nfile
           break
         end
       end
     end
-    return filename
+    return nfile
   end
 
   def signaled(user, packet)

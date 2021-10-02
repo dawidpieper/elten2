@@ -19,7 +19,7 @@ class Scene_Users_RecentlyRegistered
     for i in 0..onl.size - 1
       selt[i] = onl[i] + "." + " " + getstatus(onl[i])
     end
-    @sel = ListBox.new(selt, p_("Users_RecentlyRegistered", "Recently registered users"))
+    @sel = ListBox.new(selt, p_("Users_RecentlyRegistered", "Recently registered users"), 0, 0, false)
     @onl = onl
     @sel.bind_context { |menu| context(menu) }
     loop do

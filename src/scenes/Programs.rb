@@ -43,7 +43,7 @@ class Scene_Programs
       end
       s
     }
-    @sel = ListBox.new(selt, p_("Programs", "Programs installation"))
+    @sel = ListBox.new(selt, p_("Programs", "Programs installation"), 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     @refresh = false
     loop do

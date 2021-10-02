@@ -10,7 +10,7 @@ class Scene_Polls
   end
 
   def main
-    @sel = TableBox.new([nil, p_("Polls", "Author"), p_("Polls", "Votes"), nil], [], 0, p_("Polls", "Polls"), true)
+    @sel = TableBox.new([nil, p_("Polls", "Author"), p_("Polls", "Votes"), nil], [], 0, p_("Polls", "Polls"))
     @sel.bind_context { |menu| context(menu) }
     @allpolls = []
     refresh
@@ -181,7 +181,7 @@ class Scene_Polls_Create
       @ln.push(lk)
       lnindex = @ln.size - 1 if Configuration.language.downcase[0..1] == lk.downcase[0..1]
     end
-    @fields = [EditBox.new(p_("Polls", "Poll name"), "", "", true), EditBox.new(p_("Polls", "Description"), EditBox::Flags::MultiLine, "", true), ListBox.new(ls, p_("Polls", "Poll language"), lnindex, 0, true), ListBox.new([], p_("Polls", "Questions"), 0, 0, true), CheckBox.new(p_("Polls", "Set the expiry date for this poll")), DateButton.new(p_("Polls", "Expiry date"), Time.now.year, Time.now.year + 3, true), CheckBox.new(p_("Polls", "Hide poll results before the expiry date")), CheckBox.new(p_("Polls", "Hide this poll")), Button.new(p_("Polls", "Create")), Button.new(_("Cancel"))]
+    @fields = [EditBox.new(p_("Polls", "Poll name"), "", "", true), EditBox.new(p_("Polls", "Description"), EditBox::Flags::MultiLine, "", true), ListBox.new(ls, p_("Polls", "Poll language"), lnindex), ListBox.new([], p_("Polls", "Questions")), CheckBox.new(p_("Polls", "Set the expiry date for this poll")), DateButton.new(p_("Polls", "Expiry date"), Time.now.year, Time.now.year + 3, true), CheckBox.new(p_("Polls", "Hide poll results before the expiry date")), CheckBox.new(p_("Polls", "Hide this poll")), Button.new(p_("Polls", "Create")), Button.new(_("Cancel"))]
     @fields[3].bind_context { |menu| questions_context(menu) }
     @form = Form.new(@fields)
     @fields[4].on(:change) {
@@ -224,7 +224,7 @@ class Scene_Polls_Create
         @questions.delete_at(@fields[3].index)
         @fields[3].options.delete_at(@fields[3].index)
         play("editbox_delete")
-        @fields[3].sayoption
+        @fields[3].say_option
       }
     end
   end
@@ -233,7 +233,7 @@ class Scene_Polls_Create
     qs = @questions[q]
     @question = @questions[q].deep_dup
     @question = ["", 0] if @question == nil
-    @qfields = [EditBox.new(p_("Polls", "Question"), "", @question[0], true), ListBox.new([p_("Polls", "Single choice"), p_("Polls", "Multiple choice"), p_("Polls", "Edit box")], p_("Polls", "Question type"), @question[1], 0, true), ListBox.new(@question[2..-1] || [], p_("Polls", "Answers"), 0, 0, true), Button.new(_("Save")), Button.new(_("Cancel"))]
+    @qfields = [EditBox.new(p_("Polls", "Question"), "", @question[0], true), ListBox.new([p_("Polls", "Single choice"), p_("Polls", "Multiple choice"), p_("Polls", "Edit box")], p_("Polls", "Question type"), @question[1]), ListBox.new(@question[2..-1] || [], p_("Polls", "Answers")), Button.new(_("Save")), Button.new(_("Cancel"))]
     @qfields[1].on(:move) {
       if @qfields[1].index < 2
         @qform.show(2)
@@ -284,7 +284,7 @@ class Scene_Polls_Create
         @question.delete_at(@qfields[2].index + 2)
         @qfields[2].options.delete_at(@qfields[2].index)
         play("editbox_delete")
-        @qfields[2].sayoption
+        @qfields[2].say_option
       }
     end
   end
@@ -377,7 +377,7 @@ class Scene_Polls_Answer
         end
         flags = 0
         flags |= ListBox::Flags::MultiSelection if multi
-        qs.push(ListBox.new(q[2..q.size - 1], q[0] + " (#{comment}): ", 0, flags, true))
+        qs.push(ListBox.new(q[2..q.size - 1], q[0] + " (#{comment}): ", 0, flags))
         qs.last.on(:move) { @changed = true }
       end
     end
@@ -581,9 +581,9 @@ class Scene_Polls_Results
     @filters = []
     @curanswers = []
     @form = Form.new([
-      @sel_questions = ListBox.new(@questions.map { |q| q.question }, p_("Polls", "Questions"), 0, 0, true),
-      @sel_answers = TableBox.new([nil, nil], [], 0, p_("Polls", "Answers"), true),
-      @sel_filters = ListBox.new([], p_("Polls", "Filters"), 0, 0, true),
+      @sel_questions = ListBox.new(@questions.map { |q| q.question }, p_("Polls", "Questions")),
+      @sel_answers = TableBox.new([nil, nil], [], 0, p_("Polls", "Answers")),
+      @sel_filters = ListBox.new([], p_("Polls", "Filters")),
       @btn_close = Button.new(_("Close"))
     ])
     @btn_close.on(:press) { @form.resume }
@@ -630,7 +630,7 @@ class Scene_Polls_Results
       @filters.delete_at(@sel_filters.index)
       update_filters
       play("editbox_delete")
-      @sel_filters.sayoption
+      @sel_filters.say_option
     }
   end
 

@@ -36,7 +36,7 @@ class Scene_Conference
     @status = ""
     @form = Form.new([
       st_conference = Static.new(p_("Conference", "Channel space")),
-      lst_users = ListBox.new([], p_("Conference", "Channel users"), 0, 0, true),
+      lst_users = ListBox.new([], p_("Conference", "Channel users")),
       edt_chathistory = EditBox.new(p_("Conference", "Chat history"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, "", true),
       edt_chat = EditBox.new(p_("Conference", "Chat message"), 0, "", true),
       btn_options = Button.new(p_("Conference", "More options")),
@@ -95,7 +95,7 @@ class Scene_Conference
               end
             }
             menu.option(p_("Conference", "Change user volume")) {
-              lst_volume = ListBox.new((0..300).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "User volume"), 300 - vol.volume)
+              lst_volume = ListBox.new((0..300).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "User volume"), 300 - vol.volume, 0, false)
               lst_volume.on(:move) {
                 Conference.setvolume(user.name, 300 - lst_volume.index, vol.muted, vol.streams_muted)
               }
@@ -231,7 +231,7 @@ class Scene_Conference
     }
     @users_hook.block.call
     @text_hook = Conference.on(:text) {
-      edt_chathistory.settext(Conference.texts.map { |c|
+      edt_chathistory.set_text(Conference.texts.map { |c|
         if c[2].is_a?(String)
           c[0] + ": " + c[2]
         else
@@ -269,7 +269,7 @@ class Scene_Conference
     }
     edt_chat.on(:select) {
       Conference.send_text(edt_chat.text)
-      edt_chat.settext("")
+      edt_chat.set_text("")
     }
     btn_close.on(:press) {
       @form.resume
@@ -316,7 +316,7 @@ class Scene_Conference
     timeout_break
     @chans = get_channelslist
     channels = []
-    lst_channels = ListBox.new([], p_("Conference", "Channels"), 0, 0, true)
+    lst_channels = ListBox.new([], p_("Conference", "Channels"))
     locha = Proc.new { |chans|
       knownlanguages = Session.languages.split(",").map { |lg| lg.upcase }
       channels = chans.find_all { |c|
@@ -512,17 +512,17 @@ class Scene_Conference
     nameflags |= EditBox::Flags::ReadOnly if channel.groupid != 0 && channel.groupid != nil
     form = Form.new([
       edt_name = EditBox.new(p_("Conference", "Channel name"), nameflags, channel.name, true),
-      lst_lang = ListBox.new(langnames, p_("Conference", "Language"), lnindex, 0, true),
+      lst_lang = ListBox.new(langnames, p_("Conference", "Language"), lnindex),
       edt_motd = EditBox.new(p_("Conference", "Message of the Day"), EditBox::Flags::MultiLine, channel.motd || "", true),
-      lst_preset = ListBox.new(presets.map { |r| r[0] } + [p_("Conference", "Custom")], p_("Conference", "Quality preset"), prindex, 0, true),
-      lst_bitrate = ListBox.new(bitrates.map { |b| b.to_s + "kbps" }, p_("Conference", "Channel bitrate"), bitrates.find_index(channel.bitrate) || 0, 0, true),
-      lst_framesize = ListBox.new(framesizes.map { |f| s = f.to_s; s = f.to_i.to_s if f.to_i == f; s += "ms" }, p_("Conference", "Channel frame size"), framesizes.find_index(channel.framesize) || 0, 0, true),
-      lst_vbrtype = ListBox.new([p_("Conference", "Constant"), p_("Conference", "Variable"), p_("Conference", "Constrained variable")], p_("Conference", "Bitrate type"), channel.vbr_type, 0, true),
-      lst_application = ListBox.new(["VoIP", "Audio"], p_("Conference", "Codec application"), channel.codec_application, 0, true),
+      lst_preset = ListBox.new(presets.map { |r| r[0] } + [p_("Conference", "Custom")], p_("Conference", "Quality preset"), prindex),
+      lst_bitrate = ListBox.new(bitrates.map { |b| b.to_s + "kbps" }, p_("Conference", "Channel bitrate"), bitrates.find_index(channel.bitrate) || 0),
+      lst_framesize = ListBox.new(framesizes.map { |f| s = f.to_s; s = f.to_i.to_s if f.to_i == f; s += "ms" }, p_("Conference", "Channel frame size"), framesizes.find_index(channel.framesize) || 0),
+      lst_vbrtype = ListBox.new([p_("Conference", "Constant"), p_("Conference", "Variable"), p_("Conference", "Constrained variable")], p_("Conference", "Bitrate type"), channel.vbr_type),
+      lst_application = ListBox.new(["VoIP", "Audio"], p_("Conference", "Codec application"), channel.codec_application),
       chk_fec = CheckBox.new(p_("Conference", "Enable forward error correction"), (channel.fec == true) ? (1) : (0)),
       chk_predictiondisabled = CheckBox.new(p_("Conference", "Disable encoding prediction"), (channel.prediction_disabled == true) ? (1) : (0)),
-      lst_channels = ListBox.new(["Mono", "Stereo"], p_("Conference", "Channels"), channel.channels - 1, 0, true),
-      lst_spatialization = ListBox.new(["Panning", "HRTF"], p_("Conference", "Space Virtualization"), channel.spatialization, 0, true),
+      lst_channels = ListBox.new(["Mono", "Stereo"], p_("Conference", "Channels"), channel.channels - 1),
+      lst_spatialization = ListBox.new(["Panning", "HRTF"], p_("Conference", "Space Virtualization"), channel.spatialization),
       chk_conference = CheckBox.new(p_("Conference", "Enable conference mode (only channel administrators and allowed users can speak)"), (channel.conference_mode > 0) ? (1) : (0)),
       chk_waiting = CheckBox.new(p_("Conference", "Enable waiting room"), (channel.waiting_type > 0) ? (1) : (0)),
       chk_allowguests = CheckBox.new(p_("Conference", "Allow guests to join this channel"), (channel.allow_guests) ? (1) : (0)),
@@ -682,7 +682,7 @@ class Scene_Conference
         p_("Conference", "%{name}, located at %{x}, %{y}") % { "name" => o.name, "x" => o.x.to_s, "y" => o.y.to_s }
       end
     }
-    sel = ListBox.new(selt, p_("Conference", "Channel scenery"))
+    sel = ListBox.new(selt, p_("Conference", "Channel scenery"), 0, 0, false)
     sel.bind_context { |menu|
       menu.option(p_("Conference", "Add object"), nil, "n") {
         o = getobject
@@ -729,8 +729,8 @@ class Scene_Conference
       objs.push({ "resid" => ob[2 + i * 3].delete("\r\n"), "name" => ob[2 + i * 3 + 1].delete("\r\n"), "owner" => ob[2 + i * 3 + 2].delete("\r\n") })
     end
     form = Form.new([
-      lst_objects = ListBox.new(objs.map { |o| o["name"] }, p_("Conference", "Available objects"), 0, 0, true),
-      lst_position = ListBox.new([p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Object position"), 0, 0, true),
+      lst_objects = ListBox.new(objs.map { |o| o["name"] }, p_("Conference", "Available objects")),
+      lst_position = ListBox.new([p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Object position")),
       btn_ok = Button.new(p_("Conference", "Place object")),
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
@@ -739,7 +739,7 @@ class Scene_Conference
       if objs.find_all { |o| o["owner"] == Session.name }.size < 10
         if holds_premiumpackage("director")
           menu.option(p_("Conference", "Upload new sound")) {
-            file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
+            file = get_file(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
             if file != nil
               if File.size(file) > 16777216
                 alert(p_("Conference", "This file is too large"))
@@ -893,8 +893,8 @@ class Scene_Conference
     keymapping.insert(0, p_("Conference", "No key"))
     mds = ["SHIFT", "CTRL", "ALT"]
     form = Form.new([
-      lst_modifiers = ListBox.new(mds.map { |m| m + " (" + p_("Conference", "Any") + ")" } + mds.map { |m| m + " (" + p_("Conference", "Left") + ")" } + mds.map { |m| m + " (" + p_("Conference", "Right") + ")" }, p_("Conference", "Modifiers"), 0, ListBox::Flags::MultiSelection, true),
-      lst_key = ListBox.new(keymapping, p_("Conference", "Key"), 0, 0, true),
+      lst_modifiers = ListBox.new(mds.map { |m| m + " (" + p_("Conference", "Any") + ")" } + mds.map { |m| m + " (" + p_("Conference", "Left") + ")" } + mds.map { |m| m + " (" + p_("Conference", "Right") + ")" }, p_("Conference", "Modifiers"), 0, ListBox::Flags::MultiSelection),
+      lst_key = ListBox.new(keymapping, p_("Conference", "Key")),
       btn_ok = Button.new(_("Save")),
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
@@ -947,9 +947,9 @@ class Scene_Conference
   def self.setvolumes
     dialog_open
     form = Form.new([
-      lst_inputvolume = ListBox.new((0..300).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "Input volume"), 300 - Conference.input_volume, 0, true),
-      lst_outputvolume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "Master volume"), 100 - Conference.output_volume, 0, true),
-      lst_streamvolume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "Stream volume"), 100 - Conference.stream_volume, 0, true),
+      lst_inputvolume = ListBox.new((0..300).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "Input volume"), 300 - Conference.input_volume),
+      lst_outputvolume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "Master volume"), 100 - Conference.output_volume),
+      lst_streamvolume = ListBox.new((0..100).to_a.reverse.map { |v| v.to_s + "%" }, p_("Conference", "Stream volume"), 100 - Conference.stream_volume),
       btn_close = Button.new(p_("Conference", "Close"))
     ], 0, false, true)
     lst_inputvolume.on(:move) {
@@ -979,7 +979,7 @@ class Scene_Conference
       break if escape
       if @status != st
         st = @status
-        edt.settext(st, false)
+        edt.set_text(st, false)
       end
     end
     @form.focus
@@ -1011,7 +1011,7 @@ class Scene_Conference
         cardid = -1
         listen = false
         form = Form.new([
-          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
+          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream")),
           chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
           btn_cardok = Button.new(p_("Conference", "Stream")),
           btn_cardcancel = Button.new(_("Cancel"))
@@ -1059,7 +1059,7 @@ class Scene_Conference
       menu.option(p_("Conference", "Stream audio file"), nil, "i") {
         formats = [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]
         formats += [".avi", ".mp4", ".mov", ".mkv"] if holds_premiumpackage("audiophile")
-        file = getfile(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, formats)
+        file = get_file(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, formats)
         if file != nil
           Conference.stream_add_file(file, File.basename(file, File.extname(file)), 0, 0)
         end
@@ -1075,14 +1075,14 @@ class Scene_Conference
         menu.option(p_("Conference", "Stream this conference to a shoutcast server")) {
           bitrates = [96, 128, 192, 256, 320]
           form = Form.new([
-            lst_type = ListBox.new(["Shoutcast V2", "Shoutcast V1", "Icecast"], p_("Conference", "Server type"), 0, 0, true),
+            lst_type = ListBox.new(["Shoutcast V2", "Shoutcast V1", "Icecast"], p_("Conference", "Server type")),
             edt_host = EditBox.new(p_("Conference", "Server"), 0, "", true),
             edt_port = EditBox.new(p_("Conference", "Port"), EditBox::Flags::Numbers, "8000", true),
             edt_streamid = EditBox.new(p_("Conference", "Stream ID"), EditBox::Flags::Numbers, "1", true),
             edt_username = EditBox.new(p_("Conference", "Username (empty for no user)"), 0, "", true),
             edt_password = EditBox.new(p_("Conference", "Password"), EditBox::Flags::Password, "", true),
             edt_name = EditBox.new(p_("Conference", "Stream name"), 0, "", true),
-            lst_bitrate = ListBox.new(bitrates.map { |b| b.to_s + "kbps" }, p_("Conference", "Stream bitrate"), 1, 0, true),
+            lst_bitrate = ListBox.new(bitrates.map { |b| b.to_s + "kbps" }, p_("Conference", "Stream bitrate"), 1),
             chk_pub = CheckBox.new(p_("Conference", "Make this stream public")),
             btn_start = Button.new(p_("Conference", "Start")),
             btn_cancel = Button.new(_("Cancel"))
@@ -1223,7 +1223,7 @@ class Scene_Conference
         cards = [p_("Conference", "Use Elten soundcard")] + Bass.soundcards[2..-1].map { |c| c.name }
         cardid = -1
         form = Form.new([
-          lst_card = ListBox.new(cards, p_("Conference", "Select soundcard"), 0, 0),
+          lst_card = ListBox.new(cards, p_("Conference", "Select soundcard")),
           btn_cardok = Button.new(p_("Conference", "Select")),
           btn_cardcancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -1290,9 +1290,9 @@ class Scene_Conference
 
   def decks
     form = Form.new([
-      lst_decks = ListBox.new([], p_("Conference", "Decks"), 0, 0, true),
-      lst_cards = ListBox.new([], p_("Conference", "My cards"), 0, 0, true),
-      lst_placed = ListBox.new([], p_("Conference", "Placed cards"), 0, 0, true),
+      lst_decks = ListBox.new([], p_("Conference", "Decks")),
+      lst_cards = ListBox.new([], p_("Conference", "My cards")),
+      lst_placed = ListBox.new([], p_("Conference", "Placed cards")),
       btn_close = Button.new(_("Close"))
     ], 0, false, true)
     cards = []
@@ -1398,7 +1398,7 @@ class Scene_Conference
 
   def showbanned
     banned = []
-    lst_banned = ListBox.new([], p_("Conference", "Banned users"), 0, 0, true)
+    lst_banned = ListBox.new([], p_("Conference", "Banned users"))
     refr = Proc.new {
       banned = Conference.channel.banned
       lst_banned.options = banned
@@ -1442,7 +1442,7 @@ class Scene_Conference
 
   def showadministrators
     administrators = []
-    lst_administrators = ListBox.new([], p_("Conference", "administrators"), 0, 0, true)
+    lst_administrators = ListBox.new([], p_("Conference", "administrators"))
     refr = Proc.new {
       administrators = Conference.channel.administrators
       lst_administrators.options = administrators
@@ -1501,7 +1501,7 @@ class Scene_Conference
 
   def streams
     strs = []
-    sel = TableBox.new([nil, p_("Conference", "User"), p_("Conference", "Location")], [], 0, p_("Conference", "Channel streams"), true)
+    sel = TableBox.new([nil, p_("Conference", "User"), p_("Conference", "Location")], [], 0, p_("Conference", "Channel streams"))
     rfr = Proc.new {
       strs = Conference.streams
       selt = strs.map { |s|
@@ -1535,7 +1535,7 @@ class Scene_Conference
           muted = false
           muted = true if Conference.streamid_mutes[strs[sel.index]["id"]] == true
           dialog_open
-          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Stream volume"), strs[sel.index]["volume"])
+          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Stream volume"), strs[sel.index]["volume"], 0, false)
           lst_volume.on(:move) { Conference.streamid_setvolume(strs[sel.index]["id"], lst_volume.index, muted) }
           loop do
             loop_update
@@ -1576,7 +1576,7 @@ class Scene_Conference
   end
 
   def self.mystreams
-    sel = TableBox.new([nil, p_("Conference", "Location")], [], 0, p_("Conference", "My streams"), true)
+    sel = TableBox.new([nil, p_("Conference", "Location")], [], 0, p_("Conference", "My streams"))
     rfr = Proc.new {
       selt = [[p_("Conference", "Master mix"), nil]] + Conference.mystreams.streams.map { |s|
         loc = "x: #{s.x}, y: #{s.y}"
@@ -1620,7 +1620,7 @@ class Scene_Conference
         }
         menu.option(p_("Conference", "Change volume"), nil, "u") {
           dialog_open
-          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Stream volume"), stream.volume)
+          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Stream volume"), stream.volume, 0, false)
           lst_volume.on(:move) { Conference.volumestream(lst_volume.index, sid, nil) }
           loop do
             loop_update
@@ -1668,7 +1668,7 @@ class Scene_Conference
       menu.option(p_("Conference", "New file stream"), nil, "f") {
         form = Form.new([
           tr_file = FilesTree.new(p_("Conference", "File"), Dirs.documents + "\\", false, true, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"]),
-          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
+          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location")),
           btn_place = Button.new(p_("Conference", "Place")),
           btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -1700,7 +1700,7 @@ class Scene_Conference
       menu.option(p_("Conference", "New Internet stream"), nil, "u") {
         form = Form.new([
           edt_url = EditBox.new(p_("Conference", "Stream URL"), 0, "", true),
-          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
+          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location")),
           btn_place = Button.new(p_("Conference", "Place")),
           btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -1735,9 +1735,9 @@ class Scene_Conference
         cardid = -1
         listen = false
         form = Form.new([
-          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
+          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream")),
           chk_listen = CheckBox.new(p_("Conference", "Turn on the listening"), 1),
-          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location"), 0, 0, true),
+          lst_location = ListBox.new([p_("Conference", "Right next to me"), p_("Conference", "Here"), p_("Conference", "Everywhere")], p_("Conference", "Location")),
           btn_place = Button.new(p_("Conference", "Place")),
           btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -1782,7 +1782,7 @@ class Scene_Conference
     stream = Conference.mystreams.streams[sid] if sid >= 0
     sname = p_("Conference", "Master mix")
     sname = stream.name if stream != nil
-    sel = ListBox.new([], p_("Conference", "Sources of #{sname}"), 0, 0, true)
+    sel = ListBox.new([], p_("Conference", "Sources of #{sname}"))
     rfr = Proc.new {
       stream = nil
       stream = Conference.mystreams.streams[sid] if sid >= 0
@@ -1800,7 +1800,7 @@ class Scene_Conference
         oid = sel.index
         menu.option(p_("Conference", "Change volume"), nil, "u") {
           dialog_open
-          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Source volume"), source.volume)
+          lst_volume = ListBox.new((0..100).to_a.map { |s| s.to_s }, p_("Conference", "Source volume"), source.volume, 0, false)
           lst_volume.on(:move) { Conference.volumestream(lst_volume.index, sid, oid) }
           loop do
             loop_update
@@ -1885,7 +1885,7 @@ class Scene_Conference
         cardid = -1
         listen = false
         form = Form.new([
-          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream"), 0, 0),
+          lst_card = ListBox.new(mics.map { |m| o = ""; o = " (" + p_("Conference", "Loopback device") + ")" if m.loopback?; m.name + o }, p_("Conference", "Select soundcard to stream")),
           btn_place = Button.new(p_("Conference", "Place")),
           btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -1922,7 +1922,7 @@ class Scene_Conference_VSTS
   end
 
   def main
-    @sel = TableBox.new([p_("Conference", "Name"), p_("Conference", "State"), p_("Conference", "File")], [], 0, p_("Conference", "VST Plugins"), true)
+    @sel = TableBox.new([p_("Conference", "Name"), p_("Conference", "State"), p_("Conference", "File")], [], 0, p_("Conference", "VST Plugins"))
     @sel.bind_context { |menu| context(menu) }
     refresh
     @sel.focus
@@ -1937,7 +1937,7 @@ class Scene_Conference_VSTS
   def params(vst)
     return if vst == nil
     index = vst["index"]
-    sel = TableBox.new([p_("Conference", "Name"), p_("Conference", "Unit"), p_("Conference", "Display"), p_("Conference", "Value")], [], 0, p_("Conference", "VST parameters"), true)
+    sel = TableBox.new([p_("Conference", "Name"), p_("Conference", "Unit"), p_("Conference", "Display"), p_("Conference", "Value")], [], 0, p_("Conference", "VST parameters"))
     sel.add_tip(p_("Conference", "Use left/right arrows to adjust values"))
     rld = Proc.new {
       refresh
@@ -2083,14 +2083,14 @@ class Scene_Conference_VSTS
         menu.option(p_("Conference", "Move up")) {
           Conference.vst_move(@sel.index, @sel.index - 1, @userid)
           refresh
-          @sel.sayoption
+          @sel.say_option
         }
       end
       if @sel.index < @sel.options.size - 1
         menu.option(p_("Conference", "Move down")) {
           Conference.vst_move(@sel.index, @sel.index + 1, @userid)
           refresh
-          @sel.sayoption
+          @sel.say_option
         }
       end
       menu.option(p_("Conference", "Remove VST"), nil, :del) {
@@ -2128,7 +2128,7 @@ class Scene_Conference_VSTS
       }
     end
     menu.option(p_("Conference", "Add VST"), nil, "n") {
-      file = getfile(p_("Conference", "Select VST version 2 file to be loaded"), "", false, nil, [".dll"])
+      file = get_file(p_("Conference", "Select VST version 2 file to be loaded"), "", false, nil, [".dll"])
       if file != nil
         Conference.vst_add(file, @userid)
         refresh
@@ -2146,7 +2146,7 @@ class Scene_Conference_VSTS
     form = Form.new([
       tr_path = FilesTree.new(p_("Conference", "Destination"), Dirs.user + "\\", true, true, "Documents"),
       edt_filename = EditBox.new(p_("Conference", "File name"), 0, "#{File.basename(@vsts[@sel.index]["file"], File.extname(@vsts[@sel.index]["file"]))}.fxp", true),
-      lst_exporttype = ListBox.new([p_("Conference", "Export current preset"), p_("Conference", "Export full bank")], p_("Conference", "Export type"), 0, 0, true),
+      lst_exporttype = ListBox.new([p_("Conference", "Export current preset"), p_("Conference", "Export full bank")], p_("Conference", "Export type")),
       btn_export = Button.new(p_("Conference", "Export")),
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
@@ -2155,7 +2155,7 @@ class Scene_Conference_VSTS
       format = ".fxb" if lst_exporttype.index == 1
       if edt_filename.value.downcase[-4..-1] != format
         f = File.basename(edt_filename.text, File.extname(edt_filename.text)) + format
-        edt_filename.settext(f)
+        edt_filename.set_text(f)
       end
     }
     form.cancel_button = btn_cancel
@@ -2190,7 +2190,7 @@ class Scene_Conference_VSTS
   end
 
   def import
-    file = getfile(p_("Conference", "Select preset or bank file"), Dirs.documents + "\\", false, nil, [".fxp", ".fxb"])
+    file = get_file(p_("Conference", "Select preset or bank file"), Dirs.documents + "\\", false, nil, [".fxp", ".fxb"])
     if file != nil
       content = readfile(file)
       if content != "" && content != nil
@@ -2270,7 +2270,7 @@ class Scene_Conference_VSTS
         end
       end
     }
-    sel = ListBox.new([], p_("Conference", "Saved chains"), 0, 0, true)
+    sel = ListBox.new([], p_("Conference", "Saved chains"))
     rfr = Proc.new {
       sel.options = chains.map { |c| c[0] }
     }

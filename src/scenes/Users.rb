@@ -35,7 +35,7 @@ class Scene_Users
     for i in 0..usr.size - 1
       selt[i] = usr[i] + ". " + getstatus(usr[i])
     end
-    @sel = ListBox.new(selt, p_("Users", "List of users"))
+    @sel = ListBox.new(selt, p_("Users", "List of users"), 0, 0, false)
     @usr = usr
     @sel.bind_context { |menu| context(menu) }
     loop do

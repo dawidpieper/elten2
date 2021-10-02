@@ -35,7 +35,7 @@ class Scene_Users_AddedMeToContacts
     end
     header = p_("UsersAddedMeToContacts", "Users who added me to their contacts list")
     header = "" if @new == true
-    @sel = ListBox.new(selt, header)
+    @sel = ListBox.new(selt, header, 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     @user = usr
     loop do

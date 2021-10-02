@@ -93,7 +93,7 @@ class Scene_Admins
     h = p_("Admins", "Administrators and authors") if cat == 0
     ind = @indexes[cat] || 0
     ind = 0 if subcat > 0
-    @sel = ListBox.new(@selt, h, ind)
+    @sel = ListBox.new(@selt, h, ind, 0, false)
     loop do
       loop_update
       @sel.update

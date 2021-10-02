@@ -134,7 +134,7 @@ class Scene_Sounds
     h = p_("Sounds", "Sounds guide, press space to play")
     h = p_("Sounds", "Editing sound theme %{theme}") % { "theme" => @name } if @theme != nil
     @fields = [
-      @sel = ListBox.new(@snd.map { |o| o.description }, h, 0, ListBox::Flags::Silent, true),
+      @sel = ListBox.new(@snd.map { |o| o.description }, h, 0, ListBox::Flags::Silent),
       @btn_play = Button.new(p_("Sounds", "Play")),
       @btn_stop = Button.new(p_("Sounds", "Stop")),
       @btn_change = Button.new(p_("Sounds", "Change")),
@@ -166,7 +166,7 @@ class Scene_Sounds
       end
     }
     @btn_change.on(:press) {
-      file = getfile(p_("Sounds", "Select new sound"), "", false, nil, [".ogg", ".mp3", ".wav", ".opus", ".aac", ".wma", ".m4a", ".flac", ".aiff"])
+      file = get_file(p_("Sounds", "Select new sound"), "", false, nil, [".ogg", ".mp3", ".wav", ".opus", ".aac", ".wma", ".m4a", ".flac", ".aiff"])
       loop_update
       if file != nil
         snd = Bass::Sound.new(file, 1)
@@ -188,7 +188,7 @@ class Scene_Sounds
       @form.focus
     }
     @btn_export.on(:press) {
-      loc = getfile(p_("Sounds", "Where to save this theme"), Dirs.user + "\\", true, "Documents")
+      loc = get_file(p_("Sounds", "Where to save this theme"), Dirs.user + "\\", true, "Documents")
       if loc != nil
         compress(@theme.file, loc + "\\" + File.basename(@theme.file, ".elsnd") + ".zip")
       end

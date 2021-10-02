@@ -91,7 +91,7 @@ class Scene_Account
         index = mapping.find_index(index) || 0 if mapping != nil
         flags = 0
         flags |= ListBox::Flags::MultiSelection if multi == true
-        field = ListBox.new(type, label, index.to_i, flags, true)
+        field = ListBox.new(type, label, index.to_i, flags)
         if multi == true
           for e in currentconfig(key).to_s.split(",")
             index = e
@@ -122,7 +122,7 @@ class Scene_Account
 
   def make_window
     @form = Form.new
-    @form.fields[0] = ListBox.new([], p_("Account", "Category"), 0, 0, true)
+    @form.fields[0] = ListBox.new([], p_("Account", "Category"))
     @form.fields[1] = Button.new(_("Apply"))
     @form.fields[2] = Button.new(_("Save"))
     @form.fields[3] = Button.new(_("Cancel"))
@@ -450,7 +450,7 @@ class Scene_Account_AutoLogins
     for s in als
       selt.push([s[2], s[1], s[0]])
     end
-    @sel = TableBox.new(selh, selt, 0, p_("Account", "Auto log in tokens"))
+    @sel = TableBox.new(selh, selt, 0, p_("Account", "Auto log in tokens"), false)
     @sel.bind_context { |menu|
       menu.option(p_("Account", "Log out all sessions"), nil, :del) {
         globallogout
@@ -512,7 +512,7 @@ class Scene_Account_BlackList
       end
     end
     header = p_("Account", "Black list")
-    @sel = ListBox.new(selt, header, 0, 0)
+    @sel = ListBox.new(selt, header, 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update
@@ -620,7 +620,7 @@ class Scene_Account_Logins
     for s in lgs
       selt.push([s[0], s[1]])
     end
-    @sel = TableBox.new(selh, selt, 0, p_("Account", "Last logins"))
+    @sel = TableBox.new(selh, selt, 0, p_("Account", "Last logins"), false)
     loop do
       loop_update
       @sel.update
@@ -661,7 +661,7 @@ class Scene_Account_MailEvents
       enb = vr[2].to_i
       opt = (enb == 0) ? p_("Account", "Enable mail events reporting") : p_("Account", "Disable mail events reporting")
       h = (enb == 0) ? p_("Account", "Mail events reporting is disabled. If you wish, you can enable it to receive information about changes made on your account and logins from new devices via E-mail") : p_("Account", "Mail events reporting is enabled.")
-      @sel = ListBox.new([opt, _("Exit")], h, 0, ListBox::Flags::AnyDir)
+      @sel = ListBox.new([opt, _("Exit")], h, 0, ListBox::Flags::AnyDir, false)
       loop do
         loop_update
         @sel.update

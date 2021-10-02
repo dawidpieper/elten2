@@ -76,7 +76,7 @@ class Scene_Honors
       $scene = Scene_Main.new
       return
     end
-    @sel = ListBox.new(selt, header, ind)
+    @sel = ListBox.new(selt, header, ind, 0, false)
     @sel.disable_item(selt.size - 1) if Session.moderator == 0 or @user != nil
     @sel.bind_context { |menu| context(menu) }
     loop do
@@ -187,7 +187,7 @@ class Scene_Honors
       selt.push("#{i + 1}: #{levels[i]}, #{enlevels[i]}")
     end
     selt += [p_("Honors", "Add challenge")]
-    form = Form.new([ListBox.new(selt, p_("Honors", "Challenges"), 0, 0, true), Button.new(_("Save")), Button.new(_("Cancel"))])
+    form = Form.new([ListBox.new(selt, p_("Honors", "Challenges")), Button.new(_("Save")), Button.new(_("Cancel"))])
     loop do
       loop_update
       form.update
@@ -282,7 +282,7 @@ class Scene_Honors_Users
       u = @selt[i]
       selt.push(u + ". " + getstatus(@users[i], false))
     end
-    @sel = ListBox.new(selt)
+    @sel = ListBox.new(selt, "", 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update

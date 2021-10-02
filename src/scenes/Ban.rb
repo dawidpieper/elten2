@@ -24,7 +24,7 @@ class Scene_Ban_Ban
       end
     end
     sel = [p_("Ban", "Day"), p_("Ban", "Three days"), p_("Ban", "Week"), p_("Ban", "2 weeks"), p_("Ban", "30 days"), p_("Ban", "90 days"), p_("Ban", "Year")]
-    @form = Form.new([ListBox.new(sel, p_("Ban", "Ban time"), 0, 0, true), EditBox.new(p_("Ban", "The reason")), EditBox.new(p_("Ban", "An additional message to the user"), EditBox::Flags::MultiLine), Button.new(p_("Ban", "Ban")), Button.new(_("Cancel"))])
+    @form = Form.new([ListBox.new(sel, p_("Ban", "Ban time")), EditBox.new(p_("Ban", "The reason")), EditBox.new(p_("Ban", "An additional message to the user"), EditBox::Flags::MultiLine), Button.new(p_("Ban", "Ban")), Button.new(_("Cancel"))])
     loop do
       loop_update
       @form.update

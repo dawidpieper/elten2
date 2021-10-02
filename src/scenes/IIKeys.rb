@@ -35,6 +35,6 @@ class Scene_IIKeys
     selt = @keys.map { |k|
       [hkname + " + " + k[0], k[1]]
     }
-    @sel = TableBox.new([nil, nil], selt, 0, p_("IIKeys", "Invisible Interface Hotkeys"))
+    @sel = TableBox.new([nil, nil], selt, 0, p_("IIKeys", "Invisible Interface Hotkeys"), false)
   end
 end

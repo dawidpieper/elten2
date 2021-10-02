@@ -7,7 +7,7 @@
 class Scene_Clock
   def main
     @field = []
-    @field[0] = ListBox.new([], p_("Clock", "Alarms"), 0, 0, true)
+    @field[0] = ListBox.new([], p_("Clock", "Alarms"))
     @field[1] = Button.new(_("Save"))
     @field[2] = Button.new(_("Cancel"))
     @alarms = []
@@ -70,7 +70,7 @@ class Scene_Clock
     a = [Time.now.hour, Time.now.min, 0]
     a = alarms[alarmindex] if alarmindex.is_a?(Numeric) && alarms[alarmindex] != nil
     c = (0..59).to_a.map { |i| i.to_s }
-    form = Form.new([ListBox.new(c[0..23], p_("Clock", "Hour"), a[0], 0, true), ListBox.new(c[0..59], p_("Clock", "Minute"), a[1], 0, true), ListBox.new([p_("Clock", "One time"), p_("Clock", "Repeated")], p_("Clock", "Type"), a[2], 0, true), EditBox.new(p_("Clock", "Alarm description"), 0, a[3], true), Button.new(_("Save")), Button.new(_("Cancel"))])
+    form = Form.new([ListBox.new(c[0..23], p_("Clock", "Hour"), a[0]), ListBox.new(c[0..59], p_("Clock", "Minute"), a[1]), ListBox.new([p_("Clock", "One time"), p_("Clock", "Repeated")], p_("Clock", "Type"), a[2]), EditBox.new(p_("Clock", "Alarm description"), 0, a[3], true), Button.new(_("Save")), Button.new(_("Cancel"))])
     loop do
       loop_update
       form.update
@@ -93,7 +93,7 @@ class Scene_Clock
     refresh
     play("editbox_delete")
     loop_update
-    @field[0].sayoption
+    @field[0].say_option
   end
 
   def refresh

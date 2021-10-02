@@ -132,7 +132,7 @@ class Scene_Messages
       ind = selt.size - 1 if u.user == @lastuser.user if @lastuser != nil
     end
     selt.push(p_("Messages", "Show older")) if @users_more
-    @sel_users = ListBox.new(selt, p_("Messages", "Messages"), ind)
+    @sel_users = ListBox.new(selt, p_("Messages", "Messages"), ind, 0, false)
     @sel_users.bind_context { |menu| context_users(menu) }
   end
 
@@ -147,7 +147,7 @@ class Scene_Messages
         ad = 20
         ad = 100 if $keyr[0x10]
         load_users(@users_limit + ad)
-        @sel_users.sayoption
+        @sel_users.say_option
       end
     end
     $scene = Scene_Main.new if escape
@@ -259,7 +259,7 @@ class Scene_Messages
     cusers.polsort!
     form = Form.new([
       EditBox.new(p_("Messages", "Conversation name"), "", cname, true),
-      ListBox.new(cusers, p_("Messages", "Conversation members"), 0, 0, true),
+      ListBox.new(cusers, p_("Messages", "Conversation members")),
       Button.new(p_("Messages", "Create")),
       Button.new(_("Cancel"))
     ])
@@ -281,7 +281,7 @@ class Scene_Messages
           play("editbox_delete")
           users.delete_at(form.fields[1].index)
           form.fields[1].options.delete_at(form.fields[1].index)
-          form.fields[1].sayoption
+          form.fields[1].say_option
         }
       end
     }
@@ -412,7 +412,7 @@ class Scene_Messages
     selt.push(p_("Messages", "Show older")) if @conversations_more
     u = user
     u = @conversation_name if @conversation_name != "" && @conversation_name != nil
-    @sel_conversations = ListBox.new(selt, ((sp == nil) ? (p_("Messages", "Conversations with %{user}") % { "user" => u }) : ""), ind)
+    @sel_conversations = ListBox.new(selt, ((sp == nil) ? (p_("Messages", "Conversations with %{user}") % { "user" => u }) : ""), ind, 0, false)
     @sel_conversations.bind_context { |menu| context_conversations(menu) }
   end
 
@@ -425,7 +425,7 @@ class Scene_Messages
       else
         @sel_conversations.index -= 1
         load_conversations(@conversations_user, nil, @conversations_limit + 20)
-        @sel_conversations.sayoption
+        @sel_conversations.say_option
       end
     end
     if escape or arrow_left or @sel_conversations.options.size == 0
@@ -569,7 +569,7 @@ class Scene_Messages
       head = p_("Messages", "Messages in conversation %{subject} with %{user}") % { "subject" => subject || "", "user" => u }
       head = p_("Messages", "Flagged messages") if sp == "flagged"
       head = p_("Messages", "Found items") if sp == "search"
-      @sel_messages = ListBox.new(selt, head, 0, 0, true)
+      @sel_messages = ListBox.new(selt, head)
       @form_messages = Form.new([@sel_messages, nil, nil, EditBox.new(p_("Messages", "Your reply"), EditBox::Flags::MultiLine, "", true), nil, Button.new(p_("Messages", "Compose"))], 0, true)
       @form_messages.fields[3..5] = [nil, nil, nil] if msg[3].to_i == 0 or @messages_sp == "flagged" or @messages_sp == "search"
     else
@@ -625,7 +625,7 @@ class Scene_Messages
       ad = 500 if $keyr[0x10]
       load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit + ad)
       @sel_messages.index = ind
-      @sel_messages.sayoption
+      @sel_messages.say_option
     end
     return if @messages.size == 0 or @sel_messages == nil or @messages[@sel_messages.index] == nil
     if @message_display == nil or @message_display[0] != @messages[@sel_messages.index].id
@@ -636,13 +636,13 @@ class Scene_Messages
     end
     if @messages[@sel_messages.index] != nil
       if @sel_messages.index < @messages.size and @messages[@sel_messages.index] != nil and @messages[@sel_messages.index].attachments.size > 0 and (@form_messages.fields[1] == nil or @form_messages.fields[1].options != name_attachments(@messages[@sel_messages.index].attachments, @messages[@sel_messages.index].attachments_names))
-        @form_messages.fields[1] = ListBox.new(name_attachments(@messages[@sel_messages.index].attachments, @messages[@sel_messages.index].attachments_names), p_("Messages", "Attachments"), 0, 0, true)
+        @form_messages.fields[1] = ListBox.new(name_attachments(@messages[@sel_messages.index].attachments, @messages[@sel_messages.index].attachments_names), p_("Messages", "Attachments"))
       elsif @sel_messages.index >= @messages.size or @messages[@sel_messages.index].attachments.size == 0 and @form_messages.fields[1] != nil
         @form_messages.fields[1] = nil
         @form_messages.index = 0 if @form_messages.index == 1
       end
       if @sel_messages.index < @messages.size and @messages[@sel_messages.index] != nil and @messages[@sel_messages.index].polls.size > 0 and (@form_messages.fields[2] == nil or @form_messages.fields[2].options != @messages[@sel_messages.index].polls_names)
-        @form_messages.fields[2] = ListBox.new(@messages[@sel_messages.index].polls_names, p_("Messages", "Polls"), 0, 0, true)
+        @form_messages.fields[2] = ListBox.new(@messages[@sel_messages.index].polls_names, p_("Messages", "Polls"))
       elsif @sel_messages.index >= @messages.size or @messages[@sel_messages.index].polls.size == 0 and @form_messages.fields[2] != nil
         @form_messages.fields[2] = nil
         @form_messages.index = 0 if @form_messages.index == 2
@@ -676,7 +676,7 @@ class Scene_Messages
           alert(p_("Messages", "Failed to send message"))
         else
           @form_messages.index = 3
-          @form_messages.fields[3].settext("")
+          @form_messages.fields[3].set_text("")
           alert(p_("Messages", "Message has been sent"))
         end
         load_messages(@messages_user, @messages_subject, @messages_sp, @messages_limit, true)
@@ -845,14 +845,14 @@ class Scene_Messages_New
     @fields[2] = ((@text.is_a?(EditBox)) ? @text : EditBox.new(p_("Messages", "Message:"), EditBox::Flags::MultiLine, text, true)) if !(@text.is_a?(String) and @text.include?("\004AUDIO\004"))
     @fields[3] = OpusRecordButton.new(p_("Messages", "Audio message"), Dirs.temp + "\\audiomessage.opus", bitratelimit, 48, audiolimit) if !(@text.is_a?(String) and @text.include?("\004AUDIO\004"))
     @fields[4] = nil
-    @fields[5] = ListBox.new([], p_("Messages", "Attachments"), 0, 0, true)
-    @fields[6] = ListBox.new([], p_("Messages", "Polls"), 0, 0, true)
+    @fields[5] = ListBox.new([], p_("Messages", "Attachments"))
+    @fields[6] = ListBox.new([], p_("Messages", "Polls"))
     @fields[7] = Button.new(_("Cancel"))
     @fields[8] = nil
     @fields[5].bind_context { |menu|
       if @attachments.size < 3
         menu.option(p_("Messages", "Attach a file"), nil, "n") {
-          loc = getfile(p_("Messages", "Select a file to attach"), Dirs.documents + "\\", false)
+          loc = get_file(p_("Messages", "Select a file to attach"), Dirs.documents + "\\", false)
           if loc != nil
             size = File.size(loc)
             atsize = 4 * 1024 ** 2
@@ -875,7 +875,7 @@ class Scene_Messages_New
           @attachments.delete_at(@form.fields[5].index)
           @form.fields[5].options.delete_at(@form.fields[5].index)
           @form.fields[5].index -= 1 if @attachments.size > 0 && @form.fields[5].index >= @attachments.size
-          @form.fields[5].sayoption
+          @form.fields[5].say_option
         }
       end
     }
@@ -919,7 +919,7 @@ class Scene_Messages_New
           @polls.delete_at(@form.fields[6].index)
           @form.fields[6].options.delete_at (@form.fields[6].index)
           @form.fields[6].index -= 1 if @polls.size > 0 && @form.fields[6].index >= @polls.size
-          @form.fields[6].sayoption
+          @form.fields[6].say_option
         }
       end
     }
@@ -944,7 +944,7 @@ class Scene_Messages_New
       if (arrow_up or arrow_down) and @form.index == 0
         s = selectcontact
         if s != nil
-          @form.fields[0].settext(s)
+          @form.fields[0].set_text(s)
         end
       end
       if @form.fields[3].is_a?(OpusRecordButton)
@@ -1029,7 +1029,7 @@ class Scene_Messages_New
       if @scene != false and @scene != true and @scene.is_a?(Integer) == false and @scene.is_a?(Array) == false
         $scene = @scene
       else
-        @text.settext("") if @text.is_a?(EditBox)
+        @text.set_text("") if @text.is_a?(EditBox)
         $scene = Scene_Messages.new(@scene)
         return
       end

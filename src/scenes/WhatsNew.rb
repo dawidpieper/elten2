@@ -66,7 +66,7 @@ class Scene_WhatsNew
       "#{p_("WhatsNew", "Blog mentions")} (#{blogmentions.to_s})",
       "#{p_("WhatsNew", "Waiting invitations")} (#{groupinvitations.to_s})",
       p_("WhatsNew", "Update available (%{version})") % { "version" => "Elten #{nv}" }
-    ], header, 0, 0, true)
+    ], header)
     @sel.disable_item(0) if messages <= 0
     @sel.disable_item(1) if posts <= 0
     @sel.disable_item(2) if blogposts <= 0

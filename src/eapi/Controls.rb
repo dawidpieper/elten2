@@ -254,7 +254,7 @@ module EltenAPI
             if @index >= @fields.size
               if Configuration.roundupforms == 0
                 @index = ind
-                trigger(:border)
+                trigger(:border, @index)
                 play("border", 100, 100, @index.to_f / (@fields.size - 1).to_f * 100.0)
               else
                 @index = 0
@@ -272,7 +272,7 @@ module EltenAPI
             if @index < 0
               if Configuration.roundupforms == 0
                 @index = ind
-                trigger(:border)
+                trigger(:border, @index)
                 play("border", 100, 100, @index.to_f / (@fields.size - 1).to_f * 100.0)
               else
                 @index = @fields.size - 1
@@ -293,7 +293,7 @@ module EltenAPI
           @fields[@index].trigger(:before_focus)
           @fields[@index].focus(@index, @fields.size)
           @fields[@index].trigger(:focus)
-          trigger(:move)
+          trigger(:move, @index)
         else
           @fields[@index].update
         end
@@ -401,7 +401,7 @@ module EltenAPI
       ml = (flags & EditBox::Flags::MultiLine) > 0
       ae = escapable
       dialog_open
-      inp = EditBox.new(header, flags, text)
+      inp = EditBox.new(header, flags, text, false)
       inp.max_length = max_length if max_length > 0
       if moveToEnd
         inp.index = inp.check = text.size
@@ -444,7 +444,7 @@ module EltenAPI
       edt.bind_context { |menu|
         menu.option(p_("EAPI_Form", "Select contact")) {
           s = selectcontact
-          edt.settext(s) if s != nil && s != ""
+          edt.set_text(s) if s != nil && s != ""
           edt.focus
         }
       }
@@ -455,7 +455,7 @@ module EltenAPI
         return nil if escape and escapable
         if arrow_up || arrow_down
           s = selectcontact
-          edt.settext(s) if s != nil && s != ""
+          edt.set_text(s) if s != nil && s != ""
           edt.focus
         end
         if enter
@@ -514,7 +514,7 @@ module EltenAPI
         @flags = type if type.is_a?(Integer)
         @silent = silent
         @max_length = max_length
-        settext(text)
+        set_text(text)
         @origtext = text
         @index = @check = 0
         @sounds = []
@@ -592,14 +592,14 @@ module EltenAPI
             play("editbox_endofline")
           elsif ((@flags & Flags::MultiLine) == 0 or $key[0x11]) and (@flags & Flags::ReadOnly) == 0
             play("listbox_select")
-            trigger(:select)
+            trigger(:select, @index)
           end
         end
         if $key[0x2e] and (@index < @text.size or @check < @text.size) and (@flags & Flags::ReadOnly) == 0
           play("editbox_delete")
           c = [@index, @check].sort
-          c[0] = charborders(c[0])[0]
-          c[1] = charborders(c[1])[1]
+          c[0] = char_borders(c[0])[0]
+          c[1] = char_borders(c[1])[1]
           edelete(c[0], c[1])
           espeech(@text[@index..@index + 1].split("")[0])
         end
@@ -619,11 +619,11 @@ module EltenAPI
             c = []
             if @index != @check
               c = [@index, @check].sort
-              c[0] = charborders(c[0])[0]
-              c[1] = charborders(c[1])[1]
+              c[0] = char_borders(c[0])[0]
+              c[1] = char_borders(c[1])[1]
             else
               oind = ind = @index - 1
-              ind = charborders(ind)[0]
+              ind = char_borders(ind)[0]
               c = [ind, oind]
             end
             espeech(@text[c[0]..c[1]].split("")[0])
@@ -636,7 +636,7 @@ module EltenAPI
         if enter
           url = nil
           @elements.each { |e| url = e.param[1] if (e.from <= @index and e.to >= @index) and e.type == Element::Link }
-          @elements.each { |e| url = e.param[1] if (e.from >= linebeginning and e.to <= lineending) and e.type == Element::Link } if url == nil
+          @elements.each { |e| url = e.param[1] if (e.from >= line_beginning and e.to <= line_ending) and e.type == Element::Link } if url == nil
           if url != nil
             speak(p_("EAPI_Form", "Opening a link..."))
             run("explorer \"#{url}\"")
@@ -678,21 +678,25 @@ module EltenAPI
         last = @vindex
         @ch = false
         if arrow_right
-          @vindex = charborders(@vindex)[1]
+          @vindex = char_borders(@vindex)[1]
           if @vindex >= @text.size
-              if Configuration.soundthemeactivation == 1
-            play("border")
+            if Configuration.soundthemeactivation == 1
+              play("border")
             else
-              speak(p_("EAPI_Form", "End of line"))
+              espeech(p_("EAPI_Form", "End of line"))
             end
           elsif @vindex == @text.size - 1
             @vindex = @text.size
-            play("editbox_endofline")
+            if Configuration.soundthemeactivation == 1
+              play("editbox_endofline")
+            else
+              espeech(p_("EAPI_Form", "End of line"))
+            end
           else
             if $key[0x11] == false
-              ind = charborders(@vindex)[1] + 1
+              ind = char_borders(@vindex)[1] + 1
               oi = ind
-              e = charborders(ind)[1]
+              e = char_borders(ind)[1]
               espeech(@text[oi..e])
               @vindex = oi
             else
@@ -703,75 +707,75 @@ module EltenAPI
           end
         elsif arrow_left
           if @vindex <= 0
-              if Configuration.soundthemeactivation == 1
-            play("border")
+            if Configuration.soundthemeactivation == 1
+              play("border")
             else
-              speak(p_("EAPI_Form", "End of line"))
+              espeech(p_("EAPI_Form", "End of line"))
             end
           else
             if $key[0x11] == false
               ind = @vindex - 1
-              ind = charborders(ind)[0]
+              ind = char_borders(ind)[0]
               espeech(@text[ind..@vindex - 1])
               @vindex = ind
             else
-              @vindex = @index = (charborders(charborders(@index)[0] - 1)[1]) if @index > 0 && charborders(@index)[0] > 0 && @index == @check && $keyr[0x10]
+              @vindex = @index = (char_borders(char_borders(@index)[0] - 1)[1]) if @index > 0 && char_borders(@index)[0] > 0 && @index == @check && $keyr[0x10]
               @vindex = ((((@vindex > 100) ? (@vindex - 100) : 0)...@vindex - 1).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort.last || -1) + 1
               espeech(@text[@vindex..(@vindex + 1...@text.length).find_all { |i| @text[i..i] == " " or @text[i..i] == "\n" }.sort[0] || @text.size - 1])
             end
           end
         elsif arrow_up and !$keyr[0x2d]
-          b = linebeginning
-          e = lineending
+          b = line_beginning
+          e = line_ending
           if b == 0
             play("border")
             espeech(e > 0 ? (@text[0..e - 1]) : "")
           else
             l = @vindex - b
-            em = lineending(b - 1)
-            bm = linebeginning(b - 1)
+            em = line_ending(b - 1)
+            bm = line_beginning(b - 1)
             l = em - bm if em - bm < l
             l = 0 if e - b <= 1
-            l = lineending(bm - 1) - bm - 1 if $keyr[0x10]
+            l = line_ending(bm - 1) - bm - 1 if $keyr[0x10]
             @vindex = bm + l
             espeech(em > 0 ? (@text[bm..em - 1]) : "")
           end
         elsif arrow_down and !$keyr[0x2D]
-          b = linebeginning
-          e = lineending
+          b = line_beginning
+          e = line_ending
           if e == @text.size
             play("border")
             espeech(@text[b..e - 1])
           else
             l = @vindex - b
-            ep = lineending(e + 1)
-            bp = linebeginning(e + 1)
+            ep = line_ending(e + 1)
+            bp = line_beginning(e + 1)
             l = ep - bp if ep - bp < l
             l = 0 if e - b <= 1
-            l = lineending(@vindex + 1) - bp if $keyr[0x10]
+            l = line_ending(@vindex + 1) - bp if $keyr[0x10]
             @vindex = bp + l
             espeech(@text[bp..ep - 1])
           end
         end
         if $key[0x24] && !$keyr[0x5B] && !$keyr[0x5C]
-          @index = charborders(charborders(@index)[0] - 1)[0] if @index == @check && @index > 0 && charborders(@index)[0] > 0 && $keyr[0x10]
-          @ch = @vindex = $key[0x11] ? 0 : linebeginning
-          espeech($key[0x11] ? @text[linebeginning..lineending] : @text[@vindex..@text.size - 1].split("")[0]) if @vindex < @text.size
+          @index = char_borders(char_borders(@index)[0] - 1)[0] if @index == @check && @index > 0 && char_borders(@index)[0] > 0 && $keyr[0x10]
+          @ch = @vindex = $key[0x11] ? 0 : line_beginning
+          espeech($key[0x11] ? @text[line_beginning..line_ending] : @text[@vindex..@text.size - 1].split("")[0]) if @vindex < @text.size
         elsif $key[0x23] && !$keyr[0x5B] && !$keyr[0x5C]
           if !$keyr[0x10]
-            @ch = @vindex = $key[0x11] ? (@text.size) : lineending
-            espeech($key[0x11] ? @text[linebeginning..lineending] : (((t = @text[lineending..lineending]) == "") ? "\n" : t))
+            @ch = @vindex = $key[0x11] ? (@text.size) : line_ending
+            espeech($key[0x11] ? @text[line_beginning..line_ending] : (((t = @text[line_ending..line_ending]) == "") ? "\n" : t))
           else
-            @ch = @vindex = ($key[0x11] ? (@text.size) : lineending(@vindex + 1)) - 1
-            espeech($key[0x11] ? @text[linebeginning..lineending] : (((t = @text[lineending..lineending]) == "") ? "\n" : t))
+            @ch = @vindex = ($key[0x11] ? (@text.size) : line_ending(@vindex + 1)) - 1
+            espeech($key[0x11] ? @text[line_beginning..line_ending] : (((t = @text[line_ending..line_ending]) == "") ? "\n" : t))
           end
         end
         if $key[0x21] && !$keyr[0x5B] && !$keyr[0x5C]
-          if linebeginning == 0
+          if line_beginning == 0
             play("border")
-            espeech(@text[0..lineending - 1])
+            espeech(@text[0..line_ending - 1])
           else
-            lines = getlines
+            lines = get_lines
             curline = curlineind = 0
             for i in 0..lines.size - 1
               l = lines[i]
@@ -787,14 +791,14 @@ module EltenAPI
               inlineindex = lines[curlineind - 14] - lines[curlineind - 15] if inlineindex > lines[curlineind - 14] - lines[curlineind - 15]
               @vindex = lines[curlineind - 15] + inlineindex
             end
-            espeech(@text[linebeginning..lineending - 1])
+            espeech(@text[line_beginning..line_ending - 1])
           end
         elsif $key[0x22] && !$keyr[0x5B] && !$keyr[0x5C]
-          if lineending == @text.size
+          if line_ending == @text.size
             play("border")
-            espeech(@text[linebeginning..lineending - 1])
+            espeech(@text[line_beginning..line_ending - 1])
           else
-            lines = getlines
+            lines = get_lines
             curline = curlineind = 0
             for i in 0..lines.size - 1
               l = lines[i]
@@ -811,10 +815,10 @@ module EltenAPI
               inlineindex = lines[curlineind + 16] - lines[curlineind + 15] if inlineindex > lines[curlineind + 16] - lines[curlineind + 15]
               @vindex = lines[curlineind + 15] + inlineindex
             end
-            espeech(@text[linebeginning..lineending - 1])
+            espeech(@text[line_beginning..line_ending - 1])
           end
         end
-        lastcheck = getcheck(true)
+        lastcheck = get_check(true)
         checked = false
         if $key[0x10] == false and (@index != @vindex or @ch != false)
           checked = true if @check != @index
@@ -828,9 +832,9 @@ module EltenAPI
             @check = @vindex
           end
         end
-        if (lastcheck != "" || checked) && lastcheck != getcheck
+        if (lastcheck != "" || checked) && lastcheck != get_check
           if @index != @check
-            chk = getcheck
+            chk = get_check
             if chk.include?(lastcheck)
               play("editbox_textselected")
               if chk[0...lastcheck.size] == lastcheck
@@ -871,8 +875,8 @@ module EltenAPI
       end
 
       def ctrlupdate
-        readtext(@index) if @index < @text.size and ((($keyr[0x2d] and arrow_down))) and (@audiotext == nil or @index > 0)
-        espeech(@text[linebeginning..lineending]) if $keyr[0x2d] and arrow_up
+        read_text(@index) if @index < @text.size and ((($keyr[0x2d] and arrow_down))) and (@audiotext == nil or @index > 0)
+        espeech(@text[line_beginning..line_ending]) if $keyr[0x2d] and arrow_up
         esay
       end
 
@@ -893,8 +897,8 @@ module EltenAPI
 
       def setformatting(type, params = nil)
         c = [@index, @check].sort
-        from = charborders(c[0])[0]
-        to = charborders(c[1])[1]
+        from = char_borders(c[0])[0]
+        to = char_borders(c[1])[1]
         if to > from
           s = false
           for e in @elements
@@ -965,8 +969,8 @@ module EltenAPI
                 m.submenu(p_("EAPI_Form", "Heading")) { |n|
                   for i in 1..6
                     n.option(p_("EAPI_Form", "Heading level %{level}") % { "level" => i }, i, i.to_s) { |level|
-                      a = linebeginning(@vindex, true)
-                      b = lineending(@vindex, true)
+                      a = line_beginning(@vindex, true)
+                      b = line_ending(@vindex, true)
                       del = []
                       s = false
                       for e in @elements
@@ -1010,16 +1014,16 @@ module EltenAPI
                     end
                   end
                   loop_update
-                  speak(@text[linebeginning..lineending])
+                  speak(@text[line_beginning..line_ending])
                 }
               }
             end
           end
           menu.option(p_("EAPI_Form", "Read from cursor"), nil, "A") {
-            readtext(@index) if @index < @text.size
+            read_text(@index) if @index < @text.size
           }
           menu.option(p_("EAPI_Form", "Read line"), nil, "L") {
-            espeech(@text[linebeginning..lineending])
+            espeech(@text[line_beginning..line_ending])
           }
           menu.option(p_("EAPI_Form", "Copy"), nil, "c") {
             copy
@@ -1048,7 +1052,7 @@ module EltenAPI
                 t = (e.header + ": " + e.text)[0...200]
                 m.option(t, e) { |e|
                   @@lastedits.push(self.deep_dup) if @text != ""
-                  settext(e.text)
+                  set_text(e.text)
                 }
               end
             }
@@ -1058,10 +1062,10 @@ module EltenAPI
           }
           if holds_premiumpackage("scribe")
             menu.option(p_("EAPI_Form", "Quick translation"), nil, "t") {
-              espeech(translatetext(0, Configuration.language, getcheck))
+              espeech(translatetext(0, Configuration.language, get_check))
             }
             menu.option(p_("EAPI_Form", "Translate"), nil, "T") {
-              translator(getcheck)
+              translator(get_check)
             }
           end
           for a in @@customactions
@@ -1091,7 +1095,7 @@ module EltenAPI
         end
         splt = @text + ""
         form = Form.new([
-          lst_languages = ListBox.new(langnames, p_("EAPI_Form", "Language"), lnindex, 0, true),
+          lst_languages = ListBox.new(langnames, p_("EAPI_Form", "Language"), lnindex),
           btn_replace = Button.new(p_("EAPI_Form", "Replace")),
           btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -1117,14 +1121,28 @@ module EltenAPI
             frg = splt[frgb..frge] || ""
             letphr = "(" + phr.split("").join(", ") + ")"
             options = []
-              for sug in error.suggestions
+            for sug in error.suggestions
               letsug = "(" + sug.split("").join(", ") + ")"
               opt = sug + " " + letsug
               options.push(opt)
             end
             label = phr + " " + letphr + ": " + frg
-            lst = ListBox.new([p_("EAPI_Form", "Ignore"), p_("EAPI_Form", "Add new suggestion")] + options, label, 0, 0, true)
+            lst = ListBox.new([p_("EAPI_Form", "Ignore")] + options + [p_("EAPI_Form", "Use custom text")], label)
+            edt = EditBox.new(label, 0, phr)
+            lst.on(:move) {
+              for i in 0...errors.size
+                l = form.fields[1 + i * 2]
+                e = form.fields[1 + i * 2 + 1]
+                if l.index < l.options.size - 1
+                  form.hide(e)
+                else
+                  form.show(e)
+                end
+              end
+            }
             form.insert_before(btn_replace, lst)
+            form.insert_before(btn_replace, edt)
+            form.hide(edt)
           end
         }
         lst_languages.trigger(:move)
@@ -1134,37 +1152,36 @@ module EltenAPI
           chindex = 0
           repls = 0
           for i in 0...errors.size
-            if form.fields[1 + i].index == 1
-corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, "", true)
-              csize = corr.size
-              splt[(errors[i].index + chindex)...(errors[i].index + errors[i].length + chindex)] = corr
-              chindex += csize - errors[i].length
-              repls += 1
-            elsif form.fields[1 + i].index > 1
-              corr = errors[i].suggestions[form.fields[1 + i].index - 2]
+            if form.fields[1 + i * 2].index > 0
+              corr = ""
+              if form.fields[1 + i * 2].index < form.fields[1 + i * 2].options.size - 1
+                corr = errors[i].suggestions[form.fields[1 + i * 2].index - 1]
+              else
+                corr = form.fields[1 + i * 2 + 1].text
+              end
               csize = corr.size
               splt[(errors[i].index + chindex)...(errors[i].index + errors[i].length + chindex)] = corr
               chindex += csize - errors[i].length
               repls += 1
             end
           end
-          settext(splt)
+          set_text(splt)
           alert(np_("EAPI_Form", "%{count} word replaced", "%{count} words replaced", repls) % { "count" => repls.to_s })
           form.resume
         }
         form.accept_button = btn_replace
         form.wait
-         focus
+        focus
         loop_update
       end
 
       def copy
-        Clipboard.text = getcheck.gsub("\n", "\r\n")
+        Clipboard.text = get_check.gsub("\n", "\r\n")
         alert(p_("EAPI_Form", "copied"), false)
       end
 
       def cut
-        Clipboard.text = getcheck.gsub("\n", "\r\n")
+        Clipboard.text = get_check.gsub("\n", "\r\n")
         c = [@index, @check].sort
         edelete(c[0], c[1])
         alert(p_("EAPI_Form", "Cut out"), false)
@@ -1204,17 +1221,17 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             alert(p_("EAPI_Form", "No match found."), false)
           else
             @index = ind
-            readtext(@index)
+            read_text(@index)
           end
         end
       end
 
-      def linebeginning(index = @vindex, absolute = false)
+      def line_beginning(index = @vindex, absolute = false)
         return 0 if index == 0
         return 0 if @text.size == 0
         l = ((((index > 3000 ? index - 3000 : 0)...index).find_all { |i| @text[i..i] == "\n" }[-1]) || -1) + 1
         r = ((index...(index < @text.size - 3000 ? @index + 3000 : @text.size)).find_all { |i| @text[i..i] == "\n" }[0]) || @text.size
-        ls = getvlines(l, r, absolute)
+        ls = get_vlines(l, r, absolute)
         ind = l
         for n in ls
           ind = n if n <= index
@@ -1222,11 +1239,11 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         return ind
       end
 
-      def lineending(index = @vindex, absolute = false)
+      def line_ending(index = @vindex, absolute = false)
         return 0 if @text.size == 0
         l = ((((index > 3000 ? index - 3000 : 0)...index).find_all { |i| @text[i..i] == "\n" }[-1]) || -1) + 1
         r = ((index...(index < @text.size - 3000 ? @index + 3000 : @text.size)).find_all { |i| @text[i..i] == "\n" }[0]) || @text.size
-        ls = getvlines(l, r, absolute)
+        ls = get_vlines(l, r, absolute)
         ln = 0
         for i in 0...ls.size - 1
           ln = i if ls[i] <= index
@@ -1235,14 +1252,14 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         return ind
       end
 
-      def charborders(ind)
+      def char_borders(ind)
         left, right = ind, ind
         right += 1 while right < @text.size - 1 && (@text[right] || 0) >= 0xC0
         left -= 1 while left > 0 && (@text[left - 1] || 0) >= 0xC0
         return [left, right]
       end
 
-      def getvlines(l, r, absolute = false)
+      def get_vlines(l, r, absolute = false)
         return [l, r + 1] if r - l < 120 or (@flags & Flags::MultiLine) == 0 or (@flags & Flags::DisableLineWrapping) > 0 or Configuration.linewrapping == 0 or absolute == true
         ls = [l]
         for c in l...r
@@ -1261,26 +1278,26 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         return ls
       end
 
-      def getlines
+      def get_lines
         ns = (0...@text.size).find_all { |c| @text[c..c] == "\n" }
         ns.push(@text.size - 1)
         lines = []
         for i in 0..ns.size - 1
           prior = -1
           prior = ns[i - 1] if i > 0
-          lines += getvlines(prior + 1, ns[i])
+          lines += get_vlines(prior + 1, ns[i])
           lines.delete_at(-1)
         end
         return lines
       end
 
-      def getcheck(checkOnly = false)
+      def get_check(checkOnly = false)
         return @text if @index == @check && !checkOnly
         return "" if @index == @check && checkOnly
         st = [@index, @check].sort
         from = st[0]
         to = st[1]
-        to = charborders(to)[1]
+        to = char_borders(to)[1]
         return @text[from..to]
       end
 
@@ -1298,8 +1315,8 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           end
         end
         c = [@index, @check].sort
-        from = charborders(c[0])[0]
-        to = charborders(c[1])[1]
+        from = char_borders(c[0])[0]
+        to = char_borders(c[1])[1]
         edelete(from, to) if from < to && @text[from..to].chrsize > 1
         index -= 1 while index > @text.size
         text.delete!("\n") if (@flags & Flags::ReadOnly) != 0
@@ -1392,11 +1409,11 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         end
       end
 
-      def isaudio?
+      def audio?
         return @isaudio == true
       end
 
-      def settext(text, reset = true)
+      def set_text(text, reset = true)
         @isaudio = false
         @text = text.delete("\r").gsub("\004LINE\004", "\n").gsub(/\004AUDIO\004([A-Za-z0-9 -._ąćęłńóśźżĄĆĘŁŃÓŚŹŻ:,\/\%()\\!\&\+]+)\004AUDIO\004/) do
           dialog_mute
@@ -1418,6 +1435,8 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         @index = 0 if reset == true
         @index = @text.size if @index > @text.size
       end
+
+      alias settext set_text
 
       def md_proceed
         @elements = []
@@ -1644,7 +1663,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           return
         end
         return speak(head + ((@audiotext != nil) ? "\004AUDIO\004#{@audiotext}\004AUDIO\004" : "") + text.gsub("\n", " "), 1, false) if @audiotext != nil and @audiotext != "" and spk
-        readtext(0, head) if spk
+        read_text(0, head) if spk
       end
 
       def blur
@@ -1661,7 +1680,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         @audiotext = u
       end
 
-      def readtext(index = 0, head = "")
+      def read_text(index = 0, head = "")
         return speak(head) if @text == "" and head != "" and head != nil
         return if @text == ""
         sents = {}
@@ -1878,7 +1897,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       # @param index [Numeric] an initial index
       # @param flags [Int] combination of flags
       # @param quiet [Boolean] don't read a caption at creation
-      def initialize(options, header = "", index = 0, flags = 0, quiet = false)
+      def initialize(options, header = "", index = 0, flags = 0, quiet = true)
         $lastkeychar = nil
         @border = true
         @border = false if Configuration.listtype == 1 or (flags & Flags::Circular) > 0
@@ -1952,19 +1971,19 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         if ((@lr and arrow_left) or (!@lr and arrow_up) or (@anydir and (arrow_left or arrow_up))) and !$keyr[0x10] and !$keyr[0x2D] and !$keyr[0x11]
           @run = true
           self.index -= 1
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index -= 1
           end
           if self.index < 0
             oldindex = -1 if @border == false
             if @border == false
               self.index = @options.size - 1
-              while ishidden(self.index) == true
+              while hidden?(self.index) == true
                 self.index -= 1
               end
             else
               self.index = 0
-              while ishidden(self.index) == true
+              while hidden?(self.index) == true
                 self.index += 1
               end
             end
@@ -1972,19 +1991,19 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         elsif ((@lr and arrow_right) or (!@lr and arrow_down) or (@anydir and (arrow_right or arrow_down))) and !$keyr[0x10] and !$keyr[0x2D] and !$keyr[0x11]
           @run = true
           self.index += 1
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index += 1
           end
           if self.index >= options.size
             if @border == false
               oldindex = -1
               self.index = 0
-              while ishidden(self.index) == true
+              while hidden?(self.index) == true
                 self.index += 1
               end
             else
               self.index = options.size - 1
-              while ishidden(self.index) == true
+              while hidden?(self.index) == true
                 self.index -= 1
               end
             end
@@ -2005,8 +2024,8 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             speak(p_("EAPI_Form", "All tags"))
           else
             @tag = tgs[ind - 1]
-            self.index += 1 while ishidden(self.index) and self.index < options.size - 1
-            self.index -= 1 while ishidden(self.index) and self.index > 0
+            self.index += 1 while hidden?(self.index) and self.index < options.size - 1
+            self.index -= 1 while hidden?(self.index) and self.index > 0
             o = options[self.index].gsub(/\[#{Regexp.escape(@tag)}\]/i, "")
             speak(@tag + ": " + o)
           end
@@ -2014,14 +2033,14 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         if $key[0x23] == true && !$keyr[0x5B] && !$keyr[0x5C]
           @run = true
           self.index = options.size - 1
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index -= 1
           end
         end
         if $key[0x24] == true && !$keyr[0x5B] && !$keyr[0x5C]
           @run = true
           self.index = 0
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index += 1
           end
         end
@@ -2029,7 +2048,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           if self.index > 14
             for i in 1..15
               self.index -= 1
-              while ishidden(self.index) == true and self.index > 15 - i
+              while hidden?(self.index) == true and self.index > 15 - i
                 self.index -= 1
               end
             end
@@ -2037,7 +2056,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             self.index = 0
           end
           @run = true
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index += 1
           end
         end
@@ -2045,7 +2064,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           if self.index < (options.size - 15)
             for i in 1..15
               self.index += 1
-              while ishidden(self.index) == true and self.index < @options.size - i
+              while hidden?(self.index) == true and self.index < @options.size - i
                 self.index += 1
               end
             end
@@ -2053,7 +2072,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             self.index = options.size - 1
           end
           @run = true
-          while ishidden(self.index) == true and self.index < @options.size
+          while hidden?(self.index) == true and self.index < @options.size
             self.index += 1
           end
         end
@@ -2079,14 +2098,14 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
                   break
                 end
               end
-              if options[j] != nil and options[j][0...k.size].upcase == k.upcase and ishidden(j) != true
+              if options[j] != nil and options[j][0...k.size].upcase == k.upcase and hidden?(j) != true
                 self.index = j
                 break
               end
               j += ($keyr[0x10]) ? (-1) : (1)
               break if j == self.index
             end
-          elsif @hotkeys[i] != nil and !ishidden(@hotkeys[i])
+          elsif @hotkeys[i] != nil and !hidden?(@hotkeys[i])
             @index = @hotkeys[i]
             $enter = 2
           end
@@ -2104,12 +2123,12 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         end
         self.index = 0 if self.index >= options.size
         if self.index == -1
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index += 1
           end
         end
         if self.index >= @options.size
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index -= 1
           end
         end
@@ -2127,7 +2146,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             o = ("\004NEW\004" + " " + ((Configuration.soundthemeactivation == 1) ? "" : $1 + " ") + o).gsub(/\004INFNEW\{([^\}]+)\}\004/, "")
           }
           o = o.gsub(/\[#{Regexp.escape(@tag)}\]/i, "") if @tag != nil
-          lspeak(o) if !ishidden(self.index) && self.index >= 0 && @autosayoption != false
+          lspeak(o) if !hidden?(self.index) && self.index >= 0 && @autosayoption != false
           play("listbox_statechecked", 100, 100, self.index.to_f / (options.size - 1).to_f * 100.0) if @selected[self.index] == true
           focus(nil, nil, @header, false)
         end
@@ -2146,13 +2165,13 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           trigger(:multiselection_beforechanged)
           if @selected[@index] == false
             @selected[@index] = true
-            trigger(:multiselection_selected)
+            trigger(:multiselection_selected, @index)
             trigger(:multiselection_changed)
             play("listbox_statechecked", 100, 100, self.index.to_f / (options.size - 1).to_f * 100.0)
             alert(p_("EAPI_Form", "Checked"), false)
           else
             @selected[@index] = false
-            trigger(:multiselection_unselected)
+            trigger(:multiselection_unselected, @index)
             trigger(:multiselection_changed)
             play("listbox_stateunchecked", 100, 100, self.index.to_f / (options.size - 1).to_f * 100.0)
             alert(p_("EAPI_Form", "Unchecked"), false)
@@ -2160,9 +2179,11 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         end
       end
 
-      def sayoption
-        lspeak @options[self.index] if @options[self.index].is_a?(String) && !ishidden(self.index)
+      def say_option
+        lspeak @options[self.index] if @options[self.index].is_a?(String) && !hidden?(self.index)
       end
+
+      alias sayoption say_option
 
       def lpos
         pos = 50
@@ -2188,11 +2209,11 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             play("listbox_multimarker", 100, 100, pos)
           end
         end
-        while ishidden(self.index) == true
+        while hidden?(self.index) == true
           self.index += 1
         end
         if self.index > @options.size - 1
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index -= 1
           end
         end
@@ -2211,7 +2232,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           }
           o += "\r\n\r\n(#{p_("EAPI_Common", "Checked")})" if @selected[self.index] == true
           o += "\r\n\r\n(#{p_("EAPI_Common", "Unchecked")})" if @selected[self.index] == false && @multi == true
-          sp += o if !ishidden(self.index) && self.index >= 0
+          sp += o if !hidden?(self.index) && self.index >= 0
           ss = false
           for k in @hotkeys.keys
             ss = k if @hotkeys[k] == self.index
@@ -2229,13 +2250,13 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       def disable_item(id)
         @grayed[id] = true
         options = @options
-        while ishidden(self.index) == true
+        while hidden?(self.index) == true
           self.index += 1
         end
         if self.index >= options.size
           oldindex = -1 if @border == false
           self.index = options.size - 1
-          while ishidden(self.index) == true
+          while hidden?(self.index) == true
             self.index -= 1
           end
           self.index = 0 if @border == false
@@ -2246,7 +2267,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         @grayed[id] = false
       end
 
-      def ishidden(id)
+      def hidden?(id)
         return false if id < 0 || id >= @options.size
         r = @grayed[id] == true
         r = true if @tag != nil and !@options[id].downcase.include?("[" + @tag.downcase + "]")
@@ -2271,7 +2292,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       end
 
       def selected?
-        return (enter && @options.size > 0 && self.index >= 0 && !ishidden(self.index))
+        return (enter && @options.size > 0 && self.index >= 0 && !hidden?(self.index))
       end
 
       def expanded?
@@ -2444,7 +2465,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       # @param quiet [Boolean] don't write the caption at creation
       # @param file [String] a file to focus
       # @param exts [Array] an array of file extensions to show
-      def initialize(header = "", path = "", hidefiles = false, quiet = false, file = nil, exts = nil, specialvoices = true)
+      def initialize(header = "", path = "", hidefiles = false, quiet = true, file = nil, exts = nil, specialvoices = true)
         $filestrees ||= {}
         path += "\\" if path[-1..-1] != "\\" and path != ""
         @id = path + "/" + (file || "") + ":" + (exts.join("") || "") + ":::" + header
@@ -2486,8 +2507,8 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             ind = 0 if ind == nil
             h = ""
             h = @header if init == true
-            @sel = ListBox.new(@disks + @adds, h, ind)
-            @sel.on(:move) { trigger(:move) }
+            @sel = ListBox.new(@disks + @adds, h, ind, 0, false)
+            @sel.on(:move) { |arg| trigger(:move, arg) }
             @sel.silent = true if @specialvoices
             @files = @disks + @addfiles
           else
@@ -2527,8 +2548,8 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             ind = fls.find_index(@file, ind)
             h = ""
             h = @header if init == true
-            @sel = ListBox.new(fls, h, ind, 0, true)
-            @sel.on(:move) { trigger(:move) }
+            @sel = ListBox.new(fls, h, ind)
+            @sel.on(:move) { |arg| trigger(:move, arg) }
             @sel.silent = true if @specialvoices
             @sel.focus if @refresh != true
             @files = fls
@@ -2874,7 +2895,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         flags = 0
         flags ||= ListBox::Flags::LeftRight if lr
         flags ||= ListBox::Flags::Silent if @silent
-        s = ListBox.new(opt, @header, selindex, flags, true)
+        s = ListBox.new(opt, @header, selindex, flags)
         speak(s.options[s.index], 1, true, nil, true, s.lpos) if quiet != true
         return s
       end
@@ -2940,7 +2961,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       end
       flags = 0
       flags = ListBox::Flags::AnyDir if type == 1
-      lsel = ListBox.new(options, header, index, flags, true)
+      lsel = ListBox.new(options, header, index, flags)
       for d in dis
         lsel.disable_item(d)
       end
@@ -2981,7 +3002,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       lsel = ""
       play("menu_open")
       Menu.menubg_play if Configuration.bgsounds == 1 && Configuration.soundthemeactivation == 1
-      lsel = ListBox.new(options, "", 0, ListBox::Flags::AnyDir, true)
+      lsel = ListBox.new(options, "", 0, ListBox::Flags::AnyDir)
       for d in dis
         lsel.disable_item(d)
       end
@@ -3019,7 +3040,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
     # @param save [Boolean] hides a files, presents only directories
     # @param file [String] a file to focus
     # @return [String] an absolute path to a selected file or directory
-    def getfile(header = "", path = "", save = false, file = nil, exts = nil)
+    def get_file(header = "", path = "", save = false, file = nil, exts = nil)
       dialog_open
       loop_update
       ft = FilesTree.new(header, path, save, true, nil, exts)
@@ -3068,19 +3089,22 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       return nil
     end
 
+    alias get_file_dlg get_file
+    alias getfile get_file
+
     class TableBox < FormField
       attr_accessor :columns, :rows
       attr_reader :sel
       attr_accessor :header
       attr_reader :column
 
-      def initialize(columns = [], rows = [], index = 0, header = "", quiet = false, flags = 0)
+      def initialize(columns = [], rows = [], index = 0, header = "", quiet = true, flags = 0)
         @columns, @rows = columns, rows
         @flags = flags
         @column = 0
         @header = header
         @sel = ListBox.new(format_rows(@column), header, index, @flags, quiet)
-        @sel.on(:move) { trigger(:move) }
+        @sel.on(:move) { |arg| trigger(:move, arg) }
       end
 
       def autosayoption
@@ -3095,9 +3119,11 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         @sel.options
       end
 
-      def sayoption
-        @sel.sayoption
+      def say_option
+        @sel.say_option
       end
+
+      alias sayoption say_option
 
       def format_rows(col = 0)
         opts = []
@@ -3202,7 +3228,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
       attr_reader :pause
       attr_accessor :label
 
-      def initialize(file, label = "", autoplay = true, quiet = false, stream = nil)
+      def initialize(file, label = "", autoplay = true, quiet = true, stream = nil)
         Programs.emit_event(:player_init)
         file = $url + file[1..-1] if file != nil && FileTest.exists?(file) == false && file[0..0] == "/"
         @label = label
@@ -3332,9 +3358,9 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
 
       def getposition(pos, len)
         form = Form.new([
-          lst_hour = ListBox.new([], p_("EAPI_Form", "Hour"), 0, 0, true),
-          lst_min = ListBox.new((0..59).to_a.map { |t| t.to_s }, p_("EAPI_Form", "Minute"), 0, 0, true),
-          lst_sec = ListBox.new((0..59).to_a.map { |t| t.to_s }, p_("EAPI_Form", "Second"), 0, 0, true),
+          lst_hour = ListBox.new([], p_("EAPI_Form", "Hour")),
+          lst_min = ListBox.new((0..59).to_a.map { |t| t.to_s }, p_("EAPI_Form", "Minute")),
+          lst_sec = ListBox.new((0..59).to_a.map { |t| t.to_s }, p_("EAPI_Form", "Second")),
           btn_ok = Button.new(p_("EAPI_Form", "Jump")),
           btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -3349,7 +3375,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
               lst_min.enable_item(i)
             end
           end
-          lst_min.trigger(:move)
+          lst_min.trigger(:move, lst_min.index)
         }
         lst_min.on(:move) {
           t = (len - lst_hour.index * 3600 - lst_min.index * 60)
@@ -3361,7 +3387,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             end
           end
         }
-        lst_hour.trigger(:move)
+        lst_hour.trigger(:move, lst_hour.index)
         lst_hour.index = (pos / 3600).to_i
         lst_min.index = ((pos / 60) % 60).to_i
         lst_sec.index = (pos % 60).to_i
@@ -3398,7 +3424,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         dialog_open
         form = Form.new([
           tr_path = FilesTree.new(p_("EAPI_Form", "Destination"), Dirs.user + "\\", true, true, "Music"),
-          lst_format = ListBox.new(formats, p_("EAPI_Form", "File format"), 0, 0, true),
+          lst_format = ListBox.new(formats, p_("EAPI_Form", "File format")),
           edt_filename = EditBox.new(p_("EAPI_Form", "File name"), 0, nm, true),
           btn_save = Button.new(_("Save")),
           btn_cancel = Button.new(_("Cancel"))
@@ -3409,7 +3435,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           fl = edt_filename.text
           ext = File.extname(fl)
           fb = (fl.reverse.sub(ext.reverse, "")).reverse
-          edt_filename.settext(fb + eext)
+          edt_filename.set_text(fb + eext)
         }
         edt_filename.on(:change) {
           ext = File.extname(edt_filename.text)
@@ -3538,7 +3564,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
               for a in fields.deep_dup
                 fields.delete(a) if a[1] == nil || a[1] == ""
               end
-              sel = TableBox.new(["", ""], fields)
+              sel = TableBox.new(["", ""], fields, 0, "", false)
               loop do
                 loop_update
                 sel.update
@@ -3549,7 +3575,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           if @sound != nil && @sound.chapters.size > 0
             menu.option(p_("EAPI_Form", "Show chapters"), nil, :c) {
               chapters = @sound.chapters
-              sel = ListBox.new(chapters.map { |c| c.name }, p_("EAPI_Form", "Chapters"))
+              sel = ListBox.new(chapters.map { |c| c.name }, p_("EAPI_Form", "Chapters"), 0, 0, false)
               eplay("dialog_open")
               loop do
                 loop_update
@@ -3735,7 +3761,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         return if opts.size == 0
         flags = ListBox::Flags::Silent | ListBox::Flags::HotKeys
         flags |= ListBox::Flags::LeftRight if (@type == :menubar) && index == 0
-        sel = ListBox.new(opts, h, 0, flags)
+        sel = ListBox.new(opts, h, 0, flags, false)
         sel.on(:border) { play("border", 100, 100, sel.lpos) }
         sel.on(:move) {
           opt = acs[sel.index]
@@ -4287,7 +4313,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         }
         @btn_usefile.on(:press) {
           if @status == 0 or confirm(p_("EAPI_Form", "Are you sure you want to delete the previous recording and create a new one?")) == 1
-            file = getfile(p_("EAPI_Form", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mid", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
+            file = get_file_dlg(p_("EAPI_Form", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mid", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
             if file != nil
               set_source(file)
               alert(p_("EAPI_Form", "File selected"))
@@ -4370,9 +4396,9 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         appind = @application == 2048 ? 0 : 1
         form = Form.new([
           lst_profile = ListBox.new(profiles.map { |pr| pr[0] } + [p_("EAPI_Form", "Custom")], p_("EAPI_Form", "Quality")),
-          lst_bitrate = ListBox.new(bitrates_available.map { |b| b.to_s + " kbps" }, p_("EAPI_Form", "Bitrate"), bitrates_available.find_index(@bitrate) || 0, 0, true),
-          lst_framesize = ListBox.new(framesizes_available.map { |f| f.to_s + " ms" }, p_("EAPI_Form", "Frame size"), framesizes_available.find_index(@framesize) || 0, 0, true),
-          lst_application = ListBox.new([p_("EAPI_Form", "Speech profile"), p_("EAPI_Form", "Music profile")], p_("EAPI_Form", "Encoder profile"), appind, 0, true),
+          lst_bitrate = ListBox.new(bitrates_available.map { |b| b.to_s + " kbps" }, p_("EAPI_Form", "Bitrate"), bitrates_available.find_index(@bitrate) || 0),
+          lst_framesize = ListBox.new(framesizes_available.map { |f| f.to_s + " ms" }, p_("EAPI_Form", "Frame size"), framesizes_available.find_index(@framesize) || 0),
+          lst_application = ListBox.new([p_("EAPI_Form", "Speech profile"), p_("EAPI_Form", "Music profile")], p_("EAPI_Form", "Encoder profile"), appind),
           chk_usevbr = CheckBox.new(p_("EAPI_Form", "Use variable bitrate"), @usevbr),
           btn_save = Button.new(_("Save")),
           btn_cancel = Button.new(_("Cancel"))
@@ -4402,13 +4428,13 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
           framesize = framesizes_available[lst_framesize.index]
           if bitrate == pr[1] && framesize == pr[2] && lst_application.index == 0 && chk_usevbr.checked == 1
             lst_profile.index = i
-            lst_profile.trigger(:move)
+            lst_profile.trigger(:move, lst_profile.index)
             suc = true
           end
         end
         if suc == false
           lst_profile.index = profiles.size
-          lst_profile.trigger(:move)
+          lst_profile.trigger(:move, lst_profile.index)
         end
         btn_cancel.on(:press) { form.resume }
         btn_save.on(:press) {
@@ -4499,12 +4525,12 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         @mins = (0..59).to_a.map { |m| sprintf("%02d", m) }
         @secs = (0..59).to_a.map { |s| sprintf("%02d", s) }
         @form = Form.new([
-          @sel_year = ListBox.new([p_("EAPI_Form", "Not selected")] + @years, p_("EAPI_Form", "Year"), 0, 0, true),
-          @sel_month = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Month"), 0, 0, true),
-          @sel_day = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Day"), 0, 0, true),
-          @sel_hour = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Hour"), 0, 0, true),
-          @sel_min = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Minute"), 0, 0, true),
-          @sel_sec = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Second"), 0, 0, true),
+          @sel_year = ListBox.new([p_("EAPI_Form", "Not selected")] + @years, p_("EAPI_Form", "Year")),
+          @sel_month = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Month")),
+          @sel_day = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Day")),
+          @sel_hour = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Hour")),
+          @sel_min = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Minute")),
+          @sel_sec = ListBox.new([p_("EAPI_Form", "Not selected")], p_("EAPI_Form", "Second")),
           @btn_select = Button.new(p_("EAPI_Form", "Ready")),
           @btn_cancel = Button.new(_("Cancel"))
         ], 0, false, true)
@@ -4551,7 +4577,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             @sel_month.options = [p_("EAPI_Form", "Not selected")] + @months
           end
           @sel_month.index -= 1 while @sel_month.index >= @sel_month.options.size
-          @sel_month.trigger(:move)
+          @sel_month.trigger(:move, @sel_month.index)
         }
         @sel_month.on(:move) {
           if @sel_month.index == 0
@@ -4569,7 +4595,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             @sel_day.options = [p_("EAPI_Form", "Not selected")] + @days[0...days]
           end
           @sel_day.index -= 1 while @sel_day.index >= @sel_day.options.size
-          @sel_day.trigger(:move)
+          @sel_day.trigger(:move, @sel_day.index)
         }
         @sel_day.on(:move) {
           if @sel_day.index == 0
@@ -4578,7 +4604,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             @sel_hour.options = [p_("EAPI_Form", "Not selected")] + @hours
           end
           @sel_hour.index -= 1 while @sel_hour.index >= @sel_hour.options.size
-          @sel_hour.trigger(:move)
+          @sel_hour.trigger(:move, @sel_hour.index)
         }
         @sel_hour.on(:move) {
           if @sel_hour.index == 0
@@ -4587,7 +4613,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             @sel_min.options = [p_("EAPI_Form", "Not selected")] + @mins
           end
           @sel_min.index -= 1 while @sel_min.index >= @sel_min.options.size
-          @sel_min.trigger(:move)
+          @sel_min.trigger(:move, @sel_min.index)
         }
         @sel_min.on(:move) {
           if @sel_min.index == 0
@@ -4596,7 +4622,7 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
             @sel_sec.options = [p_("EAPI_Form", "Not selected")] + @mins
           end
           @sel_sec.index -= 1 while @sel_sec.index >= @sel_sec.options.size
-          @sel_sec.trigger(:move)
+          @sel_sec.trigger(:move, @sel_sec.index)
         }
       end
 
@@ -4635,11 +4661,11 @@ corr = input_text(p_("EAPI_Form", "Type the text you want to replace to"), 0, ""
         @year, @month, @day, @hour, @min, @sec = year, month, day, hour, min, sec
         genlabel
         @sel_year.index = @year - @minyear + 1
-        @sel_year.trigger(:move)
+        @sel_year.trigger(:move, @sel_year.index)
         @sel_month.index = @month
-        @sel_month.trigger(:move)
+        @sel_month.trigger(:move, @sel_month.index)
         @sel_day.index = @day
-        @sel_day.trigger(:move)
+        @sel_day.trigger(:move, @sel_day.index)
         @sel_hour.index = @hour + 1
         @sel_min.index = @min + 1
         @sel_sec.index = @sec + 1

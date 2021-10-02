@@ -11,7 +11,7 @@ class Scene_Blog
   end
 
   def main
-    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Library of external blogs"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index, 0, true)
+    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Library of external blogs"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index)
     if Session.name == "guest"
       @sel.disable_item(0)
       @sel.index = 1
@@ -136,7 +136,7 @@ class Scene_Blog_Main
       @categories.push(c) if @isowner or c.posts > 0
     end
     sel = [[p_("Blog", "All posts"), nil]] + @categories.map { |c| [c.name, c.posts.to_s] }
-    @sel = TableBox.new([nil, p_("Blog", "Posts")], sel, @categoryselindex, blogname)
+    @sel = TableBox.new([nil, p_("Blog", "Posts")], sel, @categoryselindex, blogname, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update
@@ -315,7 +315,7 @@ class Scene_Blog_Posts
     id = 0 if @id == -1
     @page = 1
     @post = []
-    @sel = TableBox.new(["", p_("Blog", "Author"), p_("Blog", "Comments")], [], 0, "", true)
+    @sel = TableBox.new(["", p_("Blog", "Author"), p_("Blog", "Comments")], [], 0, "")
     if @topage == 0
       load_posts(@page)
     else
@@ -449,7 +449,7 @@ class Scene_Blog_Posts
     else
       @page += 1
       load_posts(@page)
-      @sel.sayoption
+      @sel.say_option
     end
   end
 
@@ -642,7 +642,7 @@ class Scene_Blog_Read
       @fields[1].on(:press) {
         @medias = MediaFinders.get_media(@posts[0].text)
         if @medias.size > 0
-          @fields[1] = ListBox.new(@medias.map { |m| m.title }, p_("Blog", "Media"), 0, 0, true)
+          @fields[1] = ListBox.new(@medias.map { |m| m.title }, p_("Blog", "Media"))
         else
           @fields[1] = nil
           @medias = nil
@@ -831,7 +831,7 @@ class Scene_Blog_List
   end
 
   def main
-    @sel = TableBox.new([nil, nil, p_("Blog", "Author"), p_("Blog", "Posts"), p_("Blog", "Comments"), p_("Blog", "Last post")], [], 0, p_("Blog", "Blogs list"), true)
+    @sel = TableBox.new([nil, nil, p_("Blog", "Author"), p_("Blog", "Posts"), p_("Blog", "Comments"), p_("Blog", "Last post")], [], 0, p_("Blog", "Blogs list"))
     @sel.bind_context { |menu| context(menu) }
     refresh
     @sel.index = $bloglistindex || 0
@@ -870,7 +870,7 @@ class Scene_Blog_List
   def blogcoworkers
     owners = blogowners(@blogs[@sel.index].id)
     selt = owners
-    sel = ListBox.new(selt, p_("Blog", "Coworkers"))
+    sel = ListBox.new(selt, p_("Blog", "Coworkers"), 0, 0, false)
     sel.bind_context { |menu|
       menu.useroption(owners[sel.index])
       if blogowners(@blogs[@sel.index].id)[0] == Session.name and @blogs[@sel.index].id[0..0] == "["
@@ -1021,7 +1021,7 @@ class Scene_Blog_List
     end
     form = Form.new([
       edt_description = EditBox.new(p_("Blog", "Blog description"), 0, "", true),
-      lst_lang = ListBox.new(langs, p_("Blog", "Blog language"), lnindex, 0, true),
+      lst_lang = ListBox.new(langs, p_("Blog", "Blog language"), lnindex),
       btn_add = Button.new(p_("Blog", "Add")),
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
@@ -1358,7 +1358,7 @@ class Scene_Blog_Recategorize
     end
     @fields = []
     for i in 0..@postid.size - 1
-      f = ListBox.new(categorynames, @postname[i], 0, ListBox::Flags::MultiSelection, true)
+      f = ListBox.new(categorynames, @postname[i], 0, ListBox::Flags::MultiSelection)
       for c in @postcategories[i]
         ind = categoryids.find_index(c)
         f.selected[ind] = true if ind != nil
@@ -1420,7 +1420,7 @@ class Scene_Blog_Post_Move
         @blognames.push(b[i].delete("\r\n"))
       end
     end
-    @form = Form.new([ListBox.new(@blognames, p_("Blog", "Post destination"), @blogids.index(@owner) || 0, 0, true), ListBox.new([p_("Blog", "Move this post and all comments"), p_("Blog", "Move only this post, delete all comments")], p_("Blog", "Move type"), 0, 0, true), Button.new(p_("Blog", "Move")), Button.new(_("Cancel"))])
+    @form = Form.new([ListBox.new(@blognames, p_("Blog", "Post destination"), @blogids.index(@owner) || 0), ListBox.new([p_("Blog", "Move this post and all comments"), p_("Blog", "Move only this post, delete all comments")], p_("Blog", "Move type")), Button.new(p_("Blog", "Move")), Button.new(_("Cancel"))])
     loop do
       loop_update
       @form.update
@@ -1526,7 +1526,7 @@ class Scene_Blog_Options
       else
         index = currentconfig(key)
         index = mapping.find_index(index) || 0 if mapping != nil
-        field = ListBox.new(type, label, index.to_i, 0, true)
+        field = ListBox.new(type, label, index.to_i)
       end
       @form.fields.insert(-4, field)
     end
@@ -1547,7 +1547,7 @@ class Scene_Blog_Options
 
   def make_window
     @form = Form.new
-    @form.fields[0] = ListBox.new([], p_("Blog", "Category"), 0, 0, true)
+    @form.fields[0] = ListBox.new([], p_("Blog", "Category"))
     @form.fields[1] = Button.new(_("Apply"))
     @form.fields[2] = Button.new(_("Save"))
     @form.fields[3] = Button.new(_("Cancel"))
@@ -1837,7 +1837,7 @@ class Scene_Blog_Tags
       @tags.push(Struct_Blog_Tag.new(bt[2 + 2 * i].to_i))
       @tags.last.name = bt[2 + i * 2 + 1].delete("\r\n")
     end
-    @sel = ListBox.new(@tags.map { |t| t.name }, p_("Blog", "Tags"))
+    @sel = ListBox.new(@tags.map { |t| t.name }, p_("Blog", "Tags"), 0, 0, false)
     @sel.bind_context { |menu|
       menu.option(p_("Blog", "New tag"), nil, "n") {
         tagname = input_text(p_("Blog", "Tag name"), 0, "", true)
@@ -1862,7 +1862,7 @@ class Scene_Blog_Tags
             @tags.delete_at(@sel.index)
             @sel.options.delete_at(@sel.index)
             play("editbox_delete")
-            @sel.sayoption
+            @sel.say_option
           end
         }
       end
@@ -1928,12 +1928,12 @@ class Scene_Blog_PostEditor
     end
     @fields = [
       edt_title = EditBox.new(p_("Blog", "Post title"), "", "", true),
-      lst_editor = ListBox.new([p_("Blog", "Formattable editor"), p_("Blog", "Source Editor (HTML and Wordpress Shortcodes)")], p_("Blog", "Editor"), 0, 0, true),
+      lst_editor = ListBox.new([p_("Blog", "Formattable editor"), p_("Blog", "Source Editor (HTML and Wordpress Shortcodes)")], p_("Blog", "Editor")),
       edt_post = EditBox.new(p_("Blog", "Post"), EditBox::Flags::MultiLine | EditBox::Flags::HTML | EditBox::Flags::Formattable, "", true),
       btn_audio = OpusRecordButton.new(p_("Blog", "Audio content"), Dirs.temp + "\\audioblogpost.opus", 128),
-      lst_categories = ListBox.new(@categories.map { |c| c.name }, p_("Blog", "Post categories"), 0, ListBox::Flags::MultiSelection, true),
-      lst_tags = ListBox.new([], p_("Blog", "Post tags"), 0, 0, true),
-      lst_visibility = ListBox.new([p_("Blog", "Show to everyone"), p_("Blog", "Show to Elten users only")], p_("Blog", "Visibility"), 0, 0, true),
+      lst_categories = ListBox.new(@categories.map { |c| c.name }, p_("Blog", "Post categories"), 0, ListBox::Flags::MultiSelection),
+      lst_tags = ListBox.new([], p_("Blog", "Post tags")),
+      lst_visibility = ListBox.new([p_("Blog", "Show to everyone"), p_("Blog", "Show to Elten users only")], p_("Blog", "Visibility")),
       edt_excerpt = EditBox.new(p_("Blog", "Excerpt"), EditBox::Flags::MultiLine, "", true),
       chk_schedule = CheckBox.new(p_("Blog", "Schedule this post to be published in the future")),
       btn_scheduledate = DateButton.new(p_("Blog", "Publication date"), Time.now.year, Time.now.year + 3, true),
@@ -1985,7 +1985,7 @@ class Scene_Blog_PostEditor
           @tagids.delete_at(lst_tags.index)
           lst_tags.options.delete_at(lst_tags.index)
           play("editbox_delete")
-          lst_tags.sayoption
+          lst_tags.say_option
         }
       end
     }
@@ -2038,9 +2038,9 @@ class Scene_Blog_PostEditor
         btn_audio.set_source(ph)
         ""
       }
-      edt_title.settext(title)
-      edt_post.settext(post)
-      edt_excerpt.settext(excerpt)
+      edt_title.set_text(title)
+      edt_post.set_text(post)
+      edt_excerpt.set_text(excerpt)
       chk_comments.checked = comments
       lst_visibility.index = privacy
       for i in 0...@categories.size
@@ -2067,7 +2067,7 @@ class Scene_Blog_PostEditor
         flags |= EditBox::Flags::HTML | EditBox::Flags::Formattable
       end
       edt_post.flags = flags
-      edt_post.settext(text)
+      edt_post.set_text(text)
       @lasteditor = lst_editor.index
     }
     @form = Form.new(@fields)
@@ -2171,7 +2171,7 @@ class Scene_Blog_PostEditor
       alert(p_("Blog", "There are currently no tags created, please add a new one."))
       return nil
     end
-    sel = ListBox.new(@tags.map { |t| t.name }, p_("Blog", "Select tag"))
+    sel = ListBox.new(@tags.map { |t| t.name }, p_("Blog", "Select tag"), 0, 0, false)
     loop do
       loop_update
       sel.update if @tags.size > 0
@@ -2214,7 +2214,7 @@ class Scene_Blog_Comments
 
   def main
     @comments = []
-    @sel = TableBox.new([nil, p_("Blog", "Post"), p_("Blog", "Comment")], [], 0, p_("Blog", "Comments"), true)
+    @sel = TableBox.new([nil, p_("Blog", "Post"), p_("Blog", "Comment")], [], 0, p_("Blog", "Comments"))
     @sel.bind_context { |menu| context(menu) }
     refresh
     @sel.focus
@@ -2267,14 +2267,14 @@ class Scene_Blog_Comments
   def assign(comment, status)
     srvproc("blog_comments", { "ac" => "assign", "type" => status, "comment" => comment.id, "searchname" => @blog })
     refresh
-    @sel.sayoption
+    @sel.say_option
   end
 
   def deletecomment(comment)
     srvproc("blog_comments", { "ac" => "delete", "comment" => comment.id, "searchname" => @blog })
     refresh
     play("editbox_delete")
-    @sel.sayoption
+    @sel.say_option
   end
 
   def refresh
@@ -2356,7 +2356,7 @@ class Scene_Blog_Followers
         end
         head = p_("Blog", "Followers")
         head = "" if @owner == nil
-        @sel = TableBox.new([nil, p_("Blog", "Blog")], rows, 0, head)
+        @sel = TableBox.new([nil, p_("Blog", "Blog")], rows, 0, head, false)
         @sel.bind_context { |menu|
           if blogs.size > 0
             menu.useroption(users[@sel.index])
@@ -2421,7 +2421,7 @@ class Scene_Blog_Domain
       p_("Blog", "Personal Elten blog domain (%{username}.elten.blog)") % { "username" => Session.name },
       p_("Blog", "Shared Elten blog domain (selectedname.s.elten.blog)"),
       p_("Blog", "External domain")
-    ], p_("Blog", "Domain type"), 0, 0, true)
+    ], p_("Blog", "Domain type"))
     @lst_domaintype.disable_item(2) if !holds_premiumpackage("scribe")
     @txt_domaininstructions = @form.fields[3] = EditBox.new(p_("Blog", "Buying your own domain"), EditBox::Flags::ReadOnly, p_("Blog", "To continue, you should point your domain to Elten Blogging server.\nYou can buy your own domain from domain providers, such as ovh.com, domain.com, godaddy.com or bluehost.com."), true)
     @edt_domain = @form.fields[4] = EditBox.new("", 0, "", true)
@@ -2430,11 +2430,11 @@ class Scene_Blog_Domain
     @edt_domain.on(:change) {
       case @lst_domaintype.index
       when 0
-        @txt_fulldomain.settext((@trname + ".elten.blog").downcase)
+        @txt_fulldomain.set_text((@trname + ".elten.blog").downcase)
       when 1
-        @txt_fulldomain.settext((@edt_domain.text + ".s.elten.blog").downcase)
+        @txt_fulldomain.set_text((@edt_domain.text + ".s.elten.blog").downcase)
       when 2
-        @txt_fulldomain.settext((@edt_domain.text).downcase)
+        @txt_fulldomain.set_text((@edt_domain.text).downcase)
       end
     }
     @lst_domaintype.on(:move) {

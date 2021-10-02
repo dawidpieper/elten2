@@ -17,7 +17,7 @@ class Scene_Online
       selt.push(u + ". " + getstatus(u, false))
     end
     cnt = @onl.size
-    @sel = ListBox.new(selt, (np_("Online", "%{count} user online", "%{count} users online", cnt)) % { "count" => cnt })
+    @sel = ListBox.new(selt, (np_("Online", "%{count} user online", "%{count} users online", cnt)) % { "count" => cnt }, 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update

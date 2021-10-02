@@ -112,12 +112,12 @@ module EltenAPI
         langs[lk] = lname
       end
       dialog_open
-      from = ListBox.new([p_("EAPI_External", "recognize automatically")] + langs.values, p_("EAPI_External", "source language"), 0, 0, true)
+      from = ListBox.new([p_("EAPI_External", "recognize automatically")] + langs.values, p_("EAPI_External", "source language"))
       ind = 0
       for i in 0..langs.keys.size - 1
         ind = i if Configuration.language[0..1].downcase == langs.keys[i].downcase
       end
-      to = ListBox.new(langs.values, p_("EAPI_External", "destination language"), ind, 0, true)
+      to = ListBox.new(langs.values, p_("EAPI_External", "destination language"), ind)
       submit = Button.new(p_("EAPI_External", "Translate"))
       cancel = Button.new(_("Cancel"))
       form = Form.new([from, to, submit, cancel])

@@ -14,7 +14,7 @@ module EltenAPI
     # @param header [String] a message to read, header of the menu
     def quit(header = p_("EAPI_Common", "Exit..."))
       dialog_open
-      sel = ListBox.new([_("Cancel"), p_("EAPI_Common", "Hide program in Tray"), _("Exit")], header, 0, ListBox::Flags::AnyDir)
+      sel = ListBox.new([_("Cancel"), p_("EAPI_Common", "Hide program in Tray"), _("Exit")], header, 0, ListBox::Flags::AnyDir, false)
       sel.disable_menu
       loop do
         loop_update
@@ -90,7 +90,7 @@ module EltenAPI
         Button.new(p_("EAPI_Common", "Execute"))
       ])
       container = Console.new
-      container.on_str { |str| form.fields[1].settext(form.fields[1].text + "\r\n" + str) }
+      container.on_str { |str| form.fields[1].set_text(form.fields[1].text + "\r\n" + str) }
       form.bind_context { |menu|
         if LocalConfig["ConsoleAutoClearInput"] == 1
           s = p_("EAPI_Common", "Disable auto clear input")
@@ -137,13 +137,13 @@ module EltenAPI
         }
         if container.codes.size > 0
           menu.option(p_("EAPI_Common", "Load last code"), nil, "l") {
-            form.fields[0].settext(container.codes[0])
+            form.fields[0].set_text(container.codes[0])
             form.focus
           }
           menu.submenu(p_("EAPI_Common", "Last codes")) { |m|
             for c in container.codes
               menu.option(c[0...100], c) { |c|
-                form.fields[0].settext(c)
+                form.fields[0].set_text(c)
                 form.focus
               }
             end
@@ -161,9 +161,9 @@ module EltenAPI
             outKom = kom
           end
           if LocalConfig["ConsoleAutoClearOutput"] == 1
-            form.fields[1].settext(outKom)
+            form.fields[1].set_text(outKom)
           else
-            form.fields[1].settext(form.fields[1].text + "\r\n\r\n" + outKom)
+            form.fields[1].set_text(form.fields[1].text + "\r\n\r\n" + outKom)
           end
           begin
             r = container.run(kom).inspect
@@ -181,8 +181,8 @@ module EltenAPI
             r = $!.class.to_s + " (" + $!.to_s + ")\n" + plc
           end
           speak(r)
-          form.fields[0].settext("") if LocalConfig["ConsoleAutoClearInput"] == 1
-          form.fields[1].settext(form.fields[1].text + "\r\n#=> " + r, false)
+          form.fields[0].set_text("") if LocalConfig["ConsoleAutoClearInput"] == 1
+          form.fields[1].set_text(form.fields[1].text + "\r\n#=> " + r, false)
           loop_update
         end
         break if escape
@@ -254,9 +254,9 @@ module EltenAPI
         end
       end
       if submenu == false
-        menu = ListBox.new(sel, "", 0, ListBox::Flags::AnyDir, true)
+        menu = ListBox.new(sel, "", 0, ListBox::Flags::AnyDir)
       else
-        menu = ListBox.new(sel, "", 0, 0, true)
+        menu = ListBox.new(sel, "")
       end
       menu.disable_item(2) if @hasblog == false
       if Session.name == "guest"
@@ -296,9 +296,9 @@ module EltenAPI
             return "ALT"
           when 4
             if @incontacts == true
-                if confirm(p_("Contacts", "Are you sure you want to delete this contact?")) == 1
-                insert_scene(Scene_Contacts_Delete.new(user, Scene_Main.new), true) 
-              end
+              confirm(p_("EAPI_Common", "Are you sure you want to delete this contact?")) {
+                insert_scene(Scene_Contacts_Delete.new(user, Scene_Main.new), true)
+              }
             else
               insert_scene(Scene_Contacts_Insert.new(user, Scene_Main.new), true)
             end
@@ -324,7 +324,7 @@ module EltenAPI
               set_ringtone(user, nil)
               alert(p_("EAPI_Common", "Ringtone removed"))
             else
-              file = getfile(p_("EAPI_Common", "Select ringtone for user %{user}") % { "user" => user }, Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
+              file = get_file(p_("EAPI_Common", "Select ringtone for user %{user}") % { "user" => user }, Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
               if file != nil
                 set_ringtone(user, file)
                 alert(p_("EAPI_Common", "Ringtone changed"))
@@ -524,7 +524,7 @@ module EltenAPI
       for i in 0..contact.size - 1
         selt[i] = contact[i] + ". " + getstatus(contact[i])
       end
-      sel = ListBox.new(selt, p_("EAPI_Common", "Select contact"))
+      sel = ListBox.new(selt, p_("EAPI_Common", "Select contact"), 0, 0, false)
       loop do
         loop_update
         sel.update if contact.size > 0
@@ -714,7 +714,7 @@ module EltenAPI
         dialog_open if wait == false
         dialog_mute
       end
-      snd = Player.new(file, label)
+      snd = Player.new(file, label, true, false)
       delay(0.1)
       loop do
         loop_update
@@ -1193,7 +1193,7 @@ module EltenAPI
       end
       case ac
       when 0
-        loc = getfile(p_("EAPI_Common", "Where do you want to save this file?"), Dirs.user + "\\", true, "Documents")
+        loc = get_file(p_("EAPI_Common", "Where do you want to save this file?"), Dirs.user + "\\", true, "Documents")
         if loc != nil
           waiting
           downloadfile($url + "attachments/" + id.to_s, loc + "\\" + name)
@@ -1214,7 +1214,7 @@ module EltenAPI
       likes = lk[2..-1].map { |l| l.delete("\r\n") } if lk[0].to_i == 0
       form = Form.new([
         edt_message = EditBox.new(p_("EAPI_Common", "Message"), EditBox::Flags::ReadOnly, feed.message, true),
-        lst_likes = ListBox.new(likes, p_("EAPI_Common", "Users liking this message"), 0, 0, true),
+        lst_likes = ListBox.new(likes, p_("EAPI_Common", "Users liking this message")),
         btn_close = Button.new(p_("EAPI_Common", "Close"))
       ], 0, false, true)
       btn_close.on(:press) { form.resume }

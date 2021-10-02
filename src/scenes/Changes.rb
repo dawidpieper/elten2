@@ -130,7 +130,7 @@ class Scene_Changes
     for i in 0..@changes.size - 1
       @selt.push((@changes[i]).split("\n")[0].delete(":").sub(verstring + " ", ""))
     end
-    @sel = ListBox.new(@selt, p_("Changes", "Changelog"))
+    @sel = ListBox.new(@selt, p_("Changes", "Changelog"), 0, 0, false)
     loop do
       loop_update
       @sel.update

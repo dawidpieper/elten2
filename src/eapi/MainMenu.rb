@@ -94,6 +94,11 @@ module GlobalMenu
           m.scene(o, Scene_Install)
           m.scene(p_("MainMenu", "&Log viewer"), Scene_Log)
           m.scene(p_("MainMenu", "&Console"), Scene_Console)
+          m.option(p_("MainMenu", "Relo&ad all programs")) {
+            Programs.delete_all
+            Programs.load_all
+            alert(p_("MainMenu", "All programs reloaded"))
+          }
           m.scene(p_("MainMenu", "De&bugging"), Scene_Debug)
         }
         @menu.submenu(p_("MainMenu", "&Help")) { |m|

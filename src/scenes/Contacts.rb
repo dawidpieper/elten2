@@ -50,7 +50,7 @@ class Scene_Contacts
     end
     header = p_("Contacts", "Contacts")
     header = "" if @type > 0
-    @sel = ListBox.new(selt, header)
+    @sel = ListBox.new(selt, header, 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update

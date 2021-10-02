@@ -50,7 +50,7 @@ class Scene_Notes
     for n in @notes
       selt.push(n.name + "\r\n#{p_("Notes", "Author")}: " + n.author + "\r\n#{p_("Notes", "Modified")}: " + format_date(n.modified, false, false))
     end
-    @sel = ListBox.new(selt, p_("Notes", "Notes"), index)
+    @sel = ListBox.new(selt, p_("Notes", "Notes"), index, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update
@@ -117,7 +117,7 @@ class Scene_Notes
       end
     end
     sharest = shares + []
-    @fields = [EditBox.new(note.name, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, note.text, true), Button.new(p_("Notes", "Edit")), ListBox.new(sharest, p_("Notes", "Note shared with"), 0, 0, true), nil, Button.new(_("Cancel"))]
+    @fields = [EditBox.new(note.name, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, note.text, true), Button.new(p_("Notes", "Edit")), ListBox.new(sharest, p_("Notes", "Note shared with")), nil, Button.new(_("Cancel"))]
     @fields[0].on(:change) { changed = true }
     @form = Form.new(@fields)
     @form.bind_context { |menu|
@@ -131,7 +131,7 @@ class Scene_Notes
               dialog_close
               break
             end
-            inpt.settext(selectcontact) if arrow_up or arrow_down
+            inpt.set_text(selectcontact) if arrow_up or arrow_down
             if enter
               user = inpt.text.delete("\r\n").gsub("\004LINE\004", "")
               user = finduser(user) if finduser(user).upcase == user.upcase

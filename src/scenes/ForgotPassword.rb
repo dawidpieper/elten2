@@ -28,7 +28,7 @@ class Scene_ForgotPassword
       alert(p_("ForgotPassword", "The typed E-mail address is not associated with the entered username."))
       return main
     end
-    @sel = ListBox.new([p_("ForgotPassword", "Generate password reset code"), p_("ForgotPassword", "Enter password reset code"), _("Exit")], p_("ForgotPassword", "Password reset"))
+    @sel = ListBox.new([p_("ForgotPassword", "Generate password reset code"), p_("ForgotPassword", "Enter password reset code"), _("Exit")], p_("ForgotPassword", "Password reset"), 0, 0, false)
     loop do
       loop_update
       @sel.update

@@ -374,10 +374,10 @@ If the problem occurs, please contact Elten support"
       $scene = Scene_Login.new
       return
     end
-    $cw = ListBox.new([p_("Loading", "Log in"), p_("Loading", "Register"), p_("Loading", "Password reset"), p_("Loading", "Use guest account"), p_("Loading", "Settings"), p_("Loading", "Reinstall"), _("Exit")])
+    @cw = ListBox.new([p_("Loading", "Log in"), p_("Loading", "Register"), p_("Loading", "Password reset"), p_("Loading", "Use guest account"), p_("Loading", "Settings"), p_("Loading", "Reinstall"), _("Exit")], 0, 0, false)
     loop do
       loop_update
-      $cw.update
+      @cw.update
       update
       if $scene != self
         break
@@ -387,7 +387,7 @@ If the problem occurs, please contact Elten support"
 
   def update
     if enter
-      case $cw.index
+      case @cw.index
       when 0
         $scene = Scene_Login.new
       when 1

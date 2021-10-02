@@ -5,7 +5,7 @@ class Scene_Auctions
       $scene = Scene_Main.new
       return
     end
-    @sel = TableBox.new([nil, "Właściciel", "Obecna cena", "Użytkownik licytujący", "Zakończenie licytacji"], [], 0, "Aukcje", true)
+    @sel = TableBox.new([nil, "Właściciel", "Obecna cena", "Użytkownik licytujący", "Zakończenie licytacji"], [], 0, "Aukcje")
     @sel.bind_context { |menu| context(menu) }
     refresh
     @sel.focus

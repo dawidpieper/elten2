@@ -6,7 +6,7 @@
 
 class Scene_SpeedTest
   def main
-    @form = Form.new([ListBox.new([p_("SpeedTest", "Session refresh"), p_("SpeedTest", "What's new"), p_("SpeedTest", "Forum structure (uncompressed)"), p_("SpeedTest", "Forum structure (compressed)"), p_("SpeedTest", "Messages recipients"), p_("SpeedTest", "Blogs list")], p_("SpeedTest", "Unit to test"), 0, 0, true), EditBox.new(p_("SpeedTest", "Number of attempts to perform"), EditBox::Flags::Numbers, "10", true), Button.new(p_("SpeedTest", "Start")), Button.new(_("Cancel"))])
+    @form = Form.new([ListBox.new([p_("SpeedTest", "Session refresh"), p_("SpeedTest", "What's new"), p_("SpeedTest", "Forum structure (uncompressed)"), p_("SpeedTest", "Forum structure (compressed)"), p_("SpeedTest", "Messages recipients"), p_("SpeedTest", "Blogs list")], p_("SpeedTest", "Unit to test")), EditBox.new(p_("SpeedTest", "Number of attempts to perform"), EditBox::Flags::Numbers, "10", true), Button.new(p_("SpeedTest", "Start")), Button.new(_("Cancel"))])
     loop do
       loop_update
       @form.update

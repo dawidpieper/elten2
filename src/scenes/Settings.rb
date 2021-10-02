@@ -95,7 +95,7 @@ class Scene_Settings
         end
         flags = 0
         flags |= ListBox::Flags::MultiSelection if multi == true
-        field = ListBox.new(type, label, index.to_i, flags, true)
+        field = ListBox.new(type, label, index.to_i, flags)
         if multi == true
           mpg = mapping
           mpg ||= (0...type.size).to_a.map { |a| a.to_s }
@@ -123,7 +123,7 @@ class Scene_Settings
 
   def make_window
     @form = Form.new
-    @form.fields[0] = ListBox.new([], p_("Settings", "Category"), 0, 0, true)
+    @form.fields[0] = ListBox.new([], p_("Settings", "Category"))
     @form.fields[1] = Button.new(_("Apply"))
     @form.fields[2] = Button.new(_("Save"))
     @form.fields[3] = Button.new(_("Cancel"))
@@ -223,7 +223,7 @@ class Scene_Settings
         Win32API.new($eltenlib, "SapiSetVoice", "i", "i").call(@form.fields[1].index - 1)
         vc = Configuration.voice
         Configuration.voice = voicesmapping[@form.fields[1].index]
-        @form.fields[1].sayoption
+        @form.fields[1].say_option
         speaker_waiter
         Configuration.voice = vc
         for i in 0...sapivoices.size
@@ -233,14 +233,14 @@ class Scene_Settings
       @form.fields[2].on(:move) {
         speech_stop
         Win32API.new($eltenlib, "SapiSetRate", "i", "i").call(100 - @form.fields[2].index)
-        @form.fields[2].sayoption
+        @form.fields[2].say_option
         speaker_waiter
         Win32API.new($eltenlib, "SapiSetRate", "i", "i").call(Configuration.voicerate)
       }
       @form.fields[3].on(:move) {
         speech_stop
         Win32API.new($eltenlib, "SapiSetVolume", "i", "i").call(100 - @form.fields[3].index)
-        @form.fields[3].sayoption
+        @form.fields[3].say_option
         speaker_waiter
         Win32API.new($eltenlib, "SapiSetVolume", "i", "i").call(Configuration.voicevolume)
       }
@@ -248,7 +248,7 @@ class Scene_Settings
         speech_stop
         pt = Configuration.voicepitch
         Configuration.voicepitch = 100 - @form.fields[4].index
-        @form.fields[4].sayoption
+        @form.fields[4].say_option
         speaker_waiter
         Configuration.voicepitch = pt
       }

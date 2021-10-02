@@ -10,11 +10,11 @@ end
 
 module Elten
   Version = 2.43
-  Beta = 23
+  Beta = 24
   Alpha = 0
   IsBeta = 1
-  BuildID = 20210928001
-  BuildDate = 1632817388
+  BuildID = 20211002001
+  BuildDate = 1633173598
   class << self
     def version
       return Version
@@ -202,7 +202,7 @@ rescue Exception
         sleep(0.15)
         bug
       end
-      sel = ListBox.new(["Copy error report to clipboard", "Restart", "Try again", "Rescue mode", "Abort"], "What to do?", 0, ListBox::Flags::AnyDir)
+      sel = ListBox.new(["Copy error report to clipboard", "Restart", "Try again", "Rescue mode", "Abort"], "What to do?", 0, ListBox::Flags::AnyDir, false)
       loop do
         loop_update
         sel.update
@@ -228,7 +228,7 @@ rescue Exception
         speech_wait
         @sels = ["Quit", "Reinstall"]
         @sels += ["Try to open forum", "Try to open messages"] if Session.name != nil and Session.name != ""
-        @sel = ListBox.new(@sels, "", 0, ListBox::Flags::AnyDir)
+        @sel = ListBox.new(@sels, "", 0, ListBox::Flags::AnyDir, false)
         loop do
           loop_update
           @sel.update

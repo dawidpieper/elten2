@@ -137,7 +137,7 @@ class Scene_Main
     times = 1
     index = qacindex - 1
     if !@acselshowhidden
-      while index > 0 && @acsel.ishidden(index)
+      while index > 0 && @acsel.hidden?(index)
         times += 1
         index -= 1
       end
@@ -145,7 +145,7 @@ class Scene_Main
     times.times { |i| QuickActions.up(qacindex - i) }
     @acsel.index -= times
     acsel_load(false)
-    @acsel.sayoption
+    @acsel.say_option
   end
 
   def qacdown
@@ -153,7 +153,7 @@ class Scene_Main
     times = 1
     index = qacindex + 1
     if !@acselshowhidden
-      while index < @acsel.options.size - 1 && @acsel.ishidden(index)
+      while index < @acsel.options.size - 1 && @acsel.hidden?(index)
         times += 1
         index += 1
       end
@@ -161,7 +161,7 @@ class Scene_Main
     times.times { |i| QuickActions.down(qacindex + i) }
     @acsel.index += times
     acsel_load(false)
-    @acsel.sayoption
+    @acsel.say_option
   end
 
   def acsel_load(fc = true)
@@ -171,7 +171,7 @@ class Scene_Main
     @actions = QuickActions.get
     options = @specials.map { |s| s[1] } + @actions.map { |a| a.detail }
     if @acsel == nil
-      @acsel = ListBox.new(options, p_("Main", "Quick actions"), @@acselindex, 0, true)
+      @acsel = ListBox.new(options, p_("Main", "Quick actions"), @@acselindex)
       @acsel.add_tip(p_("Main", "Use Shift with up/down arrows to move quick actions"))
       @acsel.bind_context { |menu| accontext(menu) }
     else
@@ -187,7 +187,7 @@ class Scene_Main
   end
 
   def accontext(menu)
-    if @actions.size > 0 && qacindex != nil && !@acsel.ishidden(@acsel.index)
+    if @actions.size > 0 && qacindex != nil && !@acsel.hidden?(@acsel.index)
       menu.option(p_("Main", "Rename"), nil, "e") {
         label = input_text(p_("Main", "Action label"), 0, @actions[qacindex].label, true)
 
@@ -210,7 +210,7 @@ class Scene_Main
           k.push(-(i + 12))
         end
         ind = k.find_index(@actions[qacindex].key) || 0
-        sel = ListBox.new(s, p_("Main", "Hotkey for action %{label}") % { "label" => @actions[qacindex].label }, ind)
+        sel = ListBox.new(s, p_("Main", "Hotkey for action %{label}") % { "label" => @actions[qacindex].label }, ind, 0, false)
         loop {
           loop_update
           sel.update
@@ -256,7 +256,7 @@ class Scene_Main
         if ac == 1
           QuickActions.delete(qacindex)
           acsel_load(false)
-          @acsel.sayoption
+          @acsel.say_option
         elsif ac == 2
           QuickActions.reshow(qacindex, false)
           acsel_load
@@ -332,7 +332,7 @@ class Scene_Main
       str
     }
     if @feedsel == nil
-      @feedsel = ListBox.new(selt, p_("Main", "Feed"), ind, 0, true)
+      @feedsel = ListBox.new(selt, p_("Main", "Feed"), ind)
       @feedsel.bind_context { |menu| feeds_context(menu) }
       @feedsel.on(:move) {
         if @feeds.size > 0
@@ -369,7 +369,7 @@ class Scene_Main
           likes = lk[2..-1].map { |l| l.delete("\r\n") } if lk[0].to_i == 0
           users = likes
           dialog_open
-          lst = ListBox.new(users, p_("Main", "Users who like this post"))
+          lst = ListBox.new(users, p_("Main", "Users who like this post"), 0, 0, false)
           loop do
             loop_update
             lst.update

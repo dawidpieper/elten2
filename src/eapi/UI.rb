@@ -32,7 +32,7 @@ module EltenAPI
         end
         sound = nil
         sound = getsound(voice)
-        sound = readfile(sound) if sound == nil && FileTest.exists?(sound)
+        sound = readfile(voice) if sound == nil && FileTest.exists?(voice)
         if sound != nil
           stream = Bass::BASS_StreamCreateFile.call(1, sound, 0, 0, sound.bytesize, 0, 262144)
           Bass::BASS_ChannelSetAttribute.call(stream, 2, [volume.to_f / 100.0 * 0.5].pack("f").unpack("I")[0])
@@ -322,7 +322,7 @@ module EltenAPI
       def initialize(callers = [])
         @callers = callers
         @form = Form.new([
-          @lst_callers = ListBox.new(@callers, p_("EAPI_UI", "Unanswered calls"), 0, 0, true),
+          @lst_callers = ListBox.new(@callers, p_("EAPI_UI", "Unanswered calls")),
           @btn_callback = Button.new(p_("EAPI_UI", "Call back")),
           @btn_close = Button.new(p_("EAPI_UI", "Close"))
         ])
@@ -718,7 +718,7 @@ module EltenAPI
     def confirm(text = "")
       text.gsub!("jesteś pewien", "jesteś pewna") if Configuration.language == "pl-PL" and Session.gender == 0
       dialog_open
-      sel = ListBox.new([_("No"), _("Yes")], text, 0, ListBox::Flags::AnyDir)
+      sel = ListBox.new([_("No"), _("Yes")], text, 0, ListBox::Flags::AnyDir, false)
       loop do
         loop_update
         sel.update
@@ -745,7 +745,7 @@ module EltenAPI
           end
         end
         if $keyr[0x10] and $keyr[84] and $keyr[78]
-          sel = ListBox.new(["Hmmmm, nie, podziękuję", "Coś ty, oszalałeś?", "Nie ma mowy", "Nigdy w życiu", "Pogięło cię? Jasne, że nie", "Chyba masz jakieś zwidy jeśli sądzisz, że się zgodzę", "W sumie, czemu nie", "HMMM, kusi, pomyślmy, no ok, zgoda", "Jasne, genialny pomysł", "Jestem za", "A ty zdecyduj"], "Możesz się szybciej decydować? " + text, 0, ListBox::Flags::AnyDir)
+          sel = ListBox.new(["Hmmmm, nie, podziękuję", "Coś ty, oszalałeś?", "Nie ma mowy", "Nigdy w życiu", "Pogięło cię? Jasne, że nie", "Chyba masz jakieś zwidy jeśli sądzisz, że się zgodzę", "W sumie, czemu nie", "HMMM, kusi, pomyślmy, no ok, zgoda", "Jasne, genialny pomysł", "Jestem za", "A ty zdecyduj"], "Możesz się szybciej decydować? " + text, 0, ListBox::Flags::AnyDir, false)
         end
       end
     end

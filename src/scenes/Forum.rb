@@ -386,7 +386,7 @@ class Scene_Forum
       end
     end
     @grpsetindex = nil
-    @grpsel = TableBox.new(grpselh, grpselt, @grpindex[type], p_("Forum", "Forum"), true)
+    @grpsel = TableBox.new(grpselh, grpselt, @grpindex[type], p_("Forum", "Forum"))
     @grpsel.trigger(:move)
     @grpsel.column = LocalConfig["ForumColumnGroup"] if LocalConfig["ForumColumnGroup"] != nil
     @grpsel.bind_context(p_("Forum", "Forum")) { |menu| context_groups(menu, type) }
@@ -775,7 +775,7 @@ class Scene_Forum
   def groupreports(group)
     reports = []
     selh = [nil, p_("Forum", "Reported by"), p_("Forum", "Thread"), p_("Forum", "Reported at"), p_("Forum", "Status"), p_("Forum", "Comment")]
-    sel = TableBox.new(selh, [], 0, p_("Forum", "Reported posts"), true)
+    sel = TableBox.new(selh, [], 0, p_("Forum", "Reported posts"))
     rfr = Proc.new {
       fr = srvproc("forum_reports", { "groupid" => group.id, "ac" => "list" })
       if fr[0].to_i < 0
@@ -885,7 +885,7 @@ class Scene_Forum
   def groupreportresolver(group, report)
     return if group == nil || report == nil || group.role != 2
     form = Form.new([
-      lst_status = ListBox.new([p_("Forum", "Rejected"), p_("Forum", "Accepted")], p_("Forum", "Status"), 0, 0, true),
+      lst_status = ListBox.new([p_("Forum", "Rejected"), p_("Forum", "Accepted")], p_("Forum", "Status")),
       edt_reason = EditBox.new(p_("Forum", "Reason"), EditBox::Flags::MultiLine, "", true),
       btn_resolve = Button.new(p_("Forum", "Resolve")),
       btn_cancel = Button.new(_("Cancel"))
@@ -907,7 +907,7 @@ class Scene_Forum
 
   def groupmembers(group)
     chrfr = false
-    sel = ListBox.new([], p_("Forum", "Members"), 0, 0, true)
+    sel = ListBox.new([], p_("Forum", "Members"))
     users = []
     roles = []
     inherits = []
@@ -1123,7 +1123,7 @@ class Scene_Forum
       ln.push(l["name"] + " (" + l["nativeName"] + ")")
       lnindex = ln.size - 1 if Configuration.language.downcase[0..1] == lk.downcase[0..1]
     end
-    fields = [EditBox.new(p_("Forum", "Group name"), 0, "", true), EditBox.new(p_("Forum", "Group description"), EditBox::Flags::MultiLine, "", true), ListBox.new(ln, p_("Forum", "Language"), lnindex, 0, true), ListBox.new([p_("Forum", "Hidden"), p_("Forum", "Public")], p_("Forum", "Group type"), 0, 0, true), ListBox.new([p_("Forum", "open (everyone can join)"), p_("Forum", "Moderated (everyone can request)")], p_("Forum", "Group join type"), 0, 0, true), nil, Button.new(_("Cancel"))]
+    fields = [EditBox.new(p_("Forum", "Group name"), 0, "", true), EditBox.new(p_("Forum", "Group description"), EditBox::Flags::MultiLine, "", true), ListBox.new(ln, p_("Forum", "Language"), lnindex), ListBox.new([p_("Forum", "Hidden"), p_("Forum", "Public")], p_("Forum", "Group type")), ListBox.new([p_("Forum", "open (everyone can join)"), p_("Forum", "Moderated (everyone can request)")], p_("Forum", "Group join type")), nil, Button.new(_("Cancel"))]
     form = Form.new(fields)
     loop do
       loop_update
@@ -1158,8 +1158,8 @@ class Scene_Forum
   def searcher_getquery(obj = nil)
     form = Form.new([
       edt_query = EditBox.new(p_("Forum", "Search query"), 0, "", true),
-      lst_phrasein = ListBox.new([p_("Forum", "Titles"), p_("Forum", "Content"), p_("Forum", "Authors")], p_("Forum", "Search in"), 0, ListBox::Flags::MultiSelection, true),
-      lst_threadin = ListBox.new([p_("Forum", "Joined groups"), p_("Forum", "Recommended groups"), p_("Forum", "Not joined groups")], p_("Forum", "of threads in"), 0, ListBox::Flags::MultiSelection, true),
+      lst_phrasein = ListBox.new([p_("Forum", "Titles"), p_("Forum", "Content"), p_("Forum", "Authors")], p_("Forum", "Search in"), 0, ListBox::Flags::MultiSelection),
+      lst_threadin = ListBox.new([p_("Forum", "Joined groups"), p_("Forum", "Recommended groups"), p_("Forum", "Not joined groups")], p_("Forum", "of threads in"), 0, ListBox::Flags::MultiSelection),
       btn_search = Button.new(p_("Forum", "Search")),
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
@@ -1244,7 +1244,7 @@ class Scene_Forum
     end
     @frmindex = 0 if @frmindex == nil
     frmselh = [nil, p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread"), nil]
-    @frmsel = TableBox.new(frmselh, frmselt, @frmindex, p_("Forum", "Select forum"), true)
+    @frmsel = TableBox.new(frmselh, frmselt, @frmindex, p_("Forum", "Select forum"))
     @frmsel.trigger(:move)
     @frmsel.column = LocalConfig["ForumColumnForum"] if LocalConfig["ForumColumnForum"] != nil
     @frmsel.bind_context(p_("Forum", "Forum")) { |menu| context_forums(menu) }
@@ -1272,7 +1272,7 @@ class Scene_Forum
     for t in tags
       selt.push(t[1] + ": " + t[2..-1].join(", "))
     end
-    sel = ListBox.new(selt, p_("Forum", "Forum tags"))
+    sel = ListBox.new(selt, p_("Forum", "Forum tags"), 0, 0, false)
     sel.bind_context { |menu|
       menu.option(p_("Forum", "New tag"), nil, "n") {
         t = forumtageditor
@@ -1296,7 +1296,7 @@ class Scene_Forum
             tags.delete_at(sel.index)
             sel.options.delete_at(sel.index)
             play "edit_delete"
-            sel.sayoption
+            sel.say_option
           }
         }
       end
@@ -1315,7 +1315,7 @@ class Scene_Forum
     end
     fields = [
       EditBox.new(p_("Forum", "Tag name"), 0, tag[1], true),
-      ListBox.new((tag[2..-1]) || [], p_("Forum", "Possible tag values"), 0, 0, true),
+      ListBox.new((tag[2..-1]) || [], p_("Forum", "Possible tag values")),
       Button.new(_("Save")),
       Button.new(_("Cancel"))
     ]
@@ -1350,7 +1350,7 @@ class Scene_Forum
           play("editbox_delete")
           tag.delete_at(form.fields[1].index + 2)
           form.fields[1].options.delete_at(form.fields[1].index)
-          form.fields[1].sayoption
+          form.fields[1].say_option
         }
       end
     }
@@ -1460,7 +1460,7 @@ class Scene_Forum
         }
         if @sforums.size > 0
           m.option(p_("Forum", "Edit forum"), nil, "e") {
-            form = Form.new([EditBox.new(p_("Forum", "Forum name"), 0, @sforums[@frmsel.index].fullname, true), EditBox.new(p_("Forum", "Forum description"), EditBox::Flags::MultiLine, @sforums[@frmsel.index].description, true), ListBox.new([p_("Forum", "Text forum"), p_("Forum", "Voice forum"), p_("Forum", "Mixed forum")], p_("Forum", "Forum type"), @sforums[@frmsel.index].type, 0, true), nil, Button.new(_("Cancel"))])
+            form = Form.new([EditBox.new(p_("Forum", "Forum name"), 0, @sforums[@frmsel.index].fullname, true), EditBox.new(p_("Forum", "Forum description"), EditBox::Flags::MultiLine, @sforums[@frmsel.index].description, true), ListBox.new([p_("Forum", "Text forum"), p_("Forum", "Voice forum"), p_("Forum", "Mixed forum")], p_("Forum", "Forum type"), @sforums[@frmsel.index].type), nil, Button.new(_("Cancel"))])
             loop do
               loop_update
               form.update
@@ -1560,7 +1560,7 @@ class Scene_Forum
   end
 
   def newforum
-    fields = [EditBox.new(p_("Forum", "Forum name"), 0, "", true), EditBox.new(p_("Forum", "Forum description"), EditBox::Flags::MultiLine, "", true), ListBox.new([p_("Forum", "Text forum"), p_("Forum", "Voice forum"), p_("Forum", "Mixed forum")], p_("Forum", "Forum type"), 0, 0, true), nil, Button.new(_("Cancel"))]
+    fields = [EditBox.new(p_("Forum", "Forum name"), 0, "", true), EditBox.new(p_("Forum", "Forum description"), EditBox::Flags::MultiLine, "", true), ListBox.new([p_("Forum", "Text forum"), p_("Forum", "Voice forum"), p_("Forum", "Mixed forum")], p_("Forum", "Forum type")), nil, Button.new(_("Cancel"))]
     form = Form.new(fields)
     loop do
       loop_update
@@ -2169,14 +2169,14 @@ class Scene_Forum
     else
       fields[1..6] = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp + "\\audiopost.opus", 96, 48), nil, nil, nil, nil, nil]
     end
-    fields += [CheckBox.new(p_("Forum", "Add to followed threads list")), ListBox.new(forums, p_("Forum", "Forum"), forumindex, 0, true), nil, Button.new(_("Cancel"))]
+    fields += [CheckBox.new(p_("Forum", "Add to followed threads list")), ListBox.new(forums, p_("Forum", "Forum"), forumindex), nil, Button.new(_("Cancel"))]
     form = Form.new(fields)
     form.fields[-3].on(:move) {
       tin = false
       tin = true if form.index == form.fields.size - 3
       f = []
       for t in forumtags(forumclasses[form.fields[-3].index])
-        f.push(ListBox.new([p_("Forum", "No tag value")] + t[2..-1], t[1], 0, 0, true))
+        f.push(ListBox.new([p_("Forum", "No tag value")] + t[2..-1], t[1], 0))
       end
       if type == 1
         fields[1].timelimit = forumclasses[form.fields[-3].index].group.audiolimit
@@ -2237,7 +2237,7 @@ class Scene_Forum
                 alert(p_("Forum", "This poll has already been added"))
               else
                 polls.push(ids[ind])
-                form.fields[3] ||= ListBox.new([], p_("Forum", "Polls"), 0, 0, true)
+                form.fields[3] ||= ListBox.new([], p_("Forum", "Polls"))
                 form.fields[3].options.push(names[ind])
                 alert(p_("Forum", "Poll has been added"))
               end
@@ -2260,11 +2260,11 @@ class Scene_Forum
           form.index = 4
           form.focus
         else
-          form.fields[3].sayoption
+          form.fields[3].say_option
         end
       end
       if (enter or space) and form.index == 6 and files.size < 3
-        l = getfile(p_("Forum", "Select file to attach"), Dirs.documents + "\\")
+        l = get_file(p_("Forum", "Select file to attach"), Dirs.documents + "\\")
         if l != "" and l != nil
           if files.include?(l)
             alert(p_("Forum", "This file has been already attached"))
@@ -2273,7 +2273,7 @@ class Scene_Forum
               alert(p_("Forum", "This file is too large"))
             else
               files.push(l)
-              form.fields[5] ||= ListBox.new([], p_("Forum", "Attachments"), 0, 0, true)
+              form.fields[5] ||= ListBox.new([], p_("Forum", "Attachments"))
               form.fields[5].options.push(File.basename(l))
               alert(p_("Forum", "The file has been attached"))
             end
@@ -2293,7 +2293,7 @@ class Scene_Forum
           form.index = 6
           form.focus
         else
-          form.fields[5].sayoption
+          form.fields[5].say_option
         end
       end
       if type == 0
@@ -2323,7 +2323,7 @@ class Scene_Forum
       end
     end
     name += form.fields[0].text
-    form.fields[0].settext(name)
+    form.fields[0].set_text(name)
     if type == 0
       post = {}
       if text.size < 1024
@@ -2721,7 +2721,7 @@ class Scene_Forum_Thread
         loop_update
       end
       if ((space or enter) and @form.index == @fields.size - 2) and @attachments.size < 3
-        l = getfile(p_("Forum", "Select file to attach"), Dirs.documents + "\\")
+        l = get_file(p_("Forum", "Select file to attach"), Dirs.documents + "\\")
         if l != "" and l != nil
           if @attachments.include?(l)
             alert(p_("Forum", "This file has been already attached"))
@@ -2730,7 +2730,7 @@ class Scene_Forum_Thread
               alert(p_("Forum", "This file is too large"))
             else
               @attachments.push(l)
-              @form.fields[@form.fields.size - 3] ||= ListBox.new([], p_("Forum", "Attachments"), 0, 0, true)
+              @form.fields[@form.fields.size - 3] ||= ListBox.new([], p_("Forum", "Attachments"))
               @form.fields[@form.fields.size - 3].options.push(File.basename(l))
               alert(p_("Forum", "The file has been attached"))
             end
@@ -2750,7 +2750,7 @@ class Scene_Forum_Thread
           @form.index = @form.fields.size - 2
           @form.focus
         else
-          @form.fields[@form.fields.size - 3].sayoption
+          @form.fields[@form.fields.size - 3].say_option
         end
       end
       break if $scene != self
@@ -2810,14 +2810,14 @@ class Scene_Forum_Thread
       if @sponsors.include?(post.author)
         @fields[-3].add_sound("user_sponsor")
       end
-      @fields[-1] = ListBox.new(name_attachments(post.attachments), p_("Forum", "Attachments"), 0, 0, true) if post.attachments.size > 0
+      @fields[-1] = ListBox.new(name_attachments(post.attachments), p_("Forum", "Attachments")) if post.attachments.size > 0
       if post.polls.size > 0
         names = []
         for o in post.polls
           pl = srvproc("polls", { "get" => "1", "poll" => o.to_s })
           names.push(pl[2].delete("\r\n")) if pl[0].to_i == 0 and pl.size > 1
         end
-        @fields[-2] = ListBox.new(names, p_("Forum", "Polls"), 0, 0, true) if names.size == post.polls.size
+        @fields[-2] = ListBox.new(names, p_("Forum", "Polls")) if names.size == post.polls.size
       end
     end
 
@@ -2828,7 +2828,7 @@ class Scene_Forum_Thread
     @posttype = 0
     @posttype = 1 if @type == 1
     if @type == 2
-      sel = ListBox.new([p_("Forum", "Text post"), p_("Forum", "Audio post")], p_("Forum", "Post type"), 0, 0, true)
+      sel = ListBox.new([p_("Forum", "Text post"), p_("Forum", "Audio post")], p_("Forum", "Post type"))
       sel.on(:move) { |i|
         @posttype = sel.index
         @fields[(-1 - @audiofields.size)..-2] = ((@posttype == 0) ? @textfields : @audiofields)
@@ -2953,7 +2953,7 @@ class Scene_Forum_Thread
         }
         if @type == 0 and @form.fields[@postscount * 3 + 1].is_a?(EditBox)
           m.option(p_("Forum", "Reply with quote"), nil, "d") {
-            @form.fields[@postscount * 3 + 1].settext("\r\n-- (#{@posts[@form.index / 3].authorname}):\r\n#{@posts[@form.index / 3].post}\r\n--\r\n#{@form.fields[@postscount * 3 + 1].text}")
+            @form.fields[@postscount * 3 + 1].set_text("\r\n-- (#{@posts[@form.index / 3].authorname}):\r\n#{@posts[@form.index / 3].post}\r\n--\r\n#{@form.fields[@postscount * 3 + 1].text}")
             @form.fields[@postscount * 3 + 1].index = 0
             @form.index = @postscount * 3 + 1
             @form.focus
@@ -2980,7 +2980,7 @@ class Scene_Forum_Thread
             post.likes -= 1
             alert(p_("forum", "This post is no longer liked"))
           end
-          @form.fields[@form.index / 3 * 3].settext(generate_posttext(post))
+          @form.fields[@form.index / 3 * 3].set_text(generate_posttext(post))
         end
       }
       menu.option(p_("Forum", "Show post likes"), nil, "K") {
@@ -2992,7 +2992,7 @@ class Scene_Forum_Thread
             users.push(user)
           end
         end
-        lst = ListBox.new(users, p_("Forum", "Users who like this post"))
+        lst = ListBox.new(users, p_("Forum", "Users who like this post"), 0, 0, false)
         loop do
           loop_update
           lst.update
@@ -3360,12 +3360,12 @@ class Scene_Forum_Thread
       a = post.attachments[i]
       atts.push([a, nil, attnames[i]])
     end
-    form = Form.new([EditBox.new(p_("Forum", "edit your post here"), EditBox::Flags::MultiLine, post.post), ListBox.new(atts.map { |a| a[2] }, p_("Forum", "Attachments"), 0, 0, true), Button.new(_("Save")), Button.new(_("Cancel"))])
+    form = Form.new([EditBox.new(p_("Forum", "edit your post here"), EditBox::Flags::MultiLine, post.post), ListBox.new(atts.map { |a| a[2] }, p_("Forum", "Attachments")), Button.new(_("Save")), Button.new(_("Cancel"))])
     form.hide(1) if @threadclass.forum.group.preventattachments
     form.fields[1].bind_context { |menu|
       if atts.size < 3
         menu.option(p_("Forum", "Add attachment"), nil, "n") {
-          l = getfile(p_("Forum", "Select file to attach"), Dirs.documents + "\\")
+          l = get_file(p_("Forum", "Select file to attach"), Dirs.documents + "\\")
           if l != "" && l != nil && !atts.map { |a| a[1] }.include?(l)
             if File.size(l) <= 16777216
               atts.push([nil, l, File.basename(l)])
@@ -3382,7 +3382,7 @@ class Scene_Forum_Thread
           atts.delete_at(form.fields[1].index)
           play("editbox_delete")
           form.fields[1].options = atts.map { |a| a[2] }
-          form.fields[1].sayoption
+          form.fields[1].say_option
         }
       end
     }
@@ -3435,7 +3435,7 @@ class Scene_Forum_Thread
       bookmarks.push(b)
     end
     refr = false
-    sel = ListBox.new(bookmarks.map { |b| b.description + " (" + p_("Forum", "Post %{postnumber} by %{author}") % { "postnumber" => b.postnum + 1, "author" => @posts[b.postnum].author } + "): " + @posts[b.postnum].post[0...100] }, p_("Forum", "Bookmarks"))
+    sel = ListBox.new(bookmarks.map { |b| b.description + " (" + p_("Forum", "Post %{postnumber} by %{author}") % { "postnumber" => b.postnum + 1, "author" => @posts[b.postnum].author } + "): " + @posts[b.postnum].post[0...100] }, p_("Forum", "Bookmarks"), 0, 0, false)
     sel.bind_context { |menu|
       if bookmarks.size > 0
         menu.option(p_("Forum", "Delete bookmark")) {
@@ -3829,7 +3829,7 @@ class Scene_Forum_GroupSettings
       else
         index = currentconfig(key)
         index = mapping.find_index(index) || 0 if mapping != nil
-        field = ListBox.new(type, label, index.to_i, 0, true)
+        field = ListBox.new(type, label, index.to_i)
       end
       @form.fields.insert(-4, field)
     end
@@ -3850,7 +3850,7 @@ class Scene_Forum_GroupSettings
 
   def make_window
     @form = Form.new
-    @form.fields[0] = ListBox.new([], p_("Forum", "Category"), 0, 0, true)
+    @form.fields[0] = ListBox.new([], p_("Forum", "Category"))
     @form.fields[1] = Button.new(_("Apply"))
     @form.fields[2] = Button.new(_("Save"))
     @form.fields[3] = Button.new(_("Cancel"))

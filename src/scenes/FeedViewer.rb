@@ -67,7 +67,7 @@ class Scene_FeedViewer
     ind = 0
     ind = selt.size - 1 if selt.size > 0 && @n.is_a?(FeedMessage)
     ind = @ind if @ind != -1
-    @sel = ListBox.new(selt, p_("FeedViewer", "Feed"), ind)
+    @sel = ListBox.new(selt, p_("FeedViewer", "Feed"), ind, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update
@@ -113,7 +113,7 @@ class Scene_FeedViewer
           likes = lk[2..-1].map { |l| l.delete("\r\n") } if lk[0].to_i == 0
           users = likes
           dialog_open
-          lst = ListBox.new(users, p_("FeedViewer", "Users who like this post"))
+          lst = ListBox.new(users, p_("FeedViewer", "Users who like this post"), 0, 0, false)
           loop do
             loop_update
             lst.update

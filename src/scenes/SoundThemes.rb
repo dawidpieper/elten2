@@ -21,7 +21,7 @@ class Scene_SoundThemes
     @soundthemes.push(SoundTheme.new(p_("SoundThemes", "default"), nil))
     loop_update
     @selt = @soundthemes.map { |s| s.name }
-    @sel = ListBox.new(@selt, p_("SoundThemes", "Sound themes"))
+    @sel = ListBox.new(@selt, p_("SoundThemes", "Sound themes"), 0, 0, false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update
@@ -112,7 +112,7 @@ class Scene_SoundThemes
       end
       [s.name, status]
     }
-    @sel = TableBox.new([nil, p_("SoundThemes", "Status")], sts, 0, p_("Soundthemes", "Select theme to download"))
+    @sel = TableBox.new([nil, p_("SoundThemes", "Status")], sts, 0, p_("Soundthemes", "Select theme to download"), false)
     loop do
       loop_update
       @sel.update

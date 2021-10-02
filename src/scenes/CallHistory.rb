@@ -42,7 +42,7 @@ class Scene_CallHistory
       r
     }
     selh = [nil, p_("CallHistory", "Type"), p_("CallHistory", "Status"), p_("CallHistory", "Time")]
-    @sel = TableBox.new(selh, selt, 0, p_("CallHistory", "Call History"))
+    @sel = TableBox.new(selh, selt, 0, p_("CallHistory", "Call History"), false)
     @sel.bind_context { |menu| context(menu) }
     loop do
       loop_update

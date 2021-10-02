@@ -145,9 +145,9 @@ class Scene_Login
       if Configuration.autologin == 1 && autologin.to_i != 3
         dialog_open
         if autologin.to_i == 0
-          @sel = ListBox.new([_("No"), _("Yes"), p_("Login", "Do not ask again")], p_("Login", "Do you want to enable auto log in for account %{user}?") % { "user" => name }, 0, ListBox::Flags::AnyDir)
+          @sel = ListBox.new([_("No"), _("Yes"), p_("Login", "Do not ask again")], p_("Login", "Do you want to enable auto log in for account %{user}?") % { "user" => name }, 0, ListBox::Flags::AnyDir, false)
         else
-          @sel = ListBox.new([_("No"), _("Yes")], p_("Login", "The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"), 0, ListBox::Flags::AnyDir)
+          @sel = ListBox.new([_("No"), _("Yes")], p_("Login", "The saved login data uses the old account authentication method in which  susceptibility to hacker attacks has been detected. New, safer automatic login  algorithms have been introduced in Elten 2.2. It is recommended that you convert  the saved information into a new system in order to improve the security of your  account. Do you want to update the saved information now?"), 0, ListBox::Flags::AnyDir, false)
         end
         loop do
           loop_update

@@ -5,7 +5,7 @@ class Scene_PremiumPackages
       $scene = Scene_Main.new
       return
     end
-    @sel = TableBox.new([nil, p_("PremiumPackages", "status"), p_("PremiumPackages", "Yearly price"), p_("PremiumPackages", "Half-yearly price"), p_("PremiumPackages", "Conversion price")], [], 0, p_("PremiumPackages", "Premium packages"), true)
+    @sel = TableBox.new([nil, p_("PremiumPackages", "status"), p_("PremiumPackages", "Yearly price"), p_("PremiumPackages", "Half-yearly price"), p_("PremiumPackages", "Conversion price")], [], 0, p_("PremiumPackages", "Premium packages"))
     @sel.bind_context { |menu| context(menu) }
     refresh
     @sel.focus
@@ -137,7 +137,7 @@ class Scene_PremiumPackages
     sactivate = p_("PremiumPackages", "Activate package using code")
     sactivate = p_("PremiumPackages", "Extend package using code") if package.totime > 0
     form = Form.new([
-      lst_profits = ListBox.new(package.profits, p_("PremiumPackages", "Profits of package %{name}") % { "name" => package.name }, 0, 0, true),
+      lst_profits = ListBox.new(package.profits, p_("PremiumPackages", "Profits of package %{name}") % { "name" => package.name }),
       btn_buy = Button.new(sbuy),
       btn_convert = Button.new(p_("PremiumPackages", "Convert")),
       btn_buycode = Button.new(p_("PremiumPackages", "Buy premium codes for use by any user")),
