@@ -282,6 +282,9 @@ class Scene_Blog_Create
 end
 
 class Scene_Blog_Posts
+  SORT_POSTS_BY_BLOG = 0
+  SORT_POSTS_BY_DATE = 1
+
   def initialize(owner, id, categoryselindex = 0, postselindex = 0, search = nil, page = 0)
     @owner = owner
     @id = id
@@ -393,6 +396,7 @@ class Scene_Blog_Posts
     end
     l = 3
     post = nil
+    @post = [] if @id == "NEWFOLLOWEDBLOGS"
     for i in 0...blogtemp[1].to_i
       post = Struct_Blog_Post.new(blogtemp[l].to_i)
       l += 1
@@ -424,6 +428,9 @@ class Scene_Blog_Posts
         @post.push(post)
       end
       l += 1
+    end
+    if @id == "NEWFOLLOWEDBLOGS" and LocalConfig["BlogPostsSortBy"] == SORT_POSTS_BY_DATE
+      @post = @post.sort_by { |p| p.date * -1 }
     end
     @sel.rows = @post.map { |s|
       tmp = ""
@@ -557,6 +564,24 @@ class Scene_Blog_Posts
         $scene = Scene_Blog_PostEditor.new(@owner, 0, @id, @categoryselindex)
       }
     end
+    if @id == "NEWFOLLOWEDBLOGS"
+      if LocalConfig["BlogPostsSortBy"] == SORT_POSTS_BY_BLOG
+        opt = p_("Blog", "Sort posts by date")
+      else
+        opt = p_("Blog", "Sort posts by blog")
+      end
+      menu.option(opt) {
+        if LocalConfig["BlogPostsSortBy"] == SORT_POSTS_BY_BLOG
+          LocalConfig["BlogPostsSortBy"] = SORT_POSTS_BY_DATE
+          info = p_("Blog", "Posts sorted by date.")
+        else
+          LocalConfig["BlogPostsSortBy"] = SORT_POSTS_BY_BLOG
+          info = p_("Blog", "Posts sorted by blog.")
+        end
+        load_posts(@page)
+        alert(info)
+      }
+    end # if @id=="NEWFOLLOWEDBLOGS"
   end
 end
 
