@@ -34,16 +34,21 @@ class Scene_SpeedTest
         waiting
         n = @form.fields[1].text.to_i
         times = []
+errors=0
         n.times {
           t = srvproc(mod, params, 3, nil, false)
+if t>0
           times.push(t)
+else
+errors+=1
+end
           loop_update
         }
         waiting_end
-        result = "#{p_("SpeedTest", "Average time")}: #{((times.sum).to_f / n.to_f * 1000).round}ms
+        result = "#{p_("SpeedTest", "Average time")}: #{((times.sum).to_f / n-errors.to_f * 1000).round}ms
 #{p_("SpeedTest", "Minimum time")}: #{((times.min) * 1000).round}ms
 #{p_("SpeedTest", "Maximum time")}: #{((times.max) * 1000).round}ms
-
+error count: #{errors}
 "
         for i in 0...n
           result += (i + 1).to_s + ". " + (times[i] * 1000).round.to_s + "ms\r\n"
