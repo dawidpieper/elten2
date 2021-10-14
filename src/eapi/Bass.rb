@@ -220,8 +220,7 @@ module Bass
     if BASS_Init.call(card, samplerate, 4, hWnd) == 0
       raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
     end
-    plugins = ["bassopus", "bassflac", "bassmidi", "basswebm", "basswma", "bass_aac", "bass_ac3", "bass_spx", "basshls"]
-    plugins.delete("bass_aac")
+    plugins = ["bassopus", "bassflac", "bassmidi", "basswebm", "basswma", "bass_aac", "bass_ac3", "bass_spx", "basshls", "bassalac"]
     for pl in plugins
       if BASS_PluginLoad.call("bin\\#{pl}.dll") == 0
         raise("BASS_ERROR_#{Errmsg[BASS_ErrorGetCode.call]}")
@@ -927,11 +926,16 @@ module Bass
       pt = [0].pack("Q")
       BASSELT_ChannelGetLengthPtr.call(@channel, 0, pt)
       bts = pt.unpack("Q").first + @startposition * @basefrequency * 4 * ch
+      return 0 if (bts.to_f.infinite?) != nil || bts.to_f.nan?
       return 0 if bts <= 0
       return bts if bytes == true
-      return [BASS_ChannelBytes2Seconds.call(@channel, bts)].pack("i").unpack("d")[0] if @type == 0
+      if @type == 0
+        r = [BASS_ChannelBytes2Seconds.call(@channel, bts)].pack("i").unpack("d")[0]
+        return 0 if (r.to_f.infinite?) != nil || r.to_f.nan?
+        return r
+      end
       r = bts.to_f / (@basefrequency * 4 * ch)
-      return 0 if r == (0.0 / 0.0)
+      return 0 if r.to_f.nan? || (r.to_f.infinite?) != nil
       return r
     rescue Exception
       return 0
@@ -951,7 +955,7 @@ module Bass
     end
 
     def position=(val, bytes = false)
-      return if val == (0.0 / 0.0)
+      return if val.to_f.nan?
       val = 0 if !val.is_a?(Numeric)
       return if @channel == nil
       val = 0 if val < 0
@@ -962,6 +966,7 @@ module Bass
         ch = 1 if ch == 0
         val = val * @basefrequency * 4 * ch
       end
+      return if val.to_f.nan?
       val = 0 if val < 0
       val = val.to_i
       v1, v2 = [val].pack("Q").unpack("II")

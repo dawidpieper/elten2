@@ -122,7 +122,7 @@ module EltenAPI
       return b
     end
 
-    def readurl(url, body = nil, headers = nil)
+    def read_url(url, method = :get, body = nil, headers = nil)
       Log.debug("Read URL #{url}")
       play("signal") if $netsignal
       headers = {} if headers == nil
@@ -141,7 +141,7 @@ module EltenAPI
       end
       if $agent != nil
         id = rand(1e16)
-        $agent.write(Marshal.dump({ "func" => "readurl", "url" => url, "id" => id, "headers" => headers, "body" => body }))
+        $agent.write(Marshal.dump({ "func" => "readurl", "url" => url, "id" => id, "headers" => headers, "body" => body, "method" => method.to_s }))
         $agids ||= []
         $agids.push(id)
         t = Time.now.to_f
@@ -168,9 +168,11 @@ module EltenAPI
         return nil if rsp == nil
         if headers != nil
           headers.clear
-          for l in rsp["headers"].split("\n")
-            k, v = l.split(": ")
-            headers[k] = v
+          j = JSON.load(rsp["headers"])
+          if j.is_a?(Hash)
+            for k, v in j
+              headers[k] = v
+            end
           end
         end
         return rsp["body"]
@@ -178,7 +180,7 @@ module EltenAPI
       return nil
     end
 
-    def downloadfile(source, destination, useWaiting = true, canCancel = true, override = false)
+    def download_file(source, destination, useWaiting = true, canCancel = true, override = false)
       return if override == false and FileTest.exists?(destination) and confirm(p_("EAPI_Network", "The file already exists. Do you want to override it?")) == 0
       Log.debug("Downloading file #{source}")
       play("signal") if $netsignal
@@ -215,6 +217,8 @@ module EltenAPI
         end
       end
     end
+
+    alias downloadfile download_file
 
     # Downloads a file, creates download progress dialog
     #

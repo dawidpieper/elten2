@@ -267,26 +267,27 @@ module EltenAPI
   # Wait for a specified time
   #
   # @param time [Float] a time to delay, in seconds
-  def delay(time = 0)
-    if time == 0
-      if $ruby != true
-        sec = Graphics.frame_rate
-      else
-        sec = 0.025
-      end
-      for i in 1..sec.to_f * 0.75
-        Graphics.update
-        break if !$key[0xd] and !$key[0x20] and i > 10
-      end
-      for i in 1..255
-        $keyms[i] = 70
-        $key[i] = false
-      end
-    else
-      for i in 1..Graphics.frame_rate * time
+  # @param breakOnEscape [Boolean] whether function should break if escape was pressed
+  #
+  # returns whether delay has been broken
+  def delay(time = 0, breakOnEscape = false, &breakProc)
+    for i in 1..Graphics.frame_rate * time
+      loop_update
+      if (breakOnEscape && escape) || (breakProc != nil && breakProc.call == true)
         loop_update
+        return true
       end
     end
+    return false
+  end
+
+  def delay_precise(time)
+    t = Time.now.to_f
+    fin = t + time
+    cs = 1.0 / Graphics.frame_rate
+    loop_update while fin - Time.now.to_f > cs * 2
+    sleep((fin - Time.now.to_f) * 0.8) while fin - Time.now.to_f > 0
+    return time
   end
 
   def readconfig(group, key, val = "")

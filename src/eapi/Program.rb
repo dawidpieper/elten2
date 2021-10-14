@@ -253,11 +253,12 @@ class Program
     return (self.class::Name) + "\r\n" + (self.class::Version) + "\r\n" + (self.class::Author)
   end
 
-  def appfile(file = "")
-    self.class.appfile(file)
+  def app_file(file = "")
+    self.class.app_file(file)
   end
 
-  def self.appfile(nfile = "")
+  alias appfile app_file
+  def self.app_file(nfile = "")
     dirs = Dir.entries(Dirs.apps)
     dirs.delete(".")
     dirs.delete("..")
@@ -272,6 +273,7 @@ class Program
     end
     return nfile
   end
+  def self.appfile(*arg); app_file(*arg); end
 
   def signaled(user, packet)
   end

@@ -18,8 +18,8 @@ module EltenAPI
     # @param pitch [Numeric] the pitch
     # @example
     #  play("listbox_focus",80,100)
-    def eplay(voice, volume = 100, pitch = 100, pan = 50)
-      if Configuration.soundthemeactivation != 0 or FileTest.exists?(voice)
+    def eplay(voice, volume = 100, pitch = 100, pan = 50, ignoreThemeSettings = false)
+      if Configuration.soundthemeactivation != 0 or FileTest.exists?(voice) or ignoreThemeSettings == true
         b = nil
         if volume >= 0
           volume = (volume.to_f * Configuration.volume.to_f / 100.0)
@@ -46,6 +46,22 @@ module EltenAPI
 
     def play(*arg)
       eplay(*arg)
+    end
+
+    def play_file(file, volume = 100, pitch = 100, pan = 50)
+      if FileTest.exists?(file)
+        stream = Bass::BASS_StreamCreateFile.call(0, file, 0, 0, 0, 0, 256 | 262144)
+        if pitch != 100
+          f = [0].pack("f")
+          Bass::BASS_ChannelGetAttribute.call(stream, 1, f)
+          frq = f.unpack("f").first
+          freq = frq * pitch / 100.0
+          Bass::BASS_ChannelSetAttribute.call(stream, 1, [freq.to_f].pack("f").unpack("I")[0])
+        end
+        Bass::BASS_ChannelSetAttribute.call(stream, 2, [volume.to_f / 100.0].pack("f").unpack("I")[0])
+        Bass::BASS_ChannelSetAttribute.call(stream, 3, [pan.to_f / 50.0 - 1.0].pack("f").unpack("I")[0])
+        Bass::BASS_ChannelPlay.call(stream, 0)
+      end
     end
 
     # The keyboard related functions

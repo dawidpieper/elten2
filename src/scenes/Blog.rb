@@ -492,6 +492,24 @@ class Scene_Blog_Posts
           postdelete
         }
       end
+      if @id == "NEWFOLLOWEDBLOGS"
+        if LocalConfig["BlogPostsSortBy"] == SORT_POSTS_BY_BLOG
+          opt = p_("Blog", "Sort posts by date")
+        else
+          opt = p_("Blog", "Sort posts by blog")
+        end
+        menu.option(opt) {
+          if LocalConfig["BlogPostsSortBy"] == SORT_POSTS_BY_BLOG
+            LocalConfig["BlogPostsSortBy"] = SORT_POSTS_BY_DATE
+            info = p_("Blog", "Posts sorted by date.")
+          else
+            LocalConfig["BlogPostsSortBy"] = SORT_POSTS_BY_BLOG
+            info = p_("Blog", "Posts sorted by blog.")
+          end
+          load_posts(@page)
+          alert(info)
+        }
+      end # if @id=="NEWFOLLOWEDBLOGS"
       menu.option(p_("Blog", "Mention post"), nil, "w") {
         users = []
         us = srvproc("contacts_addedme", {})
@@ -564,24 +582,6 @@ class Scene_Blog_Posts
         $scene = Scene_Blog_PostEditor.new(@owner, 0, @id, @categoryselindex)
       }
     end
-    if @id == "NEWFOLLOWEDBLOGS"
-      if LocalConfig["BlogPostsSortBy"] == SORT_POSTS_BY_BLOG
-        opt = p_("Blog", "Sort posts by date")
-      else
-        opt = p_("Blog", "Sort posts by blog")
-      end
-      menu.option(opt) {
-        if LocalConfig["BlogPostsSortBy"] == SORT_POSTS_BY_BLOG
-          LocalConfig["BlogPostsSortBy"] = SORT_POSTS_BY_DATE
-          info = p_("Blog", "Posts sorted by date.")
-        else
-          LocalConfig["BlogPostsSortBy"] = SORT_POSTS_BY_BLOG
-          info = p_("Blog", "Posts sorted by blog.")
-        end
-        load_posts(@page)
-        alert(info)
-      }
-    end # if @id=="NEWFOLLOWEDBLOGS"
   end
 end
 

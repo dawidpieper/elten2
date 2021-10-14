@@ -1971,7 +1971,7 @@ module EltenAPI
         if ((@lr and arrow_left) or (!@lr and arrow_up) or (@anydir and (arrow_left or arrow_up))) and !$keyr[0x10] and !$keyr[0x2D] and !$keyr[0x11]
           @run = true
           self.index -= 1
-          while hidden?(self.index) == true
+          while hidden?(self.index) == true && self.index >= 0
             self.index -= 1
           end
           if self.index < 0
@@ -2020,10 +2020,10 @@ module EltenAPI
           end
           ind = ind % (tgs.size + 1)
           if ind == 0
-            @tag = nil
+            self.tag = nil
             speak(p_("EAPI_Form", "All tags"))
           else
-            @tag = tgs[ind - 1]
+            self.tag = tgs[ind - 1]
             self.index += 1 while hidden?(self.index) and self.index < options.size - 1
             self.index -= 1 while hidden?(self.index) and self.index > 0
             o = options[self.index].gsub(/\[#{Regexp.escape(@tag)}\]/i, "")
@@ -2088,7 +2088,10 @@ module EltenAPI
             j = self.index
             l = k.chrsize == 1 ? 1 : 0
             m = false
-            j += ($keyr[0x10]) ? (-l) : (l)
+            adr = 1
+            kup = k.upcase
+            adr = -1 if $keyr[0x10] && kup != kup.downcase
+            j += adr * l
             loop do
               if j >= options.size || j <= -1
                 if !m
@@ -2098,11 +2101,11 @@ module EltenAPI
                   break
                 end
               end
-              if options[j] != nil and options[j][0...k.size].upcase == k.upcase and hidden?(j) != true
+              if options[j] != nil && !hidden?(j) && options[j][0...kup.size].upcase == kup
                 self.index = j
                 break
               end
-              j += ($keyr[0x10]) ? (-1) : (1)
+              j += adr
               break if j == self.index
             end
           elsif @hotkeys[i] != nil and !hidden?(@hotkeys[i])
@@ -2270,7 +2273,7 @@ module EltenAPI
       def hidden?(id)
         return false if id < 0 || id >= @options.size
         r = @grayed[id] == true
-        r = true if @tag != nil and !@options[id].downcase.include?("[" + @tag.downcase + "]")
+        r = true if @tag != nil and !@options[id].downcase.include?("[" + @tag_downcase + "]")
         return r
       end
 
@@ -2281,6 +2284,15 @@ module EltenAPI
         }
         tgs.delete(nil)
         return tgs.uniq
+      end
+
+      def tag=(t)
+        @tag = t
+        if t == nil
+          @tag_downcase = t
+        else
+          @tag_downcase = t.downcase
+        end
       end
 
       def multiselections
@@ -3453,7 +3465,7 @@ module EltenAPI
           waiting
           r = true
           if encoder::Extension.downcase == ".opus" && is_opus?
-            r = downloadfile(@file, pth)
+            r = download_file(@file, pth)
           else
             encoder.encode_file(@file, pth)
           end
@@ -4490,7 +4502,7 @@ module EltenAPI
           if force
             tmp = rand(36 ** 16).to_s(36)
             file = Dirs.temp + "\\" + tmp
-            downloadfile(@current_filename, file)
+            download_file(@current_filename, file)
             @current_filename = @filename = file
           else
             return nil

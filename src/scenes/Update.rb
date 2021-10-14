@@ -35,7 +35,7 @@ class Scene_Update
       Graphics.update
     end
     speak(p_("Update", "Please wait while files are downloaded."))
-    downloadfile($url + "bin/installer?branch=#{Elten.branch.urlenc}", Dirs.eltendata + "\\eltenup.exe", true, false, true)
+    download_file($url + "bin/installer?branch=#{Elten.branch.urlenc}", Dirs.eltendata + "\\eltenup.exe", true, false, true)
     speech_wait
     if Session.name != "" and Session.name != nil
       alert(p_("Update", "The update has been downloaded. To install it, the program must be restarted.  Press enter to continue or escape to cancel."))

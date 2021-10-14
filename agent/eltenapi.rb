@@ -236,6 +236,85 @@ module EltenAPI
     }
   end
 
+  def readurl(url, method = "get", body = "", headers = {}, data = nil, &b)
+    t = Thread.new {
+      begin
+        uri = URI.parse(url)
+        sock = TCPSocket.new(uri.host, uri.port)
+        io = sock
+        if uri.scheme == "https"
+          ssl = OpenSSL::SSL::SSLSocket.new(sock, OpenSSL::SSL::SSLContext.new)
+          ssl.connect
+          io = ssl
+        end
+        headers = {}
+        headers["User-Agent"] = "Elten #{$version} agent"
+        headers["Connection"] = "close"
+        headers["Accept-Encoding"] = "identity, chunked, *;q=0"
+        headers["Content-Length"] = (body || "").bytesize.to_s
+        s_headers = headers
+        hd = "#{method.upcase} " + uri.request_uri + " HTTP/1.1"
+        hd += "\r\nHost: #{uri.host}"
+        for k in headers.keys
+          hd += "\r\n" + k + ": " + headers[k]
+        end
+        hd += "\r\n\r\n"
+        io.write(hd)
+        io.write(body) if body != nil
+        hd = ""
+        l = ""
+        while l != "\r\n"
+          hd += (l = io.readline)
+        end
+        lines = hd.split("\r\n")
+        code = 0
+        ph = lines[0].split(" ")
+        if ph[0].upcase != "HTTP/1.1"
+          b.call(:error, data) if b != nil
+        else
+          headers = {}
+          for l in lines[1..-1]
+            nd = l.index(": ")
+            headers[l[0...nd]] = l[nd + 2..-1]
+          end
+          headers["Transfer-Encoding"] ||= "identity"
+          if headers["Location"] != nil
+            readurl(headers["Location"], method, body, s_headers, data, &b) if b != nil
+            Thread::current.exit
+          end
+          status = ph[1].to_i
+          if status < 200 || status >= 300
+            b.call(:error, data) if b != nil
+          else
+            tim = Time.now.to_f
+            res = StringIO.new
+            case headers["Transfer-Encoding"]
+            when "identity"
+              while !io.eof?
+                dwn = io.read(16384)
+                res.write(dwn)
+              end
+              b.call(res.string, data) if b != nil
+            when "chunked"
+              body = ""
+              while !io.eof?
+                cnt = io.readline.to_i(16)
+                break if cnt == 0
+                res.write(io.read(cnt))
+                io.read(2)
+              end
+              b.call(res.string, data, headers) if b != nil
+            else
+              b.call(:error, data)
+            end
+          end
+        end
+      rescue Exception
+        log(2, "readurl worker error: " + $!.to_s + " " + $@.to_s)
+      end
+    }
+  end
+
   def perequest(mod, param, post = nil, headers = {}, data = nil, ign = false, &b)
     t = Thread.new {
       begin

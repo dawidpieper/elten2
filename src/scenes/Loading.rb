@@ -374,7 +374,7 @@ If the problem occurs, please contact Elten support"
       $scene = Scene_Login.new
       return
     end
-    @cw = ListBox.new([p_("Loading", "Log in"), p_("Loading", "Register"), p_("Loading", "Password reset"), p_("Loading", "Use guest account"), p_("Loading", "Settings"), p_("Loading", "Reinstall"), _("Exit")], 0, 0, false)
+    @cw = ListBox.new([p_("Loading", "Log in"), p_("Loading", "Register"), p_("Loading", "Password reset"), p_("Loading", "Use guest account"), p_("Loading", "Settings"), p_("Loading", "Reinstall"), _("Exit")], "", 0, 0, false)
     loop do
       loop_update
       @cw.update

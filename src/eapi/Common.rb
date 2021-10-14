@@ -703,7 +703,7 @@ module EltenAPI
       if File.extname(file).downcase == ".mid" and FileTest.exists?(Dirs.extras + "\\soundfont.sf2") == false
         if confirm(p_("EAPI_Common", "You are trying to play a midi file. In order to play such files, Elten needs an  external base of instruments. Do you want to download the base from the server  now? It may take several minutes.")) == 1
           alert(p_("EAPI_Common", "Please wait, the soundfont is being downloaded. It may take a while."))
-          downloadfile($url + "extras/soundfont.sf2", Dirs.extras + "\\soundfont.sf2")
+          download_file($url + "extras/soundfont.sf2", Dirs.extras + "\\soundfont.sf2")
           alert(p_("EAPI_Common", "Soundfont downloaded succesfully."))
           Win32API.new("bass", "BASS_SetConfigPtr", "ip", "l").call(0x10403, Dirs.extras + "\\soundfont.sf2")
         else
@@ -899,7 +899,7 @@ module EltenAPI
         return false
       else
         if confirm(p_("EAPI_Common", "In order to use HRTF functionality, Elten needs to download Phonon library. Would you like to download it now?")) == 1
-          downloadfile($url + "/extras/phonon.dll", Dirs.extras + "\\phonon.dll", true, false, true)
+          download_file($url + "/extras/phonon.dll", Dirs.extras + "\\phonon.dll", true, false, true)
           return load_hrtf
         else
           return false
@@ -1196,7 +1196,7 @@ module EltenAPI
         loc = get_file(p_("EAPI_Common", "Where do you want to save this file?"), Dirs.user + "\\", true, "Documents")
         if loc != nil
           waiting
-          downloadfile($url + "attachments/" + id.to_s, loc + "\\" + name)
+          download_file($url + "attachments/" + id.to_s, loc + "\\" + name)
           speak(p_("EAPI_Common", "The attachment has been downloaded."))
           waiting_end
         else

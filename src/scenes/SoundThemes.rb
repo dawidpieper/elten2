@@ -139,7 +139,7 @@ class Scene_SoundThemes
   end
 
   def downloadtheme(st)
-    downloadfile($url + "/soundthemes/" + st.file, Dirs.soundthemes + "/" + st.file.delete("/\\"), true, true, true)
+    download_file($url + "/soundthemes/" + st.file, Dirs.soundthemes + "/" + st.file.delete("/\\"), true, true, true)
     alert(_("Saved"))
     main
     return

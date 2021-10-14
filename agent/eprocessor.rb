@@ -20,64 +20,6 @@ module EProcessor
       }
     end
 
-    def readurl(data)
-      uri = URI.parse(data["url"])
-      s = TCPSocket.new(uri.host, uri.port)
-      if uri.scheme == "https"
-        ctx = OpenSSL::SSL::SSLContext.new
-        ctx.alpn_protocols = [DRAFT]
-        sock = OpenSSL::SSL::SSLSocket.new(s, ctx)
-        sock.sync_close = true
-        sock.hostname = uri.host
-        sock.connect
-      else
-        sock = s
-      end
-      http = HTTP2::Client.new
-      http.on(:frame) { |bytes|
-        sock.print bytes
-        sock.flush
-      }
-      sockthread = Thread.new {
-        while !sock.closed? && !sock.eof?
-          dt = sock.read_nonblock(1024)
-          http << dt
-        end
-      }
-      stream = http.new_stream
-      head = {
-        ":scheme" => uri.scheme,
-        ":authority" => "#{uri.host}:#{uri.port}",
-        ":path" => uri.path,
-        "User-Agent" => "Elten #{$version} agent",
-        "Connection" => "close"
-      }
-      head[":method"] = data["method"] || "GET"
-      head["content-length"] = data["body"].bytesize if data["body"] != nil
-      data["headers"].keys.each { |k| head[k] = data["headers"][k] } if data["headers"].is_a?(Hash)
-      stream.headers(head, end_stream: (data["body"] == nil || data["body"] == ""))
-      if data["body"] != nil && data["body"] != ""
-        until data["body"].empty?
-          ch = data["body"].slice!(0...4096)
-          stream.data(ch, end_stream: (data["body"].empty?))
-        end
-      end
-      headers = {}
-      body = ""
-      stream.on(:headers) { |hd| headers = hd.map { |h| h[0] + ": " + h[1] }.join("\n") }
-      stream.on(:data) { |ch| body += ch }
-      stream.on(:half_close) { stream.close }
-      stream.on(:close) {
-        http.goaway
-        sock.close
-        d = { "func" => "readurl" }
-        d["id"] = data["id"]
-        d["body"] = body
-        d["headers"] = headers
-        ewrite(d)
-      }
-    end
-
     def conference_open(data)
       begin
         $conference.free if $conference != nil
@@ -416,7 +358,15 @@ module EProcessor
       when "srvverify"
         srvverify
       when "readurl"
-        readurl(data)
+        readurl(data["url"], data["method"], data["body"], data["headers"], data) { |body, data, headers|
+          if body != nil && body != :error
+            d = { "func" => "readurl" }
+            d["id"] = data["id"]
+            d["body"] = body
+            d["headers"] = JSON.generate(headers)
+            ewrite(d)
+          end
+        }
       when "superpid"
         $superpid = data["superpid"] if data["superpid"].is_a?(Integer)
       when "eltsock_create"

@@ -3281,7 +3281,7 @@ class Scene_Forum_Thread
               alert(_("Error"))
             end
           }
-          m.option(p_("Forum", "Delete post")) {
+          m.option(p_("Forum", "Delete post"), nil, "-") {
             confirm(p_("Forum", "Are you sure you want to delete this post?")) do
               prm = ""
               if @posts.size == 1
@@ -3498,7 +3498,7 @@ class Scene_Forum_Thread
 
   def getcache
     c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 3, "zs" => 1 }, 1)
-    return if c[0...c.index("\r")].to_i < 0
+    return if c[0...(c.index("\r") || c.size)].to_i < 0
     c = ("0\r\n" + zstd_decompress(c[3..-1])).split("\r\n").map { |a| a + "\r\n" }
     @cache = c
     @cachetime = c[1].to_i

@@ -1217,7 +1217,7 @@ class Conference
     attr_reader :name, :id, :mutex, :buf, :channels, :output, :listener, :encoder, :sources, :locally_muted
 
     def initialize(name, id, channels, x, y)
-      @name, @id, @x, @y = name, id, x, y
+      @name, @id, @x, @y = name.encode("UTF-8", invalid: :replace, undef: :replace), id, x, y
       @buf = ""
       @mutex = Mutex.new
       @encoder = Opus::Encoder.new(48000, channels)
@@ -2432,6 +2432,8 @@ class Conference
   def streams_callback
     hs = { streams: @outstreams.map { |s| { name: s.name, sources: sources_builder(s.sources), volume: s.volume, x: s.x, y: s.y, locally_muted: s.locally_muted } }, sources: sources_builder(@sources) }
     @mystreams_hooks.each { |h| h.call(hs) }
+  rescue Exception
+    log(2, "Streams callback: #{$!.message}")
   end
 
   def userid

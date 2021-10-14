@@ -260,10 +260,14 @@ class String
   end
 
   alias strupcase upcase
+  @@charUpperBuffW = nil
 
   def upcase
     d = unicode(self)
-    Win32API.new("user32", "CharUpperBuffW", "pi", "i").call(d, d.size / 2)
+    if @@charUpperBuffW == nil
+      @@charUpperBuffW = Win32API.new("user32", "CharUpperBuffW", "pi", "i")
+    end
+    @@charUpperBuffW.call(d, d.size / 2)
     return deunicode(d)
   end
 
