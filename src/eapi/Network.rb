@@ -137,7 +137,7 @@ module EltenAPI
         end
         txt += "--#{boundary}--"
         body = txt
-        headers["Content-Type"] = "multipart/form-data; boundary=#{boundary}" if headers["Content Type"]=nil
+        headers["Content-Type"] = "multipart/form-data; boundary=#{boundary}" if headers["Content Type"]==nil
       end
       if $agent != nil
         id = rand(1e16)
