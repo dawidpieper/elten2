@@ -367,6 +367,18 @@ module EProcessor
             ewrite(d)
           end
         }
+      when "jsonload"
+        Thread.new {
+          j = nil
+          begin
+            j = JSON.load(data["json"])
+          rescue Exception
+          end
+          d = { "func" => "jsonload" }
+          d["id"] = data["id"]
+          d["result"] = Marshal.dump(j)
+          ewrite(d)
+        }
       when "superpid"
         $superpid = data["superpid"] if data["superpid"].is_a?(Integer)
       when "eltsock_create"

@@ -478,9 +478,7 @@ module EltenAPI
       end
       di = createdebuginfo
       info += di
-      info.gsub!("\r\n", "\004LINE\004")
-      buf = buffer(info)
-      bugtemp = srvproc("bug", { "buffer" => buf })
+      bugtemp = srvproc("bug", {}, 0, { "buginfo" => info })
       err = bugtemp[0].to_i
       if err != 0
         alert(_("Error"))
@@ -1255,6 +1253,25 @@ module EltenAPI
         Conference.calling_play if invite.size == 1
       end
       insert_scene(sc)
+    end
+
+    def json_load_ext(str)
+      Log.debug("JSON Load Ext")
+      if $agent != nil
+        id = rand(1e16)
+        $agids ||= []
+        $agids.push(id)
+        $agent.write(Marshal.dump({ "func" => "jsonload", "json" => str, "id" => id }))
+        t = Time.now.to_f
+        while $eresps[id] == nil
+          loop_update(false)
+        end
+        rsp = $eresps[id]
+        $eresps.delete(id)
+        return nil if rsp == nil
+        return secure_wait { Marshal.load(rsp["result"]) }
+      end
+      return nil
     end
   end
 

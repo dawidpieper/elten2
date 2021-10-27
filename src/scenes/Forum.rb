@@ -1865,6 +1865,8 @@ class Scene_Forum
   end
 
   def threadopen(index)
+    g = @sthreads[index].forum.group
+    groupmotddlg(g, false) if g.hasnewmotd
     if @group == -5
       $scene = Scene_Forum_Thread.new(@sthreads[index], -5, @cat, @query)
     else

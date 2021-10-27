@@ -305,14 +305,13 @@ class Scene_Polls_Create
       return
     end
     qus = JSON.generate(@questions)
-    dbuffer = buffer(@fields[1].text)
-    qbuffer = buffer(qus)
-    prm = { "create" => "1", "qbuffer" => qbuffer.to_s, "dbuffer" => dbuffer.to_s, "pollname" => @fields[0].text, "lng" => @ln[@form.fields[2].index], "hidden" => @fields[7].checked.to_i }
+    pp = { "questions" => qus, "description" => @fields[1].text }
+    prm = { "create" => "1", "pollname" => @fields[0].text, "lng" => @ln[@form.fields[2].index], "hidden" => @fields[7].checked.to_i }
     if @fields[4].checked.to_i == 1
       prm["expirydate"] = Time.local(@fields[5].year, @fields[5].month, @fields[5].day, @fields[5].hour, @fields[5].min, @fields[5].sec).to_i
       prm["hideresults"] = @fields[6].checked.to_i
     end
-    pl = srvproc("polls", prm)
+    pl = srvproc("polls", prm, 0, pp)
     if pl[0].to_i < 0
       alert(_("Error"))
     else
@@ -413,8 +412,7 @@ class Scene_Polls_Answer
             end
           end
           ans.chop!
-          buf = buffer(ans)
-          pl = srvproc("polls", { "answer" => 1, "poll" => @id.to_s, "buffer" => buf.to_s })
+          pl = srvproc("polls", { "answer" => 1, "poll" => @id.to_s }, 0, { "answers" => ans })
           if pl[0].to_i < 0
             alert(_("Error"))
           else

@@ -470,6 +470,9 @@ module EltenAPI
           elsif d["func"] == "readurl"
             $agids.delete(d["id"])
             $eresps[d["id"]] = d
+          elsif d["func"] == "jsonload"
+            $agids.delete(d["id"])
+            $eresps[d["id"]] = d
           elsif d["func"] == "jproc"
             $agids.delete(d["id"])
             $jresps[d["id"]] = d

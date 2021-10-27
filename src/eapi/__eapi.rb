@@ -290,6 +290,25 @@ module EltenAPI
     return time
   end
 
+  def secure_wait(timeout = 0, &b)
+    raise(ArgumentError, "No block given") if b == nil
+    raise(ArgumentError, "timeout must be numeric") if !timeout.is_a?(Numeric)
+    st = nil
+    th = Thread.new { st = b.call }
+    tim = sttim = Time.now.to_f
+    while th.status != false && th.status != nil
+      if Time.now.to_f - tim > 1
+        loop_update
+        tim = Time.now.to_f
+      end
+      if Time.now.to_f - sttim > timeout && timeout > 0
+        th.exit
+        return nil
+      end
+    end
+    return st
+  end
+
   def readconfig(group, key, val = "")
     r = readini(Dirs.eltendata + "\\elten.ini", group, key, "$DEFAULT")
     if r == "$DEFAULT"

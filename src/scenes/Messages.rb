@@ -997,13 +997,13 @@ class Scene_Messages_New
     end
     msgtemp = ""
     prm = { "to" => receiver, "subject" => subject }
-    prm["bufatt"] = buffer(@att) if @att != "" and @att != nil
     prm["polls"] = @polls.map { |l| l.to_s }.join(",") if @polls.size > 0
+    post = {}
+    post["attachments"] = @att if @att != "" and @att != nil
     if @form.fields[3] == nil or @form.fields[3].empty?
       tmp = ""
       tmp = "admin_" if @form.index == 7
       msgtemp = ""
-      post = {}
       if text.size < 1024
         post["text"] = text
       else
@@ -1019,7 +1019,8 @@ class Scene_Messages_New
       end
       prm["audio"] = 1
       prm["datasize"] = fl.size
-      msgtemp = srvproc("message_send", prm, 0, { "data" => fl })
+      post["data"] = fl
+      msgtemp = srvproc("message_send", prm, 0, post)
       f.delete_audio(true)
       waiting_end
     end

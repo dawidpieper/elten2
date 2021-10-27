@@ -1091,7 +1091,7 @@ class Conference
 
     def initialize(file)
       @file = file
-      @name = File.basename(file, File.extname(file))
+      @name = File.basename(file, File.extname(file)).encode("UTF-8", invalid: :replace, undef: :replace)
       @stream = Bass::BASS_StreamCreateFile.call(0, unicode(file), 0, 0, 0, 0, [256 | 0x80000000 | 0x200000].pack("I").unpack("i").first)
       @paused = false
     end
@@ -2430,7 +2430,7 @@ class Conference
   end
 
   def streams_callback
-    hs = { streams: @outstreams.map { |s| { name: s.name, sources: sources_builder(s.sources), volume: s.volume, x: s.x, y: s.y, locally_muted: s.locally_muted } }, sources: sources_builder(@sources) }
+    hs = { streams: @outstreams.map { |s| { name: s.name.encode("UTF-8", invalid: :replace, undef: :replace), sources: sources_builder(s.sources), volume: s.volume, x: s.x, y: s.y, locally_muted: s.locally_muted } }, sources: sources_builder(@sources) }
     @mystreams_hooks.each { |h| h.call(hs) }
   rescue Exception
     log(2, "Streams callback: #{$!.message}")
@@ -2452,7 +2452,7 @@ class Conference
   end
 
   def sources_builder(s)
-    return s.map { |c| { name: c.name, volume: c.volume, scrollable: c.scrollable?, toggleable: c.toggleable? } }
+    return s.map { |c| { name: c.name.encode("UTF-8", invalid: :replace, undef: :replace), volume: c.volume, scrollable: c.scrollable?, toggleable: c.toggleable? } }
   end
 
   def prepare_mixers

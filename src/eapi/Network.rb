@@ -165,6 +165,7 @@ module EltenAPI
         end
         waiting_end if w
         rsp = $eresps[id]
+        $eresps.delete(id)
         return nil if rsp == nil
         if headers != nil
           headers.clear

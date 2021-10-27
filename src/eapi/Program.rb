@@ -284,7 +284,7 @@ class Program
     appid = self.class::AppID
     fail(RuntimeError, "AppID not set") if appid == 0 or !appid.is_a?(Integer)
     pc = JSON.generate(packet)
-    r = srvproc("apps_signal", { "ac" => "create", "appid" => appid, "buf" => buffer(pc), "user" => user })
+    r = srvproc("apps_signal", { "ac" => "create", "appid" => appid, "user" => user }, 0, { "packet" => pc })
     return r[0].to_i == 0
   end
 

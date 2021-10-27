@@ -679,6 +679,9 @@ module Bass
         n = ["", "", "", 0.0].pack(pc)
         BASS_VST_GetParamInfo.call(@vst, @index, n)
         @name, @unit, @display, @default = n.unpack(pc)
+        @name = @name.force_encoding("UTF-8")
+        @unit = @unit.force_encoding("UTF-8")
+        @display = @display.force_encoding("UTF-8")
         @value = BASS_VST_GetParam.call(@vst, @index)
       end
     end
@@ -739,7 +742,7 @@ module Bass
     end
 
     def name
-      info[2]
+      info[2].force_encoding("UTF-8")
     end
 
     def version
@@ -795,6 +798,7 @@ module Bass
         programs[i] = "\0" * 24
         $strcpy.call(programs[i], a)
         programs[i].delete!("\0")
+        programs[i] = programs[i].force_encoding("UTF-8")
       end
       programs
     end

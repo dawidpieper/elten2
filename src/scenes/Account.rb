@@ -116,8 +116,7 @@ class Scene_Account
       Session.languages = v if k == "languages"
     end
     json = JSON.generate(j)
-    b = buffer(json)
-    srvproc("account", { "ac" => "set", "buffer" => b })
+    srvproc("account", { "ac" => "set" }, 0, "js" => json)
   end
 
   def make_window
