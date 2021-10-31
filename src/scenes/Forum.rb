@@ -854,6 +854,15 @@ class Scene_Forum
           input_text(p_("Forum", "Post"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, report.postvalue, true)
           loop_update
         }
+        menu.option(p_("Forum", "Go to reported post"), nil, "o") {
+          thread = @threads.find { |t| t.id == report.thread }
+          if thread == nil
+            alert(p_("Forum", "The searched thread has been already deleted."))
+          else
+            insert_scene(Scene_Forum_Thread.new(thread, -13, 0, report.post, nil, Scene_Main.new))
+            loop_update
+          end
+        }
         if group.role == 2 && !report.solved
           menu.option(p_("Forum", "Resolve")) {
             groupreportresolver(group, report)
@@ -1678,6 +1687,8 @@ class Scene_Forum
     end
     @sthreads = @threads.map { |t|
       case id
+      when -13
+        []
       when -12
         if @groups.find_all { |g| g.role == 2 }.map { |g| g.id }.include?(t.offered)
           t
@@ -2808,6 +2819,7 @@ class Scene_Forum_Thread
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.post.downcase.include?(@query.phrase.downcase) && @query.phrase_in.include?(:content)
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.author.downcase == @query.phrase.downcase && @query.phrase_in.include?(:author)
       index = i * 3 if @mention != nil and (@param == -7 or @param == -11) and post.id == @mention.post
+      index = i * 3 if index == -1 and @param == -13 and @query.is_a?(Numeric) and @query == post.id
       @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, generate_posttext(post), true), nil, nil]
       if @sponsors.include?(post.author)
         @fields[-3].add_sound("user_sponsor")

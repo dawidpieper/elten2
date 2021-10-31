@@ -868,6 +868,16 @@ module EltenAPI
 
     Configuration.autologin = readconfig("Login", "EnableAutoLogin", 1)
     setlocale(Configuration.language) if lang != Configuration.language
+    if Configuration.registeractivity == -1
+      Configuration.registeractivity = confirm(p_("EAPI_EltenAPI", "Do you want to send reports on how Elten is used? This data does not contain any confidential information and is very helpful in program development. This selection can be changed at any time from the Settings.")).to_i
+      writeconfig("Privacy", "RegisterActivity", Configuration.registeractivity)
+    end
+    if Elten.isbeta != 0 && Configuration.registeractivity == 0
+      delay(1)
+      alert(p_("EAPI_EltenAPI", "You are currently using a beta version of Elten. In these versions, uploading usage statistics is always enabled. They contain information about the most frequently used functions, configurations and problems with program operation. They do not contain any confidential or private information. If you do not want to send statistics, please use the stable version of Elten."))
+      Configuration.registeractivity = 1
+      writeconfig("Privacy", "RegisterActivity", Configuration.registeractivity)
+    end
   end
 
   def zstd_decompress(s)

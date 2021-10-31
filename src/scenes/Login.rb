@@ -77,10 +77,10 @@ class Scene_Login
     b = 0
     b = $beta if $isbeta == 1
     b = $alpha if $isbeta == 2
-    password = "" if autologin.to_i == 2
+    password = "" if autologin.to_i == 2 && @skipauto != true
     suc = false
     while suc == false
-      if token != ""
+      if token != "" && @skipauto != true
         logintemp = srvproc("login", { "login" => "1", "name" => name, "token" => token, "version" => ver.to_s, "beta" => b.to_s, "appid" => $appid, "lang" => Configuration.language, "crp" => cryptmessage(JSON.generate({ "name" => name, "time" => Time.now.to_i })), "output" => 1, "authmethod" => "list" })
       else
         logintemp = srvproc("login", { "login" => "1", "name" => name, "password" => password, "version" => ver.to_s, "beta" => b.to_s, "appid" => $appid, "lang" => Configuration.language, "crp" => cryptmessage(JSON.generate({ "name" => name, "time" => Time.now.to_i })), "output" => 1, "authmethod" => "list" })

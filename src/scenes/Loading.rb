@@ -191,7 +191,6 @@ If the problem occurs, please contact Elten support"
     $alpha = Elten.alpha
     $version = Elten.version
     $isbeta = Elten.isbeta
-    speech_stop
     startmessage = "ELTEN: " + $version.to_s.delete(".").split("").join(".")
     startmessage += " BETA #{$beta.to_s}" if $isbeta == 1
     startmessage += " RC #{$alpha.to_s}" if $isbeta == 2
@@ -310,7 +309,7 @@ If the problem occurs, please contact Elten support"
       end
     end
     $srvverify = nil
-    speak(startmessage) if $silentstart != true
+    alert(startmessage) if $silentstart != true
     $speech_wait = true if $silentstart != true
     if Configuration.checkupdates == 1
       bid = srvproc("bin/buildid", { "branch" => Elten.branch, "build_id" => Elten.build_id }, 1).to_i
@@ -365,10 +364,6 @@ If the problem occurs, please contact Elten support"
     end
     Programs.load_all
     QuickActions.load_actions
-    if Configuration.registeractivity == -1
-      Configuration.registeractivity = confirm(p_("EAPI_EltenAPI", "Do you want to send reports on how Elten is used? This data does not contain any confidential information and is very helpful in program development. This selection can be changed at any time from the Settings.")).to_i
-      writeconfig("Privacy", "RegisterActivity", Configuration.registeractivity)
-    end
     if FileTest.exists?(Dirs.eltendata + "\\login.dat") and $offline != true and @skiplogin == false
       Log.info("Processing with autologin")
       $scene = Scene_Login.new

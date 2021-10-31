@@ -1178,13 +1178,16 @@ class Conference
       if r == 0
         r = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
       end
-      for freq in [192000, 176400, 96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 8000]
-        r = Bass::BASS_RecordStart.call(freq, 0, 256, 0, 0)
-        break if r != 0
-        for ch in (1..16).to_a.reverse
-          r = Bass::BASS_RecordStart.call(freq, ch, 256, 0, 0)
+      if r == 0
+        for freq in [192000, 176400, 96000, 88200, 64000, 48000, 44100, 32000, 24000, 22050, 16000, 8000]
+          r = Bass::BASS_RecordStart.call(freq, 0, 256, 0, 0)
           break if r != 0
-          r = Bass::BASS_RecordStart.call(freq, ch, 0, 0, 0)
+          for ch in (1..16).to_a.reverse
+            r = Bass::BASS_RecordStart.call(freq, ch, 256, 0, 0)
+            break if r != 0
+            r = Bass::BASS_RecordStart.call(freq, ch, 0, 0, 0)
+            break if r != 0
+          end
           break if r != 0
         end
       end
@@ -2522,13 +2525,16 @@ class Conference
     if r == 0
       r = Bass::BASS_RecordStart.call(0, 0, 0, 0, 0)
     end
-    for freq in [48000, 44100, 96000, 88200, 192000, 176400, 384000, 64000, 32000, 24000, 22050, 16000, 8000]
-      r = Bass::BASS_RecordStart.call(freq, 0, 256, 0, 0)
-      break if r != 0
-      for ch in (1..16).to_a.reverse
-        r = Bass::BASS_RecordStart.call(freq, ch, 256, 0, 0)
+    if r == 0
+      for freq in [48000, 44100, 96000, 88200, 192000, 176400, 384000, 64000, 32000, 24000, 22050, 16000, 8000]
+        r = Bass::BASS_RecordStart.call(freq, 0, 256, 0, 0)
         break if r != 0
-        r = Bass::BASS_RecordStart.call(freq, ch, 0, 0, 0)
+        for ch in (1..16).to_a.reverse
+          r = Bass::BASS_RecordStart.call(freq, ch, 256, 0, 0)
+          break if r != 0
+          r = Bass::BASS_RecordStart.call(freq, ch, 0, 0, 0)
+          break if r != 0
+        end
         break if r != 0
       end
     end

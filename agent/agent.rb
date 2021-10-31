@@ -244,7 +244,7 @@ begin
   def fetch_feeds
     $feedstime ||= 0
     return if $name == nil || $name == "" || $name == "guest"
-    erequest("feeds", "name=#{$name}\&token=#{$token}\&ac=showcontacted\&time=#{$feedstime}\&details=2") { |d|
+    erequest("feeds", "name=#{$name}\&token=#{$token}\&ac=showfollowed\&time=#{$feedstime}\&details=2") { |d|
       begin
         if d.is_a?(String)
           l = d.force_encoding("UTF-8").split("\r\n")

@@ -401,7 +401,7 @@ module JSON
   # This method is part of the implementation of the load/dump interface of
   # Marshal and YAML.
   def load(source, proc = nil, options = {})
-    if source.is_a?(String) && proc == nil && options == {} && source.size > 131072
+    if $agent != nil && source.is_a?(String) && proc == nil && options == {} && source.size > 131072
       return json_load_ext(source)
     end
     opts = load_default_options.merge options
