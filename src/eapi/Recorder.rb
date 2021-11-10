@@ -46,7 +46,7 @@ module OpusRecorder
       OpusRecording.new(file, bitrate, framesize, application, usevbr, timelimit)
     end
 
-    def encode_file(file, output, bitrate = 64, framesize = 60, application = 2048, usevbr = 1, timelimit = 0)
+    def encode_file(file, output, bitrate = 64, framesize = 60, application = 2048, usevbr = 1, timelimit = 0, tags = nil)
       w = Win32API.new($eltenlib, "OpusRecorderInit", "piiiiiiiiip", "i")
       pr = Win32API.new($eltenlib, "_OpusRecordProc@16", "ipii", "i")
       if file[0..4] == "http:" || file[0..5] == "https:"
@@ -54,20 +54,24 @@ module OpusRecorder
       else
         cha = Bass::BASS_StreamCreateFile.call(0, unicode(file), 0, 0, 0, 0, 0x80000000 | 0x200000 | 131072)
       end
-      ai = Bass::AudioInfo.new(cha)
-      chapters = ai.chapters
-      ch = []
-      for i in 0...chapters.size
-        c = chapters[i]
-        h = sprintf("CHAPTER%03d", i)
-        t = sprintf("%02d:%02d:%02d.%03d", c.time / 3600, (c.time / 60) % 60, c.time % 60, c.time - c.time.to_i)
-        ch.push("#{h}=#{t}")
-        ch.push("#{h}NAME=#{c.name}")
+      if tags == nil
+        tags = {}
+        ai = Bass::AudioInfo.new(cha)
+        chapters = ai.chapters
+        ch = []
+        for i in 0...chapters.size
+          c = chapters[i]
+          h = sprintf("CHAPTER%03d", i)
+          t = sprintf("%02d:%02d:%02d.%03d", c.time / 3600, (c.time / 60) % 60, c.time % 60, c.time - c.time.to_i)
+          tags[h] = t
+          tags["#{h}NAME"] = c.name
+        end
+        tags["TITLE"] = ai.title if ai.title != nil && ai.title != ""
+        tags["ARTIST"] = ai.artist if ai.artist != nil && ai.artist != ""
+        tags["ALBUM"] = ai.album if ai.album != nil && ai.album != ""
+        tags["TRACKNUMBER"] = ai.track_number if ai.track_number != nil && ai.track_number != ""
       end
-      ch.push("TITLE=#{ai.title}") if ai.title != nil && ai.title != ""
-      ch.push("ARTIST=#{ai.artist}") if ai.artist != nil && ai.artist != ""
-      ch.push("ALBUM=#{ai.album}") if ai.album != nil && ai.album != ""
-      ch.push("TRACKNUMBER=#{ai.track_number}") if ai.track_number != nil && ai.track_number != ""
+      ch = tags.map { |k, v| k + "=" + v }
       rinfo = [0, 0, 0, 0, 0, 0, 0, ""].pack("iiiiiiip")
       Bass::BASS_ChannelGetInfo.call(cha, rinfo)
       info = rinfo.unpack("iiiiiii")
@@ -90,6 +94,31 @@ module OpusRecorder
       end
       Bass::BASS_StreamFree.call(cha)
       Win32API.new($eltenlib, "OpusRecorderClose", "i", "i").call(r)
+      return t
+    end
+
+    def copy_file(source, destination, tags)
+      w = Win32API.new($eltenlib, "OpusRecorderInit", "piiiiiiiiip", "i")
+      s = Win32API.new($eltenlib, "OpusListenerInit", "p", "i")
+      cp = Win32API.new($eltenlib, "OpusCopyFrames", "iii", "i")
+      sr = Win32API.new($eltenlib, "OpusListenerGetSampleRate", "i", "i")
+      cc = Win32API.new($eltenlib, "OpusListenerGetChannels", "i", "i")
+      ch = tags.map { |k, v| k + "=" + v }
+      l = s.call(unicode(source))
+      channels = cc.call(l)
+      samplerate = sr.call(l)
+      r = w.call(unicode(destination), samplerate, channels, 64, 20, 2048, 0, 0, 0, ch.size, ch.pack("p*"))
+      tim = Time.now.to_f
+      t = 0
+      while (cn = cp.call(l, r, 50)) != 0
+        if Time.now.to_f - tim > 1
+          loop_update
+          tim = Time.now.to_f
+        end
+        t += cn
+      end
+      Win32API.new($eltenlib, "OpusRecorderClose", "i", "i").call(r)
+      Win32API.new($eltenlib, "OpusListenerClose", "i", "i").call(l)
       return t
     end
   end

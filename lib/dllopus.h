@@ -17,5 +17,13 @@ extern "C" {
 BOOL DLLIMPORT CALLBACK OpusRecordProc(int handle, const void *buffer, DWORD length, void *user);
 int DLLIMPORT OpusRecorderInit(wchar_t*, int, int, int, float, int, BOOL, BOOL, int, int, char**);
 void DLLIMPORT OpusRecorderClose(int);
+BOOL DLLIMPORT OpusRecorderAddFrame(int handle, const void *buffer, DWORD length, void *user);
+int DLLIMPORT OpusListenerInit(wchar_t *file);
+int DLLIMPORT OpusListenerGetSampleRate(int o);
+int DLLIMPORT OpusListenerGetChannels(int o);
+int DLLIMPORT OpusListenerGetNextFrame(int o, unsigned char *buf, int size);
+int DLLIMPORT OpusListenerGetPCM(int o, short *buf, int size);
+void DLLIMPORT OpusListenerClose(int o);
+int DLLIMPORT OpusCopyFrames(int o1, int o2, int count);
 }
 #endif

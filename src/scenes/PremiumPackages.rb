@@ -38,7 +38,6 @@ class Scene_PremiumPackages
 
   def get_audiophile
     return Struct_PremiumPackages_PremiumPackage.new("audiophile", p_("PremiumPackages", "Audiophile"), [
-             p_("PremiumPackages", "Downloading of soundthemes"),
              p_("PremiumPackages", "Lifting the 2-minute limit for private voice messages"),
              p_("PremiumPackages", "Lifting the 32kbps quality limit in private voice messages"),
              p_("PremiumPackages", "Recording conferences"),
@@ -47,8 +46,9 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Changing HRTF dimensions"),
              p_("PremiumPackages", "Setting different output soundcard for conferences than the one selected in Elten"),
              p_("PremiumPackages", "Using VST plugins in conferences"),
-             p_("PremiumPackages", "Setting specific ringtones for users")
-           #p_("PremiumPackages", "Placing beacons in HRTF channels"),
+             p_("PremiumPackages", "Setting specific ringtones for users"),
+             #p_("PremiumPackages", "Placing beacons in HRTF channels"),
+             p_("PremiumPackages", "Splitting audio into chapters")
            ])
   end
 

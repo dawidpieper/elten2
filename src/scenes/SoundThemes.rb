@@ -43,12 +43,10 @@ class Scene_SoundThemes
     menu.option(p_("SoundThemes", "Select")) {
       seltheme(@soundthemes[@sel.index])
     }
-    if holds_premiumpackage("audiophile")
-      menu.option(p_("SoundThemes", "Download sound themes"), nil, "d") {
-        stdownload
-        @return = true
-      }
-    end
+    menu.option(p_("SoundThemes", "Download sound themes"), nil, "d") {
+      stdownload
+      @return = true
+    }
     menu.option(p_("SoundThemes", "New"), nil, "n") {
       $scene = Scene_Sounds.new("")
     }

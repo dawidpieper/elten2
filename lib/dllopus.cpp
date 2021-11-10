@@ -1,4 +1,4 @@
-/*
+ /*
 A part of Elten - EltenLink / Elten Network desktop client.
 Copyright (C) 2014-2020 Dawid Pieper
 Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3. 
@@ -376,4 +376,225 @@ memcpy(opus->pcm_buf, &opus->pcm_buf[bsize], opus->pcm_pos*2);
 }
 opus->locked=false;
 return true;
+}
+
+BOOL OpusRecorderAddFrame(int handle, const void *buffer, DWORD length, void *user) {
+if(length>16384) return 0;
+if(user==NULL) return 0;
+OpusRecording *opus = (OpusRecording*)user;
+if(opus==NULL) return 0;
+while(opus->locked);
+opus->locked=true;
+if(opus->op.bytes>0)
+ogg_stream_packetin (&opus->os, &opus->op);
+while(ogg_stream_pageout(&opus->os, &opus->og) != 0)
+opus_write_page(opus);
+memcpy(opus->buffer, buffer, length);
+ogg_packet op;
+op.b_o_s = 0;
+op.e_o_s = 0;
+opus->granulepos += opus->framesize;
+op.granulepos = opus->granulepos;
+op.packetno = opus->packetno++;
+op.packet = opus->buffer;
+op.bytes = length;
+opus->op=op;
+opus->locked=false;
+return length;
+}
+
+typedef struct OpusListening {
+ogg_stream_state os;
+ogg_sync_state oy;
+ogg_page og;
+ogg_packet op;
+OpusDecoder *decoder;
+OpusHeader *header;
+unsigned char header_data[1024];
+unsigned char *tags;
+int tags_size;
+int header_size;
+int packetno;
+ogg_int64_t granulepos;
+int last_bitrate;
+void *buffer;
+unsigned char last_frame[1500];
+int last_frame_bytes=0;
+HANDLE file;
+int last_framesize;
+} OpusListening;
+
+ogg_uint32_t opus_listening_read_uint32(OpusPacket *p) {
+if (p->pos>p->size-4) return 0;
+ogg_uint32_t val = (p->data[p->pos]) +
+(p->data[p->pos+1]<<8) +
+(p->data[p->pos+2]<<16) +
+(p->data[p->pos+3]<<24);
+p->pos += 4;
+return val;
+}
+
+ogg_uint16_t  opus_listening_read_uint16(OpusPacket *p) {
+if (p->pos>p->size-2) return 0;
+ogg_uint16_t val = (p->data[p->pos]) +
+(p->data[p->pos+1]<<16);
+p->pos += 2;
+return val;
+}
+
+unsigned char opus_listening_read_byte(OpusPacket *p) {
+if (p->pos>p->size-1) return 0;
+unsigned char val = p->data[p->pos];
+p->pos += 1;
+return val;
+}
+
+int opus_listening_read_chars(OpusPacket *p, unsigned char *str, int nb_chars) {
+if (p->pos>p->size-nb_chars) return 0;
+for (int i=0;i<nb_chars;++i)
+str[i] = p->data[p->pos++];
+return nb_chars;
+}
+
+int OpusListenerInit(wchar_t *file) {
+HANDLE hFile = CreateFile(file, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, NULL, NULL);
+if(hFile==0) return 0;
+
+OpusListening *opus = (OpusListening*)malloc(sizeof(OpusListening));
+if(opus==NULL) return 0;
+opus->file=hFile;
+opus->header = (OpusHeader *)malloc(sizeof(OpusHeader));
+if(opus->header==NULL) return 0;
+
+ogg_sync_init(&opus->oy);
+
+DWORD br=0;
+do {
+do {
+opus->buffer = ogg_sync_buffer(&opus->oy, 65536);
+ReadFile(opus->file, opus->buffer, 65536, &br, NULL);
+ogg_sync_wrote(&opus->oy, br);
+} while ((ogg_sync_pageout(&opus->oy, &opus->og) != 1));
+} while(!ogg_page_bos(&opus->og));
+int sn = ogg_page_serialno(&opus->og);
+ogg_stream_init(&opus->os, sn);
+ogg_stream_pagein(&opus->os, &opus->og);
+if(ogg_stream_packetout(&opus->os, &opus->op) != 1) return NULL;
+if(opus->op.bytes<8) return 0;
+if(opus->op.bytes>1024) return 0;
+OpusPacket p;
+p.data=opus->op.packet;
+p.size=opus->op.bytes;
+p.pos=0;
+unsigned char head[8];
+opus_listening_read_chars(&p, head, 8);
+if(strncmp((char*)head, "OpusHead", 8)!=0) return 0;
+opus->header->version = opus_listening_read_byte(&p);
+opus->header->channel_count = opus_listening_read_byte(&p);
+opus->header->preskip = opus_listening_read_uint16(&p);
+opus->header->input_samplerate = opus_listening_read_uint32(&p);
+opus->header->output_gain = opus_listening_read_uint16(&p);
+opus->header->mapping_family = opus_listening_read_byte(&p);
+if(opus->header->mapping_family!=0) {
+opus->header->stream_count = opus_listening_read_byte(&p);
+opus->header->coupled_count = opus_listening_read_byte(&p);
+opus_listening_read_chars(&p, opus->header->mapping, opus->header->channel_count);
+}
+memcpy(opus->header_data, opus->op.packet, opus->op.bytes);
+opus->header_size=opus->op.bytes;
+while(ogg_sync_pageout(&opus->oy, &opus->og) != 1) {
+opus->buffer = ogg_sync_buffer(&opus->oy, 65536);
+ReadFile(opus->file, opus->buffer, 65536, &br, NULL);
+ogg_sync_wrote(&opus->oy, br);
+}
+ogg_stream_pagein(&opus->os, &opus->og);
+if(ogg_stream_packetout(&opus->os, &opus->op) != 1) return NULL;
+if(opus->op.bytes<8) return 0;
+p.data=opus->op.packet;
+p.size=opus->op.bytes;
+p.pos=0;
+opus_listening_read_chars(&p, head, 8);
+if(strncmp((char*)head, "OpusTags", 8)!=0) return 0;
+	
+opus->tags = (unsigned char *)malloc(opus->op.bytes);
+memcpy(opus->tags, opus->op.packet, opus->op.bytes);
+opus->tags_size=opus->op.bytes;
+
+int err;
+opus->decoder = opus_decoder_create(opus->header->input_samplerate, opus->header->channel_count, &err);
+if(err!=OPUS_OK) return 0;
+
+opus->packetno = 0;
+opus->granulepos = 0;
+opus->last_bitrate = 0;
+
+return (int)opus;
+}
+
+int OpusListenerGetSampleRate(int o) {
+OpusListening *opus = (OpusListening*)o;
+if(opus==NULL) return 0;
+return opus->header->input_samplerate;
+}
+
+int OpusListenerGetChannels(int o) {
+OpusListening *opus = (OpusListening*)o;
+if(opus==NULL) return 0;
+return opus->header->channel_count;
+}
+
+int OpusListenerGetNextFrame(int o, unsigned char *buf, int size) {
+OpusListening *opus = (OpusListening*)o;
+if(opus==NULL) return 0;
+if(ogg_page_eos(&opus->og)) return 0;
+if(ogg_stream_packetout(&opus->os, &opus->op) != 1) {
+while(ogg_sync_pageout(&opus->oy, &opus->og) != 1) {
+opus->buffer = ogg_sync_buffer(&opus->oy, 65536);
+DWORD br=0;
+ReadFile(opus->file, opus->buffer, 65536, &br, 0);
+ogg_sync_wrote(&opus->oy, br);
+}
+ogg_stream_pagein(&opus->os, &opus->og);
+if(ogg_stream_packetout(&opus->os, &opus->op) != 1) return 0;
+}
+if(opus->op.bytes<1) return 0;
+if(opus->op.bytes>1500) return 0;
+opus->last_frame_bytes = opus->op.bytes;
+memcpy(opus->last_frame, opus->op.packet, opus->op.bytes);
+if(buf!=NULL && size>=opus->op.bytes)
+memcpy(buf, opus->op.packet, opus->op.bytes);
+return opus->op.bytes;
+}
+
+int OpusListenerGetPCM(int o, short *buf, int size) {
+OpusListening *opus = (OpusListening*)o;
+if(opus==NULL) return 0;
+if(buf==NULL || size==0) return NULL;
+if(OpusListenerGetNextFrame((int)opus, NULL, 0)==0) return 0;
+int ret = opus_decode(opus->decoder, opus->last_frame, opus->last_frame_bytes, buf, size/2/opus->header->channel_count, 0);
+if(ret<=0) return 0;
+return ret*2*opus->header->channel_count;
+}
+
+void OpusListenerClose(int o) {
+OpusListening *opus = (OpusListening*)o;
+ogg_stream_clear (&opus->os);
+ogg_sync_clear(&opus->oy);
+opus_decoder_destroy (opus->decoder);
+free(opus->header);
+free(opus->tags);
+CloseHandle(opus->file);
+free(opus);
+}
+
+int OpusCopyFrames(int o1, int o2, int count) {
+OpusListening *os = (OpusListening*)o1;
+OpusRecording *od = (OpusRecording*)o2;
+if(os==NULL || od==NULL) return 0;
+int i=0;
+for(i=0; i<count; ++i) {
+if(OpusListenerGetNextFrame((int)os, NULL, 0)==0) break;
+OpusRecorderAddFrame(0, os->last_frame, os->last_frame_bytes, (void*)od);
+}
+return i;
 }

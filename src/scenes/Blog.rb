@@ -2515,7 +2515,7 @@ class Scene_Blog_Domain
 
   def changeproceed
     return false if changevalidate == false
-    return false if confirm(p_("Blog", "Warning! If you change your blog URL, some links may stop working. If you directly linked posts or other resources on your blog, they would no longer be available at previous URLs. In such case you will be required to fix them manualy. Are you sure you want to continue?")) == 0
+    return false if confirm(p_("Blog", "Warning! If you change your blog URL, some links may stop working. If you directly linked posts or other resources on your blog, they would no longer be available at previous URLs. In such case you will be required to fix them manually. Are you sure you want to continue?")) == 0
     dom = @txt_fulldomain.text
     d = ".elten.blog"
     if dom[-1 * d.size..-1] != d

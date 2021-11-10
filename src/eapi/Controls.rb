@@ -3491,6 +3491,16 @@ module EltenAPI
         end
       end
 
+      def position
+        return 0 if @sound == nil
+        return @sound.position
+      end
+
+      def duration
+        return 0 if @sound == nil
+        return @sound.length
+      end
+
       def play
         @pause = false
         Programs.emit_event(:player_play)
@@ -3501,6 +3511,10 @@ module EltenAPI
         Programs.emit_event(:player_stop)
         @sound.stop if @sound != nil
         @pause = true
+      end
+
+      def paused?
+        @pause == true
       end
 
       def completed
@@ -3571,7 +3585,8 @@ module EltenAPI
                 [p_("EAPI_Form", "Title"), ai.title],
                 [p_("EAPI_Form", "Artist"), ai.artist],
                 [p_("EAPI_Form", "Album"), ai.album],
-                [p_("EAPI_Form", "Track number"), ai.track_number]
+                [p_("EAPI_Form", "Track number"), ai.track_number],
+                [p_("EAPI_Form", "Copyright"), ai.copyright]
               ]
               for a in fields.deep_dup
                 fields.delete(a) if a[1] == nil || a[1] == ""
@@ -4251,6 +4266,7 @@ module EltenAPI
         super(label)
         @file = nil
         @filename = filename
+        @tags = nil
         @max_bitrate = max_bitrate
         @bitrate = bitrate
         @bitrate = @max_bitrate if @bitrate > @max_bitrate
@@ -4267,6 +4283,7 @@ module EltenAPI
           @btn_stop = Button.new(p_("EAPI_Form", "Stop recording")),
           @btn_usefile = Button.new(p_("EAPI_Form", "Use existing file")),
           @btn_encoder = Button.new(p_("EAPI_Form", "Opus encoder settings")),
+          @btn_tags = Button.new(p_("Conference", "Edit metadata")),
           @btn_play = Button.new(p_("EAPI_Form", "Play")),
           @btn_encodeplay = Button.new(p_("EAPI_Form", "Encode and play")),
           @btn_delete = Button.new(p_("EAPI_Form", "Delete recording")),
@@ -4274,6 +4291,7 @@ module EltenAPI
         ], 0, false, true)
         @form.hide(@btn_pause)
         @form.hide(@btn_stop)
+        @form.hide(@btn_tags)
         @form.hide(@btn_play)
         @form.hide(@btn_encodeplay)
         @form.hide(@btn_delete)
@@ -4285,6 +4303,7 @@ module EltenAPI
             @recorder = OpusRecorder.start(@filename, @bitrate, @framesize, @application, @usevbr, @timelimit)
             @form.hide(@btn_record)
             @form.hide(@btn_usefile)
+            @form.hide(@btn_tags)
             @form.hide(@btn_play)
             @form.hide(@btn_encoder)
             @form.hide(@btn_encodeplay)
@@ -4311,6 +4330,7 @@ module EltenAPI
           @recorder = nil
           @status = 2
           @form.show(@btn_record)
+          @form.show(@btn_tags) if holds_premiumpackage("audiophile")
           @form.show(@btn_play)
           @form.hide(@btn_encodeplay)
           @form.hide(@btn_pause)
@@ -4332,6 +4352,10 @@ module EltenAPI
             end
           end
           loop_update
+        }
+        @btn_tags.on(:press) {
+          edit_tags
+          @form.focus
         }
         @btn_play.on(:press) {
           player(@current_filename, p_("EAPI_Form", "Recording preview"))
@@ -4377,6 +4401,7 @@ module EltenAPI
           @btn_stop.press if @recorder != nil
           File.delete(@filename) if FileTest.exists?(@filename)
           @form.hide(@btn_delete)
+          @form.hide(@btn_tags)
           @form.hide(@btn_play)
           @status = 0
           return true
@@ -4474,6 +4499,167 @@ module EltenAPI
         return m
       end
 
+      def get_tags(default = true)
+        if @tags == nil
+          return nil if default == false
+          snd = Bass::Sound.new(@current_filename)
+          ai = snd.audioinfo
+          tgs = ai.like_ogg
+          snd.close
+          return tgs
+        else
+          return @tags
+        end
+      end
+
+      def edit_tags
+        tgs = get_tags.deep_dup
+        editable_tags = ["TITLE", "ARTIST", "ALBUM", "TRACKNUMBER", "COPYRIGHT"]
+        form = Form.new([
+          lst_tags = ListBox.new([], p_("EAPI_Form", "Tags")),
+          edt_value = EditBox.new(p_("EAPI_Form", "Tag value")),
+          lst_chapters = ListBox.new([], p_("EAPI_Form", "Chapters")),
+          btn_save = Button.new(_("Save")),
+          btn_cancel = Button.new(_("Cancel"))
+        ], 0, false, true)
+        tbld = Proc.new {
+          mapper = {
+            "TITLE" => p_("EAPI_Form", "Title"),
+            "ARTIST" => p_("EAPI_Form", "Artist"),
+            "ALBUM" => p_("EAPI_Form", "Album"),
+            "TRACKNUMBER" => p_("EAPI_Form", "Track number"),
+            "COPYRIGHT" => p_("EAPI_Form", "Copyright")
+          }
+          opts = []
+          for k in editable_tags
+            v = mapper[k] || k
+            opts.push("#{v}: #{tgs[k] || ""}")
+          end
+          lst_tags.options = opts
+          opts = []
+          for i in 0..999
+            next if tgs["CHAPTER#{sprintf("%03d", i)}"] == nil
+            time = tgs["CHAPTER#{sprintf("%03d", i)}"]
+            name = tgs["CHAPTER#{sprintf("%03d", i)}NAME"] || ""
+            opts.push(name + ": " + time)
+          end
+          lst_chapters.options = opts
+        }
+        getchaps = Proc.new {
+          chaps = []
+          for i in 0..999
+            next if tgs["CHAPTER#{sprintf("%03d", i)}"] == nil
+            time = tgs["CHAPTER#{sprintf("%03d", i)}"]
+            name = tgs["CHAPTER#{sprintf("%03d", i)}NAME"] || ""
+            chaps.push([time, name])
+            tgs.delete("CHAPTER#{sprintf("%03d", i)}")
+            tgs.delete("CHAPTER#{sprintf("%03d", i)}NAME")
+          end
+          chaps
+        }
+        setchaps = Proc.new { |chaps|
+          chaps = chaps.sort_by { |c| c[0] }
+          for i in 0...chaps.size
+            tgs["CHAPTER#{sprintf("%03d", i)}"] = chaps[i][0]
+            tgs["CHAPTER#{sprintf("%03d", i)}NAME"] = chaps[i][1] || ""
+          end
+          tbld.call
+        }
+        addchap = Proc.new { |time, name|
+          chaps = [[time, name]] + getchaps.call
+          setchaps.call(chaps)
+        }
+        delchap = Proc.new { |index|
+          chaps = getchaps.call
+          chaps.delete_at(index)
+          setchaps.call(chaps)
+        }
+        editchap = Proc.new { |index|
+          chaps = getchaps.call
+          chap = ["00:00:00", ""]
+          chap = chaps[index] if index.is_a?(Numeric) && index >= 0 && index < chaps.size
+          index = chaps.size if !index.is_a?(Numeric) || index < 0 || index > chaps.size
+          frm = Form.new([
+            fedt_name = EditBox.new(p_("EAPI_Form", "Chapter name"), 0, chap[1]),
+            fedt_time = EditBox.new(p_("EAPI_Form", "Chapter time (hh:mm:ss.uuu)"), 0, chap[0]),
+            fbtn_save = Button.new(_("Save")),
+            fbtn_cancel = Button.new(_("Cancel"))
+          ], 0, false, true)
+          fbtn_save.on(:press) {
+            if (/^\d\d\:[0-5]\d\:[0-5]\d(\.\d\d\d)?$/ =~ fedt_time.text) != nil
+              fedt_time.settext(fedt_time.text + ".000") if !fedt_time.text.include?(".")
+              chaps[index] = [fedt_time.text, fedt_name.text]
+              setchaps.call(chaps)
+              frm.resume
+            else
+              speak(p_("EAPI_Form", "Wrong time format, the proper format is two hours digits, colon, two minutes digits, colon, two seconds digits and, optionally, three milliseconds digits preceeded by dot"))
+            end
+          }
+          fbtn_cancel.on(:press) { frm.resume }
+          frm.cancel_button = fbtn_cancel
+          frm.accept_button = fbtn_save
+          frm.wait
+          lst_chapters.focus
+        }
+        lst_tags.on(:move) {
+          edt_value.set_text(tgs[editable_tags[lst_tags.index]])
+        }
+        edt_value.on(:change) {
+          tgs[editable_tags[lst_tags.index]] = edt_value.text
+          tbld.call
+        }
+        lst_chapters.bind_context { |menu|
+          menu.option(p_("EAPI_Form", "Add new chapter manually"), nil, "n") { editchap.call(-1) }
+          menu.option(p_("EAPI_Form", "Add chapters with playback"), nil, "N") {
+            frm = Form.new([
+              fpl = Player.new(@current_filename, p_("EAPI_Form", "Chapters editor"), true, true),
+              fbtn_close = Button.new(_("Close"))
+            ], 0, false, true)
+            frm.bind_context { |menu|
+              menu.option(p_("EAPI_Form", "Add chapter here"), nil, :n) {
+                paused = fpl.paused?
+                if !paused
+                  fpl.stop
+                end
+                name = input_text(p_("EAPI_Form", "Chapter name"), 0, "", true)
+                time = fpl.position
+                time = sprintf("%02d:%02d:%02d.%03d", time / 3600, (time / 60) % 60, time % 60, time - time.to_i)
+                if !paused
+                  fpl.play
+                end
+                if name != nil
+                  chaps = getchaps.call
+                  chaps.push([time, name])
+                  setchaps.call(chaps)
+                end
+              }
+            }
+            fbtn_close.on(:focus) { fpl.stop }
+            fpl.on(:focus) { fpl.play }
+            fbtn_close.on(:press) { frm.resume }
+            frm.cancel_button = fbtn_close
+            frm.accept_button = fbtn_close
+            frm.wait
+            fpl.close
+            lst_chapters.focus
+          }
+          if lst_chapters.options.size > 0
+            menu.option(p_("EAPI_Form", "Edit chapter"), nil, "e") { editchap.call(lst_chapters.index) }
+            menu.option(_("Delete"), nil, :del) { delchap.call(lst_chapters.index) }
+          end
+        }
+        tbld.call
+        lst_tags.trigger(:move)
+        btn_save.on(:press) {
+          @tags = tgs
+          alert(_("Saved"))
+          form.resume
+        }
+        btn_cancel.on(:press) { form.resume }
+        form.cancel_button = btn_cancel
+        form.wait
+      end
+
       def show
         @form.index = 0
         @form.wait
@@ -4487,6 +4673,7 @@ module EltenAPI
         @btn_stop.press if @recorder != nil
         @status = 2
         @current_filename = file
+        @form.show(@btn_tags) if holds_premiumpackage("audiophile")
         @form.show(@btn_play)
         if file[0..4] == "http:" or file[0..5] == "https:"
           @form.hide(@btn_encodeplay)
@@ -4497,6 +4684,7 @@ module EltenAPI
       end
 
       def get_file(force = false)
+        @last_tags ||= nil
         return nil if @status != 2
         if @current_filename[0..4] == "http:" || @current_filename[0..5] == "https:"
           if force
@@ -4510,10 +4698,19 @@ module EltenAPI
         end
         if @filename != @current_filename
           waiting
-          OpusRecorder.encode_file(@current_filename, @filename, @bitrate, @framesize, @application, @usevbr, @timelimit)
+          OpusRecorder.encode_file(@current_filename, @filename, @bitrate, @framesize, @application, @usevbr, @timelimit, get_tags(false))
           waiting_end
           @current_filename = @filename
+          @last_tags = get_tags
           @form.hide(@btn_encodeplay)
+        elsif @last_tags != get_tags
+          @tempname = @filename + "_edtags.opus"
+          c = OpusRecorder.copy_file(@filename, @tempname, get_tags)
+          if c > 0
+            @last_tags = get_tags
+            File.delete(@filename)
+            Win32API.new("kernel32", "MoveFileW", "PP", "i").call(unicode(@tempname), unicode(@filename))
+          end
         end
         return @filename
       end

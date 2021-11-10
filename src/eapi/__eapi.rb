@@ -909,4 +909,28 @@ module EltenAPI
     $eltencreds.delete(id)
     return m
   end
+
+  def synchsafe(input)
+    out = 0
+    mask = 0x7f
+    while (mask ^ 0x7FFFFFFF) != 0
+      out = input & ~mask
+      out = out << 1
+      out = out | (input & mask)
+      mask = ((mask + 1) << 8) - 1
+      input = out
+    end
+    return out
+  end
+
+  def unsynchsafe(input)
+    out = 0
+    mask = mask = 0x7F000000
+    while mask != 0
+      out = out >> 1
+      out = out | (input & mask)
+      mask = mask >> 8
+    end
+    return out
+  end
 end

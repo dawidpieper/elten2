@@ -551,15 +551,20 @@ module Bass
           movemem.call(ehsize, q, 4)
           q += 4 + ehsize[3] + ehsize[2] * 256 + ehsize[1] * 65536 + ehsize[0] * 16777216
         end
-        tags = id3_getframes(q, size)
+        tags = id3_getframes(q, size, header[3])
       end
       return tags
     end
 
-    def id3_getframes(q, size)
+    @@idd = 0
+
+    def id3_getframes(q, size, version)
       movemem = Win32API.new("kernel32", "RtlMoveMemory", "pii", "i")
       r = []
       final = q + size
+      tt = "\0" * size
+      movemem.call(tt, q, size)
+      @@idd += 1
       while q < final
         header = "\0" * 10
         movemem.call(header, q, 10)
@@ -571,6 +576,7 @@ module Bass
         f = ID3Frame.new
         f.id = header[0...4]
         f.size = header[7] + header[6] * 256 + header[5] * 65536 + header[4] * 16777216
+        f.size = unsynchsafe(f.size) if version == 4
         f.compressed = (header[9] & 128) > 0
         f.encrypted = (header[9] & 64) > 0
         f.grouped = (header[9] & 32) > 0
@@ -600,7 +606,7 @@ module Bass
             else
               f.numvalue = timings[7] + timings[6] * 256 + timings[5] * 65536 + timings[4] * 16777216
             end
-            id3_getframes(q, left).each { |m| f.subframes.push(m) }
+            id3_getframes(q, left, version).each { |m| f.subframes.push(m) }
           elsif f.id[0..0] == "T" && f.id[1..1] != "X"
             t = "\0"
             movemem.call(t, q, 1)
@@ -651,6 +657,35 @@ module Bass
       return r
     end
 
+    def like_ogg
+      t = tags_ogg
+      return t if t != {}
+      t = tags_id3v2
+      if t != nil
+        tgs = {}
+        mapper = { "TIT2" => "TITLE", "TALB" => "ALBUM", "TPE1" => "ARTIST", "TRCK" => "TRACKNUMBER", "TCOM" => "COMPOSER", "TCOP" => "COPYRIGHT" }
+        for d, o in mapper
+          f = t.find { |f| f.id == d }
+          tgs[o] = f.strvalue if f != nil
+        end
+        chs = t.select { |f| f.id == "CHAP" }
+        i = 0
+        for c in chs
+          time = c.numvalue / 1000.0
+          name = ""
+          sf = c.subframes.find { |s| s.id == "TIT2" }
+          name = sf.strvalue if sf != nil
+          h = sprintf("CHAPTER%03d", i)
+          t = sprintf("%02d:%02d:%02d.%03d", time / 3600, (time / 60) % 60, time % 60, time - time.to_i)
+          tgs[h] = t
+          tgs["#{h}NAME"] = name
+          i += 1
+        end
+        return tgs
+      end
+      return {}
+    end
+
     def title
       auto_get("TITLE", "TIT2")
     end
@@ -665,6 +700,10 @@ module Bass
 
     def track_number
       auto_get("TRACKNUMBER", "TRCK")
+    end
+
+    def copyright
+      auto_get("COPYRIGHT", "TCOP")
     end
 
     def chapters
