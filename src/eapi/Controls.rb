@@ -4283,7 +4283,7 @@ module EltenAPI
           @btn_stop = Button.new(p_("EAPI_Form", "Stop recording")),
           @btn_usefile = Button.new(p_("EAPI_Form", "Use existing file")),
           @btn_encoder = Button.new(p_("EAPI_Form", "Opus encoder settings")),
-          @btn_tags = Button.new(p_("Conference", "Edit metadata")),
+          @btn_tags = Button.new(p_("Conference", "Edit metadata and chapters")),
           @btn_play = Button.new(p_("EAPI_Form", "Play")),
           @btn_encodeplay = Button.new(p_("EAPI_Form", "Encode and play")),
           @btn_delete = Button.new(p_("EAPI_Form", "Delete recording")),
@@ -4612,7 +4612,7 @@ module EltenAPI
           menu.option(p_("EAPI_Form", "Add new chapter manually"), nil, "n") { editchap.call(-1) }
           menu.option(p_("EAPI_Form", "Add chapters with playback"), nil, "N") {
             frm = Form.new([
-              fpl = Player.new(@current_filename, p_("EAPI_Form", "Chapters editor"), true, true),
+              fpl = Player.new(@current_filename, p_("EAPI_Form", "Chapters editor, use context menu to add chapters"), true, true),
               fbtn_close = Button.new(_("Close"))
             ], 0, false, true)
             frm.bind_context { |menu|

@@ -503,13 +503,13 @@ class Scene_Account_BlackList
       return
     end
     @blacklist = []
-    selt = []
     if bt.size > 1
       for u in bt[1..bt.size - 1]
         @blacklist.push(u.delete("\r\n"))
-        selt.push(u + ". " + getstatus(u))
       end
     end
+    @blacklist.polsort!
+    selt = @blacklist.map { |u| u + ". " + getstatus(u) }
     header = p_("Account", "Black list")
     @sel = ListBox.new(selt, header, 0, 0, false)
     @sel.bind_context { |menu| context(menu) }

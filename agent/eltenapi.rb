@@ -113,7 +113,7 @@ module EltenAPI
     $ssl.sync_close = true
     $ssl.hostname = "srvapi.elten.link"
     $ssl.connect
-    $http = HTTP2::Client.new
+    $http = HTTP2::Client.new(settings_max_frame_size: 131072)
     $httpqueue = []
     $ssl_mutex = Mutex.new
     $http.on(:frame) { |bytes|
@@ -328,7 +328,7 @@ module EltenAPI
         met = "GET"
         if post != nil && post != ""
           met = "POST"
-          headers["Content-Length"] = post.bytesize.to_s
+          headers["Content-Length"] = post.bytesize.to_s if post != nil
         end
         hd = met + " " + path + " HTTP/1.1"
         hd += "\r\nHost: srvapi.elten.link"
@@ -337,16 +337,18 @@ module EltenAPI
         end
         hd += "\r\n\r\n"
         ssl.write(hd)
-        total = post.bytesize
-        uploaded = 0
-        tim = Time.now.to_f
-        until post.empty?
-          ch = post.slice!(0...16384)
-          uploaded += ch.bytesize
-          ssl.write(ch)
-          if Time.now.to_f - tim > 5
-            tim = Time.now.to_f
-            b.call(ERUploadProgress.new(uploaded, total), data)
+        if post != nil
+          total = post.bytesize
+          uploaded = 0
+          tim = Time.now.to_f
+          until post.empty?
+            ch = post.slice!(0...16384)
+            uploaded += ch.bytesize
+            ssl.write(ch)
+            if Time.now.to_f - tim > 5
+              tim = Time.now.to_f
+              b.call(ERUploadProgress.new(uploaded, total), data)
+            end
           end
         end
         resp = ""
@@ -395,8 +397,8 @@ module EltenAPI
     }
   end
 
-  def erequest(mod, param, post = nil, headers = {}, data = nil, ign = false, &b)
-    return perequest(mod, param, post, headers, data, ign, &b) if (post != nil && post != "") && post.bytesize > 65536
+  def erequest(mod, param, post = nil, headers = {}, data = nil, ign = false, priority = 16, &b)
+    return perequest(mod, param, post, headers, data, ign, &b) if ($disablehttp2 == 1) || ((post != nil && post != "") && post.bytesize > 65536)
     headers = {} if headers == nil
     headers["User-Agent"] = "Elten #{$version} agent"
     init if $http == nil
@@ -416,7 +418,7 @@ module EltenAPI
       end
       headers.keys.each { |k| head[k] = headers[k] }
       pst = post
-      stream = $http.new_stream
+      stream = $http.new_stream(weight: priority)
       stream.headers(head, end_stream: (pst == nil || pst == ""))
       if pst != nil && pst != ""
         total = pst.bytesize
@@ -435,7 +437,7 @@ module EltenAPI
         end
       end
       body = ""
-      stream.on(:data) { |ch| body += ch }
+      stream.on(:data) { |ch| body << ch }
       stream.on(:half_close) { stream.close }
       stream.on(:close) { $eropened = nil; $lastrep = Time.now.to_i; b.call(body, data) }
     rescue Exception

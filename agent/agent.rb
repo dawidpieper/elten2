@@ -532,6 +532,7 @@ begin
       $enableaudiobuffering = readconfig("Advanced", "EnableAudioBuffering", "0").to_i
       $useechocancellation = readconfig("Advanced", "UseEchoCancellation", "0").to_i
       $usebilinearhrtf = readconfig("Advanced", "UseBilinearHRTF", "0").to_i
+      $disablehttp2 = readconfig("Advanced", "DisableHTTP2", "0").to_i
       $iimodifiers = readconfig("InvisibleInterface", "IIModifiers", (0).to_s).to_i
       $iicards = readconfig("InvisibleInterface", "Cards", "messages,feed,conference").split(",")
       if $lastiimodifiers != $iimodifiers
@@ -572,7 +573,7 @@ begin
         pr = "name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime || Time.now.to_i}"
         pr += "\&shown=1" if $shown == true
         begin
-          erequest("wn_agent", pr, nil, nil, nil, true) { |ans|
+          erequest("wn_agent", pr, nil, nil, nil, true, 42) { |ans|
             if ans.is_a?(String)
               begin
                 rsp = JSON.load(Zlib.inflate(ans))

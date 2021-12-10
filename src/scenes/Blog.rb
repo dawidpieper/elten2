@@ -650,6 +650,7 @@ class Scene_Blog_Read
       end
       l += 1
     end
+    $posts = @posts
     @postcur = 0
     @fields = []
     for i in 0..@posts.size - 1

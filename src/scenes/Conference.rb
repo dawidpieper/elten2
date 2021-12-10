@@ -305,10 +305,10 @@ class Scene_Conference
   end
 
   def channel_summary(ch)
-    s = ch.name + ": " + ch.users.map { |u| u.name }.join(", ")
-    s += " \004CLOSED\004" if ch.passworded
-    s += " \004RESTRICTED\004" if ch.waiting_type > 0
-    return s
+    sname, susers = ch.name, ch.users.map { |u| u.name }.join(", ")
+    sname += " \004CLOSED\004" if ch.passworded
+    sname += " \004RESTRICTED\004" if ch.waiting_type > 0
+    return sname, susers
   end
 
   def list_channels(user = nil)
@@ -316,7 +316,7 @@ class Scene_Conference
     timeout_break
     @chans = get_channelslist
     channels = []
-    lst_channels = ListBox.new([], p_("Conference", "Channels"))
+    lst_channels = TableBox.new(["", ""], [], 0, p_("Conference", "Channels"))
     locha = Proc.new { |chans|
       knownlanguages = Session.languages.split(",").map { |lg| lg.upcase }
       channels = chans.find_all { |c|
@@ -331,7 +331,8 @@ class Scene_Conference
         end
       }
       selt = channels.map { |ch| channel_summary(ch) }
-      lst_channels.options = selt
+      lst_channels.rows = selt
+      lst_channels.reload
     }
     locha.call(@chans)
     lst_channels.focus

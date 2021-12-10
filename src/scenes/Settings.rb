@@ -309,11 +309,8 @@ class Scene_Settings
     make_setting(p_("Settings", "Output device"), @soundcards, "SoundCard", "SoundCard", @soundcardsmapping)
     make_setting(p_("Settings", "Input device"), @microphones, "SoundCard", "Microphone", @microphonesmapping)
     make_setting(p_("Settings", "Mute the microphone in conferences while recording other content"), :bool, "Advanced", "DisableConferenceMicOnRecord")
-    make_setting(p_("Settings", "Enable FX effects"), :bool, "Advanced", "UseFX")
     make_setting(p_("Settings", "Use noise reduction"), [p_("Settings", "Never"), p_("Settings", "In audio conferences only"), p_("Settings", "In audio conferences and when recording")], "Advanced", "UseDenoising")
     make_setting(p_("Settings", "Enable echo cancellation"), :bool, "Advanced", "UseEchoCancellation")
-
-    make_setting(p_("Settings", "Use bilinear HRTF interpolation"), :bool, "Advanced", "UseBilinearHRTF")
   end
 
   def load_ii
@@ -332,6 +329,13 @@ class Scene_Settings
     make_setting(p_("Settings", "Cards to show"), [p_("Settings", "Messages"), p_("Settings", "Feed"), p_("Settings", "Conference options")], "InvisibleInterface", "Cards", ["messages", "feed", "conference"], true)
   end
 
+  def load_advanced
+    setting_category(p_("Settings", "Advanced"))
+    make_setting(p_("Settings", "Enable FX effects"), :bool, "Advanced", "UseFX")
+    make_setting(p_("Settings", "Use bilinear HRTF interpolation"), :bool, "Advanced", "UseBilinearHRTF")
+    make_setting(p_("Settings", "Disable concurrent requests (HTTP2)"), :bool, "Advanced", "DisableHTTP2")
+  end
+
   def main
     make_window
     load_general
@@ -340,6 +344,7 @@ class Scene_Settings
     load_clock
     load_soundcards
     load_ii
+    load_advanced
     @form.focus
     loop do
       loop_update

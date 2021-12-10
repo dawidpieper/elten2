@@ -2167,7 +2167,7 @@ class Scene_Forum
     forumindex = 0
     for g in @groups
       for f in @forums
-        if f.type == @forumtype
+        if f.type == @forumtype && !f.closed
           if f.group.id == g.id
             forums.push(f.fullname + " (#{g.name})")
             forumclasses.push(f)
@@ -2178,7 +2178,8 @@ class Scene_Forum
     end
     fields = [EditBox.new(p_("Forum", "Thread name"), 0, "", true)]
     if type == 0
-      fields[1..6] = [EditBox.new(p_("Forum", "Post"), EditBox::Flags::MultiLine, "", true), nil, nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
+      fields[1..6] = [EditBox.new(p_("Forum", "Post"), EditBox::Flags::MultiLine, "", true), CheckBox.new(p_("Forum", "Use MarkDown in this post")), nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
+      fields[2] = nil if !holds_premiumpackage("courier")
     else
       fields[1..6] = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp + "\\audiopost.opus", 96, 48), nil, nil, nil, nil, nil]
     end
@@ -2344,7 +2345,9 @@ class Scene_Forum
       else
         post["zs_post"] = zstd_compress(text)
       end
-      prm = { "forumname" => forumclasses[form.fields[-3].index].name, "threadname" => form.fields[0].text }
+      format = 0
+      format = form.fields[2].checked if form.fields[2] != nil
+      prm = { "forumname" => forumclasses[form.fields[-3].index].name, "threadname" => form.fields[0].text, "format" => format }
       prm["follow"] = "1" if form.fields[-4].checked == 1
       if polls.size > 0
         pls = ""
@@ -2820,7 +2823,9 @@ class Scene_Forum_Thread
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.author.downcase == @query.phrase.downcase && @query.phrase_in.include?(:author)
       index = i * 3 if @mention != nil and (@param == -7 or @param == -11) and post.id == @mention.post
       index = i * 3 if index == -1 and @param == -13 and @query.is_a?(Numeric) and @query == post.id
-      @fields += [EditBox.new(post.authorname, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, generate_posttext(post), true), nil, nil]
+      flags = EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly
+      flags |= EditBox::Flags::MarkDown if post.format == 1
+      @fields += [EditBox.new(post.authorname, flags, generate_posttext(post), true), nil, nil]
       if @sponsors.include?(post.author)
         @fields[-3].add_sound("user_sponsor")
       end
@@ -2844,14 +2849,19 @@ class Scene_Forum_Thread
     if @type == 2
       sel = ListBox.new([p_("Forum", "Text post"), p_("Forum", "Audio post")], p_("Forum", "Post type"))
       sel.on(:move) { |i|
-        @posttype = sel.index
-        @fields[(-1 - @audiofields.size)..-2] = ((@posttype == 0) ? @textfields : @audiofields)
+        if @noteditable == false
+          @posttype = sel.index
+          @fields[(-1 - @audiofields.size)..-2] = ((@posttype == 0) ? @textfields : @audiofields)
+        end
       }
       @fields.push(sel)
     else
       @fields.push(nil)
     end
     @textfields = [EditBox.new(p_("Forum", "Your answer"), EditBox::Flags::MultiLine, "", true), nil, nil, nil, nil, nil, Button.new(p_("Forum", "Attach a file"))]
+    if holds_premiumpackage("courier")
+      @textfields[3] = CheckBox.new(p_("Forum", "Use MarkDown in this post"))
+    end
     @audiofields = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp + "\\audiopost.opus", 96, 48, @threadclass.forum.group.audiolimit), nil, nil, nil, nil, nil, nil]
     if @noteditable == false
       case @posttype
@@ -2903,6 +2913,9 @@ class Scene_Forum_Thread
         end
         atts.chop! if atts[-1..-1] == ","
         prm["bufatt"] = buffer(atts).to_s
+      end
+      if @form.fields[@postscount * 3 + 4] != nil
+        prm["format"] = @form.fields[@postscount * 3 + 4].checked
       end
       st = srvproc("forum_edit", prm, 0, post)
       if st[0].to_i < 0
@@ -3303,7 +3316,8 @@ class Scene_Forum_Thread
               else
                 prm = { "postid" => @posts[@form.index / 3].id, "threadid" => @thread, "delete" => 2 }
               end
-              if srvproc("forum_mod", prm)[0].to_i < 0
+              ft = srvproc("forum_mod", prm)
+              if ft[0].to_i < 0
                 alert(_("Error"))
               else
                 alert(p_("Forum", "Are you sure you want to delete this post?"))
@@ -3374,7 +3388,9 @@ class Scene_Forum_Thread
       a = post.attachments[i]
       atts.push([a, nil, attnames[i]])
     end
-    form = Form.new([EditBox.new(p_("Forum", "edit your post here"), EditBox::Flags::MultiLine, post.post), ListBox.new(atts.map { |a| a[2] }, p_("Forum", "Attachments")), Button.new(_("Save")), Button.new(_("Cancel"))])
+    form = Form.new([EditBox.new(p_("Forum", "edit your post here"), EditBox::Flags::MultiLine, post.post), ListBox.new(atts.map { |a| a[2] }, p_("Forum", "Attachments")), CheckBox.new(p_("Forum", "Use MarkDown in this post")), Button.new(_("Save")), Button.new(_("Cancel"))])
+    form.fields[2].checked = post.format
+    form.hide(2) if !holds_premiumpackage("courier")
     form.hide(1) if @threadclass.forum.group.preventattachments
     form.fields[1].bind_context { |menu|
       if atts.size < 3
@@ -3403,7 +3419,7 @@ class Scene_Forum_Thread
     loop do
       loop_update
       form.update
-      if form.fields[0].text.size > 1 and (((enter or space) and form.index == 2) or (enter and $key[0x11] and form.index < 2))
+      if form.fields[0].text.size > 1 and (((enter or space) and form.index == 3) or (enter and $key[0x11] and form.index < 3))
         pst = { "post" => form.fields[0].text }
         attachments = ""
         for a in atts
@@ -3415,7 +3431,7 @@ class Scene_Forum_Thread
         end
         attachments.chop! if attachments[-1..-1] == ","
         bufatt = buffer(attachments).to_s
-        fe = srvproc("forum_mod", { "edit" => "1", "postid" => post.id.to_s, "threadid" => @thread.to_s, "bufatt" => bufatt }, 0, pst)
+        fe = srvproc("forum_mod", { "edit" => "1", "postid" => post.id.to_s, "threadid" => @thread.to_s, "bufatt" => bufatt, "format" => form.fields[2].checked }, 0, pst)
         if fe[0].to_i < 0
           alert(_("Error"))
         else
@@ -3425,7 +3441,7 @@ class Scene_Forum_Thread
           break
         end
       end
-      break if escape or ((enter or space) and form.index == 3)
+      break if escape or ((enter or space) and form.index == 4)
     end
     dialog_close
   end
@@ -3511,7 +3527,7 @@ class Scene_Forum_Thread
   end
 
   def getcache
-    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 3, "zs" => 1 }, 1)
+    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 4, "zs" => 1 }, 1)
     return if c[0...(c.index("\r") || c.size)].to_i < 0
     c = ("0\r\n" + zstd_decompress(c[3..-1])).split("\r\n").map { |a| a + "\r\n" }
     @cache = c
@@ -3559,6 +3575,9 @@ class Scene_Forum_Thread
         @posts.last.likes = l.to_i
         t += 1
       when 10
+        @posts.last.format = l.to_i
+        t += 1
+      when 11
         if l.delete("\r\n") == "\004END\004"
           t = 0
         else
@@ -3702,6 +3721,7 @@ class Struct_Forum_Post
   attr_accessor :edited
   attr_accessor :locked
   attr_accessor :likes
+  attr_accessor :format
 
   def initialize(id = 0)
     @id = id
@@ -3716,6 +3736,7 @@ class Struct_Forum_Post
     @edited = false
     @locked = false
     @likes = 0
+    @format = 0
   end
 end
 

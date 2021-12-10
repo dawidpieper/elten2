@@ -184,7 +184,7 @@ module Bass
   end
 
   def self.test
-    filename = "Audio/BGS/waiting.ogg"
+    filename = ENV["WINDIR"] + "\\Media\\tada.wav"
     h = BASS_StreamCreateFile.call(0, unicode(filename), 0, 0, 0, 0, 0x80000000 | 0x200000)
     if h == 0
       return false
