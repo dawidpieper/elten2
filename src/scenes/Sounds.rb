@@ -75,6 +75,7 @@ class Scene_Sounds
       "notification_groupinvitation" => p_("Sounds", "Notification: new invitation to a group"),
       "notification_mention" => p_("Sounds", "Notification: new mention"),
       "notification_message" => p_("Sounds", "Notification: new message"),
+      "notification_monitor" => p_("Sounds", "Notification: online monitor"),
       "notification_userjoin" => p_("Sounds", "Notification: new user joined followed conference channel"),
       "conference_userjoin" => p_("Sounds", "New user joined conference"),
       "conference_userleave" => p_("Sounds", "User left conference"),

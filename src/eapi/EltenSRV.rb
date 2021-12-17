@@ -365,6 +365,7 @@ module EltenAPI
       usrinf[11] = uit[12].to_i
       usrinf[12] = uit[13].to_b
       usrinf[13] = uit[14].to_b
+      usrinf[14] = uit[15].to_b
       return usrinf
     end
 

@@ -203,6 +203,7 @@ module EltenAPI
       @hashonors = (ui[11] > 0)
       @callable = ui[12].to_b
       @feedfollowed = ui[13].to_b
+      @monitored = ui[14].to_b
       play("menu_open") if submenu != true
       Menu.menubg_play if submenu != true and (Configuration.bgsounds == 1 && Configuration.soundthemeactivation == 1)
       sel = [p_("EAPI_Common", "Write a private message"), p_("EAPI_Common", "Visiting card"), p_("EAPI_Common", "Open user's blog"), p_("EAPI_Common", "badges of this user")]
@@ -239,6 +240,11 @@ module EltenAPI
       end
       sel.push(p_("EAPI_Common", "Call this user"))
       sel.push(p_("EAPI_Common", "Show feed"))
+      if @monitored == false
+        sel.push(p_("EAPI_Common", "Monitor when this user becomes online"))
+      else
+        sel.push(p_("EAPI_Common", "Do not monitor this user"))
+      end
       if Session.moderator > 0
         if @isbanned == false
           sel.push(p_("EAPI_Common", "Ban"))
@@ -265,11 +271,12 @@ module EltenAPI
         menu.disable_item(5)
         menu.disable_item(6)
         menu.disable_item(7)
+        menu.disable_item(9)
       end
       menu.disable_item(3) if @hashonors == false
       menu.disable_item(6) if !holds_premiumpackage("audiophile")
       menu.disable_item(7) if @callable == false
-      menu.disable_item(9) if Session.moderator == 0
+      menu.disable_item(10) if Session.moderator == 0
       menu.focus
       loop do
         loop_update
@@ -335,6 +342,26 @@ module EltenAPI
           when 8
             insert_scene(Scene_FeedViewer.new(user))
           when 9
+            if @monitored == false
+              opts = [p_("EAPI_Common", "Notify me one time when this user becomes online"), p_("EAPI_Common", "Notify me whenever this user becomes online")]
+              o = selector(opts, p_("EAPI_Common", "Online monitor"), 0, -1)
+              if o >= 0
+                ot = srvproc("monitors", { "ac" => "add", "user" => user, "permanent" => o })
+                if ot[0].to_i < 0
+                  alert(_("Error"))
+                else
+                  alert(p_("EAPI_Common", "This user is now monitored"))
+                end
+              end
+            else
+              ot = srvproc("monitors", { "ac" => "del", "user" => user })
+              if ot[0].to_i < 0
+                alert(_("Error"))
+              else
+                alert(p_("EAPI_Common", "This user is no longer monitored"))
+              end
+            end
+          when 10
             if @isbanned == false
               insert_scene(Scene_Ban_Ban.new(user, Scene_Main.new), true)
             else
@@ -344,7 +371,7 @@ module EltenAPI
             return "ALT"
           else
             if $usermenuextra.is_a?(Hash)
-              a = $usermenuextra.values[menu.index - 10]
+              a = $usermenuextra.values[menu.index - 11]
               s = a[0].new
               s.userevent(user, *a[1..-1])
               insert_scene(s, true)
