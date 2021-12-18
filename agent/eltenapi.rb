@@ -316,6 +316,7 @@ module EltenAPI
   end
 
   def perequest(mod, param, post = nil, headers = {}, data = nil, ign = false, &b)
+    headers = {} if headers == nil
     t = Thread.new {
       begin
         sock = TCPSocket.new("srvapi.elten.link", 443)
@@ -398,8 +399,8 @@ module EltenAPI
   end
 
   def erequest(mod, param, post = nil, headers = {}, data = nil, ign = false, priority = 16, &b)
-    return perequest(mod, param, post, headers, data, ign, &b) if ($disablehttp2 == 1) || ((post != nil && post != "") && post.bytesize > 65536)
     headers = {} if headers == nil
+    return perequest(mod, param, post, headers, data, ign, &b) if ($disablehttp2 == 1) || ((post != nil && post != "") && post.bytesize > 65536)
     headers["User-Agent"] = "Elten #{$version} agent"
     init if $http == nil
     $lastrep ||= Time.now.to_i
