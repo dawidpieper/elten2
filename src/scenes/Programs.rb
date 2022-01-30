@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2020 Dawid Pieper
+# Copyright (C) 2014-2022 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -99,30 +99,30 @@ class Scene_Programs
           else
             path = Dirs.apps + "\\" + path
           end
-          waiting
-          ds = []
-          prc = 0
-          lprc = 0
-          for i in 0...(d.size / 2 - 1)
-            src = $url + d[2 + i * 2 + 1].delete("\r\n")
-            dst = path + "\\" + d[2 + i * 2].delete("\r\n").gsub("/", "\\").delete(":")
-            next if dst.include?("..\\")
-            pr = dst.sub(Dirs.apps, "").split("\\")[0...-1]
-            for j in 0...pr.size
-              t = Dirs.apps + "\\" + pr[0..j].join("\\")
-              if !ds.include?(t)
-                createdirifneeded(t)
-                ds.push(t)
+          waiting {
+            ds = []
+            prc = 0
+            lprc = 0
+            for i in 0...(d.size / 2 - 1)
+              src = $url + d[2 + i * 2 + 1].delete("\r\n")
+              dst = path + "\\" + d[2 + i * 2].delete("\r\n").gsub("/", "\\").delete(":")
+              next if dst.include?("..\\")
+              pr = dst.sub(Dirs.apps, "").split("\\")[0...-1]
+              for j in 0...pr.size
+                t = Dirs.apps + "\\" + pr[0..j].join("\\")
+                if !ds.include?(t)
+                  createdirifneeded(t)
+                  ds.push(t)
+                end
+              end
+              download_file(src, dst, false, false, true)
+              prc = ((i + 1).to_f / (d.size / 2).to_f * 100.0).to_i
+              if prc > lprc + 5
+                speak(prc.to_s + "%")
+                lprc = prc
               end
             end
-            download_file(src, dst, false, false, true)
-            prc = ((i + 1).to_f / (d.size / 2).to_f * 100.0).to_i
-            if prc > lprc + 5
-              speak(prc.to_s + "%")
-              lprc = prc
-            end
-          end
-          waiting_end
+          }
           alert(p_("Programs", "Installation completed."))
           Programs.delete(program.realpath) if program.realpath != nil
           Programs.load_sig(path.sub(Dirs.apps + "\\", ""))

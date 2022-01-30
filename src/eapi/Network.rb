@@ -89,22 +89,22 @@ module EltenAPI
         $eltsocks_write[id] = nil
       else
         speech(msg)
-        waiting
-        places = []
-        until data.empty?
-          places << data.slice!(0..524287)
-        end
-        sent = ""
-        for i in 0..places.size - 1
-          loop_update
-          speech(((i.to_f / (places.size.to_f + 1.0)) * 100.0).to_i.to_s + "%") if speech_actived == false
-          $agent.write(Marshal.dump({ "func" => "eltsock_write", "id" => id, "message" => places[i], "sockid" => sockid }))
-          while $eltsocks_write[id] == nil
-            loop_update
+        waiting {
+          places = []
+          until data.empty?
+            places << data.slice!(0..524287)
           end
-          $eltsocks_write[id] = nil
-        end
-        waiting_end
+          sent = ""
+          for i in 0..places.size - 1
+            loop_update
+            speech(((i.to_f / (places.size.to_f + 1.0)) * 100.0).to_i.to_s + "%") if speech_actived == false
+            $agent.write(Marshal.dump({ "func" => "eltsock_write", "id" => id, "message" => places[i], "sockid" => sockid }))
+            while $eltsocks_write[id] == nil
+              loop_update
+            end
+            $eltsocks_write[id] = nil
+          end
+        }
       end
       b = ""
       t = 0

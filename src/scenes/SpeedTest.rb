@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2022 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -31,20 +31,20 @@ class Scene_SpeedTest
           mod = "blog_list"
         end
         speak(p_("SpeedTest", "Performing test, please wait"))
-        waiting
-        n = @form.fields[1].text.to_i
-        times = []
-        errors = 0
-        n.times {
-          t = srvproc(mod, params, 3, nil, false)
-          if t > 0
-            times.push(t)
-          else
-            errors += 1
-          end
-          loop_update
+        waiting {
+          n = @form.fields[1].text.to_i
+          times = []
+          errors = 0
+          n.times {
+            t = srvproc(mod, params, 3, nil, false)
+            if t > 0
+              times.push(t)
+            else
+              errors += 1
+            end
+            loop_update
+          }
         }
-        waiting_end
         result = "#{p_("SpeedTest", "Average time")}: #{((times.sum).to_f / (n - errors.to_f) * 1000).round}ms           
 #{p_("SpeedTest", "Minimum time")}: #{((times.min) * 1000).round}ms
 #{p_("SpeedTest", "Maximum time")}: #{((times.max) * 1000).round}ms

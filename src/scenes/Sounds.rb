@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2022 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -213,19 +213,19 @@ class Scene_Sounds
   end
 
   def save
-    waiting
-    magic = "EltenSoundThemePackageFileCMPSMC"
-    cnt = ""
-    for s in @snd
-      snd = s.sound(true)
-      next if snd == getsound(s.file, true)
-      cnt += [s.file.size, s.file, snd.size, snd].pack("Ca*Ia*")
-    end
-    zcnt = Zlib::Deflate.deflate(cnt, Zlib::BEST_COMPRESSION)
-    fcnt = [magic, Time.now.to_i, @theme.name.size, @theme.name, zcnt.size, zcnt].pack("a*QCa*Ia*")
-    writefile(@file, fcnt)
-    @theme.file = @file if @theme.file == nil
-    waiting_end
+    waiting {
+      magic = "EltenSoundThemePackageFileCMPSMC"
+      cnt = ""
+      for s in @snd
+        snd = s.sound(true)
+        next if snd == getsound(s.file, true)
+        cnt += [s.file.size, s.file, snd.size, snd].pack("Ca*Ia*")
+      end
+      zcnt = Zlib::Deflate.deflate(cnt, Zlib::BEST_COMPRESSION)
+      fcnt = [magic, Time.now.to_i, @theme.name.size, @theme.name, zcnt.size, zcnt].pack("a*QCa*Ia*")
+      writefile(@file, fcnt)
+      @theme.file = @file if @theme.file == nil
+    }
     use_soundtheme(@file) if @file != nil and File.basename(@file, ".elsnd") == Configuration.soundtheme
   end
 end

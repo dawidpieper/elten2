@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2022 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -273,14 +273,14 @@ If the problem occurs, please contact Elten support"
           Win32API.new("bin\\nvdaHelperRemote.dll", "nvdaControllerInternal_installAddonPackageFromPath", "p", "i").call(unicode(path + "\\data\\elten.nvda-addon"))
           NVDA.destroy
           t = Time.now.to_f
-          waiting
-          loop_update while Time.now.to_f - t < 30 and Win32API.new("bin\\nvdaHelperRemote.dll", "nvdaController_testIfRunning", "", "i").call == 0
-          delay(1)
-          loop_update while Time.now.to_f - t < 30 and Win32API.new("bin\\nvdaHelperRemote.dll", "nvdaController_testIfRunning", "", "i").call != 0
-          loop_update while Time.now.to_f - t < 30 and FileTest.exists?(Dirs.temp + "\\nvda.pipe")
-          NVDA.init
-          delay(1)
-          waiting_end
+          waiting {
+            loop_update while Time.now.to_f - t < 30 and Win32API.new("bin\\nvdaHelperRemote.dll", "nvdaController_testIfRunning", "", "i").call == 0
+            delay(1)
+            loop_update while Time.now.to_f - t < 30 and Win32API.new("bin\\nvdaHelperRemote.dll", "nvdaController_testIfRunning", "", "i").call != 0
+            loop_update while Time.now.to_f - t < 30 and FileTest.exists?(Dirs.temp + "\\nvda.pipe")
+            NVDA.init
+            delay(1)
+          }
         }
       end
     end

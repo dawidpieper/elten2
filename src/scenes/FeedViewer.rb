@@ -155,6 +155,7 @@ class Scene_FeedViewer
         menu.option(_("Delete"), nil, :del) {
           delete_feed(feed.id)
           play("editbox_delete")
+          @sel.disable_item(@sel.index)
         }
       end
     end

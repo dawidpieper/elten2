@@ -93,7 +93,7 @@ class Scene_Messages
     @lastuser = @users[@sel_users.index] if @users.is_a?(Array) and @sel_users.is_a?(ListBox)
     @users = []
     @users_limit = limit
-    msg = srvproc("messages_conversations", { "limit" => @users_limit, "details" => 2 })
+    msg = srvproc("messages_conversations", { "limit" => @users_limit, "details" => 3 })
     if msg[0].to_i < 0
       alert(_("Error"))
       return $scene = Scene_Main.new
@@ -117,10 +117,11 @@ class Scene_Messages
         @users[-1].lastid = line.to_i
       when 6
         @users[-1].muted = (line.to_i == 1)
+      when 7
         @users[-1].name = line.delete("\r\n")
       end
       l += 1
-      l = 0 if l == 7
+      l = 0 if l == 8
     end
     selt = []
     ind = 0
@@ -405,6 +406,7 @@ class Scene_Messages
     for c in @conversations
       lu = c.lastuser
       lu = @conversation_name if @conversation_name != "" && @conversation_name != nil && lu[0..0] == "["
+      lu = name_conversation(lu) if lu[0..0] == "["
       selt.push(((c.subject != "") ? (c.subject) : p_("Messages", "No subject")) + ":\r\n" + ((sp == nil) ? p_("Messages", "Last message") : p_("Messages", "From")) + ": " + lu + ".\r\n" + format_date(c.lastdate) + "\r\n")
       selt[-1] += "\004INFNEW{#{p_("Messages", "New")}: }\004" if c.read == 0 and c.lastuser != Session.name
       ind = selt.size - 1 if c.subject == @lastconversation.subject and user == @lastconversation_user if @lastconversation != nil and @lastconversation_user != nil

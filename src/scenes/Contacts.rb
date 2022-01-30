@@ -107,7 +107,11 @@ class Scene_Contacts_Insert
   def main
     user = @user
     while user == ""
-      user = input_text(p_("Contacts", "Enter the name of the user you want to add to your contacts' list."))
+      user = input_text(p_("Contacts", "Enter the name of the user you want to add to your contacts' list."), 0, "", true)
+    end
+    if user == nil
+      $scene = Scene_Contacts.new
+      return
     end
     ct = ""
     user = finduser(user) if user.upcase == finduser(user).upcase

@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2022 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -1095,7 +1095,7 @@ class Scene_Forum
   def groupregulations(group)
     g = srvproc("forum_groups", { "ac" => "regulations", "groupid" => group.id })
     if g[0].to_i == 0
-      return g[1..-1].join("\n")
+      return g[1..-1].join
     else
       return ""
     end
@@ -2776,7 +2776,7 @@ class Scene_Forum_Thread
   def groupregulations
     g = srvproc("forum_groups", { "ac" => "regulations", "groupid" => @threadclass.forum.group.id })
     if g[0].to_i == 0
-      return g[1..-1].join("\n")
+      return g[1..-1].join
     else
       return ""
     end

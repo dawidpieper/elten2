@@ -802,7 +802,7 @@ module EltenAPI
     end
 
     # Opens a waiting dialog
-    def waiting
+    def waiting(&b)
       snd = getsound("waiting")
       waiting_end if @@waitingvoice != nil
       if snd != nil
@@ -811,6 +811,10 @@ module EltenAPI
         @@waitingvoice.play
       end
       @@waitingopened = true
+      if b != nil
+        b.call
+        waiting_end
+      end
     end
 
     # Closes a waiting dialog

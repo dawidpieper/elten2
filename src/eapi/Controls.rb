@@ -639,7 +639,7 @@ module EltenAPI
           @elements.each { |e| url = e.param[1] if (e.from >= line_beginning and e.to <= line_ending) and e.type == Element::Link } if url == nil
           if url != nil
             speak(p_("EAPI_Form", "Opening a link..."))
-            run("explorer \"#{url}\"")
+            c
             loop_update
           end
         end
@@ -2779,17 +2779,17 @@ module EltenAPI
       def paste
         files = Clipboard.files
         return if files.size == 0
-        waiting
-        for file in files
-          src = file
-          dst = @path + File.basename(file)
-          if File.directory?(file)
-            copydir(src, dst)
-          else
-            copyfile(src, dst)
+        waiting {
+          for file in files
+            src = file
+            dst = @path + File.basename(file)
+            if File.directory?(file)
+              copydir(src, dst)
+            else
+              copyfile(src, dst)
+            end
           end
-        end
-        waiting_end
+        }
         alert(p_("EAPI_Form", "Pasted"), false)
         refresh
       end
@@ -3462,14 +3462,14 @@ module EltenAPI
         btn_save.on(:press) {
           encoder = encoders[lst_format.index]
           pth = tr_path.selected + "\\" + edt_filename.text
-          waiting
-          r = true
-          if encoder::Extension.downcase == ".opus" && is_opus?
-            r = download_file(@file, pth)
-          else
-            encoder.encode_file(@file, pth)
-          end
-          waiting_end
+          waiting {
+            r = true
+            if encoder::Extension.downcase == ".opus" && is_opus?
+              r = download_file(@file, pth)
+            else
+              encoder.encode_file(@file, pth)
+            end
+          }
           alert(_("Saved")) if r
           form.resume
         }
@@ -4697,9 +4697,9 @@ module EltenAPI
           end
         end
         if @filename != @current_filename
-          waiting
-          OpusRecorder.encode_file(@current_filename, @filename, @bitrate, @framesize, @application, @usevbr, @timelimit, get_tags(false))
-          waiting_end
+          waiting {
+            OpusRecorder.encode_file(@current_filename, @filename, @bitrate, @framesize, @application, @usevbr, @timelimit, get_tags(false))
+          }
           @current_filename = @filename
           @last_tags = get_tags
           @form.hide(@btn_encodeplay)
