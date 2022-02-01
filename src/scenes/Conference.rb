@@ -378,7 +378,9 @@ class Scene_Conference
         menu.option(p_("Conference", "Channel details"), nil, "d") {
           txt = ch.name + "\n"
           txt += p_("Conference", "Creator") + ": " + ch.creator + "\n" if ch.creator.is_a?(String) and ch.creator != ""
+          txt += p_("Conference", "Administrators") + ": " + ch.administrators.join(", ") + "\n" if ch.administrators.is_a?(Array) and ch.administrators.size > 0
           txt += p_("Conference", "Language") + ": " + ch.lang + "\n" if ch.lang != ""
+          txt += p_("Conference", "Followers count: ") + ": " + ch.followers_count.to_s + "\n"
           txt += p_("Conference", "This channel is password-protected.") + "\n" if ch.passworded
           txt += p_("Conference", "A waiting room is enabled on this channel.") + "\n" if ch.waiting_type > 0
           if ch.room_id != nil
@@ -527,6 +529,7 @@ class Scene_Conference
       chk_conference = CheckBox.new(p_("Conference", "Enable conference mode (only channel administrators and allowed users can speak)"), (channel.conference_mode > 0) ? (1) : (0)),
       chk_waiting = CheckBox.new(p_("Conference", "Enable waiting room"), (channel.waiting_type > 0) ? (1) : (0)),
       chk_allowguests = CheckBox.new(p_("Conference", "Allow guests to join this channel"), (channel.allow_guests) ? (1) : (0)),
+      chk_hidden = CheckBox.new(p_("Conference", "Make this channel hidden"), (channel.public) ? (0) : (1)),
       chk_permanent = CheckBox.new(p_("Conference", "Store as permanent channel"), (channel.permanent) ? (1) : (0)),
       edt_width = EditBox.new(p_("Conference", "Channel width"), EditBox::Flags::Numbers, channel.width.to_s, true),
       edt_height = EditBox.new(p_("Conference", "Channel height"), EditBox::Flags::Numbers, channel.height.to_s, true),
@@ -547,7 +550,9 @@ class Scene_Conference
     if !holds_premiumpackage("audiophile")
       form.hide(edt_width)
       form.hide(edt_height)
+      form.hide(chk_hidden)
     end
+    form.hide(chk_hidden) if (channel.groupid != 0 && channel.groupid != nil)
     form.hide(chk_permanent) if (channel.groupid != 0 && channel.groupid != nil) || (channel.permanent == false && (!holds_premiumpackage("audiophile") || chans.find_all { |c| c.creator == Session.name && c.permanent == true }.size >= 3))
     lst_preset.on(:move) {
       if presets.size > lst_preset.index
@@ -632,7 +637,7 @@ class Scene_Conference
         codec_application = lst_application.index
         prediction_disabled = chk_predictiondisabled.checked == 1
         fec = chk_fec.checked == 1
-        public = channel.public
+        public = chk_hidden.checked == 0
         password = nil
         password = edt_password.text if edt_password.text != ""
         spatialization = lst_spatialization.index
@@ -1257,6 +1262,12 @@ class Scene_Conference
           @form.focus
         }
         if Conference.channel.administrators.include?(Session.name)
+          if Conference.channel.groupid == 0 || Conference.channel.groupid == nil
+            m.option(p_("Conference", "Show channel whitelist", nil, "l")) {
+              showwhitelist
+              @form.focus
+            }
+          end
           m.option(p_("Conference", "Edit channel"), nil, "e") {
             edit_channel(Conference.channel, nil)
           }
@@ -1465,6 +1476,14 @@ class Scene_Conference
               end
             end
           }
+          if administrators.size > 0 && conference.channel.creator == Session.name && administrators[lst_administrators.index] != Session.name
+            menu.option(p_("Conference", "Delete"), nil, :del) {
+              Conference.unadmin(administrators[lst_administrators.index])
+              refr.call
+              lst_administrators.focus
+              play("editbox_delete")
+            }
+          end
         end
       end
       menu.option(_("Refresh"), nil, "r") {
@@ -1477,6 +1496,55 @@ class Scene_Conference
     loop do
       loop_update
       lst_administrators.update
+      break if escape
+    end
+    dialog_close
+  end
+
+  def showwhitelist
+    whitelist = []
+    lst_whitelist = ListBox.new([], p_("Conference", "Channel whitelist"))
+    refr = Proc.new {
+      whitelist = Conference.channel.whitelist
+      lst_whitelist.options = whitelist
+    }
+    refr.call
+    lst_whitelist.bind_context { |menu|
+      if whitelist.size > 0
+        menu.useroption(whitelist[lst_whitelist.index])
+      end
+      if Conference.channel.whitelist.include?(Session.name)
+        if Conference.channel.groupid == 0 || Conference.channel.groupid == nil
+          menu.option(p_("Conference", "Add to whitelist"), nil, "n") {
+            user = input_user(p_("Conference", "User to add to channel whitelist"))
+            if user != nil
+              if user_exists(user)
+                Conference.whitelist(user)
+                refr.call
+                lst_whitelist.focus
+              end
+            end
+          }
+          if whitelist.size > 0
+            menu.option(p_("Conference", "Delete"), nil, :del) {
+              Conference.whiteunlist(whitelist[lst_whitelist.index])
+              refr.call
+              lst_whitelist.focus
+              play("editbox_delete")
+            }
+          end
+        end
+      end
+      menu.option(_("Refresh"), nil, "r") {
+        refr.call
+        lst_whitelist.focus
+      }
+    }
+    dialog_open
+    lst_whitelist.focus
+    loop do
+      loop_update
+      lst_whitelist.update
       break if escape
     end
     dialog_close

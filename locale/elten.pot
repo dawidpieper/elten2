@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
-"POT-Creation-Date: 2022-01-30 14:31+0100\n"
-"PO-Revision-Date: 2022-01-30 14:31+0100\n"
+"POT-Creation-Date: 2022-02-01 11:03+0100\n"
+"PO-Revision-Date: 2022-02-01 11:03+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -201,26 +201,41 @@ msgctxt "Messages"
 msgid "Send a new message"
 msgstr ""
 
+#: ../agent/quicknav.rb:137 ../src/scenes/Messages.rb:829
+msgctxt "Messages"
+msgid "Message:"
+msgstr ""
+
+#: ../agent/quicknav.rb:137 ../src/scenes/Messages.rb:828
+msgctxt "Messages"
+msgid "Subject:"
+msgstr ""
+
+#: ../agent/quicknav.rb:137 ../src/scenes/Messages.rb:826
+msgctxt "Messages"
+msgid "Recipient"
+msgstr ""
+
 #: ../agent/quicknav.rb:137 ../agent/quicknav.rb:278 ../agent/quicknav.rb:465
-#: ../src/Scenes/Conference.rb:728 ../src/Scenes/Conference.rb:786
-#: ../src/Scenes/Conference.rb:814 ../src/Scenes/Conference.rb:888
-#: ../src/Scenes/Conference.rb:1004 ../src/Scenes/Conference.rb:1075
-#: ../src/Scenes/Conference.rb:1215 ../src/Scenes/Conference.rb:1649
-#: ../src/Scenes/Conference.rb:1681 ../src/Scenes/Conference.rb:1718
-#: ../src/Scenes/Conference.rb:1820 ../src/Scenes/Conference.rb:1841
-#: ../src/Scenes/Conference.rb:1866 ../src/Scenes/Conference.rb:2122
-#: ../src/eapi/Common.rb:16 ../src/eapi/Common.rb:1207
+#: ../src/Scenes/Conference.rb:733 ../src/Scenes/Conference.rb:791
+#: ../src/Scenes/Conference.rb:819 ../src/Scenes/Conference.rb:893
+#: ../src/Scenes/Conference.rb:1009 ../src/Scenes/Conference.rb:1080
+#: ../src/Scenes/Conference.rb:1220 ../src/Scenes/Conference.rb:1717
+#: ../src/Scenes/Conference.rb:1749 ../src/Scenes/Conference.rb:1786
+#: ../src/Scenes/Conference.rb:1888 ../src/Scenes/Conference.rb:1909
+#: ../src/Scenes/Conference.rb:1934 ../src/Scenes/Conference.rb:2190
+#: ../src/eapi/Common.rb:16 ../src/eapi/Common.rb:1211
 #: ../src/eapi/Controls.rb:954 ../src/eapi/Controls.rb:1053
 #: ../src/eapi/Controls.rb:3242 ../src/eapi/Controls.rb:3308
 #: ../src/eapi/Controls.rb:4259 ../src/eapi/Controls.rb:4337
 #: ../src/eapi/Controls.rb:4400 ../src/eapi/Controls.rb:4553
-#: ../src/eapi/External.rb:120 ../src/eapi/UI.rb:759
+#: ../src/eapi/External.rb:120 ../src/eapi/UI.rb:763
 #: ../src/scenes/Account.rb:117 ../src/scenes/Ban.rb:26
 #: ../src/scenes/Ban.rb:108 ../src/scenes/Blog.rb:511
-#: ../src/scenes/Blog.rb:1029 ../src/scenes/Blog.rb:1231
-#: ../src/scenes/Blog.rb:1369 ../src/scenes/Blog.rb:1423
-#: ../src/scenes/Blog.rb:1543 ../src/scenes/Blog.rb:1920
-#: ../src/scenes/Blog.rb:2372 ../src/scenes/Blog.rb:2501
+#: ../src/scenes/Blog.rb:1036 ../src/scenes/Blog.rb:1238
+#: ../src/scenes/Blog.rb:1376 ../src/scenes/Blog.rb:1430
+#: ../src/scenes/Blog.rb:1550 ../src/scenes/Blog.rb:1927
+#: ../src/scenes/Blog.rb:2379 ../src/scenes/Blog.rb:2508
 #: ../src/scenes/Clock.rb:12 ../src/scenes/Clock.rb:70
 #: ../src/scenes/Forum.rb:727 ../src/scenes/Forum.rb:753
 #: ../src/scenes/Forum.rb:898 ../src/scenes/Forum.rb:1133
@@ -232,7 +247,7 @@ msgstr ""
 #: ../src/scenes/Honors.rb:222 ../src/scenes/Honors.rb:303
 #: ../src/scenes/Install.rb:3 ../src/scenes/Login.rb:88
 #: ../src/scenes/Main.rb:247 ../src/scenes/Messages.rb:257
-#: ../src/scenes/Messages.rb:828 ../src/scenes/Notes.rb:118
+#: ../src/scenes/Messages.rb:834 ../src/scenes/Notes.rb:118
 #: ../src/scenes/Notes.rb:252 ../src/scenes/Polls.rb:180
 #: ../src/scenes/Polls.rb:230 ../src/scenes/Polls.rb:373
 #: ../src/scenes/Portable.rb:9 ../src/scenes/Settings.rb:119
@@ -240,35 +255,20 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../agent/quicknav.rb:137 ../src/scenes/Messages.rb:822
-msgctxt "Messages"
-msgid "Subject:"
-msgstr ""
-
-#: ../agent/quicknav.rb:137 ../src/scenes/Messages.rb:820
-msgctxt "Messages"
-msgid "Recipient"
-msgstr ""
-
 #: ../agent/quicknav.rb:137 ../agent/quicknav.rb:278 ../agent/quicknav.rb:465
-#: ../src/scenes/Messages.rb:650 ../src/scenes/Messages.rb:916
+#: ../src/scenes/Messages.rb:656 ../src/scenes/Messages.rb:922
 msgctxt "Messages"
 msgid "Send"
 msgstr ""
 
-#: ../agent/quicknav.rb:137 ../src/scenes/Messages.rb:823
-msgctxt "Messages"
-msgid "Message:"
-msgstr ""
-
 #: ../agent/quicknav.rb:162 ../agent/quicknav.rb:166 ../agent/quicknav.rb:302
-#: ../agent/quicknav.rb:306 ../src/scenes/Messages.rb:662
+#: ../agent/quicknav.rb:306 ../src/scenes/Messages.rb:668
 msgctxt "Messages"
 msgid "Failed to send message"
 msgstr ""
 
 #: ../agent/quicknav.rb:220 ../agent/quicknav.rb:222
-#: ../src/scenes/Messages.rb:760
+#: ../src/scenes/Messages.rb:766
 msgctxt "Messages"
 msgid "To"
 msgstr ""
@@ -283,70 +283,70 @@ msgctxt "Main"
 msgid "Message"
 msgstr ""
 
-#: ../agent/quicknav.rb:318 ../src/Scenes/Conference.rb:1151
-msgctxt "Conference"
-msgid "Mute microphone"
-msgstr ""
-
-#: ../agent/quicknav.rb:318 ../src/Scenes/Conference.rb:1152
+#: ../agent/quicknav.rb:318 ../src/Scenes/Conference.rb:1157
 msgctxt "Conference"
 msgid "Unmute microphone"
 msgstr ""
 
-#: ../agent/quicknav.rb:321 ../src/Scenes/Conference.rb:1156
+#: ../agent/quicknav.rb:318 ../src/Scenes/Conference.rb:1156
+msgctxt "Conference"
+msgid "Mute microphone"
+msgstr ""
+
+#: ../agent/quicknav.rb:321 ../src/Scenes/Conference.rb:1161
 msgctxt "Conference"
 msgid "Microphone muted"
 msgstr ""
 
-#: ../agent/quicknav.rb:323 ../src/Scenes/Conference.rb:1158
+#: ../agent/quicknav.rb:323 ../src/Scenes/Conference.rb:1163
 msgctxt "Conference"
 msgid "Microphone unmuted"
 msgstr ""
 
-#: ../agent/quicknav.rb:326 ../src/Scenes/Conference.rb:1201
+#: ../agent/quicknav.rb:326 ../src/Scenes/Conference.rb:1206
 msgctxt "Conference"
 msgid "Roll a 6-sided dice"
 msgstr ""
 
-#: ../agent/quicknav.rb:329 ../src/Scenes/Conference.rb:1202
+#: ../agent/quicknav.rb:329 ../src/Scenes/Conference.rb:1207
 msgctxt "Conference"
 msgid "Roll a custom dice"
 msgstr ""
 
-#: ../agent/quicknav.rb:331 ../src/Scenes/Conference.rb:1472
+#: ../agent/quicknav.rb:331 ../src/Scenes/Conference.rb:1540
 msgctxt "Conference"
 msgid "Which dice do you want to roll?"
 msgstr ""
 
-#: ../agent/quicknav.rb:335 ../src/Scenes/Conference.rb:1472
+#: ../agent/quicknav.rb:335 ../src/Scenes/Conference.rb:1540
 msgctxt "Conference"
 msgid "%{count}-sided"
 msgstr ""
 
-#: ../agent/quicknav.rb:347 ../src/Scenes/Conference.rb:1046
+#: ../agent/quicknav.rb:347 ../src/Scenes/Conference.rb:1051
 msgctxt "Conference"
 msgid "Stream audio file"
 msgstr ""
 
-#: ../agent/quicknav.rb:348 ../src/Scenes/Conference.rb:735
-#: ../src/Scenes/Conference.rb:1049
+#: ../agent/quicknav.rb:348 ../src/Scenes/Conference.rb:740
+#: ../src/Scenes/Conference.rb:1054
 msgctxt "Conference"
 msgid "Select audio file"
 msgstr ""
 
-#: ../agent/quicknav.rb:353 ../src/Scenes/Conference.rb:1030
+#: ../agent/quicknav.rb:353 ../src/Scenes/Conference.rb:1035
 msgctxt "Conference"
 msgid "Remove audio stream"
 msgstr ""
 
-#: ../agent/quicknav.rb:358 ../src/Scenes/Conference.rb:1182
-msgctxt "Conference"
-msgid "Enable push to talk"
-msgstr ""
-
-#: ../agent/quicknav.rb:358 ../src/Scenes/Conference.rb:1183
+#: ../agent/quicknav.rb:358 ../src/Scenes/Conference.rb:1188
 msgctxt "Conference"
 msgid "Disable push to talk"
+msgstr ""
+
+#: ../agent/quicknav.rb:358 ../src/Scenes/Conference.rb:1187
+msgctxt "Conference"
+msgid "Enable push to talk"
 msgstr ""
 
 #: ../agent/quicknav.rb:362
@@ -395,7 +395,7 @@ msgid "Chat message"
 msgstr ""
 
 #: ../agent/quicknav.rb:509 ../src/scenes/Messages.rb:152
-#: ../src/scenes/Messages.rb:677
+#: ../src/scenes/Messages.rb:683
 msgctxt "Messages"
 msgid "Reply"
 msgstr ""
@@ -407,12 +407,12 @@ msgstr ""
 
 #: ../src/EAPI/Documents.rb:3
 msgctxt "License"
-msgid "Elten source code can be found at GitHub:"
+msgid "The original content of the GNU General Public License V3 can be found below."
 msgstr ""
 
 #: ../src/EAPI/Documents.rb:3
 msgctxt "License"
-msgid "The original content of the GNU General Public License V3 can be found below."
+msgid "Elten source code can be found at GitHub:"
 msgstr ""
 
 #: ../src/EAPI/Documents.rb:3
@@ -432,12 +432,12 @@ msgid "Current Elten modifier"
 msgstr ""
 
 #: ../src/Scenes/Auctions.rb:25 ../src/Scenes/CallHistory.rb:16
-#: ../src/Scenes/Conference.rb:755 ../src/Scenes/FeedViewer.rb:20
-#: ../src/Scenes/FeedViewer.rb:145 ../src/Scenes/PremiumPackages.rb:344
-#: ../src/Scenes/PremiumPackages.rb:382 ../src/Scenes/PremiumPackages.rb:399
-#: ../src/Scenes/PremiumPackages.rb:409 ../src/eapi/Common.rb:324
-#: ../src/eapi/Common.rb:350 ../src/eapi/Common.rb:358
-#: ../src/eapi/Common.rb:510 ../src/eapi/Common.rb:1199
+#: ../src/Scenes/Conference.rb:760 ../src/Scenes/FeedViewer.rb:20
+#: ../src/Scenes/FeedViewer.rb:145 ../src/Scenes/PremiumPackages.rb:345
+#: ../src/Scenes/PremiumPackages.rb:383 ../src/Scenes/PremiumPackages.rb:400
+#: ../src/Scenes/PremiumPackages.rb:410 ../src/eapi/Common.rb:328
+#: ../src/eapi/Common.rb:354 ../src/eapi/Common.rb:362
+#: ../src/eapi/Common.rb:514 ../src/eapi/Common.rb:1203
 #: ../src/eapi/EltenSRV.rb:224 ../src/eapi/EltenSRV.rb:242
 #: ../src/eapi/EltenSRV.rb:313 ../src/eapi/EltenSRV.rb:340
 #: ../src/eapi/EltenSRV.rb:378 ../src/eapi/EltenSRV.rb:393
@@ -452,21 +452,21 @@ msgstr ""
 #: ../src/scenes/Blog.rb:264 ../src/scenes/Blog.rb:376
 #: ../src/scenes/Blog.rb:452 ../src/scenes/Blog.rb:501
 #: ../src/scenes/Blog.rb:523 ../src/scenes/Blog.rb:555
-#: ../src/scenes/Blog.rb:588 ../src/scenes/Blog.rb:704
-#: ../src/scenes/Blog.rb:794 ../src/scenes/Blog.rb:975
-#: ../src/scenes/Blog.rb:1041 ../src/scenes/Blog.rb:1087
-#: ../src/scenes/Blog.rb:1114 ../src/scenes/Blog.rb:1122
-#: ../src/scenes/Blog.rb:1130 ../src/scenes/Blog.rb:1167
-#: ../src/scenes/Blog.rb:1177 ../src/scenes/Blog.rb:1217
-#: ../src/scenes/Blog.rb:1247 ../src/scenes/Blog.rb:1280
-#: ../src/scenes/Blog.rb:1308 ../src/scenes/Blog.rb:1328
-#: ../src/scenes/Blog.rb:1387 ../src/scenes/Blog.rb:1412
-#: ../src/scenes/Blog.rb:1430 ../src/scenes/Blog.rb:1812
-#: ../src/scenes/Blog.rb:1827 ../src/scenes/Blog.rb:1883
-#: ../src/scenes/Blog.rb:1896 ../src/scenes/Blog.rb:1979
-#: ../src/scenes/Blog.rb:2128 ../src/scenes/Blog.rb:2135
-#: ../src/scenes/Blog.rb:2343 ../src/scenes/Blog.rb:2364
-#: ../src/scenes/Blog.rb:2470 ../src/scenes/ForgotPassword.rb:24
+#: ../src/scenes/Blog.rb:588 ../src/scenes/Blog.rb:711
+#: ../src/scenes/Blog.rb:801 ../src/scenes/Blog.rb:982
+#: ../src/scenes/Blog.rb:1048 ../src/scenes/Blog.rb:1094
+#: ../src/scenes/Blog.rb:1121 ../src/scenes/Blog.rb:1129
+#: ../src/scenes/Blog.rb:1137 ../src/scenes/Blog.rb:1174
+#: ../src/scenes/Blog.rb:1184 ../src/scenes/Blog.rb:1224
+#: ../src/scenes/Blog.rb:1254 ../src/scenes/Blog.rb:1287
+#: ../src/scenes/Blog.rb:1315 ../src/scenes/Blog.rb:1335
+#: ../src/scenes/Blog.rb:1394 ../src/scenes/Blog.rb:1419
+#: ../src/scenes/Blog.rb:1437 ../src/scenes/Blog.rb:1819
+#: ../src/scenes/Blog.rb:1834 ../src/scenes/Blog.rb:1890
+#: ../src/scenes/Blog.rb:1903 ../src/scenes/Blog.rb:1986
+#: ../src/scenes/Blog.rb:2135 ../src/scenes/Blog.rb:2142
+#: ../src/scenes/Blog.rb:2350 ../src/scenes/Blog.rb:2371
+#: ../src/scenes/Blog.rb:2477 ../src/scenes/ForgotPassword.rb:24
 #: ../src/scenes/Forum.rb:621 ../src/scenes/Forum.rb:645
 #: ../src/scenes/Forum.rb:665 ../src/scenes/Forum.rb:679
 #: ../src/scenes/Forum.rb:742 ../src/scenes/Forum.rb:767
@@ -503,13 +503,13 @@ msgstr ""
 #: ../src/scenes/Honors.rb:315 ../src/scenes/Loading.rb:329
 #: ../src/scenes/Main.rb:393 ../src/scenes/Messages.rb:93
 #: ../src/scenes/Messages.rb:162 ../src/scenes/Messages.rb:220
-#: ../src/scenes/Messages.rb:302 ../src/scenes/Messages.rb:334
-#: ../src/scenes/Messages.rb:341 ../src/scenes/Messages.rb:366
-#: ../src/scenes/Messages.rb:455 ../src/scenes/Messages.rb:488
-#: ../src/scenes/Messages.rb:693 ../src/scenes/Messages.rb:700
-#: ../src/scenes/Messages.rb:716 ../src/scenes/Messages.rb:723
-#: ../src/scenes/Messages.rb:774 ../src/scenes/Messages.rb:890
-#: ../src/scenes/Messages.rb:995 ../src/scenes/Notes.rb:16
+#: ../src/scenes/Messages.rb:302 ../src/scenes/Messages.rb:338
+#: ../src/scenes/Messages.rb:345 ../src/scenes/Messages.rb:370
+#: ../src/scenes/Messages.rb:459 ../src/scenes/Messages.rb:492
+#: ../src/scenes/Messages.rb:699 ../src/scenes/Messages.rb:706
+#: ../src/scenes/Messages.rb:722 ../src/scenes/Messages.rb:729
+#: ../src/scenes/Messages.rb:780 ../src/scenes/Messages.rb:896
+#: ../src/scenes/Messages.rb:1003 ../src/scenes/Notes.rb:16
 #: ../src/scenes/Notes.rb:107 ../src/scenes/Notes.rb:141
 #: ../src/scenes/Notes.rb:181 ../src/scenes/Notes.rb:194
 #: ../src/scenes/Notes.rb:228 ../src/scenes/Notes.rb:241
@@ -553,11 +553,6 @@ msgstr ""
 
 #: ../src/Scenes/CallHistory.rb:44
 msgctxt "CallHistory"
-msgid "Type"
-msgstr ""
-
-#: ../src/Scenes/CallHistory.rb:44
-msgctxt "CallHistory"
 msgid "Status"
 msgstr ""
 
@@ -566,22 +561,28 @@ msgctxt "CallHistory"
 msgid "Time"
 msgstr ""
 
+#: ../src/Scenes/CallHistory.rb:44
+msgctxt "CallHistory"
+msgid "Type"
+msgstr ""
+
 #: ../src/Scenes/CallHistory.rb:45
 msgctxt "CallHistory"
 msgid "Call History"
 msgstr ""
 
-#: ../src/Scenes/CallHistory.rb:61 ../src/Scenes/Conference.rb:1329
-#: ../src/Scenes/Conference.rb:1341 ../src/Scenes/Conference.rb:1350
-#: ../src/Scenes/Conference.rb:1411 ../src/Scenes/Conference.rb:1451
-#: ../src/Scenes/Conference.rb:1538 ../src/Scenes/Conference.rb:2114
-#: ../src/Scenes/PremiumPackages.rb:122 ../src/scenes/Account.rb:441
-#: ../src/scenes/Account.rb:559 ../src/scenes/Blog.rb:1203
+#: ../src/Scenes/CallHistory.rb:61 ../src/Scenes/Conference.rb:1340
+#: ../src/Scenes/Conference.rb:1352 ../src/Scenes/Conference.rb:1361
+#: ../src/Scenes/Conference.rb:1422 ../src/Scenes/Conference.rb:1471
+#: ../src/Scenes/Conference.rb:1519 ../src/Scenes/Conference.rb:1606
+#: ../src/Scenes/Conference.rb:2182 ../src/Scenes/PremiumPackages.rb:123
+#: ../src/Scenes/Sponsors.rb:30 ../src/scenes/Account.rb:441
+#: ../src/scenes/Account.rb:559 ../src/scenes/Blog.rb:1210
 #: ../src/scenes/Forum.rb:706 ../src/scenes/Forum.rb:1563
 #: ../src/scenes/Forum.rb:2147 ../src/scenes/Forum.rb:3354
 #: ../src/scenes/Honors.rb:174 ../src/scenes/Honors.rb:295
-#: ../src/scenes/Messages.rb:240 ../src/scenes/Messages.rb:447
-#: ../src/scenes/Messages.rb:749 ../src/scenes/Notes.rb:97
+#: ../src/scenes/Messages.rb:240 ../src/scenes/Messages.rb:451
+#: ../src/scenes/Messages.rb:755 ../src/scenes/Notes.rb:97
 #: ../src/scenes/Online.rb:37 ../src/scenes/Polls.rb:163
 #: ../src/scenes/Users.rb:56 ../src/scenes/UsersAddedMeToContacts.rb:60
 #: ../src/scenes/Users_RecentlyActived.rb:40
@@ -614,7 +615,7 @@ msgctxt "Conference"
 msgid "More options"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:43 ../src/Scenes/Conference.rb:940
+#: ../src/Scenes/Conference.rb:43 ../src/Scenes/Conference.rb:945
 msgctxt "Conference"
 msgid "Close"
 msgstr ""
@@ -684,7 +685,7 @@ msgctxt "Conference"
 msgid "User volume"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:113 ../src/Scenes/Conference.rb:1196
+#: ../src/Scenes/Conference.rb:113 ../src/Scenes/Conference.rb:1201
 msgctxt "Conference"
 msgid "VST chain"
 msgstr ""
@@ -796,8 +797,8 @@ msgctxt "Conference"
 msgid "Would you like to disconnect?"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:316 ../src/Scenes/Conference.rb:387
-#: ../src/Scenes/Conference.rb:521
+#: ../src/Scenes/Conference.rb:316 ../src/Scenes/Conference.rb:389
+#: ../src/Scenes/Conference.rb:523
 msgctxt "Conference"
 msgid "Channels"
 msgstr ""
@@ -807,7 +808,7 @@ msgctxt "Conference"
 msgid "Join"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:343 ../src/Scenes/Conference.rb:450
+#: ../src/Scenes/Conference.rb:343 ../src/Scenes/Conference.rb:452
 msgctxt "Conference"
 msgid "Channel password"
 msgstr ""
@@ -832,7 +833,7 @@ msgctxt "Conference"
 msgid "Channel unfollowed"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:375 ../src/Scenes/Conference.rb:389
+#: ../src/Scenes/Conference.rb:375 ../src/Scenes/Conference.rb:391
 msgctxt "Conference"
 msgid "Channel details"
 msgstr ""
@@ -842,333 +843,349 @@ msgctxt "Conference"
 msgid "Creator"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:378 ../src/Scenes/Conference.rb:512
+#: ../src/Scenes/Conference.rb:378
+msgctxt "Conference"
+msgid "Administrators"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:379 ../src/Scenes/Conference.rb:514
 msgctxt "Conference"
 msgid "Language"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:379
+#: ../src/Scenes/Conference.rb:380
+msgctxt "Conference"
+msgid "Followers count: "
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:381
 msgctxt "Conference"
 msgid "This channel is password-protected."
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:380
+#: ../src/Scenes/Conference.rb:382
 msgctxt "Conference"
 msgid "A waiting room is enabled on this channel."
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:382
+#: ../src/Scenes/Conference.rb:384
 msgctxt "Conference"
 msgid "Room id"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:383
+#: ../src/Scenes/Conference.rb:385
 msgctxt "Conference"
 msgid "URL for joining using Web Browser"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:385 ../src/Scenes/Conference.rb:515
+#: ../src/Scenes/Conference.rb:387 ../src/Scenes/Conference.rb:517
 msgctxt "Conference"
 msgid "Channel bitrate"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:386 ../src/Scenes/Conference.rb:516
+#: ../src/Scenes/Conference.rb:388 ../src/Scenes/Conference.rb:518
 msgctxt "Conference"
 msgid "Channel frame size"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:388 ../src/Scenes/Conference.rb:522
+#: ../src/Scenes/Conference.rb:390 ../src/Scenes/Conference.rb:524
 msgctxt "Conference"
 msgid "Space Virtualization"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:392 ../src/Scenes/Conference.rb:1246
+#: ../src/Scenes/Conference.rb:394 ../src/Scenes/Conference.rb:1257
 msgctxt "Conference"
 msgid "Edit channel"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:402
+#: ../src/Scenes/Conference.rb:404
 msgctxt "Conference"
 msgid "Leave"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:409
+#: ../src/Scenes/Conference.rb:411
 msgctxt "Conference"
 msgid "Create channel"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:417
+#: ../src/Scenes/Conference.rb:419
 msgctxt "Conference"
 msgid "Show channels in unknown languages"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:418
+#: ../src/Scenes/Conference.rb:420
 msgctxt "Conference"
 msgid "Hide channels in unknown languages"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:428
+#: ../src/Scenes/Conference.rb:430
 msgctxt "Conference"
 msgid "Show private channels"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:431
+#: ../src/Scenes/Conference.rb:433
 msgctxt "Conference"
 msgid "Select user"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:437
+#: ../src/Scenes/Conference.rb:439
 msgctxt "Conference"
 msgid "Refresh"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:482
+#: ../src/Scenes/Conference.rb:484
 msgctxt "Conference"
 msgid "Audiophile"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:483
+#: ../src/Scenes/Conference.rb:485
 msgctxt "Conference"
 msgid "High quality"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:484
+#: ../src/Scenes/Conference.rb:486
 msgctxt "Conference"
 msgid "Standard quality"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:485
+#: ../src/Scenes/Conference.rb:487
 msgctxt "Conference"
 msgid "Standard quality with surround sound"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:486
+#: ../src/Scenes/Conference.rb:488
 msgctxt "Conference"
 msgid "Quality for mobile or limited connections"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:487
+#: ../src/Scenes/Conference.rb:489
 msgctxt "Conference"
 msgid "Quality for mobile or limited connections with surround sound"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:488
+#: ../src/Scenes/Conference.rb:490
 msgctxt "Conference"
 msgid "Low quality"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:511
+#: ../src/Scenes/Conference.rb:513
 msgctxt "Conference"
 msgid "Channel name"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:513
+#: ../src/Scenes/Conference.rb:515
 msgctxt "Conference"
 msgid "Message of the Day"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:514
-msgctxt "Conference"
-msgid "Quality preset"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:514
+#: ../src/Scenes/Conference.rb:516
 msgctxt "Conference"
 msgid "Custom"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:517
+#: ../src/Scenes/Conference.rb:516
 msgctxt "Conference"
-msgid "Constrained variable"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:517
-msgctxt "Conference"
-msgid "Bitrate type"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:517
-msgctxt "Conference"
-msgid "Variable"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:517
-msgctxt "Conference"
-msgid "Constant"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:518
-msgctxt "Conference"
-msgid "Codec application"
+msgid "Quality preset"
 msgstr ""
 
 #: ../src/Scenes/Conference.rb:519
 msgctxt "Conference"
-msgid "Enable forward error correction"
+msgid "Constrained variable"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:519
+msgctxt "Conference"
+msgid "Bitrate type"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:519
+msgctxt "Conference"
+msgid "Constant"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:519
+msgctxt "Conference"
+msgid "Variable"
 msgstr ""
 
 #: ../src/Scenes/Conference.rb:520
 msgctxt "Conference"
+msgid "Codec application"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:521
+msgctxt "Conference"
+msgid "Enable forward error correction"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:522
+msgctxt "Conference"
 msgid "Disable encoding prediction"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:523
+#: ../src/Scenes/Conference.rb:525
 msgctxt "Conference"
 msgid ""
 "Enable conference mode (only channel administrators and allowed users can spea"
 "k)"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:524
+#: ../src/Scenes/Conference.rb:526
 msgctxt "Conference"
 msgid "Enable waiting room"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:525
+#: ../src/Scenes/Conference.rb:527
 msgctxt "Conference"
 msgid "Allow guests to join this channel"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:526
-msgctxt "Conference"
-msgid "Store as permanent channel"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:527
-msgctxt "Conference"
-msgid "Channel width"
-msgstr ""
-
 #: ../src/Scenes/Conference.rb:528
 msgctxt "Conference"
-msgid "Channel height"
+msgid "Make this channel hidden"
 msgstr ""
 
 #: ../src/Scenes/Conference.rb:529
 msgctxt "Conference"
-msgid "Channel password (leave this field blank to set a channel without a password)"
+msgid "Store as permanent channel"
 msgstr ""
 
 #: ../src/Scenes/Conference.rb:530
 msgctxt "Conference"
-msgid "Create"
+msgid "Channel width"
 msgstr ""
 
 #: ../src/Scenes/Conference.rb:531
 msgctxt "Conference"
+msgid "Channel height"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:532
+msgctxt "Conference"
+msgid "Channel password (leave this field blank to set a channel without a password)"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:533
+msgctxt "Conference"
+msgid "Create"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:534
+msgctxt "Conference"
 msgid "Cancel"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:538
+#: ../src/Scenes/Conference.rb:541
 msgctxt "Conference"
 msgid "Edit"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:608
+#: ../src/Scenes/Conference.rb:613
 msgctxt "Conference"
 msgid "Channel width and height must be at least 1"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:612
+#: ../src/Scenes/Conference.rb:617
 msgctxt "Conference"
 msgid "%{value} is the maximum allowed channel width and height"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:674 ../src/Scenes/Conference.rb:689
+#: ../src/Scenes/Conference.rb:679 ../src/Scenes/Conference.rb:694
 msgctxt "Conference"
 msgid "%{name}, everywhere"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:676 ../src/Scenes/Conference.rb:691
+#: ../src/Scenes/Conference.rb:681 ../src/Scenes/Conference.rb:696
 msgctxt "Conference"
 msgid "%{name}, located at %{x}, %{y}"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:679 ../src/Scenes/Conference.rb:976
+#: ../src/Scenes/Conference.rb:684 ../src/Scenes/Conference.rb:981
 msgctxt "Conference"
 msgid "Channel scenery"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:681
+#: ../src/Scenes/Conference.rb:686
 msgctxt "Conference"
 msgid "Add object"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:700
+#: ../src/Scenes/Conference.rb:705
 msgctxt "Conference"
 msgid "Go to object"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:704
+#: ../src/Scenes/Conference.rb:709
 msgctxt "Conference"
 msgid "Remove object"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:725
+#: ../src/Scenes/Conference.rb:730
 msgctxt "Conference"
 msgid "Available objects"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:726 ../src/Scenes/Conference.rb:1647
-#: ../src/Scenes/Conference.rb:1679 ../src/Scenes/Conference.rb:1716
-msgctxt "Conference"
-msgid "Here"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:726 ../src/Scenes/Conference.rb:1488
-#: ../src/Scenes/Conference.rb:1560 ../src/Scenes/Conference.rb:1647
-#: ../src/Scenes/Conference.rb:1679 ../src/Scenes/Conference.rb:1716
-msgctxt "Conference"
-msgid "Everywhere"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:726
+#: ../src/Scenes/Conference.rb:731
 msgctxt "Conference"
 msgid "Object position"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:727
+#: ../src/Scenes/Conference.rb:731 ../src/Scenes/Conference.rb:1715
+#: ../src/Scenes/Conference.rb:1747 ../src/Scenes/Conference.rb:1784
+msgctxt "Conference"
+msgid "Here"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:731 ../src/Scenes/Conference.rb:1556
+#: ../src/Scenes/Conference.rb:1628 ../src/Scenes/Conference.rb:1715
+#: ../src/Scenes/Conference.rb:1747 ../src/Scenes/Conference.rb:1784
+msgctxt "Conference"
+msgid "Everywhere"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:732
 msgctxt "Conference"
 msgid "Place object"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:734
+#: ../src/Scenes/Conference.rb:739
 msgctxt "Conference"
 msgid "Upload new sound"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:738
+#: ../src/Scenes/Conference.rb:743
 msgctxt "Conference"
 msgid "This file is too large"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:753
+#: ../src/Scenes/Conference.rb:758 ../src/Scenes/Conference.rb:1461
+#: ../src/Scenes/Conference.rb:1510
 msgctxt "Conference"
 msgid "Delete"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:757
+#: ../src/Scenes/Conference.rb:762
 msgctxt "Conference"
 msgid "Object deleted"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:783 ../src/Scenes/Conference.rb:811
-#: ../src/Scenes/Conference.rb:2118
+#: ../src/Scenes/Conference.rb:788 ../src/Scenes/Conference.rb:816
+#: ../src/Scenes/Conference.rb:2186
 msgctxt "Conference"
 msgid "Destination"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:784 ../src/Scenes/Conference.rb:2119
+#: ../src/Scenes/Conference.rb:789 ../src/Scenes/Conference.rb:2187
 msgctxt "Conference"
 msgid "File name"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:785 ../src/Scenes/Conference.rb:813
-#: ../src/Scenes/Conference.rb:887 ../src/eapi/Controls.rb:3307
+#: ../src/Scenes/Conference.rb:790 ../src/Scenes/Conference.rb:818
+#: ../src/Scenes/Conference.rb:892 ../src/eapi/Controls.rb:3307
 #: ../src/eapi/Controls.rb:4258 ../src/eapi/Controls.rb:4336
 #: ../src/eapi/Controls.rb:4399 ../src/scenes/Account.rb:116
-#: ../src/scenes/Blog.rb:1230 ../src/scenes/Blog.rb:1369
-#: ../src/scenes/Blog.rb:1542 ../src/scenes/Clock.rb:11
+#: ../src/scenes/Blog.rb:1237 ../src/scenes/Blog.rb:1376
+#: ../src/scenes/Blog.rb:1549 ../src/scenes/Clock.rb:11
 #: ../src/scenes/Clock.rb:70 ../src/scenes/Forum.rb:726
 #: ../src/scenes/Forum.rb:752 ../src/scenes/Forum.rb:1326
 #: ../src/scenes/Forum.rb:1475 ../src/scenes/Forum.rb:3389
@@ -1179,840 +1196,860 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:793 ../src/Scenes/Conference.rb:820
+#: ../src/Scenes/Conference.rb:798 ../src/Scenes/Conference.rb:825
 msgctxt "Conference"
 msgid "Saving began"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:802 ../src/Scenes/Conference.rb:829
+#: ../src/Scenes/Conference.rb:807 ../src/Scenes/Conference.rb:834
 msgctxt "Conference"
 msgid "Save completed"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:812
+#: ../src/Scenes/Conference.rb:817
 msgctxt "Conference"
 msgid "Directory name"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:844 ../src/Scenes/Conference.rb:846
-#: ../src/Scenes/Conference.rb:848 ../src/Scenes/Conference.rb:885
+#: ../src/Scenes/Conference.rb:849 ../src/Scenes/Conference.rb:851
+#: ../src/Scenes/Conference.rb:853 ../src/Scenes/Conference.rb:890
 msgctxt "Conference"
 msgid "Left"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:850 ../src/Scenes/Conference.rb:852
-#: ../src/Scenes/Conference.rb:854 ../src/Scenes/Conference.rb:885
+#: ../src/Scenes/Conference.rb:855 ../src/Scenes/Conference.rb:857
+#: ../src/Scenes/Conference.rb:859 ../src/Scenes/Conference.rb:890
 msgctxt "Conference"
 msgid "Right"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:867
+#: ../src/Scenes/Conference.rb:872
 msgctxt "Conference"
 msgid "Set push to talk shortcut"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:869
+#: ../src/Scenes/Conference.rb:874
 msgctxt "Conference"
 msgid "Push to talk shortcut"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:878
+#: ../src/Scenes/Conference.rb:883
 msgctxt "Conference"
 msgid "Pause key"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:882
+#: ../src/Scenes/Conference.rb:887
 msgctxt "Conference"
 msgid "No key"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:885
-msgctxt "Conference"
-msgid "Modifiers"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:885
+#: ../src/Scenes/Conference.rb:890
 msgctxt "Conference"
 msgid "Any"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:886
+#: ../src/Scenes/Conference.rb:890
+msgctxt "Conference"
+msgid "Modifiers"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:891
 msgctxt "Conference"
 msgid "Key"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:925
+#: ../src/Scenes/Conference.rb:930
 msgctxt "Conference"
 msgid "No keys selected"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:937
+#: ../src/Scenes/Conference.rb:942
 msgctxt "Conference"
 msgid "Input volume"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:938
+#: ../src/Scenes/Conference.rb:943
 msgctxt "Conference"
 msgid "Master volume"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:939 ../src/Scenes/Conference.rb:1516
-#: ../src/Scenes/Conference.rb:1599
+#: ../src/Scenes/Conference.rb:944 ../src/Scenes/Conference.rb:1584
+#: ../src/Scenes/Conference.rb:1667
 msgctxt "Conference"
 msgid "Stream volume"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:961
+#: ../src/Scenes/Conference.rb:966
 msgctxt "Conference"
 msgid "Status"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:983
+#: ../src/Scenes/Conference.rb:988
 msgctxt "Conference"
 msgid "Remove soundcard stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:996
+#: ../src/Scenes/Conference.rb:1001
 msgctxt "Conference"
 msgid "Stream from soundcard"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1001 ../src/Scenes/Conference.rb:1714
-#: ../src/Scenes/Conference.rb:1864
+#: ../src/Scenes/Conference.rb:1006 ../src/Scenes/Conference.rb:1782
+#: ../src/Scenes/Conference.rb:1932
 msgctxt "Conference"
 msgid "Select soundcard to stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1001 ../src/Scenes/Conference.rb:1714
-#: ../src/Scenes/Conference.rb:1864
+#: ../src/Scenes/Conference.rb:1006 ../src/Scenes/Conference.rb:1782
+#: ../src/Scenes/Conference.rb:1932
 msgctxt "Conference"
 msgid "Loopback device"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1002 ../src/Scenes/Conference.rb:1715
+#: ../src/Scenes/Conference.rb:1007 ../src/Scenes/Conference.rb:1783
 msgctxt "Conference"
 msgid "Turn on the listening"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1003
+#: ../src/Scenes/Conference.rb:1008
 msgctxt "Conference"
 msgid "Stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1042 ../src/Scenes/Conference.rb:1624
-#: ../src/Scenes/Conference.rb:1801
+#: ../src/Scenes/Conference.rb:1047 ../src/Scenes/Conference.rb:1692
+#: ../src/Scenes/Conference.rb:1869
 msgctxt "Conference"
 msgid "Scroll backward"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1043 ../src/Scenes/Conference.rb:1629
-#: ../src/Scenes/Conference.rb:1804
+#: ../src/Scenes/Conference.rb:1048 ../src/Scenes/Conference.rb:1697
+#: ../src/Scenes/Conference.rb:1872
 msgctxt "Conference"
 msgid "Scroll forward"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1044
+#: ../src/Scenes/Conference.rb:1049
 msgctxt "Conference"
 msgid "Toggle pause"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1058
+#: ../src/Scenes/Conference.rb:1063
 msgctxt "Conference"
 msgid "Remove shoutcast stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1062
+#: ../src/Scenes/Conference.rb:1067
 msgctxt "Conference"
 msgid "Stream this conference to a shoutcast server"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1065
+#: ../src/Scenes/Conference.rb:1070
 msgctxt "Conference"
 msgid "Server type"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1066
+#: ../src/Scenes/Conference.rb:1071
 msgctxt "Conference"
 msgid "Server"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1067
+#: ../src/Scenes/Conference.rb:1072
 msgctxt "Conference"
 msgid "Port"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1068
+#: ../src/Scenes/Conference.rb:1073
 msgctxt "Conference"
 msgid "Stream ID"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1069
+#: ../src/Scenes/Conference.rb:1074
 msgctxt "Conference"
 msgid "Username (empty for no user)"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1070
+#: ../src/Scenes/Conference.rb:1075
 msgctxt "Conference"
 msgid "Password"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1071
+#: ../src/Scenes/Conference.rb:1076
 msgctxt "Conference"
 msgid "Stream name"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1072
+#: ../src/Scenes/Conference.rb:1077
 msgctxt "Conference"
 msgid "Stream bitrate"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1073
+#: ../src/Scenes/Conference.rb:1078
 msgctxt "Conference"
 msgid "Make this stream public"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1074
+#: ../src/Scenes/Conference.rb:1079
 msgctxt "Conference"
 msgid "Start"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1120 ../src/Scenes/Conference.rb:1555
+#: ../src/Scenes/Conference.rb:1125 ../src/Scenes/Conference.rb:1623
 msgctxt "Conference"
 msgid "My streams"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1121 ../src/Scenes/Conference.rb:1482
+#: ../src/Scenes/Conference.rb:1126 ../src/Scenes/Conference.rb:1550
 msgctxt "Conference"
 msgid "Channel streams"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1137
+#: ../src/Scenes/Conference.rb:1142
 msgctxt "Conference"
 msgid "Request speech"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1142
+#: ../src/Scenes/Conference.rb:1147
 msgctxt "Conference"
 msgid "Refrain speech"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1150
+#: ../src/Scenes/Conference.rb:1155
 msgctxt "Conference"
 msgid "Streaming"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1161
+#: ../src/Scenes/Conference.rb:1166
 msgctxt "Conference"
 msgid "Change volumes"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1165
+#: ../src/Scenes/Conference.rb:1170
 msgctxt "Conference"
 msgid "Finish saving"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1169
+#: ../src/Scenes/Conference.rb:1174
 msgctxt "Conference"
 msgid "Save this conference to a file"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1170
+#: ../src/Scenes/Conference.rb:1175
 msgctxt "Conference"
 msgid "Save mixed stream to a file"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1174
+#: ../src/Scenes/Conference.rb:1179
 msgctxt "Conference"
 msgid "Save separate streams (experimental)"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1180
+#: ../src/Scenes/Conference.rb:1185
 msgctxt "Conference"
 msgid "Push to talk"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1200
+#: ../src/Scenes/Conference.rb:1205
 msgctxt "Conference"
 msgid "Miscellaneous"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1205
+#: ../src/Scenes/Conference.rb:1210
 msgctxt "Conference"
 msgid "Cardboard"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1207
+#: ../src/Scenes/Conference.rb:1212
 msgctxt "Conference"
 msgid "Show status"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1209
+#: ../src/Scenes/Conference.rb:1214
 msgctxt "Conference"
 msgid "Change output soundcard"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1210
+#: ../src/Scenes/Conference.rb:1215
 msgctxt "Conference"
 msgid "Use Elten soundcard"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1213
+#: ../src/Scenes/Conference.rb:1218
 msgctxt "Conference"
 msgid "Select soundcard"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1214
+#: ../src/Scenes/Conference.rb:1219
 msgctxt "Conference"
 msgid "Select"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1234
+#: ../src/Scenes/Conference.rb:1239
 msgctxt "Conference"
 msgid "Channel"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1236
+#: ../src/Scenes/Conference.rb:1241
 msgctxt "Conference"
 msgid "Show banned users"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1241
+#: ../src/Scenes/Conference.rb:1246
 msgctxt "Conference"
 msgid "Show channel administrators"
 msgstr ""
 
 #: ../src/Scenes/Conference.rb:1252
 msgctxt "Conference"
-msgid "Show channels"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:1261
-msgctxt "Conference"
-msgid "Full deck"
+msgid "Show channel whitelist"
 msgstr ""
 
 #: ../src/Scenes/Conference.rb:1263
 msgctxt "Conference"
+msgid "Show channels"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:1272
+msgctxt "Conference"
+msgid "Full deck"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:1274
+msgctxt "Conference"
 msgid "Two colours"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1265
+#: ../src/Scenes/Conference.rb:1276
 msgctxt "Conference"
 msgid "Small deck"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1267
+#: ../src/Scenes/Conference.rb:1278
 msgctxt "Conference"
 msgid "Two colours of a small deck"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1269
+#: ../src/Scenes/Conference.rb:1280
 msgctxt "Conference"
 msgid "No jokers"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1271
+#: ../src/Scenes/Conference.rb:1282
 msgctxt "Conference"
 msgid "UNO"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1278
+#: ../src/Scenes/Conference.rb:1289
 msgctxt "Conference"
 msgid "Decks"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1279
+#: ../src/Scenes/Conference.rb:1290
 msgctxt "Conference"
 msgid "My cards"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1280
+#: ../src/Scenes/Conference.rb:1291
 msgctxt "Conference"
 msgid "Placed cards"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1281 ../src/eapi/Controls.rb:4430
+#: ../src/Scenes/Conference.rb:1292 ../src/eapi/Controls.rb:4430
 #: ../src/scenes/Loading.rb:354 ../src/scenes/Log.rb:14
 #: ../src/scenes/Polls.rb:574
 msgid "Close"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1300 ../src/Scenes/Conference.rb:1346
+#: ../src/Scenes/Conference.rb:1311 ../src/Scenes/Conference.rb:1357
 msgctxt "Conference"
 msgid "Pick a card"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1303
+#: ../src/Scenes/Conference.rb:1314
 msgctxt "Conference"
 msgid "Shuffle"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1304
+#: ../src/Scenes/Conference.rb:1315
 msgctxt "Conference"
 msgid ""
 "Are you sure you want to shuffle this deck? All placed cards will be returned "
 "to this deck."
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1310 ../src/Scenes/Conference.rb:1380
+#: ../src/Scenes/Conference.rb:1321 ../src/Scenes/Conference.rb:1391
 msgctxt "Conference"
 msgid "Deck history"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1311
+#: ../src/Scenes/Conference.rb:1322
 msgctxt "Conference"
 msgid "Delete a deck"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1312
+#: ../src/Scenes/Conference.rb:1323
 msgctxt "Conference"
 msgid "Are you sure you want to delete this deck?"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1320
+#: ../src/Scenes/Conference.rb:1331
 msgctxt "Conference"
 msgid "Add new deck"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1323
+#: ../src/Scenes/Conference.rb:1334
 msgctxt "Conference"
 msgid "Deck type"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1334
+#: ../src/Scenes/Conference.rb:1345
 msgctxt "Conference"
 msgid "Place a card"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1337
+#: ../src/Scenes/Conference.rb:1348
 msgctxt "Conference"
 msgid "Replace a card"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1370
+#: ../src/Scenes/Conference.rb:1381
 msgctxt "Conference"
 msgid "Picked a card"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1372
+#: ../src/Scenes/Conference.rb:1383
 msgctxt "Conference"
 msgid "Replaced a card"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1374
+#: ../src/Scenes/Conference.rb:1385
 msgctxt "Conference"
 msgid "Shuffled a deck"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1376
+#: ../src/Scenes/Conference.rb:1387
 msgctxt "Conference"
 msgid "Placed %{cardname}"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1384
+#: ../src/Scenes/Conference.rb:1395
 msgctxt "Conference"
 msgid "Banned users"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1393
+#: ../src/Scenes/Conference.rb:1404
 msgctxt "Conference"
 msgid "Unban"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1400
+#: ../src/Scenes/Conference.rb:1411
 msgctxt "Conference"
 msgid "Ban user"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1401
+#: ../src/Scenes/Conference.rb:1412
 msgctxt "Conference"
 msgid "User to ban"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1427
+#: ../src/Scenes/Conference.rb:1438
 msgctxt "Conference"
 msgid "administrators"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1439
+#: ../src/Scenes/Conference.rb:1450
 msgctxt "Conference"
 msgid "Add administrator"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1440
+#: ../src/Scenes/Conference.rb:1451
 msgctxt "Conference"
 msgid "User to grant administration privileges to"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1482 ../src/Scenes/Conference.rb:1555
-#: ../src/Scenes/Conference.rb:1647 ../src/Scenes/Conference.rb:1679
-#: ../src/Scenes/Conference.rb:1716
+#: ../src/Scenes/Conference.rb:1487
+msgctxt "Conference"
+msgid "Channel whitelist"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:1499
+msgctxt "Conference"
+msgid "Add to whitelist"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:1500
+msgctxt "Conference"
+msgid "User to add to channel whitelist"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:1550 ../src/Scenes/Conference.rb:1623
+#: ../src/Scenes/Conference.rb:1715 ../src/Scenes/Conference.rb:1747
+#: ../src/Scenes/Conference.rb:1784
 msgctxt "Conference"
 msgid "Location"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1482
+#: ../src/Scenes/Conference.rb:1550
 msgctxt "Conference"
 msgid "User"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1490 ../src/Scenes/Conference.rb:1562
-#: ../src/Scenes/Conference.rb:1647 ../src/Scenes/Conference.rb:1679
-#: ../src/Scenes/Conference.rb:1716
+#: ../src/Scenes/Conference.rb:1558 ../src/Scenes/Conference.rb:1630
+#: ../src/Scenes/Conference.rb:1715 ../src/Scenes/Conference.rb:1747
+#: ../src/Scenes/Conference.rb:1784
 msgctxt "Conference"
 msgid "Right next to me"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1502
+#: ../src/Scenes/Conference.rb:1570
 msgctxt "Conference"
 msgid "Mute stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1503
+#: ../src/Scenes/Conference.rb:1571
 msgctxt "Conference"
 msgid "Unmute stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1507
+#: ../src/Scenes/Conference.rb:1575
 msgctxt "Conference"
 msgid "Stream unmuted"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1509
+#: ../src/Scenes/Conference.rb:1577
 msgctxt "Conference"
 msgid "Stream muted"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1512 ../src/Scenes/Conference.rb:1597
-#: ../src/Scenes/Conference.rb:1777
+#: ../src/Scenes/Conference.rb:1580 ../src/Scenes/Conference.rb:1665
+#: ../src/Scenes/Conference.rb:1845
 msgctxt "Conference"
 msgid "Change volume"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1533
+#: ../src/Scenes/Conference.rb:1601
 msgctxt "Conference"
 msgid "Go to stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1557 ../src/Scenes/Conference.rb:1759
+#: ../src/Scenes/Conference.rb:1625 ../src/Scenes/Conference.rb:1827
 msgctxt "Conference"
 msgid "Master mix"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1580
+#: ../src/Scenes/Conference.rb:1648
 msgctxt "Conference"
 msgid "Show sources"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1586
+#: ../src/Scenes/Conference.rb:1654
 msgctxt "Conference"
 msgid "Locally mute"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1587
+#: ../src/Scenes/Conference.rb:1655
 msgctxt "Conference"
 msgid "Locally unmute"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1592
+#: ../src/Scenes/Conference.rb:1660
 msgctxt "Conference"
 msgid "Locally unmuted"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1594
+#: ../src/Scenes/Conference.rb:1662
 msgctxt "Conference"
 msgid "Locally muted"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1617 ../src/Scenes/Conference.rb:1796
+#: ../src/Scenes/Conference.rb:1685 ../src/Scenes/Conference.rb:1864
 msgctxt "Conference"
 msgid "Toggle stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1636
+#: ../src/Scenes/Conference.rb:1704
 msgctxt "Conference"
 msgid "Remove stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1644
+#: ../src/Scenes/Conference.rb:1712
 msgctxt "Conference"
 msgid "New file stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1646 ../src/Scenes/Conference.rb:1818
-#: ../src/Scenes/Conference.rb:1900
+#: ../src/Scenes/Conference.rb:1714 ../src/Scenes/Conference.rb:1886
+#: ../src/Scenes/Conference.rb:1968
 msgctxt "Conference"
 msgid "File"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1648 ../src/Scenes/Conference.rb:1680
-#: ../src/Scenes/Conference.rb:1717 ../src/Scenes/Conference.rb:1819
-#: ../src/Scenes/Conference.rb:1840 ../src/Scenes/Conference.rb:1865
+#: ../src/Scenes/Conference.rb:1716 ../src/Scenes/Conference.rb:1748
+#: ../src/Scenes/Conference.rb:1785 ../src/Scenes/Conference.rb:1887
+#: ../src/Scenes/Conference.rb:1908 ../src/Scenes/Conference.rb:1933
 msgctxt "Conference"
 msgid "Place"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1676
+#: ../src/Scenes/Conference.rb:1744
 msgctxt "Conference"
 msgid "New Internet stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1678 ../src/Scenes/Conference.rb:1839
+#: ../src/Scenes/Conference.rb:1746 ../src/Scenes/Conference.rb:1907
 msgctxt "Conference"
 msgid "Stream URL"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1709
+#: ../src/Scenes/Conference.rb:1777
 msgctxt "Conference"
 msgid "New soundcard stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1779
+#: ../src/Scenes/Conference.rb:1847
 msgctxt "Conference"
 msgid "Source volume"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1808
+#: ../src/Scenes/Conference.rb:1876
 msgctxt "Conference"
 msgid "Remove source"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1816
+#: ../src/Scenes/Conference.rb:1884
 msgctxt "Conference"
 msgid "Add file"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1837
+#: ../src/Scenes/Conference.rb:1905
 msgctxt "Conference"
 msgid "Add Internet stream"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1859
+#: ../src/Scenes/Conference.rb:1927
 msgctxt "Conference"
 msgid "Add soundcard"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1900
+#: ../src/Scenes/Conference.rb:1968
 msgctxt "Conference"
 msgid "State"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1900 ../src/Scenes/Conference.rb:1914
-msgctxt "Conference"
-msgid "Name"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:1900
+#: ../src/Scenes/Conference.rb:1968
 msgctxt "Conference"
 msgid "VST Plugins"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1914
+#: ../src/Scenes/Conference.rb:1968 ../src/Scenes/Conference.rb:1982
 msgctxt "Conference"
-msgid "Display"
+msgid "Name"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1914
+#: ../src/Scenes/Conference.rb:1982
 msgctxt "Conference"
 msgid "Unit"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1914
+#: ../src/Scenes/Conference.rb:1982
 msgctxt "Conference"
-msgid "VST parameters"
+msgid "Display"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1914
+#: ../src/Scenes/Conference.rb:1982
 msgctxt "Conference"
 msgid "Value"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1915
+#: ../src/Scenes/Conference.rb:1982
+msgctxt "Conference"
+msgid "VST parameters"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:1983
 msgctxt "Conference"
 msgid "Use left/right arrows to adjust values"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1935
+#: ../src/Scenes/Conference.rb:2003
 msgctxt "Conference"
 msgid "Edit parameter"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1936
+#: ../src/Scenes/Conference.rb:2004
 msgctxt "Conference"
 msgid "Parameter value"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:1944
+#: ../src/Scenes/Conference.rb:2012
 msgctxt "Conference"
 msgid "Set to default"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2006
-msgctxt "Conference"
-msgid "Disabled"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:2006
+#: ../src/Scenes/Conference.rb:2074
 msgctxt "Conference"
 msgid "Enabled"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2016
+#: ../src/Scenes/Conference.rb:2074
+msgctxt "Conference"
+msgid "Disabled"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:2084
 msgctxt "Conference"
 msgid "Show parameters"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2020
+#: ../src/Scenes/Conference.rb:2088
 msgctxt "Conference"
 msgid "Enable"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2021
+#: ../src/Scenes/Conference.rb:2089
 msgctxt "Conference"
 msgid "Disable"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2032
+#: ../src/Scenes/Conference.rb:2100
 msgctxt "Conference"
 msgid "Show editor"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2033
+#: ../src/Scenes/Conference.rb:2101
 msgctxt "Conference"
 msgid "Hide editor"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2045
+#: ../src/Scenes/Conference.rb:2113
 msgctxt "Conference"
 msgid "Change program"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2046
+#: ../src/Scenes/Conference.rb:2114
 msgctxt "Conference"
 msgid "Select program"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2055
+#: ../src/Scenes/Conference.rb:2123
 msgctxt "Conference"
 msgid "Move up"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2062
+#: ../src/Scenes/Conference.rb:2130
 msgctxt "Conference"
 msgid "Move down"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2068
+#: ../src/Scenes/Conference.rb:2136
 msgctxt "Conference"
 msgid "Remove VST"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2073 ../src/Scenes/Conference.rb:2121
+#: ../src/Scenes/Conference.rb:2141 ../src/Scenes/Conference.rb:2189
 msgctxt "Conference"
 msgid "Export"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2077
+#: ../src/Scenes/Conference.rb:2145
 msgctxt "Conference"
 msgid "Import"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2082
+#: ../src/Scenes/Conference.rb:2150
 msgctxt "Conference"
 msgid "Save current chain"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2083
+#: ../src/Scenes/Conference.rb:2151
 msgctxt "Conference"
 msgid "Name for this chain"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2098 ../src/Scenes/Conference.rb:2156
-#: ../src/Scenes/Conference.rb:2204 ../src/eapi/Controls.rb:3339
+#: ../src/Scenes/Conference.rb:2166 ../src/Scenes/Conference.rb:2224
+#: ../src/Scenes/Conference.rb:2272 ../src/eapi/Controls.rb:3339
 #: ../src/eapi/Controls.rb:4469 ../src/scenes/Account.rb:287
-#: ../src/scenes/Account.rb:291 ../src/scenes/Blog.rb:1249
-#: ../src/scenes/Blog.rb:1282 ../src/scenes/Blog.rb:1726
-#: ../src/scenes/Blog.rb:1730 ../src/scenes/Clock.rb:35
+#: ../src/scenes/Account.rb:291 ../src/scenes/Blog.rb:1256
+#: ../src/scenes/Blog.rb:1289 ../src/scenes/Blog.rb:1733
+#: ../src/scenes/Blog.rb:1737 ../src/scenes/Clock.rb:35
 #: ../src/scenes/Clock.rb:80 ../src/scenes/Forum.rb:1004
 #: ../src/scenes/Forum.rb:1489 ../src/scenes/Forum.rb:1537
 #: ../src/scenes/Forum.rb:3978 ../src/scenes/Forum.rb:3982
-#: ../src/scenes/Honors.rb:212 ../src/scenes/Messages.rb:332
-#: ../src/scenes/Settings.rb:337 ../src/scenes/Settings.rb:341
+#: ../src/scenes/Honors.rb:212 ../src/scenes/Messages.rb:336
+#: ../src/scenes/Settings.rb:339 ../src/scenes/Settings.rb:343
 #: ../src/scenes/SoundThemes.rb:73 ../src/scenes/SoundThemes.rb:136
 msgid "Saved"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2102
+#: ../src/Scenes/Conference.rb:2170
 msgctxt "Conference"
 msgid "Add VST"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2103
+#: ../src/Scenes/Conference.rb:2171
 msgctxt "Conference"
 msgid "Select VST version 2 file to be loaded"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2109
+#: ../src/Scenes/Conference.rb:2177
 msgctxt "Conference"
 msgid "Saved VST chains"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2120
-msgctxt "Conference"
-msgid "Export current preset"
-msgstr ""
-
-#: ../src/Scenes/Conference.rb:2120
+#: ../src/Scenes/Conference.rb:2188
 msgctxt "Conference"
 msgid "Export full bank"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2120
+#: ../src/Scenes/Conference.rb:2188
 msgctxt "Conference"
 msgid "Export type"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2163
+#: ../src/Scenes/Conference.rb:2188
+msgctxt "Conference"
+msgid "Export current preset"
+msgstr ""
+
+#: ../src/Scenes/Conference.rb:2231
 msgctxt "Conference"
 msgid "Select preset or bank file"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2242
+#: ../src/Scenes/Conference.rb:2310
 msgctxt "Conference"
 msgid "Saved chains"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2248 ../src/Scenes/FeedViewer.rb:153
+#: ../src/Scenes/Conference.rb:2316 ../src/Scenes/FeedViewer.rb:153
 #: ../src/eapi/Controls.rb:2539 ../src/eapi/Controls.rb:4462
 #: ../src/scenes/Account.rb:544 ../src/scenes/Blog.rb:220
 #: ../src/scenes/Blog.rb:475 ../src/scenes/Main.rb:401
-#: ../src/scenes/Messages.rb:734 ../src/scenes/Notes.rb:82
+#: ../src/scenes/Messages.rb:740 ../src/scenes/Notes.rb:82
 #: ../src/scenes/Notes.rb:160 ../src/scenes/Polls.rb:131
 #: ../src/scenes/Polls.rb:614
 msgid "Delete"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2249
+#: ../src/Scenes/Conference.rb:2317
 msgctxt "Conference"
 msgid "Are you sure you want to delete saved chain of name %{name}?"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2255
+#: ../src/Scenes/Conference.rb:2323
 msgctxt "Conference"
 msgid "Rename chain"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2256
+#: ../src/Scenes/Conference.rb:2324
 msgctxt "Conference"
 msgid "Chain name"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2272
+#: ../src/Scenes/Conference.rb:2340
 msgctxt "Conference"
 msgid "Are you sure you want to apply chain of name %{name}?"
 msgstr ""
 
-#: ../src/Scenes/Conference.rb:2285
+#: ../src/Scenes/Conference.rb:2353
 msgctxt "Conference"
 msgid "Chain imported"
 msgstr ""
@@ -2166,7 +2203,12 @@ msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:8
 msgctxt "PremiumPackages"
-msgid "Conversion price"
+msgid "Half-yearly price"
+msgstr ""
+
+#: ../src/Scenes/PremiumPackages.rb:8
+msgctxt "PremiumPackages"
+msgid "Yearly price"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:8
@@ -2181,12 +2223,7 @@ msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:8
 msgctxt "PremiumPackages"
-msgid "Yearly price"
-msgstr ""
-
-#: ../src/Scenes/PremiumPackages.rb:8
-msgctxt "PremiumPackages"
-msgid "Half-yearly price"
+msgid "Conversion price"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:25
@@ -2301,164 +2338,169 @@ msgctxt "PremiumPackages"
 msgid "Splitting audio into chapters"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:54
+#: ../src/Scenes/PremiumPackages.rb:51
 msgctxt "PremiumPackages"
-msgid "Scribe"
+msgid "Creating hidden channels in conferences"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:55
 msgctxt "PremiumPackages"
-msgid "Creation of second and following blogs"
+msgid "Scribe"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:56
 msgctxt "PremiumPackages"
-msgid "Pinning blogs to groups"
+msgid "Creation of second and following blogs"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:57
 msgctxt "PremiumPackages"
-msgid "Spell checking"
+msgid "Pinning blogs to groups"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:58
 msgctxt "PremiumPackages"
-msgid "Changing of blog address"
+msgid "Spell checking"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:59
 msgctxt "PremiumPackages"
-msgid "Option to disable request for support on blogs"
+msgid "Changing of blog address"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:60
 msgctxt "PremiumPackages"
-msgid "Informing about new blog followers"
+msgid "Option to disable request for support on blogs"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:61
 msgctxt "PremiumPackages"
-msgid "Translator"
+msgid "Informing about new blog followers"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:62
 msgctxt "PremiumPackages"
-msgid "Blog posts scheduling"
+msgid "Translator"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:66
+#: ../src/Scenes/PremiumPackages.rb:63
 msgctxt "PremiumPackages"
-msgid "Director"
+msgid "Blog posts scheduling"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:67
 msgctxt "PremiumPackages"
-msgid "Conference streaming to shoutcast servers"
+msgid "Director"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:68
 msgctxt "PremiumPackages"
-msgid "Setting VST plugins on specific users"
+msgid "Conference streaming to shoutcast servers"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:69
 msgctxt "PremiumPackages"
-msgid "Placing own sceneries in channels"
+msgid "Setting VST plugins on specific users"
 msgstr ""
 
 #: ../src/Scenes/PremiumPackages.rb:70
+msgctxt "PremiumPackages"
+msgid "Placing own sceneries in channels"
+msgstr ""
+
+#: ../src/Scenes/PremiumPackages.rb:71
 msgctxt "PremiumPackages"
 msgid ""
 "Creating conference-mode channels, where only administrators and allowed users"
 " can speak"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:74
+#: ../src/Scenes/PremiumPackages.rb:75
 msgctxt "PremiumPackages"
 msgid "Orchestra package"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:75
+#: ../src/Scenes/PremiumPackages.rb:76
 msgctxt "PremiumPackages"
 msgid "Includes profits from courier, audiophile, scribe and director"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:79
+#: ../src/Scenes/PremiumPackages.rb:80
 msgctxt "PremiumPackages"
 msgid "Sponsorship package"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:80
+#: ../src/Scenes/PremiumPackages.rb:81
 msgctxt "PremiumPackages"
 msgid "Includes profits from all other packages, including future packages"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:81
+#: ../src/Scenes/PremiumPackages.rb:82
 msgctxt "PremiumPackages"
 msgid "Special assigning of user on lists and forum"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:82
+#: ../src/Scenes/PremiumPackages.rb:83
 msgctxt "PremiumPackages"
 msgid "Entry in the list of sponsors"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:88
+#: ../src/Scenes/PremiumPackages.rb:89
 msgctxt "PremiumPackages"
 msgid "Show profits"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:93 ../src/Scenes/PremiumPackages.rb:128
+#: ../src/Scenes/PremiumPackages.rb:94 ../src/Scenes/PremiumPackages.rb:129
 msgctxt "PremiumPackages"
 msgid "Buy"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:94 ../src/Scenes/PremiumPackages.rb:129
+#: ../src/Scenes/PremiumPackages.rb:95 ../src/Scenes/PremiumPackages.rb:130
 msgctxt "PremiumPackages"
 msgid "Extend"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:101 ../src/Scenes/PremiumPackages.rb:130
+#: ../src/Scenes/PremiumPackages.rb:102 ../src/Scenes/PremiumPackages.rb:131
 msgctxt "PremiumPackages"
 msgid "Activate package using code"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:102 ../src/Scenes/PremiumPackages.rb:131
+#: ../src/Scenes/PremiumPackages.rb:103 ../src/Scenes/PremiumPackages.rb:132
 msgctxt "PremiumPackages"
 msgid "Extend package using code"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:109 ../src/Scenes/PremiumPackages.rb:135
+#: ../src/Scenes/PremiumPackages.rb:110 ../src/Scenes/PremiumPackages.rb:136
 msgctxt "PremiumPackages"
 msgid "Convert"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:116 ../src/Scenes/PremiumPackages.rb:136
+#: ../src/Scenes/PremiumPackages.rb:117 ../src/Scenes/PremiumPackages.rb:137
 msgctxt "PremiumPackages"
 msgid "Buy premium codes for use by any user"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:133
+#: ../src/Scenes/PremiumPackages.rb:134
 msgctxt "PremiumPackages"
 msgid "Profits of package %{name}"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:138
+#: ../src/Scenes/PremiumPackages.rb:139
 msgctxt "PremiumPackages"
 msgid "Close"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:201
+#: ../src/Scenes/PremiumPackages.rb:202
 msgctxt "PremiumPackages"
 msgid "Inactive"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:202
+#: ../src/Scenes/PremiumPackages.rb:203
 msgctxt "PremiumPackages"
 msgid "Active until %{time}"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:232
+#: ../src/Scenes/PremiumPackages.rb:233
 msgctxt "PremiumPackages"
 msgid ""
 "Regardless of the remaining duration of other packages, they will be replaced "
@@ -2467,17 +2509,17 @@ msgid ""
 "price. Do you want to continue?"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:234
+#: ../src/Scenes/PremiumPackages.rb:235
 msgctxt "PremiumPackages"
 msgid "This package is currently unavailable. Try to buy it in the next month."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:239 ../src/Scenes/PremiumPackages.rb:308
+#: ../src/Scenes/PremiumPackages.rb:240 ../src/Scenes/PremiumPackages.rb:309
 msgctxt "PremiumPackages"
 msgid "Information"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:239
+#: ../src/Scenes/PremiumPackages.rb:240
 msgctxt "PremiumPackages"
 msgid ""
 "EltenLink's premium packages are given to users as a reward for supporting the"
@@ -2489,72 +2531,72 @@ msgid ""
 "come unavailable."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:243 ../src/Scenes/PremiumPackages.rb:309
+#: ../src/Scenes/PremiumPackages.rb:244 ../src/Scenes/PremiumPackages.rb:310
 msgctxt "PremiumPackages"
 msgid "I accept"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:244
+#: ../src/Scenes/PremiumPackages.rb:245
 msgctxt "PremiumPackages"
 msgid "I refuse"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:264
+#: ../src/Scenes/PremiumPackages.rb:265
 msgctxt "PremiumPackages"
 msgid "Traditional bank transfer"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:265
+#: ../src/Scenes/PremiumPackages.rb:266
 msgctxt "PremiumPackages"
 msgid "Paypal (using Paypal account or credit/debit card)"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:266
+#: ../src/Scenes/PremiumPackages.rb:267
 msgctxt "PremiumPackages"
 msgid "Przelewy24 (fast transfer from polish banks)"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:269
+#: ../src/Scenes/PremiumPackages.rb:270
 msgctxt "PremiumPackages"
 msgid "Select payment method"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:275
+#: ../src/Scenes/PremiumPackages.rb:276
 msgctxt "PremiumPackages"
 msgid "Acceptance"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:276
+#: ../src/Scenes/PremiumPackages.rb:277
 msgctxt "PremiumPackages"
 msgid "Accept"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:277
+#: ../src/Scenes/PremiumPackages.rb:278
 msgctxt "PremiumPackages"
 msgid "Reject"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:287
+#: ../src/Scenes/PremiumPackages.rb:288
 msgctxt "PremiumPackages"
 msgid ""
 "Below are the transfer details.\n"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:289
+#: ../src/Scenes/PremiumPackages.rb:290
 msgctxt "PremiumPackages"
 msgid ""
 "In the title of the transfer, please indicate your user name on the EltenLink "
 "portal and which package the payment concerns."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:291
+#: ../src/Scenes/PremiumPackages.rb:292
 msgctxt "PremiumPackages"
 msgid ""
 "If you wish to receive a code that can be used to activate any of the packages"
 ": %{packages} by any user, mark this information in the transfer title."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:293
+#: ../src/Scenes/PremiumPackages.rb:294
 msgctxt "PremiumPackages"
 msgid ""
 "Please note that if you transfer a larger amount, the remainder will be treate"
@@ -2564,7 +2606,7 @@ msgid ""
 "ansfer confirmation to the Council of Elders."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:297
+#: ../src/Scenes/PremiumPackages.rb:298
 msgctxt "PremiumPackages"
 msgid ""
 "National transfer details (from Poland):\n"
@@ -2579,62 +2621,67 @@ msgid ""
 "Sort code: %{sortcode}"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:315
+#: ../src/Scenes/PremiumPackages.rb:316
 msgctxt "PremiumPackages"
 msgid ""
 "This payment method requires a redirect to an external website. A web browser "
 "will open. Do you wish to continue?"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:333 ../src/Scenes/PremiumPackages.rb:368
+#: ../src/Scenes/PremiumPackages.rb:334 ../src/Scenes/PremiumPackages.rb:369
 msgctxt "PremiumPackages"
 msgid "How many premium codes would you like to buy?"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:341 ../src/Scenes/PremiumPackages.rb:376
+#: ../src/Scenes/PremiumPackages.rb:342 ../src/Scenes/PremiumPackages.rb:377
 msgctxt "PremiumPackages"
 msgid ""
 "You will be charged a %{amount} pln commission for the selected payment method"
 ". Do you want to continue?"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:377
+#: ../src/Scenes/PremiumPackages.rb:378
 msgctxt "PremiumPackages"
 msgid "Enter blik code"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:384
+#: ../src/Scenes/PremiumPackages.rb:385
 msgctxt "PremiumPackages"
 msgid ""
 "Payment has been ordered. Additional confirmation may be required. The order w"
 "ill be processed once the payment is complete."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:389
+#: ../src/Scenes/PremiumPackages.rb:390
 msgctxt "PremiumPackages"
 msgid "Type code to activate this package"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:395
+#: ../src/Scenes/PremiumPackages.rb:396
 msgctxt "PremiumPackages"
 msgid "Code not found."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:397
+#: ../src/Scenes/PremiumPackages.rb:398
 msgctxt "PremiumPackages"
 msgid "This code has been already used."
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:406
+#: ../src/Scenes/PremiumPackages.rb:407
 msgctxt "PremiumPackages"
 msgid ""
 "The package %{name} will be active until %{time}. This code will be used up an"
 "d you will not be able to use it again. Do you want to continue?"
 msgstr ""
 
-#: ../src/Scenes/PremiumPackages.rb:411
+#: ../src/Scenes/PremiumPackages.rb:412
 msgctxt "PremiumPackages"
 msgid "Package activated"
+msgstr ""
+
+#: ../src/Scenes/Sponsors.rb:13
+msgctxt "Users_Sponsors"
+msgid "Sponsors"
 msgstr ""
 
 #: ../src/eapi/Common.rb:14
@@ -2720,324 +2767,329 @@ msgctxt "EAPI_Common"
 msgid "Last codes"
 msgstr ""
 
-#: ../src/eapi/Common.rb:208
+#: ../src/eapi/Common.rb:188
+msgctxt "EAPI_Common"
+msgid "Are you sure you want to exit console?"
+msgstr ""
+
+#: ../src/eapi/Common.rb:212
 msgctxt "EAPI_Common"
 msgid "badges of this user"
 msgstr ""
 
-#: ../src/eapi/Common.rb:208
-msgctxt "EAPI_Common"
-msgid "Open user's blog"
-msgstr ""
-
-#: ../src/eapi/Common.rb:208
+#: ../src/eapi/Common.rb:212
 msgctxt "EAPI_Common"
 msgid "Visiting card"
 msgstr ""
 
-#: ../src/eapi/Common.rb:208
+#: ../src/eapi/Common.rb:212
+msgctxt "EAPI_Common"
+msgid "Open user's blog"
+msgstr ""
+
+#: ../src/eapi/Common.rb:212
 msgctxt "EAPI_Common"
 msgid "Write a private message"
 msgstr ""
 
-#: ../src/eapi/Common.rb:211
+#: ../src/eapi/Common.rb:215
 msgctxt "EAPI_Common"
 msgid "Remove from contacts' list"
 msgstr ""
 
-#: ../src/eapi/Common.rb:213
+#: ../src/eapi/Common.rb:217
 msgctxt "EAPI_Common"
 msgid "Add to contacts' list"
 msgstr ""
 
-#: ../src/eapi/Common.rb:216
+#: ../src/eapi/Common.rb:220
 msgctxt "EAPI_Common"
 msgid "Unfollow feed"
 msgstr ""
 
-#: ../src/eapi/Common.rb:218
+#: ../src/eapi/Common.rb:222
 msgctxt "EAPI_Common"
 msgid "Follow feed"
 msgstr ""
 
-#: ../src/eapi/Common.rb:233
+#: ../src/eapi/Common.rb:237
 msgctxt "EAPI_Common"
 msgid "Unset ringtone"
 msgstr ""
 
-#: ../src/eapi/Common.rb:235
+#: ../src/eapi/Common.rb:239
 msgctxt "EAPI_Common"
 msgid "Set ringtone"
 msgstr ""
 
-#: ../src/eapi/Common.rb:240
+#: ../src/eapi/Common.rb:244
 msgctxt "EAPI_Common"
 msgid "Call this user"
 msgstr ""
 
-#: ../src/eapi/Common.rb:241
+#: ../src/eapi/Common.rb:245
 msgctxt "EAPI_Common"
 msgid "Show feed"
 msgstr ""
 
-#: ../src/eapi/Common.rb:243
+#: ../src/eapi/Common.rb:247
 msgctxt "EAPI_Common"
 msgid "Monitor when this user becomes online"
 msgstr ""
 
-#: ../src/eapi/Common.rb:245
+#: ../src/eapi/Common.rb:249
 msgctxt "EAPI_Common"
 msgid "Do not monitor this user"
 msgstr ""
 
-#: ../src/eapi/Common.rb:249
+#: ../src/eapi/Common.rb:253
 msgctxt "EAPI_Common"
 msgid "Ban"
 msgstr ""
 
-#: ../src/eapi/Common.rb:251
+#: ../src/eapi/Common.rb:255
 msgctxt "EAPI_Common"
 msgid "Unban"
 msgstr ""
 
-#: ../src/eapi/Common.rb:305
+#: ../src/eapi/Common.rb:309
 msgctxt "EAPI_Common"
 msgid "Are you sure you want to delete this contact?"
 msgstr ""
 
-#: ../src/eapi/Common.rb:317
+#: ../src/eapi/Common.rb:321
 msgctxt "EAPI_Common"
 msgid "Feed unfollowed"
 msgstr ""
 
-#: ../src/eapi/Common.rb:319
+#: ../src/eapi/Common.rb:323
 msgctxt "EAPI_Common"
 msgid "Feed followed"
 msgstr ""
 
-#: ../src/eapi/Common.rb:331
+#: ../src/eapi/Common.rb:335
 msgctxt "EAPI_Common"
 msgid "Ringtone removed"
 msgstr ""
 
-#: ../src/eapi/Common.rb:333
+#: ../src/eapi/Common.rb:337
 msgctxt "EAPI_Common"
 msgid "Select ringtone for user %{user}"
 msgstr ""
 
-#: ../src/eapi/Common.rb:336
+#: ../src/eapi/Common.rb:340
 msgctxt "EAPI_Common"
 msgid "Ringtone changed"
 msgstr ""
 
-#: ../src/eapi/Common.rb:345
-msgctxt "EAPI_Common"
-msgid "Notify me whenever this user becomes online"
-msgstr ""
-
-#: ../src/eapi/Common.rb:345
+#: ../src/eapi/Common.rb:349
 msgctxt "EAPI_Common"
 msgid "Notify me one time when this user becomes online"
 msgstr ""
 
-#: ../src/eapi/Common.rb:346
+#: ../src/eapi/Common.rb:349
+msgctxt "EAPI_Common"
+msgid "Notify me whenever this user becomes online"
+msgstr ""
+
+#: ../src/eapi/Common.rb:350
 msgctxt "EAPI_Common"
 msgid "Online monitor"
 msgstr ""
 
-#: ../src/eapi/Common.rb:352
+#: ../src/eapi/Common.rb:356
 msgctxt "EAPI_Common"
 msgid "This user is now monitored"
 msgstr ""
 
-#: ../src/eapi/Common.rb:360
+#: ../src/eapi/Common.rb:364
 msgctxt "EAPI_Common"
 msgid "This user is no longer monitored"
 msgstr ""
 
-#: ../src/eapi/Common.rb:434
+#: ../src/eapi/Common.rb:438
 msgctxt "EAPI_Common"
 msgid "There is nothing new."
 msgstr ""
 
-#: ../src/eapi/Common.rb:499
-msgctxt "EAPI_Common"
-msgid "Send"
-msgstr ""
-
-#: ../src/eapi/Common.rb:499
+#: ../src/eapi/Common.rb:503
 msgctxt "EAPI_Common"
 msgid "Describe the found error"
 msgstr ""
 
-#: ../src/eapi/Common.rb:513
+#: ../src/eapi/Common.rb:503
+msgctxt "EAPI_Common"
+msgid "Send"
+msgstr ""
+
+#: ../src/eapi/Common.rb:517
 msgctxt "EAPI_Common"
 msgid "Sent."
 msgstr ""
 
-#: ../src/eapi/Common.rb:530 ../src/eapi/Common.rb:578
+#: ../src/eapi/Common.rb:534 ../src/eapi/Common.rb:582
 #: ../src/scenes/Account.rb:342 ../src/scenes/Account.rb:379
-#: ../src/scenes/Account.rb:527 ../src/scenes/Blog.rb:715
+#: ../src/scenes/Account.rb:527 ../src/scenes/Blog.rb:722
 #: ../src/scenes/Contacts.rb:27 ../src/scenes/Contacts.rb:127
 #: ../src/scenes/Contacts.rb:160 ../src/scenes/Forum.rb:1056
-#: ../src/scenes/Login.rb:212 ../src/scenes/Messages.rb:1016
+#: ../src/scenes/Login.rb:212 ../src/scenes/Messages.rb:1024
 #: ../src/scenes/Users.rb:13
 msgid "Database Error"
 msgstr ""
 
-#: ../src/eapi/Common.rb:534 ../src/scenes/Account.rb:345
+#: ../src/eapi/Common.rb:538 ../src/scenes/Account.rb:345
 #: ../src/scenes/Account.rb:382 ../src/scenes/Account.rb:529
-#: ../src/scenes/Blog.rb:717 ../src/scenes/Contacts.rb:31
+#: ../src/scenes/Blog.rb:724 ../src/scenes/Contacts.rb:31
 #: ../src/scenes/Contacts.rb:130 ../src/scenes/Contacts.rb:163
-#: ../src/scenes/Forum.rb:1058 ../src/scenes/Messages.rb:1020
+#: ../src/scenes/Forum.rb:1058 ../src/scenes/Messages.rb:1028
 #: ../src/scenes/Users.rb:17
 msgid "Token expired"
 msgstr ""
 
-#: ../src/eapi/Common.rb:546
+#: ../src/eapi/Common.rb:550
 msgctxt "EAPI_Common"
 msgid "Empty list"
 msgstr ""
 
-#: ../src/eapi/Common.rb:553
+#: ../src/eapi/Common.rb:557
 msgctxt "EAPI_Common"
 msgid "Select contact"
 msgstr ""
 
-#: ../src/eapi/Common.rb:584
+#: ../src/eapi/Common.rb:588
 msgctxt "EAPI_Common"
 msgid "User"
 msgstr ""
 
-#: ../src/eapi/Common.rb:603
+#: ../src/eapi/Common.rb:607
 msgctxt "EAPI_Common"
 msgid "Gender"
 msgstr ""
 
-#: ../src/eapi/Common.rb:605 ../src/scenes/Account.rb:122
+#: ../src/eapi/Common.rb:609 ../src/scenes/Account.rb:122
 msgid "Female"
 msgstr ""
 
-#: ../src/eapi/Common.rb:607
+#: ../src/eapi/Common.rb:611
 msgid "male"
 msgstr ""
 
-#: ../src/eapi/Common.rb:619
+#: ../src/eapi/Common.rb:623
 msgctxt "EAPI_Common"
 msgid "Age"
 msgstr ""
 
-#: ../src/eapi/Common.rb:622
+#: ../src/eapi/Common.rb:626
 msgctxt "EAPI_Common"
 msgid "Location"
 msgstr ""
 
-#: ../src/eapi/Common.rb:636
+#: ../src/eapi/Common.rb:640
 msgctxt "EAPI_Common_female"
 msgid "Last seen"
 msgstr ""
 
-#: ../src/eapi/Common.rb:638
+#: ../src/eapi/Common.rb:642
 msgctxt "EAPI_Common_male"
 msgid "Last seen"
 msgstr ""
 
-#: ../src/eapi/Common.rb:640
+#: ../src/eapi/Common.rb:644
 msgctxt "EAPI_Common"
 msgid "Last seen"
 msgstr ""
 
-#: ../src/eapi/Common.rb:643
+#: ../src/eapi/Common.rb:647
 msgctxt "EAPI_Common"
 msgid "User has a blog"
 msgstr ""
 
-#: ../src/eapi/Common.rb:644
+#: ../src/eapi/Common.rb:648
 msgctxt "EAPI_Common"
 msgid "Knows %{count} user"
 msgid_plural "Knows %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/eapi/Common.rb:646
+#: ../src/eapi/Common.rb:650
 msgctxt "EAPI_Common"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/eapi/Common.rb:648
+#: ../src/eapi/Common.rb:652
 msgctxt "EAPI_Common_female"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/eapi/Common.rb:650
+#: ../src/eapi/Common.rb:654
 msgctxt "EAPI_Common_male"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
 msgstr[0] ""
 msgstr[1] ""
 
-#: ../src/eapi/Common.rb:653
+#: ../src/eapi/Common.rb:657
 msgctxt "EAPI_Common"
 msgid "Forum posts"
 msgstr ""
 
-#: ../src/eapi/Common.rb:654
+#: ../src/eapi/Common.rb:658
 msgctxt "EAPI_Common"
 msgid "Polls answered"
 msgstr ""
 
-#: ../src/eapi/Common.rb:664
+#: ../src/eapi/Common.rb:668
 msgctxt "EAPI_Common"
 msgid "Used version"
 msgstr ""
 
-#: ../src/eapi/Common.rb:665
+#: ../src/eapi/Common.rb:669
 msgctxt "EAPI_Common"
 msgid "Registered"
 msgstr ""
 
-#: ../src/eapi/Common.rb:673
+#: ../src/eapi/Common.rb:677
 msgctxt "EAPI_Common"
 msgid "Visiting card of %{user}:"
 msgstr ""
 
-#: ../src/eapi/Common.rb:687
+#: ../src/eapi/Common.rb:691
 msgctxt "EAPI_Common"
 msgid "License agreement"
 msgstr ""
 
-#: ../src/eapi/Common.rb:688
+#: ../src/eapi/Common.rb:692
 msgctxt "EAPI_Common"
 msgid "Terms and Conditions"
 msgstr ""
 
-#: ../src/eapi/Common.rb:689
+#: ../src/eapi/Common.rb:693
 msgctxt "EAPI_Common"
 msgid "Privacy Policy"
 msgstr ""
 
-#: ../src/eapi/Common.rb:690
-msgctxt "EAPI_Common"
-msgid "I do not accept, exit"
-msgstr ""
-
-#: ../src/eapi/Common.rb:690
+#: ../src/eapi/Common.rb:694
 msgctxt "EAPI_Common"
 msgid "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
 msgstr ""
 
-#: ../src/eapi/Common.rb:708
+#: ../src/eapi/Common.rb:694
+msgctxt "EAPI_Common"
+msgid "I do not accept, exit"
+msgstr ""
+
+#: ../src/eapi/Common.rb:712
 msgctxt "EAPI_Common"
 msgid ""
 "Do you accept Elten license agreement, terms and conditions and privacy policy"
 "?"
 msgstr ""
 
-#: ../src/eapi/Common.rb:729
+#: ../src/eapi/Common.rb:733
 msgctxt "EAPI_Common"
 msgid ""
 "You are trying to play a midi file. In order to play such files, Elten needs a"
@@ -3045,63 +3097,63 @@ msgid ""
 "ver  now? It may take several minutes."
 msgstr ""
 
-#: ../src/eapi/Common.rb:730
+#: ../src/eapi/Common.rb:734
 msgctxt "EAPI_Common"
 msgid "Please wait, the soundfont is being downloaded. It may take a while."
 msgstr ""
 
-#: ../src/eapi/Common.rb:732
+#: ../src/eapi/Common.rb:736
 msgctxt "EAPI_Common"
 msgid "Soundfont downloaded succesfully."
 msgstr ""
 
-#: ../src/eapi/Common.rb:925
+#: ../src/eapi/Common.rb:929
 msgctxt "EAPI_Common"
 msgid ""
 "In order to use HRTF functionality, Elten needs to download Phonon library. Wo"
 "uld you like to download it now?"
 msgstr ""
 
-#: ../src/eapi/Common.rb:1041
+#: ../src/eapi/Common.rb:1045
 msgid "Function not supported on this platform"
 msgstr ""
 
-#: ../src/eapi/Common.rb:1068
+#: ../src/eapi/Common.rb:1072
 msgctxt "EAPI_Common"
 msgid "Compressing..."
 msgstr ""
 
-#: ../src/eapi/Common.rb:1207
-msgctxt "EAPI_Common"
-msgid "Save"
-msgstr ""
-
-#: ../src/eapi/Common.rb:1207
+#: ../src/eapi/Common.rb:1211
 msgctxt "EAPI_Common"
 msgid "Play"
 msgstr ""
 
 #: ../src/eapi/Common.rb:1211
 msgctxt "EAPI_Common"
-msgid "Where do you want to save this file?"
+msgid "Save"
 msgstr ""
 
 #: ../src/eapi/Common.rb:1215
 msgctxt "EAPI_Common"
+msgid "Where do you want to save this file?"
+msgstr ""
+
+#: ../src/eapi/Common.rb:1219
+msgctxt "EAPI_Common"
 msgid "The attachment has been downloaded."
 msgstr ""
 
-#: ../src/eapi/Common.rb:1231 ../src/eapi/QuickActions.rb:70
+#: ../src/eapi/Common.rb:1235 ../src/eapi/QuickActions.rb:70
 msgctxt "EAPI_Common"
 msgid "Message"
 msgstr ""
 
-#: ../src/eapi/Common.rb:1232
+#: ../src/eapi/Common.rb:1236
 msgctxt "EAPI_Common"
 msgid "Users liking this message"
 msgstr ""
 
-#: ../src/eapi/Common.rb:1233
+#: ../src/eapi/Common.rb:1237
 msgctxt "EAPI_Common"
 msgid "Close"
 msgstr ""
@@ -3830,17 +3882,17 @@ msgstr ""
 
 #: ../src/eapi/Controls.rb:4256
 msgctxt "EAPI_Form"
+msgid "Speech profile"
+msgstr ""
+
+#: ../src/eapi/Controls.rb:4256
+msgctxt "EAPI_Form"
 msgid "Music profile"
 msgstr ""
 
 #: ../src/eapi/Controls.rb:4256
 msgctxt "EAPI_Form"
 msgid "Encoder profile"
-msgstr ""
-
-#: ../src/eapi/Controls.rb:4256
-msgctxt "EAPI_Form"
-msgid "Speech profile"
 msgstr ""
 
 #: ../src/eapi/Controls.rb:4257
@@ -4119,177 +4171,182 @@ msgctxt "MainMenu"
 msgid "Recently &registered users"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:72
+#: ../src/eapi/MainMenu.rb:70
 msgctxt "MainMenu"
-msgid "Call &history"
+msgid "&Sponsors"
 msgstr ""
 
 #: ../src/eapi/MainMenu.rb:73
 msgctxt "MainMenu"
-msgid "Premium packa&ges"
+msgid "Call &history"
 msgstr ""
 
 #: ../src/eapi/MainMenu.rb:74
 msgctxt "MainMenu"
+msgid "Premium packa&ges"
+msgstr ""
+
+#: ../src/eapi/MainMenu.rb:75
+msgctxt "MainMenu"
 msgid "Manage my &account"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:78
+#: ../src/eapi/MainMenu.rb:79
 msgctxt "MainMenu"
 msgid "&Programs"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:83
+#: ../src/eapi/MainMenu.rb:84
 msgctxt "MainMenu"
 msgid "Programs installation"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:85
+#: ../src/eapi/MainMenu.rb:86
 msgctxt "MainMenu"
 msgid "&Tools"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:86
+#: ../src/eapi/MainMenu.rb:87
 msgctxt "MainMenu"
 msgid "Program &settings"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:87
+#: ../src/eapi/MainMenu.rb:88
 msgctxt "MainMenu"
 msgid "Soun&dthemes"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:88
+#: ../src/eapi/MainMenu.rb:89
 msgctxt "MainMenu"
 msgid "Speed &test"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:89
+#: ../src/eapi/MainMenu.rb:90
 msgctxt "MainMenu"
 msgid "Create &Portable version"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:90
+#: ../src/eapi/MainMenu.rb:91
 msgctxt "MainMenu"
 msgid "&Reinstall"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:91
+#: ../src/eapi/MainMenu.rb:92
 msgctxt "MainMenu"
 msgid "&Install"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:93
+#: ../src/eapi/MainMenu.rb:94
 msgctxt "MainMenu"
 msgid "&Log viewer"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:94
+#: ../src/eapi/MainMenu.rb:95
 msgctxt "MainMenu"
 msgid "&Console"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:95
+#: ../src/eapi/MainMenu.rb:96
 msgctxt "MainMenu"
 msgid "Relo&ad all programs"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:98
+#: ../src/eapi/MainMenu.rb:99
 msgctxt "MainMenu"
 msgid "All programs reloaded"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:100
+#: ../src/eapi/MainMenu.rb:101
 msgctxt "MainMenu"
 msgid "De&bugging"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:102
+#: ../src/eapi/MainMenu.rb:103
 msgctxt "MainMenu"
 msgid "&Help"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:103
+#: ../src/eapi/MainMenu.rb:104
 msgctxt "MainMenu"
 msgid "&Changelog"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:104
+#: ../src/eapi/MainMenu.rb:105
 msgctxt "MainMenu"
 msgid "Program &version"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:105
+#: ../src/eapi/MainMenu.rb:106
 msgctxt "MainMenu"
 msgid "Sounds &guide"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:106
+#: ../src/eapi/MainMenu.rb:107
 msgctxt "MainMenu"
 msgid "&Read me"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:107
+#: ../src/eapi/MainMenu.rb:108
 msgctxt "MainMenu"
 msgid "&License agreement"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:108
+#: ../src/eapi/MainMenu.rb:109
 msgctxt "MainMenu"
 msgid "&Terms and conditions"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:109
+#: ../src/eapi/MainMenu.rb:110
 msgctxt "MainMenu"
 msgid "&Privacy policy"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:110
+#: ../src/eapi/MainMenu.rb:111
 msgctxt "MainMenu"
 msgid "Infor&mation about migration to Elten version 2.4"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:111
+#: ../src/eapi/MainMenu.rb:112
 msgctxt "MainMenu"
 msgid "List of &Invisible Interface hotkeys"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:113
+#: ../src/eapi/MainMenu.rb:114
 msgctxt "MainMenu"
 msgid "&Quit"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:114
+#: ../src/eapi/MainMenu.rb:115
 msgctxt "MainMenu"
 msgid "Hide in &tray"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:118
+#: ../src/eapi/MainMenu.rb:119
 msgctxt "MainMenu"
 msgid "&Logout"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:129
+#: ../src/eapi/MainMenu.rb:130
 msgctxt "MainMenu"
 msgid "E&xit"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:133
+#: ../src/eapi/MainMenu.rb:134
 msgctxt "MainMenu"
 msgid "&Restart"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:138
+#: ../src/eapi/MainMenu.rb:139
 msgctxt "MainMenu"
 msgid "Restart in de&bug mode"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:146
+#: ../src/eapi/MainMenu.rb:147
 msgctxt "MainMenu"
 msgid "&Windows"
 msgstr ""
 
-#: ../src/eapi/MainMenu.rb:153
+#: ../src/eapi/MainMenu.rb:154
 msgctxt "MainMenu"
 msgid "Window %{number}"
 msgstr ""
@@ -4714,59 +4771,59 @@ msgctxt "EAPI_Speech"
 msgid "right paren"
 msgstr ""
 
-#: ../src/eapi/UI.rb:279
+#: ../src/eapi/UI.rb:281
 msgctxt "EAPI_UI"
 msgid "Do you want to restart Elten?"
 msgstr ""
 
-#: ../src/eapi/UI.rb:314
+#: ../src/eapi/UI.rb:318
 msgctxt "EAPI_UI"
 msgid "%{user} is calling you"
 msgstr ""
 
-#: ../src/eapi/UI.rb:315
+#: ../src/eapi/UI.rb:319
 msgctxt "EAPI_UI"
 msgid "Answer"
 msgstr ""
 
-#: ../src/eapi/UI.rb:316
+#: ../src/eapi/UI.rb:320
 msgctxt "EAPI_UI"
 msgid "Reject"
 msgstr ""
 
-#: ../src/eapi/UI.rb:336
+#: ../src/eapi/UI.rb:340
 msgctxt "EAPI_UI"
 msgid "Unanswered calls"
 msgstr ""
 
-#: ../src/eapi/UI.rb:337
+#: ../src/eapi/UI.rb:341
 msgctxt "EAPI_UI"
 msgid "Call back"
 msgstr ""
 
-#: ../src/eapi/UI.rb:338
+#: ../src/eapi/UI.rb:342
 msgctxt "EAPI_UI"
 msgid "Close"
 msgstr ""
 
-#: ../src/eapi/UI.rb:351
+#: ../src/eapi/UI.rb:355
 msgctxt "EAPI_UI"
 msgid "You cannot call this user"
 msgstr ""
 
-#: ../src/eapi/UI.rb:491
+#: ../src/eapi/UI.rb:495
 msgctxt "EAPI_UI"
 msgid ""
 "An unexpected error of Elten agent occurred. Do you want to report this event?"
 " It  may definitely help us solve the problem."
 msgstr ""
 
-#: ../src/eapi/UI.rb:495
+#: ../src/eapi/UI.rb:499
 msgctxt "EAPI_UI"
 msgid "The program is trying to recover from the frozen state."
 msgstr ""
 
-#: ../src/eapi/UI.rb:570
+#: ../src/eapi/UI.rb:574
 msgctxt "EAPI_UI"
 msgid ""
 "Errors occurred while trying to register keys for invisible interface. Please "
@@ -4774,20 +4831,20 @@ msgid ""
 "er keys of invisible interface using settings window."
 msgstr ""
 
-#: ../src/eapi/UI.rb:648
+#: ../src/eapi/UI.rb:652
 msgctxt "EAPI_UI"
 msgid "Alarm"
 msgstr ""
 
-#: ../src/eapi/UI.rb:727 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
-msgid "No"
-msgstr ""
-
-#: ../src/eapi/UI.rb:727 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
+#: ../src/eapi/UI.rb:731 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
 msgid "Yes"
 msgstr ""
 
-#: ../src/eapi/__eapi.rb:845
+#: ../src/eapi/UI.rb:731 ../src/scenes/Login.rb:146 ../src/scenes/Login.rb:148
+msgid "No"
+msgstr ""
+
+#: ../src/eapi/__eapi.rb:846
 msgctxt "EAPI_EltenAPI"
 msgid ""
 "Do you want to send reports on how Elten is used? This data does not contain a"
@@ -4795,7 +4852,7 @@ msgid ""
 "election can be changed at any time from the Settings."
 msgstr ""
 
-#: ../src/eapi/__eapi.rb:850
+#: ../src/eapi/__eapi.rb:851
 msgctxt "EAPI_EltenAPI"
 msgid ""
 "You are currently using a beta version of Elten. In these versions, uploading "
@@ -4810,7 +4867,7 @@ msgctxt "Account"
 msgid "Category"
 msgstr ""
 
-#: ../src/scenes/Account.rb:115 ../src/scenes/Blog.rb:1541
+#: ../src/scenes/Account.rb:115 ../src/scenes/Blog.rb:1548
 #: ../src/scenes/Forum.rb:3875 ../src/scenes/Settings.rb:117
 msgid "Apply"
 msgstr ""
@@ -4826,20 +4883,16 @@ msgid "Full name"
 msgstr ""
 
 #: ../src/scenes/Account.rb:122
+msgid "Male"
+msgstr ""
+
+#: ../src/scenes/Account.rb:122
 msgctxt "Account"
 msgid "Gender"
 msgstr ""
 
-#: ../src/scenes/Account.rb:122
-msgid "Male"
-msgstr ""
-
 #: ../src/scenes/Account.rb:125
-msgid "June"
-msgstr ""
-
-#: ../src/scenes/Account.rb:125
-msgid "October"
+msgid "December"
 msgstr ""
 
 #: ../src/scenes/Account.rb:125
@@ -4847,23 +4900,7 @@ msgid "November"
 msgstr ""
 
 #: ../src/scenes/Account.rb:125
-msgid "August"
-msgstr ""
-
-#: ../src/scenes/Account.rb:125
-msgid "July"
-msgstr ""
-
-#: ../src/scenes/Account.rb:125
-msgid "January"
-msgstr ""
-
-#: ../src/scenes/Account.rb:125
-msgid "April"
-msgstr ""
-
-#: ../src/scenes/Account.rb:125
-msgid "September"
+msgid "February"
 msgstr ""
 
 #: ../src/scenes/Account.rb:125
@@ -4871,7 +4908,7 @@ msgid "March"
 msgstr ""
 
 #: ../src/scenes/Account.rb:125
-msgid "February"
+msgid "April"
 msgstr ""
 
 #: ../src/scenes/Account.rb:125
@@ -4879,7 +4916,27 @@ msgid "May"
 msgstr ""
 
 #: ../src/scenes/Account.rb:125
-msgid "December"
+msgid "June"
+msgstr ""
+
+#: ../src/scenes/Account.rb:125
+msgid "July"
+msgstr ""
+
+#: ../src/scenes/Account.rb:125
+msgid "August"
+msgstr ""
+
+#: ../src/scenes/Account.rb:125
+msgid "September"
+msgstr ""
+
+#: ../src/scenes/Account.rb:125
+msgid "October"
+msgstr ""
+
+#: ../src/scenes/Account.rb:125
+msgid "January"
 msgstr ""
 
 #: ../src/scenes/Account.rb:127
@@ -4939,17 +4996,17 @@ msgstr ""
 
 #: ../src/scenes/Account.rb:239
 msgctxt "Account"
-msgid "From all users"
-msgstr ""
-
-#: ../src/scenes/Account.rb:239
-msgctxt "Account"
 msgid "Never"
 msgstr ""
 
 #: ../src/scenes/Account.rb:239
 msgctxt "Account"
 msgid "Only from my friends"
+msgstr ""
+
+#: ../src/scenes/Account.rb:239
+msgctxt "Account"
+msgid "From all users"
 msgstr ""
 
 #: ../src/scenes/Account.rb:239
@@ -4989,62 +5046,17 @@ msgstr ""
 
 #: ../src/scenes/Account.rb:250
 msgctxt "Account"
+msgid "Ignore"
+msgstr ""
+
+#: ../src/scenes/Account.rb:250
+msgctxt "Account"
 msgid "Notice only"
 msgstr ""
 
 #: ../src/scenes/Account.rb:250
 msgctxt "Account"
 msgid "Notice and show in what's new"
-msgstr ""
-
-#: ../src/scenes/Account.rb:250
-msgctxt "Account"
-msgid "Ignore"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Blog mentions"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Followed blog posts"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Mentions"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Friends' birthday"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "New friends"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Blog followers"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "Waiting invitations"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "New messages"
-msgstr ""
-
-#: ../src/scenes/Account.rb:251
-msgctxt "Account"
-msgid "New posts in followed threads"
 msgstr ""
 
 #: ../src/scenes/Account.rb:251
@@ -5054,7 +5066,12 @@ msgstr ""
 
 #: ../src/scenes/Account.rb:251
 msgctxt "Account"
-msgid "New comments on your blog"
+msgid "New posts in followed threads"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "New messages"
 msgstr ""
 
 #: ../src/scenes/Account.rb:251
@@ -5065,6 +5082,46 @@ msgstr ""
 #: ../src/scenes/Account.rb:251
 msgctxt "Account"
 msgid "New posts on followed forums"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "New friends"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "Friends' birthday"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "Mentions"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "Followed blog posts"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "New comments on your blog"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "Waiting invitations"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "Blog mentions"
+msgstr ""
+
+#: ../src/scenes/Account.rb:251
+msgctxt "Account"
+msgid "Blog followers"
 msgstr ""
 
 #: ../src/scenes/Account.rb:258
@@ -5271,12 +5328,12 @@ msgstr ""
 
 #: ../src/scenes/Account.rb:642
 msgctxt "Account"
-msgid "Enable mail events reporting"
+msgid "Disable mail events reporting"
 msgstr ""
 
 #: ../src/scenes/Account.rb:642
 msgctxt "Account"
-msgid "Disable mail events reporting"
+msgid "Enable mail events reporting"
 msgstr ""
 
 #: ../src/scenes/Account.rb:643
@@ -5294,22 +5351,12 @@ msgstr ""
 
 #: ../src/scenes/Admins.rb:15
 msgctxt "Admins"
-msgid "Council of elders"
-msgstr ""
-
-#: ../src/scenes/Admins.rb:15
-msgctxt "Admins"
 msgid "Developers"
 msgstr ""
 
 #: ../src/scenes/Admins.rb:15
 msgctxt "Admins"
-msgid "Sponsors"
-msgstr ""
-
-#: ../src/scenes/Admins.rb:15
-msgctxt "Admins"
-msgid "Recommended groups Moderators"
+msgid "Translators"
 msgstr ""
 
 #: ../src/scenes/Admins.rb:15
@@ -5319,16 +5366,22 @@ msgstr ""
 
 #: ../src/scenes/Admins.rb:15
 msgctxt "Admins"
-msgid "Translators"
+msgid "Council of elders"
+msgstr ""
+
+#: ../src/scenes/Admins.rb:15
+msgctxt "Admins"
+msgid "Recommended groups Moderators"
+msgstr ""
+
+#: ../src/scenes/Admins.rb:15
+msgctxt "Admins"
+msgid "Sponsors"
 msgstr ""
 
 #: ../src/scenes/Admins.rb:93
 msgctxt "Admins"
 msgid "Administrators and authors"
-msgstr ""
-
-#: ../src/scenes/Authentication.rb:23
-msgid "Enable"
 msgstr ""
 
 #: ../src/scenes/Authentication.rb:23
@@ -5340,13 +5393,17 @@ msgid ""
 "e.  Entering this code will be required to sign in to the program."
 msgstr ""
 
-#: ../src/scenes/Authentication.rb:25
-msgid "Disable"
+#: ../src/scenes/Authentication.rb:23
+msgid "Enable"
 msgstr ""
 
 #: ../src/scenes/Authentication.rb:25
 msgctxt "Authentication"
 msgid "Two-factor authentication is enabled on this account."
+msgstr ""
+
+#: ../src/scenes/Authentication.rb:25
+msgid "Disable"
 msgstr ""
 
 #: ../src/scenes/Authentication.rb:25
@@ -5559,12 +5616,7 @@ msgctxt "Blog"
 msgid "Blogs popular with my friends"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:13
-msgctxt "Blog"
-msgid "Library of external blogs"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:13 ../src/scenes/Blog.rb:680
+#: ../src/scenes/Blog.rb:13 ../src/scenes/Blog.rb:687
 msgctxt "Blog"
 msgid "Blogs"
 msgstr ""
@@ -5584,6 +5636,11 @@ msgctxt "Blog"
 msgid "Open external wordpress blog"
 msgstr ""
 
+#: ../src/scenes/Blog.rb:13
+msgctxt "Blog"
+msgid "Library of external blogs"
+msgstr ""
+
 #: ../src/scenes/Blog.rb:58
 msgctxt "Blog"
 msgid "Type blog address"
@@ -5599,8 +5656,8 @@ msgctxt "Blog"
 msgid "All posts"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:136 ../src/scenes/Blog.rb:843
-#: ../src/scenes/Blog.rb:1628
+#: ../src/scenes/Blog.rb:136 ../src/scenes/Blog.rb:850
+#: ../src/scenes/Blog.rb:1635
 msgctxt "Blog"
 msgid "Posts"
 msgstr ""
@@ -5665,7 +5722,7 @@ msgctxt "Blog"
 msgid "Type a blog name"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:256 ../src/scenes/Blog.rb:2125
+#: ../src/scenes/Blog.rb:256 ../src/scenes/Blog.rb:2132
 msgctxt "Blog"
 msgid "Please wait..."
 msgstr ""
@@ -5675,13 +5732,13 @@ msgctxt "Blog"
 msgid "The blog has been created."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:309 ../src/scenes/Blog.rb:843
+#: ../src/scenes/Blog.rb:309 ../src/scenes/Blog.rb:850
 msgctxt "Blog"
 msgid "Author"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:309 ../src/scenes/Blog.rb:843
-#: ../src/scenes/Blog.rb:1561 ../src/scenes/Blog.rb:2192
+#: ../src/scenes/Blog.rb:309 ../src/scenes/Blog.rb:850
+#: ../src/scenes/Blog.rb:1568 ../src/scenes/Blog.rb:2199
 msgctxt "Blog"
 msgid "Comments"
 msgstr ""
@@ -5711,7 +5768,7 @@ msgctxt "Blog"
 msgid "Mentioned by"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:428 ../src/scenes/Blog.rb:1350
+#: ../src/scenes/Blog.rb:428 ../src/scenes/Blog.rb:1357
 msgctxt "Blog"
 msgid "New"
 msgstr ""
@@ -5773,12 +5830,12 @@ msgstr ""
 
 #: ../src/scenes/Blog.rb:511
 msgctxt "Blog"
-msgid "User to mention"
+msgid "Message"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:511
 msgctxt "Blog"
-msgid "Message"
+msgid "User to mention"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:525
@@ -5786,22 +5843,22 @@ msgctxt "Blog"
 msgid "The mention has been sent."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:534 ../src/scenes/Blog.rb:773
+#: ../src/scenes/Blog.rb:534 ../src/scenes/Blog.rb:780
 msgctxt "Blog"
 msgid "Follow this post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:536 ../src/scenes/Blog.rb:775
+#: ../src/scenes/Blog.rb:536 ../src/scenes/Blog.rb:782
 msgctxt "Blog"
 msgid "Unfollow this post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:549 ../src/scenes/Blog.rb:788
+#: ../src/scenes/Blog.rb:549 ../src/scenes/Blog.rb:795
 msgctxt "Blog"
 msgid "Post followed"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:552 ../src/scenes/Blog.rb:791
+#: ../src/scenes/Blog.rb:552 ../src/scenes/Blog.rb:798
 msgctxt "Blog"
 msgid "Post unfollowed"
 msgstr ""
@@ -5831,431 +5888,431 @@ msgctxt "Blog"
 msgid "Media"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:664
+#: ../src/scenes/Blog.rb:671
 msgctxt "Blog"
 msgid "Your comment"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:670
+#: ../src/scenes/Blog.rb:677
 msgctxt "Blog"
 msgid "Edit your post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:674
+#: ../src/scenes/Blog.rb:681
 msgctxt "Blog"
 msgid "Return"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:686 ../src/scenes/Blog.rb:1919
+#: ../src/scenes/Blog.rb:693 ../src/scenes/Blog.rb:1926
 msgctxt "Blog"
 msgid "Send"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:711
+#: ../src/scenes/Blog.rb:718
 msgctxt "Blog"
 msgid "The comment has been added."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:759
+#: ../src/scenes/Blog.rb:766
 msgctxt "Blog"
 msgid "Received mention"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:760
+#: ../src/scenes/Blog.rb:767
 msgctxt "Blog"
 msgid "Show mention"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:761
+#: ../src/scenes/Blog.rb:768
 msgctxt "Blog"
 msgid "Mention by %{user}"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:763
+#: ../src/scenes/Blog.rb:770
 msgctxt "Blog"
 msgid "Send reply to mentioner"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:799
+#: ../src/scenes/Blog.rb:806
 msgctxt "Blog"
 msgid "Navigation"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:800
+#: ../src/scenes/Blog.rb:807
 msgctxt "Blog"
 msgid "Go to post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:804
+#: ../src/scenes/Blog.rb:811
 msgctxt "Blog"
 msgid "Go to last comment"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:809
+#: ../src/scenes/Blog.rb:816
 msgctxt "Blog"
 msgid "Go to first unread comment"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:816
+#: ../src/scenes/Blog.rb:823
 msgctxt "Blog"
 msgid "Write a comment"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:822
+#: ../src/scenes/Blog.rb:829
 msgctxt "Blog"
 msgid "Delete this comment"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:823 ../src/scenes/Blog.rb:2218
+#: ../src/scenes/Blog.rb:830 ../src/scenes/Blog.rb:2225
 msgctxt "Blog"
 msgid "Are you sure you want to delete this comment?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:843
+#: ../src/scenes/Blog.rb:850
 msgctxt "Blog"
 msgid "Blogs list"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:843
+#: ../src/scenes/Blog.rb:850
 msgctxt "Blog"
 msgid "Last post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:879 ../src/scenes/Blog.rb:1078
+#: ../src/scenes/Blog.rb:886 ../src/scenes/Blog.rb:1085
 msgctxt "Blog"
 msgid "Coworkers"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:883
+#: ../src/scenes/Blog.rb:890
 msgctxt "Blog"
 msgid "Add coworker"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:884
+#: ../src/scenes/Blog.rb:891
 msgctxt "Blog"
 msgid "What user you want to add to this blog?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:894
+#: ../src/scenes/Blog.rb:901
 msgctxt "Blog"
 msgid "Delete coworker"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:895
+#: ../src/scenes/Blog.rb:902
 msgctxt "Blog"
 msgid "Are you sure you want to release this coworker?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:915
+#: ../src/scenes/Blog.rb:922
 msgctxt "Blog"
 msgid "Are you sure you want to delete blog %{name}?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:916
+#: ../src/scenes/Blog.rb:923
 msgctxt "Blog"
 msgid ""
 "All posts written on this blog will be lost. Are you sure you want to continue"
 "?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:918
+#: ../src/scenes/Blog.rb:925
 msgctxt "Blog"
 msgid "Blog deleted"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:983
+#: ../src/scenes/Blog.rb:990
 msgctxt "Blog"
 msgid "No blogs found"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1026 ../src/scenes/Blog.rb:1548
+#: ../src/scenes/Blog.rb:1033 ../src/scenes/Blog.rb:1555
 msgctxt "Blog"
 msgid "Blog description"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1027
+#: ../src/scenes/Blog.rb:1034
 msgctxt "Blog"
 msgid "Blog language"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1028
+#: ../src/scenes/Blog.rb:1035
 msgctxt "Blog"
 msgid "Add"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1038
+#: ../src/scenes/Blog.rb:1045
 msgctxt "Blog"
 msgid "Blog added to library"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1055
+#: ../src/scenes/Blog.rb:1062
 msgctxt "Blog"
 msgid "Open"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1059
+#: ../src/scenes/Blog.rb:1066
 msgctxt "Blog"
 msgid "Show all posts"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1063
+#: ../src/scenes/Blog.rb:1070
 msgctxt "Blog"
 msgid "Search"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1064
+#: ../src/scenes/Blog.rb:1071
 msgctxt "Blog"
 msgid "Enter text to search"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1072
+#: ../src/scenes/Blog.rb:1079
 msgctxt "Blog"
 msgid "Blog options"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1075 ../src/scenes/Blog.rb:2326
+#: ../src/scenes/Blog.rb:1082 ../src/scenes/Blog.rb:2333
 msgctxt "Blog"
 msgid "Followers"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1082
+#: ../src/scenes/Blog.rb:1089
 msgctxt "Blog"
 msgid "Leave"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1083
+#: ../src/scenes/Blog.rb:1090
 msgctxt "Blog"
 msgid "Are you sure you want to stop co-creating this blog?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1085
+#: ../src/scenes/Blog.rb:1092
 msgctxt "Blog"
 msgid "Blog left"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1093
+#: ../src/scenes/Blog.rb:1100
 msgctxt "Blog"
 msgid "Recategorize"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1098
+#: ../src/scenes/Blog.rb:1105
 msgctxt "Blog"
 msgid "Delete this blog"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1106
+#: ../src/scenes/Blog.rb:1113
 msgctxt "Blog"
 msgid "Remove from the followed blogs"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1108
+#: ../src/scenes/Blog.rb:1115
 msgctxt "Blog"
 msgid "Add to followed blogs"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1117
+#: ../src/scenes/Blog.rb:1124
 msgctxt "Blog"
 msgid ""
 "This blog has been added to followed blogs. Do you want to mark all the posts "
 "published so far on it as read so that you don't see them in \"What's New\"?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1120 ../src/scenes/Blog.rb:1165
+#: ../src/scenes/Blog.rb:1127 ../src/scenes/Blog.rb:1172
 msgctxt "Blog"
 msgid "The blog has been marked as read."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1132
+#: ../src/scenes/Blog.rb:1139
 msgctxt "Blog"
 msgid "Removed from the followed blogs."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1139
+#: ../src/scenes/Blog.rb:1146
 msgctxt "Blog"
 msgid "Add to Elten library"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1144
+#: ../src/scenes/Blog.rb:1151
 msgctxt "Blog"
 msgid "Delete from Elten library"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1145
+#: ../src/scenes/Blog.rb:1152
 msgctxt "Blog"
 msgid "Are you sure you want to delete this blog from Elten library?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1152
+#: ../src/scenes/Blog.rb:1159
 msgctxt "Blog"
 msgid "Add this blog to quick actions"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1153 ../src/scenes/Blog.rb:2328
+#: ../src/scenes/Blog.rb:1160 ../src/scenes/Blog.rb:2335
 msgctxt "Blog"
 msgid "Blog"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1154
+#: ../src/scenes/Blog.rb:1161
 msgctxt "Blog"
 msgid "Blog added to quick actions"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1156
+#: ../src/scenes/Blog.rb:1163
 msgctxt "Blog"
 msgid "Copy blog URL"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1158
+#: ../src/scenes/Blog.rb:1165
 msgctxt "Blog"
 msgid "Blog URL copied to clipboard"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1161
+#: ../src/scenes/Blog.rb:1168
 msgctxt "Blog"
 msgid "Mark the blog as read"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1162
+#: ../src/scenes/Blog.rb:1169
 msgctxt "Blog"
 msgid "All posts on this blog will be marked as read. Do you want to continue?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1173
+#: ../src/scenes/Blog.rb:1180
 msgctxt "Blog"
 msgid "Create new blog"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1187
+#: ../src/scenes/Blog.rb:1194
 msgctxt "Blog"
 msgid "You cannot create more blogs"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1192
+#: ../src/scenes/Blog.rb:1199
 msgctxt "Blog"
 msgid "Show blogs in unknown languages"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1193
+#: ../src/scenes/Blog.rb:1200
 msgctxt "Blog"
 msgid "Hide blogs in unknown languages"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1223
+#: ../src/scenes/Blog.rb:1230
 msgctxt "Blog"
 msgid "Wordpress user login"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1224
+#: ../src/scenes/Blog.rb:1231
 msgctxt "Blog"
 msgid "Set new Wordpress password"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1225
+#: ../src/scenes/Blog.rb:1232
 msgctxt "Blog"
 msgid "First name"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1226
+#: ../src/scenes/Blog.rb:1233
 msgctxt "Blog"
 msgid "Last name"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1227
+#: ../src/scenes/Blog.rb:1234
 msgctxt "Blog"
 msgid "Nick"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1228
+#: ../src/scenes/Blog.rb:1235
 msgctxt "Blog"
 msgid "Display name"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1229
+#: ../src/scenes/Blog.rb:1236
 msgctxt "Blog"
 msgid "User description"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1256
+#: ../src/scenes/Blog.rb:1263
 msgctxt "Blog"
 msgid "Your Elten Password"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1263
+#: ../src/scenes/Blog.rb:1270
 msgctxt "Blog"
 msgid "New Wordpress password"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1266
+#: ../src/scenes/Blog.rb:1273
 msgctxt "Blog"
 msgid "Repeat new Wordpress password"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1270
+#: ../src/scenes/Blog.rb:1277
 msgctxt "Blog"
 msgid "Wordpress password must be at least 6 characters long."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1275
+#: ../src/scenes/Blog.rb:1282
 msgctxt "Blog"
 msgid "Entered passwords are different."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1389
+#: ../src/scenes/Blog.rb:1396
 msgctxt "Blog"
 msgid "Recategorized"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1423
-msgctxt "Blog"
-msgid "Move only this post, delete all comments"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1423
-msgctxt "Blog"
-msgid "Move type"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1423
+#: ../src/scenes/Blog.rb:1430
 msgctxt "Blog"
 msgid "Move"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1423
-msgctxt "Blog"
-msgid "Post destination"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1423
+#: ../src/scenes/Blog.rb:1430
 msgctxt "Blog"
 msgid "Move this post and all comments"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1432
+#: ../src/scenes/Blog.rb:1430
+msgctxt "Blog"
+msgid "Move only this post, delete all comments"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1430
+msgctxt "Blog"
+msgid "Move type"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1430
+msgctxt "Blog"
+msgid "Post destination"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1439
 msgctxt "Blog"
 msgid "The post has been moved."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1540
+#: ../src/scenes/Blog.rb:1547
 msgctxt "Blog"
 msgid "Category"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1546
+#: ../src/scenes/Blog.rb:1553
 msgctxt "Blog"
 msgid "General"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1547
+#: ../src/scenes/Blog.rb:1554
 msgctxt "Blog"
 msgid "Blog name"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1557
+#: ../src/scenes/Blog.rb:1564
 msgctxt "Blog"
 msgid "Language"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1558
+#: ../src/scenes/Blog.rb:1565
 msgctxt "Blog"
 msgid ""
 "Mark this blog as public. Blogs that are not marked public request search engi"
@@ -6263,478 +6320,483 @@ msgid ""
 " not respect this setting)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1562
-msgctxt "Blog"
-msgid "By all visitors"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1562
-msgctxt "Blog"
-msgid "By all visitors, but I must commit first comment of the specific person"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1562
-msgctxt "Blog"
-msgid "By all visitors, but I must commit all of them"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1562
+#: ../src/scenes/Blog.rb:1569
 msgctxt "Blog"
 msgid "By Elten users only"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1562
+#: ../src/scenes/Blog.rb:1569
 msgctxt "Blog"
 msgid "Comments can be written"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1563
+#: ../src/scenes/Blog.rb:1569
 msgctxt "Blog"
-msgid "Disable commenting of older posts"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1564
-msgctxt "Blog"
-msgid "Days after commenting of a post will be disabled"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1565
-msgctxt "Blog"
-msgid "Allow comments threading"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1566
-msgctxt "Blog"
-msgid "Max comments thread depth"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1567
-msgctxt "Blog"
-msgid "Order comments on the website"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1567
-msgctxt "Blog"
-msgid "Ascending"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1567
-msgctxt "Blog"
-msgid "Descending"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1568
-msgctxt "Blog"
-msgid "Split comments on the website into pages"
+msgid "By all visitors"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1569
 msgctxt "Blog"
-msgid "Comments per page"
+msgid "By all visitors, but I must commit first comment of the specific person"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1569
+msgctxt "Blog"
+msgid "By all visitors, but I must commit all of them"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1570
 msgctxt "Blog"
-msgid "Newest comments"
+msgid "Disable commenting of older posts"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1570
+#: ../src/scenes/Blog.rb:1571
+msgctxt "Blog"
+msgid "Days after commenting of a post will be disabled"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1572
+msgctxt "Blog"
+msgid "Allow comments threading"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1573
+msgctxt "Blog"
+msgid "Max comments thread depth"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1574
+msgctxt "Blog"
+msgid "Order comments on the website"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1574
+msgctxt "Blog"
+msgid "Descending"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1574
+msgctxt "Blog"
+msgid "Ascending"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1575
+msgctxt "Blog"
+msgid "Split comments on the website into pages"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1576
+msgctxt "Blog"
+msgid "Comments per page"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1577
 msgctxt "Blog"
 msgid "Oldest comments"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1570
+#: ../src/scenes/Blog.rb:1577
 msgctxt "Blog"
 msgid "Firstly display"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1629
+#: ../src/scenes/Blog.rb:1577
+msgctxt "Blog"
+msgid "Newest comments"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1636
 msgctxt "Blog"
 msgid "Posts displayed per page on the website"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1630
+#: ../src/scenes/Blog.rb:1637
 msgctxt "Blog"
 msgid "Use emoticons"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1631
-msgctxt "Blog"
-msgid "Simple (https://example.com/?p=123)"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1631
-msgctxt "Blog"
-msgid "Full date and post name (https://example.com/2020/01/01/example-post)"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1631
-msgctxt "Blog"
-msgid "Month and post name (https://example.com/2020/01/example-post)"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1631
-msgctxt "Blog"
-msgid "Just a post id (https://example.com/posts/123/)"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1631
+#: ../src/scenes/Blog.rb:1638
 msgctxt "Blog"
 msgid "Just a post name (https://example.com/example-post/)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1635 ../src/scenes/Blog.rb:1659
+#: ../src/scenes/Blog.rb:1638
 msgctxt "Blog"
-msgid "Custom"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1637
-msgctxt "Blog"
-msgid "Links format"
+msgid "Just a post id (https://example.com/posts/123/)"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1638
 msgctxt "Blog"
-msgid "Posts in RSS"
+msgid "Simple (https://example.com/?p=123)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1639
+#: ../src/scenes/Blog.rb:1638
 msgctxt "Blog"
-msgid "Use excerpts in RSS"
+msgid "Month and post name (https://example.com/2020/01/example-post)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1642
-msgctxt "blog"
-msgid "Date and time"
+#: ../src/scenes/Blog.rb:1638
+msgctxt "Blog"
+msgid "Full date and post name (https://example.com/2020/01/01/example-post)"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1642 ../src/scenes/Blog.rb:1666
+msgctxt "Blog"
+msgid "Custom"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1644
 msgctxt "Blog"
-msgid "31 January 2020"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1644
-msgctxt "Blog"
-msgid "January 31, 2020"
+msgid "Links format"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1645
 msgctxt "Blog"
+msgid "Posts in RSS"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1646
+msgctxt "Blog"
+msgid "Use excerpts in RSS"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1649
+msgctxt "blog"
+msgid "Date and time"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1651
+msgctxt "Blog"
+msgid "January 31, 2020"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1651
+msgctxt "Blog"
+msgid "31 January 2020"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1652
+msgctxt "Blog"
 msgid "Date format"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1648
+#: ../src/scenes/Blog.rb:1655
 msgctxt "Blog"
 msgid "Time format"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1662
+#: ../src/scenes/Blog.rb:1669
 msgctxt "Blog"
 msgid "Timezone city"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1663
-msgctxt "Blog"
-msgid "Sunday"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1663
-msgctxt "Blog"
-msgid "Monday"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1663
+#: ../src/scenes/Blog.rb:1670
 msgctxt "Blog"
 msgid "Tuesday"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1663
+#: ../src/scenes/Blog.rb:1670
 msgctxt "Blog"
-msgid "Saturday"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1663
-msgctxt "Blog"
-msgid "Friday"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1663
-msgctxt "Blog"
-msgid "Thursday"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1663
-msgctxt "Blog"
-msgid "Wednesday"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1664
-msgctxt "Blog"
-msgid "First day of the week"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1667
-msgctxt "Blog"
-msgid "Others"
+msgid "Sunday"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1670
 msgctxt "Blog"
+msgid "Monday"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1670
+msgctxt "Blog"
+msgid "Friday"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1670
+msgctxt "Blog"
+msgid "Wednesday"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1670
+msgctxt "Blog"
+msgid "Thursday"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1670
+msgctxt "Blog"
+msgid "Saturday"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1671
+msgctxt "Blog"
+msgid "First day of the week"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1674
+msgctxt "Blog"
+msgid "Others"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1677
+msgctxt "Blog"
 msgid "Do not set"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1683
+#: ../src/scenes/Blog.rb:1690
 msgctxt "Blog"
 msgid ""
 "If you want to redirect all browsers visiting this blog to another site, selec"
 "t it here"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1685
+#: ../src/scenes/Blog.rb:1692
 msgctxt "Blog"
 msgid "My Wordpress account"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1686
+#: ../src/scenes/Blog.rb:1693
 msgctxt "Blog"
 msgid "Manage tags"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1687 ../src/scenes/Blog.rb:2225
+#: ../src/scenes/Blog.rb:1694 ../src/scenes/Blog.rb:2232
 msgctxt "Blog"
 msgid "Pending comments"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1688
+#: ../src/scenes/Blog.rb:1695
 msgctxt "Blog"
 msgid "Manage blog domain"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1820
+#: ../src/scenes/Blog.rb:1827
 msgctxt "Blog"
 msgid "Tags"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1822
+#: ../src/scenes/Blog.rb:1829
 msgctxt "Blog"
 msgid "New tag"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1823
+#: ../src/scenes/Blog.rb:1830
 msgctxt "Blog"
 msgid "Tag name"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1837
+#: ../src/scenes/Blog.rb:1844
 msgctxt "Blog"
 msgid "Delete tag"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1840
+#: ../src/scenes/Blog.rb:1847
 msgid "error"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1908
-msgctxt "Blog"
-msgid "Post title"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1909
-msgctxt "Blog"
-msgid "Source Editor (HTML and Wordpress Shortcodes)"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1909
-msgctxt "Blog"
-msgid "Editor"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1909
-msgctxt "Blog"
-msgid "Formattable editor"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1910 ../src/scenes/Blog.rb:2192
-msgctxt "Blog"
-msgid "Post"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1911
-msgctxt "Blog"
-msgid "Audio content"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1912
-msgctxt "Blog"
-msgid "Post categories"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1913
-msgctxt "Blog"
-msgid "Post tags"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1914
-msgctxt "Blog"
-msgid "Show to Elten users only"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1914
-msgctxt "Blog"
-msgid "Visibility"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:1914
-msgctxt "Blog"
-msgid "Show to everyone"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1915
 msgctxt "Blog"
-msgid "Excerpt"
+msgid "Post title"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1916
 msgctxt "Blog"
-msgid "Schedule this post to be published in the future"
+msgid "Editor"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1917
+#: ../src/scenes/Blog.rb:1916
 msgctxt "Blog"
-msgid "Publication date"
+msgid "Source Editor (HTML and Wordpress Shortcodes)"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1916
+msgctxt "Blog"
+msgid "Formattable editor"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1917 ../src/scenes/Blog.rb:2199
+msgctxt "Blog"
+msgid "Post"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1918
 msgctxt "Blog"
-msgid "Allow users to comment this post"
+msgid "Audio content"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1919
+msgctxt "Blog"
+msgid "Post categories"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1920
+msgctxt "Blog"
+msgid "Post tags"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1921
+msgctxt "Blog"
+msgid "Visibility"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1921
+msgctxt "Blog"
+msgid "Show to everyone"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1921
+msgctxt "Blog"
+msgid "Show to Elten users only"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1922
+msgctxt "Blog"
+msgid "Excerpt"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1923
+msgctxt "Blog"
+msgid "Schedule this post to be published in the future"
 msgstr ""
 
 #: ../src/scenes/Blog.rb:1924
 msgctxt "Blog"
+msgid "Publication date"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1925
+msgctxt "Blog"
+msgid "Allow users to comment this post"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:1931
+msgctxt "Blog"
 msgid "Add existing tag to this post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1940
+#: ../src/scenes/Blog.rb:1947
 msgctxt "Blog"
 msgid "Add tag to this post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1941
+#: ../src/scenes/Blog.rb:1948
 msgctxt "Blog"
 msgid "Tag to add"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1950
+#: ../src/scenes/Blog.rb:1957
 msgctxt "Blog"
 msgid "This tag does not exist, do you want to create it now?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:1962
+#: ../src/scenes/Blog.rb:1969
 msgctxt "Blog"
 msgid "Remove tag from this post"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2072
+#: ../src/scenes/Blog.rb:2079
 msgctxt "Blog"
 msgid "Are you sure you want to cancel creating this post?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2081
+#: ../src/scenes/Blog.rb:2088
 msgctxt "Blog"
 msgid "Publication date not set"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2085
+#: ../src/scenes/Blog.rb:2092
 msgctxt "Blog"
 msgid "Selected publication date that is in the past"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2137
+#: ../src/scenes/Blog.rb:2144
 msgctxt "Blog"
 msgid "The post has been added."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2148
+#: ../src/scenes/Blog.rb:2155
 msgctxt "Blog"
 msgid "There are currently no tags created, please add a new one."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2151
+#: ../src/scenes/Blog.rb:2158
 msgctxt "Blog"
 msgid "Select tag"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2192
+#: ../src/scenes/Blog.rb:2199
 msgctxt "Blog"
 msgid "Comment"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2209
+#: ../src/scenes/Blog.rb:2216
 msgctxt "Blog"
 msgid "Approve"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2213
+#: ../src/scenes/Blog.rb:2220
 msgctxt "Blog"
 msgid "Assign as spam"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2217
+#: ../src/scenes/Blog.rb:2224
 msgctxt "Blog"
 msgid "Delete"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2223
+#: ../src/scenes/Blog.rb:2230
 msgctxt "Blog"
 msgid "Show"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2232
+#: ../src/scenes/Blog.rb:2239
 msgctxt "Blog"
 msgid "Comments assigned as spam"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2320
+#: ../src/scenes/Blog.rb:2327
 msgctxt "Blog"
 msgid "This blog is not followed by any user"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2332
+#: ../src/scenes/Blog.rb:2339
 msgctxt "Blog"
 msgid "Open blog"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2369
+#: ../src/scenes/Blog.rb:2376
 msgctxt "Blog"
 msgid "Current blog domain"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2370
+#: ../src/scenes/Blog.rb:2377
 msgctxt "Blog"
 msgid "Change"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2389
+#: ../src/scenes/Blog.rb:2396
 msgctxt "Blog"
 msgid "Personal Elten blog domain (%{username}.elten.blog)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2390
+#: ../src/scenes/Blog.rb:2397
 msgctxt "Blog"
 msgid "Shared Elten blog domain (selectedname.s.elten.blog)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2391
+#: ../src/scenes/Blog.rb:2398
 msgctxt "Blog"
 msgid "External domain"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2392
+#: ../src/scenes/Blog.rb:2399
 msgctxt "Blog"
 msgid "Domain type"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2394
+#: ../src/scenes/Blog.rb:2401
+msgctxt "Blog"
+msgid "Buying your own domain"
+msgstr ""
+
+#: ../src/scenes/Blog.rb:2401
 msgctxt "Blog"
 msgid ""
 "To continue, you should point your domain to Elten Blogging server.\n"
@@ -6742,64 +6804,59 @@ msgid ""
 ", godaddy.com or bluehost.com."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2394
-msgctxt "Blog"
-msgid "Buying your own domain"
-msgstr ""
-
-#: ../src/scenes/Blog.rb:2396
+#: ../src/scenes/Blog.rb:2403
 msgctxt "Blog"
 msgid "Final new blog address"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2397
+#: ../src/scenes/Blog.rb:2404
 msgctxt "Blog"
 msgid "Proceed with domain change"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2416
+#: ../src/scenes/Blog.rb:2423
 msgctxt "Blog"
 msgid "Domain prefix (prefix.s.elten.blog)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2420
+#: ../src/scenes/Blog.rb:2427
 msgctxt "Blog"
 msgid "Domain (like example.com)"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2432
+#: ../src/scenes/Blog.rb:2439
 msgctxt "Blog"
 msgid "The new domain is the same as a previous one"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2436
+#: ../src/scenes/Blog.rb:2443
 msgctxt "Blog"
 msgid ""
 "You already have one blog associated with your Elten profile. Please change it"
 "s type and then proceed."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2440
+#: ../src/scenes/Blog.rb:2447
 msgctxt "Blog"
 msgid "Only first level subdomains are allowed"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2444
+#: ../src/scenes/Blog.rb:2451
 msgctxt "Blog"
 msgid "Blog subdomain must be at least 3 characters long"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2449
+#: ../src/scenes/Blog.rb:2456
 msgctxt "Blog"
 msgid "The entered domain contains invalid characters"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2453
+#: ../src/scenes/Blog.rb:2460
 msgctxt "Blog"
 msgid "The entered domain is not valid"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2459
+#: ../src/scenes/Blog.rb:2466
 msgctxt "Blog"
 msgid ""
 "Warning! If you change your blog URL, some links may stop working. If you dire"
@@ -6808,12 +6865,12 @@ msgid ""
 "y. Are you sure you want to continue?"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2473
+#: ../src/scenes/Blog.rb:2480
 msgctxt "Blog"
 msgid "Blog domain changed"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2482
+#: ../src/scenes/Blog.rb:2489
 msgctxt "Blog"
 msgid ""
 "You should now configure your purchased domain to redirect to Elten blogging s"
@@ -6843,24 +6900,24 @@ msgid ""
 "Once completed, please continue."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2499
+#: ../src/scenes/Blog.rb:2506
 msgctxt "Blog"
 msgid "Setting the domain"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2500
+#: ../src/scenes/Blog.rb:2507
 msgctxt "Blog"
 msgid "Ready, take me next"
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2512
+#: ../src/scenes/Blog.rb:2519
 msgctxt "Blog"
 msgid ""
 "Your domain is not pointing to Elten Blogs, please try again or wait a while t"
 "o refresh DNS. It may take up to 24 hours to perform full DNS update."
 msgstr ""
 
-#: ../src/scenes/Blog.rb:2514
+#: ../src/scenes/Blog.rb:2521
 msgctxt "Blog"
 msgid "Your domain is pointing to Elten blogs, but www prefix is not. Please fix it."
 msgstr ""
@@ -6873,6 +6930,12 @@ msgstr ""
 #: ../src/scenes/Clock.rb:10
 msgctxt "Clock"
 msgid "Alarms"
+msgstr ""
+
+#: ../src/scenes/Clock.rb:17 ../src/scenes/Clock.rb:70
+#: ../src/scenes/Clock.rb:97
+msgctxt "Clock"
+msgid "One time"
 msgstr ""
 
 #: ../src/scenes/Clock.rb:17
@@ -6892,12 +6955,6 @@ msgctxt "Clock"
 msgid "Type"
 msgstr ""
 
-#: ../src/scenes/Clock.rb:17 ../src/scenes/Clock.rb:70
-#: ../src/scenes/Clock.rb:97
-msgctxt "Clock"
-msgid "One time"
-msgstr ""
-
 #: ../src/scenes/Clock.rb:43
 msgctxt "Clock"
 msgid "Edit alarm"
@@ -6915,17 +6972,17 @@ msgstr ""
 
 #: ../src/scenes/Clock.rb:70
 msgctxt "Clock"
+msgid "Alarm description"
+msgstr ""
+
+#: ../src/scenes/Clock.rb:70
+msgctxt "Clock"
 msgid "Minute"
 msgstr ""
 
 #: ../src/scenes/Clock.rb:70 ../src/scenes/Clock.rb:97
 msgctxt "Clock"
 msgid "Repeated"
-msgstr ""
-
-#: ../src/scenes/Clock.rb:70
-msgctxt "Clock"
-msgid "Alarm description"
 msgstr ""
 
 #: ../src/scenes/Contacts.rb:44
@@ -6990,12 +7047,12 @@ msgstr ""
 
 #: ../src/scenes/Debug.rb:9
 msgctxt "Debug"
-msgid "OK"
+msgid "Report connections to the server"
 msgstr ""
 
 #: ../src/scenes/Debug.rb:9
 msgctxt "Debug"
-msgid "Report connections to the server"
+msgid "OK"
 msgstr ""
 
 #: ../src/scenes/ForgotPassword.rb:11
@@ -7020,17 +7077,17 @@ msgstr ""
 
 #: ../src/scenes/ForgotPassword.rb:31
 msgctxt "ForgotPassword"
-msgid "Generate password reset code"
-msgstr ""
-
-#: ../src/scenes/ForgotPassword.rb:31
-msgctxt "ForgotPassword"
 msgid "Password reset"
 msgstr ""
 
 #: ../src/scenes/ForgotPassword.rb:31
 msgctxt "ForgotPassword"
 msgid "Enter password reset code"
+msgstr ""
+
+#: ../src/scenes/ForgotPassword.rb:31
+msgctxt "ForgotPassword"
+msgid "Generate password reset code"
 msgstr ""
 
 #: ../src/scenes/ForgotPassword.rb:51
@@ -7124,7 +7181,41 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
-msgid "My threads"
+msgid "Moderated group"
+msgid_plural "Moderated groups (%{count})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "Waiting invitation"
+msgid_plural "Waiting invitations (%{count})"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "Open groups (%{count})"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "Recommended groups (%{count})"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "Recently active groups"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "All groups (%{count})"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "Threads popular with my friends"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:211 ../src/scenes/Forum.rb:492
@@ -7135,18 +7226,10 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
-msgid "Threads popular with my friends"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:211
-msgctxt "Forum"
-msgid "Groups popular with my friends"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:211
-msgctxt "Forum"
-msgid "Recently created groups"
-msgstr ""
+msgid "Marked thread"
+msgid_plural "Marked threads"
+msgstr[0] ""
+msgstr[1] ""
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
@@ -7157,7 +7240,12 @@ msgstr[1] ""
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
-msgid "Received mentions"
+msgid "My threads"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:211
+msgctxt "Forum"
+msgid "Recently created groups"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:211
@@ -7176,43 +7264,12 @@ msgstr[1] ""
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
-msgid "Marked thread"
-msgid_plural "Marked threads"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../src/scenes/Forum.rb:211
-msgctxt "Forum"
-msgid "Recently active groups"
+msgid "Received mentions"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
-msgid "Open groups (%{count})"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:211
-msgctxt "Forum"
-msgid "Waiting invitation"
-msgid_plural "Waiting invitations (%{count})"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../src/scenes/Forum.rb:211
-msgctxt "Forum"
-msgid "Moderated group"
-msgid_plural "Moderated groups (%{count})"
-msgstr[0] ""
-msgstr[1] ""
-
-#: ../src/scenes/Forum.rb:211
-msgctxt "Forum"
-msgid "All groups (%{count})"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:211
-msgctxt "Forum"
-msgid "Recommended groups (%{count})"
+msgid "Groups popular with my friends"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
@@ -7222,15 +7279,6 @@ msgstr ""
 #: ../src/scenes/Forum.rb:380
 msgctxt "Forum"
 msgid "Forums"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
-#: ../src/scenes/Forum.rb:264 ../src/scenes/Forum.rb:285
-#: ../src/scenes/Forum.rb:305 ../src/scenes/Forum.rb:325
-#: ../src/scenes/Forum.rb:346 ../src/scenes/Forum.rb:361
-#: ../src/scenes/Forum.rb:380 ../src/scenes/Forum.rb:1253
-msgctxt "Forum"
-msgid "Threads"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
@@ -7251,6 +7299,15 @@ msgstr ""
 #: ../src/scenes/Forum.rb:1849
 msgctxt "Forum"
 msgid "Unread"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
+#: ../src/scenes/Forum.rb:264 ../src/scenes/Forum.rb:285
+#: ../src/scenes/Forum.rb:305 ../src/scenes/Forum.rb:325
+#: ../src/scenes/Forum.rb:346 ../src/scenes/Forum.rb:361
+#: ../src/scenes/Forum.rb:380 ../src/scenes/Forum.rb:1253
+msgctxt "Forum"
+msgid "Threads"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:243 ../src/scenes/Forum.rb:285
@@ -7587,11 +7644,6 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:775
 msgctxt "Forum"
-msgid "Reported by"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:775
-msgctxt "Forum"
 msgid "Thread"
 msgstr ""
 
@@ -7608,6 +7660,11 @@ msgstr ""
 #: ../src/scenes/Forum.rb:775
 msgctxt "Forum"
 msgid "Comment"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:775
+msgctxt "Forum"
+msgid "Reported by"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:776
@@ -7808,7 +7865,7 @@ msgctxt "Forum"
 msgid "The user has been invited"
 msgstr ""
 
-#: ../src/scenes/Forum.rb:1060 ../src/scenes/Messages.rb:1024
+#: ../src/scenes/Forum.rb:1060 ../src/scenes/Messages.rb:1032
 #: ../src/scenes/Users.rb:21
 msgid "You haven't permissions to do this"
 msgstr ""
@@ -7833,14 +7890,14 @@ msgctxt "Forum"
 msgid "I decline regulations of group %{groupname}"
 msgstr ""
 
-#: ../src/scenes/Forum.rb:1133 ../src/scenes/Forum.rb:3882
-msgctxt "Forum"
-msgid "Group description"
-msgstr ""
-
 #: ../src/scenes/Forum.rb:1133 ../src/scenes/Forum.rb:3881
 msgctxt "Forum"
 msgid "Group name"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:1133 ../src/scenes/Forum.rb:3882
+msgctxt "Forum"
+msgid "Group description"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:1139
@@ -7860,7 +7917,7 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:1168
 msgctxt "Forum"
-msgid "Titles"
+msgid "Content"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:1168
@@ -7875,7 +7932,12 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:1168
 msgctxt "Forum"
-msgid "Content"
+msgid "Titles"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:1169
+msgctxt "Forum"
+msgid "Recommended groups"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:1169
@@ -7886,11 +7948,6 @@ msgstr ""
 #: ../src/scenes/Forum.rb:1169
 msgctxt "Forum"
 msgid "of threads in"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:1169
-msgctxt "Forum"
-msgid "Recommended groups"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:1169
@@ -8028,12 +8085,7 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
 msgctxt "Forum"
-msgid "Voice forum"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
-msgctxt "Forum"
-msgid "Forum type"
+msgid "Forum name"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
@@ -8043,17 +8095,22 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
 msgctxt "Forum"
-msgid "Forum name"
-msgstr ""
-
-#: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
-msgctxt "Forum"
 msgid "Text forum"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
 msgctxt "Forum"
+msgid "Voice forum"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
+msgctxt "Forum"
 msgid "Mixed forum"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:1470 ../src/scenes/Forum.rb:1570
+msgctxt "Forum"
+msgid "Forum type"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:1504
@@ -8403,14 +8460,14 @@ msgctxt "Forum"
 msgid "Audio post"
 msgstr ""
 
-#: ../src/scenes/Forum.rb:2157
-msgctxt "Forum"
-msgid "Select first post type"
-msgstr ""
-
 #: ../src/scenes/Forum.rb:2157 ../src/scenes/Forum.rb:2848
 msgctxt "Forum"
 msgid "Text post"
+msgstr ""
+
+#: ../src/scenes/Forum.rb:2157
+msgctxt "Forum"
+msgid "Select first post type"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:2177
@@ -8512,19 +8569,19 @@ msgctxt "Forum"
 msgid "Are you sure you want to cancel creating this post?"
 msgstr ""
 
-#: ../src/scenes/Forum.rb:2718 ../src/scenes/Messages.rb:595
+#: ../src/scenes/Forum.rb:2718 ../src/scenes/Messages.rb:601
 #: ../src/scenes/Polls.rb:24 ../src/scenes/Polls.rb:127
 msgctxt "Polls"
 msgid "Show report"
 msgstr ""
 
-#: ../src/scenes/Forum.rb:2718 ../src/scenes/Messages.rb:595
+#: ../src/scenes/Forum.rb:2718 ../src/scenes/Messages.rb:601
 #: ../src/scenes/Polls.rb:24 ../src/scenes/Polls.rb:124
 msgctxt "Polls"
 msgid "Show results"
 msgstr ""
 
-#: ../src/scenes/Forum.rb:2718 ../src/scenes/Messages.rb:595
+#: ../src/scenes/Forum.rb:2718 ../src/scenes/Messages.rb:601
 #: ../src/scenes/Polls.rb:24 ../src/scenes/Polls.rb:119
 #: ../src/scenes/Polls.rb:373
 msgctxt "Polls"
@@ -8970,7 +9027,7 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:3963
 msgctxt "Forum"
-msgid "Show all accepted reports"
+msgid "Disabled"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:3963
@@ -8980,12 +9037,12 @@ msgstr ""
 
 #: ../src/scenes/Forum.rb:3963
 msgctxt "Forum"
-msgid "Show all reports"
+msgid "Show all accepted reports"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:3963
 msgctxt "Forum"
-msgid "Disabled"
+msgid "Show all reports"
 msgstr ""
 
 #: ../src/scenes/Forum.rb:3964
@@ -9089,11 +9146,6 @@ msgstr ""
 
 #: ../src/scenes/Honors.rb:303
 msgctxt "Honors"
-msgid "Add"
-msgstr ""
-
-#: ../src/scenes/Honors.rb:303
-msgctxt "Honors"
 msgid "Badge description"
 msgstr ""
 
@@ -9112,6 +9164,11 @@ msgctxt "Honors"
 msgid "Badge name"
 msgstr ""
 
+#: ../src/scenes/Honors.rb:303
+msgctxt "Honors"
+msgid "Add"
+msgstr ""
+
 #: ../src/scenes/Honors.rb:317
 msgctxt "Honors"
 msgid "The badge has been added"
@@ -9119,12 +9176,12 @@ msgstr ""
 
 #: ../src/scenes/Install.rb:3
 msgctxt "Install"
-msgid "Install current version"
+msgid "Download and install the newest version"
 msgstr ""
 
 #: ../src/scenes/Install.rb:3
 msgctxt "Install"
-msgid "Download and install the newest version"
+msgid "Install current version"
 msgstr ""
 
 #: ../src/scenes/Install.rb:3
@@ -9171,21 +9228,6 @@ msgstr ""
 
 #: ../src/scenes/Loading.rb:370
 msgctxt "Loading"
-msgid "Register"
-msgstr ""
-
-#: ../src/scenes/Loading.rb:370
-msgctxt "Loading"
-msgid "Reinstall"
-msgstr ""
-
-#: ../src/scenes/Loading.rb:370
-msgctxt "Loading"
-msgid "Settings"
-msgstr ""
-
-#: ../src/scenes/Loading.rb:370
-msgctxt "Loading"
 msgid "Use guest account"
 msgstr ""
 
@@ -9196,7 +9238,22 @@ msgstr ""
 
 #: ../src/scenes/Loading.rb:370
 msgctxt "Loading"
+msgid "Register"
+msgstr ""
+
+#: ../src/scenes/Loading.rb:370
+msgctxt "Loading"
 msgid "Log in"
+msgstr ""
+
+#: ../src/scenes/Loading.rb:370
+msgctxt "Loading"
+msgid "Settings"
+msgstr ""
+
+#: ../src/scenes/Loading.rb:370
+msgctxt "Loading"
+msgid "Reinstall"
 msgstr ""
 
 #: ../src/scenes/Log.rb:10
@@ -9248,11 +9305,6 @@ msgstr ""
 
 #: ../src/scenes/Login.rb:88
 msgctxt "Login"
-msgid "Authenticate using SMS"
-msgstr ""
-
-#: ../src/scenes/Login.rb:88
-msgctxt "Login"
 msgid "Authenticate using backup code"
 msgstr ""
 
@@ -9261,6 +9313,11 @@ msgctxt "Login"
 msgid ""
 "Two-factor authentication is enabled on this account. Select method to authent"
 "icate."
+msgstr ""
+
+#: ../src/scenes/Login.rb:88
+msgctxt "Login"
+msgid "Authenticate using SMS"
 msgstr ""
 
 #: ../src/scenes/Login.rb:104
@@ -9288,12 +9345,12 @@ msgstr ""
 
 #: ../src/scenes/Login.rb:146
 msgctxt "Login"
-msgid "Do you want to enable auto log in for account %{user}?"
+msgid "Do not ask again"
 msgstr ""
 
 #: ../src/scenes/Login.rb:146
 msgctxt "Login"
-msgid "Do not ask again"
+msgid "Do you want to enable auto log in for account %{user}?"
 msgstr ""
 
 #: ../src/scenes/Login.rb:148
@@ -9529,27 +9586,27 @@ msgstr ""
 
 #: ../src/scenes/Main.rb:395
 msgctxt "Main"
-msgid "Message liked"
+msgid "Message disliked"
 msgstr ""
 
 #: ../src/scenes/Main.rb:395
 msgctxt "Main"
-msgid "Message disliked"
+msgid "Message liked"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:126 ../src/scenes/Messages.rb:399
+#: ../src/scenes/Messages.rb:126 ../src/scenes/Messages.rb:403
 msgctxt "Messages"
 msgid "Last message"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:127 ../src/scenes/Messages.rb:400
-#: ../src/scenes/Messages.rb:549
+#: ../src/scenes/Messages.rb:127 ../src/scenes/Messages.rb:404
+#: ../src/scenes/Messages.rb:553
 msgctxt "Messages"
 msgid "New"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:130 ../src/scenes/Messages.rb:403
-#: ../src/scenes/Messages.rb:552
+#: ../src/scenes/Messages.rb:130 ../src/scenes/Messages.rb:407
+#: ../src/scenes/Messages.rb:556
 msgctxt "Messages"
 msgid "Show older"
 msgstr ""
@@ -9574,7 +9631,7 @@ msgctxt "Messages"
 msgid "Add conversations to quick actions"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:174 ../src/scenes/Messages.rb:406
+#: ../src/scenes/Messages.rb:174 ../src/scenes/Messages.rb:410
 msgctxt "Messages"
 msgid "Conversations with %{user}"
 msgstr ""
@@ -9596,12 +9653,7 @@ msgstr ""
 
 #: ../src/scenes/Messages.rb:179
 msgctxt "Messages"
-msgid "Mute for a week"
-msgstr ""
-
-#: ../src/scenes/Messages.rb:179
-msgctxt "Messages"
-msgid "Mute forever"
+msgid "Mute until manually unmuted"
 msgstr ""
 
 #: ../src/scenes/Messages.rb:179
@@ -9612,6 +9664,11 @@ msgstr ""
 #: ../src/scenes/Messages.rb:179
 msgctxt "Messages"
 msgid "Mute for an hour"
+msgstr ""
+
+#: ../src/scenes/Messages.rb:179
+msgctxt "Messages"
+msgid "Mute for a week"
 msgstr ""
 
 #: ../src/scenes/Messages.rb:187
@@ -9714,239 +9771,244 @@ msgctxt "Messages"
 msgid "Conversation has been modified"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:339
+#: ../src/scenes/Messages.rb:343
 msgctxt "Messages"
 msgid "Are you sure you want to delete all messages with user %{user}"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:344
+#: ../src/scenes/Messages.rb:348
 msgctxt "Messages"
 msgid "All conversations with user have been deleted."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:370
+#: ../src/scenes/Messages.rb:374
 msgctxt "Messages"
 msgid "There are no new messages"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:399 ../src/scenes/Messages.rb:758
-msgctxt "Messages"
-msgid "From"
-msgstr ""
-
-#: ../src/scenes/Messages.rb:399
+#: ../src/scenes/Messages.rb:403
 msgctxt "Messages"
 msgid "No subject"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:435
+#: ../src/scenes/Messages.rb:403 ../src/scenes/Messages.rb:764
+msgctxt "Messages"
+msgid "From"
+msgstr ""
+
+#: ../src/scenes/Messages.rb:439
 msgctxt "Messages"
 msgid "Reply in thread"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:438
+#: ../src/scenes/Messages.rb:442
 msgctxt "Messages"
 msgid "Delete conversation"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:443 ../src/scenes/Messages.rb:739
+#: ../src/scenes/Messages.rb:447 ../src/scenes/Messages.rb:745
 msgctxt "Messages"
 msgid "Send a new message in this conversation"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:453
+#: ../src/scenes/Messages.rb:457
 msgctxt "Messages"
 msgid ""
 "Are you sure you want to delete conversation %{conversationname} with user %{u"
 "ser}"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:458
+#: ../src/scenes/Messages.rb:462
 msgctxt "Messages"
 msgid "The conversation has been deleted."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:473
+#: ../src/scenes/Messages.rb:477
 msgctxt "Messages"
 msgid "Enter a phrase to look for"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:548
+#: ../src/scenes/Messages.rb:552
 msgctxt "Messages"
 msgid "Open this message to read more"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:556
+#: ../src/scenes/Messages.rb:560
 msgctxt "Messages"
 msgid "Messages in conversation %{subject} with %{user}"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:557
+#: ../src/scenes/Messages.rb:561
 msgctxt "Messages"
 msgid "Flagged messages"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:558
+#: ../src/scenes/Messages.rb:562
 msgctxt "Messages"
 msgid "Found items"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:560
-msgctxt "Messages"
-msgid "Compose"
-msgstr ""
-
-#: ../src/scenes/Messages.rb:560
+#: ../src/scenes/Messages.rb:565
 msgctxt "Messages"
 msgid "Your reply"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:625 ../src/scenes/Messages.rb:826
+#: ../src/scenes/Messages.rb:565
+msgctxt "Messages"
+msgid "Compose"
+msgstr ""
+
+#: ../src/scenes/Messages.rb:581 ../src/scenes/Messages.rb:965
+msgctxt "Messages"
+msgid "Are you sure you want to cancel creating this message?"
+msgstr ""
+
+#: ../src/scenes/Messages.rb:631 ../src/scenes/Messages.rb:832
 msgctxt "Messages"
 msgid "Attachments"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:631 ../src/scenes/Messages.rb:827
+#: ../src/scenes/Messages.rb:637 ../src/scenes/Messages.rb:833
 msgctxt "Messages"
 msgid "Polls"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:666 ../src/scenes/Messages.rb:1007
+#: ../src/scenes/Messages.rb:672 ../src/scenes/Messages.rb:1015
 msgctxt "Messages"
 msgid "Message has been sent"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:681
+#: ../src/scenes/Messages.rb:687
 msgctxt "Messages"
 msgid "Reply to message sender"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:688
+#: ../src/scenes/Messages.rb:694
 msgctxt "Messages"
 msgid "Flag"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:689
+#: ../src/scenes/Messages.rb:695
 msgctxt "Messages"
 msgid "Remove flag"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:695
+#: ../src/scenes/Messages.rb:701
 msgctxt "Messages"
 msgid "This message has been flagged."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:702
+#: ../src/scenes/Messages.rb:708
 msgctxt "Messages"
 msgid "This message is no longer flagged."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:710
+#: ../src/scenes/Messages.rb:716
 msgctxt "Messages"
 msgid "Protect"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:711
+#: ../src/scenes/Messages.rb:717
 msgctxt "Messages"
 msgid "Unprotect"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:718
+#: ../src/scenes/Messages.rb:724
 msgctxt "Messages"
 msgid "This message has been protected."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:725
+#: ../src/scenes/Messages.rb:731
 msgctxt "Messages"
 msgid "This message is no longer protected."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:744
+#: ../src/scenes/Messages.rb:750
 msgctxt "Messages"
 msgid "Forward"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:772
+#: ../src/scenes/Messages.rb:778
 msgctxt "Messages"
 msgid "Are you sure you want to delete this message?"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:777
+#: ../src/scenes/Messages.rb:783
 msgctxt "Messages"
 msgid "The message has been deleted."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:824
+#: ../src/scenes/Messages.rb:830
 msgctxt "Messages"
 msgid "Audio message"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:832
+#: ../src/scenes/Messages.rb:838
 msgctxt "Messages"
 msgid "Attach a file"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:833
+#: ../src/scenes/Messages.rb:839
 msgctxt "Messages"
 msgid "Select a file to attach"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:839
+#: ../src/scenes/Messages.rb:845
 msgctxt "Messages"
 msgid "The file is too large."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:843
+#: ../src/scenes/Messages.rb:849
 msgctxt "Messages"
 msgid "File attached."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:851
+#: ../src/scenes/Messages.rb:857
 msgctxt "Messages"
 msgid "Delete attachment"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:862
+#: ../src/scenes/Messages.rb:868
 msgctxt "Messages"
 msgid "Attach a poll"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:874
+#: ../src/scenes/Messages.rb:880
 msgctxt "Messages"
 msgid "Poll to attach"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:879
+#: ../src/scenes/Messages.rb:885
 msgctxt "Messages"
 msgid "This poll has already been added"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:883
+#: ../src/scenes/Messages.rb:889
 msgctxt "Messages"
 msgid "Poll has been added"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:887
+#: ../src/scenes/Messages.rb:893
 msgctxt "Messages"
 msgid "You haven't created any polls yet."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:895
+#: ../src/scenes/Messages.rb:901
 msgctxt "Messages"
 msgid "Delete poll"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:917
+#: ../src/scenes/Messages.rb:923
 msgctxt "Messages"
 msgid "Send as admin"
 msgstr ""
 
-#: ../src/scenes/Messages.rb:942 ../src/scenes/Messages.rb:1026
+#: ../src/scenes/Messages.rb:948 ../src/scenes/Messages.rb:1034
 msgctxt "Messages"
 msgid "The recipient cannot be found."
 msgstr ""
 
-#: ../src/scenes/Messages.rb:944
+#: ../src/scenes/Messages.rb:950
 msgctxt "Messages"
 msgid "Do you want to send this message as e-mail?"
 msgstr ""
@@ -10065,17 +10127,17 @@ msgstr ""
 
 #: ../src/scenes/Notes.rb:252
 msgctxt "Notes"
-msgid "note title"
-msgstr ""
-
-#: ../src/scenes/Notes.rb:252
-msgctxt "Notes"
 msgid "Note content"
 msgstr ""
 
 #: ../src/scenes/Notes.rb:252
 msgctxt "Notes"
 msgid "Add"
+msgstr ""
+
+#: ../src/scenes/Notes.rb:252
+msgctxt "Notes"
+msgid "note title"
 msgstr ""
 
 #: ../src/scenes/Notes.rb:273
@@ -10090,6 +10152,11 @@ msgid_plural "%{count} users online"
 msgstr[0] ""
 msgstr[1] ""
 
+#: ../src/scenes/Polls.rb:12
+msgctxt "Polls"
+msgid "Votes"
+msgstr ""
+
 #: ../src/scenes/Polls.rb:12 ../src/scenes/Polls.rb:352
 #: ../src/scenes/Polls.rb:459
 msgctxt "Polls"
@@ -10099,11 +10166,6 @@ msgstr ""
 #: ../src/scenes/Polls.rb:12
 msgctxt "Polls"
 msgid "Polls"
-msgstr ""
-
-#: ../src/scenes/Polls.rb:12
-msgctxt "Polls"
-msgid "Votes"
 msgstr ""
 
 #: ../src/scenes/Polls.rb:132
@@ -10133,12 +10195,17 @@ msgstr ""
 
 #: ../src/scenes/Polls.rb:180
 msgctxt "Polls"
-msgid "Poll language"
+msgid "Description"
 msgstr ""
 
 #: ../src/scenes/Polls.rb:180
 msgctxt "Polls"
-msgid "Description"
+msgid "Poll name"
+msgstr ""
+
+#: ../src/scenes/Polls.rb:180
+msgctxt "Polls"
+msgid "Poll language"
 msgstr ""
 
 #: ../src/scenes/Polls.rb:180 ../src/scenes/Polls.rb:571
@@ -10158,7 +10225,7 @@ msgstr ""
 
 #: ../src/scenes/Polls.rb:180
 msgctxt "Polls"
-msgid "Hide poll results before the expiry date"
+msgid "Create"
 msgstr ""
 
 #: ../src/scenes/Polls.rb:180
@@ -10168,12 +10235,7 @@ msgstr ""
 
 #: ../src/scenes/Polls.rb:180
 msgctxt "Polls"
-msgid "Create"
-msgstr ""
-
-#: ../src/scenes/Polls.rb:180
-msgctxt "Polls"
-msgid "Poll name"
+msgid "Hide poll results before the expiry date"
 msgstr ""
 
 #: ../src/scenes/Polls.rb:202
@@ -10198,16 +10260,6 @@ msgstr ""
 
 #: ../src/scenes/Polls.rb:230
 msgctxt "Polls"
-msgid "Question type"
-msgstr ""
-
-#: ../src/scenes/Polls.rb:230 ../src/scenes/Polls.rb:572
-msgctxt "Polls"
-msgid "Answers"
-msgstr ""
-
-#: ../src/scenes/Polls.rb:230
-msgctxt "Polls"
 msgid "Question"
 msgstr ""
 
@@ -10218,12 +10270,22 @@ msgstr ""
 
 #: ../src/scenes/Polls.rb:230
 msgctxt "Polls"
+msgid "Multiple choice"
+msgstr ""
+
+#: ../src/scenes/Polls.rb:230
+msgctxt "Polls"
 msgid "Edit box"
 msgstr ""
 
 #: ../src/scenes/Polls.rb:230
 msgctxt "Polls"
-msgid "Multiple choice"
+msgid "Question type"
+msgstr ""
+
+#: ../src/scenes/Polls.rb:230 ../src/scenes/Polls.rb:572
+msgctxt "Polls"
+msgid "Answers"
 msgstr ""
 
 #: ../src/scenes/Polls.rb:255
@@ -10338,6 +10400,11 @@ msgstr ""
 
 #: ../src/scenes/Portable.rb:9
 msgctxt "Portable"
+msgid "Destination"
+msgstr ""
+
+#: ../src/scenes/Portable.rb:9
+msgctxt "Portable"
 msgid "Copy downloaded soundthemes"
 msgstr ""
 
@@ -10351,11 +10418,6 @@ msgctxt "Portable"
 msgid "Copy current settings"
 msgstr ""
 
-#: ../src/scenes/Portable.rb:9
-msgctxt "Portable"
-msgid "Destination"
-msgstr ""
-
 #: ../src/scenes/Portable.rb:23
 msgctxt "Portable"
 msgid "Please wait while files are being prepared"
@@ -10364,11 +10426,6 @@ msgstr ""
 #: ../src/scenes/Portable.rb:31
 msgctxt "Portable"
 msgid "Copying settings"
-msgstr ""
-
-#: ../src/scenes/Portable.rb:36
-msgctxt "Portable"
-msgid "Reset synthesizer settings"
 msgstr ""
 
 #: ../src/scenes/Portable.rb:36
@@ -10388,6 +10445,11 @@ msgid ""
 "  not work properly. This is especially noticeable in a situation when another"
 "  computer has other voices installed. How do you want to configure the genera"
 "ted  version?"
+msgstr ""
+
+#: ../src/scenes/Portable.rb:36
+msgctxt "Portable"
+msgid "Reset synthesizer settings"
 msgstr ""
 
 #: ../src/scenes/Portable.rb:36
@@ -10603,9 +10665,9 @@ msgctxt "Settings"
 msgid "Display context menu in menu bar"
 msgstr ""
 
-#: ../src/scenes/Settings.rb:159
+#: ../src/scenes/Settings.rb:159 ../src/scenes/Settings.rb:246
 msgctxt "Settings"
-msgid "Announcement of types of controls"
+msgid "Voice and sound"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:159 ../src/scenes/Settings.rb:246
@@ -10615,22 +10677,17 @@ msgstr ""
 
 #: ../src/scenes/Settings.rb:159 ../src/scenes/Settings.rb:246
 msgctxt "Settings"
-msgid "Voice and sound"
+msgid "Voice only"
 msgstr ""
 
-#: ../src/scenes/Settings.rb:159 ../src/scenes/Settings.rb:246
+#: ../src/scenes/Settings.rb:159
 msgctxt "Settings"
-msgid "Voice only"
+msgid "Announcement of types of controls"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:160
 msgctxt "Settings"
 msgid "Wrap long lines in text fields"
-msgstr ""
-
-#: ../src/scenes/Settings.rb:161
-msgctxt "Settings"
-msgid "The display method of selection lists"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:161
@@ -10641,6 +10698,11 @@ msgstr ""
 #: ../src/scenes/Settings.rb:161
 msgctxt "Settings"
 msgid "Circular"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:161
+msgctxt "Settings"
+msgid "The display method of selection lists"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:162
@@ -10692,17 +10754,7 @@ msgstr ""
 
 #: ../src/scenes/Settings.rb:194
 msgctxt "Settings"
-msgid "Words"
-msgstr ""
-
-#: ../src/scenes/Settings.rb:194
-msgctxt "Settings"
-msgid "Characters and words"
-msgstr ""
-
-#: ../src/scenes/Settings.rb:194
-msgctxt "Settings"
-msgid "Typing echo"
+msgid "Characters"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:194 ../src/scenes/Settings.rb:246
@@ -10712,7 +10764,17 @@ msgstr ""
 
 #: ../src/scenes/Settings.rb:194
 msgctxt "Settings"
-msgid "Characters"
+msgid "Characters and words"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:194
+msgctxt "Settings"
+msgid "Words"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:194
+msgctxt "Settings"
+msgid "Typing echo"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:245
@@ -10727,22 +10789,22 @@ msgstr ""
 
 #: ../src/scenes/Settings.rb:247
 msgctxt "Settings"
-msgid "every hour"
-msgstr ""
-
-#: ../src/scenes/Settings.rb:247
-msgctxt "Settings"
-msgid "announcement time"
-msgstr ""
-
-#: ../src/scenes/Settings.rb:247
-msgctxt "Settings"
 msgid "every half hour"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:247
 msgctxt "Settings"
 msgid "every quarter of an hour"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:247
+msgctxt "Settings"
+msgid "every hour"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:247
+msgctxt "Settings"
+msgid "announcement time"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:248
@@ -10782,22 +10844,22 @@ msgstr ""
 
 #: ../src/scenes/Settings.rb:297
 msgctxt "Settings"
-msgid "Never"
-msgstr ""
-
-#: ../src/scenes/Settings.rb:297
-msgctxt "Settings"
 msgid "Use noise reduction"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:297
 msgctxt "Settings"
-msgid "In audio conferences and when recording"
+msgid "In audio conferences only"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:297
 msgctxt "Settings"
-msgid "In audio conferences only"
+msgid "Never"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:297
+msgctxt "Settings"
+msgid "In audio conferences and when recording"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:298
@@ -10822,7 +10884,7 @@ msgstr ""
 
 #: ../src/scenes/Settings.rb:313
 msgctxt "Settings"
-msgid "Messages"
+msgid "Conference options"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:313
@@ -10832,7 +10894,7 @@ msgstr ""
 
 #: ../src/scenes/Settings.rb:313
 msgctxt "Settings"
-msgid "Conference options"
+msgid "Messages"
 msgstr ""
 
 #: ../src/scenes/Settings.rb:316
@@ -10853,6 +10915,16 @@ msgstr ""
 #: ../src/scenes/Settings.rb:319
 msgctxt "Settings"
 msgid "Disable concurrent requests (HTTP2)"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:320
+msgctxt "Settings"
+msgid "Use only TCP packets in conferences"
+msgstr ""
+
+#: ../src/scenes/Settings.rb:321
+msgctxt "Settings"
+msgid "Maximum UDP packet payload size"
 msgstr ""
 
 #: ../src/scenes/SoundThemes.rb:21
@@ -11447,11 +11519,6 @@ msgstr ""
 
 #: ../src/scenes/SpeedTest.rb:9
 msgctxt "SpeedTest"
-msgid "Number of attempts to perform"
-msgstr ""
-
-#: ../src/scenes/SpeedTest.rb:9
-msgctxt "SpeedTest"
 msgid "Unit to test"
 msgstr ""
 
@@ -11488,6 +11555,11 @@ msgstr ""
 #: ../src/scenes/SpeedTest.rb:9
 msgctxt "SpeedTest"
 msgid "Blogs list"
+msgstr ""
+
+#: ../src/scenes/SpeedTest.rb:9
+msgctxt "SpeedTest"
+msgid "Number of attempts to perform"
 msgstr ""
 
 #: ../src/scenes/SpeedTest.rb:33

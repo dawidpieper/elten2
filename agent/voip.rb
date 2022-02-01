@@ -17,9 +17,10 @@ class VoIP
     Pong = 252
   end
 
-  attr_reader :connected, :latency, :uid
+  attr_reader :connected, :latency, :uid, :tcp_requested, :streams
 
   def initialize
+    @tcp_requested = false
     @reconnecting = false
     @reconnect_thread = nil
     @last_uuid = nil
@@ -52,12 +53,15 @@ class VoIP
     @mutes = []
     @streams_mutes = []
     @streamid_mutes = []
+    @streams = []
+    @bigpackets = false
   end
 
   def connect(username, token)
     @username = username
     @token = token
     @mutes = [@username]
+    @bigpackets = false
     tcp = TCPSocket.new("conferencing.elten.link", 8133)
     ctx = OpenSSL::SSL::SSLContext.new()
     @tcp = OpenSSL::SSL::SSLSocket.new(tcp, ctx)
@@ -86,7 +90,11 @@ class VoIP
       @tcpthread.exit if @tcpthread != nil
       @tcpthread = Thread.new {
         loop {
-          sleep(0.5)
+          if @tcp_requested == false
+            sleep(0.5)
+          else
+            sleep(0.1)
+          end
           update
         }
       }
@@ -162,6 +170,11 @@ class VoIP
         @params_hooks.each { |h| Thread.new { h.call(resp["params"]) } }
       end
     end
+    if resp.is_a?(Hash) && resp["packets"].is_a?(Array)
+      for data in resp["packets"].map { |pc| Base64.decode64(pc) }
+        receive(data)
+      end
+    end
   end
 
   def disconnect
@@ -207,6 +220,7 @@ class VoIP
       sleep(1) if c == false
     end
     @reconnecting = false
+    set_packet_method(:tcp) if @tcp_requested == true
     update
     join_channel(nil, @last_password, @last_uuid) if @last_uuid != nil
     update
@@ -214,17 +228,23 @@ class VoIP
     mutes.each { |m| mute(m) }
     streams_mutes.each { |m| streams_mute(m) }
     streamid_mutes.each { |m| streamid_mute(m) }
+    for i in 0...@streams.size
+      s = @streams[i]
+      if s != nil
+        @streams[i][:id] = command("stream_add", { "name" => s[:name], "channels" => s[:channels], "x" => s[:x], "y" => s[:y] })["id"] || 0
+      end
+    end
     update
   rescue Exception
     @reconnecting = false
     log(2, "VoIP reconnect: #{$!.to_s}")
   end
 
-  def send(type, message, p1 = 0, p2 = 0, p3 = 0, p4 = 0, userid = nil, index = nil)
-    return if @chid == 0
-    return if (message == "" && type < 10) || !message.is_a?(String)
+  def generate_packet(type, message, p1 = 0, p2 = 0, p3 = 0, p4 = 0, userid = nil, index = nil, ignore_stamp = false)
+    return nil if @chid == 0 && type < 200
+    return nil if (message == "" && type < 10) || !message.is_a?(String)
     message = message + ""
-    return false if @channel_secrets[@stamp] == nil
+    return nil if @channel_secrets[@stamp] == nil && type < 200
     crc = Zlib.crc32(message)
     if index == nil
       index = @index
@@ -237,7 +257,7 @@ class VoIP
     data = bytes.pack("C*")
     @cipher_mutex.synchronize {
       if message != ""
-        if @stamp != 0 && @channel_secrets[@stamp] != nil && @channel_secrets[@stamp].bytesize != 0
+        if ignore_stamp == false && (@stamp != 0 && @channel_secrets[@stamp] != nil && @channel_secrets[@stamp].bytesize != 0)
           key = @channel_secrets[@stamp]
           if @cipher.key_len != key.bytesize
             case key.bytesize
@@ -258,12 +278,52 @@ class VoIP
         end
       end
     }
-    @sendtimes[@index - 1] = Time.now.to_f
-    @sendbytes += data.bytesize
-    @udp.send(data, 0, "conferencing.elten.link", 8133)
+    return data
+  end
+
+  def send(type, message, p1 = 0, p2 = 0, p3 = 0, p4 = 0, userid = nil, index = nil, ignore_stamp = false)
+    data = generate_packet(type, message, p1, p2, p3, p4, userid, index, ignore_stamp)
+    send_packet(data)
     return true
   rescue Exception
+    return falsescue Exception
     return false
+  end
+
+  def send_packet(data)
+    return false if data == nil
+    @sendtimes[@index - 1] = Time.now.to_f
+    @sendbytes += data.bytesize
+    if !@tcp_requested
+      @udp.send(data, 0, "conferencing.elten.link", 8133)
+    else
+      command("packet", { "packet" => Base64.encode64(data) })
+    end
+    return true
+  end
+
+  def send_multi(packets)
+    return if !packets.is_a?(Array)
+    coll = []
+    snd = Proc.new {
+      sleep(0.01)
+      if coll.size == 1
+        send_packet(coll[0])
+      elsif coll.size > 1
+        send(255, coll.map { |c| [c.bytesize].pack("I") + c }.join, coll.size, 0, 0, 0, nil, nil, true)
+      end
+      coll.clear
+    }
+    for pc in packets
+      if pc.size > 2
+        m = generate_packet(pc[0], pc[1], pc[2] || 0, pc[3] || 0, pc[4] || 0, pc[5] || 0, pc[6] || nil, pc[7] || nil, pc[8] || false)
+        if m != nil
+          snd.call if 16 + coll.map { |c| c.bytesize + 4 }.sum + 4 + m.bytesize > ($udpmaxpacketsize || 1400) || coll.size > 16
+          coll.push(m)
+        end
+      end
+    end
+    snd.call
   end
 
   def on_params(&block)
@@ -343,6 +403,21 @@ class VoIP
     command("admin", { "username" => username })
   end
 
+  def unadmin(username)
+    log(-1, "Conference: denying administration to user #{username}")
+    command("unadmin", { "username" => username })
+  end
+
+  def whitelist(username)
+    log(-1, "Conference: adding user #{username} to channel whitelist")
+    command("whitelist", { "username" => username })
+  end
+
+  def whiteunlist(username)
+    log(-1, "Conference: removing user #{username} from channel whitelist")
+    command("whiteunlist", { "username" => username })
+  end
+
   def supervise(userid)
     log(-1, "Conference: supervising user #{userid}")
     command("supervise", { "userid" => userid })
@@ -402,21 +477,27 @@ class VoIP
   end
 
   def stream_add(name, channels, x, y)
-    return command("stream_add", { "name" => name, "channels" => channels, "x" => x, "y" => y })["id"]
+    id = command("stream_add", { "name" => name, "channels" => channels, "x" => x, "y" => y })["id"] || 0
+    @streams.push({ id: id, name: name, channels: channels, x: x, y: y })
+    log(-1, "VoIP: registering stream of id #{id} for #{@streams.size - 1}")
+    return @streams.size - 1
   rescue Exception
     return nil
   end
 
   def stream_remove(id)
-    command("stream_remove", { "id" => id })
+    log(-1, "VoIP: unregistering stream of id #{id} for #{stream_id(id)}")
+    command("stream_remove", { "id" => stream_id(id) })
+    @streams[id] = nil
   end
 
-  def ping
+  def ping(material = "")
     r = 0
     r = rand(16777216) while @pings.keys.include?(r) || r == 0
     @pings[r] = Time.now
     t = @pings[r].sec * 1000 + @pings[r].usec / 1000
     message = [r].pack("I")
+    message << material if material != ""
     send(251, message, t % 256, t / 256)
   end
 
@@ -477,6 +558,28 @@ class VoIP
     @key
   end
 
+  def set_packet_method(method)
+    case method
+    when :tcp
+      command("packet_method", { "method" => "tcp" })
+      @tcp_requested = true
+      log(-1, "VOIP: setting packet method to TCP")
+    when :udp
+      command("packet_method", { "method" => "udp" })
+      @tcp_requested = false
+      log(-1, "VOIP: setting packet method to UDP")
+    end
+  end
+
+  def stream_id(n)
+    s = @streams[n]
+    if s != nil
+      return s[:id]
+    else
+      return 0
+    end
+  end
+
   private
 
   def connect_udp
@@ -494,19 +597,17 @@ class VoIP
           data, addr = @udp.recvfrom_nonblock(1500)
           lasttime = Time.now.to_f
           @receivedbytes += data.bytesize
-          if @chid != 0
-            receive(data)
-          end
+          receive(data)
         rescue IO::EWOULDBLOCKWaitReadable
-          @reconnect_thread = Thread.new { reconnect } if @reconnecting == false && Time.now.to_f - lasttime > 15
+          @reconnect_thread = Thread.new { reconnect } if @reconnecting == false && (Time.now.to_f - lasttime > 15 && @tcp_requested == false)
           IO.select([@udp], nil, nil, 0.1)
           retry
         rescue IO::EWOULDBLOCKWaitWritable
-          @reconnect_thread = Thread.new { reconnect } if @reconnecting == false && Time.now.to_f - lasttime > 15
+          @reconnect_thread = Thread.new { reconnect } if @reconnecting == false && (Time.now.to_f - lasttime > 15 && @tcp_requested == false)
           IO.select(nil, [@udp], nil, 0.1)
           retry
         rescue Exception
-          @reconnect_thread = Thread.new { reconnect } if @reconnecting == false && Time.now.to_f - lasttime > 15
+          @reconnect_thread = Thread.new { reconnect } if @reconnecting == false && (Time.now.to_f - lasttime > 15 && @tcp_requested == false)
           log(2, "VoIP UDP: " + $!.to_s + " " + $@.to_s)
         end
       }
@@ -525,14 +626,15 @@ class VoIP
     receiveTime = Time.now
     data = (data + "").b
     userid, stamp, index, type = extract(data)
+    return if type < 200 && @chid == 0
     @received[userid] ||= {}
     @cur_rx_packets += 1
     if index > 10
       cr = index - ((@received[userid][type] || []).max || 0) - 1
       @cur_lostpackets += cr if cr > 0 && cr < 5
     end
-    return if userid != 0 && (@received[userid][type] || []).include?(index)
     @received[userid][type] ||= []
+    return if type < 200 && (userid != 0 && (@received[userid][type] || []).include?(index))
     @received[userid][type].push(index) if userid != 0
     message = ""
     crc = data.getbyte(12) + data.getbyte(13) * 256 + data.getbyte(14) * 256 ** 2 + data.getbyte(15) * 256 ** 3
@@ -603,6 +705,8 @@ class VoIP
           t = rt - lt
           @ping_hooks.each { |h| h.call(t.to_f) }
         end
+        @bigpackets = true if message.bytesize > 1500
+        play("signal")
       end
     end
   rescue Exception
@@ -672,6 +776,7 @@ class VoIP
         @receivedbytes += ans.bytesize
       rescue Exception
         rec = true
+        log(2, "Voip command: #{$!.to_s}")
       end
     }
     if rec == false

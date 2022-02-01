@@ -1398,6 +1398,7 @@ class Conference
     @waiting_users = []
     @callingplaying = true
     @voip = VoIP.new
+    @voip.set_packet_method(:tcp) if $conferencestcponly == 1
     @starttime = Time.now.to_f
     @encoder = nil
     @speexdsp = nil
@@ -1944,6 +1945,18 @@ class Conference
     @voip.admin(username)
   end
 
+  def unadmin(username)
+    @voip.unadmin(username)
+  end
+
+  def whitelist(username)
+    @voip.whitelist(username)
+  end
+
+  def whiteunlist(username)
+    @voip.whiteunlist(username)
+  end
+
   def supervise(userid)
     @voip.supervise(userid)
     t = @transmitters[userid]
@@ -2201,14 +2214,14 @@ class Conference
   def send_text(message)
     return if message == nil || message == ""
     messages = []
-    if message.bytesize < 1400
+    if message.bytesize < ($udpmaxpacketsize || 1400)
       messages = [message]
     else
       buf = message + ""
-      while buf.bytesize > 1400
-        lastsp = 1400
-        i = 1400
-        while i > 1000 && lastsp == 140
+      while buf.bytesize > ($udpmaxpacketsize || 1400)
+        lastsp = ($udpmaxpacketsize || 1400)
+        i = ($udpmaxpacketsize || 1400)
+        while i > 1000 && lastsp == ($udpmaxpacketsize || 1400)
           i -= 1
           lastsp = i if buf.getbyte(i) == 32
         end
@@ -2999,6 +3012,7 @@ class Conference
     bufsize = 384000
     buf = "\0" * bufsize
     audio = ""
+    packets = []
     loop {
       sleep(@sltime)
       maxBytes = 0
@@ -3028,10 +3042,10 @@ class Conference
                   if @whisper == 0
                     @frame_id = 0 if @frame_id > 60000
                     @frame_id += 1
-                    @voip.send(1, frame, @position.x, @position.y, @frame_id / 256, @frame_id % 256)
+                    packets.push([1, frame, @position.x, @position.y, @frame_id / 256, @frame_id % 256])
                   else
                     if @whisper_key == nil || @framesize == nil || @framesize < 10
-                      @voip.send(3, frame, @whisper % 256, @whisper / 256)
+                      packets.push([3, frame, @whisper % 256, @whisper / 256])
                     else
                       begin
                         @whisper_aes.encrypt
@@ -3045,7 +3059,7 @@ class Conference
                         if rest != nil && rest.bytesize > 0
                           msg += @whisper_aes.update(rest) + @whisper_aes.final
                         end
-                        @voip.send(4, msg, @whisper % 256, @whisper / 256)
+                        packets.push([4, msg, @whisper % 256, @whisper / 256])
                       rescue Exception
                         log(2, "Conference: whisper error: #{$!.to_s} - #{$@.to_s}")
                       end
@@ -3085,7 +3099,8 @@ class Conference
                   if frame != nil
                     s.frame_id = 0 if s.frame_id > 60000
                     s.frame_id += 1
-                    @voip.send(21, frame, s.id % 256, s.id / 256, s.frame_id / 256, s.frame_id % 256)
+                    sid = @voip.stream_id(s.id)
+                    packets.push([21, frame, sid % 256, sid / 256, s.frame_id / 256, s.frame_id % 256])
                   end
                 end
                 index += fs
@@ -3096,6 +3111,11 @@ class Conference
             end
           }
         end
+      end
+      if packets.size > 0
+        log(1, packets.size.to_s)
+        @voip.send_multi(packets)
+        packets.clear
       end
     }
   rescue Exception

@@ -183,7 +183,7 @@ class Scene_Messages
       }
       if @users[@sel_users.index].muted == false
         menu.submenu(p_("Messages", "Mute this conversation")) { |m|
-          ms = [[p_("Messages", "Mute for a quarter"), 900], [p_("Messages", "Mute for an hour"), 3600], [p_("Messages", "Mute for a day"), 86400], [p_("Messages", "Mute for a week"), 86400 * 7], [p_("Messages", "Mute forever"), 0]]
+          ms = [[p_("Messages", "Mute for a quarter"), 900], [p_("Messages", "Mute for an hour"), 3600], [p_("Messages", "Mute for a day"), 86400], [p_("Messages", "Mute for a week"), 86400 * 7], [p_("Messages", "Mute until manually unmuted"), 0]]
           for mt in ms
             m.option(mt[0], mt[1]) { |t|
               mute_conversation(@users[@sel_users.index], t)
@@ -330,7 +330,11 @@ class Scene_Messages
       ac["ac"] = "unmute"
     else
       ac["ac"] = "mute"
-      ac["totime"] = Time.now.to_i + time
+      if time > 0
+        ac["totime"] = Time.now.to_i + time
+      else
+        ac["totime"] = 0
+      end
     end
     if srvproc("messages_groups", ac)[0].to_i == 0
       if !time.is_a?(Integer)
@@ -572,13 +576,13 @@ class Scene_Messages
       head = p_("Messages", "Flagged messages") if sp == "flagged"
       head = p_("Messages", "Found items") if sp == "search"
       @sel_messages = ListBox.new(selt, head)
+      @sel_messages.bind_context { |menu| context_messages(menu) }
       @form_messages = Form.new([@sel_messages, nil, nil, EditBox.new(p_("Messages", "Your reply"), EditBox::Flags::MultiLine, "", true), nil, Button.new(p_("Messages", "Compose"))], 0, true)
       @form_messages.fields[3..5] = [nil, nil, nil] if msg[3].to_i == 0 or @messages_sp == "flagged" or @messages_sp == "search"
     else
       @sel_messages.options = selt + @sel_messages.options
       @sel_messages.index += selt.size
     end
-    @sel_messages.bind_context { |menu| context_messages(menu) }
   end
 
   def update_messages
@@ -590,15 +594,17 @@ class Scene_Messages
     @form_messages.update
     if escape or ((arrow_left and @form_messages.index == 0) and @form_messages.fields[0] == @sel_messages) or (@sel_messages.options.size - @sel_messages.grayed.count(true)) == 0
       if @form_messages.fields[0] == @sel_messages
-        if @messages_sp != "flagged" and @messages_sp != "search" and @messages_subject != nil
-          load_conversations(@messages_user, @messages_sp)
-          @cat = 1
-          @sel_messages = nil
-        else
-          load_users
-          @cat = 0
+        if (@form_messages.fields[3] == nil || @form_messages.fields[3].text == "") || confirm(p_("Messages", "Are you sure you want to cancel creating this message?")) == 1
+          if @messages_sp != "flagged" and @messages_sp != "search" and @messages_subject != nil
+            load_conversations(@messages_user, @messages_sp)
+            @cat = 1
+            @sel_messages = nil
+          else
+            load_users
+            @cat = 0
+          end
+          loop_update
         end
-        loop_update
       else
         hide_message
       end
@@ -980,10 +986,12 @@ class Scene_Messages_New
         end
       end
       if (escape or ((enter or space) and @form.index == 7)) && (@form.fields[3] == nil || @form.fields[3].delete_audio)
-        if @scene != false and @scene != true and @scene.is_a?(Integer) == false and @scene.is_a?(Array) == false
-          $scene = @scene
-        else
-          $scene = Scene_Messages.new(@scene)
+        if (@form.fields[2] == nil || @form.fields[2].text == "") || confirm(p_("Messages", "Are you sure you want to cancel creating this message?")) == 1
+          if @scene != false and @scene != true and @scene.is_a?(Integer) == false and @scene.is_a?(Array) == false
+            $scene = @scene
+          else
+            $scene = Scene_Messages.new(@scene)
+          end
         end
         loop_update
         return

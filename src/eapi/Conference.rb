@@ -164,7 +164,7 @@ module EltenAPI
     end
 
     class Channel
-      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed, :join_url, :conference_mode
+      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed, :join_url, :conference_mode, :whitelist, :followers_count
 
       def initialize
         @name = ""
@@ -190,6 +190,8 @@ module EltenAPI
         @banned = []
         @permanent = false
         @conference_mode = 0
+        @whitelist = []
+        @followers_count = 0
       end
     end
 
@@ -534,6 +536,18 @@ module EltenAPI
       $agent.write(Marshal.dump({ "func" => "conference_admin", "username" => username }))
       delay(1.5)
     end
+    def self.unadmin(username)
+      $agent.write(Marshal.dump({ "func" => "conference_unadmin", "username" => username }))
+      delay(1.5)
+    end
+    def self.whitelist(username)
+      $agent.write(Marshal.dump({ "func" => "conference_whitelist", "username" => username }))
+      delay(1.5)
+    end
+    def self.whiteunlist(username)
+      $agent.write(Marshal.dump({ "func" => "conference_whiteunlist", "username" => username }))
+      delay(1.5)
+    end
     def self.supervise(userid)
       $agent.write(Marshal.dump({ "func" => "conference_supervise", "userid" => userid }))
       delay(0.1)
@@ -727,6 +741,7 @@ module EltenAPI
             ch.users.push(ChannelUser.new(u["id"], u["name"]))
           end
           ch.administrators = cha["administrators"] || []
+          ch.whitelist = cha["whitelist"] || []
           ch.banned = cha["banned"] || []
           ch.key_len = cha["key_len"]
           ch.waiting_type = cha["waiting_type"] || 0
@@ -740,6 +755,7 @@ module EltenAPI
           ch.followed = (cha["followed"] == true)
           ch.join_url = cha["join_url"]
           ch.conference_mode = cha["conference_mode"] || 0
+          ch.followers_count = cha["followers_count"] || 0
           channels.push(ch)
         end
       end
@@ -839,6 +855,7 @@ module EltenAPI
         ch.height = params["height"]
         ch.objects = params["objects"].map { |o| ChannelObject.new(o["id"], o["resid"], o["name"], o["x"], o["y"]) }
         ch.administrators = params["administrators"] || []
+        ch.whitelist = params["whitelist"] || []
         ch.banned = params["banned"] || []
         ch.key_len = params["key_len"]
         ch.waiting_type = params["waiting_type"] || 0
@@ -849,6 +866,7 @@ module EltenAPI
         ch.allow_guests = params["allow_guests"]
         ch.join_url = params["join_url"]
         ch.conference_mode = params["conference_mode"] || 0
+        ch.followers_count = params["followers_count"] || 0
         @@channel = ch
         self.trigger(:update)
       end

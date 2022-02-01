@@ -639,7 +639,7 @@ module EltenAPI
           @elements.each { |e| url = e.param[1] if (e.from >= line_beginning and e.to <= line_ending) and e.type == Element::Link } if url == nil
           if url != nil
             speak(p_("EAPI_Form", "Opening a link..."))
-            c
+            process_url(url)
             loop_update
           end
         end

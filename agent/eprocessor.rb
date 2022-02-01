@@ -535,6 +535,18 @@ module EProcessor
         if $conference != nil && data["username"].is_a?(String)
           $conference.admin(data["username"])
         end
+      when "conference_unadmin"
+        if $conference != nil && data["username"].is_a?(String)
+          $conference.unadmin(data["username"])
+        end
+      when "conference_whitelist"
+        if $conference != nil && data["username"].is_a?(String)
+          $conference.whitelist(data["username"])
+        end
+      when "conference_whiteunlist"
+        if $conference != nil && data["username"].is_a?(String)
+          $conference.whiteunlist(data["username"])
+        end
       when "conference_supervise"
         if $conference != nil && data["userid"].is_a?(Integer)
           $conference.supervise(data["userid"])

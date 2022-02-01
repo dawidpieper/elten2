@@ -69,6 +69,7 @@ module GlobalMenu
               m.scene(p_("MainMenu", "User searc&h"), Scene_UserSearch)
               m.scene(p_("MainMenu", "Recently &active users"), Scene_Users_RecentlyActived)
               m.scene(p_("MainMenu", "Recently &registered users"), Scene_Users_RecentlyRegistered)
+              m.scene(p_("MainMenu", "&Sponsors"), Scene_Users_Sponsors)
             }
             if Session.name != nil && Session.name != "guest"
               @menu.scene(p_("MainMenu", "Call &history"), Scene_CallHistory)

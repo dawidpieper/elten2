@@ -866,7 +866,8 @@ module EltenAPI
     Configuration.useechocancellation = readconfig("Advanced", "UseEchoCancellation", 0)
     Configuration.usebilinearhrtf = readconfig("Advanced", "UseBilinearHRTF", 0)
     Configuration.disablehttp2 = readconfig("Advanced", "DisableHTTP2", 0)
-
+    Configuration.tcpconferences = readconfig("Advanced", "ConferencesTCPOnly", 0)
+    Configuration.udppacketsize = readconfig("Advanced", "UDPMaxPacketSize", 1480)
     Configuration.autologin = readconfig("Login", "EnableAutoLogin", 1)
     setlocale(Configuration.language) if lang != Configuration.language
     if Configuration.registeractivity == -1

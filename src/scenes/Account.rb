@@ -484,7 +484,7 @@ class Scene_Account_AutoLogins
             Session.token = ""
             File.delete(Dirs.eltendata + "\\login.dat") if FileTest.exists?(Dirs.eltendata + "\\login.dat")
             $restart = true
-            $scene = Scene_Loading.new
+            $scene = Scene_Main.new
             break
             return
           end

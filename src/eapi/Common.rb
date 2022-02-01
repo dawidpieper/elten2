@@ -185,7 +185,11 @@ module EltenAPI
           form.fields[1].set_text(form.fields[1].text + "\r\n#=> " + r, false)
           loop_update
         end
-        break if escape
+        if escape
+          if form.fields[0].text == "" || confirm(p_("EAPI_Common", "Are you sure you want to exit console?")) == 1
+            break
+          end
+        end
       end
     end
 

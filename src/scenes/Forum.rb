@@ -715,7 +715,7 @@ class Scene_Forum
     g = srvproc("forum_groups", { "ac" => "motd", "groupid" => group.id })
     if g[0].to_i == 0
       group.hasnewmotd = false
-      return g[1..-1].join("\n")
+      return g[1..-1].join
     else
       return ""
     end

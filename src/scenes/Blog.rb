@@ -650,7 +650,6 @@ class Scene_Blog_Read
       end
       l += 1
     end
-    $posts = @posts
     @postcur = 0
     @fields = []
     for i in 0..@posts.size - 1
@@ -658,24 +657,32 @@ class Scene_Blog_Read
     end
     @fields[1] = nil
     @fields[2] = nil
-    if @posts[0].text.delete(" \r\n") != "" && @posts[0].audio_url != ""
-      @fields[2] = EditBox.new(@posts[0].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, "", true)
-      @fields[2].audio_url = @posts[0].audio_url
-    end
-    @medias = nil
-    if @posts.size > 0 and MediaFinders.possible_media?(@posts[0].text)
-      @fields[1] = Button.new(p_("Blog", "Show attached media"))
-      @fields[1].on(:press) {
-        @medias = MediaFinders.get_media(@posts[0].text)
-        if @medias.size > 0
-          @fields[1] = ListBox.new(@medias.map { |m| m.title }, p_("Blog", "Media"))
-        else
-          @fields[1] = nil
-          @medias = nil
-        end
-        @form.focus
-        loop_update
-      }
+    if @posts[0] != nil
+      if @posts[0].text.delete(" \r\n") != "" && @posts[0].audio_url != ""
+        @fields[2] = EditBox.new(@posts[0].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, "", true)
+        @fields[2].audio_url = @posts[0].audio_url
+      end
+      @medias = nil
+      if @posts.size > 0 and MediaFinders.possible_media?(@posts[0].text)
+        @fields[1] = Button.new(p_("Blog", "Show attached media"))
+        @fields[1].on(:press) {
+          @medias = MediaFinders.get_media(@posts[0].text)
+          if @medias.size > 0
+            @fields[1] = ListBox.new(@medias.map { |m| m.title }, p_("Blog", "Media"))
+          else
+            @fields[1] = nil
+            @medias = nil
+          end
+          @form.focus
+          loop_update
+        }
+      end
+    else
+      if @scene == nil
+        $scene = Scene_Blog_Posts.new(@post.owner, @category, @categoryselindex, @postselindex, @search, @page)
+      else
+        $scene = @scene
+      end
     end
     if Session.name != "guest"
       @fields.push(EditBox.new(p_("Blog", "Your comment"), EditBox::Flags::MultiLine, "", true))

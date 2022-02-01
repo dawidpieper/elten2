@@ -278,7 +278,11 @@ module EltenAPI
           $opencontextmenucounter = 0
         end
         if $key[0x7B]
-          confirm(p_("EAPI_UI", "Do you want to restart Elten?")) { $reset = true }
+          if $resetting != true
+            $resetting = true
+            confirm(p_("EAPI_UI", "Do you want to restart Elten?")) { $reset = true }
+            $resetting = false
+          end
         end
         ac = QuickActions.get
         for i in 1..11

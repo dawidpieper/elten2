@@ -49,7 +49,8 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Using VST plugins in conferences"),
              p_("PremiumPackages", "Setting specific ringtones for users"),
              #p_("PremiumPackages", "Placing beacons in HRTF channels"),
-             p_("PremiumPackages", "Splitting audio into chapters")
+             p_("PremiumPackages", "Splitting audio into chapters"),
+             p_("PremiumPackages", "Creating hidden channels in conferences")
            ])
   end
 
