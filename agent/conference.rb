@@ -3113,7 +3113,6 @@ class Conference
         end
       end
       if packets.size > 0
-        log(1, packets.size.to_s)
         @voip.send_multi(packets)
         packets.clear
       end

@@ -1476,7 +1476,7 @@ class Scene_Conference
               end
             end
           }
-          if administrators.size > 0 && conference.channel.creator == Session.name && administrators[lst_administrators.index] != Session.name
+          if administrators.size > 0 && Conference.channel.creator == Session.name && administrators[lst_administrators.index] != Session.name
             menu.option(p_("Conference", "Delete"), nil, :del) {
               Conference.unadmin(administrators[lst_administrators.index])
               refr.call
