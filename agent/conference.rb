@@ -322,7 +322,10 @@ class Conference
       last_frame_id = 0
       loop {
         sleep(0.001)
-        while @queue.size > 0
+        ab = $conferencesaudiobuffer || 0
+        ab = 0 if ab < 0
+        ab = 400 if ab > 400
+        while @queue.size > ab
           key = @queue.keys.sort.first
           ar = @queue[key]
           frame, type, x, y, index, frame_id = ar
@@ -2700,7 +2703,7 @@ class Conference
     pc = (curlost.to_f / (curpackets + curlost).to_f) * 100.0
     status["curpacketloss"] = packetloss
     status["time"] = time
-    @status_hooks.each { |h| h.call(status) }
+    @status_hooks.each { |h| h.call(status) } if @status_hooks != nil
   end
 
   def onping(t)
@@ -3076,40 +3079,42 @@ class Conference
         }
       end
       for s in @outstreams
-        if @encoder != nil
-          bitrate = @encoder.bitrate
-          bitrate = 32000 if bitrate < 32000
-          s.encoder.bitrate = bitrate if bitrate != nil and bitrate > 0
-        end
-        maxBytes *= 2 if @channels == 1
-        if s.output != nil && s.channels > 0 && (sz = Bass::BASS_ChannelGetData.call(s.output, buf, maxBytes)) > 0
-          s.mutex.synchronize {
-            if @framesize > 0 and s.channels != nil
-              fs = @framesize * 48 * 2 * s.channels
-              au = (s.buf || "").b + buf.byteslice(0...sz).b
-              s.buf.clear
-              index = 0
-              while au.bytesize - index >= fs
-                part = au.byteslice(index...index + fs)
-                frame = nil
-                if part.bytesize != part.b.count("\0")
-                  if s.encoder != nil
-                    frame = s.encoder.encode(part, fs / 2 / s.channels)
+        if s.encoder != nil && !s.encoder.closed?
+          if @encoder != nil && !@encoder.closed?
+            bitrate = @encoder.bitrate
+            bitrate = 32000 if bitrate < 32000
+            s.encoder.bitrate = bitrate if bitrate != nil and bitrate > 0
+          end
+          maxBytes *= 2 if @channels == 1
+          if s.output != nil && s.channels > 0 && (sz = Bass::BASS_ChannelGetData.call(s.output, buf, maxBytes)) > 0
+            s.mutex.synchronize {
+              if @framesize > 0 and s.channels != nil
+                fs = @framesize * 48 * 2 * s.channels
+                au = (s.buf || "").b + buf.byteslice(0...sz).b
+                s.buf.clear
+                index = 0
+                while au.bytesize - index >= fs
+                  part = au.byteslice(index...index + fs)
+                  frame = nil
+                  if part.bytesize != part.b.count("\0")
+                    if s.encoder != nil
+                      frame = s.encoder.encode(part, fs / 2 / s.channels)
+                    end
+                    if frame != nil
+                      s.frame_id = 0 if s.frame_id > 60000
+                      s.frame_id += 1
+                      sid = @voip.stream_id(s.id)
+                      packets.push([21, frame, sid % 256, sid / 256, s.frame_id / 256, s.frame_id % 256])
+                    end
                   end
-                  if frame != nil
-                    s.frame_id = 0 if s.frame_id > 60000
-                    s.frame_id += 1
-                    sid = @voip.stream_id(s.id)
-                    packets.push([21, frame, sid % 256, sid / 256, s.frame_id / 256, s.frame_id % 256])
-                  end
+                  index += fs
                 end
-                index += fs
+                s.buf.replace(au.byteslice(index..-1))
+              else
+                s.buf.clear
               end
-              s.buf.replace(au.byteslice(index..-1))
-            else
-              s.buf.clear
-            end
-          }
+            }
+          end
         end
       end
       if packets.size > 0

@@ -336,6 +336,7 @@ class Scene_Settings
     make_setting(p_("Settings", "Disable concurrent requests (HTTP2)"), :bool, "Advanced", "DisableHTTP2")
     make_setting(p_("Settings", "Use only TCP packets in conferences"), :bool, "Advanced", "ConferencesTCPOnly")
     make_setting(p_("Settings", "Maximum UDP packet payload size"), :number, "Advanced", "UDPMaxPacketSize")
+    make_setting(p_("Settings", "Conferences audio buffer in frames"), :number, "Advanced", "ConferencesAudioBuffer")
   end
 
   def main

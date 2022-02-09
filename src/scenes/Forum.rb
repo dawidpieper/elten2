@@ -201,9 +201,9 @@ class Scene_Forum
       groupsmoderatedcnt = 0
       @groups.each { |g|
         groupsrecommendedcnt += 1 if g.recommended
-        groupsopencnt += 1 if g.open && !g.recommended
+        groupsopencnt += 1 if g.open && g.public && !g.recommended && g.posts > 0
         groupsinvitedcnt += 1 if g.role == 5
-        groupsallcnt += 1 if (g.open || g.public) && g.forums > 0
+        groupsallcnt += 1 if g.forums > 0
         groupsmoderatedcnt += 1 if g.role == 2
       }
       ofs = 0
@@ -219,7 +219,7 @@ class Scene_Forum
       grpselt[@grpheadindex + @sgroups.size + 10] = [nil] if ofs == 0
       grpselh = [nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
       @grpindex[0] = @grpheadindex + @sgroups.size + ll - 1 if ll > 0
-    when 1
+    when 1 #Recently active
       @sgroups = []
       for g in @groups
         next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
@@ -242,7 +242,7 @@ class Scene_Forum
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 2
+    when 2 #Recommended
       @sgroups = []
       spgroups = []
       for g in @groups
@@ -263,7 +263,7 @@ class Scene_Forum
         grpselt.push([group.name + ": " + group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 3
+    when 3 #Open
       @sgroups = []
       for g in @groups
         next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
@@ -284,7 +284,7 @@ class Scene_Forum
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 4
+    when 4 #Invited
       @sgroups = []
       for g in @groups
         if g.role == 5
@@ -304,7 +304,7 @@ class Scene_Forum
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 5
+    when 5 #Moderated
       @sgroups = []
       for g in @groups
         if g.role == 2
@@ -324,11 +324,11 @@ class Scene_Forum
         grpselt.push([group.name, group.founder, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 6
+    when 6 #All
       @sgroups = []
       for g in @groups
         next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
-        if (g.public || g.open) && g.forums > 0
+        if g.forums > 0
           @sgroups.push(g)
         end
       end
@@ -345,11 +345,11 @@ class Scene_Forum
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 7
+    when 7 #Recently created
       @sgroups = []
       for g in @groups
         next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
-        if (g.public || g.open) && g.posts > 0
+        if g.forums > 0
           @sgroups.push(g)
         end
       end
@@ -360,7 +360,7 @@ class Scene_Forum
         grpselt.push([group.name, group.founder, group.description, group.forums.to_s, group.threads.to_s, group.posts.to_s, (group.posts - group.readposts).to_s])
       end
       grpselh = [nil, p_("Forum", "Administrator"), nil, p_("Forum", "Forums"), p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread")]
-    when 8
+    when 8 #Popular
       grp = srvproc("forum_popular", { "type" => "groups" })
       @sgroups = []
       if grp[0].to_i == 0

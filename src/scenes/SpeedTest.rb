@@ -31,10 +31,10 @@ class Scene_SpeedTest
           mod = "blog_list"
         end
         speak(p_("SpeedTest", "Performing test, please wait"))
+        times = []
+        n = @form.fields[1].text.to_i
+        errors = 0
         waiting {
-          n = @form.fields[1].text.to_i
-          times = []
-          errors = 0
           n.times {
             t = srvproc(mod, params, 3, nil, false)
             if t > 0

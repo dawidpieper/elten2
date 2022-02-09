@@ -36,6 +36,10 @@ module Opus
       @mutex = Mutex.new
     end
 
+    def closed?
+      @encoder == nil
+    end
+
     def free
       @mutex.synchronize {
         Encoder_destroy.call(@encoder)

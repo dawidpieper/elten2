@@ -535,6 +535,7 @@ begin
       $disablehttp2 = readconfig("Advanced", "DisableHTTP2", "0").to_i
       $conferencestcponly = readconfig("Advanced", "ConferencesTCPOnly", "0").to_i
       $udpmaxpacketsize = readconfig("Advanced", "UDPMaxPacketSize", "1480").to_i
+      $conferencesaudiobuffer = readconfig("Advanced", "ConferencesAudioBuffer", "0").to_i
       $iimodifiers = readconfig("InvisibleInterface", "IIModifiers", (0).to_s).to_i
       $iicards = readconfig("InvisibleInterface", "Cards", "messages,feed,conference").split(",")
       if $lastiimodifiers != $iimodifiers
