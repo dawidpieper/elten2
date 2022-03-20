@@ -257,6 +257,9 @@ module EltenAPI
           speech_stop(false)
           $speech_wait = false
         end
+        if $keyr[0x11] && $keyr[0x12] && $keyr[0x10] && $keypr[80]
+          insert_scene(Scene_Piano.new)
+        end
         if !GlobalMenu.opened? && alt
           GlobalMenu.show
         end

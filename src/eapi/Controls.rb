@@ -3462,8 +3462,8 @@ module EltenAPI
         btn_save.on(:press) {
           encoder = encoders[lst_format.index]
           pth = tr_path.selected + "\\" + edt_filename.text
+          r = true
           waiting {
-            r = true
             if encoder::Extension.downcase == ".opus" && is_opus?
               r = download_file(@file, pth)
             else
@@ -4272,7 +4272,10 @@ module EltenAPI
         @bitrate = @max_bitrate if @bitrate > @max_bitrate
         @timelimit = timelimit
         @framesize = 60
+        @framesize = 40 if @bitrate > 40
+        @framesize = 20 if @bitrate > 80
         @application = 2048
+        @application = 2049 if @bitrate >= 64
         @usevbr = 1
         @recorder = nil
         @status = 0
@@ -4422,10 +4425,10 @@ module EltenAPI
         profiles = [
           [p_("EAPI_Form", "Low"), 24, 60, 0],
           [p_("EAPI_Form", "Lower"), 32, 60, 0],
-          [p_("EAPI_Form", "Standard"), 48, 60, 0],
-          [p_("EAPI_Form", "Higher"), 64, 60, 0],
-          [p_("EAPI_Form", "High"), 96, 60, 0],
-          [p_("EAPI_Form", "Max"), @max_bitrate, 120, 0]
+          [p_("EAPI_Form", "Standard"), 48, 40, 0],
+          [p_("EAPI_Form", "Higher"), 64, 40, 1],
+          [p_("EAPI_Form", "High"), 96, 20, 1],
+          [p_("EAPI_Form", "Max"), @max_bitrate, ((@max_bitrate > 80) ? 20 : 40), 1]
         ]
         for pr in profiles
           profiles.delete(pr) if pr[1] > @max_bitrate

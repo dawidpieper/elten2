@@ -44,8 +44,6 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Recording conferences"),
              p_("PremiumPackages", "Creation of up to three public channels in conferences"),
              p_("PremiumPackages", "Creation of group channels in conferences"),
-             p_("PremiumPackages", "Changing HRTF dimensions"),
-             p_("PremiumPackages", "Setting different output soundcard for conferences than the one selected in Elten"),
              p_("PremiumPackages", "Using VST plugins in conferences"),
              p_("PremiumPackages", "Setting specific ringtones for users"),
              #p_("PremiumPackages", "Placing beacons in HRTF channels"),
@@ -72,7 +70,9 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Conference streaming to shoutcast servers"),
              p_("PremiumPackages", "Setting VST plugins on specific users"),
              p_("PremiumPackages", "Placing own sceneries in channels"),
-             p_("PremiumPackages", "Creating conference-mode channels, where only administrators and allowed users can speak")
+             p_("PremiumPackages", "Creating conference-mode channels, where only administrators and allowed users can speak"),
+             p_("PremiumPackages", "Setting different output soundcard for conferences than the one selected in Elten"),
+             p_("PremiumPackages", "Changing channels dimensions")
            ])
   end
 

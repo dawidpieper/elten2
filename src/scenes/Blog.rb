@@ -1613,6 +1613,7 @@ class Scene_Blog_Options
     make_setting(p_("Blog", "Split comments on the website into pages"), :bool, "page_comments")
     make_setting(p_("Blog", "Comments per page"), :number, "comments_per_page")
     make_setting(p_("Blog", "Firstly display"), [p_("Blog", "Newest comments"), p_("Blog", "Oldest comments")], "default_comments_page", ["newest", "oldest"])
+    make_setting(p_("Blog", "Pending comments"), :custom, Proc.new { insert_scene(Scene_Blog_Comments.new(@blog)) })
     on_load {
       if currentconfig("comment_registration").to_i == 1
         @form.fields[1].index = 3
@@ -1732,7 +1733,6 @@ class Scene_Blog_Options
     end
     make_setting(p_("Blog", "My Wordpress account"), :custom, Proc.new { insert_scene(Scene_Blog_Profile.new) })
     make_setting(p_("Blog", "Manage tags"), :custom, Proc.new { insert_scene(Scene_Blog_Tags.new(@blog)) })
-    make_setting(p_("Blog", "Pending comments"), :custom, Proc.new { insert_scene(Scene_Blog_Comments.new(@blog)) })
     make_setting(p_("Blog", "Manage blog domain"), :custom, Proc.new { $scene = Scene_Blog_Domain.new(@blog, @scene) })
   end
 

@@ -237,7 +237,7 @@ class VoIP
     update
   rescue Exception
     @reconnecting = false
-    log(2, "VoIP reconnect: #{$!.to_s}")
+    log(2, "VoIP reconnect: #{$!.to_s} #{$@.to_s}")
   end
 
   def generate_packet(type, message, p1 = 0, p2 = 0, p3 = 0, p4 = 0, userid = nil, index = nil, ignore_stamp = false)
@@ -300,34 +300,37 @@ class VoIP
     end
     return true
   rescue Exception
-    log(2, "Voip send: #{$!.to_s}")
+    log(2, "Voip send: #{$!.to_s} #{$@.to_s}s")
     return false
+  end
+
+  def send_coll(coll)
+    if coll.size == 1
+      send_packet(coll[0])
+    elsif coll.size > 1
+      cx = coll.map { |c| [c.bytesize].pack("I") + c }.join
+      send(255, cx, coll.size, 0, 0, 0, nil, nil, true)
+    end
   end
 
   def send_multi(packets)
     return if !packets.is_a?(Array)
     coll = []
-    snd = Proc.new {
-      sleep(0.01)
-      if coll.size == 1
-        send_packet(coll[0])
-      elsif coll.size > 1
-        send(255, coll.map { |c| [c.bytesize].pack("I") + c }.join, coll.size, 0, 0, 0, nil, nil, true)
-      end
-      coll.clear
-    }
     for pc in packets
       if pc.size > 2
         m = generate_packet(pc[0], pc[1], pc[2] || 0, pc[3] || 0, pc[4] || 0, pc[5] || 0, pc[6] || nil, pc[7] || nil, pc[8] || false)
         if m != nil
-          snd.call if 16 + coll.map { |c| c.bytesize + 4 }.sum + 4 + m.bytesize > ($udpmaxpacketsize || 1400) || coll.size > 16
+          if 16 + coll.map { |c| c.bytesize + 4 }.sum + 4 + m.bytesize > ($udpmaxpacketsize || 1400) || coll.size > 16
+            send_coll(coll)
+            coll.clear
+          end
           coll.push(m)
         end
       end
     end
-    snd.call
+    send_coll(coll) if coll.size > 0
   rescue Exception
-    log(2, "Voip send_multi: #{$!.to_s}")
+    log(2, "Voip send_multi: #{$!.to_s} #{$@.to_s}")
   end
 
   def on_params(&block)

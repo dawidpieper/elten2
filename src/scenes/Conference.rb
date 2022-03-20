@@ -547,9 +547,11 @@ class Scene_Conference
     if !holds_premiumpackage("director") && channel.conference_mode == 0
       form.hide(chk_conference)
     end
-    if !holds_premiumpackage("audiophile")
+    if !holds_premiumpackage("director")
       form.hide(edt_width)
       form.hide(edt_height)
+    end
+    if !holds_premiumpackage("audiophile")
       form.hide(chk_hidden)
     end
     form.hide(chk_hidden) if (channel.groupid != 0 && channel.groupid != nil)
@@ -1224,7 +1226,7 @@ class Scene_Conference
       m.option(p_("Conference", "Cardboard"), nil, "b") { decks }
     }
     menu.option(p_("Conference", "Show status")) { showstatus }
-    if holds_premiumpackage("audiophile")
+    if holds_premiumpackage("director")
       menu.option(p_("Conference", "Change output soundcard")) {
         cards = [p_("Conference", "Use Elten soundcard")] + Bass.soundcards[2..-1].map { |c| c.name }
         cardid = -1
