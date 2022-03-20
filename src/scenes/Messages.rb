@@ -141,8 +141,13 @@ class Scene_Messages
     @sel_users.update
     if enter or arrow_right
       if @sel_users.index < @users.size
-        load_conversations(@users[@sel_users.index].user)
-        @cat = 1
+        if LocalConfig["MessagesDefaultToAllMessages"] == 0
+          load_conversations(@users[@sel_users.index].user)
+          @cat = 1
+        else
+          load_messages(@users[@sel_users.index].user, nil)
+          @cat = 2
+        end
       else
         @sel_users.index -= 1
         ad = 20
@@ -159,10 +164,17 @@ class Scene_Messages
       menu.option(p_("Messages", "Reply"), nil, "o") {
         $scene = Scene_Messages_New.new(@users[@sel_users.index].user, "", "", export)
       }
-      menu.option(p_("Messages", "Show all messages"), nil, :shift_enter) {
-        load_messages(@users[@sel_users.index].user, nil)
-        @cat = 2
-      }
+      if LocalConfig["MessagesDefaultToAllMessages"] == 0
+        menu.option(p_("Messages", "Show all messages"), nil, :shift_enter) {
+          load_messages(@users[@sel_users.index].user, nil)
+          @cat = 2
+        }
+      else
+        menu.option(p_("Messages", "Show all messages"), nil, :shift_enter) {
+          load_conversations(@users[@sel_users.index].user)
+          @cat = 1
+        }
+      end
       menu.option(p_("Messages", "Mark all messages in this conversation as read"), nil, "w") {
         msgtemp = srvproc("message_allread", { "user" => @users[@sel_users.index].user })
         if msgtemp[0].to_i < 0
@@ -213,6 +225,12 @@ class Scene_Messages
         }
       end
     end
+    s = p_("Messages", "Set all messages as a default view")
+    s = p_("Messages", "Set subjects as a default view") if LocalConfig["MessagesDefaultToAllMessages"] == 1
+    menu.option(s) {
+      LocalConfig["MessagesDefaultToAllMessages"] = ((LocalConfig["MessagesDefaultToAllMessages"] == 0) ? (1) : (0))
+      alert(_("Saved"))
+    }
     menu.option(p_("Messages", "Create new conversation"), nil, "t") {
       edit_conversation
       @sel_users.focus
@@ -467,6 +485,7 @@ class Scene_Messages
   end
 
   def deleteconversation(c)
+    return if @user == nil
     return if @user[0..0] == "["
     confirm(p_("Messages", "Are you sure you want to delete conversation %{conversationname} with user %{user}") % { "conversationname" => c.subject, "user" => @user }) do
       if srvproc("messages", { "delete" => 2, "user" => @user, "subj" => c.subject })[0].to_i < 0

@@ -1453,7 +1453,7 @@ class Scene_Blog_Post_Move
         @blognames.push(b[i].delete("\r\n"))
       end
     end
-    @form = Form.new([ListBox.new(@blognames, p_("Blog", "Post destination"), @blogids.index(@owner) || 0), ListBox.new([p_("Blog", "Move this post and all comments"), p_("Blog", "Move only this post, delete all comments")], p_("Blog", "Move type")), Button.new(p_("Blog", "Move")), Button.new(_("Cancel"))])
+    @form = Form.new([ListBox.new(@blognames, p_("Blog", "Post destination"), @blogids.index(@owner) || 0), ListBox.new([p_("Blog", "Move this post and all comments"), p_("Blog", "Move only this post, delete all comments"), p_("Blog", "Copy this post and all comments")], p_("Blog", "Move type")), Button.new(p_("Blog", "Move")), Button.new(_("Cancel"))])
     loop do
       loop_update
       @form.update

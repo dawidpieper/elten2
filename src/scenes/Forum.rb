@@ -369,7 +369,7 @@ class Scene_Forum
           @groups.each { |r| g = r if r.id == l.to_i }
           if g != nil
             next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
-            @sgroups.push(g) if g.open || g.public
+            @sgroups.push(g) if g.forums > 0
           end
         end
       end

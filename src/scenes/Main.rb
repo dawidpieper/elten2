@@ -409,7 +409,9 @@ class Scene_Main
       }
       if feed.user == Session.name
         menu.option(_("Delete"), nil, :del) {
-          delete_feed(feed.id)
+          confirm(p_("Main", "Are you sure you want to delete this post?")) {
+            delete_feed(feed.id)
+          }
           play("editbox_delete")
         }
       end

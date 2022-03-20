@@ -205,7 +205,8 @@ task :agent do
         ""
       end
       r.gsub!("require lib", "")
-      @cnt += "\r\n" + r + "\r\n"
+      # @cnt += "\r\n" + r + "\r\n" # Old form
+      @cnt += "\r\neval(#{r.inspect}, nil, #{File.basename(file).inspect})\r\n"
       @res.push(r)
       #    rescue Exception
       #      puts("Failed to process file #{file}")

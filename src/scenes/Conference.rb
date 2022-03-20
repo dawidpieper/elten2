@@ -1513,7 +1513,7 @@ class Scene_Conference
       if whitelist.size > 0
         menu.useroption(whitelist[lst_whitelist.index])
       end
-      if Conference.channel.whitelist.include?(Session.name)
+      if Conference.channel.administrators.include?(Session.name)
         if Conference.channel.groupid == 0 || Conference.channel.groupid == nil
           menu.option(p_("Conference", "Add to whitelist"), nil, "n") {
             user = input_user(p_("Conference", "User to add to channel whitelist"))

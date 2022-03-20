@@ -153,7 +153,9 @@ class Scene_FeedViewer
       }
       if feed.user == Session.name
         menu.option(_("Delete"), nil, :del) {
-          delete_feed(feed.id)
+          confirm(p_("FeedViewer", "Are you sure you want to delete this post?")) {
+            delete_feed(feed.id)
+          }
           play("editbox_delete")
           @sel.disable_item(@sel.index)
         }

@@ -286,7 +286,6 @@ class VoIP
     send_packet(data)
     return true
   rescue Exception
-    return falsescue Exception
     return false
   end
 
@@ -300,6 +299,9 @@ class VoIP
       command("packet", { "packet" => Base64.encode64(data) })
     end
     return true
+  rescue Exception
+    log(2, "Voip send: #{$!.to_s}")
+    return false
   end
 
   def send_multi(packets)
@@ -324,6 +326,8 @@ class VoIP
       end
     end
     snd.call
+  rescue Exception
+    log(2, "Voip send_multi: #{$!.to_s}")
   end
 
   def on_params(&block)

@@ -1271,7 +1271,7 @@ module EltenAPI
       if channel == nil
         channel_password = rand(36 ** 32).to_s(36)
         chname = "VoiceCall_" + Session.name
-        channel = Conference.create(chname, false, 56, 40, 1, 0, false, true, @channel_password, 0, 2, nil).to_i
+        channel = Conference.create(chname, false, 56, 40, 1, 0, false, true, channel_password, 0, 2, nil).to_i
       else
         Conference.join(channel, channel_password)
       end

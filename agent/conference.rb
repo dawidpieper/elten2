@@ -3124,6 +3124,7 @@ class Conference
     }
   rescue Exception
     log(2, "Conference, output error: #{$!.to_s}, #{$@.to_s}")
+    retry
   end
 
   def saver_thread
@@ -3152,6 +3153,7 @@ class Conference
       }
     rescue Exception
       log(2, "Conference saver: " + $!.to_s + " " + $@.to_s)
+      retry
     end
   end
 
