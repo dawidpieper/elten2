@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2020 Dawid Pieper
+# Copyright (C) 2014-2022 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -253,7 +253,7 @@ def elten_command(ac):
 				if is_python_3_or_above:
 					if(speech.isBlank(texts[i])): continue
 					if(i<len(indexes)): v.append(EltenIndexCallback(indexes[i], indid))
-					if(i<len(indexes) and i>0 and texts[i-1]!="" and texts[i-1][-1]=="\n"): v.append(speech.EndUtteranceCommand())
+					if(i<len(indexes) and i>0 and texts[i-1]!="" and texts[i-1][-1]=="\n") and speech.commands is not None: v.append(speech.commands.EndUtteranceCommand())
 				else:
 					eltenindexid=indid
 					if(i<len(indexes)): v.append(speech.IndexCommand(indexes[i]))
@@ -322,7 +322,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 35}
+			return {'version': 37}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):
