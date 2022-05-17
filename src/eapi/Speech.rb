@@ -651,7 +651,7 @@ module EltenAPI
       def execute(index)
         sleep(0.01) while @running
         @running = true
-        (@lastindex + 1..index).each { |i|
+        (@lastindex + 1..index.to_i).each { |i|
           m = @mapper[i]
           if m != nil
             m -= 1
@@ -662,7 +662,7 @@ module EltenAPI
           end
         }
         @running = false
-        @lastindex = index
+        @lastindex = index.to_i
       ensure
         @running = false
       end
