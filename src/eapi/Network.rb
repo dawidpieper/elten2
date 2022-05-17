@@ -204,7 +204,7 @@ module EltenAPI
           end
           if escape and w and canCancel
             play("cancel")
-            Log.debug("Server request to module #{mod} cancelled by user")
+            Log.debug("Download of #{source} cancelled by user")
             waiting_end if useWaiting
             return false
           end

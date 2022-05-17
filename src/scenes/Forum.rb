@@ -387,6 +387,17 @@ class Scene_Forum
     end
     @grpsetindex = nil
     @grpsel = TableBox.new(grpselh, grpselt, @grpindex[type], p_("Forum", "Forum"))
+    @grpsel.on(:move) {
+      if @grpsel.index >= @grpheadindex
+        g = @sgroups[@grpsel.index - @grpheadindex]
+        if g != nil
+          threads = @threads.find_all { |t| t.forum.group.id == g.id }
+          for t in threads
+            @grpsel.foplay("ring") if eegg("forum", t.id)
+          end
+        end
+      end
+    }
     @grpsel.trigger(:move)
     @grpsel.column = LocalConfig["ForumColumnGroup"] if LocalConfig["ForumColumnGroup"] != nil
     @grpsel.bind_context(p_("Forum", "Forum")) { |menu| context_groups(menu, type) }
@@ -676,7 +687,8 @@ class Scene_Forum
       if @sgroups[@grpsel.index - @grpheadindex].forums == 0 and @sgroups[@grpsel.index - @grpheadindex].founder == Session.name
         menu.option(p_("Forum", "Delete group")) {
           confirm(p_("Forum", "Are you sure you want to delete %{groupname}?") % { "groupname" => @sgroups[@grpsel.index - @grpheadindex].name }) {
-            if srvproc("forum_groups", { "ac" => "delete", "groupid" => @sgroups[@grpsel.index - @grpheadindex].id.to_s })[0].to_i < 0
+            fd = srvproc("forum_groups", { "ac" => "delete", "groupid" => @sgroups[@grpsel.index - @grpheadindex].id.to_s })
+            if fd[0].to_i < 0
               alert(_("Error"))
             else
               alert(p_("Forum", "Group has been deleted"))
@@ -1254,6 +1266,15 @@ class Scene_Forum
     @frmindex = 0 if @frmindex == nil
     frmselh = [nil, p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread"), nil]
     @frmsel = TableBox.new(frmselh, frmselt, @frmindex, p_("Forum", "Select forum"))
+    @frmsel.on(:move) {
+      f = @sforums[@frmsel.index]
+      if f != nil
+        threads = @threads.find_all { |t| t.forum.id == f.id }
+        for t in threads
+          @frmsel.foplay("ring") if eegg("forum", t.id)
+        end
+      end
+    }
     @frmsel.trigger(:move)
     @frmsel.column = LocalConfig["ForumColumnForum"] if LocalConfig["ForumColumnForum"] != nil
     @frmsel.bind_context(p_("Forum", "Forum")) { |menu| context_forums(menu) }
@@ -1850,6 +1871,12 @@ class Scene_Forum
     header = "" if id == -2 or id == -4 or id == -6 or id == -7
     thrselh = [nil, p_("Forum", "Author"), p_("Forum", "posts"), p_("Forum", "Unread")]
     @thrsel = TableBox.new(thrselh, thrselt, index, header, true, ListBox::Flags::Tagged)
+    @thrsel.on(:move) {
+      t = @sthreads[@thrsel.index]
+      if t != nil
+        @thrsel.foplay("ring") if eegg("forum", t.id)
+      end
+    }
     @thrsel.trigger(:move)
     @thrsel.column = LocalConfig["ForumColumnThread"] if LocalConfig["ForumColumnThread"] != nil
     @thrsel.bind_context(p_("Forum", "Forum")) { |menu| context_threads(menu) }

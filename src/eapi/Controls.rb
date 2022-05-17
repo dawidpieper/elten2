@@ -536,10 +536,7 @@ module EltenAPI
           @selected = false
         end
         oldindex = @index
-        oldtext = @text
-        if $speechindexedthr != nil and $speechid == @speechindexed and @speechindexed != nil and $speechindex != @index and ($speechindex || 0) > 0
-          @index = $speechindex
-        end
+        oldtext = @text if @audioplayer != nil and escape
         if @audioplayer != nil and escape
           blur
         elsif @audioplayer != nil and @audioplayed == false
@@ -710,7 +707,12 @@ module EltenAPI
             if Configuration.soundthemeactivation == 1
               play("border")
             else
-              espeech(p_("EAPI_Form", "End of line"))
+              if @text.size > 0
+                c = char_borders(0)
+                espeech(@text[c[0]..c[1]])
+              else
+                espeech(p_("EAPI_Form", "End of line"))
+              end
             end
           else
             if $key[0x11] == false
@@ -863,12 +865,6 @@ module EltenAPI
                 @tosay = d + ": " + @tosay
               end
             end
-          end
-        end
-        if @vindex != prvindex
-          if $speechindexedthr != nil and $speechid == @speechindexed and @speechindexed != nil
-            @speechindexed = nil
-            $speechindexedthr.exit
           end
         end
         esay
@@ -1399,7 +1395,6 @@ module EltenAPI
       def esay
         if @tosay != "" and @tosay != nil
           if (@flags & Flags::Password) == 0
-            @speechindexed = nil
             speech_stop
             speech(@tosay)
           else
@@ -1683,20 +1678,24 @@ module EltenAPI
       def read_text(index = 0, head = "")
         return speak(head) if @text == "" and head != "" and head != nil
         return if @text == ""
-        sents = {}
-        pi = index
-        ch = ["!", "?", "."]
-        (index...@text.size).find_all { |c| @text[c + 1..c + 1] == " " or @text[c + 1..c + 1] == "\n" }.each do |i|
-          if ch.include?(@text[i..i]) or @text[i + 1..i + 1] == "\n"
-            sents[pi] = @text[pi..i + 1]
-            pi = i + 2
-          end
+
+        ch = ["!", "?", ".", ","]
+
+        breaks = [index] + (index + 1...@text.size - 1).find_all { |i| @text[i - 1..i - 1] == "\n" || (i > 1 && @text[i - 1..i - 1] == " " && ch.include?(@text[i - 2..i - 2])) } + [@text.size]
+        commands = []
+        for i in 1...breaks.size
+          pos = breaks[i - 1]
+          frg = @text[breaks[i - 1]...breaks[i]] || ""
+          frg = head + "\n" + (frg || "") if head != nil && head != "" && i == 1
+          cmd = SpeechCommands::CustomCommand.new(pos) { |pos| @index = pos }
+          commands.push(cmd)
+          commands.push(frg)
         end
-        sents[pi] = @text[pi..-1]
-        sents[0] = head + "\r\n" + (sents[0] || "") if head != nil and head != ""
-        id = rand(1e9)
-        speak_indexed(sents, id)
-        @speechindexed = id
+        cmd = SpeechCommands::CustomCommand.new { @index = @text.size }
+        commands.push(cmd)
+
+        seq = SpeechSequence.new(commands)
+        seq.run
       end
 
       class Flags

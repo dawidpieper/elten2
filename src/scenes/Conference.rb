@@ -187,8 +187,11 @@ class Scene_Conference
       end
     }
     @users_hook = Conference.on(:update) {
+      lastuser = nil
+      lastuser = @lastusers[lst_users.index] if @lastusers.is_a?(Array)
       timeout_break if Conference.channel.users.size > 1
       lst_users.options.clear
+      ind = nil
       for u in Conference.channel.users
         s = u.name
         if u.supervisor != nil && u.supervisor != ""
@@ -200,7 +203,10 @@ class Scene_Conference
         s += "\004NEW\004" if u.waiting
         s += "\004FUTURE\004" if u.speech_requested
         lst_users.options.push(s)
+        ind = lst_users.options.size - 1 if u.name == lastuser
       end
+      lst_users.index = ind if ind != nil
+      @lastusers = Conference.channel.users.map { |u| u.name }
       motd = Conference.channel.motd || ""
       if motd != ""
         motdh = sha1(motd).unpack("H*").first

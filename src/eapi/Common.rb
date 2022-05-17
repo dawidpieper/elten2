@@ -937,6 +937,12 @@ module EltenAPI
       return false
     end
 
+    def eegg(a, b)
+      return false if !$eeggs.is_a?(Array)
+      e = a.to_s + ":" + b.to_s
+      $eeggs.include?(e)
+    end
+
     @@premiumpackages = []
 
     def update_premiumpackages(packages)

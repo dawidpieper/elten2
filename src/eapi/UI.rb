@@ -577,6 +577,8 @@ module EltenAPI
             $focus = true
           elsif d["func"] == "premiumpackages"
             update_premiumpackages(d["premiumpackages"].split(","))
+          elsif d["func"] == "eeggs"
+            $eeggs = d["eeggs"].split(",")
           elsif d["func"] == "feeds"
             for f in JSON.parse(d["changed"])
               feed = FeedMessage.new(f["id"], f["user"], f["time"], f["message"], f["response"], f["responses"], f["liked"], f["likes"])
@@ -634,6 +636,12 @@ module EltenAPI
       Graphics.update
       Input.update
       key_update
+      if (seq = current_speechsequence) != nil
+        ind, indid = speech_getindex
+        if seq.id == indid
+          seq.execute(ind)
+        end
+      end
       if $totray == true
         $totray = false
         Audio.bgs_stop

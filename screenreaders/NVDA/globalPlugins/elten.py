@@ -259,7 +259,7 @@ def elten_command(ac):
 					if(i<len(indexes)): v.append(speech.IndexCommand(indexes[i]))
 				v.append(texts[i])
 			speech.cancelSpeech()
-			speech.speak(v)
+			queueHandler.queueFunction(queueHandler.eventQueue,speech.speak,v)
 		if(ac['ac']=='stop'):
 			speech.cancelSpeech()
 			eltenindex=None
@@ -322,7 +322,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 37}
+			return {'version': 38}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

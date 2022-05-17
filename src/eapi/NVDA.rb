@@ -215,6 +215,10 @@ module NVDA
     end
 
     def speakindexed(texts, indexes, indid = nil)
+      if indexes.size > texts.size
+        texts = texts.dup
+        texts.push("") while texts.size < indexes.size
+      end
       s = 0
       i = 0
       cur = 0
@@ -231,6 +235,11 @@ module NVDA
           texts[i..-1] = []
           indexes[i..-1] = []
           break
+        end
+        if texts[i].include?("\n")
+          texts.insert(i, "\n")
+          indexes.insert(i, indexes[i])
+          i += 1
         end
         i += 1
       end

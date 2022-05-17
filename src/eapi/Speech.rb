@@ -21,15 +21,25 @@ module EltenAPI
       speech_wait if wait
     end
 
+    @@current_speechsequence = nil
+
+    def current_speechsequence
+      return @@current_speechsequence
+    end
+
     # Says a text
     #
     # @param text [String] a text to speak
     # @param method [Numeric] 0 - wait for the previous message to say, 1 - abord the previous message, 2 - use synthesizer config
     def speak(text, method = 1, usedict = true, id = nil, closethr = true, pos = 50)
+      if text.is_a?(SpeechSequence)
+        return speak_sequence(text)
+      end
       Programs.emit_event(:speech_speak)
       if closethr and $speechindexedthr != nil
         $speechindexedthr.exit
         $speechindexedthr = nil
+        @@current_speechsequence = nil
       end
       spelling = false
       id = rand(2 ** 32) if id == nil
@@ -235,6 +245,21 @@ module EltenAPI
 
     alias speech speak
 
+    def speak_sequence(seq)
+      if Configuration.voice == "NVDA" && !NVDA.check
+        speak(seq.text)
+        return
+      elsif Configuration.voice == "NVDA"
+        seq.reset
+        NVDA.speakindexed(seq.texts, seq.indexes, seq.id)
+        @@current_speechsequence = seq
+      else
+        seq.reset
+        speakindexed(seq.texts, seq.indexes, seq.id)
+        @@current_speechsequence = seq
+      end
+    end
+
     def speakindexed(texts, indexes, indid = nil)
       $speechid = id
       ssml = "<pitch absmiddle=\"#{((Configuration.voicepitch / 5.0) - 10.0).to_i}\"/>"
@@ -247,17 +272,27 @@ module EltenAPI
         ssml += "<bookmark mark=\"#{mark}\"/>"
         ssml += texts[i].gsub("<", "&lt;").gsub(">", "&gt;").gsub("\\", "\\\\")
       end
+      if indexes.size > texts.size
+        mark = ""
+        if indid != nil
+          mark = ":" + indid.to_s + ":"
+        end
+        mark += (indexes[texts.size] || "").to_s
+        ssml += "<bookmark mark=\"#{mark}\"/>"
+      end
       buf = unicode(ssml)
       Win32API.new($eltenlib, "SapiSpeakSSML", "p", "i").call(buf)
     end
 
     def speech_getindex
+      return [nil, nil] if Configuration.voice == "NVDA" && !NVDA.check
+      return NVDA.getindex(true) if Configuration.voice == "NVDA"
       nd = Win32API.new($eltenlib, "SapiGetBookmark", "", "i").call
-      return nil if nd == 0
+      return [nil, nil] if nd == 0
       siz = Win32API.new("msvcrt", "wcslen", "i", "i").call(nd)
       bk = "\0" * 2 * (siz + 1)
       Win32API.new("msvcrt", "wcscpy", "pi", "i").call(bk, nd)
-      return deunicode(bk)
+      return [deunicode(bk), $speechid]
     end
 
     # Determines if the speech is used
@@ -286,6 +321,7 @@ module EltenAPI
         $speechindexedthr.exit
         $speechindexedthr = nil
       end
+      @@current_speechsequence = nil
       func = "sapiStopSpeech"
       if Configuration.voice == "NVDA"
         func = "stopSpeech"
@@ -551,6 +587,130 @@ module EltenAPI
       end
       Win32API.new($eltenlib, "SapiFreeDevices", "pi", "i").call(a, sz)
       return devices
+    end
+
+    module SpeechCommands
+      class SpeechCommand
+        def execute
+        end
+      end
+
+      class SoundCommand < SpeechCommand
+        def initialize(s = nil)
+          @sound = s
+        end
+
+        def execute
+          play(@sound)
+        end
+      end
+
+      class CustomCommand < SpeechCommand
+        def initialize(*arg, &p)
+          @arg = arg
+          @proc = p
+        end
+
+        def execute
+          @proc.call(*@arg) if @proc != nil
+        end
+      end
+    end
+
+    class SpeechSequence
+      attr_reader :id
+
+      def initialize(commands)
+        @commands = commands || []
+        @id = rand(10 ** 9)
+        rebuild
+        @lastindex = 0
+      end
+
+      def reset
+        @lastindex = 0
+      end
+
+      def size
+        @mapper.size
+      end
+
+      def texts
+        return @commands.find_all { |t| t.is_a?(String) }
+      end
+
+      def text
+        return @textcache if @textcache != nil
+        @textcache = texts.join("")
+      end
+
+      def indexes
+        (1..size).to_a
+      end
+
+      def execute(index)
+        sleep(0.01) while @running
+        @running = true
+        (@lastindex + 1..index).each { |i|
+          m = @mapper[i]
+          if m != nil
+            m -= 1
+            while m >= 0 && !@commands[m].is_a?(String)
+              @commands[m].execute if @commands[m].is_a?(SpeechCommands::SpeechCommand)
+              m -= 1
+            end
+          end
+        }
+        @running = false
+        @lastindex = index
+      ensure
+        @running = false
+      end
+
+      def run
+        speak_sequence(self)
+      end
+
+      def to_s
+        text
+      end
+
+      protected
+
+      def rebuild
+        @mapper = []
+        @mapper.push(nil)
+        for i in 0...@commands.size
+          @mapper.push(i) if @commands[i].is_a?(String)
+        end
+        @mapper.push(@commands.size)
+        @textcache = nil
+        @running = false
+      end
+    end
+
+    class SpeechSoundsCollection
+      attr_accessor :text
+
+      def initialize(text = "", coll = [])
+        @text = text
+        @collection = coll.dup
+      end
+
+      def add_sound(c)
+        @collection.push(c)
+      end
+
+      def play(pos = 50)
+        @collection.each { |c|
+          eplay(c, 100, 100, pos)
+        }
+        speak(text)
+      end
+
+      def to_s
+        @text
+      end
     end
   end
 
