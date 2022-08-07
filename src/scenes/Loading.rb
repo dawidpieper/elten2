@@ -258,7 +258,7 @@ If the problem occurs, please contact Elten support"
     else
       delay(1)
     end
-    v = 38
+    v = 39
     if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", "", "i").call == 0 && (!NVDA.check || NVDA.getversion != v)
       if !NVDA.check
         str = p_("Loading", "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?")

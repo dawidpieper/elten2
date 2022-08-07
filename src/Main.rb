@@ -11,10 +11,10 @@ end
 module Elten
   Version = 2.43
   Beta = 0
-  Alpha = 2
+  Alpha = 6
   IsBeta = 2
-  BuildID = 20220517001
-  BuildDate = 1652779320
+  BuildID = 20220807001
+  BuildDate = 1659901847
   class << self
     def version
       return Version
@@ -171,6 +171,7 @@ ensure
     Win32API.new("kernel32", "TerminateProcess", "ip", "i").call($agent.pid, "") if $agent != nil
     $agent = nil
     LocalConfig.save
+    FileCache.get_caches.each { |a| a.save }
     Log.debug("Closing processes")
     if $procs != nil
       for o in $procs

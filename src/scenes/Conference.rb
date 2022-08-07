@@ -396,7 +396,15 @@ class Scene_Conference
           txt += p_("Conference", "Channel bitrate") + ": " + ch.bitrate.to_s + "kbps\n"
           txt += p_("Conference", "Channel frame size") + ": " + ch.framesize.to_s + "ms\n"
           txt += p_("Conference", "Channels") + ": " + ((ch.channels == 2) ? ("Stereo") : ("Mono")) + "\n"
-          txt += p_("Conference", "Space Virtualization") + ": " + ((ch.spatialization == 0) ? ("Panning") : ("HRTF"))
+          txt += p_("Conference", "Space Virtualization") + ": "
+          case ch.spatialization
+          when 0
+            txt += "Panning"
+          when 1
+            txt += "HRTF"
+          when 2
+            txt += p_("Conference", "Round table")
+          end
           input_text(p_("Conference", "Channel details"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, txt, true)
         }
         if ch.administrators.include?(Session.name)
@@ -495,8 +503,10 @@ class Scene_Conference
       [p_("Conference", "High quality"), 160, 40, 2, 1, 1, 0, 0],
       [p_("Conference", "Standard quality"), 80, 40, 2, 1, 0, 0, 1],
       [p_("Conference", "Standard quality with surround sound"), 96, 40, 1, 1, 0, 1, 1],
+      [p_("Conference", "Standard quality with round table"), 96, 40, 1, 1, 0, 2, 1],
       [p_("Conference", "Quality for mobile or limited connections"), 56, 60, 2, 1, 0, 0, 1],
       [p_("Conference", "Quality for mobile or limited connections with surround sound"), 64, 60, 1, 1, 0, 1, 1],
+      [p_("Conference", "Quality for mobile or limited connections with round table"), 64, 60, 1, 1, 0, 2, 1],
       [p_("Conference", "Low quality"), 28, 60, 1, 2, 0, 0, 1]
     ]
     prindex = presets.size
@@ -519,6 +529,15 @@ class Scene_Conference
     end
     nameflags = 0
     nameflags |= EditBox::Flags::ReadOnly if channel.groupid != 0 && channel.groupid != nil
+    kl = 0
+    case channel.key_len
+    when 192
+      kl = 1
+    when 128
+      kl = 2
+    when 0
+      kl = 3
+    end
     form = Form.new([
       edt_name = EditBox.new(p_("Conference", "Channel name"), nameflags, channel.name, true),
       lst_lang = ListBox.new(langnames, p_("Conference", "Language"), lnindex),
@@ -531,7 +550,7 @@ class Scene_Conference
       chk_fec = CheckBox.new(p_("Conference", "Enable forward error correction"), (channel.fec == true) ? (1) : (0)),
       chk_predictiondisabled = CheckBox.new(p_("Conference", "Disable encoding prediction"), (channel.prediction_disabled == true) ? (1) : (0)),
       lst_channels = ListBox.new(["Mono", "Stereo"], p_("Conference", "Channels"), channel.channels - 1),
-      lst_spatialization = ListBox.new(["Panning", "HRTF"], p_("Conference", "Space Virtualization"), channel.spatialization),
+      lst_spatialization = ListBox.new(["Panning", "HRTF", p_("Conference", "Round table")], p_("Conference", "Space Virtualization"), channel.spatialization),
       chk_conference = CheckBox.new(p_("Conference", "Enable conference mode (only channel administrators and allowed users can speak)"), (channel.conference_mode > 0) ? (1) : (0)),
       chk_waiting = CheckBox.new(p_("Conference", "Enable waiting room"), (channel.waiting_type > 0) ? (1) : (0)),
       chk_allowguests = CheckBox.new(p_("Conference", "Allow guests to join this channel"), (channel.allow_guests) ? (1) : (0)),
@@ -540,6 +559,7 @@ class Scene_Conference
       edt_width = EditBox.new(p_("Conference", "Channel width"), EditBox::Flags::Numbers, channel.width.to_s, true),
       edt_height = EditBox.new(p_("Conference", "Channel height"), EditBox::Flags::Numbers, channel.height.to_s, true),
       edt_password = EditBox.new(p_("Conference", "Channel password (leave this field blank to set a channel without a password)"), 0, channel.password || "", true),
+      lst_encryption = ListBox.new(["AES 256 CTR", "AES 192 CTR", "AES 128 CTR", p_("Conference", "None")], p_("Conference", "Channel encryption"), kl),
       btn_create = Button.new(p_("Conference", "Create")),
       btn_cancel = Button.new(p_("Conference", "Cancel"))
     ], 0, false, true)
@@ -559,6 +579,7 @@ class Scene_Conference
     end
     if !holds_premiumpackage("audiophile")
       form.hide(chk_hidden)
+      form.hide(lst_encryption)
     end
     form.hide(chk_hidden) if (channel.groupid != 0 && channel.groupid != nil)
     form.hide(chk_permanent) if (channel.groupid != 0 && channel.groupid != nil) || (channel.permanent == false && (!holds_premiumpackage("audiophile") || chans.find_all { |c| c.creator == Session.name && c.permanent == true }.size >= 3))
@@ -660,10 +681,19 @@ class Scene_Conference
         conference_mode = chk_conference.checked
         allow_guests = chk_allowguests.checked == 1
         permanent = (chk_permanent.checked == 1)
+        key_len = 256
+        case lst_encryption.index
+        when 1
+          key_len = 192
+        when 2
+          key_len = 128
+        when 3
+          key_len = 0
+        end
         if channel.id == 0
-          Conference.create(name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, 256, waiting_type, permanent, motd, allow_guests, conference_mode)
+          Conference.create(name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, key_len, waiting_type, permanent, motd, allow_guests, conference_mode)
         else
-          Conference.edit(channel.id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, channel.key_len, waiting_type, permanent, motd, allow_guests, conference_mode)
+          Conference.edit(channel.id, name, public, bitrate, framesize, vbr_type, codec_application, prediction_disabled, fec, password, spatialization, channels, lang, width, height, key_len, waiting_type, permanent, motd, allow_guests, conference_mode)
         end
         form.resume
       end

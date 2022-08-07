@@ -868,6 +868,7 @@ module EltenAPI
     Configuration.disablehttp2 = readconfig("Advanced", "DisableHTTP2", 0)
     Configuration.tcpconferences = readconfig("Advanced", "ConferencesTCPOnly", 0)
     Configuration.conferencesaudiobuffer = readconfig("Advanced", "ConferencesAudioBuffer", 0)
+    Configuration.conferencesaudiobuffercutoff = readconfig("Advanced", "ConferencesAudioBufferCutOff", 250)
     Configuration.udppacketsize = readconfig("Advanced", "UDPMaxPacketSize", 1480)
     Configuration.autologin = readconfig("Login", "EnableAutoLogin", 1)
     setlocale(Configuration.language) if lang != Configuration.language
@@ -935,5 +936,142 @@ module EltenAPI
       mask = mask >> 8
     end
     return out
+  end
+
+  class FileCache
+    attr_reader :file
+    @@caches = []
+    def self.get_caches
+      return @@caches
+    end
+
+    def initialize(file)
+      @file = file
+      a = @@caches.find { |c| c.file == @file }
+      @current = a.current if a != nil
+      @@caches.push(self)
+    end
+
+    def current
+      @current ||= nil
+      if (@current == nil)
+        begin
+          if FileTest.exists?(@file)
+            @current = Marshal.load(readfile(@file))
+          end
+        rescue Exception
+        end
+        @current = {} if @current == nil
+      end
+      return @current
+    end
+
+    def save
+      c = current
+      for entry in c.keys
+        del = (c[entry]["totime"] != 0 && c[entry]["totime"] <= Time.now.to_i) || c[entry]["lastaccess"] < Time.now.to_i - 86400 * 30
+        c.delete(entry) if del
+      end
+      writefile(@file, Marshal.dump(c))
+    end
+
+    def get(entry, totime = -1, &b)
+      v = nil
+      c = current
+      e = c[entry]
+      if e == nil
+        v = b.call if b != nil
+        set(entry, v, totime) if v != nil
+        return v
+      end
+      totime = e["totime"]
+      if totime <= Time.now.to_i && totime != 0
+        v = b.call if b != nil
+        set(entry, v, totime) if v != nil
+        return v
+      end
+      e["lastaccess"] = Time.now.to_i
+      return e["value"]
+    rescue Exception
+      v = nil
+      v = b.call if b != nil
+      set(entry, v, totime) if v != nil
+      return v
+    end
+
+    def exists?(entry)
+      c = current
+      e = c[entry]
+      return false if e == nil
+      totime = e["totime"]
+      return false if totime <= Time.now.to_i && totime != 0
+      e["lastaccess"] = Time.now.to_i
+      return true
+    rescue Exception
+      return false
+    end
+
+    def delete(entry)
+      c = current
+      c.delete(entry) if c[entry] != nil
+    end
+
+    def set(entry, value, totime = -1)
+      totime = Time.now.to_i + 86400 if totime == -1
+      totime = Time.at(totime) if totime.is_a?(Time)
+      c = current
+      c[entry] = { "value" => value, "totime" => totime, "lastaccess" => totime }
+      return value
+    end
+
+    def [](entry)
+      return get(entry)
+    end
+
+    def []=(entry, value)
+      set(entry, value)
+    end
+  end
+
+  module Cache
+    class << self
+      def get_cache
+        @cache ||= nil
+        @cache = FileCache.new(Dirs.eltendata + "\\cache.dat") if @cache == nil
+        return @cache
+      end
+
+      def current
+        return get_cache.current
+      end
+
+      def save
+        return get_cache.save
+      end
+
+      def exists?(*a)
+        return get_cache.exists?(*a)
+      end
+
+      def get(*a, &b)
+        return get_cache.get(*a, &b)
+      end
+
+      def set(*a)
+        return get_cache.set(*a)
+      end
+
+      def delete(*a)
+        return get_cache.delete(*a)
+      end
+
+      def [](a)
+        return get_cache[a]
+      end
+
+      def []=(a, b)
+        return get_cache[a] = b
+      end
+    end
   end
 end

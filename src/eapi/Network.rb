@@ -151,7 +151,7 @@ module EltenAPI
           if Time.now.to_f - t > 2 and w == false
             waiting
             w = true
-          elsif Time.now.to_f - t > 15
+          elsif Time.now.to_f - t > 30
             Log.warning("Session timed out for URL read from #{url}")
             waiting_end
             return nil
@@ -203,7 +203,7 @@ module EltenAPI
             w = true
           end
           if escape and w and canCancel
-            play("cancel")
+            eplay("cancel")
             Log.debug("Download of #{source} cancelled by user")
             waiting_end if useWaiting
             return false

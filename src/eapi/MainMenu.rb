@@ -103,6 +103,7 @@ module GlobalMenu
           m.scene(p_("MainMenu", "De&bugging"), Scene_Debug)
         }
         @menu.submenu(p_("MainMenu", "&Help")) { |m|
+          m.scene(p_("MainMenu", "Frequently asked &questions"), Scene_FAQ)
           m.scene(p_("MainMenu", "&Changelog"), Scene_Changes)
           m.scene(p_("MainMenu", "Program &version"), Scene_Version)
           m.scene(p_("MainMenu", "Sounds &guide"), Scene_Sounds)

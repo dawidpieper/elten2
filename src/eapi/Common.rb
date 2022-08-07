@@ -937,12 +937,6 @@ module EltenAPI
       return false
     end
 
-    def eegg(a, b)
-      return false if !$eeggs.is_a?(Array)
-      e = a.to_s + ":" + b.to_s
-      $eeggs.include?(e)
-    end
-
     @@premiumpackages = []
 
     def update_premiumpackages(packages)
@@ -1312,6 +1306,7 @@ module EltenAPI
     end
 
     def process_url(url)
+      return if !url.is_a?(String)
       if url[0...8].downcase != "elten://"
         run("explorer \"#{url}\"")
         return true

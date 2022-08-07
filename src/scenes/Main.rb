@@ -169,10 +169,6 @@ class Scene_Main
     @acselshowhidden ||= false
     @@acselindex = @acsel.index if @acsel != nil
     @actions = QuickActions.get
-    if $eeggs != nil
-      cnt = ($eeggs || []).size
-      @specials.insert(0, ["eastereggs", np_("Main", "%{cnt} Easter egg still await finder!", "%{cnt} easter egss still await finder!", cnt) % { "cnt" => cnt }, Proc.new { insert_scene(Scene_EasterEggs.new) }])
-    end
     options = @specials.map { |s| s[1] } + @actions.map { |a| a.detail }
     if @acsel == nil
       @acsel = ListBox.new(options, p_("Main", "Quick actions"), @@acselindex)

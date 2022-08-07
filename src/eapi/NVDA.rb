@@ -6,6 +6,13 @@
 
 module NVDA
   CreateNamedPipe = Win32API.new("kernel32", "CreateNamedPipe", "piiiiiip", "i")
+  InitializeSecurityDescriptor = Win32API.new("advapi32", "InitializeSecurityDescriptor", "pi", "i")
+  SetSecurityDescriptorDacl = Win32API.new("advapi32", "SetSecurityDescriptorDacl", "pipi", "i")
+  SetSecurityInfo = Win32API.new("advapi32", "SetSecurityInfo", "iiipppp", "i")
+  InitializeAcl = Win32API.new("advapi32", "InitializeAcl", "pii", "i")
+  AddAccessAllowedAce = Win32API.new("advapi32", "AddAccessAllowedAce", "piip", "i")
+  GetUserNameW = Win32API.new("advapi32", "GetUserNameW", "pp", "i")
+  LookupAccountNameW = Win32API.new("advapi32", "LookupAccountNameW", "ppppppp", "i")
   CloseHandle = Win32API.new("kernel32", "CloseHandle", "i", "i")
   WriteFile = Win32API.new("kernel32", "WriteFile", "ipipi", "I")
   PeekNamedPipe = Win32API.new("kernel32", "PeekNamedPipe", "ipippp", "i")
@@ -27,13 +34,41 @@ module NVDA
       destroy if @initialized == true
       @initialized = true
       @pipename = "elten" + rand(36 ** 48).to_s(36)
-      @pipein = CreateNamedPipe.call("\\\\.\\pipe\\" + @pipename + "in", 1, 8, 255, 16 * 1024 ** 2, 16 * 1024 ** 2, 1, nil) while @pipein == nil || @pipein == -1
-      @pipest = CreateNamedPipe.call("\\\\.\\pipe\\" + @pipename + "st", 1, 8, 255, 16 * 1024 ** 2, 16 * 1024 ** 2, 1, nil) while @pipest == nil || @pipest == -1
-      @pipeout = CreateNamedPipe.call("\\\\.\\pipe\\" + @pipename + "out", 2, 8, 255, 16 * 1024 ** 2, 16 * 1024 ** 2, 1, nil) while @pipeout == nil || @pipeout == -1
+
+      us = [0].pack("I")
+      GetUserNameW.call(nil, us)
+      usernamew = "\0" * us.unpack("I").first * 2
+      GetUserNameW.call(usernamew, us)
+
+      us = [0].pack("I")
+      ud = [0].pack("I")
+      use = [0].pack("I")
+      LookupAccountNameW.call(nil, usernamew, nil, us, nil, ud, use)
+      did = "\0" * ud.unpack("I").first * 2
+      sid = "\0" * us.unpack("I").first * 2
+      LookupAccountNameW.call(nil, usernamew, sid, us, did, ud, use)
+
+      sd = "\0" * 20
+      InitializeSecurityDescriptor.call(sd, 1)
+      acl = "\0" * 1024
+      InitializeAcl.call(acl, 1024, 2)
+      AddAccessAllowedAce.call(acl, 2, 0x10000000, sid)
+      SetSecurityDescriptorDacl.call(sd, 1, acl, 0)
+
+      sa = [12, sd, 0].pack("ipi")
+
+      @pipein = CreateNamedPipe.call("\\\\.\\pipe\\" + @pipename + "in", 1, 8, 255, 16 * 1024 ** 2, 16 * 1024 ** 2, 1, sa) while @pipein == nil || @pipein == -1
+      @pipest = CreateNamedPipe.call("\\\\.\\pipe\\" + @pipename + "st", 1, 8, 255, 16 * 1024 ** 2, 16 * 1024 ** 2, 1, sa) while @pipest == nil || @pipest == -1
+      @pipeout = CreateNamedPipe.call("\\\\.\\pipe\\" + @pipename + "out", 2, 8, 255, 16 * 1024 ** 2, 16 * 1024 ** 2, 1, sa) while @pipeout == nil || @pipeout == -1
       if FileTest.exists?(Dirs.temp + "\\nvda.pipe")
         File.delete(Dirs.temp + "\\nvda.pipe")
         sleep(0.25)
       end
+
+      [@pipein, @pipeout, @pipest].each { |pipe|
+ #SetSecurityInfo.call(pipe, 6, 4, nil, nil, nil, nil)
+        }
+
       writefile(Dirs.temp + "\\nvda.pipe", @pipename)
       Log.debug("NVDA pipes registered: #{@pipein.to_s}, #{@pipeout.to_s}")
       @writes ||= []

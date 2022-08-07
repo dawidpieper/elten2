@@ -337,6 +337,7 @@ class Scene_Settings
     make_setting(p_("Settings", "Use only TCP packets in conferences"), :bool, "Advanced", "ConferencesTCPOnly")
     make_setting(p_("Settings", "Maximum UDP packet payload size"), :number, "Advanced", "UDPMaxPacketSize")
     make_setting(p_("Settings", "Conferences audio buffer in frames"), :number, "Advanced", "ConferencesAudioBuffer")
+    make_setting(p_("Settings", "Conference buffer cut-off threshold in milliseconds"), :number, "Advanced", "ConferencesAudioBufferCutOff")
   end
 
   def main

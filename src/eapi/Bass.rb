@@ -189,6 +189,17 @@ module Bass
     if h == 0
       return false
     end
+    begin
+      bass_FX_TempoCreate ||= Win32API.new(BassfxLib, "BASS_FX_TempoCreate", "ii", "i")
+      ch = bass_FX_TempoCreate.call(h, 0)
+      if ch == 0
+        BASS_StreamFree.call(h)
+        return false
+      end
+    rescue Exception
+      BASS_StreamFree.call(h)
+      return false
+    end
     BASS_StreamFree.call(h)
     return true
   end
@@ -655,6 +666,8 @@ module Bass
         r.push(f)
       end
       return r
+    rescue Exception
+      return []
     end
 
     def like_ogg

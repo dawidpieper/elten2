@@ -632,8 +632,8 @@ module EltenAPI
       def readupdate
         if enter
           url = nil
-          @elements.each { |e| url = e.param[1] if (e.from <= @index and e.to >= @index) and e.type == Element::Link }
-          @elements.each { |e| url = e.param[1] if (e.from >= line_beginning and e.to <= line_ending) and e.type == Element::Link } if url == nil
+          @elements.each { |e| url = e.param[1] if (e.from <= @index and e.to >= @index) and (e.type == Element::Link || e.type == Element::Frame) }
+          @elements.each { |e| url = e.param[1] if (e.from >= line_beginning and e.to <= line_ending) and (e.type == Element::Link || e.type == Element::Frame) } if url == nil
           if url != nil
             speak(p_("EAPI_Form", "Opening a link..."))
             process_url(url)
@@ -657,7 +657,7 @@ module EltenAPI
           (1..6).each { |i| k = i if $key[0x30 + i] }
           e = find_element(Element::Header, k, $keyr[0x10], @index)
         elsif $key[75]
-          e = find_element(Element::Link, nil, $keyr[0x10], @index)
+          e = find_element([Element::Link, Element::Frame], nil, $keyr[0x10], @index)
         elsif $key[73]
           e = find_element(Element::ListItem, nil, $keyr[0x10], @index)
         end
@@ -1501,35 +1501,18 @@ module EltenAPI
             b = 2 if !opening
             tag = phrase[b...sp]
             attributes = {}
-            if opening == true
+            if opening
               if sp != -1
                 t = phrase[sp..-2]
-                s = false
-                q = ""
-                k = v = nil
-                for c in t.split("")
-                  if q != "" && q == c
-                    q = ""
-                    next
-                  elsif q == ""
-                    if c == "\"" || c == "\'"
-                      q = c
-                      next
-                    elsif s == false && c == "="
-                      s = true
-                      next
-                    elsif c == " "
-                      attributes[k] = v
-                      next
-                    end
-                  end
-                  if s == false
-                    k += c
-                  else
-                    v += c
-                  end
-                end
-                if k.is_a?(String) && v.is_a?(String) && k.size > 0 && v.size > 0
+
+                rx = /([a-zA-Z0-9]+)\=(([^ ^\>^\"^\']+)|("(\\.|[^"\\])*")|(\'[^\']+\'))/
+                re = t.scan(rx)
+
+                for e in re
+                  k = e[0]
+                  v = e[1]
+                  v = v[1...-1] if v[0..0] == "'" || v[0..0] == "\""
+                  v.gsub("\\\\", "\\")
                   attributes[k] = v
                 end
               end
@@ -1578,12 +1561,47 @@ module EltenAPI
             e.to -= r if e.to > index
           end
         end
+        for i in 0...@elements.size
+          e = @elements[i]
+          if e.ignore?
+            siz = e.to - e.from + 1
+            @text[e.from..e.to] = ""
+            for j in i + 1...@elements.size
+              if @elements[j].from >= e.from
+                @elements[j].from -= siz
+              end
+              if @elements[j].to >= e.from
+                @elements[j].to -= siz
+              end
+            end
+          end
+        end
+        for e in @elements.dup
+          @elements.delete(e) if e.ignore?
+        end
+        for i in 0...@elements.size
+          e = @elements[i]
+          if e.type == Element::Frame
+            siz = e.to - e.from + 1
+            @text[e.from..e.to] = e.param[0]
+            siz -= e.param[0].size
+            e.to = e.from + e.param[0].size - 1
+            for j in i + 1...@elements.size
+              if @elements[j].from >= e.from
+                @elements[j].from -= siz
+              end
+              if @elements[j].to >= e.from
+                @elements[j].to -= siz
+              end
+            end
+          end
+        end
       end
 
       def find_element(type = 0, flags = nil, revdir = false, index = @index)
         e = Element.new(@text.size, -1, 0)
         for el in @elements
-          e = el if (el.type == type and (flags == nil or el.param == flags)) and (((revdir == false and el.from > index and el.from < e.from) or (revdir == true and el.to < index and el.to > e.to)))
+          e = el if (((!type.is_a?(Array) && el.type == type) || (type.is_a?(Array) && type.include?(el.type))) and (flags == nil or el.param == flags)) and (((revdir == false and el.from > index and el.from < e.from) or (revdir == true and el.to < index and el.to > e.to)))
         end
         return nil if e.type == 0
         return e
@@ -1599,7 +1617,7 @@ module EltenAPI
       end
 
       def text
-        @text.gsub("\n", "\r\n")
+        return @text.gsub("\n", "\r\n")
       end
 
       def text_html
@@ -1687,7 +1705,7 @@ module EltenAPI
           pos = breaks[i - 1]
           frg = @text[breaks[i - 1]...breaks[i]] || ""
           frg = head + "\n" + (frg || "") if head != nil && head != "" && i == 1
-          cmd = SpeechCommands::CustomCommand.new(pos) { |pos| @index = pos }
+          cmd = SpeechCommands::CustomCommand.new(pos) { |pos| @index = pos if pos != 0 }
           commands.push(cmd)
           commands.push(frg)
         end
@@ -1719,6 +1737,7 @@ module EltenAPI
         Bold = 11
         Italic = 12
         Underline = 13
+        Frame = 14
         HTML = 99
 
         def initialize(from = 0, to = 0, type = 0, param = nil)
@@ -1755,6 +1774,11 @@ module EltenAPI
             @param = 1
           when "li"
             @type = ListItem
+          when "iframe"
+            @type = Frame
+            src = @param[1]["src"]
+            title = @param[1]["title"] || src
+            @param = [title, src]
           end
         end
 
@@ -1815,6 +1839,11 @@ module EltenAPI
           end
         end
 
+        def ignore?
+          excl = ["script", "audio", "source"]
+          return @type == HTML && excl.include?(@param[0])
+        end
+
         def self.description(t, param = nil)
           case t
           when Bold
@@ -1831,6 +1860,8 @@ module EltenAPI
             return p_("EAPI_Form", "List")
           when ListItem
             return p_("EAPI_Form", "List item")
+          when Frame
+            return p_("EAPI_Form", "Frame")
           else
             return ""
           end
@@ -1937,11 +1968,12 @@ module EltenAPI
           if opts[i] != nil
             ind = nil
             if @hk
-              ind = opts[i].index("\&")
-              @hotkeys[opts[i][ind + 1..ind + 1].upcase[0]] = i if ind != nil && ind < opts[i].size - 1
+              ind = opts[i].to_s.index("\&")
+              @hotkeys[opts[i].to_s[ind + 1..ind + 1].upcase[0]] = i if ind != nil && ind < opts[i].to_s.size - 1
             end
-            opt = opts[i] + ""
-            opt.delete!("&") if ind != nil
+            opt = opts[i]
+            opt = opt + "" if opt.is_a?(String)
+            opt.delete!("&") if opt.is_a?(String) && ind != nil
           else
             opt = ""
             gray = true
@@ -2008,7 +2040,7 @@ module EltenAPI
             end
           end
         end
-        lspeak(@options[@index]) if $keyr[0x2D] and arrow_up
+        lspeak(@options[@index].to_s) if $keyr[0x2D] and arrow_up
         if $keyr[0x10] and (arrow_up or arrow_down) and @tagged
           tgs = tags
           ind = (tgs.index(@tag) || -1) + 1
@@ -2025,7 +2057,7 @@ module EltenAPI
             self.tag = tgs[ind - 1]
             self.index += 1 while hidden?(self.index) and self.index < options.size - 1
             self.index -= 1 while hidden?(self.index) and self.index > 0
-            o = options[self.index].gsub(/\[#{Regexp.escape(@tag)}\]/i, "")
+            o = options[self.index].to_s.gsub(/\[#{Regexp.escape(@tag)}\]/i, "")
             speak(@tag + ": " + o)
           end
         end
@@ -2100,7 +2132,7 @@ module EltenAPI
                   break
                 end
               end
-              if options[j] != nil && !hidden?(j) && options[j][0...kup.size].upcase == kup
+              if options[j] != nil && !hidden?(j) && options[j].to_s[0...kup.size].upcase == kup
                 self.index = j
                 break
               end
@@ -2136,7 +2168,7 @@ module EltenAPI
         end
         if @run == true
           speech_stop
-          o = options[self.index]
+          o = options[self.index].to_s
           for k in @hotkeys.keys
             ss = k if @hotkeys[k] == self.index
           end
@@ -2182,7 +2214,7 @@ module EltenAPI
       end
 
       def say_option
-        lspeak @options[self.index] if @options[self.index].is_a?(String) && !hidden?(self.index)
+        lspeak(@options[self.index].to_s) if @options[self.index].is_a?(String) && !hidden?(self.index)
       end
 
       alias sayoption say_option
@@ -2228,7 +2260,7 @@ module EltenAPI
           sp += " " if sp[-1..-1] != " "
         end
         if options.size > 0
-          o = options[self.index].delete("&")
+          o = options[self.index].to_s.delete("&")
           o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
             o = ("\004NEW\004" + " " + ((Configuration.soundthemeactivation == 1) ? "" : $1 + " ") + o).gsub(/\004INFNEW\{([^\}]+)\}\004/, "")
           }
@@ -2279,7 +2311,7 @@ module EltenAPI
       def tags
         tgs = []
         @options.each { |t|
-          tgs += t.scan(/\[([^[\[\]]]+)\]/).map { |x| x[0].downcase }
+          tgs += t.to_s.scan(/\[([^[\[\]]]+)\]/).map { |x| x[0].downcase }
         }
         tgs.delete(nil)
         return tgs.uniq

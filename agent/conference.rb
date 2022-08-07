@@ -36,6 +36,8 @@ class Conference
       @listener_x = -1
       @listener_y = -1
       @position = position
+      @absolute_x = 0
+      @absolute_y = 0
       @transmitter_x = -1
       @transmitter_y = -1
       @decoder = Opus::Decoder.new(48000, channels)
@@ -44,9 +46,9 @@ class Conference
       @vsts = []
       @pvsts = []
       flags = 0x200000
-      flags |= 256 if spatialization == 1
+      flags |= 256 if spatialization == 1 || spatialization == 2
       ch = @channels
-      ch = 2 if spatialization == 1
+      ch = 2 if spatialization == 1 || spatialization == 2
       @stream = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
       @whisper = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
       @preprocessor = nil
@@ -88,6 +90,10 @@ class Conference
       update_position
     end
 
+    def move_absolute(x, y)
+      @absolute_x, @absolute_y = x, y
+    end
+
     def move(nx, ny)
       return if nx <= 0 || ny <= 0
       @transmitter_x = nx
@@ -99,34 +105,38 @@ class Conference
       @listener_x = @position.x
       @listener_y = @position.y
       @listener_dir = @position.dir
-      if @listener_y > 0 && @listener_x > 0 && @transmitter_x > 0 && @transmitter_y > 0
-        @rx = (@transmitter_x - @listener_x) / 8.0
-        @ry = (@transmitter_y - @listener_y) / 8.0
-        if @position.dir != 0
-          sn = Math::sin(Math::PI / 180 * -@listener_dir)
-          cs = Math::cos(Math::PI / 180 * -@listener_dir)
-          px = @rx * cs - @ry * sn
-          py = @rx * sn + @ry * cs
-          @rx = px
-          @ry = py
-        end
-        pos = @rx
-        pos = -1 if pos < -1
-        pos = 1 if pos > 1
-        vl = @volume / 100.0
-        if @volume > 100
-          vl = 1 + (@volume - 100) / 10.0
-        end
-        vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * vl
-        vol = 0 if vol < 0
-        @mutex.synchronize {
-          if @spatialization == 0
-            Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
-            Bass::BASS_ChannelSetAttribute.call(@whisper, 3, [pos].pack("F").unpack("i")[0])
+      if @spatialization == 0 || @spatialization == 1
+        if @listener_y > 0 && @listener_x > 0 && @transmitter_x > 0 && @transmitter_y > 0
+          @rx = (@transmitter_x - @listener_x) / 8.0
+          @ry = (@transmitter_y - @listener_y) / 8.0
+          if @position.dir != 0
+            sn = Math::sin(Math::PI / 180 * -@listener_dir)
+            cs = Math::cos(Math::PI / 180 * -@listener_dir)
+            px = @rx * cs - @ry * sn
+            py = @rx * sn + @ry * cs
+            @rx = px
+            @ry = py
           end
-          Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
-          Bass::BASS_ChannelSetAttribute.call(@whisper, 2, [vol].pack("f").unpack("i")[0])
-        }
+          pos = @rx
+          pos = -1 if pos < -1
+          pos = 1 if pos > 1
+          vl = @volume / 100.0
+          if @volume > 100
+            vl = 1 + (@volume - 100) / 10.0
+          end
+          vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * vl
+          vol = 0 if vol < 0
+          @mutex.synchronize {
+            if @spatialization == 0
+              Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
+              Bass::BASS_ChannelSetAttribute.call(@whisper, 3, [pos].pack("F").unpack("i")[0])
+            end
+            if @spatialization == 0 || @spatialization == 1
+              Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
+              Bass::BASS_ChannelSetAttribute.call(@whisper, 2, [vol].pack("f").unpack("i")[0])
+            end
+          }
+        end
       end
     end
 
@@ -355,12 +365,18 @@ class Conference
                   suc = false
                   if @hrtf != nil && @rx != nil && @ry != nil
                     suc = true
-                    if @spatialization == 1 || (@rx != 0 || @ry != 0)
+                    if @spatialization == 1 && (@rx != 0 || @ry != 0)
                       rx = @rx
                       rz = @ry
                       ry = 0
                       ry = -0.2 if @spatialization == 2
                       rz = -0.075 if rz == 0
+                      @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
+                      out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
+                    elsif @spatialization == 2
+                      rx = @absolute_x
+                      rz = @absolute_y
+                      ry = 0
                       @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
                       out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
                     else
@@ -388,10 +404,12 @@ class Conference
           end
           last_frame_id = frame_id
           if x != nil && y != nil && x > 0 && y > 0
-            if x != @transmitter_x || y != @transmitter_y || @listener_x != @position.x || @listener_y != @position.y || @listener_dir != @position.dir
-              @position.mutex.synchronize {
-                move(x, y)
-              }
+            if @spatialization == 0 || @spatialization == 1
+              if x != @transmitter_x || y != @transmitter_y || @listener_x != @position.x || @listener_y != @position.y || @listener_dir != @position.dir
+                @position.mutex.synchronize {
+                  move(x, y)
+                }
+              end
             end
           end
           @ogg_mutex.synchronize {
@@ -448,7 +466,9 @@ class Conference
             fl = 4 if @spatialization == 1 || @spatialization == 2
             ch = @channels
             ch = 2 if @spatialization == 1 || @spatialization == 2
-            if ps - out.bytesize > 48000 * ch * fl * 0.25
+            acs = ($conferencesaudiobuffercutoff || 250) / 1000.0
+            acs = 0.01 if acs < 0.01
+            if ps - out.bytesize > 48000 * ch * fl * acs
               dt = "\0" * ps
               Bass::BASS_ChannelGetData.call(stream, dt, dt.bytesize)
             end
@@ -489,9 +509,9 @@ class Conference
       @vsts = []
       @pvsts = []
       flags = 0x200000
-      flags |= 256 if spatialization == 1
+      flags |= 256 if spatialization == 1 || spatialization == 2
       ch = @channels
-      ch = 2 if spatialization == 1
+      ch = 2 if spatialization == 1 || spatialization == 2
       @stream = Bass::BASS_StreamCreate.call(48000, ch, flags, -1, nil)
       @preprocessor = nil
       @vst_target = @stream
@@ -543,40 +563,44 @@ class Conference
       @listener_x = @position.x
       @listener_y = @position.y
       @listener_dir = @position.dir
-      if @listener_y > 0 && @listener_x > 0
-        if @stream_x > 0
-          @rx = (@stream_x - @listener_x) / 8.0
-          @ry = (@stream_y - @listener_y) / 8.0
-        elsif @stream_x == -1
-          @rx = 0
-          @ry = 0
-        else
-          @rx = (@user_x - @listener_x) / 8.0
-          @ry = (@user_y - @listener_y) / 8.0
-        end
-        if @position.dir != 0 && @rx != 0 && @ry != 0
-          sn = Math::sin(Math::PI / 180 * -@listener_dir)
-          cs = Math::cos(Math::PI / 180 * -@listener_dir)
-          px = @rx * cs - @ry * sn
-          py = @rx * sn + @ry * cs
-          @rx = px
-          @ry = py
-        end
-        pos = @rx
-        pos = -1 if pos < -1
-        pos = 1 if pos > 1
-        vl = @volume / 100.0
-        if @volume > 100
-          vl = 1 + (@volume - 100) / 10.0
-        end
-        vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * vl
-        vol = 0 if vol < 0
-        @mutex.synchronize {
-          if @spatialization == 0
-            Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
+      if @spatialization == 0 || @spatialization == 1
+        if @listener_y > 0 && @listener_x > 0
+          if @stream_x > 0
+            @rx = (@stream_x - @listener_x) / 8.0
+            @ry = (@stream_y - @listener_y) / 8.0
+          elsif @stream_x == -1
+            @rx = 0
+            @ry = 0
+          else
+            @rx = (@user_x - @listener_x) / 8.0
+            @ry = (@user_y - @listener_y) / 8.0
           end
-          Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
-        }
+          if @position.dir != 0 && @rx != 0 && @ry != 0
+            sn = Math::sin(Math::PI / 180 * -@listener_dir)
+            cs = Math::cos(Math::PI / 180 * -@listener_dir)
+            px = @rx * cs - @ry * sn
+            py = @rx * sn + @ry * cs
+            @rx = px
+            @ry = py
+          end
+          pos = @rx
+          pos = -1 if pos < -1
+          pos = 1 if pos > 1
+          vl = @volume / 100.0
+          if @volume > 100
+            vl = 1 + (@volume - 100) / 10.0
+          end
+          vol = (1 - Math::sqrt((@ry.abs * 0.5) ** 2 + (@rx.abs * 0.5) ** 2)) * vl
+          vol = 0 if vol < 0
+          @mutex.synchronize {
+            if @spatialization == 0
+              Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
+            end
+            if @spatialization == 0 || @spatialization == 1
+              Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
+            end
+          }
+        end
       end
     end
 
@@ -775,7 +799,10 @@ class Conference
       last_frame_id = 0
       loop {
         sleep(0.001)
-        while @queue.size > 0
+        ab = $conferencesaudiobuffer || 0
+        ab = 0 if ab < 0
+        ab = 400 if ab > 400
+        while @queue.size > ab
           key = @queue.keys.sort.first
           ar = @queue[key]
           frame, index, frame_id = ar
@@ -803,7 +830,7 @@ class Conference
                 if @spatialization == 1 || @spatialization == 2
                   out = pcm.unpack("s" * (pcm.bytesize / 2)).map { |s| s / 32768.0 }.pack("f" * (pcm.bytesize / 2))
                   suc = false
-                  if @hrtf != nil && @rx != nil && @ry != nil && @stream_x != -1
+                  if @hrtf != nil && @rx != nil && @ry != nil && @stream_x != -1 && (@spatialization == 1)
                     suc = true
                     if @spatialization == 1 || (@rx != 0 || @ry != 0)
                       rx = @rx
@@ -952,7 +979,9 @@ class Conference
           if @spatialization == 0
             Bass::BASS_ChannelSetAttribute.call(@stream, 3, [pos].pack("F").unpack("i")[0])
           end
-          Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
+          if @spatialization == 0 || @spatialization == 1
+            Bass::BASS_ChannelSetAttribute.call(@stream, 2, [vol].pack("f").unpack("i")[0])
+          end
         }
       end
     end
@@ -1077,6 +1106,14 @@ class Conference
       vol = 0 if vol < 0
       Bass::BASS_ChannelSetAttribute.call(@stream, 2, [(vol / 100.0)].pack("f").unpack("i")[0])
       vol
+    end
+
+    def frequency
+      @freq ||= 0
+      return @freq if @freq != 0
+      frq = [0].pack("f")
+      Bass::BASS_ChannelGetAttribute.call(@stream, 1, frq)
+      return (@freq = frq.unpack("f")[0].to_i)
     end
 
     def position; return 0; end
@@ -2452,7 +2489,7 @@ class Conference
     hs = { streams: @outstreams.map { |s| { name: s.name.encode("UTF-8", invalid: :replace, undef: :replace), sources: sources_builder(s.sources), volume: s.volume, x: s.x, y: s.y, locally_muted: s.locally_muted } }, sources: sources_builder(@sources) }
     @mystreams_hooks.each { |h| h.call(hs) }
   rescue Exception
-    log(2, "Streams callback: #{$!.message}")
+    log(2, "Conference: streams callback: #{$!.message}")
   end
 
   def userid
@@ -2785,11 +2822,22 @@ class Conference
           frs = @transmitters.size == 0
           upusers = []
           pch = false
-          for u in params["channel"]["users"]
+          n = params["channel"]["users"].size
+          c = params["channel"]["users"].find_index { |u| u["id"] == @userid }
+          c = 0 if c == nil
+          da = 2.0 * Math::PI / n
+          for i in 0...params["channel"]["users"].size
+            u = params["channel"]["users"][i]
             uid = u["id"]
+            a = ((n - c + i) % n) * da
+            x = 0 + 1 * Math::cos(a)
+            y = 0 + 1 * Math::sin(a)
             upusers.push(uid)
             if @transmitters.include?(uid)
               @transmitters[uid].set_hrtf(@hrtf)
+              if params["channel"]["spatialization"] == 2
+                @transmitters[uid].move_absolute(x, y)
+              end
               @transmitters[uid].reset
               if @transmitters[uid].speech_requested == false && u["speech_requested"] == true
                 @speaker_hooks.each { |h| h.call(2, u["name"], u["id"]) } if params["channel"]["administrators"].is_a?(Array) && params["channel"]["administrators"].include?(@username)
@@ -2806,6 +2854,9 @@ class Conference
               @transmitters[uid] = Transmitter.new(params["channel"]["channels"], params["channel"]["framesize"], @encoder.preskip, @starttime, params["channel"]["spatialization"], @position, u["name"], @volumes[u["name"]])
               @transmitters[uid].set_hrtf(@hrtf) if params["channel"]["spatialization"] == 1 || params["channel"]["spatialization"] == 2
               @transmitters[uid].set_mixer(@channel_mixer, @whisper_mixer)
+              if params["channel"]["spatialization"] == 2
+                @transmitters[uid].move_absolute(x, y)
+              end
               if @fullsave_dir != nil
                 @transmitters[uid].begin_save(dir, uid, @fullsave_time)
               end
@@ -2926,6 +2977,8 @@ class Conference
         end
       }
     }
+  rescue Exception
+    log(2, "Conference: Params update: " + $!.to_s + " " + $@.to_s)
   end
 
   def is_muted
@@ -3085,8 +3138,10 @@ class Conference
             bitrate = 32000 if bitrate < 32000
             s.encoder.bitrate = bitrate if bitrate != nil and bitrate > 0
           end
-          maxBytes *= 2 if @channels == 1
-          if s.output != nil && s.channels > 0 && (sz = Bass::BASS_ChannelGetData.call(s.output, buf, maxBytes)) > 0
+          mb = maxBytes
+          mb *= (s.channels.to_f / @channels)
+          mb -= (s.buf || "").bytesize
+          if s.output != nil && s.channels > 0 && (mb <= 0 || (sz = Bass::BASS_ChannelGetData.call(s.output, buf, mb)) >= 0)
             s.mutex.synchronize {
               if @framesize > 0 and s.channels != nil
                 fs = @framesize * 48 * 2 * s.channels

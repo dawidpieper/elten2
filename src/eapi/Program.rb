@@ -226,6 +226,12 @@ class Program
 
   def self.init
   end
+  def self.get_configuration
+    return nil
+  end
+  def self.set_configuration(s)
+    return nil
+  end
 
   def on(event, &proc)
     self.class.on(:event, &proc)
@@ -274,6 +280,16 @@ class Program
     return nfile
   end
   def self.appfile(*arg); app_file(*arg); end
+
+  def app_cache
+    return self.class.app_cache
+  end
+
+  def self.app_cache
+    @@appcache ||= nil
+    @@appcache = FileCache.new(app_file("cache.dat")) if @@appcache == nil
+    return @@appcache
+  end
 
   def signaled(user, packet)
   end

@@ -387,17 +387,6 @@ class Scene_Forum
     end
     @grpsetindex = nil
     @grpsel = TableBox.new(grpselh, grpselt, @grpindex[type], p_("Forum", "Forum"))
-    @grpsel.on(:move) {
-      if @grpsel.index >= @grpheadindex
-        g = @sgroups[@grpsel.index - @grpheadindex]
-        if g != nil
-          threads = @threads.find_all { |t| t.forum.group.id == g.id }
-          for t in threads
-            @grpsel.foplay("ring") if eegg("forum", t.id)
-          end
-        end
-      end
-    }
     @grpsel.trigger(:move)
     @grpsel.column = LocalConfig["ForumColumnGroup"] if LocalConfig["ForumColumnGroup"] != nil
     @grpsel.bind_context(p_("Forum", "Forum")) { |menu| context_groups(menu, type) }
@@ -683,6 +672,11 @@ class Scene_Forum
           g = @sgroups[@grpsel.index - @grpheadindex]
           $scene = Scene_Forum_GroupSettings.new(g, $scene)
         }
+        menu.option(p_("Forum", "Administrative log")) {
+          g = @sgroups[@grpsel.index - @grpheadindex]
+          grouplog(g)
+          @grpsel.focus
+        }
       end
       if @sgroups[@grpsel.index - @grpheadindex].forums == 0 and @sgroups[@grpsel.index - @grpheadindex].founder == Session.name
         menu.option(p_("Forum", "Delete group")) {
@@ -926,6 +920,110 @@ class Scene_Forum
     form.wait
   end
 
+  def grouplog(group)
+    sel = TableBox.new([nil, p_("Forum", "Action"), p_("Forum", "Group"), p_("Forum", "Forum"), p_("Forum", "Thread"), p_("Forum", "New group"), p_("Forum", "New forum"), p_("Forum", "New thread"), p_("Forum", "Old status"), p_("Forum", "New status"), p_("Forum", "Time")], [], 0, p_("Forum", "Log"))
+    log = []
+    rfr = Proc.new {
+      f = srvproc("forum_log", { "ac" => "get", "groupid" => group.id })
+      if f[0].to_i == 0
+        log.clear
+        for i in 0...f[1].to_i
+          b = 2 + i * 14
+          e = Struct_Forum_LogEntry.new
+          e.id = f[b].to_i
+          e.user = f[b + 1].delete("\r\n")
+          e.action = f[b + 2].delete("\r\n")
+          e.time = f[b + 3].to_i
+          e.group1 = f[b + 4].to_i
+          e.forum1 = f[b + 5].delete("\r\n")
+          e.thread1 = f[b + 6].to_i
+          e.post1 = f[b + 7].to_i
+          e.group2 = f[b + 8].to_i
+          e.forum2 = f[b + 9].delete("\r\n")
+          e.thread2 = f[b + 10].to_i
+          e.post2 = f[b + 11].to_i
+          e.oldcontent = f[b + 12].delete("\r\n")
+          e.newcontent = f[b + 13].delete("\r\n")
+          log.push(e)
+        end
+        selt = log.map { |e|
+          user = e.user
+          action = e.action
+          case action
+          when "forum_threaddelete"
+            action = p_("Forum", "Thread deletion")
+          when "forum_postdelete"
+            action = p_("Forum", "Post deletion")
+          when "forum_postedit"
+            action = p_("Forum", "Post edit")
+          when "forum_threadmove"
+            action = p_("Forum", "Thread move")
+          when "forum_postmove"
+            action = p_("Forum", "Post move")
+          when "forum_threadrename"
+            action = p_("Forum", "Thread rename")
+          when "forum_threadoffer"
+            action = p_("Forum", "Thread offer")
+          end
+          group1 = nil
+          forum1 = nil
+          thread1 = nil
+          group2 = nil
+          forum2 = nil
+          thread2 = nil
+          oldcontent = nil
+          newcontent = nil
+          if (e.group1 != group.id || e.group2 != group.id)
+            g1 = @groups.find { |g| g.id == e.group1 }
+            g2 = @groups.find { |g| g.id == e.group2 }
+            group1 = g1.name if g1 != nil
+            group2 = g2.name if g2 != nil
+          end
+          if e.forum1 != nil
+            f = @forums.find { |f| f.name == e.forum1 }
+            forum1 = f.fullname if f != nil
+          end
+          if e.forum2 != nil
+            f = @forums.find { |f| f.name == e.forum2 }
+            forum2 = f.fullname if f != nil
+          end
+          if e.thread1 != nil
+            t = @threads.find { |t| t.id == e.thread1 }
+            thread1 = t.name if t != nil
+          end
+          if e.thread2 != nil
+            t = @threads.find { |t| t.id == e.thread2 }
+            thread2 = t.name if t != nil
+          end
+          oldcontent = e.oldcontent if e.oldcontent != ""
+          newcontent = e.newcontent if e.newcontent != ""
+          t = Time.now
+          begin
+            t = Time.at(e.time)
+          rescue Exception
+          end
+          time = format_date(t)
+          [user, action, group1, forum1, thread1, group2, forum2, thread2, oldcontent, newcontent, time]
+        }
+        sel.rows = selt
+        sel.bind_context { |menu|
+          menu.option(_("Refresh"), nil, "r") {
+            rfr.call
+            sel.focus
+          }
+        }
+        sel.reload
+      end
+    }
+    rfr.call
+    sel.focus
+    loop do
+      loop_update
+      sel.update
+      break if escape
+    end
+  end
+
   def groupmembers(group)
     chrfr = false
     sel = ListBox.new([], p_("Forum", "Members"))
@@ -1059,7 +1157,9 @@ class Scene_Forum
         end
         if group.role == 2
           if @sgroups[@grpsel.index - @grpheadindex].role == 2
-            menu.option(p_("Forum", "Invite"), nil, "i") {
+            s = p_("Forum", "Invite")
+            s = p_("Forum", "Add user") if @sgroups[@grpsel.index - @grpheadindex].recommended
+            menu.option(s, nil, "i") {
               u = input_user(p_("Forum", "User to invite"))
               if u != nil
                 r = srvproc("forum_groups", { "ac" => "invite", "groupid" => group.id.to_s, "user" => u })
@@ -1266,15 +1366,6 @@ class Scene_Forum
     @frmindex = 0 if @frmindex == nil
     frmselh = [nil, p_("Forum", "Threads"), p_("Forum", "posts"), p_("Forum", "Unread"), nil]
     @frmsel = TableBox.new(frmselh, frmselt, @frmindex, p_("Forum", "Select forum"))
-    @frmsel.on(:move) {
-      f = @sforums[@frmsel.index]
-      if f != nil
-        threads = @threads.find_all { |t| t.forum.id == f.id }
-        for t in threads
-          @frmsel.foplay("ring") if eegg("forum", t.id)
-        end
-      end
-    }
     @frmsel.trigger(:move)
     @frmsel.column = LocalConfig["ForumColumnForum"] if LocalConfig["ForumColumnForum"] != nil
     @frmsel.bind_context(p_("Forum", "Forum")) { |menu| context_forums(menu) }
@@ -1871,12 +1962,6 @@ class Scene_Forum
     header = "" if id == -2 or id == -4 or id == -6 or id == -7
     thrselh = [nil, p_("Forum", "Author"), p_("Forum", "posts"), p_("Forum", "Unread")]
     @thrsel = TableBox.new(thrselh, thrselt, index, header, true, ListBox::Flags::Tagged)
-    @thrsel.on(:move) {
-      t = @sthreads[@thrsel.index]
-      if t != nil
-        @thrsel.foplay("ring") if eegg("forum", t.id)
-      end
-    }
     @thrsel.trigger(:move)
     @thrsel.column = LocalConfig["ForumColumnThread"] if LocalConfig["ForumColumnThread"] != nil
     @thrsel.bind_context(p_("Forum", "Forum")) { |menu| context_threads(menu) }
@@ -4048,5 +4133,26 @@ class Struct_Forum_Report
 
   def initialize
     @id, @user, @thread, @post, @postvalue, @content, @creationtime, @solved, @status, @reason, @solutiontime = 0, "", 0, 0, "", "", Time.now, false, 0, "", nil
+  end
+end
+
+class Struct_Forum_LogEntry
+  attr_accessor :id, :user, :action, :time, :group1, :forum1, :thread1, :post1, :group2, :forum2, :thread2, :post2, :oldcontent, :newcontent
+
+  def initialize
+    @id = 0
+    @user = ""
+    @action = ""
+    @time = 0
+    @group1 = 0
+    @forum1 = ""
+    @thread1 = 0
+    @post1 = 0
+    @group2 = 0
+    @forum2 = ""
+    @thread2 = 0
+    @post2 = 0
+    @oldcontent = ""
+    @newcontent = ""
   end
 end

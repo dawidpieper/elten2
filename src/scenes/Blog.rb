@@ -598,7 +598,7 @@ class Scene_Blog_Read
   end
 
   def main
-    blogtemp = srvproc("blog_read", { "categoryid" => @category, "postid" => @post.id, "searchname" => @post.owner, "details" => 8 })
+    blogtemp = srvproc("blog_read", { "categoryid" => @category, "postid" => @post.id, "searchname" => @post.owner, "details" => 8, "html" => 1 })
     blogtemp.each { |l| l.delete!("\r\n") }
     err = blogtemp[0].to_i
     if err < 0
@@ -652,15 +652,26 @@ class Scene_Blog_Read
     end
     @postcur = 0
     @fields = []
+    fdate = ""
     for i in 0..@posts.size - 1
-      @fields[(i == 0 ? i : (i + 2))] = EditBox.new(@posts[i].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, format(@posts[i]), true)
+      @fields[(i == 0 ? i : (i + 2))] = EditBox.new(@posts[i].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::HTML, format(@posts[i]), true)
+      if i == 0
+        date = Time.now
+        begin
+          date = Time.at(@posts[0].date)
+        rescue Exception
+        end
+        fdate = format_date(date)
+      end
     end
     @fields[1] = nil
     @fields[2] = nil
     if @posts[0] != nil
-      if @posts[0].text.delete(" \r\n") != "" && @posts[0].audio_url != ""
-        @fields[2] = EditBox.new(@posts[0].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::MarkDown, "", true)
+      if @fields[0].text.sub(fdate, "").delete(" \r\n") != "" && @posts[0].audio_url != ""
+        @fields[2] = EditBox.new(@posts[0].author, EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly | EditBox::Flags::HTML, "", true)
         @fields[2].audio_url = @posts[0].audio_url
+      elsif @posts[0].audio_url != ""
+        @fields[0].audio_url = @posts[0].audio_url
       end
       @medias = nil
       if @posts.size > 0 and MediaFinders.possible_media?(@posts[0].text)
@@ -1732,6 +1743,16 @@ class Scene_Blog_Options
       make_setting(p_("Blog", "If you want to redirect all browsers visiting this blog to another site, select it here"), b, "blog_redirect", bm)
     end
     make_setting(p_("Blog", "My Wordpress account"), :custom, Proc.new { insert_scene(Scene_Blog_Profile.new) })
+    make_setting(p_("Blog", "Open Wordpress admin panel in my browser"), :custom, Proc.new {
+      bt = srvproc("blog_domains", { "ac" => "getblogdomain", "searchname" => @blog })
+      if bt[0].to_i < 0
+        alert(_("Error"))
+        return $scene = Scene_Main.new
+      else
+        d = "https://" + bt[1] + "/wp-admin"
+        process_url(d)
+      end
+    })
     make_setting(p_("Blog", "Manage tags"), :custom, Proc.new { insert_scene(Scene_Blog_Tags.new(@blog)) })
     make_setting(p_("Blog", "Manage blog domain"), :custom, Proc.new { $scene = Scene_Blog_Domain.new(@blog, @scene) })
   end

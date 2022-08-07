@@ -170,7 +170,7 @@ class Scene_Messages
           @cat = 2
         }
       else
-        menu.option(p_("Messages", "Show all messages"), nil, :shift_enter) {
+        menu.option(p_("Messages", "Show subjects"), nil, :shift_enter) {
           load_conversations(@users[@sel_users.index].user)
           @cat = 1
         }

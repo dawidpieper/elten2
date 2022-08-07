@@ -577,8 +577,6 @@ module EltenAPI
             $focus = true
           elsif d["func"] == "premiumpackages"
             update_premiumpackages(d["premiumpackages"].split(","))
-          elsif d["func"] == "eeggs"
-            $eeggs = d["eeggs"].split(",")
           elsif d["func"] == "feeds"
             for f in JSON.parse(d["changed"])
               feed = FeedMessage.new(f["id"], f["user"], f["time"], f["message"], f["response"], f["responses"], f["liked"], f["likes"])
@@ -877,6 +875,10 @@ module EltenAPI
       eplay("dialog_close")
       NVDA.braille("") if NVDA.check
       @@dialogopened = false
+    end
+
+    class ConfigEntry
+      attr_accessor :id, :name, :value_type, :current_value
     end
   end
 

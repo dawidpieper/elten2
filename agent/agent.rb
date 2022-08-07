@@ -536,6 +536,7 @@ begin
       $conferencestcponly = readconfig("Advanced", "ConferencesTCPOnly", "0").to_i
       $udpmaxpacketsize = readconfig("Advanced", "UDPMaxPacketSize", "1480").to_i
       $conferencesaudiobuffer = readconfig("Advanced", "ConferencesAudioBuffer", "0").to_i
+      $conferencesaudiobuffercutoff = readconfig("Advanced", "ConferencesAudioBufferCutOff", "250").to_i
       $iimodifiers = readconfig("InvisibleInterface", "IIModifiers", (0).to_s).to_i
       $iicards = readconfig("InvisibleInterface", "Cards", "messages,feed,conference").split(",")
       if $lastiimodifiers != $iimodifiers
@@ -575,7 +576,6 @@ begin
       if $name != nil and $name != ""
         pr = "name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime || Time.now.to_i}"
         pr += "\&shown=1" if $shown == true
-        pr += "\&eeggs=1"
         begin
           erequest("wn_agent", pr, nil, nil, nil, true, 42) { |ans|
             if ans.is_a?(String)
@@ -612,12 +612,6 @@ begin
                     play "signal" if $premiumpackages.is_a?(Array)
                     $premiumpackages = rsp["premiumpackages"]
                     ewrite({ "func" => "premiumpackages", "premiumpackages" => $premiumpackages.join(",") })
-                  end
-                end
-                if rsp["eeggs"].is_a?(Array)
-                  if $eeggs != rsp["eeggs"]
-                    $eeggs = rsp["eeggs"]
-                    ewrite({ "func" => "eeggs", "eeggs" => $eeggs.join(",") })
                   end
                 end
                 if rsp["call"].is_a?(Hash)
