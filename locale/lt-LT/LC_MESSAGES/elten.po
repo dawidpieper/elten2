@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Elten 2.4\n"
 "Report-Msgid-Bugs-To: dawidpieper@o2.pl\n"
 "POT-Creation-Date: 2022-06-22 00:07+0200\n"
-"PO-Revision-Date: 2022-08-07 22:15+0300\n"
+"PO-Revision-Date: 2022-08-16 12:26+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: lt_LT\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && (n%100<11 || n%100>19) ? 0 : n"
 "%10>=2 && n%10<=9 && (n%100<11 || n%100>19) ? 1 : 2);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 1.6.11\n"
 
 #: ../agent/eprocessor.rb:99
 msgctxt "Conference"
@@ -454,80 +454,81 @@ msgstr "Dabartinis Elten modifikatorius"
 #: ../src/scenes/Authentication.rb:16 ../src/scenes/Authentication.rb:43
 #: ../src/scenes/Authentication.rb:78 ../src/scenes/Authentication.rb:91
 #: ../src/scenes/Ban.rb:67 ../src/scenes/Ban.rb:99 ../src/scenes/Ban.rb:122
-#: ../src/scenes/Blog.rb:92 ../src/scenes/Blog.rb:111 ../src/scenes/Blog.rb:166
-#: ../src/scenes/Blog.rb:187 ../src/scenes/Blog.rb:202
-#: ../src/scenes/Blog.rb:264 ../src/scenes/Blog.rb:376
-#: ../src/scenes/Blog.rb:452 ../src/scenes/Blog.rb:501
-#: ../src/scenes/Blog.rb:523 ../src/scenes/Blog.rb:555
-#: ../src/scenes/Blog.rb:588 ../src/scenes/Blog.rb:722
-#: ../src/scenes/Blog.rb:812 ../src/scenes/Blog.rb:993
-#: ../src/scenes/Blog.rb:1059 ../src/scenes/Blog.rb:1105
-#: ../src/scenes/Blog.rb:1132 ../src/scenes/Blog.rb:1140
-#: ../src/scenes/Blog.rb:1148 ../src/scenes/Blog.rb:1185
-#: ../src/scenes/Blog.rb:1195 ../src/scenes/Blog.rb:1235
-#: ../src/scenes/Blog.rb:1265 ../src/scenes/Blog.rb:1298
-#: ../src/scenes/Blog.rb:1326 ../src/scenes/Blog.rb:1346
-#: ../src/scenes/Blog.rb:1405 ../src/scenes/Blog.rb:1430
-#: ../src/scenes/Blog.rb:1448 ../src/scenes/Blog.rb:1830
-#: ../src/scenes/Blog.rb:1845 ../src/scenes/Blog.rb:1901
-#: ../src/scenes/Blog.rb:1914 ../src/scenes/Blog.rb:1997
-#: ../src/scenes/Blog.rb:2146 ../src/scenes/Blog.rb:2153
-#: ../src/scenes/Blog.rb:2361 ../src/scenes/Blog.rb:2382
-#: ../src/scenes/Blog.rb:2488 ../src/scenes/ForgotPassword.rb:24
-#: ../src/scenes/Forum.rb:621 ../src/scenes/Forum.rb:645
-#: ../src/scenes/Forum.rb:665 ../src/scenes/Forum.rb:680
-#: ../src/scenes/Forum.rb:743 ../src/scenes/Forum.rb:768
-#: ../src/scenes/Forum.rb:781 ../src/scenes/Forum.rb:910
-#: ../src/scenes/Forum.rb:925 ../src/scenes/Forum.rb:958
-#: ../src/scenes/Forum.rb:968 ../src/scenes/Forum.rb:1011
-#: ../src/scenes/Forum.rb:1153 ../src/scenes/Forum.rb:1289
-#: ../src/scenes/Forum.rb:1301 ../src/scenes/Forum.rb:1383
-#: ../src/scenes/Forum.rb:1408 ../src/scenes/Forum.rb:1415
-#: ../src/scenes/Forum.rb:1451 ../src/scenes/Forum.rb:1488
-#: ../src/scenes/Forum.rb:1511 ../src/scenes/Forum.rb:1536
-#: ../src/scenes/Forum.rb:1551 ../src/scenes/Forum.rb:1591
-#: ../src/scenes/Forum.rb:1907 ../src/scenes/Forum.rb:1926
-#: ../src/scenes/Forum.rb:1933 ../src/scenes/Forum.rb:1984
-#: ../src/scenes/Forum.rb:1997 ../src/scenes/Forum.rb:2009
-#: ../src/scenes/Forum.rb:2024 ../src/scenes/Forum.rb:2044
-#: ../src/scenes/Forum.rb:2077 ../src/scenes/Forum.rb:2089
-#: ../src/scenes/Forum.rb:2121 ../src/scenes/Forum.rb:2137
-#: ../src/scenes/Forum.rb:2262 ../src/scenes/Forum.rb:2372
-#: ../src/scenes/Forum.rb:2377 ../src/scenes/Forum.rb:2407
-#: ../src/scenes/Forum.rb:2439 ../src/scenes/Forum.rb:2585
-#: ../src/scenes/Forum.rb:2602 ../src/scenes/Forum.rb:2620
-#: ../src/scenes/Forum.rb:2921 ../src/scenes/Forum.rb:2941
-#: ../src/scenes/Forum.rb:2999 ../src/scenes/Forum.rb:3113
-#: ../src/scenes/Forum.rb:3135 ../src/scenes/Forum.rb:3198
-#: ../src/scenes/Forum.rb:3214 ../src/scenes/Forum.rb:3221
-#: ../src/scenes/Forum.rb:3282 ../src/scenes/Forum.rb:3307
-#: ../src/scenes/Forum.rb:3320 ../src/scenes/Forum.rb:3347
-#: ../src/scenes/Forum.rb:3373 ../src/scenes/Forum.rb:3435
-#: ../src/scenes/Forum.rb:3511 ../src/scenes/Forum.rb:3523
-#: ../src/scenes/Forum.rb:3916 ../src/scenes/Honors.rb:20
-#: ../src/scenes/Honors.rb:138 ../src/scenes/Honors.rb:149
-#: ../src/scenes/Honors.rb:165 ../src/scenes/Honors.rb:210
-#: ../src/scenes/Honors.rb:315 ../src/scenes/Loading.rb:329
-#: ../src/scenes/Main.rb:393 ../src/scenes/Messages.rb:93
-#: ../src/scenes/Messages.rb:174 ../src/scenes/Messages.rb:238
-#: ../src/scenes/Messages.rb:320 ../src/scenes/Messages.rb:356
-#: ../src/scenes/Messages.rb:363 ../src/scenes/Messages.rb:388
-#: ../src/scenes/Messages.rb:478 ../src/scenes/Messages.rb:511
-#: ../src/scenes/Messages.rb:718 ../src/scenes/Messages.rb:725
-#: ../src/scenes/Messages.rb:741 ../src/scenes/Messages.rb:748
-#: ../src/scenes/Messages.rb:799 ../src/scenes/Messages.rb:915
-#: ../src/scenes/Messages.rb:1022 ../src/scenes/Notes.rb:16
-#: ../src/scenes/Notes.rb:107 ../src/scenes/Notes.rb:141
-#: ../src/scenes/Notes.rb:181 ../src/scenes/Notes.rb:194
-#: ../src/scenes/Notes.rb:228 ../src/scenes/Notes.rb:241
-#: ../src/scenes/Notes.rb:271 ../src/scenes/Polls.rb:28
-#: ../src/scenes/Polls.rb:54 ../src/scenes/Polls.rb:135
-#: ../src/scenes/Polls.rb:307 ../src/scenes/Polls.rb:324
-#: ../src/scenes/Polls.rb:339 ../src/scenes/Polls.rb:407
-#: ../src/scenes/Polls.rb:441 ../src/scenes/Polls.rb:451
-#: ../src/scenes/Polls.rb:462 ../src/scenes/Polls.rb:517
-#: ../src/scenes/Polls.rb:531 ../src/scenes/Polls.rb:548
-#: ../src/scenes/SoundThemes.rb:82 ../src/scenes/UserSearch.rb:19
+#: ../src/scenes/Blog.rb:92 ../src/scenes/Blog.rb:111
+#: ../src/scenes/Blog.rb:166 ../src/scenes/Blog.rb:187
+#: ../src/scenes/Blog.rb:202 ../src/scenes/Blog.rb:264
+#: ../src/scenes/Blog.rb:376 ../src/scenes/Blog.rb:452
+#: ../src/scenes/Blog.rb:501 ../src/scenes/Blog.rb:523
+#: ../src/scenes/Blog.rb:555 ../src/scenes/Blog.rb:588
+#: ../src/scenes/Blog.rb:722 ../src/scenes/Blog.rb:812
+#: ../src/scenes/Blog.rb:993 ../src/scenes/Blog.rb:1059
+#: ../src/scenes/Blog.rb:1105 ../src/scenes/Blog.rb:1132
+#: ../src/scenes/Blog.rb:1140 ../src/scenes/Blog.rb:1148
+#: ../src/scenes/Blog.rb:1185 ../src/scenes/Blog.rb:1195
+#: ../src/scenes/Blog.rb:1235 ../src/scenes/Blog.rb:1265
+#: ../src/scenes/Blog.rb:1298 ../src/scenes/Blog.rb:1326
+#: ../src/scenes/Blog.rb:1346 ../src/scenes/Blog.rb:1405
+#: ../src/scenes/Blog.rb:1430 ../src/scenes/Blog.rb:1448
+#: ../src/scenes/Blog.rb:1830 ../src/scenes/Blog.rb:1845
+#: ../src/scenes/Blog.rb:1901 ../src/scenes/Blog.rb:1914
+#: ../src/scenes/Blog.rb:1997 ../src/scenes/Blog.rb:2146
+#: ../src/scenes/Blog.rb:2153 ../src/scenes/Blog.rb:2361
+#: ../src/scenes/Blog.rb:2382 ../src/scenes/Blog.rb:2488
+#: ../src/scenes/ForgotPassword.rb:24 ../src/scenes/Forum.rb:621
+#: ../src/scenes/Forum.rb:645 ../src/scenes/Forum.rb:665
+#: ../src/scenes/Forum.rb:680 ../src/scenes/Forum.rb:743
+#: ../src/scenes/Forum.rb:768 ../src/scenes/Forum.rb:781
+#: ../src/scenes/Forum.rb:910 ../src/scenes/Forum.rb:925
+#: ../src/scenes/Forum.rb:958 ../src/scenes/Forum.rb:968
+#: ../src/scenes/Forum.rb:1011 ../src/scenes/Forum.rb:1153
+#: ../src/scenes/Forum.rb:1289 ../src/scenes/Forum.rb:1301
+#: ../src/scenes/Forum.rb:1383 ../src/scenes/Forum.rb:1408
+#: ../src/scenes/Forum.rb:1415 ../src/scenes/Forum.rb:1451
+#: ../src/scenes/Forum.rb:1488 ../src/scenes/Forum.rb:1511
+#: ../src/scenes/Forum.rb:1536 ../src/scenes/Forum.rb:1551
+#: ../src/scenes/Forum.rb:1591 ../src/scenes/Forum.rb:1907
+#: ../src/scenes/Forum.rb:1926 ../src/scenes/Forum.rb:1933
+#: ../src/scenes/Forum.rb:1984 ../src/scenes/Forum.rb:1997
+#: ../src/scenes/Forum.rb:2009 ../src/scenes/Forum.rb:2024
+#: ../src/scenes/Forum.rb:2044 ../src/scenes/Forum.rb:2077
+#: ../src/scenes/Forum.rb:2089 ../src/scenes/Forum.rb:2121
+#: ../src/scenes/Forum.rb:2137 ../src/scenes/Forum.rb:2262
+#: ../src/scenes/Forum.rb:2372 ../src/scenes/Forum.rb:2377
+#: ../src/scenes/Forum.rb:2407 ../src/scenes/Forum.rb:2439
+#: ../src/scenes/Forum.rb:2585 ../src/scenes/Forum.rb:2602
+#: ../src/scenes/Forum.rb:2620 ../src/scenes/Forum.rb:2921
+#: ../src/scenes/Forum.rb:2941 ../src/scenes/Forum.rb:2999
+#: ../src/scenes/Forum.rb:3113 ../src/scenes/Forum.rb:3135
+#: ../src/scenes/Forum.rb:3198 ../src/scenes/Forum.rb:3214
+#: ../src/scenes/Forum.rb:3221 ../src/scenes/Forum.rb:3282
+#: ../src/scenes/Forum.rb:3307 ../src/scenes/Forum.rb:3320
+#: ../src/scenes/Forum.rb:3347 ../src/scenes/Forum.rb:3373
+#: ../src/scenes/Forum.rb:3435 ../src/scenes/Forum.rb:3511
+#: ../src/scenes/Forum.rb:3523 ../src/scenes/Forum.rb:3916
+#: ../src/scenes/Honors.rb:20 ../src/scenes/Honors.rb:138
+#: ../src/scenes/Honors.rb:149 ../src/scenes/Honors.rb:165
+#: ../src/scenes/Honors.rb:210 ../src/scenes/Honors.rb:315
+#: ../src/scenes/Loading.rb:329 ../src/scenes/Main.rb:393
+#: ../src/scenes/Messages.rb:93 ../src/scenes/Messages.rb:174
+#: ../src/scenes/Messages.rb:238 ../src/scenes/Messages.rb:320
+#: ../src/scenes/Messages.rb:356 ../src/scenes/Messages.rb:363
+#: ../src/scenes/Messages.rb:388 ../src/scenes/Messages.rb:478
+#: ../src/scenes/Messages.rb:511 ../src/scenes/Messages.rb:718
+#: ../src/scenes/Messages.rb:725 ../src/scenes/Messages.rb:741
+#: ../src/scenes/Messages.rb:748 ../src/scenes/Messages.rb:799
+#: ../src/scenes/Messages.rb:915 ../src/scenes/Messages.rb:1022
+#: ../src/scenes/Notes.rb:16 ../src/scenes/Notes.rb:107
+#: ../src/scenes/Notes.rb:141 ../src/scenes/Notes.rb:181
+#: ../src/scenes/Notes.rb:194 ../src/scenes/Notes.rb:228
+#: ../src/scenes/Notes.rb:241 ../src/scenes/Notes.rb:271
+#: ../src/scenes/Polls.rb:28 ../src/scenes/Polls.rb:54
+#: ../src/scenes/Polls.rb:135 ../src/scenes/Polls.rb:307
+#: ../src/scenes/Polls.rb:324 ../src/scenes/Polls.rb:339
+#: ../src/scenes/Polls.rb:407 ../src/scenes/Polls.rb:441
+#: ../src/scenes/Polls.rb:451 ../src/scenes/Polls.rb:462
+#: ../src/scenes/Polls.rb:517 ../src/scenes/Polls.rb:531
+#: ../src/scenes/Polls.rb:548 ../src/scenes/SoundThemes.rb:82
+#: ../src/scenes/UserSearch.rb:19
 msgid "Error"
 msgstr "Klaida"
 
@@ -770,7 +771,7 @@ msgstr "Gauta baitų"
 #: ../src/Scenes/Conference.rb:183
 msgctxt "Conference"
 msgid "Please wait, you will be accepted soon."
-msgstr "Prašome palaukti, netrukus būsite priimtas"
+msgstr "Prašome palaukti, netrukus būsite priimtas(-a)"
 
 #: ../src/Scenes/Conference.rb:201
 msgctxt "Conference"
@@ -791,9 +792,9 @@ msgstr "Gerai"
 msgctxt "Conference"
 msgid "%{user} has rolled %{value} dot on a %{count}-sided dice"
 msgid_plural "%{user} has rolled %{value} dots on a %{count}-sided dice"
-msgstr[0] "%{user} išrideno %{value} tašką  ant %{count}-sienio kauliuko"
-msgstr[1] "%{user} išrideno %{value} taškų ant %{count}-sienio kauliuko"
-msgstr[2] ""
+msgstr[0] "%{user} išrideno %{value} tašką(-ų) ant %{count}-sienio kauliuko"
+msgstr[1] "%{user} išrideno %{value} taškus ant %{count}-sienio kauliuko"
+msgstr[2] "%{user} išrideno %{value} taškų ant %{count}-sienio kauliuko"
 
 #: ../src/Scenes/Conference.rb:273
 msgctxt "Conference"
@@ -864,17 +865,17 @@ msgstr "Kalba"
 #: ../src/Scenes/Conference.rb:386
 msgctxt "Conference"
 msgid "Followers count: "
-msgstr "Sekėjų skaičius:"
+msgstr "Sekėjų skaičius: "
 
 #: ../src/Scenes/Conference.rb:387
 msgctxt "Conference"
 msgid "This channel is password-protected."
-msgstr "Šis kanalas yra apsaugotas slaptažodžiu"
+msgstr "Šis kanalas yra apsaugotas slaptažodžiu."
 
 #: ../src/Scenes/Conference.rb:388
 msgctxt "Conference"
 msgid "A waiting room is enabled on this channel."
-msgstr "Šiame kanale įjungtas laukiamasis"
+msgstr "Šiame kanale įjungtas laukiamasis."
 
 #: ../src/Scenes/Conference.rb:390
 msgctxt "Conference"
@@ -1698,7 +1699,7 @@ msgstr "Vartotojas, kurį norima blokuoti"
 #: ../src/Scenes/Conference.rb:1476
 msgctxt "Conference"
 msgid "administrators"
-msgstr "Administratoriai"
+msgstr "administratoriai"
 
 #: ../src/Scenes/Conference.rb:1488
 msgctxt "Conference"
@@ -2133,9 +2134,9 @@ msgstr "Uždaryti"
 msgctxt "FeedViewer"
 msgid "%{count} user likes it"
 msgid_plural "%{count} users like it"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%{count} vartotojui tai patinka"
+msgstr[1] "%{count} vartotojams tai patinka"
+msgstr[2] "%{count} vartotojų tai patinka"
 
 #: ../src/Scenes/FeedViewer.rb:99
 msgctxt "FeedViewer"
@@ -2270,7 +2271,7 @@ msgstr "Pusmečio kaina"
 #: ../src/Scenes/PremiumPackages.rb:8
 msgctxt "PremiumPackages"
 msgid "status"
-msgstr "Būsena"
+msgstr "būsena"
 
 #: ../src/Scenes/PremiumPackages.rb:8
 msgctxt "PremiumPackages"
@@ -2295,7 +2296,7 @@ msgstr "Parašų matomumo išjungimas"
 #: ../src/Scenes/PremiumPackages.rb:28
 msgctxt "PremiumPackages"
 msgid "Thread marking and bookmarks"
-msgstr ""
+msgstr "Gijų žymėjimas ir žymenys"
 
 #: ../src/Scenes/PremiumPackages.rb:29
 msgctxt "PremiumPackages"
@@ -2410,7 +2411,7 @@ msgstr "Blogo adreso keitimas"
 #: ../src/Scenes/PremiumPackages.rb:58
 msgctxt "PremiumPackages"
 msgid "Option to disable request for support on blogs"
-msgstr ""
+msgstr "Parinktis išjungti paramos prašymą bloguose"
 
 #: ../src/Scenes/PremiumPackages.rb:59
 msgctxt "PremiumPackages"
@@ -2425,7 +2426,7 @@ msgstr "Vertėjas"
 #: ../src/Scenes/PremiumPackages.rb:61
 msgctxt "PremiumPackages"
 msgid "Blog posts scheduling"
-msgstr ""
+msgstr "Blogo įrašų planavimas"
 
 #: ../src/Scenes/PremiumPackages.rb:65
 msgctxt "PremiumPackages"
@@ -2445,7 +2446,7 @@ msgstr "VST papildinių nustatymas skirtingiems vartotojams"
 #: ../src/Scenes/PremiumPackages.rb:68
 msgctxt "PremiumPackages"
 msgid "Placing own sceneries in channels"
-msgstr ""
+msgstr "Nustatyti savo vaizdus kanaluose"
 
 #: ../src/Scenes/PremiumPackages.rb:69
 msgctxt "PremiumPackages"
@@ -2461,7 +2462,7 @@ msgctxt "PremiumPackages"
 msgid ""
 "Setting different output soundcard for conferences than the one selected in "
 "Elten"
-msgstr "Skirtingų nei Elten konferencijos išvesties garso kortų nustatymas "
+msgstr "Skirtingų nei Elten konferencijos išvesties garso kortų nustatymas"
 
 #: ../src/Scenes/PremiumPackages.rb:71
 msgctxt "PremiumPackages"
@@ -2562,16 +2563,20 @@ msgid ""
 "period of one year. The remaining period for other packages will be deducted "
 "from the package price. Do you want to continue?"
 msgstr ""
+"Nepaisant kitų paketų trukmės, jie bus pakeisti pasirinktu paketu. Šis "
+"paketas bus aktyvuotas metams laiko. Likęs paketų periodas bus išskaičiuotas "
+"iš paketo kainos. Ar norite tęsti?"
 
 #: ../src/Scenes/PremiumPackages.rb:235
 msgctxt "PremiumPackages"
 msgid "This package is currently unavailable. Try to buy it in the next month."
 msgstr ""
+"Šis paketas kol kas nepasiekiamas. Pabandykite jį nusipirkti kitą mėnesį."
 
 #: ../src/Scenes/PremiumPackages.rb:240 ../src/Scenes/PremiumPackages.rb:309
 msgctxt "PremiumPackages"
 msgid "Information"
-msgstr ""
+msgstr "Informacija"
 
 #: ../src/Scenes/PremiumPackages.rb:240
 msgctxt "PremiumPackages"
@@ -2584,6 +2589,13 @@ msgid ""
 "necessary amount is not raised for EltenLink to continue, the premium "
 "packages will become unavailable."
 msgstr ""
+"EltenLink premium paketai vartotojams suteikiami kaip apdovanojimai, remiant "
+"portalą.\n"
+"Tokio dydžio projektas negali egzistuoti be vartotojų pagalbos.\n"
+"Premium paketo suteikimas nesukuria jokio įsipareigojimo ar komercinės "
+"sutarties. Vartotojas, suteikdamas paramą projektui, turėtų žinoti, jog jei "
+"nesurenkamas pakankamas kiekis paramos tam, kad būtų tęsiama EltenLink "
+"veikla, premium paketai bus nepasiekiami."
 
 #: ../src/Scenes/PremiumPackages.rb:244 ../src/Scenes/PremiumPackages.rb:310
 msgctxt "PremiumPackages"
@@ -2641,6 +2653,8 @@ msgid ""
 "In the title of the transfer, please indicate your user name on the "
 "EltenLink portal and which package the payment concerns."
 msgstr ""
+"Pervedimo paskirtyje prašome nurodyti savo vartotojo vardą EltenLink portale "
+"ir už kurį paketą mokama."
 
 #: ../src/Scenes/PremiumPackages.rb:292
 msgctxt "PremiumPackages"
@@ -2649,6 +2663,9 @@ msgid ""
 "packages: %{packages} by any user, mark this information in the transfer "
 "title."
 msgstr ""
+"Jeigu norėtumėte gauti kodą, kuris galėtų būti naudojamas aktyvuojant bet "
+"kokį paketą: bet kurio vartotojo %{packages}, nurodykite šią informaciją "
+"mokėjimo paskirtyje."
 
 #: ../src/Scenes/PremiumPackages.rb:294
 msgctxt "PremiumPackages"
@@ -2659,6 +2676,11 @@ msgid ""
 "In order to reduce the processing time of your payment, you can forward the "
 "transfer confirmation to the Council of Elders."
 msgstr ""
+"Atkreipkite dėmesį, jog pervedus didesnį pinigų kiekį, likusios lėšos bus "
+"laikomos parama.\n"
+"\n"
+"Tam, kad sumažintumėte mokėjimo vykdymo laiką, galite persiųsti pervedimo "
+"patvirtinimą vyresniųjų tarybai."
 
 #: ../src/Scenes/PremiumPackages.rb:298
 msgctxt "PremiumPackages"
@@ -2674,6 +2696,16 @@ msgid ""
 "Bank address: %{bankaddress}\n"
 "Sort code: %{sortcode}"
 msgstr ""
+"Vietinio pervedimo duomenys (iš Lenkijos):\n"
+"%{holder}\n"
+"Adresas: %{address}\n"
+"Sąskaitos numeris: %{placcount}\n"
+"\n"
+"Papildomi duomenys pervedimams iš užsienio:\n"
+"IBAN numeris: %{iban}\n"
+"BIC / SWIFT: %{swift}\n"
+"Banko adresas: %{bankaddress}\n"
+"Sort kodas: %{sortcode}"
 
 #: ../src/Scenes/PremiumPackages.rb:316
 msgctxt "PremiumPackages"
@@ -2681,11 +2713,13 @@ msgid ""
 "This payment method requires a redirect to an external website. A web "
 "browser will open. Do you wish to continue?"
 msgstr ""
+"Šis mokėjimo būdas reikalauja nukreipimo į išorinį tinklalapį. Atsidarys "
+"naršyklė. Ar norėtumėte tęsti?"
 
 #: ../src/Scenes/PremiumPackages.rb:334 ../src/Scenes/PremiumPackages.rb:369
 msgctxt "PremiumPackages"
 msgid "How many premium codes would you like to buy?"
-msgstr ""
+msgstr "Kiek premium kodų norėtumėte įsigyti?"
 
 #: ../src/Scenes/PremiumPackages.rb:342 ../src/Scenes/PremiumPackages.rb:377
 msgctxt "PremiumPackages"
@@ -2693,11 +2727,13 @@ msgid ""
 "You will be charged a %{amount} pln commission for the selected payment "
 "method. Do you want to continue?"
 msgstr ""
+"Dėl pasirinkto mokėjimo būdo būsite apmokestintas(-a) %{amount} zlotų "
+"mokesčiu. Ar norite tęsti?"
 
 #: ../src/Scenes/PremiumPackages.rb:378
 msgctxt "PremiumPackages"
 msgid "Enter blik code"
-msgstr ""
+msgstr "Įveskite blik kodą"
 
 #: ../src/Scenes/PremiumPackages.rb:385
 msgctxt "PremiumPackages"
@@ -2705,21 +2741,23 @@ msgid ""
 "Payment has been ordered. Additional confirmation may be required. The order "
 "will be processed once the payment is complete."
 msgstr ""
+"Mokėjimas užsakytas. Gali prireikti papildomo patvirtinimo. Užsakymas bus "
+"atliktas, kai mokėjimas bus pilnai baigtas."
 
 #: ../src/Scenes/PremiumPackages.rb:390
 msgctxt "PremiumPackages"
 msgid "Type code to activate this package"
-msgstr ""
+msgstr "Įveskite kodą, kad aktyvuotumėte šį paketą"
 
 #: ../src/Scenes/PremiumPackages.rb:396
 msgctxt "PremiumPackages"
 msgid "Code not found."
-msgstr ""
+msgstr "Kodas nerastas."
 
 #: ../src/Scenes/PremiumPackages.rb:398
 msgctxt "PremiumPackages"
 msgid "This code has been already used."
-msgstr ""
+msgstr "Šis kodas jau naudojamas."
 
 #: ../src/Scenes/PremiumPackages.rb:407
 msgctxt "PremiumPackages"
@@ -2727,6 +2765,8 @@ msgid ""
 "The package %{name} will be active until %{time}. This code will be used up "
 "and you will not be able to use it again. Do you want to continue?"
 msgstr ""
+"Paketas %{name} bus aktyvus iki %{time}. Šis kodas bus pradėtas naudoti ir "
+"jo daugiau naudoti jau nebegalėsite. Ar norite tęsti?"
 
 #: ../src/Scenes/PremiumPackages.rb:412
 msgctxt "PremiumPackages"
@@ -2829,7 +2869,7 @@ msgstr "Ar tikrai norite uždaryti konsolę?"
 #: ../src/eapi/Common.rb:212
 msgctxt "EAPI_Common"
 msgid "badges of this user"
-msgstr "Vartotojo ženkliukai"
+msgstr "vartotojo ženkliukai"
 
 #: ../src/eapi/Common.rb:212
 msgctxt "EAPI_Common"
@@ -2964,7 +3004,7 @@ msgstr "Vartotojas nebestebimas"
 #: ../src/eapi/Common.rb:438
 msgctxt "EAPI_Common"
 msgid "There is nothing new."
-msgstr "Nieko naujo"
+msgstr "Nieko naujo."
 
 #: ../src/eapi/Common.rb:503
 msgctxt "EAPI_Common"
@@ -2979,7 +3019,7 @@ msgstr "Siųsti"
 #: ../src/eapi/Common.rb:517
 msgctxt "EAPI_Common"
 msgid "Sent."
-msgstr "Išsiųsta"
+msgstr "Išsiųsta."
 
 #: ../src/eapi/Common.rb:534 ../src/eapi/Common.rb:582
 #: ../src/scenes/Account.rb:342 ../src/scenes/Account.rb:379
@@ -3026,7 +3066,7 @@ msgstr "Moteris"
 
 #: ../src/eapi/Common.rb:611
 msgid "male"
-msgstr "Vyras"
+msgstr "vyras"
 
 #: ../src/eapi/Common.rb:623
 msgctxt "EAPI_Common"
@@ -3062,33 +3102,33 @@ msgstr "Vartotojas turi blogą"
 msgctxt "EAPI_Common"
 msgid "Knows %{count} user"
 msgid_plural "Knows %{count} users"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pažįsta %{count} vartotoją"
+msgstr[1] "Pažįsta %{count} vartotojus"
+msgstr[2] "Pažįsta %{count} vartotojų"
 
 #: ../src/eapi/Common.rb:650
 msgctxt "EAPI_Common"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Yra žinomas %{count} vartotojo"
+msgstr[1] "Yra žinomas %{count} vartotojų"
+msgstr[2] "Yra žinomas %{count} vartotojų"
 
 #: ../src/eapi/Common.rb:652
 msgctxt "EAPI_Common_female"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Yra žinoma %{count} vartotojo"
+msgstr[1] "Yra žinoma %{count} vartotojų"
+msgstr[2] "Yra žinoma %{count} vartotojų"
 
 #: ../src/eapi/Common.rb:654
 msgctxt "EAPI_Common_male"
 msgid "Known by %{count} user"
 msgid_plural "Known by %{count} users"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Yra žinomas %{count} vartotojo"
+msgstr[1] "Yra žinomas %{count} vartotojų"
+msgstr[2] "Yra žinomas %{count} vartotojų"
 
 #: ../src/eapi/Common.rb:657
 msgctxt "EAPI_Common"
@@ -3123,7 +3163,7 @@ msgstr "Licenzijos sąlygos"
 #: ../src/eapi/Common.rb:692
 msgctxt "EAPI_Common"
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Sąlygos"
 
 #: ../src/eapi/Common.rb:693
 msgctxt "EAPI_Common"
@@ -3134,7 +3174,7 @@ msgstr "Privatumo politika"
 msgctxt "EAPI_Common"
 msgid ""
 "I accept Elten license agreement, Terms and Conditions and Privacy Policy"
-msgstr ""
+msgstr "Sutinku su Elten licencijos sutartimi, sąlygomis ir privatumo politika"
 
 #: ../src/eapi/Common.rb:694
 msgctxt "EAPI_Common"
@@ -3147,6 +3187,7 @@ msgid ""
 "Do you accept Elten license agreement, terms and conditions and privacy "
 "policy?"
 msgstr ""
+"Ar sutinkate su Elten licencijos sutartimi, sąlygomis ir privatumo politika?"
 
 #: ../src/eapi/Common.rb:733
 msgctxt "EAPI_Common"
@@ -3175,6 +3216,8 @@ msgid ""
 "In order to use HRTF functionality, Elten needs to download Phonon library. "
 "Would you like to download it now?"
 msgstr ""
+"Tam, kad būtų galima naudotis HRTF funkcionalumu, Elten reiktų atsiųsti "
+"Phonon biblioteką. Ar norėtumėte atsiųsti ją dabar?"
 
 #: ../src/eapi/Common.rb:1045
 msgid "Function not supported on this platform"
@@ -3203,7 +3246,7 @@ msgstr "Kur norite išsaugoti failą?"
 #: ../src/eapi/Common.rb:1219
 msgctxt "EAPI_Common"
 msgid "The attachment has been downloaded."
-msgstr "Priedas buvo atsiųstas"
+msgstr "Priedas buvo atsiųstas."
 
 #: ../src/eapi/Common.rb:1235 ../src/eapi/QuickActions.rb:70
 msgctxt "EAPI_Common"
@@ -3400,14 +3443,14 @@ msgstr "Ignoruoti"
 msgctxt "EAPI_Form"
 msgid "%{count} word replaced"
 msgid_plural "%{count} words replaced"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pakeistas %{count} žodis"
+msgstr[1] "Pakeisti %{count} žodžiai"
+msgstr[2] "Pakeista %{count} žodžių"
 
 #: ../src/eapi/Controls.rb:1128
 msgctxt "EAPI_Form"
 msgid "copied"
-msgstr "Nukopijuota"
+msgstr "nukopijuota"
 
 #: ../src/eapi/Controls.rb:1134
 msgctxt "EAPI_Form"
@@ -3417,12 +3460,12 @@ msgstr "Iškirpta"
 #: ../src/eapi/Controls.rb:1139
 msgctxt "EAPI_Form"
 msgid "pasted"
-msgstr "Įklijuota"
+msgstr "įklijuota"
 
 #: ../src/eapi/Controls.rb:1147
 msgctxt "EAPI_Form"
 msgid "undone"
-msgstr "Atstatyta"
+msgstr "atstatyta"
 
 #: ../src/eapi/Controls.rb:1155
 msgctxt "EAPI_Form"
@@ -3437,7 +3480,7 @@ msgstr "Įveskite ieškomą frazę"
 #: ../src/eapi/Controls.rb:1165
 msgctxt "EAPI_Form"
 msgid "No match found."
-msgstr "Nerasta atitikmenų"
+msgstr "Atitikmens nerasta."
 
 #: ../src/eapi/Controls.rb:1589
 msgctxt "EAPI_Form"
@@ -3549,7 +3592,7 @@ msgstr "Mygtukas"
 #: ../src/eapi/Controls.rb:2339 ../src/eapi/Controls.rb:2359
 msgctxt "EAPI_Form"
 msgid "unchecked"
-msgstr "Nepažymėta"
+msgstr "nepažymėta"
 
 #: ../src/eapi/Controls.rb:2365
 msgctxt "EAPI_Form"
@@ -3589,7 +3632,7 @@ msgstr "Aplanko pavadinimas"
 #: ../src/eapi/Controls.rb:2582
 msgctxt "EAPI_Form"
 msgid "The folder has been created."
-msgstr "Aplankas sukurtas"
+msgstr "Aplankas sukurtas."
 
 #: ../src/eapi/Controls.rb:2589
 msgctxt "EAPI_Form"
@@ -3624,7 +3667,7 @@ msgstr "Naujas failo vardas"
 #: ../src/eapi/Controls.rb:2726
 msgctxt "EAPI_Form"
 msgid "The file name has been changed."
-msgstr "Failo vardas pakeistas"
+msgstr "Failo vardas pakeistas."
 
 #: ../src/eapi/Controls.rb:2733
 msgctxt "EAPI_Form"
@@ -3652,7 +3695,7 @@ msgstr ""
 #: ../src/eapi/Controls.rb:3160 ../src/eapi/Controls.rb:3170
 msgctxt "EAPI_Common"
 msgid "This file cannot be played."
-msgstr "Šis failas negali būti grojamas"
+msgstr "Šis failas negali būti grojamas."
 
 #: ../src/eapi/Controls.rb:3260 ../src/eapi/Controls.rb:4574
 msgctxt "EAPI_Form"
@@ -3782,7 +3825,7 @@ msgstr "Naudokite rodykles aukštyn/žemyn, kad keistumėte garsumą"
 #: ../src/eapi/Controls.rb:3541
 msgctxt "EAPI_Form"
 msgid "Use SHIFT with left/right arrows to change panning"
-msgstr "Naudokite shift su rodyklėmis kairėn/dešinėn, kad keistumėte "
+msgstr "Naudokite shift su rodyklėmis kairėn/dešinėn, kad keistumėte judėjimą"
 
 #: ../src/eapi/Controls.rb:3542
 msgctxt "EAPI_Form"
@@ -3815,7 +3858,7 @@ msgstr ""
 #: ../src/eapi/Controls.rb:4127
 msgctxt "EAPI_Form"
 msgid "record"
-msgstr "Įrašas"
+msgstr "įrašas"
 
 #: ../src/eapi/Controls.rb:4128 ../src/eapi/Controls.rb:4188
 #: ../src/eapi/Controls.rb:4217
@@ -4003,7 +4046,10 @@ msgid ""
 "Wrong time format, the proper format is two hours digits, colon, two minutes "
 "digits, colon, two seconds digits and, optionally, three milliseconds digits "
 "preceeded by dot"
-msgstr "Blogas laiko formatas, "
+msgstr ""
+"Blogas laiko formatas, tinkamas formatas yra du valandų skaitmenys, "
+"dvitaškis, du minučių skaitmenys, dvitaškis, du sekundžių skaitmenys ir "
+"pasirinktinai trys milisekundžių skaitmenys po taško"
 
 #: ../src/eapi/Controls.rb:4451
 msgctxt "EAPI_Form"
@@ -4013,7 +4059,7 @@ msgstr "Pridėti naują skyrių rankiniu būdu"
 #: ../src/eapi/Controls.rb:4452
 msgctxt "EAPI_Form"
 msgid "Add chapters with playback"
-msgstr ""
+msgstr "Pridėti skyrius su atsukimu atgal"
 
 #: ../src/eapi/Controls.rb:4454
 msgctxt "EAPI_Form"
@@ -4127,22 +4173,22 @@ msgstr "Pasirinkite vartotoją"
 #: ../src/eapi/External.rb:37 ../src/eapi/External.rb:49
 msgctxt "EAPI_External"
 msgid "An error occurred while translating."
-msgstr "Verčiant įvyko klaida"
+msgstr "Verčiant įvyko klaida."
 
 #: ../src/eapi/External.rb:113
 msgctxt "EAPI_External"
 msgid "source language"
-msgstr "Pradinė kalba"
+msgstr "pradinė kalba"
 
 #: ../src/eapi/External.rb:113
 msgctxt "EAPI_External"
 msgid "recognize automatically"
-msgstr "Atpažinti automatiškai"
+msgstr "atpažinti automatiškai"
 
 #: ../src/eapi/External.rb:118
 msgctxt "EAPI_External"
 msgid "destination language"
-msgstr "Galutinė kalba"
+msgstr "galutinė kalba"
 
 #: ../src/eapi/External.rb:119
 msgctxt "EAPI_External"
@@ -4432,7 +4478,7 @@ msgstr "%{number} langas"
 #: ../src/eapi/Network.rb:68
 msgctxt "EAPI_Network"
 msgid "sending..."
-msgstr "Siunčiama..."
+msgstr "siunčiama..."
 
 #: ../src/eapi/Network.rb:184 ../src/eapi/Network.rb:229
 msgctxt "EAPI_Network"
@@ -4442,17 +4488,17 @@ msgstr "Failas jau egzistuoja. Ar norite jį perrašyti?"
 #: ../src/eapi/Network.rb:291
 msgctxt "EAPI_Network"
 msgid "Do not report progress bar changes."
-msgstr "Nepranešti apie progreso juostos pasikeitimus"
+msgstr "Nepranešti apie progreso juostos pasikeitimus."
 
 #: ../src/eapi/Network.rb:294
 msgctxt "EAPI_Network"
 msgid "Read progress bar changes."
-msgstr "Skaityti progreso juostos pasikeitimus"
+msgstr "Skaityti progreso juostos pasikeitimus."
 
 #: ../src/eapi/Program.rb:202
 msgctxt "Program"
 msgid "The program has been closed."
-msgstr "Programa buvo uždaryta"
+msgstr "Programa buvo uždaryta."
 
 #: ../src/eapi/QuickActions.rb:53
 msgctxt "EAPI_Common"
@@ -4622,7 +4668,7 @@ msgstr "Konferencijos: perjungti kalbėjimą laikant"
 #: ../src/eapi/QuickActions.rb:217
 msgctxt "EAPI_QuickActions"
 msgid "Conferences: roll a 6-sided dice"
-msgstr ""
+msgstr "Konferencijos: ridenti 6-sienį kauliuką"
 
 #: ../src/eapi/QuickActions.rb:218
 msgctxt "EAPI_QuickActions"
@@ -5308,7 +5354,7 @@ msgstr "Įveskite naują el. paštą."
 #: ../src/scenes/Account.rb:376
 msgctxt "Account"
 msgid "E-mail has been changed."
-msgstr "El. paštas pakeistas"
+msgstr "El. paštas pakeistas."
 
 #: ../src/scenes/Account.rb:388
 msgctxt "Account"
@@ -5680,12 +5726,12 @@ msgstr "Blokavimo laikas"
 #: ../src/scenes/Ban.rb:65
 msgctxt "Ban"
 msgid "Banned."
-msgstr "Užblokuota"
+msgstr "Užblokuota."
 
 #: ../src/scenes/Ban.rb:88
 msgctxt "Ban"
 msgid "Enter a username to unban."
-msgstr "Įveskite vartotojo, kurį norite atblokuoti, vardą"
+msgstr "Įveskite vartotojo, kurį norite atblokuoti, vardą."
 
 #: ../src/scenes/Ban.rb:108
 msgctxt "Ban"
@@ -5710,7 +5756,7 @@ msgstr "Atblokuoti"
 #: ../src/scenes/Ban.rb:118
 msgctxt "Ban"
 msgid "Unbanned."
-msgstr "Atblokuota"
+msgstr "Atblokuota."
 
 #: ../src/scenes/Blog.rb:13
 msgctxt "Blog"
@@ -5775,7 +5821,7 @@ msgstr "Įveskite blogo adresą"
 #: ../src/scenes/Blog.rb:101
 msgctxt "Blog"
 msgid "The blog cannot be found."
-msgstr "Blogas nerastas"
+msgstr "Blogas nerastas."
 
 #: ../src/scenes/Blog.rb:135
 msgctxt "Blog"
@@ -5796,12 +5842,12 @@ msgstr "Kategorijos pavadinimas"
 #: ../src/scenes/Blog.rb:168
 msgctxt "Blog"
 msgid "The category has been created."
-msgstr "Kategorija sukurta"
+msgstr "Kategorija sukurta."
 
 #: ../src/scenes/Blog.rb:189
 msgctxt "Blog"
 msgid "The category has been renamed."
-msgstr "Kategorija pervardinta"
+msgstr "Kategorija pervardinta."
 
 #: ../src/scenes/Blog.rb:199
 msgctxt "Blog"
@@ -5937,12 +5983,12 @@ msgstr "Rūšiuoti įrašus pagal blogą"
 #: ../src/scenes/Blog.rb:488
 msgctxt "Blog"
 msgid "Posts sorted by date."
-msgstr "Įrašai, surūšiuoti pagal datą"
+msgstr "Įrašai, surūšiuoti pagal datą."
 
 #: ../src/scenes/Blog.rb:491
 msgctxt "Blog"
 msgid "Posts sorted by blog."
-msgstr "Įrašai, surūšiuoti pagal blogą"
+msgstr "Įrašai, surūšiuoti pagal blogą."
 
 #: ../src/scenes/Blog.rb:497 ../src/scenes/Blog.rb:511
 msgctxt "Blog"
@@ -5967,7 +6013,7 @@ msgstr "Vartotojas, kurį norite paminėti"
 #: ../src/scenes/Blog.rb:525
 msgctxt "Blog"
 msgid "The mention has been sent."
-msgstr "Paminėjimas išsiųstas"
+msgstr "Paminėjimas išsiųstas."
 
 #: ../src/scenes/Blog.rb:534 ../src/scenes/Blog.rb:791
 msgctxt "Blog"
@@ -6037,7 +6083,7 @@ msgstr "Siųsti"
 #: ../src/scenes/Blog.rb:729
 msgctxt "Blog"
 msgid "The comment has been added."
-msgstr "Komentaras pridėtas"
+msgstr "Komentaras pridėtas."
 
 #: ../src/scenes/Blog.rb:777
 msgctxt "Blog"
@@ -6251,12 +6297,12 @@ msgstr ""
 #: ../src/scenes/Blog.rb:1138 ../src/scenes/Blog.rb:1183
 msgctxt "Blog"
 msgid "The blog has been marked as read."
-msgstr "Blogas pažymėtas kaip perskaitytas"
+msgstr "Blogas pažymėtas kaip perskaitytas."
 
 #: ../src/scenes/Blog.rb:1150
 msgctxt "Blog"
 msgid "Removed from the followed blogs."
-msgstr "Blogas pašalintas iš sekamų blogų"
+msgstr "Pašalinta iš sekamų blogų."
 
 #: ../src/scenes/Blog.rb:1157
 msgctxt "Blog"
@@ -6382,12 +6428,12 @@ msgstr "Pakartokite naują Wordpress slaptažodį"
 #: ../src/scenes/Blog.rb:1288
 msgctxt "Blog"
 msgid "Wordpress password must be at least 6 characters long."
-msgstr "Wordpress slaptažodis turi būti bent 6 simbolių ilgio"
+msgstr "Wordpress slaptažodis turi būti bent 6 simbolių ilgio."
 
 #: ../src/scenes/Blog.rb:1293
 msgctxt "Blog"
 msgid "Entered passwords are different."
-msgstr "Įvesti slaptažodžiai skiriasi"
+msgstr "Įvesti slaptažodžiai skiriasi."
 
 #: ../src/scenes/Blog.rb:1407
 msgctxt "Blog"
@@ -6427,7 +6473,7 @@ msgstr "Perkelimo tipas"
 #: ../src/scenes/Blog.rb:1450
 msgctxt "Blog"
 msgid "The post has been moved."
-msgstr "Įrašas perkeltas"
+msgstr "Įrašas perkeltas."
 
 #: ../src/scenes/Blog.rb:1558
 msgctxt "Blog"
@@ -6733,7 +6779,7 @@ msgstr "Trinti žymenį"
 
 #: ../src/scenes/Blog.rb:1858
 msgid "error"
-msgstr "Klaida"
+msgstr "klaida"
 
 #: ../src/scenes/Blog.rb:1926
 msgctxt "Blog"
@@ -6853,7 +6899,7 @@ msgstr "Pasirinkta paskelbimo data praeityje"
 #: ../src/scenes/Blog.rb:2155
 msgctxt "Blog"
 msgid "The post has been added."
-msgstr "Įrašas pridėtas"
+msgstr "Įrašas pridėtas."
 
 #: ../src/scenes/Blog.rb:2166
 msgctxt "Blog"
@@ -7133,7 +7179,7 @@ msgstr "Kartą"
 #: ../src/scenes/Clock.rb:17
 msgctxt "Clock"
 msgid "repeated"
-msgstr "Besikartojantis"
+msgstr "besikartojantis"
 
 #: ../src/scenes/Clock.rb:17 ../src/scenes/Clock.rb:70
 #: ../src/scenes/Clock.rb:97
@@ -7200,7 +7246,7 @@ msgstr ""
 #: ../src/scenes/Contacts.rb:124
 msgctxt "Contacts"
 msgid "Contact was added."
-msgstr "Kontaktas pridėtas"
+msgstr "Kontaktas pridėtas."
 
 #: ../src/scenes/Contacts.rb:133
 msgctxt "Contacts"
@@ -7311,7 +7357,7 @@ msgstr "Įveskite sugeneruotą slaptažodžio atstatymo kodą"
 #: ../src/scenes/ForgotPassword.rb:70
 msgctxt "ForgotPassword"
 msgid "The entered code is invalid."
-msgstr "Įvestas kodas neteisingas"
+msgstr "Įvestas kodas neteisingas."
 
 #: ../src/scenes/ForgotPassword.rb:75
 msgctxt "ForgotPassword"
@@ -7326,12 +7372,12 @@ msgstr "Įveskite naują slaptažodį dar kartą"
 #: ../src/scenes/ForgotPassword.rb:80
 msgctxt "ForgotPassword"
 msgid "The entered passwords are different."
-msgstr "Įvesti slaptažodžiai skiriasi"
+msgstr "Įvesti slaptažodžiai skiriasi."
 
 #: ../src/scenes/ForgotPassword.rb:82
 msgctxt "ForgotPassword"
 msgid "Empty password provided."
-msgstr "Pateiktas tuščias slaptažodis"
+msgstr "Pateiktas tuščias slaptažodis."
 
 #: ../src/scenes/ForgotPassword.rb:87
 msgctxt "ForgotPassword"
@@ -7381,25 +7427,25 @@ msgstr "Pagal neperskaitytus įrašus (mažėjančia tvarka)"
 msgctxt "Forum"
 msgid "Followed thread"
 msgid_plural "Followed threads"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Sekama gija"
+msgstr[1] "Sekamos gijos"
+msgstr[2] "Sekamų gijų"
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Followed forum"
 msgid_plural "Followed forums"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Sekamas forumas"
+msgstr[1] "Sekami forumai"
+msgstr[2] "Sekamų forumų"
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Marked thread"
 msgid_plural "Marked threads"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Pažymėta gija"
+msgstr[1] "Pažymėtos gijos"
+msgstr[2] "Pažymėtų gijų"
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
@@ -7420,17 +7466,17 @@ msgstr "Atviros grupės (%{count})"
 msgctxt "Forum"
 msgid "Waiting invitation"
 msgid_plural "Waiting invitations (%{count})"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Galiojantis pakvietimas (%{count})"
+msgstr[1] "Galiojantys pakvietimai (%{count})"
+msgstr[2] "Galiojančių pakvietimų (%{count})"
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
 msgid "Moderated group"
 msgid_plural "Moderated groups (%{count})"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Moderuojama grupė"
+msgstr[1] "Moderuojamos grupės"
+msgstr[2] "Moderuojamų grupių"
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
@@ -7461,9 +7507,9 @@ msgstr "Gauti paminėjimai"
 msgctxt "Forum"
 msgid "Thread offered to my group"
 msgid_plural "Threads offered to my groups (%{count})"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Gija, pasiūlyta mano grupei (%{count})"
+msgstr[1] "Gijos, pasiūlytos mano grupėms (%{count})"
+msgstr[2] "Gijų, pasiūlytų mano grupėms (%{count})"
 
 #: ../src/scenes/Forum.rb:211
 msgctxt "Forum"
@@ -7502,7 +7548,7 @@ msgstr "Gijos"
 #: ../src/scenes/Forum.rb:1850
 msgctxt "Forum"
 msgid "posts"
-msgstr "Įrašai"
+msgstr "įrašai"
 
 #: ../src/scenes/Forum.rb:219 ../src/scenes/Forum.rb:243
 #: ../src/scenes/Forum.rb:264 ../src/scenes/Forum.rb:285
@@ -7593,7 +7639,7 @@ msgstr "Vieša"
 #: ../src/scenes/Forum.rb:3943
 msgctxt "Forum"
 msgid "closed (only invited users can join)"
-msgstr "Uždara (tik pakviesti vartotojai gali prisijungti)"
+msgstr "uždara (tik pakviesti vartotojai gali prisijungti)"
 
 #: ../src/scenes/Forum.rb:517 ../src/scenes/Forum.rb:521
 #: ../src/scenes/Forum.rb:1134 ../src/scenes/Forum.rb:1146
@@ -7607,7 +7653,7 @@ msgstr "Moderuojama (kiekvienas gali pateikti užklausą)"
 #: ../src/scenes/Forum.rb:1148 ../src/scenes/Forum.rb:3945
 msgctxt "Forum"
 msgid "open (everyone can join)"
-msgstr "Atvira (kiekvienas gali prisijungti)"
+msgstr "atvira (kiekvienas gali prisijungti)"
 
 #: ../src/scenes/Forum.rb:527
 msgctxt "Forum"
@@ -8243,12 +8289,12 @@ msgstr "Nebesekti šio forumo"
 #: ../src/scenes/Forum.rb:1410
 msgctxt "Forum"
 msgid "Added to followed forums list."
-msgstr "Pridėta į sekamų forumų sąrašą"
+msgstr "Pridėta į sekamų forumų sąrašą."
 
 #: ../src/scenes/Forum.rb:1417
 msgctxt "Forum"
 msgid "Removed from followed forums list."
-msgstr "Pašalinta iš sekamų forumų sąrašo"
+msgstr "Pašalinta iš sekamų forumų sąrašo."
 
 #: ../src/scenes/Forum.rb:1438
 msgctxt "Forum"
@@ -8633,7 +8679,7 @@ msgstr "Atšaukti šios gijos pasiūlymą"
 #: ../src/scenes/Forum.rb:2091
 msgctxt "Forum"
 msgid "The offer has been withdrawn."
-msgstr "Pasiūlymas atšauktas"
+msgstr "Pasiūlymas atšauktas."
 
 #: ../src/scenes/Forum.rb:2109
 msgctxt "Forum"
@@ -8823,9 +8869,9 @@ msgstr "Šis įrašas paredaguotas"
 msgctxt "Forum"
 msgid "%{count} user likes this post"
 msgid_plural "%{count} users like this post"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Šis įrašas patinka %{count} vartotojui"
+msgstr[1] "Šis įrašas patinka %{count} vartotojams"
+msgstr[2] "Šis įrašas patinka %{count} vartotojų"
 
 #: ../src/scenes/Forum.rb:2923 ../src/scenes/Forum.rb:2948
 msgctxt "Forum"
@@ -9095,12 +9141,12 @@ msgstr "Siųsti įrašo pranešimą"
 #: ../src/scenes/Forum.rb:3375
 msgctxt "Forum"
 msgid "Post report has been sent."
-msgstr "Įrašo pranešimas išsiųstas"
+msgstr "Pranešimas apie įrašą išsiųstas."
 
 #: ../src/scenes/Forum.rb:3390
 msgctxt "Forum"
 msgid "edit your post here"
-msgstr "Redaguokite savo įrašą čia"
+msgstr "redaguokite savo įrašą čia"
 
 #: ../src/scenes/Forum.rb:3396
 msgctxt "Forum"
@@ -9357,7 +9403,7 @@ msgstr "Lygis angliškai"
 #: ../src/scenes/Honors.rb:262
 msgctxt "Honors"
 msgid "level"
-msgstr "Lygis"
+msgstr "lygis"
 
 #: ../src/scenes/Honors.rb:303
 msgctxt "Honors"
@@ -9813,9 +9859,9 @@ msgstr "Pasirinkite greitąjį veiksmą, kurį norite pridėti"
 msgctxt "Main"
 msgid "%{count} user likes it"
 msgid_plural "%{count} users like it"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%{count} vartotojui tai patinka"
+msgstr[1] "%{count} vartotojams tai patinka"
+msgstr[2] "%{count} vartotojų tai patinka"
 
 #: ../src/scenes/Main.rb:326
 msgctxt "Main"
@@ -10431,7 +10477,7 @@ msgstr "Nėra turinio"
 #: ../src/scenes/Notes.rb:252
 msgctxt "Notes"
 msgid "note title"
-msgstr "Pastabos pavadinimas"
+msgstr "pastabos pavadinimas"
 
 #: ../src/scenes/Notes.rb:273
 msgctxt "Notes"
@@ -10442,9 +10488,9 @@ msgstr "Pastaba sukurta"
 msgctxt "Online"
 msgid "%{count} user online"
 msgid_plural "%{count} users online"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%{count} vartotojas prisijungęs"
+msgstr[1] "%{count} vartotojai prisijungę"
+msgstr[2] "%{count} vartotojų prisijungę"
 
 #: ../src/scenes/Polls.rb:12
 msgctxt "Polls"
@@ -10470,7 +10516,7 @@ msgstr "Ar tikrai norite ištrinti %{name}?"
 #: ../src/scenes/Polls.rb:137
 msgctxt "Polls"
 msgid "deleted"
-msgstr "Ištrinta"
+msgstr "ištrinta"
 
 #: ../src/scenes/Polls.rb:148
 msgctxt "Polls"
@@ -10695,7 +10741,7 @@ msgstr "Neįtraukiant"
 #: ../src/scenes/Portable.rb:9
 msgctxt "Portable"
 msgid "continue"
-msgstr "Tęsti"
+msgstr "tęsti"
 
 #: ../src/scenes/Portable.rb:9
 msgctxt "Portable"
@@ -10768,7 +10814,7 @@ msgstr "Elten nešiojama versija sukurta sėkmingai."
 #: ../src/scenes/Programs.rb:42
 msgctxt "Programs"
 msgid "not installed"
-msgstr "Neįdiegta"
+msgstr "neįdiegta"
 
 #: ../src/scenes/Programs.rb:45
 msgctxt "Programs"
@@ -10823,7 +10869,7 @@ msgid ""
 "of the  username is 64 characters"
 msgstr ""
 "Įveskite savo vartotojo vardą. Jis bus naudojamas identifikacijai. "
-"Maksimalus vartotojo vardo ilgis yra 64 simboliai."
+"Maksimalus vartotojo vardo ilgis yra 64 simboliai"
 
 #: ../src/scenes/Registration.rb:16
 msgctxt "Registration"
@@ -11100,22 +11146,22 @@ msgstr "Laikrodžio informacija"
 #: ../src/scenes/Settings.rb:247
 msgctxt "Settings"
 msgid "every quarter of an hour"
-msgstr "Kas ketvirtį valandos"
+msgstr "kas ketvirtį valandos"
 
 #: ../src/scenes/Settings.rb:247
 msgctxt "Settings"
 msgid "announcement time"
-msgstr "Skelbimo laikas"
+msgstr "skelbimo laikas"
 
 #: ../src/scenes/Settings.rb:247
 msgctxt "Settings"
 msgid "every half hour"
-msgstr "Kas pusvalandį"
+msgstr "kas pusvalandį"
 
 #: ../src/scenes/Settings.rb:247
 msgctxt "Settings"
 msgid "every hour"
-msgstr "Kas valandą"
+msgstr "kas valandą"
 
 #: ../src/scenes/Settings.rb:248
 msgctxt "Settings"
@@ -11250,7 +11296,7 @@ msgstr "Konferencijos buferio pertraukimo slenkstis milisekundėmis"
 #: ../src/scenes/SoundThemes.rb:21
 msgctxt "SoundThemes"
 msgid "default"
-msgstr "Numatytasis"
+msgstr "numatytasis"
 
 #: ../src/scenes/SoundThemes.rb:24
 msgctxt "SoundThemes"
@@ -11959,7 +12005,7 @@ msgstr "Ieškoti vartotojų"
 #: ../src/scenes/UserSearch.rb:25
 msgctxt "UserSearch"
 msgid "No match found."
-msgstr "Atitikmenų nerasta"
+msgstr "Atitikmenų nerasta."
 
 #: ../src/scenes/UserSearch.rb:36
 msgctxt "UserSearch"
@@ -11978,7 +12024,7 @@ msgstr "Vartotojų sąrašas"
 
 #: ../src/scenes/UsersAddedMeToContacts.rb:13
 msgid "UsersAddedMeToThis section is unavailable for guests"
-msgstr ""
+msgstr "\"Vartotojai, pridėję mane į šį\" sekcija svečiams nepasiekiama"
 
 #: ../src/scenes/UsersAddedMeToContacts.rb:35
 msgctxt "UsersAddedMeToContacts"
@@ -12073,4 +12119,4 @@ msgstr "Yra atnaujinimas (%{version})"
 #: ../src/scenes/WhatsNew.rb:83
 msgctxt "WhatsNew"
 msgid "There is nothing new."
-msgstr "Nieko naujo"
+msgstr "Nieko naujo."

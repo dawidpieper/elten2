@@ -79,11 +79,13 @@ module OpusRecorder
       r = w.call(unicode(output), 48000, channels, bitrate * 1000, [framesize].pack("f").unpack("i").first, application, usevbr, 0, timelimit, ch.size, ch.pack("p*"))
       mx = Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x200000 | 0x10000)
       Bass::BASS_Mixer_StreamAddChannel.call(mx, cha, 0x10000 | 0x4000 | 0x800000)
+      orig = cha
       cha = mx
       bufsize = 2097152
       buf = "\0" * bufsize
       t = 0
-      while (sz = Bass::BASS_ChannelGetData.call(cha, buf, bufsize)) > 0 || ((file[0..4] == "http:" || file[0..5] == "https:") && Bass::BASS_StreamGetFilePosition.call(cha, 4) == 1)
+      h = (file[0..4] == "http:" || file[0..5] == "https:")
+      while (sz = Bass::BASS_ChannelGetData.call(cha, buf, bufsize)) > 0 || (h && Bass::BASS_StreamGetFilePosition.call(orig, 4) == 1)
         loop_update
         pr.call(0, buf, sz, r)
         t += sz
@@ -192,7 +194,8 @@ module VorbisRecorder
       bufsize = 2097152
       buf = "\0" * bufsize
       t = 0
-      while (sz = Bass::BASS_ChannelGetData.call(cha, buf, bufsize)) > 0 || ((file[0..4] == "http:" || file[0..5] == "https:") && Bass::BASS_StreamGetFilePosition.call(cha, 4) == 1)
+      h = (file[0..4] == "http:" || file[0..5] == "https:")
+      while (sz = Bass::BASS_ChannelGetData.call(cha, buf, bufsize)) > 0 || (h && Bass::BASS_StreamGetFilePosition.call(cha, 4) == 1)
         loop_update
         pr.call(0, buf, sz, r)
         t += sz
@@ -302,7 +305,8 @@ module WaveRecorder
       bufsize = 2097152
       buf = "\0" * bufsize
       t = 0
-      while (sz = Bass::BASS_ChannelGetData.call(cha, buf, bufsize)) > 0 || ((file[0..4] == "http:" || file[0..5] == "https:") && Bass::BASS_StreamGetFilePosition.call(cha, 4) == 1)
+      h = (file[0..4] == "http:" || file[0..5] == "https:")
+      while (sz = Bass::BASS_ChannelGetData.call(cha, buf, bufsize)) > 0 || (h && Bass::BASS_StreamGetFilePosition.call(cha, 4) == 1)
         loop_update
         pr.call(0, buf, sz, r)
         t += sz

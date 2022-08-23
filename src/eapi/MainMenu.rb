@@ -100,6 +100,13 @@ module GlobalMenu
             Programs.load_all
             alert(p_("MainMenu", "All programs reloaded"))
           }
+          m.option(p_("MainMenu", "Load custom translation &file")) {
+            f = get_file(p_("MainMenu", "Select translations file"), "", false, nil, [".mo"])
+            if f != nil
+              loadlocale f
+              alert(p_("MainMenu", "Translation loaded"))
+            end
+          }
           m.scene(p_("MainMenu", "De&bugging"), Scene_Debug)
         }
         @menu.submenu(p_("MainMenu", "&Help")) { |m|

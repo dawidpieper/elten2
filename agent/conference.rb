@@ -363,7 +363,7 @@ class Conference
                 if @spatialization == 1 || @spatialization == 2
                   out = pcm.unpack("s" * (pcm.bytesize / 2)).map { |s| s / 32768.0 }.pack("f" * (pcm.bytesize / 2))
                   suc = false
-                  if @hrtf != nil && @rx != nil && @ry != nil
+                  if @hrtf != nil && ((@rx != nil && @ry != nil) || @spatialization == 2)
                     suc = true
                     if @spatialization == 1 && (@rx != 0 || @ry != 0)
                       rx = @rx
@@ -440,14 +440,22 @@ class Conference
             if @spatialization == 1 || @spatialization == 2
               out = pcm.unpack("s" * (pcm.bytesize / 2)).map { |s| s / 32768.0 }.pack("f" * (pcm.bytesize / 2))
               suc = false
-              if @hrtf != nil && @rx != nil && @ry != nil
-                suc = true
-                rx = @rx
-                rz = @ry
-                ry = 0
-                rz = -0.075 if rz == 0
-                @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
-                out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
+              if @hrtf != nil && ((@rx != nil && @ry != nil) || @spatialization == 2)
+                if @spatialization != 2
+                  suc = true
+                  rx = @rx
+                  rz = @ry
+                  ry = 0
+                  rz = -0.075 if rz == 0
+                  @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
+                  out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
+                else
+                  rx = @absolute_x
+                  rz = @absolute_y
+                  ry = 0
+                  @hrtf.set_bilinear(@hrtf_effect, ($usebilinearhrtf == 1))
+                  out = @hrtf.process(@hrtf_effect, out, rx, ry, rz)
+                end
               else
                 rout = out.unpack("f" * (out.bytesize / 4))
                 fout = []
@@ -1256,16 +1264,18 @@ class Conference
   end
 
   class OutStream
-    attr_accessor :x, :y, :frame_id
-    attr_reader :name, :id, :mutex, :buf, :channels, :output, :listener, :encoder, :sources, :locally_muted
+    attr_accessor :x, :y, :frame_id, :bytes_remaining
+    attr_reader :name, :id, :mutex, :buf, :channels, :output, :listener, :encoder, :sources, :locally_muted, :start_time
 
     def initialize(name, id, channels, x, y)
       @name, @id, @x, @y = name.encode("UTF-8", invalid: :replace, undef: :replace), id, x, y
       @buf = ""
+      @bytes_remaining = 0
       @mutex = Mutex.new
       @encoder = Opus::Encoder.new(48000, channels)
       @mixer = Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x1000 | 0x200000)
       @output = Bass::BASS_Mixer_StreamCreate.call(48000, channels, 0x1000 | 0x200000)
+      @start_time = Time.now.to_f
       Bass::BASS_ChannelSetAttribute.call(@mixer, 5, [1].pack("F").unpack("i")[0])
       Bass::BASS_ChannelSetAttribute.call(@mixer, 13, [0.1].pack("F").unpack("i")[0])
       @channels = channels
@@ -1450,6 +1460,9 @@ class Conference
     @voip.on_receive { |userid, type, message, p1, p2, p3, p4, index| onreceive(userid, type, message, p1, p2, p3, p4, index) }
     @voip.on_status { |latency, sendbytes, receivedbytes, curlost, curpackets, time| onstatus(latency, sendbytes, receivedbytes, curlost, curpackets, time) }
     @framesize = 0
+    @bitrate = 0
+    @stream_framesize = 0
+    @stream_bitrate = 0
     @voip.on_params { |params| onparams(params) }
     @voip.on_ping { |t| onping(t) }
     @voip.connect(@username, @token)
@@ -2779,6 +2792,9 @@ class Conference
           @sltime = 0.01 if @sltime < 0.01
           @sltime = 0.1 if @sltime > 0.1
           @framesize = params["channel"]["framesize"]
+          @bitrate = params["channel"]["bitrate"]
+          @stream_framesize = params["channel"]["stream_framesize"]
+          @stream_bitrate = params["channel"]["stream_bitrate"]
           @width = params["channel"]["width"]
           @height = params["channel"]["height"]
           px, py = @position.x, @position.y
@@ -2805,7 +2821,7 @@ class Conference
           end
           @hrtf.free if @hrtf != nil
           @hrtf = nil
-          @hrtf = SteamAudio.new(48000, @framesize) if SteamAudio.loaded? if params["channel"]["spatialization"] == 1 || params["channel"]["spatialization"] == 2
+          @hrtf = SteamAudio.new(48000, @framesize) if SteamAudio.loaded? if params["channel"]["spatialization"] != 0
           if params["channel"]["channels"] != @channels
             Bass::BASS_StreamFree.call(@output) if @output != 0
             Bass::BASS_StreamFree.call(@output_stream) if @output_stream != 0
@@ -2823,15 +2839,15 @@ class Conference
           upusers = []
           pch = false
           n = params["channel"]["users"].size
-          c = params["channel"]["users"].find_index { |u| u["id"] == @userid }
+          c = params["channel"]["users"].find_index { |u| u["id"] == @voip.uid }
           c = 0 if c == nil
           da = 2.0 * Math::PI / n
           for i in 0...params["channel"]["users"].size
             u = params["channel"]["users"][i]
             uid = u["id"]
             a = ((n - c + i) % n) * da
-            x = 0 + 1 * Math::cos(a)
-            y = 0 + 1 * Math::sin(a)
+            x = 0 + 1 * Math::sin(a)
+            y = -1 * (0.5 - 0.5 * Math::cos(a))
             upusers.push(uid)
             if @transmitters.include?(uid)
               @transmitters[uid].set_hrtf(@hrtf)
@@ -2909,7 +2925,7 @@ class Conference
                 log(-1, "Conference: registering new stream #{s["name"]}")
                 username = ""
                 username = @transmitters[s["user"]].username if @transmitters[s["user"]] != nil
-                @streams[sid] = Stream.new(s["channels"], params["channel"]["framesize"], @encoder.preskip, @starttime, params["channel"]["spatialization"], @position, s["x"], s["y"], s["id"], s["name"], s["user"], username)
+                @streams[sid] = Stream.new(s["channels"], params["channel"]["stream_framesize"], @encoder.preskip, @starttime, params["channel"]["spatialization"], @position, s["x"], s["y"], s["id"], s["name"], s["user"], username)
                 @streams[sid].set_hrtf(@hrtf) if params["channel"]["spatialization"] == 1 || params["channel"]["spatialization"] == 2
                 @streams[sid].set_mixer(@channel_mixer)
                 @streams[sid].set_user_position(@transmitters[s["user"]].transmitter_x, @transmitters[s["user"]].transmitter_y) if @transmitters[s["user"]] != nil and @transmitters[s["user"]].transmitter_x > 0
@@ -3070,9 +3086,10 @@ class Conference
     audio = ""
     packets = []
     loop {
-      sleep(@sltime)
+      sleep(0.01) #@sltime)
       maxBytes = 0
       if @output != nil && (sz = Bass::BASS_ChannelGetData.call(@output, buf, bufsize)) > 0
+        maxBytes = sz
         @encoder_mutex.synchronize {
           if @framesize > 0 and @channels != nil
             fs = @framesize * 48 * 2 * @channels
@@ -3081,7 +3098,7 @@ class Conference
             index = 0
             while au.bytesize - index >= fs
               part = au.byteslice(index...index + fs)
-              maxBytes += part.bytesize
+              #maxBytes+=part.bytesize
               frame = nil
               if @output_stream != nil && @output_stream != 0
                 if @muteme && @whisper == 0
@@ -3132,22 +3149,23 @@ class Conference
         }
       end
       for s in @outstreams
-        if s.encoder != nil && !s.encoder.closed?
-          if @encoder != nil && !@encoder.closed?
-            bitrate = @encoder.bitrate
-            bitrate = 32000 if bitrate < 32000
-            s.encoder.bitrate = bitrate if bitrate != nil and bitrate > 0
-          end
+        if s.encoder != nil && !s.encoder.closed? && @bitrate != 0 && @stream_bitrate != 0
           mb = maxBytes
           mb *= (s.channels.to_f / @channels)
-          mb -= (s.buf || "").bytesize
-          if s.output != nil && s.channels > 0 && (mb <= 0 || (sz = Bass::BASS_ChannelGetData.call(s.output, buf, mb)) >= 0)
+          mb += s.bytes_remaining
+          buf = "\0" * mb if mb > buf.bytesize
+          sz = Bass::BASS_ChannelGetData.call(s.output, buf, mb)
+          s.bytes_remaining = mb - sz
+          if s.output != nil && s.channels > 0 && sz > 0
             s.mutex.synchronize {
-              if @framesize > 0 and s.channels != nil
-                fs = @framesize * 48 * 2 * s.channels
+              if @stream_framesize > 0 and s.channels != nil
+                fs = @stream_framesize * 48 * 2 * s.channels
                 au = (s.buf || "").b + buf.byteslice(0...sz).b
                 s.buf.clear
                 index = 0
+                bitrate = (@stream_bitrate || 0) * 1000
+                bitrate = 5000 if bitrate < 5000
+                s.encoder.bitrate = bitrate if bitrate != nil and bitrate > 0
                 while au.bytesize - index >= fs
                   part = au.byteslice(index...index + fs)
                   frame = nil

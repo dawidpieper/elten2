@@ -164,7 +164,7 @@ module EltenAPI
     end
 
     class Channel
-      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed, :join_url, :conference_mode, :whitelist, :followers_count
+      attr_accessor :id, :name, :bitrate, :framesize, :vbr_type, :codec_application, :prediction_disabled, :fec, :public, :users, :passworded, :spatialization, :channels, :lang, :creator, :width, :height, :objects, :administrators, :key_len, :groupid, :waiting_type, :banned, :permanent, :password, :uuid, :motd, :allow_guests, :room_id, :followed, :join_url, :conference_mode, :whitelist, :followers_count, :stream_bitrate, :stream_framesize
 
       def initialize
         @name = ""
@@ -756,6 +756,8 @@ module EltenAPI
           ch.join_url = cha["join_url"]
           ch.conference_mode = cha["conference_mode"] || 0
           ch.followers_count = cha["followers_count"] || 0
+          ch.stream_bitrate = cha["stream_bitrate"].to_i
+          ch.stream_framesize = cha["stream_framesize"].to_f
           channels.push(ch)
         end
       end
@@ -867,6 +869,8 @@ module EltenAPI
         ch.join_url = params["join_url"]
         ch.conference_mode = params["conference_mode"] || 0
         ch.followers_count = params["followers_count"] || 0
+        ch.stream_framesize = (params["stream_framesize"] || 100).to_f
+        ch.stream_bitrate = (params["stream_bitrate"] || 0).to_i
         @@channel = ch
         self.trigger(:update)
       end

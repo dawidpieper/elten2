@@ -651,7 +651,7 @@ class Scene_Conference
         suc = false
       end
       if suc
-        if lst_spatialization.index == 1
+        if lst_spatialization.index >= 1
           t = Time.now.to_f
           l = load_hrtf
           suc = false if l == false
@@ -1889,7 +1889,7 @@ class Scene_Conference
     stream = Conference.mystreams.streams[sid] if sid >= 0
     sname = p_("Conference", "Master mix")
     sname = stream.name if stream != nil
-    sel = ListBox.new([], p_("Conference", "Sources of #{sname}"))
+    sel = ListBox.new([], p_("Conference", "Sources of %{name}") % { "name" => sname })
     rfr = Proc.new {
       stream = nil
       stream = Conference.mystreams.streams[sid] if sid >= 0

@@ -114,6 +114,7 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 							eltenqueue['statuses'].append("connected")
 							if(is_python_3_or_above): 							eltenqueue['statuses'].append("cbckindexing")
 						except:
+							log.exception("Elten pipe")
 							wrongpipeid=pipeid
 							nvdapipeid=""
 							try: os.remove(nvdapipefile)
@@ -141,13 +142,13 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 			if(eltenmod!=None and eltenbraille!=None):
 				if(appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())==eltenmod and eltenbraille!=None and braille.handler.buffer!=eltenbraille and braille.handler.buffer!=braille.handler.messageBuffer):
 					braille.handler.buffer=eltenbraille
-					braille.handler.update()
+					queueHandler.queueFunction(queueHandler.eventQueue,braille.handler.update)
 				elif(braille.handler!=None and appModuleHandler.getAppModuleForNVDAObject(api.getForegroundObject())!=eltenmod and braille.handler.buffer==eltenbraille):
 					braille.handler.buffer=braille.handler.mainBuffer
-					braille.handler.update()
+					queueHandler.queueFunction(queueHandler.eventQueue,braille.handler.update)
 				if oldbraille!=eltenbrailletext:
 					oldbraille=eltenbrailletext
-					braille.handler.update()
+					queueHandler.queueFunction(queueHandler.eventQueue,braille.handler.update)
 
 	def elten_queue_thread(threadName=None):
 		global stopThreads
@@ -258,10 +259,10 @@ def elten_command(ac):
 					eltenindexid=indid
 					if(i<len(indexes)): v.append(speech.IndexCommand(indexes[i]))
 				v.append(texts[i])
-			speech.cancelSpeech()
+			queueHandler.queueFunction(queueHandler.eventQueue,speech.cancelSpeech)
 			queueHandler.queueFunction(queueHandler.eventQueue,speech.speak,v)
 		if(ac['ac']=='stop'):
-			speech.cancelSpeech()
+			queueHandler.queueFunction(queueHandler.eventQueue,speech.cancelSpeech)
 			eltenindex=None
 			eltenindexid=None
 		if(ac['ac']=='sleepmode'):
@@ -322,7 +323,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 38}
+			return {'version': 39}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):
