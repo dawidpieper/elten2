@@ -275,7 +275,7 @@ class Scene_Account
     setting_category(p_("Account", "Account security"))
     make_setting(p_("Account", "Change e-mail"), :custom, Proc.new { insert_scene(Scene_Account_Mail.new) })
     make_setting(p_("Account", "Change password"), :custom, Proc.new { insert_scene(Scene_Account_Password.new) })
-	make_setting(p_("Account", "Forgot password"), :custom, Proc.new { insert_scene(Scene_ForgotPassword.new) })
+    make_setting(p_("Account", "Forgot password"), :custom, Proc.new { insert_scene(Scene_ForgotPassword.new) })
     make_setting(p_("Account", "Manage Two-Factor authentication"), :custom, Proc.new { insert_scene(Scene_Authentication.new) })
     make_setting(p_("Account", "Manage mail events-reporting"), :custom, Proc.new { insert_scene(Scene_Account_MailEvents.new) })
     make_setting(p_("Account", "Manage auto-login tokens"), :custom, Proc.new { insert_scene(Scene_Account_AutoLogins.new) })

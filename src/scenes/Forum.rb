@@ -3220,7 +3220,7 @@ class Scene_Forum_Thread
     }
     if @form.index < @postscount * 3
       menu.option(p_("Forum", "Mention post"), nil, "w") {
-$scene = Scene_Forum_MentionPost.new(@thread, @posts[@form.index / 3].id)
+        mention(@thread, @posts[@form.index / 3].id)
       }
     end
     if @form.index < @posts.size * 3
@@ -3436,6 +3436,58 @@ $scene = Scene_Forum_MentionPost.new(@thread, @posts[@form.index / 3].id)
     menu.option(_("Refresh"), nil, "r") {
       refresh
     }
+  end
+
+  def mention(thread, post)
+    users = []
+    us = srvproc("contacts_addedme", {})
+    if us[0].to_i < 0
+      alert(_("Error"))
+      return
+    end
+    for u in us[1..us.size - 1]
+      users.push(u.delete("\r\n"))
+    end
+    if users.size == 0
+      alert(p_("Forum", "Nobody added you to their contact list."))
+      return
+    end
+    fields = [
+      lst_users = ListBox.new(users, p_("Forum", "Users to mention: "), 0, ListBox::Flags::MultiSelection),
+      edt_message = EditBox.new(p_("Forum", "Message: "), 0, "", true),
+      btn_mentionOK = Button.new(p_("Forum", "Mention")),
+      btn_mentionCancel = Button.new(p_("Forum", "Cancel"))
+    ]
+
+    form = Form.new(fields)
+    form.hide(btn_mentionOK)
+    lst_users.on(:multiselection_changed) {
+      if lst_users.multiselections.size <= 0
+        form.hide(btn_mentionOK)
+      else
+        form.show(btn_mentionOK)
+      end
+    }
+    btn_mentionOK.on(:press) {
+      if lst_users.multiselections.size >= 0
+        selections = lst_users.multiselections()
+        control = 0
+        for i in 0..selections.size - 1
+          mt = srvproc("mentions", { "add" => "1", "user" => users[selections[i]], "message" => edt_message.text, "thread" => thread, "post" => post })
+          control += mt[0].to_i
+        end
+        if control < 0
+          alert(p_("Forum", "Error"))
+        else
+          alert(p_("Forum", "The mention has been sent."))
+        end
+        form.resume
+      end
+    }
+    btn_mentionCancel.on(:press) { form.resume }
+    form.accept_button = btn_mentionOK
+    form.cancel_button = btn_mentionCancel
+    form.wait
   end
 
   def postreport(post)
@@ -4124,50 +4176,3 @@ class Struct_Forum_LogEntry
     @newcontent = ""
   end
 end
-class Scene_Forum_MentionPost
-def initialize(thread, post)
-@thread = thread
-@post = post
-end
-def main
-users = []
-        us = srvproc("contacts_addedme", {})
-        if us[0].to_i < 0
-          alert(_("Error"))
-          next
-        end
-        for u in us[1..us.size - 1]
-          users.push(u.delete("\r\n"))
-        end
-        if users.size == 0
-          alert(p_("Forum", "Nobody added you to their contact list."))
-          next
-        end
-		fields = [
-		lst_users = ListBox.new(users, p_("Forum", "Users to mention: "), 0, ListBox::Flags::MultiSelection),
-		edt_message = EditBox.new(p_("Forum", "Message: "), 0, "", true),
-		btn_mentionOK = Button.new(p_("Forum", "Mention")),
-		btn_mentionCancel = Button.new(p_("Forum", "Cancel"))
-		]
-		
-		form = Form.new(fields)
-		form.hide(btn_mentionOK) if lst_users.multiselections.size == -1
-btn_mentionOK.on(:press) {
-selections = lst_users.multiselections()
-control = 0
-for i in 0..selections.size - 1
-            mt = srvproc("mentions", { "add" => "1", "user" => users[selections[i]], "message" => edt_message.text, "thread" => @thread, "post" => @post })
-control += mt[0].to_i
-end
-if control < 0 then
-alert(p_("Forum", "Error"))
-else
-alert(p_("Forum", "The mention has been sent."))
-end
-}
-        loop do
-          loop_update
-		  form.update
-		  end
-		  end
-		  end

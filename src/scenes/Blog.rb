@@ -11,7 +11,7 @@ class Scene_Blog
   end
 
   def main
-    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Library of external blogs"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index)
+    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index)
     if Session.name == "guest"
       @sel.disable_item(0)
       @sel.index = 1
@@ -19,10 +19,9 @@ class Scene_Blog
       @sel.disable_item(5)
       @sel.disable_item(7)
       @sel.disable_item(8)
-      @sel.disable_item(9)
     end
-    @sel.disable_item(9) if !holds_premiumpackage("courier")
     @sel.disable_item(8) if !holds_premiumpackage("courier")
+    @sel.disable_item(7) if !holds_premiumpackage("courier")
     @sel.focus
     loop do
       loop_update
@@ -66,11 +65,8 @@ class Scene_Blog
           $scene = Scene_Blog_List.new(5, self, r)
         end
       when 7
-        $bloglistindex = 0
-        $scene = Scene_Blog_List.new(6, self, :library)
-      when 8
         $scene = Scene_Blog_Posts.new(Session.name, "FOLLOWED")
-      when 9
+      when 8
         $scene = Scene_Blog_Posts.new(Session.name, "MENTIONED")
       end
     end
@@ -363,9 +359,9 @@ class Scene_Blog_Posts
         if @id == "NEW" or @id == "NEWFOLLOWED" or @id == "NEWFOLLOWEDBLOGS"
           $scene = Scene_WhatsNew.new
         elsif @id == "FOLLOWED"
-          $scene = Scene_Blog.new(8)
+          $scene = Scene_Blog.new(7)
         elsif @id == "MENTIONED"
-          $scene = Scene_Blog.new(9)
+          $scene = Scene_Blog.new(8)
         else
           $scene = Scene_Blog_Main.new(@owner, @categoryselindex, $blogreturnscene)
         end

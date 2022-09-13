@@ -840,7 +840,7 @@ module EltenAPI
         ch.fec = params["fec"] == true
         ch.public = params["public"] != false
         ch.spatialization = params["spatialization"] || 0
-        load_hrtf if ch.spatialization == 1
+        load_hrtf if ch.spatialization != 0
         ch.password = params["password"]
         ch.channels = params["channels"] || 2
         ch.lang = params["lang"] || ""
