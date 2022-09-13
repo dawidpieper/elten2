@@ -4,8 +4,8 @@
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
 
-if RUBY_VERSION.split(".")[0..2].join(".") != "3.1.2"
-  raise("Ruby version 3.1.1 is required.")
+if RUBY_VERSION.split(".")[0..1].join(".") != "3.1"
+  raise("Ruby version 3.1 is required.")
 end
 if RUBY_PLATFORM != "i386-mingw32"
   raise("Ruby platform i386-mingw32 is required.")
