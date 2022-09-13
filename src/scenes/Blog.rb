@@ -223,7 +223,7 @@ class Scene_Blog_Main
       bopen
     }
     if @isowner and @sel.index > 0
-      menu.option(p_("Blog", "Rename")) {
+      menu.option(p_("Blog", "Rename"), nil, "e") {
         categoryrename
       }
       menu.option(_("Delete"), nil, :del) {

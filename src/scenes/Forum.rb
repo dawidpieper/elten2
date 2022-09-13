@@ -4158,7 +4158,11 @@ control = 0
 for i in 0..selections.size - 1
             mt = srvproc("mentions", { "add" => "1", "user" => users[selections[i]], "message" => edt_message.text, "thread" => @thread, "post" => @post })
 control += mt[0].to_i
-speech(control.to_s)
+end
+if control < 0 then
+alert(p_("Forum", "Error"))
+else
+alert(p_("Forum", "The mention has been sent."))
 end
 }
         loop do
