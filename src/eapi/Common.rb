@@ -434,7 +434,7 @@ module EltenAPI
       groupinvitations = agtemp[20].to_i
       $nversion = agtemp[2].to_f
       $nbeta = agtemp[3].to_i
-      bid = srvproc("bin/buildid", { "branch" => Elten.branch, "build_id" => Elten.build_id }, 1).to_i
+      bid = srvproc("bin/buildid", { "branch" => get_updatesbranch, "build_id" => Elten.build_id }, 1).to_i
       if messages <= 0 and posts <= 0 and blogposts <= 0 and blogcomments <= 0 and followedforums <= 0 and followedforumsposts <= 0 and friends <= 0 and birthday <= 0 and mentions <= 0 and followedblogposts <= 0 and blogfollowers <= 0 and blogmentions <= 0 and groupinvitations <= 0 and (Elten.build_id == bid or bid <= 0)
         alert(p_("EAPI_Common", "There is nothing new.")) if quiet != true
       else

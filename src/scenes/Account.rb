@@ -264,7 +264,7 @@ class Scene_Account
   def load_whatsnew
     setting_category(p_("Account", "What's new notifications"))
     options = [p_("Account", "Notice and show in what's new"), p_("Account", "Notice only"), p_("Account", "Ignore")]
-    cats = [p_("Account", "New messages"), p_("Account", "New posts in followed threads"), p_("Account", "New posts on the followed blogs"), p_("Account", "New comments on your blog"), p_("Account", "New threads on followed forums"), p_("Account", "New posts on followed forums"), p_("Account", "New friends"), p_("Account", "Friends' birthday"), p_("Account", "Mentions"), p_("Account", "Followed blog posts"), p_("Account", "Blog followers"), p_("Account", "Blog mentions"), p_("Account", "Waiting invitations")]
+    cats = [p_("Account", "New messages"), p_("Account", "New posts in followed threads"), p_("Account", "New posts on the followed blogs"), p_("Account", "New comments on your blog"), p_("Account", "New threads on followed forums"), p_("Account", "New posts on followed forums"), p_("Account", "New friends"), p_("Account", "Friends' birthday"), p_("Account", "Mentions"), p_("Account", "Followed blog posts"), p_("Account", "Blog followers"), p_("Account", "Blog mentions"), p_("Account", "Awaiting group invitations")]
     sets = ["wn_messages", "wn_followedthreads", "wn_followedblogs", "wn_blogcomments", "wn_followedforums", "wn_followedforumsthreads", "wn_friends", "wn_birthday", "wn_mentions", "wn_followedblogposts", "wn_blogfollowers", "wn_blogmentions", "wn_groupinvitations"]
     for i in 0...sets.size
       make_setting(cats[i], options, sets[i])

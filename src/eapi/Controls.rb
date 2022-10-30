@@ -541,9 +541,11 @@ module EltenAPI
           blur
         elsif @audioplayer != nil and @audioplayed == false
           if Configuration.voice == "NVDA" or !speech_actived
-            Programs.emit_event(:player_play)
-            @audioplayer.play
-            @audioplayed = true
+            if Configuration.autoplay == 0 || (Configuration.autoplay == 1 && (@flags & Flags::Transcripted) == 0)
+              Programs.emit_event(:player_play)
+              @audioplayer.play
+              @audioplayed = true
+            end
           end
         end
         if @audioplayer != nil && @audioplayer.pause == false && @audioplayer.completed == false
@@ -1651,7 +1653,11 @@ module EltenAPI
       def focus(index = nil, count = nil, spk = true)
         pos = 50
         pos = index.to_f / (count - 1).to_f * 100.0 if index != nil and count != nil && count != 0
-        play("editbox_marker", 100, 100, pos) if spk && Configuration.controlspresentation != 2
+        if !audio?
+          play("editbox_marker", 100, 100, pos) if spk && Configuration.controlspresentation != 2
+        else
+          play("editbox_audiomarker", 100, 100, pos) if spk && Configuration.controlspresentation != 2
+        end
         if spk && @sounds != nil
           for snd in @sounds
             play(snd, 100, 100, pos)
@@ -1665,22 +1671,26 @@ module EltenAPI
         head = @header.to_s + "... " + tph
         NVDA.braille(@header.to_s + "\n" + @text, @header.to_s.size + 2 + @index - 1, false, 0, nil, @header.to_s.size + 2 + @index - 1) if NVDA.check
         if @audiotext != nil
-          @audioplayer = Player.new(@audiotext, @header, false, true) if @audioplayer == nil
+          @audioplayer = Player.new(@audiotext, @header, false, true, nil, true) if @audioplayer == nil
           @audioplayed = false
         elsif @audiostream != nil
-          @audioplayer = Player.new(nil, @header, false, true, @audiostream) if @audioplayer == nil
+          @audioplayer = Player.new(nil, @header, false, true, @audiostream, true) if @audioplayer == nil
           @audioplayed = false
         end
-        if @audioplayer != nil
+        if audio? && (Configuration.autoplay == 0 || (Configuration.autoplay != 0 && (@flags & Flags::Transcripted) == 0))
           speak(head)
           return
         end
-        return speak(head + ((@audiotext != nil) ? "\004AUDIO\004#{@audiotext}\004AUDIO\004" : "") + text.gsub("\n", " "), 1, false) if @audiotext != nil and @audiotext != "" and spk
+        #return speak(head + ((@audiotext!=nil)?"\004AUDIO\004#{@audiotext}\004AUDIO\004":"") + text.gsub("\n"," "),1,false) if @audiotext!=nil and @audiotext!="" and spk
         read_text(0, head) if spk
       end
 
+      def audio?
+        return @audiotext != nil || @audiostream != nil || @audioplayer != nil
+      end
+
       def blur
-        if @audioplayer != nil
+        if @audioplayer != nil && !@audioplayer.pause
           @audioplayer.stop
         end
       end
@@ -1725,6 +1735,7 @@ module EltenAPI
         MarkDown = 32
         HTML = 64
         Formattable = 128
+        Transcripted = 256
       end
 
       class Element
@@ -2173,8 +2184,8 @@ module EltenAPI
             ss = k if @hotkeys[k] == self.index
           end
           o += " (" + ASCII(ss) + ")" if ss.is_a?(Integer)
-          o += "\r\n\r\n(#{p_("EAPI_Common", "Checked")})" if @selected[self.index] == true
-          o += "\r\n\r\n(#{p_("EAPI_Common", "Unchecked")})" if @selected[self.index] == false && @multi == true
+          o += "\r\n\r\n(#{p_("EAPI_Common", "Ticked")})" if @selected[self.index] == true
+          o += "\r\n\r\n(#{p_("EAPI_Common", "Unticked")})" if @selected[self.index] == false && @multi == true
           o ||= ""
           o.gsub(/\004INFNEW\{([^\}]+)\}\004/) {
             o = ("\004NEW\004" + " " + ((Configuration.soundthemeactivation == 1) ? "" : $1 + " ") + o).gsub(/\004INFNEW\{([^\}]+)\}\004/, "")
@@ -2469,14 +2480,13 @@ module EltenAPI
         pos = index.to_f / (count - 1).to_f * 100.0 if index != nil and count != nil && count != 0
         play("checkbox_marker", 100, 100, pos) if spk and snd && Configuration.controlspresentation != 2
         text = @label + " ... "
-        if @checked == 0
-          text += p_("EAPI_Form", "unchecked")
-        else
-          text += p_("EAPI_Form", "Checked")
-        end
         if Configuration.controlspresentation != 1
-          text += " "
-          text += p_("EAPI_Form", "Checkbox")
+          text += p_("EAPI_Form", "Tickbox") + " "
+        end
+        if @checked == 0
+          text += p_("EAPI_Form", "unticked")
+        else
+          text += p_("EAPI_Form", "ticked")
         end
         speech(text) if spk
         NVDA.braille(text)
@@ -3271,21 +3281,22 @@ module EltenAPI
       attr_reader :pause
       attr_accessor :label
 
-      def initialize(file, label = "", autoplay = true, quiet = true, stream = nil)
+      def initialize(file, label = "", autoplay = true, quiet = true, stream = nil, lazy = false)
         Programs.emit_event(:player_init)
         file = $url + file[1..-1] if file != nil && FileTest.exists?(file) == false && file[0..0] == "/"
         @label = label
         focus if quiet == false
-        if file.is_a?(String)
-          setsound(file)
-        elsif file == nil
-          setstream(stream)
-        else
+        @file = file
+        @stream = stream
+        @sound = nil
+        if file.is_a?(Bass::Sound)
           @sound = file
           @file = @sound.file
+        elsif !lazy
+          get_sound
         end
-        @pause = false
         if autoplay == true and @sound != nil
+          @pause = false
           play
         else
           @pause = true
@@ -3314,88 +3325,98 @@ module EltenAPI
         alert(p_("EAPI_Common", "This file cannot be played."))
       end
 
+      def get_sound
+        return @sound if @sound != nil
+        if @file.is_a?(String)
+          setsound(@file)
+        elsif @file == nil
+          setstream(@stream)
+        end
+        return @sound
+      end
+
       def update
         super
-        return if @sound == nil || @sound.closed
+        return if @sound != nil && @sound.closed
         if $keyr[0x10] == false && $keyr[0x11] == false
-          if @sound != nil
+          if get_sound != nil
             if $key[0x21]
-              chapters = @sound.chapters
-              ch = chapters.sort { |a, b| b.time <=> a.time }.find { |c| c.time < @sound.position - 5 }
+              chapters = get_sound.chapters
+              ch = chapters.sort { |a, b| b.time <=> a.time }.find { |c| c.time < get_sound.position - 5 }
               if ch != nil
-                @sound.position = ch.time
+                get_sound.position = ch.time
                 speak(ch.name)
               end
             elsif $key[0x22]
-              chapters = @sound.chapters
-              ch = chapters.sort { |a, b| a.time <=> b.time }.find { |c| c.time > @sound.position }
+              chapters = get_sound.chapters
+              ch = chapters.sort { |a, b| a.time <=> b.time }.find { |c| c.time > get_sound.position }
               if ch != nil
-                @sound.position = ch.time
+                get_sound.position = ch.time
                 speak(ch.name)
               end
             elsif $key[0x24]
-              @sound.position = 0
+              get_sound.position = 0
             elsif $key[0x23]
-              @sound.position = @sound.length - 1
+              get_sound.position = get_sound.length - 1
             end
           end
           if arrow_right
-            @sound.position += 5
+            get_sound.position += 5
           end
           if arrow_left
-            @sound.position -= 5
+            get_sound.position -= 5
           end
           if arrow_up(true)
             pl = 0.01
-            pl = 0.1 if @sound.volume >= 1
-            @sound.volume += pl
-            @sound.volume = 10 if @sound.volume > 10
+            pl = 0.1 if get_sound.volume >= 1
+            get_sound.volume += pl
+            get_sound.volume = 10 if get_sound.volume > 10
           end
           if arrow_down(true)
             pl = 0.01
-            pl = 0.1 if @sound.volume >= 1.1
-            @sound.volume -= pl
-            @sound.volume = 0.05 if @sound.volume < 0.05
+            pl = 0.1 if get_sound.volume >= 1.1
+            get_sound.volume -= pl
+            get_sound.volume = 0.05 if get_sound.volume < 0.05
           end
         elsif $keyr[0x11] == true and $keyr[0x10] == false
           if arrow_up(true)
-            @sound.tempo += 2
-            @sound.tempo = 100 if @sound.tempo > 100
-            eplay("listbox_focus") if @sound.tempo == 0
+            get_sound.tempo += 2
+            get_sound.tempo = 100 if get_sound.tempo > 100
+            eplay("listbox_focus") if get_sound.tempo == 0
           end
           if arrow_down(true)
-            @sound.tempo -= 2
-            @sound.tempo = -50 if @sound.tempo < -50
-            eplay("listbox_focus") if @sound.tempo == 0
+            get_sound.tempo -= 2
+            get_sound.tempo = -50 if get_sound.tempo < -50
+            eplay("listbox_focus") if get_sound.tempo == 0
           end
         elsif $keyr[0x10] == true and $keyr[0x11] == false
           if arrow_right(true)
-            @sound.pan += 0.02
-            @sound.pan = 1 if @sound.pan > 1
-            eplay("listbox_focus") if @sound.pan == 0
+            get_sound.pan += 0.02
+            get_sound.pan = 1 if get_sound.pan > 1
+            eplay("listbox_focus") if get_sound.pan == 0
           end
           if arrow_left(true)
-            @sound.pan -= 0.02
-            @sound.pan = -1 if @sound.pan < -1
-            eplay("listbox_focus") if @sound.pan == 0
+            get_sound.pan -= 0.02
+            get_sound.pan = -1 if get_sound.pan < -1
+            eplay("listbox_focus") if get_sound.pan == 0
           end
           if arrow_up(true)
-            @sound.frequency += @basefrequency.to_f / 500.0 * 2.0
-            @sound.frequency = @basefrequency * 2 if @sound.frequency > @basefrequency * 2
-            eplay("listbox_focus") if @sound.frequency == @sound.basefrequency
+            get_sound.frequency += @basefrequency.to_f / 500.0 * 2.0
+            get_sound.frequency = @basefrequency * 2 if get_sound.frequency > @basefrequency * 2
+            eplay("listbox_focus") if get_sound.frequency == get_sound.basefrequency
           end
           if arrow_down(true)
-            @sound.frequency -= @basefrequency.to_f / 500.0 * 2.0
-            @sound.frequency = @basefrequency / 2 if @sound.frequency < @basefrequency / 2
-            eplay("listbox_focus") if @sound.frequency == @sound.basefrequency
+            get_sound.frequency -= @basefrequency.to_f / 500.0 * 2.0
+            get_sound.frequency = @basefrequency / 2 if get_sound.frequency < @basefrequency / 2
+            eplay("listbox_focus") if get_sound.frequency == get_sound.basefrequency
           end
         end
         if $key[0x08] == true
           reset = 10
-          @sound.volume = 0.8
-          @sound.pan = 0
-          @sound.tempo = 0
-          @sound.frequency = @basefrequency
+          get_sound.volume = 0.8
+          get_sound.pan = 0
+          get_sound.tempo = 0
+          get_sound.frequency = @basefrequency
         end
       end
 
@@ -3523,24 +3544,24 @@ module EltenAPI
       end
 
       def position
-        return 0 if @sound == nil
-        return @sound.position
+        return 0 if get_sound == nil
+        return get_sound.position
       end
 
       def duration
-        return 0 if @sound == nil
-        return @sound.length
+        return 0 if get_sound == nil
+        return get_sound.length
       end
 
       def play
         @pause = false
         Programs.emit_event(:player_play)
-        @sound.play if @sound != nil
+        get_sound.play if get_sound != nil
       end
 
       def stop
         Programs.emit_event(:player_stop)
-        @sound.stop if @sound != nil
+        get_sound.stop if get_sound != nil
         @pause = true
       end
 
@@ -3549,17 +3570,17 @@ module EltenAPI
       end
 
       def completed
-        return true if @sound == nil
-        @sound.position(true) >= @sound.length(true) - 1024 and @sound.length(true) > 0
+        return true if get_sound == nil
+        get_sound.position(true) >= get_sound.length(true) - 1024 and get_sound.length(true) > 0
       end
 
       def fade
-        return if @sound == nil
+        return if get_sound == nil
         for i in 1..20
           loop_update
-          @sound.volume -= 0.05
-          if @sound.volume <= 0.05
-            @sound.volume = 0
+          get_sound.volume -= 0.05
+          if get_sound.volume <= 0.05
+            get_sound.volume = 0
             loop_update
             break
           end
@@ -3568,30 +3589,29 @@ module EltenAPI
 
       def close
         Programs.emit_event(:player_close)
-        @sound.close if @sound != nil
-        @sound = nil
+        get_sound.close if get_sound != nil
       end
 
       def context(menu, submenu = false)
-        if @sound != nil && !@sound.closed
+        if get_sound != nil && !get_sound.closed
           menu.option(p_("EAPI_Form", "Play/pause"), nil, :space) {
-            if @sound != nil
+            if get_sound != nil
               if @pause != true
                 Programs.emit_event(:player_pause)
-                @sound.pause
+                get_sound.pause
                 @pause = true
               else
                 Programs.emit_event(:player_play)
-                @sound.play
+                get_sound.play
                 @pause = false
               end
             end
           }
           menu.option(p_("EAPI_Form", "Get sound position"), nil, :p) {
-            if @sound != nil
+            if get_sound != nil
               d = 0
               begin
-                d = @sound.position.to_i
+                d = get_sound.position.to_i
               rescue Exception
               end
               h = d / 3600
@@ -3601,8 +3621,8 @@ module EltenAPI
             end
           }
           menu.option(p_("EAPI_Form", "Get sound duration"), nil, :d) {
-            if @sound != nil
-              d = (@sound.length || 0).to_i
+            if get_sound != nil
+              d = (get_sound.length || 0).to_i
               h = d / 3600
               m = (d - d / 3600 * 3600) / 60
               s = d - d / 60 * 60
@@ -3610,8 +3630,8 @@ module EltenAPI
             end
           }
           menu.option(p_("EAPI_Form", "Track info"), nil, :i) {
-            if @sound != nil
-              ai = @sound.audioinfo
+            if get_sound != nil
+              ai = get_sound.audioinfo
               fields = [
                 [p_("EAPI_Form", "Title"), ai.title],
                 [p_("EAPI_Form", "Artist"), ai.artist],
@@ -3630,9 +3650,9 @@ module EltenAPI
               end
             end
           }
-          if @sound != nil && @sound.chapters.size > 0
+          if get_sound != nil && get_sound.chapters.size > 0
             menu.option(p_("EAPI_Form", "Show chapters"), nil, :c) {
-              chapters = @sound.chapters
+              chapters = get_sound.chapters
               sel = ListBox.new(chapters.map { |c| c.name }, p_("EAPI_Form", "Chapters"), 0, 0, false)
               eplay("dialog_open")
               loop do
@@ -3641,9 +3661,9 @@ module EltenAPI
                 ch = chapters[sel.index]
                 if ch != nil
                   if enter
-                    @sound.position = ch.time if @sound != nil
+                    get_sound.position = ch.time if get_sound != nil
                     play
-                    if @sound.position < ch.time
+                    if get_sound.position < ch.time
                       speak(p_("EAPI_Form", "This chapter has not been buffered yet"))
                     end
                   elsif space
@@ -3656,13 +3676,13 @@ module EltenAPI
             }
           end
           menu.option(p_("EAPI_Form", "Jump to position"), nil, :j) {
-            @sound.pause
-            dpos = getposition(@sound.position, @sound.length)
-            dpos = @sound.position if @sound != nil && dpos == nil
+            get_sound.pause
+            dpos = getposition(get_sound.position, get_sound.length)
+            dpos = get_sound.position if get_sound != nil && dpos == nil
             dpos = dpos.to_i
-            dpos = @sound.length if @sound != nil && dpos > @sound.length
-            @sound.play if @sound != nil
-            @sound.position = dpos if @sound != nil
+            dpos = get_sound.length if get_sound != nil && dpos > get_sound.length
+            get_sound.play if get_sound != nil
+            get_sound.position = dpos if get_sound != nil
             loop_update
           }
           if @file != nil && (@file.include?("http:") || @file.include?("https:"))

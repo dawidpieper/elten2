@@ -312,7 +312,7 @@ If the problem occurs, please contact Elten support"
     alert(startmessage) if $silentstart != true
     $speech_wait = true if $silentstart != true
     if Configuration.checkupdates == 1
-      bid = srvproc("bin/buildid", { "branch" => Elten.branch, "build_id" => Elten.build_id }, 1).to_i
+      bid = srvproc("bin/buildid", { "branch" => get_updatesbranch, "build_id" => Elten.build_id }, 1).to_i
       if Elten.build_id != bid and bid > 0 and $denyupdate != true
         Log.info("New update available (BuildID: #{bid.to_s})")
         if $portable != 1

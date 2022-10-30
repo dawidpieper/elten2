@@ -209,7 +209,7 @@ class Scene_Forum
       ofs = 0
       mygroups = @groups.find_all { |g| g.role == 2 }.map { |g| g.id }
       @threads.each { |t| ofs += 1 if t.offered != 0 && mygroups.include?(t.offered) }
-      grpselt = [[np_("Forum", "Followed thread", "Followed threads", ft), nil, ft.to_s, fp.to_s, (fp - fr).to_s], [np_("Forum", "Followed forum", "Followed forums", forfol.size), forfol.size.to_s, flt.to_s, flp.to_s, (flp - flr).to_s], [np_("Forum", "Marked thread", "Marked threads", fmt), nil, fmt.to_s, fmp.to_s, (fmp - fmr).to_s]] + grpselt + [[p_("Forum", "Recently active groups")], [p_("Forum", "Recommended groups (%{count})") % { "count" => groupsrecommendedcnt.to_s }], [p_("Forum", "Open groups (%{count})") % { "count" => groupsopencnt.to_s }], [np_("Forum", "Waiting invitation", "Waiting invitations (%{count})", groupsinvitedcnt) % { "count" => groupsinvitedcnt.to_s }], [np_("Forum", "Moderated group", "Moderated groups (%{count})", groupsmoderatedcnt) % { "count" => groupsmoderatedcnt.to_s }], [p_("Forum", "All groups (%{count})") % { "count" => groupsallcnt.to_s }], [p_("Forum", "Recently created groups")], [p_("Forum", "Groups popular with my friends")], [p_("Forum", "Threads popular with my friends")], [p_("Forum", "Received mentions")], [np_("Forum", "Thread offered to my group", "Threads offered to my groups (%{count})", ofs) % { "count" => ofs.to_s }], [p_("Forum", "My threads")], [p_("Forum", "Search")]]
+      grpselt = [[np_("Forum", "Followed thread", "Followed threads", ft), nil, ft.to_s, fp.to_s, (fp - fr).to_s], [np_("Forum", "Followed forum", "Followed forums", forfol.size), forfol.size.to_s, flt.to_s, flp.to_s, (flp - flr).to_s], [np_("Forum", "Marked thread", "Marked threads", fmt), nil, fmt.to_s, fmp.to_s, (fmp - fmr).to_s]] + grpselt + [[p_("Forum", "Recently active groups")], [p_("Forum", "Recommended groups (%{count})") % { "count" => groupsrecommendedcnt.to_s }], [p_("Forum", "Open groups (%{count})") % { "count" => groupsopencnt.to_s }], [np_("Forum", "Awaiting group invitation", "Awaiting group invitations (%{count})", groupsinvitedcnt) % { "count" => groupsinvitedcnt.to_s }], [np_("Forum", "Moderated group", "Moderated groups (%{count})", groupsmoderatedcnt) % { "count" => groupsmoderatedcnt.to_s }], [p_("Forum", "All groups (%{count})") % { "count" => groupsallcnt.to_s }], [p_("Forum", "Recently created groups")], [p_("Forum", "Groups popular with my friends")], [p_("Forum", "Threads popular with my friends")], [p_("Forum", "Received mentions")], [np_("Forum", "Thread offered to my group", "Threads offered to my groups (%{count})", ofs) % { "count" => ofs.to_s }], [p_("Forum", "My threads")], [p_("Forum", "Search")]]
       grpselt[0] = [nil] if ft == 0
       grpselt[1] = [nil] if forfol.size == 0
       grpselt[2] = [nil] if fmt == 0
@@ -1281,6 +1281,7 @@ class Scene_Forum
       edt_query = EditBox.new(p_("Forum", "Search query"), 0, "", true),
       lst_phrasein = ListBox.new([p_("Forum", "Titles"), p_("Forum", "Content"), p_("Forum", "Authors")], p_("Forum", "Search in"), 0, ListBox::Flags::MultiSelection),
       lst_threadin = ListBox.new([p_("Forum", "Joined groups"), p_("Forum", "Recommended groups"), p_("Forum", "Not joined groups")], p_("Forum", "of threads in"), 0, ListBox::Flags::MultiSelection),
+      chk_transcriptions = CheckBox.new(p_("Forum", "Include transcriptions of audio posts")),
       btn_search = Button.new(p_("Forum", "Search")),
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
@@ -1308,6 +1309,7 @@ class Scene_Forum
       elsif obj.is_a?(Struct_Forum_Forum)
         result.forumid = obj.name
       end
+      result.transcriptions = true if chk_transcriptions.checked == 1
       form.resume
     }
     form.wait
@@ -2290,7 +2292,7 @@ class Scene_Forum
     end
     fields = [EditBox.new(p_("Forum", "Thread name"), 0, "", true)]
     if type == 0
-      fields[1..6] = [EditBox.new(p_("Forum", "Post"), EditBox::Flags::MultiLine, "", true), CheckBox.new(p_("Forum", "Use MarkDown in this post")), nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
+      fields[1..6] = [EditBox.new(p_("Forum", "Post content"), EditBox::Flags::MultiLine, "", true), CheckBox.new(p_("Forum", "Use MarkDown in this post")), nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
       fields[2] = nil if !holds_premiumpackage("courier")
     else
       fields[1..6] = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp + "\\audiopost.opus", 96, 48), nil, nil, nil, nil, nil]
@@ -2710,7 +2712,7 @@ class Scene_Forum
       end
     elsif @query.is_a?(Struct_Forum_SearchQuery)
       if @query.phrase_in.include?(:content)
-        sr = srvproc("forum_search", { "query" => @query.phrase })
+        sr = srvproc("forum_search", { "query" => @query.phrase, "transcriptions" => (@query.transcriptions) ? (1) : (0) })
         if sr[0].to_i < 0
           alert(_("Error"))
         else
@@ -2932,11 +2934,13 @@ class Scene_Forum_Thread
     for i in 0...@posts.size
       post = @posts[i]
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.post.downcase.include?(@query.phrase.downcase) && @query.phrase_in.include?(:content)
+      index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.transcription.downcase.include?(@query.phrase.downcase) && @query.phrase_in.include?(:content) && @query.transcriptions
       index = i * 3 if index == -1 and @param == -3 and @query.is_a?(Struct_Forum_SearchQuery) and post.author.downcase == @query.phrase.downcase && @query.phrase_in.include?(:author)
       index = i * 3 if @mention != nil and (@param == -7 or @param == -11) and post.id == @mention.post
       index = i * 3 if index == -1 and @param == -13 and @query.is_a?(Numeric) and @query == post.id
       flags = EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly
       flags |= EditBox::Flags::MarkDown if post.format == 1
+      flags |= EditBox::Flags::Transcripted if post.transcription.strip != ""
       @fields += [EditBox.new(post.authorname, flags, generate_posttext(post), true), nil, nil]
       if @sponsors.include?(post.author)
         @fields[-3].add_sound("user_sponsor")
@@ -2970,7 +2974,7 @@ class Scene_Forum_Thread
     else
       @fields.push(nil)
     end
-    @textfields = [EditBox.new(p_("Forum", "Your answer"), EditBox::Flags::MultiLine, "", true), nil, nil, nil, nil, nil, Button.new(p_("Forum", "Attach a file"))]
+    @textfields = [EditBox.new(p_("Forum", "Your reply"), EditBox::Flags::MultiLine, "", true), nil, nil, nil, nil, nil, Button.new(p_("Forum", "Attach a file"))]
     if holds_premiumpackage("courier")
       @textfields[3] = CheckBox.new(p_("Forum", "Use MarkDown in this post"))
     end
@@ -2999,7 +3003,11 @@ class Scene_Forum_Thread
     if post.edited
       add = "\r\n" + p_("Forum", "This post has been edited")
     end
-    return post.post + ((post.likes > 0) ? (np_("Forum", "%{count} user likes this post", "%{count} users like this post", post.likes) % { "count" => post.likes.to_s } + "\n") : ("")) + ((LocalConfig["ForumHideSignatures"] == 1 && holds_premiumpackage("courier")) ? ("") : (post.signature)) + post.date + add + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s
+    ppost = post.post
+    if post.transcription.strip != ""
+      ppost += "\n" + post.transcription + "\n"
+    end
+    return ppost + ((post.likes > 0) ? (np_("Forum", "%{count} user likes this post", "%{count} users like this post", post.likes) % { "count" => post.likes.to_s } + "\n") : ("")) + ((LocalConfig["ForumHideSignatures"] == 1 && holds_premiumpackage("courier")) ? ("") : (post.signature)) + post.date + add + "\r\n" + (i + 1).to_s + "/" + @posts.size.to_s
   end
 
   def textsendupdate
@@ -3090,7 +3098,7 @@ class Scene_Forum_Thread
           @form.index = @postscount * 3 + ((@type == 2) ? 0 : 1)
           @form.focus
         }
-        if @type == 0 and @form.fields[@postscount * 3 + 1].is_a?(EditBox)
+        if (@type == 0 || @type == 2) and @form.fields[@postscount * 3 + 1].is_a?(EditBox) and !@posts[@form.index / 3].post.include?("\004AUDIO\004")
           m.option(p_("Forum", "Reply with quote"), nil, "d") {
             @form.fields[@postscount * 3 + 1].set_text("\r\n-- (#{@posts[@form.index / 3].authorname}):\r\n#{@posts[@form.index / 3].post}\r\n--\r\n#{@form.fields[@postscount * 3 + 1].text}")
             @form.fields[@postscount * 3 + 1].index = 0
@@ -3659,7 +3667,7 @@ class Scene_Forum_Thread
   end
 
   def getcache
-    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 4, "zs" => 1 }, 1)
+    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 5, "zs" => 1 }, 1)
     return if c[0...(c.index("\r") || c.size)].to_i < 0
     c = ("0\r\n" + zstd_decompress(c[3..-1])).split("\r\n").map { |a| a + "\r\n" }
     @cache = c
@@ -3710,6 +3718,12 @@ class Scene_Forum_Thread
         @posts.last.format = l.to_i
         t += 1
       when 11
+        if l.delete("\r\n") == "\004END\004"
+          t += 1
+        else
+          @posts.last.transcription += l
+        end
+      when 12
         if l.delete("\r\n") == "\004END\004"
           t = 0
         else
@@ -3854,6 +3868,7 @@ class Struct_Forum_Post
   attr_accessor :locked
   attr_accessor :likes
   attr_accessor :format
+  attr_accessor :transcription
 
   def initialize(id = 0)
     @id = id
@@ -3869,6 +3884,7 @@ class Struct_Forum_Post
     @locked = false
     @likes = 0
     @format = 0
+    @transcription = ""
   end
 end
 
@@ -3907,7 +3923,7 @@ class Struct_Forum_Bookmark
 end
 
 class Struct_Forum_SearchQuery
-  attr_accessor :phrase, :phrase_in, :thread_in, :groupid, :forumid
+  attr_accessor :phrase, :phrase_in, :thread_in, :groupid, :forumid, :transcriptions
 
   def initialize(phrase)
     @phrase = phrase
@@ -3915,6 +3931,7 @@ class Struct_Forum_SearchQuery
     @phrase_in = [:title, :content]
     @groupid = nil
     @forumid = nil
+    @transcriptions = false
   end
 end
 

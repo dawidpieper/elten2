@@ -143,6 +143,7 @@ class Scene_Settings
     make_setting(p_("Settings", "Enable auto log in"), :bool, "Login", "EnableAutoLogin", [0, 1])
     make_setting(p_("Settings", "Automatically start Elten after I log on to Windows"), :bool, "System", "AutoStart")
     make_setting(p_("Settings", "Check for updates at startup"), :bool, "Updates", "CheckAtStartup")
+    make_setting(p_("Settings", "Updates branch"), [p_("Settings", "Auto"), p_("Settings", "Stable"), p_("Settings", "RC"), p_("Settings", "Beta")], "Updates", "Branch", ["", "stable", "beta", "rc"])
     make_setting(p_("Settings", "Send Elten usage reports"), :bool, "Privacy", "RegisterActivity")
   end
 
@@ -168,11 +169,12 @@ class Scene_Settings
     make_setting(p_("Settings", "Use Stereo positioning for user interface"), :bool, "Interface", "UsePan")
     make_setting(p_("Settings", "Use background sounds in menu and dialog windows"), :bool, "Interface", "BGSounds")
     make_setting(p_("Settings", "Display context menu in menu bar"), :bool, "Interface", "ContextMenuBar")
-    make_setting(p_("Settings", "Announcement of types of controls"), [p_("Settings", "Voice and sound"), p_("Settings", "Sound only"), p_("Settings", "Voice only")], "Interface", "ControlsPresentation")
+    make_setting(p_("Settings", "Control types announcement"), [p_("Settings", "Voice and sound"), p_("Settings", "Sound only"), p_("Settings", "Voice only")], "Interface", "ControlsPresentation")
     make_setting(p_("Settings", "Wrap long lines in text fields"), :bool, "Interface", "LineWrapping")
     make_setting(p_("Settings", "The display method of selection lists"), [p_("Settings", "Linear"), p_("Settings", "Circular")], "Interface", "ListType")
     make_setting(p_("Settings", "Round up the forms"), :bool, "Interface", "RoundUpForms")
     make_setting(p_("Settings", "Disable feed notifications"), :bool, "Interface", "DisableFeedNotifications")
+    make_setting(p_("Settings", "Automatically play audio content"), [p_("Settings", "Always"), p_("Settings", "Only when transcription is not available"), p_("Settings", "Never")], "Interface", "AutoPlay")
     on_load {
       @form.fields[1].on(:change) {
         if @form.fields[1].checked.to_i == 1

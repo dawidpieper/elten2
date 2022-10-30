@@ -767,6 +767,8 @@ module EltenAPI
     Configuration.synctime = readconfig("Advanced", "SyncTime", 1)
     Configuration.registeractivity = readconfig("Privacy", "RegisterActivity", -1)
     Configuration.checkupdates = readconfig("Updates", "CheckAtStartup", 1)
+    Configuration.autoplay = readconfig("Interface", "AutoPlay", 0)
+    Configuration.branch = readconfig("Updates", "Branch", "")
     c_autostart = readconfig("System", "AutoStart", 0)
     autostart = false
     runkey = Win32::Registry::HKEY_CURRENT_USER.create("Software\\Microsoft\\Windows\\CurrentVersion\\Run")
@@ -1072,6 +1074,14 @@ module EltenAPI
       def []=(a, b)
         return get_cache[a] = b
       end
+    end
+  end
+
+  def get_updatesbranch
+    if Configuration.branch == ""
+      return Elten.branch
+    else
+      return Configuration.branch
     end
   end
 end

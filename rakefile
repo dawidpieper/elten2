@@ -77,7 +77,7 @@ task :pot do
   require_gem("gettext", "gettext/tools/xgettext")
   Dir.mkdir("locale") if !FileTest.exists?("locale")
   files = get_files("filelist_rgss")
-  param = files + ["-o", "locale/elten.pot", "--package-name=Elten", "--package-version=2.4", "--msgid-bugs-address=dawidpieper@o2.pl", "--copyright-holder=\"Dawid Pieper\"", "--copyright-year=#{Time.now.year}"]
+  param = files + ["-o", "locale/elten.pot", "--package-name=Elten", "--package-version=2.5", "--msgid-bugs-address=dawidpieper@o2.pl", "--copyright-holder=\"Dawid Pieper\"", "--copyright-year=#{Time.now.year}"]
   GetText::Tools::XGetText.run(*param)
   puts("Translations saved.")
 end

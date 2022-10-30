@@ -39,7 +39,7 @@ class Scene_WhatsNew
     $nbeta = nbeta
     $nversion = nversion
     $nalpha = nalpha
-    @bid = srvproc("bin/buildid", { "branch" => Elten.branch, "build_id" => Elten.build_id }, 1).to_i if @bid == nil
+    @bid = srvproc("bin/buildid", { "branch" => get_updatesbranch, "build_id" => Elten.build_id }, 1).to_i if @bid == nil
     if @init == true and (posts > 0 or messages > 0)
       header = p_("WhatsNew", "What's new")
     else
@@ -64,7 +64,7 @@ class Scene_WhatsNew
       "#{p_("WhatsNew", "New comments to followed blog posts")} (#{followedblogposts.to_s})",
       "#{p_("WhatsNew", "New blog followers")} (#{blogfollowers.to_s})",
       "#{p_("WhatsNew", "Blog mentions")} (#{blogmentions.to_s})",
-      "#{p_("WhatsNew", "Waiting invitations")} (#{groupinvitations.to_s})",
+      "#{p_("WhatsNew", "Awaiting group invitations")} (#{groupinvitations.to_s})",
       p_("WhatsNew", "Update available (%{version})") % { "version" => "Elten #{nv}" }
     ], header)
     @sel.disable_item(0) if messages <= 0
