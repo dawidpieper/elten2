@@ -178,6 +178,17 @@ module NVDA
         end
         text.gsub!(/\004INFNEW\{([^\}]+)\}\004/) { "[#{$1}]" }
         text.gsub!("\004NEW\004", "[]")
+        text.gsub!("\004ATTACHMENT\004", "⣏⣹")
+        text.gsub!("\004PINNED\004", "⡠⠊⠑⢄")
+        text.gsub!("\004ONLINE\004", "(online: ")
+        text.gsub!("\004CLOSED\004", "⣏⣹⠉⢹")
+        text.gsub!("\004RESTRICTED\004", "(*)")
+        text.gsub!("\004SPONSOR\004", "(sponsor!)")
+        text.gsub!("\004CONTAINING\004", "->")
+        text.gsub!("\004LIKED\004", "(like)")
+
+
+
         text.gsub!(/\004[^\004]+\004/, "")
         realtext = text
       end

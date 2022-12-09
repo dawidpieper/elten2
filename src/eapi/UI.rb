@@ -36,6 +36,13 @@ module EltenAPI
         if sound != nil
           stream = Bass::BASS_StreamCreateFile.call(1, sound, 0, 0, sound.bytesize, 0, 262144)
           Bass::BASS_ChannelSetAttribute.call(stream, 2, [volume.to_f / 100.0 * 0.5].pack("f").unpack("I")[0])
+          if pitch != 100
+            f = [0].pack("f")
+            Bass::BASS_ChannelGetAttribute.call(stream, 1, f)
+            frq = f.unpack("f").first
+            freq = frq * pitch / 100.0
+            Bass::BASS_ChannelSetAttribute.call(stream, 1, [freq.to_f].pack("f").unpack("I")[0])
+          end
           if Configuration.usepan == 1
             Bass::BASS_ChannelSetAttribute.call(stream, 3, [pan.to_f / 50.0 - 1.0].pack("f").unpack("I")[0])
           end
