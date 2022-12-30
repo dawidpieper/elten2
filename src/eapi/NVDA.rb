@@ -185,9 +185,8 @@ module NVDA
         text.gsub!("\004RESTRICTED\004", "(*)")
         text.gsub!("\004SPONSOR\004", "(sponsor!)")
         text.gsub!("\004CONTAINING\004", "->")
+        text.gsub!("\004CONTAINING\004", "->")
         text.gsub!("\004LIKED\004", "(like)")
-
-
 
         text.gsub!(/\004[^\004]+\004/, "")
         realtext = text

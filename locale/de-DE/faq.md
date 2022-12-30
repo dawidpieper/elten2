@@ -164,7 +164,7 @@ Die Funktion "Drücken und Sprechen" ermöglicht es uns, den Ton von unserem Mik
 Technisch gesehen nichts, außer der Art und Weise, wie sie eingeleitet werden.
 Wenn Sie einen anderen Benutzer anrufen, erhält dieser eine Benachrichtigung mit der Möglichkeit, den Anruf anzunehmen. Wenn er oder sie sich dafür entscheidet, wird ein spezieller privater Konferenzkanal erstellt und die Anrufer werden mit diesem verbunden.
 
-# Botschaften
+# Nachrichten
 ## Wie funktioniert Elten Mail?
 Elten Mail ist ein einfaches Postfach, mit dem Sie E-Mails mit Elten senden und empfangen können.
 Jedem Benutzer wird eine E-Mail-Adresse in der Domain "elten.me" zugewiesen, z.B. erhält der Benutzer "smith" die Adresse "smith@elten.me".

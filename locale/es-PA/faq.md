@@ -82,7 +82,7 @@ Nota: No utilice la tecla "Enter" para abrir las carpetas.
 La mayoría de los lugares de configuración, incluidos los ajustes de programas, grupos, blogs o cuentas, utilizan el mismo diseño, en el que la ventana se divide en categorías (secciones de configuración) y opciones específicas.
 En estas ventanas, el primer elemento es una lista de categorías. Al seleccionar una categoría, el contenido de la ventana cambiará, los elementos específicos están disponibles pulsando la pestaña.
 
-#Cuentas
+# Cuentas
 ## ¿Dónde puedo cambiar mis datos de usuario?
 Todos los datos del perfil pueden modificarse mediante la opción disponible en el menú "Comunidad", "Gestionar mi cuenta".
 Allí puedes cambiar tanto los datos visibles al público (edad, lugar de residencia, nombre, tarjeta de visita), como la contraseña de tu cuenta, activar la verificación en dos pasos o ver tus inicios de sesión.
@@ -178,7 +178,7 @@ Las conversaciones de grupo se pueden crear desde el menú contextual.
 Si no quieres que un usuario en particular te envíe mensajes, puedes añadirlo a una lista negra.
 Puedes hacerlo desde el menú "Comunidad", "Gestionar mi cuenta", categoría "Privacidad", "Lista negra".
 
-#Blogs
+# Blogs
 ## ¿Cómo funcionan los blogs de Elten?
 Los blogs de Elten se basan en el popular sistema CMS WordPress. Es posible verlos y gestionarlos tanto desde el cliente como desde el sitio web.
 La instancia de Elten de WordPress ha sido mejorada con varias funcionalidades adicionales para el programa, incluyendo el seguimiento de los blogs de otros usuarios o ajustes adicionales de privacidad.
@@ -232,7 +232,7 @@ Ejemplo: una de las preguntas de la encuesta es sobre el género, las respuestas
 Se pueden combinar varios filtros, por ejemplo, seleccionando sólo las respuestas de las personas que son mujeres y menores de 20 años, dependiendo de las preguntas disponibles, por supuesto.
 Los filtros están disponibles en el menú contextual de la lista de respuestas.
 
-#Técnica
+# Técnica
 ## ¿En qué lenguaje está escrito Elten?
 Elten está escrito en el lenguaje Ruby. Algunas partes del programa también están escritas en C++.
 
@@ -256,7 +256,7 @@ Si no ve un rastro del error a pesar de haber seleccionado el nivel de acceso "d
 Todos los ajustes se guardan en la carpeta "%appdata%\elten", donde %appdata% representa la carpeta Roaming de los datos de la aplicación.
 Para acceder a esta carpeta, lo más sencillo es pulsar la combinación de teclas WINDOWS+R, introducir el texto "%appdata%" en el campo "Abrir" y pulsar intro.
 
-#Soluciones a problemas comunes
+# Soluciones a problemas comunes
 ## La "interfaz invisible" no funciona.
 Lo más probable es que el problema esté relacionado con el atajo de teclado utilizado. Puede ser que ya se utilice en otro programa.
 Las teclas utilizadas por la "Interfaz invisible" pueden cambiarse desde el menú "Herramientas", "Configuración del programa", categoría "Interfaz invisible", opción "Modificadores".

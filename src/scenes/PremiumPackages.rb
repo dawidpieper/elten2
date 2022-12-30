@@ -33,7 +33,8 @@ class Scene_PremiumPackages
              p_("PremiumPackages", "Following blog posts"),
              p_("PremiumPackages", "Extended limit of attachment size in private messages to 32MB"),
              p_("PremiumPackages", "Attaching polls to private messages"),
-             p_("PremiumPackages", "Using MarkDown in forum posts")
+             p_("PremiumPackages", "Using MarkDown in forum posts"),
+             p_("PremiumPackages", "Reading transcriptions of audio posts in recommended groups")
            ])
   end
 

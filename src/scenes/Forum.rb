@@ -1286,6 +1286,7 @@ class Scene_Forum
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
     form.hide(lst_threadin) if obj != nil
+    form.hide(chk_transcriptions) if !holds_premiumpackage("courier")
     lst_phrasein.selected[0] = true
     lst_threadin.selected[0] = true
     lst_threadin.selected[1] = true
