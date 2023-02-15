@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2022 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -32,9 +32,13 @@ module EltenAPI
         end
         sound = nil
         sound = getsound(voice)
-        sound = readfile(voice) if sound == nil && FileTest.exists?(voice)
-        if sound != nil
-          stream = Bass::BASS_StreamCreateFile.call(1, sound, 0, 0, sound.bytesize, 0, 262144)
+        if sound != nil || FileTest.exists?(voice)
+          stream = nil
+          if sound != nil
+            stream = Bass::BASS_StreamCreateFile.call(1, sound, 0, 0, sound.bytesize, 0, 262144)
+          else
+            stream = Bass::BASS_StreamCreateFile.call(0, unicode(voice), 0, 0, 0, 0, 0x80000000 | 262144)
+          end
           Bass::BASS_ChannelSetAttribute.call(stream, 2, [volume.to_f / 100.0 * 0.5].pack("f").unpack("I")[0])
           if pitch != 100
             f = [0].pack("f")

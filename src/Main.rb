@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -9,12 +9,12 @@ class Object
 end
 
 module Elten
-  Version = 2.51
-  Beta = 2
+  Version = 2.511
+  Beta = 0
   Alpha = 0
-  IsBeta = 1
-  BuildID = 20221030001
-  BuildDate = 1667128509
+  IsBeta = 0
+  BuildID = 20230215001
+  BuildDate = 1676485226
   class << self
     def version
       return Version

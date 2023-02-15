@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -367,12 +367,15 @@ module EltenAPI
           v = "[" + v.find_all { |l| l.is_a?(Integer) }.join(",") + "]"
         end
         LCCache[k] = v
+        writeconfig("local", k, v) if v != LOCache[k]
+        LOCache[k] = v
       end
 
       def save
         for k in LCCache.keys
           v = LCCache[k]
           writeconfig("local", k, v) if v != LOCache[k]
+          LOCache[k] = v
         end
       end
     end
@@ -938,6 +941,183 @@ module EltenAPI
       mask = mask >> 8
     end
     return out
+  end
+
+  class ZipReader
+    attr_reader :files, :file
+
+    class ZippedFile
+      attr_accessor :encrypted, :enchanced_deflation, :patched_data, :strong_encryption, :compression, :compressed_size, :uncompressed_size, :fh_offset, :filename, :extrafield, :comment
+    end
+
+    def initialize(file)
+      @file = file
+      @reading = false
+      @reader = FileReader.new(file)
+      ps = @reader.size - 65536 - 1024
+      ps = 0 if ps < 0
+      @reader.position = ps
+      block = @reader.read(@reader.size - ps)
+      eocd = [0x06054b50].pack("I")
+      eocd_indices = (0..block.size - eocd.size).select { |i| block[i, eocd.size] == eocd }
+      raise(RuntimeError, "Not a ZIP") if eocd_indices.size == 0
+      @eocd_index = eocd_indices.last + ps
+      @reader.position = @eocd_index + 4
+      r = @reader.read(2).unpack("S").first
+      raise(RuntimeError, "Not a one ZIP") if r != 0
+      r = @reader.read(2).unpack("S").first
+      raise(RuntimeError, "Not a one ZIP") if r != 0
+      @reader.position += 2
+      @cdr_records = @reader.read(2).unpack("S").first
+      @cdr_size = @reader.read(4).unpack("I").first
+      @cdr_offset = @reader.read(4).unpack("I").first
+      @reader.position = @cdr_offset
+      @files = Array.new(@cdr_records) { read_cdr }
+    end
+
+    def get_file(file)
+      file = @files[file] if file.is_a?(Numeric)
+      raise(RuntimeError, "Compression not supported") if file.compression != :deflate && file.compression != :none
+      sleep(0.1) while @reading
+      @reading = true
+      @reader.position = file.fh_offset
+      size = read_fh
+      if size == nil
+        @reading = false
+        return nil
+      end
+      size = file.compressed_size if size == 0
+      compressed = @reader.read(size)
+      @reading = false
+      uncompressed = nil
+      case file.compression
+      when :none
+        uncompressed = compressed
+      else
+        inflater = Zlib::Inflate.new(-Zlib::MAX_WBITS)
+        uncompressed = inflater.inflate(compressed) + inflater.finish
+        inflater.close
+      end
+      return uncompressed
+    end
+
+    def unpack_file(file, destination)
+      file = @files[file] if file.is_a?(Numeric)
+      raise(RuntimeError, "Compression not supported") if file.compression != :deflate && file.compression != :none
+      dst = FileWriter.new(destination)
+      sleep(0.1) while @reading
+      @reading = true
+      @reader.position = file.fh_offset
+      size = read_fh
+      if size == nil
+        @reading = false
+        return nil
+      end
+      size = file.compressed_size if size == 0
+      left = size
+      c = nil
+      c = Zlib::Inflate.new(-Zlib::MAX_WBITS) if file.compression == :deflate
+      while left > 0
+        sz = 1048576
+        sz = left if sz > left
+        left -= sz
+        frg = @reader.read(sz)
+        case file.compression
+        when :none
+          dst.write(frg)
+        when :deflate
+          f = c.inflate(frg)
+          dst.write(f)
+        end
+      end
+      if file.compression == :deflate && c != nil
+        f = c.finish
+        dst.write(f)
+        c.close
+      end
+      dst.close
+      @reading = false
+      return size
+    end
+
+    def extract_all(destination)
+      dirs = @files.select { |f| f.filename[-1..-1] == "/" }.map { |f| f.filename }
+      for dir in dirs
+        createdirifneeded(destination + "\\" + dir.gsub("/", "\\"))
+      end
+      for file in @files.select { |f| f.filename[-1..-1] != "/" }
+        d = destination + "\\" + file.filename.gsub("/", "\\")
+        unpack_file(file, d)
+      end
+    end
+
+    private
+
+    def read_fh
+      if @reader.read(4).unpack("I").first != 0x04034b50
+        @reader.position -= 4
+        return nil
+      end
+      @reader.position += 2
+      @reader.position += 2
+      @reader.position += 2
+      @reader.position += 2
+      @reader.position += 2
+      @reader.position += 4
+      compressed_size = @reader.read(4).unpack("I").first
+      uncompressed_size = @reader.read(4).unpack("I").first
+      filename_length = @reader.read(2).unpack("S").first
+      extrafield_length = @reader.read(2).unpack("S").first
+      filename = @reader.read(filename_length)
+      extrafield = @reader.read(extrafield_length)
+      return compressed_size
+    end
+
+    def read_cdr
+      if @reader.read(4).unpack("I").first != 0x02014b50
+        @reader.position -= 4
+        return nil
+      end
+      zf = ZippedFile.new
+      @reader.position += 2
+      @reader.position += 2
+      flags = @reader.read(2).unpack("S").first
+      zf.encrypted = flags[0] != 0
+      zf.enchanced_deflation = flags[4] != 0
+      zf.patched_data = flags[5] != 0
+      zf.strong_encryption = flags[6] != 0
+      zf.compression = nil
+      compression_options = @reader.read(2).unpack("S").first
+      case compression_options
+      when 0
+        zf.compression = :none
+      when 8
+        zf.compression = :deflate
+      when 11
+        zf.compression = :BZIP2
+      when 14
+        zf.compression = :lzma
+      when 98
+        zf.compression = :PPMD
+      end
+      @reader.position += 2
+      @reader.position += 2
+      @reader.position += 4
+      zf.compressed_size = @reader.read(4).unpack("I").first
+      zf.uncompressed_size = @reader.read(4).unpack("I").first
+      filename_length = @reader.read(2).unpack("S").first
+      extrafield_length = @reader.read(2).unpack("S").first
+      comment_length = @reader.read(2).unpack("S").first
+      @reader.position += 2
+      @reader.position += 2
+      @reader.position += 4
+      zf.fh_offset = @reader.read(4).unpack("I").first
+      zf.filename = @reader.read(filename_length).gsub("\\", "/")
+      return nil if zf.filename.split("/").include?("..") || zf.filename.include?(":")
+      zf.extrafield = @reader.read(extrafield_length)
+      zf.comment = @reader.read(comment_length)
+      return zf
+    end
   end
 
   class FileCache

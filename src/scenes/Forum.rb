@@ -9,7 +9,7 @@ class Scene_Forum
   @@lastCacheIdent = nil
   @@lastCacheTime = nil
 
-  def initialize(pre = nil, preparam = nil, cat = 0, query = "", tc = nil)
+  def initialize(pre = nil, preparam = nil, cat = 0, query = "", tc = nil, tag = nil)
     @pre = pre
     @preparam = preparam
     @lastlist = @cat = cat
@@ -17,6 +17,7 @@ class Scene_Forum
     @grpindex ||= []
     @close = false
     @tc = tc
+    @tag = tag
   end
 
   def main
@@ -1968,6 +1969,10 @@ class Scene_Forum
     @thrsel.trigger(:move)
     @thrsel.column = LocalConfig["ForumColumnThread"] if LocalConfig["ForumColumnThread"] != nil
     @thrsel.bind_context(p_("Forum", "Forum")) { |menu| context_threads(menu) }
+    if @tag != nil
+      @thrsel.tag = @tag
+      @tag = nil
+    end
     @thrsel.focus
     loop do
       loop_update
@@ -1994,12 +1999,12 @@ class Scene_Forum
     g = @sthreads[index].forum.group
     groupmotddlg(g, false) if g.hasnewmotd
     if @group == -5
-      $scene = Scene_Forum_Thread.new(@sthreads[index], -5, @cat, @query)
+      $scene = Scene_Forum_Thread.new(@sthreads[index], -5, @cat, @query, nil, nil, @thrsel.tag)
     else
       if @forum == -7 or @forum == -11
-        $scene = Scene_Forum_Thread.new(@sthreads[index], @forum, @cat, @query, @sthreads[@thrsel.index].mention)
+        $scene = Scene_Forum_Thread.new(@sthreads[index], @forum, @cat, @query, @sthreads[@thrsel.index].mention, nil, @thrsel.tag)
       else
-        $scene = Scene_Forum_Thread.new(@sthreads[index], @forum, @cat, @query)
+        $scene = Scene_Forum_Thread.new(@sthreads[index], @forum, @cat, @query, nil, nil, @thrsel.tag)
       end
     end
   end
@@ -2774,13 +2779,14 @@ class Scene_Forum
 end
 
 class Scene_Forum_Thread
-  def initialize(thread, param = nil, cat = 0, query = "", mention = nil, scene = nil)
+  def initialize(thread, param = nil, cat = 0, query = "", mention = nil, scene = nil, tag = nil)
     @threadclass = thread
     @param = param
     @cat = cat
     @query = query
     @mention = mention
     @scene = scene
+    @tag = tag
     srvproc("mentions", { "notice" => "1", "id" => mention.id }) if mention != nil
   end
 
@@ -2820,7 +2826,7 @@ class Scene_Forum_Thread
           if r == true
             speech_stop
             if @scene == nil
-              $scene = Scene_Forum.new(@thread, @param, @cat, @query, @threadclass)
+              $scene = Scene_Forum.new(@thread, @param, @cat, @query, @threadclass, @tag)
             else
               $scene = @scene
             end

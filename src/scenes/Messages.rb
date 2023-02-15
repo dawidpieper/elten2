@@ -36,8 +36,16 @@ class Scene_Messages
         @cat = 1
         load_conversations("", "new")
       elsif @wn.is_a?(String)
-        @cat = 1
-        load_conversations(@wn)
+        if !@wn.include?(":")
+          @cat = 1
+          load_conversations(@wn)
+        else
+          @cat = 2
+          a = @wn[0...@wn.index(":")]
+          b = @wn[@wn.index(":") + 1..-1]
+          b = nil if b == ""
+          load_messages(a, b)
+        end
       end
     else
       case @cat
@@ -189,9 +197,15 @@ class Scene_Messages
           main
         end
       }
-      menu.option(p_("Messages", "Add conversations to quick actions"), nil, "q") {
-        QuickActions.create(Scene_Messages, p_("Messages", "Conversations with %{user}") % { "user" => @users[@sel_users.index].user }, [@users[@sel_users.index].user])
-        alert(p_("Messages", "Conversations added to quick actions"))
+      menu.submenu(p_("Messages", "Add conversation to quick actions")) { |m|
+        m.option(p_("Messages", "Add list of conversations to quick actions"), nil, "q") {
+          QuickActions.create(Scene_Messages, p_("Messages", "Conversations with %{user}") % { "user" => @users[@sel_users.index].user }, [@users[@sel_users.index].user])
+          alert(p_("Messages", "Conversations added to quick actions"))
+        }
+        m.option(p_("Messages", "Add all messages in this conversation to quick actions"), nil, "Q") {
+          QuickActions.create(Scene_Messages, p_("Messages", "Messages with %{user}") % { "user" => @users[@sel_users.index].user }, [@users[@sel_users.index].user + ":"])
+          alert(p_("Messages", "Conversation added to quick actions"))
+        }
       }
       if @users[@sel_users.index].muted == false
         menu.submenu(p_("Messages", "Mute this conversation")) { |m|
@@ -614,6 +628,7 @@ class Scene_Messages
     if escape or ((arrow_left and @form_messages.index == 0) and @form_messages.fields[0] == @sel_messages) or (@sel_messages.options.size - @sel_messages.grayed.count(true)) == 0
       if @form_messages.fields[0] == @sel_messages
         if (@form_messages.fields[3] == nil || @form_messages.fields[3].text == "") || confirm(p_("Messages", "Are you sure you want to cancel creating this message?")) == 1
+          return $scene = Scene_Main.new if @wn.is_a?(String)
           if @messages_sp != "flagged" and @messages_sp != "search" and @messages_subject != nil
             load_conversations(@messages_user, @messages_sp)
             @cat = 1

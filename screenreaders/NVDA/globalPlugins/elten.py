@@ -323,7 +323,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 39}
+			return {'version': 40}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

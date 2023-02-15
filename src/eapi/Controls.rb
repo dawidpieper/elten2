@@ -1060,10 +1060,10 @@ module EltenAPI
           }
           if holds_premiumpackage("scribe")
             menu.option(p_("EAPI_Form", "Quick translation"), nil, "t") {
-              espeech(translatetext(0, Configuration.language, get_check))
+              espeech(translatetext(0, Configuration.language, get_check_or_all))
             }
             menu.option(p_("EAPI_Form", "Translate"), nil, "T") {
-              translator(get_check)
+              translator(get_check_or_all)
             }
           end
           for a in @@customactions
@@ -1297,6 +1297,12 @@ module EltenAPI
         to = st[1]
         to = char_borders(to)[1]
         return @text[from..to]
+      end
+
+      def get_check_or_all
+        c = get_check
+        c = @text if c.split("").size <= 2
+        return c
       end
 
       def einsert(text, index = @index, toundo = true)
@@ -2337,6 +2343,10 @@ module EltenAPI
         end
       end
 
+      def tag
+        @tag
+      end
+
       def multiselections
         ar = []
         for i in 0...@options.size
@@ -3166,6 +3176,14 @@ module EltenAPI
 
       def autosayoption=(a)
         @sel.autosayoption = a
+      end
+
+      def tag
+        @sel.tag
+      end
+
+      def tag=(t)
+        @sel.tag = t
       end
 
       def options
