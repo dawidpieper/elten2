@@ -135,15 +135,7 @@ class Struct_Programs_Program
   attr_accessor :name, :size, :version, :author, :path
   attr_reader :realpath
   def self.load(path)
-    if FileTest.exists?(Dirs.apps + "\\" + path + "\\__app.ini")
-      f = Dirs.apps + "\\" + path + "\\__app.ini"
-      name = readini(f, "App", "Name", "")
-      version = readini(f, "App", "Version", "")
-      author = readini(f, "App", "Author", "")
-      size = 0
-      ppath = path.gsub(/\([^\)]+\)/, "")
-      new(ppath, name, version, author, size, path)
-    elsif FileTest.exists?(Dirs.apps + "\\" + path + "\\__app.rb")
+    if FileTest.exists?(Dirs.apps + "\\" + path + "\\__app.rb")
       f = Dirs.apps + "\\" + path + "\\__app.rb"
       code = readfile(f)
       config = {}
@@ -163,6 +155,14 @@ class Struct_Programs_Program
       name = config["name"]
       version = config["version"]
       author = config["author"]
+      size = 0
+      ppath = path.gsub(/\([^\)]+\)/, "")
+      new(ppath, name, version, author, size, path)
+    elsif FileTest.exists?(Dirs.apps + "\\" + path + "\\__app.ini")
+      f = Dirs.apps + "\\" + path + "\\__app.ini"
+      name = readini(f, "App", "Name", "")
+      version = readini(f, "App", "Version", "")
+      author = readini(f, "App", "Author", "")
       size = 0
       ppath = path.gsub(/\([^\)]+\)/, "")
       new(ppath, name, version, author, size, path)

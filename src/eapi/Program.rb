@@ -166,12 +166,7 @@ module Programs
       name = version = author = file = nil
       sf = Dirs.apps + "\\" + path + "\\__app.ini"
       sfb = Dirs.apps + "\\" + path + "\\__app.rb"
-      if FileTest.exists?(sf)
-        name = readini(sf, "App", "Name", "")
-        version = readini(sf, "App", "Version", "")
-        author = readini(sf, "App", "Author", "")
-        file = readini(sf, "App", "File", "")
-      elsif FileTest.exists?(sfb)
+      if FileTest.exists?(sfb)
         code = readfile(sfb)
         config = {}
         if (/^\=begin[ \t]+EltenAppInfo[\s]*(.+)^\=end[ \t]+EltenAppInfo[\s]*$/m =~ code) != nil
@@ -191,6 +186,11 @@ module Programs
         version = config["version"]
         author = config["author"]
         file = "__app.rb"
+      elsif FileTest.exists?(sf)
+        name = readini(sf, "App", "Name", "")
+        version = readini(sf, "App", "Version", "")
+        author = readini(sf, "App", "Author", "")
+        file = readini(sf, "App", "File", "")
       end
       @@configs[path] = { :name => name, :author => author, :version => version, :file => file }
       return name, version, author, file

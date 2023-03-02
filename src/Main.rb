@@ -13,8 +13,8 @@ module Elten
   Beta = 0
   Alpha = 0
   IsBeta = 0
-  BuildID = 20230215001
-  BuildDate = 1676485226
+  BuildID = 20230302001
+  BuildDate = 1677777531
   class << self
     def version
       return Version
