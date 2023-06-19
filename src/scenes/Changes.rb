@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -120,7 +120,8 @@ class Scene_Changes
       ["2.423", "2021-10-02"],
       ["2.5", "2022-08-24"],
       ["2.51", "2022-12-30"],
-      ["2.511", "2023-02-15"]
+      ["2.511", "2023-02-15"],
+      ["2.512", "2023-06-19"]
     ]
     verstring = "Elten"
     @changes = versions.map { |v|
