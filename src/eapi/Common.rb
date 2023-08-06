@@ -1306,6 +1306,7 @@ module EltenAPI
     end
 
     def process_url(url)
+      Log.debug("Opening URL #{url}")
       return if !url.is_a?(String)
       if url[0...8].downcase != "elten://"
         run("explorer \"#{url}\"")

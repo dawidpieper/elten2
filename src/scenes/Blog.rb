@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -11,7 +11,7 @@ class Scene_Blog
   end
 
   def main
-    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions")], p_("Blog", "Blogs"), @index)
+    @sel = ListBox.new([p_("Blog", "Managed blogs"), p_("Blog", "Recently updated blogs"), p_("Blog", "Frequently updated blogs"), p_("Blog", "Frequently commented blogs"), p_("Blog", "Followed blogs"), p_("Blog", "Blogs popular with my friends"), p_("Blog", "Open external wordpress blog"), p_("Blog", "Followed blog posts"), p_("Blog", "Received mentions"), p_("Blog", "Blogs library")], p_("Blog", "Blogs"), @index)
     if Session.name == "guest"
       @sel.disable_item(0)
       @sel.index = 1
@@ -19,6 +19,7 @@ class Scene_Blog
       @sel.disable_item(5)
       @sel.disable_item(7)
       @sel.disable_item(8)
+      @sel.disable_item(9)
     end
     @sel.disable_item(8) if !holds_premiumpackage("courier")
     @sel.disable_item(7) if !holds_premiumpackage("courier")
@@ -68,6 +69,9 @@ class Scene_Blog
         $scene = Scene_Blog_Posts.new(Session.name, "FOLLOWED")
       when 8
         $scene = Scene_Blog_Posts.new(Session.name, "MENTIONED")
+      when 9
+        $bloglistindex = 0
+        $scene = Scene_Blog_List.new(8, nil, :library)
       end
     end
   end
@@ -1172,12 +1176,12 @@ class Scene_Blog_List
           end
         }
       end
-      if !blog.elten && !blog.library
+      if !blog.library
         menu.option(p_("Blog", "Add to Elten library")) {
           addlib(blog)
           @sel.focus
         }
-      elsif !blog.elten && blog.library && (blog.library_user == Session.name)
+      elsif blog.library && (blog.library_user == Session.name)
         menu.option(p_("Blog", "Delete from Elten library")) {
           confirm(p_("Blog", "Are you sure you want to delete this blog from Elten library?")) {
             srvproc("blog_library", { "ac" => "delete", "blog" => blog.id })

@@ -697,6 +697,8 @@ class VoIP
     if type < 200
       if Zlib.crc32(message) == crc || crc == 0
         @receive_hooks.each { |h| h.call(userid, type, message, p1, p2, p3, p4, index) }
+      else
+        log(-1, "VoIP: Wrong CRC signature for packet #{index} from #{userid}, type #{type}")
       end
     else
       case type

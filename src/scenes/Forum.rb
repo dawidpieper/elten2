@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2022 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -1646,7 +1646,7 @@ class Scene_Forum
           m.option(p_("Forum", "Change forum position")) {
             selt = []
             @sforums.each { |f| selt.push(f.fullname) }
-            ind = selector(selt + [p_("Forum", "Move to end")], p_("Forum", "Move forum"), 0, -1)
+            l ind = selector(selt + [p_("Forum", "Move to end")], p_("Forum", "Move forum"), 0, -1)
             if ind != -1
               r = srvproc("forum_groups", { "ac" => "forumchangepos", "forum" => @sforums[@frmsel.index].name, "position" => ind.to_s })
               if r[0].to_i < 0
@@ -2215,6 +2215,9 @@ class Scene_Forum
               @thrsel.focus
             }
           end
+          m.option(p_("Forum", "Mass Actions"), nil, "\\") {
+            moderation_mass_threads
+          }
         }
       end
       if @sthreads[@thrsel.index].offered > 0
@@ -2271,6 +2274,147 @@ class Scene_Forum
       getcache
       threadsmain(@forum)
     }
+  end
+
+  def moderation_mass_threads
+    mthreads = @sthreads.select { |m| (Session.moderator == 1 && m.forum.group.recommended) || m.forum.group.role == 2 }
+    index = mthreads.find_index(@sthreads[@thrsel.index]) || 0
+    form = Form.new([
+      lst_threads = ListBox.new(mthreads.map { |m| m.name }, p_("Forum", "Threads"), index, ListBox::Flags::MultiSelection),
+      btn_move = Button.new(p_("Forum", "Move")),
+      btn_offer = Button.new(p_("Forum", "Offer")),
+      btn_delete = Button.new(p_("Forum", "Delete")),
+      btn_cancel = Button.new(_("Cancel"))
+    ])
+    form.cancel_button = btn_cancel
+    btn_cancel.on(:press) {
+      form.resume
+      @thrsel.focus
+    }
+    btn_move.on(:press) {
+      selected = lst_threads.multiselections.map { |i| mthreads[i] }
+      if moderation_mass_threads_proceed(selected, :move)
+        form.resume
+        getcache
+        @lastthreadindex = @thrsel.index
+        threadsmain(@forum)
+      else
+        form.focus
+      end
+    }
+    btn_delete.on(:press) {
+      selected = lst_threads.multiselections.map { |i| mthreads[i] }
+      if moderation_mass_threads_proceed(selected, :delete)
+        form.resume
+        getcache
+        @lastthreadindex = @thrsel.index
+        threadsmain(@forum)
+      else
+        form.focus
+      end
+    }
+    btn_offer.on(:press) {
+      selected = lst_threads.multiselections.map { |i| mthreads[i] }
+      if moderation_mass_threads_proceed(selected, :offer)
+        form.resume
+        getcache
+        @lastthreadindex = @thrsel.index
+        threadsmain(@forum)
+      else
+        form.focus
+      end
+    }
+
+    form.wait
+  end
+
+  def moderation_mass_threads_proceed(threads, action)
+    if threads.size == 0
+      alert(p_("Forum", "No threads selected"))
+      return false
+    end
+    header = ""
+    label = ""
+    case action
+    when :move
+      header = np_("Forum", "%{count} thread to move", "%{count} threads to move", threads.size) % { "count" => threads.size }
+      label = p_("Forum", "Move")
+    when :delete
+      header = np_("Forum", "%{count} thread to delete", "%{count} threads to delete", threads.size) % { "count" => threads.size }
+      label = p_("Forum", "Delete")
+    when :offer
+      header = np_("Forum", "%{count} thread to move", "%{count} threads to offer", threads.size) % { "count" => threads.size }
+      label = p_("Forum", "Offer")
+    end
+    form = Form.new([
+      lst_threads = ListBox.new(threads.map { |t| t.name }, header),
+      btn_proceed = Button.new(label),
+      btn_cancel = Button.new(_("Cancel"))
+    ])
+    ret = false
+    form.cancel_button = btn_cancel
+    btn_cancel.on(:press) { form.resume }
+    btn_proceed.on(:press) {
+      case action
+      when :move
+        selt = []
+        ind = 0
+        mforums = []
+        for f in @forums
+          mforums.push(f) if f.group.role == 2 or (Session.moderator == 1 && f.group.recommended)
+        end
+        for f in mforums
+          selt.push(f.fullname + " (" + f.group.name + ")")
+          ind = selt.size - 1 if f.name == threads[0].forum.name
+        end
+        destination = selector(selt, p_("Forum", "Threads destination"), ind, -1)
+        if destination != -1
+          for thread in threads
+            srvproc("forum_mod", { "move" => "1", "threadid" => thread.id, "destination" => mforums[destination].name })
+          end
+          alert(p_("Forum", "Selected threads have been moved."))
+          ret = true
+          form.resume
+        else
+          form.focus
+        end
+      when :delete
+        for thread in threads
+          srvproc("forum_mod", { "delete" => "1", "threadid" => thread.id })
+        end
+        alert(p_("Forum", "Selected threads have been deleted."))
+        ret = true
+        form.resume
+      when :offer
+        users = []
+        m = srvproc("forum_groups", { "ac" => "members", "groupid" => @sthreads[@thrsel.index].forum.group.id.to_s })
+        if m[0].to_i == 0
+          for i in 0...m[1].to_i
+            users.push(m[2 + i * 2].delete("\r\n"))
+          end
+        end
+        dgroups = []
+        for g in @groups
+          dgroups.push(g) if g.role > 0 and users.include?(g.founder) and g.id != @sthreads[@thrsel.index].forum.group.id
+        end
+        dests = dgroups.map { |g| g.name + " - " + p_("Forum", "Group founded by %{founder}") % { "founder" => g.founder } }
+        ind = selector(dests, p_("Forum", "Which group you want to offer these threads to?"), 0, -1)
+        if ind >= 0
+          dest = dgroups[ind]
+          for thread in threads
+            next if thread.offered != 0
+            e = srvproc("forum_mod", { "offer" => 1, "threadid" => thread.id, "destination" => dest.id })
+          end
+          alert(p_("Forum", "The offer has been created"))
+          ret = true
+          form.resume
+        else
+          @thrsel.focus
+        end
+      end
+    }
+    form.wait
+    return ret
   end
 
   def newthread
@@ -3446,11 +3590,131 @@ class Scene_Forum_Thread
             end
           }
         end
+        m.option(p_("Forum", "Mass Actions"), nil, "\\") {
+          moderation_mass_posts
+        }
       }
     end
     menu.option(_("Refresh"), nil, "r") {
       refresh
     }
+  end
+
+  def moderation_mass_posts
+    form = Form.new([
+      lst_posts = ListBox.new(@posts.map { |ps| ps.author + ": " + ps.post[0...5000] }, p_("Forum", "Posts"), @form.index / 3, ListBox::Flags::MultiSelection),
+      edt_post = EditBox.new(p_("Forum", "Post content"), EditBox::Flags::ReadOnly, ""),
+      btn_move = Button.new(p_("Forum", "Move")),
+      btn_delete = Button.new(p_("Forum", "Delete")),
+      btn_cancel = Button.new(_("Cancel"))
+    ])
+    lst_posts.on(:move) { edt_post.set_text(@posts[lst_posts.index].post) }
+    lst_posts.trigger(:move)
+    form.cancel_button = btn_cancel
+    btn_cancel.on(:press) {
+      form.resume
+      @form.focus
+    }
+    btn_move.on(:press) {
+      selected = lst_posts.multiselections.map { |i| @posts[i] }
+      if moderation_mass_posts_proceed(selected, :move)
+        form.resume
+        @lastpostindex = @form.index
+        main
+      else
+        form.focus
+      end
+    }
+    btn_delete.on(:press) {
+      selected = lst_posts.multiselections.map { |i| @posts[i] }
+      if moderation_mass_posts_proceed(selected, :delete)
+        form.resume
+        @lastpostindex = @form.index
+        main
+      else
+        form.focus
+      end
+    }
+    form.wait
+  end
+
+  def moderation_mass_posts_proceed(posts, action)
+    if posts.size == 0
+      alert(p_("Forum", "No posts selected"))
+      return false
+    end
+    header = ""
+    label = ""
+    case action
+    when :move
+      header = np_("Forum", "%{count} post to move", "%{count} posts to move", posts.size) % { "count" => posts.size }
+      label = p_("Forum", "Move")
+    when :delete
+      header = np_("Forum", "%{count} post to delete", "%{count} posts to delete", posts.size) % { "count" => posts.size }
+      label = p_("Forum", "Delete")
+    end
+    form = Form.new([
+      lst_posts = ListBox.new(posts.map { |ps| ps.author + ": " + ps.post[0...5000] }, header),
+      edt_post = EditBox.new(p_("Forum", "Post content"), EditBox::Flags::ReadOnly, ""),
+      btn_proceed = Button.new(label),
+      btn_cancel = Button.new(_("Cancel"))
+    ])
+    lst_posts.on(:move) { edt_post.set_text(posts[lst_posts.index].post) }
+    lst_posts.trigger(:move)
+    ret = false
+    form.cancel_button = btn_cancel
+    btn_cancel.on(:press) { form.resume }
+    btn_proceed.on(:press) {
+      case action
+      when :move
+        @struct = Scene_Forum.new.getstruct
+        @groups = @struct["groups"]
+        @forums = @struct["forums"]
+        @threads = @struct["threads"]
+        groups = []
+        for group in @groups
+          groups[group.id] = group.name
+        end
+        forums = {}
+        selt = []
+        fthreads = []
+        hthreads = []
+        curr = 0
+        for t in @threads
+          if t.forum.group.role == 2 or (Session.moderator == 1 and t.forum.group.recommended)
+            if t.forum.group.id == @threadclass.forum.group.id
+              hthreads.push(t)
+            else
+              fthreads.push(t)
+            end
+          end
+        end
+        mthreads = hthreads + fthreads
+        for t in mthreads
+          selt.push(t.name + " (" + t.forum.fullname + " (" + t.forum.group.name + ")" + ")")
+          curr = selt.size - 1 if t.id == @thread
+        end
+        destination = selector(selt, p_("Forum", "Post destination"), curr, -1)
+        if destination != -1
+          for post in posts
+            srvproc("forum_mod", { "move" => "2", "postid" => post.id, "destination" => mthreads[destination].id, "threadid" => @thread })
+          end
+          alert(p_("Forum", "The posts have been moved."))
+          ret = true
+          form.resume
+        end
+      when :delete
+        for post in posts
+          prm = { "postid" => post.id, "threadid" => @thread, "delete" => 2 }
+          srvproc("forum_mod", prm)
+        end
+        alert(p_("Forum", "The posts have been deleted."))
+        ret = true
+        form.resume
+      end
+    }
+    form.wait
+    return ret
   end
 
   def mention(thread, post)

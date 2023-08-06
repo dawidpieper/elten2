@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2022 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -59,9 +59,11 @@ module EltenAPI
       end
 
       def wait
-        @playmarker = false
-        play("form_marker")
-        focus
+        if @updated == true || @quiet == true
+          @playmarker = false
+          play("form_marker")
+          focus
+        end
         @wait = true
         while @wait == true
           loop_update
@@ -226,11 +228,14 @@ module EltenAPI
         @timers = []
         @playmarker = false
         @playmarker = true if @silent == false
+        @updated = false
+        @quiet = quiet
         loop_update
       end
 
       # Updates a form
       def update
+        @updated = true
         if @playmarker == true
           @playmarker = false
           play("form_marker")
@@ -1782,7 +1787,7 @@ module EltenAPI
             @param = ""
           when "a"
             @type = Link
-            @param = @param[1]["href"]
+            @param = [0, @param[1]["href"]]
           when "ul"
             @type = List
             @param = 0
@@ -1814,7 +1819,7 @@ module EltenAPI
           when Header
             return "<h#{@param}>"
           when Link
-            return "<a href=\"#{@param}\">"
+            return "<a href=\"#{@param[1]}\">"
           when List
             return (@param == 0) ? ("<ul>") : ("<ol>")
           when ListItem
