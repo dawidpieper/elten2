@@ -6,7 +6,7 @@
 
 class Scene_Portable
   def main
-    @form = Form.new([FilesTree.new(p_("Portable", "Destination"), Dirs.user, true, true, "Documents"), CheckBox.new(p_("Portable", "Copy current settings")), CheckBox.new(p_("Portable", "Copy downloaded soundthemes")), Button.new(p_("Portable", "continue")), Button.new(_("Cancel"))])
+    @form = Form.new([FilesTree.new(p_("Portable", "Destination"), Dirs.user, true, true, "Documents"), CheckBox.new(p_("Portable", "Copy current settings")), CheckBox.new(p_("Portable", "Copy downloaded sound themes")), Button.new(p_("Portable", "continue")), Button.new(_("Cancel"))])
     loop do
       loop_update
       @form.update

@@ -576,6 +576,8 @@ begin
       if $name != nil and $name != ""
         pr = "name=#{$name}\&token=#{$token}\&agent=1\&gz=1\&lasttime=#{$wnlasttime || Time.now.to_i}"
         pr += "\&shown=1" if $shown == true
+        pr += "\&language=#{$language}"
+        pr += "\&soundtheme=#{$soundtheme}"
         begin
           erequest("wn_agent", pr, nil, nil, nil, true, 42) { |ans|
             if ans.is_a?(String)

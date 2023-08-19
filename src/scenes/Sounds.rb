@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2022 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -109,7 +109,7 @@ class Scene_Sounds
         @name = @theme.name
         @changed = false
       else
-        @name = input_text(p_("Sounds", "Type name of the soundtheme"), 0, "by #{Session.name}", true)
+        @name = input_text(p_("Sounds", "Type name of the sound theme"), 0, "by #{Session.name}", true)
         path = ""
         return $scene = Scene_SoundThemes.new if @name == nil
         @name = @name[0..255] if @name.size > 255
@@ -140,9 +140,12 @@ class Scene_Sounds
       @sel = ListBox.new(@snd.map { |o| o.description }, h, 0, ListBox::Flags::Silent),
       @btn_play = Button.new(p_("Sounds", "Play")),
       @btn_stop = Button.new(p_("Sounds", "Stop")),
+      @btn_extract = Button.new(p_("Sounds", "Extract")),
       @btn_change = Button.new(p_("Sounds", "Change")),
+      @btn_rename = Button.new(p_("Sounds", "Change sound theme name")),
       @btn_save = Button.new(p_("Sounds", "Save")),
       @btn_export = Button.new(p_("Sounds", "Export")),
+      @btn_upload = Button.new(p_("Sounds", "Upload to server")),
       @btn_close = Button.new(p_("Sounds", "Close"))
     ]
     a = nil
@@ -151,6 +154,8 @@ class Scene_Sounds
       @form.hide(@btn_change)
       @form.hide(@btn_save)
       @form.hide(@btn_export)
+      @form.hide(@btn_rename)
+      @form.hide(@btn_upload)
     end
     @btn_play.on(:press) {
       a.close if a != nil
@@ -167,6 +172,16 @@ class Scene_Sounds
         a.close
         a = nil
       end
+    }
+    @btn_extract.on(:press) { extract }
+    @btn_rename.on(:press) {
+      newname = input_text(p_("Sounds", "Type name of the sound theme"), 0, @name, true)
+      loop_update
+      if newname != nil
+        @name = newname
+        @changed = true
+      end
+      @form.focus
     }
     @btn_change.on(:press) {
       file = get_file(p_("Sounds", "Select new sound"), "", false, nil, [".ogg", ".mp3", ".wav", ".opus", ".aac", ".wma", ".m4a", ".flac", ".aiff"])
@@ -197,13 +212,14 @@ class Scene_Sounds
       end
       @form.fields[@form.index].focus
     }
+    @btn_upload.on(:press) { upload }
     @btn_close.on(:press) {
       @form.resume
     }
     @form.cancel_button = @btn_close
     @form.wait
     if @changed and @theme != nil
-      confirm(p_("Sounds", "Do you want to save this soundtheme?")) { save }
+      confirm(p_("Sounds", "Do you want to save this sound theme?")) { save }
     end
     a.close if a != nil
     if @theme == nil
@@ -211,6 +227,27 @@ class Scene_Sounds
     else
       $scene = Scene_SoundThemes.new
     end
+  end
+
+  def extract
+    form = Form.new([
+      edt_filename = EditBox.new(p_("Sounds", "File name"), 0, @snd[@sel.index].file + ".ogg"),
+      tr_path = FilesTree.new(p_("Sounds", "Destination"), Dirs.user + "\\", true, true, "Music"),
+      btn_extract = Button.new(p_("Sounds", "Extract")),
+      btn_cancel = Button.new(_("Cancel"))
+    ])
+    form.cancel_button = btn_cancel
+    form.accept_button = btn_extract
+    btn_cancel.on(:press) { form.resume }
+    btn_extract.on(:press) {
+      pth = tr_path.selected + "\\" + edt_filename.text
+      cnt = @snd[@sel.index].sound
+      writefile(pth, cnt)
+      alert(_("Saved"))
+      form.resume
+    }
+    form.wait
+    @form.focus
   end
 
   def save
@@ -228,6 +265,68 @@ class Scene_Sounds
       @theme.file = @file if @theme.file == nil
     }
     use_soundtheme(@file) if @file != nil and File.basename(@file, ".elsnd") == Configuration.soundtheme
+  end
+
+  def upload
+    if @changed && !confirm(p_("Sounds", "This sound theme contains unsaved changes. Do you want to upload it anyway?"))
+      @form.focus
+      return
+    end
+    id = File.basename(@file, ".elsnd")
+    id = input_text(p_("Sounds", "Sound theme ID. This ID will be used to track updates of this sound theme. Keep the current ID if you want to update existing sound theme."), 0, id, true)
+    if id == nil || id == ""
+      @form.focus
+      return
+    end
+    id = id.delspecial
+    sttemp = srvproc("soundthemes", { "format" => "elsnd", "ac" => "list", "details" => 1 })
+    err = sttemp[0].to_i
+    if err < 0
+      alert(_("Error"))
+      @form.focus
+      return
+    end
+    std = []
+    for i in 0...sttemp[1].to_i
+      st = Struct_SoundThemes_SoundTheme.new
+      st.file = sttemp[2 + i * 7].delete("\r\n")
+      st.size = sttemp[2 + i * 7 + 1].to_i
+      st.name = sttemp[2 + i * 7 + 2].delete("\r\n")
+      st.stamp = sttemp[2 + i * 7 + 3].delete("\r\n")
+      st.user = sttemp[2 + i * 7 + 4].delete("\r\n")
+      st.time = sttemp[2 + i * 7 + 5].to_i
+      st.count = sttemp[2 + i * 7 + 6].to_i
+      if st.file.downcase == id.downcase + ".elsnd" && st.user != Session.name
+        alert(p_("Sounds", "Sound theme with that ID already exists."))
+        @form.focus
+        return
+      end
+      std.push(st)
+    end
+    if id.downcase != File.basename(@file, ".elsnd").downcase
+      if FileTest.exists?(Dirs.soundthemes + "/#{id}.elsnd")
+        alert(p_("Sounds", "Sound theme with that ID already exists."))
+        @form.focus
+        return
+      else
+        Win32API.new("kernel32", "MoveFileW", "pp", "i").call(unicode(@file), unicode(Dirs.soundthemes + "/#{id}.elsnd"))
+        @file = Dirs.soundthemes + "\\" + id + ".elsnd"
+      end
+    end
+    data = ""
+    host = $srv
+    host.delete!("/")
+    fl = readfile(@file)
+    st = srvproc("soundthemes", { "format" => "elsnd", "ac" => "upload", "theme" => id }, 0, { "data" => fl })
+    err = st[0].to_i
+    if err < 0
+      alert(_("Error"))
+      @form.focus
+      return
+    else
+      alert(p_("Sounds", "Uploaded"))
+      return
+    end
   end
 end
 

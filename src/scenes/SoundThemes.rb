@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -80,7 +80,7 @@ class Scene_SoundThemes
   end
 
   def stdownload
-    sttemp = srvproc("soundthemes", { "format" => "elsnd" })
+    sttemp = srvproc("soundthemes", { "format" => "elsnd", "ac" => "list", "details" => 1 })
     err = sttemp[0].to_i
     if err < 0
       alert(_("Error"))
@@ -90,13 +90,46 @@ class Scene_SoundThemes
     @std = []
     for i in 0...sttemp[1].to_i
       st = Struct_SoundThemes_SoundTheme.new
-      st.file = sttemp[2 + i * 4].delete("\r\n")
-      st.size = sttemp[2 + i * 4 + 1].to_i
-      st.name = sttemp[2 + i * 4 + 2].delete("\r\n")
-      st.stamp = sttemp[2 + i * 4 + 3].delete("\r\n")
+      st.file = sttemp[2 + i * 7].delete("\r\n")
+      st.size = sttemp[2 + i * 7 + 1].to_i
+      st.name = sttemp[2 + i * 7 + 2].delete("\r\n")
+      st.stamp = sttemp[2 + i * 7 + 3].delete("\r\n")
+      st.user = sttemp[2 + i * 7 + 4].delete("\r\n")
+      st.time = sttemp[2 + i * 7 + 5].to_i
+      st.count = sttemp[2 + i * 7 + 6].to_i
       @std.push(st)
     end
-    sts = @std.map { |s|
+    sel = ListBox.new([p_("SoundThemes", "Most popular"), p_("SoundThemes", "Recently added")] + @std.map { |s| s.user }.uniq.sort, p_("SoundThemes", "Available sound themes"))
+    sel.disable_item(0) if @std.map { |s| s.count.to_i }.sum < 20
+    sel.focus
+    loop do
+      loop_update
+      sel.update
+      break if escape
+      if sel.expanded? || sel.selected?
+        cat = :popular
+        cat = :added if sel.index == 1
+        cat = @std.map { |s| s.user }.uniq.sort[sel.index - 2] if sel.index >= 2
+        stdownload_category(cat)
+        loop_update
+        sel.focus
+      end
+    end
+    main
+    return
+  end
+
+  def stdownload_category(category)
+    std = []
+    case category
+    when :popular
+      std = @std.sort_by { |s| s.count }.reverse
+    when :added
+      std = @std.sort_by { |s| s.time }.reverse
+    else
+      std = @std.select { |s| s.user == category }.sort_by { |s| s.time }.reverse
+    end
+    sts = std.map { |s|
       status = p_("SoundThemes", "Not downloaded")
       for st in @soundthemes
         next if st.file == nil
@@ -108,18 +141,28 @@ class Scene_SoundThemes
           end
         end
       end
-      [s.name, status]
+      [s.name, status, s.user, s.count.to_s]
     }
-    @sel = TableBox.new([nil, p_("SoundThemes", "Status")], sts, 0, p_("Soundthemes", "Select theme to download"), false)
+    sel = TableBox.new([nil, p_("SoundThemes", "Status"), p_("SoundThemes", "Author"), p_("SoundThemes", "Used by")], sts, 0, p_("Soundthemes", "Select theme to download"), false)
+    sel.bind_context { |menu|
+      st = std[sel.index]
+      if st.user == Session.name || Session.moderator == 1
+        menu.option(p_("SoundThemes", "Delete"), nil, :del) {
+          confirm(p_("SoundThemes", "Are you sure you want to delete sound theme %{name} from the server?") % { "name" => st.name }) {
+            srvproc("soundthemes", { "format" => "elsnd", "ac" => "delete", "theme" => File.basename(st.file, ".elsnd") })
+            return
+          }
+        }
+      end
+    }
     loop do
       loop_update
-      @sel.update
-      if escape
-        main
-        return
+      sel.update
+      if escape || sel.collapsed?
+        break
       end
-      if enter and @std.size > 0
-        st = @std[@sel.index]
+      if enter and std.size > 0
+        st = std[@sel.index]
         size = ""
         if st.size < 1024
           size = st.size.to_s + "B"
@@ -145,5 +188,5 @@ class Scene_SoundThemes
 end
 
 class Struct_SoundThemes_SoundTheme
-  attr_accessor :name, :file, :size, :stamp
+  attr_accessor :name, :file, :size, :stamp, :user, :time, :count
 end

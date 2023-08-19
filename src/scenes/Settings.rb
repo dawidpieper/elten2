@@ -149,7 +149,7 @@ class Scene_Settings
 
   def load_interface
     setting_category(p_("Settings", "Interface"))
-    make_setting(p_("Settings", "Play sounds of soundthemes"), :bool, "Interface", "SoundThemeActivation")
+    make_setting(p_("Settings", "Play sounds of sound themes"), :bool, "Interface", "SoundThemeActivation")
     make_setting(p_("Settings", "Soundtheme volume"), (5..100).to_a.reverse.map { |x| x.to_s + "%" }, "Interface", "MainVolume", (5..100).to_a.reverse)
     soundthemes = [p_("Settings", "Use default")]
     soundthemesmapping = [""]
