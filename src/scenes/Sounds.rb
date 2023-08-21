@@ -179,6 +179,7 @@ class Scene_Sounds
       loop_update
       if newname != nil
         @name = newname
+        @theme.name = @name
         @changed = true
       end
       @form.focus

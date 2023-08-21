@@ -1658,7 +1658,7 @@ class Scene_Forum
           m.option(p_("Forum", "Change forum position")) {
             selt = []
             @sforums.each { |f| selt.push(f.fullname) }
-            l ind = selector(selt + [p_("Forum", "Move to end")], p_("Forum", "Move forum"), 0, -1)
+            ind = selector(selt + [p_("Forum", "Move to end")], p_("Forum", "Move forum"), 0, -1)
             if ind != -1
               r = srvproc("forum_groups", { "ac" => "forumchangepos", "forum" => @sforums[@frmsel.index].name, "position" => ind.to_s })
               if r[0].to_i < 0
