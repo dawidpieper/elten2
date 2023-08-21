@@ -9,6 +9,7 @@ class Scene_IIKeys
     add("Backspace", p_("IIKeys", "Cancel speech and stop currently played audio"))
     add("Space", p_("IIKeys", "Repeat the currently selected item"))
     add("R", p_("IIKeys", "Reply"))
+    add("K", p_("IIKeys", "Like or dislike a feed message"))
     add("M", p_("IIKeys", "Write a new message"))
     add("F", p_("IIKeys", "Post on a feed"))
     show

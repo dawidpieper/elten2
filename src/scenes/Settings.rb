@@ -143,7 +143,7 @@ class Scene_Settings
     make_setting(p_("Settings", "Enable auto log in"), :bool, "Login", "EnableAutoLogin", [0, 1])
     make_setting(p_("Settings", "Automatically start Elten after I log on to Windows"), :bool, "System", "AutoStart")
     make_setting(p_("Settings", "Check for updates at startup"), :bool, "Updates", "CheckAtStartup")
-    make_setting(p_("Settings", "Updates branch"), [p_("Settings", "Auto"), p_("Settings", "Stable"), p_("Settings", "RC"), p_("Settings", "Beta")], "Updates", "Branch", ["", "stable", "beta", "rc"])
+    make_setting(p_("Settings", "Updates branch"), [p_("Settings", "Auto"), p_("Settings", "Stable"), p_("Settings", "RC"), p_("Settings", "Beta")], "Updates", "Branch", ["", "stable", "rc", "beta"])
     make_setting(p_("Settings", "Send Elten usage reports"), :bool, "Privacy", "RegisterActivity")
   end
 

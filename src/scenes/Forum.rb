@@ -842,6 +842,7 @@ class Scene_Forum
             when 2
               st = p_("Forum", "Accepted")
             end
+            st += " \004CLOSED\004"
           end
           thrname = nil
           thr = @threads.find { |t| t.id == r.thread }
@@ -912,6 +913,17 @@ class Scene_Forum
     btn_resolve.on(:press) {
       fr = srvproc("forum_reports", { "ac" => "resolve", "report" => report.id, "status" => lst_status.index + 1, "buf_reason" => buffer(edt_reason.text) })
       if fr[0].to_i == 0
+        confirm(p_("Forum", "Do you want to send information about status of this report to its author?")) {
+          subj = report.content[0...400]
+          thread = @threads.find { |t| t.id == report.thread }
+          if thread != nil
+            subj += " (#{thread.name})"
+          end
+          subj + " "
+          subj += "Rejected" if lst_status.index == 0
+          subj += "Accepted" if lst_status.index == 1
+          insert_scene(Scene_Messages_New.new(report.user, subj, edt_reason.text, Scene_Main.new))
+        }
         alert(p_("Forum", "Report resolved"))
         form.resume
       else

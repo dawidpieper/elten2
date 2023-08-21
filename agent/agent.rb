@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -403,6 +403,8 @@ begin
             nav :message
           when 70
             nav :feed
+          when 75
+            nav :like
           when 82
             nav :reply
           end
@@ -541,7 +543,7 @@ begin
       $iicards = readconfig("InvisibleInterface", "Cards", "messages,feed,conference").split(",")
       if $lastiimodifiers != $iimodifiers
         possible = [0x1 | 0x2 | 0x8, 0x1 | 0x4 | 0x8, 0x1 | 0x2 | 0x4, 0x1 | 0x2, 0x1 | 0x4]
-        keys = [0x25, 0x26, 0x27, 0x28, 0x20, 0x21, 0x22, 0x24, 0x23, 0xd, 0x08, 70, 77, 82].uniq
+        keys = [0x25, 0x26, 0x27, 0x28, 0x20, 0x21, 0x22, 0x24, 0x23, 0xd, 0x08, 70, 75, 77, 82].uniq
         if $iimodifiers == 0
           for ii in possible
             m = "".b

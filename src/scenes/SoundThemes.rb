@@ -150,6 +150,7 @@ class Scene_SoundThemes
         menu.option(p_("SoundThemes", "Delete"), nil, :del) {
           confirm(p_("SoundThemes", "Are you sure you want to delete sound theme %{name} from the server?") % { "name" => st.name }) {
             srvproc("soundthemes", { "format" => "elsnd", "ac" => "delete", "theme" => File.basename(st.file, ".elsnd") })
+            @std.delete(st)
             return
           }
         }

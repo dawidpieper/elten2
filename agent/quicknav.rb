@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2023 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -533,6 +533,19 @@ def nav(ac)
       tryfeed(:first)
     when :say
       speak(feed_lasttext) if $feed_lasttext != nil
+    when :like
+      if $feed_id != nil
+        feed = $feeds.values.find { |f| f.id == $feed_id }
+        if feed != nil
+          erequest("feeds", "name=#{$name}\&token=#{$token}\&ac=liking\&message=#{feed.id}\&like=#{(feed.liked) ? (0) : (1)}") { |d|
+            if d.is_a?(String) && d[0..0] == "0"
+              st = (feed.liked) ? (p_("FeedViewer", "Message disliked")) : (p_("FeedViewer", "Message liked"))
+              feed.liked = !feed.liked
+              speak(st)
+            end
+          }
+        end
+      end
     when :reply
       if $feed_id != nil
         feed = $feeds.values.find { |f| f.id == $feed_id }
