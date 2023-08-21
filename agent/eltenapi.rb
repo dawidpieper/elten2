@@ -109,6 +109,7 @@ module EltenAPI
     $sock = TCPSocket.new("srvapi.elten.link", 443)
     ctx = OpenSSL::SSL::SSLContext.new
     ctx.alpn_protocols = [DRAFT]
+    ctx.options |= OpenSSL::SSL::OP_IGNORE_UNEXPECTED_EOF
     $ssl = OpenSSL::SSL::SSLSocket.new($sock, ctx)
     $ssl.sync_close = true
     $ssl.hostname = "srvapi.elten.link"
@@ -320,7 +321,9 @@ module EltenAPI
     t = Thread.new {
       begin
         sock = TCPSocket.new("srvapi.elten.link", 443)
-        ssl = OpenSSL::SSL::SSLSocket.new(sock, OpenSSL::SSL::SSLContext.new)
+        ctx = OpenSSL::SSL::SSLContext.new
+        ctx.options |= OpenSSL::SSL::OP_IGNORE_UNEXPECTED_EOF
+        ssl = OpenSSL::SSL::SSLSocket.new(sock, ctx)
         ssl.connect
         path = "/leg1/" + mod + ".php?" + param
         headers["User-Agent"] = "Elten #{$version} agent"
