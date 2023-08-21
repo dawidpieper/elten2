@@ -73,9 +73,17 @@ module EltenAPI
           end
           alert(text, false)
         when :feed
-          inp = input_text(p_("EAPI_Common", "Message"), 0, "", true, [], [], 300)
-          loop_update
-          feed(inp) if inp != nil
+          if $feedwriting != true
+            begin
+              $feedwriting = true
+              inp = input_text(p_("EAPI_Common", "Message"), 0, "", true, [], [], 300)
+              loop_update
+              feed(inp) if inp != nil
+              $feedwriting = false
+            ensure
+              $feedwriting = false
+            end
+          end
         when :alarm
           Scene_Clock.editalarm
           loop_update

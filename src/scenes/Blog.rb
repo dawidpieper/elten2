@@ -1513,6 +1513,7 @@ class Scene_Blog_Options
   end
 
   def setcurrentconfig(key, val)
+    @changed = true if @values[key] != val.to_s
     @values[key] = val.to_s
   end
 
@@ -1587,6 +1588,7 @@ class Scene_Blog_Options
     json = JSON.generate(j)
     b = buffer(json)
     srvproc("blog_options", { "ac" => "set", "searchname" => @blog, "buffer" => b })
+    @changed = false
   end
 
   def make_window
@@ -1754,7 +1756,15 @@ class Scene_Blog_Options
       end
     })
     make_setting(p_("Blog", "Manage tags"), :custom, Proc.new { insert_scene(Scene_Blog_Tags.new(@blog)) })
-    make_setting(p_("Blog", "Manage blog domain"), :custom, Proc.new { $scene = Scene_Blog_Domain.new(@blog, @scene) })
+    make_setting(p_("Blog", "Manage blog domain"), :custom, Proc.new {
+      c = false
+      if @changed
+        confirm(p_("Blog", "Blog settings have been changed. If you continue to domain change, mades you changed will be lost. Do you want to continue anyway? If you want to store new settings, select No and then Apply them before proceeding with domain change.")) { c = true }
+      else
+        c = true
+      end
+      $scene = Scene_Blog_Domain.new(@blog, @scene) if c
+    })
   end
 
   def get_blogs
@@ -1781,6 +1791,7 @@ class Scene_Blog_Options
   end
 
   def main
+    @changed = false
     make_window
     load_general
     load_comments
@@ -2062,7 +2073,7 @@ class Scene_Blog_PostEditor
       cats = bt[4].delete("\r\n").split(",").map { |x| x.to_i }
       tags = bt[5].delete("\r\n").split(",").map { |x| x.to_i }
       time = bt[6].to_i
-      if time.to_i > Time.now.to_i
+      if time.to_i > Time.now.to_i + 60
         resetdate = true
         chk_schedule.checked = 1
         tim = Time.at(time.to_i)

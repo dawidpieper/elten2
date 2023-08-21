@@ -4,11 +4,11 @@
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
 
-if FileTest.exists?("bin\\bass.dll")
+if FileTest.exist?("bin\\bass.dll")
   $dlldir = ".\\bin"
-elsif FileTest.exists?("..\\bin\\bass.dll")
+elsif FileTest.exist?("..\\bin\\bass.dll")
   $dlldir = "..\\bin"
-elsif FileTest.exists?("..\\..\\bass.dll")
+elsif FileTest.exist?("..\\..\\bass.dll")
   $dlldir = "..\\..\\bin"
 end
 

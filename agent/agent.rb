@@ -117,15 +117,15 @@ rescue Exception
 end
 
 begin
-  $setcurrentdirectory.call("..") if FileTest.exists?("../elten.ini") and !FileTest.exists?("elten.ini")
-  $setcurrentdirectory.call("..\\..") if FileTest.exists?("../../elten.ini") and !FileTest.exists?("elten.ini")
+  $setcurrentdirectory.call("..") if FileTest.exist?("../elten.ini") and !FileTest.exist?("elten.ini")
+  $setcurrentdirectory.call("..\\..") if FileTest.exist?("../../elten.ini") and !FileTest.exist?("elten.ini")
   $setdlldirectory.call(".")
   $eltendata = getdirectory(26) + "\\elten"
   $eltendata = ".\\eltendata" if readini("elten.ini", "Elten", "Portable", "0").to_i.to_i != 0
   $soundthemesdata = $eltendata + "\\soundthemes"
   $bindata = $eltendata + "\\bin"
   loadlocaledata("Data/locale.dat")
-  if !FileTest.exists?($eltendata + "\\appid.dat")
+  if !FileTest.exist?($eltendata + "\\appid.dat")
     $appid = ""
     chars = ("A".."Z").to_a + ("a".."z").to_a + ("0".."9").to_a
     64.times { $appid += chars[rand(chars.length)] }
@@ -436,7 +436,7 @@ begin
         end
       end
     end
-    if FileTest.exists?($eltendata + "\\!show.dat")
+    if FileTest.exist?($eltendata + "\\!show.dat")
       sleep(0.25)
       play "signal"
       begin
@@ -626,11 +626,11 @@ begin
                     end
                     voice = "ringing"
                     if $premiumpackages.is_a?(Array) && $premiumpackages.include?("audiophile")
-                      if FileTest.exists?($eltendata + "\\ringtones.json")
+                      if FileTest.exist?($eltendata + "\\ringtones.json")
                         begin
                           json = JSON.load(IO.binread($eltendata + "\\ringtones.json"))
                           vc = json[rsp["call"]["caller"]]
-                          voice = vc if vc != nil && FileTest.exists?(vc)
+                          voice = vc if vc != nil && FileTest.exist?(vc)
                         rescue Exception
                         end
                       end
@@ -708,7 +708,7 @@ begin
         end
       end
       alarms = []
-      if FileTest.exists?($eltendata + "\\alarms.dat")
+      if FileTest.exist?($eltendata + "\\alarms.dat")
         alarms = Marshal.load(IO.binread($eltendata + "\\alarms.dat"))
       end
       asc = nil

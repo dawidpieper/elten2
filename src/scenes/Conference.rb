@@ -71,6 +71,14 @@ class Scene_Conference
                       play("conference_speechallow")
                     }
                   end
+                  menu.option(p_("Conference", "Deny speech to all users"), nil, "_") {
+                    for u in Conference.channel.users
+                      if !Conference.channel.administrators.include?(u.name)
+                        Conference.speech_deny(u.id)
+                      end
+                    end
+                    play("conference_speechdeny")
+                  }
                 end
               end
             end

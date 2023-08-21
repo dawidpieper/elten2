@@ -1,16 +1,16 @@
 require "rubygems"
 
 def sfile(file)
-  return rfile(file) if FileTest.exists?(file)
+  return rfile(file) if FileTest.exist?(file)
   3.times { file.chop! } if file[-3..-1] == ".rb" or file[-3..-1] == ".so"
   suc = false
   for pa in $LOAD_PATH
     s = false
-    if File.file?(pa + "/" + file) or FileTest.exists?(pa + "/" + file + ".rb")
+    if File.file?(pa + "/" + file) or FileTest.exist?(pa + "/" + file + ".rb")
       rfile(pa + "/" + file + ".rb") if s == false
       s = true
       suc = true
-    elsif FileTest.exists?(pa + "/" + file + ".so")
+    elsif FileTest.exist?(pa + "/" + file + ".so")
       suc = true
       if !$soes.include?(file + ".so")
         $soes.push(file + ".so")
@@ -42,7 +42,7 @@ def sfile(file)
 end
 
 def rfile(file)
-  return "" if !FileTest.exists?(file)
+  return "" if !FileTest.exist?(file)
   $res ||= []
   return "" if $res.include?(file)
   $res.push(file)
@@ -73,8 +73,8 @@ $soeloc = []
 $reqs = []
 $rels = []
 sfile("agent.rb")
-Dir.mkdir("export") if !FileTest.exists?("export")
-Dir.mkdir("export/inc") if !FileTest.exists?("export/inc")
+Dir.mkdir("export") if !FileTest.exist?("export")
+Dir.mkdir("export/inc") if !FileTest.exist?("export/inc")
 $cnt.delete!("\r")
 $cnt.gsub!(" # :nodoc:", "#")
 $cnt.gsub!(/^([\t ]*)\#([a-zA-Z0-9\t ]+)([^\n]+)$/, "")

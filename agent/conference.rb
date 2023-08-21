@@ -1545,9 +1545,9 @@ class Conference
   end
 
   def begin_fullsave(dir)
-    Dir.mkdir(dir) if !FileTest.exists?(dir)
-    Dir.mkdir(dir + "/transmitters") if !FileTest.exists?(dir + "/transmitters")
-    Dir.mkdir(dir + "/streams") if !FileTest.exists?(dir + "/streams")
+    Dir.mkdir(dir) if !FileTest.exist?(dir)
+    Dir.mkdir(dir + "/transmitters") if !FileTest.exist?(dir + "/transmitters")
+    Dir.mkdir(dir + "/streams") if !FileTest.exist?(dir + "/streams")
     @fullsave_dir = dir
     @fullsave_time = Time.now.to_f
     @fullsave_chat = File.open(dir + "/chat.csv", "wb")

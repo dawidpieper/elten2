@@ -4,8 +4,8 @@
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
 
-if RUBY_VERSION.split(".")[0..1].join(".") != "3.1"
-  raise("Ruby version 3.1 is required.")
+if RUBY_VERSION.split(".")[0..1].join(".") != "3.2"
+  raise("Ruby version 3.2 is required.")
 end
 if RUBY_PLATFORM != "i386-mingw32"
   raise("Ruby platform i386-mingw32 is required.")
@@ -67,7 +67,7 @@ def locate_iscc
   locations = [ENV["ProgramFiles"] + "\\Inno Setup 6", ENV["localappdata"] + "\\Programs\\Inno Setup 6"] + ENV["path"].split(";").map { |c| c.chop! if c[-1..-1] == "\\" }
   for loc in locations
     l = loc + "\\iscc.exe"
-    return l if FileTest.exists?(l)
+    return l if FileTest.exist?(l)
   end
   return nil
 end
@@ -75,7 +75,7 @@ end
 desc "Create translation template"
 task :pot do
   require_gem("gettext", "gettext/tools/xgettext")
-  Dir.mkdir("locale") if !FileTest.exists?("locale")
+  Dir.mkdir("locale") if !FileTest.exist?("locale")
   files = get_files("filelist_rgss")
   param = files + ["-o", "locale/elten.pot", "--package-name=Elten", "--package-version=2.5", "--msgid-bugs-address=dawidpieper@o2.pl", "--copyright-holder=\"Dawid Pieper\"", "--copyright-year=#{Time.now.year}"]
   GetText::Tools::XGetText.run(*param)
@@ -84,8 +84,8 @@ end
 
 desc "Build scripts for RGSS"
 task :rgss do
-  Dir.mkdir("out") if !FileTest.exists?("out")
-  Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
+  Dir.mkdir("out") if !FileTest.exist?("out")
+  Dir.mkdir("out/Data") if !FileTest.exist?("out/Data")
   files = get_files("filelist_rgss")
   i = 0
   data = files.map { |f|
@@ -119,8 +119,8 @@ task :agent do
       @reqs = []
       @rels = []
       search(@file)
-      Dir.mkdir("out") if !FileTest.exists?("out")
-      Dir.mkdir("out/sofiles") if !FileTest.exists?("out/sofiles")
+      Dir.mkdir("out") if !FileTest.exist?("out")
+      Dir.mkdir("out/sofiles") if !FileTest.exist?("out/sofiles")
       @cnt.delete!("\r")
       @cnt.gsub!(" # :nodoc:", "#")
       @cnt.gsub!(/^([\t ]*)\#([a-zA-Z0-9\t ]+)([^\n]+)$/, "")
@@ -138,16 +138,16 @@ task :agent do
     private
 
     def search(file)
-      return processfile("agent/" + file) if FileTest.exists?("agent/" + file)
+      return processfile("agent/" + file) if FileTest.exist?("agent/" + file)
       3.times { file.chop! } if file[-3..-1] == ".rb" or file[-3..-1] == ".so"
       suc = false
       for pa in $LOAD_PATH
         s = false
-        if File.file?(pa + "/" + file) or FileTest.exists?(pa + "/" + file + ".rb")
+        if File.file?(pa + "/" + file) or FileTest.exist?(pa + "/" + file + ".rb")
           processfile(pa + "/" + file + ".rb") if s == false
           s = true
           suc = true
-        elsif FileTest.exists?(pa + "/" + file + ".so")
+        elsif FileTest.exist?(pa + "/" + file + ".so")
           suc = true
           if !@soes.include?(file + ".so")
             @soes.push(file + ".so")
@@ -198,7 +198,7 @@ task :agent do
       r.gsub!(/require_relative( *)(\(*)(\"|\')([^\"\']+)(\"|\')(\)*)/) do
         f = $4
         f += ".rb" if f[-3..-1] != ".rb"
-        if !@rels.include?(f) && FileTest.exists?(File.dirname(file) + "/" + f)
+        if !@rels.include?(f) && FileTest.exist?(File.dirname(file) + "/" + f)
           @rels.push(f)
           processfile(File.dirname(file) + "/" + f)
         end
@@ -227,11 +227,11 @@ end
 
 desc "Generate data files from JSON"
 task :data do
-  if !FileTest.exists?("vendor/app")
+  if !FileTest.exist?("vendor/app")
     raise("Cannot locate vendor dependencies, did you remember to update git submodules?")
   end
-  Dir.mkdir("out") if !FileTest.exists?("out")
-  Dir.mkdir("out/jdata") if !FileTest.exists?("out/jdata")
+  Dir.mkdir("out") if !FileTest.exist?("out")
+  Dir.mkdir("out/jdata") if !FileTest.exist?("out/jdata")
   for f in Dir.glob("vendor/Data/*.json")
     j = JSON.load(IO.binread(f))
     o = Zlib::Deflate.deflate(Marshal.dump(j), Zlib::BEST_COMPRESSION)
@@ -243,10 +243,10 @@ end
 
 desc "Generate new key for Elten app"
 task :key do
-  if FileTest.exists?("private/appkey.dat")
-    raise("The key file for this app already exists in private/appkey.dat. You must delete it manually.")
+  if FileTest.exist?("private/appkey.dat")
+    raise("The key file for this app already exist in private/appkey.dat. You must delete it manually.")
   end
-  Dir.mkdir("private") if !FileTest.exists?("private")
+  Dir.mkdir("private") if !FileTest.exist?("private")
   secret = SecureRandom.bytes(32)
   IO.binwrite("private/appkey.dat", secret)
   puts("New app key generated.")
@@ -254,13 +254,13 @@ end
 
 desc "Generate signature files for Elten library"
 task :sig do
-  if !FileTest.exists?("private/appkey.dat")
+  if !FileTest.exist?("private/appkey.dat")
     raise("You must generate the appkey first, use \"rake key\".")
   end
-  if !FileTest.exists?("vendor/app")
+  if !FileTest.exist?("vendor/app")
     raise("Cannot locate vendor dependencies, did you remember to update git submodules?")
   end
-  Dir.mkdir("private/include") if !FileTest.exists?("private/include")
+  Dir.mkdir("private/include") if !FileTest.exist?("private/include")
   sigs = ["vendor/app/elten.exe", "vendor/app/bin/rubyw.exe", "vendor/app/bin/ruby.exe"]
   str = "#ifndef ELTAUTOGEN_SIG\n#define ELTAUTOGEN_SIG\n"
   for i in 1..4
@@ -305,10 +305,10 @@ end
 
 desc "Build Elten library"
 task :lib do
-  if !FileTest.exists?("vendor/vswhere.exe")
+  if !FileTest.exist?("vendor/vswhere.exe")
     raise("Cannot locate VSWhere executable, did you remember to update git submodules?")
   end
-  Rake::Task["sig"].invoke if !FileTest.exists?("vendor/include")
+  Rake::Task["sig"].invoke if !FileTest.exist?("vendor/include")
   j = Open3.capture3("vendor\\vswhere.exe -format json -requires Microsoft.Component.MSBuild")[0]
   vsversions = JSON.parse(j)
   msv = nil
@@ -321,7 +321,7 @@ task :lib do
       pvers = msv["installationVersion"].split(".")
       suc = true
       suc = false if vers[0].to_i < 14
-      suc = false if !FileTest.exists?(v["installationPath"] + "\\MSBuild\\current\\Bin\\MSBuild.exe")
+      suc = false if !FileTest.exist?(v["installationPath"] + "\\MSBuild\\current\\Bin\\MSBuild.exe")
       for i in 0...vers.size
         if (pvers[i] || 0).to_i > vers[i].to_i
           suc = false
@@ -337,7 +337,7 @@ task :lib do
     msbpath = msv["installationPath"] + "\\MSBuild\\current\\Bin\\MSBuild.exe"
     stdout = Open3.capture3("\"#{msbpath}\" lib\\eltenvc\\eltenvc.sln -nologo -m /consoleLoggerParameters:Verbosity=minimal;;errorsonly 2>&1")[0].force_encoding("utf-8")
     puts stdout if stdout != ""
-    if FileTest.exists?("out/lib/eltenvc.dll")
+    if FileTest.exist?("out/lib/eltenvc.dll")
       puts("Library compiled.")
     end
   end
@@ -348,13 +348,13 @@ task :locale do
   require_gem("gettext", "gettext")
   require "gettext/po_parser"
   require_gem("zstd-ruby", "zstd-ruby")
-  Dir.mkdir("out") if !FileTest.exists?("out")
-  Dir.mkdir("out/locale") if !FileTest.exists?("out/locale")
+  Dir.mkdir("out") if !FileTest.exist?("out")
+  Dir.mkdir("out/locale") if !FileTest.exist?("out/locale")
   for f in Dir.glob("locale/*/lc_messages/elten.po")
     dir = "out"
     for d in f.split("/")[0...-1]
       dir += "/" + d
-      Dir.mkdir(dir) if !FileTest.exists?(dir)
+      Dir.mkdir(dir) if !FileTest.exist?(dir)
     end
     parser = GetText::POParser.new
     parser.report_warning = false
@@ -366,7 +366,7 @@ task :locale do
     dir = "out"
     for d in f.split("/")[0...-1]
       dir += "/" + d
-      Dir.mkdir(dir) if !FileTest.exists?(dir)
+      Dir.mkdir(dir) if !FileTest.exist?(dir)
     end
     FileUtils.copy(f, dir + "/" + File.basename(f))
   end
@@ -392,21 +392,21 @@ task :locale do
   for f in Dir.entries("out/locale")
     next if !f.include?("-") && !f.bytesize != 5
     mo = "".b
-    mo = IO.binread("out/locale/" + f + "/lc_messages/elten.mo") if FileTest.exists?("out/locale/" + f + "/lc_messages/elten.mo")
+    mo = IO.binread("out/locale/" + f + "/lc_messages/elten.mo") if FileTest.exist?("out/locale/" + f + "/lc_messages/elten.mo")
     hash = search_md("out/locale/" + f)
     tcnt = "".b
     tcnt += [mo.bytesize].pack("I")
     tcnt += mo
     for k in hash.keys
       next if k.bytesize > 255
-      next if f != "en-GB" && FileTest.exists?("out/locale/en-GB/" + k + ".md") && IO.binread("out/locale/en-GB/" + k + ".md") == hash[k]
+      next if f != "en-GB" && FileTest.exist?("out/locale/en-GB/" + k + ".md") && IO.binread("out/locale/en-GB/" + k + ".md") == hash[k]
       tcnt += [k.bytesize, k, hash[k].bytesize, hash[k]].pack("Ca*Ia*")
     end
     zcnt = Zstd.compress(tcnt, 19)
     hd += [f[0..1] + f[3..4], zcnt.bytesize].pack("a*I")
     cnt += zcnt
   end
-  Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
+  Dir.mkdir("out/Data") if !FileTest.exist?("out/Data")
   fcnt = [hd.bytesize / 8].pack("C") + hd + cnt
   IO.binwrite("out/Data/locale.dat", fcnt)
   puts("Locale files compiled.")
@@ -414,8 +414,8 @@ end
 
 desc "Create default soundtheme"
 task :soundtheme do
-  Dir.mkdir("out") if !FileTest.exists?("out")
-  Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
+  Dir.mkdir("out") if !FileTest.exist?("out")
+  Dir.mkdir("out/Data") if !FileTest.exist?("out/Data")
   magic = "EltenSoundThemePackageFileCMPSMC"
   cnt = "".b
   for f in Dir.glob("app/Audio/**/*.ogg")
@@ -471,29 +471,29 @@ task :nvda do
     end
   end
 
-  Dir.mkdir("out") if !FileTest.exists?("out")
-  Dir.mkdir("out/Data") if !FileTest.exists?("out/Data")
-  FileUtils.rm("out/Data/elten.nvda-addon") if FileTest.exists?("out/Data/elten.nvda-addon")
+  Dir.mkdir("out") if !FileTest.exist?("out")
+  Dir.mkdir("out/Data") if !FileTest.exist?("out/Data")
+  FileUtils.rm("out/Data/elten.nvda-addon") if FileTest.exist?("out/Data/elten.nvda-addon")
   ZipFileGenerator.new("screenreaders/NVDA", "out/Data/elten.nvda-addon").write
   puts("NVDA addon packed.")
 end
 
 desc "Build Elten"
 task :build do
-  if !FileTest.exists?("vendor/app")
+  if !FileTest.exist?("vendor/app")
     raise("Cannot locate vendor dependencies, did you remember to update git submodules?")
   end
-  Rake::Task["lib"].invoke if !FileTest.exists?("out/lib/eltenvc.dll")
+  Rake::Task["lib"].invoke if !FileTest.exist?("out/lib/eltenvc.dll")
   Rake::Task["rgss"].invoke
-  Rake::Task["agent"].invoke if !FileTest.exists?("out/agent.dat")
-  Rake::Task["pot"].invoke if !FileTest.exists?("locale")
-  Rake::Task["locale"].invoke if !FileTest.exists?("out/Data/locale.dat")
-  Rake::Task["soundtheme"].invoke if !FileTest.exists?("out/Data/soundtheme.elsnd")
-  Rake::Task["nvda"].invoke if !FileTest.exists?("out/Data/elten.nvda-addon")
-  Rake::Task["data"].invoke if !FileTest.exists?("out/jdata")
-  if !FileTest.exists?("build")
-    Dir.mkdir("build") if !FileTest.exists?("build")
-    Dir.mkdir("build/elten") if !FileTest.exists?("build/elten")
+  Rake::Task["agent"].invoke if !FileTest.exist?("out/agent.dat")
+  Rake::Task["pot"].invoke if !FileTest.exist?("locale")
+  Rake::Task["locale"].invoke if !FileTest.exist?("out/Data/locale.dat")
+  Rake::Task["soundtheme"].invoke if !FileTest.exist?("out/Data/soundtheme.elsnd")
+  Rake::Task["nvda"].invoke if !FileTest.exist?("out/Data/elten.nvda-addon")
+  Rake::Task["data"].invoke if !FileTest.exist?("out/jdata")
+  if !FileTest.exist?("build")
+    Dir.mkdir("build") if !FileTest.exist?("build")
+    Dir.mkdir("build/elten") if !FileTest.exist?("build/elten")
     FileUtils.copy_entry("vendor/app", "build/elten")
     FileUtils.copy_entry("app", "build/elten")
     FileUtils.copy_entry("out/sofiles", "build/elten/bin")
@@ -507,13 +507,13 @@ end
 
 desc "Build Elten and all dependencies"
 task :buildall do
-  if !FileTest.exists?("vendor/app")
+  if !FileTest.exist?("vendor/app")
     raise("Cannot locate vendor dependencies, did you remember to update git submodules?")
   end
   Rake::Task["lib"].invoke
   Rake::Task["rgss"].invoke
   Rake::Task["agent"].invoke
-  Rake::Task["pot"].invoke if !FileTest.exists?("locale")
+  Rake::Task["pot"].invoke if !FileTest.exist?("locale")
   Rake::Task["locale"].invoke
   Rake::Task["nvda"].invoke
   Rake::Task["data"].invoke
@@ -555,7 +555,7 @@ end
 
 desc "Create Elten installer"
 task :setup do
-  Rake::Task["build"].invoke if !FileTest.exists?("build/elten")
+  Rake::Task["build"].invoke if !FileTest.exist?("build/elten")
   loc = locate_iscc
   if loc == nil
     raise("Failed to locate InnoSetup6 installation. Make sure that InnoSetup is installed in your \"Program Files\" or add it to path.")

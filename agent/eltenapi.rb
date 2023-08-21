@@ -672,7 +672,7 @@ module EltenAPI
   @@soundtheme = nil
 
   def load_soundtheme(file, loadSounds = true)
-    return nil if !FileTest.exists?(file)
+    return nil if !FileTest.exist?(file)
     size = File.size(file)
     return nil if size > 64 * 1024 ** 2 || size < 36
     io = StringIO.new(IO.binread(file))
@@ -724,7 +724,7 @@ module EltenAPI
 
   def read_logindata
     magic = "EltenLoginCredentialsPRVDataFile"
-    return [0, "", "", -1] if !FileTest.exists?($eltendata + "\\login.dat")
+    return [0, "", "", -1] if !FileTest.exist?($eltendata + "\\login.dat")
     str = IO.binread($eltendata + "\\login.dat")
     io = StringIO.new(str)
     return [0, "", "", -1] if io.read(magic.bytesize) != magic
@@ -778,7 +778,7 @@ module EltenAPI
     end
 
     def loadlocaledata(file)
-      return if !FileTest.exists?(file)
+      return if !FileTest.exist?(file)
       io = StringIO.new(IO.binread(file))
       hdcount = io.read(1).unpack("C").first
       langs = []
@@ -837,7 +837,7 @@ module EltenAPI
     end
 
     def loadlocale(file, reset = true)
-      loadmo(IO.binread(file), reset) if FileTest.exists?(file)
+      loadmo(IO.binread(file), reset) if FileTest.exist?(file)
     end
 
     def loadmo(data, reset = true)

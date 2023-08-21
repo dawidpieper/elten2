@@ -99,7 +99,7 @@ class Scene_SoundThemes
       st.count = sttemp[2 + i * 7 + 6].to_i
       @std.push(st)
     end
-    sel = ListBox.new([p_("SoundThemes", "Most popular"), p_("SoundThemes", "Recently added")] + @std.map { |s| s.user }.uniq.sort, p_("SoundThemes", "Available sound themes"))
+    sel = ListBox.new([p_("SoundThemes", "Most popular"), p_("SoundThemes", "Recently added")] + @std.map { |s| s.user }.uniq.polsort, p_("SoundThemes", "Available sound themes"))
     sel.disable_item(0) if @std.map { |s| s.count.to_i }.sum < 20
     sel.focus
     loop do
@@ -109,7 +109,7 @@ class Scene_SoundThemes
       if sel.expanded? || sel.selected?
         cat = :popular
         cat = :added if sel.index == 1
-        cat = @std.map { |s| s.user }.uniq.sort[sel.index - 2] if sel.index >= 2
+        cat = @std.map { |s| s.user }.uniq.polsort[sel.index - 2] if sel.index >= 2
         stdownload_category(cat)
         loop_update
         sel.focus
@@ -163,7 +163,7 @@ class Scene_SoundThemes
         break
       end
       if enter and std.size > 0
-        st = std[@sel.index]
+        st = std[sel.index]
         size = ""
         if st.size < 1024
           size = st.size.to_s + "B"
@@ -175,7 +175,6 @@ class Scene_SoundThemes
         confirm(p_("SoundThemes", "Do you want to download theme %{name}? Need to download %{size} of data.") % { "name" => st.name, "size" => size }) {
           downloadtheme(st)
         }
-        return
       end
     end
   end
