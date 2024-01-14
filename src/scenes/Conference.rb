@@ -118,11 +118,11 @@ class Scene_Conference
                 end
               }
             }
-            if holds_premiumpackage("director")
-              menu.option(p_("Conference", "VST chain"), nil, "t") {
+            menu.option(p_("Conference", "VST chain"), nil, "t") {
+              if requires_premiumpackage("director")
                 insert_scene(Scene_Conference_VSTS.new(user.id))
-              }
-            end
+              end
+            }
             menu.option(p_("Conference", "Go to user"), nil, "g") {
               Conference.goto_user(user.id)
             }
@@ -148,11 +148,11 @@ class Scene_Conference
           end
           if Conference.channel.administrators.include?(Session.name)
             if user.supervisor == nil || user.supervisor == 0
-              if holds_premiumpackage("director") && user.name != Session.name
-                menu.option(p_("Conference", "Take over this user's stream")) {
+              menu.option(p_("Conference", "Take over this user's stream")) {
+                if requires_premiumpackage("director") && user.name != Session.name
                   Conference.supervise(user.id)
-                }
-              end
+                end
+              }
             else
               menu.option(p_("Conference", "Abandon this user's stream")) {
                 Conference.unsupervise(user.id)
@@ -572,6 +572,33 @@ class Scene_Conference
       btn_create = Button.new(p_("Conference", "Create")),
       btn_cancel = Button.new(p_("Conference", "Cancel"))
     ], 0, false, true)
+    chk_permanent.on(:change) {
+      if !holds_premiumpackage("director") && !requires_premiumpackage("audiophile")
+        chk_permanent.checked = (channel.permanent) ? (1) : (0)
+      end
+    }
+
+    chk_conference.on(:change) {
+      if !requires_premiumpackage("director")
+        chk_conference.checked = (channel.conference_mode > 0) ? (1) : (0)
+      end
+    }
+    edt_width.on(:change) {
+      if !requires_premiumpackage("director")
+        edt_width.set_text(channel.width.to_s)
+      end
+    }
+    edt_height.on(:change) {
+      if !requires_premiumpackage("director")
+        edt_height.set_text(channel.height.to_s)
+      end
+    }
+    chk_hidden.on(:change) {
+      if !requires_premiumpackage("director")
+        chk_hidden.checked = (channel.public) ? (0) : (1)
+      end
+    }
+
     edt_width.select_all
     edt_height.select_all
     edt_name.select_all
@@ -579,19 +606,11 @@ class Scene_Conference
     if channel.id != 0
       btn_create.label = p_("Conference", "Edit")
     end
-    if !holds_premiumpackage("director") && channel.conference_mode == 0
+    if channel.conference_mode == 0
       form.hide(chk_conference)
     end
-    if !holds_premiumpackage("director")
-      form.hide(edt_width)
-      form.hide(edt_height)
-    end
-    if !holds_premiumpackage("audiophile")
-      form.hide(chk_hidden)
-      form.hide(lst_encryption)
-    end
     form.hide(chk_hidden) if (channel.groupid != 0 && channel.groupid != nil)
-    form.hide(chk_permanent) if (channel.groupid != 0 && channel.groupid != nil) || (channel.permanent == false && (!holds_premiumpackage("audiophile") || chans.find_all { |c| c.creator == Session.name && c.permanent == true }.size >= 3))
+    form.hide(chk_permanent) if (channel.groupid != 0 && channel.groupid != nil) || (channel.permanent == false && (chans.find_all { |c| c.creator == Session.name && c.permanent == true }.size >= 3))
     lst_preset.on(:move) {
       if presets.size > lst_preset.index
         preset = presets[lst_preset.index]
@@ -790,8 +809,8 @@ class Scene_Conference
     refr = false
     lst_objects.bind_context { |menu|
       if objs.find_all { |o| o["owner"] == Session.name }.size < 10
-        if holds_premiumpackage("director")
-          menu.option(p_("Conference", "Upload new sound")) {
+        menu.option(p_("Conference", "Upload new sound")) {
+          if requires_premiumpackage("director")
             file = get_file(p_("Conference", "Select audio file"), Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
             if file != nil
               if File.size(file) > 16777216
@@ -804,8 +823,8 @@ class Scene_Conference
             else
               form.focus
             end
-          }
-        end
+          end
+        }
       end
       if objs.size > 0
         obj = objs[lst_objects.index]
@@ -1119,13 +1138,15 @@ class Scene_Conference
         @form.focus
       }
     end
-    if holds_premiumpackage("director")
-      if Conference.shoutcast?
-        menu.option(p_("Conference", "Remove shoutcast stream")) {
+    if Conference.shoutcast?
+      menu.option(p_("Conference", "Remove shoutcast stream")) {
+        if requires_premiumpackage("director")
           Conference.remove_shoutcast
-        }
-      else
-        menu.option(p_("Conference", "Stream this conference to a shoutcast server")) {
+        end
+      }
+    else
+      menu.option(p_("Conference", "Stream this conference to a shoutcast server")) {
+        if requires_premiumpackage("director")
           bitrates = [96, 128, 192, 256, 320]
           form = Form.new([
             lst_type = ListBox.new(["Shoutcast V2", "Shoutcast V1", "Icecast"], p_("Conference", "Server type")),
@@ -1180,8 +1201,8 @@ class Scene_Conference
           }
           form.wait
           @form.focus
-        }
-      end
+        end
+      }
     end
     menu.option(p_("Conference", "My streams"), nil, "I") { mystreams }
     menu.option(p_("Conference", "Channel streams"), nil, "N") { streams }
@@ -1236,11 +1257,11 @@ class Scene_Conference
         m.option(p_("Conference", "Save mixed stream to a file"), nil, "s") {
           save
         }
-        if holds_premiumpackage("audiophile")
-          m.option(p_("Conference", "Save separate streams (experimental)"), nil, "S") {
+        m.option(p_("Conference", "Save separate streams (experimental)"), nil, "S") {
+          if requires_premiumpackage("audiophile")
             fullsave
-          }
-        end
+          end
+        }
       }
     end
     menu.submenu(p_("Conference", "Push to talk")) { |m|
@@ -1258,11 +1279,11 @@ class Scene_Conference
         @form.focus
       }
     }
-    if holds_premiumpackage("audiophile")
-      menu.option(p_("Conference", "VST chain"), nil, "T") {
+    menu.option(p_("Conference", "VST chain"), nil, "T") {
+      if requires_premiumpackage("audiophile")
         insert_scene(Scene_Conference_VSTS.new)
-      }
-    end
+      end
+    }
     menu.submenu(p_("Conference", "Miscellaneous")) { |m|
       m.option(p_("Conference", "Roll a 6-sided dice"), nil, "d") { Conference.diceroll }
       m.option(p_("Conference", "Roll a custom dice"), nil, "D") {
@@ -1271,8 +1292,8 @@ class Scene_Conference
       m.option(p_("Conference", "Cardboard"), nil, "b") { decks }
     }
     menu.option(p_("Conference", "Show status")) { showstatus }
-    if holds_premiumpackage("director")
-      menu.option(p_("Conference", "Change output soundcard")) {
+    menu.option(p_("Conference", "Change output soundcard")) {
+      if requires_premiumpackage("director")
         cards = [p_("Conference", "Use Elten soundcard")] + Bass.soundcards[2..-1].map { |c| c.name }
         cardid = -1
         form = Form.new([
@@ -1294,8 +1315,8 @@ class Scene_Conference
           Conference.set_device(card)
         end
         @form.focus
-      }
-    end
+      end
+    }
     if Conference.channel.id != 0
       menu.submenu(p_("Conference", "Channel")) { |m|
         if Conference.channel.groupid == 0 || Conference.channel.groupid == nil

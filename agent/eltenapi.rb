@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2024 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -130,7 +130,7 @@ module EltenAPI
     }
     $sockthread = Thread.new {
       while !$ssl.closed? && !$ssl.eof?
-        data = $ssl.read_nonblock(1024)
+        data = $ssl.read_nonblock(16384)
         $http << data
       end
     }
@@ -328,7 +328,7 @@ module EltenAPI
         path = "/leg1/" + mod + ".php?" + param
         headers["User-Agent"] = "Elten #{$version} agent"
         headers["Connection"] = "close"
-        headers["Accept-Encoding"] = "identity, deflate, chunked, *;q=0"
+        headers["Accept-Encoding"] = "gzip;q=1.0, deflate;q=1.0, identity;q=0.5, chunked;q=0.5, *;q=0"
         met = "GET"
         if post != nil && post != ""
           met = "POST"
@@ -357,6 +357,7 @@ module EltenAPI
         end
         resp = ""
         resp += ssl.read while !ssl.eof?
+        log(-1, resp.inspect)
         ind = resp.index("\r\n\r\n")
         hd = resp[0...ind]
         lines = hd.split("\r\n")
@@ -375,11 +376,15 @@ module EltenAPI
               headers[l[0...nd]] = l[nd + 2..-1]
             end
             bd = resp[ind + 4...-1]
+            log(-1, "Transfer #{headers["Transfer-Encoding"]}")
             case headers["Transfer-Encoding"]
             when "identity"
               b.call(bd, data)
             when "deflate"
               b.call(Zlib::Inflate.inflate(bd), data)
+            when "gzip"
+              gz = Zlib::GzipReader.new(StringIO.new(bd.to_s))
+              b.call(gz.read, data)
             when "chunked"
               body = ""
               io = StringIO.new(bd)
@@ -388,6 +393,10 @@ module EltenAPI
                 break if cnt == 0
                 body += io.read(cnt)
                 io.read(2)
+              end
+              if headers["Content-Encoding"] == "gzip" && body.getbyte(0) == 0x1F && body.getbyte(1) == 0x8B
+                gz = Zlib::GzipReader.new(StringIO.new(body.to_s))
+                body = gz.read
               end
               b.call(body, data)
             else
@@ -412,7 +421,8 @@ module EltenAPI
       head = {
         ":scheme" => "https",
         ":authority" => "srvapi.elten.link:443",
-        ":path" => "/leg1/#{mod}.php?#{param}"
+        ":path" => "/leg1/#{mod}.php?#{param}",
+        "Accept-Encoding" => "gzip, identity"
       }
       if post == nil
         head[":method"] = "GET"
@@ -441,9 +451,27 @@ module EltenAPI
         end
       end
       body = ""
+      r_headers = {}
+      stream.on(:headers) { |h| r_headers = h }
       stream.on(:data) { |ch| body << ch }
       stream.on(:half_close) { stream.close }
-      stream.on(:close) { $eropened = nil; $lastrep = Time.now.to_i; b.call(body, data) }
+      stream.on(:close) {
+        begin
+          $eropened = nil
+          $lastrep = Time.now.to_i
+          log(-1, r_headers.to_h.inspect)
+          if r_headers.to_h["content-encoding"] == "gzip" && body.getbyte(0) == 0x1F && body.getbyte(1) == 0x8B
+            gz = Zlib::GzipReader.new(StringIO.new(body.to_s))
+            body = gz.read
+          end
+          b.call(body, data)
+        rescue Exception
+          log(-1, body.inspect)
+          log(-1, $!.to_s)
+          log(-1, $@.to_s)
+          fail
+        end
+      }
     rescue Exception
       log(2, "Erequest error: " + $!.to_s + " " + $@.to_s) if !$!.is_a?(HTTP2::Error::ConnectionClosed)
       init
@@ -562,7 +590,21 @@ module EltenAPI
     end
   end
 
+  $last_log_msg = nil
+  $last_log_msg_count = 0
+  $last_log_msg_time = 0
+
   def log(level, msg)
+    if $last_log_msg == msg
+      $last_log_msg_count += 1
+      if $last_log_msg_count > 10 && $last_log_time == Time.now.to_i
+        return
+      end
+    else
+      $last_log_msg = msg
+      $last_log_msg_time = Time.now.to_i
+      $last_log_msg_count = 1
+    end
     ewrite({ "func" => "log", "level" => level, "msg" => msg, "time" => Time.now.to_f })
   end
 

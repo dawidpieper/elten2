@@ -201,6 +201,10 @@ module EltenAPI
     def usermenu(user, submenu = false, left = false)
       ui = userinfo(user, true)
       return if ui == -1
+      if ui[15] == true
+        alert(p_("EAPI_Common", "This account is archived"))
+        return
+      end
       @incontacts = ui[8].to_b if Session.name != "guest"
       @isbanned = ui[10].to_b
       @hasblog = ui[1]
@@ -227,20 +231,16 @@ module EltenAPI
         sel.push("")
       end
       ringtone = false
-      if holds_premiumpackage("audiophile")
-        begin
-          if FileTest.exists?(Dirs.eltendata + "\\ringtones.json")
-            json = JSON.load(readfile(Dirs.eltendata + "\\ringtones.json"))
-            ringtone = true if json[user].is_a?(String) && FileTest.exists?(json[user])
-          end
+      begin
+        if FileTest.exists?(Dirs.eltendata + "\\ringtones.json")
+          json = JSON.load(readfile(Dirs.eltendata + "\\ringtones.json"))
+          ringtone = true if json[user].is_a?(String) && FileTest.exists?(json[user])
         end
-        if ringtone
-          sel.push(p_("EAPI_Common", "Unset ringtone"))
-        else
-          sel.push(p_("EAPI_Common", "Set ringtone"))
-        end
+      end
+      if ringtone
+        sel.push(p_("EAPI_Common", "Unset ringtone"))
       else
-        sel.push("")
+        sel.push(p_("EAPI_Common", "Set ringtone"))
       end
       sel.push(p_("EAPI_Common", "Call this user"))
       sel.push(p_("EAPI_Common", "Show feed"))
@@ -278,7 +278,6 @@ module EltenAPI
         menu.disable_item(9)
       end
       menu.disable_item(3) if @hashonors == false
-      menu.disable_item(6) if !holds_premiumpackage("audiophile")
       menu.disable_item(7) if @callable == false
       menu.disable_item(10) if Session.moderator == 0
       menu.focus
@@ -335,10 +334,12 @@ module EltenAPI
               set_ringtone(user, nil)
               alert(p_("EAPI_Common", "Ringtone removed"))
             else
-              file = get_file(p_("EAPI_Common", "Select ringtone for user %{user}") % { "user" => user }, Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
-              if file != nil
-                set_ringtone(user, file)
-                alert(p_("EAPI_Common", "Ringtone changed"))
+              if requires_premiumpackage("audiophile")
+                file = get_file(p_("EAPI_Common", "Select ringtone for user %{user}") % { "user" => user }, Dirs.documents + "\\", false, nil, [".mp3", ".wav", ".ogg", ".mod", ".m4a", ".flac", ".wma", ".opus", ".aac", ".aiff", ".w64"])
+                if file != nil
+                  set_ringtone(user, file)
+                  alert(p_("EAPI_Common", "Ringtone changed"))
+                end
               end
             end
           when 7
@@ -946,6 +947,25 @@ module EltenAPI
     def holds_premiumpackage(package)
       return false if Session.name == "" || Session.name == nil || Session.name == "guest"
       return @@premiumpackages.include?(package)
+    end
+
+    def requires_premiumpackage(package)
+      return true if holds_premiumpackage(package)
+      package_name = ""
+      case package
+      when "courier"
+        package_name = p_("EAPI_Common", "Courier")
+      when "audiophile"
+        package_name = p_("EAPI_Common", "Audiophile")
+      when "scribe"
+        package_name = p_("EAPI_Common", "Scribe")
+      when "director"
+        package_name = p_("EAPI_Common", "Director")
+      end
+      confirm(p_("EAPI_Common", "This feature requires %{package} premium package. Would you like to see the premium packages available?") % { "package" => package_name }) {
+        insert_scene(Scene_PremiumPackages.new)
+      }
+      return false
     end
 
     # Gets the size of a file or directory

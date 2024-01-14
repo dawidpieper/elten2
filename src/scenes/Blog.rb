@@ -21,8 +21,6 @@ class Scene_Blog
       @sel.disable_item(8)
       @sel.disable_item(9)
     end
-    @sel.disable_item(8) if !holds_premiumpackage("courier")
-    @sel.disable_item(7) if !holds_premiumpackage("courier")
     @sel.focus
     loop do
       loop_update
@@ -66,9 +64,13 @@ class Scene_Blog
           $scene = Scene_Blog_List.new(5, self, r)
         end
       when 7
-        $scene = Scene_Blog_Posts.new(Session.name, "FOLLOWED")
+        if requires_premiumpackage("courier")
+          $scene = Scene_Blog_Posts.new(Session.name, "FOLLOWED")
+        end
       when 8
-        $scene = Scene_Blog_Posts.new(Session.name, "MENTIONED")
+        if requires_premiumpackage("courier")
+          $scene = Scene_Blog_Posts.new(Session.name, "MENTIONED")
+        end
       when 9
         $bloglistindex = 0
         $scene = Scene_Blog_List.new(8, nil, :library)
@@ -551,8 +553,8 @@ class Scene_Blog_Posts
       else
         opt = p_("Blog", "Unfollow this post")
       end
-      if holds_premiumpackage("courier") || @post[@sel.index].followed
-        menu.option(opt, nil, "l") {
+      menu.option(opt, nil, "l") {
+        if requires_premiumpackage("courier")
           prm = { "searchname" => @post[@sel.index].owner, "postid" => @post[@sel.index].id }
           if @post[@sel.index].followed == false
             prm["add"] = 1
@@ -570,8 +572,8 @@ class Scene_Blog_Posts
           else
             alert(_("Error"))
           end
-        }
-      end
+        end
+      }
       menu.option(p_("Blog", "Copy post URL")) {
         Clipboard.text = @post[@sel.index].url
         alert(p_("Blog", "Post URL copied to clipboard"))
@@ -812,8 +814,8 @@ class Scene_Blog_Read
       else
         opt = p_("Blog", "Unfollow this post")
       end
-      if holds_premiumpackage("courier") || @post.followed
-        menu.option(opt, nil, "l") {
+      menu.option(opt, nil, "l") {
+        if requires_premiumpackage("courier")
           prm = { "searchname" => @post.owner, "postid" => @post.id }
           if @post.followed == false
             prm["add"] = 1
@@ -831,8 +833,8 @@ class Scene_Blog_Read
           else
             alert(_("Error"))
           end
-        }
-      end
+        end
+      }
     end
     menu.submenu(p_("Blog", "Navigation")) { |m|
       m.option(p_("Blog", "Go to post"), nil, ",") {
@@ -1219,7 +1221,7 @@ class Scene_Blog_List
         $scene = Scene_Main.new
         can = false
       else
-        can = false if b[1].to_i > 0 && !holds_premiumpackage("scribe")
+        can = false if b[1].to_i > 0 && !requires_premiumpackage("scribe")
       end
       if can == true
         $bloglistindex = @sel.index

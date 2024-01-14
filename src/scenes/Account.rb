@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2021 Dawid Pieper
+# Copyright (C) 2014-2024 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -135,13 +135,23 @@ class Scene_Account
     monthsmapping = (1..12)
     months = [_("January"), _("February"), _("March"), _("April"), _("May"), _("June"), _("July"), _("August"), _("September"), _("October"), _("November"), _("December")]
     days = (1..31).to_a
-    make_setting(p_("Account", "Birth date: year"), years.map { |y| y.to_s }, "birthdateyear", years)
+    make_setting(p_("Account", "Birth date: year"), [p_("Account", "Don't specify")] + years.map { |y| y.to_s }, "birthdateyear", [0] + years)
     make_setting(p_("Account", "Birth date: month"), months, "birthdatemonth", monthsmapping)
     make_setting(p_("Account", "Birth date: day"), days.map { |y| y.to_s }, "birthdateday", days)
     make_setting(p_("Account", "Country"), [""], "LocationCountry")
     make_setting(p_("Account", "State / Province"), [""], "LocationState")
     make_setting(p_("Account", "City"), [""], "LocationCity")
     on_load {
+      @form.fields[3].on(:move) {
+        if @form.fields[3].index == 0
+          @form.hide(4)
+          @form.hide(5)
+        else
+          @form.show(4)
+          @form.show(5)
+        end
+      }
+      @form.fields[3].trigger(:move)
       @form.fields[4].on(:move) {
         m = @form.fields[4].index + 1
         if m == 1 or m == 3 or m == 5 or m == 7 or m == 8 or m == 10 or m == 12
@@ -250,6 +260,7 @@ class Scene_Account
   def load_privacy
     setting_category(p_("Account", "Privacy"))
     make_setting(p_("Account", "Hide my profile for strangers"), :bool, "publicprofile")
+    make_setting(p_("Account", "Prevent banned users from writing me private messages"), :bool, "preventbanned")
     make_setting(p_("Account", "Accept incoming voice calls"), [p_("Account", "Never"), p_("Account", "Only from my friends"), p_("Account", "From all users")], "calls")
     make_setting(p_("Account", "Black list"), :custom, Proc.new { insert_scene(Scene_Account_BlackList.new) })
   end
@@ -285,6 +296,7 @@ class Scene_Account
   def load_others
     setting_category(p_("Account", "Others"))
     make_setting(p_("Account", "Premium packages"), :custom, Proc.new { insert_scene(Scene_PremiumPackages.new) })
+    make_setting(p_("Account", "Archive this account"), :custom, Proc.new { insert_scene(Scene_Account_Archive.new) })
   end
 
   def main
@@ -683,5 +695,48 @@ class Scene_Account_MailEvents
         break if $scene != self
       end
     end
+  end
+end
+
+class Scene_Account_Archive
+  def main
+    notification = p_("Account", "Archiving your account will have the following effects:
+* An indication that the account is archived will be placed next to all posts on the forum.
+* The account will not be displayed in the users lists.
+* The account will be removed from all contact lists.
+* Users will not be able to send private messages to this account.
+* The profile (including status, visiting card and signature) will be removed from the server
+* You will be opted out off all groups you are not moderating or banned in
+* You will be opted out of all messages conversations
+* All information about threads followed by you, your pinned groups or marked threads will be removed
+
+Attention.
+Archiving an account does not mean deleting or hiding associated blogs or notes, this must be done manually before archiving.
+
+The account will be automatically unarchived the next time you log in, but removed data will not be restored..")
+
+    form = Form.new([
+      txt_info = EditBox.new(p_("Account", "Information"), EditBox::Flags::ReadOnly, notification),
+      btn_continue = Button.new(p_("Account", "Continue")),
+      btn_cancel = Button.new(_("Cancel"))
+    ])
+    btn_cancel.on(:press) { form.resume }
+    btn_continue.on(:press) {
+      @password = input_text(p_("Account", "Enter your password."), EditBox::Flags::Password, "", true)
+      if @password == nil
+        form.resume
+      else
+        confirm(p("Account", "Are you sure you want to archive this account?")) {
+          srvproc("account_mod", { "password" => @password, "archive" => 1 })
+          alert(p_("Account", "Account archived"))
+          Session.name = ""
+          Session.token = ""
+          $scene = Scene_Loading.new
+          form.resume
+        }
+      end
+    }
+    form.wait
+    $scene = Scene_Main.new if $scene == self
   end
 end

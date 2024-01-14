@@ -282,6 +282,7 @@ class Scene_Messages
   end
 
   def edit_conversation(c = nil)
+    banned = isbanned(Session.name)
     cname = ""
     cusers = [Session.name]
     if c != nil
@@ -301,14 +302,16 @@ class Scene_Messages
     cre = form.fields[2]
     form.fields[2] = nil
     form.fields[1].bind_context { |menu|
-      menu.option(p_("Messages", "Add user"), nil, "n") {
-        user = input_user(p_("Messages", "User to add"))
-        if user != nil and !users.include?(user)
-          users.push(user)
-          form.fields[1].options.push(user)
-          form.focus
-        end
-      }
+      if !banned
+        menu.option(p_("Messages", "Add user"), nil, "n") {
+          user = input_user(p_("Messages", "User to add"))
+          if user != nil and !users.include?(user)
+            users.push(user)
+            form.fields[1].options.push(user)
+            form.focus
+          end
+        }
+      end
       if users.size > 0 and users[form.fields[1].index] != Session.name and !cusers.include?(users[form.fields[1].index])
         menu.option(p_("Messages", "Delete user from conversation"), nil, :del) {
           play("editbox_delete")
@@ -649,7 +652,7 @@ class Scene_Messages
       voted = false
       voted = true if srvproc("polls", { "voted" => "1", "poll" => pl.to_s })[1].to_i == 1
       selt = [p_("Polls", "Vote"), p_("Polls", "Show results"), p_("Polls", "Show report")]
-      selt[0] = nil if voted
+      selt[0] = nil if voted || isbanned(Session.name)
       case menuselector(selt)
       when 0
         insert_scene(Scene_Polls_Answer.new(pl.to_i, Scene_Main.new))
@@ -766,8 +769,8 @@ class Scene_Messages
     if @sel_messages.index < @messages.size and @messages[@sel_messages.index].receiver[0..0] != "["
       s = p_("Messages", "Protect")
       s = p_("Messages", "Unprotect") if @messages[@sel_messages.index].protected == 1
-      if holds_premiumpackage("courier") || @messages[@sel_messages.index].protected == 1
-        menu.option(s, nil, "c") {
+      menu.option(s, nil, "c") {
+        if @messages[@sel_messages.index].protected == 1 || requires_premiumpackage("courier")
           if @messages[@sel_messages.index].protected == 0
             if srvproc("messages", { "protect" => "1", "id" => @messages[@sel_messages.index].id })[0].to_i < 0
               alert(_("Error"))
@@ -784,8 +787,8 @@ class Scene_Messages
             end
           end
           @form_messages.focus
-        }
-      end
+        end
+      }
     end
     if @messages.size > 0 and @sel_messages.index < @messages.size and @messages_user[0..0] != "["
       menu.option(_("Delete")) {
@@ -924,34 +927,36 @@ class Scene_Messages_New
     @fields[6].bind_context { |menu|
       if @polls.size < 3
         menu.option(p_("Messages", "Attach a poll"), nil, "n") {
-          pls = srvproc("polls", { "list" => "1", "byme" => "1" })
-          if pls[0].to_i == 0
-            if pls[1].to_i > 0
-              ids = []
-              names = []
-              for i in 1...pls.size
-                if i == 1 or pls[i].delete("\r\n") == "\004END\004"
-                  ids.push(pls[i + 1].to_i)
-                  names.push(pls[i + 2])
+          if requires_premiumpackage("courier")
+            pls = srvproc("polls", { "list" => "1", "byme" => "1" })
+            if pls[0].to_i == 0
+              if pls[1].to_i > 0
+                ids = []
+                names = []
+                for i in 1...pls.size
+                  if i == 1 or pls[i].delete("\r\n") == "\004END\004"
+                    ids.push(pls[i + 1].to_i)
+                    names.push(pls[i + 2])
+                  end
                 end
-              end
-              ind = selector(names, p_("Messages", "Poll to attach"), 0, -1)
-              if ind == -1
-                @form.focus
-              else
-                if @polls.include?(ids[ind])
-                  alert(p_("Messages", "This poll has already been added"))
+                ind = selector(names, p_("Messages", "Poll to attach"), 0, -1)
+                if ind == -1
+                  @form.focus
                 else
-                  @polls.push(ids[ind])
-                  @fields[6].options.push(names[ind])
-                  alert(p_("Messages", "Poll has been added"))
+                  if @polls.include?(ids[ind])
+                    alert(p_("Messages", "This poll has already been added"))
+                  else
+                    @polls.push(ids[ind])
+                    @fields[6].options.push(names[ind])
+                    alert(p_("Messages", "Poll has been added"))
+                  end
                 end
+              else
+                alert(p_("Messages", "You haven't created any polls yet."))
               end
             else
-              alert(p_("Messages", "You haven't created any polls yet."))
+              alert(_("Error"))
             end
-          else
-            alert(_("Error"))
           end
         }
       end
@@ -971,7 +976,6 @@ class Scene_Messages_New
     @form = Form.new(@fields, ind)
     @attachments = []
     @polls = []
-    @form.hide(6) if !holds_premiumpackage("courier")
     loop do
       loop_update
       notempt = (@form.fields[2].is_a?(EditBox) && @form.fields[2].text != "") || (@form.fields[3].is_a?(OpusRecordButton) && !@form.fields[3].empty?)

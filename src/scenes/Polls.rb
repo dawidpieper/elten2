@@ -34,7 +34,7 @@ class Scene_Polls
             selt[0] = nil
           end
         end
-        if Session.name == "guest"
+        if Session.name == "guest" || @banned
           selt[0] = ""
         end
         case menuselector(selt)
@@ -51,6 +51,8 @@ class Scene_Polls
   end
 
   def refresh
+    @banned = false
+    @banned = isbanned(Session.name) if Session.name != "guest"
     polls = srvproc("polls", { "list" => 1, "details" => 2 })
     if polls[0].to_i < 0
       alert(_("Error"))
@@ -118,7 +120,7 @@ class Scene_Polls
 
   def context(menu)
     if @sel.options.size > 0
-      if Session.name != "guest"
+      if Session.name != "guest" && !@banned
         if !@polls[@sel.index].voted
           menu.option(p_("Polls", "Vote"), nil, "v") {
             $scene = Scene_Polls_Answer.new(@polls[@sel.index].id)
@@ -159,7 +161,7 @@ class Scene_Polls
         @sel.focus
       }
     end
-    if Session.name != "guest"
+    if Session.name != "guest" && !@banned
       menu.option(p_("Polls", "New poll"), nil, "n") {
         $scene = Scene_Polls_Create.new
       }

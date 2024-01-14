@@ -23,8 +23,8 @@ class Scene_Ban_Ban
         $scene = @scene
       end
     end
-    sel = [p_("Ban", "Day"), p_("Ban", "Three days"), p_("Ban", "Week"), p_("Ban", "2 weeks"), p_("Ban", "30 days"), p_("Ban", "90 days"), p_("Ban", "Year")]
-    @form = Form.new([ListBox.new(sel, p_("Ban", "Ban time")), EditBox.new(p_("Ban", "The reason")), EditBox.new(p_("Ban", "An additional message to the user"), EditBox::Flags::MultiLine), Button.new(p_("Ban", "Ban")), Button.new(_("Cancel"))])
+    sel = [p_("Ban", "A day"), p_("Ban", "Three days"), p_("Ban", "A week"), p_("Ban", "2 weeks"), p_("Ban", "30 days"), p_("Ban", "90 days"), p_("Ban", "180 days"), p_("Ban", "A year"), p_("Ban", "5 years")]
+    @form = Form.new([ListBox.new(sel, p_("Ban", "Ban time")), EditBox.new(p_("Ban", "The reason")), EditBox.new(p_("Ban", "An additional message to the user"), EditBox::Flags::MultiLine), CheckBox.new(p_("Ban", "Ban IP address")), Button.new(p_("Ban", "Ban")), Button.new(_("Cancel"))])
     loop do
       loop_update
       @form.update
@@ -34,14 +34,14 @@ class Scene_Ban_Ban
   end
 
   def update
-    if escape or ((space or enter) and @form.index == 4)
+    if escape or ((space or enter) and @form.index == 5)
       if @scene == nil
         $scene = Scene_Main.new
       else
         $scene = @scene
       end
     end
-    if (enter or space) and @form.index == 3
+    if (enter or space) and @form.index == 4
       totime = Time.now.to_i
       case @form.fields[0].index
       when 0
@@ -57,10 +57,15 @@ class Scene_Ban_Ban
       when 5
         totime += 3 * 30 * 24 * 60 * 60
       when 6
+        totime += 6 * 30 * 24 * 60 * 60
+      when 7
         totime += 365 * 24 * 60 * 60
+      when 8
+        totime += 5 * 365 * 24 * 60 * 60
       end
       info = buffer(@form.fields[2].text)
-      bantemp = srvproc("ban", { "searchname" => @user, "totime" => totime, "ban" => "1", "reason" => @form.fields[1].text, "info" => info.to_s })
+      ip = @form.fields[3].checked
+      bantemp = srvproc("ban", { "searchname" => @user, "totime" => totime, "ban" => "1", "reason" => @form.fields[1].text, "info" => info.to_s, "ip" => ip })
       err = bantemp[0]
       err = err.to_i
       if err == 0

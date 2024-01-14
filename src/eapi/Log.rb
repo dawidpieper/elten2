@@ -55,8 +55,11 @@ module EltenAPI
 
       def add(level, msg, tm = nil)
         if @@logfile == 0
+          cof = Win32API.new("kernel32", "CopyFileW", "ppi", "i")
           cf = Win32API.new("kernel32", "CreateFileW", "piipiii", "i")
           path = Dirs.eltendata + "\\elten.log"
+          oldpath = Dirs.eltendata + "\\elten.old.log"
+          cof.call(unicode(path), unicode(oldpath), 0)
           @@logfile = cf.call(unicode(path), 0x40000000, 1 | 2, nil, 2, 128, 0)
         end
         tm = Time.now if tm == nil

@@ -121,31 +121,53 @@ class Scene_SoundThemes
 
   def stdownload_category(category)
     std = []
-    case category
-    when :popular
-      std = @std.sort_by { |s| s.count }.reverse
-    when :added
-      std = @std.sort_by { |s| s.time }.reverse
-    else
-      std = @std.select { |s| s.user == category }.sort_by { |s| s.time }.reverse
-    end
-    sts = std.map { |s|
-      status = p_("SoundThemes", "Not downloaded")
-      for st in @soundthemes
-        next if st.file == nil
-        if File.basename(st.file) == File.basename(s.file)
-          if s.stamp.to_i > st.stamp.to_i
-            status = p_("SoundThemes", "Update available")
-          else
-            status = p_("SoundThemes", "Downloaded")
+    sts = []
+    rfr = Proc.new {
+      case category
+      when :popular
+        std = @std.sort_by { |s| s.count }.reverse
+      when :added
+        std = @std.sort_by { |s| s.time }.reverse
+      else
+        std = @std.select { |s| s.user == category }.sort_by { |s| s.time }.reverse
+      end
+      sts = std.map { |s|
+        status = p_("SoundThemes", "Not downloaded")
+        for st in @soundthemes
+          next if st.file == nil
+          if File.basename(st.file) == File.basename(s.file)
+            if s.stamp.to_i > st.stamp.to_i
+              status = p_("SoundThemes", "Update available")
+            else
+              status = p_("SoundThemes", "Downloaded")
+            end
           end
         end
-      end
-      [s.name, status, s.user, s.count.to_s]
+        [s.name, status, s.user, s.count.to_s]
+      }
     }
-    sel = TableBox.new([nil, p_("SoundThemes", "Status"), p_("SoundThemes", "Author"), p_("SoundThemes", "Used by")], sts, 0, p_("Soundthemes", "Select theme to download"), false)
+    sel = TableBox.new([nil, p_("SoundThemes", "Status"), p_("SoundThemes", "Author"), p_("SoundThemes", "Used by")], [], 0, p_("Soundthemes", "Select theme to download"), true)
+    rfr.call
+    sel.rows = sts
+    sel.reload
     sel.bind_context { |menu|
       st = std[sel.index]
+      menu.option(p_("SoundThemes", "Download")) {
+        size = ""
+        if st.size < 1024
+          size = st.size.to_s + "B"
+        elsif st.size < 1048576
+          size = (((st.size / 1024.0) * 10.0).round / 10.0).to_s + "kB"
+        else
+          size = (((st.size / 1048576.0) * 10.0).round / 10.0).to_s + "MB"
+        end
+        confirm(p_("SoundThemes", "Do you want to download theme %{name}? Need to download %{size} of data.") % { "name" => st.name, "size" => size }) {
+          downloadtheme(st)
+          rfr.call
+          sel.rows = sts
+          sel.reload
+        }
+      }
       if st.user == Session.name || Session.moderator == 1
         menu.option(p_("SoundThemes", "Delete"), nil, :del) {
           confirm(p_("SoundThemes", "Are you sure you want to delete sound theme %{name} from the server?") % { "name" => st.name }) {
@@ -156,6 +178,7 @@ class Scene_SoundThemes
         }
       end
     }
+    sel.focus
     loop do
       loop_update
       sel.update
@@ -174,6 +197,9 @@ class Scene_SoundThemes
         end
         confirm(p_("SoundThemes", "Do you want to download theme %{name}? Need to download %{size} of data.") % { "name" => st.name, "size" => size }) {
           downloadtheme(st)
+          rfr.call
+          sel.rows = sts
+          sel.reload
         }
       end
     end
@@ -181,9 +207,10 @@ class Scene_SoundThemes
 
   def downloadtheme(st)
     download_file($url + "/soundthemes/" + st.file, Dirs.soundthemes + "/" + st.file.delete("/\\"), true, true, true)
+    oldst = @soundthemes.find { |s| s.file != nil && File.basename(s.file) == File.basename(st.file) }
+    @soundthemes.delete(oldst) if oldst != nil
+    @soundthemes.push(st)
     alert(_("Saved"))
-    main
-    return
   end
 end
 

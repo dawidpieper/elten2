@@ -1,6 +1,6 @@
 module EltenAPI
   def licensetext
-    text = "Copyright (C) 2014-2023 Dawid Pieper\n" + p_("License", "Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.\nElten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.") + "\n" + p_("License", "Elten source code can be found at GitHub:") + "\nhttps://github.com/dawidpieper/elten2\n" + p_("License", "The original content of the GNU General Public License V3 can be found below.") + "\n\n"
+    text = "Copyright (C) 2014-2024 Dawid Pieper\n" + p_("License", "Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.\nElten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.") + "\n" + p_("License", "Elten source code can be found at GitHub:") + "\nhttps://github.com/dawidpieper/elten2\n" + p_("License", "The original content of the GNU General Public License V3 can be found below.") + "\n\n"
     text += "                    GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

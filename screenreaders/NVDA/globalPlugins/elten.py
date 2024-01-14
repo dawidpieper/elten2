@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2022 Dawid Pieper
+# Copyright (C) 2014-2024 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -46,6 +46,10 @@ if is_python_3_or_above:
 			return "EltenIndexCallback({index}, {indid})".format(
 				index=self.index,indid=self.indid)
 
+	class EltenEmptyCallback(speech.commands.BaseCallbackCommand):
+		def run(self): pass
+		def __repr__(self): return "EltenEmptyCallback()"
+
 eltenmod=None
 eltenbraille = braille.BrailleBuffer(braille.handler)
 eltenbrailletext=""
@@ -53,6 +57,8 @@ eltenqueue={'gestures':[], 'indexes':[], 'statuses':[], 'returns':[]}
 eltenpipein=None
 eltenpipeout=None
 eltenpipest=None
+
+
 
 ostc = speech.speakTypedCharacters
 def stc(ch):
@@ -250,15 +256,20 @@ def elten_command(ac):
 			if('indexes' in ac): indexes=ac['indexes']
 			if('indid' in ac): indid=ac['indid']
 			v=[]
+			text_added = False
 			for i in range(0, len(texts)):
 				if is_python_3_or_above:
 					if(speech.isBlank(texts[i])): continue
 					if(i<len(indexes)): v.append(EltenIndexCallback(indexes[i], indid))
-					if(i<len(indexes) and i>0 and texts[i-1]!="" and texts[i-1][-1]=="\n") and speech.commands is not None: v.append(speech.commands.EndUtteranceCommand())
+					if(i<len(indexes) and i>0 and texts[i-1]!="" and texts[i-1][-1]=="\n") and speech.commands is not None and text_added:
+						v.append(speech.commands.EndUtteranceCommand())
+						text_added = False
 				else:
 					eltenindexid=indid
 					if(i<len(indexes)): v.append(speech.IndexCommand(indexes[i]))
-				v.append(texts[i])
+				v.append(texts[i].replace("\n", " "))
+				text_added = True
+			log.info(v.__repr__())
 			queueHandler.queueFunction(queueHandler.eventQueue,speech.cancelSpeech)
 			queueHandler.queueFunction(queueHandler.eventQueue,speech.speak,v)
 		if(ac['ac']=='stop'):
@@ -323,7 +334,7 @@ def elten_command(ac):
 			eltenbraille.update()
 			braille.handler.update()
 		if(ac['ac']=='getversion'):
-			return {'version': 40}
+			return {'version': 42}
 		if(ac['ac']=='getnvdaversion'):
 			return {'version': buildVersion.version}
 		if(ac['ac']=='getindex'):

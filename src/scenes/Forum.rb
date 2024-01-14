@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2023 Dawid Pieper
+# Copyright (C) 2014-2024 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -224,6 +224,7 @@ class Scene_Forum
       @sgroups = []
       for g in @groups
         next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
+        next if g.hidden
         if (g.public || g.open) && g.posts > 0
           @sgroups.push(g)
         end
@@ -268,6 +269,7 @@ class Scene_Forum
       @sgroups = []
       for g in @groups
         next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
+        next if g.hidden
         if g.open && g.public && !g.recommended && g.posts > 0
           @sgroups.push(g)
         end
@@ -350,6 +352,7 @@ class Scene_Forum
       @sgroups = []
       for g in @groups
         next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
+        next if g.hidden
         if g.forums > 0
           @sgroups.push(g)
         end
@@ -370,6 +373,7 @@ class Scene_Forum
           @groups.each { |r| g = r if r.id == l.to_i }
           if g != nil
             next if LocalConfig["ForumShowUnknownLanguages"] == 0 && knownlanguages.size > 0 && !knownlanguages.include?(g.lang[0..1].upcase)
+            next if g.hidden
             @sgroups.push(g) if g.forums > 0
           end
         end
@@ -1103,7 +1107,11 @@ class Scene_Forum
         if group.founder == Session.name
           if users[sel.index] != Session.name
             if roles[sel.index] == 1
-              menu.option(p_("Forum", "Grant moderation privileges")) { chpr.call("moderationgrant") }
+              menu.option(p_("Forum", "Grant moderation privileges")) {
+                if !isbanned(users[sel.index]) || confirm(p_("Forum", "You want to give the role of moderator to a user who is banned globally. Groups with banned moderators are not displayed in most lists. Are you sure you want to continue?")) == 1
+                  chpr.call("moderationgrant")
+                end
+              }
             elsif roles[sel.index] == 2
               menu.option(p_("Forum", "Deny moderation privileges")) { chpr.call("moderationdeny") }
               menu.option(p_("Forum", "Pass administrative privileges")) {
@@ -1299,10 +1307,12 @@ class Scene_Forum
       btn_cancel = Button.new(_("Cancel"))
     ], 0, false, true)
     form.hide(lst_threadin) if obj != nil
-    form.hide(chk_transcriptions) if !holds_premiumpackage("courier")
     lst_phrasein.selected[0] = true
     lst_threadin.selected[0] = true
     lst_threadin.selected[1] = true
+    chk_transcriptions.on(:change) {
+      chk_transcriptions.checked = 0 if !requires_premiumpackage("courier")
+    }
     form.accept_button = btn_search
     form.cancel_button = btn_cancel
     result = nil
@@ -1528,10 +1538,10 @@ class Scene_Forum
         @frmindex = @frmsel.index
         threadsmain(@sforums[@frmsel.index].name)
       }
-      if @sforums[@frmsel.index].group.role == 2 || holds_premiumpackage("courier")
-        s = p_("Forum", "Follow this forum")
-        s = p_("Forum", "Unfollow this forum") if @sforums.size > 0 and @sforums[@frmsel.index].followed == true
-        menu.option(s, nil, "l") {
+      s = p_("Forum", "Follow this forum")
+      s = p_("Forum", "Unfollow this forum") if @sforums.size > 0 and @sforums[@frmsel.index].followed == true
+      menu.option(s, nil, "l") {
+        if @sforums[@frmsel.index].group.role == 2 || requires_premiumpackage("courier")
           if @sforums[@frmsel.index].followed == false
             if srvproc("forum_ft", { "add" => "2", "forum" => @sforums[@frmsel.index].name })[0].to_i < 0
               alert(_("Error"))
@@ -1553,8 +1563,8 @@ class Scene_Forum
           if @group == -5
             forumsmain(@group)
           end
-        }
-      end
+        end
+      }
       menu.option(p_("Forum", "Search"), nil, "f") {
         @query = searcher_getquery(@sforums[@frmsel.index])
         if @query != nil
@@ -2030,10 +2040,10 @@ class Scene_Forum
       menu.option(p_("Forum", "Open")) {
         threadopen(@thrsel.index)
       }
-      if holds_premiumpackage("courier")
-        s = p_("Forum", "Mark this thread")
-        s = p_("Forum", "Unmark this thread") if @sthreads[@thrsel.index].marked == true
-        menu.option(s, nil, "h") {
+      s = p_("Forum", "Mark this thread")
+      s = p_("Forum", "Unmark this thread") if @sthreads[@thrsel.index].marked == true
+      menu.option(s, nil, "h") {
+        if requires_premiumpackage("courier")
           m = 0
           m = 1 if @sthreads[@thrsel.index].marked == false
           if srvproc("forum_threadaction", { "ac" => "marking", "mark" => m, "threadid" => @sthreads[@thrsel.index].id })[0].to_i < 0
@@ -2049,8 +2059,8 @@ class Scene_Forum
               threadsmain(@forum)
             end
           end
-        }
-      end
+        end
+      }
       s = p_("Forum", "Add to followed threads list")
       s = p_("Forum", "Unfollow this thread") if @sthreads[@thrsel.index].followed == true
       menu.option(s, nil, "l") {
@@ -2455,7 +2465,9 @@ class Scene_Forum
     fields = [EditBox.new(p_("Forum", "Thread name"), 0, "", true)]
     if type == 0
       fields[1..6] = [EditBox.new(p_("Forum", "Post content"), EditBox::Flags::MultiLine, "", true), CheckBox.new(p_("Forum", "Use MarkDown in this post")), nil, Button.new(p_("Forum", "Attach a poll")), nil, Button.new(p_("Forum", "Attach a file"))]
-      fields[2] = nil if !holds_premiumpackage("courier")
+      fields[2].on(:change) {
+        fields[2].checked = 0 if !requires_premiumpackage("courier")
+      }
     else
       fields[1..6] = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp + "\\audiopost.opus", 96, 48), nil, nil, nil, nil, nil]
     end
@@ -2771,7 +2783,13 @@ class Scene_Forum
         when 20
           @@groups.last.blog = line
         when 21
+          @@groups.last.showpostreports = line.to_i
+        when 22
           @@groups.last.parent = line.to_i
+        when 23
+          @@groups.last.applyglobalbans = line.to_b
+        when 24
+          @@groups.last.hidden = line.to_b
         end
       end
     end
@@ -2995,7 +3013,7 @@ class Scene_Forum_Thread
         voted = false
         voted = true if srvproc("polls", { "voted" => "1", "poll" => pl.to_s })[1].to_i == 1
         selt = [p_("Polls", "Vote"), p_("Polls", "Show results"), p_("Polls", "Show report")]
-        selt[0] = nil if voted
+        selt[0] = nil if voted || isbanned(Session.name) || Session.name == "guest"
         case menuselector(selt)
         when 0
           insert_scene(Scene_Polls_Answer.new(pl.to_i, Scene_Main.new))
@@ -3083,6 +3101,8 @@ class Scene_Forum_Thread
   end
 
   def refresh
+    pretext = ""
+    pretext = @textfields[0].text if @textfields != nil
     lastindex = nil
     lastindex = @form.index if @form != nil
     index = -1
@@ -3104,7 +3124,10 @@ class Scene_Forum_Thread
       flags = EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly
       flags |= EditBox::Flags::MarkDown if post.format == 1
       flags |= EditBox::Flags::Transcripted if post.transcription.strip != ""
-      @fields += [EditBox.new(post.authorname, flags, generate_posttext(post), true), nil, nil]
+      label = post.authorname
+      label += " (#{p_("Forum", "Banned")})" if post.banned
+      label += " (#{p_("Forum", "Account archived")})" if post.archived
+      @fields += [EditBox.new(label, flags, generate_posttext(post), true), nil, nil]
       if @sponsors.include?(post.author)
         @fields[-3].add_sound("user_sponsor")
       end
@@ -3137,10 +3160,11 @@ class Scene_Forum_Thread
     else
       @fields.push(nil)
     end
-    @textfields = [EditBox.new(p_("Forum", "Your reply"), EditBox::Flags::MultiLine, "", true), nil, nil, nil, nil, nil, Button.new(p_("Forum", "Attach a file"))]
-    if holds_premiumpackage("courier")
-      @textfields[3] = CheckBox.new(p_("Forum", "Use MarkDown in this post"))
-    end
+    @textfields = [EditBox.new(p_("Forum", "Your reply"), EditBox::Flags::MultiLine, pretext, true), nil, nil, nil, nil, nil, Button.new(p_("Forum", "Attach a file"))]
+    @textfields[3] = CheckBox.new(p_("Forum", "Use MarkDown in this post"))
+    @textfields[3].on(:change) {
+      @textfields[3].checked = 0 if !requires_premiumpackage("courier")
+    }
     @audiofields = [OpusRecordButton.new(p_("Forum", "Audio post"), Dirs.temp + "\\audiopost.opus", 96, 48, @threadclass.forum.group.audiolimit), nil, nil, nil, nil, nil, nil]
     if @noteditable == false
       case @posttype
@@ -3246,16 +3270,16 @@ class Scene_Forum_Thread
         m.option(p_("Forum", "Show mention"), nil, "/") {
           input_text(p_("Forum", "Mention by %{user}") % { "user" => @threadclass.mention.author }, EditBox::Flags::ReadOnly, @threadclass.mention.message, true)
         }
-        if holds_premiumpackage("courier")
-          m.option(p_("Forum", "Send reply to mentioner"), nil, "?") {
+        m.option(p_("Forum", "Send reply to mentioner"), nil, "?") {
+          if requires_premiumpackage("courier")
             to = @threadclass.mention.author
             subj = "RE: " + @threadclass.mention.message.to_s + " (" + @threadclass.name + ")"
             insert_scene(Scene_Messages_New.new(to, subj, "", Scene_Main.new))
-          }
-        end
+          end
+        }
       }
     end
-    if @form.index < @postscount * 3 and !@threadclass.closed
+    if @form.index < @postscount * 3 and !@noteditable
       menu.submenu(p_("Forum", "Reply")) { |m|
         m.option(p_("Forum", "Reply"), nil, "n") {
           @form.index = @postscount * 3 + ((@type == 2) ? 0 : 1)
@@ -3273,26 +3297,28 @@ class Scene_Forum_Thread
     end
     if @form.index < @postscount * 3
       post = @posts[@form.index / 3]
-      s = p_("Forum", "Like this post")
-      s = p_("Forum", "Dislike this post") if post.liked == true
-      menu.option(s, nil, "k") {
-        ac = { "ac" => "liking", "postid" => post.id, "threadid" => @thread }
-        ac["like"] = (post.liked) ? (0) : (1)
-        s = srvproc("forum_postaction", ac)
-        if s[0].to_i < 0
-          alert(_("Error"))
-        else
-          post.liked = !post.liked
-          if post.liked
-            alert(p_("Forum", "This post is now liked"))
-            post.likes += 1
+      if @threadclass != nil && @threadclass.forum.group.role != 3
+        s = p_("Forum", "Like this post")
+        s = p_("Forum", "Dislike this post") if post.liked == true
+        menu.option(s, nil, "k") {
+          ac = { "ac" => "liking", "postid" => post.id, "threadid" => @thread }
+          ac["like"] = (post.liked) ? (0) : (1)
+          s = srvproc("forum_postaction", ac)
+          if s[0].to_i < 0
+            alert(_("Error"))
           else
-            post.likes -= 1
-            alert(p_("forum", "This post is no longer liked"))
+            post.liked = !post.liked
+            if post.liked
+              alert(p_("Forum", "This post is now liked"))
+              post.likes += 1
+            else
+              post.likes -= 1
+              alert(p_("forum", "This post is no longer liked"))
+            end
+            @form.fields[@form.index / 3 * 3].set_text(generate_posttext(post))
           end
-          @form.fields[@form.index / 3 * 3].set_text(generate_posttext(post))
-        end
-      }
+        }
+      end
       menu.option(p_("Forum", "Show post likes"), nil, "K") {
         ft = srvproc("forum_postaction", { "ac" => "likes", "postid" => post.id })
         users = []
@@ -3329,11 +3355,11 @@ class Scene_Forum_Thread
       end
     end
     menu.submenu(p_("Forum", "Navigation")) { |m|
-      if holds_premiumpackage("courier")
-        m.option(p_("Forum", "Bookmarks"), nil, "b") {
+      m.option(p_("Forum", "Bookmarks"), nil, "b") {
+        if requires_premiumpackage("courier")
           showbookmarks
-        }
-      end
+        end
+      }
       m.option(p_("Forum", "Go to post"), nil, "j") {
         selt = []
         for i in 0..@posts.size - 1
@@ -3389,7 +3415,7 @@ class Scene_Forum_Thread
         }
       end
     }
-    if @form.index < @postscount * 3
+    if @form.index < @postscount * 3 && Session.name != "guest"
       menu.option(p_("Forum", "Mention post"), nil, "w") {
         mention(@thread, @posts[@form.index / 3].id)
       }
@@ -3440,10 +3466,10 @@ class Scene_Forum_Thread
         }
       end
     end
-    if holds_premiumpackage("courier")
-      s = p_("Forum", "Mark this thread")
-      s = p_("Forum", "Unmark this thread") if @threadclass.marked == true
-      menu.option(s, nil, "h") {
+    s = p_("Forum", "Mark this thread")
+    s = p_("Forum", "Unmark this thread") if @threadclass.marked == true
+    menu.option(s, nil, "h") {
+      if requires_premiumpackage("courier")
         m = 0
         m = 1 if @threadclass.marked == false
         if srvproc("forum_threadaction", { "ac" => "marking", "mark" => m, "threadid" => @thread })[0].to_i < 0
@@ -3456,8 +3482,8 @@ class Scene_Forum_Thread
           end
           @threadclass.marked = !@threadclass.marked
         end
-      }
-    end
+      end
+    }
     s = p_("Forum", "Add to followed threads list")
     s = p_("Forum", "Unfollow this thread") if @followed == true
     menu.option(s, nil, "l") {
@@ -3477,19 +3503,19 @@ class Scene_Forum_Thread
         end
       end
     }
-    if holds_premiumpackage("courier")
-      s = p_("Forum", "Hide signatures")
-      s = p_("Forum", "Show signatures") if LocalConfig["ForumHideSignatures"] == 1
-      menu.option(s) {
+    s = p_("Forum", "Hide signatures")
+    s = p_("Forum", "Show signatures") if LocalConfig["ForumHideSignatures"] == 1
+    menu.option(s) {
+      if requires_premiumpackage("courier")
         if LocalConfig["ForumHideSignatures"] == 0
           LocalConfig["ForumHideSignatures"] = 1
         else
           LocalConfig["ForumHideSignatures"] = 0
         end
         refresh
-      }
-    end
-    if @form.index < @postscount * 3 && (((Session.moderator == 1 && @threadclass.forum.group.recommended) || (@threadclass != nil && @threadclass.forum.group.role == 2)) || (@posts[@form.index / 3].author == Session.name))
+      end
+    }
+    if @form.index < @postscount * 3 && (((Session.moderator == 1 && @threadclass.forum.group.recommended) || (@threadclass != nil && @threadclass.forum.group.role == 2)) || (@posts[@form.index / 3].author == Session.name && @threadclass.forum.group.role == 1))
       post = @posts[@form.index / 3]
       menu.submenu(p_("Forum", "Moderation")) { |m|
         if !post.post.include?("\004AUDIO\004")
@@ -3813,7 +3839,9 @@ class Scene_Forum_Thread
     end
     form = Form.new([EditBox.new(p_("Forum", "edit your post here"), EditBox::Flags::MultiLine, post.post), ListBox.new(atts.map { |a| a[2] }, p_("Forum", "Attachments")), CheckBox.new(p_("Forum", "Use MarkDown in this post")), Button.new(_("Save")), Button.new(_("Cancel"))])
     form.fields[2].checked = post.format
-    form.hide(2) if !holds_premiumpackage("courier")
+    form.fields[2].on(:change) {
+      form.fields[2].checked = post.format if !requires_premiumpackage("courier")
+    }
     form.hide(1) if @threadclass.forum.group.preventattachments
     form.fields[1].bind_context { |menu|
       if atts.size < 3
@@ -3950,7 +3978,7 @@ class Scene_Forum_Thread
   end
 
   def getcache
-    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 5, "zs" => 1 }, 1)
+    c = srvproc("forum_thread", { "thread" => @thread.to_s, "details" => 7, "zs" => 1 }, 1)
     return if c[0...(c.index("\r") || c.size)].to_i < 0
     c = ("0\r\n" + zstd_decompress(c[3..-1])).split("\r\n").map { |a| a + "\r\n" }
     @cache = c
@@ -4007,6 +4035,12 @@ class Scene_Forum_Thread
           @posts.last.transcription += l
         end
       when 12
+        @posts.last.banned = l.to_i == 1
+        t += 1
+      when 13
+        @posts.last.archived = l.to_i == 1
+        t += 1
+      when 14
         if l.delete("\r\n") == "\004END\004"
           t = 0
         else
@@ -4043,6 +4077,8 @@ class Struct_Forum_Group
   attr_accessor :blog
   attr_accessor :showpostreports
   attr_accessor :parent
+  attr_accessor :applyglobalbans
+  attr_accessor :hidden
 
   def initialize(id = 0)
     @id = id
@@ -4069,6 +4105,8 @@ class Struct_Forum_Group
     @blog = nil
     @showpostreports = 0
     @parent = 0
+    @applyglobalbans = false
+    @hidden = false
   end
 end
 
@@ -4152,6 +4190,8 @@ class Struct_Forum_Post
   attr_accessor :likes
   attr_accessor :format
   attr_accessor :transcription
+  attr_accessor :banned
+  attr_accessor :archived
 
   def initialize(id = 0)
     @id = id
@@ -4168,6 +4208,8 @@ class Struct_Forum_Post
     @likes = 0
     @format = 0
     @transcription = ""
+    @banned = false
+    @archived = false
   end
 end
 

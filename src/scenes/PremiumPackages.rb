@@ -5,7 +5,12 @@ class Scene_PremiumPackages
       $scene = Scene_Main.new
       return
     end
-    @sel = TableBox.new([nil, p_("PremiumPackages", "status"), p_("PremiumPackages", "Yearly price"), p_("PremiumPackages", "Half-yearly price"), p_("PremiumPackages", "Conversion price")], [], 0, p_("PremiumPackages", "Premium packages"))
+    currencies = ["PLN", "EUR", "USD", "GBP"]
+    if LocalConfig["PremiumPackagesCurrency"] == 0
+      select_currency
+    end
+    @currency = currencies[LocalConfig["PremiumPackagesCurrency"] - 1] || currencies[0]
+    @sel = TableBox.new([nil, p_("PremiumPackages", "status"), p_("PremiumPackages", "Yearly price"), p_("PremiumPackages", "Monthly price"), p_("PremiumPackages", "Conversion price")], [], 0, p_("PremiumPackages", "Premium packages"))
     @sel.bind_context { |menu| context(menu) }
     refresh
     @sel.focus
@@ -128,10 +133,21 @@ class Scene_PremiumPackages
         @sel.focus
       }
     end
+    menu.option(p_("PremiumPackages", "Change currency")) {
+      select_currency
+      refresh
+    }
     menu.option(_("Refresh"), nil, "r") {
       refresh
       @sel.focus
     }
+  end
+
+  def select_currency
+    c = selector([p_("PremiumPackages", "Polish zloty") + " (PLN)", p_("PremiumPackages", "Euro") + " (EUR)", p_("PremiumPackages", "US dollar") + " (USD)", p_("PremiumPackages", "British pound") + " (GBP)"], p_("PremiumPackages", "Select your currency."))
+    LocalConfig["PremiumPackagesCurrency"] = c + 1
+    currencies = ["PLN", "EUR", "USD", "GBP"]
+    @currency = currencies[c]
   end
 
   def show(package)
@@ -199,8 +215,8 @@ class Scene_PremiumPackages
         for c in @packages
           if c.package == k
             c.activable = true
-            c.price = j[k]["price"]
-            c.halfprice = j[k]["halfprice"]
+            c.price = j[k]["price$#{@currency}"]
+            c.monthlyprice = j[k]["monthlyprice$#{@currency}"]
             c.available = j[k]["available"]
             c.allowed = true if c.totime == 0 || j[k]["yearlimit"] >= Time.at(c.totime).year
             c.special = j[k]["special"]
@@ -211,7 +227,7 @@ class Scene_PremiumPackages
     @sel.rows = @packages.map { |c|
       st = p_("PremiumPackages", "Inactive")
       st = p_("PremiumPackages", "Active until %{time}") % { "time" => format_date(Time.at(c.totime)) } if c.totime > 0
-      halfprice = nil
+      monthlyprice = nil
       price = nil
       conversionprice = nil
       if c.package == "sponsor"
@@ -232,10 +248,11 @@ class Scene_PremiumPackages
         end
         conversionprice = (c.price - z).ceil if z > 0
       end
-      halfprice = c.halfprice.to_s + " PLN" if c.halfprice != nil
-      price = c.price.to_s + " PLN" if c.price != nil
-      conversionprice = conversionprice.to_s + " PLN" if conversionprice != nil
-      [c.name, st, price, halfprice, conversionprice]
+      monthlyprice = c.monthlyprice.to_s + " " + @currency if c.monthlyprice != nil
+      price = c.price.to_s + " " + @currency if c.price != nil
+      conversionprice = nil if conversionprice != nil && conversionprice <= 0
+      conversionprice = conversionprice.to_s + " " + @currency if conversionprice != nil
+      [c.name, st, price, monthlyprice, conversionprice]
     }
     @sel.reload
   end
@@ -246,6 +263,11 @@ class Scene_PremiumPackages
       alert(p_("PremiumPackages", "This package is currently unavailable. Try to buy it in the next month."))
       return
     end
+    type = 0
+    if package != nil && package.monthlyprice != nil && package.monthlyprice != 0 && !convert
+      type = selector([p_("PremiumPackages", "One year") + ": " + package.price.to_s + " " + @currency, p_("PremiumPackage", "One month") + ": " + package.monthlyprice.to_s + " " + @currency], p_("PremiumPackages", "How long do you want to buy this package for?"), 0, -1)
+    end
+    return if type == -1
     accepted = false
     form = Form.new([
       edt_info = EditBox.new(p_("PremiumPackages", "Information"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, p_("PremiumPackages",
@@ -261,7 +283,7 @@ The granting of a premium package does not constitute a commitment or a commerci
     form.wait
     return if !accepted
     transfer = nil
-    pc = srvproc("payments", { "ac" => "methods", "lang" => Configuration.language })
+    pc = srvproc("payments", { "ac" => "methods", "currency" => @currency, "lang" => Configuration.language })
     methods = []
     if pc[0].to_i == 0
       j = JSON.load(pc[1])
@@ -327,8 +349,11 @@ Sort code: %{sortcode}") % { "holder" => transfer["holder"], "address" => transf
       confirm(p_("PremiumPackages", "This payment method requires a redirect to an external website. A web browser will open. Do you wish to continue?")) {
         prm = { "ac" => "pay", "method" => method["id"] }
         prm["package"] = package.package if package != nil
+        prm["currency"] = @currency
+        prm["time"] = "month" if type == 1
         price = 0
         price = package.price if package != nil
+        price = package.monthlyprice if type == 1 && package != nil
         if package != nil and package.package == "sponsor" and convert == true
           conversionprice = package.price
           z = 0
@@ -350,7 +375,7 @@ Sort code: %{sortcode}") % { "holder" => transfer["holder"], "address" => transf
         per = 0
         per += method["plus"] if method["plus"].is_a?(Numeric)
         per += method["perc_plus"] * price / 100.0 if method["perc_plus"].is_a?(Numeric)
-        return if (per != 0 && confirm(p_("PremiumPackages", "You will be charged a %{amount} pln commission for the selected payment method. Do you want to continue?") % { "amount" => per }) == 0)
+        return if (per != 0 && confirm(p_("PremiumPackages", "You will be charged a %{amount} commission for the selected payment method. Do you want to continue?") % { "amount" => per.to_s + " " + @currency }) == 0)
         c = srvproc("payments", prm)
         if c[0].to_i < 0
           alert(_("Error"))
@@ -385,7 +410,7 @@ Sort code: %{sortcode}") % { "holder" => transfer["holder"], "address" => transf
       per = 0
       per += method["plus"] if method["plus"].is_a?(Numeric)
       per += method["perc_plus"] * price / 100.0 if method["perc_plus"].is_a?(Numeric)
-      return if (per != 0 && confirm(p_("PremiumPackages", "You will be charged a %{amount} pln commission for the selected payment method. Do you want to continue?") % { "amount" => per }) == 0)
+      return if (per != 0 && confirm(p_("PremiumPackages", "You will be charged a %{amount} commission for the selected payment method. Do you want to continue?") % { "amount" => per.to_s + " " + @currency }) == 0)
       code = input_text(p_("PremiumPackages", "Enter blik code"), EditBox::Flags::Numbers, "", true, [], [], 6)
       return if code == nil
       prm["code"] = code
@@ -429,7 +454,7 @@ Sort code: %{sortcode}") % { "holder" => transfer["holder"], "address" => transf
 end
 
 class Struct_PremiumPackages_PremiumPackage
-  attr_accessor :package, :name, :profits, :totime, :halfprice, :price, :available, :allowed, :special, :activable
+  attr_accessor :package, :name, :profits, :totime, :monthlyprice, :price, :available, :allowed, :special, :activable
 
   def initialize(package, name, profits = [])
     @package, @name, @profits = package, name, profits

@@ -958,20 +958,26 @@ module EltenAPI
       def context(menu, submenu = false)
         c = Proc.new { |menu|
           if (@flags & Flags::Formattable) > 0
-            if holds_premiumpackage("scribe")
-              menu.submenu(p_("EAPI_Form", "Format")) { |m|
-                m.option(p_("EAPI_Form", "Bold"), nil, "b") {
+            menu.submenu(p_("EAPI_Form", "Format")) { |m|
+              m.option(p_("EAPI_Form", "Bold"), nil, "b") {
+                if requires_premiumpackage("scribe")
                   setformatting(Element::Bold)
-                }
-                m.option(p_("EAPI_Form", "Italic"), nil, "i") {
+                end
+              }
+              m.option(p_("EAPI_Form", "Italic"), nil, "i") {
+                if requires_premiumpackage("scribe")
                   setformatting(Element::Italic)
-                }
-                m.option(p_("EAPI_Form", "Underline"), nil, "u") {
+                end
+              }
+              m.option(p_("EAPI_Form", "Underline"), nil, "u") {
+                if requires_premiumpackage("scribe")
                   setformatting(Element::Underline)
-                }
-                m.submenu(p_("EAPI_Form", "Heading")) { |n|
-                  for i in 1..6
-                    n.option(p_("EAPI_Form", "Heading level %{level}") % { "level" => i }, i, i.to_s) { |level|
+                end
+              }
+              m.submenu(p_("EAPI_Form", "Heading")) { |n|
+                for i in 1..6
+                  n.option(p_("EAPI_Form", "Heading level %{level}") % { "level" => i }, i, i.to_s) { |level|
+                    if requires_premiumpackage("scribe")
                       a = line_beginning(@vindex, true)
                       b = line_ending(@vindex, true)
                       del = []
@@ -990,12 +996,14 @@ module EltenAPI
                       elsif s == true
                         play("editbox_delete")
                       end
-                    }
-                  end
-                }
+                    end
+                  }
+                end
               }
-              menu.submenu(p_("EAPI_Form", "Insert")) { |m|
-                m.option(p_("EAPI_Form", "Link")) {
+            }
+            menu.submenu(p_("EAPI_Form", "Insert")) { |m|
+              m.option(p_("EAPI_Form", "Link")) {
+                if requires_premiumpackage("scribe")
                   form = Form.new([
                     EditBox.new(p_("EAPI_Form", "URL"), 0, "", true),
                     EditBox.new(p_("EAPI_Form", "Label"), 0, "", true),
@@ -1018,9 +1026,9 @@ module EltenAPI
                   end
                   loop_update
                   speak(@text[line_beginning..line_ending])
-                }
+                end
               }
-            end
+            }
           end
           menu.option(p_("EAPI_Form", "Read from cursor"), nil, "A") {
             read_text(@index) if @index < @text.size
@@ -1044,11 +1052,11 @@ module EltenAPI
             menu.option(p_("EAPI_Form", "Redo"), nil, "y") {
               eredo
             }
-            if holds_premiumpackage("scribe")
-              menu.option(p_("EAPI_Form", "Spell check"), nil, "S") {
+            menu.option(p_("EAPI_Form", "Spell check"), nil, "S") {
+              if requires_premiumpackage("scribe")
                 espellcheck
-              }
-            end
+              end
+            }
             menu.submenu(p_("EAPI_Form", "Load last text")) { |m|
               for e in @@lastedits
                 next if e == self
@@ -1063,14 +1071,16 @@ module EltenAPI
           menu.option(p_("EAPI_Form", "Find"), nil, "f") {
             search
           }
-          if holds_premiumpackage("scribe")
-            menu.option(p_("EAPI_Form", "Quick translation"), nil, "t") {
+          menu.option(p_("EAPI_Form", "Quick translation"), nil, "t") {
+            if requires_premiumpackage("scribe")
               espeech(translatetext(0, Configuration.language, get_check_or_all))
-            }
-            menu.option(p_("EAPI_Form", "Translate"), nil, "T") {
+            end
+          }
+          menu.option(p_("EAPI_Form", "Translate"), nil, "T") {
+            if requires_premiumpackage("scribe")
               translator(get_check_or_all)
-            }
-          end
+            end
+          }
           for a in @@customactions
             menu.option(a[0]) {
               a[1].call(self)

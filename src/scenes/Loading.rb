@@ -258,7 +258,7 @@ If the problem occurs, please contact Elten support"
     else
       delay(1)
     end
-    v = 41
+    v = 42
     if Win32API.new("bin\\nvdaHelperRemote", "nvdaController_testIfRunning", "", "i").call == 0 && (!NVDA.check || NVDA.getversion != v)
       if !NVDA.check
         str = p_("Loading", "Elten detected that you are using NVDA. To support some features of this screenreader, it is necessary to install Elten addon. Do you want to do it now?")
@@ -349,10 +349,23 @@ If the problem occurs, please contact Elten support"
     if FileTest.exists?(Dirs.eltendata + "\\update.last")
       l = Zlib::Inflate.inflate(readfile(Dirs.eltendata + "\\update.last")).split(" ")
       lversion, lbeta, lalpha, lisbeta = l[0].to_f, l[1].to_i, l[2].to_i, l[3].to_i
-      if lversion < 2.42 || (lversion == 2.42 && lalpha < 2)
+      if lversion <= 2.52
         delay(1)
+        infotext = p_("Loading", "Attention!
+Since the release of version 2.5.2.1, new restrictions have been introduced for globally banned users.
+By default, they are prevented from speaking in any groups and writing to other people.
+
+To allow banned people to speak in a group, change this option from the group's settings, General tab.
+Similarly, to allow these users to write private messages to you, you must allow this from within your account settings, Privacy tab.
+
+Also, all groups moderated by banned users have been removed from most public lists.
+
+At the same time, three changes have since been made to the premium packages at the request of users:
+First of all, premium features are now visible in menus.
+It has also been made possible to buy premium packages for a period of one month.
+Other billing currencies have also been added.")
         form = Form.new([
-          edt_info = EditBox.new(p_("Loading", "Information about invisible interface"), EditBox::Flags::MarkDown | EditBox::Flags::ReadOnly | EditBox::Flags::MultiLine, iiinfotext, true),
+          edt_info = EditBox.new(p_("Loading", "Information about important changes"), EditBox::Flags::MarkDown | EditBox::Flags::ReadOnly | EditBox::Flags::MultiLine, infotext, true),
           btn_close = Button.new(_("Close"))
         ], 0, false, true)
         btn_close.on(:press) { form.resume }
