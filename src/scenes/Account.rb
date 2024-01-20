@@ -726,8 +726,8 @@ The account will be automatically unarchived the next time you log in, but remov
       if @password == nil
         form.resume
       else
-        confirm(p("Account", "Are you sure you want to archive this account?")) {
-          srvproc("account_mod", { "password" => @password, "archive" => 1 })
+        confirm(p_("Account", "Are you sure you want to archive this account?")) {
+          srvproc("account_mod", { "oldpassword" => @password, "archive" => 1 })
           alert(p_("Account", "Account archived"))
           Session.name = ""
           Session.token = ""

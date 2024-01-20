@@ -12,6 +12,7 @@ class VoIP
     Audio = 1
     Text = 2
     Whisper = 3
+    Noop = 200
     Reemit = 201
     Ping = 251
     Pong = 252
@@ -155,6 +156,7 @@ class VoIP
   end
 
   def update
+    send(200, "")
     resp = command("update")
     if resp.is_a?(Hash) && resp["updated"]
       log(-1, "Conference: updating parameters")

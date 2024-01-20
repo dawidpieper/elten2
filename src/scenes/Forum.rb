@@ -3228,6 +3228,7 @@ class Scene_Forum_Thread
       if st[0].to_i < 0
         alert(_("Error"))
       else
+        @form.fields[@postscount * 3 + 1].set_text("")
         alert(p_("Forum", "The post was created."))
       end
       return main

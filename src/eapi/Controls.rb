@@ -1,5 +1,5 @@
 # A part of Elten - EltenLink / Elten Network desktop client.
-# Copyright (C) 2014-2023 Dawid Pieper
+# Copyright (C) 2014-2024 Dawid Pieper
 # Elten is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3.
 # Elten is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 # You should have received a copy of the GNU General Public License along with Elten. If not, see <https://www.gnu.org/licenses/>.
@@ -1941,6 +1941,7 @@ module EltenAPI
       attr_accessor :silent
       attr_accessor :header
       attr_accessor :autosayoption
+      attr_accessor :limit
       # Creates a listbox
       #
       class Flags
@@ -1969,6 +1970,7 @@ module EltenAPI
         @anydir = ((flags & Flags::AnyDir) > 0)
         @hk = ((flags & Flags::HotKeys) > 0)
         @tagged = ((flags & Flags::Tagged) > 0)
+        @limit = -1
         options = options.deep_dup
         index = 0 if index == nil
         index = 0 if index >= options.size
@@ -2230,11 +2232,16 @@ module EltenAPI
         if space and @multi == true
           trigger(:multiselection_beforechanged)
           if @selected[@index] == false
-            @selected[@index] = true
-            trigger(:multiselection_selected, @index)
-            trigger(:multiselection_changed)
-            play("listbox_statechecked", 100, 100, self.index.to_f / (options.size - 1).to_f * 100.0)
-            alert(p_("EAPI_Form", "Checked"), false)
+            if @limit <= 0 || @selected.count(true) < @limit
+              @selected[@index] = true
+              trigger(:multiselection_selected, @index)
+              trigger(:multiselection_changed)
+              play("listbox_statechecked", 100, 100, self.index.to_f / (options.size - 1).to_f * 100.0)
+              alert(p_("EAPI_Form", "Checked"), false)
+            else
+              play("border")
+              alert(np_("EAPI_Form", "You can heck only %{count} item", "You can check only %{count} items", @limit) % { "count" => @limit })
+            end
           else
             @selected[@index] = false
             trigger(:multiselection_unselected, @index)

@@ -235,28 +235,61 @@ class Scene_Polls_Create
     qs = @questions[q]
     @question = @questions[q].deep_dup
     @question = ["", 0] if @question == nil
-    @qfields = [EditBox.new(p_("Polls", "Question"), "", @question[0], true), ListBox.new([p_("Polls", "Single choice"), p_("Polls", "Multiple choice"), p_("Polls", "Edit box")], p_("Polls", "Question type"), @question[1]), ListBox.new(@question[2..-1] || [], p_("Polls", "Answers")), Button.new(_("Save")), Button.new(_("Cancel"))]
-    @qfields[1].on(:move) {
-      if @qfields[1].index < 2
-        @qform.show(2)
-      elsif @qfields[1].index == 2
-        @qform.hide(2)
+    @qfields = [
+      edt_title = EditBox.new(p_("Polls", "Question"), "", @question[0], true),
+      lst_type = ListBox.new([p_("Polls", "Single choice"), p_("Polls", "Multiple choice"), p_("Polls", "Edit box")], p_("Polls", "Question type"), @question[1]),
+      chk_limit = CheckBox.new(p_("Polls", "Limit count of answers that can be checked")),
+      edt_limit = EditBox.new(p_("Polls", "Count of answers that can be checked"), EditBox::Flags::Numbers, "2"),
+
+      lst_answers = ListBox.new(@question[2..-1] || [], p_("Polls", "Answers")),
+      btn_save = Button.new(_("Save")),
+      btn_cancel = Button.new(_("Cancel"))
+    ]
+    chk_limit.on(:change) {
+      if chk_limit.checked == 1
+        @qform.show(edt_limit)
+      else
+        @qform.hide(edt_limit)
       end
     }
-    @qfields[2].bind_context { |menu| answers_context(menu) }
+    lst_type.on(:move) {
+      if lst_type.index < 2
+        @qform.show(lst_answers)
+      elsif lst_type.index == 2
+        @qform.hide(lst_answers)
+      end
+      if lst_type.index == 1
+        @qform.show(chk_limit)
+        chk_limit.trigger(:change)
+      else
+        @qform.hide(chk_limit)
+        @qform.hide(edt_limit)
+      end
+    }
+    lst_answers.bind_context { |menu| answers_context(menu) }
     @qform = Form.new(@qfields)
+    lst_type.trigger(:move)
     loop do
       loop_update
       @qform.update
-      if @qfields[4].pressed? or escape
+      if btn_cancel.pressed? or escape
         loop_update
         break
       end
-      if @qfields[3].pressed?
+      if btn_save.pressed?
         loop_update
-        if @question.size > 3 or @qfields[1].index == 2
-          @question[0] = @qfields[0].text
-          @question[1] = @qfields[1].index
+        if @question.size > 3 or lst_type.index == 2
+          @question[0] = edt_title.text
+          if lst_type.index == 1 && chk_limit.checked == 1
+            @question[1] = -edt_limit.text.to_i
+            if @question[1] == -1
+              @question[1] = 0
+            elsif @question[1] >= 0
+              @question[1] = 1
+            end
+          else
+            @question[1] = lst_type.index
+          end
           @questions[q] = @question
           break
         elsif @question.size == 2
@@ -278,15 +311,15 @@ class Scene_Polls_Create
     menu.option(p_("Polls", "New answer"), nil, "n") {
       editanswer(@question.size - 2)
     }
-    if @qfields[2].options.size > 0
+    if @qfields[4].options.size > 0
       menu.option(p_("Polls", "Edit answer"), nil, "e") {
-        editanswer(@qfields[2].index)
+        editanswer(@qfields[4].index)
       }
       menu.option(p_("Polls", "Delete answer"), nil, :del) {
-        @question.delete_at(@qfields[2].index + 2)
-        @qfields[2].options.delete_at(@qfields[2].index)
+        @question.delete_at(@qfields[4].index + 2)
+        @qfields[4].options.delete_at(@qfields[4].index)
         play("editbox_delete")
-        @qfields[2].say_option
+        @qfields[4].say_option
       }
     end
   end
@@ -297,8 +330,8 @@ class Scene_Polls_Create
     if ans != nil
       @question[2 + a] = ans
     end
-    @qfields[2].options = @question[2..-1] || []
-    @qfields[2].focus
+    @qfields[4].options = @question[2..-1] || []
+    @qfields[4].focus
   end
 
   def sendpoll
@@ -371,17 +404,25 @@ class Scene_Polls_Answer
         comment = ""
         if q[1] == 0
           multi = false
+          limit = 1
           comment = p_("Polls", "Single choice question")
-        else
+        elsif q[1] == 1
           multi = true
+          limit = -1
           comment = p_("Polls", "Multiple choice question")
+        elsif q[1] <= -1
+          multi = true
+          limit = -q[1]
+          comment = np_("Polls", "Up to %{limit}-choice question", "Up to %{limit}-choices question", limit) % { "limit" => limit }
         end
         flags = 0
         flags |= ListBox::Flags::MultiSelection if multi
         qs.push(ListBox.new(q[2..q.size - 1], q[0] + " (#{comment}): ", 0, flags))
+        qs.last.limit = limit
         qs.last.on(:move) { @changed = true }
       end
     end
+
     @fields = [EditBox.new(p_("Polls", "Poll"), EditBox::Flags::MultiLine | EditBox::Flags::ReadOnly, txt, true)] + qs + [Button.new(p_("Polls", "Vote")), Button.new(_("Cancel"))]
     @form = Form.new(@fields)
     loop do
@@ -411,6 +452,12 @@ class Scene_Polls_Answer
               end
             when 2
               ans += (i - 1).to_s + ":" + @form.fields[i].text.gsub(";", " ").gsub(":", " ").delete("\r\n") + "\r\n" if @form.fields[i].text != ""
+            else
+              if @questions[i - 1][1] < 0
+                for j in 0..@form.fields[i].options.size - 1
+                  ans += (i - 1).to_s + ":" + j.to_s + "\r\n" if @form.fields[i].selected[j] == true
+                end
+              end
             end
           end
           ans.chop!
