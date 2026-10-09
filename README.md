@@ -1,3 +1,7 @@
+# Legacy Version
+> Elten2 is a legacy version
+> New Elten 3.x can be found in a [separate elten3 repository](https://github.com/dawidpieper/elten3).
+
 # ELTEN 2 client for Desktop.
 Elten is a social Networking for the blind.
 
